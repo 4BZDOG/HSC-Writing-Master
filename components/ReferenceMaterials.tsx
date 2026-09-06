@@ -3,9 +3,10 @@ import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
 import OutcomeDetailModal from './OutcomeDetailModal';
-import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target } from 'lucide-react';
+import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } from 'lucide-react';
 import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { canCurateContent } from '../utils/permissions';
 import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { isFeatureLocked } from '../services/entitlements';
@@ -138,6 +139,15 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   const briefingLocked = isFeatureLocked('outcomeBriefing');
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const tierConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
+  const canCurate = canCurateContent(userRole);
+  const commonMistakes = useMemo(
+    () => (prompt.commonStudentErrors || []).map((s) => s.trim()).filter(Boolean),
+    [prompt.commonStudentErrors]
+  );
+  const markerNotes = useMemo(
+    () => (prompt.markerNotes || []).map((s) => s.trim()).filter(Boolean),
+    [prompt.markerNotes]
+  );
   const linkedOutcomes = useMemo(
     () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
     [courseOutcomes, prompt.linkedOutcomes]
@@ -224,6 +234,87 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           isSuggesting={props.isSuggestingKeywords}
         />
       </AccordionSection>
+
+      {/* What goes wrong here.
+
+          Two audiences in one panel, which is why the rule is in the middle of
+          it. `commonStudentErrors` is written about students and is useful TO
+          them ("Confusing the roles of the template and coding strands").
+          `markerNotes` is written to a marker — "Credit explicit mention of…",
+          "Higher marks awarded for…" — so it sits behind `canCurate`, in the
+          same device the Syllabus Terms panel uses for its own boundary: a rule
+          that names what is below it rather than a second heading above it.
+
+          Deliberately NOT numbered. These are a set of pitfalls a marker sees
+          again and again, not a sequence anyone works through in order, and a
+          01/02/03 down the side would claim an order the content does not have.
+
+          Band 2 is the caution end of the app's own ramp rather than a
+          hand-picked amber, and it makes no claim about the question — the same
+          use of `band` as chrome the Syllabus Terms panel already makes. */}
+      {(commonMistakes.length > 0 || (canCurate && markerNotes.length > 0)) && (
+        <AccordionSection
+          title="Common mistakes"
+          icon={<Eye />}
+          band={2}
+          resetKey={prompt.id}
+          supportId="commonMistakes"
+        >
+          <div className="space-y-3">
+            {commonMistakes.length > 0 && (
+              <>
+                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
+                  What students most often get wrong on this question.
+                </p>
+                <ul className="space-y-2">
+                  {commonMistakes.map((mistake) => (
+                    <li key={mistake} className="flex items-start gap-2.5">
+                      <span
+                        className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
+                        aria-hidden="true"
+                      />
+                      <span className="text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
+                        {mistake}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            {canCurate && markerNotes.length > 0 && (
+              <>
+                {commonMistakes.length > 0 && (
+                  <div className="flex items-center gap-3" aria-hidden="true">
+                    <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+                    <span className="t-label shrink-0 text-slate-500 dark:text-slate-400">
+                      What the marker looks for
+                    </span>
+                    <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+                  </div>
+                )}
+                <ul
+                  className="space-y-2"
+                  role="group"
+                  aria-label="What the marker looks for — visible to teachers"
+                >
+                  {markerNotes.map((note) => (
+                    <li key={note} className="flex items-start gap-2.5">
+                      <span
+                        className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-indigo-400/70"
+                        aria-hidden="true"
+                      />
+                      <span className="text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
+                        {note}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        </AccordionSection>
+      )}
 
       {topic?.performanceBandDescriptors && topic.performanceBandDescriptors.length > 0 && (
         <AccordionSection

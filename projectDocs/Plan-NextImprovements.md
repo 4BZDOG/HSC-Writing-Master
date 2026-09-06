@@ -145,3 +145,61 @@ From `Plan-FrontendDesignReview.md`, re-verified against the current tree:
 student it fails. Then 4, because it is the guard that stops 1's cousin
 recurring. Then 3 and 6 together, since 6 only matters once 3 lands. 5 is a
 curator pass whenever convenient.
+
+---
+
+# What was built
+
+Findings 1, 2, 3 and 4 are done, and 6 stopped existing on the way. Recorded
+here rather than in a new file, so the finding and its outcome sit together.
+
+**1 — outcome links.** Fixed in two places, because the shape arrives from
+import as well as from storage: the schema normalises the link, and a v2.9.0
+migration repairs libraries already saved. The panel now vanishes on **0 of
+284** prompts. The split only fires when the head looks like a code, so a link
+that is only prose is left alone rather than truncated to its first word.
+
+**2 — id collisions, which turned out to be two defects, not one.** The probe
+in this plan only checked prompt ids; widening it to every level found a second
+case, and the two needed opposite repairs. `dp-1762984770472-i9mtydz` was one
+dot point filed under two sub-topics sharing a question and its exemplars —
+merged into "Developing secure code", where its four
+"Design, develop and implement…" siblings live. `dp-1763034567890-ghij678` was
+two genuinely different dot points wearing one id — re-ided, nothing deleted.
+The per-topic files under `topics/` carried the same duplication and ship in the
+manifest, so they were repaired too.
+
+**3 — the six unread fields, split by what they actually were.**
+`estimatedTime`, `targetPerformanceBands` and `highlightedQuestion` were
+retired: the first two were denormalised copies of `getRecommendedTime` and
+`bandsForQuestion`, and a stored copy cannot track a question whose verb or
+marks change. `commonStudentErrors` and `markerNotes` are now the
+**Common mistakes** panel, with the marker notes behind `canCurateContent` —
+they are written to a marker ("Credit explicit mention of…"), not to a student.
+
+Zod's `.passthrough()` meant the retired keys survived an import, so they are
+stripped explicitly; the reason is written next to the exception, because
+`.passthrough()` itself is right for a teacher's whole course.
+
+**4 — the audit rule.** "Verb Not In Question" now sits on the Content Audit
+rail, sharing `createKeywordRegex` with the highlighter so the flag and the
+colour cannot disagree. It flags rather than fixes.
+
+**6 — dissolved.** The 188 target bands above their own ceiling were in
+`targetPerformanceBands`, which no longer exists.
+
+## Still open
+
+- **`prerequisiteKnowledge` and `relatedTopics`** (15 prompts each, 4%). Real
+  content, but a panel that is empty on 96% of questions is worse than no
+  panel, and prerequisites belong to the dot point rather than to one question
+  under it. Left deliberately rather than surfaced thinly.
+- **Two unreferenced course copies.** `HSCEnterpriseComputing09122025.json` at
+  the repo root and `projectDocs/HSCSoftwareEngineering_AllTopics.json` are
+  tracked but loaded by nothing — the manifest and `supabase/demoSeed.mjs` both
+  read `public/courseData`. The root copy has already diverged. They are a trap
+  for the next person repairing course data, and deleting tracked content is
+  the owner's call.
+- **Finding 5**, the 70% of sample answers whose stored band disagrees with the
+  Verb Gate. Still a curator pass with `RecalibrateSamplesModal`.
+- Everything under "Carried over, still open" above.

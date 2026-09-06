@@ -22,6 +22,7 @@ export type SupportResourceId =
   | 'outcomes'
   | 'outcomeBriefing'
   | 'keywords'
+  | 'commonMistakes'
   | 'gradeStandards'
   | 'markingGuide'
   | 'sampleAnswers'
@@ -51,6 +52,10 @@ export const SUPPORT_RESOURCES: Record<SupportResourceId, SupportResourceMeta> =
   keywords: {
     label: 'Syllabus Terms',
     missed: 'the terminology the marker expects to see used',
+  },
+  commonMistakes: {
+    label: 'Common mistakes',
+    missed: 'what students most often get wrong on this question',
   },
   gradeStandards: {
     label: 'Grade Standards',
