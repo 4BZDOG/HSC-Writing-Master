@@ -8,3 +8,7 @@ coverage
 .git
 .vscode
 .idea
+
+# Vendored verbatim from anthropics/skills (Apache-2.0). Left byte-for-byte as
+# upstream ships it so the next sync is a clean diff rather than a reformat.
+.claude/skills/frontend-design/

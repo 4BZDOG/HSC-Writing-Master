@@ -327,3 +327,113 @@ What remains, none of it codemod work:
   different face from the app. Swapping the TTFs changes the line breaks and
   pagination of every export, which needs verification against the PDF samples.
 - **The three open colour questions above**, which are the spec owner's.
+
+---
+
+# Second pass
+
+The skill is now **installed in the repo** at `.claude/skills/frontend-design/`
+(SKILL.md + Apache-2.0 LICENSE.txt), rather than read ad hoc as the first pass
+did. Upstream `anthropics/skills` is still at `41bbe19` — the same commit the
+first pass measured against — so nothing in the guidance has moved, and the
+findings above were made against current text.
+
+This pass covers the parts of the skill the first pass did not reach, and
+re-runs the earlier greps to see whether what was fixed has stayed fixed.
+
+## Regression check on the first pass
+
+| Finding                       | Then                  | Now                       | Verdict             |
+| ----------------------------- | --------------------- | ------------------------- | ------------------- |
+| 1 · all-caps labels           | 475 `uppercase`       | 11 (3 real)               | Holding             |
+| 5 · radius system             | 10 arbitrary px radii | 1 site                    | Holding             |
+| 5 · `rounded-2xl` (left open) | 236                   | 154                       | Improved unasked    |
+| 5 · elevation                 | 7 shadow steps        | 286 of ~340 are `sm`/`lg` | Holding             |
+| 7 · middle-dot meta strings   | 63                    | 65                        | Still open, drifted |
+
+`.t-label` still resolves to 12px / 500 / no tracking / no caps, so the label
+voice has not crept back. The three surviving `uppercase` hits are two code
+comments explaining why a treatment was _not_ applied, and the skip-link's
+`focus:uppercase` — which is chrome that appears only under a keyboard tab.
+
+## New findings
+
+### 8. The login hero opens on a Sparkles icon — OPEN
+
+`components/LoginPage.tsx:387-403`. This is the first screen every user sees.
+
+> Open with the most characteristic thing in the subject's world.
+
+The headline underneath is **"Band 6"** — exactly right, and unmistakably NESA's
+vernacular rather than anyone else's. The element above it is a `Sparkles` glyph
+in a `bg-gradient-to-br from-indigo-500 to-sky-500` tile with an indigo blur
+behind it. That is the generic AI-product mark; it belongs to no subject, and it
+is the first thing on the page, sitting above the one element that is genuinely
+specific.
+
+The tile also carries `group-hover:scale-105` and a blur that runs 20% → 40% on
+hover, on an element that is not interactive and has no action to answer. The
+skill asks for motion that answers a person's action, or one orchestrated
+moment; the page already has its orchestrated moment in the wordmark-then-card
+sequence the first pass defended.
+
+Worth noting what this is _not_: the hero is not the "big number, small label,
+supporting stats" default. The copy is a plain sentence that says what the app
+does. The defect is one element, not the composition.
+
+### 9. Numbered markers on content that is not a sequence — 2 sites
+
+> Before adding numbered markers, check the content really is a sequence.
+
+- **`components/CommandTermGuideModal.tsx:220`** numbers the NESA marking-guide
+  criteria `01`, `02`, `03`. A marking guide is a set of descriptors a marker
+  weighs together, not steps worked through in order — numbering them tells a
+  student there is a first criterion and a last one, which is not true of the
+  thing being described. The same `<li>` also carries `hover:translate-x-1` on a
+  non-interactive list item.
+- **`components/admin/ContentAuditModal.tsx:1504`** renders
+  `selectedIds.size.toString().padStart(2, '0')` — a **count**, shown as `07`.
+  There is no index here to zero-pad; the leading zero is the 01/02/03 look
+  applied to a number that never had a position in a list.
+
+Checked and left alone: `TopicReorderList` (the position _is_ the content being
+edited) and `QuickStartModal` (genuine ordered steps). Both are the case the
+skill says numbering is for.
+
+### 10. An arrow appended to a link — 1 site
+
+> a '→' appended to link and button text
+
+`components/PromptSelector.tsx:1130`, "Can't find your course? Request it →".
+The sentence is complete without the glyph and no direction is being encoded.
+
+**Seventeen other arrow hits were read and cleared.** `OutcomeDetailModal:417`
+is the interesting one: `← Previous` / `Next →` looks like the same tell, but
+it is a paired pager where the glyph _is_ the direction affordance rather than
+decoration on a CTA. The rest are the maths symbol toolbar, before→after mark
+ranges, and prose in code comments.
+
+## Checked and cleared
+
+Recorded so the next pass does not re-litigate them.
+
+- **Tinted near-black standing in for black** — one `slate-950` in the whole app.
+- **Single-word headline accenting** — none. Every coloured `<span>` near an
+  `<h1>`–`<h3>` is a badge or a count beside the heading, not a word lifted out
+  of it.
+- **Gradient washes as decoration** — 120 uses, but no file has more than six and
+  the hue always follows something real: indigo for the primary action, or the
+  amber/emerald/sky tier palette from `DesignSpec.md` §2. Not a wash.
+- **Monospace for small data labels** — 94 uses, 20 at ≤10px, and all of the
+  small ones are masked API keys or `tabular-nums` figures in tables. Mono is
+  doing character alignment, which is its job, not standing in for a label voice.
+- **Quality floor** — `index.css:258` gives every focusable element a 2px accent
+  `:focus-visible` outline, and `index.css:235` neutralises animation and
+  transition under `prefers-reduced-motion` with a global `*` rule.
+
+## What remains
+
+Everything the first pass left open still stands, plus findings 8-10 above.
+Finding 8 is the one with reach: it is on the first screen, it is a single
+element, and the headline beside it already proves the app can name its own
+subject.

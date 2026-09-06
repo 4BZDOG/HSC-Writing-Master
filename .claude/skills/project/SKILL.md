@@ -23,18 +23,18 @@ optional Claude engine via the admin AI Engine selector).
 
 ## Where things live
 
-| Path | Purpose |
-|---|---|
-| `App.tsx` | Top-level state (useImmer) and composition root |
-| `components/` | UI — mostly modals, mounted via `AppModals.tsx` |
-| `hooks/` | Custom hooks (`useModalManager`, `useGemini`, `useToast`…) |
-| `services/` | AI layer (`geminiService`, `aiCore` circuit breaker, `aiCache`), auth, Supabase |
-| `api/` | Vercel serverless proxy for AI calls + auth gate |
-| `utils/` | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions |
-| `types.ts` | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt) |
-| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it) |
-| `projectDocs/` | Design spec, pedagogy rules (GoldStandard), system prompts |
-| `supabase/` | Schema, seed, and backend tests |
+| Path                          | Purpose                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| `App.tsx`                     | Top-level state (useImmer) and composition root                                 |
+| `components/`                 | UI — mostly modals, mounted via `AppModals.tsx`                                 |
+| `hooks/`                      | Custom hooks (`useModalManager`, `useGemini`, `useToast`…)                      |
+| `services/`                   | AI layer (`geminiService`, `aiCore` circuit breaker, `aiCache`), auth, Supabase |
+| `api/`                        | Vercel serverless proxy for AI calls + auth gate                                |
+| `utils/`                      | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions           |
+| `types.ts`                    | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt)             |
+| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it)                  |
+| `projectDocs/`                | Design spec, pedagogy rules (GoldStandard), system prompts                      |
+| `supabase/`                   | Schema, seed, and backend tests                                                 |
 
 ## Commands
 
@@ -73,6 +73,13 @@ commit — fix failures rather than using `--no-verify`.
   `light:` variant (not `prefers-color-scheme`) still drives the arbitrary form.
   For band/tier colour call `getBandConfig()` from `utils/renderUtils.ts` — never
   hand-write colour literals. See `.claude/skills/hsc-feature.md` §6.
+
+- **Visual design.** When building a new surface or reshaping an existing one,
+  read `.claude/skills/frontend-design/SKILL.md` (Anthropic's `frontend-design`
+  skill) alongside `projectDocs/DesignSpec.md`. The spec is the authority on what
+  this app looks like; the skill is the check against templated defaults. The
+  app's standing review against it is `projectDocs/Plan-FrontendDesignReview.md`
+  — read the findings there before re-deriving them.
 
 For detailed feature-development patterns (modals, AI functions, UI design
 system, testing requirements), see `.claude/skills/hsc-feature.md`.
