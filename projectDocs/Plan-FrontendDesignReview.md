@@ -184,14 +184,16 @@ evaluations"). Named by the skill as template chrome. Low value, low risk.
    meaning (amber for locks and warnings, emerald for success, indigo for
    primary actions). Either that is fine because context disambiguates, or the
    non-band uses need their own hues. This review has no mandate to decide it.
-2. **Does "Luminous Progression" survive contact with the band colours?** The
-   editor shifts Slate → Emerald → Sky → Indigo with word count, which is the
-   same ramp as Tiers 4–6. Two different things moving through one set of
-   colours.
-3. **Is Inter still the right interface face?** The skill calls it the default
-   pairing of every AI-built product. Newsreader already carries the manuscript,
-   which is the half of the system specific to this subject. Changing the
-   interface face is a bundle and legibility decision, not a styling one.
+2. ~~**Does "Luminous Progression" survive contact with the band colours?**~~
+   **ANSWERED — leave it.** The spec's owner's call: context disambiguates. The
+   editor glow and a band chip never appear in the same role, so a student is
+   unlikely to read the editor turning indigo as "this is Band 6". Same answer
+   as question 1, and it closes both. Nothing changed.
+3. ~~**Is Inter still the right interface face?**~~ **ANSWERED — IBM Plex Sans.**
+   Four candidates (Inter, IBM Plex Sans, Source Sans 3, Public Sans) were
+   rendered on the workspace and the marking report and put to the spec's owner,
+   who chose Plex. See "The typeface change" below for what it actually cost,
+   which was not what the question assumed.
 
 ## The bold slice, and what it found
 
@@ -213,6 +215,42 @@ Four were not, and moved:
 screens were already disciplined about weight, and that `font-bold`'s 560 total
 lives mostly in admin dashboards, import wizards and the content studio. If the
 middle of the ladder is worth more work, that is where it is — not here.
+
+## The typeface change
+
+The question was framed as a trade — a more specific face, paid for in bundle
+size and in truncation risk from wider glyphs. Measuring it, both halves of the
+price turned out to be wrong.
+
+**It is lighter, not heavier.** Taken as a variable font, IBM Plex Sans is one
+96KB latin file (`wght` plus `wght-italic`) covering the whole 100–700 axis. It
+replaced twelve static Inter faces totalling 289KB. Net saving: ~193KB and ten
+fewer requests.
+
+**It is narrower, not wider.** Measured at 390, 768, 1024 and 1440 against the
+Inter baseline on the same page, the set of clipped strings is identical — 11 on
+a phone, 4 above it, the same strings — and every one overflows _less_ under
+Plex. "Evaluate, Synthesise & Create" went 200px → 187, "Construct models of the
+processes" 313 → 296. No new truncation at any width. Part of that is the face
+and part is `font-black` becoming 700; the two are not separated here because
+the shipped combination is what matters.
+
+**The real cost was somewhere else: the ladder lost a rung.** Plex stops at 700,
+and so does Newsreader, so five rungs had four faces to sit on. 700 and 900 now
+share a value — the merge that costs least, because display type carries its
+rank at three times the size, where 600 and 700 sit side by side on every card.
+`font-black` keeps its own class so the job stays marked. Recorded in
+`DesignSpec.md` §4 and gated by `tests/unit/typefaceLadder.test.ts`, which fails
+if the theme names a face the app does not import or asks for a weight the face
+cannot draw — both of which fail silently on screen.
+
+**Still on Inter: the PDF export.** `pdf/fontLoader.ts` embeds
+`public/fonts/Inter-{Regular,Bold}.ttf` into the jsPDF document, so an exported
+report is now set in a different face from the app that made it. The export
+toast, which is on-screen chrome rather than print, was moved to Plex. The
+embedded TTFs were not: swapping them changes the line breaks and pagination of
+every export, which needs its own verification pass against the PDF samples. It
+is a genuine open item, not an oversight — see the follow-ups.
 
 ## Where this leaves the review
 

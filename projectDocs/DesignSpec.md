@@ -167,7 +167,11 @@ provides.
 
 ## 4. Typography
 
-- **Interface**: `Inter` - High legibility for data-dense controls.
+- **Interface**: `IBM Plex Sans` — high legibility for data-dense controls, in a
+  voice that reads as engineered rather than as the default sans of every
+  AI-built product. Shipped as its variable font: one 96KB latin file carries
+  the whole 100–700 axis, against 289KB for the twelve static Inter faces it
+  replaced, so the change made the app lighter as well as more specific.
 - **Manuscript**: `Newsreader` (Serif) - Used for the main writing area and AI exemplars to simulate the gravity of an official examination paper.
 - **Telemetry**: `JetBrains Mono` - Used for marks, token counts, and system logs.
 
@@ -223,15 +227,39 @@ Weight carries hierarchy, so it has to mean something. One step per job:
 | 500    | `.t-label`      | A small label — see below                                                              |
 | 600    | `font-semibold` | A title inside a block, sitting above its own body line                                |
 | 700    | `font-bold`     | Headings, buttons, chips, numbers                                                      |
-| 900    | `font-black`    | Display type (the italic masthead), large headings (`text-xl`+), and telemetry figures |
+| 700    | `font-black`    | Display type (the italic masthead), large headings (`text-xl`+), and telemetry figures |
 
 `font-bold` and `font-black` together were used 842 times against 4 uses of
 `font-normal`. When almost everything is heavy, weight stops encoding anything —
 so the ladder above is what a new element picks from, and prose picks nothing.
 
-**900 is not "more bold".** At 10px the extra 200 is a smudge rather than
-emphasis, which is where 23 of its uses were. It is reserved for type big enough
-to carry it.
+**The ladder has five rungs and four faces.** IBM Plex Sans stops at 700, and so
+does Newsreader, so one pair has to share a weight. 600 and 700 must not: a card
+title at 600 and its section heading at 700 sit next to each other on nearly
+every surface, and merging them flattens the hierarchy people actually read. 700
+and 900 can, because display type is already carrying its rank at three times
+the size — the weight was a refinement on top of that. So `font-black` emits
+700, stated in `tailwind.config.js` rather than left as a 900 to be clamped
+silently at paint time, and `font-synthesis-weight: none` in `index.css` stops a
+browser faking the difference. `tests/unit/typefaceLadder.test.ts` holds all
+three together: the face named in the theme must be one the app imports, and no
+weight in the theme may exceed what that face can draw.
+
+**`font-black` still keeps its own rung**, even sharing a value. It marks the
+job — display type — so the ladder survives a future face that does have a 900.
+
+**900 was not "more bold".** At 10px the extra 200 was a smudge rather than
+emphasis, which is where 23 of its uses were. The rung is still reserved for
+type big enough to carry it.
+
+**Measured, not assumed: Plex is narrower here, not wider.** The worry when
+choosing it was that a wider face would push the stat labels into truncation.
+Measured at 390, 768, 1024 and 1440 against the Inter baseline, the set of
+clipped strings is identical — 11 on a phone, 4 above it — and every one of them
+overflows _less_ under Plex: "Evaluate, Synthesise & Create" 200px → 187,
+"Construct models of the processes" 313 → 296. Part of that is the face and part
+is 900 becoming 700. Either way the change introduced no new truncation
+anywhere.
 
 **A `<p>` is not automatically prose.** Some hold a title with a body line
 beneath: the error notice's heading, a course name above its topic count, a

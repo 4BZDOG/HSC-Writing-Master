@@ -4,25 +4,19 @@ import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 // Self-hosted fonts (bundled by Vite) — no Google Fonts request at runtime,
 // so the app renders its real typography on restrictive school networks and
-// offline. Weights mirror the former fonts.googleapis.com import.
-import '@fontsource/inter/300.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
-import '@fontsource/inter/800.css';
-import '@fontsource/inter/900.css';
-// Real Inter italics for the weights the UI actually sets `italic` on (display
-// headings at 900, marker emphasis at 400–700). Without these the browser
-// synthesises a slanted upright — a cramped faux italic — so the marking
-// feedback's emphasised prose and headings looked pinched. The @font-face rules
-// ship eagerly in the critical CSS; the woff2 files themselves are fetched per
-// subset only when italic text is shown (font-display: swap).
-import '@fontsource/inter/400-italic.css';
-import '@fontsource/inter/500-italic.css';
-import '@fontsource/inter/600-italic.css';
-import '@fontsource/inter/700-italic.css';
-import '@fontsource/inter/900-italic.css';
+// offline.
+//
+// The interface face is IBM Plex Sans, taken as its variable font rather than a
+// stack of static weights. One file carries the whole 100-700 axis, which is
+// both fewer requests and less weight than the twelve Inter faces it replaces:
+// 96KB of latin against 289KB. The italic axis is a second file, fetched only
+// when italic text is shown, because the marking feedback's emphasis and the
+// display headings need real italics rather than a slanted upright.
+//
+// The axis stops at 700. See `tailwind.config.js` for what that costs and how
+// the weight ladder absorbs it.
+import '@fontsource-variable/ibm-plex-sans/wght.css';
+import '@fontsource-variable/ibm-plex-sans/wght-italic.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/700.css';
 import '@fontsource/newsreader/400.css';

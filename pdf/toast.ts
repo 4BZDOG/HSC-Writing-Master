@@ -31,7 +31,7 @@ export const domToast: ToastFn = (message, type = 'info') => {
     borderRadius: '12px',
     background: COLORS[type] ?? COLORS.info,
     color: '#fff',
-    font: '600 13px/1.4 Inter, system-ui, sans-serif',
+    font: "600 13px/1.4 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, sans-serif",
     boxShadow: '0 10px 30px rgba(0,0,0,0.25)',
     maxWidth: '90vw',
     transition: 'opacity .3s ease',
