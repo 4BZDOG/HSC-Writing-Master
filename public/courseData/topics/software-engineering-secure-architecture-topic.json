@@ -113,7 +113,7 @@
                 "Long-term cost",
                 "Customer trust"
               ],
-              "markingCriteria": "- Provides a clear justification linking secure practices to mitigating long-term risks (1 mark). \u2022 Supports the justification by explaining the high cost of fixing post-release vulnerabilities (1 mark). \u2022 Supports the justification by discussing the impact of a security breach on a startup's reputation and customer trust (2 marks). \u2022 Presents a cohesive and logical argument (1 mark).",
+              "markingCriteria": "- Provides a clear justification linking secure practices to mitigating long-term risks (1 mark). • Supports the justification by explaining the high cost of fixing post-release vulnerabilities (1 mark). • Supports the justification by discussing the impact of a security breach on a startup's reputation and customer trust (2 marks). • Presents a cohesive and logical argument (1 mark).",
               "targetPerformanceBands": [
                 1,
                 4,
@@ -176,7 +176,7 @@
                 "Risk management",
                 "Security strategy"
               ],
-              "markingCriteria": "- Makes a clear evaluative judgement that a balanced approach is most effective (1 mark). \u2022 Applies the criterion of 'data protection', explaining its importance but also its limitations if vulnerabilities exist (2 marks). \u2022 Applies the criterion of 'vulnerability management', explaining its importance but also its limitations if data is not protected at its core (2 marks). \u2022 Provides a comprehensive synthesis, arguing for a 'defense in depth' strategy (2 marks).",
+              "markingCriteria": "- Makes a clear evaluative judgement that a balanced approach is most effective (1 mark). • Applies the criterion of 'data protection', explaining its importance but also its limitations if vulnerabilities exist (2 marks). • Applies the criterion of 'vulnerability management', explaining its importance but also its limitations if data is not protected at its core (2 marks). • Provides a comprehensive synthesis, arguing for a 'defense in depth' strategy (2 marks).",
               "targetPerformanceBands": [
                 1,
                 4,
@@ -315,7 +315,7 @@
                 "Vulnerability assessment",
                 "Code review"
               ],
-              "markingCriteria": "- Provides a clear and detailed explanation of how the design phase contributes to secure code, supported by relevant examples (e.g., threat modelling, principle of least privilege). (2 marks) \u2022 Provides a clear and detailed explanation of how the testing phase contributes to secure code, supported by relevant examples (e.g., penetration testing, fuzz testing). (2 marks) \u2022 Demonstrates a logical and coherent structure, using appropriate terminology accurately throughout the response. (1 mark)",
+              "markingCriteria": "- Provides a clear and detailed explanation of how the design phase contributes to secure code, supported by relevant examples (e.g., threat modelling, principle of least privilege). (2 marks) • Provides a clear and detailed explanation of how the testing phase contributes to secure code, supported by relevant examples (e.g., penetration testing, fuzz testing). (2 marks) • Demonstrates a logical and coherent structure, using appropriate terminology accurately throughout the response. (1 mark)",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -404,7 +404,7 @@
                 "Continuous monitoring",
                 "Security posture"
               ],
-              "markingCriteria": "- Identifies the key purpose of the maintenance phase in relation to ongoing security (1 mark). \u2022 Analyses the importance of proactive maintenance activities, such as patching and monitoring (2 marks). \u2022 Supports the analysis with a relevant example, such as responding to a newly discovered vulnerability in a library (1 mark).",
+              "markingCriteria": "- Identifies the key purpose of the maintenance phase in relation to ongoing security (1 mark). • Analyses the importance of proactive maintenance activities, such as patching and monitoring (2 marks). • Supports the analysis with a relevant example, such as responding to a newly discovered vulnerability in a library (1 mark).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -466,7 +466,7 @@
                 "Compliance",
                 "Threat modelling"
               ],
-              "markingCriteria": "- Provides characteristics of security requirements gathering (1 mark). \u2022 Describes specific types of security requirements, such as data privacy or access control (1 mark). \u2022 Gives an example of a security requirement (1 mark).",
+              "markingCriteria": "- Provides characteristics of security requirements gathering (1 mark). • Describes specific types of security requirements, such as data privacy or access control (1 mark). • Gives an example of a security requirement (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -606,7 +606,7 @@
                 "Simple design",
                 "Secure design"
               ],
-              "markingCriteria": "- Proposes a relevant first secure design feature (1 mark). \u2022 Justifies the first choice by linking it to the specific user group's needs (1 mark). \u2022 Proposes a relevant second secure design feature (1 mark). \u2022 Justifies the second choice by linking it to the specific user group's needs (1 mark).",
+              "markingCriteria": "- Proposes a relevant first secure design feature (1 mark). • Justifies the first choice by linking it to the specific user group's needs (1 mark). • Proposes a relevant second secure design feature (1 mark). • Justifies the second choice by linking it to the specific user group's needs (1 mark).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -669,7 +669,7 @@
                 "Friction",
                 "Human factor"
               ],
-              "markingCriteria": "- Identifies the key issue: the inherent conflict between security controls and user experience (1 mark). \u2022 Develops points for one perspective, explaining how strong security measures can create 'friction' and make a system unusable (2 marks). \u2022 Develops points for the alternative perspective, explaining how unusable security leads to users bypassing it, making the system insecure (2 marks). \u2022 Provides a balanced, nuanced treatment showing that the most effective security is both strong and usable (2 marks).",
+              "markingCriteria": "- Identifies the key issue: the inherent conflict between security controls and user experience (1 mark). • Develops points for one perspective, explaining how strong security measures can create 'friction' and make a system unusable (2 marks). • Develops points for the alternative perspective, explaining how unusable security leads to users bypassing it, making the system insecure (2 marks). • Provides a balanced, nuanced treatment showing that the most effective security is both strong and usable (2 marks).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -695,169 +695,6 @@
                   "band": 1,
                   "answer": "Security is important. If a system is unusable no one will use it so it doesn't matter if it's secure.",
                   "mark": 0,
-                  "source": "AI"
-                }
-              ],
-              "isPastHSC": false
-            }
-          ]
-        },
-        {
-          "id": "dp-1762984770472-i9mtydz",
-          "description": "Design, develop and implement secure code to minimise vulnerabilities in user action controls (broken authentication and session management, cross-site scripting (XSS) and cross-site request forgery (CSRF), invalid forwarding and redirecting, race conditions)",
-          "prompts": [
-            {
-              "id": "prompt-1763110000004-ddddd04",
-              "question": "Define 'broken authentication'.",
-              "totalMarks": 2,
-              "verb": "DEFINE",
-              "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
-              "linkedOutcomes": [
-                "SE-12-07"
-              ],
-              "estimatedTime": "3 minutes",
-              "relatedTopics": [],
-              "prerequisiteKnowledge": [],
-              "markerNotes": [
-                "The definition must relate to a security failure, not a functional bug.",
-                "Look for an understanding that it allows an attacker to act as another user."
-              ],
-              "commonStudentErrors": [
-                "Defining it literally as a login form that is not functioning.",
-                "Being too vague and not mentioning impersonation or identity compromise."
-              ],
-              "keywords": [
-                "Broken authentication",
-                "Vulnerability",
-                "Credentials",
-                "Session management"
-              ],
-              "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). \u2022 Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
-              "targetPerformanceBands": [
-                1,
-                4
-              ],
-              "sampleAnswers": [
-                {
-                  "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
-                  "band": 2,
-                  "answer": "Broken authentication refers to a category of security vulnerabilities that allow an attacker to compromise a user's identity. These flaws in the authentication or session management functions can enable an attacker to impersonate legitimate users, for example, by stealing their session cookies, using stolen credentials (credential stuffing), or bypassing the login process altogether.",
-                  "mark": 2,
-                  "source": "AI"
-                },
-                {
-                  "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
-                  "band": 2,
-                  "answer": "It is when the login is broken and doesn't work.",
-                  "mark": 1,
-                  "source": "AI"
-                }
-              ],
-              "isPastHSC": false
-            },
-            {
-              "id": "prompt-1763110000005-eeeee05",
-              "question": "Explain how a 'race condition' can occur in a web application and how it could be exploited.",
-              "totalMarks": 4,
-              "verb": "EXPLAIN",
-              "scenario": "During a code review for a new online ticketing system, a senior developer points out a potential race condition vulnerability in the code that handles seat reservations. They ask a junior developer to explain the risk to the team.",
-              "linkedOutcomes": [
-                "SE-12-07",
-                "SE-12-02"
-              ],
-              "estimatedTime": "6 minutes",
-              "relatedTopics": [],
-              "prerequisiteKnowledge": [],
-              "markerNotes": [
-                "A good explanation will use the concept of 'time-of-check to time-of-use' (TOCTOU).",
-                "The example must involve two or more processes/threads that interfere with each other.",
-                "Assess whether the student can explain how the timing gap is exploited."
-              ],
-              "commonStudentErrors": [
-                "Describing it vaguely as 'two things happening at once'.",
-                "Failing to explain the 'check-then-act' flaw.",
-                "Providing an unclear or implausible example of exploitation.",
-                "Confusing it with a denial-of-service attack."
-              ],
-              "keywords": [
-                "Race condition",
-                "Concurrency",
-                "Time-of-check to time-of-use",
-                "Vulnerability"
-              ],
-              "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). \u2022 Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). \u2022 Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
-              "targetPerformanceBands": [
-                2,
-                5
-              ],
-              "sampleAnswers": [
-                {
-                  "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
-                  "band": 5,
-                  "answer": "A race condition is a vulnerability that can occur in a concurrent system when the outcome of an operation depends on the uncontrollable sequence or timing of multiple threads or processes. It is a 'time-of-check to time-of-use' (TOCTOU) flaw. For example, in an e-commerce application, a user might want to apply a single-use discount voucher. The system might first check if the voucher is valid and then, in a separate step, apply the discount and mark the voucher as used. An attacker could exploit this by sending two simultaneous requests to use the same voucher. If both requests pass the 'check' phase before either one completes the 'use' phase, the attacker could successfully redeem the single-use voucher twice, 'racing' the system's logic. This exploits the tiny time gap between the system checking the voucher's validity and it being invalidated in the database.",
-                  "mark": 4,
-                  "source": "AI"
-                },
-                {
-                  "id": "sa-5570115e-876b-4bb3-a7ce-ebd3c01d11e6",
-                  "band": 3,
-                  "answer": "A race condition is when two things happen at the same time and it breaks the program. A hacker can use this to cheat a system, like getting something for free by sending two requests very fast.",
-                  "mark": 2,
-                  "source": "AI"
-                }
-              ],
-              "isPastHSC": false
-            },
-            {
-              "id": "prompt-1763110000006-fffff06",
-              "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
-              "totalMarks": 6,
-              "verb": "COMPARE",
-              "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
-              "linkedOutcomes": [
-                "SE-12-04",
-                "SE-12-07"
-              ],
-              "estimatedTime": "10 minutes",
-              "relatedTopics": [],
-              "prerequisiteKnowledge": [],
-              "markerNotes": [
-                "The comparison must clearly differentiate between the attack vectors.",
-                "Look for an understanding of the different trust relationships being exploited.",
-                "Strong answers will correctly identify the primary goal of each attack (XSS -> confidentiality, CSRF -> integrity)."
-              ],
-              "commonStudentErrors": [
-                "Confusing the two vulnerabilities.",
-                "Describing one but not the other.",
-                "Failing to clearly explain the different mechanisms (code injection vs. forged request).",
-                "Not contrasting the primary goals (stealing information vs. performing actions)."
-              ],
-              "keywords": [
-                "Cross-Site Scripting (XSS)",
-                "Cross-Site Request Forgery (CSRF)",
-                "Vulnerability",
-                "Web security",
-                "Session hijacking",
-                "User impersonation"
-              ],
-              "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). \u2022 Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). \u2022 Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). \u2022 Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
-              "targetPerformanceBands": [
-                3,
-                6
-              ],
-              "sampleAnswers": [
-                {
-                  "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
-                  "band": 5,
-                  "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
-                  "mark": 6,
-                  "source": "AI"
-                },
-                {
-                  "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
-                  "band": 3,
-                  "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
-                  "mark": 3,
                   "source": "AI"
                 }
               ],
@@ -997,7 +834,7 @@
                 "Hashing",
                 "Redundancy"
               ],
-              "markingCriteria": "- Explains the application of Confidentiality in the context of a voting system, with an example (2 marks). \u2022 Explains the application of Integrity in the context of a voting system, with an example (2 marks). \u2022 Explains the application of Availability in the context of a voting system, with an example (2 marks).",
+              "markingCriteria": "- Explains the application of Confidentiality in the context of a voting system, with an example (2 marks). • Explains the application of Integrity in the context of a voting system, with an example (2 marks). • Explains the application of Availability in the context of a voting system, with an example (2 marks).",
               "targetPerformanceBands": [
                 1,
                 4,
@@ -1059,7 +896,7 @@
                 "Non-repudiation",
                 "Security concepts"
               ],
-              "markingCriteria": "- Explains the concept of accountability as the ability to trace actions to a specific entity (1 mark). \u2022 Relates this concept to security, explaining how it helps in forensic analysis and acts as a deterrent (2 marks). \u2022 Provides a relevant example, such as detailed audit logs (1 mark).",
+              "markingCriteria": "- Explains the concept of accountability as the ability to trace actions to a specific entity (1 mark). • Relates this concept to security, explaining how it helps in forensic analysis and acts as a deterrent (2 marks). • Provides a relevant example, such as detailed audit logs (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -1122,7 +959,7 @@
                 "Denial of Service",
                 "Trade-offs"
               ],
-              "markingCriteria": "- Identifies the key issue: the potential conflict between availability and security (1 mark). \u2022 Develops points for one perspective (stronger security can negatively impact availability) with examples like strict firewalls or complex MFA (2 marks). \u2022 Develops points for the alternative perspective (poor security can lead to a total loss of availability) with examples like DDoS or ransomware attacks (2 marks). \u2022 Provides a balanced treatment, showing an understanding that a trade-off must be managed (2 marks).",
+              "markingCriteria": "- Identifies the key issue: the potential conflict between availability and security (1 mark). • Develops points for one perspective (stronger security can negatively impact availability) with examples like strict firewalls or complex MFA (2 marks). • Develops points for the alternative perspective (poor security can lead to a total loss of availability) with examples like DDoS or ransomware attacks (2 marks). • Provides a balanced treatment, showing an understanding that a trade-off must be managed (2 marks).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -1179,7 +1016,7 @@
                 "CIA Triad",
                 "Security concepts"
               ],
-              "markingCriteria": "- Provides a complete definition for confidentiality (1 mark). \u2022 Provides a complete definition for integrity (1 mark).",
+              "markingCriteria": "- Provides a complete definition for confidentiality (1 mark). • Provides a complete definition for integrity (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -1257,7 +1094,7 @@
                 "Access control",
                 "Threat landscape"
               ],
-              "markingCriteria": "- 7-8 Marks: Makes a clear and well-supported judgment on the effectiveness of both models. Provides a detailed and accurate evaluation, linking specific architectural principles and features (e.g., micro-segmentation, MFA, least privilege) to data protection, privacy, and regulatory compliance within the FinTech context. Justifies the evaluation with logical reasoning and relevant examples. \u2022\n5-6 Marks: Makes a sound judgment. Provides a good description and some evaluation of both models. Links some security features to the requirements but may lack depth or specific application to the scenario. Justification is present but may not be fully developed. \u2022\n3-4 Marks: Describes one or both security models with a limited attempt at evaluation or comparison. May list some security features without clearly explaining their effectiveness or relevance. The response is more descriptive than evaluative. \u2022\n1-2 Marks: Provides a very basic or confused description of security concepts. May identify a relevant term (e.g., firewall, password) with little or no correct explanation. Fails to address the core aspects of the question. \u2022\n0 Marks: Provides an irrelevant or non-attempted response.",
+              "markingCriteria": "- 7-8 Marks: Makes a clear and well-supported judgment on the effectiveness of both models. Provides a detailed and accurate evaluation, linking specific architectural principles and features (e.g., micro-segmentation, MFA, least privilege) to data protection, privacy, and regulatory compliance within the FinTech context. Justifies the evaluation with logical reasoning and relevant examples. •\n5-6 Marks: Makes a sound judgment. Provides a good description and some evaluation of both models. Links some security features to the requirements but may lack depth or specific application to the scenario. Justification is present but may not be fully developed. •\n3-4 Marks: Describes one or both security models with a limited attempt at evaluation or comparison. May list some security features without clearly explaining their effectiveness or relevance. The response is more descriptive than evaluative. •\n1-2 Marks: Provides a very basic or confused description of security concepts. May identify a relevant term (e.g., firewall, password) with little or no correct explanation. Fails to address the core aspects of the question. •\n0 Marks: Provides an irrelevant or non-attempted response.",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -1270,7 +1107,7 @@
                 {
                   "id": "sa-851adadf-cd8e-4a9b-97e8-754cb86cc6e8",
                   "band": 6,
-                  "answer": "Implementing a Zero Trust Architecture (ZTA) is significantly more effective than a traditional perimeter-based security model for a FinTech application handling sensitive user data. ZTA's 'never trust, always verify' principle provides a fundamentally more robust posture against modern cyber threats, ensuring superior data protection, security, privacy, and regulatory compliance.\n\nA perimeter-based model, often called the 'castle-and-moat' approach, relies on securing the network boundary with firewalls and intrusion detection systems. While effective against external threats, its critical weakness is the implicit trust it places on entities inside the network. If this perimeter is breached\u2014for example, through a successful phishing attack on a developer\u2014an attacker can gain broad access and move laterally, potentially compromising all user data. For a FinTech app, where a single breach can be catastrophic, this model presents an unacceptable risk.\n\nIn contrast, ZTA assumes that breaches are inevitable and that no user or device, whether internal or external, can be trusted by default. Its effectiveness stems from three core principles. Firstly, 'verify explicitly' enforces strong authentication for every access request, typically through robust Identity and Access Management (IAM) systems and Multi-Factor Authentication (MFA). This prevents unauthorised access to sensitive financial data even if credentials are stolen. Secondly, 'use least privilege access' ensures users and systems are only granted the absolute minimum permissions required to perform their function. This drastically limits an attacker's ability to move laterally and access data beyond their initial point of compromise. Thirdly, 'assume breach' leads to the implementation of micro-segmentation, where the network is broken into small, isolated zones. A breach in one zone is contained and cannot easily spread to others, protecting critical data stores containing bank details and personal information.\n\nFrom a regulatory standpoint, ZTA directly supports compliance with regulations like the GDPR and Australia's Consumer Data Right (CDR). These frameworks mandate strong data protection and privacy controls. ZTA's granular access policies, end-to-end encryption, and continuous monitoring provide a clear, auditable trail demonstrating that data is being accessed securely and only for legitimate purposes, fulfilling key compliance requirements. The perimeter model struggles to provide this level of granular control and proof of compliance once the boundary is crossed.\n\nIn conclusion, while a perimeter model offers a basic layer of defence, its inherent flaws make it unsuitable for a high-stakes FinTech application. ZTA's proactive and granular approach to security, which protects data at the resource level rather than the network edge, provides a far more effective and resilient framework for ensuring data protection, privacy, and regulatory compliance in today's threat landscape.",
+                  "answer": "Implementing a Zero Trust Architecture (ZTA) is significantly more effective than a traditional perimeter-based security model for a FinTech application handling sensitive user data. ZTA's 'never trust, always verify' principle provides a fundamentally more robust posture against modern cyber threats, ensuring superior data protection, security, privacy, and regulatory compliance.\n\nA perimeter-based model, often called the 'castle-and-moat' approach, relies on securing the network boundary with firewalls and intrusion detection systems. While effective against external threats, its critical weakness is the implicit trust it places on entities inside the network. If this perimeter is breached—for example, through a successful phishing attack on a developer—an attacker can gain broad access and move laterally, potentially compromising all user data. For a FinTech app, where a single breach can be catastrophic, this model presents an unacceptable risk.\n\nIn contrast, ZTA assumes that breaches are inevitable and that no user or device, whether internal or external, can be trusted by default. Its effectiveness stems from three core principles. Firstly, 'verify explicitly' enforces strong authentication for every access request, typically through robust Identity and Access Management (IAM) systems and Multi-Factor Authentication (MFA). This prevents unauthorised access to sensitive financial data even if credentials are stolen. Secondly, 'use least privilege access' ensures users and systems are only granted the absolute minimum permissions required to perform their function. This drastically limits an attacker's ability to move laterally and access data beyond their initial point of compromise. Thirdly, 'assume breach' leads to the implementation of micro-segmentation, where the network is broken into small, isolated zones. A breach in one zone is contained and cannot easily spread to others, protecting critical data stores containing bank details and personal information.\n\nFrom a regulatory standpoint, ZTA directly supports compliance with regulations like the GDPR and Australia's Consumer Data Right (CDR). These frameworks mandate strong data protection and privacy controls. ZTA's granular access policies, end-to-end encryption, and continuous monitoring provide a clear, auditable trail demonstrating that data is being accessed securely and only for legitimate purposes, fulfilling key compliance requirements. The perimeter model struggles to provide this level of granular control and proof of compliance once the boundary is crossed.\n\nIn conclusion, while a perimeter model offers a basic layer of defence, its inherent flaws make it unsuitable for a high-stakes FinTech application. ZTA's proactive and granular approach to security, which protects data at the resource level rather than the network edge, provides a far more effective and resilient framework for ensuring data protection, privacy, and regulatory compliance in today's threat landscape.",
                   "mark": 8,
                   "source": "AI"
                 },
@@ -1343,7 +1180,7 @@
                 "Privacy",
                 "Confidentiality"
               ],
-              "markingCriteria": "- Identifies key components: encryption, data protection, and compliance (1 mark). \u2022 Examines the relationship between encryption and data protection, explaining how it ensures confidentiality (2 marks). \u2022 Examines the relationship between encryption and regulatory compliance, explaining how it helps meet legal requirements (2 marks).",
+              "markingCriteria": "- Identifies key components: encryption, data protection, and compliance (1 mark). • Examines the relationship between encryption and data protection, explaining how it ensures confidentiality (2 marks). • Examines the relationship between encryption and regulatory compliance, explaining how it helps meet legal requirements (2 marks).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -1378,11 +1215,11 @@
         },
         {
           "id": "dp-1762984770472-piolzv7",
-          "description": "Use and explain the contribution of cryptography and sandboxing to the \u2018security by design\u2019 approach in the development of software solutions",
+          "description": "Use and explain the contribution of cryptography and sandboxing to the ‘security by design’ approach in the development of software solutions",
           "prompts": [
             {
               "id": "prompt-1762992176385-1687jkz",
-              "question": "Explain how both cryptography and sandboxing contribute to a \u2018security by design\u2019 approach in software development. Use examples to support your answer.",
+              "question": "Explain how both cryptography and sandboxing contribute to a ‘security by design’ approach in software development. Use examples to support your answer.",
               "totalMarks": 5,
               "verb": "EXPLAIN",
               "scenario": "A software development team is designing a new financial application that will handle sensitive customer data. They are discussing strategies to embed security features from the initial design phase, rather than adding them as an afterthought.",
@@ -1415,7 +1252,7 @@
                 "Threat mitigation",
                 "Vulnerability management"
               ],
-              "markingCriteria": "- Provides a clear explanation of cryptography's role in security by design, with a relevant example (2 marks). \u2022 Provides a clear explanation of sandboxing's role in security by design, with a relevant example (2 marks). \u2022 Effectively links both concepts to the proactive nature of the 'security by design' approach, using appropriate terminology (1 mark).",
+              "markingCriteria": "- Provides a clear explanation of cryptography's role in security by design, with a relevant example (2 marks). • Provides a clear explanation of sandboxing's role in security by design, with a relevant example (2 marks). • Effectively links both concepts to the proactive nature of the 'security by design' approach, using appropriate terminology (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -1494,7 +1331,7 @@
                 "Zero-day exploit",
                 "Defense in depth"
               ],
-              "markingCriteria": "- Makes a judgement on its effectiveness (e.g., 'highly effective but not foolproof') (1 mark). \u2022 Provides evidence of its benefits, focusing on containment and isolation of untrusted code (2 marks). \u2022 Discusses its limitations, such as the possibility of sandbox escape vulnerabilities (2 marks). \u2022 Draws a warranted conclusion about its role within a wider 'defense in depth' strategy (1 mark).",
+              "markingCriteria": "- Makes a judgement on its effectiveness (e.g., 'highly effective but not foolproof') (1 mark). • Provides evidence of its benefits, focusing on containment and isolation of untrusted code (2 marks). • Discusses its limitations, such as the possibility of sandbox escape vulnerabilities (2 marks). • Draws a warranted conclusion about its role within a wider 'defense in depth' strategy (1 mark).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -1529,7 +1366,7 @@
         },
         {
           "id": "dp-1762984770472-tfrvuf2",
-          "description": "Use and explain the \u2018privacy by design\u2019 approach in the development of software solutions (proactive not reactive approach, embed privacy into design, respect for user privacy)",
+          "description": "Use and explain the ‘privacy by design’ approach in the development of software solutions (proactive not reactive approach, embed privacy into design, respect for user privacy)",
           "prompts": [
             {
               "id": "prompt-1762992228798-w9b30kg",
@@ -1567,7 +1404,7 @@
                 "data minimisation",
                 "security principles"
               ],
-              "markingCriteria": "- Clearly defines 'privacy by design' and its proactive nature, contrasting it with reactive approaches (2 marks). \u2022 Explains how specific principles of the approach (e.g., privacy embedded into design, data minimisation) respect user privacy (2 marks). \u2022 Provides a relevant and detailed example that illustrates the concept (1 mark).",
+              "markingCriteria": "- Clearly defines 'privacy by design' and its proactive nature, contrasting it with reactive approaches (2 marks). • Explains how specific principles of the approach (e.g., privacy embedded into design, data minimisation) respect user privacy (2 marks). • Provides a relevant and detailed example that illustrates the concept (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -1755,7 +1592,7 @@
                 "Cost-benefit analysis",
                 "Risk assessment"
               ],
-              "markingCriteria": "- States a clear recommendation for a cold site and regular off-site backups (2 marks). \u2022 Provides multiple reasons supporting the recommendation, focusing on risk mitigation for a critical system (2 marks). \u2022 Links the justification to the concepts of a high acceptable RTO and RPO for this specific scenario (2 marks).",
+              "markingCriteria": "- States a clear recommendation for a cold site and regular off-site backups (2 marks). • Provides multiple reasons supporting the recommendation, focusing on risk mitigation for a critical system (2 marks). • Links the justification to the concepts of a high acceptable RTO and RPO for this specific scenario (2 marks).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -1818,7 +1655,7 @@
                 "Recovery",
                 "Communication"
               ],
-              "markingCriteria": "- Proposes a clear, specific plan with several distinct phases (2 marks). \u2022 The plan includes a 'Containment' step to stop further damage (1 mark). \u2022 The plan includes 'Eradication' and 'Recovery' steps (1 mark). \u2022 The plan includes a 'Communication' step for notifying affected users and authorities (2 marks).",
+              "markingCriteria": "- Proposes a clear, specific plan with several distinct phases (2 marks). • The plan includes a 'Containment' step to stop further damage (1 mark). • The plan includes 'Eradication' and 'Recovery' steps (1 mark). • The plan includes a 'Communication' step for notifying affected users and authorities (2 marks).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -1981,7 +1818,7 @@
                 "Pull request",
                 "Continuous integration"
               ],
-              "markingCriteria": "- Proposes a clear, specific process (e.g., using pull requests with mandatory peer review) (2 marks). \u2022 Justifies the proposal by explaining how the process integrates into an Agile workflow without causing bottlenecks (2 marks). \u2022 Explains how the process improves security (e.g., knowledge sharing, catching vulnerabilities early) (2 marks).",
+              "markingCriteria": "- Proposes a clear, specific process (e.g., using pull requests with mandatory peer review) (2 marks). • Justifies the proposal by explaining how the process integrates into an Agile workflow without causing bottlenecks (2 marks). • Explains how the process improves security (e.g., knowledge sharing, catching vulnerabilities early) (2 marks).",
               "targetPerformanceBands": [
                 1,
                 3,
@@ -2054,7 +1891,7 @@
                 "SQL injection",
                 "User input"
               ],
-              "markingCriteria": "- 1 mark for a basic definition of either validation or sanitisation. \u2022 2 marks for a basic comparison identifying a point of difference. \u2022 3 marks for a clear comparison of both practices and one correct example. \u2022 4 marks for a comprehensive comparison clearly distinguishing between the two practices, and providing a correct, relevant example for each.",
+              "markingCriteria": "- 1 mark for a basic definition of either validation or sanitisation. • 2 marks for a basic comparison identifying a point of difference. • 3 marks for a clear comparison of both practices and one correct example. • 4 marks for a comprehensive comparison clearly distinguishing between the two practices, and providing a correct, relevant example for each.",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2231,7 +2068,7 @@
                 "Data integrity",
                 "Performance"
               ],
-              "markingCriteria": "- 4 marks: Provides a clear and detailed comparison of both session and exception management, explicitly linking both to efficient execution for the user with relevant technical detail. \u2022\n3 marks: Explains both concepts with some valid points of comparison related to efficiency. \u2022\n2 marks: Provides a sound description of both concepts but with limited comparison or link to efficiency. \u2022\n1 mark: Provides a limited description of one or both concepts.",
+              "markingCriteria": "- 4 marks: Provides a clear and detailed comparison of both session and exception management, explicitly linking both to efficient execution for the user with relevant technical detail. •\n3 marks: Explains both concepts with some valid points of comparison related to efficiency. •\n2 marks: Provides a sound description of both concepts but with limited comparison or link to efficiency. •\n1 mark: Provides a limited description of one or both concepts.",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2311,7 +2148,7 @@
                 "Scalability",
                 "Statefulness"
               ],
-              "markingCriteria": "- Identifies the key components: server-side and client-side session management (1 mark). \u2022 Examines server-side sessions, explaining their stateful nature and security benefits (e.g., server control) but also their scalability challenges (2 marks). \u2022 Examines client-side sessions (JWTs), explaining their stateless nature and scalability benefits but also their security challenges (e.g., token theft) (3 marks). \u2022 Draws a conclusion about the architectural trade-offs (1 mark).",
+              "markingCriteria": "- Identifies the key components: server-side and client-side session management (1 mark). • Examines server-side sessions, explaining their stateful nature and security benefits (e.g., server control) but also their scalability challenges (2 marks). • Examines client-side sessions (JWTs), explaining their stateless nature and scalability benefits but also their security challenges (e.g., token theft) (3 marks). • Draws a conclusion about the architectural trade-offs (1 mark).",
               "targetPerformanceBands": [
                 1,
                 4,
@@ -2370,7 +2207,7 @@
                 "Robustness",
                 "try-catch"
               ],
-              "markingCriteria": "- Outlines the main point that it prevents crashes (1 mark). \u2022 Outlines the point that it allows for graceful failure or recovery (1 mark). \u2022 Outlines the point that it helps with debugging via logging (1 mark).",
+              "markingCriteria": "- Outlines the main point that it prevents crashes (1 mark). • Outlines the point that it allows for graceful failure or recovery (1 mark). • Outlines the point that it helps with debugging via logging (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2520,7 +2357,7 @@
                 "Time-of-check to time-of-use",
                 "Vulnerability"
               ],
-              "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). \u2022 Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). \u2022 Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
+              "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). • Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). • Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
               "targetPerformanceBands": [
                 2,
                 5
@@ -2538,6 +2375,110 @@
                   "band": 3,
                   "answer": "A race condition is when two things happen at the same time and it breaks the program. A hacker can use this to cheat a system, like getting something for free by sending two requests very fast.",
                   "mark": 2,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            },
+            {
+              "id": "prompt-1763110000004-ddddd04",
+              "question": "Define 'broken authentication'.",
+              "totalMarks": 2,
+              "verb": "DEFINE",
+              "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
+              "linkedOutcomes": [
+                "SE-12-07"
+              ],
+              "estimatedTime": "3 minutes",
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [
+                "The definition must relate to a security failure, not a functional bug.",
+                "Look for an understanding that it allows an attacker to act as another user."
+              ],
+              "commonStudentErrors": [
+                "Defining it literally as a login form that is not functioning.",
+                "Being too vague and not mentioning impersonation or identity compromise."
+              ],
+              "keywords": [
+                "Broken authentication",
+                "Vulnerability",
+                "Credentials",
+                "Session management"
+              ],
+              "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). • Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
+              "targetPerformanceBands": [
+                1,
+                4
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
+                  "band": 2,
+                  "answer": "Broken authentication refers to a category of security vulnerabilities that allow an attacker to compromise a user's identity. These flaws in the authentication or session management functions can enable an attacker to impersonate legitimate users, for example, by stealing their session cookies, using stolen credentials (credential stuffing), or bypassing the login process altogether.",
+                  "mark": 2,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
+                  "band": 2,
+                  "answer": "It is when the login is broken and doesn't work.",
+                  "mark": 1,
+                  "source": "AI"
+                }
+              ],
+              "isPastHSC": false
+            },
+            {
+              "id": "prompt-1763110000006-fffff06",
+              "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
+              "totalMarks": 6,
+              "verb": "COMPARE",
+              "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
+              "linkedOutcomes": [
+                "SE-12-04",
+                "SE-12-07"
+              ],
+              "estimatedTime": "10 minutes",
+              "relatedTopics": [],
+              "prerequisiteKnowledge": [],
+              "markerNotes": [
+                "The comparison must clearly differentiate between the attack vectors.",
+                "Look for an understanding of the different trust relationships being exploited.",
+                "Strong answers will correctly identify the primary goal of each attack (XSS -> confidentiality, CSRF -> integrity)."
+              ],
+              "commonStudentErrors": [
+                "Confusing the two vulnerabilities.",
+                "Describing one but not the other.",
+                "Failing to clearly explain the different mechanisms (code injection vs. forged request).",
+                "Not contrasting the primary goals (stealing information vs. performing actions)."
+              ],
+              "keywords": [
+                "Cross-Site Scripting (XSS)",
+                "Cross-Site Request Forgery (CSRF)",
+                "Vulnerability",
+                "Web security",
+                "Session hijacking",
+                "User impersonation"
+              ],
+              "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). • Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). • Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). • Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
+              "targetPerformanceBands": [
+                3,
+                6
+              ],
+              "sampleAnswers": [
+                {
+                  "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
+                  "band": 5,
+                  "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
+                  "mark": 6,
+                  "source": "AI"
+                },
+                {
+                  "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
+                  "band": 3,
+                  "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
+                  "mark": 3,
                   "source": "AI"
                 }
               ],
@@ -2585,7 +2526,7 @@
                 "Constant-time operations",
                 "Vulnerability mitigation"
               ],
-              "markingCriteria": "- 1 mark: Sketches in general terms a relevant practice. \u2022\n2 marks: Describes a secure coding practice for either a file attack OR a side-channel attack. \u2022\n3 marks: Explains secure coding practices for both file and side-channel attacks, with some reference to examples. \u2022\n4 marks: Provides a comprehensive explanation of secure coding practices for both file and side-channel attacks, supported by clear and specific examples for each.",
+              "markingCriteria": "- 1 mark: Sketches in general terms a relevant practice. •\n2 marks: Describes a secure coding practice for either a file attack OR a side-channel attack. •\n3 marks: Explains secure coding practices for both file and side-channel attacks, with some reference to examples. •\n4 marks: Provides a comprehensive explanation of secure coding practices for both file and side-channel attacks, supported by clear and specific examples for each.",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2661,7 +2602,7 @@
                 "Cryptography",
                 "Constant-time"
               ],
-              "markingCriteria": "- Provides characteristics of a timing attack, identifying it as a side-channel attack (1 mark). \u2022 Describes the mechanism: inferring information based on how long an operation takes (2 marks).",
+              "markingCriteria": "- Provides characteristics of a timing attack, identifying it as a side-channel attack (1 mark). • Describes the mechanism: inferring information based on how long an operation takes (2 marks).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2730,7 +2671,7 @@
                 "teamwork",
                 "software engineering practices"
               ],
-              "markingCriteria": "- 4 marks: Provides a comprehensive explanation linking collaboration to BOTH safety/security AND quality, clearly referencing the role of delegating tasks based on expertise. \u2022\n3 marks: Explains how collaboration improves software quality OR security, with some reference to task delegation. \u2022\n2 marks: Describes a benefit of collaboration related to software development, with a limited link to security. \u2022\n1 mark: Sketches in general terms some aspect of collaboration or software development.",
+              "markingCriteria": "- 4 marks: Provides a comprehensive explanation linking collaboration to BOTH safety/security AND quality, clearly referencing the role of delegating tasks based on expertise. •\n3 marks: Explains how collaboration improves software quality OR security, with some reference to task delegation. •\n2 marks: Describes a benefit of collaboration related to software development, with a limited link to security. •\n1 mark: Sketches in general terms some aspect of collaboration or software development.",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2776,8 +2717,8 @@
               "verb": "EXPLAIN",
               "scenario": "A growing software development company, 'InnovateTech', is keen on establishing a strong reputation for reliability and trust in the market. They are analyzing how adopting robust safe and secure development practices across their product lifecycle can provide tangible benefits beyond just compliance, impacting their product offerings, internal efficiency, and external business relationships.",
               "linkedOutcomes": [
-                "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                "SE-12-04",
+                "SE-12-07"
               ],
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
@@ -2792,7 +2733,7 @@
                 "business interactivity",
                 "software engineering"
               ],
-              "markingCriteria": "- 5 marks: Provides a comprehensive and detailed explanation of how secure practices benefit an enterprise across products, productivity, and business interactivity, using relevant examples and terminology. \u2022\n4 marks: Explains several benefits, making clear links to products, productivity, and/or business interactivity. \u2022\n2-3 marks: Provides a basic explanation of one or more benefits to an enterprise. \u2022\n1 mark: Identifies at least one benefit of secure practices.",
+              "markingCriteria": "- 5 marks: Provides a comprehensive and detailed explanation of how secure practices benefit an enterprise across products, productivity, and business interactivity, using relevant examples and terminology. •\n4 marks: Explains several benefits, making clear links to products, productivity, and/or business interactivity. •\n2-3 marks: Provides a basic explanation of one or more benefits to an enterprise. •\n1 mark: Identifies at least one benefit of secure practices.",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2902,10 +2843,10 @@
               "verb": "OUTLINE",
               "scenario": "A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
               "linkedOutcomes": [
-                "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment",
-                "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                "SE-12-01",
+                "SE-12-04",
+                "SE-12-05",
+                "SE-12-07"
               ],
               "relatedTopics": [],
               "prerequisiteKnowledge": [],
@@ -2919,7 +2860,7 @@
                 "secure software development",
                 "software engineering"
               ],
-              "markingCriteria": "- Provides a clear outline of one relevant social issue (1 mark). \u2022 Provides a clear outline of one relevant ethical issue (1 mark). \u2022 Links the issues to data privacy in the context of an enterprise developing secure software (1 mark).",
+              "markingCriteria": "- Provides a clear outline of one relevant social issue (1 mark). • Provides a clear outline of one relevant ethical issue (1 mark). • Links the issues to data privacy in the context of an enterprise developing secure software (1 mark).",
               "targetPerformanceBands": [
                 1,
                 2,
@@ -2976,7 +2917,7 @@
                 "Surveillance capitalism",
                 "Secure software"
               ],
-              "markingCriteria": "- Identifies the key issue: the conflict between data-driven business models and user privacy (2 marks). \u2022 Develops points for the business perspective, explaining why data collection is valuable (e.g., personalisation, targeted advertising) (2 marks). \u2022 Develops points for the user's perspective, referencing the right to privacy and the risks of surveillance (2 marks). \u2022 Provides a balanced treatment, showing an understanding of the tension and the role of secure software as both an enabler and a mitigator (2 marks).",
+              "markingCriteria": "- Identifies the key issue: the conflict between data-driven business models and user privacy (2 marks). • Develops points for the business perspective, explaining why data collection is valuable (e.g., personalisation, targeted advertising) (2 marks). • Develops points for the user's perspective, referencing the right to privacy and the risks of surveillance (2 marks). • Provides a balanced treatment, showing an understanding of the tension and the role of secure software as both an enabler and a mitigator (2 marks).",
               "targetPerformanceBands": [
                 1,
                 4,

@@ -744,169 +744,6 @@
                     "isPastHSC": false
                   }
                 ]
-              },
-              {
-                "id": "dp-1762984770472-i9mtydz",
-                "description": "Design, develop and implement secure code to minimise vulnerabilities in user action controls (broken authentication and session management, cross-site scripting (XSS) and cross-site request forgery (CSRF), invalid forwarding and redirecting, race conditions)",
-                "prompts": [
-                  {
-                    "id": "prompt-1763110000004-ddddd04",
-                    "question": "Define 'broken authentication'.",
-                    "totalMarks": 2,
-                    "verb": "DEFINE",
-                    "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
-                    "linkedOutcomes": [
-                      "SE-12-07"
-                    ],
-                    "estimatedTime": "3 minutes",
-                    "relatedTopics": [],
-                    "prerequisiteKnowledge": [],
-                    "markerNotes": [
-                      "The definition must relate to a security failure, not a functional bug.",
-                      "Look for an understanding that it allows an attacker to act as another user."
-                    ],
-                    "commonStudentErrors": [
-                      "Defining it literally as a login form that is not functioning.",
-                      "Being too vague and not mentioning impersonation or identity compromise."
-                    ],
-                    "keywords": [
-                      "Broken authentication",
-                      "Vulnerability",
-                      "Credentials",
-                      "Session management"
-                    ],
-                    "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). • Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
-                    "targetPerformanceBands": [
-                      1,
-                      4
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
-                        "band": 2,
-                        "answer": "Broken authentication refers to a category of security vulnerabilities that allow an attacker to compromise a user's identity. These flaws in the authentication or session management functions can enable an attacker to impersonate legitimate users, for example, by stealing their session cookies, using stolen credentials (credential stuffing), or bypassing the login process altogether.",
-                        "mark": 2,
-                        "source": "AI"
-                      },
-                      {
-                        "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
-                        "band": 2,
-                        "answer": "It is when the login is broken and doesn't work.",
-                        "mark": 1,
-                        "source": "AI"
-                      }
-                    ],
-                    "isPastHSC": false
-                  },
-                  {
-                    "id": "prompt-1763110000005-eeeee05",
-                    "question": "Explain how a 'race condition' can occur in a web application and how it could be exploited.",
-                    "totalMarks": 4,
-                    "verb": "EXPLAIN",
-                    "scenario": "During a code review for a new online ticketing system, a senior developer points out a potential race condition vulnerability in the code that handles seat reservations. They ask a junior developer to explain the risk to the team.",
-                    "linkedOutcomes": [
-                      "SE-12-07",
-                      "SE-12-02"
-                    ],
-                    "estimatedTime": "6 minutes",
-                    "relatedTopics": [],
-                    "prerequisiteKnowledge": [],
-                    "markerNotes": [
-                      "A good explanation will use the concept of 'time-of-check to time-of-use' (TOCTOU).",
-                      "The example must involve two or more processes/threads that interfere with each other.",
-                      "Assess whether the student can explain how the timing gap is exploited."
-                    ],
-                    "commonStudentErrors": [
-                      "Describing it vaguely as 'two things happening at once'.",
-                      "Failing to explain the 'check-then-act' flaw.",
-                      "Providing an unclear or implausible example of exploitation.",
-                      "Confusing it with a denial-of-service attack."
-                    ],
-                    "keywords": [
-                      "Race condition",
-                      "Concurrency",
-                      "Time-of-check to time-of-use",
-                      "Vulnerability"
-                    ],
-                    "markingCriteria": "- Explains that a race condition relates to the sequence of events in a concurrent system (1 mark). • Describes a plausible scenario (e.g., financial transaction, redeeming a voucher) (1 mark). • Explains how an attacker can exploit the time gap between a check and an action (2 marks).",
-                    "targetPerformanceBands": [
-                      2,
-                      5
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
-                        "band": 5,
-                        "answer": "A race condition is a vulnerability that can occur in a concurrent system when the outcome of an operation depends on the uncontrollable sequence or timing of multiple threads or processes. It is a 'time-of-check to time-of-use' (TOCTOU) flaw. For example, in an e-commerce application, a user might want to apply a single-use discount voucher. The system might first check if the voucher is valid and then, in a separate step, apply the discount and mark the voucher as used. An attacker could exploit this by sending two simultaneous requests to use the same voucher. If both requests pass the 'check' phase before either one completes the 'use' phase, the attacker could successfully redeem the single-use voucher twice, 'racing' the system's logic. This exploits the tiny time gap between the system checking the voucher's validity and it being invalidated in the database.",
-                        "mark": 4,
-                        "source": "AI"
-                      },
-                      {
-                        "id": "sa-5570115e-876b-4bb3-a7ce-ebd3c01d11e6",
-                        "band": 3,
-                        "answer": "A race condition is when two things happen at the same time and it breaks the program. A hacker can use this to cheat a system, like getting something for free by sending two requests very fast.",
-                        "mark": 2,
-                        "source": "AI"
-                      }
-                    ],
-                    "isPastHSC": false
-                  },
-                  {
-                    "id": "prompt-1763110000006-fffff06",
-                    "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
-                    "totalMarks": 6,
-                    "verb": "COMPARE",
-                    "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
-                    "linkedOutcomes": [
-                      "SE-12-04",
-                      "SE-12-07"
-                    ],
-                    "estimatedTime": "10 minutes",
-                    "relatedTopics": [],
-                    "prerequisiteKnowledge": [],
-                    "markerNotes": [
-                      "The comparison must clearly differentiate between the attack vectors.",
-                      "Look for an understanding of the different trust relationships being exploited.",
-                      "Strong answers will correctly identify the primary goal of each attack (XSS -> confidentiality, CSRF -> integrity)."
-                    ],
-                    "commonStudentErrors": [
-                      "Confusing the two vulnerabilities.",
-                      "Describing one but not the other.",
-                      "Failing to clearly explain the different mechanisms (code injection vs. forged request).",
-                      "Not contrasting the primary goals (stealing information vs. performing actions)."
-                    ],
-                    "keywords": [
-                      "Cross-Site Scripting (XSS)",
-                      "Cross-Site Request Forgery (CSRF)",
-                      "Vulnerability",
-                      "Web security",
-                      "Session hijacking",
-                      "User impersonation"
-                    ],
-                    "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). • Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). • Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). • Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
-                    "targetPerformanceBands": [
-                      3,
-                      6
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
-                        "band": 5,
-                        "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
-                        "mark": 6,
-                        "source": "AI"
-                      },
-                      {
-                        "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
-                        "band": 3,
-                        "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
-                        "mark": 3,
-                        "source": "AI"
-                      }
-                    ],
-                    "isPastHSC": false
-                  }
-                ]
               }
             ]
           },
@@ -2585,6 +2422,110 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-1763110000004-ddddd04",
+                    "question": "Define 'broken authentication'.",
+                    "totalMarks": 2,
+                    "verb": "DEFINE",
+                    "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
+                    "linkedOutcomes": [
+                      "SE-12-07"
+                    ],
+                    "estimatedTime": "3 minutes",
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [
+                      "The definition must relate to a security failure, not a functional bug.",
+                      "Look for an understanding that it allows an attacker to act as another user."
+                    ],
+                    "commonStudentErrors": [
+                      "Defining it literally as a login form that is not functioning.",
+                      "Being too vague and not mentioning impersonation or identity compromise."
+                    ],
+                    "keywords": [
+                      "Broken authentication",
+                      "Vulnerability",
+                      "Credentials",
+                      "Session management"
+                    ],
+                    "markingCriteria": "- States that it is a vulnerability related to managing user identity (1 mark). • Elaborates with an example, such as credential stuffing or insecure session handling (1 mark).",
+                    "targetPerformanceBands": [
+                      1,
+                      4
+                    ],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
+                        "band": 2,
+                        "answer": "Broken authentication refers to a category of security vulnerabilities that allow an attacker to compromise a user's identity. These flaws in the authentication or session management functions can enable an attacker to impersonate legitimate users, for example, by stealing their session cookies, using stolen credentials (credential stuffing), or bypassing the login process altogether.",
+                        "mark": 2,
+                        "source": "AI"
+                      },
+                      {
+                        "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
+                        "band": 2,
+                        "answer": "It is when the login is broken and doesn't work.",
+                        "mark": 1,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-1763110000006-fffff06",
+                    "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
+                    "linkedOutcomes": [
+                      "SE-12-04",
+                      "SE-12-07"
+                    ],
+                    "estimatedTime": "10 minutes",
+                    "relatedTopics": [],
+                    "prerequisiteKnowledge": [],
+                    "markerNotes": [
+                      "The comparison must clearly differentiate between the attack vectors.",
+                      "Look for an understanding of the different trust relationships being exploited.",
+                      "Strong answers will correctly identify the primary goal of each attack (XSS -> confidentiality, CSRF -> integrity)."
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the two vulnerabilities.",
+                      "Describing one but not the other.",
+                      "Failing to clearly explain the different mechanisms (code injection vs. forged request).",
+                      "Not contrasting the primary goals (stealing information vs. performing actions)."
+                    ],
+                    "keywords": [
+                      "Cross-Site Scripting (XSS)",
+                      "Cross-Site Request Forgery (CSRF)",
+                      "Vulnerability",
+                      "Web security",
+                      "Session hijacking",
+                      "User impersonation"
+                    ],
+                    "markingCriteria": "- Explains the mechanism of XSS (injecting malicious script into a trusted site) (1 mark). • Explains the mechanism of CSRF (tricking an authenticated user's browser into sending a forged request) (1 mark). • Contrasts their primary goals: XSS steals information from the user, while CSRF makes the user perform an unwanted action (2 marks). • Compares their potential impacts (e.g., both can lead to account compromise, but in different ways) (2 marks).",
+                    "targetPerformanceBands": [
+                      3,
+                      6
+                    ],
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
+                        "band": 5,
+                        "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
+                        "mark": 6,
+                        "source": "AI"
+                      },
+                      {
+                        "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
+                        "band": 3,
+                        "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
+                        "mark": 3,
+                        "source": "AI"
+                      }
+                    ],
+                    "isPastHSC": false
                   }
                 ]
               },
@@ -2819,8 +2760,8 @@
                     "verb": "EXPLAIN",
                     "scenario": "A growing software development company, 'InnovateTech', is keen on establishing a strong reputation for reliability and trust in the market. They are analyzing how adopting robust safe and secure development practices across their product lifecycle can provide tangible benefits beyond just compliance, impacting their product offerings, internal efficiency, and external business relationships.",
                     "linkedOutcomes": [
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-04",
+                      "SE-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2945,10 +2886,10 @@
                     "verb": "OUTLINE",
                     "scenario": "A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-05",
+                      "SE-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3360,10 +3301,10 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions",
-                      "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07",
+                      "SE-12-05"
                     ]
                   }
                 ]
@@ -3509,8 +3450,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-04",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -3681,8 +3622,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions"
+                      "SE-12-03",
+                      "SE-12-01"
                     ]
                   },
                   {
@@ -3893,11 +3834,11 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-03",
+                      "SE-12-04",
+                      "SE-12-06",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -4315,9 +4256,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software",
-                      "SE-12-09: applies methods to manage and document the development of a software project"
+                      "SE-12-01",
+                      "SE-12-06",
+                      "SE-12-09"
                     ]
                   }
                 ]
@@ -4679,8 +4620,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-08: tests and evaluates language structures to refine code",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-08",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5192,10 +5133,10 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-05: explains the social, ethical and legal implications of software engineering on the individual, society and the environment",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-01",
+                      "SE-12-03",
+                      "SE-12-05",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5428,7 +5369,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions"
+                      "SE-12-03"
                     ]
                   }
                 ]
@@ -5504,10 +5445,10 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-01",
+                      "SE-12-02",
+                      "SE-12-03",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5615,9 +5556,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -5650,9 +5591,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -5847,11 +5788,11 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-04: evaluates practices to safely and securely collect, use and store data",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-06: justifies the selection and use of tools and resources to design, develop, manage and evaluate software"
+                      "SE-12-01",
+                      "SE-12-04",
+                      "SE-12-07",
+                      "SE-12-02",
+                      "SE-12-06"
                     ]
                   }
                 ]
@@ -5991,9 +5932,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-03",
+                      "SE-12-02",
+                      "SE-12-07"
                     ]
                   },
                   {
@@ -6021,8 +5962,8 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03: analyses how current hardware, software and emerging technologies influence the development of software engineering solutions",
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions"
+                      "SE-12-03",
+                      "SE-12-01"
                     ]
                   }
                 ]
@@ -6635,9 +6576,9 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01: justifies methods used to plan, develop and engineer software solutions",
-                      "SE-12-02: applies structural elements to develop programming code",
-                      "SE-12-07: designs, develops and implements safe and secure programming solutions"
+                      "SE-12-01",
+                      "SE-12-02",
+                      "SE-12-07"
                     ]
                   }
                 ]
@@ -7251,7 +7192,7 @@
                 ]
               },
               {
-                "id": "dp-1763034567890-ghij678",
+                "id": "dp-1763034567890-soceth1",
                 "description": "Explore social and ethical issues associated with project work, including working individually, collaboratively and responding to stakeholders",
                 "prompts": [
                   {

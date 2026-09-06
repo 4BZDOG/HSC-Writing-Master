@@ -188,6 +188,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let lowQuality = 0;
     let flagged = 0;
     let exemplarMismatch = 0;
+    let verbAbsent = 0;
 
     flatMap.forEach((node) => {
       if (node.type === 'dotPoint' && node.stats.questions === 0) emptyDotPoints++;
@@ -197,6 +198,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         if (node.stats.missingOutcomes > 0) missingOutcomes++;
         if (node.stats.missingMarkingCriteria > 0) missingRubrics++;
         if (node.stats.rubricNotDescending > 0) nonStandardRubrics++;
+        if (node.stats.verbNotInQuestion > 0) verbAbsent++;
         if (node.stats.samples > 0) hasSamples++;
         if (isLowQuality(node)) lowQuality++;
         if (isFlagged(node)) flagged++;
@@ -215,6 +217,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       lowQuality,
       flagged,
       exemplarMismatch,
+      verbAbsent,
     };
   }, [flatMap]);
 
@@ -452,6 +455,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           matchesGap = node.type === 'prompt' && node.stats.missingMarkingCriteria > 0;
         else if (activeFilter === 'rubricNotDescending')
           matchesGap = node.type === 'prompt' && node.stats.rubricNotDescending > 0;
+        else if (activeFilter === 'verbNotInQuestion')
+          matchesGap = node.type === 'prompt' && node.stats.verbNotInQuestion > 0;
         else if (activeFilter === 'hasSamples')
           matchesGap = node.type === 'prompt' && node.stats.samples > 0;
         else if (activeFilter === 'lowQuality') matchesGap = isLowQuality(node);
@@ -1289,6 +1294,17 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             label="Non-Std Rubric"
             count={counts.nonStandardRubrics}
             onClick={() => handleFilterToggle('rubricNotDescending')}
+          />
+          {/* The verb the question does not use. Rose rather than another
+              amber: this is the one gap on the rail that changes a student's
+              band ceiling, not just what is missing from the page. */}
+          <FilterChip
+            active={activeFilter === 'verbNotInQuestion'}
+            activeStyle="bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg"
+            idleStyle="bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10"
+            label="Verb Not In Question"
+            count={counts.verbAbsent}
+            onClick={() => handleFilterToggle('verbNotInQuestion')}
           />
           <FilterChip
             active={activeFilter === 'missingSamples'}

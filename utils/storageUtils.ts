@@ -9,6 +9,7 @@ import {
   validateAndFixCourses,
   deduplicateSampleAnswers,
   repairPromptIntegrity,
+  normaliseCourseOutcomeLinks,
 } from './dataManagerUtils';
 
 // Current data version - increment when structure changes
@@ -34,7 +35,7 @@ import {
 // Additive and optional in the same way: absence means "published", which is
 // what every course written before this meant, so there is nothing to
 // migrate here either.
-export const DATA_VERSION = '2.8.0';
+export const DATA_VERSION = '2.9.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -812,6 +813,17 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   if (isOlderThan(fromVersion, '2.4.0')) {
     console.log('Applying v2.4.0 migration: NESA-aligned band recalculation...');
     migrated = recalculateSampleAnswerBands(migrated);
+  }
+
+  // Version 2.9.0 Migration
+  // An outcome link is a code, not the statement the code stands for. Courses
+  // imported before the schema normalised this stored the whole statement, and
+  // because the outcomes panel resolves links by exact equality on the code AND
+  // is gated on the resolved list being non-empty, those questions showed no
+  // "What's Assessed" section at all — silently. See normaliseOutcomeCode.
+  if (isOlderThan(fromVersion, '2.9.0')) {
+    console.log('Applying v2.9.0 migration: normalising outcome links to codes...');
+    migrated = normaliseCourseOutcomeLinks(migrated);
   }
 
   return migrated;

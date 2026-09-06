@@ -11,10 +11,28 @@ interface ToastProps {
   action?: { label: string; onClick: () => void };
 }
 
+/*
+ * The light-theme shade is 700, not 600, and all four move together.
+ *
+ * `iconColor` paints the icon AND the toast's own title (an `h4.t-label`), so
+ * it is body-sized text on a near-white surface and owes 4.5:1. Measured
+ * against rgb(254,255,255): emerald-600 3.76, amber-600 3.18, sky-600 4.09 —
+ * three of the four titles were below AA, and only red-600 (4.82) cleared it,
+ * barely. At 700 they read 5.47, 5.01, 5.92 and 6.46.
+ *
+ * Red moves with them although it passed. The four are one set of chrome and a
+ * student meets them in the same corner of the same screen; leaving one a step
+ * lighter than its siblings makes the error toast look quieter than the
+ * warning, which is backwards.
+ *
+ * The dark-theme 400s are untouched — they sit on a near-black surface and
+ * already measure 8:1 and better. Gated by tests/e2e/light-theme.spec.ts,
+ * which is what caught the sky one.
+ */
 const toastConfig = {
   success: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-emerald-500/30',
-    iconColor: 'text-emerald-600 dark:text-emerald-400',
+    iconColor: 'text-emerald-700 dark:text-emerald-400',
     iconBg: 'bg-emerald-500/10',
     progressBar: 'bg-emerald-500',
     icon: <CheckCircle className="h-5 w-5" />,
@@ -22,7 +40,7 @@ const toastConfig = {
   },
   error: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-red-500/30',
-    iconColor: 'text-red-600 dark:text-red-400',
+    iconColor: 'text-red-700 dark:text-red-400',
     iconBg: 'bg-red-500/10',
     progressBar: 'bg-red-500',
     icon: <XCircle className="h-5 w-5" />,
@@ -30,7 +48,7 @@ const toastConfig = {
   },
   warning: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-amber-500/30',
-    iconColor: 'text-amber-600 dark:text-amber-400',
+    iconColor: 'text-amber-700 dark:text-amber-400',
     iconBg: 'bg-amber-500/10',
     progressBar: 'bg-amber-500',
     icon: <AlertTriangle className="h-5 w-5" />,
@@ -38,7 +56,7 @@ const toastConfig = {
   },
   info: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-sky-500/30',
-    iconColor: 'text-sky-600 dark:text-sky-400',
+    iconColor: 'text-sky-700 dark:text-sky-400',
     iconBg: 'bg-sky-500/10',
     progressBar: 'bg-sky-500',
     icon: <Info className="h-5 w-5" />,
