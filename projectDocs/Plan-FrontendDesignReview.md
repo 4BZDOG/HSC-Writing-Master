@@ -266,6 +266,40 @@ embedded TTFs were not: swapping them changes the line breaks and pagination of
 every export, which needs its own verification pass against the PDF samples. It
 is a genuine open item, not an oversight — see the follow-ups.
 
+## The second slice: the content studio
+
+Where the first slice's ratio pointed. The studio is not one screen but the set
+of AI authoring surfaces — the prompt generator, the manual prompt builder, the
+sample-answer generator, the dot-point and outcomes editors, the keyword and
+rubric helpers — read the same way, site by site.
+
+**44 heavy-weight regions, of which 31 were already correct**: modal headings,
+primary and tertiary buttons, mark figures, step numbers in their tiles, mono
+telemetry, and three genuine emphases inside prose (the pinned verb, the tier's
+name, "a **direct question** with no scenario").
+
+Thirteen moved, in five kinds:
+
+| Kind                                          | Sites | To      |
+| --------------------------------------------- | ----- | ------- |
+| Number and text inputs                        | 2     | 400     |
+| Chips already carrying colour + border + fill | 5     | 500     |
+| A notice's own message                        | 3     | 400/500 |
+| A card's title, which is a title in a block   | 1     | 600     |
+| `font-black` on 12–14px type                  | 2     | 700     |
+
+**The ratio fell, and that is the point of running it here.** 31 of 44 is 70%,
+against 46 of 50 — 92% — on the student screens. The authoring surfaces are
+where the habit actually lives, which is what the first slice predicted, and it
+is a milder gap than the raw count suggested.
+
+**Two rules came out of it and went into the spec**, because both were being
+applied by feel: a chip that already has a colour, a border and a fill does not
+also need 700, and a notice's message is prose. The first resolves a genuine
+contradiction — the ladder's table said chips take 700 while the workspace slice
+had demoted them to 500 — so `DesignSpec.md` §4 now says which chips take which,
+rather than leaving the next person to guess from precedent.
+
 ## Where this leaves the review
 
 Findings 1, 5 and 6 are fixed and gated — 6 after being reopened once. Findings 2 and 3 are partly fixed, with

@@ -680,7 +680,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                               ? `'${activeTierInfo?.title}' verbs support up to Band ${tierMaxBand}`
                               : `Target Band ${b}`
                           }
-                          className={`relative z-10 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-black transition-all duration-500 transform ${
+                          className={`relative z-10 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-bold transition-all duration-500 transform ${
                             isTarget
                               ? `${bConf.solidBg} ${bConf.solidText} shadow-lg scale-125 rotate-6 border border-white/20`
                               : isCappedOut

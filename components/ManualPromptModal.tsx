@@ -695,7 +695,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             max={currentHscYear()}
                             value={hscYear}
                             onChange={(e) => setHscYear(e.target.value)}
-                            className="w-24 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm font-bold text-white light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
+                            className="w-24 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-white light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
                           />
                         </div>
                         <div className="flex flex-col gap-1.5">
@@ -708,7 +708,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             value={hscQuestionNumber}
                             onChange={(e) => setHscQuestionNumber(e.target.value)}
                             placeholder="e.g. 12(b)"
-                            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm font-bold text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                           />
                         </div>
                         {previewPastHsc && (
@@ -779,7 +779,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 )}
 
                 {error && (
-                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold flex items-center gap-3">
+                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-3">
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                     {error}
                   </div>
@@ -955,7 +955,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         result.keywords.map((kw) => (
                           <span
                             key={kw}
-                            className="px-2.5 py-1 rounded-lg bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-bold"
+                            className="px-2.5 py-1 rounded-lg bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-medium"
                           >
                             {kw}
                           </span>

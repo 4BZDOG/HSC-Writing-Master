@@ -260,7 +260,7 @@ Weight carries hierarchy, so it has to mean something. One step per job:
 | 400    | (none)          | Prose. Sentences, messages, help text, descriptions                                    |
 | 500    | `.t-label`      | A small label — see below                                                              |
 | 600    | `font-semibold` | A title inside a block, sitting above its own body line                                |
-| 700    | `font-bold`     | Headings, buttons, chips, numbers                                                      |
+| 700    | `font-bold`     | Headings, buttons, numbers, and a chip that has nothing else marking it out            |
 | 700    | `font-black`    | Display type (the italic masthead), large headings (`text-xl`+), and telemetry figures |
 
 `font-bold` and `font-black` together were used 842 times against 4 uses of
@@ -294,6 +294,17 @@ overflows _less_ under Plex: "Evaluate, Synthesise & Create" 200px → 187,
 "Construct models of the processes" 313 → 296. Part of that is the face and part
 is 900 becoming 700. Either way the change introduced no new truncation
 anywhere.
+
+**A chip that already has a colour, a border and a fill does not also need 700.** The weight was the fourth thing saying "this is separate", and the first
+three were doing it. Those chips take the label weight, 500 — the syllabus terms
+in the workspace, the band and tier pills in the sample-answer studio, the tag
+row under a question. 700 stays for a chip carrying a number, and for one whose
+only marker is its weight.
+
+**A notice's message is prose.** An error or a warning is a sentence, and the
+tint, the border and the icon have already said it is a notice — so it reads at
+400, not 700. The exception is a notice set below 12px, where the readability
+floor renders it at 11.5px and 400 goes thin against a tinted ground: those take 500.
 
 **A `<p>` is not automatically prose.** Some hold a title with a body line
 beneath: the error notice's heading, a course name above its topic count, a
