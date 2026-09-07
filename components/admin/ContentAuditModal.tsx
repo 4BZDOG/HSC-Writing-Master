@@ -41,12 +41,8 @@ import { InstrumentMetric, AuditActionButton, FilterChip } from './contentAudit/
 import AuditTreeRow from './contentAudit/AuditTreeRow';
 import TopicImportModal from '../TopicImportModal';
 import ConfirmationModal from '../ConfirmationModal';
-import {
-  BatchTask,
-  runBatchOperations,
-  BatchProgress,
-  BatchFatalError,
-} from '../../utils/batchProcessor';
+import { BatchTask, BatchFatalError } from '../../utils/batchProcessor';
+import { useBatchRun } from '../../hooks/useBatchRun';
 import { setBatchModelOverride } from '../../services/aiConfig';
 import { AI_MODELS } from '../../services/aiModels';
 import {
@@ -164,8 +160,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // Set while the "Clear Questions" confirmation is open, so the destructive
   // action never fires without the shared ConfirmationModal in between.
   const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isStopping, setIsStopping] = useState(false);
+  /**
+   * The run lifecycle lives in `useBatchRun`, shared with the
+   * starter-questions step. The two surfaces had each written their own, and
+   * the other one's version could never report a stopped run as ended — see
+   * the hook's own note.
+   */
+  const { progress, isRunning: isProcessing, isStopping, run: runBatch, stop } = useBatchRun();
   // 'default' = the app's per-role engine selection; otherwise an AI_MODELS
   // id that every call in the batch is routed to.
   const [batchEngine, setBatchEngine] = useState<string>('default');
@@ -197,11 +198,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     touchedRef.current.set(promptAppId, { promptAppId, dotPointAppId, label });
     persistOutbox();
   };
-  const [progress, setProgress] = useState<BatchProgress | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<VisibilityFilter>(null);
 
-  const abortControllerRef = useRef<AbortController | null>(null);
   const logsEndRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -577,19 +576,6 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   }, [isOpen, flatMap]);
 
   /**
-   * Abandon any run still in flight if the studio unmounts. `handleStop` is the
-   * normal road out, but an unmount (a sign-out, a route change) left the
-   * controller un-aborted and the tasks writing into a component that no longer
-   * exists.
-   */
-  useEffect(
-    () => () => {
-      abortControllerRef.current?.abort();
-    },
-    []
-  );
-
-  /**
    * Forget selected ids whose nodes are gone.
    *
    * Every consumer of the selection already skips a missing node, so nothing
@@ -695,16 +681,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     );
   };
 
+  // The hook holds the controller and clears `isProcessing` only when the
+  // runner returns, so a task still in flight cannot land after the UI has
+  // claimed the run stopped.
   const handleStop = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      // Don't clear isProcessing here — a task may still be in flight and
-      // its AI result would otherwise land after the UI claims we've
-      // stopped. runBatchOperations now waits for in-flight tasks to drain
-      // before resolving; handleBulkAction clears isProcessing then.
-      setIsStopping(true);
-      showToast('Stopping… waiting for the current task to finish.', 'info');
-    }
+    stop();
+    showToast('Stopping… waiting for the current task to finish.', 'info');
   };
 
   // --- Per-node task builders --------------------------------------------
@@ -984,56 +966,27 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   };
 
   /**
-   * Shared batch runner: progress wiring, stop handling, cleanup, and an
-   * end-of-run summary (the processing terminal collapses when the batch
-   * ends, so the outcome must survive as a toast).
+   * Run a set of tasks and summarise the outcome. The terminal collapses when
+   * the batch ends, so the result has to survive as a toast.
    */
   const executeBatch = async (
     tasks: BatchTask<void>[],
     summarise: (done: number, failed: number, aborted: boolean, fatal?: BatchFatalError) => void
   ) => {
-    setIsProcessing(true);
-    setProgress(null);
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+    const outcome = await runBatch(tasks, 1);
 
-    let finalProgress: BatchProgress | null = null;
-    let runnerError: unknown;
-    try {
-      await runBatchOperations(
-        tasks,
-        1,
-        (prog) => {
-          finalProgress = prog;
-          setProgress(prog);
-        },
-        controller.signal
-      );
-    } catch (err) {
-      // The runner resolves rather than rejects for task failures, so reaching
-      // here means the runner itself broke. Reporting the run as "0 completed"
-      // and nothing else would read as a batch that quietly did nothing.
-      runnerError = err;
-    } finally {
-      setIsProcessing(false);
-      setIsStopping(false);
-      abortControllerRef.current = null;
-    }
-
-    if (runnerError) {
+    if (outcome.runnerError) {
+      // The runner counts and carries on from task failures, so reaching here
+      // means the runner itself broke. Reporting "0 completed" and nothing else
+      // would read as a batch that quietly did nothing.
       showToast(
-        `The batch could not run: ${runnerError instanceof Error ? runnerError.message : 'unknown error'}`,
+        `The batch could not run: ${outcome.runnerError instanceof Error ? outcome.runnerError.message : 'unknown error'}`,
         'error'
       );
       return;
     }
 
-    summarise(
-      finalProgress?.completed ?? 0,
-      finalProgress?.failed ?? 0,
-      controller.signal.aborted,
-      finalProgress?.fatalError
-    );
+    summarise(outcome.completed, outcome.failed, outcome.aborted, outcome.fatalError);
   };
 
   const handleBulkAction = async (actionType: BulkActionType) => {

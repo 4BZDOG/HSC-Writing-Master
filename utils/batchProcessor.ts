@@ -153,6 +153,45 @@ export const runBatchOperations = async <T>(
     });
   };
 
+  /**
+   * The don't-burst-the-provider gap between calls.
+   *
+   * Two things were wrong with `await new Promise(r => setTimeout(r, 1500))`.
+   *
+   * It was not abortable, so pressing Stop meant sitting out the rest of the
+   * gap before anything acknowledged it — twice over at concurrency 2, where
+   * both workers are asleep. The wait now races the abort signal, so Stop
+   * lands on the next tick.
+   *
+   * And it ran BEFORE the first task as well as between tasks, which is a gap
+   * against a request that has not been made. A single-task batch — one marking
+   * guide, the common case in the studio — spent 1.5s doing nothing before it
+   * started. Pacing is a gap between calls, so the first call of each worker
+   * skips it. Nothing else changes: with the workers started together, the gap
+   * never staggered them anyway, it only ever paced them one after another.
+   */
+  const PACING_MS = 1500;
+  let anyTaskStarted = false;
+
+  const paceBeforeTask = (): Promise<void> => {
+    if (!anyTaskStarted) {
+      anyTaskStarted = true;
+      return Promise.resolve();
+    }
+    if (signal?.aborted) return Promise.resolve();
+    return new Promise<void>((resolveWait) => {
+      const timer = setTimeout(() => {
+        signal?.removeEventListener('abort', onAbort);
+        resolveWait();
+      }, PACING_MS);
+      function onAbort() {
+        clearTimeout(timer);
+        resolveWait();
+      }
+      signal?.addEventListener('abort', onAbort, { once: true });
+    });
+  };
+
   return new Promise((resolve) => {
     let cancelledLogged = false;
 
@@ -207,7 +246,7 @@ export const runBatchOperations = async <T>(
       active++;
 
       try {
-        await new Promise((r) => setTimeout(r, 1500));
+        await paceBeforeTask();
 
         if (signal?.aborted) throw new Error('Aborted');
 

@@ -95,8 +95,23 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
   const [rejectTarget, setRejectTarget] = useState<ModerationItem | null>(null);
   const [approveAllOpen, setApproveAllOpen] = useState(false);
   const [isBulkApproving, setIsBulkApproving] = useState(false);
+  // How far a bulk approve has got. Holding the reviewer in the modal while it
+  // runs (see `canClose`) is only fair if the modal says how long is left.
+  const [bulkProgress, setBulkProgress] = useState<{ done: number; total: number } | null>(null);
 
-  useEscapeKey(isOpen && !busyId && !rejectTarget && !approveAllOpen && !isBulkApproving, onClose);
+  /**
+   * Escape has always been guarded while a decision is in flight. The close
+   * button and the backdrop were not, so a click on either walked away from a
+   * running Approve All — which then kept publishing to the shared library with
+   * nothing on screen to show it or stop it. `canClose` is the one answer all
+   * three read.
+   */
+  const canClose = !busyId && !rejectTarget && !approveAllOpen && !isBulkApproving;
+  const requestClose = () => {
+    if (canClose) onClose();
+  };
+
+  useEscapeKey(isOpen && canClose, onClose);
   useScrollLock(isOpen);
 
   const load = useCallback(async () => {
@@ -134,10 +149,12 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
    * in the queue.
    */
   const handleApproveAllVisible = async () => {
+    const batch = visibleItems;
     setIsBulkApproving(true);
+    setBulkProgress({ done: 0, total: batch.length });
     let done = 0;
     let failed = 0;
-    for (const item of visibleItems) {
+    for (const item of batch) {
       try {
         await decideItem(item, 'approve');
         done++;
@@ -145,8 +162,10 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
       } catch {
         failed++;
       }
+      setBulkProgress({ done: done + failed, total: batch.length });
     }
     setIsBulkApproving(false);
+    setBulkProgress(null);
     showToast(
       failed > 0
         ? `Approved ${done}; ${failed} failed and remain in the queue.`
@@ -184,7 +203,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
       aria-modal="true"
       aria-label="Review queue"
       className="fixed inset-0 z-modal-elevated bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
+      onClick={requestClose}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
@@ -221,9 +240,11 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               />
             </button>
             <button
-              onClick={onClose}
+              onClick={requestClose}
+              disabled={!canClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+              title={canClose ? 'Close' : 'Wait for the decision in flight to finish'}
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
@@ -261,7 +282,9 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                 className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 text-xs font-bold transition-all flex items-center gap-1.5 disabled:opacity-50"
               >
                 <Check className="w-3.5 h-3.5" />
-                {isBulkApproving ? 'Approving…' : `Approve All (${visibleItems.length})`}
+                {isBulkApproving
+                  ? `Approving… ${bulkProgress?.done ?? 0} of ${bulkProgress?.total ?? 0}`
+                  : `Approve All (${visibleItems.length})`}
               </button>
             </div>
           )}

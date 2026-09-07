@@ -1,5 +1,70 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-07 (A batch run you can always leave)
+
+The audit studio pass ended at the studio's own door. This one follows the
+batch machinery out of it — the shared runner, the other surface that drives it,
+and the review queue the studio pushes into.
+
+### 🔒 A modal you could not close, ever
+
+`StarterQuestionsModal` decided whether a run was still going with
+`progress && !progress.isComplete`. `isComplete` does not mean "the run has
+ended"; it means "every task is accounted for", and a run that was **stopped**
+or **halted by the provider** ends with tasks unattempted, so it is false and
+stays false.
+
+The result, reproduced before it was fixed: after pressing Stop, the close
+button is disabled, the Stop button is still on screen and now does nothing, the
+Done button never appears, and `onClose` can never fire. The only way out is to
+reload the page — losing nothing already written, but with no way to know that.
+A bad API key or an exhausted daily quota reaches the same dead end without the
+user pressing anything, and this modal is offered to a teacher straight after a
+syllabus import.
+
+The run is over when the runner returns, which it always does. That is now what
+the modal asks, and a stopped run gets the same "Done" as a finished one,
+because both end with questions written and a person who needs to leave.
+
+### 🧩 One owner for the run lifecycle
+
+`hooks/useBatchRun.ts`. The two batch surfaces had each grown their own version
+of "is a run in flight?" and only one of them was right. The hook holds the
+AbortController, the running and stopping flags, the progress, and the abort on
+unmount — so a surface that forgets any of them is no longer possible to write.
+`ContentAuditModal` moved onto it too, losing its own copy.
+
+### ⏱ Stop now means stop, and the first task starts at once
+
+The runner's 1.5s don't-burst-the-provider gap was a bare `setTimeout` that
+nothing could interrupt, so pressing Stop meant sitting out the remainder before
+anything acknowledged it — twice over at concurrency 2, where both workers are
+asleep in it. The wait races the abort signal now.
+
+It also ran _before_ the first task, which is a gap against a request that has
+not been made. Every batch paid 1.5s before starting, including the one-task
+batches that are the studio's common case. Pacing is a gap between calls, so the
+first call of each worker skips it; with the workers started together the gap
+never staggered them anyway, it only ever paced them one after another.
+
+### 🚪 The review queue's other two ways out
+
+Escape was guarded while a decision was in flight. The close button and the
+backdrop were not — the same defect the audit studio had, in the surface the
+studio pushes into. A click on either walked away from a running **Approve All**
+that then kept publishing to the shared library with nothing on screen to show
+it or stop it. All three now read one `canClose`.
+
+And since holding a reviewer in the modal is only fair if the modal says how
+long is left, Approve All counts: "Approving… 12 of 200" rather than an
+indefinite "Approving…".
+
+### 🔤 A write path into course data that was typed `any`
+
+`StarterQuestionsModal`'s `updateCourses` prop took `(draft: any) => void`, so
+every lookup inside its Immer write was unchecked — against a real
+`Updater<Course[]>` on the other side of the prop. Typed.
+
 ## [Unreleased] - 2026-09-07 (The audit studio, read end to end)
 
 A reliability, performance and design pass over the Syllabus Audit Studio
