@@ -78,24 +78,31 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     fireEvent.click(screen.getByLabelText('Expand Fixture SubTopic'));
     fireEvent.click(screen.getByLabelText('Expand explain a covered dot point'));
 
-    expect(screen.getByText('No Questions')).toBeTruthy(); // empty dot point
-    expect(screen.getByText('No Rubric')).toBeTruthy();
-    expect(screen.getByText('No Samples')).toBeTruthy();
-    expect(screen.getByText('No Outcomes')).toBeTruthy();
+    // The badge, the filter chip and the action button now use one wording per
+    // gap, so each of these appears twice — once on the rail as a chip, once on
+    // the row as a badge. A badge is a <span>; a chip is the <button> around
+    // one. Asserting on the span is what pins the ROW carrying the flag.
+    const badge = (text: string) =>
+      screen.getAllByText(text).find((el) => el.tagName === 'SPAN' && el.closest('[role="tree"]'));
+
+    expect(badge('No Questions')).toBeTruthy(); // empty dot point
+    expect(badge('No Marking Guide')).toBeTruthy();
+    expect(badge('No Samples')).toBeTruthy();
+    expect(badge('No Outcomes')).toBeTruthy();
   });
 
   it('annotates every action button with its true target count for the selection', () => {
     renderStudio();
     selectWholeCourse(); // cascades to all descendants
 
-    expect(screen.getByText('Questions (1)')).toBeTruthy(); // 1 empty dot point
-    expect(screen.getByText('Rubrics (1)')).toBeTruthy();
-    expect(screen.getByText('Samples (1)')).toBeTruthy();
-    expect(screen.getByText('Outcomes (1)')).toBeTruthy();
+    expect(screen.getByText('Write Questions (1)')).toBeTruthy(); // 1 empty dot point
+    expect(screen.getByText('Write Marking Guides (1)')).toBeTruthy();
+    expect(screen.getByText('Draft Samples (1)')).toBeTruthy();
+    expect(screen.getByText('Link Outcomes (1)')).toBeTruthy();
     expect(screen.getByText('Fix All Gaps (4)')).toBeTruthy(); // 1+1+1+1
 
-    // No stored samples anywhere → recalibration has nothing to do and says so.
-    const recal = screen.getByText('Recalibrate (0)').closest('button')!;
+    // No stored samples anywhere → a re-mark has nothing to do and says so.
+    const recal = screen.getByText('Re-mark Samples (0)').closest('button')!;
     expect((recal as HTMLButtonElement).disabled).toBe(true);
   });
 
@@ -105,7 +112,7 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
       (screen.getByText('Fix All Gaps (0)').closest('button') as HTMLButtonElement).disabled
     ).toBe(true);
     expect(
-      (screen.getByText('Questions (0)').closest('button') as HTMLButtonElement).disabled
+      (screen.getByText('Write Questions (0)').closest('button') as HTMLButtonElement).disabled
     ).toBe(true);
   });
 

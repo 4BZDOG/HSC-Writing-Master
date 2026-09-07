@@ -501,3 +501,135 @@ line it cannot see.
 Everything the first pass left open still stands. Of this pass, finding 7 (the
 middle-dot meta strings, now 65) is still untouched, and the header mark's
 proportion is the one new open question — see finding 8 above.
+
+---
+
+# Third pass: the audit studio
+
+The second pass's finding 9 reached into `ContentAuditModal.tsx` for one line —
+the zero-padded selection count. This pass reads the whole surface, because the
+first pass's own conclusion pointed here: "`font-bold`'s 560 total lives mostly
+in admin dashboards, import wizards and the content studio."
+
+Same commit of the skill (`41bbe19`), now installed at
+`.claude/skills/frontend-design/`.
+
+## What it found
+
+### 11. The header opened on a gradient tile and a tracked-out eyebrow — FIXED
+
+The same shape as finding 8, in a different file, and it had survived that pass
+because that pass was looking at the login page.
+
+`Activity` — a pulse line — in a `bg-gradient-to-br from-indigo-500/20 to-purple-600/20`
+tile with `shadow-indigo-900/20` behind it, then a `t-label md:tracking-[0.5em]`
+eyebrow reading "Content Overview" with a 12px hairline beside it, then the
+title "Content Audit Studio". Three elements before the title, two of which are
+the exact template chrome the skill names, and the eyebrow said nothing the
+title under it did not.
+
+The correction is subtraction rather than a better glyph — the mistake finding 8
+made twice. The studio already has the most characteristic thing in its world on
+screen: a ring showing how many syllabus dot points carry a question. That is
+live NESA data, it is the whole reason the surface exists, and it was sitting to
+the right as the third element in an instrument cluster. Removing the tile and
+the eyebrow leaves it as the one strong element on the header, with the title
+flush left against it.
+
+**Checked on screen, not only in the diff**, because the last two passes to
+touch a hero mark both got it wrong in a way only a screenshot showed:
+1600×950 captures at dark, at light, and mid-run. Nothing reflowed, the title
+sits flush left where the tile was, and the dial is the only strong element
+left on the header. No pixel measurement was taken and none is claimed.
+
+### 12. Copy that named the storage rather than the thing — FIXED
+
+> Name things by what users will understand in simple language, not by how the
+> system is built.
+
+| Was                                                                                                                                             | Now                                                                                                                                                                        |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Analytical overview of curriculum coverage. Detect resource gaps and perform bulk synthesis to align content with NESA performance standards." | "Every syllabus dot point, and what each of its questions is still missing — a marking guide, sample answers, linked outcomes. Pick a scope and fill the gaps in one run." |
+| "Content Units / Questions"                                                                                                                     | "Questions"                                                                                                                                                                |
+| "Proof Data / Samples"                                                                                                                          | "Sample answers"                                                                                                                                                           |
+| "Overall Health · 4 / 4 Points"                                                                                                                 | "Dot points covered · 4 of 4"                                                                                                                                              |
+
+Each metric had been carrying its own gloss on a second line — "Content Units"
+above the number, "Questions" beside it — which is the tell that the first line
+was not the name.
+
+### 13. One thing under three names, and buttons that named nouns — FIXED
+
+> An action keeps the same name through the whole flow, so the button that says
+> "Publish" produces a toast that says "Published."
+
+On one screen: the chip said **No Marking Guide**, the row badge said **No
+Rubric**, the button said **Rubrics**. "Rubric" appears nowhere else in the
+app's interface — five other surfaces say "Marking Guide".
+
+Every gap now has one wording across chip, badge and button, and the buttons
+lead with their verb:
+
+| Was                   | Now                        |
+| --------------------- | -------------------------- |
+| `Questions (12)`      | `Write Questions (12)`     |
+| `Rubrics (8)`         | `Write Marking Guides (8)` |
+| `Revise (4)`          | `Reformat Guides (4)`      |
+| `Samples (5)`         | `Draft Samples (5)`        |
+| `Outcomes (3)`        | `Link Outcomes (3)`        |
+| `Recalibrate (12)`    | `Re-mark Samples (12)`     |
+| `Screen Quality (40)` | `Score Quality (40)`       |
+
+Title case was kept. The skill asks for sentence case; `DesignSpec.md` is the
+authority where they disagree, and the app's buttons are Title Case everywhere
+("Export PDF", "Clear Selection", "Marking Guide"). Changing nine buttons in one
+modal would have made this screen the inconsistent one.
+
+**The rename is what makes the row badges honest.** `AuditPieces.tsx` claimed
+its badges were "colour-matched to the filter chips above" — a promise nothing
+held, because both sets of classes were written out by hand at each site. The
+colour is now one entry per gap in `AUDIT_TONE`, read by both.
+
+### 14. A label above content that already named itself — FIXED
+
+> Adding unnecessary typographic labels above content.
+
+`AI Operations`, set above a row of buttons that each now open with a verb. Off.
+
+### 15. The chips had no light theme — FIXED
+
+Ten chips and every row badge at `text-red-400` / `text-amber-400` /
+`text-teal-400` with no `light:` counterpart, on `light:bg-white`. The app's own
+pattern was two components away (`Export JSON`:
+`text-emerald-400 light:text-emerald-700`) and had not been applied here.
+`AUDIT_TONE` now carries both themes for all nine tones, so the quality floor —
+"visually accessible" — holds in the theme the app is not designed in.
+
+## Checked and left alone
+
+- **`font-black ... italic` display headings.** 16 sites across the app; this is
+  the house display treatment, not drift. `DesignSpec.md` §4 owns it.
+- **The `animate-shimmer` on the progress bar.** Non-user-triggered motion, but
+  it answers a running batch and stops when the batch does — the case the skill
+  makes room for ("motion that answers a person's action … shows what changed").
+- **`hover:scale-[1.03]` on the action buttons.** The codebase's haptic button
+  standard, per `.claude/skills/hsc-feature.md` §6.
+- **Red / amber / emerald on the coverage figures.** These are band-ramp hues on
+  a percentage, which is open question 1 above, and the spec's owner has already
+  answered its twin: context disambiguates.
+- **`min-w-[700px]` on the tree.** It forces a horizontal scroll below 700px.
+  This is a system-admin surface; a tree of five columns is not a phone screen,
+  and faking it would cost more than the case is worth.
+
+## What this pass changed that the skill did not ask for
+
+Recorded because the two were done in one sitting and should not be conflated:
+the reliability, performance and accessibility work in the same change is
+listed in `changeLog.md` under 2026-09-07, and is pinned by
+`tests/unit/contentAuditStudioRobustness.test.tsx`.
+
+The design findings above are pinned only by the screenshots and by the
+vocabulary assertions in `tests/unit/contentAuditStudio.test.tsx`, which now
+name the buttons by their new labels. There is no mechanical gate on "one
+wording per gap" — the honest version of that gate is `AUDIT_FILTERS` being the
+only place a label is written, which is structural rather than tested.

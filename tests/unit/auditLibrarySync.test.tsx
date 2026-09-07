@@ -85,7 +85,12 @@ const fixture: Course[] = [
   },
 ] as unknown as Course[];
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  // The repair outbox now survives a reload, which means it also survives
+  // between tests in this file unless it is cleared.
+  window.localStorage.clear();
+});
 
 describe('Content Audit Studio — sync repairs to the shared library', () => {
   it('queues repaired prompts and pushes them (with samples) as pending contributions', async () => {
@@ -104,7 +109,7 @@ describe('Content Audit Studio — sync repairs to the shared library', () => {
 
     // Repair the prompt's rubric (it has none) via a real batch run.
     fireEvent.click(screen.getByLabelText('Select Sync Course'));
-    fireEvent.click(screen.getByText('Rubrics (1)'));
+    fireEvent.click(screen.getByText('Write Marking Guides (1)'));
 
     // The batch has a 1.5s pre-task delay; wait for the outbox to fill.
     const syncBtn = await screen.findByRole(
@@ -159,7 +164,7 @@ describe('Content Audit Studio — sync repairs to the shared library', () => {
     );
 
     fireEvent.click(screen.getByLabelText('Select Sync Course'));
-    fireEvent.click(screen.getByText('Rubrics (1)'));
+    fireEvent.click(screen.getByText('Write Marking Guides (1)'));
     const syncBtn = await screen.findByRole(
       'button',
       { name: /sync to library \(1\)/i },
