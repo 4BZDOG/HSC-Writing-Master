@@ -46,3 +46,6 @@ courseData/exported/
 
 # PDF sample renders (npm run samples:pdf)
 .pdf-samples
+
+# Vercel CLI link state (`vercel link` writes orgId / projectId here)
+.vercel

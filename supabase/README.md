@@ -4,8 +4,12 @@ This folder contains the foundation for moving the HSC AI Evaluator from
 per-browser IndexedDB storage to a **shared, multi-user database** that grows
 over time from both admin and user contributions.
 
-> **Status:** scaffolding only. These files do **not** change the running app
-> yet — they stand up the database so the app can be wired to it next.
+> **Status:** live. The app uses Supabase for auth, the shared curriculum, AI
+> quotas, responses and billing whenever it is configured, and falls back to
+> IndexedDB mock mode when it is not. (This line used to say "scaffolding
+> only"; the ✅ markers further down are the accurate record of what is
+> wired.) Deployment sits in [`../DEPLOYMENT.md`](../DEPLOYMENT.md); the
+> click-by-click setup is [`../projectDocs/SUPABASE_SETUP.md`](../projectDocs/SUPABASE_SETUP.md).
 
 ## What's here
 
@@ -201,7 +205,7 @@ export SEED_ADMIN_ID="<uuid from step 3>"               # optional but recommend
 node supabase/seed.mjs
 ```
 
-The script reads `courseData/manifest.json`, imports each `course` file, and
+The script reads `public/courseData/manifest.json`, imports each `course` file, and
 upserts on the original string ids (`legacy_id`) so it's **safe to re-run** —
 edit your JSON and re-seed to refresh the built-in content.
 
@@ -215,10 +219,11 @@ The seed pipeline is the curated, version-controlled half of "grow the project
 over time" (the contribution loop above is the organic half). To add more
 courses and worked samples as reusable examples:
 
-1. Drop a new course JSON file into `courseData/` (same shape as the existing
-   files — a `Course[]` array, or a single `Course`).
-2. Add an entry to `courseData/manifest.json` (`{ "file": "...", "type":
-"course", "subject": "..." }`).
+1. Drop a new course JSON file into `public/courseData/` (same shape as the
+   existing files — a `Course[]` array, or a single `Course`). It lives under
+   `public/` so the build ships it.
+2. Add an entry to `public/courseData/manifest.json` (`{ "file": "...",
+"type": "course", "subject": "..." }`).
 3. Re-run `node supabase/seed.mjs`. Because it upserts on `legacy_id`, existing
    content is refreshed in place and only the new material is added — re-running
    never duplicates.
@@ -240,8 +245,9 @@ immediately for everyone via the read path. Two natural follow-ups:
   It writes one JSON file per approved course (plus a `manifest.fragment.json`)
   in the app's native shape, keyed on the same `legacy_id`s — so re-seeding the
   files you promote is a safe, duplicate-free upsert. `courseData/exported/` is
-  git-ignored; move the files you want to keep into `courseData/` and add them
-  to `manifest.json`.
+  git-ignored; move the files you want to keep into `public/courseData/` — the
+  directory the seeder and the build both read — and add them to its
+  `manifest.json`.
 
 - Keep curated example courses in git so the example library is reviewable and
   reproducible across environments, independent of any one database.
@@ -305,7 +311,7 @@ queue.
   `new` → `planned` → `available`, or `declined`.
 
 Both are surfaced in the admin usage dashboard, next to the quota controls —
-the place someone who *can* create a course is already looking.
+the place someone who _can_ create a course is already looking.
 
 ## Classes, and who can see whose work
 

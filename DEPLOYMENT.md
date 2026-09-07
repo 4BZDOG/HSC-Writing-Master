@@ -17,6 +17,93 @@ belong only in the API host's server-side environment variables.
 
 ---
 
+## Which document do you need?
+
+This file is the map: what each hosting option can and cannot do, what every
+variable means, and how to tell a working deployment from one that only looks
+like it. The click-by-click walkthroughs live elsewhere, and there is no point
+duplicating them here.
+
+| You want to…                                       | Read                                                             |
+| -------------------------------------------------- | ---------------------------------------------------------------- |
+| Get the app onto the internet, screen by screen    | [`projectDocs/VERCEL_SETUP.md`](projectDocs/VERCEL_SETUP.md)     |
+| Add real accounts, a shared library, quotas        | [`projectDocs/SUPABASE_SETUP.md`](projectDocs/SUPABASE_SETUP.md) |
+| Understand the database itself, seeding, demo data | [`supabase/README.md`](supabase/README.md)                       |
+| Charge for it                                      | [`docs/stripesetup.md`](docs/stripesetup.md)                     |
+| Know what a school will ask about student data     | [`docs/privacy-for-schools.md`](docs/privacy-for-schools.md)     |
+| Know what every environment variable does          | [`.env.example`](.env.example), and the reference below          |
+
+---
+
+## Before you start
+
+**Node 20 or newer.** The workflows, `vercel.json` and every script assume it;
+`package.json` pins it in `engines`. Check with `node -v`.
+
+```bash
+npm ci --legacy-peer-deps   # what CI and Vercel run — reproduces the lockfile exactly
+npm run test:all            # lint, unit tests, type-check
+npm run build               # the thing that will actually be deployed
+```
+
+**Configure locally before you configure a host.** Copy the template and fill
+in one line:
+
+```bash
+cp .env.example .env.local
+# set GEMINI_API_KEY=… from https://aistudio.google.com/app/apikeys
+npm run dev
+```
+
+Everything else in `.env.example` is commented out deliberately. The app checks
+whether a variable is **set**, not whether it is real, so an uncommented
+placeholder is worse than a missing value — a deployment carrying
+`VITE_SUPABASE_URL=https://your-project.supabase.co` believes it has a Supabase
+project and tries to sign users in against one that does not exist. Uncomment a
+line only when you have the real value for it.
+
+**Audit whatever you end up with:**
+
+```bash
+npm run check:deploy
+```
+
+It reads `.env.local` (and the process environment) and reports the
+combinations this app fails quietly on — a `VITE_` half without its unprefixed
+twin, a provider key that would be published in the bundle, a Stripe key with
+no webhook secret, Supabase configured on one side only. Errors exit non-zero;
+warnings are configurations that are right in some deployments and wrong in
+most, so read them rather than dismissing them. Run it again with `--url` once
+you have deployed — see [After you deploy](#after-you-deploy--verify-it-works).
+
+---
+
+## The order to do it in
+
+Doing these out of order is how deployments end up half configured. Steps 3–5
+are optional; **1, 2 and 6 are not.**
+
+1. **Decide the auth story first**, because everything downstream depends on
+   it. Real accounts (Supabase) or a private demo (guest/demo accounts)? A
+   deployment with no Supabase has an **open** `/api/gemini` — anyone with the
+   URL spends your AI budget — so "we'll add auth later" means "we'll keep it
+   private until later".
+2. **Supabase before the app**, if you are using it. Create the project **in an
+   Australian region — this cannot be changed later** — and run
+   `supabase/schema.sql` in full before pointing anything at it. Then
+   `projectDocs/SUPABASE_SETUP.md`.
+3. **Deploy the app** (Option 1 below, or `projectDocs/VERCEL_SETUP.md`), with
+   all four Supabase variables set, not two.
+4. **Restrict who can get an account** — `VITE_ALLOWED_EMAIL_DOMAINS`, and a
+   single-tenant Entra registration if you enable Microsoft sign-in — _before_
+   the URL is shared with anyone.
+5. **Billing**, if you are selling: `docs/stripesetup.md` and the checklist below.
+6. **Verify against the running deployment**, not against the dashboard you
+   just filled in. `npm run check:deploy -- --url https://…`, then sign in and
+   mark one answer end to end.
+
+---
+
 ## Option 1 — Vercel (recommended: everything works)
 
 The repo is already Vercel-shaped: `vercel.json` is configured, and
@@ -45,6 +132,8 @@ The repo is already Vercel-shaped: `vercel.json` is configured, and
    (that is GitHub Pages only, and would break every asset URL).
 
 4. **Deploy.** Every push to `main` redeploys automatically.
+5. **Verify it.** `npm run check:deploy -- --url https://<your-app>.vercel.app`,
+   then work through [After you deploy](#after-you-deploy--verify-it-works).
 
 > **The unprefixed pair is not a duplicate of the `VITE_` pair.** They hold
 > the same two values but are read by different code, and the server-side
@@ -96,6 +185,8 @@ Unavailable" until you pair it with an API host (below).
    `.github/workflows/deploy-pages.yml` builds with the right sub-path
    (`/<repo>/`), enables the demo accounts, and publishes.
 3. The site appears at `https://<owner>.github.io/<repo>/`.
+4. Verify it — note the base path in the URL:
+   `npm run check:deploy -- --url https://<owner>.github.io/<repo>`.
 
 ### Add working AI to the Pages site (optional)
 
@@ -142,17 +233,30 @@ same way as the Pages option above (`VITE_API_BASE_URL` at build time,
 
 ## What each environment variable does
 
+`.env.example` is the exhaustive reference, with the reasoning for each one.
+This is the subset that decides how a _deployment_ behaves.
+
 **Server-side (API host only — never bundled):**
 
-- `GEMINI_API_KEY` / `OPENROUTER_API_KEY` / `ANTHROPIC_API_KEY` — provider
-  keys used by the proxy. Free-tier notes: Gemini free keys have **no
-  quota for Gemini 3 Pro** — select _Gemini 3 Flash_ for both engine roles
+- `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` / `OPENROUTER_API_KEY` /
+  `GROQ_API_KEY` / `KIMI_API_KEY` — provider keys used by the proxy; only the
+  engine you actually select needs one. Free-tier notes: Gemini free keys have
+  **no quota for Gemini 3 Pro** — select _Gemini 3 Flash_ for both engine roles
   in the admin AI Engine panel; free OpenRouter accounts should select the
-  _Free Models Router_ engine.
+  _Free Models Router_ engine; Groq has a genuinely free tier.
 - `ALLOWED_ORIGIN` — exact origin(s) allowed to call the proxy
-  cross-origin. Unset = same-origin only (default).
+  cross-origin, comma-separated. Scheme + host, no path, no trailing slash;
+  the wildcard `*` is deliberately rejected. Unset = same-origin only (default).
 - `SUPABASE_URL` / `SUPABASE_ANON_KEY` — lets the proxy verify user tokens
-  and enforce per-user daily quotas.
+  and enforce per-user daily quotas. **The anon key, not the service-role key.**
+- `SUPABASE_SERVICE_ROLE_KEY` — bypasses Row-Level Security. Needed only by the
+  Stripe webhook handler and the seed scripts. Never client-side, never in a
+  `VITE_` variable.
+- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_*_PRICE_ID` — billing;
+  see the Stripe checklist above.
+- `MONETISATION_ENABLED`, `PLAN_FEATURE_OVERRIDES`, `FREE_TIER_FULL_FEEDBACK` —
+  the server half of the plan policy. Each needs its `VITE_` twin set to the
+  same value.
 
 **Build-time (safe to expose; anything `VITE_*` ends up in the bundle):**
 
@@ -161,10 +265,34 @@ same way as the Pages option above (`VITE_API_BASE_URL` at build time,
 - `VITE_ENABLE_DEMO_AUTH=true` — allows the demo accounts (admin/admin,
   teacher/teacher, user/user) in production builds. Guest access is always
   available. Leave unset on any deployment where Supabase is configured.
+- `VITE_ALLOWED_EMAIL_DOMAINS` — who may hold an account, by email domain.
+  Governs self-registration **and** SSO. Unset means anyone.
+- `VITE_ENABLE_SIGNUP=false` — removes the "Create one" link where accounts are
+  provisioned centrally.
+- `VITE_OAUTH_PROVIDERS` — which SSO buttons to draw (`google`, `azure`,
+  `github`, or `none`). Each must also be enabled in Supabase; unset draws all
+  three, and a button for a provider Supabase does not have configured fails on
+  click.
 - `VITE_API_BASE_URL` — origin of the AI proxy when it lives on a
   different host than the frontend.
+- `VITE_STATIC_HOSTING=true` — declares "this host has no serverless proxy", so
+  the client switches AI features off rather than failing per call. Set **only**
+  by the Pages workflow; setting it on a host that does have a proxy disables
+  every AI feature.
 - `DEPLOY_BASE_PATH` — sub-path the site is served under (the Pages
-  workflow sets `/<repo>/` automatically; leave unset for root hosting).
+  workflow sets `/<repo>/` automatically; leave unset for root hosting). Must
+  start and end with `/`.
+- `VITE_LEGAL_ENTITY_NAME` / `VITE_LEGAL_CONTACT_EMAIL` /
+  `VITE_LEGAL_JURISDICTION` — whose name goes on the Terms of Use and Privacy
+  Notice. Worth setting before real users agree to them.
+- `BUILD_SOURCEMAPS=true` — re-enables production source maps. Off by default
+  because every deploy path publishes `dist/` wholesale and the maps embed the
+  original TypeScript; if you turn it on, delete `dist/assets/*.map` after
+  uploading them and before deploying.
+
+Run `npm run check:deploy` after setting these. It is built around the
+observation that most of the damage here comes not from a wrong value but from
+a _half_ set of right ones.
 
 ---
 
@@ -272,7 +400,12 @@ plans on the AI, not on the text.
 
 ## Pre-flight checklist
 
+Everything here happens **before** the URL exists or is shared. The checks that
+need a running deployment are in the next section.
+
 - [ ] `npm run test:all` passes locally.
+- [ ] `npm run check:deploy` reports no errors, and you have read the warnings
+      rather than skimmed them.
 - [ ] Keys are set **only** on the server side (Vercel env vars), never in
       the repo or `VITE_*` variables. `.env.local` is gitignored — keep it
       that way.
@@ -289,11 +422,10 @@ plans on the AI, not on the text.
       real. If you enable Entra, pin the app registration to your tenant
       (single-tenant) as well: the env var refuses the session, but only the
       tenant pin stops the account being created at all.
-- [ ] Visit the deployed URL, log in, import the curriculum library, and
-      run one evaluation end-to-end.
-- [ ] If you are selling: work through the Stripe checklist above, and confirm
-      a free account is refused an answer upgrade by the API (not just by the
-      button).
+- [ ] Every variable is set for **both Production and Preview** in the Vercel
+      project. A preview deployment that works and a production one that does
+      not is almost always this.
+- [ ] If you are selling: work through the Stripe checklist above.
 - [ ] **Data residency (irreversible).** The Supabase region is chosen at
       project creation and cannot be changed afterwards — pick an Australian
       one (Sydney, `ap-southeast-2`) for NSW student data. `vercel.json` pins
@@ -305,30 +437,152 @@ plans on the AI, not on the text.
       first. `docs/privacy-for-schools.md` has the per-engine breakdown —
       including that OpenRouter is a broker (the upstream processor depends on
       the slug) and that Kimi K3 is China-operated, not US.
-- [ ] **Prove the AI proxy is actually closed.** With Supabase configured,
-      send an unauthenticated request and confirm it is refused:
 
-      ```bash
-      curl -si -X POST https://<your-app>.vercel.app/api/gemini \
-        -H 'content-type: application/json' -d '{}' | head -1
-      ```
+---
 
-      Expect `401` — the gate is on and refusing an unauthenticated caller.
+## After you deploy — verify it works
 
-      A `503` means the deployment is half configured: the `VITE_SUPABASE_*`
-      pair is set but `SUPABASE_URL` / `SUPABASE_ANON_KEY` are not. The proxy
-      refuses rather than serving openly, and the response body names the two
-      missing variables. Add them and redeploy.
+A green deploy means the build succeeded. It says nothing about whether the
+proxy is closed, the variables reached production, or a student can actually
+get an answer marked. These are the checks that do.
 
-      A `200` or a `400` means no Supabase is configured anywhere, so the gate
-      is off by design and the endpoint is open to the internet — fine for a
-      personal demo, not for anything else. See the warning in the Vercel
-      section above.
+### 1. Automated
 
-- [ ] **Prove the AI proxy is reachable at all.** Log in and run one
-      evaluation. If it fails with "AI is not connected on this deployment",
-      the build was marked as static hosting — `VITE_STATIC_HOSTING` must be
-      unset on Vercel (it is only set by the GitHub Pages workflow).
+```bash
+npm run check:deploy -- --url https://<your-app>.vercel.app
+```
+
+On top of the configuration audit this fetches the deployed site and reports:
+whether the page loads, whether the assets it references resolve (a broken
+`DEPLOY_BASE_PATH` serves fine HTML and 404s every script — a blank page with
+nothing in it to read), whether the bundled curriculum is being served, what an
+**unauthenticated** POST to `/api/gemini` gets back, and — for split hosting —
+whether CORS actually allows your frontend's origin.
+
+On GitHub Pages, include the base path: `--url https://<owner>.github.io/<repo>`.
+
+### 2. Prove the AI proxy is closed
+
+The single check worth doing by hand, because it is the one that costs money if
+it is wrong:
+
+```bash
+curl -si -X POST https://<your-app>.vercel.app/api/gemini \
+  -H 'content-type: application/json' -d '{}' | head -1
+```
+
+| Response      | What it means                                                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `401`         | The gate is on and refusing an unauthenticated caller. This is the answer you want.                                                                                      |
+| `503`         | Half configured: the `VITE_SUPABASE_*` pair is set, `SUPABASE_URL` / `SUPABASE_ANON_KEY` are not. The proxy refuses rather than serving openly, and the body names them. |
+| `200` / `400` | No Supabase anywhere, so the gate is off by design and **the endpoint is open to the internet**. Fine for a personal demo, nothing else.                                 |
+| `404`         | There is no serverless proxy at this origin — a static host (Pages, Netlify). Expected there; a misconfiguration on Vercel.                                              |
+
+### 3. Prove it works for a real user
+
+Nothing above proves a student can use it. Sign in as a normal account — not
+your admin one — and:
+
+- [ ] The curriculum library loads and you can navigate to a question.
+- [ ] Run **one evaluation end to end** and get a mark and feedback back.
+- [ ] The version in the login footer matches the commit you just deployed.
+- [ ] With Supabase: a second sign-in on another device sees the same library.
+- [ ] With billing: confirm a free account is refused an answer upgrade **by the
+      API** (a 402), not merely by a greyed-out button.
+- [ ] With SSO or password accounts: request a password reset and confirm the
+      emailed link lands on "Choose a new password" rather than signing you
+      straight in. If it signs you in, the `?mode=reset` URL is missing from
+      Supabase's redirect allowlist.
+
+If the evaluation fails with **"AI is not connected on this deployment"**, the
+build was marked as static hosting — `VITE_STATIC_HOSTING` must be unset on
+Vercel (only the GitHub Pages workflow sets it).
+
+---
+
+## Updating a running deployment
+
+**Code.** Push to `main`. Vercel rebuilds and promotes automatically; the Pages
+workflow republishes. Nothing else is needed.
+
+**Environment variables are baked in at build time.** Changing one in a
+dashboard changes nothing until you **redeploy**. This is the single most
+common "I set it and it didn't work". Vercel: Deployments → the latest one →
+⋯ → Redeploy.
+
+**Database schema.** `supabase/schema.sql` is written to be re-applied whole,
+and CI proves it: the RLS job applies it twice and asserts the second pass
+mutates nothing. So after pulling a release that adds a section, paste the
+entire file into the SQL editor again — do not try to apply just the new part.
+Sections the app degrades gracefully without (quotas §11, billing §13,
+allowance §14, `caller_plan()` §17) **fail open**, so an unmigrated database
+serves paid features to free accounts rather than erroring. Apply the schema
+before you trust the paywall.
+
+**Local data format.** Adding or changing a stored field means bumping
+`DATA_VERSION` in `utils/storageUtils.ts` with a migration. Users' IndexedDB is
+migrated on next load; deploying a new shape without the bump corrupts existing
+drafts.
+
+**The user agreement.** Bumping `AGREEMENT_VERSION` in `data/legalContent.ts`
+re-prompts every user on next load. Do it when the terms change materially, not
+for a typo.
+
+**Curriculum content.** Files in `public/courseData/` plus an entry in its
+`manifest.json` ship with the build. With Supabase, re-run
+`node supabase/seed.mjs` to push them into the database — it upserts on
+`legacy_id`, so re-running refreshes rather than duplicates.
+
+---
+
+## Rolling back
+
+**Vercel** keeps every previous deployment. Deployments → pick the last good
+one → ⋯ → **Promote to Production**. It is instant and needs no rebuild, which
+makes it the right first move when production breaks: roll back, then diagnose.
+
+**GitHub Pages**: re-run the `Deploy to GitHub Pages` workflow from the last
+good commit (Actions → the run → Re-run all jobs), or revert on `main` and push.
+
+**What does not roll back with the code**, and needs undoing by hand:
+
+- Environment variable changes — they live in the hosting project, not the commit.
+- `schema.sql` changes — Postgres has no undo here. Take a Supabase backup
+  before applying a release that changes the schema.
+- Stripe products, prices and webhook endpoints.
+
+A rollback also reverts the `DATA_VERSION` the code expects while users' browsers
+still hold the migrated shape. Migrations are written forward-only, so prefer
+rolling _forward_ with a fix when a release has already shipped a data migration.
+
+---
+
+## Troubleshooting
+
+| Symptom                                                | Cause                                                                                    | Fix                                                                                                       |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Blank white page, no error on screen                   | Assets 404 — usually `DEPLOY_BASE_PATH` wrong for the host                               | Unset it for root hosting; `/<repo>/` on Pages. `npm run check:deploy -- --url …` names the failing asset |
+| Blank page only in production, fine in dev             | Cross-chunk initialisation order ("Cannot access 'X' before initialization")             | `npm run check:bundle` against `dist/`; it is the CI gate for exactly this                                |
+| Build fails on install                                 | Install command is not the one the lockfile was made with                                | `npm ci --legacy-peer-deps` (already in `vercel.json`)                                                    |
+| Build fails on Node syntax                             | Host is on Node 18 or older                                                              | Node 20+; `engines` in `package.json` declares it                                                         |
+| "AI Service Unavailable"                               | No provider key on the API host, or the key was added without redeploying                | Set `GEMINI_API_KEY`, then **redeploy**                                                                   |
+| "AI is not connected on this deployment"               | `VITE_STATIC_HOSTING=true` in a build that does have a proxy                             | Unset it everywhere except the Pages workflow                                                             |
+| Every AI call returns 503                              | `VITE_SUPABASE_*` set, `SUPABASE_URL` / `SUPABASE_ANON_KEY` not                          | Set the server-side pair to the same values and redeploy                                                  |
+| Every AI call returns 401 while signed in              | Guest session, or the two Supabase pairs point at different projects                     | Sign in properly; confirm both pairs name one project                                                     |
+| AI calls return 429                                    | The caller's daily quota is spent (admin 1000 / teacher 400 / student 60)                | `select set_user_ai_quota('<username>', 200);` or raise the role default                                  |
+| AI calls return 402                                    | Working as intended — free allowance spent, or the feature needs a higher plan           | `select public.set_plan_setting('free_evaluation_limit', 20);`, or adjust `PLAN_FEATURE_OVERRIDES`        |
+| CORS error from a Pages/Netlify frontend               | `ALLOWED_ORIGIN` unset or not an exact origin                                            | Set it on the **API** host to the frontend's origin — scheme + host, no path, no trailing slash, no `*`   |
+| Free users see full feedback (or paid users see locks) | Only one half of a `VITE_`/unprefixed pair is set                                        | `npm run check:deploy` names the pair; set both                                                           |
+| Paid features work for free accounts                   | `schema.sql` §13/§14/§17 not applied — the proxy fails open on a missing function        | Re-apply the whole `schema.sql`                                                                           |
+| SSO button bounces back with an error                  | Provider listed in `VITE_OAUTH_PROVIDERS` but not enabled in Supabase                    | Enable it in Authentication → Providers, or drop it from the list                                         |
+| Password-reset link signs the user straight in         | The `?mode=reset` URL is missing from Supabase's redirect allowlist                      | Add it (a `…/**` wildcard covers it) in Authentication → URL Configuration                                |
+| Payment succeeds, plan stays free                      | Webhook not signed, not pointed at `/api/stripe-webhook`, or no service-role key         | Set `STRIPE_WEBHOOK_SECRET` and `SUPABASE_SERVICE_ROLE_KEY`; check the endpoint                           |
+| Class Insights is empty for a teacher                  | Since schema §19 visibility comes from class enrolment, and failing closed is deliberate | Create a class and enrol the cohort (`create_class`, `enrol_in_class`)                                    |
+| Preview works, production does not                     | Variables set for Preview only                                                           | Tick **Production** as well, then redeploy                                                                |
+| Two deployments fire for every push                    | Vercel's Git integration _and_ `vercel-deploy.yml` are both active                       | Use one. Disconnect the repo in Vercel → Settings → Git, or delete the workflow                           |
+| Green "Deploy to Production" but nothing was published | The Netlify job skips cleanly when its secrets are absent                                | Expected unless you use Netlify — read the warning in the job log                                         |
+
+---
 
 ## Google & Microsoft (SSO) sign-in
 

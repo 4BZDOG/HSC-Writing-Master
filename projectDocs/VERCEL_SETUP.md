@@ -25,6 +25,9 @@ no server to call and will show "AI Service Unavailable".
 - An AI provider key (at minimum, a **Gemini API key** from
   [aistudio.google.com/app/apikeys](https://aistudio.google.com/app/apikeys)).
 - The project builds locally: run `npm run test:all` and confirm it passes.
+- Node 20 or newer (`node -v`).
+- `npm run check:deploy` reports no errors for the configuration you intend
+  to paste into Vercel.
 
 ---
 
@@ -364,4 +367,11 @@ The repo includes `.github/workflows/vercel-deploy.yml`. To use it:
   quotas — see `projectDocs/SUPABASE_SETUP.md`.
 - **Monitor usage** — the admin dashboard shows AI call counts and costs per
   engine once Supabase is connected.
-- **Add Sentry** (optional) — set `VITE_SENTRY_DSN` for error tracking.
+- **Verify the deployment properly** — `npm run check:deploy -- --url
+https://your-project.vercel.app` probes the running site: the auth gate on
+  `/api/gemini`, asset resolution, CORS, and the bundled curriculum. See
+  `DEPLOYMENT.md` → "After you deploy".
+- **Error tracking is not wired up.** `@sentry/react` is a dependency and
+  `VITE_SENTRY_DSN` is declared in `vite-env.d.ts`, but nothing imports Sentry
+  and nothing reads the DSN — setting it does nothing today. See
+  `projectDocs/Plan-DeploymentReadiness.md`.
