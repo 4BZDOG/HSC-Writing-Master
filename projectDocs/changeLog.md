@@ -1,5 +1,56 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-07 (A roll you can read, and take someone off)
+
+The follow-up the previous entry left open. Wiring `enrol_in_class` gave a
+teacher a way to build a class and no way to correct one: enrolment upserts, so
+a mistyped username became a permanent member — counted in the cohort's
+averages, visible in its figures, for the life of the class. And nobody could
+see the roll at all, because `list_my_classes` returns a member COUNT: a teacher
+could be told they had 28 students and never learn which 28.
+
+### 🗄 Schema §24
+
+Two functions, both on the same rule as `enrol_in_class` — a class's own staff,
+which admins pass too:
+
+- **`list_class_members`** — the roll, by username, display name and role.
+  SECURITY DEFINER because §19 narrowed `profiles_read` to `can_view_student`,
+  and a class's staff must be able to see a member who has not submitted
+  anything yet. That student is exactly the one a teacher is looking for.
+- **`remove_from_class`** — the undo. Removing someone who is not on the roll is
+  a no-op rather than an error (the caller's intent is already satisfied, and a
+  second click after a slow first one should not read as a failure), while an
+  unknown username raises. So does the class's OWNER: they live on
+  `classes.owner_id` rather than in `class_members`, so a delete would affect
+  zero rows and look like it had worked. Reassigning a class is `create_class`,
+  which is admin-gated for the reason §19 gives.
+
+Nothing here alters a table, so an existing deployment just runs the section.
+
+### 👥 The roll on screen
+
+Class Insights shows who is enrolled while the roll controls are open, with
+co-teachers marked, and a remove control on each. Removal goes through the
+shared `ConfirmationModal` and says what it costs: the student's marked work is
+kept, but it stops counting towards this class's figures and their progress
+disappears from the teacher's view. A database predating §24 simply shows no
+roll, and enrolment keeps working.
+
+### ✅ Tested where it actually runs
+
+`supabase/tests/class_roll_tests.sql`, wired into the CI job beside the other
+two SQL suites. **`rls_negative_tests.sql` is refusals by construction** — every
+block there expects the privileged action to fail — which is the right shape for
+an authorisation boundary and the wrong one for a feature: a function that
+raised for everyone would pass every test in that file. So the refusals go there
+(reading and removing from a class you do not teach) and the behaviour goes in
+its own file: the roll names its members, removing a non-member is a no-op,
+removal empties the roll, and the owner and an unknown username both raise.
+
+Both suites were run against a real Postgres 16 before pushing, in CI's exact
+order on a clean database, along with the schema re-apply guard.
+
 ## [Unreleased] - 2026-09-07 (The half of class record-keeping that was never wired)
 
 A review of the Supabase-only surfaces — user, teacher and school record

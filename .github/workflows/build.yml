@@ -173,6 +173,7 @@ jobs:
 
           psql -v ON_ERROR_STOP=1 -f supabase/tests/rls_negative_tests.sql
           psql -v ON_ERROR_STOP=1 -f supabase/tests/entitlement_tests.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/tests/class_roll_tests.sql
 
   e2e:
     name: E2E Tests

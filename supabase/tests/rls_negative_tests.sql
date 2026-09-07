@@ -512,6 +512,27 @@ begin
     when sqlstate '42501' or sqlstate 'P0001' then
       raise notice 'PASS: self-enrolment into an unowned class refused';
   end;
+
+  -- §24. Reading another teacher's roll is the same boundary as reading their
+  -- analytics: it names their students, who are exactly who this caller must
+  -- not see.
+  begin
+    perform public.list_class_members('00000000-0000-0000-0000-0000000000f4');
+    raise exception 'TEST FAILED: teacher A read the roll of a class they do not teach';
+  exception
+    when sqlstate '42501' or sqlstate 'P0001' then
+      raise notice 'PASS: class roll refused for a class the caller does not teach';
+  end;
+
+  -- And removing from it. An unguarded remove is worse than an unguarded read:
+  -- it would let one teacher empty another's class.
+  begin
+    perform public.remove_from_class('00000000-0000-0000-0000-0000000000f4', 'cls_student_b');
+    raise exception 'TEST FAILED: teacher A removed a student from another teacher''s class';
+  exception
+    when sqlstate '42501' or sqlstate 'P0001' then
+      raise notice 'PASS: removal from an unowned class refused';
+  end;
 end $$;
 reset role;
 rollback;

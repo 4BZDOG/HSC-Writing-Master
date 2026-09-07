@@ -21,7 +21,13 @@ import {
   type TeachingClass,
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
-import { enrolInClass } from '../../services/classService';
+import {
+  enrolInClass,
+  fetchClassMembers,
+  removeFromClass,
+  type ClassMember,
+} from '../../services/classService';
+import ConfirmationModal from '../ConfirmationModal';
 import { commandTerms } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
 import { rankByWeakness, formatBand, formatMarkFrac, NO_TIER } from '../../utils/classAnalytics';
@@ -140,10 +146,54 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   // Bumped after a successful enrolment so the class list (and its student
   // counts) refetches without reloading the analytics underneath it.
   const [rollReloadKey, setRollReloadKey] = useState(0);
+  // The roll of whichever class the panel is managing. `list_my_classes` gives
+  // a count and no names, so without this a teacher removing someone would be
+  // typing a username blind.
+  const [members, setMembers] = useState<ClassMember[] | null>(null);
+  const [removeTarget, setRemoveTarget] = useState<ClassMember | null>(null);
+
+  /** The class the roll controls act on — the only one, or the chosen one. */
+  const rollTargetId = rollClassId || (classes.length === 1 ? classes[0].id : '');
+
+  useEffect(() => {
+    if (!rollOpen || !rollTargetId) {
+      setMembers(null);
+      return;
+    }
+    let cancelled = false;
+    fetchClassMembers(rollTargetId)
+      .then((rows) => {
+        if (!cancelled) setMembers(rows);
+      })
+      .catch(() => {
+        // Non-fatal: a database predating §24 has no `list_class_members`, so
+        // the roll is simply not shown and enrolment still works.
+        if (!cancelled) setMembers(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [rollOpen, rollTargetId, rollReloadKey]);
+
+  const handleRemove = async () => {
+    if (!removeTarget || !rollTargetId) return;
+    const { username } = removeTarget;
+    setRemoveTarget(null);
+    setIsEnrolling(true);
+    try {
+      await removeFromClass(rollTargetId, username);
+      showToast(`${username} removed from the class.`, 'success');
+      setRollReloadKey((k) => k + 1);
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'The removal failed.', 'error');
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
 
   const handleEnrol = async () => {
     const username = rollUser.trim();
-    const targetClass = rollClassId || (classes.length === 1 ? classes[0].id : '');
+    const targetClass = rollTargetId;
     if (!targetClass) {
       showToast('Pick the class to enrol them in.', 'info');
       return;
@@ -400,6 +450,52 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                 </div>
               )}
 
+              {/* The roll itself. Shown only while the controls are open, so it
+                  does not push the analytics down the page for the teacher who
+                  came to read them. */}
+              {rollOpen && members !== null && (
+                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-3">
+                  {members.length === 0 ? (
+                    <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
+                      Nobody is enrolled yet. Add a student above and they will appear in these
+                      figures once their work is marked.
+                    </p>
+                  ) : (
+                    <>
+                      <p className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-2">
+                        {members.length} on the roll
+                      </p>
+                      <ul className="flex flex-wrap gap-1.5">
+                        {members.map((m) => (
+                          <li
+                            key={m.username}
+                            className="flex items-center gap-1.5 pl-2.5 pr-1 py-1 rounded-lg bg-[rgb(var(--color-bg-surface))] light:bg-white border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 text-xs"
+                          >
+                            <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                              {m.display_name}
+                            </span>
+                            {m.role === 'co_teacher' && (
+                              <span className="t-label text-[rgb(var(--color-accent))]">
+                                co-teacher
+                              </span>
+                            )}
+                            <button
+                              onClick={() => setRemoveTarget(m)}
+                              disabled={isEnrolling}
+                              aria-label={`Remove ${m.username} from the class`}
+                              title={`Remove ${m.username} from the class`}
+                              className="p-1 rounded-lg text-[rgb(var(--color-text-dim))] hover:text-red-500 hover:bg-red-500/10 transition-colors disabled:opacity-40"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              )}
+
               {classes.length > 1 && (
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
@@ -595,6 +691,24 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
           )}
         </div>
       </div>
+
+      {/* Removal is destructive and not undoable from here — re-enrolling is a
+          different action with a different result (a student's earlier work
+          rejoins the cohort, but their place in it was gone in between). The
+          shared confirmation names who, and where from. */}
+      <ConfirmationModal
+        isOpen={removeTarget !== null}
+        onClose={() => setRemoveTarget(null)}
+        onConfirm={handleRemove}
+        title="Remove from the class?"
+        message={
+          removeTarget
+            ? `${removeTarget.display_name} (${removeTarget.username}) will come off this class's roll. Their marked work is kept, but it stops counting towards this class's figures and you will no longer see their progress. You can enrol them again.`
+            : ''
+        }
+        confirmButtonText="Remove"
+        isDestructive
+      />
     </div>,
     document.body
   );
