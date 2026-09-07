@@ -14,7 +14,6 @@ import {
   SampleAnswer,
 } from '../../types';
 import { outcomesForYear, yearOfTopic } from '../../utils/syllabusYear';
-import { LEVEL_ICON_TINT } from '../../utils/levelColors';
 import {
   buildTopicExportPayload,
   filterDataBySelection,
@@ -27,23 +26,19 @@ import {
   TreeNode,
   VisibilityFilter,
   BulkActionType,
+  AUDIT_FILTERS,
   buildAuditTree,
+  countFilterMatches,
+  matchesFilter,
   isEmptyDotPoint,
   needsSamples,
   needsRubric,
   hasNonStandardRubric,
   needsOutcomes,
   hasSamplesToRecalibrate,
-  isLowQuality,
-  isFlagged,
-  hasExemplarMismatch,
 } from './contentAudit/auditModel';
-import {
-  InstrumentMetric,
-  AuditActionButton,
-  FilterChip,
-  GapBadges,
-} from './contentAudit/AuditPieces';
+import { InstrumentMetric, AuditActionButton, FilterChip } from './contentAudit/AuditPieces';
+import AuditTreeRow from './contentAudit/AuditTreeRow';
 import TopicImportModal from '../TopicImportModal';
 import ConfirmationModal from '../ConfirmationModal';
 import {
@@ -82,16 +77,9 @@ import {
   ChevronDown,
   CheckSquare,
   Square,
-  FileText,
   X,
-  Folder,
-  Layers,
-  Hash,
-  BookOpen,
   Filter,
   Terminal,
-  PieChart,
-  Activity,
   Link2,
   Search,
   RotateCcw,
@@ -103,10 +91,55 @@ import {
   AlertTriangle,
   Download,
   Trash2,
-  Target,
 } from 'lucide-react';
 
 // --- Types ---
+
+/**
+ * A question the studio repaired locally and has not yet pushed to the shared
+ * library. `label` is carried so the sync log can name it even if the question
+ * has since been reworded.
+ */
+interface TouchedPrompt {
+  promptAppId: string;
+  dotPointAppId: string;
+  label: string;
+}
+
+const OUTBOX_STORAGE_KEY = 'hsc.contentAudit.syncOutbox.v1';
+
+/**
+ * Read/write helpers for the repair outbox. Both swallow storage failures: a
+ * browser with storage disabled must still be able to run the studio, it just
+ * loses the across-reload half of the guarantee. Anything unreadable is
+ * discarded rather than crashing the modal on open.
+ */
+const readOutbox = (): TouchedPrompt[] => {
+  try {
+    const raw = window.localStorage.getItem(OUTBOX_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (e): e is TouchedPrompt =>
+        !!e &&
+        typeof e === 'object' &&
+        typeof (e as TouchedPrompt).promptAppId === 'string' &&
+        typeof (e as TouchedPrompt).dotPointAppId === 'string'
+    );
+  } catch {
+    return [];
+  }
+};
+
+const writeOutbox = (entries: TouchedPrompt[]): void => {
+  try {
+    if (entries.length === 0) window.localStorage.removeItem(OUTBOX_STORAGE_KEY);
+    else window.localStorage.setItem(OUTBOX_STORAGE_KEY, JSON.stringify(entries));
+  } catch {
+    /* storage unavailable — the in-memory outbox still works for this session */
+  }
+};
 
 interface ContentAuditModalProps {
   isOpen: boolean;
@@ -142,14 +175,27 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // mode the admin then syncs them through contributionService as `pending`
   // contributions, keeping the moderation loop as the single publish path.
   // Keyed by prompt app-id so repeated repairs to one prompt dedupe.
-  const touchedRef = useRef<
-    Map<string, { promptAppId: string; dotPointAppId: string; label: string }>
-  >(new Map());
+  const touchedRef = useRef<Map<string, TouchedPrompt>>(new Map());
   const [pendingSyncCount, setPendingSyncCount] = useState(0);
+
+  /**
+   * The outbox survives a reload.
+   *
+   * It used to live only in this ref, so an admin who repaired fifty questions
+   * and then refreshed — or closed the tab, or lost the container — lost the
+   * queue with no warning and no way to tell which repairs had never reached
+   * the library. The repairs themselves were safe in IndexedDB; only the record
+   * of what still needed pushing was gone, which is the part that cannot be
+   * reconstructed by looking at the data.
+   */
+  const persistOutbox = () => {
+    setPendingSyncCount(touchedRef.current.size);
+    writeOutbox(Array.from(touchedRef.current.values()));
+  };
 
   const recordTouch = (promptAppId: string, dotPointAppId: string, label: string) => {
     touchedRef.current.set(promptAppId, { promptAppId, dotPointAppId, label });
-    setPendingSyncCount(touchedRef.current.size);
+    persistOutbox();
   };
   const [progress, setProgress] = useState<BatchProgress | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -158,10 +204,31 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const abortControllerRef = useRef<AbortController | null>(null);
   const logsEndRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * The live library, for tasks that run long after they were built.
+   *
+   * A batch task captured `courses` and its own `node.dataRef` at assembly
+   * time, then ran minutes later against whatever the AI returned in between —
+   * so under "Fix All Gaps" the sample-answer task drafted from a copy of the
+   * question that predated the marking guide the same run had just written for
+   * it. Tasks resolve their question through this ref at action time instead,
+   * which also lets them stop cleanly when the question was deleted mid-run.
+   */
+  const coursesRef = useRef(courses);
+  coursesRef.current = courses;
+
   // Escape closes the studio — but never while a batch is running (that
   // needs an explicit Stop so no run is abandoned by a stray key press).
   useEscapeKey(isOpen && !isProcessing, onClose);
   useScrollLock(isOpen);
+
+  /**
+   * Filtering the tree walks every node and lowercases every label; at ~1,500
+   * nodes that is enough to make each keystroke in the search box feel like it
+   * lands late. Deferring the query lets React paint the typed character first
+   * and re-filter behind it.
+   */
+  const deferredSearchQuery = React.useDeferredValue(searchQuery);
 
   const treeData = useMemo(() => buildAuditTree(courses), [courses]);
 
@@ -177,49 +244,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     return map;
   }, [treeData]);
 
-  const counts = useMemo(() => {
-    let emptyDotPoints = 0;
-    let missingSamples = 0;
-    let unEnriched = 0;
-    let missingOutcomes = 0;
-    let missingRubrics = 0;
-    let nonStandardRubrics = 0;
-    let hasSamples = 0;
-    let lowQuality = 0;
-    let flagged = 0;
-    let exemplarMismatch = 0;
-    let verbAbsent = 0;
-
-    flatMap.forEach((node) => {
-      if (node.type === 'dotPoint' && node.stats.questions === 0) emptyDotPoints++;
-      if (node.type === 'prompt') {
-        if (node.stats.samples === 0) missingSamples++;
-        if (node.stats.enriched === 0) unEnriched++;
-        if (node.stats.missingOutcomes > 0) missingOutcomes++;
-        if (node.stats.missingMarkingCriteria > 0) missingRubrics++;
-        if (node.stats.rubricNotDescending > 0) nonStandardRubrics++;
-        if (node.stats.verbNotInQuestion > 0) verbAbsent++;
-        if (node.stats.samples > 0) hasSamples++;
-        if (isLowQuality(node)) lowQuality++;
-        if (isFlagged(node)) flagged++;
-        if (hasExemplarMismatch(node)) exemplarMismatch++;
-      }
-    });
-
-    return {
-      emptyDotPoints,
-      missingSamples,
-      unEnriched,
-      missingOutcomes,
-      missingRubrics,
-      nonStandardRubrics,
-      hasSamples,
-      lowQuality,
-      flagged,
-      exemplarMismatch,
-      verbAbsent,
-    };
-  }, [flatMap]);
+  /**
+   * The chip counts, derived from the one filter registry rather than from a
+   * second hand-written copy of every predicate. The old block listed eleven
+   * `if`s that had to be kept in step with `filterNode` and `handleSmartSelect`
+   * by hand, and were not.
+   */
+  const counts = useMemo(() => countFilterMatches(flatMap.values()), [flatMap]);
 
   // How many items the CURRENT SELECTION actually targets, per action — so
   // the footer buttons can show what a click will do (and disable when it
@@ -436,33 +467,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   };
 
   const filteredTreeData = useMemo(() => {
-    if (!searchQuery && !activeFilter) return treeData;
+    if (!deferredSearchQuery && !activeFilter) return treeData;
+
+    // Lowercased once rather than once per node — the old form called
+    // `searchQuery.toLowerCase()` inside the comparison for all ~1,500 of them.
+    const needle = deferredSearchQuery.toLowerCase();
 
     const filterNode = (node: TreeNode): TreeNode | null => {
-      const matchesSearch = node.label.toLowerCase().includes(searchQuery.toLowerCase());
-
-      let matchesGap = true;
-      if (activeFilter) {
-        if (activeFilter === 'emptyDotPoints')
-          matchesGap = node.type === 'dotPoint' && node.stats.questions === 0;
-        else if (activeFilter === 'missingSamples')
-          matchesGap = node.type === 'prompt' && node.stats.samples === 0;
-        else if (activeFilter === 'unEnriched')
-          matchesGap = node.type === 'prompt' && node.stats.enriched === 0;
-        else if (activeFilter === 'missingOutcomes')
-          matchesGap = node.type === 'prompt' && node.stats.missingOutcomes > 0;
-        else if (activeFilter === 'missingRubrics')
-          matchesGap = node.type === 'prompt' && node.stats.missingMarkingCriteria > 0;
-        else if (activeFilter === 'rubricNotDescending')
-          matchesGap = node.type === 'prompt' && node.stats.rubricNotDescending > 0;
-        else if (activeFilter === 'verbNotInQuestion')
-          matchesGap = node.type === 'prompt' && node.stats.verbNotInQuestion > 0;
-        else if (activeFilter === 'hasSamples')
-          matchesGap = node.type === 'prompt' && node.stats.samples > 0;
-        else if (activeFilter === 'lowQuality') matchesGap = isLowQuality(node);
-        else if (activeFilter === 'flagged') matchesGap = isFlagged(node);
-        else if (activeFilter === 'exemplarMismatch') matchesGap = hasExemplarMismatch(node);
-      }
+      const matchesSearch = !needle || node.label.toLowerCase().includes(needle);
+      const matchesGap = matchesFilter(node, activeFilter);
 
       // Recursive check for children
       const filteredChildren = (node.children || [])
@@ -487,14 +500,30 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           return node;
         }
         // If we are searching and there's no gap filter, we show the path
-        if (searchQuery && !activeFilter) return node;
+        if (deferredSearchQuery && !activeFilter) return node;
       }
 
       return null;
     };
 
     return treeData.map((node) => filterNode(node)).filter(Boolean) as TreeNode[];
-  }, [treeData, searchQuery, activeFilter]);
+  }, [treeData, deferredSearchQuery, activeFilter]);
+
+  /**
+   * A search or a filter narrows the tree to a handful of rows, and those rows
+   * are only useful expanded — so while either is on, everything shown is open.
+   *
+   * This used to be done by writing every id in the library into `expandedIds`
+   * when a chip was clicked, which had two costs: it built a 1,500-entry Set on
+   * each toggle, and it permanently destroyed whatever the admin had collapsed,
+   * because clearing the filter did not put it back. Deriving it leaves
+   * `expandedIds` as the record of the admin's own choices.
+   */
+  const isNarrowed = !!deferredSearchQuery || !!activeFilter;
+
+  const activeFilterLabel = activeFilter
+    ? (AUDIT_FILTERS.find((f) => f.id === activeFilter)?.label ?? null)
+    : null;
 
   // Ids currently visible in the (search + filter) narrowed tree, so "Select
   // All Filtered" only ever selects what's actually on screen.
@@ -529,28 +558,82 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     logsEndRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [progress?.logs]);
 
-  const toggleSelect = (id: string, checked: boolean) => {
-    if (isProcessing) return;
-    const newSelected = new Set(selectedIds);
-    const node = flatMap.get(id);
-    if (!node) return;
+  /**
+   * Restore the repair outbox when the studio opens, dropping anything whose
+   * question is no longer in the library — a stale entry could otherwise sit in
+   * the queue forever, failing every sync with "Prompt no longer exists
+   * locally" and never clearing, because only a SUCCESSFUL push removes one.
+   */
+  useEffect(() => {
+    if (!isOpen || touchedRef.current.size > 0) return;
+    const restored = readOutbox().filter((entry) => flatMap.has(entry.promptAppId));
+    if (restored.length === 0) {
+      if (readOutbox().length > 0) writeOutbox([]);
+      return;
+    }
+    touchedRef.current = new Map(restored.map((entry) => [entry.promptAppId, entry]));
+    setPendingSyncCount(touchedRef.current.size);
+    writeOutbox(restored);
+  }, [isOpen, flatMap]);
 
-    const toggleNode = (n: TreeNode, isChecked: boolean) => {
-      if (isChecked) newSelected.add(n.id);
-      else newSelected.delete(n.id);
-      if (n.children) n.children.forEach((c) => toggleNode(c, isChecked));
-    };
+  /**
+   * Abandon any run still in flight if the studio unmounts. `handleStop` is the
+   * normal road out, but an unmount (a sign-out, a route change) left the
+   * controller un-aborted and the tasks writing into a component that no longer
+   * exists.
+   */
+  useEffect(
+    () => () => {
+      abortControllerRef.current?.abort();
+    },
+    []
+  );
 
-    toggleNode(node, checked);
-    setSelectedIds(newSelected);
-  };
+  /**
+   * Forget selected ids whose nodes are gone.
+   *
+   * Every consumer of the selection already skips a missing node, so nothing
+   * misfired — but `selectedIds.size` is on screen as the big figure in the
+   * footer, and after "Clear Questions" removed 40 questions it still counted
+   * them. The set only ever shrinks here, so a live node's selection is never
+   * disturbed.
+   */
+  useEffect(() => {
+    setSelectedIds((current) => {
+      if (current.size === 0) return current;
+      const live = new Set([...current].filter((id) => flatMap.has(id)));
+      return live.size === current.size ? current : live;
+    });
+  }, [flatMap]);
 
-  const toggleExpand = (id: string) => {
-    const newExpanded = new Set(expandedIds);
-    if (newExpanded.has(id)) newExpanded.delete(id);
-    else newExpanded.add(id);
-    setExpandedIds(newExpanded);
-  };
+  const toggleSelect = React.useCallback(
+    (id: string, checked: boolean) => {
+      if (isProcessing) return;
+      const node = flatMap.get(id);
+      if (!node) return;
+
+      setSelectedIds((current) => {
+        const newSelected = new Set(current);
+        const toggleNode = (n: TreeNode, isChecked: boolean) => {
+          if (isChecked) newSelected.add(n.id);
+          else newSelected.delete(n.id);
+          if (n.children) n.children.forEach((c) => toggleNode(c, isChecked));
+        };
+        toggleNode(node, checked);
+        return newSelected;
+      });
+    },
+    [flatMap, isProcessing]
+  );
+
+  const toggleExpand = React.useCallback((id: string) => {
+    setExpandedIds((current) => {
+      const newExpanded = new Set(current);
+      if (newExpanded.has(id)) newExpanded.delete(id);
+      else newExpanded.add(id);
+      return newExpanded;
+    });
+  }, []);
 
   const expandAll = () => {
     const all = new Set<string>();
@@ -562,26 +645,27 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const clearSelection = () => setSelectedIds(new Set());
 
+  // Rows under a filter are expanded by derivation (`isNarrowed`), so toggling
+  // one is now only a change of filter — no Set rebuild, and the admin's own
+  // collapsed branches are still collapsed when the filter comes off.
   const handleFilterToggle = (criteria: VisibilityFilter) => {
-    if (activeFilter === criteria) {
-      setActiveFilter(null);
-    } else {
-      setActiveFilter(criteria);
-      // Auto-expand everything that matches
-      const newExpanded = new Set(expandedIds);
-      const traverse = (nodes: TreeNode[]) => {
-        nodes.forEach((n) => {
-          newExpanded.add(n.id);
-          if (n.children) traverse(n.children);
-        });
-      };
-      traverse(treeData);
-      setExpandedIds(newExpanded);
-    }
+    setActiveFilter((current) => (current === criteria ? null : criteria));
   };
 
+  /**
+   * Select everything the active chip is showing.
+   *
+   * The predicate now comes from the filter registry. The hand-written copy
+   * that used to live here had fallen three filters behind the rail —
+   * `verbNotInQuestion`, `flagged` and `exemplarMismatch` matched nothing, so
+   * the button selected zero items and then reported "Selected 0 items for
+   * optimisation" as though that were a result.
+   */
   const handleSmartSelect = (criteria: VisibilityFilter) => {
     if (!criteria) return;
+    const definition = AUDIT_FILTERS.find((f) => f.id === criteria);
+    if (!definition) return;
+
     const newSelected = new Set<string>();
     const newExpanded = new Set<string>(expandedIds);
 
@@ -589,51 +673,26 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       // Only select items currently visible under the active search + filter,
       // not every match in the whole library.
       if (!filteredIds.has(node.id)) return;
+      if (!definition.matches(node)) return;
 
-      let match = false;
-      if (criteria === 'emptyDotPoints' && node.type === 'dotPoint' && node.stats.questions === 0)
-        match = true;
-      if (criteria === 'missingSamples' && node.type === 'prompt' && node.stats.samples === 0)
-        match = true;
-      if (criteria === 'unEnriched' && node.type === 'prompt' && node.stats.enriched === 0)
-        match = true;
-      if (
-        criteria === 'missingOutcomes' &&
-        node.type === 'prompt' &&
-        node.stats.missingOutcomes > 0
-      )
-        match = true;
-      if (
-        criteria === 'missingRubrics' &&
-        node.type === 'prompt' &&
-        node.stats.missingMarkingCriteria > 0
-      )
-        match = true;
-      if (
-        criteria === 'rubricNotDescending' &&
-        node.type === 'prompt' &&
-        node.stats.rubricNotDescending > 0
-      )
-        match = true;
-      if (criteria === 'hasSamples' && node.type === 'prompt' && node.stats.samples > 0)
-        match = true;
-      if (criteria === 'lowQuality' && isLowQuality(node)) match = true;
-
-      if (match) {
-        newSelected.add(node.id);
-        let current = node;
-        while (current.parentId) {
-          newExpanded.add(current.parentId);
-          const parent = flatMap.get(current.parentId);
-          if (parent) current = parent;
-          else break;
-        }
+      newSelected.add(node.id);
+      let current = node;
+      while (current.parentId) {
+        newExpanded.add(current.parentId);
+        const parent = flatMap.get(current.parentId);
+        if (parent) current = parent;
+        else break;
       }
     });
 
     setSelectedIds(newSelected);
     setExpandedIds(newExpanded);
-    showToast(`Selected ${newSelected.size} items for optimisation.`, 'success');
+    showToast(
+      newSelected.size === 0
+        ? `Nothing on screen matches "${definition.label}".`
+        : `Selected ${newSelected.size} item${newSelected.size === 1 ? '' : 's'} under "${definition.label}".`,
+      newSelected.size === 0 ? 'info' : 'success'
+    );
   };
 
   const handleStop = () => {
@@ -652,13 +711,31 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   // Each returns the batch task(s) that repair one kind of gap on one node.
   // Both the single-action buttons and "Fix All Gaps" compose from these.
 
-  const findDraftPrompt = (draft: Course[], path: StatePath) =>
-    draft
+  const findPromptIn = (courses: Course[], path: StatePath) =>
+    courses
       .find((c) => c.id === path.courseId)
       ?.topics.find((t) => t.id === path.topicId)
       ?.subTopics.find((st) => st.id === path.subTopicId)
       ?.dotPoints.find((dp) => dp.id === path.dotPointId)
       ?.prompts.find((p) => p.id === path.promptId);
+
+  const findDraftPrompt = findPromptIn;
+
+  /**
+   * The question as it stands NOW, not as it stood when the batch was
+   * assembled. A run of 200 tasks takes minutes and rewrites the library as it
+   * goes; reading `node.dataRef` at that point returns the question as it was
+   * before any of it happened.
+   */
+  const livePrompt = (path: StatePath): Prompt | undefined =>
+    findPromptIn(coursesRef.current, path);
+
+  /** The same, but a missing question stops the task instead of skipping it silently. */
+  const requireLivePrompt = (path: StatePath): Prompt => {
+    const prompt = livePrompt(path);
+    if (!prompt) throw new Error('The question was deleted before this task ran.');
+    return prompt;
+  };
 
   /**
    * The outcomes an AI may link a question to, for a question anywhere in the
@@ -674,9 +751,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     description: `Generating question: ${node.label.slice(0, 30)}...`,
     action: async () => {
       const path = node.path;
-      const course = courses.find((c) => c.id === path.courseId);
+      const course = coursesRef.current.find((c) => c.id === path.courseId);
       const topic = course?.topics.find((t) => t.id === path.topicId);
-      if (!course || !topic) return;
+      if (!course || !topic) throw new Error('The topic was deleted before this task ran.');
 
       const dp = node.dataRef as DotPoint;
       const syllabusVerbInfo = extractCommandVerb(dp.description);
@@ -731,7 +808,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     id: `sa-${node.id}`,
     description: `Drafting sample answer: ${node.label.slice(0, 30)}...`,
     action: async () => {
-      const prompt = node.dataRef as Prompt;
+      // Read live: under "Fix All Gaps" the marking guide for this same
+      // question is written earlier in the run, and the exemplar should be
+      // drafted against it rather than against the gap it replaced.
+      const prompt = requireLivePrompt(node.path);
       const answer = await generateSampleAnswer(prompt, prompt.totalMarks, []);
       updateCourses((draft) => {
         const p = findDraftPrompt(draft, node.path);
@@ -747,11 +827,11 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeRubricTask = (node: TreeNode): BatchTask<void> => ({
     id: `rubric-${node.id}`,
-    description: `Synthesising rubric: ${node.label.slice(0, 30)}...`,
+    description: `Writing marking guide: ${node.label.slice(0, 30)}...`,
     action: async () => {
-      const prompt = node.dataRef as Prompt;
-      const course = courses.find((c) => c.id === node.path.courseId);
-      if (!course) return;
+      const prompt = requireLivePrompt(node.path);
+      const course = coursesRef.current.find((c) => c.id === node.path.courseId);
+      if (!course) throw new Error('The course was deleted before this task ran.');
       const rubric = await generateRubricForPrompt(prompt, outcomesForNode(course, node.path));
       updateCourses((draft) => {
         const p = findDraftPrompt(draft, node.path);
@@ -764,9 +844,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeRubricRevisionTask = (node: TreeNode): BatchTask<void> => ({
     id: `revise-rubric-${node.id}`,
-    description: `Revising rubric: ${node.label.slice(0, 30)}...`,
+    description: `Reformatting marking guide: ${node.label.slice(0, 30)}...`,
     action: async () => {
-      const prompt = node.dataRef as Prompt;
+      const prompt = requireLivePrompt(node.path);
       if (!prompt.markingCriteria) return;
       const revised = await reviseRubricForPrompt(prompt, prompt.markingCriteria);
       updateCourses((draft) => {
@@ -782,9 +862,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     id: `link-${node.id}`,
     description: `Linking outcomes: ${node.label.slice(0, 30)}...`,
     action: async () => {
-      const prompt = node.dataRef as Prompt;
-      const course = courses.find((c) => c.id === node.path.courseId);
-      if (!course) return;
+      const prompt = requireLivePrompt(node.path);
+      const course = coursesRef.current.find((c) => c.id === node.path.courseId);
+      if (!course) throw new Error('The course was deleted before this task ran.');
       const suggested = await suggestOutcomesForPrompt(
         prompt.question,
         outcomesForNode(course, node.path),
@@ -808,17 +888,24 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
     return prompt.sampleAnswers.map((sample) => ({
       id: `recal-${sample.id}`,
-      description: `Recalibrating sample (Band ${verbTier} rules): ${node.label.slice(0, 20)}...`,
+      // Tier, not band: `verbTier` is the command verb's cognitive tier, which
+      // is what caps the band. Calling it "Band 4" in the log said the sample
+      // was being marked to Band 4.
+      description: `Recalibrating sample (tier ${verbTier} rules): ${node.label.slice(0, 20)}...`,
       action: async () => {
+        const current = requireLivePrompt(node.path);
+        const liveSample = (current.sampleAnswers ?? []).find((s) => s.id === sample.id);
+        if (!liveSample) throw new Error('The sample answer was deleted before this task ran.');
+
         // 1. Create a clean calibration prompt without existing samples to prevent bias
-        const calibrationPrompt = { ...prompt, sampleAnswers: [] };
+        const calibrationPrompt = { ...current, sampleAnswers: [] };
 
         // 2. Ask AI to evaluate the Mark (quality), passing the Tier context
-        const result = await evaluateAnswer(sample.answer, calibrationPrompt, verbInfo);
+        const result = await evaluateAnswer(liveSample.answer, calibrationPrompt, verbInfo);
 
         // 3. Enforce STRICT band calculation based on the AI's Mark and the Question's Tier.
         // This overrides any band hallucinated by the AI, ensuring structural consistency across the dataset.
-        const strictBand = getBandForMark(result.overallMark, prompt.totalMarks, verbTier);
+        const strictBand = getBandForMark(result.overallMark, current.totalMarks, verbTier);
 
         updateCourses((draft) => {
           const p = findDraftPrompt(draft, node.path);
@@ -846,9 +933,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
    */
   const makeScreeningTask = (node: TreeNode): BatchTask<void> => ({
     id: `screen-${node.id}`,
-    description: `Screening quality: ${node.label.slice(0, 30)}...`,
+    description: `Scoring quality: ${node.label.slice(0, 30)}...`,
     action: async () => {
-      const prompt = node.dataRef as Prompt;
+      const prompt = requireLivePrompt(node.path);
       const quality = await screenContentQuality(prompt.question, 'question');
       // screenContentQuality swallows its own errors; surface that as a
       // failed task rather than silently recording nothing.
@@ -860,6 +947,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           p.qualityNotes = quality.notes;
         }
       });
+      // The score is one of the things `handleSyncToLibrary` carries, and the
+      // outbox is what decides whether a question is ever pushed — so a
+      // screened question that was never queued could never take its score to
+      // the review queue, which is the only reason the score is stored.
+      if (node.path.promptId && node.path.dotPointId)
+        recordTouch(node.path.promptId, node.path.dotPointId, node.label);
     },
   });
 
@@ -905,6 +998,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     abortControllerRef.current = controller;
 
     let finalProgress: BatchProgress | null = null;
+    let runnerError: unknown;
     try {
       await runBatchOperations(
         tasks,
@@ -915,10 +1009,23 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         },
         controller.signal
       );
+    } catch (err) {
+      // The runner resolves rather than rejects for task failures, so reaching
+      // here means the runner itself broke. Reporting the run as "0 completed"
+      // and nothing else would read as a batch that quietly did nothing.
+      runnerError = err;
     } finally {
       setIsProcessing(false);
       setIsStopping(false);
       abortControllerRef.current = null;
+    }
+
+    if (runnerError) {
+      showToast(
+        `The batch could not run: ${runnerError instanceof Error ? runnerError.message : 'unknown error'}`,
+        'error'
+      );
+      return;
     }
 
     summarise(
@@ -998,7 +1105,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         }
 
         touchedRef.current.delete(t.promptAppId);
-        setPendingSyncCount(touchedRef.current.size);
+        persistOutbox();
       },
     }));
 
@@ -1016,89 +1123,50 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     });
   };
 
+  /**
+   * One branch of the tree, with the semantics a tree is supposed to carry.
+   *
+   * The rows were nested `div`s with buttons in them: a screen reader was told
+   * nothing about depth, about which branches were open, or about what was
+   * selected — all three of which are the whole point of this surface. The
+   * shape is unchanged; `role="tree"`/`treeitem`/`group` plus `aria-level`,
+   * `aria-expanded` and `aria-selected` now describe it. The row itself is a
+   * memoised component, so redrawing this recursion no longer redraws its
+   * contents.
+   */
   const renderNode = (node: TreeNode, level: number = 0) => {
     const isSelected = selectedIds.has(node.id);
-    const isExpanded = expandedIds.has(node.id);
-    const hasChildren = node.children && node.children.length > 0;
-    const coveragePct =
-      node.stats.totalDotPoints > 0
-        ? Math.round((node.stats.coveredDotPoints / node.stats.totalDotPoints) * 100)
-        : 0;
-    const coverageColor =
-      coveragePct < 50 ? 'text-red-400' : coveragePct < 80 ? 'text-amber-400' : 'text-emerald-400';
+    const hasChildren = !!node.children && node.children.length > 0;
+    const isExpanded = hasChildren && (isNarrowed || expandedIds.has(node.id));
 
     return (
-      <div key={node.id} className="relative">
+      <div
+        key={node.id}
+        role="treeitem"
+        aria-label={node.label}
+        aria-level={level + 1}
+        aria-selected={isSelected}
+        aria-expanded={hasChildren ? isExpanded : undefined}
+        className="relative"
+      >
         {level > 0 && (
           <div
+            aria-hidden="true"
             className="absolute left-0 top-0 bottom-0 w-px bg-white/5 light:bg-slate-200"
             style={{ left: `${level * 24 + 23}px` }}
           />
         )}
-        <div
-          className={`flex items-center py-2.5 px-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
-          style={{ paddingLeft: `${level * 24 + 16}px` }}
-        >
-          <button
-            onClick={() => toggleSelect(node.id, !isSelected)}
-            aria-label={`${isSelected ? 'Deselect' : 'Select'} ${node.label}`}
-            className={`mr-4 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
-          >
-            {isSelected ? (
-              <CheckSquare className="w-4 h-4 text-indigo-400" />
-            ) : (
-              <Square className="w-4 h-4 text-slate-500" />
-            )}
-          </button>
-          <button
-            onClick={() => toggleExpand(node.id)}
-            aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
-            className={`mr-2 p-1 text-slate-500 ${hasChildren ? 'visible' : 'invisible'}`}
-          >
-            {isExpanded ? (
-              <ChevronDown className="w-4 h-4" />
-            ) : (
-              <ChevronRight className="w-4 h-4" />
-            )}
-          </button>
-          <div className="flex items-center gap-3 flex-1 min-w-0 mr-4">
-            {node.type === 'course' && <BookOpen className={`w-4 h-4 ${LEVEL_ICON_TINT.course}`} />}
-            {node.type === 'topic' && <Layers className={`w-4 h-4 ${LEVEL_ICON_TINT.topic}`} />}
-            {node.type === 'subTopic' && (
-              <Folder className={`w-4 h-4 ${LEVEL_ICON_TINT.subTopic}`} />
-            )}
-            {node.type === 'dotPoint' &&
-              ((node.dataRef as DotPoint).focusAreas?.length ? (
-                <Target className={`w-4 h-4 ${LEVEL_ICON_TINT.dotPoint}`} />
-              ) : (
-                <Hash className="w-4 h-4 text-slate-600" />
-              ))}
-            {node.type === 'prompt' && <FileText className={`w-4 h-4 ${LEVEL_ICON_TINT.prompt}`} />}
-            <span
-              className={`text-sm truncate font-medium ${node.type === 'course' || node.type === 'topic' ? 'font-black text-white light:text-slate-900 tracking-tight' : 'text-slate-300 light:text-slate-700'}`}
-            >
-              {node.label}
-            </span>
-            <GapBadges node={node} />
-          </div>
-          {node.type !== 'prompt' && (
-            <div
-              className={`t-label hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-lg border border-white/5 light:border-slate-200 ${coverageColor} bg-black/20 light:bg-slate-100`}
-            >
-              <PieChart className="w-3 h-3" /> {coveragePct}%
-            </div>
-          )}
-          <div className="flex items-center gap-6 ml-4 text-[10px] font-bold text-slate-500 font-mono">
-            {node.type !== 'prompt' && (
-              <div className="w-12 text-right">{node.stats.questions} Q</div>
-            )}
-            {node.type !== 'prompt' && (
-              <div className="w-12 text-right">{node.stats.samples} S</div>
-            )}
-          </div>
-        </div>
+        <AuditTreeRow
+          node={node}
+          level={level}
+          isSelected={isSelected}
+          isExpanded={isExpanded}
+          hasChildren={hasChildren}
+          onToggleSelect={toggleSelect}
+          onToggleExpand={toggleExpand}
+        />
         {isExpanded && node.children && (
-          <div>{node.children.map((child) => renderNode(child, level + 1))}</div>
+          <div role="group">{node.children.map((child) => renderNode(child, level + 1))}</div>
         )}
       </div>
     );
@@ -1138,23 +1206,23 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       <div className="flex-shrink-0 max-h-[42vh] overflow-y-auto custom-scrollbar border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-lg light:shadow-lg relative">
         <MeshOverlay opacity="opacity-[0.05]" />
         <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
+          {/* Two accessories came off this header, both named by the
+              frontend-design skill. The tracked-out eyebrow ("Content
+              Overview") said nothing the title below it did not, and the
+              gradient tile held a generic pulse-line glyph — the stock
+              AI-product mark, belonging to no subject, in the position the
+              skill reserves for the most characteristic thing in the subject's
+              world. That position now belongs to the coverage dial on the
+              right, which is live syllabus data rather than an ornament. */}
           <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
-            <div className="w-14 h-14 md:w-20 md:h-20 rounded-tile bg-gradient-to-br from-indigo-500/20 to-purple-600/20 light:from-indigo-100 light:to-purple-100 border border-white/10 light:border-indigo-200 flex items-center justify-center shadow-lg shadow-indigo-900/20 light:shadow-indigo-200/50 shrink-0">
-              <Activity className="w-7 h-7 md:w-10 md:h-10 text-indigo-400" />
-            </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="t-label md:tracking-[0.5em] text-indigo-400 whitespace-nowrap">
-                  Content Overview
-                </span>
-                <div className="h-px w-12 bg-indigo-500/20" />
-              </div>
               <h2 className="text-2xl md:text-4xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
                 Content Audit Studio
               </h2>
               <p className="text-sm text-slate-400 light:text-slate-600 font-medium mt-4 leading-relaxed max-w-lg">
-                Analytical overview of curriculum coverage. Detect resource gaps and perform bulk
-                synthesis to align content with NESA performance standards.
+                Every syllabus dot point, and what each of its questions is still missing — a
+                marking guide, sample answers, linked outcomes. Pick a scope and fill the gaps in
+                one run.
               </p>
             </div>
           </div>
@@ -1190,35 +1258,45 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 </span>
               </div>
               <div>
-                <span className="t-label text-white/50 light:text-slate-500">Overall Health</span>
+                <span className="t-label text-white/50 light:text-slate-500">
+                  Dot points covered
+                </span>
                 <div className="flex items-baseline gap-2">
                   <span className={`text-3xl font-black ${healthColor} tracking-tighter`}>
                     {coveredDotPoints}
                   </span>
                   <span className="t-label text-white/40 light:text-slate-500">
-                    / {totalDotPoints} Points
+                    of {totalDotPoints}
                   </span>
                 </div>
               </div>
             </div>
             <div className="flex items-center">
+              {/* "Content Units" and "Proof Data" named the storage, not the
+                  thing: they are questions and sample answers everywhere else
+                  in the app, and the second line of each metric was already
+                  saying so under the first. */}
               <InstrumentMetric
-                label="Content Units"
+                label="Questions"
                 value={totalQuestions}
-                subValue="Questions"
                 colorClass="text-white light:text-slate-900"
               />
               <InstrumentMetric
-                label="Proof Data"
+                label="Sample answers"
                 value={totalSamples}
-                subValue="Samples"
                 colorClass="text-indigo-400"
               />
             </div>
+            {/* Escape was already blocked during a run, but this button was
+                not — clicking it walked away from a live batch that kept
+                spending AI quota and writing to the library with its progress
+                log and its Stop control gone from the screen. */}
             <button
               onClick={onClose}
+              disabled={isProcessing}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center ml-auto lg:ml-4 mr-2"
+              title={isProcessing ? 'Stop the batch before closing the studio' : 'Close'}
+              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center ml-auto lg:ml-4 mr-2 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
@@ -1231,23 +1309,36 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <div className="relative group/search">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within/search:text-indigo-400 transition-colors" />
               <input
-                type="text"
+                type="search"
+                aria-label="Search the curriculum by course, topic, dot point or question"
                 placeholder="Search curriculum..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-transparent pl-11 pr-4 py-1.5 text-sm text-white light:text-slate-900 placeholder-slate-600 light:placeholder-slate-400 focus:outline-none w-64"
               />
             </div>
-            {(searchQuery || activeFilter) && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setActiveFilter(null);
-                }}
-                className="t-label px-3 py-1.5 text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-2 border-l border-white/5 light:border-slate-300 transition-colors"
-              >
-                <RotateCcw className="w-3.5 h-3.5" /> Reset
-              </button>
+            {isNarrowed && (
+              <>
+                {/* What a narrowed tree is showing, said in numbers. Without it
+                    a filter that matches nothing and a filter that matches
+                    everything look the same until you scroll. */}
+                <span
+                  className="t-label text-slate-500 whitespace-nowrap tabular-nums"
+                  title="Rows in the narrowed tree, out of every row in the library"
+                >
+                  {filteredIds.size} of {flatMap.size}
+                </span>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setActiveFilter(null);
+                  }}
+                  title="Clear the search and the active filter"
+                  className="t-label px-3 py-1.5 text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-2 border-l border-white/5 light:border-slate-300 transition-colors"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" /> Reset
+                </button>
+              </>
             )}
           </div>
 
@@ -1271,92 +1362,26 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
           <div className="h-8 w-px bg-white/5 light:bg-slate-300 mx-2" />
 
-          <FilterChip
-            active={activeFilter === 'emptyDotPoints'}
-            activeStyle="bg-red-500/20 border-red-500/40 text-red-400 shadow-lg"
-            idleStyle="bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10"
-            label="Empty Dot Points"
-            count={counts.emptyDotPoints}
-            onClick={() => handleFilterToggle('emptyDotPoints')}
-          />
-          <FilterChip
-            active={activeFilter === 'missingRubrics'}
-            activeStyle="bg-indigo-500/20 border-indigo-500/40 text-indigo-400 shadow-lg"
-            idleStyle="bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10"
-            label="No Marking Guide"
-            count={counts.missingRubrics}
-            onClick={() => handleFilterToggle('missingRubrics')}
-          />
-          <FilterChip
-            active={activeFilter === 'rubricNotDescending'}
-            activeStyle="bg-orange-500/20 border-orange-500/40 text-orange-400 shadow-lg"
-            idleStyle="bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10"
-            label="Non-Std Rubric"
-            count={counts.nonStandardRubrics}
-            onClick={() => handleFilterToggle('rubricNotDescending')}
-          />
-          {/* The verb the question does not use. Rose rather than another
-              amber: this is the one gap on the rail that changes a student's
-              band ceiling, not just what is missing from the page. */}
-          <FilterChip
-            active={activeFilter === 'verbNotInQuestion'}
-            activeStyle="bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg"
-            idleStyle="bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10"
-            label="Verb Not In Question"
-            count={counts.verbAbsent}
-            onClick={() => handleFilterToggle('verbNotInQuestion')}
-          />
-          <FilterChip
-            active={activeFilter === 'missingSamples'}
-            activeStyle="bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg"
-            idleStyle="bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10"
-            label="Missing Samples"
-            count={counts.missingSamples}
-            onClick={() => handleFilterToggle('missingSamples')}
-          />
-          <FilterChip
-            active={activeFilter === 'missingOutcomes'}
-            activeStyle="bg-pink-500/20 border-pink-500/40 text-pink-400 shadow-lg"
-            idleStyle="bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10"
-            label="Missing Outcomes"
-            count={counts.missingOutcomes}
-            onClick={() => handleFilterToggle('missingOutcomes')}
-          />
-          <FilterChip
-            active={activeFilter === 'hasSamples'}
-            activeStyle="bg-teal-500/20 border-teal-500/40 text-teal-400 shadow-lg"
-            idleStyle="bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10"
-            label="Has Samples"
-            count={counts.hasSamples}
-            onClick={() => handleFilterToggle('hasSamples')}
-          />
-          <FilterChip
-            active={activeFilter === 'lowQuality'}
-            activeStyle="bg-rose-500/20 border-rose-500/40 text-rose-400 shadow-lg"
-            idleStyle="bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10"
-            label="Low Quality"
-            count={counts.lowQuality}
-            title="Questions whose AI quality pre-screen scored below 50 (run Screen Quality to score content)"
-            onClick={() => handleFilterToggle('lowQuality')}
-          />
-          <FilterChip
-            active={activeFilter === 'flagged'}
-            activeStyle="bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-lg"
-            idleStyle="bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10"
-            label="Flagged"
-            count={counts.flagged}
-            title="Questions (or their sample answers) that a user flagged as looking off"
-            onClick={() => handleFilterToggle('flagged')}
-          />
-          <FilterChip
-            active={activeFilter === 'exemplarMismatch'}
-            activeStyle="bg-fuchsia-500/20 border-fuchsia-500/40 text-fuchsia-400 shadow-lg"
-            idleStyle="bg-fuchsia-500/5 border-fuchsia-500/10 text-fuchsia-400 hover:bg-fuchsia-500/10"
-            label="Exemplar Mismatch"
-            count={counts.exemplarMismatch}
-            title="Questions with a sample answer mechanically out of step with the band it claims (e.g. a top-band exemplar far too short) — a no-AI check"
-            onClick={() => handleFilterToggle('exemplarMismatch')}
-          />
+          {/* The rail, rendered from the one filter registry. It used to be
+              ten hand-written chips whose predicates were a third copy of the
+              same logic, and the copy had already fallen behind. Ordered
+              missing-content first, then content that exists but reads wrong,
+              with the toolbar's own rule between the two groups. */}
+          {AUDIT_FILTERS.map((filter, index) => (
+            <React.Fragment key={filter.id}>
+              {index > 0 && AUDIT_FILTERS[index - 1].group !== filter.group && (
+                <div className="h-8 w-px bg-white/5 light:bg-slate-300 mx-1" aria-hidden="true" />
+              )}
+              <FilterChip
+                active={activeFilter === filter.id}
+                tone={filter.tone}
+                label={filter.label}
+                count={counts[filter.id]}
+                title={filter.title}
+                onClick={() => handleFilterToggle(filter.id)}
+              />
+            </React.Fragment>
+          ))}
 
           <div className="flex-1" />
 
@@ -1403,7 +1428,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           {activeFilter && (
             <button
               onClick={() => handleSmartSelect(activeFilter)}
-              className="t-label px-6 h-12 rounded-2xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-200 text-white light:text-indigo-700 hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center gap-2 shadow-lg"
+              disabled={isProcessing || counts[activeFilter] === 0}
+              title="Select every item the active filter is showing"
+              className="t-label px-6 h-12 rounded-2xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-200 text-white light:text-indigo-700 hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center gap-2 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <CheckSquare className="w-4 h-4" /> Select All Filtered
             </button>
@@ -1415,16 +1442,53 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
         <div className="min-w-[700px] pb-40">
           {filteredTreeData.length > 0 ? (
-            filteredTreeData.map((node) => renderNode(node))
+            <div role="tree" aria-multiselectable="true" aria-label="Curriculum">
+              {filteredTreeData.map((node) => renderNode(node))}
+            </div>
           ) : (
+            /* An empty screen is a place to act from. It used to say "No items
+               found / Refine your search or filters" whether the library was
+               empty, the search matched nothing, or a chip had nothing left to
+               show — three different situations and one shrug. */
             <div className="py-40 text-center animate-fade-in">
               <div className="w-24 h-24 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-8 mx-auto shadow-inner">
                 <Filter className="w-12 h-12 text-slate-700 light:text-slate-300" />
               </div>
-              <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
-                No items found
-              </h3>
-              <p className="text-sm text-slate-500 mt-2">Refine your search or filters</p>
+              {treeData.length === 0 ? (
+                <>
+                  <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
+                    No courses to audit
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
+                    Import or create a course first — the studio audits what is already in the
+                    library.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
+                    {activeFilterLabel
+                      ? `Nothing is flagged as “${activeFilterLabel}”`
+                      : 'Nothing matches that search'}
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
+                    {activeFilterLabel && deferredSearchQuery
+                      ? 'The filter and the search have no overlap.'
+                      : activeFilterLabel
+                        ? 'That is the good outcome — nothing in the library has this gap.'
+                        : 'Try a shorter term, or a word from the question itself.'}
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setActiveFilter(null);
+                    }}
+                    className="t-label mt-6 px-5 h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-white/10 light:hover:bg-slate-200 transition-all inline-flex items-center gap-2"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" /> Show the whole library
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -1456,7 +1520,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <span className="text-slate-500">Total: {progress.total}</span>
               </div>
             </div>
-            <div className="flex-1 bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner">
+            <div
+              role="log"
+              aria-live="polite"
+              aria-label="Processing log"
+              className="flex-1 bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner"
+            >
               {progress.fatalError && (
                 <div className="flex items-start gap-3 p-3 mb-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-600 animate-fade-in">
                   <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -1487,21 +1556,42 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           className={`flex items-center justify-between transition-all duration-500 ${isProcessing ? 'h-20 border-t border-white/5 light:border-slate-200' : 'h-full'}`}
         >
           {isProcessing && progress ? (
-            <div className="w-full flex items-center gap-8 animate-fade-in">
-              <div className="flex-1 h-3 bg-black/40 light:bg-slate-100 rounded-full overflow-hidden border border-white/5 light:border-slate-200 p-0.5">
+            <div className="w-full flex items-center gap-6 animate-fade-in">
+              <div className="flex-1 min-w-0">
+                {/* `progress.currentTask` was being computed by the batch runner
+                    and thrown away. During a long run the bar moved and nothing
+                    said which of two hundred questions it was on. */}
+                <div className="flex items-baseline justify-between gap-4 mb-2">
+                  <span className="t-label text-slate-400 light:text-slate-600 truncate">
+                    {progress.currentTask ?? 'Working…'}
+                  </span>
+                  <span className="t-label text-slate-500 tabular-nums whitespace-nowrap">
+                    {progress.completed + progress.failed} of {progress.total}
+                  </span>
+                </div>
                 <div
-                  className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500 relative rounded-full"
-                  style={{
-                    width: `${((progress.completed + progress.failed) / progress.total) * 100}%`,
-                  }}
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={progress.total}
+                  aria-valuenow={progress.completed + progress.failed}
+                  aria-label="Batch progress"
+                  className="h-3 bg-black/40 light:bg-slate-100 rounded-full overflow-hidden border border-white/5 light:border-slate-200 p-0.5"
                 >
-                  <div className="absolute inset-0 bg-white/20 animate-shimmer" />
+                  <div
+                    className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-500 relative rounded-full"
+                    style={{
+                      width: `${progress.total > 0 ? ((progress.completed + progress.failed) / progress.total) * 100 : 0}%`,
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-white/20 animate-shimmer" />
+                  </div>
                 </div>
               </div>
               <button
                 onClick={handleStop}
                 disabled={isStopping}
-                className="t-label px-10 h-10 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Finish the task in flight, then stop the run"
+                className="t-label px-10 h-10 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
               >
                 {isStopping ? 'Stopping…' : 'Stop Process'}
               </button>
@@ -1537,7 +1627,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                         ? 'Uses the app-wide engine selection per call type'
                         : AI_MODELS.find((m) => m.id === batchEngine)?.description
                     }
-                    className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
+                    className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-xl px-3 py-2 text-xs font-medium text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
                   >
                     <option value="default">App Default</option>
                     {AI_MODELS.map((m) => (
@@ -1560,68 +1650,71 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 )}
               </div>
 
+              {/* The "AI Operations" caption above this row is gone: every
+                  button below now leads with its own verb, so the caption was
+                  a label over content that already named itself. The buttons
+                  used to be nouns — "Rubrics (8)" — beside a chip that said
+                  "No Marking Guide" and a row badge that said "No Rubric", for
+                  one thing under three names. */}
               <div className="flex flex-col gap-3 items-end">
-                <span className="t-label text-white/25 light:text-slate-400 mr-1 hidden md:block">
-                  AI Operations
-                </span>
                 <div className="flex gap-2.5 flex-wrap justify-end">
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateQuestions')}
-                    disabled={selectionTargets.questions === 0}
-                    title="Generate a question for each selected empty dot point"
+                    disabled={isProcessing || selectionTargets.questions === 0}
+                    title="Write a question for each selected dot point that has none"
                     colourClass="bg-indigo-600 hover:shadow-indigo-500/25"
-                    label={`Questions (${selectionTargets.questions})`}
+                    label={`Write Questions (${selectionTargets.questions})`}
                   />
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateRubrics')}
-                    disabled={selectionTargets.rubrics === 0}
-                    title="Generate a rubric for each selected question with a missing or non-standard marking guide"
+                    disabled={isProcessing || selectionTargets.rubrics === 0}
+                    title="Write a marking guide for each selected question missing one, or whose guide is non-standard"
                     colourClass="bg-sky-600 hover:shadow-sky-500/25"
-                    label={`Rubrics (${selectionTargets.rubrics})`}
+                    label={`Write Marking Guides (${selectionTargets.rubrics})`}
                   />
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'reviseRubrics')}
-                    disabled={selectionTargets.rubricRevisions === 0}
-                    title="Revise non-standard rubrics into correct descending format while preserving existing criteria"
+                    disabled={isProcessing || selectionTargets.rubricRevisions === 0}
+                    title="Reformat non-standard marking guides into descending mark bands, keeping the criteria they already carry"
                     colourClass="bg-amber-600 hover:shadow-amber-500/25"
-                    label={`Revise (${selectionTargets.rubricRevisions})`}
+                    label={`Reformat Guides (${selectionTargets.rubricRevisions})`}
                   />
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'linkOutcomes')}
-                    disabled={selectionTargets.outcomes === 0}
+                    disabled={isProcessing || selectionTargets.outcomes === 0}
                     title="Suggest syllabus outcomes for each selected question with none linked"
                     colourClass="bg-pink-600 hover:shadow-pink-500/25"
-                    label={`Outcomes (${selectionTargets.outcomes})`}
+                    label={`Link Outcomes (${selectionTargets.outcomes})`}
                     icon={<Link2 className="w-3.5 h-3.5" />}
                   />
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'generateSamples')}
-                    disabled={selectionTargets.samples === 0}
+                    disabled={isProcessing || selectionTargets.samples === 0}
                     title="Draft a full-mark sample answer for each selected question with none"
                     colourClass="bg-purple-600 hover:shadow-purple-500/25"
-                    label={`Samples (${selectionTargets.samples})`}
+                    label={`Draft Samples (${selectionTargets.samples})`}
                   />
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
-                    disabled={selectionTargets.recalibrations === 0}
+                    disabled={isProcessing || selectionTargets.recalibrations === 0}
                     title="Re-mark every existing sample answer under the strict verb/band rules"
                     colourClass="bg-teal-600 hover:shadow-teal-500/25"
-                    label={`Recalibrate (${selectionTargets.recalibrations})`}
+                    label={`Re-mark Samples (${selectionTargets.recalibrations})`}
                     icon={<Scale className="w-3.5 h-3.5" />}
                   />
                   <AuditActionButton
                     onClick={handleBulkAction.bind(null, 'screenQuality')}
-                    disabled={selectionTargets.screenings === 0}
+                    disabled={isProcessing || selectionTargets.screenings === 0}
                     title="AI-score every selected question (0-100) so weak content is flagged, filterable, and triaged in the review queue"
                     colourClass="bg-rose-600 hover:shadow-rose-500/25"
-                    label={`Screen Quality (${selectionTargets.screenings})`}
+                    label={`Score Quality (${selectionTargets.screenings})`}
                     icon={<Gauge className="w-3.5 h-3.5" />}
                   />
                   <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
                   <button
                     onClick={handleBulkAction.bind(null, 'fixAllGaps')}
-                    disabled={selectionTargets.allGaps === 0}
-                    title="One run that fills every gap in the selection: missing questions, rubrics, outcomes and samples"
+                    disabled={isProcessing || selectionTargets.allGaps === 0}
+                    title="One run that fills every gap in the selection: missing questions, marking guides, outcomes and samples"
                     className="t-label px-5 h-11 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-2"
                   >
                     <Wrench className="w-4 h-4" />
@@ -1630,7 +1723,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
                   <button
                     onClick={() => setIsClearConfirmOpen(true)}
-                    disabled={clearTargets.length === 0}
+                    disabled={isProcessing || clearTargets.length === 0}
                     title={
                       clearTargets.length > 0
                         ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`

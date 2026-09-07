@@ -83,7 +83,7 @@ describe('Content Audit Studio — AI quality screening', () => {
     const updateCourses = renderStudio(makeFixture());
 
     fireEvent.click(screen.getByLabelText('Select Screen Course'));
-    const btn = screen.getByRole('button', { name: /screen quality \(1\)/i });
+    const btn = screen.getByRole('button', { name: /score quality \(1\)/i });
     expect((btn as HTMLButtonElement).disabled).toBe(false);
     fireEvent.click(btn);
 
@@ -101,7 +101,7 @@ describe('Content Audit Studio — AI quality screening', () => {
 
   it('is disabled when the selection contains no questions', () => {
     renderStudio(makeFixture());
-    const btn = screen.getByRole('button', { name: /screen quality \(0\)/i });
+    const btn = screen.getByRole('button', { name: /score quality \(0\)/i });
     expect((btn as HTMLButtonElement).disabled).toBe(true);
   });
 
@@ -109,7 +109,7 @@ describe('Content Audit Studio — AI quality screening', () => {
     renderStudio(makeFixture(32, 'Question is too vague to mark.'));
 
     // Filter chip counts it…
-    expect(screen.getByText('Low Quality').closest('button')!.textContent).toContain('1');
+    expect(screen.getByRole('button', { name: /^Low Quality/ }).textContent).toContain('1');
 
     // …and the inline badge appears once the tree is expanded to the prompt.
     fireEvent.click(screen.getByRole('button', { name: /expand all/i }));
@@ -120,16 +120,20 @@ describe('Content Audit Studio — AI quality screening', () => {
 
   it('high-scoring content shows its badge but is NOT counted as low quality', () => {
     renderStudio(makeFixture(88, 'Strong question.'));
-    expect(screen.getByText('Low Quality').closest('button')!.textContent).toContain('0');
+    // A chip reading 0 stays on the rail, so it can still say "nothing here" —
+    // but it is disabled, because clicking it only ever produced an empty tree.
+    const chip = screen.getByRole('button', { name: /^Low Quality/ }) as HTMLButtonElement;
+    expect(chip.textContent).toContain('0');
+    expect(chip.disabled).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: /expand all/i }));
     expect(screen.getByText('AI 88')).toBeTruthy();
   });
 
   it('"Select All Filtered" targets low-quality content via the filter', () => {
     renderStudio(makeFixture(20));
-    fireEvent.click(screen.getByText('Low Quality').closest('button')!);
+    fireEvent.click(screen.getByRole('button', { name: /^Low Quality/ }));
     fireEvent.click(screen.getByRole('button', { name: /select all filtered/i }));
     // One prompt selected → screening/regeneration actions light up for it.
-    expect(screen.getByText('Screen Quality (1)')).toBeTruthy();
+    expect(screen.getByText('Score Quality (1)')).toBeTruthy();
   });
 });

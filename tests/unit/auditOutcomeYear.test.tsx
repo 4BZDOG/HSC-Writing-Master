@@ -56,6 +56,16 @@ const expandTo = (topicName: string) => {
   fireEvent.click(screen.getByLabelText('Expand explain a covered dot point'));
 };
 
+/**
+ * The row badge, not the filter chip. Both say "No Outcomes" now that the chip,
+ * the badge and the action button share one wording per gap; the badge is the
+ * <span> inside the tree, which is what these tests are about.
+ */
+const outcomeBadge = () =>
+  screen
+    .queryAllByText('No Outcomes')
+    .find((el) => el.tagName === 'SPAN' && el.closest('[role="tree"]')) ?? null;
+
 afterEach(cleanup);
 
 describe('the audit reads outcome links against the question’s year', () => {
@@ -75,7 +85,7 @@ describe('the audit reads outcome links against the question’s year', () => {
     renderStudio(courses);
     expandTo('Prelim Topic');
 
-    expect(screen.getByText('No Outcomes')).toBeTruthy();
+    expect(outcomeBadge()).toBeTruthy();
   });
 
   it('accepts the same question once it is linked to its own year’s outcome', () => {
@@ -94,7 +104,7 @@ describe('the audit reads outcome links against the question’s year', () => {
     renderStudio(courses);
     expandTo('Prelim Topic');
 
-    expect(screen.queryByText('No Outcomes')).toBeNull();
+    expect(outcomeBadge()).toBeNull();
   });
 
   it('audits a course that has never labelled its outcomes exactly as before', () => {
@@ -112,6 +122,6 @@ describe('the audit reads outcome links against the question’s year', () => {
     renderStudio(courses);
     expandTo('Prelim Topic');
 
-    expect(screen.queryByText('No Outcomes')).toBeNull();
+    expect(outcomeBadge()).toBeNull();
   });
 });

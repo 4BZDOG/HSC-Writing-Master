@@ -1,5 +1,120 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-07 (The audit studio, read end to end)
+
+A reliability, performance and design pass over the Syllabus Audit Studio
+(`components/admin/ContentAuditModal.tsx` and `components/admin/contentAudit/`).
+
+### 🔁 One definition of every gap, because three had already drifted
+
+The predicate for "this question has no marking guide" existed three times: in
+the header's chip counts, in the tree's filter, and in "Select All Filtered".
+The third copy was three filters behind the other two — `verbNotInQuestion`,
+`flagged` and `exemplarMismatch` matched nothing in it, so clicking Select All
+Filtered under any of those chips selected zero items and then reported
+"Selected 0 items for optimisation" as though that were the answer.
+
+`AUDIT_FILTERS` in `auditModel.ts` is now the single declaration — id, label,
+tooltip, colour tone and predicate — and the chips, the counts, the row badges
+and the selection all read it. A filter can no longer exist in one of them.
+
+`unEnriched` came out with the same sweep. It had a predicate, a count and a
+select branch, and no chip ever rendered it, so nothing could reach it.
+
+### 🗣 One name per thing
+
+The same gap was called three names on one screen: the chip said "No Marking
+Guide", the row badge said "No Rubric", the button said "Rubrics". The rest of
+the app only ever says "Marking Guide". The studio now uses one wording per gap
+throughout, and the buttons lead with the verb — "Write Marking Guides (8)",
+"Draft Samples (5)", "Re-mark Samples (12)", "Score Quality (40)" — so a button
+says what a click does rather than naming the noun it acts on.
+
+### 🚪 A running batch can no longer be walked away from
+
+Escape was already blocked during a run. The close button was not: clicking it
+left the batch running with its progress log and its Stop control gone from the
+screen, still spending AI quota and still writing to the library. Close is now
+disabled while a batch is in flight, and an unmount aborts the run rather than
+leaving tasks writing into a component that no longer exists.
+
+### 📮 The repair queue survives a reload
+
+Repairs land in IndexedDB immediately; the record of which ones still need
+pushing to the shared library lived only in a ref. An admin who repaired fifty
+questions and then refreshed lost that record with no warning — the repairs were
+safe, but nothing knew they were unpushed. The outbox is now persisted, and an
+entry whose question has since been deleted is discarded on restore rather than
+failing every future sync forever (only a successful push clears one).
+
+### 📊 A quality score that could reach the review queue
+
+`makeScreeningTask` wrote `qualityScore` to the prompt and queued nothing, while
+its own comment said the score was "carried to the shared library on sync so
+reviewers can triage" and `handleSyncToLibrary` went to the trouble of packing
+it. Since the outbox decides what is ever pushed, a question that was only
+screened could never take its score anywhere. Screening now queues the question.
+
+### ⏱ Tasks read the library as it is, not as it was
+
+A batch task captured `courses` and its own tree node when the batch was
+assembled, then ran minutes later. Under "Fix All Gaps" that meant the
+sample-answer task drafted its exemplar from a copy of the question that
+predated the marking guide the same run had just written for it. Tasks now
+resolve the question at action time, which also lets them fail cleanly when it
+was deleted mid-run instead of skipping silently.
+
+### ⚡ Four things that were being recomputed for no reason
+
+- `promptHasExemplarMismatch` word-counts and keyword-scans every sample answer
+  (~800 across the shipped courses) and ran from both the counts and the filter,
+  on every change to `courses` — which during a batch is once per completed
+  task. Memoised on the prompt object, so Immer's identity does the invalidating.
+- The command-verb regex was compiled once per prompt per rebuild. There are
+  about thirty distinct verbs; it is cached by verb, with the `g` flag dropped
+  so a shared instance has no `lastIndex` to carry between calls.
+- Each keystroke in the search box re-filtered ~1,500 nodes and redrew all of
+  them. The query is deferred, the needle is lowercased once instead of per
+  node, and the row is a memoised component keyed on node identity.
+- Toggling a filter wrote every id in the library into `expandedIds`. Expansion
+  under a search or filter is derived instead — which also stops the toggle
+  permanently destroying whatever the admin had collapsed.
+
+### ♿ The tree says what it is
+
+`role="tree"` / `treeitem` / `group`, with `aria-level`, `aria-expanded` and
+`aria-selected`; `aria-pressed` on the filter chips; a labelled search field; a
+real `role="progressbar"`; and the processing log as a `role="log"` live region.
+
+### 🧭 Smaller things the pass turned up
+
+- `progress.currentTask` was computed by the batch runner and thrown away. On a
+  200-question run the bar moved and nothing said which question it was on.
+- A filter chip reading 0 was still clickable, and only ever led to the "No
+  items found" screen. It stays on the rail — that it reads 0 is information —
+  but disabled.
+- The empty state said "No items found / Refine your search or filters" whether
+  the library was empty, the search matched nothing, or a chip had nothing left
+  to show. Three situations, one shrug; now three answers and a way out of each.
+- After "Clear Questions" removed 40 questions, the footer's selection figure
+  still counted them. Selected ids are pruned to nodes that still exist.
+- The recalibration log said "Band 4 rules" for what is a command verb's
+  cognitive tier.
+- The chips carried no light-theme colours, so the whole rail sat at
+  `text-*-400` on white.
+
+### 🎨 Two accessories off the header
+
+Measured against `.claude/skills/frontend-design`. The tracked-out eyebrow
+("Content Overview", `tracking-[0.5em]`, hairline beside it) said nothing the
+title under it did not, and the gradient tile held a generic pulse-line glyph —
+the stock AI-product mark, in the position the skill reserves for the most
+characteristic thing in the subject's world. That position now belongs to the
+coverage dial, which is live syllabus data. The blurb was rewritten from
+"perform bulk synthesis to align content with NESA performance standards" into
+what the screen actually does, and "Content Units"/"Proof Data" went back to
+being questions and sample answers.
+
 ## [Unreleased] - 2026-09-02 (Holistic-rewrite mode, and a band-stacking bug)
 
 ### 🧾 A legend for markers that are not on the page

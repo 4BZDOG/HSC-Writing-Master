@@ -24,7 +24,6 @@ export interface TreeNode {
   stats: {
     questions: number;
     samples: number;
-    enriched: number;
     missingOutcomes: number;
     missingMarkingCriteria: number;
     rubricNotDescending: number;
@@ -40,19 +39,29 @@ export interface TreeNode {
   path: StatePath;
 }
 
-export type VisibilityFilter =
+/**
+ * The gap filters the rail offers. Every one of them is declared once in
+ * `AUDIT_FILTERS` below — the chip, the header count and "Select All Filtered"
+ * all read that list, so a filter can no longer exist in one of the three and
+ * be missing from the others.
+ *
+ * `unEnriched` used to be a member here and is gone: it had a predicate, a
+ * count and a select branch, but no chip ever rendered it, so nothing could
+ * reach it.
+ */
+export type AuditFilterId =
   | 'emptyDotPoints'
-  | 'missingSamples'
-  | 'unEnriched'
-  | 'missingOutcomes'
   | 'missingRubrics'
+  | 'missingSamples'
+  | 'missingOutcomes'
   | 'rubricNotDescending'
   | 'verbNotInQuestion'
-  | 'hasSamples'
   | 'lowQuality'
   | 'flagged'
   | 'exemplarMismatch'
-  | null;
+  | 'hasSamples';
+
+export type VisibilityFilter = AuditFilterId | null;
 
 export type BulkActionType =
   | 'generateQuestions'
@@ -112,8 +121,172 @@ export const isFlagged = (n: TreeNode): boolean => {
 // answers is mechanically out of step with the band it claims — a warning-level
 // finding from utils/exemplarAudit (e.g. a top-band exemplar far too short). A
 // no-AI triage list, complementary to the AI quality screen behind `lowQuality`.
-export const hasExemplarMismatch = (n: TreeNode): boolean =>
-  n.type === 'prompt' && promptHasExemplarMismatch(n.dataRef as Prompt);
+/**
+ * Memoised per prompt OBJECT, not per id.
+ *
+ * `promptHasExemplarMismatch` word-counts and keyword-scans every sample answer
+ * it is given — around 800 samples across the shipped courses. It is called
+ * from the header counts and from the filter, and both re-run on every change
+ * to `courses`, which during a batch run is once per completed task. Immer
+ * hands back the SAME object for anything the task did not touch, so keying the
+ * cache on identity re-audits exactly the prompts that actually changed and
+ * nothing else. A WeakMap so a deleted prompt takes its entry with it.
+ */
+const exemplarMismatchCache = new WeakMap<Prompt, boolean>();
+
+export const hasExemplarMismatch = (n: TreeNode): boolean => {
+  if (n.type !== 'prompt') return false;
+  const prompt = n.dataRef as Prompt;
+  const cached = exemplarMismatchCache.get(prompt);
+  if (cached !== undefined) return cached;
+  const result = promptHasExemplarMismatch(prompt);
+  exemplarMismatchCache.set(prompt, result);
+  return result;
+};
+
+/**
+ * The filter rail, declared once.
+ *
+ * There used to be three copies of these predicates — one in the header's
+ * `counts`, one in the modal's `filterNode`, one in `handleSmartSelect` — and
+ * they had already drifted: the third was missing `verbNotInQuestion`,
+ * `flagged` and `exemplarMismatch`, so "Select All Filtered" silently selected
+ * nothing for those three chips and reported "Selected 0 items". One list is
+ * the fix, because it is the only shape in which the three cannot disagree.
+ *
+ * `tone` names the colour family rather than the classes, so the chip and the
+ * matching row badge are coloured from one decision (see AUDIT_TONE in
+ * AuditPieces.tsx).
+ */
+export type AuditTone =
+  | 'red'
+  | 'indigo'
+  | 'amber'
+  | 'pink'
+  | 'orange'
+  | 'rose'
+  | 'fuchsia'
+  | 'violet'
+  | 'teal';
+
+export interface AuditFilterDefinition {
+  id: AuditFilterId;
+  /** The chip's text, and the same words the row badge and the button use. */
+  label: string;
+  /** What the chip is for, in a sentence — shown on hover and to assistive tech. */
+  title: string;
+  tone: AuditTone;
+  matches: (n: TreeNode) => boolean;
+  /**
+   * Missing content the studio can generate, versus content that exists but
+   * looks wrong. The rail is ordered by this and ruled between the two.
+   */
+  group: 'missing' | 'review';
+}
+
+export const AUDIT_FILTERS: AuditFilterDefinition[] = [
+  {
+    id: 'emptyDotPoints',
+    label: 'No Questions',
+    title: 'Syllabus dot points that have no questions at all',
+    tone: 'red',
+    group: 'missing',
+    matches: isEmptyDotPoint,
+  },
+  {
+    id: 'missingRubrics',
+    label: 'No Marking Guide',
+    title: 'Questions with no marking guide to be scored against',
+    tone: 'indigo',
+    group: 'missing',
+    matches: (n) => n.type === 'prompt' && n.stats.missingMarkingCriteria > 0,
+  },
+  {
+    id: 'missingSamples',
+    label: 'No Samples',
+    title: 'Questions with no sample answer to show what the marks look like',
+    tone: 'amber',
+    group: 'missing',
+    matches: needsSamples,
+  },
+  {
+    id: 'missingOutcomes',
+    label: 'No Outcomes',
+    title: 'Questions with no syllabus outcome linked',
+    tone: 'pink',
+    group: 'missing',
+    matches: needsOutcomes,
+  },
+  {
+    id: 'rubricNotDescending',
+    label: 'Guide Format',
+    title: 'Marking guides whose mark bands do not run from highest to lowest',
+    tone: 'orange',
+    group: 'review',
+    matches: hasNonStandardRubric,
+  },
+  {
+    id: 'verbNotInQuestion',
+    label: 'Verb Not In Question',
+    title:
+      'Questions tagged with a command verb their own text never uses — the tag sets the band ceiling, so this one changes what a student can score',
+    tone: 'rose',
+    group: 'review',
+    matches: verbNotInQuestion,
+  },
+  {
+    id: 'lowQuality',
+    label: 'Low Quality',
+    title:
+      'Questions whose AI quality pre-screen scored below 50 (run Score Quality to score content)',
+    tone: 'fuchsia',
+    group: 'review',
+    matches: isLowQuality,
+  },
+  {
+    id: 'flagged',
+    label: 'Flagged',
+    title: 'Questions (or their sample answers) that a user flagged as looking off',
+    tone: 'amber',
+    group: 'review',
+    matches: isFlagged,
+  },
+  {
+    id: 'exemplarMismatch',
+    label: 'Exemplar Mismatch',
+    title:
+      'Questions with a sample answer mechanically out of step with the band it claims (e.g. a top-band exemplar far too short) — a no-AI check',
+    tone: 'violet',
+    group: 'review',
+    matches: hasExemplarMismatch,
+  },
+  {
+    id: 'hasSamples',
+    label: 'Has Samples',
+    title: 'Questions that already carry sample answers — the targets for a re-mark',
+    tone: 'teal',
+    group: 'review',
+    matches: hasSamplesToRecalibrate,
+  },
+];
+
+const FILTER_BY_ID = new Map(AUDIT_FILTERS.map((f) => [f.id, f]));
+
+/** Does this node match the active filter? A null filter matches everything. */
+export const matchesFilter = (node: TreeNode, filter: VisibilityFilter): boolean =>
+  filter === null ? true : (FILTER_BY_ID.get(filter)?.matches(node) ?? true);
+
+/** How many nodes in the tree each chip would show, in one pass over the map. */
+export const countFilterMatches = (nodes: Iterable<TreeNode>): Record<AuditFilterId, number> => {
+  const counts = Object.fromEntries(AUDIT_FILTERS.map((f) => [f.id, 0])) as Record<
+    AuditFilterId,
+    number
+  >;
+  for (const node of nodes) {
+    for (const f of AUDIT_FILTERS) if (f.matches(node)) counts[f.id]++;
+  }
+  return counts;
+};
 
 export const isNonStandardRubric = (criteria: string | undefined): boolean => {
   if (!criteria || criteria.trim().length <= 25) return false; // Handled by missing logic
@@ -139,13 +312,35 @@ export const isNonStandardRubric = (criteria: string | undefined): boolean => {
   return !foundAny;
 };
 
+/**
+ * `createKeywordRegex` expands a term into its morphological variants and
+ * compiles an alternation — real work, and it was being done once per prompt on
+ * every rebuild of the tree, which is once per completed batch task. There are
+ * about thirty distinct command verbs in the whole library, so the answer is
+ * cached by verb.
+ *
+ * The `g` flag is dropped rather than carried: a global regex keeps `lastIndex`
+ * between calls, so a shared instance would return alternating answers for the
+ * same input. That is exactly why the call site used to rebuild the regex each
+ * time; without `g` there is no state to share and the cache is safe.
+ */
+const verbTestCache = new Map<string, RegExp | null>();
+
+const verbTestRegex = (verb: string): RegExp | null => {
+  const cached = verbTestCache.get(verb);
+  if (cached !== undefined) return cached;
+  const source = createKeywordRegex([verb]);
+  const compiled = source ? new RegExp(source.source, source.flags.replace(/g/g, '')) : null;
+  verbTestCache.set(verb, compiled);
+  return compiled;
+};
+
 export const buildAuditTree = (courses: Course[]): TreeNode[] => {
   const mapStats = (nodes: TreeNode[]): TreeNode['stats'] => {
     return nodes.reduce(
       (acc, node) => ({
         questions: acc.questions + node.stats.questions,
         samples: acc.samples + node.stats.samples,
-        enriched: acc.enriched + node.stats.enriched,
         missingOutcomes: acc.missingOutcomes + node.stats.missingOutcomes,
         missingMarkingCriteria: acc.missingMarkingCriteria + node.stats.missingMarkingCriteria,
         rubricNotDescending: acc.rubricNotDescending + node.stats.rubricNotDescending,
@@ -156,7 +351,6 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
       {
         questions: 0,
         samples: 0,
-        enriched: 0,
         missingOutcomes: 0,
         missingMarkingCriteria: 0,
         rubricNotDescending: 0,
@@ -190,37 +384,27 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
                 )
               : [];
 
-            // 2. Keywords
-            const validKeywords = Array.isArray(p.keywords)
-              ? p.keywords.filter((k) => typeof k === 'string' && k.trim().length > 0)
-              : [];
-
-            // 3. Scenario
-            const hasScenario = typeof p.scenario === 'string' && p.scenario.trim().length > 15;
-
-            // 4. Rubric
+            // 2. Marking guide
             const hasRubric =
               typeof p.markingCriteria === 'string' && p.markingCriteria.trim().length > 25;
             const rubricNonStd = isNonStandardRubric(p.markingCriteria);
 
-            // 5. Samples
+            // 3. Samples
             const validSamples = Array.isArray(p.sampleAnswers)
               ? p.sampleAnswers.filter(
                   (sa) => typeof sa.answer === 'string' && sa.answer.trim().length > 30
                 )
               : [];
 
-            // 6. The verb the question actually asks for. Matched with the
+            // 4. The verb the question actually asks for. Matched with the
             //    SAME matcher that drives the highlighting, so the flag and the
             //    colour can never disagree about what counts as present.
-            const verbRegex = p.verb ? createKeywordRegex([p.verb]) : null;
+            const verbRegex = p.verb ? verbTestRegex(p.verb) : null;
             const promptVerbIsAbsent =
               !!p.verb &&
               typeof p.question === 'string' &&
               p.question.trim().length > 0 &&
-              !(verbRegex && new RegExp(verbRegex.source, verbRegex.flags).test(p.question));
-
-            const isEnriched = validKeywords.length > 0 && hasScenario;
+              !(verbRegex && verbRegex.test(p.question));
 
             return {
               id: p.id,
@@ -230,7 +414,6 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
               stats: {
                 questions: 1,
                 samples: validSamples.length,
-                enriched: isEnriched ? 1 : 0,
                 missingOutcomes: validOutcomes.length === 0 ? 1 : 0,
                 missingMarkingCriteria: !hasRubric ? 1 : 0,
                 rubricNotDescending: rubricNonStd ? 1 : 0,
@@ -258,7 +441,6 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
             stats: {
               questions: prompts.length,
               samples: prompts.reduce((sum, p) => sum + p.stats.samples, 0),
-              enriched: prompts.reduce((sum, p) => sum + p.stats.enriched, 0),
               missingOutcomes: prompts.reduce((sum, p) => sum + p.stats.missingOutcomes, 0),
               missingMarkingCriteria: prompts.reduce(
                 (sum, p) => sum + p.stats.missingMarkingCriteria,
