@@ -61,6 +61,13 @@ jobs:
       - name: Check for eager module-init reads
         run: npm run check:eager-reads
 
+      # Fails on a source module nothing imports. Dead modules get read during
+      # reviews, updated by codemods and followed out of greps; one of the four
+      # this gate was added to clear was a second, unwired implementation of
+      # merge logic that already ships.
+      - name: Check for unimported modules
+        run: npm run check:dead-code
+
   build:
     name: Build Project
     runs-on: ubuntu-latest

@@ -1,5 +1,68 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-07 (Dead code, and a gate so it stays dead)
+
+`Plan-NextImprovements-2.md` had two code items left on it. Both are now closed,
+one of them by deciding not to do it.
+
+### 🧹 Four modules nothing imported, one of them worse than dead
+
+The plan named `hooks/useRetry.ts`. A proper sweep found four, and the largest
+was the problem: `utils/importBackupUtils.ts` (7,892 bytes) is a complete,
+unwired snapshot/rollback/merge/diff implementation — a second answer to
+questions `storageUtils.createBackup`, `restoreBackup` and `dataManagerUtils`'
+`mergeOrAddTopic` already answer in the shipping code, where a rolling backup
+is written after every successful save. Dead code is a tax; a dead _duplicate_
+of live logic is a trap, because wiring it up would give the app two merge
+semantics.
+
+Also removed: `data/hscData.ts` (a deprecation shim preserving compatibility
+with no importer), `components/Import.tsx` (39 bytes — one `lucide-react`
+import and nothing else), and the unused `useFormDirty` export.
+
+### 🚧 The sweep is a gate now
+
+The plan filed this as "worth a sweep when something else is open in those
+files", which is how it sat there: a sweep that has to be remembered is a sweep
+that stops happening. `npm run check:dead-code`
+(`scripts/findOrphanModules.mjs`) fails on any module under `components/`,
+`hooks/`, `services/`, `utils/`, `data/`, `pdf/` or `api/` that nothing
+imports. It runs in `test:all` and in CI beside `check:eager-reads`.
+
+A module reachable only from a test counts as live — under test is not unused.
+Entry points are exempt, because nothing imports the root of a graph.
+
+`tests/unit/findOrphanModules.test.ts` holds the guard in both directions, and
+earned its place immediately: the first version of the scanner matched
+`from '…'`, `import(…)` and `require(…)` but **not** a bare
+`import './x'` side-effect import, so it would have reported a live module as
+dead. A false negative leaves dead code; a false positive deletes working code.
+
+### 📉 A keyword lexicon, priced and declined
+
+The plan's item 7 — the matcher cannot double a final consonant that is not
+`-l`, so `commit` → "committed" and `grep` → "grepped" miss — asked for "a small
+lexicon of doubling verbs".
+
+Priced against every keyword the app ships (1,517 distinct terms across the
+three courses), that lexicon buys **two keywords**: `commit` (1 use) and `grep`
+(2 uses). `control` and `model` are already covered by the existing `-l` rule.
+Three occurrences in the whole library, against a hand-maintained word list
+every future curator would have to know to extend.
+
+The earlier impression that this was bigger came from pattern-matching
+consonant-vowel-consonant endings, which catches 117 keywords — almost all
+nouns (`gametes`, `codon`, `comparison`) that never take `-ing`/`-ed`. Doubling
+is a verb rule and the keyword library is mostly nouns. Closed with the number
+rather than left open.
+
+### 🗑 The duplicate course file at the repo root
+
+`HSCEnterpriseComputing09122025.json`, 195KB. Re-measured rather than taken on
+trust: 82 questions, every one of them already in the `public/courseData/` copy,
+and the only code that names that filename (`supabase/demoSeed.mjs`) reads it
+from `public/courseData/`. Deleted.
+
 ## [Unreleased] - 2026-09-07 (A batch run you can always leave)
 
 The audit studio pass ended at the studio's own door. This one follows the

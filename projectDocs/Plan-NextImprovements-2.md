@@ -71,6 +71,11 @@ Measured rather than assumed, and they need opposite answers.
 questions not already in `public/courseData/`**. A pure duplicate, loaded by
 nothing, all 82 still carrying fields retired in #206. **Safe to delete.**
 
+**Re-measured independently and deleted** (195KB). The count held — 82
+questions in each copy, none unique to the root one — and the only reference to
+that filename anywhere is `supabase/demoSeed.mjs`, which reads it from
+`public/courseData/`, not the root.
+
 `projectDocs/HSCSoftwareEngineering_AllTopics.json`: 242 prompts, of which
 **117 exist nowhere else** — whole sub-topics the shipped course does not cover
 (Software automation, Data visualisation, Data science, Intelligent systems).
@@ -98,7 +103,7 @@ That is a smaller and more arguable question than "the app contradicts itself",
 and it still costs a pagination pass against the PDF samples to answer, so it
 stays open rather than being done on the way past.
 
-### 7. The keyword matcher still cannot double a consonant that is not -l — LOW
+### 7. The keyword matcher still cannot double a consonant that is not -l — CLOSED, MEASURED
 
 `commit` → "committed", `grep` → "grepped", `plot` → "plotted" all miss. #205
 reused the existing, guarded `-l`/`-ll` rule rather than adding a blanket CVC
@@ -106,10 +111,42 @@ rule, because a blanket rule derives "codonned" and "relationshipped" from two
 of the commonest nouns in the data. Closing the rest needs a small lexicon of
 doubling verbs, not a wider regex.
 
-### 8. `hooks/useRetry.ts` is 140 lines nobody imports — LOW
+**Then the lexicon was priced, and it does not pay.** Checked against every
+keyword the app actually ships — 1,517 distinct terms across Biology, Software
+Engineering and Enterprise Computing — a doubling-verb list matches **two**:
+`commit` (1 use) and `grep` (2 uses). `control` and `model`, the other two
+candidates, are already covered by the existing `-l` rule. So the whole benefit
+is three keyword occurrences in the library, against a hand-maintained lexicon
+that every future curator would have to know to extend.
 
-Along with `useFormDirty` and a handful of unused barrel re-exports. Dead code
-rather than a defect; worth a sweep when something else is open in those files.
+The first sweep for this looked worse than it is because it pattern-matched
+consonant-vowel-consonant endings and caught 117 keywords — almost all nouns
+(`gametes`, `codon`, `comparison`), which do not take `-ing`/`-ed` at all.
+Doubling is a verb rule; the keyword library is mostly nouns. **Closed. Reopen
+only if a course arrives whose terminology is verb-heavy.**
+
+### 8. `hooks/useRetry.ts` is 140 lines nobody imports — DONE, AND GATED
+
+The sweep found four modules rather than one, and one of them was worse than
+dead. `utils/importBackupUtils.ts` (7,892 bytes) is a complete, unwired
+snapshot/rollback/merge/diff implementation — a second answer to questions
+`storageUtils.createBackup`, `restoreBackup` and `dataManagerUtils`'
+`mergeOrAddTopic` already answer in the shipping code. Wiring it up would have
+given the app two merge semantics; leaving it there invited exactly that.
+
+Removed: `hooks/useRetry.ts`, `utils/importBackupUtils.ts`, `data/hscData.ts`
+(a deprecation shim preserving compatibility with no importer),
+`components/Import.tsx` (39 bytes — a single `lucide-react` import and nothing
+else), and the unused `useFormDirty` export from `hooks/useUnsavedChanges.ts`.
+
+**"Worth a sweep when something else is open in those files" is why this sat
+here**, so the sweep is now a gate: `npm run check:dead-code`
+(`scripts/findOrphanModules.mjs`), in `test:all` and in CI beside
+`check:eager-reads`. A module reachable only from a test counts as live — under
+test is not unused. `tests/unit/findOrphanModules.test.ts` holds it in both
+directions, and earned that immediately: the first version of the scanner
+missed bare `import './x'` side-effect imports and would have condemned a live
+module.
 
 ## Carried over, still open and re-verified
 
@@ -126,3 +163,19 @@ rather than a defect; worth a sweep when something else is open in those files.
 with tools that already exist. 6 has shrunk since this was written — see the
 note there — so the content work is now the whole of the useful list. 4 needs a
 decision from the owner before anything can be done with it.
+
+## What is left after the code items were cleared
+
+7 is closed with a number, 8 is done and gated, and half of 4 is deleted. Every
+remaining item is either **content** — 1, 2, 3 and 5, all curator passes through
+the Content Audit Studio's existing bulk actions, all of which spend real AI
+budget on the owner's own library — or a **decision only the owner can make**:
+
+- **4, the second half.** `projectDocs/HSCSoftwareEngineering_AllTopics.json`
+  holds 117 questions that exist nowhere else, in whole sub-topics the shipped
+  course does not cover (Software automation, Data visualisation, Data science,
+  Intelligent systems), while the shipped course has 59 the file lacks. Two
+  divergent forks with no newer one to keep. Nothing can be deleted or merged
+  until someone decides whether those 117 are wanted.
+- **6, the PDF body face**, which costs a pagination pass against the PDF
+  samples to answer either way.
