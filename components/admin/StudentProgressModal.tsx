@@ -108,10 +108,32 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
 const TREND_W = 320;
 const TREND_H = 60;
 
+/**
+ * An attempt's timestamp as "7 Sep, 14:30" in the reader's own timezone.
+ *
+ * Unlike the cohort chart's UTC date buckets, `TrendPoint.at` is a real instant,
+ * so parsing it as a Date and rendering it locally is correct here — a teacher
+ * asking "when was this attempt" means their clock, not UTC.
+ */
+const formatAttemptDate = (iso: string): string => {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleString('en-AU', {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
 /** Band-over-time sparkline from the per-attempt history (oldest→newest). The
  *  raw band sequence is exposed via aria-label, so it isn't colour/shape-alone. */
 const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
-  const bands = points.map((p) => p.band).filter((b): b is number => b != null);
+  // Keep the whole point, not just the band: the circles need the attempt's
+  // date to be able to say WHEN a band was earned, and filtering to a bare
+  // number array threw that away while leaving the indices looking aligned.
+  const scored = points.filter((p): p is TrendPoint & { band: number } => p.band != null);
+  const bands = scored.map((p) => p.band);
   if (bands.length < 2) return null;
 
   const line = sparklinePoints(bands, { width: TREND_W, height: TREND_H, min: 1, max: 6 });
@@ -152,8 +174,20 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
           strokeLinecap="round"
           className="stroke-[rgb(var(--color-accent))]"
         />
+        {/* The visible mark stays 3px; a transparent 7px target over it is what
+            the pointer actually has to hit, so a band can be read rather than
+            only seen. */}
         {coords.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r={3} className="fill-[rgb(var(--color-accent))]" />
+          <g key={i}>
+            <circle cx={x} cy={y} r={3} className="fill-[rgb(var(--color-accent))]" />
+            <circle cx={x} cy={y} r={7} fill="transparent">
+              <title>
+                {`Attempt ${i + 1} of ${bands.length} · ${formatAttemptDate(scored[i].at)} · Band ${
+                  bands[i]
+                }${scored[i].mark != null ? ` · ${scored[i].mark} marks` : ''}`}
+              </title>
+            </circle>
+          </g>
         ))}
       </svg>
       <div className="mt-1.5 flex items-center gap-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">

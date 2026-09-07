@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
-import { X, BarChart3, RefreshCw, Users, Layers, Gauge, Info, AlertTriangle } from 'lucide-react';
+import {
+  X,
+  BarChart3,
+  RefreshCw,
+  Users,
+  Layers,
+  Gauge,
+  Info,
+  AlertTriangle,
+  UserPlus,
+} from 'lucide-react';
 import {
   fetchClassAnalytics,
   fetchClassCohort,
@@ -11,6 +21,7 @@ import {
   type TeachingClass,
 } from '../../services/responseService';
 import { isCurriculumRemote } from '../../services/curriculumService';
+import { enrolInClass } from '../../services/classService';
 import { commandTerms } from '../../data/commandTerms';
 import { getTierBandConfig } from '../../utils/renderUtils';
 import { rankByWeakness, formatBand, formatMarkFrac, NO_TIER } from '../../utils/classAnalytics';
@@ -112,6 +123,52 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
   // Monotonic id of the newest in-flight load; see `load` below.
   const requestSeq = useRef(0);
 
+  /**
+   * Roll management. `enrol_in_class` is open to a class's own staff — the
+   * schema's words: "once an admin has made you the owner, managing your roll
+   * is your job" — and no client had ever called it, so a teacher could see the
+   * shape of a cohort they had no way to assemble.
+   *
+   * Add-only, because the database has no removal function; a button cannot
+   * rely on one that does not exist on every deployment.
+   */
+  const [rollOpen, setRollOpen] = useState(false);
+  const [rollUser, setRollUser] = useState('');
+  const [rollClassId, setRollClassId] = useState('');
+  const [rollRole, setRollRole] = useState<'student' | 'co_teacher'>('student');
+  const [isEnrolling, setIsEnrolling] = useState(false);
+  // Bumped after a successful enrolment so the class list (and its student
+  // counts) refetches without reloading the analytics underneath it.
+  const [rollReloadKey, setRollReloadKey] = useState(0);
+
+  const handleEnrol = async () => {
+    const username = rollUser.trim();
+    const targetClass = rollClassId || (classes.length === 1 ? classes[0].id : '');
+    if (!targetClass) {
+      showToast('Pick the class to enrol them in.', 'info');
+      return;
+    }
+    if (!username) {
+      showToast('Enter the student\u2019s username.', 'info');
+      return;
+    }
+    setIsEnrolling(true);
+    try {
+      await enrolInClass(targetClass, username, rollRole);
+      const name = classes.find((c) => c.id === targetClass)?.name ?? 'your class';
+      showToast(
+        `${username} enrolled in \u201c${name}\u201d as ${rollRole === 'co_teacher' ? 'a co-teacher' : 'a student'}.`,
+        'success'
+      );
+      setRollUser('');
+      setRollReloadKey((k) => k + 1);
+    } catch (e) {
+      showToast(e instanceof Error ? e.message : 'The enrolment failed.', 'error');
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
+
   useEscapeKey(isOpen, onClose);
   useScrollLock(isOpen);
 
@@ -172,7 +229,11 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
     let cancelled = false;
     fetchMyClasses()
       .then((rows) => {
-        if (!cancelled) setClasses(rows);
+        if (!cancelled) {
+          setClasses(rows);
+          // Preselect when there is no choice to make.
+          if (rows.length === 1) setRollClassId(rows[0].id);
+        }
       })
       .catch(() => {
         /* Non-fatal: without a list the view stays on "all my classes". */
@@ -180,7 +241,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
     return () => {
       cancelled = true;
     };
-  }, [isOpen, remote]);
+  }, [isOpen, remote, rollReloadKey]);
 
   const rows = useMemo(() => {
     if (dimension === 'student') return [];
@@ -260,6 +321,85 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
             <>
               {/* Class scope selector — only when the caller teaches more than
                   one, since a single class needs no choosing. */}
+              {/* Roll management, and the reason the panel might be empty.
+
+                  A teacher sees a student's work because that student is
+                  enrolled in a class the teacher owns — `visible_student_ids`
+                  resolves the whole cohort through class membership. With no
+                  class, every number below is a true zero that no amount of
+                  student work will change, so saying so is the only useful
+                  thing this panel can do in that state. */}
+              {classes.length === 0 ? (
+                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                    You do not teach a class yet
+                  </p>
+                  <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 mt-1 max-w-xl leading-relaxed">
+                    These figures count the students enrolled in classes you own, so until a class
+                    exists they will stay at zero however much work your students do. An
+                    administrator creates classes in the Usage Dashboard and names the teacher who
+                    owns each one; once yours is here, you can add students to it from this panel.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                    Roll
+                  </span>
+                  <button
+                    onClick={() => setRollOpen((open) => !open)}
+                    aria-expanded={rollOpen}
+                    className="px-3 py-1 rounded-lg text-xs font-bold border transition-all bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] flex items-center gap-1.5"
+                  >
+                    <UserPlus className="w-3.5 h-3.5" />
+                    {rollOpen ? 'Close' : 'Add a student'}
+                  </button>
+                  {rollOpen && (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="username"
+                        aria-label="Username to enrol"
+                        value={rollUser}
+                        onChange={(e) => setRollUser(e.target.value)}
+                        className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                      />
+                      {classes.length > 1 && (
+                        <select
+                          aria-label="Class to enrol them in"
+                          value={rollClassId}
+                          onChange={(e) => setRollClassId(e.target.value)}
+                          className="text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 text-[rgb(var(--color-text-secondary))] light:text-slate-700"
+                        >
+                          <option value="">choose class…</option>
+                          {classes.map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                      <select
+                        aria-label="Role to enrol them with"
+                        value={rollRole}
+                        onChange={(e) => setRollRole(e.target.value as 'student' | 'co_teacher')}
+                        className="text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 text-[rgb(var(--color-text-secondary))] light:text-slate-700"
+                      >
+                        <option value="student">as a student</option>
+                        <option value="co_teacher">as a co-teacher</option>
+                      </select>
+                      <button
+                        onClick={handleEnrol}
+                        disabled={isEnrolling}
+                        className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                      >
+                        {isEnrolling ? 'Enrolling…' : 'Enrol'}
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+
               {classes.length > 1 && (
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">

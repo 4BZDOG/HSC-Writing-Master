@@ -25,6 +25,7 @@ import {
   Plus,
   ScrollText,
   Compass,
+  GraduationCap,
 } from 'lucide-react';
 import {
   fetchMyQuotaStatus,
@@ -53,6 +54,8 @@ import {
   type CourseRequestStatus,
 } from '../../services/courseDemandService';
 import { isCurriculumRemote } from '../../services/curriculumService';
+import { createClass, enrolInClass } from '../../services/classService';
+import { fetchMyClasses, type TeachingClass } from '../../services/responseService';
 import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
 import { estCostForModelId, getModelById, getModelByProviderModel } from '../../services/aiModels';
 import {
@@ -235,6 +238,18 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   const [newSchoolLimit, setNewSchoolLimit] = useState('');
   const [memberUser, setMemberUser] = useState('');
   const [memberSchool, setMemberSchool] = useState('');
+  // Classes (schema §19). Same progressive-enhancement rule as schools: null
+  // means `list_my_classes` is absent, so the panel hides rather than claiming
+  // the deployment has no classes. `list_my_classes` returns every class for an
+  // admin (can_view_class short-circuits on is_admin), so this is the whole set.
+  const [classes, setClasses] = useState<TeachingClass[] | null>([]);
+  const [newClassSchool, setNewClassSchool] = useState('');
+  const [newClassName, setNewClassName] = useState('');
+  const [newClassOwner, setNewClassOwner] = useState('');
+  const [newClassYear, setNewClassYear] = useState('12');
+  const [enrolClassId, setEnrolClassId] = useState('');
+  const [enrolUser, setEnrolUser] = useState('');
+  const [enrolRole, setEnrolRole] = useState<'student' | 'co_teacher'>('student');
   // The paywall's headline number, as the DATABASE is enforcing it right now.
   // null = unreadable (mock mode, or a database predating §14) and the control
   // hides rather than offering to change something it cannot read.
@@ -310,6 +325,15 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       setSchoolLimitDrafts({});
     } catch {
       setSchools(null);
+    }
+
+    // Classes, §19. `fetchMyClasses` already swallows the pre-§19 error and
+    // returns [], so an empty list here means "no classes yet" — which is the
+    // state this panel exists to get a deployment out of.
+    try {
+      setClasses(await fetchMyClasses());
+    } catch {
+      setClasses(null);
     }
 
     // Same pattern again: agreement_acceptance_report() is absent on a database
@@ -569,6 +593,53 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       clear
         ? `"${name}" now has no pooled cap — members are only individually limited.`
         : `"${name}" now shares ${limit} calls/day.`
+    );
+  };
+
+  // --- Classes (schema §19) ------------------------------------------------
+  //
+  // The write half of class record-keeping, which the database has had since
+  // §19 and no client has ever called. Without it `visible_student_ids` returns
+  // nothing for a teacher, so every teacher-facing analytic is permanently
+  // empty however much work students do.
+
+  const handleCreateClass = () => {
+    const school = newClassSchool.trim();
+    const name = newClassName.trim();
+    const owner = newClassOwner.trim();
+    if (!school || !name || !owner) {
+      showToast('A class needs a school, a name and an owning teacher.', 'error');
+      return;
+    }
+    const year = newClassYear.trim() === '' ? null : Number.parseInt(newClassYear, 10);
+    if (year !== null && (!Number.isFinite(year) || year < 7 || year > 12)) {
+      showToast('Year must be between 7 and 12, or blank.', 'error');
+      return;
+    }
+    runSchoolAction(async () => {
+      await createClass(school, name, owner, year);
+      setNewClassName('');
+      setNewClassOwner('');
+    }, `Class "${name}" created — ${owner} can now see its students' work.`);
+  };
+
+  const handleEnrol = () => {
+    const username = enrolUser.trim();
+    if (!enrolClassId) {
+      showToast('Pick the class to enrol them in.', 'error');
+      return;
+    }
+    if (!username) {
+      showToast('Enter the username to enrol.', 'error');
+      return;
+    }
+    const className = (classes ?? []).find((c) => c.id === enrolClassId)?.name ?? 'the class';
+    runSchoolAction(
+      async () => {
+        await enrolInClass(enrolClassId, username, enrolRole);
+        setEnrolUser('');
+      },
+      `${username} enrolled in "${className}" as ${enrolRole === 'co_teacher' ? 'a co-teacher' : 'a student'}.`
     );
   };
 
@@ -1166,7 +1237,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       disabled={isBusy}
                       className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
                     >
-                      <Plus className="w-3.5 h-3.5" /> Create
+                      <Plus className="w-3.5 h-3.5" /> Create school
                     </button>
                   </div>
 
@@ -1212,6 +1283,171 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       Remove
                     </button>
                   </div>
+                </section>
+              )}
+
+              {/* Classes — the write half of schema §19, which the database has
+                  had all along and no client has ever called.
+
+                  Without it `visible_student_ids` resolves to nothing for a
+                  teacher, so Class Insights, the cohort heatmap and the Student
+                  Progress roster are permanently empty however much work
+                  students do. Creating a class is admin-only (owning one is what
+                  grants sight of student work), which is why it lives here
+                  rather than in the teacher's own panel. */}
+              {classes !== null && (
+                <section>
+                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                    <GraduationCap className="w-3.5 h-3.5" /> Classes
+                    {classes.length > 0 && (
+                      <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
+                        {classes.length}
+                      </span>
+                    )}
+                  </h3>
+
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-2xl">
+                    A teacher sees a student&apos;s work because they are enrolled in a class that
+                    teacher owns. Until a class exists and has students in it, every class analytic
+                    is empty.
+                  </p>
+
+                  {classes.length > 0 && (
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto mb-3">
+                      <table className="w-full text-left text-sm min-w-[420px]">
+                        <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
+                          <tr>
+                            <th className="px-4 py-2.5">Class</th>
+                            <th className="px-4 py-2.5">School</th>
+                            <th className="px-4 py-2.5 text-right">Year</th>
+                            <th className="px-4 py-2.5 text-right">Students</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                          {classes.map((c) => (
+                            <tr
+                              key={c.id}
+                              className="hover:bg-[rgb(var(--color-bg-surface-light))]/10 light:hover:bg-slate-50"
+                            >
+                              <td className="px-4 py-2.5 font-medium text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                                {c.name}
+                              </td>
+                              <td className="px-4 py-2.5 text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                {c.school}
+                              </td>
+                              <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                {c.year ?? '—'}
+                              </td>
+                              <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                {c.students}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {/* Create a class */}
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      New class:
+                    </span>
+                    <select
+                      aria-label="School for the new class"
+                      value={newClassSchool}
+                      onChange={(e) => setNewClassSchool(e.target.value)}
+                      className="text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 text-[rgb(var(--color-text-secondary))] light:text-slate-700"
+                    >
+                      <option value="">choose school…</option>
+                      {(schools ?? []).map((s) => (
+                        <option key={s.id} value={s.name}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="text"
+                      placeholder="name, e.g. 12BIO1"
+                      aria-label="New class name"
+                      value={newClassName}
+                      onChange={(e) => setNewClassName(e.target.value)}
+                      className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    />
+                    <input
+                      type="text"
+                      placeholder="owning teacher"
+                      aria-label="Username of the teacher who owns the class"
+                      value={newClassOwner}
+                      onChange={(e) => setNewClassOwner(e.target.value)}
+                      className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    />
+                    <input
+                      type="number"
+                      min={7}
+                      max={12}
+                      placeholder="year"
+                      aria-label="Year group for the new class"
+                      value={newClassYear}
+                      onChange={(e) => setNewClassYear(e.target.value)}
+                      className="w-16 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 text-right font-mono outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    />
+                    <button
+                      onClick={handleCreateClass}
+                      disabled={isBusy}
+                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
+                    >
+                      <Plus className="w-3.5 h-3.5" /> Create class
+                    </button>
+                  </div>
+
+                  {/* Enrol someone. Add-only: the database has no removal
+                      function, and a button cannot rely on one that does not
+                      exist on every deployment. */}
+                  {classes.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                        Enrol:
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="username"
+                        aria-label="Username to enrol in a class"
+                        value={enrolUser}
+                        onChange={(e) => setEnrolUser(e.target.value)}
+                        className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                      />
+                      <select
+                        aria-label="Class to enrol them in"
+                        value={enrolClassId}
+                        onChange={(e) => setEnrolClassId(e.target.value)}
+                        className="text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 text-[rgb(var(--color-text-secondary))] light:text-slate-700"
+                      >
+                        <option value="">choose class…</option>
+                        {classes.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.name} · {c.school}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        aria-label="Role to enrol them with"
+                        value={enrolRole}
+                        onChange={(e) => setEnrolRole(e.target.value as 'student' | 'co_teacher')}
+                        className="text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60 text-[rgb(var(--color-text-secondary))] light:text-slate-700"
+                      >
+                        <option value="student">as a student</option>
+                        <option value="co_teacher">as a co-teacher</option>
+                      </select>
+                      <button
+                        onClick={handleEnrol}
+                        disabled={isBusy}
+                        className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                      >
+                        Enrol
+                      </button>
+                    </div>
+                  )}
                 </section>
               )}
 

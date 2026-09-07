@@ -1,5 +1,81 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-07 (The half of class record-keeping that was never wired)
+
+A review of the Supabase-only surfaces — user, teacher and school record
+keeping, and the visualisations over them. Every commit touching them since #159
+had been a cross-cutting sweep (typography, tokens, toasts); none was about what
+they do.
+
+### 🏫 The database could keep class records. The app could not.
+
+Schema §19 gave classes everything: the `classes` and `class_members` tables,
+RLS on both, `can_view_class`, and two functions — `create_class` (admin-only,
+because owning a class is what grants sight of student work) and
+`enrol_in_class` (open to the class's own staff, "once an admin has made you the
+owner, managing your roll is your job"). Both revoked from `public` and granted
+deliberately.
+
+**No client code has ever called either.** Only the read side was wired.
+
+That is not cosmetic. `visible_student_ids` resolves a teacher's cohort THROUGH
+class membership, so a teacher with no class gets an empty Class Insights, an
+empty cohort heatmap and an empty Student Progress roster — a dashboard of zeros
+that no amount of student work will ever fill. Only an admin, who bypasses class
+scoping, saw anything. The demo seeder already knew: it writes `class_members`
+directly with a service-role key, under the comment "a teacher with no class
+sees nothing" — a key no real deployment's admin has in a browser. And
+`CohortBreakdown` has been telling teachers their students must be "enrolled in
+a class you teach" while offering no way to enrol one.
+
+Both halves are wired now, each in the surface the schema's own access rules
+point at:
+
+- **Admins create classes** in the Usage Dashboard, beside the school
+  management that was already there — school, name, owning teacher, year — and
+  can seed a roll.
+- **Teachers manage their own roll** from Class Insights: add a student, or a
+  co-teacher, by username.
+
+Add-only, deliberately: the database has no removal function, and a button
+cannot rely on one that does not exist on every deployment. Recorded as a
+follow-up rather than faked.
+
+### 🫥 Zeros that explain themselves
+
+A teacher who teaches no class no longer gets four zeros and an empty table. The
+panel says so: these figures count students enrolled in classes you own, an
+administrator creates classes and names their owner, and once yours exists you
+can add students here. An empty screen is a place to act from.
+
+### 📈 Charts you can read a number off
+
+Every chart was accessible and correctly formed — single-hue sequential heatmap
+with documented contrast reasoning and a passing contrast test, thin marks,
+`role="img"` carrying the raw values. None had a hover layer, so a teacher could
+see the shape of a term's work without being able to say which week the dip
+started.
+
+- **Cohort activity** gains a crosshair and a per-day readout, with one hit band
+  per day — at 620px over 365 days the mark itself is 1.7px, so the target has
+  to be the band. The readout replaces the summary while hovering rather than
+  competing with it.
+- **Weekly trajectories** and the **student band trend** gain per-point targets
+  at twice the mark's radius, naming the week or the attempt, its date and its
+  value.
+
+### 🗓 A date that read as the day before
+
+The cohort chart's buckets are UTC date strings. `new Date('2026-09-07')` is UTC
+midnight, which renders as **6 September** for every reader west of Greenwich —
+which is every Australian user. The new day labels are built from the ISO parts
+instead. The student band trend is the opposite case and treated as such: those
+are real instants, so they render in the reader's own timezone.
+
+### 🔤 Two buttons called "Create"
+
+The admin dashboard grew a second one. Now "Create school" and "Create class".
+
 ## [Unreleased] - 2026-09-07 (Dead code, and a gate so it stays dead)
 
 `Plan-NextImprovements-2.md` had two code items left on it. Both are now closed,
