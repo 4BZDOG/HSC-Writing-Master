@@ -63,15 +63,3 @@ export const useUnsavedChanges = (
     isDirty,
   };
 };
-
-/**
- * Hook to detect changes in form data
- * Compares current form data with initial data
- */
-export const useFormDirty = <T extends Record<string, any>>(
-  formData: T,
-  initialData: T
-): boolean => {
-  const isDirty = JSON.stringify(formData) !== JSON.stringify(initialData);
-  return isDirty;
-};
