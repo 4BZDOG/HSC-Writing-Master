@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Users, Activity, Grid3x3, TrendingUp } from 'lucide-react';
 import type { ClassCohort } from '../../services/responseService';
 import { tierShortLabel } from '../../data/commandTerms';
@@ -189,6 +189,21 @@ const Trajectory: React.FC<{ points: (number | null)[] }> = ({ points }) => {
         className="fill-[rgb(var(--color-accent))] stroke-[rgb(var(--color-bg-surface))]"
         strokeWidth={2}
       />
+      {/* A per-week hit target, six times the radius of the mark it covers, so
+          the value behind each point can actually be read. The line alone shows
+          a direction and hides which week turned it. */}
+      {coords.map(([x, y], i) => {
+        const value = points[i];
+        return (
+          <circle key={i} cx={x} cy={y} r={6} fill="transparent">
+            <title>
+              {`Week ${i + 1} of ${points.length}: ${
+                value == null ? 'no attempts' : `${Math.round(value * 100)}% of marks`
+              }`}
+            </title>
+          </circle>
+        );
+      })}
     </svg>
   );
 };
@@ -196,11 +211,49 @@ const Trajectory: React.FC<{ points: (number | null)[] }> = ({ points }) => {
 const VOL_W = 620;
 const VOL_H = 72;
 
+/**
+ * "2026-09-07" → "Mon 7 Sep". Built from the ISO parts rather than parsed as a
+ * Date, because `new Date('2026-09-07')` is UTC midnight and renders as the
+ * PREVIOUS day for anyone west of Greenwich — which is every Australian user
+ * reading a chart whose buckets are UTC dates.
+ */
+const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
+const MONTH_NAMES = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const;
+
+export const formatDay = (iso: string): string => {
+  const [y, m, d] = iso.split('-').map(Number);
+  if (!y || !m || !d) return iso;
+  const weekday = DAY_NAMES[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  return `${weekday} ${d} ${MONTH_NAMES[m - 1]}`;
+};
+
 /** Cohort attempts per day across the window. One series, so no legend. */
 const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort, days }) => {
   const series = useMemo(() => buildDailySeries(cohort.daily, days), [cohort.daily, days]);
   const max = Math.max(1, ...series.map((d) => d.attempts));
   const total = series.reduce((sum, d) => sum + d.attempts, 0);
+
+  /**
+   * Which day the pointer is over. The chart could show the SHAPE of a term's
+   * work and no way to read any day in it — a teacher could see the dip after
+   * the holidays without being able to say which week it started. The caption
+   * gave the total and the peak, which are the two numbers you least need when
+   * you are looking at a particular bump.
+   */
+  const [hover, setHover] = useState<number | null>(null);
 
   if (total === 0) return null;
 
@@ -211,6 +264,13 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
   const first = line.split(' ')[0]?.split(',')[0] ?? '0';
   const lastX = line.split(' ').slice(-1)[0]?.split(',')[0] ?? String(VOL_W);
   const area = `M${first},${VOL_H} L${line.split(' ').join(' L')} L${lastX},${VOL_H} Z`;
+
+  const bandWidth = VOL_W / series.length;
+  const coords = line.split(' ').map((pair) => pair.split(',').map(Number));
+  const hovered =
+    hover !== null && series[hover] && coords[hover]
+      ? { point: series[hover], x: coords[hover][0], y: coords[hover][1] }
+      : null;
 
   return (
     <section>
@@ -224,6 +284,8 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
           width="100%"
           role="img"
           aria-label={`Attempts per day over the last ${days} days, oldest to newest. Peak ${max} in one day, ${total} in total.`}
+          onPointerLeave={() => setHover(null)}
+          className="touch-none"
         >
           <path d={area} className="fill-[rgb(var(--color-accent))]" fillOpacity={0.12} />
           <polyline
@@ -234,11 +296,63 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
             strokeLinecap="round"
             className="stroke-[rgb(var(--color-accent))]"
           />
+
+          {/* Crosshair for the hovered day, drawn under the hit bands. */}
+          {hovered && (
+            <g pointerEvents="none">
+              <line
+                x1={hovered.x}
+                y1={0}
+                x2={hovered.x}
+                y2={VOL_H}
+                className="stroke-[rgb(var(--color-accent))]"
+                strokeWidth={1}
+                strokeDasharray="2 3"
+                strokeOpacity={0.7}
+              />
+              <circle
+                cx={hovered.x}
+                cy={hovered.y}
+                r={3.5}
+                className="fill-[rgb(var(--color-accent))] stroke-[rgb(var(--color-bg-surface))]"
+                strokeWidth={2}
+              />
+            </g>
+          )}
+
+          {/* One hit band per day: a 620px-wide chart over 365 days gives a
+              1.7px-wide mark, so the target has to be the band, not the point. */}
+          {series.map((point, i) => (
+            <rect
+              key={point.day}
+              x={i * bandWidth}
+              y={0}
+              width={bandWidth}
+              height={VOL_H}
+              fill="transparent"
+              onPointerEnter={() => setHover(i)}
+            />
+          ))}
         </svg>
+        {/* The readout replaces the summary while hovering rather than sitting
+            beside it: two sets of numbers in one strip, one of which changes
+            under the pointer, is harder to read than one that answers the
+            question being asked. `aria-live` is deliberately absent — this
+            duplicates what the svg's own label already gives a screen reader,
+            and announcing every day the pointer crosses would be noise. */}
         <div className="flex justify-between mt-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 tabular-nums">
           <span>{days === 365 ? '1 year ago' : `${days} days ago`}</span>
-          <span>
-            {total} attempts · peak {max}/day
+          <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+            {hovered ? (
+              <>
+                <span className="font-semibold">{formatDay(hovered.point.day)}</span> ·{' '}
+                {hovered.point.attempts} attempt{hovered.point.attempts === 1 ? '' : 's'}
+              </>
+            ) : (
+              <>
+                {total} attempts · peak {max}/day
+              </>
+            )}
           </span>
           <span>today</span>
         </div>
