@@ -3109,6 +3109,89 @@ comment on column public.course_outcomes.year is
 
 create index if not exists idx_outcomes_year on public.course_outcomes (course_id, year);
 
+
+-- =============================================================================
+-- §24 · A roll you can read, and take someone off
+--
+-- §19 could put a student INTO a class and nothing else. Two things followed
+-- from that once the client finally called `enrol_in_class`:
+--
+--   1. A mistyped username became a permanent member of the class. `enrol_in_class`
+--      upserts, so there was no undo — the wrong student stayed in the cohort,
+--      counted in its averages, for the life of the class.
+--   2. Nobody could see the roll. `list_my_classes` returns a member COUNT, so a
+--      teacher could be told they had 28 students and never learn which 28.
+--      Record-keeping you cannot read back is not record-keeping.
+--
+-- Both are class-staff operations, on the same rule as `enrol_in_class`: once an
+-- admin has made you the owner, managing your roll is your job. Admins pass
+-- `can_view_class` too, so the admin dashboard gets both for free.
+--
+-- On an existing deployment, run this section; nothing here alters a table.
+-- =============================================================================
+
+-- The roll itself. SECURITY DEFINER because §19 narrowed `profiles_read` to
+-- `can_view_student`, and a class's own staff must be able to read a member who
+-- has not yet submitted any work — a student who has done nothing is exactly the
+-- one a teacher is looking for.
+create or replace function public.list_class_members(p_class_id uuid)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare v_result jsonb;
+begin
+  if not public.can_view_class(p_class_id) then
+    raise exception 'You do not teach that class';
+  end if;
+
+  select coalesce(jsonb_agg(row_to_json(r)::jsonb order by r.role desc, r.username), '[]'::jsonb)
+    into v_result
+    from (
+      select p.username,
+             coalesce(p.display_name, p.username) as display_name,
+             m.role
+        from public.class_members m
+        join public.profiles p on p.id = m.user_id
+       where m.class_id = p_class_id
+    ) r;
+
+  return v_result;
+end; $$;
+
+-- Take someone off the roll. Deliberately NOT an error when they are not on it:
+-- the caller's intent is "this person is not in my class", and a second click
+-- after a slow first one should not read as a failure.
+create or replace function public.remove_from_class(
+  p_class_id uuid,
+  p_username text
+) returns void language plpgsql security definer set search_path = public as $$
+declare
+  v_user  uuid;
+  v_owner uuid;
+begin
+  if not public.can_view_class(p_class_id) then
+    raise exception 'You do not teach that class';
+  end if;
+
+  select id into v_user from public.profiles where username = p_username;
+  if v_user is null then raise exception 'No user with username "%"', p_username; end if;
+
+  -- The owner is on `classes.owner_id`, not in `class_members`, so removing them
+  -- here would silently do nothing while looking like it worked. Say so instead:
+  -- changing who owns a class is `create_class`, which is admin-gated for the
+  -- reason §19 gives — the owner assignment is what grants sight of student work.
+  select owner_id into v_owner from public.classes where id = p_class_id;
+  if v_owner = v_user then
+    raise exception 'That teacher owns this class; an admin reassigns it with create_class';
+  end if;
+
+  delete from public.class_members
+   where class_id = p_class_id and user_id = v_user;
+end; $$;
+
+revoke all on function public.list_class_members(uuid) from public;
+revoke all on function public.remove_from_class(uuid, text) from public;
+grant execute on function public.list_class_members(uuid) to authenticated;
+grant execute on function public.remove_from_class(uuid, text) to authenticated;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

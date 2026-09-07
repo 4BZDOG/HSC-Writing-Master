@@ -33,6 +33,29 @@ const requireClient = () => {
 /** A member's role within one class. Mirrors the check in `enrol_in_class`. */
 export type ClassRole = 'student' | 'co_teacher';
 
+/** One person on a class's roll (from `list_class_members`, schema §24). */
+export interface ClassMember {
+  username: string;
+  display_name: string;
+  role: ClassRole;
+}
+
+/**
+ * The roll itself — who is actually in the class.
+ *
+ * `list_my_classes` only ever returned a member COUNT, so a teacher could be
+ * told they had 28 students and never learn which 28. Reading the roll back is
+ * also what makes removal safe: without it, taking someone off means typing a
+ * username blind.
+ */
+export const fetchClassMembers = async (classId: string): Promise<ClassMember[]> => {
+  const { data, error } = await requireClient().rpc('list_class_members', {
+    p_class_id: classId,
+  });
+  if (error) throw new Error(`Could not load the class roll: ${error.message}`);
+  return (data ?? []) as ClassMember[];
+};
+
 /**
  * Admin-only: create a class in a school and hand it to a teacher.
  *
@@ -61,10 +84,6 @@ export const createClass = async (
  * Upserts on (class, user), so enrolling someone already in the class updates
  * their role — the only way to promote a student to co-teacher, and harmless
  * when it is a re-run.
- *
- * There is deliberately no removal here: the database has no function for it,
- * and adding one is a schema change that has to reach every deployment before
- * a button can rely on it. Recorded as a follow-up rather than faked.
  */
 export const enrolInClass = async (
   classId: string,
@@ -77,4 +96,25 @@ export const enrolInClass = async (
     p_role: role,
   });
   if (error) throw new Error(`Could not enrol ${username}: ${error.message}`);
+};
+
+/**
+ * Class staff: take someone off the roll (schema §24).
+ *
+ * The undo `enrol_in_class` never had. Because enrolment upserts, a mistyped
+ * username used to become a permanent member of the class — counted in its
+ * averages, visible in its cohort, for the life of the class.
+ *
+ * Server-side, removing a username that is not on the roll is a no-op rather
+ * than an error (the caller's intent is already satisfied), while an unknown
+ * username and the class's own OWNER both raise — the owner is on
+ * `classes.owner_id` rather than in `class_members`, so a silent zero-row
+ * delete would look like it had worked.
+ */
+export const removeFromClass = async (classId: string, username: string): Promise<void> => {
+  const { error } = await requireClient().rpc('remove_from_class', {
+    p_class_id: classId,
+    p_username: username,
+  });
+  if (error) throw new Error(`Could not remove ${username}: ${error.message}`);
 };
