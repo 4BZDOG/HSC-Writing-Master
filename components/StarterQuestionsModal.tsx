@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import type { Updater } from 'use-immer';
 import type { ToastType } from '../hooks/useToast';
-import type { Course, Prompt } from '../types';
+import type { Course, DotPoint, Prompt } from '../types';
 import { generateNewPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { runBatchOperations, type BatchProgress, type BatchTask } from '../utils/batchProcessor';
+import { type BatchTask } from '../utils/batchProcessor';
+import { useBatchRun } from '../hooks/useBatchRun';
 import {
   findStarterTargets,
   planStarterQuestion,
@@ -21,7 +23,7 @@ interface StarterQuestionsModalProps {
   course: Course | undefined;
   /** Narrow the offer to one topic — e.g. the one just imported. */
   initialTopicId?: string;
-  updateCourses: (updater: (draft: any) => void) => void;
+  updateCourses: Updater<Course[]>;
   showToast: (message: string, type: ToastType) => void;
 }
 
@@ -47,17 +49,23 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
   showToast,
 }) => {
   const [topicId, setTopicId] = useState<string>('__all__');
-  const [progress, setProgress] = useState<BatchProgress | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
 
-  const isRunning = !!progress && !progress.isComplete;
+  /**
+   * `isRunning` used to be derived as `progress && !progress.isComplete`, and
+   * `isComplete` is not "the run has ended" — it is "every task is accounted
+   * for", which a stopped or halted run is not. Pressing Stop therefore left
+   * this modal believing it was still running for ever: close disabled, Stop
+   * still on screen doing nothing, Done never offered, and no way out but a
+   * page reload. `useBatchRun` reports what the runner actually did.
+   */
+  const { progress, isRunning, run, stop, reset } = useBatchRun();
 
   useEffect(() => {
     if (isOpen) {
       setTopicId(initialTopicId ?? '__all__');
-      setProgress(null);
+      reset();
     }
-  }, [isOpen, initialTopicId]);
+  }, [isOpen, initialTopicId, reset]);
 
   // Recomputed from the live course, so finishing a run leaves the count at
   // zero rather than showing what it was when the modal opened.
@@ -82,9 +90,6 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
       return;
     }
 
-    const controller = new AbortController();
-    abortRef.current = controller;
-
     const tasks: BatchTask<void>[] = targets.map((target) => ({
       id: `starter-${target.path.dotPointId}`,
       description: `${target.subTopicName}: ${target.description.slice(0, 40)}…`,
@@ -99,12 +104,12 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
           verbs,
           starterOutcomes(course, topic)
         );
-        updateCourses((draft: any) => {
-          const dotPoint = draft
-            .find((c: any) => c.id === target.path.courseId)
-            ?.topics.find((t: any) => t.id === target.path.topicId)
-            ?.subTopics.find((st: any) => st.id === target.path.subTopicId)
-            ?.dotPoints.find((dp: any) => dp.id === target.path.dotPointId);
+        updateCourses((draft) => {
+          const dotPoint: DotPoint | undefined = draft
+            .find((c) => c.id === target.path.courseId)
+            ?.topics.find((t) => t.id === target.path.topicId)
+            ?.subTopics.find((st) => st.id === target.path.subTopicId)
+            ?.dotPoints.find((dp) => dp.id === target.path.dotPointId);
           if (!dotPoint) return;
           if (!dotPoint.prompts) dotPoint.prompts = [];
           // Re-checked inside the write: a run started twice, or one overlapping
@@ -115,11 +120,10 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
       },
     }));
 
-    await runBatchOperations<void>(tasks, 2, setProgress, controller.signal);
-  };
-
-  const handleStop = () => {
-    abortRef.current?.abort();
+    const outcome = await run(tasks, 2);
+    if (outcome.runnerError) {
+      showToast('The run could not start. Try again in a moment.', 'error');
+    }
   };
 
   const handleFinish = () => {
@@ -132,7 +136,13 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
 
   if (!isOpen || !course) return null;
 
-  const done = progress?.isComplete;
+  /**
+   * The run is over — finished, stopped part-way, or halted by the provider.
+   * All three end with questions written and a person who needs to leave, so
+   * all three get the same way out.
+   */
+  const ended = !!progress && !isRunning;
+  const stoppedEarly = ended && progress.completed + progress.failed < progress.total;
 
   return (
     <div
@@ -231,7 +241,11 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
               <div>
                 <div className="flex items-center justify-between text-sm mb-2">
                   <span className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
-                    {done ? 'Finished' : progress.currentTask || 'Working…'}
+                    {ended
+                      ? stoppedEarly
+                        ? 'Stopped'
+                        : 'Finished'
+                      : progress.currentTask || 'Working…'}
                   </span>
                   <span className="text-[rgb(var(--color-text-muted))] light:text-slate-500">
                     {progress.completed + progress.failed} of {progress.total}
@@ -302,16 +316,19 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
               </button>
             </>
           )}
-          {progress && !done && (
+          {isRunning && (
             <button
               type="button"
-              onClick={handleStop}
+              onClick={stop}
               className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-500 transition"
             >
               Stop
             </button>
           )}
-          {done && (
+          {/* Offered for any run that has ended, not only one that reached the
+              last task. A stopped or halted run leaves questions written and a
+              person who needs to leave the modal. */}
+          {ended && (
             <button
               type="button"
               onClick={handleFinish}

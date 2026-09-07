@@ -138,6 +138,52 @@ describe('runBatchOperations', () => {
     expect(settled).toBe(true);
   });
 
+  it('starts the first task immediately — the gap is between calls, not before them', async () => {
+    const started: string[] = [];
+    const tasks: BatchTask<void>[] = [
+      { id: 't1', description: 'first', action: async () => void started.push('t1') },
+      { id: 't2', description: 'second', action: async () => void started.push('t2') },
+    ];
+
+    const run = runBatchOperations(tasks, 1, () => {});
+    // No timer advanced at all: the first task used to sit out a full 1.5s
+    // pacing gap against a request that had not been made.
+    await flushMicrotasks();
+    expect(started).toEqual(['t1']);
+
+    // The second one does wait, which is what the pacing is for.
+    expect(started).not.toContain('t2');
+    await vi.runAllTimersAsync();
+    await run;
+    expect(started).toEqual(['t1', 't2']);
+  });
+
+  it('abandons the pacing gap the moment abort() is called', async () => {
+    const started: string[] = [];
+    const tasks: BatchTask<void>[] = [1, 2, 3].map((n) => ({
+      id: `t${n}`,
+      description: `task ${n}`,
+      action: async () => void started.push(`t${n}`),
+    }));
+
+    const controller = new AbortController();
+    let lastProgress: BatchProgress | undefined;
+    const run = runBatchOperations(tasks, 1, (p) => (lastProgress = p), controller.signal);
+
+    await flushMicrotasks();
+    expect(started).toEqual(['t1']);
+
+    // Now the runner is asleep in the gap before task 2. Stop used to mean
+    // sitting out the rest of that gap before anything acknowledged it.
+    controller.abort();
+    await flushMicrotasks(10);
+    await run;
+
+    expect(started).toEqual(['t1']);
+    expect(lastProgress?.currentTask).toBe('Cancelled');
+    expect(lastProgress?.completed).toBe(1);
+  });
+
   it('reflects failed tasks in isComplete accounting used for the progress bar', async () => {
     const tasks: BatchTask<void>[] = [
       { id: 't1', description: 'ok', action: async () => {} },
