@@ -3,6 +3,9 @@
   "private": true,
   "version": "2.3.23",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -22,12 +25,10 @@
     "test:all": "npm run lint && npm run test -- --run && npm run type-check && npm run type-check:tests && npm run check:eager-reads",
     "demo:seed": "node supabase/demoSeed.mjs",
     "demo:reseed": "node supabase/demoSeed.mjs --reset",
-    "backup": "node scripts/backup.js",
-    "cleanup:storage": "node scripts/cleanup-storage.js",
-    "check:api-health": "node scripts/check-api-health.js",
     "check:bundle": "node scripts/checkChunkInitOrder.mjs",
     "measure:similarity": "node scripts/measureAnswerSimilarity.mjs",
     "check:eager-reads": "node scripts/findModuleInitReads.mjs",
+    "check:deploy": "node scripts/checkDeployment.mjs",
     "samples:pdf": "node scripts/generatePdfSamples.mjs"
   },
   "dependencies": {

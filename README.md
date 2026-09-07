@@ -41,33 +41,51 @@ The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical
 
 ## 🚀 Getting Started
 
-1.  **Clone & Install**:
+Requires **Node 20 or newer**.
+
+1.  **Clone & install** (the flag is what CI and Vercel use, so it reproduces
+    the lockfile exactly):
     ```bash
     git clone [repository-url]
-    npm install
+    npm ci --legacy-peer-deps
     ```
 2.  **Configure your AI key** (server-side only — never bundled):
     ```bash
     cp .env.example .env.local
     # then set GEMINI_API_KEY=... (aistudio.google.com/app/apikeys)
     ```
+    That one line is all `npm run dev` needs. Every other variable in the
+    template is commented out on purpose — the app treats any value that is
+    _set_ as real, so an uncommented placeholder would have it trying to reach
+    a Supabase project that does not exist.
 3.  **Launch**:
     ```bash
     npm run dev
     ```
     Sign in with a demo account (`admin`/`admin`) or continue as guest.
+4.  **Before deploying anywhere**, audit the configuration:
+    ```bash
+    npm run test:all      # lint, unit tests, type-check
+    npm run check:deploy  # the combinations this app fails quietly on
+    ```
 
 ## 🌐 Hosting
 
-See [**DEPLOYMENT.md**](DEPLOYMENT.md) for the full guide. Short version:
-**Vercel** (free tier) runs everything including the AI proxy;
-**GitHub Pages** hosts the offline experience via the included
-`deploy-pages.yml` workflow, and can gain working AI by pointing it at a
-Vercel-hosted API.
+See [**DEPLOYMENT.md**](DEPLOYMENT.md) for the full guide — hosting options,
+what every environment variable does, how to verify a deployment actually
+works, and how to roll one back. Short version: **Vercel** (free tier) runs
+everything including the AI proxy; **GitHub Pages** hosts the offline
+experience via the included `deploy-pages.yml` workflow, and can gain working
+AI by pointing it at a Vercel-hosted API.
+
+Once deployed, `npm run check:deploy -- --url https://<your-app>` probes the
+running site — including whether `/api/gemini` is actually refusing
+unauthenticated callers.
 
 ## 📚 Documentation Suite
 
-- [**Deployment Guide**](DEPLOYMENT.md): Hosting on Vercel and GitHub Pages.
+- [**Deployment Guide**](DEPLOYMENT.md): Hosting, verification, rollback, troubleshooting.
+- [**Vercel Setup**](projectDocs/VERCEL_SETUP.md) / [**Supabase Setup**](projectDocs/SUPABASE_SETUP.md) / [**Stripe Setup**](docs/stripesetup.md): step-by-step walkthroughs.
 - [**Design Specification**](projectDocs/DesignSpec.md): The "Glass & Texture" UI philosophy.
 - [**Gold Standard**](projectDocs/GoldStandard.md): The pedagogical rules for question generation.
 - [**System Prompt**](projectDocs/systemPrompt.md): The prompt engineering logic behind the AI.
