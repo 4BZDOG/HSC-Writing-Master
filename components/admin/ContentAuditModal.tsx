@@ -36,6 +36,9 @@ import {
   hasNonStandardRubric,
   needsOutcomes,
   hasSamplesToRecalibrate,
+  hasOffSyllabusTerms,
+  offSyllabusTermCount,
+  syllabusTermGaps,
 } from './contentAudit/auditModel';
 import { InstrumentMetric, AuditActionButton, FilterRow } from './contentAudit/AuditPieces';
 import AuditTreeRow, { INDENT_STEP } from './contentAudit/AuditTreeRow';
@@ -65,6 +68,7 @@ import {
   savePromptContribution,
   saveSampleAnswerContribution,
 } from '../../services/contributionService';
+import { dropNonSyllabusTerms } from '../../services/geminiService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
@@ -87,6 +91,8 @@ import {
   Gauge,
   AlertTriangle,
   Download,
+  Eraser,
+  ListPlus,
   Trash2,
 } from 'lucide-react';
 
@@ -381,6 +387,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let outcomes = 0;
     let recalibrations = 0;
     let screenings = 0;
+    let termLists = 0;
+    let termGaps = 0;
 
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
@@ -393,6 +401,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (hasSamplesToRecalibrate(node))
         recalibrations += (node.dataRef as Prompt).sampleAnswers?.length || 0;
       if (node.type === 'prompt') screenings++;
+      if (hasOffSyllabusTerms(node)) termLists++;
+      if (syllabusTermGaps(node).length > 0) termGaps++;
     });
 
     return {
@@ -403,6 +413,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       outcomes,
       recalibrations,
       screenings,
+      termLists,
+      termGaps,
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
@@ -1391,6 +1403,93 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   };
 
   /**
+   * Take everything that is not a syllabus term out of the selected questions'
+   * term lists.
+   *
+   * The only repair on this screen that needs no AI: `dropNonSyllabusTerms` is
+   * a rule the app already owns and already applies to every list it generates,
+   * so this is one local edit rather than a batch run. Putting it through the
+   * batch runner would have spent its 1.5s-per-task provider pacing on two
+   * hundred writes to IndexedDB.
+   *
+   * It only ever REMOVES, and it does not cap the list: generation stops at
+   * twelve terms because that is a sensible size for something being written
+   * from scratch, and applying that to a curated list of nineteen would throw
+   * away seven real terms a teacher put there.
+   */
+  const handleTidyTerms = () => {
+    if (isProcessing) return;
+    const targets: { path: StatePath; label: string; dropped: number }[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node || !hasOffSyllabusTerms(node)) return;
+      targets.push({
+        path: node.path,
+        label: node.label,
+        dropped: offSyllabusTermCount(node.dataRef as Prompt),
+      });
+    });
+    if (targets.length === 0) return;
+
+    const droppedTotal = targets.reduce((sum, t) => sum + t.dropped, 0);
+
+    updateCourses((draft) => {
+      targets.forEach(({ path }) => {
+        const prompt = findDraftPrompt(draft, path);
+        if (prompt) prompt.keywords = dropNonSyllabusTerms(prompt.keywords, prompt.verb);
+      });
+    });
+
+    targets.forEach(({ path, label }) => {
+      if (path.promptId && path.dotPointId) recordTouch(path.promptId, path.dotPointId, label);
+    });
+
+    showToast(
+      `Removed ${droppedTotal} entr${droppedTotal === 1 ? 'y' : 'ies'} that ${droppedTotal === 1 ? 'was' : 'were'} not a syllabus term, across ${targets.length} question${targets.length === 1 ? '' : 's'}.`,
+      'success'
+    );
+  };
+
+  /**
+   * Put the terms the syllabus dot point and the question are built on onto the
+   * question's Syllabus Terms list.
+   *
+   * The other half of Tidy Terms, and local for the same reason: the judgement
+   * is `missingSyllabusTerms`, which needs no model. It only ever APPENDS, and
+   * only terms none of the existing entries already covers, so a curated list
+   * keeps its own wording and its own order.
+   */
+  const handleAddTerms = () => {
+    if (isProcessing) return;
+    const targets: { path: StatePath; label: string; terms: string[] }[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      const terms = syllabusTermGaps(node);
+      if (terms.length > 0) targets.push({ path: node.path, label: node.label, terms });
+    });
+    if (targets.length === 0) return;
+
+    const added = targets.reduce((sum, t) => sum + t.terms.length, 0);
+
+    updateCourses((draft) => {
+      targets.forEach(({ path, terms }) => {
+        const prompt = findDraftPrompt(draft, path);
+        if (prompt) prompt.keywords = [...(prompt.keywords ?? []), ...terms];
+      });
+    });
+
+    targets.forEach(({ path, label }) => {
+      if (path.promptId && path.dotPointId) recordTouch(path.promptId, path.dotPointId, label);
+    });
+
+    showToast(
+      `Added ${added} syllabus term${added === 1 ? '' : 's'} across ${targets.length} question${targets.length === 1 ? '' : 's'} — each one taken from the wording of the dot point the question sits under.`,
+      'success'
+    );
+  };
+
+  /**
    * Run the last batch's failures again, and nothing else.
    *
    * It goes through the same engine picker as any other run, so an admin whose
@@ -1603,8 +1702,19 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         break;
       case ' ':
       case 'Enter':
-        // Space is the tick. Held with shift it extends from the last one, the
-        // same reach a shift-click makes.
+        /**
+         * Space is the tick. Held with shift it extends from the last one, the
+         * same reach a shift-click makes.
+         *
+         * Unless a control inside the row has focus. The row's buttons are out
+         * of the tab order but a click still focuses them, and this handler
+         * sits on the tree, so without the guard a curator who clicked "Write
+         * Marking Guides" and pressed Enter to run it again would have the
+         * keypress swallowed here and the row's tick flipped instead. Arrow
+         * keys are left to bubble either way — moving off a button and on to
+         * the next row is what they should do.
+         */
+        if ((e.target as HTMLElement).closest('button')) break;
         e.preventDefault();
         if (node) toggleSelect(currentId, !selectedIds.has(currentId), e.shiftKey);
         break;
@@ -2129,6 +2239,24 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   label="Re-mark Samples"
                   count={selectionTargets.recalibrations}
                   icon={<Scale className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleAddTerms}
+                  disabled={isProcessing || selectionTargets.termGaps === 0}
+                  title="Add the terms the syllabus dot point and the question are built on, that the Syllabus Terms list leaves out. Appends only; nothing already on a list is touched. A local edit: no AI, no quota, instant."
+                  tone="lime"
+                  label="Add Terms"
+                  count={selectionTargets.termGaps}
+                  icon={<ListPlus className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleTidyTerms}
+                  disabled={isProcessing || selectionTargets.termLists === 0}
+                  title="Remove the entries that are not syllabus terms — the command verb, generic words, connectives like “therefore”, over-long phrases and duplicates — from the selected questions' Syllabus Terms lists. A local edit: no AI, no quota, instant."
+                  tone="sky"
+                  label="Tidy Terms"
+                  count={selectionTargets.termLists}
+                  icon={<Eraser className="w-3.5 h-3.5" />}
                 />
                 <AuditActionButton
                   onClick={handleBulkAction.bind(null, 'screenQuality')}

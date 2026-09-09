@@ -1,5 +1,130 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (Terms the question is about, guaranteed on its list)
+
+The follow-up to the term work, and the direction the previous entry recorded
+as not mechanically detectable. It is — but not by requiring all three sources
+of a question to agree. The rule that works is asymmetric.
+
+### 🎯 Missing Terms
+
+A term the syllabus dot point and the question are both built on is what the
+question is ABOUT, and a student told which terms to use should be told that
+one. `utils/syllabusTermGaps.ts` finds them; the studio flags them as **Missing
+Terms**, names them on the row badge, and **Add Terms** appends them — a local
+edit, no AI, like Tidy Terms beside it.
+
+**The rule is asymmetric, and the asymmetry is the whole design.** Measured over
+the 417 shipped questions:
+
+| What must use the term                               | Flagged |
+| ---------------------------------------------------- | ------- |
+| Dot point + question                                 | 78%     |
+| Dot point + question + scenario                      | 14%     |
+| Phrase: dot point + either. Lone word: all three     | 34%     |
+| **The same, minus words too generic to stand alone** | **29%** |
+
+The 78% is almost all VERBS — "Modify", "Select", "develop", "record". Dot
+points open with an instruction and so do questions, so single words agree for
+reasons that have nothing to do with subject matter. Requiring all three fixes
+that and breaks something else: a well-written scenario PARAPHRASES. The
+thirteen shipped questions about big data have it in the dot point and the
+question, and their scenarios say "billions of data points" and "a large influx
+of data" — so the strict rule cannot see the very term that prompted the check.
+
+Subject matter lives in noun phrases; the verbs hide among single words. So a
+phrase needs the dot point plus either the question or the scenario, and a lone
+word needs all three. That finds "big data", "primary data", "peer review",
+"alternative splicing", "ethical issues", "safe work practices" and "Torres
+Strait Islander Peoples", at 1.2 terms per flagged question, and leaves
+"Select" and "record" alone.
+
+Five things the shipped content forced:
+
+- **Longest run wins.** Taking adjacent PAIRS shredded "Torres Strait Islander
+  Peoples" into three overlapping fragments of one name.
+- **Punctuation ends a phrase.** Flattening it ran "primary, secondary,
+  tertiary structures" together into a phrase the syllabus never wrote.
+- **Whole words.** Substring matching read "model" as present in "modelling".
+- **Command verbs in every form.** `commandTermsList` holds "EVALUATE" and dot
+  points write "evaluating test data", so the participle escaped and the term
+  offered was the instruction glued to its subject.
+- **A course's own wallpaper is not a term.** All three sources of a Software
+  Engineering question say "software", "development" and "project", so agreeing
+  across them proved nothing: 22 of the 30 terms the lone-word branch offered
+  were words like those. They are held in a SECOND list, consulted only where a
+  single word asks to stand as a term — putting them in the phrase-building
+  stop list would have deleted "big data" and "data security" with them.
+
+Terms are added in the syllabus's own casing, appended after whatever a curator
+already wrote; nothing already on a list is touched.
+
+## [Unreleased] - 2026-09-09 (A guide the studio could not see was broken, and terms that were never terms)
+
+### 🩹 A marking guide whose bands run together read as well-formed
+
+Reported from use: non-standard marking guides had every button that could fix
+them disabled, on questions the navigator showed were plainly wrong.
+
+`isNonStandardRubric` read only the START of each line. Nine of the shipped
+guides are written with their bands run together on ONE line —
+"…as demonstrated in the investigation.4 marks: Provides an accurate
+analysis…3 marks: Describes…" — so it saw exactly one band, which cannot be out
+of order and cannot be absent, and passed them. That verdict disabled both
+repairs: "Reformat Guides" needs this predicate, and "Write Marking Guides"
+needs it or a missing guide. A curator who could see the guide was wrong had
+nothing to press.
+
+The scan now finds bands anywhere in the text. A band mid-line must carry a
+colon and one at the start of a line need not, which is the asymmetry that
+keeps "award 1 mark for each correct point" inside a band description from
+reading as a band of its own. Re-run over all 418 shipped guides: **nine newly
+flagged, no other verdict changed.**
+
+### 🧹 Syllabus Terms that were not syllabus terms
+
+`keywordInstruction` has always told the model to exclude "generic academic
+words …, the command verb and instruction words". The first two were enforced
+by `sanitiseKeywords`; instruction words never were. So 25 of the 418 shipped
+questions carry a Syllabus Terms list containing the command verb ("Assess"),
+an over-long phrase, or — most of them — connectives: a student reading the
+panel is told to make sure their answer contains the word "therefore".
+
+Three parts:
+
+- `GENERIC_KEYWORD_STOPWORDS` gains the connectives, so the sanitiser matches
+  the rule it has always stated.
+- `isSyllabusTerm` and `dropNonSyllabusTerms` split that judgement out of
+  `sanitiseKeywords`, which keeps its twelve-term cap. The cap is a preference
+  about newly written lists; applied to a curated list of nineteen it would
+  throw away seven real terms, so the studio's repair only ever REMOVES.
+- The studio gains an **Off-Syllabus Terms** filter, a row badge, and a
+  **Tidy Terms** action — the one repair on that screen needing no AI, so it
+  runs as a single local edit rather than through the batch runner, whose
+  1.5s-per-task provider pacing would spend five minutes on two hundred writes
+  to IndexedDB.
+
+### 📐 What was measured and rejected
+
+The ask was to flag when key words from a prompt and scenario are missing from
+its Syllabus Terms list. Four mechanical formulations were tried against the
+shipped library:
+
+| Rule                                                                 | Flagged              |
+| -------------------------------------------------------------------- | -------------------- |
+| Syllabus words from the dot point, present in the question, unlisted | mostly command verbs |
+| A listed term absent from the question/scenario                      | 400/418              |
+| A listed term absent from question, scenario, guide AND exemplars    | 325/418              |
+| A term used elsewhere in the course, in this question, unlisted      | 301/418              |
+
+All noise, and for a good reason: the panel is a scaffold for the ANSWER, so
+its terms are not supposed to appear in the question. "Bioethics" is exactly
+right for a CRISPR ethics question that never uses the word. Deciding which
+terms a question is missing needs to know which terms matter, which is a
+judgement rather than a rule — the AI quality screen's job, not a regex's. What
+shipped instead is the inverse defect, which IS mechanical because the app
+already defines it.
+
 ## [Unreleased] - 2026-09-09 (The two things a backgrounded batch still needed)
 
 Letting a batch be walked away from left two loose ends, both flagged at the
@@ -110,13 +235,13 @@ stops to cross the shipped library, and there was no other way in.
 The buttons are out of the tab order and the tree is one stop with roving focus
 inside it, which is both the ARIA pattern and the faster way to work:
 
-| Key                | What it does                                              |
-| ------------------ | --------------------------------------------------------- |
-| ↑ ↓                | The previous / next row on screen                          |
-| → / ←              | Open a branch, or step into it; fold it, or step out to the parent |
-| Home / End         | The first / last row on screen                             |
-| Space              | Tick the row (cascading, exactly as a click does)          |
-| Shift + Space      | Extend the selection from the last row ticked              |
+| Key           | What it does                                                       |
+| ------------- | ------------------------------------------------------------------ |
+| ↑ ↓           | The previous / next row on screen                                  |
+| → / ←         | Open a branch, or step into it; fold it, or step out to the parent |
+| Home / End    | The first / last row on screen                                     |
+| Space         | Tick the row (cascading, exactly as a click does)                  |
+| Shift + Space | Extend the selection from the last row ticked                      |
 
 Under a search or a filter every shown row is already open, so ← there means
 "out to the parent" for the whole depth rather than doing nothing visible.
