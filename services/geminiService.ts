@@ -672,11 +672,6 @@ Return a JSON array of strings only.`,
 };
 
 /**
- * Tidy an AI-generated keyword list into the concise, deduplicated, high-signal
- * set the UI expects: trims, drops the command verb and generic filler, caps
- * length, and removes case-insensitive duplicates while keeping order.
- */
-/**
  * Words a syllabus-terms list must not contain.
  *
  * `keywordInstruction` has always told the model to exclude "generic academic
@@ -781,6 +776,15 @@ export const dropNonSyllabusTerms = (raw: string[] | undefined, verb?: string): 
   return kept;
 };
 
+/**
+ * Tidy an AI-generated keyword list into the concise, deduplicated, high-signal
+ * set the UI expects: trims, drops the command verb and generic filler, caps
+ * length, and removes case-insensitive duplicates while keeping order.
+ *
+ * The cap is the difference from `dropNonSyllabusTerms`, and it is a preference
+ * about NEW lists — applied to a curated list of nineteen it would throw away
+ * seven real terms, so the audit studio's repair uses the other one.
+ */
 export const sanitiseKeywords = (raw: string[], verb?: string): string[] => {
   if (!Array.isArray(raw)) return [];
   const verbLower = (verb || '').toLowerCase();

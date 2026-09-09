@@ -164,11 +164,12 @@ export const isFlagged = (n: TreeNode): boolean => {
 };
 
 /**
- * The syllabus, the question and its scenario all use a term the question's
+ * The syllabus dot point and the question are built on a term the question's
  * Syllabus Terms list leaves out.
  *
- * See `utils/syllabusTermGaps.ts` for why all three have to agree, and why a
- * question with no scenario is not checked at all.
+ * See `utils/syllabusTermGaps.ts` for why the rule is asymmetric: a PHRASE
+ * needs the dot point and either the question or its scenario, a lone WORD
+ * needs all three. A question with no scenario is still checked on phrases.
  *
  * Memoised per prompt object, and re-derived if the dot point's own words
  * changed underneath it — the answer depends on both, and only the prompt is a
@@ -381,7 +382,7 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     id: 'missingTerms',
     label: 'Missing Terms',
     title:
-      'Questions where the syllabus dot point, the question and its scenario all use a term that the Syllabus Terms list leaves out. All three have to agree — the panel is a scaffold for the answer, so a term appearing in only one of them is no signal. Add Terms puts them on the list, and needs no AI.',
+      'Questions built on a term the Syllabus Terms list leaves out. A phrase counts when the syllabus dot point and either the question or its scenario use it; a single word has to appear in all three, because on its own it is usually the command verb or a word the whole course is written in. Add Terms puts them on the list, and needs no AI.',
     tone: 'lime',
     group: 'review',
     matches: hasSyllabusTermGaps,

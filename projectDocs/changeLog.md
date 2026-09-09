@@ -3,7 +3,8 @@
 ## [Unreleased] - 2026-09-09 (Terms the question is about, guaranteed on its list)
 
 The follow-up to the term work, and the direction the previous entry recorded
-as not mechanically detectable. It is — with all THREE sources required.
+as not mechanically detectable. It is — but not by requiring all three sources
+of a question to agree. The rule that works is asymmetric.
 
 ### 🎯 Missing Terms
 
@@ -14,13 +15,14 @@ Terms**, names them on the row badge, and **Add Terms** appends them — a local
 edit, no AI, like Tidy Terms beside it.
 
 **The rule is asymmetric, and the asymmetry is the whole design.** Measured over
-the 418 shipped questions:
+the 417 shipped questions:
 
-| What must use the term                            | Flagged |
-| --------------------------------------------------- | ------- |
-| Dot point + question                               | 78%     |
-| Dot point + question + scenario                    | 14%     |
-| **Phrase: dot point + either. Lone word: all three** | **33%** |
+| What must use the term                               | Flagged |
+| ---------------------------------------------------- | ------- |
+| Dot point + question                                 | 78%     |
+| Dot point + question + scenario                      | 14%     |
+| Phrase: dot point + either. Lone word: all three     | 34%     |
+| **The same, minus words too generic to stand alone** | **29%** |
 
 The 78% is almost all VERBS — "Modify", "Select", "develop", "record". Dot
 points open with an instruction and so do questions, so single words agree for
@@ -37,7 +39,7 @@ word needs all three. That finds "big data", "primary data", "peer review",
 Strait Islander Peoples", at 1.2 terms per flagged question, and leaves
 "Select" and "record" alone.
 
-Four things the shipped content forced:
+Five things the shipped content forced:
 
 - **Longest run wins.** Taking adjacent PAIRS shredded "Torres Strait Islander
   Peoples" into three overlapping fragments of one name.
@@ -47,6 +49,12 @@ Four things the shipped content forced:
 - **Command verbs in every form.** `commandTermsList` holds "EVALUATE" and dot
   points write "evaluating test data", so the participle escaped and the term
   offered was the instruction glued to its subject.
+- **A course's own wallpaper is not a term.** All three sources of a Software
+  Engineering question say "software", "development" and "project", so agreeing
+  across them proved nothing: 22 of the 30 terms the lone-word branch offered
+  were words like those. They are held in a SECOND list, consulted only where a
+  single word asks to stand as a term — putting them in the phrase-building
+  stop list would have deleted "big data" and "data security" with them.
 
 Terms are added in the syllabus's own casing, appended after whatever a curator
 already wrote; nothing already on a list is touched.
@@ -102,12 +110,12 @@ The ask was to flag when key words from a prompt and scenario are missing from
 its Syllabus Terms list. Four mechanical formulations were tried against the
 shipped library:
 
-| Rule                                                              | Flagged |
-| ----------------------------------------------------------------- | ------- |
+| Rule                                                                 | Flagged              |
+| -------------------------------------------------------------------- | -------------------- |
 | Syllabus words from the dot point, present in the question, unlisted | mostly command verbs |
-| A listed term absent from the question/scenario                   | 400/418 |
-| A listed term absent from question, scenario, guide AND exemplars  | 325/418 |
-| A term used elsewhere in the course, in this question, unlisted    | 301/418 |
+| A listed term absent from the question/scenario                      | 400/418              |
+| A listed term absent from question, scenario, guide AND exemplars    | 325/418              |
+| A term used elsewhere in the course, in this question, unlisted      | 301/418              |
 
 All noise, and for a good reason: the panel is a scaffold for the ANSWER, so
 its terms are not supposed to appear in the question. "Bioethics" is exactly
@@ -227,13 +235,13 @@ stops to cross the shipped library, and there was no other way in.
 The buttons are out of the tab order and the tree is one stop with roving focus
 inside it, which is both the ARIA pattern and the faster way to work:
 
-| Key                | What it does                                              |
-| ------------------ | --------------------------------------------------------- |
-| ↑ ↓                | The previous / next row on screen                          |
-| → / ←              | Open a branch, or step into it; fold it, or step out to the parent |
-| Home / End         | The first / last row on screen                             |
-| Space              | Tick the row (cascading, exactly as a click does)          |
-| Shift + Space      | Extend the selection from the last row ticked              |
+| Key           | What it does                                                       |
+| ------------- | ------------------------------------------------------------------ |
+| ↑ ↓           | The previous / next row on screen                                  |
+| → / ←         | Open a branch, or step into it; fold it, or step out to the parent |
+| Home / End    | The first / last row on screen                                     |
+| Space         | Tick the row (cascading, exactly as a click does)                  |
+| Shift + Space | Extend the selection from the last row ticked                      |
 
 Under a search or a filter every shown row is already open, so ← there means
 "out to the parent" for the whole depth rather than doing nothing visible.

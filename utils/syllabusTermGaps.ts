@@ -11,19 +11,20 @@ import { commandTermsList } from '../data/commandTerms';
  * listed term absent from the question flags 96% of the shipped library.
  *
  * The rule that works is asymmetric, and the asymmetry is the whole design.
- * Measured over the 418 shipped questions:
+ * Measured over the 417 shipped questions:
  *
- * | What must use the term                    | Flagged |
- * | ----------------------------------------- | ------- |
- * | dot point + question                      | 78%     |
- * | dot point + question + scenario            | 14%     |
- * | **phrase: dot point + either; word: all three** | **36%** |
+ * | What must use the term                          | Flagged |
+ * | ----------------------------------------------- | ------- |
+ * | dot point + question                            | 78%     |
+ * | dot point + question + scenario                 | 14%     |
+ * | phrase: dot point + either; word: all three     | 34%     |
+ * | **the same, minus words too generic to stand alone** | **29%** |
  *
  * The 78% is almost all VERBS — "Modify", "Select", "develop", "record" — dot
  * points open with an instruction and so do questions, so single words agree
  * for reasons that have nothing to do with subject matter. Requiring all three
  * fixes that and breaks something else: a well-written scenario PARAPHRASES.
- * The five shipped questions about big data have it in the dot point and the
+ * The shipped questions about big data have it in the dot point and the
  * question, and their scenarios say "billions of data points" and "a large
  * influx of data" — so the strict rule cannot see the very term that prompted
  * this check.
@@ -67,6 +68,31 @@ const NOT_SUBJECT_MATTER = new Set(
     'impact impacts long term time year years first second third final phase phases appropriate effective ' +
     'effectiveness reflect show shows showing relevant intended local associated potential ongoing able ' +
     'across after before between during through while with without own same each every some many few'
+  ).split(/\s+/)
+);
+
+/**
+ * Words that are real subject matter INSIDE a phrase and say nothing on their
+ * own — "big data" and "data security" are terms, a bare "data" is not.
+ *
+ * Deliberately a second list rather than more entries in `NOT_SUBJECT_MATTER`,
+ * and the separation is load-bearing: that one decides which words a phrase may
+ * be BUILT from, so putting "data" in it would delete "big data", "primary
+ * data" and "data security" along with the noise. This one is consulted only
+ * where a single word is asking to stand as a term by itself.
+ *
+ * Every entry was observed. Over the shipped library the lone-word branch
+ * offered 30 terms; 22 of them were these, a course's own wallpaper — a
+ * Software Engineering dot point, question and scenario all say "software" and
+ * "development", so agreeing across all three proves nothing about either.
+ * Removing them leaves DevOps, front-end, back-end, chromosomes and
+ * vulnerabilities, which are terms, and costs no phrase at all.
+ */
+const TOO_GENERIC_ALONE = new Set(
+  (
+    'data development software system security file project solution success ethical application ' +
+    'applications approach approaches practice practices method methods technique techniques tool ' +
+    'tools user users design designs code testing test tests model models management'
   ).split(/\s+/)
 );
 
@@ -186,7 +212,11 @@ const alreadyListed = (keywords: string[], key: string): boolean =>
 
 /**
  * The terms this question should carry and does not, in the syllabus's own
- * words. Empty unless the question has a scenario — see the note above.
+ * words.
+ *
+ * A question with no scenario is still checked — on phrases only, which is what
+ * the asymmetry above buys: 42 of the flagged questions have no scenario at
+ * all, and "safe work practices" is no less missing from one of those.
  */
 export const missingSyllabusTerms = (
   dotPointText: string | undefined,
@@ -202,11 +232,13 @@ export const missingSyllabusTerms = (
 
   const wanted = candidateTerms(dotPointText).filter((term) => {
     if (alreadyListed(listed, term.key)) return false;
+    const isPhrase = term.key.includes(' ');
+    if (!isPhrase && TOO_GENERIC_ALONE.has(term.key)) return false;
     const inQ = usesTerm(inQuestion, term.key);
     const inS = hasScenario && usesTerm(inScenario, term.key);
     // A phrase is subject matter wherever it turns up; a lone word has to be
     // corroborated by all three before it counts as more than a verb.
-    return term.key.includes(' ') ? inQ || inS : inQ && inS;
+    return isPhrase ? inQ || inS : inQ && inS;
   });
 
   // Longest wins: with "Torres Strait Islander Peoples" kept there is nothing

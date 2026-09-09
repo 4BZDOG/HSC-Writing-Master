@@ -140,6 +140,21 @@ describe('the audit tree as a keyboard widget', () => {
   });
 });
 
+describe('a control inside a row keeps its own keys', () => {
+  it('does not tick the row when Enter is pressed on one of its buttons', () => {
+    renderStudio();
+    press('ArrowDown'); // the course row
+    const button = document.querySelector<HTMLElement>('[role="treeitem"] button');
+    expect(button).toBeTruthy();
+
+    // A row's buttons are out of the tab order, but a click still focuses them,
+    // and this handler sits on the tree. Without the guard, Enter meant for
+    // "run this again" was swallowed here and flipped the row's tick instead.
+    fireEvent.keyDown(button!, { key: 'Enter' });
+    expect(screen.queryByRole('button', { name: /clear selection/i })).toBeNull();
+  });
+});
+
 describe('estimateRemaining', () => {
   it('says nothing until two tasks have finished', () => {
     // One sample is not an average, and a figure that swings between wild

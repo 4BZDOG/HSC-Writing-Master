@@ -294,6 +294,55 @@ describe('missingSyllabusTerms — the terms a question is built on', () => {
     expect(terms).not.toContain('maintenance');
   });
 
+  it('offers a lone word all three DO agree on, when it is not the course’s wallpaper', () => {
+    // The counterpart to the test above, and the case that prompted the check:
+    // "maintenance" named in the dot point, the question AND the scenario.
+    const terms = missingSyllabusTerms(
+      'Explain the maintenance required to keep an enterprise system running.',
+      {
+        question: 'Explain the maintenance an enterprise system requires after deployment.',
+        scenario: 'A retailer has run the same platform for six years with no maintenance plan.',
+        keywords: ['deployment'],
+      }
+    );
+    expect(terms).toContain('maintenance');
+  });
+
+  it('will not offer a bare word the whole course is written in', () => {
+    /**
+     * All three sources say "software" and "development" here, so the
+     * all-three rule passes them — and it should not. They are the wallpaper of
+     * a Software Engineering course, not something this question is about. Over
+     * the shipped library this was 22 of the 30 terms the lone-word branch
+     * offered.
+     */
+    const terms = missingSyllabusTerms('Explain the software development life cycle.', {
+      question: 'Explain the stages of software development in a large project.',
+      scenario: 'A software house is planning the development of a new project.',
+      keywords: [],
+    });
+    expect(terms).not.toContain('software');
+    expect(terms).not.toContain('development');
+    expect(terms).not.toContain('project');
+  });
+
+  it('still builds a phrase out of the words it will not offer alone', () => {
+    // The generic list is consulted only where a single word asks to stand as a
+    // term. Putting these words in the phrase-building stop list instead would
+    // have deleted "big data" and "data security" along with the noise.
+    const terms = missingSyllabusTerms(
+      'Investigate how big data is used in a data security context.',
+      {
+        question: 'Explain how big data changes the data security posture of an enterprise.',
+        scenario: 'An insurer now ingests billions of records a day.',
+        keywords: [],
+      }
+    );
+    expect(terms).toContain('big data');
+    expect(terms).toContain('data security');
+    expect(terms).not.toContain('data');
+  });
+
   it('keeps a name whole rather than shredding it into overlapping pairs', () => {
     const terms = missingSyllabusTerms(
       'Describe the Cultural Knowledges of Aboriginal and Torres Strait Islander Peoples.',

@@ -1451,7 +1451,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   };
 
   /**
-   * Put the terms the syllabus, the question and its scenario all use onto the
+   * Put the terms the syllabus dot point and the question are built on onto the
    * question's Syllabus Terms list.
    *
    * The other half of Tidy Terms, and local for the same reason: the judgement
@@ -1484,7 +1484,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     });
 
     showToast(
-      `Added ${added} syllabus term${added === 1 ? '' : 's'} across ${targets.length} question${targets.length === 1 ? '' : 's'} — each one used by the dot point, the question and its scenario.`,
+      `Added ${added} syllabus term${added === 1 ? '' : 's'} across ${targets.length} question${targets.length === 1 ? '' : 's'} — each one taken from the wording of the dot point the question sits under.`,
       'success'
     );
   };
@@ -1702,8 +1702,19 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         break;
       case ' ':
       case 'Enter':
-        // Space is the tick. Held with shift it extends from the last one, the
-        // same reach a shift-click makes.
+        /**
+         * Space is the tick. Held with shift it extends from the last one, the
+         * same reach a shift-click makes.
+         *
+         * Unless a control inside the row has focus. The row's buttons are out
+         * of the tab order but a click still focuses them, and this handler
+         * sits on the tree, so without the guard a curator who clicked "Write
+         * Marking Guides" and pressed Enter to run it again would have the
+         * keypress swallowed here and the row's tick flipped instead. Arrow
+         * keys are left to bubble either way — moving off a button and on to
+         * the next row is what they should do.
+         */
+        if ((e.target as HTMLElement).closest('button')) break;
         e.preventDefault();
         if (node) toggleSelect(currentId, !selectedIds.has(currentId), e.shiftKey);
         break;
@@ -2232,7 +2243,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 <AuditActionButton
                   onClick={handleAddTerms}
                   disabled={isProcessing || selectionTargets.termGaps === 0}
-                  title="Add the terms the syllabus dot point, the question and its scenario all use, and the Syllabus Terms list leaves out. Appends only; nothing already on a list is touched. A local edit: no AI, no quota, instant."
+                  title="Add the terms the syllabus dot point and the question are built on, that the Syllabus Terms list leaves out. Appends only; nothing already on a list is touched. A local edit: no AI, no quota, instant."
                   tone="lime"
                   label="Add Terms"
                   count={selectionTargets.termGaps}

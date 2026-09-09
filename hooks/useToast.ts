@@ -103,6 +103,19 @@ export const useToast = () => {
         const at = prev.findIndex((t) => t.replaceKey === replaceKey);
         if (at !== -1) {
           const held = prev[at];
+          /**
+           * Gaining or losing an action is the one change the slot cannot
+           * absorb. `Toast` reads its duration once, on mount, so a notice
+           * that quietly acquires a button under a five-second countdown
+           * already part spent can offer it for barely a second — and the
+           * whole point of the fourteen is that an offer is reachable. When
+           * that changes, the slot takes a NEW toast (fresh id, fresh
+           * duration) rather than an update; it is still one slot, so the
+           * queue does not grow either way.
+           */
+          if (!!held.action !== !!action) {
+            return prev.map((t, i) => (i === at ? next : t));
+          }
           const updated: ToastMessage = { ...held, message, type, action };
           return prev.map((t, i) => (i === at ? updated : t));
         }

@@ -129,6 +129,28 @@ describe('a keyed toast holds one slot instead of queueing', () => {
     expect(result.current.toast!.message).toBe('Your daily AI quota is nearly spent.');
   });
 
+  it('re-raises the slot when a notice gains an action, so the offer is reachable', () => {
+    const { result } = renderHook(() => useToast());
+
+    act(() => result.current.showToast('Step 199 of 200', 'success', undefined, 'run'));
+    const during = result.current.toast!;
+
+    act(() =>
+      result.current.showToast('Batch finished.', 'success', { label: 'Open studio', onClick: vi.fn() }, 'run')
+    );
+    const ended = result.current.toast!;
+
+    // `Toast` reads its duration once, on mount, so keeping the id here would
+    // have shown the button under whatever was left of the step notice's five
+    // seconds. A new id remounts it with the fourteen an offer is given.
+    expect(ended.id).not.toBe(during.id);
+    expect(ended.durationMs).toBeGreaterThan(during.durationMs);
+    expect(ended.action?.label).toBe('Open studio');
+    // Still one slot: nothing queued up behind it.
+    act(() => result.current.hideToast());
+    expect(result.current.toast).toBeNull();
+  });
+
   it('still queues normally when no key is given', () => {
     const { result } = renderHook(() => useToast());
 
