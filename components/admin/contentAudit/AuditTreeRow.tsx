@@ -42,6 +42,8 @@ interface AuditTreeRowProps {
   isSelected: boolean;
   isExpanded: boolean;
   hasChildren: boolean;
+  /** This is the row the arrow keys are on, and the tree has focus. */
+  isActive: boolean;
   onToggleSelect: (id: string, checked: boolean, extend: boolean) => void;
   onToggleExpand: (id: string) => void;
 }
@@ -76,6 +78,16 @@ const COURSE_STICKY_TOP = 'top-11'; // clears the faculty band exactly
  * and left transparent the content underneath reads straight through it.
  */
 const STICKY_GROUND = 'bg-[rgb(var(--color-bg-base))] light:bg-slate-50';
+
+/**
+ * Where the keyboard is.
+ *
+ * The focus itself sits on the `treeitem` wrapper, which also contains the
+ * whole subtree — outlining that would draw a box around a hundred rows. So
+ * the wrapper's own outline is suppressed and the ring is drawn here, on the
+ * row, which is what the arrow keys actually move between.
+ */
+const ACTIVE_RING = 'ring-2 ring-inset ring-indigo-400/70 light:ring-indigo-500/70';
 
 /**
  * Where the readouts start, measured from the row's left edge.
@@ -140,6 +152,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
   node,
   isSelected,
   isExpanded,
+  isActive,
   onToggleSelect,
   onToggleExpand,
 }) => {
@@ -149,7 +162,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
 
   return (
     <div
-      className={`relative flex items-center gap-3 ${FACULTY_ROW_H} pl-4 pr-6 border-b border-white/5 light:border-slate-200 transition-colors ${
+      className={`relative flex items-center gap-3 ${FACULTY_ROW_H} pl-4 pr-6 border-b border-white/5 light:border-slate-200 transition-colors ${isActive ? ACTIVE_RING : ''} ${
         isSelected
           ? 'bg-indigo-500/10 light:bg-indigo-50'
           : 'bg-white/[0.02] light:bg-slate-100/70 hover:bg-white/[0.05] light:hover:bg-slate-100'
@@ -163,6 +176,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
         onClick={(e) => onToggleSelect(node.id, !isSelected, e.shiftKey)}
         aria-label={`${isSelected ? 'Deselect' : 'Select'} the whole ${node.label} faculty`}
         aria-pressed={isSelected}
+        tabIndex={-1}
         className={`transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'}`}
       >
         {isSelected ? (
@@ -174,6 +188,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
       <button
         onClick={() => onToggleExpand(node.id)}
         aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
+        tabIndex={-1}
         className="p-1 text-slate-500"
       >
         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
@@ -205,18 +220,27 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
 };
 
 const BranchRow: React.FC<AuditTreeRowProps> = (props) => {
-  const { node, level, isSelected, isExpanded, hasChildren, onToggleSelect, onToggleExpand } =
-    props;
+  const {
+    node,
+    level,
+    isSelected,
+    isExpanded,
+    hasChildren,
+    isActive,
+    onToggleSelect,
+    onToggleExpand,
+  } = props;
 
   return (
     <div
-      className={`flex items-center ${BRANCH_ROW_H} pr-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
+      className={`flex items-center ${BRANCH_ROW_H} pr-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isActive ? ACTIVE_RING : ''} ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
       style={{ paddingLeft: `${level * INDENT_STEP + 16}px` }}
     >
       <button
         onClick={(e) => onToggleSelect(node.id, !isSelected, e.shiftKey)}
         aria-label={`${isSelected ? 'Deselect' : 'Select'} ${node.label}`}
         aria-pressed={isSelected}
+        tabIndex={-1}
         className={`mr-3 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
       >
         {isSelected ? (
@@ -229,7 +253,7 @@ const BranchRow: React.FC<AuditTreeRowProps> = (props) => {
         onClick={() => onToggleExpand(node.id)}
         aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
         aria-hidden={!hasChildren}
-        tabIndex={hasChildren ? undefined : -1}
+        tabIndex={-1}
         className={`mr-2 p-1 text-slate-500 ${hasChildren ? 'visible' : 'invisible'}`}
       >
         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}

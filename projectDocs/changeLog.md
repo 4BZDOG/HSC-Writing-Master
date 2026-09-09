@@ -1,5 +1,56 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (The tree keeps its promise about arrow keys, and a long run says how long)
+
+### ⌨ The audit tree is a keyboard widget
+
+It has said `role="tree"` since it was built, which is a promise about arrow
+keys that nothing kept — and the DOM underneath was worse than silent. Every
+row carries two buttons, so Tab walked a keyboard user through three thousand
+stops to cross the shipped library, and there was no other way in.
+
+The buttons are out of the tab order and the tree is one stop with roving focus
+inside it, which is both the ARIA pattern and the faster way to work:
+
+| Key                | What it does                                              |
+| ------------------ | --------------------------------------------------------- |
+| ↑ ↓                | The previous / next row on screen                          |
+| → / ←              | Open a branch, or step into it; fold it, or step out to the parent |
+| Home / End         | The first / last row on screen                             |
+| Space              | Tick the row (cascading, exactly as a click does)          |
+| Shift + Space      | Extend the selection from the last row ticked              |
+
+Under a search or a filter every shown row is already open, so ← there means
+"out to the parent" for the whole depth rather than doing nothing visible.
+
+Two details worth keeping. The ring is drawn on the ROW, not on the element
+that holds focus: focus sits on the `treeitem`, which also contains the whole
+subtree, and outlining that draws a box around a hundred rows. And the row that
+takes focus must claim it only for itself — React's `onFocus` is `focusin` and
+bubbles, so the first version left a ring on every ancestor back to the faculty
+band.
+
+**`useFocusTrap`'s selector was wrong in a way this surface makes load-bearing.**
+It read `button:not([disabled])` and `[tabindex]:not([tabindex="-1"])` as
+alternatives, so a `<button tabindex="-1">` — which a browser will never Tab to
+— counted as a tab stop. With three thousand of them now in one dialog, the
+trap's idea of "the last focusable" would have been a control Tab cannot reach,
+its wrap-around would never fire, and Tab would walk out of the dialog. The
+exclusion now applies to every entry in the list.
+
+### ⏳ A long run says how much longer
+
+A batch is paced at 1.5s between calls and runs one at a time, so two hundred
+questions is upwards of ten minutes. The honest question is "can I go and do
+something else", and a bar creeping along answers it only by being watched.
+The progress row now carries an estimate beside the count, from elapsed time
+over tasks finished. It stays quiet until two have finished: one sample is not
+an average, and a figure that swings between wild numbers on every update is
+worse than none.
+
+`tests/unit/auditTreeKeyboard.test.tsx` covers the single tab stop, each key,
+and the estimate's thresholds.
+
 ## [Unreleased] - 2026-09-09 (Pick up what a run dropped, keep your place, and select a run of rows)
 
 The second pass over the Content Audit Studio, from the same source as the
