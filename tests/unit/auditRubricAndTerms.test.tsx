@@ -222,12 +222,12 @@ describe('the studio offers a repair for both', () => {
   });
 });
 
-describe('missingSyllabusTerms — what the syllabus, the question and the scenario all say', () => {
+describe('missingSyllabusTerms — the terms a question is built on', () => {
   const dotPoint =
     'Verify and validate an enterprise computing system, including evaluating test data, ' +
     'trialling operation and maintenance documentation, and reviewing the impact of implementation.';
 
-  it('finds a term all three use that the list leaves out', () => {
+  it('finds a phrase the syllabus and the question are both built on', () => {
     const terms = missingSyllabusTerms(dotPoint, {
       question: "Explain how 'evaluating test data' contributes to verification of a new system.",
       scenario: 'A new accounting system is being checked against its test data before launch.',
@@ -267,26 +267,63 @@ describe('missingSyllabusTerms — what the syllabus, the question and the scena
     expect(terms).toEqual(['maintenance']);
   });
 
-  it('checks nothing when the question has no scenario', () => {
-    // The dot point and the question describe the same syllabus point in the
-    // same words, so without a third source the rule flags 92% of the library.
-    expect(
-      missingSyllabusTerms(dotPoint, {
-        question: 'Explain how evaluating test data supports validation.',
-        keywords: [],
-      })
-    ).toEqual([]);
+  it('offers a phrase the question uses even with no scenario at all', () => {
+    // The case that prompted this: the five shipped questions about big data
+    // have it in the dot point and the question, and their scenarios say
+    // "billions of data points". A rule needing all three cannot see it.
+    const terms = missingSyllabusTerms(
+      'Explain how big data affects the design of data visualisation.',
+      {
+        question: 'Identify two design challenges that big data creates for data visualisation.',
+        scenario: 'A designer must chart a dataset with billions of points.',
+        keywords: ['design'],
+      }
+    );
+    expect(terms).toContain('big data');
   });
 
-  it('requires all three to agree, not two', () => {
-    // "maintenance documentation" is in the dot point and the question but not
-    // in the scenario, so it is not offered.
-    const terms = missingSyllabusTerms(dotPoint, {
-      question: 'Explain how trialling maintenance documentation supports validation.',
-      scenario: 'A new accounting system is undergoing its final phase of testing.',
+  it('makes a lone word earn all three, because that is where the verbs hide', () => {
+    // "maintenance" is in the dot point and the question but not the scenario.
+    // Single words agree between a dot point and a question for reasons that
+    // have nothing to do with subject matter — both open with an instruction.
+    const terms = missingSyllabusTerms('Explain the maintenance of a system.', {
+      question: 'Explain the maintenance required by an enterprise system.',
+      scenario: 'A system has been running for a year and needs updates.',
       keywords: [],
     });
-    expect(terms).not.toContain('maintenance documentation');
+    expect(terms).not.toContain('maintenance');
+  });
+
+  it('keeps a name whole rather than shredding it into overlapping pairs', () => {
+    const terms = missingSyllabusTerms(
+      'Describe the Cultural Knowledges of Aboriginal and Torres Strait Islander Peoples.',
+      {
+        question: "Examine how Torres Strait Islander Peoples' observations shaped fire regimes.",
+        keywords: ['Cultural burning'],
+      }
+    );
+    expect(terms).toContain('Torres Strait Islander Peoples');
+    expect(terms).not.toContain('Torres Strait');
+    expect(terms).not.toContain('Strait Islander');
+  });
+
+  it('matches whole words, not substrings', () => {
+    // "model" is not present in "modelling".
+    const terms = missingSyllabusTerms('Conduct an investigation to model the process.', {
+      question: 'Analyse the roles demonstrated in a practical modelling investigation.',
+      scenario: 'A student completed a practical modelling investigation.',
+      keywords: [],
+    });
+    expect(terms).not.toContain('model');
+  });
+
+  it('does not run a phrase across punctuation', () => {
+    const terms = missingSyllabusTerms('Explain primary, secondary and tertiary structures.', {
+      question: 'Explain how primary, secondary and tertiary structures arise.',
+      keywords: [],
+    });
+    expect(terms).not.toContain('primary secondary');
+    expect(terms).not.toContain('primary secondary tertiary');
   });
 });
 

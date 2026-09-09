@@ -7,36 +7,49 @@ as not mechanically detectable. It is — with all THREE sources required.
 
 ### 🎯 Missing Terms
 
-A term the syllabus dot point, the question AND its scenario all use is what
-the question is about, and a student told which terms to use should be told
-that one. `utils/syllabusTermGaps.ts` finds them; the studio flags them as
-**Missing Terms**, badges them on the row with the terms named, and **Add
-Terms** appends them — a local edit, no AI, like Tidy Terms beside it.
+A term the syllabus dot point and the question are both built on is what the
+question is ABOUT, and a student told which terms to use should be told that
+one. `utils/syllabusTermGaps.ts` finds them; the studio flags them as **Missing
+Terms**, names them on the row badge, and **Add Terms** appends them — a local
+edit, no AI, like Tidy Terms beside it.
 
-Adjacent word pairs as well as single words, because these terms usually come
-in twos: "test data", "bug data", "maintenance documentation". Maximal phrases
-only, so a kept "test data" does not also add "test" and "data". Command verbs
-and words carrying no subject matter never qualify. The terms are added in the
-syllabus's own casing, appended after whatever a curator already wrote, and
-nothing already on a list is touched.
+**The rule is asymmetric, and the asymmetry is the whole design.** Measured over
+the 418 shipped questions:
 
-**Requiring a scenario is the whole reason this works.** Measured over the 418
-shipped questions:
+| What must use the term                            | Flagged |
+| --------------------------------------------------- | ------- |
+| Dot point + question                               | 78%     |
+| Dot point + question + scenario                    | 14%     |
+| **Phrase: dot point + either. Lone word: all three** | **33%** |
 
-| Sources that must agree                           | Flagged |
-| -------------------------------------------------- | ------- |
-| Dot point + question (questions with no scenario)  | 92%     |
-| Dot point + question or scenario                   | 77%     |
-| **Dot point + question + scenario**                | **21%** |
+The 78% is almost all VERBS — "Modify", "Select", "develop", "record". Dot
+points open with an instruction and so do questions, so single words agree for
+reasons that have nothing to do with subject matter. Requiring all three fixes
+that and breaks something else: a well-written scenario PARAPHRASES. The
+thirteen shipped questions about big data have it in the dot point and the
+question, and their scenarios say "billions of data points" and "a large influx
+of data" — so the strict rule cannot see the very term that prompted the check.
 
-The dot point and the question are both describing the same syllabus point in
-the same words, so on their own almost everything matches. The scenario is
-written separately, and its agreement is what makes a term the subject rather
-than a coincidence. A question with no scenario is therefore **not checked**
-rather than checked badly — which is a real limit, and the honest one: 132 of
-the 418 shipped questions have no scenario.
+Subject matter lives in noun phrases; the verbs hide among single words. So a
+phrase needs the dot point plus either the question or the scenario, and a lone
+word needs all three. That finds "big data", "primary data", "peer review",
+"alternative splicing", "ethical issues", "safe work practices" and "Torres
+Strait Islander Peoples", at 1.2 terms per flagged question, and leaves
+"Select" and "record" alone.
 
-At 21% it adds about one term per flagged question.
+Four things the shipped content forced:
+
+- **Longest run wins.** Taking adjacent PAIRS shredded "Torres Strait Islander
+  Peoples" into three overlapping fragments of one name.
+- **Punctuation ends a phrase.** Flattening it ran "primary, secondary,
+  tertiary structures" together into a phrase the syllabus never wrote.
+- **Whole words.** Substring matching read "model" as present in "modelling".
+- **Command verbs in every form.** `commandTermsList` holds "EVALUATE" and dot
+  points write "evaluating test data", so the participle escaped and the term
+  offered was the instruction glued to its subject.
+
+Terms are added in the syllabus's own casing, appended after whatever a curator
+already wrote; nothing already on a list is touched.
 
 ## [Unreleased] - 2026-09-09 (A guide the studio could not see was broken, and terms that were never terms)
 
