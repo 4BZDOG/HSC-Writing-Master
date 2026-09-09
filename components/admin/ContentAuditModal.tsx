@@ -78,6 +78,7 @@ import {
   Terminal,
   Link2,
   Search,
+  RefreshCw,
   RotateCcw,
   Scale,
   Cpu,
@@ -101,6 +102,23 @@ interface TouchedPrompt {
   dotPointAppId: string;
   label: string;
 }
+
+/**
+ * What each batch action is called when something other than its own button
+ * has to name it — the retry control, and the toast that follows a retry. The
+ * button labels themselves stay at their call sites, where the target count
+ * belongs.
+ */
+const ACTION_LABELS: Record<BulkActionType, string> = {
+  generateQuestions: 'Write Questions',
+  generateRubrics: 'Write Marking Guides',
+  reviseRubrics: 'Reformat Guides',
+  linkOutcomes: 'Link Outcomes',
+  generateSamples: 'Draft Samples',
+  recalibrateSamples: 'Re-mark Samples',
+  screenQuality: 'Score Quality',
+  fixAllGaps: 'Fix All Gaps',
+};
 
 const OUTBOX_STORAGE_KEY = 'hsc.contentAudit.syncOutbox.v1';
 
@@ -640,20 +658,79 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     });
   }, [flatMap]);
 
+  /**
+   * The rows on screen, top to bottom, so a shift-click knows what lies
+   * between two ticks. Read through a ref by `toggleSelect`, which must keep
+   * one identity for the life of the studio — it is passed to 1,500 memoised
+   * rows, and a callback rebuilt whenever a branch opens would re-render every
+   * one of them.
+   */
+  const visibleOrder = useMemo(() => {
+    const order: string[] = [];
+    const walk = (nodes: TreeNode[]) => {
+      nodes.forEach((n) => {
+        order.push(n.id);
+        const open = isNarrowed || expandedIds.has(n.id);
+        if (open && n.children) walk(n.children);
+      });
+    };
+    walk(filteredTreeData);
+    return order;
+  }, [filteredTreeData, expandedIds, isNarrowed]);
+
+  const visibleOrderRef = useRef(visibleOrder);
+  visibleOrderRef.current = visibleOrder;
+
+  // Where the last plain tick landed. A shift-click reaches back to it.
+  const selectionAnchorRef = useRef<string | null>(null);
+
   const toggleSelect = React.useCallback(
-    (id: string, checked: boolean) => {
+    (id: string, checked: boolean, extend = false) => {
       if (isProcessing) return;
       const node = flatMap.get(id);
       if (!node) return;
 
+      const cascade = (into: Set<string>, n: TreeNode, isChecked: boolean) => {
+        if (isChecked) into.add(n.id);
+        else into.delete(n.id);
+        if (n.children) n.children.forEach((c) => cascade(into, c, isChecked));
+      };
+
+      /**
+       * Shift-clicking a second row takes everything on screen between it and
+       * the last row ticked. Selecting a topic's worth of questions used to be
+       * one click per row, and the studio's whole job is running one action
+       * over a lot of content at once.
+       *
+       * It only ever ADDS. File managers move the anchor's meaning around on a
+       * shift-click, and getting that subtly wrong here deselects work an admin
+       * has spent minutes assembling; extending a selection is the useful half
+       * and it cannot lose anything. The anchor stays put, so a second
+       * shift-click reaches from the same place.
+       */
+      const anchor = selectionAnchorRef.current;
+      if (extend && anchor && anchor !== id) {
+        const order = visibleOrderRef.current;
+        const from = order.indexOf(anchor);
+        const to = order.indexOf(id);
+        if (from !== -1 && to !== -1) {
+          const [lo, hi] = from < to ? [from, to] : [to, from];
+          setSelectedIds((current) => {
+            const newSelected = new Set(current);
+            order.slice(lo, hi + 1).forEach((rowId) => {
+              const rowNode = flatMap.get(rowId);
+              if (rowNode) cascade(newSelected, rowNode, true);
+            });
+            return newSelected;
+          });
+          return;
+        }
+      }
+
+      selectionAnchorRef.current = id;
       setSelectedIds((current) => {
         const newSelected = new Set(current);
-        const toggleNode = (n: TreeNode, isChecked: boolean) => {
-          if (isChecked) newSelected.add(n.id);
-          else newSelected.delete(n.id);
-          if (n.children) n.children.forEach((c) => toggleNode(c, isChecked));
-        };
-        toggleNode(node, checked);
+        cascade(newSelected, node, checked);
         return newSelected;
       });
     },
@@ -1068,10 +1145,33 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         `The batch could not run: ${outcome.runnerError instanceof Error ? outcome.runnerError.message : 'unknown error'}`,
         'error'
       );
-      return;
+      return null;
     }
 
     summarise(outcome.completed, outcome.failed, outcome.aborted, outcome.fatalError);
+    return outcome;
+  };
+
+  /**
+   * What a run left unfinished, kept so it can be run again.
+   *
+   * A batch of two hundred that ends "184 succeeded, 16 failed" used to leave
+   * the admin reading a scrolling log, matching descriptions back to questions
+   * by eye, and re-selecting them by hand — and the failures are usually the
+   * transient half of a long run, a rate limit or a truncated response, which
+   * a second attempt clears. The tasks themselves are safe to keep: each one
+   * resolves its question through `coursesRef` at action time rather than from
+   * anything captured when the batch was assembled, so a retry runs against the
+   * library as it stands now.
+   */
+  const [failedTasks, setFailedTasks] = useState<{ label: string; tasks: BatchTask<void>[] }>({
+    label: '',
+    tasks: [],
+  });
+
+  const keepFailures = (label: string, tasks: BatchTask<void>[], failedIds: string[]) => {
+    const byId = new Set(failedIds);
+    setFailedTasks({ label, tasks: tasks.filter((t) => byId.has(t.id)) });
   };
 
   const handleBulkAction = async (actionType: BulkActionType) => {
@@ -1086,11 +1186,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       return;
     }
 
+    // A new run supersedes whatever the last one left behind — its failures
+    // are about to be re-attempted or replaced by this run's own.
+    setFailedTasks({ label: '', tasks: [] });
+
     // Route every AI call in this batch to the engine the admin picked for
     // the run (or leave the app's per-role defaults when 'default').
     setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
     try {
-      await executeBatch(tasks, (done, failed, aborted, fatal) => {
+      const outcome = await executeBatch(tasks, (done, failed, aborted, fatal) => {
         if (aborted) {
           showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
         } else if (fatal) {
@@ -1104,6 +1208,39 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
         }
       });
+      if (outcome && outcome.failedTaskIds.length > 0)
+        keepFailures(ACTION_LABELS[actionType], tasks, outcome.failedTaskIds);
+    } finally {
+      setBatchModelOverride(null);
+    }
+  };
+
+  /**
+   * Run the last batch's failures again, and nothing else.
+   *
+   * It goes through the same engine picker as any other run, so an admin whose
+   * batch was rate-limited on Pro can drop to Flash and retry the remainder
+   * without rebuilding the selection.
+   */
+  const handleRetryFailed = async () => {
+    if (isProcessing || failedTasks.tasks.length === 0) return;
+    const { label, tasks } = failedTasks;
+    setFailedTasks({ label: '', tasks: [] });
+
+    setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
+    try {
+      const outcome = await executeBatch(tasks, (done, failed, aborted) => {
+        if (aborted) showToast(`Retry stopped — ${done} of ${tasks.length} completed.`, 'info');
+        else if (failed > 0)
+          showToast(`Retry finished: ${done} succeeded, ${failed} still failing.`, 'error');
+        else
+          showToast(
+            `Retry complete: ${done} item${done === 1 ? '' : 's'} updated on the second attempt.`,
+            'success'
+          );
+      });
+      if (outcome && outcome.failedTaskIds.length > 0)
+        keepFailures(label, tasks, outcome.failedTaskIds);
     } finally {
       setBatchModelOverride(null);
     }
@@ -1755,6 +1892,17 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 >
                   <UploadCloud className="w-3.5 h-3.5" /> Import JSON…
                 </button>
+                {failedTasks.tasks.length > 0 && (
+                  <button
+                    onClick={handleRetryFailed}
+                    disabled={isProcessing}
+                    title={`Run the ${failedTasks.tasks.length} task${failedTasks.tasks.length === 1 ? '' : 's'} that failed in the last "${failedTasks.label}" run again — the selection does not need rebuilding, and the engine picker above still applies`}
+                    className="t-label px-3.5 h-10 rounded-xl bg-amber-500/10 light:bg-amber-50 border border-amber-500/30 light:border-amber-300 text-amber-300 light:text-amber-700 hover:bg-amber-500/20 light:hover:bg-amber-100 transition-all flex items-center gap-2 disabled:opacity-30"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    Retry Failed ({failedTasks.tasks.length})
+                  </button>
+                )}
                 {isCurriculumRemote() && pendingSyncCount > 0 && (
                   <button
                     onClick={handleSyncToLibrary}

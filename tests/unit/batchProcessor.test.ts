@@ -75,6 +75,34 @@ describe('runBatchOperations', () => {
     expect(lastProgress?.errors).toHaveLength(1);
   });
 
+  it('names the tasks that failed, not just how many', async () => {
+    // A caller that knows only the count can offer nothing but "run the whole
+    // batch again" — which re-spends AI quota on the tasks that worked. The
+    // ids are what makes a retry of the failures alone possible.
+    const boom = (id: string): BatchTask<void> => ({
+      id,
+      description: id,
+      action: async () => {
+        throw new Error('boom');
+      },
+    });
+    const tasks: BatchTask<void>[] = [
+      { id: 'ok-1', description: 'ok', action: async () => {} },
+      boom('bad-1'),
+      { id: 'ok-2', description: 'ok', action: async () => {} },
+      boom('bad-2'),
+    ];
+
+    let lastProgress: BatchProgress | undefined;
+    const run = runBatchOperations(tasks, 1, (p) => {
+      lastProgress = p;
+    });
+    await vi.runAllTimersAsync();
+    await run;
+
+    expect(lastProgress?.failedTaskIds).toEqual(['bad-1', 'bad-2']);
+  });
+
   it('waits for a sibling in-flight task to finish before resolving after abort()', async () => {
     // Regression test for a real bug: with concurrency >= 2, if the user
     // clicks Stop while task A happens to finish first but task B is still

@@ -753,3 +753,41 @@ colouring subjects for as long as it has existed; those values moved to
 1600×950 and 2560×1100 in dark, 1600×950 in light, and 700×900 for the
 laid-down rail — plus a run through the actual workflow the ask described:
 tick SCIENCE, watch it cascade to both courses, read the footer.
+
+---
+
+# Fifth pass: two more from use
+
+Not a reading of the skill this time — two changes that came from working the
+studio, recorded here because both are layout decisions the fourth pass's
+grid has to keep holding.
+
+### 20. A 1,500-row tree with no fixed point — FIXED
+
+The fourth pass gave every row a readout column; it did not answer "where am
+I". Expanded, the library is about 1,500 rows, and scrolling into the middle of
+one leaves a screen of dot points and questions with nothing naming their
+course or faculty.
+
+Faculty and course rows pin. Two levels, not four: topics and sub-topics stay
+in the flow because four pinned bands would be most of a short window, and the
+two that pin are the two a reader loses first.
+
+The cost is that row heights are now fixed rather than falling out of padding —
+44px for a faculty band, 36px for everything else, which is what they already
+measured. A pinned course sits directly under the faculty band, so it has to
+know that band's height; deriving it at runtime to avoid writing the number
+down would be a measurement in a render path for no gain. A pinned row also
+needs an opaque ground: its own fill is a translucent tint over the tree's
+background, and without one the rows sliding under it read through.
+
+### 21. Where a retry control goes — FIXED
+
+`Retry Failed (n)` joins the row after the rule, with `Export JSON`,
+`Import JSON…`, `Sync to Library` and `Clear Questions` — the group that acts
+on what the studio has already done, rather than the seven that act on the
+current selection. It takes the amber of the "needs review" family rather than
+a colour of its own, and it appears only when a run actually left something
+behind, which is the same rule `Sync to Library` follows.
+
+`Fix All Gaps` is still the one filled button on the row.
