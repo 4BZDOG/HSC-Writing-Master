@@ -33,6 +33,8 @@ export interface BatchRunOutcome {
   completed: number;
   failed: number;
   total: number;
+  /** The ids of the tasks that failed, so a caller can offer to re-run them. */
+  failedTaskIds: string[];
   /** The user pressed Stop. Tasks already finished keep their work. */
   aborted: boolean;
   /** The batch halted itself — bad key, exhausted quota, repeated failures. */
@@ -60,6 +62,7 @@ const EMPTY_OUTCOME: BatchRunOutcome = {
   completed: 0,
   failed: 0,
   total: 0,
+  failedTaskIds: [],
   aborted: false,
 };
 
@@ -125,6 +128,7 @@ export const useBatchRun = (): UseBatchRunResult => {
         completed: settled?.completed ?? 0,
         failed: settled?.failed ?? 0,
         total: settled?.total ?? tasks.length,
+        failedTaskIds: settled?.failedTaskIds ?? [],
         aborted: controller.signal.aborted,
         fatalError: settled?.fatalError,
         runnerError,

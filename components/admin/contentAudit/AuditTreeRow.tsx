@@ -42,7 +42,7 @@ interface AuditTreeRowProps {
   isSelected: boolean;
   isExpanded: boolean;
   hasChildren: boolean;
-  onToggleSelect: (id: string, checked: boolean) => void;
+  onToggleSelect: (id: string, checked: boolean, extend: boolean) => void;
   onToggleExpand: (id: string) => void;
 }
 
@@ -50,6 +50,32 @@ interface AuditTreeRowProps {
  *  their faculty, so the step came down from 24px to keep a question's text
  *  starting well left of centre. */
 export const INDENT_STEP = 20;
+
+/**
+ * Faculty and course rows pin to the top of the tree while their own subtree
+ * scrolls past.
+ *
+ * Expanded, the shipped library is around 1,500 rows: scroll into the middle of
+ * one and the screen is a list of dot points and questions with nothing saying
+ * which course, let alone which faculty, they belong to — and the answer is
+ * hundreds of rows back up. Two levels pin, which is the two a reader loses
+ * first; topics and sub-topics stay in the flow because four sticky bands would
+ * be most of a short window.
+ *
+ * The offsets are why the heights below are fixed rather than derived from
+ * padding: a course pins directly under the faculty band, so it has to know how
+ * tall that band is. They are the heights those rows already had.
+ */
+const FACULTY_ROW_H = 'h-11'; // 44px
+const BRANCH_ROW_H = 'h-9'; // 36px
+const COURSE_STICKY_TOP = 'top-11'; // clears the faculty band exactly
+
+/**
+ * A pinned row scrolls over the rows behind it, so it needs a ground of its
+ * own — the row's own fill is a translucent tint over the tree's background,
+ * and left transparent the content underneath reads straight through it.
+ */
+const STICKY_GROUND = 'bg-[rgb(var(--color-bg-base))] light:bg-slate-50';
 
 /**
  * Where the readouts start, measured from the row's left edge.
@@ -123,7 +149,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
 
   return (
     <div
-      className={`relative flex items-center gap-3 py-3 pl-4 pr-6 border-b border-white/5 light:border-slate-200 transition-colors ${
+      className={`relative flex items-center gap-3 ${FACULTY_ROW_H} pl-4 pr-6 border-b border-white/5 light:border-slate-200 transition-colors ${
         isSelected
           ? 'bg-indigo-500/10 light:bg-indigo-50'
           : 'bg-white/[0.02] light:bg-slate-100/70 hover:bg-white/[0.05] light:hover:bg-slate-100'
@@ -134,7 +160,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
         className={`absolute left-0 top-0 bottom-0 w-[3px] ${SUBJECT_AREA_RULE[group.area]}`}
       />
       <button
-        onClick={() => onToggleSelect(node.id, !isSelected)}
+        onClick={(e) => onToggleSelect(node.id, !isSelected, e.shiftKey)}
         aria-label={`${isSelected ? 'Deselect' : 'Select'} the whole ${node.label} faculty`}
         aria-pressed={isSelected}
         className={`transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'}`}
@@ -178,19 +204,17 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
   );
 };
 
-const AuditTreeRowInner: React.FC<AuditTreeRowProps> = (props) => {
+const BranchRow: React.FC<AuditTreeRowProps> = (props) => {
   const { node, level, isSelected, isExpanded, hasChildren, onToggleSelect, onToggleExpand } =
     props;
 
-  if (node.type === 'faculty') return <FacultyRow {...props} />;
-
   return (
     <div
-      className={`flex items-center py-2 pr-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
+      className={`flex items-center ${BRANCH_ROW_H} pr-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
       style={{ paddingLeft: `${level * INDENT_STEP + 16}px` }}
     >
       <button
-        onClick={() => onToggleSelect(node.id, !isSelected)}
+        onClick={(e) => onToggleSelect(node.id, !isSelected, e.shiftKey)}
         aria-label={`${isSelected ? 'Deselect' : 'Select'} ${node.label}`}
         aria-pressed={isSelected}
         className={`mr-3 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
@@ -252,6 +276,22 @@ const AuditTreeRowInner: React.FC<AuditTreeRowProps> = (props) => {
       )}
     </div>
   );
+};
+
+/**
+ * The row, plus the ground it pins to when it is one of the two levels that
+ * pin. The wrapper is what carries `position: sticky`, not the row itself:
+ * the row lives inside a `treeitem` that also holds its whole subtree, and
+ * making THAT sticky would pin the branch rather than its heading.
+ */
+const AuditTreeRowInner: React.FC<AuditTreeRowProps> = (props) => {
+  const row = props.node.type === 'faculty' ? <FacultyRow {...props} /> : <BranchRow {...props} />;
+
+  if (props.node.type === 'faculty')
+    return <div className={`sticky top-0 z-20 ${STICKY_GROUND}`}>{row}</div>;
+  if (props.node.type === 'course')
+    return <div className={`sticky ${COURSE_STICKY_TOP} z-10 ${STICKY_GROUND}`}>{row}</div>;
+  return row;
 };
 
 const AuditTreeRow = React.memo(AuditTreeRowInner);

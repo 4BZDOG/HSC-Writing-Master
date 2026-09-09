@@ -16,6 +16,16 @@ export interface BatchProgress {
   isComplete: boolean;
   errors: string[];
   logs: string[];
+  /**
+   * The ids of the tasks that failed, in the order they failed.
+   *
+   * The runner used to record a failure only as a line of prose in `logs`, so
+   * the caller finished a run of two hundred knowing that seven had failed and
+   * having no way to say WHICH — the failures could only be recovered by
+   * reading the log and matching descriptions back to content by eye. Ids are
+   * what a caller can act on: re-run exactly those tasks.
+   */
+  failedTaskIds: string[];
   /** Set when the batch auto-aborted due to a fatal (non-retryable) error. */
   fatalError?: BatchFatalError;
 }
@@ -130,6 +140,7 @@ export const runBatchOperations = async <T>(
   let active = 0;
   let index = 0;
   const errors: string[] = [];
+  const failedTaskIds: string[] = [];
   const logs: string[] = [];
   let fatalError: BatchFatalError | undefined;
   let consecutiveFailures = 0;
@@ -148,6 +159,7 @@ export const runBatchOperations = async <T>(
       currentTask: currentTaskName,
       isComplete: completed + failed === tasks.length,
       errors,
+      failedTaskIds: [...failedTaskIds],
       logs: [...logs],
       fatalError,
     });
@@ -261,6 +273,7 @@ export const runBatchOperations = async <T>(
           console.error(`Batch task failed [${task.id}]:`, err);
           failed++;
           consecutiveFailures++;
+          failedTaskIds.push(task.id);
 
           const logLine = formatErrorLog(task.description, err);
           errors.push(logLine);

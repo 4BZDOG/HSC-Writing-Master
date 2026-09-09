@@ -1,5 +1,64 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (Pick up what a run dropped, keep your place, and select a run of rows)
+
+The second pass over the Content Audit Studio, from the same source as the
+first: using it. Three things that cost an admin time on every long session.
+
+### 🔁 A failed task is a thing you can run again
+
+`runBatchOperations` recorded a failure as a line of prose in its log and
+nothing else, so a run that ended "184 succeeded, 16 failed" left the sixteen
+recoverable only by reading a scrolling terminal, matching task descriptions
+back to questions by eye, and rebuilding the selection by hand. Failures are
+usually the transient half of a long run — a rate limit, a truncated response —
+and a second attempt clears most of them.
+
+`BatchProgress` now carries `failedTaskIds`, `useBatchRun` passes them out on
+the outcome, and the studio keeps the failed tasks so the footer can offer
+**Retry Failed (n)**. The retry goes through the same engine picker as any
+other run, so an admin whose batch was rate-limited on Pro can drop to Flash
+and finish the remainder without touching the tree. Keeping the tasks is safe
+because each one already resolves its question through `coursesRef` at action
+time rather than from anything captured when the batch was assembled — the same
+property that let "Fix All Gaps" draft an exemplar against the marking guide it
+had just written.
+
+A new run clears what the last one left, and closing the studio forgets it: a
+retry offered against a library that has moved on is worse than no offer.
+
+### 📌 Faculty and course rows pin while you scroll
+
+Expanded, the shipped library is around 1,500 rows. Scroll into the middle of
+one and the screen is a list of dot points and questions with nothing saying
+which course, let alone which faculty, they belong to — and the answer is
+hundreds of rows back up. The two levels a reader loses first now stay on
+screen; topics and sub-topics stay in the flow, because four pinned bands would
+be most of a short window.
+
+Row heights moved from padding to fixed values (44px for a faculty band, 36px
+for everything else — the heights those rows already had) because a pinned
+course has to know how tall the band above it is. A pinned row also needs a
+ground of its own: the row's own fill is a translucent tint, and left
+transparent the rows sliding under it read straight through.
+
+### ⇧ Shift-click takes everything between
+
+Selecting a topic's worth of questions was one click per row on a screen whose
+whole job is running one action over a lot of content. Shift-clicking a second
+row now takes every row on screen between it and the last one ticked, cascading
+into each the way a plain tick does.
+
+It only ever ADDS. File managers move the anchor's meaning around on a
+shift-click, and getting that subtly wrong here would deselect work an admin
+had spent minutes assembling; extending is the useful half and it cannot lose
+anything. The anchor stays put, so a second shift-click reaches from the same
+place.
+
+`tests/unit/auditBatchRetry.test.tsx` covers the retry offer, its clearing on
+success, and the three shift-click cases; `tests/unit/batchProcessor.test.ts`
+pins the failed-id reporting. Checked on screen at 1600px in both themes.
+
 ## [Unreleased] - 2026-09-09 (A faculty at a time, and a screen that is not mostly empty)
 
 Two things came back from actually working in the Content Audit Studio. Its
