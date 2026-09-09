@@ -23,6 +23,8 @@ interface AppHeaderProps {
   user: User;
   onUpdateUser: (user: User) => void;
   storageStatus: StorageStatus;
+  /** A content-audit batch is running behind a closed studio. */
+  auditRunning?: boolean;
   openModal: (name: ModalName) => void;
   onOpenAudit: () => void;
   onOpenReviewQueue: () => void;
@@ -55,6 +57,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   user,
   onUpdateUser,
   storageStatus,
+  auditRunning,
   openModal,
   onOpenAudit,
   onOpenReviewQueue,
@@ -108,6 +111,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           <AppHeaderToolsMenu
             user={user}
             storageStatus={storageStatus}
+            auditRunning={auditRunning}
             openModal={openModal}
             onOpenAudit={onOpenAudit}
             onOpenReviewQueue={onOpenReviewQueue}

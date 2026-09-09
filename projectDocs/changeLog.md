@@ -1,5 +1,51 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (The two things a backgrounded batch still needed)
+
+Letting a batch be walked away from left two loose ends, both flagged at the
+time and both closed here.
+
+### 🔔 A run behind a closed studio is visible in the header
+
+Nothing stopped an admin starting a two-hundred question batch, closing the
+studio, and forgetting it existed — it spends AI quota and writes to the
+library for ten minutes, and the only sign of it was a transient notice they
+may not have been looking at.
+
+The Admin tools control now carries a pulsing mark while a run is in flight,
+and the studio's own entry in that menu carries a "Running" pill. Both are
+driven by the run state the studio already reports to `App` — a boolean, not a
+count, deliberately: reporting progress up to the composition root would
+re-render the whole app once per completed task for the length of the run, and
+the count is a click away in the studio and in the notices themselves.
+
+The mark is a suffix, never a rename. Everything that selects the tools menu —
+the e2e specs included — matches on its name, so the trigger reads
+"Admin tools — a content audit batch is running" and the menu entry keeps its
+label exactly and takes the state on `aria-describedby`, which is the right
+ARIA slot for something true right now that will not be true later.
+
+### 🪶 The step notices hold one slot instead of filling the queue
+
+`useToast` holds four toasts at five seconds each. A step notice every second
+or two fills that, starves everything else the app has to say for the length of
+the run, and still shows the reader only every third step.
+
+`showToast` takes an optional `replaceKey` naming a SLOT rather than a message:
+a second toast with the same key updates the one already holding that slot.
+Crucially it keeps the held toast's id and duration — `App` keys the visible
+`<Toast>` by id, so the message changes under a countdown that carries on
+running rather than restarting. That is the difference between a notice that
+shows the latest step and then goes away, and one that refreshes its own five
+seconds forever and never lets anything else on screen. The audit studio's
+per-step notices are the first user; the behaviour is unchanged for every
+existing call, which passes no key.
+
+`tests/unit/backgroundBatchVisibility.test.tsx` covers both: the header marking
+a run without renaming anything, and a keyed toast holding one slot across
+fifty steps while a quota warning raised in the middle of them still gets
+shown.
+
 ## [Unreleased] - 2026-09-09 (A batch you can walk away from)
 
 The audit studio would not let go of you while a batch was running: Close was

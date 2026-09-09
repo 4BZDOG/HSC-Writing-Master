@@ -30,8 +30,23 @@ const generateId = (): string => {
 /** The severity levels a toast can carry — the single source of truth. */
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
-/** A function that raises a toast. Shared so prop types stay in step with the hook. */
-export type ShowToast = (message: string, type?: ToastType, action?: ToastAction) => void;
+/**
+ * A function that raises a toast. Shared so prop types stay in step with the hook.
+ *
+ * `replaceKey` names a SLOT rather than a message: a second toast carrying the
+ * same key updates the one already holding that slot instead of queueing
+ * behind it. It is for a notice that reports something ongoing — the audit
+ * studio's per-step progress, which on a two-hundred question run raises one
+ * every second or two. Without it a stream like that fills the queue, starves
+ * everything else the app has to say for the length of the run, and shows the
+ * reader perhaps every third step anyway.
+ */
+export type ShowToast = (
+  message: string,
+  type?: ToastType,
+  action?: ToastAction,
+  replaceKey?: string
+) => void;
 
 /**
  * Something to do about what the toast just said.
@@ -52,6 +67,8 @@ export interface ToastMessage {
   type: ToastType;
   action?: ToastAction;
   durationMs: number;
+  /** The slot this toast holds, if it was raised with one. */
+  replaceKey?: string;
 }
 
 /**
@@ -66,11 +83,31 @@ export interface ToastMessage {
 export const useToast = () => {
   const [queue, setQueue] = useState<ToastMessage[]>([]);
 
-  const showToast = useCallback<ShowToast>((message, type = 'info', action) => {
+  const showToast = useCallback<ShowToast>((message, type = 'info', action, replaceKey) => {
     const durationMs = action ? ACTIONABLE_TOAST_DURATION : TOAST_DURATION;
-    const next: ToastMessage = { id: generateId(), message, type, action, durationMs };
+    const next: ToastMessage = { id: generateId(), message, type, action, durationMs, replaceKey };
 
     setQueue((prev) => {
+      /**
+       * A keyed toast updates its slot in place, keeping the id and the
+       * duration it was raised with.
+       *
+       * The id is what `App` keys the visible `<Toast>` by, so holding it
+       * steady means the message changes under a countdown that carries on
+       * running rather than restarting. That is the difference between a
+       * progress notice that shows the latest step and then goes away, and one
+       * that refreshes its own five seconds forever and never lets anything
+       * else on screen.
+       */
+      if (replaceKey) {
+        const at = prev.findIndex((t) => t.replaceKey === replaceKey);
+        if (at !== -1) {
+          const held = prev[at];
+          const updated: ToastMessage = { ...held, message, type, action };
+          return prev.map((t, i) => (i === at ? updated : t));
+        }
+      }
+
       let held = prev;
       if (held.length >= MAX_QUEUE) {
         // Never discard the toast currently on screen (the head). Among those

@@ -45,6 +45,15 @@ import { User } from '../types';
 interface AppHeaderToolsMenuProps {
   user: User;
   storageStatus: StorageStatus;
+  /**
+   * A content-audit batch is running behind a closed studio.
+   *
+   * The studio can be left mid-run now, which is what makes this necessary:
+   * without it a ten-minute run spending AI quota and writing to the library
+   * is invisible the moment the studio closes, and the only sign it exists is
+   * a transient notice the reader may not have been looking at.
+   */
+  auditRunning?: boolean;
   openModal: (name: ModalName) => void;
   onOpenAudit: () => void;
   onOpenReviewQueue: () => void;
@@ -77,21 +86,44 @@ const ToolItem: React.FC<{
   icon: React.ComponentType<{ className?: string }>;
   label: string;
   onSelect: () => void;
-}> = ({ icon: Icon, label, onSelect }) => {
+  /**
+   * A word about the tool's current state, shown beside its name.
+   *
+   * Carried on `aria-describedby` rather than folded into the label: the label
+   * is the tool's NAME, it is what a reader has learnt to look for, and the
+   * e2e specs select on it. A description is the right ARIA slot for something
+   * that is true right now and will not be true later.
+   */
+  status?: string;
+}> = ({ icon: Icon, label, onSelect, status }) => {
   const [name, hint] = splitLabel(label);
+  const statusId = useId();
   return (
     <button
       type="button"
       onClick={onSelect}
       className={HEADER_MENU_ITEM}
-      title={label}
+      title={status ? `${label} — ${status}` : label}
       aria-label={label}
+      aria-describedby={status ? statusId : undefined}
     >
       <Icon className="w-4 h-4 shrink-0" />
       <span className="min-w-0">
         {name}
         {hint && <span className={HEADER_MENU_ITEM_HINT}>{hint}</span>}
       </span>
+      {status && (
+        <span
+          id={statusId}
+          className="t-label ml-auto shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/30 light:border-indigo-200 text-indigo-300 light:text-indigo-700 whitespace-nowrap"
+        >
+          <span
+            className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"
+            aria-hidden="true"
+          />
+          {status}
+        </span>
+      )}
     </button>
   );
 };
@@ -111,6 +143,7 @@ const ToolGroup: React.FC<{ label: string; children: React.ReactNode }> = ({ lab
 const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
   user,
   storageStatus,
+  auditRunning = false,
   openModal,
   onOpenAudit,
   onOpenReviewQueue,
@@ -233,7 +266,14 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
 
   // Labelled for what the role can actually do with it. `Teaching tools` reads
   // as an insult to nobody; `Admin tools` on a teacher's screen would be a lie.
-  const triggerLabel = isSystemAdmin(user.role) ? 'Admin tools' : 'Teaching tools';
+  const baseTriggerLabel = isSystemAdmin(user.role) ? 'Admin tools' : 'Teaching tools';
+  // The menu is shut most of the time, so the mark that says a batch is still
+  // running has to live on the control that opens it. The name comes first so
+  // everything selecting on `/admin tools/i` — the specs included — still
+  // matches, and the state reads as a suffix rather than a rename.
+  const triggerLabel = auditRunning
+    ? `${baseTriggerLabel} — a content audit batch is running`
+    : baseTriggerLabel;
 
   return (
     <>
@@ -246,9 +286,15 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
         aria-controls={open ? panelId : undefined}
         title={triggerLabel}
         aria-label={triggerLabel}
-        className={open ? `${HEADER_ACTION} ${HEADER_ACTION_OPEN}` : HEADER_ACTION}
+        className={`relative ${open ? `${HEADER_ACTION} ${HEADER_ACTION_OPEN}` : HEADER_ACTION}`}
       >
         <SlidersHorizontal className="w-5 h-5" />
+        {auditRunning && (
+          <span
+            aria-hidden="true"
+            className="absolute top-1 right-1 w-2 h-2 rounded-full bg-indigo-400 ring-2 ring-[rgb(var(--color-bg-base))] light:ring-white animate-pulse"
+          />
+        )}
       </button>
 
       {open &&
@@ -276,6 +322,7 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
                 <ToolItem
                   icon={Activity}
                   label="Content Audit Studio"
+                  status={auditRunning ? 'Running' : undefined}
                   onSelect={() => runTool(onOpenAudit)}
                 />
                 <ToolItem

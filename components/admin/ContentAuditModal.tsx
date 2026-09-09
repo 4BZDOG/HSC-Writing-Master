@@ -145,6 +145,13 @@ const ACTION_LABELS: Record<BulkActionType, string> = {
 const OUTBOX_STORAGE_KEY = 'hsc.contentAudit.syncOutbox.v1';
 
 /**
+ * The one toast slot every per-step notice from a batch run shares, so a run
+ * reports its progress in place rather than as a queue of hundreds. See the
+ * effect that raises them, and `ShowToast`'s own note.
+ */
+const AUDIT_STEP_TOAST_SLOT = 'audit-batch-step';
+
+/**
  * Read/write helpers for the repair outbox. Both swallow storage failures: a
  * browser with storage disabled must still be able to run the studio, it just
  * loses the across-reload half of the guarantee. Anything unreadable is
@@ -757,17 +764,28 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     const line = raw.replace(/^[✓⛔⚠✗]\s*/, '').trim();
 
     /**
-     * Deliberately plain, with no control on it.
+     * Plain, and holding one slot rather than queueing.
      *
-     * `useToast` gives an actionable toast fourteen seconds instead of five and
-     * protects it from being dropped when the queue is full — both right for an
-     * offer someone has to read and decide about, and both wrong for a step
-     * notice arriving every second or two. Carrying the reopen control here
-     * jammed the queue: one step notice held the screen while the rest of the
-     * run went past behind it. The way back rides on the two notices that are
-     * actually offers — leaving mid-run, and the run finishing.
+     * Two properties of `useToast` decide this. An actionable toast gets
+     * fourteen seconds instead of five and is protected from being dropped
+     * when the queue is full — right for an offer, wrong for a notice arriving
+     * every second or two, and the first version put the reopen control here
+     * and watched one step notice hold the screen while the rest of the run
+     * went past behind it. And the queue holds four: a stream this fast fills
+     * it, starves everything else the app has to say for the length of the
+     * run, and still shows the reader only every third step or so.
+     *
+     * `AUDIT_STEP_TOAST_SLOT` makes each step update the same notice instead,
+     * under a countdown that keeps running — so the reader sees the latest
+     * step, the notice goes away when the run does, and nothing else is
+     * crowded out. The way back rides on the notice that ENDS the run.
      */
-    showToast(`${line || 'Step complete'} (${done} of ${progress.total})`, type);
+    showToast(
+      `${line || 'Step complete'} (${done} of ${progress.total})`,
+      type,
+      undefined,
+      AUDIT_STEP_TOAST_SLOT
+    );
   }, [progress, isOpen, showToast]);
 
   /**

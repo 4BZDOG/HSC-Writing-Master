@@ -863,6 +863,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           user={user}
           onUpdateUser={onUpdateUser}
           storageStatus={storageStatus}
+          auditRunning={isAuditRunning}
           openModal={openModal}
           onOpenAudit={() => setIsAuditModalOpen(true)}
           onOpenReviewQueue={() => setIsReviewQueueOpen(true)}
