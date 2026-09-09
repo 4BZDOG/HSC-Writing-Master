@@ -5,6 +5,7 @@ import { extractCommandVerb } from '../../../data/commandTerms';
 import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
 import { dropNonSyllabusTerms } from '../../../services/geminiService';
+import { missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
 
 /**
  * The audit tree's shared vocabulary — the node shape, the filter/action enums,
@@ -53,6 +54,14 @@ export interface TreeNode {
     term: string;
     tier: number;
   };
+  /**
+   * The syllabus text this node sits under, carried on PROMPT nodes only.
+   *
+   * `missingSyllabusTerms` compares a question against the dot point that owns
+   * it, and a predicate is handed a node and nothing else — so the one piece of
+   * a prompt's surroundings that check needs travels with it.
+   */
+  dotPointText?: string;
   dataRef: Course | Topic | SubTopic | DotPoint | Prompt | FacultyGroup;
   /**
    * The syllabus path this node sits at. Empty for a faculty, which sits above
@@ -84,6 +93,7 @@ export type AuditFilterId =
   | 'flagged'
   | 'exemplarMismatch'
   | 'offSyllabusTerms'
+  | 'missingTerms'
   | 'hasSamples';
 
 export type VisibilityFilter = AuditFilterId | null;
@@ -152,6 +162,32 @@ export const isFlagged = (n: TreeNode): boolean => {
     (p.sampleAnswers || []).some((sa) => sa.contentFlag?.status === 'open')
   );
 };
+
+/**
+ * The syllabus, the question and its scenario all use a term the question's
+ * Syllabus Terms list leaves out.
+ *
+ * See `utils/syllabusTermGaps.ts` for why all three have to agree, and why a
+ * question with no scenario is not checked at all.
+ *
+ * Memoised per prompt object, and re-derived if the dot point's own words
+ * changed underneath it — the answer depends on both, and only the prompt is a
+ * stable key.
+ */
+const termGapCache = new WeakMap<Prompt, { dotPointText: string; terms: string[] }>();
+
+export const syllabusTermGaps = (n: TreeNode): string[] => {
+  if (n.type !== 'prompt') return [];
+  const prompt = n.dataRef as Prompt;
+  const dotPointText = n.dotPointText ?? '';
+  const cached = termGapCache.get(prompt);
+  if (cached && cached.dotPointText === dotPointText) return cached.terms;
+  const terms = missingSyllabusTerms(dotPointText, prompt);
+  termGapCache.set(prompt, { dotPointText, terms });
+  return terms;
+};
+
+export const hasSyllabusTermGaps = (n: TreeNode): boolean => syllabusTermGaps(n).length > 0;
 
 /**
  * The question's syllabus-terms list carries something that is not a syllabus
@@ -238,6 +274,7 @@ export type AuditTone =
   | 'fuchsia'
   | 'violet'
   | 'sky'
+  | 'lime'
   | 'teal';
 
 export interface AuditFilterDefinition {
@@ -339,6 +376,15 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     tone: 'sky',
     group: 'review',
     matches: hasOffSyllabusTerms,
+  },
+  {
+    id: 'missingTerms',
+    label: 'Missing Terms',
+    title:
+      'Questions where the syllabus dot point, the question and its scenario all use a term that the Syllabus Terms list leaves out. All three have to agree — the panel is a scaffold for the answer, so a term appearing in only one of them is no signal. Add Terms puts them on the list, and needs no AI.',
+    tone: 'lime',
+    group: 'review',
+    matches: hasSyllabusTermGaps,
   },
   {
     id: 'hasSamples',
@@ -558,6 +604,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
                 coveredDotPoints: 0,
               },
               dataRef: p,
+              dotPointText: dp.description,
               path: {
                 courseId: course.id,
                 topicId: topic.id,

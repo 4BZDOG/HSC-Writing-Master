@@ -38,6 +38,7 @@ import {
   hasSamplesToRecalibrate,
   hasOffSyllabusTerms,
   offSyllabusTermCount,
+  syllabusTermGaps,
 } from './contentAudit/auditModel';
 import { InstrumentMetric, AuditActionButton, FilterRow } from './contentAudit/AuditPieces';
 import AuditTreeRow, { INDENT_STEP } from './contentAudit/AuditTreeRow';
@@ -91,6 +92,7 @@ import {
   AlertTriangle,
   Download,
   Eraser,
+  ListPlus,
   Trash2,
 } from 'lucide-react';
 
@@ -386,6 +388,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let recalibrations = 0;
     let screenings = 0;
     let termLists = 0;
+    let termGaps = 0;
 
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
@@ -399,6 +402,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         recalibrations += (node.dataRef as Prompt).sampleAnswers?.length || 0;
       if (node.type === 'prompt') screenings++;
       if (hasOffSyllabusTerms(node)) termLists++;
+      if (syllabusTermGaps(node).length > 0) termGaps++;
     });
 
     return {
@@ -410,6 +414,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       recalibrations,
       screenings,
       termLists,
+      termGaps,
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
@@ -1446,6 +1451,45 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   };
 
   /**
+   * Put the terms the syllabus, the question and its scenario all use onto the
+   * question's Syllabus Terms list.
+   *
+   * The other half of Tidy Terms, and local for the same reason: the judgement
+   * is `missingSyllabusTerms`, which needs no model. It only ever APPENDS, and
+   * only terms none of the existing entries already covers, so a curated list
+   * keeps its own wording and its own order.
+   */
+  const handleAddTerms = () => {
+    if (isProcessing) return;
+    const targets: { path: StatePath; label: string; terms: string[] }[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node) return;
+      const terms = syllabusTermGaps(node);
+      if (terms.length > 0) targets.push({ path: node.path, label: node.label, terms });
+    });
+    if (targets.length === 0) return;
+
+    const added = targets.reduce((sum, t) => sum + t.terms.length, 0);
+
+    updateCourses((draft) => {
+      targets.forEach(({ path, terms }) => {
+        const prompt = findDraftPrompt(draft, path);
+        if (prompt) prompt.keywords = [...(prompt.keywords ?? []), ...terms];
+      });
+    });
+
+    targets.forEach(({ path, label }) => {
+      if (path.promptId && path.dotPointId) recordTouch(path.promptId, path.dotPointId, label);
+    });
+
+    showToast(
+      `Added ${added} syllabus term${added === 1 ? '' : 's'} across ${targets.length} question${targets.length === 1 ? '' : 's'} — each one used by the dot point, the question and its scenario.`,
+      'success'
+    );
+  };
+
+  /**
    * Run the last batch's failures again, and nothing else.
    *
    * It goes through the same engine picker as any other run, so an admin whose
@@ -2184,6 +2228,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   label="Re-mark Samples"
                   count={selectionTargets.recalibrations}
                   icon={<Scale className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleAddTerms}
+                  disabled={isProcessing || selectionTargets.termGaps === 0}
+                  title="Add the terms the syllabus dot point, the question and its scenario all use, and the Syllabus Terms list leaves out. Appends only; nothing already on a list is touched. A local edit: no AI, no quota, instant."
+                  tone="lime"
+                  label="Add Terms"
+                  count={selectionTargets.termGaps}
+                  icon={<ListPlus className="w-3.5 h-3.5" />}
                 />
                 <AuditActionButton
                   onClick={handleTidyTerms}

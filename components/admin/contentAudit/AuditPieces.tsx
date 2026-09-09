@@ -8,6 +8,7 @@ import {
   matchesFilter,
   offSyllabusTermCount,
   qualityOf,
+  syllabusTermGaps,
 } from './auditModel';
 
 /**
@@ -126,6 +127,17 @@ export const AUDIT_TONE: Record<
     action:
       'bg-sky-500/10 border-sky-500/30 text-sky-300 hover:bg-sky-500/20 hover:text-sky-200 light:bg-sky-50 light:border-sky-300 light:text-sky-700 light:hover:bg-sky-100',
     dot: 'bg-sky-400 light:bg-sky-600',
+  },
+  lime: {
+    chipActive:
+      'bg-lime-500/20 border-lime-500/40 text-lime-400 light:bg-lime-100 light:border-lime-300 light:text-lime-800 shadow-lg',
+    chipIdle:
+      'bg-lime-500/5 border-lime-500/10 text-lime-400 hover:bg-lime-500/10 light:bg-lime-50 light:border-lime-200 light:text-lime-700 light:hover:bg-lime-100',
+    badge:
+      'bg-lime-500/10 border-lime-500/30 text-lime-400 light:bg-lime-50 light:border-lime-300 light:text-lime-700',
+    action:
+      'bg-lime-500/10 border-lime-500/30 text-lime-300 hover:bg-lime-500/20 hover:text-lime-200 light:bg-lime-50 light:border-lime-300 light:text-lime-700 light:hover:bg-lime-100',
+    dot: 'bg-lime-400 light:bg-lime-600',
   },
   teal: {
     chipActive:
@@ -418,6 +430,13 @@ const GapBadgesInner: React.FC<{ node: TreeNode }> = ({ node }) => {
         label: 'No Outcomes',
         tone: AUDIT_TONE.pink.badge,
         title: 'No syllabus outcomes linked',
+      });
+    const termGaps = syllabusTermGaps(node);
+    if (termGaps.length > 0)
+      badges.push({
+        label: 'Missing Terms',
+        tone: AUDIT_TONE.lime.badge,
+        title: `The dot point, this question and its scenario all use ${termGaps.length === 1 ? 'a term' : 'terms'} the Syllabus Terms list leaves out: ${termGaps.join(', ')}`,
       });
     if (matchesFilter(node, 'offSyllabusTerms')) {
       const stray = offSyllabusTermCount(node.dataRef as Prompt);

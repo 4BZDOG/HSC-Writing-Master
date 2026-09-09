@@ -1,5 +1,43 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (Terms the question is about, guaranteed on its list)
+
+The follow-up to the term work, and the direction the previous entry recorded
+as not mechanically detectable. It is — with all THREE sources required.
+
+### 🎯 Missing Terms
+
+A term the syllabus dot point, the question AND its scenario all use is what
+the question is about, and a student told which terms to use should be told
+that one. `utils/syllabusTermGaps.ts` finds them; the studio flags them as
+**Missing Terms**, badges them on the row with the terms named, and **Add
+Terms** appends them — a local edit, no AI, like Tidy Terms beside it.
+
+Adjacent word pairs as well as single words, because these terms usually come
+in twos: "test data", "bug data", "maintenance documentation". Maximal phrases
+only, so a kept "test data" does not also add "test" and "data". Command verbs
+and words carrying no subject matter never qualify. The terms are added in the
+syllabus's own casing, appended after whatever a curator already wrote, and
+nothing already on a list is touched.
+
+**Requiring a scenario is the whole reason this works.** Measured over the 418
+shipped questions:
+
+| Sources that must agree                           | Flagged |
+| -------------------------------------------------- | ------- |
+| Dot point + question (questions with no scenario)  | 92%     |
+| Dot point + question or scenario                   | 77%     |
+| **Dot point + question + scenario**                | **21%** |
+
+The dot point and the question are both describing the same syllabus point in
+the same words, so on their own almost everything matches. The scenario is
+written separately, and its agreement is what makes a term the subject rather
+than a coincidence. A question with no scenario is therefore **not checked**
+rather than checked badly — which is a real limit, and the honest one: 132 of
+the 418 shipped questions have no scenario.
+
+At 21% it adds about one term per flagged question.
+
 ## [Unreleased] - 2026-09-09 (A guide the studio could not see was broken, and terms that were never terms)
 
 ### 🩹 A marking guide whose bands run together read as well-formed

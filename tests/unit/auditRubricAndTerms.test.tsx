@@ -4,6 +4,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import ContentAuditModal from '../../components/admin/ContentAuditModal';
 import { isNonStandardRubric } from '../../components/admin/contentAudit/auditModel';
 import { dropNonSyllabusTerms, sanitiseKeywords } from '../../services/geminiService';
+import { missingSyllabusTerms } from '../../utils/syllabusTermGaps';
 import type { Course } from '../../types';
 
 /**
@@ -218,5 +219,148 @@ describe('the studio offers a repair for both', () => {
       .getAllByText('Off-Syllabus Terms')
       .find((el) => el.tagName === 'SPAN' && el.closest('[role="tree"]'));
     expect(badge).toBeTruthy();
+  });
+});
+
+describe('missingSyllabusTerms — what the syllabus, the question and the scenario all say', () => {
+  const dotPoint =
+    'Verify and validate an enterprise computing system, including evaluating test data, ' +
+    'trialling operation and maintenance documentation, and reviewing the impact of implementation.';
+
+  it('finds a term all three use that the list leaves out', () => {
+    const terms = missingSyllabusTerms(dotPoint, {
+      question: "Explain how 'evaluating test data' contributes to verification of a new system.",
+      scenario: 'A new accounting system is being checked against its test data before launch.',
+      keywords: ['verify', 'validate', 'documentation'],
+    });
+    expect(terms).toContain('test data');
+  });
+
+  it('prefers the phrase over its own words', () => {
+    // With "test data" kept there is nothing to be gained by adding "test" and
+    // "data" beside it.
+    const terms = missingSyllabusTerms(dotPoint, {
+      question: 'Explain how evaluating test data supports validation.',
+      scenario: 'The team reviews the test data gathered during the final run.',
+      keywords: [],
+    });
+    expect(terms).toContain('test data');
+    expect(terms).not.toContain('data');
+    expect(terms).not.toContain('test');
+  });
+
+  it('says nothing when the list already covers the term', () => {
+    const terms = missingSyllabusTerms(dotPoint, {
+      question: 'Explain how evaluating test data supports validation.',
+      scenario: 'The team reviews the test data gathered during the final run.',
+      keywords: ['Evaluating test data'],
+    });
+    expect(terms).not.toContain('test data');
+  });
+
+  it('never offers the command verb or a word carrying no subject matter', () => {
+    const terms = missingSyllabusTerms('Explain the important process of maintenance.', {
+      question: 'Explain the important process of maintenance in an enterprise system.',
+      scenario: 'A system has been in operation for a year and its maintenance is under review.',
+      keywords: [],
+    });
+    expect(terms).toEqual(['maintenance']);
+  });
+
+  it('checks nothing when the question has no scenario', () => {
+    // The dot point and the question describe the same syllabus point in the
+    // same words, so without a third source the rule flags 92% of the library.
+    expect(
+      missingSyllabusTerms(dotPoint, {
+        question: 'Explain how evaluating test data supports validation.',
+        keywords: [],
+      })
+    ).toEqual([]);
+  });
+
+  it('requires all three to agree, not two', () => {
+    // "maintenance documentation" is in the dot point and the question but not
+    // in the scenario, so it is not offered.
+    const terms = missingSyllabusTerms(dotPoint, {
+      question: 'Explain how trialling maintenance documentation supports validation.',
+      scenario: 'A new accounting system is undergoing its final phase of testing.',
+      keywords: [],
+    });
+    expect(terms).not.toContain('maintenance documentation');
+  });
+});
+
+describe('the studio offers the missing terms as an edit', () => {
+  const withGap: Course[] = [
+    {
+      id: 'c2',
+      name: 'HSC Enterprise Computing',
+      outcomes: [{ code: 'EC-1', description: 'An outcome' }],
+      topics: [
+        {
+          id: 't2',
+          name: 'Enterprise project',
+          subTopics: [
+            {
+              id: 'st2',
+              name: 'Implementation',
+              dotPoints: [
+                {
+                  id: 'dp2',
+                  description:
+                    'Verify and validate an enterprise system, including evaluating test data and reviewing bug data.',
+                  prompts: [
+                    {
+                      id: 'pr2',
+                      question:
+                        'Explain how evaluating test data and bug data supports validation.',
+                      scenario:
+                        'A new accounting system is checked against its test data and bug data before launch.',
+                      totalMarks: 4,
+                      verb: 'EXPLAIN',
+                      linkedOutcomes: ['EC-1'],
+                      keywords: ['verify', 'validate'],
+                      markingCriteria: '4 marks: full\n3 marks: most\n1-2 marks: some',
+                      sampleAnswers: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ] as unknown as Course[];
+
+  it('counts them, adds them, and leaves the existing list alone', () => {
+    let draft: Course[] = JSON.parse(JSON.stringify(withGap));
+    const updateCourses = vi.fn((updater: (d: Course[]) => Course[] | void) => {
+      const result = updater(draft);
+      if (result) draft = result;
+    });
+    const showToast = vi.fn();
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        courses={withGap}
+        updateCourses={updateCourses}
+        showToast={showToast}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText('Select HSC Enterprise Computing'));
+    const add = screen.getByText('Add Terms (1)').closest('button') as HTMLButtonElement;
+    expect(add.disabled).toBe(false);
+
+    fireEvent.click(add);
+
+    const kept = draft[0].topics[0].subTopics[0].dotPoints[0].prompts![0].keywords!;
+    // The curator's own two terms keep their place and their wording; the
+    // syllabus's words are appended.
+    expect(kept.slice(0, 2)).toEqual(['verify', 'validate']);
+    expect(kept).toContain('test data');
+    expect(kept).toContain('bug data');
   });
 });
