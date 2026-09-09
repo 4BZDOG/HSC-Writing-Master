@@ -36,6 +36,8 @@ import {
   hasNonStandardRubric,
   needsOutcomes,
   hasSamplesToRecalibrate,
+  hasOffSyllabusTerms,
+  offSyllabusTermCount,
 } from './contentAudit/auditModel';
 import { InstrumentMetric, AuditActionButton, FilterRow } from './contentAudit/AuditPieces';
 import AuditTreeRow, { INDENT_STEP } from './contentAudit/AuditTreeRow';
@@ -65,6 +67,7 @@ import {
   savePromptContribution,
   saveSampleAnswerContribution,
 } from '../../services/contributionService';
+import { dropNonSyllabusTerms } from '../../services/geminiService';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
@@ -87,6 +90,7 @@ import {
   Gauge,
   AlertTriangle,
   Download,
+  Eraser,
   Trash2,
 } from 'lucide-react';
 
@@ -381,6 +385,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let outcomes = 0;
     let recalibrations = 0;
     let screenings = 0;
+    let termLists = 0;
 
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
@@ -393,6 +398,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (hasSamplesToRecalibrate(node))
         recalibrations += (node.dataRef as Prompt).sampleAnswers?.length || 0;
       if (node.type === 'prompt') screenings++;
+      if (hasOffSyllabusTerms(node)) termLists++;
     });
 
     return {
@@ -403,6 +409,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       outcomes,
       recalibrations,
       screenings,
+      termLists,
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
@@ -1391,6 +1398,54 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   };
 
   /**
+   * Take everything that is not a syllabus term out of the selected questions'
+   * term lists.
+   *
+   * The only repair on this screen that needs no AI: `dropNonSyllabusTerms` is
+   * a rule the app already owns and already applies to every list it generates,
+   * so this is one local edit rather than a batch run. Putting it through the
+   * batch runner would have spent its 1.5s-per-task provider pacing on two
+   * hundred writes to IndexedDB.
+   *
+   * It only ever REMOVES, and it does not cap the list: generation stops at
+   * twelve terms because that is a sensible size for something being written
+   * from scratch, and applying that to a curated list of nineteen would throw
+   * away seven real terms a teacher put there.
+   */
+  const handleTidyTerms = () => {
+    if (isProcessing) return;
+    const targets: { path: StatePath; label: string; dropped: number }[] = [];
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (!node || !hasOffSyllabusTerms(node)) return;
+      targets.push({
+        path: node.path,
+        label: node.label,
+        dropped: offSyllabusTermCount(node.dataRef as Prompt),
+      });
+    });
+    if (targets.length === 0) return;
+
+    const droppedTotal = targets.reduce((sum, t) => sum + t.dropped, 0);
+
+    updateCourses((draft) => {
+      targets.forEach(({ path }) => {
+        const prompt = findDraftPrompt(draft, path);
+        if (prompt) prompt.keywords = dropNonSyllabusTerms(prompt.keywords, prompt.verb);
+      });
+    });
+
+    targets.forEach(({ path, label }) => {
+      if (path.promptId && path.dotPointId) recordTouch(path.promptId, path.dotPointId, label);
+    });
+
+    showToast(
+      `Removed ${droppedTotal} entr${droppedTotal === 1 ? 'y' : 'ies'} that ${droppedTotal === 1 ? 'was' : 'were'} not a syllabus term, across ${targets.length} question${targets.length === 1 ? '' : 's'}.`,
+      'success'
+    );
+  };
+
+  /**
    * Run the last batch's failures again, and nothing else.
    *
    * It goes through the same engine picker as any other run, so an admin whose
@@ -2129,6 +2184,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   label="Re-mark Samples"
                   count={selectionTargets.recalibrations}
                   icon={<Scale className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleTidyTerms}
+                  disabled={isProcessing || selectionTargets.termLists === 0}
+                  title="Remove the entries that are not syllabus terms — the command verb, generic words, connectives like “therefore”, over-long phrases and duplicates — from the selected questions' Syllabus Terms lists. A local edit: no AI, no quota, instant."
+                  tone="sky"
+                  label="Tidy Terms"
+                  count={selectionTargets.termLists}
+                  icon={<Eraser className="w-3.5 h-3.5" />}
                 />
                 <AuditActionButton
                   onClick={handleBulkAction.bind(null, 'screenQuality')}

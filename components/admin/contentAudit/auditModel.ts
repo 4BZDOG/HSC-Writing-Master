@@ -4,6 +4,7 @@ import { SUBJECT_AREAS, subjectAreaOf, type SubjectArea } from '../../../utils/s
 import { extractCommandVerb } from '../../../data/commandTerms';
 import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
+import { dropNonSyllabusTerms } from '../../../services/geminiService';
 
 /**
  * The audit tree's shared vocabulary — the node shape, the filter/action enums,
@@ -82,6 +83,7 @@ export type AuditFilterId =
   | 'lowQuality'
   | 'flagged'
   | 'exemplarMismatch'
+  | 'offSyllabusTerms'
   | 'hasSamples';
 
 export type VisibilityFilter = AuditFilterId | null;
@@ -95,6 +97,17 @@ export type BulkActionType =
   | 'recalibrateSamples'
   | 'screenQuality'
   | 'fixAllGaps';
+
+/**
+ * The studio's one repair that needs no AI at all.
+ *
+ * Everything else on the action row is a generation call; this rewrites a
+ * keyword list from a rule the app already owns, so it runs as a single edit
+ * rather than through the batch runner — whose 1.5s pacing exists to keep a
+ * provider happy and would spend five minutes doing nothing on two hundred
+ * local writes.
+ */
+export type LocalActionType = 'tidyTerms';
 
 // Gap predicates shared by the task assembly, the button target counts, and
 // the tree badges — one definition of "what counts as a gap".
@@ -138,6 +151,40 @@ export const isFlagged = (n: TreeNode): boolean => {
     p.contentFlag?.status === 'open' ||
     (p.sampleAnswers || []).some((sa) => sa.contentFlag?.status === 'open')
   );
+};
+
+/**
+ * The question's syllabus-terms list carries something that is not a syllabus
+ * term — the command verb, a generic academic word, a connective, an over-long
+ * phrase, or a duplicate.
+ *
+ * `dropNonSyllabusTerms` is the app's own rule, the one `keywordInstruction`
+ * has always stated and `sanitiseKeywords` has always applied to newly
+ * generated lists. This asks the same question of content that predates it:
+ * 25 of the 418 shipped questions fail, most of them ending "… | because |
+ * therefore | consequently", which is what a student is told to make sure
+ * their answer contains.
+ *
+ * Memoised per prompt OBJECT for the same reason `hasExemplarMismatch` is:
+ * this runs for the header counts and again for the filter, on every change to
+ * the library, and Immer hands back the same object for anything a batch task
+ * did not touch.
+ */
+const offSyllabusCache = new WeakMap<Prompt, boolean>();
+
+export const offSyllabusTermCount = (prompt: Prompt): number => {
+  const listed = (prompt.keywords ?? []).filter((k) => typeof k === 'string' && k.trim());
+  return listed.length - dropNonSyllabusTerms(listed, prompt.verb).length;
+};
+
+export const hasOffSyllabusTerms = (n: TreeNode): boolean => {
+  if (n.type !== 'prompt') return false;
+  const prompt = n.dataRef as Prompt;
+  const cached = offSyllabusCache.get(prompt);
+  if (cached !== undefined) return cached;
+  const result = offSyllabusTermCount(prompt) > 0;
+  offSyllabusCache.set(prompt, result);
+  return result;
 };
 
 // A question counts as having an exemplar mismatch when one of its sample
@@ -190,6 +237,7 @@ export type AuditTone =
   | 'rose'
   | 'fuchsia'
   | 'violet'
+  | 'sky'
   | 'teal';
 
 export interface AuditFilterDefinition {
@@ -284,6 +332,15 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     matches: hasExemplarMismatch,
   },
   {
+    id: 'offSyllabusTerms',
+    label: 'Off-Syllabus Terms',
+    title:
+      'Questions whose Syllabus Terms list carries something that is not a syllabus term — the command verb, a generic academic word, a connective like "therefore", an over-long phrase, or a duplicate. Tidy Terms removes them without touching the real terms, and needs no AI.',
+    tone: 'sky',
+    group: 'review',
+    matches: hasOffSyllabusTerms,
+  },
+  {
     id: 'hasSamples',
     label: 'Has Samples',
     title: 'Questions that already carry sample answers — the targets for a re-mark',
@@ -311,28 +368,66 @@ export const countFilterMatches = (nodes: Iterable<TreeNode>): Record<AuditFilte
   return counts;
 };
 
+/** A band opening a line: "4 marks", "- 4-5 marks", "• 9–10 marks". */
+const BAND_AT_LINE_START = /^\s*[-•*]?\s*(\d+)(?:\s*[-–]\s*(\d+))?\s*marks?/i;
+/**
+ * A band header found mid-line — "…investigation.4 marks: Provides…".
+ *
+ * The colon is required here and not at the start of a line, and the asymmetry
+ * is deliberate. A line-initial number followed by "marks" is a band whatever
+ * punctuation follows it ("5 marks - Provides…"), but mid-line the same words
+ * appear in ordinary prose ("award 1 mark for each correct point"), and only a
+ * header carries the colon. Without that the rule would flag guides whose band
+ * descriptions happen to mention marks.
+ */
+const BAND_MID_LINE = /(\d+)(?:\s*[-–]\s*(\d+))?\s*marks?\s*:/gi;
+
+const topOfBand = (match: RegExpMatchArray): number =>
+  match[2] ? parseInt(match[2]) : parseInt(match[1]);
+
+/**
+ * A marking guide that is not descending mark bands, one per line.
+ *
+ * Three ways to fail, and the second is the one this missed for as long as it
+ * existed. It read only the START of each line, so a guide whose bands run
+ * together on ONE line — "…as demonstrated in the investigation.4 marks:
+ * Provides an accurate analysis…3 marks: Describes…" — showed it exactly one
+ * band, which cannot be out of order and cannot be absent. Nine of the shipped
+ * guides are written that way. Every one of them reported as well-formed, which
+ * disabled both buttons that could have repaired it: "Reformat Guides" needs
+ * this predicate, and "Write Marking Guides" needs it or a missing guide. A
+ * curator who could see the guide was wrong had nothing in the studio to press.
+ *
+ * Widening the scan to bands anywhere in the text flags all nine, and re-running
+ * it over the 418 shipped guides changed no other verdict.
+ */
 export const isNonStandardRubric = (criteria: string | undefined): boolean => {
   if (!criteria || criteria.trim().length <= 25) return false; // Handled by missing logic
 
-  const lines = criteria.split('\n');
-  let lastVal = Infinity;
-  let foundAny = false;
+  const bands: number[] = [];
+  let bandsRunTogether = false;
 
-  for (const line of lines) {
-    // Look for lines starting with numbers (allowing bullets/dashes) followed by "mark"
-    const match = line.match(/^\s*[-•*]?\s*(\d+)(?:\s*[-–]\s*(\d+))?\s*marks?/i);
-    if (match) {
-      foundAny = true;
-      // Get the highest number in the range (e.g. "4-5 marks" -> 5)
-      const val = match[2] ? parseInt(match[2]) : parseInt(match[1]);
+  for (const line of criteria.split('\n')) {
+    const head = line.match(BAND_AT_LINE_START);
+    if (head) bands.push(topOfBand(head));
 
-      if (val > lastVal) return true; // Ascending order detected -> Non-standard
-      lastVal = val;
+    // Anything after the line's own opening band is a band that should have
+    // started a line of its own.
+    const rest = head ? line.slice(head[0].length) : line;
+    BAND_MID_LINE.lastIndex = 0;
+    let inline: RegExpExecArray | null;
+    while ((inline = BAND_MID_LINE.exec(rest)) !== null) {
+      bandsRunTogether = true;
+      bands.push(topOfBand(inline));
     }
   }
 
-  // If we have text but no standard "X marks" lines found, it's non-standard format
-  return !foundAny;
+  // Text, but nothing that reads as a mark band at all.
+  if (bands.length === 0) return true;
+  // Bands present, but not laid out as bands.
+  if (bandsRunTogether) return true;
+  // Laid out, but climbing rather than descending.
+  return bands.some((val, i) => i > 0 && val > bands[i - 1]);
 };
 
 /**

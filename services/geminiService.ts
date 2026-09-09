@@ -676,6 +676,17 @@ Return a JSON array of strings only.`,
  * set the UI expects: trims, drops the command verb and generic filler, caps
  * length, and removes case-insensitive duplicates while keeping order.
  */
+/**
+ * Words a syllabus-terms list must not contain.
+ *
+ * `keywordInstruction` has always told the model to exclude "generic academic
+ * words …, the command verb and instruction words". The first two were
+ * enforced; instruction words never were, and 17 of the shipped questions carry
+ * a list ending "… | because | therefore | consequently | resulting in". Those
+ * are discourse glue, not syllabus terminology, and the panel they appear in is
+ * called Syllabus Terms — a student reading it is told to make sure their
+ * answer contains the word "therefore".
+ */
 const GENERIC_KEYWORD_STOPWORDS = new Set([
   'process',
   'processes',
@@ -698,7 +709,77 @@ const GENERIC_KEYWORD_STOPWORDS = new Set([
   'aspect',
   'aspects',
   'information',
+  // Connectives and discourse glue — the "instruction words" half of the rule.
+  'because',
+  'therefore',
+  'consequently',
+  'however',
+  'furthermore',
+  'moreover',
+  'thus',
+  'hence',
+  'additionally',
+  'similarly',
+  'resulting in',
+  'leading to',
+  'due to',
+  'as a result',
+  'in addition',
+  'in conclusion',
+  'overall',
+  'firstly',
+  'secondly',
+  'finally',
+  'results in',
+  'determines',
+  'influences',
+  'impacts',
+  'demonstrates',
+  'significance',
+  'impact',
+  'influence',
+  'primarily',
+  'significantly',
 ]);
+
+/**
+ * Is this a syllabus term, as `keywordInstruction` defines one?
+ *
+ * Split out of `sanitiseKeywords` because the audit studio needs the same
+ * judgement without the rest of it: generation caps a list at twelve terms,
+ * which is a preference about new content and would be destructive applied to
+ * a curated list of nineteen. The studio drops what is not a term and keeps
+ * everything else.
+ */
+export const isSyllabusTerm = (term: string, verb?: string): boolean => {
+  const trimmed = term.trim();
+  if (!trimmed) return false;
+  const lower = trimmed.toLowerCase();
+  if (lower === (verb || '').toLowerCase()) return false;
+  if (GENERIC_KEYWORD_STOPWORDS.has(lower)) return false;
+  return trimmed.split(/\s+/).length <= 4;
+};
+
+/**
+ * A keyword list with everything that is not a syllabus term taken out, and
+ * nothing else changed — no cap, no reordering. What the audit studio's
+ * "Tidy Terms" writes back.
+ */
+export const dropNonSyllabusTerms = (raw: string[] | undefined, verb?: string): string[] => {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const kept: string[] = [];
+  for (const item of raw) {
+    if (typeof item !== 'string') continue;
+    const term = item.trim().replace(/^(?:[-–—•*]\s+|\d+[.)]\s+)/, '');
+    if (!isSyllabusTerm(term, verb)) continue;
+    const lower = term.toLowerCase();
+    if (seen.has(lower)) continue;
+    seen.add(lower);
+    kept.push(term);
+  }
+  return kept;
+};
 
 export const sanitiseKeywords = (raw: string[], verb?: string): string[] => {
   if (!Array.isArray(raw)) return [];
@@ -711,11 +792,8 @@ export const sanitiseKeywords = (raw: string[], verb?: string): string[] => {
     // returned one — but NOT bare leading digits, so terms like "3D printing"
     // or "1st law" keep their first character.
     const term = item.trim().replace(/^(?:[-–—•*]\s+|\d+[.)]\s+)/, '');
-    if (!term) continue;
+    if (!isSyllabusTerm(term, verbLower)) continue;
     const lower = term.toLowerCase();
-    if (lower === verbLower) continue;
-    if (GENERIC_KEYWORD_STOPWORDS.has(lower)) continue;
-    if (term.split(/\s+/).length > 4) continue; // keep terms concise
     if (seen.has(lower)) continue;
     seen.add(lower);
     result.push(term);

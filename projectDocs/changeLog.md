@@ -1,5 +1,71 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (A guide the studio could not see was broken, and terms that were never terms)
+
+### 🩹 A marking guide whose bands run together read as well-formed
+
+Reported from use: non-standard marking guides had every button that could fix
+them disabled, on questions the navigator showed were plainly wrong.
+
+`isNonStandardRubric` read only the START of each line. Nine of the shipped
+guides are written with their bands run together on ONE line —
+"…as demonstrated in the investigation.4 marks: Provides an accurate
+analysis…3 marks: Describes…" — so it saw exactly one band, which cannot be out
+of order and cannot be absent, and passed them. That verdict disabled both
+repairs: "Reformat Guides" needs this predicate, and "Write Marking Guides"
+needs it or a missing guide. A curator who could see the guide was wrong had
+nothing to press.
+
+The scan now finds bands anywhere in the text. A band mid-line must carry a
+colon and one at the start of a line need not, which is the asymmetry that
+keeps "award 1 mark for each correct point" inside a band description from
+reading as a band of its own. Re-run over all 418 shipped guides: **nine newly
+flagged, no other verdict changed.**
+
+### 🧹 Syllabus Terms that were not syllabus terms
+
+`keywordInstruction` has always told the model to exclude "generic academic
+words …, the command verb and instruction words". The first two were enforced
+by `sanitiseKeywords`; instruction words never were. So 25 of the 418 shipped
+questions carry a Syllabus Terms list containing the command verb ("Assess"),
+an over-long phrase, or — most of them — connectives: a student reading the
+panel is told to make sure their answer contains the word "therefore".
+
+Three parts:
+
+- `GENERIC_KEYWORD_STOPWORDS` gains the connectives, so the sanitiser matches
+  the rule it has always stated.
+- `isSyllabusTerm` and `dropNonSyllabusTerms` split that judgement out of
+  `sanitiseKeywords`, which keeps its twelve-term cap. The cap is a preference
+  about newly written lists; applied to a curated list of nineteen it would
+  throw away seven real terms, so the studio's repair only ever REMOVES.
+- The studio gains an **Off-Syllabus Terms** filter, a row badge, and a
+  **Tidy Terms** action — the one repair on that screen needing no AI, so it
+  runs as a single local edit rather than through the batch runner, whose
+  1.5s-per-task provider pacing would spend five minutes on two hundred writes
+  to IndexedDB.
+
+### 📐 What was measured and rejected
+
+The ask was to flag when key words from a prompt and scenario are missing from
+its Syllabus Terms list. Four mechanical formulations were tried against the
+shipped library:
+
+| Rule                                                              | Flagged |
+| ----------------------------------------------------------------- | ------- |
+| Syllabus words from the dot point, present in the question, unlisted | mostly command verbs |
+| A listed term absent from the question/scenario                   | 400/418 |
+| A listed term absent from question, scenario, guide AND exemplars  | 325/418 |
+| A term used elsewhere in the course, in this question, unlisted    | 301/418 |
+
+All noise, and for a good reason: the panel is a scaffold for the ANSWER, so
+its terms are not supposed to appear in the question. "Bioethics" is exactly
+right for a CRISPR ethics question that never uses the word. Deciding which
+terms a question is missing needs to know which terms matter, which is a
+judgement rather than a rule — the AI quality screen's job, not a regex's. What
+shipped instead is the inverse defect, which IS mechanical because the app
+already defines it.
+
 ## [Unreleased] - 2026-09-09 (The two things a backgrounded batch still needed)
 
 Letting a batch be walked away from left two loose ends, both flagged at the
