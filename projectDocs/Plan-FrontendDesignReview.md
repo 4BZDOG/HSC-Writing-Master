@@ -633,3 +633,123 @@ vocabulary assertions in `tests/unit/contentAuditStudio.test.tsx`, which now
 name the buttons by their new labels. There is no mechanical gate on "one
 wording per gap" — the honest version of that gate is `AUDIT_FILTERS` being the
 only place a label is written, which is structural rather than tested.
+
+---
+
+# Fourth pass: the audit studio's layout
+
+The third pass read the studio's chrome — its hero, its copy, its vocabulary,
+its light theme — and left the layout alone. This pass is about the layout,
+and it started from use rather than from the skill: an admin working the studio
+reported "when zoom is small enough to fit all buttons and panels there's a
+large amount of unused space in the middle of my screen", alongside an ask for
+faculty grouping.
+
+Same commit of the skill (`41bbe19`), installed at
+`.claude/skills/frontend-design/`.
+
+## What it found
+
+### 16. Three full-width bands, each holding its content at the edges — FIXED
+
+The studio was a header, a filter rail and an action row stacked down the
+screen, every one of them a `justify-between` flex across the whole viewport.
+That reads as balanced at 1280px and as two clusters shouting at each other
+across a void at 2560px, which is the width this surface is actually used at.
+The tree rows had the same shape one level down: a name at the left, a coverage
+pill at the right, and on a 1600px window about 1,100px of nothing in between
+on every branch row.
+
+Measured before deciding, at 1600px: name column ending at 545px, coverage
+figure starting at 1,185px.
+
+The correction is not a narrower page. `DesignSpec.md` §4 already argues the
+point for the report column — "the container is the thing that is too wide;
+capping its contents only moves the problem inward" — and the answer there was
+to change the layout, not to cap the text. So:
+
+- **A 17rem control rail takes the left edge**, holding the search, the
+  expand/collapse pair and the ten filters. That is 272px of what was empty,
+  spent on the thing an admin reaches for most often, and it is also simply a
+  better home for ten filters: as rows their counts line up in one column you
+  can read down, where as chips they wrapped onto three lines and shifted under
+  the cursor between runs. Below `md` the rail lies down into a line that
+  scrolls sideways; a first attempt stood it up above the tree and gave a 700px
+  window 360px of filters and 150px of tree.
+- **The header, the tree and the action row share one 1800px grid**,
+  left-aligned rather than centred. Centring them was tried first and put the
+  title 320px in from the left while the rail below it still started at the
+  edge.
+- **The action row is one left-to-right flow**, not two clusters at opposite
+  edges. At 2560px every button now sits on one line.
+
+### 17. The empty middle of a row was the one question the screen could not answer — FIXED
+
+> Visual structure is information. Structural devices … encode useful
+> information about the content rather than decorate it.
+
+Having bounded the name column, there was a fixed strip of nothing between it
+and the readouts, and the temptation was to shrink the page until it went away.
+What is there instead is the branch's own gap tally — dot points with no
+question, questions with no marking guide, no sample, no outcome — in the
+`AUDIT_TONE` colours the rail and the row badges already use.
+
+This is not decoration filling a hole. Coverage says how many dot points have
+*a* question and says nothing about the eighty questions underneath with no
+marking guide, and finding that out meant expanding the branch or toggling each
+filter in turn and reading the tree back. `missingSamples` was added to the
+stats roll-up for it — every other gap could already be counted for a branch;
+that one could only be asked of one question at a time.
+
+The coverage pill became a bar at the same time, at a **fixed** width: a bar
+whose length depended on how long the name above it was would compare nothing.
+A row with no gaps shows no tally at all — the first draft wrote "No gaps"
+there, which on a healthy library is two words repeated down fifteen hundred
+rows.
+
+### 18. Nine filled buttons, and colour that meant nothing — FIXED
+
+> Spend your boldness in one place.
+
+Seven batch actions in seven saturated fills — indigo, sky, amber, pink,
+purple, teal, rose — beside a gradient `Fix All Gaps` and a red
+`Clear Questions`. Nine filled buttons in a row is no hierarchy at all, and the
+colour was the last thing on this screen that did not mean anything: the third
+pass had made the chip and the row badge agree on one colour per gap, and the
+button that repairs that gap was picked separately. The seven are quiet now and
+read their tone from `AUDIT_FILTERS`. `Fix All Gaps` is the one filled button
+left, which is the one that runs everything.
+
+### 19. A faculty is not a sixth syllabus level — FIXED
+
+The grouping ask had an obvious wrong answer: give faculty a sixth hue in
+`LEVEL_ICON_TINT` and a sixth `Folder`-family glyph, and the five levels, five
+hues rule that `utils/levelColors.ts` exists to hold would be gone. A faculty is
+not a NESA entity at all — it is the boundary a school's own structure draws
+across the library — so it is drawn as a boundary: the subject's own mark, its
+name in `.t-section` (which §4 reserves for exactly this, "a heading that
+divides a panel into named parts"), and a rule down the left in the faculty's
+colour. The five level hues are untouched underneath.
+
+The faculty palette was not invented either. `ManifestImportModal` had been
+colouring subjects for as long as it has existed; those values moved to
+`utils/subjectAreas.ts` and both surfaces read them.
+
+## Checked and left alone
+
+- **The coverage dial keeps the header's strong position.** Finding 11 put it
+  there and it is still the most characteristic thing in this subject's world.
+  Shrunk from 64px to 56px with the header, and nothing else changed.
+- **The big italic selection figure.** It duplicates the summary line now
+  beneath it, and it is still the glanceable number; finding 9 already settled
+  its treatment.
+- **`min-w-[700px]` on the tree**, per the third pass. Still true.
+- **The header's own left/right split.** Title at the left, instruments at the
+  right, close in the corner. This is the one band where two clusters is the
+  right answer, and the 1800px grid bounds how far apart they get.
+
+## Checked on screen
+
+1600×950 and 2560×1100 in dark, 1600×950 in light, and 700×900 for the
+laid-down rail — plus a run through the actual workflow the ask described:
+tick SCIENCE, watch it cascade to both courses, read the footer.

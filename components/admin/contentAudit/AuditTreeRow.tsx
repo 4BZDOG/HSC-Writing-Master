@@ -1,8 +1,14 @@
 import React from 'react';
 import { DotPoint } from '../../../types';
-import { TreeNode } from './auditModel';
-import { GapBadges } from './AuditPieces';
+import { FacultyGroup, TreeNode } from './auditModel';
+import { BranchGapSummary, GapBadges } from './AuditPieces';
 import { LEVEL_ICON_TINT } from '../../../utils/levelColors';
+import {
+  SUBJECT_AREA_FULL_NAME,
+  SUBJECT_AREA_ICON,
+  SUBJECT_AREA_ICON_TINT,
+  SUBJECT_AREA_RULE,
+} from '../../../utils/subjectAreas';
 import {
   BookOpen,
   CheckSquare,
@@ -12,7 +18,6 @@ import {
   Folder,
   Hash,
   Layers,
-  PieChart,
   Square,
   Target,
 } from 'lucide-react';
@@ -41,32 +46,154 @@ interface AuditTreeRowProps {
   onToggleExpand: (id: string) => void;
 }
 
-const AuditTreeRowInner: React.FC<AuditTreeRowProps> = ({
+/** One indent step. The tree gained a sixth level when courses moved under
+ *  their faculty, so the step came down from 24px to keep a question's text
+ *  starting well left of centre. */
+export const INDENT_STEP = 20;
+
+/**
+ * Where the readouts start, measured from the row's left edge.
+ *
+ * Everything before this — the tick, the chevron, the level glyph and the name
+ * — shares one bounded column, and the indent is spent out of it rather than
+ * added to it, so the coverage bar and the Q/S figures land in the same place
+ * on a faculty band and on a dot point five levels under it. Without the
+ * subtraction each level pushed its own readouts one step further right and
+ * the column zig-zagged down the page.
+ */
+const NAME_COLUMN_REM = 46;
+const nameColumnCap = (level: number) => `calc(${NAME_COLUMN_REM}rem - ${level * INDENT_STEP}px)`;
+
+const coverageTone = (pct: number) =>
+  pct < 50 ? 'text-red-400' : pct < 80 ? 'text-amber-400' : 'text-emerald-400';
+
+const coverageFill = (pct: number) =>
+  pct < 50 ? 'bg-red-400' : pct < 80 ? 'bg-amber-400' : 'bg-emerald-400';
+
+/**
+ * How much of this branch of the syllabus carries a question, as a bar.
+ *
+ * This was a pill reading "100%" pinned to the right edge of a row that was
+ * otherwise empty from the label across. A percentage in a pill is a number you
+ * read one row at a time; a bar at a fixed width is a shape you read down a
+ * column, which is the actual question being asked of this screen — which topic
+ * is furthest behind. Fixed width, not stretched to fill: a bar whose length
+ * depended on how long the label above it was would compare nothing.
+ */
+const CoverageMeter: React.FC<{ covered: number; total: number }> = ({ covered, total }) => {
+  const pct = total > 0 ? Math.round((covered / total) * 100) : 0;
+  return (
+    <div
+      className="hidden sm:flex items-center gap-2.5 shrink-0"
+      title={`${covered} of ${total} dot points have at least one question`}
+    >
+      <div className="w-16 lg:w-28 h-1.5 rounded-full bg-white/10 light:bg-slate-200 overflow-hidden">
+        <div
+          className={`h-full rounded-full ${coverageFill(pct)}`}
+          style={{ width: `${pct}%` }}
+          aria-hidden="true"
+        />
+      </div>
+      <span className={`font-mono text-[10px] tabular-nums w-9 text-right ${coverageTone(pct)}`}>
+        {pct}%
+      </span>
+    </div>
+  );
+};
+
+/**
+ * The faculty band.
+ *
+ * A faculty is not a sixth syllabus level, so it does not take a sixth level
+ * hue or another `Folder`-family glyph — it is the boundary a school's own
+ * structure draws across the library, and it is drawn as one: the subject's
+ * mark, its name in the section voice, and a rule beneath it in the faculty's
+ * colour. `LEVEL_ICON_TINT`'s five levels, five hues stays intact underneath.
+ */
+const FacultyRow: React.FC<AuditTreeRowProps> = ({
   node,
-  level,
   isSelected,
   isExpanded,
-  hasChildren,
   onToggleSelect,
   onToggleExpand,
 }) => {
-  const coveragePct =
-    node.stats.totalDotPoints > 0
-      ? Math.round((node.stats.coveredDotPoints / node.stats.totalDotPoints) * 100)
-      : 0;
-  const coverageColor =
-    coveragePct < 50 ? 'text-red-400' : coveragePct < 80 ? 'text-amber-400' : 'text-emerald-400';
+  const group = node.dataRef as FacultyGroup;
+  const Icon = SUBJECT_AREA_ICON[group.area];
+  const courseCount = group.courses.length;
 
   return (
     <div
-      className={`flex items-center py-2.5 px-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
-      style={{ paddingLeft: `${level * 24 + 16}px` }}
+      className={`relative flex items-center gap-3 py-3 pl-4 pr-6 border-b border-white/5 light:border-slate-200 transition-colors ${
+        isSelected
+          ? 'bg-indigo-500/10 light:bg-indigo-50'
+          : 'bg-white/[0.02] light:bg-slate-100/70 hover:bg-white/[0.05] light:hover:bg-slate-100'
+      }`}
+    >
+      <span
+        aria-hidden="true"
+        className={`absolute left-0 top-0 bottom-0 w-[3px] ${SUBJECT_AREA_RULE[group.area]}`}
+      />
+      <button
+        onClick={() => onToggleSelect(node.id, !isSelected)}
+        aria-label={`${isSelected ? 'Deselect' : 'Select'} the whole ${node.label} faculty`}
+        aria-pressed={isSelected}
+        className={`transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'}`}
+      >
+        {isSelected ? (
+          <CheckSquare className="w-4 h-4 text-indigo-400" />
+        ) : (
+          <Square className="w-4 h-4 text-slate-500" />
+        )}
+      </button>
+      <button
+        onClick={() => onToggleExpand(node.id)}
+        aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
+        className="p-1 text-slate-500"
+      >
+        {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+      </button>
+      <Icon className={`w-4 h-4 shrink-0 ${SUBJECT_AREA_ICON_TINT[group.area]}`} />
+      <span
+        className="t-section text-white light:text-slate-900 truncate"
+        title={SUBJECT_AREA_FULL_NAME[group.area]}
+      >
+        {node.label}
+      </span>
+      <span className="t-label text-slate-500 whitespace-nowrap">
+        {courseCount} course{courseCount === 1 ? '' : 's'}
+      </span>
+      <div className="flex-1 min-w-0 hidden lg:flex items-center justify-end pr-5">
+        <BranchGapSummary stats={node.stats} />
+      </div>
+      <CoverageMeter covered={node.stats.coveredDotPoints} total={node.stats.totalDotPoints} />
+      <div className="flex items-center gap-5 ml-4 text-[10px] font-bold text-slate-500 font-mono">
+        <div className="w-12 text-right" title={`${node.stats.questions} questions`}>
+          {node.stats.questions} Q
+        </div>
+        <div className="w-12 text-right" title={`${node.stats.samples} sample answers`}>
+          {node.stats.samples} S
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AuditTreeRowInner: React.FC<AuditTreeRowProps> = (props) => {
+  const { node, level, isSelected, isExpanded, hasChildren, onToggleSelect, onToggleExpand } =
+    props;
+
+  if (node.type === 'faculty') return <FacultyRow {...props} />;
+
+  return (
+    <div
+      className={`flex items-center py-2 pr-6 hover:bg-white/[0.03] light:hover:bg-slate-50 transition-all group border-b border-white/5 light:border-slate-200 ${isSelected ? 'bg-indigo-500/5 light:bg-indigo-50' : ''}`}
+      style={{ paddingLeft: `${level * INDENT_STEP + 16}px` }}
     >
       <button
         onClick={() => onToggleSelect(node.id, !isSelected)}
         aria-label={`${isSelected ? 'Deselect' : 'Select'} ${node.label}`}
         aria-pressed={isSelected}
-        className={`mr-4 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
+        className={`mr-3 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
       >
         {isSelected ? (
           <CheckSquare className="w-4 h-4 text-indigo-400" />
@@ -83,7 +210,10 @@ const AuditTreeRowInner: React.FC<AuditTreeRowProps> = ({
       >
         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
       </button>
-      <div className="flex items-center gap-3 flex-1 min-w-0 mr-4">
+      <div
+        className={`flex items-center gap-3 min-w-0 mr-4 ${node.type === 'prompt' ? 'flex-1' : ''}`}
+        style={node.type === 'prompt' ? undefined : { maxWidth: nameColumnCap(level) }}
+      >
         {node.type === 'course' && <BookOpen className={`w-4 h-4 ${LEVEL_ICON_TINT.course}`} />}
         {node.type === 'topic' && <Layers className={`w-4 h-4 ${LEVEL_ICON_TINT.topic}`} />}
         {node.type === 'subTopic' && <Folder className={`w-4 h-4 ${LEVEL_ICON_TINT.subTopic}`} />}
@@ -95,22 +225,23 @@ const AuditTreeRowInner: React.FC<AuditTreeRowProps> = ({
           ))}
         {node.type === 'prompt' && <FileText className={`w-4 h-4 ${LEVEL_ICON_TINT.prompt}`} />}
         <span
-          className={`text-sm truncate font-medium ${node.type === 'course' || node.type === 'topic' ? 'font-black text-white light:text-slate-900 tracking-tight' : 'text-slate-300 light:text-slate-700'}`}
+          title={node.label}
+          className={`text-sm truncate font-medium ${node.type === 'course' ? 'font-black text-white light:text-slate-900 tracking-tight' : node.type === 'topic' ? 'font-semibold text-white light:text-slate-900' : 'text-slate-300 light:text-slate-700'}`}
         >
           {node.label}
         </span>
         <GapBadges node={node} />
       </div>
       {node.type !== 'prompt' && (
-        <div
-          title={`${node.stats.coveredDotPoints} of ${node.stats.totalDotPoints} dot points have at least one question`}
-          className={`t-label hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-lg border border-white/5 light:border-slate-200 ${coverageColor} bg-black/20 light:bg-slate-100`}
-        >
-          <PieChart className="w-3 h-3" /> {coveragePct}%
+        <div className="flex-1 min-w-0 hidden lg:flex items-center justify-end pr-5">
+          <BranchGapSummary stats={node.stats} />
         </div>
       )}
       {node.type !== 'prompt' && (
-        <div className="flex items-center gap-6 ml-4 text-[10px] font-bold text-slate-500 font-mono">
+        <CoverageMeter covered={node.stats.coveredDotPoints} total={node.stats.totalDotPoints} />
+      )}
+      {node.type !== 'prompt' && (
+        <div className="flex items-center gap-5 ml-4 text-[10px] font-bold text-slate-500 font-mono">
           <div className="w-12 text-right" title={`${node.stats.questions} questions`}>
             {node.stats.questions} Q
           </div>

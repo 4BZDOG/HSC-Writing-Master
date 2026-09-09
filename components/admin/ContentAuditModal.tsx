@@ -37,8 +37,8 @@ import {
   needsOutcomes,
   hasSamplesToRecalibrate,
 } from './contentAudit/auditModel';
-import { InstrumentMetric, AuditActionButton, FilterChip } from './contentAudit/AuditPieces';
-import AuditTreeRow from './contentAudit/AuditTreeRow';
+import { InstrumentMetric, AuditActionButton, FilterRow } from './contentAudit/AuditPieces';
+import AuditTreeRow, { INDENT_STEP } from './contentAudit/AuditTreeRow';
 import TopicImportModal from '../TopicImportModal';
 import ConfirmationModal from '../ConfirmationModal';
 import { BatchTask, BatchFatalError } from '../../utils/batchProcessor';
@@ -289,6 +289,43 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   }, [selectedIds, flatMap]);
 
   /**
+   * What is selected, in the words a teacher would use.
+   *
+   * The footer showed the size of the selection as one large figure, and 47
+   * could be one course, or eleven dot points, or forty-seven questions —
+   * three selections whose batches cost wildly different amounts of AI quota
+   * and time. The number stays; this says what it is made of, coarsest level
+   * first, and names only the levels actually in the selection.
+   */
+  const selectionSummary = useMemo(() => {
+    if (selectedIds.size === 0) return 'Nothing yet — tick a faculty, course or topic';
+    const tally: Record<string, number> = {};
+    selectedIds.forEach((id) => {
+      const node = flatMap.get(id);
+      if (node) tally[node.type] = (tally[node.type] ?? 0) + 1;
+    });
+    const say = (type: string, one: string, many: string) => {
+      const n = tally[type] ?? 0;
+      return n > 0 ? `${n} ${n === 1 ? one : many}` : null;
+    };
+    // Sub-topics are deliberately absent: they are always carried along by the
+    // topic that cascaded into them, so naming them adds a number nobody
+    // chose. The two coarsest levels present say what the scope is, and the
+    // question count says how much AI work it is — which is the pair that
+    // actually decides whether a run is a minute or an hour. Anything more and
+    // this is a list of five figures joined by dots, which §5 of DesignSpec
+    // says to write as words rather than as a longer meta line.
+    const scope = [
+      say('faculty', 'faculty', 'faculties'),
+      say('course', 'course', 'courses'),
+      say('topic', 'topic', 'topics'),
+      say('dotPoint', 'dot point', 'dot points'),
+    ].filter(Boolean) as string[];
+    const questions = say('prompt', 'question', 'questions');
+    return [...scope.slice(0, 2), ...(questions ? [questions] : [])].join(' · ');
+  }, [selectedIds, flatMap]);
+
+  /**
    * The single course/topic a click on "Export JSON" would export, or `null`
    * when the selection doesn't resolve to exactly one. `toggleSelect`
    * cascades a course/topic pick down to every descendant, so this looks for
@@ -387,7 +424,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (node.parentId && selectedIds.has(node.parentId)) return;
       roots.push(node);
     });
-    return roots.filter((n) => n.type !== 'prompt');
+    // A faculty is a grouping, not a scope `clearQuestionsInScopeDraft` can
+    // take — it has no `courseId` of its own — so it resolves to the courses
+    // under it, which is what "clear this faculty" means anyway.
+    return roots
+      .flatMap((n) => (n.type === 'faculty' ? (n.children ?? []) : [n]))
+      .filter((n) => n.type !== 'prompt');
   }, [selectedIds, flatMap]);
 
   // Live count of questions the current selection would delete — computed
@@ -544,7 +586,13 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const hasAutoExpandedRef = useRef(false);
   useEffect(() => {
     if (isOpen && !hasAutoExpandedRef.current) {
-      setExpandedIds(new Set(treeData.map((c) => c.id)));
+      // Faculties and the courses inside them, so the studio opens on the same
+      // "every course, topics folded" view it did before faculties existed —
+      // an opening screen of eight collapsed faculty bands would show a head
+      // teacher nothing about their library.
+      setExpandedIds(
+        new Set(treeData.flatMap((f) => [f.id, ...(f.children ?? []).map((c) => c.id)]))
+      );
       hasAutoExpandedRef.current = true;
     }
     if (!isOpen) {
@@ -638,28 +686,65 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     setActiveFilter((current) => (current === criteria ? null : criteria));
   };
 
+  /** Back to the whole library: no search, no filter. */
+  const resetNarrowing = () => {
+    setSearchQuery('');
+    setActiveFilter(null);
+  };
+
   /**
-   * Select everything the active chip is showing.
+   * What "Select All Filtered" would actually select: the rows the narrowing
+   * is ABOUT, not every row on screen.
+   *
+   * A filtered tree also shows the courses and topics above each match, as the
+   * path to it. Selecting those too would be the difference between "clear the
+   * three questions I searched for" and "clear the topic they are in", so a
+   * node counts only when it matches in its own right — the filter's predicate,
+   * or the search term in its own label.
+   */
+  const isOwnMatch = React.useCallback(
+    (node: TreeNode) => {
+      if (!filteredIds.has(node.id)) return false;
+      if (activeFilter) {
+        const definition = AUDIT_FILTERS.find((f) => f.id === activeFilter);
+        if (!definition || !definition.matches(node)) return false;
+      }
+      if (deferredSearchQuery)
+        return node.label.toLowerCase().includes(deferredSearchQuery.toLowerCase());
+      return !!activeFilter;
+    },
+    [filteredIds, activeFilter, deferredSearchQuery]
+  );
+
+  const filteredMatchCount = useMemo(() => {
+    if (!isNarrowed) return 0;
+    let n = 0;
+    flatMap.forEach((node) => {
+      if (isOwnMatch(node)) n++;
+    });
+    return n;
+  }, [flatMap, isNarrowed, isOwnMatch]);
+
+  /**
+   * Select everything the narrowing is showing.
    *
    * The predicate now comes from the filter registry. The hand-written copy
    * that used to live here had fallen three filters behind the rail —
    * `verbNotInQuestion`, `flagged` and `exemplarMismatch` matched nothing, so
    * the button selected zero items and then reported "Selected 0 items for
-   * optimisation" as though that were a result.
+   * optimisation" as though that were a result. It also only ever worked for a
+   * filter: after a search you were left ticking each row by hand.
    */
-  const handleSmartSelect = (criteria: VisibilityFilter) => {
-    if (!criteria) return;
-    const definition = AUDIT_FILTERS.find((f) => f.id === criteria);
-    if (!definition) return;
+  const handleSelectAllShown = () => {
+    if (!isNarrowed) return;
+    const definition = activeFilter ? AUDIT_FILTERS.find((f) => f.id === activeFilter) : null;
+    const scope = definition ? `under "${definition.label}"` : `matching "${deferredSearchQuery}"`;
 
     const newSelected = new Set<string>();
     const newExpanded = new Set<string>(expandedIds);
 
     flatMap.forEach((node) => {
-      // Only select items currently visible under the active search + filter,
-      // not every match in the whole library.
-      if (!filteredIds.has(node.id)) return;
-      if (!definition.matches(node)) return;
+      if (!isOwnMatch(node)) return;
 
       newSelected.add(node.id);
       let current = node;
@@ -675,8 +760,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     setExpandedIds(newExpanded);
     showToast(
       newSelected.size === 0
-        ? `Nothing on screen matches "${definition.label}".`
-        : `Selected ${newSelected.size} item${newSelected.size === 1 ? '' : 's'} under "${definition.label}".`,
+        ? `Nothing on screen matches ${scope}.`
+        : `Selected ${newSelected.size} item${newSelected.size === 1 ? '' : 's'} ${scope}.`,
       newSelected.size === 0 ? 'info' : 'success'
     );
   };
@@ -1102,11 +1187,11 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         aria-expanded={hasChildren ? isExpanded : undefined}
         className="relative"
       >
-        {level > 0 && (
+        {level > 1 && (
           <div
             aria-hidden="true"
             className="absolute left-0 top-0 bottom-0 w-px bg-white/5 light:bg-slate-200"
-            style={{ left: `${level * 24 + 23}px` }}
+            style={{ left: `${(level - 1) * INDENT_STEP + 23}px` }}
           />
         )}
         <AuditTreeRow
@@ -1149,41 +1234,32 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-y-auto animate-fade-in"
+      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-hidden animate-fade-in"
     >
-      {/* Studio Header — capped and independently scrollable (custom-scrollbar,
-          matching the Tree Container below) so a wide filter/action bar that
-          wraps onto many lines can never push the Tree off-screen with no way
-          back; the outer dialog's overflow-y-auto above is the last-resort
-          fallback if header+footer somehow still exceed the viewport. */}
-      <div className="flex-shrink-0 max-h-[42vh] overflow-y-auto custom-scrollbar border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-lg light:shadow-lg relative">
+      {/* Header.
+          It used to be a 10rem band holding the title, a paragraph, an
+          instrument cluster and the whole filter rail, capped at 42vh because
+          the rail wrapped onto three lines and pushed the tree off the bottom
+          of the screen. The rail has moved to the column on the left, so what
+          is left here is what a header is for: what this screen is, and how
+          much of the syllabus is covered. */}
+      <header className="flex-shrink-0 border-b border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white z-20 shadow-lg light:shadow-sm relative">
         <MeshOverlay opacity="opacity-[0.05]" />
-        <div className="px-5 md:px-10 py-6 md:py-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 md:gap-10">
-          {/* Two accessories came off this header, both named by the
-              frontend-design skill. The tracked-out eyebrow ("Content
-              Overview") said nothing the title below it did not, and the
-              gradient tile held a generic pulse-line glyph — the stock
-              AI-product mark, belonging to no subject, in the position the
-              skill reserves for the most characteristic thing in the subject's
-              world. That position now belongs to the coverage dial on the
-              right, which is live syllabus data rather than an ornament. */}
-          <div className="flex items-start gap-4 md:gap-8 flex-1 min-w-0">
-            <div className="min-w-0">
-              <h2 className="text-2xl md:text-4xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
-                Content Audit Studio
-              </h2>
-              <p className="text-sm text-slate-400 light:text-slate-600 font-medium mt-4 leading-relaxed max-w-lg">
-                Every syllabus dot point, and what each of its questions is still missing — a
-                marking guide, sample answers, linked outcomes. Pick a scope and fill the gaps in
-                one run.
-              </p>
-            </div>
+        <div className="relative w-full max-w-[1800px] px-5 md:px-8 pr-16 md:pr-20 py-4 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <div className="min-w-0">
+            <h2 className="text-xl md:text-2xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
+              Content Audit Studio
+            </h2>
+            <p className="hidden md:block text-xs text-slate-400 light:text-slate-600 mt-2 leading-relaxed max-w-[64ch]">
+              Every syllabus dot point, and what each of its questions is still missing — a marking
+              guide, sample answers, linked outcomes. Pick a scope and fill the gaps in one run.
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center w-full lg:w-auto bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-2 shadow-inner light:shadow-sm gap-y-2">
-            <div className="flex items-center gap-4 md:gap-6 px-4 md:px-10 py-3 md:py-4 sm:border-r border-white/5 light:border-slate-200">
-              <div className="relative w-16 h-16 flex items-center justify-center">
-                <svg className="transform -rotate-90 w-16 h-16" viewBox="0 0 64 64">
+          <div className="flex flex-wrap items-center ml-auto bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 py-2 shadow-inner light:shadow-sm">
+            <div className="flex items-center gap-4 px-4 md:px-6 border-r border-white/5 light:border-slate-200">
+              <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                <svg className="transform -rotate-90 w-14 h-14" viewBox="0 0 64 64">
                   <circle
                     cx="32"
                     cy="32"
@@ -1191,7 +1267,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     stroke="currentColor"
                     strokeWidth="6"
                     fill="transparent"
-                    className="text-white/5 light:text-slate-100"
+                    className="text-white/5 light:text-slate-200"
                   />
                   <circle
                     cx="32"
@@ -1206,16 +1282,16 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     className={`${healthColor} transition-all duration-1000`}
                   />
                 </svg>
-                <span className={`absolute text-xs font-bold ${healthColor}`}>
+                <span className={`absolute text-[11px] font-bold ${healthColor}`}>
                   {healthPercentage}%
                 </span>
               </div>
               <div>
-                <span className="t-label text-white/50 light:text-slate-500">
+                <span className="t-label text-white/50 light:text-slate-500 whitespace-nowrap">
                   Dot points covered
                 </span>
                 <div className="flex items-baseline gap-2">
-                  <span className={`text-3xl font-black ${healthColor} tracking-tighter`}>
+                  <span className={`text-2xl font-black ${healthColor} tracking-tighter`}>
                     {coveredDotPoints}
                   </span>
                   <span className="t-label text-white/40 light:text-slate-500">
@@ -1224,292 +1300,256 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 </div>
               </div>
             </div>
-            <div className="flex items-center">
-              {/* "Content Units" and "Proof Data" named the storage, not the
-                  thing: they are questions and sample answers everywhere else
-                  in the app, and the second line of each metric was already
-                  saying so under the first. */}
-              <InstrumentMetric
-                label="Questions"
-                value={totalQuestions}
-                colorClass="text-white light:text-slate-900"
-              />
-              <InstrumentMetric
-                label="Sample answers"
-                value={totalSamples}
-                colorClass="text-indigo-400"
-              />
-            </div>
-            {/* Escape was already blocked during a run, but this button was
-                not — clicking it walked away from a live batch that kept
-                spending AI quota and writing to the library with its progress
-                log and its Stop control gone from the screen. */}
-            <button
-              onClick={onClose}
-              disabled={isProcessing}
-              aria-label="Close"
-              title={isProcessing ? 'Stop the batch before closing the studio' : 'Close'}
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center ml-auto lg:ml-4 mr-2 disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
-            </button>
+            {/* "Content Units" and "Proof Data" named the storage, not the
+                thing: they are questions and sample answers everywhere else
+                in the app, and the second line of each metric was already
+                saying so under the first. */}
+            <InstrumentMetric
+              label="Questions"
+              value={totalQuestions}
+              colorClass="text-white light:text-slate-900"
+            />
+            <InstrumentMetric
+              label="Sample answers"
+              value={totalSamples}
+              colorClass="text-indigo-400"
+            />
           </div>
-        </div>
 
-        {/* Smart Select Action Bar */}
-        <div className="px-5 md:px-10 pb-6 md:pb-8 flex flex-wrap gap-3 md:gap-4 items-center">
-          <div className="flex items-center gap-4 bg-black/20 light:bg-slate-100 rounded-2xl p-1.5 border border-white/5 light:border-slate-200 mr-2 transition-all group focus-within:border-indigo-500/50 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.2)]">
+          {/* Escape was already blocked during a run, but this button was
+              not — clicking it walked away from a live batch that kept
+              spending AI quota and writing to the library with its progress
+              log and its Stop control gone from the screen. */}
+        </div>
+        <button
+          onClick={onClose}
+          disabled={isProcessing}
+          aria-label="Close"
+          title={isProcessing ? 'Stop the batch before closing the studio' : 'Close'}
+          className="absolute top-4 right-4 md:right-6 w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
+        </button>
+      </header>
+
+      {/* The work area: a control rail beside the tree.
+          Before this the studio was three full-width bands stacked on top of
+          each other, each one holding its content out at the left and right
+          edges — so on the wide window this screen is actually used on, the
+          middle of every band, and the middle of every tree row, was empty.
+          The rail spends that space on the thing an admin reaches for most
+          (which gap am I working on?) and lets the tree keep the rest. */}
+      <div className="flex-1 min-h-0 flex flex-col md:flex-row">
+        <aside
+          aria-label="Find and filter the curriculum"
+          className="shrink-0 w-full md:w-[17rem] flex flex-col gap-3 md:gap-5 md:overflow-y-auto custom-scrollbar border-b md:border-b-0 md:border-r border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/40 light:bg-white px-4 py-3 md:py-5"
+        >
+          <div>
             <div className="relative group/search">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within/search:text-indigo-400 transition-colors" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within/search:text-indigo-400 transition-colors" />
               <input
                 type="search"
                 aria-label="Search the curriculum by course, topic, dot point or question"
-                placeholder="Search curriculum..."
+                placeholder="Search curriculum…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent pl-11 pr-4 py-1.5 text-sm text-white light:text-slate-900 placeholder-slate-600 light:placeholder-slate-400 focus:outline-none w-64"
+                className="w-full bg-black/20 light:bg-slate-100 border border-white/5 light:border-slate-200 rounded-xl pl-9 pr-3 h-10 text-sm text-white light:text-slate-900 placeholder-slate-600 light:placeholder-slate-400 focus:outline-none focus:border-indigo-500/50 transition-colors"
               />
             </div>
             {isNarrowed && (
-              <>
+              <div className="flex items-center justify-between mt-2 px-1">
                 {/* What a narrowed tree is showing, said in numbers. Without it
                     a filter that matches nothing and a filter that matches
                     everything look the same until you scroll. */}
                 <span
-                  className="t-label text-slate-500 whitespace-nowrap tabular-nums"
+                  className="t-label text-slate-500 tabular-nums"
                   title="Rows in the narrowed tree, out of every row in the library"
                 >
-                  {filteredIds.size} of {flatMap.size}
+                  {filteredIds.size} of {flatMap.size} rows
                 </span>
                 <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    setActiveFilter(null);
-                  }}
+                  onClick={resetNarrowing}
                   title="Clear the search and the active filter"
-                  className="t-label px-3 py-1.5 text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-2 border-l border-white/5 light:border-slate-300 transition-colors"
+                  className="t-label text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-1.5 transition-colors"
                 >
                   <RotateCcw className="w-3.5 h-3.5" /> Reset
                 </button>
-              </>
+              </div>
             )}
           </div>
 
-          <div className="flex items-center bg-black/20 light:bg-slate-100 rounded-2xl p-1.5 border border-white/5 light:border-slate-200">
+          <div className="flex items-center gap-1">
             <button
               onClick={expandAll}
               title="Expand every branch of the tree"
-              className="t-label px-3 py-1.5 text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-1.5 transition-colors"
+              className="t-label flex-1 h-9 rounded-lg text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100 hover:text-white light:hover:text-slate-900 flex items-center justify-center gap-1.5 transition-colors"
             >
               <ChevronDown className="w-3.5 h-3.5" /> Expand All
             </button>
-            <div className="w-px h-4 bg-white/5 light:bg-slate-300" />
             <button
               onClick={collapseAll}
               title="Collapse the whole tree"
-              className="t-label px-3 py-1.5 text-slate-500 hover:text-white light:hover:text-slate-900 flex items-center gap-1.5 transition-colors"
+              className="t-label flex-1 h-9 rounded-lg text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100 hover:text-white light:hover:text-slate-900 flex items-center justify-center gap-1.5 transition-colors"
             >
               <ChevronRight className="w-3.5 h-3.5" /> Collapse All
             </button>
           </div>
 
-          <div className="h-8 w-px bg-white/5 light:bg-slate-300 mx-2" />
+          {/* The filters, rendered from the one registry, grouped by what the
+              studio can do about them: content that is missing and can be
+              generated, then content that exists and reads wrong. */}
+          <div className="flex md:flex-col gap-4 md:gap-5 overflow-x-auto md:overflow-x-visible custom-scrollbar pb-1 md:pb-0">
+            {(['missing', 'review'] as const).map((group) => (
+              <div key={group} className="shrink-0 md:shrink">
+                <h3 className="t-section text-white/40 light:text-slate-500 px-2.5 mb-2">
+                  {group === 'missing' ? 'Missing' : 'Needs review'}
+                </h3>
+                <div className="flex md:flex-col gap-1 md:gap-0.5">
+                  {AUDIT_FILTERS.filter((f) => f.group === group).map((filter) => (
+                    <FilterRow
+                      key={filter.id}
+                      active={activeFilter === filter.id}
+                      tone={filter.tone}
+                      label={filter.label}
+                      count={counts[filter.id]}
+                      title={filter.title}
+                      onClick={() => handleFilterToggle(filter.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
 
-          {/* The rail, rendered from the one filter registry. It used to be
-              ten hand-written chips whose predicates were a third copy of the
-              same logic, and the copy had already fallen behind. Ordered
-              missing-content first, then content that exists but reads wrong,
-              with the toolbar's own rule between the two groups. */}
-          {AUDIT_FILTERS.map((filter, index) => (
-            <React.Fragment key={filter.id}>
-              {index > 0 && AUDIT_FILTERS[index - 1].group !== filter.group && (
-                <div className="h-8 w-px bg-white/5 light:bg-slate-300 mx-1" aria-hidden="true" />
-              )}
-              <FilterChip
-                active={activeFilter === filter.id}
-                tone={filter.tone}
-                label={filter.label}
-                count={counts[filter.id]}
-                title={filter.title}
-                onClick={() => handleFilterToggle(filter.id)}
-              />
-            </React.Fragment>
-          ))}
-
-          <div className="flex-1" />
-
-          {selectedIds.size > 0 && (
-            <div className="flex items-center gap-1.5 bg-black/30 light:bg-slate-50 rounded-2xl p-1.5 border border-white/5 light:border-slate-200">
-              <span className="t-label text-white/30 light:text-slate-400 px-2 hidden lg:block">
-                Data
-              </span>
-              <button
-                onClick={handleExportJson}
-                disabled={isProcessing || !exportTarget}
-                title={
-                  exportTarget
-                    ? `Export "${exportTarget.label}" as a JSON file`
-                    : 'Select exactly one topic or course to export'
-                }
-                className="t-label px-4 h-10 rounded-xl bg-emerald-500/10 light:bg-emerald-50 border border-emerald-500/20 light:border-emerald-200 text-emerald-400 light:text-emerald-700 hover:bg-emerald-500/20 light:hover:bg-emerald-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <Download className="w-3.5 h-3.5" /> Export JSON
-              </button>
-              <button
-                onClick={() => importTargetCourseId && setImportCourseId(importTargetCourseId)}
-                disabled={isProcessing || !importTargetCourseId}
-                title={
-                  importTargetCourseId
-                    ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
-                    : 'Select exactly one topic or course to import into'
-                }
-                className="t-label px-4 h-10 rounded-xl bg-sky-500/10 light:bg-sky-50 border border-sky-500/20 light:border-sky-200 text-sky-400 light:text-sky-700 hover:bg-sky-500/20 light:hover:bg-sky-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                <UploadCloud className="w-3.5 h-3.5" /> Import JSON…
-              </button>
-            </div>
-          )}
-          {selectedIds.size > 0 && (
+          {isNarrowed && (
             <button
-              onClick={clearSelection}
-              disabled={isProcessing}
-              className="t-label px-4 h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-500 light:text-slate-500 hover:bg-white/10 light:hover:bg-slate-200 hover:text-white light:hover:text-slate-900 transition-all flex items-center gap-1.5 disabled:opacity-40"
-            >
-              <Square className="w-3.5 h-3.5" /> Clear Selection ({selectedIds.size})
-            </button>
-          )}
-          {activeFilter && (
-            <button
-              onClick={() => handleSmartSelect(activeFilter)}
-              disabled={isProcessing || counts[activeFilter] === 0}
-              title="Select every item the active filter is showing"
-              className="t-label px-6 h-12 rounded-2xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-200 text-white light:text-indigo-700 hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center gap-2 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed"
+              onClick={handleSelectAllShown}
+              disabled={isProcessing || filteredMatchCount === 0}
+              title="Select every item the search and the active filter are showing"
+              className="t-label w-full h-10 rounded-xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-200 text-white light:text-indigo-700 hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <CheckSquare className="w-4 h-4" /> Select All Filtered
             </button>
           )}
-        </div>
-      </div>
+        </aside>
 
-      {/* Tree Container */}
-      <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
-        <div className="min-w-[700px] pb-40">
-          {filteredTreeData.length > 0 ? (
-            <div role="tree" aria-multiselectable="true" aria-label="Curriculum">
-              {filteredTreeData.map((node) => renderNode(node))}
-            </div>
-          ) : (
-            /* An empty screen is a place to act from. It used to say "No items
-               found / Refine your search or filters" whether the library was
-               empty, the search matched nothing, or a chip had nothing left to
-               show — three different situations and one shrug. */
-            <div className="py-40 text-center animate-fade-in">
-              <div className="w-24 h-24 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-8 mx-auto shadow-inner">
-                <Filter className="w-12 h-12 text-slate-700 light:text-slate-300" />
-              </div>
-              {treeData.length === 0 ? (
-                <>
-                  <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
-                    No courses to audit
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
-                    Import or create a course first — the studio audits what is already in the
-                    library.
-                  </p>
-                </>
+        <div className="flex-1 min-w-0 flex flex-col">
+          {/* Tree */}
+          <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] light:bg-slate-50 custom-scrollbar">
+            <div className="min-w-[700px] max-w-[1528px] pb-16">
+              {filteredTreeData.length > 0 ? (
+                <div role="tree" aria-multiselectable="true" aria-label="Curriculum">
+                  {filteredTreeData.map((node) => renderNode(node))}
+                </div>
               ) : (
-                <>
-                  <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
-                    {activeFilterLabel
-                      ? `Nothing is flagged as “${activeFilterLabel}”`
-                      : 'Nothing matches that search'}
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
-                    {activeFilterLabel && deferredSearchQuery
-                      ? 'The filter and the search have no overlap.'
-                      : activeFilterLabel
-                        ? 'That is the good outcome — nothing in the library has this gap.'
-                        : 'Try a shorter term, or a word from the question itself.'}
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setActiveFilter(null);
-                    }}
-                    className="t-label mt-6 px-5 h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-white/10 light:hover:bg-slate-200 transition-all inline-flex items-center gap-2"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" /> Show the whole library
-                  </button>
-                </>
+                /* An empty screen is a place to act from. It used to say "No items
+                   found / Refine your search or filters" whether the library was
+                   empty, the search matched nothing, or a chip had nothing left to
+                   show — three different situations and one shrug. */
+                <div className="py-32 text-center animate-fade-in">
+                  <div className="w-20 h-20 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-6 mx-auto shadow-inner">
+                    <Filter className="w-10 h-10 text-slate-700 light:text-slate-300" />
+                  </div>
+                  {treeData.length === 0 ? (
+                    <>
+                      <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
+                        No courses to audit
+                      </h3>
+                      <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
+                        Import or create a course first — the studio audits what is already in the
+                        library.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="text-2xl font-black text-white light:text-slate-900 tracking-tight italic">
+                        {activeFilterLabel
+                          ? `Nothing is flagged as “${activeFilterLabel}”`
+                          : 'Nothing matches that search'}
+                      </h3>
+                      <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
+                        {activeFilterLabel && deferredSearchQuery
+                          ? 'The filter and the search have no overlap.'
+                          : activeFilterLabel
+                            ? 'That is the good outcome — nothing in the library has this gap.'
+                            : 'Try a shorter term, or a word from the question itself.'}
+                      </p>
+                      <button
+                        onClick={resetNarrowing}
+                        className="t-label mt-6 px-5 h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-white/10 light:hover:bg-slate-200 transition-all inline-flex items-center gap-2"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" /> Show the whole library
+                      </button>
+                    </>
+                  )}
+                </div>
               )}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
       {/* Operations Terminal (Footer) */}
       <div
-        className={`border-t border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white px-4 md:px-10 flex flex-col flex-shrink-0 relative shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.5)] light:shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.1)] transition-all duration-500 ${isProcessing ? 'h-80' : 'min-h-[6rem] py-3'}`}
+        className={`border-t border-white/5 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-white flex flex-col flex-shrink-0 relative shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.5)] light:shadow-[0_-8px_24px_-8px_rgba(0,0,0,0.1)] transition-all duration-500 ${isProcessing ? 'h-80' : ''}`}
       >
         <MeshOverlay opacity="opacity-[0.05]" />
-        {isProcessing && progress && (
-          <div className="flex-1 overflow-hidden flex flex-col py-6 animate-fade-in">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex items-center gap-4">
-                <Terminal className="w-5 h-5 text-indigo-400" />
-                <span className="t-label text-white/40 light:text-slate-500 italic">
-                  Processing Log
-                </span>
-                <span className="t-label flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-black/40 light:bg-slate-100 border border-white/10 light:border-slate-200 text-indigo-400">
-                  <Cpu className="w-3 h-3" />
-                  {batchEngine === 'default'
-                    ? 'App Default'
-                    : (AI_MODELS.find((m) => m.id === batchEngine)?.label ?? batchEngine)}
-                </span>
-              </div>
-              <div className="t-label flex gap-8">
-                <span className="text-emerald-400">Completed: {progress.completed}</span>
-                <span className="text-red-400">Failed: {progress.failed}</span>
-                <span className="text-slate-500">Total: {progress.total}</span>
-              </div>
-            </div>
-            <div
-              role="log"
-              aria-live="polite"
-              aria-label="Processing log"
-              className="flex-1 bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-6 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner"
-            >
-              {progress.fatalError && (
-                <div className="flex items-start gap-3 p-3 mb-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-600 animate-fade-in">
-                  <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs">{progress.fatalError.userMessage}</p>
-                    <p className="text-[11px] opacity-80 mt-0.5">
-                      {progress.fatalError.suggestion}
-                    </p>
-                  </div>
+        <div className="relative w-full max-w-[1800px] px-4 md:px-8 flex flex-col flex-1 min-h-0">
+          {isProcessing && progress && (
+            <div className="flex-1 overflow-hidden flex flex-col py-5 animate-fade-in">
+              <div className="flex justify-between items-center mb-3">
+                <div className="flex items-center gap-4">
+                  <Terminal className="w-5 h-5 text-indigo-400" />
+                  <span className="t-label text-white/40 light:text-slate-500 italic">
+                    Processing Log
+                  </span>
+                  <span className="t-label flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-black/40 light:bg-slate-100 border border-white/10 light:border-slate-200 text-indigo-400">
+                    <Cpu className="w-3 h-3" />
+                    {batchEngine === 'default'
+                      ? 'App Default'
+                      : (AI_MODELS.find((m) => m.id === batchEngine)?.label ?? batchEngine)}
+                  </span>
                 </div>
-              )}
-              {progress.logs.map((log, i) => {
-                let colour = 'text-indigo-300/60 light:text-indigo-600/70';
-                if (log.includes('✓')) colour = 'text-emerald-400 light:text-emerald-600';
-                else if (log.includes('⛔')) colour = 'text-red-400 light:text-red-600';
-                else if (log.includes('⚠')) colour = 'text-amber-400 light:text-amber-600';
-                else if (log.includes('✗')) colour = 'text-red-300 light:text-red-500';
-                return (
-                  <div key={i} className={`animate-fade-in truncate ${colour}`}>{`> ${log}`}</div>
-                );
-              })}
-              <div ref={logsEndRef} />
+                <div className="t-label flex gap-8">
+                  <span className="text-emerald-400">Completed: {progress.completed}</span>
+                  <span className="text-red-400">Failed: {progress.failed}</span>
+                  <span className="text-slate-500">Total: {progress.total}</span>
+                </div>
+              </div>
+              <div
+                role="log"
+                aria-live="polite"
+                aria-label="Processing log"
+                className="flex-1 bg-black/40 light:bg-slate-50 rounded-panel border border-white/5 light:border-slate-200 p-5 overflow-y-auto font-mono text-xs space-y-2 custom-scrollbar shadow-inner"
+              >
+                {progress.fatalError && (
+                  <div className="flex items-start gap-3 p-3 mb-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-600 animate-fade-in">
+                    <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs">{progress.fatalError.userMessage}</p>
+                      <p className="text-[11px] opacity-80 mt-0.5">
+                        {progress.fatalError.suggestion}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {progress.logs.map((log, i) => {
+                  let colour = 'text-indigo-300/60 light:text-indigo-600/70';
+                  if (log.includes('✓')) colour = 'text-emerald-400 light:text-emerald-600';
+                  else if (log.includes('⛔')) colour = 'text-red-400 light:text-red-600';
+                  else if (log.includes('⚠')) colour = 'text-amber-400 light:text-amber-600';
+                  else if (log.includes('✗')) colour = 'text-red-300 light:text-red-500';
+                  return (
+                    <div key={i} className={`animate-fade-in truncate ${colour}`}>{`> ${log}`}</div>
+                  );
+                })}
+                <div ref={logsEndRef} />
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div
-          className={`flex items-center justify-between transition-all duration-500 ${isProcessing ? 'h-20 border-t border-white/5 light:border-slate-200' : 'h-full'}`}
-        >
           {isProcessing && progress ? (
-            <div className="w-full flex items-center gap-6 animate-fade-in">
+            <div className="h-20 border-t border-white/5 light:border-slate-200 flex items-center gap-6 animate-fade-in">
               <div className="flex-1 min-w-0">
                 {/* `progress.currentTask` was being computed by the batch runner
                     and thrown away. During a long run the bar moved and nothing
@@ -1550,58 +1590,66 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               </button>
             </div>
           ) : (
-            // Capped and independently scrollable (custom-scrollbar, matching
-            // the header above and the Tree Container) — the button row keeps
-            // growing this list (Fix All Gaps, Clear Questions, etc.), and
-            // without a cap that wrapped growth is what pushes the Tree
-            // toward 0px on a short viewport. Left untouched during the
-            // isProcessing branch above so it doesn't fight the footer's own
-            // transition-all duration-500 height animation.
-            <div className="flex flex-wrap items-center justify-between w-full gap-4 md:gap-6 max-h-[34vh] overflow-y-auto custom-scrollbar py-1">
-              <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                <div className="p-3 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-white light:text-slate-900 font-black text-2xl tracking-tighter italic">
+            /* One left-to-right flow rather than two clusters pinned to
+               opposite edges: the scope, then what it will run on, then the
+               run. Capped and independently scrollable, because the button row
+               keeps growing and without a cap that wrapped growth is what
+               pushes the tree toward 0px on a short viewport. */
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-3 py-3 max-h-[38vh] overflow-y-auto custom-scrollbar">
+              <div className="flex items-center gap-3 shrink-0">
+                <div className="px-3 py-1.5 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-white light:text-slate-900 font-black text-xl tracking-tighter italic tabular-nums">
                   {selectedIds.size}
                 </div>
-                <span className="t-label text-white/50 light:text-slate-500">Selected</span>
-
-                <div className="flex flex-col gap-1 ml-4">
-                  <label
-                    htmlFor="audit-engine"
-                    className="t-label text-white/50 light:text-slate-500 flex items-center gap-1.5"
-                  >
-                    <Cpu className="w-3 h-3" /> Batch Engine
-                  </label>
-                  <select
-                    id="audit-engine"
-                    value={batchEngine}
-                    onChange={(e) => setBatchEngine(e.target.value)}
-                    title={
-                      batchEngine === 'default'
-                        ? 'Uses the app-wide engine selection per call type'
-                        : AI_MODELS.find((m) => m.id === batchEngine)?.description
-                    }
-                    className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-xl px-3 py-2 text-xs font-medium text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
-                  >
-                    <option value="default">App Default</option>
-                    {AI_MODELS.map((m) => (
-                      <option key={m.id} value={m.id}>
-                        {m.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="min-w-0">
+                  <span className="t-label text-white/50 light:text-slate-500 block">Selected</span>
+                  {/* A bare count could not tell one selected course from forty
+                      selected questions, and those run very different batches. */}
+                  <span className="t-label text-slate-500 block whitespace-nowrap">
+                    {selectionSummary}
+                  </span>
                 </div>
-
-                {isCurriculumRemote() && pendingSyncCount > 0 && (
+                {selectedIds.size > 0 && (
                   <button
-                    onClick={handleSyncToLibrary}
-                    title="Push the questions repaired by this studio to the shared library as pending contributions — they go through the review queue before publishing"
-                    className="t-label ml-2 px-5 h-12 rounded-panel bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-2"
+                    onClick={clearSelection}
+                    disabled={isProcessing}
+                    title="Deselect everything in the tree"
+                    className="t-label px-2.5 h-8 rounded-lg text-slate-500 hover:text-white light:hover:text-slate-900 hover:bg-white/5 light:hover:bg-slate-100 transition-all flex items-center gap-1.5 disabled:opacity-40"
                   >
-                    <UploadCloud className="w-4 h-4" />
-                    Sync to Library ({pendingSyncCount})
+                    <Square className="w-3.5 h-3.5" /> Clear Selection ({selectedIds.size})
                   </button>
                 )}
               </div>
+
+              <div className="w-px h-8 bg-white/10 light:bg-slate-200 hidden lg:block" />
+
+              <div className="flex items-center gap-2 shrink-0">
+                <label
+                  htmlFor="audit-engine"
+                  className="t-label text-white/50 light:text-slate-500 flex items-center gap-1.5"
+                >
+                  <Cpu className="w-3 h-3" /> Batch Engine
+                </label>
+                <select
+                  id="audit-engine"
+                  value={batchEngine}
+                  onChange={(e) => setBatchEngine(e.target.value)}
+                  title={
+                    batchEngine === 'default'
+                      ? 'Uses the app-wide engine selection per call type'
+                      : AI_MODELS.find((m) => m.id === batchEngine)?.description
+                  }
+                  className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-lg px-3 h-9 text-xs font-medium text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
+                >
+                  <option value="default">App Default</option>
+                  {AI_MODELS.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="w-px h-8 bg-white/10 light:bg-slate-200 hidden lg:block" />
 
               {/* The "AI Operations" caption above this row is gone: every
                   button below now leads with its own verb, so the caption was
@@ -1609,85 +1657,128 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   used to be nouns — "Rubrics (8)" — beside a chip that said
                   "No Marking Guide" and a row badge that said "No Rubric", for
                   one thing under three names. */}
-              <div className="flex flex-col gap-3 items-end">
-                <div className="flex gap-2.5 flex-wrap justify-end">
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'generateQuestions')}
-                    disabled={isProcessing || selectionTargets.questions === 0}
-                    title="Write a question for each selected dot point that has none"
-                    colourClass="bg-indigo-600 hover:shadow-indigo-500/25"
-                    label={`Write Questions (${selectionTargets.questions})`}
-                  />
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'generateRubrics')}
-                    disabled={isProcessing || selectionTargets.rubrics === 0}
-                    title="Write a marking guide for each selected question missing one, or whose guide is non-standard"
-                    colourClass="bg-sky-600 hover:shadow-sky-500/25"
-                    label={`Write Marking Guides (${selectionTargets.rubrics})`}
-                  />
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'reviseRubrics')}
-                    disabled={isProcessing || selectionTargets.rubricRevisions === 0}
-                    title="Reformat non-standard marking guides into descending mark bands, keeping the criteria they already carry"
-                    colourClass="bg-amber-600 hover:shadow-amber-500/25"
-                    label={`Reformat Guides (${selectionTargets.rubricRevisions})`}
-                  />
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'linkOutcomes')}
-                    disabled={isProcessing || selectionTargets.outcomes === 0}
-                    title="Suggest syllabus outcomes for each selected question with none linked"
-                    colourClass="bg-pink-600 hover:shadow-pink-500/25"
-                    label={`Link Outcomes (${selectionTargets.outcomes})`}
-                    icon={<Link2 className="w-3.5 h-3.5" />}
-                  />
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'generateSamples')}
-                    disabled={isProcessing || selectionTargets.samples === 0}
-                    title="Draft a full-mark sample answer for each selected question with none"
-                    colourClass="bg-purple-600 hover:shadow-purple-500/25"
-                    label={`Draft Samples (${selectionTargets.samples})`}
-                  />
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
-                    disabled={isProcessing || selectionTargets.recalibrations === 0}
-                    title="Re-mark every existing sample answer under the strict verb/band rules"
-                    colourClass="bg-teal-600 hover:shadow-teal-500/25"
-                    label={`Re-mark Samples (${selectionTargets.recalibrations})`}
-                    icon={<Scale className="w-3.5 h-3.5" />}
-                  />
-                  <AuditActionButton
-                    onClick={handleBulkAction.bind(null, 'screenQuality')}
-                    disabled={isProcessing || selectionTargets.screenings === 0}
-                    title="AI-score every selected question (0-100) so weak content is flagged, filterable, and triaged in the review queue"
-                    colourClass="bg-rose-600 hover:shadow-rose-500/25"
-                    label={`Score Quality (${selectionTargets.screenings})`}
-                    icon={<Gauge className="w-3.5 h-3.5" />}
-                  />
-                  <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
+              <div className="flex flex-wrap items-center gap-2">
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'generateQuestions')}
+                  disabled={isProcessing || selectionTargets.questions === 0}
+                  title="Write a question for each selected dot point that has none"
+                  tone="red"
+                  label="Write Questions"
+                  count={selectionTargets.questions}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'generateRubrics')}
+                  disabled={isProcessing || selectionTargets.rubrics === 0}
+                  title="Write a marking guide for each selected question missing one, or whose guide is non-standard"
+                  tone="indigo"
+                  label="Write Marking Guides"
+                  count={selectionTargets.rubrics}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'generateSamples')}
+                  disabled={isProcessing || selectionTargets.samples === 0}
+                  title="Draft a full-mark sample answer for each selected question with none"
+                  tone="amber"
+                  label="Draft Samples"
+                  count={selectionTargets.samples}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'linkOutcomes')}
+                  disabled={isProcessing || selectionTargets.outcomes === 0}
+                  title="Suggest syllabus outcomes for each selected question with none linked"
+                  tone="pink"
+                  label="Link Outcomes"
+                  count={selectionTargets.outcomes}
+                  icon={<Link2 className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'reviseRubrics')}
+                  disabled={isProcessing || selectionTargets.rubricRevisions === 0}
+                  title="Reformat non-standard marking guides into descending mark bands, keeping the criteria they already carry"
+                  tone="orange"
+                  label="Reformat Guides"
+                  count={selectionTargets.rubricRevisions}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'recalibrateSamples')}
+                  disabled={isProcessing || selectionTargets.recalibrations === 0}
+                  title="Re-mark every existing sample answer under the strict verb/band rules"
+                  tone="teal"
+                  label="Re-mark Samples"
+                  count={selectionTargets.recalibrations}
+                  icon={<Scale className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'screenQuality')}
+                  disabled={isProcessing || selectionTargets.screenings === 0}
+                  title="AI-score every selected question (0-100) so weak content is flagged, filterable, and triaged in the review queue"
+                  tone="fuchsia"
+                  label="Score Quality"
+                  count={selectionTargets.screenings}
+                  icon={<Gauge className="w-3.5 h-3.5" />}
+                />
+                <button
+                  onClick={handleBulkAction.bind(null, 'fixAllGaps')}
+                  disabled={isProcessing || selectionTargets.allGaps === 0}
+                  title="One run that fills every gap in the selection: missing questions, marking guides, outcomes and samples"
+                  className="t-label px-4 h-10 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none disabled:hover:scale-100 flex items-center gap-2"
+                >
+                  <Wrench className="w-4 h-4" />
+                  Fix All Gaps ({selectionTargets.allGaps})
+                </button>
+              </div>
+
+              <div className="w-px h-8 bg-white/10 light:bg-slate-200 hidden lg:block" />
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={handleExportJson}
+                  disabled={isProcessing || !exportTarget}
+                  title={
+                    exportTarget
+                      ? `Export "${exportTarget.label}" as a JSON file`
+                      : 'Select exactly one topic or course to export'
+                  }
+                  className="t-label px-3.5 h-10 rounded-xl bg-emerald-500/10 light:bg-emerald-50 border border-emerald-500/30 light:border-emerald-300 text-emerald-300 light:text-emerald-700 hover:bg-emerald-500/20 light:hover:bg-emerald-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
+                >
+                  <Download className="w-3.5 h-3.5" /> Export JSON
+                </button>
+                <button
+                  onClick={() => importTargetCourseId && setImportCourseId(importTargetCourseId)}
+                  disabled={isProcessing || !importTargetCourseId}
+                  title={
+                    importTargetCourseId
+                      ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
+                      : 'Select exactly one topic or course to import into'
+                  }
+                  className="t-label px-3.5 h-10 rounded-xl bg-sky-500/10 light:bg-sky-50 border border-sky-500/30 light:border-sky-300 text-sky-300 light:text-sky-700 hover:bg-sky-500/20 light:hover:bg-sky-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
+                >
+                  <UploadCloud className="w-3.5 h-3.5" /> Import JSON…
+                </button>
+                {isCurriculumRemote() && pendingSyncCount > 0 && (
                   <button
-                    onClick={handleBulkAction.bind(null, 'fixAllGaps')}
-                    disabled={isProcessing || selectionTargets.allGaps === 0}
-                    title="One run that fills every gap in the selection: missing questions, marking guides, outcomes and samples"
-                    className="t-label px-5 h-11 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none flex items-center gap-2"
+                    onClick={handleSyncToLibrary}
+                    disabled={isProcessing}
+                    title="Push the questions repaired by this studio to the shared library as pending contributions — they go through the review queue before publishing"
+                    className="t-label px-3.5 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-2 disabled:opacity-30"
                   >
-                    <Wrench className="w-4 h-4" />
-                    Fix All Gaps ({selectionTargets.allGaps})
+                    <UploadCloud className="w-3.5 h-3.5" />
+                    Sync to Library ({pendingSyncCount})
                   </button>
-                  <div className="w-px h-8 bg-white/10 light:bg-slate-300 self-center" />
-                  <button
-                    onClick={() => setIsClearConfirmOpen(true)}
-                    disabled={isProcessing || clearTargets.length === 0}
-                    title={
-                      clearTargets.length > 0
-                        ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
-                        : 'Select a course, topic, sub-topic or dot point to clear its questions'
-                    }
-                    className="t-label px-4 h-11 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500 hover:text-white hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    Clear Questions ({clearQuestionsCount})
-                  </button>
-                </div>
+                )}
+                <button
+                  onClick={() => setIsClearConfirmOpen(true)}
+                  disabled={isProcessing || clearTargets.length === 0}
+                  title={
+                    clearTargets.length > 0
+                      ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
+                      : 'Select a course, topic, sub-topic or dot point to clear its questions'
+                  }
+                  className="t-label px-3.5 h-10 rounded-xl bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500 hover:text-white active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Clear Questions ({clearQuestionsCount})
+                </button>
               </div>
             </div>
           )}

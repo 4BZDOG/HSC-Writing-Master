@@ -1,5 +1,6 @@
 import { Course, Topic, SubTopic, DotPoint, Prompt, StatePath } from '../../../types';
 import { outcomesForYear, yearOfTopic } from '../../../utils/syllabusYear';
+import { SUBJECT_AREAS, subjectAreaOf, type SubjectArea } from '../../../utils/subjectAreas';
 import { extractCommandVerb } from '../../../data/commandTerms';
 import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
@@ -13,7 +14,22 @@ import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
  * definition site for its data model.
  */
 
-export type NodeType = 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt';
+export type NodeType = 'faculty' | 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt';
+
+/**
+ * What sits behind a faculty row. A faculty is not a syllabus level — there is
+ * no NESA entity for it and nothing in the data model to point at — it is the
+ * grouping a school already works in, so the node carries the grouping itself
+ * rather than a reference to a stored thing.
+ */
+export interface FacultyGroup {
+  area: SubjectArea;
+  courses: Course[];
+}
+
+/** The id a faculty row is addressed by. Prefixed so it can never collide
+ *  with a course id, which is what every other top-level node used to be. */
+export const facultyNodeId = (area: SubjectArea): string => `faculty:${area}`;
 
 export interface TreeNode {
   id: string;
@@ -24,6 +40,7 @@ export interface TreeNode {
   stats: {
     questions: number;
     samples: number;
+    missingSamples: number;
     missingOutcomes: number;
     missingMarkingCriteria: number;
     rubricNotDescending: number;
@@ -35,7 +52,13 @@ export interface TreeNode {
     term: string;
     tier: number;
   };
-  dataRef: Course | Topic | SubTopic | DotPoint | Prompt;
+  dataRef: Course | Topic | SubTopic | DotPoint | Prompt | FacultyGroup;
+  /**
+   * The syllabus path this node sits at. Empty for a faculty, which sits above
+   * every path — anything reading `path.courseId` must handle that, and
+   * `ContentAuditModal`'s `clearTargets` resolves a faculty to its courses
+   * rather than pretending it has one.
+   */
   path: StatePath;
 }
 
@@ -335,12 +358,28 @@ const verbTestRegex = (verb: string): RegExp | null => {
   return compiled;
 };
 
+/**
+ * The library as an audit tree, grouped by faculty.
+ *
+ * Faculty is the top level because it is the unit a head teacher works in: the
+ * ask that produced it was "let me fix all the science subjects at once", and
+ * with courses at the top that meant ticking each one and hoping none was
+ * missed. A faculty row selects its whole faculty in one click, rolls its
+ * courses' coverage up into one figure, and collapses the rest of the library
+ * out of the way while that faculty is being worked.
+ *
+ * Only faculties that actually have a course appear — an empty rail of the
+ * eight NSW faculties would say nothing about this library — and they keep
+ * `SUBJECT_AREAS` order rather than falling in import order, so a course
+ * arriving does not reshuffle the tree under the cursor.
+ */
 export const buildAuditTree = (courses: Course[]): TreeNode[] => {
   const mapStats = (nodes: TreeNode[]): TreeNode['stats'] => {
     return nodes.reduce(
       (acc, node) => ({
         questions: acc.questions + node.stats.questions,
         samples: acc.samples + node.stats.samples,
+        missingSamples: acc.missingSamples + node.stats.missingSamples,
         missingOutcomes: acc.missingOutcomes + node.stats.missingOutcomes,
         missingMarkingCriteria: acc.missingMarkingCriteria + node.stats.missingMarkingCriteria,
         rubricNotDescending: acc.rubricNotDescending + node.stats.rubricNotDescending,
@@ -351,6 +390,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
       {
         questions: 0,
         samples: 0,
+        missingSamples: 0,
         missingOutcomes: 0,
         missingMarkingCriteria: 0,
         rubricNotDescending: 0,
@@ -361,7 +401,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
     );
   };
 
-  return courses.map((course) => {
+  const buildCourse = (course: Course): TreeNode => {
     const topics = (course.topics || []).map((topic) => {
       /**
        * The outcome codes a question in THIS topic may legitimately carry.
@@ -414,6 +454,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
               stats: {
                 questions: 1,
                 samples: validSamples.length,
+                missingSamples: validSamples.length === 0 ? 1 : 0,
                 missingOutcomes: validOutcomes.length === 0 ? 1 : 0,
                 missingMarkingCriteria: !hasRubric ? 1 : 0,
                 rubricNotDescending: rubricNonStd ? 1 : 0,
@@ -441,6 +482,7 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
             stats: {
               questions: prompts.length,
               samples: prompts.reduce((sum, p) => sum + p.stats.samples, 0),
+              missingSamples: prompts.reduce((sum, p) => sum + p.stats.missingSamples, 0),
               missingOutcomes: prompts.reduce((sum, p) => sum + p.stats.missingOutcomes, 0),
               missingMarkingCriteria: prompts.reduce(
                 (sum, p) => sum + p.stats.missingMarkingCriteria,
@@ -483,13 +525,36 @@ export const buildAuditTree = (courses: Course[]): TreeNode[] => {
 
     return {
       id: course.id,
-      parentId: undefined,
+      parentId: facultyNodeId(subjectAreaOf(course)),
       type: 'course' as NodeType,
       label: course.name,
       children: topics,
       stats: mapStats(topics),
       dataRef: course,
       path: { courseId: course.id },
+    };
+  };
+
+  const byArea = new Map<SubjectArea, Course[]>();
+  courses.forEach((course) => {
+    const area = subjectAreaOf(course);
+    const bucket = byArea.get(area);
+    if (bucket) bucket.push(course);
+    else byArea.set(area, [course]);
+  });
+
+  return SUBJECT_AREAS.filter((area) => byArea.has(area)).map((area) => {
+    const inArea = byArea.get(area) as Course[];
+    const courseNodes = inArea.map(buildCourse);
+    return {
+      id: facultyNodeId(area),
+      parentId: undefined,
+      type: 'faculty' as NodeType,
+      label: area,
+      children: courseNodes,
+      stats: mapStats(courseNodes),
+      dataRef: { area, courses: inArea },
+      path: {},
     };
   });
 };

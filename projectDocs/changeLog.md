@@ -1,5 +1,89 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (A faculty at a time, and a screen that is not mostly empty)
+
+Two things came back from actually working in the Content Audit Studio. Its
+scope was courses, so "fix the science subjects" meant ticking each one and
+hoping none was missed. And on the wide window an admin runs it on, the screen
+was three full-width bands stacked up — header, filter rail, action row — each
+holding its content out at the left and right edges, so the middle of every
+band, and the middle of every tree row, was empty.
+
+### 🏫 Faculty is the top of the tree
+
+Courses now sit under the faculty a school files them in, and a faculty row
+selects, collapses and reports on the lot. `utils/subjectAreas.ts` is the one
+definition of what a faculty is: its name, its icon, its colours, and the rule
+for filing a course under one. Two copies were folded into it — the icon and
+colour maps in `ManifestImportModal` and the private `detectSubjectArea` inside
+`useSyllabusData` — so the importer and the studio can no longer file the same
+course two different ways.
+
+A course's own `subject` wins where it has one; where it does not (the shipped
+course JSON carries none — it is attached at import time from the manifest) the
+course NAME decides, so a library assembled any other way is still grouped
+rather than landing wholesale in "Other". An unrecognised recorded value falls
+back to the name too, so one typo in a course's metadata does not strand it
+away from its subject.
+
+A faculty is a grouping, not a sixth syllabus level: it has no id in the data
+model and no `courseId` of its own, so `Clear Questions` resolves a selected
+faculty to the courses under it rather than pretending otherwise, and
+`Export JSON` — which needs exactly one course or topic — stays disabled on one.
+
+### 📐 A control rail, and readouts in a column
+
+The filters left the header. Ten of them wrapped onto three lines up there and
+pushed the tree off the bottom of a short window, which is why that band was
+capped at 42vh with a scrollbar of its own. They are rows in a 17rem rail
+beside the tree now, grouped into what the studio can generate and what it can
+only flag, with their counts in one column you can read down. Below `md` the
+rail lies down into a line that scrolls sideways.
+
+In the tree, a branch's coverage figure was pinned to the far right of the
+window with nothing between it and the name — about 1,100px of nothing per row
+at 1600px. The name column is bounded now and the readouts sit in a fixed
+column, and the space between them carries the branch's own gap tally: how many
+dot points under here have no question, how many questions have no marking
+guide, no sample, no outcome. That was the one thing this screen could not
+answer without expanding every branch or toggling each filter in turn.
+
+The coverage pill became a bar, at a fixed width so the column compares; the
+header lost half its height with the rail gone; and the header, the tree and
+the action row now share one 1800px grid rather than each spreading to its own
+edges.
+
+### 🎨 Colour that means the gap
+
+The seven batch buttons were seven saturated fills — indigo, sky, amber, pink,
+purple, teal, rose — chosen per button and matching nothing, beside a gradient
+`Fix All Gaps` and a red `Clear Questions`. Nine filled buttons in a row with
+no hierarchy, and the same gap red on its chip, red on its row badge and indigo
+on the button that repairs it. They are quiet now and take their tone from
+`AUDIT_FILTERS`, so chip, badge, tally dot and button are one colour per gap,
+and the one filled button left is the one that runs everything.
+
+### 🔎 Smaller things that were in the way
+
+- **`Select All Filtered` works after a plain search.** It used to need a chip;
+  after a search you ticked each row by hand. It takes only rows that matched in
+  their own right, never the ancestors shown as the path to them — the
+  difference between clearing three questions and clearing the topic they sit in.
+- **The selection says what it is**, not just how big: "1 faculty · 2 courses ·
+  5 questions". 47 could be one course or forty-seven questions, and those are
+  very different batch runs.
+- **One name for the studio.** The menu that opens it said "Syllabus Audit
+  Studio"; its own title, its docs and its tests all say "Content Audit Studio".
+- **A tile with no classes on it.** `ManifestImportModal`'s subject tile built
+  its fill and border with `colourClass.split('')[1]` — a split on the empty
+  string, so those were single characters and Tailwind rendered nothing. The
+  shared tile string is applied whole.
+
+`tests/unit/subjectAreas.test.ts` and `tests/unit/auditFacultyGrouping.test.tsx`
+pin the filing rule, the grouping, the cascade, the faculty-to-courses
+resolution before a destructive action, and the search selection. Checked on
+screen at 700, 1600 and 2560px, in both themes.
+
 ## [Unreleased] - 2026-09-07 (A roll you can read, and take someone off)
 
 The follow-up the previous entry left open. Wiring `enrol_in_class` gave a
