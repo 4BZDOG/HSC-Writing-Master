@@ -35,8 +35,18 @@ import { commandTermsList } from '../data/commandTerms';
  * and leaves "Select" and "record" alone.
  */
 
-/** Command verbs never count: they are the instruction, not the subject. */
-const COMMAND_VERBS = new Set(commandTermsList.map((t) => t.term.toLowerCase()));
+/**
+ * Command verbs never count: they are the instruction, not the subject.
+ *
+ * Built on first use rather than at module scope. Reading an imported value
+ * while this module initialises is the chunk-cycle crash `check:eager-reads`
+ * exists to catch: if the bundler ever puts this file and `data/commandTerms`
+ * in chunks that import each other, the read runs before the definition and
+ * the page goes blank in production only.
+ */
+let commandVerbs: Set<string> | null = null;
+const commandVerbSet = (): Set<string> =>
+  (commandVerbs ??= new Set(commandTermsList.map((t) => t.term.toLowerCase())));
 
 /**
  * Words that carry no subject matter. Deliberately broader than the keyword
@@ -87,15 +97,16 @@ const normalise = (text: string): string =>
  * instruction and the subject glued together.
  */
 const isCommandVerb = (word: string): boolean => {
-  if (COMMAND_VERBS.has(word)) return true;
+  const verbs = commandVerbSet();
+  if (verbs.has(word)) return true;
   if (word.endsWith('ing')) {
     const stem = word.slice(0, -3);
-    if (COMMAND_VERBS.has(stem) || COMMAND_VERBS.has(`${stem}e`)) return true;
+    if (verbs.has(stem) || verbs.has(`${stem}e`)) return true;
   }
   if (word.endsWith('ed')) {
-    if (COMMAND_VERBS.has(word.slice(0, -2)) || COMMAND_VERBS.has(word.slice(0, -1))) return true;
+    if (verbs.has(word.slice(0, -2)) || verbs.has(word.slice(0, -1))) return true;
   }
-  return word.endsWith('s') && COMMAND_VERBS.has(word.slice(0, -1));
+  return word.endsWith('s') && verbs.has(word.slice(0, -1));
 };
 
 /** A word that could be part of a subject-matter term. */
