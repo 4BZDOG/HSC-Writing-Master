@@ -298,6 +298,15 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // the screen belongs to the writing; "Change" re-opens it.
   const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
+  /**
+   * The audit studio can be closed while one of its batches is still running,
+   * and the batch carries on. That only works if the component stays mounted:
+   * it owns the run through `useBatchRun`, which aborts on unmount, so
+   * unmounting it on close would quietly cancel the very run the admin chose
+   * to walk away from. It reports its own run state here, and stays mounted
+   * (rendering nothing) until the run ends.
+   */
+  const [isAuditRunning, setIsAuditRunning] = useState(false);
   const [isReviewQueueOpen, setIsReviewQueueOpen] = useState(false);
   const [isUsageDashboardOpen, setIsUsageDashboardOpen] = useState(false);
   const [isRuntimeKeyOpen, setIsRuntimeKeyOpen] = useState(false);
@@ -1151,10 +1160,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             spinner here would paint behind nothing. The gap is one network
             round trip on an admin's first open. */}
         <Suspense fallback={null}>
-          {isSystemAdmin(user.role) && isAuditModalOpen && (
+          {isSystemAdmin(user.role) && (isAuditModalOpen || isAuditRunning) && (
             <ContentAuditModal
               isOpen={isAuditModalOpen}
               onClose={() => setIsAuditModalOpen(false)}
+              onReopen={() => setIsAuditModalOpen(true)}
+              onRunStateChange={setIsAuditRunning}
               courses={courses}
               updateCourses={updateCourses}
               showToast={showToast}

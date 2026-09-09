@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import type { ToastType } from '../../hooks/useToast';
+import type { ShowToast, ToastType } from '../../hooks/useToast';
 import { createPortal } from 'react-dom';
 import type { Updater } from 'use-immer';
 import {
@@ -182,7 +182,21 @@ interface ContentAuditModalProps {
   onClose: () => void;
   courses: Course[];
   updateCourses: Updater<Course[]>;
-  showToast: (msg: string, type: ToastType) => void;
+  showToast: ShowToast;
+  /**
+   * Bring the studio back to the front. Offered on the toast that follows
+   * closing it mid-run, and on the one that reports the run finished, because
+   * both are the moment someone wants to look at it again — and while a run is
+   * in flight the studio is also the only place to stop it.
+   */
+  onReopen?: () => void;
+  /**
+   * Told whenever a run starts or ends, so the surface that mounts this studio
+   * can keep it mounted while one is in flight. Closing the studio unmounts it
+   * otherwise, and `useBatchRun` aborts the run it owns on unmount — so
+   * without this, "close during a run" would silently mean "cancel the run".
+   */
+  onRunStateChange?: (running: boolean) => void;
 }
 
 const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
@@ -191,6 +205,8 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   courses,
   updateCourses,
   showToast,
+  onReopen,
+  onRunStateChange,
 }) => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
@@ -260,10 +276,62 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const coursesRef = useRef(courses);
   coursesRef.current = courses;
 
-  // Escape closes the studio — but never while a batch is running (that
-  // needs an explicit Stop so no run is abandoned by a stray key press).
-  useEscapeKey(isOpen && !isProcessing, onClose);
+  /**
+   * The studio can be left while a run is in flight, and the run carries on.
+   *
+   * It could not before, and the reason was sound as far as it went: closing
+   * walked away from a batch that kept spending AI quota and writing to the
+   * library with its progress log and its Stop control gone from the screen.
+   * The answer to that is not to hold someone on a screen for ten minutes —
+   * it is to keep telling them what is happening and to leave a way back, so
+   * closing now raises a notice per completed step and every one of those
+   * notices, plus this one, carries a control that reopens the studio.
+   *
+   * `onRunStateChange` is the other half: the surface that mounts this studio
+   * unmounts it on close, and `useBatchRun` aborts on unmount, so without
+   * being told a run is in flight "close" would quietly mean "cancel".
+   */
+  const isOpenRef = useRef(isOpen);
+  isOpenRef.current = isOpen;
+
+  const reopenAction = onReopen ? { label: 'Open studio', onClick: onReopen } : undefined;
+  // Read from a ref where it is needed after an await: a batch summary lands
+  // minutes after the handler that started it was created.
+  const reopenActionRef = useRef(reopenAction);
+  reopenActionRef.current = reopenAction;
+
+  const handleCloseStudio = React.useCallback(() => {
+    if (isProcessing && progress) {
+      const done = progress.completed + progress.failed;
+      /**
+       * Plain, for the same reason the step notices are.
+       *
+       * This was the first thing raised after leaving, and carrying the reopen
+       * control gave it fourteen seconds and a place at the front of the
+       * queue — so it sat on screen while the whole run went past behind it
+       * and not one step notice was ever shown. The offer belongs on the
+       * notice that ENDS the run, where there is no stream to starve; getting
+       * back before then is what the Admin tools menu is for, and it reopens
+       * this same studio with the run still in it.
+       */
+      showToast(
+        `Batch still running — ${done} of ${progress.total} done. It carries on in the background, and each step reports here.`,
+        'info'
+      );
+    }
+    onClose();
+  }, [isProcessing, progress, showToast, onClose]);
+
+  useEscapeKey(isOpen, handleCloseStudio);
   useScrollLock(isOpen);
+
+  useEffect(() => {
+    onRunStateChange?.(isProcessing);
+  }, [isProcessing, onRunStateChange]);
+
+  // A studio torn down for good (the admin signs out mid-run) must not leave
+  // the mount condition stuck on "running".
+  useEffect(() => () => onRunStateChange?.(false), [onRunStateChange]);
 
   /**
    * Filtering the tree walks every node and lowercases every label; at ~1,500
@@ -639,7 +707,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       );
       hasAutoExpandedRef.current = true;
     }
-    if (!isOpen) {
+    // Closing mid-run is now allowed, and reopening should put the admin back
+    // where they were rather than re-folding the tree under a batch they are
+    // watching.
+    if (!isOpen && !isProcessing) {
       hasAutoExpandedRef.current = false;
     }
   }, [isOpen, treeData]);
@@ -652,6 +723,52 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   useEffect(() => {
     runStartedAtRef.current = isProcessing ? Date.now() : null;
   }, [isProcessing]);
+
+  /**
+   * One notice per completed step, for a run being watched from somewhere else.
+   *
+   * The batch runner already writes a line for every task; while the studio is
+   * on screen that line lands in the processing log, which is the right place
+   * for it — a toast per step there would sit on the studio's own Stop button
+   * for the length of the run (DesignSpec §5: a transient notice never sits on
+   * a control). Off screen there is no log, so the same line becomes the
+   * notice, with the count so far and a way back into the studio.
+   *
+   * Keyed on the number of tasks ACCOUNTED FOR rather than on the log, because
+   * the runner republishes progress several times per task — when one starts,
+   * when the guard trips, when the queue drains — and only one of those is a
+   * step finishing.
+   */
+  const announcedStepsRef = useRef(0);
+  useEffect(() => {
+    if (!progress) {
+      announcedStepsRef.current = 0;
+      return;
+    }
+    const done = progress.completed + progress.failed;
+    if (done <= announcedStepsRef.current) return;
+    announcedStepsRef.current = done;
+    if (isOpen) return;
+
+    // The freshest log line, without the timestamp the terminal wants and
+    // without the glyph the toast's own colour already carries.
+    const raw = (progress.logs[0] ?? '').replace(/^\[[^\]]*\]\s*/, '');
+    const type: ToastType = /⛔|✗/.test(raw) ? 'error' : /⚠/.test(raw) ? 'warning' : 'success';
+    const line = raw.replace(/^[✓⛔⚠✗]\s*/, '').trim();
+
+    /**
+     * Deliberately plain, with no control on it.
+     *
+     * `useToast` gives an actionable toast fourteen seconds instead of five and
+     * protects it from being dropped when the queue is full — both right for an
+     * offer someone has to read and decide about, and both wrong for a step
+     * notice arriving every second or two. Carrying the reopen control here
+     * jammed the queue: one step notice held the screen while the rest of the
+     * run went past behind it. The way back rides on the two notices that are
+     * actually offers — leaving mid-run, and the run finishing.
+     */
+    showToast(`${line || 'Step complete'} (${done} of ${progress.total})`, type);
+  }, [progress, isOpen, showToast]);
 
   /**
    * Restore the repair outbox when the studio opens, dropping anything whose
@@ -1225,17 +1342,27 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     setBatchModelOverride(batchEngine === 'default' ? null : batchEngine);
     try {
       const outcome = await executeBatch(tasks, (done, failed, aborted, fatal) => {
+        // A run can now finish while the studio is closed, so its summary
+        // carries the way back in — read at completion time rather than
+        // captured when the batch was assembled, because the studio was still
+        // open then and the offer would be pointless.
+        const back = isOpenRef.current ? undefined : reopenActionRef.current;
         if (aborted) {
-          showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info');
+          showToast(`Batch stopped — ${done} of ${tasks.length} completed.`, 'info', back);
         } else if (fatal) {
-          showToast(`Batch halted: ${fatal.userMessage} ${fatal.suggestion}`, 'error');
+          showToast(`Batch halted: ${fatal.userMessage} ${fatal.suggestion}`, 'error', back);
         } else if (failed > 0) {
           showToast(
             `Batch finished: ${done} succeeded, ${failed} failed. Check the processing log for details.`,
-            'error'
+            'error',
+            back
           );
         } else {
-          showToast(`Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`, 'success');
+          showToast(
+            `Batch complete: ${done} item${done === 1 ? '' : 's'} updated.`,
+            'success',
+            back
+          );
         }
       });
       if (outcome && outcome.failedTaskIds.length > 0)
@@ -1580,11 +1707,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               log and its Stop control gone from the screen. */}
         </div>
         <button
-          onClick={onClose}
-          disabled={isProcessing}
+          onClick={handleCloseStudio}
           aria-label="Close"
-          title={isProcessing ? 'Stop the batch before closing the studio' : 'Close'}
-          className="absolute top-4 right-4 md:right-6 w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+          title={
+            isProcessing
+              ? 'Close the studio — the batch carries on, and each step reports as it finishes'
+              : 'Close'
+          }
+          className="absolute top-4 right-4 md:right-6 w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
         >
           <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
         </button>

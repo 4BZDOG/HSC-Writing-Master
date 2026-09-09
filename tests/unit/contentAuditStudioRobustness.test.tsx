@@ -181,10 +181,7 @@ describe('Content Audit Studio — Select All Filtered covers every chip on the 
     fireEvent.click(screen.getByRole('button', { name: /select all filtered/i }));
 
     expect(screen.getByRole('button', { name: /clear selection \(1\)/i })).toBeTruthy();
-    expect(showToast).toHaveBeenCalledWith(
-      `Selected 1 item under "${label}".`,
-      'success'
-    );
+    expect(showToast).toHaveBeenCalledWith(`Selected 1 item under "${label}".`, 'success');
   });
 
   it('leaves a chip with nothing to show disabled rather than routing to an empty tree', () => {
@@ -237,8 +234,16 @@ describe('Content Audit Studio — the tree keeps the admin’s own state', () =
   });
 });
 
-describe('Content Audit Studio — a running batch cannot be walked away from', () => {
-  it('disables Close while a batch is in flight', async () => {
+describe('Content Audit Studio — a running batch can be left, and reports back', () => {
+  /**
+   * This used to assert the opposite — Close was disabled for the length of a
+   * run, so a ten-minute batch held the admin on the screen. The reason was
+   * real (walking away left a run spending AI quota with its log and its Stop
+   * control off screen) and the answer was wrong. Leaving is allowed now; what
+   * makes it safe is that the run keeps reporting, and every notice it raises
+   * carries a control that brings the studio back.
+   */
+  it('lets a run be left, tells the host it is still going, and offers the way back', async () => {
     let release: (() => void) | undefined;
     vi.mocked(geminiService.screenContentQuality).mockImplementation(
       () =>
@@ -247,17 +252,133 @@ describe('Content Audit Studio — a running batch cannot be walked away from', 
         })
     );
 
-    renderStudio();
+    const showToast = vi.fn();
+    const onClose = vi.fn();
+    const onReopen = vi.fn();
+    const onRunStateChange = vi.fn();
+    render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={onClose}
+        onReopen={onReopen}
+        onRunStateChange={onRunStateChange}
+        courses={fixture}
+        updateCourses={vi.fn()}
+        showToast={showToast}
+      />
+    );
+
     fireEvent.click(screen.getByLabelText('Select Audit Course'));
     fireEvent.click(screen.getByText('Score Quality (3)'));
 
     await waitFor(
-      () => expect((screen.getByLabelText('Close') as HTMLButtonElement).disabled).toBe(true),
+      () => expect(screen.getByRole('button', { name: /stop process/i })).toBeTruthy(),
       { timeout: 8000 }
     );
-    expect(screen.getByRole('button', { name: /stop process/i })).toBeTruthy();
+
+    // The host is told a run is in flight, which is what keeps this component
+    // mounted through a close — `useBatchRun` aborts on unmount, so without it
+    // "close" would mean "cancel".
+    expect(onRunStateChange).toHaveBeenCalledWith(true);
+
+    const close = screen.getByLabelText('Close') as HTMLButtonElement;
+    expect(close.disabled).toBe(false);
+    fireEvent.click(close);
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+    const [message, type, action] = showToast.mock.calls.at(-1)!;
+    expect(message).toMatch(/Batch still running/);
+    expect(type).toBe('info');
+    /**
+     * And it carries NO control, deliberately.
+     *
+     * `useToast` gives an actionable toast fourteen seconds instead of five
+     * and protects it from being dropped when the queue is full. On the first
+     * notice of a run that then reports every step, that combination means it
+     * sits on screen while the whole run goes past behind it — measured in a
+     * browser, with not one step notice ever shown. The way back rides on the
+     * notice that ENDS the run, where there is no stream to starve.
+     */
+    expect(action).toBeUndefined();
+
     release?.();
   }, 30000);
+
+  it('offers the way back on the notice that ends a run left off screen', async () => {
+    vi.mocked(geminiService.screenContentQuality).mockResolvedValue({ score: 50, notes: '' });
+
+    const showToast = vi.fn();
+    const onReopen = vi.fn();
+    const props = (isOpen: boolean) => ({
+      isOpen,
+      onClose: vi.fn(),
+      onReopen,
+      courses: fixture,
+      updateCourses: vi.fn(),
+      showToast,
+    });
+
+    const { rerender } = render(<ContentAuditModal {...props(true)} />);
+    fireEvent.click(screen.getByLabelText('Select Audit Course'));
+    fireEvent.click(screen.getByText('Score Quality (3)'));
+    rerender(<ContentAuditModal {...props(false)} />);
+
+    const summary = await waitFor(
+      () => {
+        const call = showToast.mock.calls.find(([msg]: [string]) =>
+          /^Batch (complete|finished)/.test(msg)
+        );
+        expect(call).toBeTruthy();
+        return call!;
+      },
+      { timeout: 25000 }
+    );
+
+    expect(summary[2]).toBeTruthy();
+    expect(summary[2].label).toBe('Open studio');
+    summary[2].onClick();
+    expect(onReopen).toHaveBeenCalledTimes(1);
+  }, 40000);
+
+  it('reports each completed step once the studio is off screen', async () => {
+    vi.mocked(geminiService.screenContentQuality).mockResolvedValue({ score: 50, notes: '' });
+
+    const showToast = vi.fn();
+    const { rerender } = render(
+      <ContentAuditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onReopen={vi.fn()}
+        courses={fixture}
+        updateCourses={vi.fn()}
+        showToast={showToast}
+      />
+    );
+
+    fireEvent.click(screen.getByLabelText('Select Audit Course'));
+    fireEvent.click(screen.getByText('Score Quality (3)'));
+
+    // Leave while it runs. From here the processing log is off screen, so the
+    // per-step lines become notices instead.
+    rerender(
+      <ContentAuditModal
+        isOpen={false}
+        onClose={vi.fn()}
+        onReopen={vi.fn()}
+        courses={fixture}
+        updateCourses={vi.fn()}
+        showToast={showToast}
+      />
+    );
+
+    await waitFor(
+      () =>
+        expect(showToast.mock.calls.some(([msg]: [string]) => /\(\d+ of 3\)$/.test(msg))).toBe(
+          true
+        ),
+      { timeout: 20000 }
+    );
+  }, 40000);
 });
 
 describe('Content Audit Studio — the repair outbox', () => {

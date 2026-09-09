@@ -1,5 +1,57 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-09 (A batch you can walk away from)
+
+The audit studio would not let go of you while a batch was running: Close was
+disabled and Escape was blocked, so a two-hundred question run held an admin on
+one screen for ten minutes. The reason was real — walking away left a run
+spending AI quota and writing to the library with its progress log and its Stop
+control gone from the screen — and the answer was wrong. The fix is not to hold
+someone there; it is to keep telling them what is happening and to leave a way
+back.
+
+### 🚪 Close it, and the run carries on
+
+Close and Escape work during a run now. Three things had to be true for that to
+be safe rather than merely possible:
+
+**The run has to survive the close.** `App.tsx` unmounts the studio when it
+closes, and `useBatchRun` aborts on unmount — so simply enabling the button
+would have made "close" quietly mean "cancel", which is worse than not offering
+it. The studio reports its run state to its host (`onRunStateChange`), which
+keeps it mounted, rendering nothing, until the run ends. It stays unmounted
+when idle, so a closed studio still costs nothing: it is `buildAuditTree` over
+1,500 nodes on every change to the library.
+
+**Each finished step reports.** The batch runner already writes a line per
+task; on screen that lands in the processing log, which is where it belongs —
+a toast per step there would sit on the studio's own Stop button for the length
+of the run (§5: a transient notice never sits on a control). Off screen there
+is no log, so the same line becomes the notice, carrying the count so far:
+"Scoring quality: Explain how DNA replication… (12 of 200)". Keyed on tasks
+accounted for rather than on the log, because the runner republishes progress
+several times per task and only one of those is a step finishing.
+
+**There is a way back.** The notice that ends a run — complete, stopped, halted
+or finished with failures — carries an "Open studio" control when the studio is
+closed. Reopening finds the same run still in it, with the log, the progress
+bar and Stop where they were, and the tree still expanded as it was left.
+
+**The step notices are deliberately plain.** `useToast` gives an actionable
+toast fourteen seconds instead of five and protects it from being dropped when
+the queue is full; both are right for an offer someone must read and decide
+about, and both are wrong for a notice arriving every second or two. The first
+version put the reopen control on every step notice AND on the one raised when
+leaving — and the leaving notice then sat on screen while the entire run went
+past behind it, with not one step ever shown. Found by driving it in a browser,
+not in the diff.
+
+`tests/unit/contentAuditStudioRobustness.test.tsx` swaps its "disables Close
+while a batch is in flight" test — which stood for the old decision — for the
+new contract: the run can be left, the host is told it is still going, the
+leaving notice explains it, and the step notices arrive once the studio is off
+screen.
+
 ## [Unreleased] - 2026-09-09 (The tree keeps its promise about arrow keys, and a long run says how long)
 
 ### ⌨ The audit tree is a keyboard widget
