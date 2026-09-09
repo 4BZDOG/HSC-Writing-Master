@@ -109,6 +109,28 @@ interface TouchedPrompt {
  * button labels themselves stay at their call sites, where the target count
  * belongs.
  */
+/**
+ * How much longer a run has, from how long it has taken so far.
+ *
+ * A batch is paced at 1.5s between calls and runs one at a time, so two
+ * hundred questions is upwards of ten minutes — long enough that the honest
+ * question is "can I go and do something else", and a bar creeping along
+ * answers it only by being watched. Two tasks in is enough for the average to
+ * mean something; before that the figure would swing between wild numbers on
+ * every update, which is worse than saying nothing.
+ */
+export const estimateRemaining = (
+  elapsedMs: number,
+  done: number,
+  total: number
+): string | null => {
+  const left = total - done;
+  if (done < 2 || left <= 0 || elapsedMs <= 0) return null;
+  const seconds = Math.round((elapsedMs / done / 1000) * left);
+  if (seconds < 90) return `~${Math.max(5, Math.round(seconds / 5) * 5)}s left`;
+  return `~${Math.round(seconds / 60)} min left`;
+};
+
 const ACTION_LABELS: Record<BulkActionType, string> = {
   generateQuestions: 'Write Questions',
   generateRubrics: 'Write Marking Guides',
@@ -220,6 +242,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const [activeFilter, setActiveFilter] = useState<VisibilityFilter>(null);
 
   const logsEndRef = useRef<HTMLDivElement>(null);
+  // When the run in flight started, for the estimate in the progress row.
+  // A ref rather than state: nothing should re-render because the clock moved,
+  // only because a task finished.
+  const runStartedAtRef = useRef<number | null>(null);
 
   /**
    * The live library, for tasks that run long after they were built.
@@ -622,6 +648,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     // Optional call: scrollIntoView is missing in some environments (jsdom).
     logsEndRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [progress?.logs]);
+
+  useEffect(() => {
+    runStartedAtRef.current = isProcessing ? Date.now() : null;
+  }, [isProcessing]);
 
   /**
    * Restore the repair outbox when the studio opens, dropping anything whose
@@ -1318,11 +1348,20 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       <div
         key={node.id}
         role="treeitem"
+        data-node-id={node.id}
+        tabIndex={node.id === tabbableId ? 0 : -1}
+        // Only when the focus landed HERE. React's onFocus is focusin, which
+        // bubbles, so a row taking focus otherwise announces itself to every
+        // ancestor treeitem it sits inside — and each of them claims to be the
+        // active row, leaving a ring on the whole path back to the faculty.
+        onFocus={(e) => {
+          if (e.target === e.currentTarget) setActiveId(node.id);
+        }}
         aria-label={node.label}
         aria-level={level + 1}
         aria-selected={isSelected}
         aria-expanded={hasChildren ? isExpanded : undefined}
-        className="relative"
+        className="relative outline-none"
       >
         {level > 1 && (
           <div
@@ -1337,6 +1376,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           isSelected={isSelected}
           isExpanded={isExpanded}
           hasChildren={hasChildren}
+          isActive={treeHasFocus && node.id === activeId}
           onToggleSelect={toggleSelect}
           onToggleExpand={toggleExpand}
         />
@@ -1345,6 +1385,87 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         )}
       </div>
     );
+  };
+
+  /**
+   * The tree as a keyboard widget.
+   *
+   * It has said `role="tree"` since it was built, which is a promise about
+   * arrow keys that nothing kept — and the DOM underneath was worse than
+   * silent: every row carries two buttons, so Tab walked a keyboard user
+   * through three thousand stops to cross the shipped library, and there was
+   * no other way in. The buttons are out of the tab order now and the tree is
+   * one stop with roving focus inside it, which is both the ARIA pattern and
+   * the faster way to work: down the rows, space to tick, left to fold a
+   * branch away.
+   *
+   * `activeId` is the row focus is on. `treeHasFocus` gates the ring, so a row
+   * that was merely clicked does not sit there looking focused afterwards.
+   */
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [treeHasFocus, setTreeHasFocus] = useState(false);
+  const treeRef = useRef<HTMLDivElement>(null);
+
+  // Exactly one row is tabbable, so Tab enters the tree once and Shift+Tab
+  // leaves it once. It is wherever the arrow keys last were, or the first row.
+  const tabbableId =
+    activeId && visibleOrder.includes(activeId) ? activeId : (visibleOrder[0] ?? null);
+
+  const focusRow = React.useCallback((id: string) => {
+    setActiveId(id);
+    treeRef.current?.querySelector<HTMLElement>(`[data-node-id="${id}"]`)?.focus();
+  }, []);
+
+  const handleTreeKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const order = visibleOrder;
+    if (order.length === 0) return;
+    const currentId = activeId && order.includes(activeId) ? activeId : order[0];
+    const index = order.indexOf(currentId);
+    const node = flatMap.get(currentId);
+    const branches = !!node?.children?.length;
+    // A search or a filter opens every row it shows (see `isNarrowed`), so
+    // folding one while narrowed would do nothing visible. Left then means
+    // "out to the parent" for the whole depth of the tree.
+    const isOpen = branches && (isNarrowed || expandedIds.has(currentId));
+    const canFold = branches && !isNarrowed && expandedIds.has(currentId);
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (index < order.length - 1) focusRow(order[index + 1]);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (index > 0) focusRow(order[index - 1]);
+        break;
+      case 'Home':
+        e.preventDefault();
+        focusRow(order[0]);
+        break;
+      case 'End':
+        e.preventDefault();
+        focusRow(order[order.length - 1]);
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        if (branches && !isOpen) toggleExpand(currentId);
+        else if (isOpen && order[index + 1]) focusRow(order[index + 1]);
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        if (canFold) toggleExpand(currentId);
+        else if (node?.parentId && order.includes(node.parentId)) focusRow(node.parentId);
+        break;
+      case ' ':
+      case 'Enter':
+        // Space is the tick. Held with shift it extends from the last one, the
+        // same reach a shift-click makes.
+        e.preventDefault();
+        if (node) toggleSelect(currentId, !selectedIds.has(currentId), e.shiftKey);
+        break;
+      default:
+        break;
+    }
   };
 
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
@@ -1575,7 +1696,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
           <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] light:bg-slate-50 custom-scrollbar">
             <div className="min-w-[700px] max-w-[1528px] pb-16">
               {filteredTreeData.length > 0 ? (
-                <div role="tree" aria-multiselectable="true" aria-label="Curriculum">
+                <div
+                  ref={treeRef}
+                  role="tree"
+                  aria-multiselectable="true"
+                  aria-label="Curriculum — arrow keys to move, space to select, left and right to fold"
+                  onKeyDown={handleTreeKeyDown}
+                  onFocus={() => setTreeHasFocus(true)}
+                  onBlur={() => setTreeHasFocus(false)}
+                >
                   {filteredTreeData.map((node) => renderNode(node))}
                 </div>
               ) : (
@@ -1697,6 +1826,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   </span>
                   <span className="t-label text-slate-500 tabular-nums whitespace-nowrap">
                     {progress.completed + progress.failed} of {progress.total}
+                    {(() => {
+                      const eta = estimateRemaining(
+                        runStartedAtRef.current ? Date.now() - runStartedAtRef.current : 0,
+                        progress.completed + progress.failed,
+                        progress.total
+                      );
+                      return eta ? <span className="ml-3 text-slate-600">{eta}</span> : null;
+                    })()}
                   </span>
                 </div>
                 <div

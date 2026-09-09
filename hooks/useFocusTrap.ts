@@ -40,6 +40,16 @@ const trapStack: TrapEntry[] = [];
  * hand-rolled trap that existed — which is exactly the sort of omission that
  * makes a trap worse than none, since it lets focus escape from the one
  * dialog (the manual question editor) whose whole content is a textarea.
+ *
+ * `tabindex="-1"` is excluded from EVERY entry, not just from the bare
+ * `[tabindex]` one. An element is reachable by Tab if it is a control AND its
+ * tabindex is not -1, and the old list read the two halves as alternatives —
+ * so a `<button tabindex="-1">`, which the browser will never Tab to, counted
+ * as a tab stop here. That is not academic: the audit studio's tree is a
+ * single-tab-stop widget in the ARIA sense, with roving focus on its rows and
+ * every button inside them at -1, so under the old selector the trap's idea of
+ * "the last focusable" was a control Tab could not reach, its wrap-around
+ * never fired, and Tab walked out of the dialog.
  */
 const FOCUSABLE = [
   'a[href]',
@@ -47,8 +57,10 @@ const FOCUSABLE = [
   'input:not([disabled]):not([type="hidden"])',
   'select:not([disabled])',
   'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])',
-].join(', ');
+  '[tabindex]',
+]
+  .map((sel) => `${sel}:not([tabindex="-1"])`)
+  .join(', ');
 
 /**
  * Is this control actually reachable, as opposed to merely present?
