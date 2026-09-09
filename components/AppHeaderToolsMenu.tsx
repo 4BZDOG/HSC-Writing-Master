@@ -275,7 +275,7 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
                 />
                 <ToolItem
                   icon={Activity}
-                  label="Syllabus Audit Studio"
+                  label="Content Audit Studio"
                   onSelect={() => runTool(onOpenAudit)}
                 />
                 <ToolItem

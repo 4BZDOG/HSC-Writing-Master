@@ -41,6 +41,7 @@ import {
 } from '../services/contributionService';
 import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
+import { detectSubjectArea } from '../utils/subjectAreas';
 import {
   mergeCourseContents,
   mergeOrAddTopic,
@@ -96,46 +97,6 @@ interface ManifestDocEntry {
   targetCourseId?: string;
   targetCourseName?: string;
 }
-
-const detectSubjectArea = (name: string): string => {
-  const n = name.toLowerCase();
-  if (
-    n.includes('software') ||
-    n.includes('computing') ||
-    n.includes('engineering') ||
-    n.includes('design') ||
-    n.includes('technology') ||
-    n.includes('ipt') ||
-    n.includes('sdd')
-  )
-    return 'TAS';
-  if (
-    n.includes('biology') ||
-    n.includes('chemistry') ||
-    n.includes('physics') ||
-    n.includes('science') ||
-    n.includes('earth') ||
-    n.includes('investigating')
-  )
-    return 'Science';
-  if (n.includes('english') || n.includes('literature')) return 'English';
-  if (n.includes('math') || n.includes('numeracy')) return 'Mathematics';
-  if (
-    n.includes('history') ||
-    n.includes('business') ||
-    n.includes('legal') ||
-    n.includes('geography') ||
-    n.includes('society') ||
-    n.includes('economics') ||
-    n.includes('studies of religion')
-  )
-    return 'HSIE';
-  if (n.includes('music') || n.includes('art') || n.includes('drama') || n.includes('visual'))
-    return 'Creative Arts';
-  if (n.includes('pdhpe') || n.includes('health') || n.includes('sport') || n.includes('movement'))
-    return 'PDHPE';
-  return 'Other';
-};
 
 const normalizeText = (value?: string) => (value || '').trim().toLowerCase();
 

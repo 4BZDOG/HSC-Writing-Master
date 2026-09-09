@@ -19,7 +19,7 @@ import { AuditTone, TreeNode, isFlagged, matchesFilter, qualityOf } from './audi
  */
 export const AUDIT_TONE: Record<
   AuditTone,
-  { chipActive: string; chipIdle: string; badge: string }
+  { chipActive: string; chipIdle: string; badge: string; action: string; dot: string }
 > = {
   red: {
     chipActive:
@@ -28,6 +28,9 @@ export const AUDIT_TONE: Record<
       'bg-red-500/5 border-red-500/10 text-red-400 hover:bg-red-500/10 light:bg-red-50 light:border-red-200 light:text-red-700 light:hover:bg-red-100',
     badge:
       'bg-red-500/10 border-red-500/30 text-red-400 light:bg-red-50 light:border-red-300 light:text-red-700',
+    action:
+      'bg-red-500/10 border-red-500/30 text-red-300 hover:bg-red-500/20 hover:text-red-200 light:bg-red-50 light:border-red-300 light:text-red-700 light:hover:bg-red-100',
+    dot: 'bg-red-400 light:bg-red-600',
   },
   indigo: {
     chipActive:
@@ -36,6 +39,9 @@ export const AUDIT_TONE: Record<
       'bg-indigo-500/5 border-indigo-500/10 text-indigo-400 hover:bg-indigo-500/10 light:bg-indigo-50 light:border-indigo-200 light:text-indigo-700 light:hover:bg-indigo-100',
     badge:
       'bg-indigo-500/10 border-indigo-500/30 text-indigo-400 light:bg-indigo-50 light:border-indigo-300 light:text-indigo-700',
+    action:
+      'bg-indigo-500/10 border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20 hover:text-indigo-200 light:bg-indigo-50 light:border-indigo-300 light:text-indigo-700 light:hover:bg-indigo-100',
+    dot: 'bg-indigo-400 light:bg-indigo-600',
   },
   amber: {
     chipActive:
@@ -44,6 +50,9 @@ export const AUDIT_TONE: Record<
       'bg-amber-500/5 border-amber-500/10 text-amber-400 hover:bg-amber-500/10 light:bg-amber-50 light:border-amber-200 light:text-amber-700 light:hover:bg-amber-100',
     badge:
       'bg-amber-500/10 border-amber-500/30 text-amber-400 light:bg-amber-50 light:border-amber-300 light:text-amber-700',
+    action:
+      'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20 hover:text-amber-200 light:bg-amber-50 light:border-amber-300 light:text-amber-700 light:hover:bg-amber-100',
+    dot: 'bg-amber-400 light:bg-amber-600',
   },
   pink: {
     chipActive:
@@ -52,6 +61,9 @@ export const AUDIT_TONE: Record<
       'bg-pink-500/5 border-pink-500/10 text-pink-400 hover:bg-pink-500/10 light:bg-pink-50 light:border-pink-200 light:text-pink-700 light:hover:bg-pink-100',
     badge:
       'bg-pink-500/10 border-pink-500/30 text-pink-400 light:bg-pink-50 light:border-pink-300 light:text-pink-700',
+    action:
+      'bg-pink-500/10 border-pink-500/30 text-pink-300 hover:bg-pink-500/20 hover:text-pink-200 light:bg-pink-50 light:border-pink-300 light:text-pink-700 light:hover:bg-pink-100',
+    dot: 'bg-pink-400 light:bg-pink-600',
   },
   orange: {
     chipActive:
@@ -60,6 +72,9 @@ export const AUDIT_TONE: Record<
       'bg-orange-500/5 border-orange-500/10 text-orange-400 hover:bg-orange-500/10 light:bg-orange-50 light:border-orange-200 light:text-orange-700 light:hover:bg-orange-100',
     badge:
       'bg-orange-500/10 border-orange-500/30 text-orange-400 light:bg-orange-50 light:border-orange-300 light:text-orange-700',
+    action:
+      'bg-orange-500/10 border-orange-500/30 text-orange-300 hover:bg-orange-500/20 hover:text-orange-200 light:bg-orange-50 light:border-orange-300 light:text-orange-700 light:hover:bg-orange-100',
+    dot: 'bg-orange-400 light:bg-orange-600',
   },
   rose: {
     chipActive:
@@ -68,6 +83,9 @@ export const AUDIT_TONE: Record<
       'bg-rose-500/5 border-rose-500/10 text-rose-400 hover:bg-rose-500/10 light:bg-rose-50 light:border-rose-200 light:text-rose-700 light:hover:bg-rose-100',
     badge:
       'bg-rose-500/10 border-rose-500/30 text-rose-400 light:bg-rose-50 light:border-rose-300 light:text-rose-700',
+    action:
+      'bg-rose-500/10 border-rose-500/30 text-rose-300 hover:bg-rose-500/20 hover:text-rose-200 light:bg-rose-50 light:border-rose-300 light:text-rose-700 light:hover:bg-rose-100',
+    dot: 'bg-rose-400 light:bg-rose-600',
   },
   fuchsia: {
     chipActive:
@@ -76,6 +94,9 @@ export const AUDIT_TONE: Record<
       'bg-fuchsia-500/5 border-fuchsia-500/10 text-fuchsia-400 hover:bg-fuchsia-500/10 light:bg-fuchsia-50 light:border-fuchsia-200 light:text-fuchsia-700 light:hover:bg-fuchsia-100',
     badge:
       'bg-fuchsia-500/10 border-fuchsia-500/30 text-fuchsia-400 light:bg-fuchsia-50 light:border-fuchsia-300 light:text-fuchsia-700',
+    action:
+      'bg-fuchsia-500/10 border-fuchsia-500/30 text-fuchsia-300 hover:bg-fuchsia-500/20 hover:text-fuchsia-200 light:bg-fuchsia-50 light:border-fuchsia-300 light:text-fuchsia-700 light:hover:bg-fuchsia-100',
+    dot: 'bg-fuchsia-400 light:bg-fuchsia-600',
   },
   violet: {
     chipActive:
@@ -84,6 +105,9 @@ export const AUDIT_TONE: Record<
       'bg-violet-500/5 border-violet-500/10 text-violet-400 hover:bg-violet-500/10 light:bg-violet-50 light:border-violet-200 light:text-violet-700 light:hover:bg-violet-100',
     badge:
       'bg-violet-500/10 border-violet-500/30 text-violet-400 light:bg-violet-50 light:border-violet-300 light:text-violet-700',
+    action:
+      'bg-violet-500/10 border-violet-500/30 text-violet-300 hover:bg-violet-500/20 hover:text-violet-200 light:bg-violet-50 light:border-violet-300 light:text-violet-700 light:hover:bg-violet-100',
+    dot: 'bg-violet-400 light:bg-violet-600',
   },
   teal: {
     chipActive:
@@ -92,6 +116,9 @@ export const AUDIT_TONE: Record<
       'bg-teal-500/5 border-teal-500/10 text-teal-400 hover:bg-teal-500/10 light:bg-teal-50 light:border-teal-200 light:text-teal-700 light:hover:bg-teal-100',
     badge:
       'bg-teal-500/10 border-teal-500/30 text-teal-400 light:bg-teal-50 light:border-teal-300 light:text-teal-700',
+    action:
+      'bg-teal-500/10 border-teal-500/30 text-teal-300 hover:bg-teal-500/20 hover:text-teal-200 light:bg-teal-50 light:border-teal-300 light:text-teal-700 light:hover:bg-teal-100',
+    dot: 'bg-teal-400 light:bg-teal-600',
   },
 };
 
@@ -104,56 +131,81 @@ export const InstrumentMetric = ({
   value: string | number;
   colorClass: string;
 }) => (
-  <div className="flex flex-col gap-1 px-4 md:px-8 py-3 md:py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
+  <div className="flex flex-col px-3 md:px-5 border-r border-white/5 light:border-slate-200 last:border-r-0">
     <MicroLabel className="text-white/50 light:text-slate-500 whitespace-nowrap">
       {label}
     </MicroLabel>
-    <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
+    <span className={`text-2xl font-black tracking-tighter tabular-nums ${colorClass}`}>
       {value}
     </span>
   </div>
 );
 
 const AUDIT_BTN_BASE =
-  't-label px-4 h-11 rounded-2xl text-white shadow-lg hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none';
+  't-label px-3.5 h-10 rounded-xl border transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:hover:bg-transparent';
 
+/**
+ * One batch action, carrying the colour of the gap it repairs.
+ *
+ * The seven of these used to be seven saturated fills — indigo, sky, amber,
+ * pink, purple, teal, rose — chosen per button and matching nothing. Beside a
+ * gradient "Fix All Gaps" and a red "Clear Questions" that made nine filled
+ * buttons in a row with no hierarchy between them, and the colour was the one
+ * thing on this screen that did not mean anything: the same gap was red on the
+ * chip, red on the row badge, and indigo on the button that fixed it.
+ *
+ * They are quiet now, and they take their tone from `AUDIT_FILTERS`, so the
+ * chip you filter by, the badge on the row and the button that repairs it are
+ * one colour. The single filled button left on the row is `Fix All Gaps`,
+ * which is the one that runs everything.
+ */
 export const AuditActionButton = ({
   onClick,
   disabled,
   title,
-  colourClass,
+  tone,
   label,
+  count,
   icon,
 }: {
   onClick: () => void;
   disabled: boolean;
   title: string;
-  colourClass: string;
+  tone: AuditTone;
   label: string;
+  count: number;
   icon?: React.ReactNode;
 }) => (
   <button
     onClick={onClick}
     disabled={disabled}
     title={title}
-    className={`${AUDIT_BTN_BASE} ${colourClass}${icon ? ' flex items-center gap-1.5' : ''}`}
+    className={`${AUDIT_BTN_BASE} ${AUDIT_TONE[tone].action}`}
   >
     {icon}
-    {label}
+    {`${label} (${count})`}
   </button>
 );
 
-const FILTER_CHIP_BASE =
-  't-label group relative overflow-hidden px-3 md:px-5 h-10 md:h-12 rounded-2xl border transition-all flex items-center gap-2 md:gap-4';
-
 /**
- * A chip whose count is zero is left visible but disabled: the rail's job is to
- * say where the problems are, and a chip that is present and reading 0 says
+ * One filter as a row in the control rail.
+ *
+ * The rail used to be ten pills laid across the top of the studio, wrapping
+ * onto two and three lines as the window narrowed and pushing the tree down
+ * with them. Ten filters is a list, not a row of chips: as rows their counts
+ * line up in one column, so "which gap does this library have most of" is a
+ * glance down that column rather than a hunt across a wrapped rail. Below `md`
+ * the same rows lie down into a line that scrolls sideways — one component
+ * reflowed rather than two renderings of the same ten filters, which would put
+ * two controls with one name into the accessibility tree.
+ *
+ * A row whose count is zero stays visible but disabled: the rail's job is to
+ * say where the problems are, and a row that is present and reading 0 says
  * "nothing wrong here" — which is information — where hiding it would make the
  * rail's contents shift under the cursor between runs. Clicking one used to be
  * possible and only ever produced the "No items found" screen.
  */
-export const FilterChip = ({
+export const FilterRow = ({
   active,
   tone,
   label,
@@ -176,21 +228,88 @@ export const FilterChip = ({
       disabled={empty}
       title={empty ? `${title ?? label} — none found` : title}
       aria-pressed={active}
-      className={`${FILTER_CHIP_BASE} ${
+      className={`t-label shrink-0 md:w-full flex items-center gap-2.5 pl-2.5 pr-3 h-9 rounded-lg border text-left whitespace-nowrap transition-colors ${
         empty
-          ? 'bg-white/[0.02] light:bg-slate-50 border-white/5 light:border-slate-200 text-slate-600 light:text-slate-400 cursor-default'
+          ? 'border-transparent text-slate-600 light:text-slate-400 cursor-default'
           : active
-            ? palette.chipActive
-            : palette.chipIdle
+            ? palette.badge
+            : 'border-transparent text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100'
       }`}
     >
-      <span>{label}</span>
       <span
-        className={`px-2 py-0.5 rounded-lg text-[10px] tabular-nums ${empty ? 'bg-black/20 light:bg-slate-100' : 'bg-black/40 light:bg-black/10'}`}
-      >
-        {count}
-      </span>
+        aria-hidden="true"
+        className={`w-1.5 h-1.5 rounded-full shrink-0 ${empty ? 'bg-slate-700 light:bg-slate-300' : palette.dot}`}
+      />
+      <span className="flex-1 min-w-0 truncate">{label}</span>
+      <span className="tabular-nums shrink-0 opacity-80">{count}</span>
     </button>
+  );
+};
+
+/**
+ * What is missing under a branch, without expanding it.
+ *
+ * A course, topic or sub-topic row carried a name at the left and a coverage
+ * figure at the right, with nothing between them — on a wide window that was
+ * most of the row. It was also the row that could not answer the question this
+ * screen exists for: coverage says how many dot points have A question, and
+ * says nothing about the eighty questions underneath with no marking guide.
+ * Finding that out meant expanding the branch, or toggling each filter in turn
+ * and reading the tree back.
+ *
+ * So the space between the name and the coverage bar carries the branch's own
+ * tally, one figure per gap, in the same colours as the rail and the row
+ * badges. Only gaps that exist are shown, coarsest first, four at most —
+ * beyond four this is a table and it belongs in the tree, not on one line.
+ */
+export const BranchGapSummary: React.FC<{ stats: TreeNode['stats'] }> = ({ stats }) => {
+  const entries: { tone: AuditTone; count: number; label: string }[] = (
+    [
+      {
+        tone: 'red',
+        count: stats.totalDotPoints - stats.coveredDotPoints,
+        label: 'dot points with no questions',
+      },
+      {
+        tone: 'indigo',
+        count: stats.missingMarkingCriteria,
+        label: 'questions with no marking guide',
+      },
+      { tone: 'amber', count: stats.missingSamples, label: 'questions with no sample answer' },
+      { tone: 'pink', count: stats.missingOutcomes, label: 'questions with no outcome linked' },
+      { tone: 'orange', count: stats.rubricNotDescending, label: 'non-standard marking guides' },
+      {
+        tone: 'rose',
+        count: stats.verbNotInQuestion,
+        label: 'questions whose verb is not in their own text',
+      },
+    ] as { tone: AuditTone; count: number; label: string }[]
+  ).filter((e) => e.count > 0);
+
+  // Nothing at all when a branch is clean. The first draft said "No gaps"
+  // there, which on a healthy library is the same two words repeated down
+  // fifteen hundred rows; the absence of a tally, beside a coverage bar that
+  // is already full, says it without saying it.
+  if (entries.length === 0) return null;
+
+  return (
+    <span className="flex items-center gap-3">
+      {entries.slice(0, 4).map((e) => (
+        <span
+          key={e.tone}
+          title={`${e.count} ${e.label}`}
+          className="flex items-center gap-1.5 whitespace-nowrap"
+        >
+          <span
+            aria-hidden="true"
+            className={`w-1.5 h-1.5 rounded-full ${AUDIT_TONE[e.tone].dot}`}
+          />
+          <span className="font-mono text-[10px] tabular-nums text-slate-400 light:text-slate-600">
+            {e.count}
+          </span>
+        </span>
+      ))}
+    </span>
   );
 };
 

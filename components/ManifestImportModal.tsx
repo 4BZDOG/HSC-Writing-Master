@@ -4,6 +4,7 @@ import { DiscoveredDoc } from '../hooks/useSyllabusData';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { SUBJECT_AREAS, SUBJECT_AREA_ICON, SUBJECT_AREA_TILE } from '../utils/subjectAreas';
 import {
   CheckSquare,
   Square,
@@ -13,13 +14,7 @@ import {
   Loader2,
   AlertCircle,
   Cpu,
-  Beaker,
   BookOpen,
-  Globe,
-  Calculator,
-  Palette,
-  Activity,
-  Layers,
   ChevronDown,
   Lock,
   Search,
@@ -37,35 +32,6 @@ interface ManifestImportModalProps {
   onImport: (docs: DiscoveredDoc[]) => Promise<boolean>;
 }
 
-// Subject Identity Configuration
-const SubjectIcons: Record<string, React.ElementType> = {
-  Science: Beaker,
-  TAS: Cpu,
-  HSIE: Globe,
-  English: BookOpen,
-  Mathematics: Calculator,
-  'Creative Arts': Palette,
-  PDHPE: Activity,
-  Other: Layers,
-};
-
-const SubjectColors: Record<string, string> = {
-  Science:
-    'text-emerald-400 light:text-emerald-700 bg-emerald-500/10 light:bg-emerald-100 border-emerald-500/20 light:border-emerald-200',
-  TAS: 'text-blue-400 light:text-blue-700 bg-blue-500/10 light:bg-blue-100 border-blue-500/20 light:border-blue-200',
-  HSIE: 'text-amber-400 light:text-amber-700 bg-amber-500/10 light:bg-amber-100 border-amber-500/20 light:border-amber-200',
-  English:
-    'text-purple-400 light:text-purple-700 bg-purple-500/10 light:bg-purple-100 border-purple-500/20 light:border-purple-200',
-  Mathematics:
-    'text-sky-400 light:text-sky-700 bg-sky-500/10 light:bg-sky-100 border-sky-500/20 light:border-sky-200',
-  'Creative Arts':
-    'text-pink-400 light:text-pink-700 bg-pink-500/10 light:bg-pink-100 border-pink-500/20 light:border-pink-200',
-  PDHPE:
-    'text-red-400 light:text-red-700 bg-red-500/10 light:bg-red-100 border-red-500/20 light:border-red-200',
-  Other:
-    'text-gray-400 light:text-slate-600 bg-gray-500/10 light:bg-slate-100 border-gray-500/20 light:border-slate-200',
-};
-
 const PLACEHOLDERS: Record<string, string[]> = {
   English: ['English Extension 1', 'English Extension 2'],
   Mathematics: ['Mathematics Standard 2', 'Mathematics Extension 1'],
@@ -75,8 +41,6 @@ const PLACEHOLDERS: Record<string, string[]> = {
   'Creative Arts': ['Visual Arts', 'Music 1', 'Drama'],
   PDHPE: ['Community and Family Studies'],
 };
-
-const AvailableSubjects = Object.keys(SubjectIcons);
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -150,11 +114,11 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
     const allVisibleDocIds: string[] = [];
     const query = searchQuery.toLowerCase();
 
-    AvailableSubjects.forEach((s) => {
+    SUBJECT_AREAS.forEach((s) => {
       const subjectDocs = localDocs.filter((doc) => {
         const docSubject = doc.subject || 'Other';
         const matchesSubject =
-          docSubject === s || (s === 'Other' && !AvailableSubjects.includes(docSubject));
+          docSubject === s || (s === 'Other' && !(SUBJECT_AREAS as string[]).includes(docSubject));
         const matchesQuery =
           doc.name.toLowerCase().includes(query) || doc.source.toLowerCase().includes(query);
         return matchesSubject && matchesQuery;
@@ -329,21 +293,20 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             </div>
           ) : (
             <div className="space-y-16">
-              {AvailableSubjects.map((subject) => {
+              {SUBJECT_AREAS.map((subject) => {
                 const group = filteredGroupedDocs.groups[subject];
                 if (!group) return null;
 
                 const { docs, placeholders } = group;
-                const Icon = SubjectIcons[subject];
-                const colorClass = SubjectColors[subject];
+                const Icon = SUBJECT_AREA_ICON[subject];
 
                 return (
                   <section key={subject} className="animate-fade-in">
                     <div className="flex items-center gap-5 mb-8 px-2">
                       <div
-                        className={`p-2.5 rounded-xl ${colorClass.split('')[1]} ${colorClass.split('')[2]} border ${colorClass.split('')[3]} shadow-lg`}
+                        className={`p-2.5 rounded-xl border shadow-lg ${SUBJECT_AREA_TILE[subject]}`}
                       >
-                        <Icon className={`w-5 h-5 ${colorClass.split(' ')[0]}`} />
+                        <Icon className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-xl font-black text-white light:text-slate-900 italic tracking-tight">
@@ -442,7 +405,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                   onChange={(e) => handleSubjectChange(doc.id, e.target.value)}
                                   className="t-label w-full bg-black/30 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 rounded-xl py-2.5 px-4 appearance-none cursor-pointer hover:border-indigo-500/30 transition-colors focus:outline-none"
                                 >
-                                  {AvailableSubjects.map((s) => (
+                                  {SUBJECT_AREAS.map((s) => (
                                     <option key={s} value={s}>
                                       {s}
                                     </option>
