@@ -1,5 +1,55 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-10 (The must-use terms a question names itself)
+
+The Syllabus Terms panel splits its chips into the terms an answer HAS to
+contain and the ones that would merely strengthen it. That split was decided
+against the dot point and nothing else — and the dot point is the one place a
+question's own vocabulary often is not.
+
+Reported from use: a question asking to "assess the effectiveness of an
+automated unit testing methodology compared to manual ad-hoc testing", filed
+under a dot point about applying testing methodologies, named both terms in its
+own stem and neither in the dot point. So every term on its list — including
+the two the question is built on — was shown as merely supporting, and the
+must-use group the panel exists to make visible was empty.
+
+### 🎯 Every level of the question's context
+
+`utils/syllabusTermSource.ts` reads all five: the question, its scenario, the
+dot point, the sub-topic and the topic, strongest first. The chip says which
+one names it ("Named in the question", "Named in the syllabus dot point"),
+because those are not the same claim on a student's answer.
+
+Over the 418 shipped questions that carry a terms list:
+
+|                                           | Before | After |
+| ----------------------------------------- | ------ | ----- |
+| Questions with at least one must-use term | 56.7%  | 77.5% |
+| Terms marked must-use                     | 21.7%  | 36.4% |
+
+The split still separates: two thirds of all terms remain supporting, which is
+right — "Credibility", "Bias" and "Peer review" on a question about assessing a
+Wikipedia article are answer vocabulary, and nothing names them.
+
+**Two matchers, and both are needed.** The shared keyword matcher knows what a
+stem cannot: initialisms ("multi-factor authentication" ↔ "MFA"), British and
+American spellings, and the coordination ellipsis a syllabus writes
+("supervised and unsupervised learning"). A stem run over both sides knows the
+one thing it cannot: `textContainsKeyword` inflects a phrase as one string, so
+it bends only the last word and only once — "automated unit testing" yields
+"automated unit test" but never "automated unit tests", which is how a scenario
+that says "a suite of automated unit tests" failed to name the term the
+question was written on. Stemming stays out of the shared matcher deliberately:
+that one drives highlighting and the coverage meter, where a false positive
+credits a student for a term they never wrote.
+
+**A heading is the whole course's wallpaper.** A sub-topic called "Testing and
+debugging" sits above every question in it, so it corroborates a phrase but
+must not promote a bare "testing" — the same judgement `syllabusTermGaps.ts`
+already makes for single words, so that list is now shared rather than copied.
+Headings decided 8 promotions in total; the question decided 675.
+
 ## [Unreleased] - 2026-09-09 (Terms the question is about, guaranteed on its list)
 
 The follow-up to the term work, and the direction the previous entry recorded

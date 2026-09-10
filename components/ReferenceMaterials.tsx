@@ -123,9 +123,12 @@ interface ReferenceMaterialsProps {
   userAnswer?: string;
   onAddWord?: (word: string) => void;
   courseOutcomes?: CourseOutcome[];
-  /** The syllabus dot point text this question sits under, used to flag which
-   *  keywords come straight from the syllabus. */
+  /** The syllabus dot point text this question sits under — one of the levels
+   *  the terms panel reads to tell a must-use term from a supporting one. */
   dotPointText?: string;
+  /** The sub-topic the dot point sits under — the level between it and the
+   *  topic, and the last one the terms panel reads. */
+  subTopicName?: string;
   /** Course → Topic → Sub-Topic → Dot Point labels, shown in the outcome modal. */
   breadcrumb?: string[];
 }
@@ -231,7 +234,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
       >
         <KeywordEditor
           {...props}
-          syllabusText={props.dotPointText}
+          topicName={topic?.name}
           onRegenerate={props.onRegenerateKeywords}
           isRegenerating={props.isRegeneratingKeywords}
           onSuggest={props.onSuggestKeywords}
