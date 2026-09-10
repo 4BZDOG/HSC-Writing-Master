@@ -22,6 +22,7 @@ import { Prompt, SampleAnswer } from '../types';
 import { getBandForWordCount, BAND_METRICS } from '../data/commandTerms';
 import { analyzeText } from './writingAnalysis';
 import { textContainsKeyword } from './renderUtils';
+import { classifySyllabusTerms } from './syllabusTermSource';
 
 export type ExemplarFlagSeverity = 'warning' | 'info';
 
@@ -59,7 +60,13 @@ const expectedMinWords = (band: number, totalMarks: number): number => {
  * to. Returns zero or more flags; an empty list means "nothing mechanically
  * unusual", which is the common case.
  */
-export const auditSampleAnswer = (prompt: Prompt, sample: SampleAnswer): ExemplarFlag[] => {
+export const auditSampleAnswer = (
+  prompt: Prompt,
+  sample: SampleAnswer,
+  /** The dot point this question sits under, when the caller knows it — a term
+   *  the syllabus names is one the exemplar was expected to use. */
+  dotPointText?: string
+): ExemplarFlag[] => {
   const flags: ExemplarFlag[] = [];
   if (!isLibraryExemplar(sample)) return flags;
 
@@ -94,21 +101,44 @@ export const auditSampleAnswer = (prompt: Prompt, sample: SampleAnswer): Exempla
     }
   }
 
-  // 2. Thin syllabus coverage on a high-band exemplar. Coverage is necessary,
-  //    not sufficient — but a top-band model answer touching almost none of the
-  //    prompt's own terms is worth a look. Info only.
+  // 2. A high-band exemplar that skips the terms the question is BUILT on.
+  //
+  //    This counted every listed term equally and fired below 40% coverage —
+  //    which is the wrong measure twice over: a supporting term ("bioethics" on
+  //    a CRISPR question) is not one a model answer has to contain, and an
+  //    exemplar can clear 40% while missing every term the question itself
+  //    names. Measured over the shipped library, the old rule flagged 34 of 259
+  //    band-5+ exemplars and the two sets barely overlap.
+  //
+  //    Now it asks the only question mechanics can honestly ask about content:
+  //    did the top-band answer use the terms the question, its scenario and its
+  //    syllabus name themselves? Two or more missing, because one is a judgement
+  //    call — a term the answer demonstrates without naming — and two is a
+  //    pattern.
+  //
+  //    A WARNING rather than a note, which is what makes the retarget worth
+  //    doing: only warnings reach `promptHasExemplarMismatch`, and only that
+  //    reaches the studio's Exemplar Mismatch filter. As an info flag this
+  //    check has never been visible to anyone.
   const keywords = (prompt.keywords || []).filter(
     (k) => typeof k === 'string' && k.trim().length > 0
   );
   if (band >= 5 && keywords.length >= 2) {
-    const used = keywords.filter((kw) => textContainsKeyword(sample.answer, kw)).length;
-    if (used / keywords.length < 0.4) {
+    const named = classifySyllabusTerms(keywords, {
+      question: prompt.question,
+      scenario: prompt.scenario,
+      dotPointText,
+    });
+    const missing = keywords.filter(
+      (kw) => named.has(kw) && !textContainsKeyword(sample.answer, kw)
+    );
+    if (missing.length >= 2) {
       flags.push({
         sampleId: sample.id,
         band,
-        severity: 'info',
+        severity: 'warning',
         code: 'thin-coverage',
-        message: `A Band ${band} exemplar that uses only ${used} of ${keywords.length} syllabus terms.`,
+        message: `A Band ${band} exemplar that never uses ${missing.length} of the terms this question names: ${missing.join(', ')}.`,
       });
     }
   }
@@ -130,13 +160,13 @@ export const auditSampleAnswer = (prompt: Prompt, sample: SampleAnswer): Exempla
 };
 
 /** Every exemplar flag across a prompt's whole sample-answer library. */
-export const auditPromptExemplars = (prompt: Prompt): ExemplarFlag[] =>
-  (prompt.sampleAnswers || []).flatMap((sa) => auditSampleAnswer(prompt, sa));
+export const auditPromptExemplars = (prompt: Prompt, dotPointText?: string): ExemplarFlag[] =>
+  (prompt.sampleAnswers || []).flatMap((sa) => auditSampleAnswer(prompt, sa, dotPointText));
 
 /**
  * True when a prompt has at least one WARNING-level exemplar flag — the signal
  * the Content Audit filters and counts on. Info-only notes don't make a prompt
  * "mismatched", so the filter stays a high-signal triage list rather than noise.
  */
-export const promptHasExemplarMismatch = (prompt: Prompt): boolean =>
-  auditPromptExemplars(prompt).some((f) => f.severity === 'warning');
+export const promptHasExemplarMismatch = (prompt: Prompt, dotPointText?: string): boolean =>
+  auditPromptExemplars(prompt, dotPointText).some((f) => f.severity === 'warning');

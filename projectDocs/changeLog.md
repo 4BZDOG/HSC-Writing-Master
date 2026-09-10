@@ -1,5 +1,68 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-10 (A must-use term has to be a term)
+
+The two entries below built a must-use/supporting split and then leaned on it —
+the panel groups by it, the exemplar brief is written on it. Measuring what it
+had actually promoted across the shipped library found the rule was too
+generous in one specific way: **a lone word in the question stem got in on the
+strength of the stem alone.**
+
+56% of must-use terms are single words. Most are real (`sql`, `agile`,
+`phenotype`, `front-end`), and the tail was not: `design`, `testing`,
+`performance`, `patterns`, `trends` — and `evaluate` ×4 and `evaluating` ×4,
+which are command verbs. So the panel told a student that "Evaluate" is a
+syllabus term to weave in, and the exemplar brief told the model to build a
+full-mark answer around it. 40 of 418 questions carry at least one.
+
+### 🎯 The guard applies everywhere, not just to headings
+
+The generic-word guard existed already but ran only against a topic or
+sub-topic name, on the reasoning that a heading is the whole course's
+wallpaper. A question stem is wallpaper too, for this purpose: a Software
+Engineering question says "security" because every question in the subject
+does. `isWeakLoneTerm` now rejects a keyword that IS a course-wallpaper word or
+a command verb in any inflected form, from any source. A PHRASE containing a
+verb is untouched — the syllabus writes "evaluating test data", and the subject
+matter is in the noun.
+
+Over the shipped library this demotes 31 terms and costs almost nothing:
+questions carrying at least one must-use term go 77.5% → **77.3%**, and the
+must-use share of all terms 36.4% → **35.1%**.
+
+### 🧹 One definition, at generation as well as repair
+
+`isSyllabusTerm` gates both what the AI is allowed to return
+(`sanitiseKeywords`) and what the studio's Tidy Terms strips
+(`dropNonSyllabusTerms`). It dropped only the question's OWN verb, which is why
+"evaluate" survived on a DISCUSS question. It now applies the same weak-lone
+rule, so the app stops writing terms its own audit would remove.
+
+### 🔍 The exemplar flag now measures something, and is visible
+
+`thin-coverage` fired below 40% of EVERY listed term — wrong twice over: a
+supporting term ("bioethics" on a CRISPR question) is not one a model answer
+has to contain, and an exemplar can clear 40% while missing every term the
+question is built on. It now asks the only content question mechanics can
+honestly ask: did the top-band answer use the terms the question, its scenario
+and its dot point name themselves? Two or more missing, because one is a
+judgement call and two is a pattern — **13 of 259** band-5+ exemplars, against
+34 under the old rule, and the two sets barely overlap.
+
+It is also a **warning** rather than a note. Only warnings reach
+`promptHasExemplarMismatch`, and only that reaches the studio's Exemplar
+Mismatch filter, so as an info flag this check had never been visible to
+anyone.
+
+### 📌 Pinned against the real library
+
+`syllabusTermCoverage.test.ts` runs the classifier over `public/courseData` and
+holds two different kinds of line: an invariant that never needs re-baselining
+(no must-use term is a lone verb or wallpaper word) and deliberately wide
+ranges for the two aggregate shares, so a stemmer tweak that silently moves a
+fifth of every terms list fails a test instead of quietly changing what the
+panel means.
+
 ## [Unreleased] - 2026-09-10 (Exemplars written on the terms, and an export that can seed more)
 
 The follow-up to the entry below, in the two places that entry left alone: the
