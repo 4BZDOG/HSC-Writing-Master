@@ -31,10 +31,9 @@ const data = (over: Partial<EvaluationExportData> = {}): EvaluationExportData =>
 
 /** The report's "terms not yet used" line, whatever it is called. */
 const termsLine = (over: Partial<EvaluationExportData> = {}): string => {
-  const blocks = buildEvaluationBlocks(data(over));
-  const text = blocks
-    .filter((b): b is Extract<typeof b, { kind: 'paragraph' }> => b.kind === 'paragraph')
-    .map((b) => b.runs.map((r) => r.text).join(''))
+  const text = buildEvaluationBlocks(data(over))
+    .filter((block) => block.kind === 'paragraph')
+    .map((block) => block.runs.map((run) => run.text).join(''))
     .find((line) => /not yet used/i.test(line));
   return text ?? '';
 };
