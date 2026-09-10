@@ -144,6 +144,20 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const total = keywords.length;
   const allUsed = total > 0 && usedCount === total;
 
+  // "2/9 used" counted a term the question is built on and one that would
+  // merely strengthen an answer as the same tick — the one distinction the
+  // panel below it spends two groups and a rule making. Where both groups
+  // exist the chip counts them apart; where they don't, there is nothing to
+  // separate and it stays the single number it has always been.
+  const keyUsed = useMemo(
+    () => syllabusKeywords.filter((kw) => usageMap.get(kw)).length,
+    [syllabusKeywords, usageMap]
+  );
+  const splitCount = syllabusKeywords.length > 0 && supportingKeywords.length > 0;
+  const countLabel = splitCount
+    ? `${keyUsed}/${syllabusKeywords.length} key · ${usedCount - keyUsed}/${supportingKeywords.length} more`
+    : `${usedCount}/${total} used`;
+
   // One chip, rendered into either group. It was inline in a single `.map`
   // before the groups were split; nothing about the chip itself changed.
   const renderKeyword = (kw: string) => {
@@ -216,9 +230,13 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
                   ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border}`
                   : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
               }`}
-              title="Terms detected in your response so far"
+              title={
+                splitCount
+                  ? 'Terms detected in your response so far — the ones the question names, then the rest'
+                  : 'Terms detected in your response so far'
+              }
             >
-              {usedCount}/{total} used
+              {countLabel}
             </span>
           </div>
           {hasSyllabusSourced && (

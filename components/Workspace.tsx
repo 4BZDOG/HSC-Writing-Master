@@ -193,6 +193,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
 
+  // The syllabus this question sits under, in the shape the term classifier
+  // reads. Memoised because it is a dependency of the live metrics: rebuilt
+  // every render, it would re-derive the must-use split on every keystroke's
+  // worth of re-render rather than when the question actually changes.
+  const syllabusPlacement = useMemo(
+    () => ({
+      topicName: currentTopic?.name,
+      subTopicName: currentSubTopic?.name,
+      dotPointText: currentDotPoint?.description,
+    }),
+    [currentTopic?.name, currentSubTopic?.name, currentDotPoint?.description]
+  );
+
   // In Exam Mode the reference materials (syllabus terms, marking guide, grade
   // standards) are hidden — a student sitting an exam can't see the marking key.
   const isExamMode = writingMode === 'exam';
@@ -539,9 +552,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
       // terms the question and its dot point actually name — the same terms
       // the Syllabus Terms panel tells the student to weave in.
       syllabus={{
-        topicName: currentTopic?.name,
-        subTopicName: currentSubTopic?.name,
-        dotPoint: currentDotPoint?.description,
+        topicName: syllabusPlacement.topicName,
+        subTopicName: syllabusPlacement.subTopicName,
+        dotPoint: syllabusPlacement.dotPointText,
       }}
       onSampleAnswerGenerated={(answer) =>
         syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
@@ -689,6 +702,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           setUserAnswer={setUserAnswer}
           debouncedUserAnswer={debouncedUserAnswer}
           currentPrompt={currentPrompt}
+          syllabus={syllabusPlacement}
           isEvaluating={isEvaluating}
           evaluationResult={evaluationResult}
           evaluationError={evaluationError}

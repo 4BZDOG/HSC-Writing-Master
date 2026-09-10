@@ -37,7 +37,7 @@ import {
   getTierTargetBand,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
-import { classifySyllabusTerms } from '../utils/syllabusTermSource';
+import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
 import {
   formatMarkingCriteria,
@@ -184,7 +184,8 @@ const buildMarkingCriteriaInstruction = (
 export const evaluateAnswer = async (
   answer: string,
   prompt: Prompt,
-  tierInfo?: CommandTermInfo
+  tierInfo?: CommandTermInfo,
+  syllabus?: SyllabusKeywordContext
 ): Promise<EvaluationResult> => {
   const termInfo = tierInfo || getCommandTermInfo(prompt.verb);
 
@@ -268,7 +269,7 @@ export const evaluateAnswer = async (
                     **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
                     **Expected Length:** ${termInfo.charRange[0]}-${termInfo.charRange[1]} characters (${termInfo.pageEstimate} pages). Time budget: ${termInfo.timeRange[0]}-${termInfo.timeRange[1]} minutes.
                     **Expected Syllabus Terms:** ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]} relevant syllabus terms should be used.
-                    **Syllabus Keywords:** ${prompt.keywords?.join(', ') || 'None'}
+${buildMarkerTermBlock(prompt, syllabus)}
 
                     ### MARKING RUBRIC
                     ${rubric}
@@ -897,21 +898,15 @@ const buildTermBrief = (
   expectedTerms: number,
   syllabus?: SyllabusKeywordContext
 ): string => {
-  const keywords = (prompt.keywords || [])
-    .filter((k): k is string => typeof k === 'string')
-    .map((k) => k.trim())
-    .filter(Boolean);
-  if (keywords.length === 0) return `- Syllabus terms: about ${expectedTerms}.`;
-
-  const named = classifySyllabusTerms(keywords, {
+  const { mustUse, supporting } = splitSyllabusTerms(prompt.keywords || [], {
     question: prompt.question,
     scenario: prompt.scenario,
     dotPointText: syllabus?.dotPoint,
     subTopicName: syllabus?.subTopicName,
     topicName: syllabus?.topicName,
   });
-  const mustUse = keywords.filter((k) => named.has(k));
-  const supporting = keywords.filter((k) => !named.has(k));
+  if (mustUse.length === 0 && supporting.length === 0)
+    return `- Syllabus terms: about ${expectedTerms}.`;
 
   const lines = [`- **Syllabus terms — use about ${expectedTerms}, in this order of priority:**`];
   if (mustUse.length > 0) {
@@ -931,6 +926,47 @@ const buildTermBrief = (
     `  - Use each term correctly and in context. A term named but not understood reads as padding to a marker and costs marks rather than earning them.`
   );
   return lines.join('\n                    ');
+};
+
+/**
+ * The terms block the MARKER reads.
+ *
+ * It was one flat line — "Syllabus Keywords: a, b, c" — under a count of how
+ * many terms to expect, which told a marker nothing about which of them the
+ * question is actually built on. A response that skipped the two terms the
+ * question names and reached for three supporting ones looked, from here, like
+ * good coverage.
+ *
+ * The rule attached to it is deliberately narrow. Missing terms are named as a
+ * CONTENT GAP in feedback, and only where the response did not earn full marks:
+ * an answer can reach the top mark without saying a listed word, and telling
+ * that student they missed a required term contradicts the mark they just got.
+ * The rubric decides the mark; this decides what the feedback explains.
+ */
+const buildMarkerTermBlock = (prompt: Prompt, syllabus?: SyllabusKeywordContext): string => {
+  const indent = '                    ';
+  const { mustUse, supporting } = splitSyllabusTerms(prompt.keywords || [], {
+    question: prompt.question,
+    scenario: prompt.scenario,
+    dotPointText: syllabus?.dotPoint,
+    subTopicName: syllabus?.subTopicName,
+    topicName: syllabus?.topicName,
+  });
+  if (mustUse.length === 0 && supporting.length === 0)
+    return `${indent}**Syllabus Keywords:** None`;
+
+  const lines: string[] = [];
+  if (mustUse.length > 0)
+    lines.push(
+      `**Syllabus terms this question NAMES ITSELF (in its stem, scenario or syllabus dot point):** ${mustUse.join(', ')}`
+    );
+  if (supporting.length > 0)
+    lines.push(`**Supporting terms a strong response would reach for:** ${supporting.join(', ')}`);
+  if (mustUse.length > 0)
+    lines.push(
+      `**What to do with them:** where the response does NOT earn full marks, name the terms from the first list it never uses as a specific content gap in the feedback and, where it is the single most useful next step, in the coach's tip. At full marks, do not raise them at all — an answer can satisfy the question without saying a listed word. Never move the mark for the presence or absence of a term by itself: the rubric decides the mark, and a term used incorrectly is worth less than one not used at all.`
+    );
+  return lines.map((line) => `${indent}${line}`).join('\n');
 };
 
 const buildSampleScopeBrief = (

@@ -178,3 +178,42 @@ describe('buildWritingInsights', () => {
     expect(insights.length).toBeGreaterThan(0);
   });
 });
+
+/**
+ * The nudge that names terms names the right ones.
+ *
+ * "Weave in 3 more syllabus terms: X, Y" picked its two examples off the front
+ * of the list, which is an accident of curation. The caller now hands them over
+ * ordered — the terms the question itself names first — and when the examples
+ * ARE those terms the nudge says so, because "weave in two more terms" and "the
+ * question is asking for these two by name" are different instructions.
+ */
+describe('buildWritingInsights — naming the terms the question is built on', () => {
+  const missing = (over: Partial<InsightInput> = {}) =>
+    buildWritingInsights(baseInput({ keywordsTotal: 4, keywordsUsed: 1, ...over })).find(
+      (i) => i.id === 'keywords-missing'
+    );
+
+  it('names the must-use terms and says the question is built on them', () => {
+    const insight = missing({
+      missingKeywords: ['unit testing', 'regression testing', 'bias'],
+      missingMustUse: ['unit testing', 'regression testing'],
+    });
+    expect(insight?.message).toContain('built on');
+    expect(insight?.message).toContain('unit testing');
+  });
+
+  it('falls back to the count when the leading terms are only supporting', () => {
+    const insight = missing({
+      missingKeywords: ['bias', 'credibility', 'unit testing'],
+      missingMustUse: ['unit testing'],
+    });
+    expect(insight?.message).toContain('Weave in 3 more syllabus terms');
+    expect(insight?.message).not.toContain('built on');
+  });
+
+  it('is unchanged for a question with no must-use terms at all', () => {
+    const insight = missing({ missingKeywords: ['bias', 'credibility'] });
+    expect(insight?.message).toContain('Weave in 2 more syllabus terms');
+  });
+});

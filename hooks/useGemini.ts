@@ -181,6 +181,28 @@ export const useGemini = ({
     [onApiKeyInvalid, showToast]
   );
 
+  // The syllabus content the selected question sits under — the dot point and
+  // its named examples, sub-topic, topic and linked-outcome text — so keyword
+  // generation is grounded in the syllabus rather than the question wording,
+  // and so the marker can tell the terms the question is built on from the ones
+  // that merely support it. Declared here, above its first consumer: `evaluate`
+  // lists it as a dependency, and a dependency array is read during render.
+  const buildSyllabusContext = useCallback((): gemini.SyllabusKeywordContext | undefined => {
+    if (!currentCourse) return undefined;
+    const { topic, subTopic, dotPoint } = findSelectionContext(currentCourse, statePath);
+    const outcomeTexts = (currentPrompt?.linkedOutcomes || [])
+      .map((code) => currentCourse.outcomes.find((o) => o.code === code))
+      .filter((o): o is CourseOutcome => !!o)
+      .map((o) => `${o.code}: ${o.description}`);
+    return {
+      topicName: topic?.name,
+      subTopicName: subTopic?.name,
+      dotPoint: dotPoint?.description,
+      focusAreas: getFocusAreas(dotPoint),
+      outcomeTexts,
+    };
+  }, [currentCourse, statePath, currentPrompt?.linkedOutcomes]);
+
   const evaluate = useCallback(
     async (answer: string, prompt: Prompt) => {
       setIsEvaluating(true);
@@ -191,7 +213,15 @@ export const useGemini = ({
       const evalStart = Date.now();
       emitEvalProgress({ phase: 'started', message: 'Preparing evaluation...' });
       try {
-        const result = await gemini.evaluateAnswer(answer, prompt);
+        // The syllabus above the question, so the marker can tell the terms
+        // the question is built on from the ones that merely support it — the
+        // same context keyword generation already gets.
+        const result = await gemini.evaluateAnswer(
+          answer,
+          prompt,
+          undefined,
+          buildSyllabusContext()
+        );
         // The server has now spent one of the caller's daily evaluations, so
         // spend one from the local mirror too — HERE, at the point the call
         // actually happened. It used to be an effect on `evaluationResult` in
@@ -322,7 +352,7 @@ export const useGemini = ({
         setIsEvaluating(false);
       }
     },
-    [handleApiError, updateCourses, statePath, showToast]
+    [handleApiError, updateCourses, statePath, showToast, buildSyllabusContext]
   );
 
   const resetEvaluation = useCallback(() => {
@@ -504,25 +534,6 @@ export const useGemini = ({
   useEffect(() => {
     setEnrichError(null);
   }, [currentPrompt?.id]);
-
-  // The syllabus content the selected question sits under — the dot point and
-  // its named examples, sub-topic, topic and linked-outcome text — so keyword
-  // generation is grounded in the syllabus rather than the question wording.
-  const buildSyllabusContext = useCallback((): gemini.SyllabusKeywordContext | undefined => {
-    if (!currentCourse) return undefined;
-    const { topic, subTopic, dotPoint } = findSelectionContext(currentCourse, statePath);
-    const outcomeTexts = (currentPrompt?.linkedOutcomes || [])
-      .map((code) => currentCourse.outcomes.find((o) => o.code === code))
-      .filter((o): o is CourseOutcome => !!o)
-      .map((o) => `${o.code}: ${o.description}`);
-    return {
-      topicName: topic?.name,
-      subTopicName: subTopic?.name,
-      dotPoint: dotPoint?.description,
-      focusAreas: getFocusAreas(dotPoint),
-      outcomeTexts,
-    };
-  }, [currentCourse, statePath, currentPrompt?.linkedOutcomes]);
 
   useEffect(() => {
     const promptId = currentPrompt?.id;

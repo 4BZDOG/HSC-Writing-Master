@@ -154,3 +154,38 @@ export const classifySyllabusTerms = (
 
   return found;
 };
+
+/**
+ * The syllabus levels a question sits under — the half of the context that does
+ * NOT come off the prompt itself. A caller holding a `Prompt` already has the
+ * question and its scenario; this is what it has to be told.
+ */
+export type SyllabusPlacement = Omit<SyllabusTermContext, 'question' | 'scenario'>;
+
+export interface SyllabusTermSplit {
+  /** Named by the question, its scenario or its syllabus — in list order. */
+  mustUse: string[];
+  /** Everything else on the list, in list order. */
+  supporting: string[];
+}
+
+/**
+ * The same classification as two lists, which is the shape every surface that
+ * WEIGHTS the terms actually wants: the panel's two groups, the exemplar
+ * brief's two lines, the coverage chip's two numbers, the readiness score's
+ * weighting. List order is preserved inside each group, because a curated list
+ * is written most important first.
+ */
+export const splitSyllabusTerms = (
+  keywords: string[],
+  context: SyllabusTermContext
+): SyllabusTermSplit => {
+  const listed = (keywords || []).filter(
+    (k): k is string => typeof k === 'string' && k.trim().length > 0
+  );
+  const named = classifySyllabusTerms(listed, context);
+  return {
+    mustUse: listed.filter((k) => named.has(k)),
+    supporting: listed.filter((k) => !named.has(k)),
+  };
+};
