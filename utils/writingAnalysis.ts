@@ -77,7 +77,10 @@ export interface InsightInput {
   targetLabel: string;
   keywordsTotal: number;
   keywordsUsed: number;
+  /** Still missing, ordered so the terms the question names come first. */
   missingKeywords: string[];
+  /** Of those, the ones the question, scenario or syllabus names itself. */
+  missingMustUse?: string[];
   expectedTerms?: number;
   tier?: number;
   charCount?: number;
@@ -110,6 +113,7 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     keywordsTotal,
     keywordsUsed,
     missingKeywords,
+    missingMustUse = [],
     expectedTerms,
     tier,
     charCount,
@@ -177,12 +181,23 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     if (keywordsUsed < keywordsTotal) {
       const missing = missingKeywords.length;
       const examples = missingKeywords.slice(0, 2).join(', ');
+      // The nudge names the terms it is asking for, and the ones it names are
+      // the ones the question itself is built on — `missingKeywords` arrives
+      // ordered so those lead. Where the two examples ARE must-use terms, the
+      // nudge says so: "weave in two more terms" and "the question is asking
+      // for these two by name" are different instructions, and only the second
+      // one tells a student where the marks are.
+      const namingMustUse =
+        missingMustUse.length > 0 &&
+        missingKeywords.slice(0, 2).every((k) => missingMustUse.includes(k));
       warnings.push({
         id: 'keywords-missing',
         tone: 'warning',
-        message: `Weave in ${missing} more syllabus term${missing === 1 ? '' : 's'}${
-          examples ? `: ${examples}${missing > 2 ? '…' : ''}` : ''
-        }.`,
+        message: namingMustUse
+          ? `The question is built on ${examples}${missing > 2 ? ' and more' : ''} — work ${missingMustUse.length === 1 ? 'it' : 'them'} in.`
+          : `Weave in ${missing} more syllabus term${missing === 1 ? '' : 's'}${
+              examples ? `: ${examples}${missing > 2 ? '…' : ''}` : ''
+            }.`,
       });
     } else {
       positives.push({

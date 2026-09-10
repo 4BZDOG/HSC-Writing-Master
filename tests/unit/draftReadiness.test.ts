@@ -7,12 +7,7 @@ import {
   type ReadinessInput,
   type ReadinessLevel,
 } from '../../utils/draftReadiness';
-import {
-  getBandHex,
-  getBandHexDark,
-  getBandConfig,
-  BAND_NAMES,
-} from '../../utils/renderUtils';
+import { getBandHex, getBandHexDark, getBandConfig, BAND_NAMES } from '../../utils/renderUtils';
 
 /**
  * Readiness is a MECHANICAL completeness signal, never a predicted band. These
@@ -452,7 +447,12 @@ describe('computeDraftReadiness — colour caps at, and is calibrated within, th
     const mk = (wordCount: number, keywordsUsed: number, paragraphCount: number) =>
       computeDraftReadiness(
         makeInput({
-          analysis: analysis({ wordCount, sentenceCount: 4, longestSentenceWords: 18, paragraphCount }),
+          analysis: analysis({
+            wordCount,
+            sentenceCount: 4,
+            longestSentenceWords: 18,
+            paragraphCount,
+          }),
           wordCount,
           targetWordCount: 300,
           keywordsTotal: 4,
@@ -490,5 +490,46 @@ describe('READINESS_LABELS never read as a band name', () => {
     for (const label of Object.values(READINESS_LABELS)) {
       expect(bandNames).not.toContain(label.toLowerCase());
     }
+  });
+});
+
+/**
+ * A term the question itself names counts double.
+ *
+ * Flat coverage said a draft that had reached for two supporting terms was as
+ * ready as one that had answered the question in its own vocabulary — and
+ * readiness is the app's answer to "is this worth marking yet?".
+ */
+describe('draft readiness weights the terms the question names', () => {
+  const withTerms = (over: Partial<ReadinessInput>) =>
+    computeDraftReadiness(makeInput({ keywordsTotal: 4, ...over })).score;
+
+  it('scores a must-use term above a supporting one', () => {
+    // Same draft, same number of terms used — one of them is a term the
+    // question names, the other is not.
+    const key = withTerms({ keywordsUsed: 1, mustUseTotal: 2, mustUseUsed: 1 });
+    const supporting = withTerms({ keywordsUsed: 1, mustUseTotal: 2, mustUseUsed: 0 });
+    expect(key).toBeGreaterThan(supporting);
+  });
+
+  it('leaves the score unchanged when nothing is weighted', () => {
+    // No syllabus to judge by: every term weighs the same, exactly as before.
+    expect(withTerms({ keywordsUsed: 2 })).toBe(
+      withTerms({ keywordsUsed: 2, mustUseTotal: 0, mustUseUsed: 0 })
+    );
+  });
+
+  it('still reaches full coverage when every term lands', () => {
+    const all = withTerms({ keywordsUsed: 4, mustUseTotal: 2, mustUseUsed: 2 });
+    const allFlat = withTerms({ keywordsUsed: 4 });
+    expect(all).toBe(allFlat);
+  });
+
+  it('cannot be gamed past full coverage', () => {
+    // A malformed caller claiming more must-use hits than terms used must not
+    // push the sub-score above 1 and inflate readiness.
+    const absurd = withTerms({ keywordsUsed: 1, mustUseTotal: 4, mustUseUsed: 9 });
+    const perfect = withTerms({ keywordsUsed: 4, mustUseTotal: 4, mustUseUsed: 4 });
+    expect(absurd).toBeLessThanOrEqual(perfect);
   });
 });

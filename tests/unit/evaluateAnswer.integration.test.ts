@@ -186,3 +186,76 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     await expect(evaluateAnswer('answer', basePrompt)).rejects.toThrow();
   });
 });
+
+/**
+ * What the MARKER is told about the question's terms.
+ *
+ * It got one flat line — "Syllabus Keywords: a, b, c" — so a response that
+ * skipped the two terms the question names and reached for three supporting
+ * ones looked, from the marker's seat, like good coverage. The split goes with
+ * the list now, and with it the one rule that keeps the feedback honest:
+ * missing terms explain a mark that fell short, and are never raised against an
+ * answer that earned full marks.
+ */
+describe('evaluateAnswer briefs the marker on which terms the question names', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    fetchMock.mockResolvedValue(
+      makeProxyResponse({
+        overallMark: 5,
+        overallBand: 4,
+        overallFeedback: 'Sound.',
+        quickTip: 'Name the process.',
+        strengths: ['Clear'],
+        improvements: ['Add detail'],
+        criteria: [{ criterion: 'Knowledge', mark: 5, maxMark: 10, feedback: 'Sound.' }],
+        revisedAnswer: '',
+      })
+    );
+  });
+  afterEach(() => vi.unstubAllGlobals());
+
+  const sentText = () =>
+    JSON.stringify(JSON.parse((fetchMock.mock.calls[0][1] as RequestInit).body as string));
+
+  it('separates the terms the question names from the ones that support it', async () => {
+    await evaluateAnswer('An answer about helicase.', {
+      ...basePrompt,
+      question: 'Describe how helicase unwinds DNA during replication.',
+      keywords: ['helicase', 'polymerase'],
+    });
+    const sent = sentText();
+
+    expect(sent).toContain('NAMES ITSELF');
+    expect(sent).toMatch(/NAMES ITSELF[^"\\]*helicase/);
+    expect(sent).toMatch(/Supporting terms[^"\\]*polymerase/);
+  });
+
+  it('reads the dot point when the caller supplies the syllabus', async () => {
+    await evaluateAnswer('An answer.', basePrompt, undefined, {
+      dotPoint: 'model the roles of helicase and polymerase in DNA replication',
+    });
+    expect(sentText()).toMatch(/NAMES ITSELF[^"\\]*polymerase/);
+  });
+
+  it('tells the marker to raise missing terms only below full marks', async () => {
+    await evaluateAnswer('An answer about helicase.', {
+      ...basePrompt,
+      question: 'Describe how helicase unwinds DNA.',
+    });
+    const sent = sentText();
+
+    expect(sent).toContain('does NOT earn full marks');
+    expect(sent).toContain('At full marks, do not raise them at all');
+    // The rubric keeps the mark: coverage explains a mark, never moves one.
+    expect(sent).toContain('Never move the mark for the presence or absence of a term');
+  });
+
+  it('says None for a question with no terms listed', async () => {
+    await evaluateAnswer('An answer.', { ...basePrompt, keywords: [] });
+    expect(sentText()).toContain('**Syllabus Keywords:** None');
+  });
+});

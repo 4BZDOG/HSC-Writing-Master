@@ -168,3 +168,50 @@ describe('Syllabus Terms: every level of the question’s context', () => {
     );
   });
 });
+
+/**
+ * The coverage chip counts the two groups apart.
+ *
+ * "2/9 used" counted a term the question is built on and one that would merely
+ * strengthen an answer as the same tick — the one distinction the panel below
+ * it spends two groups and a rule making.
+ */
+describe('Syllabus Terms: the coverage chip', () => {
+  const TESTING: Context = {
+    dotPointText: 'apply testing methodologies to a software solution',
+    question: 'Assess automated unit testing against manual ad-hoc testing.',
+  };
+
+  const renderWithAnswer = (keywords: string[], userAnswer: string, context: Context) =>
+    render(
+      <KeywordEditor
+        prompt={prompt(keywords, { question: context.question })}
+        onKeywordsChange={() => {}}
+        isEnriching={false}
+        onRegenerate={() => {}}
+        isRegenerating={false}
+        regenerateError={null}
+        onSuggest={() => {}}
+        isSuggesting={false}
+        suggestError={null}
+        userRole="user"
+        userAnswer={userAnswer}
+        dotPointText={context.dotPointText}
+      />
+    );
+
+  it('splits the count when the question has terms of both kinds', () => {
+    renderWithAnswer(
+      ['automated unit testing', 'manual ad-hoc testing', 'regression testing'],
+      'I used automated unit testing throughout.',
+      TESTING
+    );
+    expect(screen.getByText('1/2 key · 0/1 more')).toBeTruthy();
+  });
+
+  it('keeps the single number when there is only one group', () => {
+    // Nothing here is named by the question, so there is nothing to separate.
+    renderWithAnswer(['regression testing', 'test scripts'], 'Nothing relevant.', TESTING);
+    expect(screen.getByText('0/2 used')).toBeTruthy();
+  });
+});

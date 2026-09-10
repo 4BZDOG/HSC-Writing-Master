@@ -15,13 +15,24 @@ import {
   WritingInsight,
 } from '../utils/writingAnalysis';
 import { computeDraftReadiness, ReadinessResult } from '../utils/draftReadiness';
+import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTermSource';
 
 export interface WritingMetrics {
   wordCount: number;
   charCount: number;
   /** Structural anatomy of the draft — paragraphs, sentences, run-ons. */
   analysis: TextAnalysis;
-  keywordStats: { used: string[]; missed: string[]; score: number };
+  keywordStats: {
+    used: string[];
+    missed: string[];
+    score: number;
+    /** How many of the terms the question itself names, and how many landed. */
+    mustUseTotal: number;
+    mustUseUsed: number;
+    /** `missed`, ordered so the terms the question names come first. */
+    missedInPriority: string[];
+    missedMustUse: string[];
+  };
   progressInfo: {
     targetLabel: string;
     targetCount: number;
@@ -46,7 +57,13 @@ export interface WritingMetrics {
  * how long the response is, which syllabus terms have landed, or what the
  * target standard is.
  */
-export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMetrics => {
+export const useWritingMetrics = (
+  userAnswer: string,
+  prompt: Prompt,
+  /** The syllabus above this question. Absent, every term weighs the same —
+   *  which is what a caller with no syllabus to hand honestly knows. */
+  syllabus?: SyllabusPlacement
+): WritingMetrics => {
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
   const wordCount = useMemo(
@@ -97,17 +114,41 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
     };
   }, [maxBand, prompt.totalMarks, wordCount]);
 
+  // Which of this question's terms the question and its syllabus name
+  // themselves. Everything below that WEIGHTS a term — the coverage chip, the
+  // live nudge, the readiness score — reads this rather than treating a term
+  // the question is built on and one that would merely strengthen an answer as
+  // the same thing.
+  const split = useMemo(
+    () =>
+      splitSyllabusTerms(prompt.keywords || [], {
+        question: prompt.question,
+        scenario: prompt.scenario,
+        ...syllabus,
+      }),
+    [prompt.keywords, prompt.question, prompt.scenario, syllabus]
+  );
+
   const keywordStats = useMemo(() => {
     const keywords = prompt.keywords || [];
     // Shares the highlighter's matcher, so the coverage score always agrees
     // with what the student sees highlighted in the writing area.
-    const used = keywords.filter((kw) => textContainsKeyword(userAnswer, kw));
+    const isUsed = (kw: string) => textContainsKeyword(userAnswer, kw);
+    const used = keywords.filter(isUsed);
     return {
       used,
       missed: keywords.filter((kw) => !used.includes(kw)),
       score: keywords.length ? Math.round((used.length / keywords.length) * 100) : 0,
+      mustUseTotal: split.mustUse.length,
+      mustUseUsed: split.mustUse.filter(isUsed).length,
+      /** Still to reach for, the ones the question names leading. */
+      missedInPriority: [
+        ...split.mustUse.filter((kw) => !isUsed(kw)),
+        ...split.supporting.filter((kw) => !isUsed(kw)),
+      ],
+      missedMustUse: split.mustUse.filter((kw) => !isUsed(kw)),
     };
-  }, [userAnswer, prompt.keywords]);
+  }, [userAnswer, prompt.keywords, split]);
 
   const analysis = useMemo(() => analyzeText(userAnswer), [userAnswer]);
 
@@ -123,6 +164,8 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
         targetWordCountMax: progressInfo.targetCountMax,
         keywordsTotal: prompt.keywords?.length || 0,
         keywordsUsed: keywordStats.used.length,
+        mustUseTotal: keywordStats.mustUseTotal,
+        mustUseUsed: keywordStats.mustUseUsed,
         tier: commandTermInfo.tier,
         maxBand,
         expectedTerms,
@@ -134,6 +177,8 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
       progressInfo.targetCountMax,
       prompt.keywords,
       keywordStats.used.length,
+      keywordStats.mustUseTotal,
+      keywordStats.mustUseUsed,
       commandTermInfo.tier,
       maxBand,
       expectedTerms,
@@ -149,7 +194,10 @@ export const useWritingMetrics = (userAnswer: string, prompt: Prompt): WritingMe
         targetLabel: progressInfo.targetLabel,
         keywordsTotal: prompt.keywords?.length || 0,
         keywordsUsed: keywordStats.used.length,
-        missingKeywords: keywordStats.missed,
+        // Ordered, not just counted: a nudge that names a term is only useful
+        // if it names the one the question is built on first.
+        missingKeywords: keywordStats.missedInPriority,
+        missingMustUse: keywordStats.missedMustUse,
         expectedTerms,
         tier: commandTermInfo.tier,
         charCount,

@@ -16,6 +16,7 @@ import {
   textContainsKeyword,
   BandConfig,
 } from '../utils/renderUtils';
+import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import {
   CheckCircle,
   XCircle,
@@ -423,6 +424,21 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     return { keywordsUsedCount: used.length };
   }, [userAnswer, prompt.keywords]);
 
+  // Which terms the question names itself, for the printed report — the trail
+  // this component already receives carries every syllabus level the
+  // classifier reads, so nothing new has to be threaded down to get it.
+  const mustUseKeywords = useMemo(
+    () =>
+      splitSyllabusTerms(prompt.keywords || [], {
+        question: prompt.question,
+        scenario: prompt.scenario,
+        dotPointText: hierarchy?.dotPoint,
+        subTopicName: hierarchy?.subTopic,
+        topicName: hierarchy?.topic,
+      }).mustUse,
+    [prompt.keywords, prompt.question, prompt.scenario, hierarchy]
+  );
+
   // Where this question lives in the syllabus — shown under the hero and
   // embedded in the PDF so a shared report identifies its own provenance.
   const syllabusTrail = useMemo(
@@ -490,6 +506,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           // colours them on screen — the exporter shares the app's matcher, so
           // the two cannot disagree about what counts as a key term.
           keywords: prompt.keywords || [],
+          mustUseKeywords,
         },
         pageSize: pdfPrefs.pageSize,
         copies: pdfPrefs.copies,

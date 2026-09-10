@@ -48,6 +48,12 @@ export interface ReadinessInput {
   keywordsTotal: number;
   /** How many of those keywords the draft has used so far. */
   keywordsUsed: number;
+  /** Of the total, how many the question or its syllabus names itself — these
+   *  count double in the coverage sub-score. Absent (or zero) means the caller
+   *  has no syllabus to judge that by, and every term weighs the same. */
+  mustUseTotal?: number;
+  /** How many of THOSE the draft has used. */
+  mustUseUsed?: number;
   /** The question's cognitive tier (1..6). Part of the contract; not read by
    *  the score, which represents verb/criteria expectation only mechanically
    *  through keyword coverage and the tier-scaled paragraph target below. */
@@ -154,7 +160,16 @@ const resolveLevel = (score: number, wordCount: number): ReadinessLevel => {
 };
 
 export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult => {
-  const { analysis, wordCount, targetWordCount, keywordsTotal, keywordsUsed, maxBand } = input;
+  const {
+    analysis,
+    wordCount,
+    targetWordCount,
+    keywordsTotal,
+    keywordsUsed,
+    mustUseTotal = 0,
+    mustUseUsed = 0,
+    maxBand,
+  } = input;
   const { sentenceCount, longestSentenceWords, paragraphCount } = analysis;
 
   const isRunOn = longestSentenceWords > RUN_ON_SENTENCE_WORDS;
@@ -169,7 +184,22 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
   // 2. Keywords — coverage of the syllabus terms; falls back to the length
   //    sub-score when the prompt has no keywords, so keyword-free questions
   //    still progress (same convention as the prior progressScore).
-  const keywords = keywordsTotal > 0 ? clamp01(keywordsUsed / keywordsTotal) : Math.min(1, length);
+  //
+  //    A term the question itself names counts DOUBLE. Flat coverage said a
+  //    draft that had reached for two supporting terms was as ready as one
+  //    that had answered the question in its own vocabulary, and readiness is
+  //    the app's answer to "is this worth marking yet?". Weighting rather than
+  //    counting must-use terms alone, so a question whose list happens to be
+  //    all supporting terms keeps a working sub-score.
+  const supportingTotal = Math.max(0, keywordsTotal - mustUseTotal);
+  const supportingUsed = Math.max(0, keywordsUsed - mustUseUsed);
+  const weightedTotal = mustUseTotal * 2 + supportingTotal;
+  const keywords =
+    weightedTotal > 0
+      ? clamp01((mustUseUsed * 2 + supportingUsed) / weightedTotal)
+      : keywordsTotal > 0
+        ? clamp01(keywordsUsed / keywordsTotal)
+        : Math.min(1, length);
 
   // 3. Structure — paragraphs against a tier-scaled expectation. A higher target
   //    band is expected to be organised into more paragraphs. A run-on sentence

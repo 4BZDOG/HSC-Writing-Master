@@ -1,5 +1,54 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-10 (Every surface counts the terms the same way)
+
+The must-use split had reached the terms panel and the exemplar writer. Four
+surfaces still counted every term equally — the coverage chip, the live nudge,
+draft readiness and the printed report — and so did the marker. A student could
+be told by one surface that a term is what the question is built on and by the
+next that it is worth exactly as much as any other word on the list.
+
+### 🎯 What each surface does now
+
+- **The coverage chip** reads `1/2 key · 0/1 more` where the question has terms
+  of both kinds, and stays the single `2/9 used` where it does not. Nothing to
+  separate, nothing separated.
+- **The live nudge** names the terms the question is built on first, and says
+  so when they are what it is naming: "The question is built on automated unit
+  testing, test data — work them in" rather than "Weave in 3 more syllabus
+  terms". Same nudge, better aim — no new line on screen.
+- **Draft readiness** weights a must-use term double inside its coverage
+  sub-score. Flat coverage said a draft that had reached for two supporting
+  terms was as ready as one that had answered the question in its own
+  vocabulary, and readiness is the app's answer to "is this worth marking yet?".
+- **The printed report** lists unused must-use terms first — on paper there is
+  no tooltip to explain that some terms matter more, so the order has to — and
+  renames the line when everything it shows is a term the question names.
+- **The marker** gets the two lists rather than one, and one narrow rule with
+  them: name the missing must-use terms as a content gap where the response did
+  NOT earn full marks, never at full marks, and never move the mark for the
+  presence or absence of a term. The rubric decides the mark; this decides what
+  the feedback explains.
+
+The metrics dashboard is deliberately untouched.
+
+### 📐 Readiness was re-checked, not assumed
+
+The readiness levels were calibrated against the exemplar library, and changing
+a sub-score that is 30% of the number moves every draft a little. Re-run over
+808 library samples: half the scores move at all, by a mean of **+1.06** points,
+worst case ±5. The two anchors the thresholds were set on are intact — a weak
+answer sits at **53 → 53**, a complete one at **82 → 85**, which moves toward
+the documented ~85 rather than away. **No threshold changed.**
+
+### 🧱 One helper, not five filters
+
+`splitSyllabusTerms` returns the classification as two lists in list order,
+which is the shape every surface that weights terms actually wants. The exemplar
+brief, the marker block, the metrics hook and the report all read it, so there
+is one definition of "the terms this question is built on" rather than five
+filters that agree until one of them is edited.
+
 ## [Unreleased] - 2026-09-10 (A must-use term has to be a term)
 
 The two entries below built a must-use/supporting split and then leaned on it —

@@ -128,6 +128,13 @@ export interface EvaluationExportData {
    * body colour throughout, which is what every export did before.
    */
   keywords?: string[];
+  /**
+   * Of those, the ones the question, its scenario or its syllabus names itself.
+   * The report lists what a student has not used yet, and it lists these first:
+   * on paper there is no tooltip to explain that some terms matter more, so the
+   * order has to do it. Omit and the terms print in list order, as before.
+   */
+  mustUseKeywords?: string[];
 }
 
 /**
@@ -350,21 +357,33 @@ export const buildEvaluationBlocks = (
   // like it contradicts its own metric. Naming the ones still missing turns the
   // number into something to do, and shows the count was right all along.
   if (data.studentAnswer?.trim() && data.keywords?.length) {
-    const unused = data.keywords.filter((kw) => !textContainsKeyword(data.studentAnswer!, kw));
+    const mustUse = new Set(data.mustUseKeywords || []);
+    const unusedAll = data.keywords.filter((kw) => !textContainsKeyword(data.studentAnswer!, kw));
+    // The terms the question names lead, and only the first six are printed —
+    // so which six they are decides whether the line is useful. Ordering here
+    // rather than filtering: a supporting term is still worth reaching for,
+    // it is just not the one to reach for first.
+    const unused = [
+      ...unusedAll.filter((kw) => mustUse.has(kw)),
+      ...unusedAll.filter((kw) => !mustUse.has(kw)),
+    ];
     if (unused.length) {
       const MAX_NAMED = 6;
       const named = unused.slice(0, MAX_NAMED).join(', ');
       const more = unused.length - MAX_NAMED;
+      const namedAreKey = unused.slice(0, MAX_NAMED).every((kw) => mustUse.has(kw));
+      const label = namedAreKey
+        ? 'Terms this question names, not yet used'
+        : 'Syllabus terms not yet used';
       blocks.push({
         kind: 'paragraph',
         id: nid('unused'),
         fullWidth: true,
         runs: [
-          run(
-            `Syllabus terms not yet used: ${named}` + (more > 0 ? ` (and ${more} more)` : '') + '.',
-            8,
-            { color: COLORS.muted, lineHeightFactor: 1.3 }
-          ),
+          run(`${label}: ${named}` + (more > 0 ? ` (and ${more} more)` : '') + '.', 8, {
+            color: COLORS.muted,
+            lineHeightFactor: 1.3,
+          }),
         ],
         breakable: true,
         basePadTop: 0.5,

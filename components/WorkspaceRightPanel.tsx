@@ -14,6 +14,7 @@ import {
   getBandForMark,
 } from '../data/commandTerms';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
+import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import { getReadinessChroma } from '../utils/draftReadiness';
 import ReadinessMeter from './ReadinessMeter';
 import { freeEvalsRemaining, isFeatureLocked, subscribeEvalCount } from '../services/entitlements';
@@ -28,6 +29,9 @@ interface WorkspaceRightPanelProps {
   setUserAnswer: (val: string) => void;
   debouncedUserAnswer: string;
   currentPrompt: Prompt;
+  /** The syllabus above this question. Weights the live nudges and the
+   *  readiness meter toward the terms the question itself names. */
+  syllabus?: SyllabusPlacement;
   isEvaluating: boolean;
   evaluationResult: EvaluationResult | null;
   evaluationError: string | null;
@@ -65,6 +69,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   setUserAnswer,
   debouncedUserAnswer,
   currentPrompt,
+  syllabus,
   isEvaluating,
   evaluationResult,
   evaluationError,
@@ -117,7 +122,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // single provisional completeness signal (see utils/draftReadiness.ts) — it
   // feeds both the editor's progress meter and the Evaluate button's accent, so
   // the two can never tell a student two different stories about the same draft.
-  const { insights, readiness } = useWritingMetrics(debouncedUserAnswer, currentPrompt);
+  const { insights, readiness } = useWritingMetrics(debouncedUserAnswer, currentPrompt, syllabus);
 
   // The Evaluate button's accent tracks draft READINESS, never a predicted band.
   //
