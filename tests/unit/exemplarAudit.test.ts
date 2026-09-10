@@ -14,7 +14,13 @@ const paragraphs = (n: number, wordsEach = 40): string =>
 const tierOf = (verb: PromptVerb): number => getCommandTermInfo(verb).tier;
 
 const prompt = (over: Partial<Prompt> = {}): Prompt =>
-  ({ id: 'p1', question: 'Explain the thing.', totalMarks: 6, verb: 'EXPLAIN' as PromptVerb, ...over }) as Prompt;
+  ({
+    id: 'p1',
+    question: 'Explain the thing.',
+    totalMarks: 6,
+    verb: 'EXPLAIN' as PromptVerb,
+    ...over,
+  }) as Prompt;
 
 const sample = (over: Partial<SampleAnswer>): SampleAnswer => ({
   id: 's1',
@@ -26,7 +32,8 @@ const sample = (over: Partial<SampleAnswer>): SampleAnswer => ({
 });
 
 const codes = (flags: { code: string }[]) => flags.map((f) => f.code);
-const warnings = (flags: { severity: string }[]) => flags.filter((f) => f.severity === 'warning');
+const warnings = <T extends { severity: string }>(flags: T[]): T[] =>
+  flags.filter((f) => f.severity === 'warning');
 
 describe('exemplarAudit — a band-appropriate exemplar is clean', () => {
   it('flags nothing when length, coverage, band and mark all line up', () => {
@@ -66,23 +73,63 @@ describe('exemplarAudit — under-length for the claimed band', () => {
   });
 });
 
-describe('exemplarAudit — high-band notes (info, not warnings)', () => {
-  it('notes thin syllabus coverage on a top-band, adequately long exemplar', () => {
-    const p = prompt({
-      totalMarks: 10,
-      verb: 'EVALUATE' as PromptVerb,
-      keywords: ['alpha', 'beta', 'gamma', 'delta', 'epsilon'],
-    });
-    const tier = tierOf(p.verb);
-    const band = 6;
-    // 400 words across paragraphs (long enough — no under-length, no single-para),
-    // but only one of five terms present.
-    const answer = `${words(200, 'alpha')}\n\n${words(200, 'idea')}`;
-    const flags = auditSampleAnswer(p, sample({ band, mark: markForBand(band, 10, tier), answer }));
+/**
+ * Coverage is judged against the terms the QUESTION names, not the whole list.
+ *
+ * It used to fire below 40% of every listed term, which is wrong twice over: a
+ * supporting term ("bioethics" on a CRISPR question) is not one a model answer
+ * has to contain, and an exemplar can clear 40% while missing every term the
+ * question is built on. Two missing, because one is a judgement call — a term
+ * the answer demonstrates without naming — and two is a pattern.
+ */
+describe('exemplarAudit — a top-band exemplar that skips the question’s own terms', () => {
+  const evaluateOn = (keywords: string[], question: string) =>
+    prompt({ totalMarks: 10, verb: 'EVALUATE' as PromptVerb, question, keywords });
+
+  // 400 words across paragraphs, so length and structure raise nothing.
+  const longAnswerUsing = (term: string) => `${words(200, term)}\n\n${words(200, 'idea')}`;
+
+  const auditTopBand = (p: Prompt, answer: string, dotPointText?: string) =>
+    auditSampleAnswer(
+      p,
+      sample({ band: 6, mark: markForBand(6, 10, tierOf(p.verb)), answer }),
+      dotPointText
+    );
+
+  it('warns when two or more of them never appear', () => {
+    const p = evaluateOn(
+      ['alpha', 'beta', 'gamma', 'delta', 'epsilon'],
+      'Evaluate how alpha and beta affect gamma.'
+    );
+    const flags = auditTopBand(p, longAnswerUsing('alpha'));
+
     expect(codes(flags)).toContain('thin-coverage');
-    expect(warnings(flags)).toEqual([]); // coverage is a note, never a warning
+    // A warning, not a note: only warnings reach the studio's mismatch filter.
+    expect(warnings(flags).map((f) => f.code)).toContain('thin-coverage');
+    expect(flags.find((f) => f.code === 'thin-coverage')?.message).toContain('beta');
   });
 
+  it('stays quiet when only one is missing', () => {
+    const p = evaluateOn(['alpha', 'beta', 'delta'], 'Evaluate how alpha and beta interact.');
+    const flags = auditTopBand(p, longAnswerUsing('alpha') + ' beta');
+    expect(codes(flags)).not.toContain('thin-coverage');
+  });
+
+  it('ignores supporting terms the question never names', () => {
+    // Four of five terms absent — but the question names none of them, so an
+    // exemplar was never expected to contain them.
+    const p = evaluateOn(['alpha', 'beta', 'gamma', 'delta', 'epsilon'], 'Evaluate the thing.');
+    expect(codes(auditTopBand(p, longAnswerUsing('alpha')))).not.toContain('thin-coverage');
+  });
+
+  it('counts a term the dot point names when the caller supplies it', () => {
+    const p = evaluateOn(['alpha', 'beta', 'gamma'], 'Evaluate the thing.');
+    const flags = auditTopBand(p, longAnswerUsing('idea'), 'describe alpha, beta and gamma');
+    expect(codes(flags)).toContain('thin-coverage');
+  });
+});
+
+describe('exemplarAudit — high-band notes (info, not warnings)', () => {
   it('notes a top-band exemplar written as a single paragraph', () => {
     const p = prompt({ totalMarks: 10, verb: 'EVALUATE' as PromptVerb });
     const tier = tierOf(p.verb);

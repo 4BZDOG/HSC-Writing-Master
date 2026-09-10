@@ -69,18 +69,32 @@ describe('classifySyllabusTerms', () => {
     expect(found.has('peer review')).toBe(false);
   });
 
-  it('will not let a heading promote a word the whole course is written in', () => {
-    // "Testing and debugging" is the sub-topic of every question in it, so a
-    // bare "testing" there says nothing about THIS question — but the same
-    // word in the question's own stem does.
-    const headingOnly = classifySyllabusTerms(['testing'], {
-      subTopicName: TESTING.subTopicName,
-      topicName: TESTING.topicName,
-    });
-    expect(headingOnly.has('testing')).toBe(false);
+  it('never promotes a word the whole course is written in, from any source', () => {
+    // A lone "testing" is the wallpaper of a sub-topic called "Testing and
+    // debugging", and the question stem says it too — which proves nothing
+    // about THIS question. It stays on the list as a supporting term.
+    expect(classifySyllabusTerms(['testing'], TESTING).has('testing')).toBe(false);
+    expect(classifySyllabusTerms(['testing'], { question: TESTING.question }).has('testing')).toBe(
+      false
+    );
 
-    const inQuestion = classifySyllabusTerms(['testing'], { question: TESTING.question });
-    expect(inQuestion.get('testing')).toBe('question');
+    // The same word inside a phrase is subject matter and still counts.
+    expect(
+      classifySyllabusTerms(['automated unit testing'], TESTING).get('automated unit testing')
+    ).toBe('question');
+  });
+
+  it('never promotes the instruction itself', () => {
+    // A keyword list carrying "evaluate" told a student the command verb was a
+    // syllabus term to weave in — and told the exemplar writer to build an
+    // answer around it. A phrase with a verb in it is untouched: the subject
+    // matter is in the noun.
+    const found = classifySyllabusTerms(['evaluate', 'evaluating test data'], {
+      question: 'Evaluate the testing strategy, evaluating test data as you go.',
+    });
+
+    expect(found.has('evaluate')).toBe(false);
+    expect(found.get('evaluating test data')).toBe('question');
   });
 
   it('keeps the matcher’s own knowledge of initialisms and spellings', () => {

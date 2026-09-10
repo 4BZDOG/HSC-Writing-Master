@@ -239,15 +239,19 @@ export const hasOffSyllabusTerms = (n: TreeNode): boolean => {
  * cache on identity re-audits exactly the prompts that actually changed and
  * nothing else. A WeakMap so a deleted prompt takes its entry with it.
  */
-const exemplarMismatchCache = new WeakMap<Prompt, boolean>();
+const exemplarMismatchCache = new WeakMap<Prompt, { dotPointText: string; result: boolean }>();
 
 export const hasExemplarMismatch = (n: TreeNode): boolean => {
   if (n.type !== 'prompt') return false;
   const prompt = n.dataRef as Prompt;
+  // The dot point decides which of the question's terms an exemplar was
+  // expected to use, so it is part of the answer and part of the key — the
+  // same reason `termGapCache` above carries it.
+  const dotPointText = n.dotPointText ?? '';
   const cached = exemplarMismatchCache.get(prompt);
-  if (cached !== undefined) return cached;
-  const result = promptHasExemplarMismatch(prompt);
-  exemplarMismatchCache.set(prompt, result);
+  if (cached && cached.dotPointText === dotPointText) return cached.result;
+  const result = promptHasExemplarMismatch(prompt, dotPointText);
+  exemplarMismatchCache.set(prompt, { dotPointText, result });
   return result;
 };
 

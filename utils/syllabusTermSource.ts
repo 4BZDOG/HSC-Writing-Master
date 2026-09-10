@@ -1,5 +1,5 @@
 import { textContainsKeyword } from './renderUtils';
-import { TOO_GENERIC_ALONE } from './syllabusTermGaps';
+import { isWeakLoneTerm } from './syllabusTermGaps';
 
 /**
  * Which of a question's syllabus surroundings names a listed term.
@@ -36,22 +36,15 @@ export const SYLLABUS_TERM_SOURCE_LABEL: Record<SyllabusTermSourceKind, string> 
   topic: 'the topic',
 };
 
-/**
- * `isTitle` marks the two sources that are a heading rather than a sentence.
- * A topic called "Software automation" is the whole course's wallpaper, so it
- * corroborates a phrase but must not promote a bare "software" — see the guard
- * in `classifySyllabusTerms`.
- */
 const SOURCES: {
   kind: SyllabusTermSourceKind;
   read: (context: SyllabusTermContext) => string | undefined;
-  isTitle: boolean;
 }[] = [
-  { kind: 'question', read: (c) => c.question, isTitle: false },
-  { kind: 'scenario', read: (c) => c.scenario, isTitle: false },
-  { kind: 'dotPoint', read: (c) => c.dotPointText, isTitle: false },
-  { kind: 'subTopic', read: (c) => c.subTopicName, isTitle: true },
-  { kind: 'topic', read: (c) => c.topicName, isTitle: true },
+  { kind: 'question', read: (c) => c.question },
+  { kind: 'scenario', read: (c) => c.scenario },
+  { kind: 'dotPoint', read: (c) => c.dotPointText },
+  { kind: 'subTopic', read: (c) => c.subTopicName },
+  { kind: 'topic', read: (c) => c.topicName },
 ];
 
 /**
@@ -131,7 +124,6 @@ export const classifySyllabusTerms = (
 ): Map<string, SyllabusTermSourceKind> => {
   const sources = SOURCES.map((source) => ({
     kind: source.kind,
-    isTitle: source.isTitle,
     text: (source.read(context) || '').trim(),
   }))
     .filter((source) => source.text.length > 0)
@@ -145,12 +137,14 @@ export const classifySyllabusTerms = (
     if (!term) continue;
     const termStems = stemsOf(term);
     if (termStems.length === 0) continue;
-    // A lone word a whole course is written in — "data", "software", "testing"
-    // — says nothing about THIS question when its only support is a heading.
-    const genericAlone = !/\s/.test(term) && TOO_GENERIC_ALONE.has(term.toLowerCase());
+    // The instruction, or a word the whole course is written in. A question
+    // stem says "Evaluate" and is written in a subject that says "security" on
+    // every page, so finding one there proves nothing about this question — and
+    // "must-use" is a claim strong enough to need proof. Never must-use, from
+    // any source; it stays on the list as a supporting term.
+    if (isWeakLoneTerm(term)) continue;
 
     for (const source of sources) {
-      if (genericAlone && source.isTitle) continue;
       if (textContainsKeyword(source.text, term) || containsRun(source.stems, termStems)) {
         found.set(keyword, source.kind);
         break;

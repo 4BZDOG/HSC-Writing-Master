@@ -143,6 +143,26 @@ const isCommandVerb = (word: string): boolean => {
 const isContentWord = (word: string): boolean =>
   !!word && !NOT_SUBJECT_MATTER.has(word) && !isCommandVerb(word);
 
+/**
+ * A one-word term that says nothing on its own: the instruction ("Evaluate"),
+ * or a word the whole course is written in ("security", "testing", "design").
+ *
+ * Measured over the shipped library, 40 of 418 questions carry one — and every
+ * surface that treats terms as subject matter was believing them. The panel
+ * marked "Evaluate" a must-use term because the question stem says it; the
+ * exemplar brief then told the model to build a full-mark answer around it.
+ *
+ * A PHRASE containing a verb is not weak and is not caught here: the syllabus
+ * writes "evaluating test data", and the subject matter is in the noun. Only a
+ * keyword that IS one of these words, alone, fails.
+ */
+export const isWeakLoneTerm = (term: string): boolean => {
+  const trimmed = (term || '').trim();
+  if (!trimmed || /\s/.test(trimmed)) return false;
+  const lower = trimmed.toLowerCase();
+  return TOO_GENERIC_ALONE.has(lower) || isCommandVerb(lower);
+};
+
 /** The longest phrase worth proposing. Past four words it is a clause. */
 const MAX_PHRASE_WORDS = 4;
 

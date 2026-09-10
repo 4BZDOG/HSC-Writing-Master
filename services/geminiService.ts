@@ -38,6 +38,7 @@ import {
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import { classifySyllabusTerms } from '../utils/syllabusTermSource';
+import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
 import {
   formatMarkingCriteria,
   normalizeSyllabusStructure,
@@ -753,6 +754,13 @@ export const isSyllabusTerm = (term: string, verb?: string): boolean => {
   const lower = trimmed.toLowerCase();
   if (lower === (verb || '').toLowerCase()) return false;
   if (GENERIC_KEYWORD_STOPWORDS.has(lower)) return false;
+  // ANY command verb, not just this question's own, and any lone word the whole
+  // course is written in. Dropping only the question's verb left "evaluate" on
+  // the list of a DISCUSS question, and "security" on ten Software Engineering
+  // questions — and the terms panel, the exemplar brief and the marker all read
+  // those as subject matter. Applied here rather than only in the studio's
+  // repair, so the app stops writing terms its own audit would strip.
+  if (isWeakLoneTerm(trimmed)) return false;
   return trimmed.split(/\s+/).length <= 4;
 };
 
