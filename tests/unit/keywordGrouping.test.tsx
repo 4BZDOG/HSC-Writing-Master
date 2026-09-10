@@ -18,6 +18,11 @@ import { Prompt, PromptVerb } from '../../types';
  * the rule appears when there are two groups to separate and NOT when there is
  * only one, and that a screen reader gets the same split from the groups
  * themselves rather than from a decorative line it cannot see.
+ *
+ * What decides the split is `classifySyllabusTerms`, tested on its own in
+ * `syllabusTermSource.test.ts`. Pinned here is that the panel reads EVERY level
+ * of the question's context through it, not just the dot point it started with:
+ * a term the question's own stem names belongs above the rule.
  */
 
 vi.mock('../../services/geminiService', () => ({}));
@@ -27,7 +32,7 @@ afterEach(cleanup);
 const DOT_POINT =
   'Assess the risks and hazards of a fieldwork investigation, and the controls that manage them.';
 
-const prompt = (keywords: string[]): Prompt =>
+const prompt = (keywords: string[], overrides: Partial<Prompt> = {}): Prompt =>
   ({
     id: 'p1',
     question: 'Assess the risks of the proposed fieldwork.',
@@ -37,12 +42,25 @@ const prompt = (keywords: string[]): Prompt =>
     linkedOutcomes: [],
     sampleAnswers: [],
     isPastHSC: false,
+    ...overrides,
   }) as Prompt;
 
-const renderEditor = (keywords: string[], syllabusText = DOT_POINT) =>
+/** The question's whole context: what it asks, and the syllabus above it. */
+interface Context {
+  question?: string;
+  scenario?: string;
+  dotPointText?: string;
+  subTopicName?: string;
+  topicName?: string;
+}
+
+const renderEditor = (keywords: string[], context: Context = {}) =>
   render(
     <KeywordEditor
-      prompt={prompt(keywords)}
+      prompt={prompt(keywords, {
+        ...(context.question !== undefined && { question: context.question }),
+        ...(context.scenario !== undefined && { scenario: context.scenario }),
+      })}
       onKeywordsChange={() => {}}
       isEnriching={false}
       onRegenerate={() => {}}
@@ -52,15 +70,18 @@ const renderEditor = (keywords: string[], syllabusText = DOT_POINT) =>
       isSuggesting={false}
       suggestError={null}
       userRole="user"
-      syllabusText={syllabusText}
+      dotPointText={context.dotPointText ?? DOT_POINT}
+      subTopicName={context.subTopicName}
+      topicName={context.topicName}
     />
   );
 
-const syllabusGroup = () => screen.queryByRole('group', { name: /named in the syllabus/i });
+const syllabusGroup = () =>
+  screen.queryByRole('group', { name: /named in the question or syllabus/i });
 const supportingGroup = () => screen.queryByRole('group', { name: /^supporting terms$/i });
 
 describe('Syllabus Terms: the two groups and the rule between them', () => {
-  it('splits the chips by whether the dot point names them', () => {
+  it('splits the chips by whether the question or its syllabus names them', () => {
     renderEditor(['Risk', 'Hazard', 'Mitigation', 'Likelihood']);
 
     const named = syllabusGroup();
@@ -82,14 +103,14 @@ describe('Syllabus Terms: the two groups and the rule between them', () => {
     expect(screen.getByText('Supporting terms')).toBeTruthy();
   });
 
-  it('draws no rule when every term is named in the dot point', () => {
+  it('draws no rule when every term is named', () => {
     renderEditor(['Risk', 'Hazard']);
     expect(syllabusGroup()).not.toBeNull();
     expect(supportingGroup()).toBeNull();
     expect(screen.queryByText('Supporting terms')).toBeNull();
   });
 
-  it('draws no rule when no term is named in the dot point', () => {
+  it('draws no rule when no term is named anywhere', () => {
     renderEditor(['Mitigation', 'Likelihood']);
     expect(syllabusGroup()).toBeNull();
     expect(supportingGroup()).not.toBeNull();
@@ -103,5 +124,47 @@ describe('Syllabus Terms: the two groups and the rule between them', () => {
     expect(screen.getByText(/no syllabus terms defined/i)).toBeTruthy();
     expect(syllabusGroup()).toBeNull();
     expect(supportingGroup()).toBeNull();
+  });
+});
+
+describe('Syllabus Terms: every level of the question’s context', () => {
+  const TESTING: Context = {
+    topicName: 'Software automation',
+    subTopicName: 'Testing and debugging',
+    dotPointText: 'apply testing methodologies to a software solution',
+    question:
+      'Assess the effectiveness of implementing an automated unit testing methodology compared to manual ad-hoc testing for maintaining code reliability.',
+    scenario: 'The team is investing time in developing a suite of automated unit tests.',
+  };
+
+  it('names the terms the question is built on, which its dot point never says', () => {
+    renderEditor(
+      ['automated unit testing', 'manual ad-hoc testing', 'regression testing'],
+      TESTING
+    );
+
+    const named = syllabusGroup();
+    expect(named).not.toBeNull();
+    expect(within(named as HTMLElement).getByText('automated unit testing')).toBeTruthy();
+    expect(within(named as HTMLElement).getByText('manual ad-hoc testing')).toBeTruthy();
+    expect(within(supportingGroup() as HTMLElement).getByText('regression testing')).toBeTruthy();
+  });
+
+  it('reads the scenario and the sub-topic as well', () => {
+    renderEditor(['debugging'], { ...TESTING, question: 'Assess the approach taken.' });
+    expect(within(syllabusGroup() as HTMLElement).getByText('debugging')).toBeTruthy();
+  });
+
+  it('tells the student which level names the term', () => {
+    renderEditor(['automated unit testing', 'software solution'], TESTING);
+
+    expect(screen.getByText('automated unit testing').closest('button')).toHaveProperty(
+      'title',
+      'Named in the question — a must-use term'
+    );
+    expect(screen.getByText('software solution').closest('button')).toHaveProperty(
+      'title',
+      'Named in the syllabus dot point — a must-use term'
+    );
   });
 });

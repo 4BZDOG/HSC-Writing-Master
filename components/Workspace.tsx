@@ -725,6 +725,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               prompt={currentPrompt}
               topic={currentTopic}
               dotPointText={currentDotPoint?.description}
+              subTopicName={currentSubTopic?.name}
               userRole={userRole}
               onKeywordsChange={(kw) =>
                 syllabusHandlers.updateCourses((d) =>

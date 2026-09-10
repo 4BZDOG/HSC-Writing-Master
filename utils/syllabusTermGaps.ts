@@ -87,8 +87,12 @@ const NOT_SUBJECT_MATTER = new Set(
  * "development", so agreeing across all three proves nothing about either.
  * Removing them leaves DevOps, front-end, back-end, chromosomes and
  * vulnerabilities, which are terms, and costs no phrase at all.
+ *
+ * Exported for the one other place asking the same question of a single word —
+ * `classifySyllabusTerms`, deciding whether a topic heading is enough to make
+ * one a must-use term. Two lists would drift, and the judgement is identical.
  */
-const TOO_GENERIC_ALONE = new Set(
+export const TOO_GENERIC_ALONE = new Set(
   (
     'data development software system security file project solution success ethical application ' +
     'applications approach approaches practice practices method methods technique techniques tool ' +

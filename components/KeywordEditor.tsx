@@ -4,6 +4,11 @@ import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check, BookMarked } from 'lucide-react';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
+import {
+  classifySyllabusTerms,
+  SYLLABUS_TERM_SOURCE_LABEL,
+  type SyllabusTermContext,
+} from '../utils/syllabusTermSource';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 
 interface KeywordEditorProps {
@@ -19,9 +24,12 @@ interface KeywordEditorProps {
   userRole: UserRole;
   userAnswer?: string;
   onAddWord?: (word: string) => void;
-  /** Syllabus dot point text — terms found within it are flagged as coming
-   *  straight from the syllabus. */
-  syllabusText?: string;
+  /** The syllabus this question sits under. A term named at ANY level of it —
+   *  or in the question or scenario, both read off `prompt` — is a must-use
+   *  term rather than a supporting one. */
+  dotPointText?: string;
+  subTopicName?: string;
+  topicName?: string;
 }
 
 const KeywordEditor: React.FC<KeywordEditorProps> = ({
@@ -37,7 +45,9 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   userRole,
   userAnswer = '',
   onAddWord,
-  syllabusText = '',
+  dotPointText,
+  subTopicName,
+  topicName,
 }) => {
   const [keywords, setKeywords] = useState<string[]>(prompt.keywords || []);
   const [newKeyword, setNewKeyword] = useState('');
@@ -92,18 +102,25 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
     return map;
   }, [userAnswer, keywords]);
 
-  // Which terms come straight from the syllabus dot point (vs supporting terms
-  // the AI added around it). Uses the same matcher as the highlighter so the
-  // flag is consistent with everything else.
-  const syllabusMap = useMemo(() => {
-    const map = new Map<string, boolean>();
-    keywords.forEach((kw) => map.set(kw, textContainsKeyword(syllabusText, kw)));
-    return map;
-  }, [syllabusText, keywords]);
-  const hasSyllabusSourced = useMemo(
-    () => Array.from(syllabusMap.values()).some(Boolean),
-    [syllabusMap]
+  // Which terms the question and its syllabus name themselves (vs supporting
+  // terms the AI added around them), and which level names each — the chip says
+  // so, because "named in the question" and "named in the topic" are not the
+  // same claim on a student's answer.
+  const syllabusContext = useMemo<SyllabusTermContext>(
+    () => ({
+      question: prompt.question,
+      scenario: prompt.scenario,
+      dotPointText,
+      subTopicName,
+      topicName,
+    }),
+    [prompt.question, prompt.scenario, dotPointText, subTopicName, topicName]
   );
+  const syllabusMap = useMemo(
+    () => classifySyllabusTerms(keywords, syllabusContext),
+    [keywords, syllabusContext]
+  );
+  const hasSyllabusSourced = syllabusMap.size > 0;
 
   // The two groups, kept apart rather than concatenated. They used to be one
   // list ordered syllabus-first, which put the authoritative terms in front but
@@ -131,7 +148,8 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   // before the groups were split; nothing about the chip itself changed.
   const renderKeyword = (kw: string) => {
     const isUsed = usageMap.get(kw);
-    const fromSyllabus = syllabusMap.get(kw);
+    const source = syllabusMap.get(kw);
+    const fromSyllabus = !!source;
 
     // Use tier-based coloring if used, or a neutral state if not.
     // Syllabus-sourced (not-yet-used) terms carry a faint emerald ring —
@@ -148,8 +166,8 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
         key={kw}
         onClick={() => onAddWord && onAddWord(kw)}
         title={
-          fromSyllabus
-            ? 'Named in the syllabus dot point — a must-use term'
+          source
+            ? `Named in ${SYLLABUS_TERM_SOURCE_LABEL[source]} — a must-use term`
             : 'Supporting term — click to add it to your answer'
         }
         className={`
@@ -206,7 +224,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
           {hasSyllabusSourced && (
             <p className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400/80">
               <BookMarked className="w-3 h-3 shrink-0" />
-              Terms with this mark are named directly in the syllabus dot point.
+              Terms with this mark are named in the question itself or the syllabus it comes from.
             </p>
           )}
         </div>
@@ -220,7 +238,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
           {syllabusKeywords.length > 0 && (
             <div
               role="group"
-              aria-label="Named in the syllabus dot point"
+              aria-label="Named in the question or syllabus"
               className="flex flex-wrap gap-2"
             >
               {syllabusKeywords.map(renderKeyword)}
