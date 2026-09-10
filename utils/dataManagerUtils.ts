@@ -19,6 +19,7 @@ import {
   extractCommandVerb,
 } from '../data/commandTerms';
 import { generateId } from './idUtils';
+import { buildLlmSeedInstructions } from './llmSeedBrief';
 
 // Deep clone via structuredClone, falling back to a JSON round-trip only if the
 // value is not structured-cloneable. (Previously this recursed into itself,
@@ -1548,16 +1549,63 @@ export const buildReconciledImportData = (
   return result;
 };
 
-export const getLLMImportTemplate = () => {
-  return JSON.stringify(
+/**
+ * The starter file for writing a course with an external LLM.
+ *
+ * The instructions are the ones an export carries, so a teacher who starts from
+ * scratch and a teacher who starts from existing content are working to the
+ * same rules. What this adds is the shape: an export demonstrates it by
+ * example, and an empty file has to state it.
+ */
+export const getLLMImportTemplate = () =>
+  JSON.stringify(
     {
-      _instructions_for_llm: { ROLE: '...' },
+      _instructions_for_llm: {
+        ...buildLlmSeedInstructions(),
+        SHAPE: {
+          name: '<course name>',
+          outcomes: [{ code: '<e.g. SE-12-01>', description: '<outcome statement>' }],
+          topics: [
+            {
+              name: '<topic name>',
+              subTopics: [
+                {
+                  name: '<sub-topic name>',
+                  dotPoints: [
+                    {
+                      description: '<syllabus dot point — see DOT_POINTS>',
+                      prompts: [
+                        {
+                          question: '<exam question — see VERBS.STEM>',
+                          verb: '<canonical verb — see VERBS.TYPICAL_MARKS>',
+                          totalMarks: 4,
+                          scenario: '<context paragraph, or empty string>',
+                          markingCriteria: '<see MARKING_CRITERIA>',
+                          keywords: ['<must-use terms first — see SYLLABUS_TERMS>'],
+                          linkedOutcomes: ['<codes from the outcomes array>'],
+                          sampleAnswers: [
+                            {
+                              mark: 4,
+                              answer: '<the full sample response — see SAMPLE_ANSWERS>',
+                              source: 'AI',
+                              feedback: '<2-3 sentences of marker commentary>',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      },
       data: [],
     },
     null,
     2
   );
-};
 
 /**
  * The clean, structured shape produced by AI syllabus analysis and consumed by

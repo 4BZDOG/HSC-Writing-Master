@@ -4,6 +4,7 @@ import { Course } from '../../types';
 import SelectionTree from '../SelectionTree';
 import { useSelectionTree } from '../../hooks/useSelectionTree';
 import { buildTree, filterDataBySelection } from '../../utils/dataManagerUtils';
+import { buildSeedExportFile } from '../../utils/llmSeedBrief';
 import { ActionButtons } from './common';
 
 interface ExportFlowProps {
@@ -50,7 +51,13 @@ const ExportFlow: React.FC<ExportFlowProps> = ({ courses, onClose, showToast }) 
       filename = `HSCMultipleCourses${dateStr}`;
     }
 
-    const dataStr = JSON.stringify(dataToExport, null, 2);
+    // The file carries the authoring rules as well as the content. An export is
+    // already a perfect example of the shape; what a model handed one could not
+    // see was which verbs are legal, how a marking guide is written line by
+    // line, or which terms belong on a question's list — so it guessed. The
+    // import path unwraps this envelope before validating, so a file that has
+    // been out to a model and back comes home unchanged.
+    const dataStr = buildSeedExportFile(dataToExport);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
@@ -69,7 +76,9 @@ const ExportFlow: React.FC<ExportFlowProps> = ({ courses, onClose, showToast }) 
       <div className="px-8 py-6 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex-shrink-0">
         <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))]">Export Content</h3>
         <p className="text-sm text-[rgb(var(--color-text-secondary))]">
-          Select data to export to a JSON file.
+          Select data to export to a JSON file. Each export carries the authoring rules with it, so
+          you can hand the file to an external AI to write more content in the same shape — and
+          import the result straight back.
         </p>
       </div>
 

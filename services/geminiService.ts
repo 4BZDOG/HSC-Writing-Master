@@ -37,6 +37,7 @@ import {
   getTierTargetBand,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
+import { classifySyllabusTerms } from '../utils/syllabusTermSource';
 import {
   formatMarkingCriteria,
   normalizeSyllabusStructure,
@@ -867,13 +868,75 @@ const getSampleScope = (
   };
 };
 
-const buildSampleScopeBrief = (prompt: Prompt, mark: number, termInfo: CommandTermInfo): string => {
+/**
+ * WHICH terms an exemplar is built on, not just how many.
+ *
+ * The scope brief said "Syllabus terms: about 4" and never named one, so an
+ * exemplar was written from the question's wording alone — and the Syllabus
+ * Terms panel next to it could list nine terms the model answer never used.
+ * A student reading both is being told two different things.
+ *
+ * The terms are split the way that panel splits them (`classifySyllabusTerms`):
+ * the ones the question and its syllabus name themselves lead, because those
+ * are what a marker is looking for. The split also carries the mark: a
+ * full-mark exemplar uses all of them, and a lower one leaves some out — that
+ * absence is part of what the ladder is teaching, so it must not be papered
+ * over with terms the answer has not earned.
+ */
+const buildTermBrief = (
+  prompt: Prompt,
+  mark: number,
+  expectedTerms: number,
+  syllabus?: SyllabusKeywordContext
+): string => {
+  const keywords = (prompt.keywords || [])
+    .filter((k): k is string => typeof k === 'string')
+    .map((k) => k.trim())
+    .filter(Boolean);
+  if (keywords.length === 0) return `- Syllabus terms: about ${expectedTerms}.`;
+
+  const named = classifySyllabusTerms(keywords, {
+    question: prompt.question,
+    scenario: prompt.scenario,
+    dotPointText: syllabus?.dotPoint,
+    subTopicName: syllabus?.subTopicName,
+    topicName: syllabus?.topicName,
+  });
+  const mustUse = keywords.filter((k) => named.has(k));
+  const supporting = keywords.filter((k) => !named.has(k));
+
+  const lines = [`- **Syllabus terms — use about ${expectedTerms}, in this order of priority:**`];
+  if (mustUse.length > 0) {
+    lines.push(
+      `  1. MUST-USE, named in the question itself or the syllabus it comes from: ${mustUse.join(', ')}.`,
+      mark >= prompt.totalMarks
+        ? `     A full-mark exemplar uses EVERY one of these, each doing real work in a sentence — never a list of terms bolted onto a generic answer.`
+        : `     Take the terms this answer does use from this list first. The ones it leaves out are part of WHY it earns ${mark} and not ${prompt.totalMarks}.`
+    );
+  }
+  if (supporting.length > 0) {
+    lines.push(
+      `  ${mustUse.length > 0 ? '2.' : '1.'} Supporting, worth using where they add precision this answer has earned: ${supporting.join(', ')}.`
+    );
+  }
+  lines.push(
+    `  - Use each term correctly and in context. A term named but not understood reads as padding to a marker and costs marks rather than earning them.`
+  );
+  return lines.join('\n                    ');
+};
+
+const buildSampleScopeBrief = (
+  prompt: Prompt,
+  mark: number,
+  termInfo: CommandTermInfo,
+  syllabus?: SyllabusKeywordContext
+): string => {
   const { minChars, maxChars, maxWords, expectedTerms } = getSampleScope(prompt, mark, termInfo);
 
   return `**Scope for a ${mark}/${prompt.totalMarks} answer (NESA):**
                     ${getStructureGuide(mark)}
                     - Length: ${minChars}-${maxChars} characters (about ${maxWords} words maximum). This is a hard ceiling for the "answer" field.
-                    - Syllabus terms: about ${expectedTerms}.
+                    ${buildTermBrief(prompt, mark, expectedTerms, syllabus)}
                     - **Write only what a real student earning ${mark}/${prompt.totalMarks} under exam time pressure would write.** A lower mark means LESS material — fewer points, less detail, less elaboration — not a full-length answer worded badly. Never pad towards the length a full-mark answer would need.
                     - Students use these samples to judge how much to write for ${mark} mark${mark === 1 ? '' : 's'}, so the length must be as instructive as the content.`;
 };
@@ -950,7 +1013,8 @@ const buildUpgradeStyleRules = (studentAnswer: string, charCeiling: number): str
 export const reviseSampleAnswer = async (
   prompt: Prompt,
   sample: SampleAnswer,
-  targetMark: number
+  targetMark: number,
+  syllabus?: SyllabusKeywordContext
 ): Promise<SampleAnswer> => {
   const termInfo = getCommandTermInfo(prompt.verb);
   const request = {
@@ -963,7 +1027,7 @@ export const reviseSampleAnswer = async (
                        Question: ${prompt.question}
                        Original Answer: "${sample.answer}"
 
-                       ${buildSampleScopeBrief(prompt, targetMark, termInfo)}
+                       ${buildSampleScopeBrief(prompt, targetMark, termInfo, syllabus)}
                        - Resize the answer to match that scope: cut material when lowering the mark, add substance (not words) when raising it.
 
                        Return JSON: { "answer": string, "feedback": string }`,
@@ -1345,7 +1409,8 @@ export const generateNewPrompt = async (
 export const generateSampleAnswer = async (
   prompt: Prompt,
   mark: number,
-  existingAnswers: SampleAnswer[]
+  existingAnswers: SampleAnswer[],
+  syllabus?: SyllabusKeywordContext
 ): Promise<SampleAnswer> => {
   // Derive the target band from the mark and the question's cognitive tier so the
   // requested quality is coherent with the verb (e.g. a Tier-2 'Describe' question
@@ -1365,7 +1430,7 @@ export const generateSampleAnswer = async (
     qualityInstruction = `Write a **Band ${targetBand} response**. It should be superficial or fragmented, merely defining terms without relating them to the scenario, and it should stop well short of covering the question.`;
   }
 
-  const scopeBrief = buildSampleScopeBrief(prompt, mark, termInfo);
+  const scopeBrief = buildSampleScopeBrief(prompt, mark, termInfo, syllabus);
 
   // Everything already on this question, plus whatever the caller has written
   // in the current batch and not yet saved. The batch answers arrive in
