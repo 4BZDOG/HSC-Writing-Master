@@ -5,6 +5,14 @@ Gemini, GPT), replace the three `<<PLACEHOLDERS>>`, and the model will produce
 a JSON file that imports cleanly through **Data Vault → Import** with correct
 verbs, tiers, colours, marking guides and focus sub-items on every surface.
 
+You no longer have to start here. **Data Vault → Export** now writes these same
+rules into the exported `.json` under `_instructions_for_llm`, and **Import →
+download the LLM template** writes them into an empty file with the shape
+alongside. Both come from `utils/llmSeedBrief.ts`, so handing a model an export
+of one course and asking for three more is the shortest route to a seeded
+subject — and the import unwraps the block on the way back in. This page stays
+for the from-scratch case where you want the prompt as prose.
+
 Why this prompt is shaped the way it is:
 
 - **Verbs must come from the canonical list.** Every colour, band ceiling and
@@ -116,11 +124,30 @@ MARKING CRITERIA RULES
   the lowest range is fragmentary. Example for 8 marks:
   "8 marks: Makes a sustained, criteria-based judgement …\n6-7 marks: Thorough knowledge with an inconsistent line of argument …\n4-5 marks: Sound knowledge that describes rather than evaluates …\n2-3 marks: Basic statements with general terminology\n1 mark: Minimal relevant response"
 
+SYLLABUS TERM RULES
+- "keywords" are the syllabus terminology a full-mark answer must use. Order
+  them MUST-USE FIRST: a must-use term is one the topic, sub-topic, dot point,
+  question or scenario NAMES ITSELF. The app re-derives that split by matching
+  each term back against those five sources and shows what it finds as the
+  must-use terms in the student's Syllabus Terms panel, so write a must-use
+  term in the same words its source uses ("automated unit testing", not
+  "automated testing methodologies") or the app cannot see it.
+- After those, add the supporting terms a strong answer reaches for even though
+  nothing in the question names them ("credibility", "peer review").
+- No command verbs, no generic academic words ("process", "factor",
+  "important"), no connectives ("therefore", "however").
+
 SAMPLE ANSWER RULES
 - For each question provide the requested number of sample answers at
   DIFFERENT mark values: always include one full-mark exemplar, plus at least
   one clearly weaker response (roughly half marks) whose flaws match the
   marking criteria for that mark.
+- The full-mark exemplar must use EVERY must-use term from that question's
+  keywords, each doing real work in a sentence rather than listed. A lower-mark
+  answer uses proportionally fewer, taking must-use terms before supporting
+  ones and falling back on general language for the rest — the terms it leaves
+  out are part of why it earns less. Never bolt terms onto an answer that has
+  not earned them.
 - "source" is always "AI". "feedback" explains, in marker language, exactly
   why the answer earns its mark and what would lift it.
 - Full-mark exemplars must genuinely satisfy the verb: an ANALYSE exemplar

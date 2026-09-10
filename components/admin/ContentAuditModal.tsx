@@ -1133,7 +1133,12 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       // question is written earlier in the run, and the exemplar should be
       // drafted against it rather than against the gap it replaced.
       const prompt = requireLivePrompt(node.path);
-      const answer = await generateSampleAnswer(prompt, prompt.totalMarks, []);
+      // The dot point travels with a prompt node, so a batch-written exemplar
+      // is built on the syllabus's own terms rather than the question's wording
+      // alone — the same brief the workspace generator gets.
+      const answer = await generateSampleAnswer(prompt, prompt.totalMarks, [], {
+        dotPoint: node.dotPointText,
+      });
       updateCourses((draft) => {
         const p = findDraftPrompt(draft, node.path);
         if (p) {

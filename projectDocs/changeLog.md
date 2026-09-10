@@ -1,5 +1,64 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-10 (Exemplars written on the terms, and an export that can seed more)
+
+The follow-up to the entry below, in the two places that entry left alone: the
+model answers a student reads next to the terms panel, and the file a teacher
+hands an external LLM to write a course.
+
+### 🎯 A sample answer is written ON the question's terms
+
+The brief that goes to the model said `Syllabus terms: about 4` and never named
+one. So an exemplar was written from the question's wording alone, and the
+Syllabus Terms panel beside it could list nine terms the model answer never
+touched — a student reading both is told two different things, and the audit's
+own `thin-coverage` check exists because that happens.
+
+The scope brief now carries the terms themselves, split the way the panel
+splits them:
+
+- **Must-use** — named by the question, its scenario, its dot point, its
+  sub-topic or its topic. A full-mark exemplar uses every one, each doing real
+  work in a sentence rather than listed.
+- **Supporting** — used where they add precision the answer has earned.
+
+The split carries the mark, which is the part that makes it a ladder rather
+than a checklist: a 3/6 answer takes its terms from the must-use list first and
+falls back on general language for the rest, and the terms it leaves out are
+part of why it earns 3. Nothing is bolted onto an answer that has not earned
+it. The same brief drives the revise-to-another-mark path, so a ladder built by
+revision matches one built by generation.
+
+The syllabus above the question travels with the request — `Workspace` passes
+topic, sub-topic and dot point down to both exemplar modals, and the audit
+studio's batch passes the dot point its tree node already carries — so a term
+the syllabus names but the question does not is still a must-use term.
+
+### 📤 An export that can seed the next course
+
+A teacher filling a subject with an external LLM hands it a file. The file was
+a bare array of courses: the model could see the SHAPE, and had to guess every
+rule the shape does not carry — which verbs are legal and at what marks, how a
+marking guide is written line by line, what belongs on a keywords list.
+
+Exports now carry those rules with them, under `_instructions_for_llm`, from
+`utils/llmSeedBrief.ts`. The verb list is DERIVED from `data/commandTerms.ts`
+rather than restated, so it cannot drift from the tiers, band ceilings and time
+guides the app actually enforces. The import path already unwrapped that
+envelope (`analyzeAndSanitizeImportData`), so a file that has been out to a
+model and back imports exactly as it left — which the round-trip test pins.
+
+The brief states the term rule the app now depends on: **write a must-use term
+in the same words its source uses.** The panel re-derives the split by matching
+each term back against those five sources, so a model that writes "automated
+testing methodologies" for a question about "automated unit testing" has
+produced a term the app cannot see the question is built on.
+
+The same block fills the Import screen's LLM template, which until now was a
+stub — `{ ROLE: '...' }` and an empty array — plus the shape an empty file has
+to state rather than demonstrate. `docs/dataset-generation-prompt.md` keeps the
+prose version for writing a subject from nothing, and now says so.
+
 ## [Unreleased] - 2026-09-10 (The must-use terms a question names itself)
 
 The Syllabus Terms panel splits its chips into the terms an answer HAS to

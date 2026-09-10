@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
-import { reviseSampleAnswer } from '../services/geminiService';
+import { reviseSampleAnswer, type SyllabusKeywordContext } from '../services/geminiService';
 import {
   getBandForMark,
   getCommandTermInfo,
@@ -21,6 +21,9 @@ interface SampleAnswerRevisionModalProps {
   isOpen: boolean;
   onClose: () => void;
   prompt: Prompt;
+  /** The syllabus above this question, so the revision is rewritten on the
+   *  same must-use terms a freshly generated exemplar would be. */
+  syllabus?: SyllabusKeywordContext;
   sampleToRevise: SampleAnswer;
   existingMarks: number[];
   onRevisionComplete: (revisedAnswer: SampleAnswer) => void;
@@ -30,6 +33,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   isOpen,
   onClose,
   prompt,
+  syllabus,
   sampleToRevise,
   existingMarks,
   onRevisionComplete,
@@ -82,7 +86,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
     setIsLoading(true);
     setError(null);
     try {
-      const revisedAnswer = await reviseSampleAnswer(prompt, sampleToRevise, targetMark);
+      const revisedAnswer = await reviseSampleAnswer(prompt, sampleToRevise, targetMark, syllabus);
       onRevisionComplete(revisedAnswer);
       handleClose();
     } catch (err) {

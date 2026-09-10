@@ -11,6 +11,7 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
+import type { SyllabusKeywordContext } from '../services/geminiService';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
@@ -586,6 +587,7 @@ const CarouselAccordionItem: React.FC<{
 
 const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   prompt,
+  syllabus,
   onSampleAnswerGenerated,
   onUseSampleAnswer,
   onDeleteSampleAnswer,
@@ -852,6 +854,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         isOpen={isGeneratorOpen}
         onClose={() => setIsGeneratorOpen(false)}
         prompt={prompt}
+        syllabus={syllabus}
         onSampleAnswerGenerated={(answer) => {
           // Open the panel behind the modal as the batch lands. A teacher who
           // just generated five exemplars into a folded card had nothing to
@@ -876,6 +879,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           isOpen={!!revisionTarget}
           onClose={() => setRevisionTarget(null)}
           prompt={prompt}
+          syllabus={syllabus}
           sampleToRevise={revisionTarget}
           existingMarks={groupedAnswers.map((g) => g.mark)}
           onRevisionComplete={(sa) => {
@@ -940,6 +944,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
 interface SampleAnswersAccordionProps {
   prompt: Prompt;
+  /** The syllabus this question sits under, so a generated or revised exemplar
+   *  is written on the terms that syllabus and the question actually name. */
+  syllabus?: SyllabusKeywordContext;
   onSampleAnswerGenerated: (answer: SampleAnswer) => void;
   /** Load an exemplar into the writing surface. Supplied for a curator only:
    *  a student's draft has to be a student's own writing (see Editor's paste

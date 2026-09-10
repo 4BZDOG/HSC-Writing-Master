@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
-import { generateSampleAnswer } from '../services/geminiService';
+import { generateSampleAnswer, type SyllabusKeywordContext } from '../services/geminiService';
 import {
   getCommandTermInfo,
   getBandForMark,
@@ -34,6 +34,9 @@ interface SampleAnswerGeneratorModalProps {
   isOpen: boolean;
   onClose: () => void;
   prompt: Prompt;
+  /** The syllabus above this question — its terms are what the exemplar is
+   *  written on, so a must-use term is not left to chance. */
+  syllabus?: SyllabusKeywordContext;
   onSampleAnswerGenerated: (newAnswer: SampleAnswer) => void;
 }
 
@@ -41,6 +44,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   isOpen,
   onClose,
   prompt,
+  syllabus,
   onSampleAnswerGenerated,
 }) => {
   // A ladder of exemplars is more useful than any single one, and a teacher
@@ -196,7 +200,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
       try {
         // A snapshot, not the live array: the callee must see the ladder as it
         // stood when its answer was requested.
-        const newAnswer = await generateSampleAnswer(prompt, mark, [...written]);
+        const newAnswer = await generateSampleAnswer(prompt, mark, [...written], syllabus);
         written.push(newAnswer);
 
         // The model is now told what already sits at this mark, but being told

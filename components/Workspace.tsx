@@ -535,6 +535,14 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const sampleAnswersCard = (
     <SampleAnswersAccordion
       prompt={currentPrompt}
+      // The syllabus above this question, so an exemplar is written on the
+      // terms the question and its dot point actually name — the same terms
+      // the Syllabus Terms panel tells the student to weave in.
+      syllabus={{
+        topicName: currentTopic?.name,
+        subTopicName: currentSubTopic?.name,
+        dotPoint: currentDotPoint?.description,
+      }}
       onSampleAnswerGenerated={(answer) =>
         syllabusHandlers.handleSampleAnswerGenerated(statePath, answer)
       }
