@@ -1,5 +1,36 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-11 (The shipped term lists, repaired by the studio's own rules)
+
+The audit studio has carried two repairs that need no AI for a while — Tidy
+Terms removes what is not a syllabus term, Add Terms appends the ones the dot
+point and the question are built on — and the shipped library had never been
+run through either. Both ran over `public/courseData`:
+
+- **99 entries removed across 58 questions.** Connectives a student was being
+  told to weave in ("therefore", "consequently"), a bare "Technique", and the
+  other lone words the subject is written in.
+- **151 terms added across 123 questions**, in the syllabus's own casing and
+  appended after whatever a curator already wrote: "primary data", "ethical
+  issues", "safe work practices", "peer review", "Torres Strait Islander
+  Peoples", "scientific knowledge".
+
+No AI produced any of this: every added term is lifted from the dot point or
+the question, and every removed one failed a rule the app already enforces on
+new content. What changed is only `keywords`; the run was verified to
+re-serialise the files byte-identically apart from those lines.
+
+### 📌 The regression pin earned its keep
+
+`syllabusTermCoverage.test.ts` failed on the repair, which is exactly the job it
+was added for: questions carrying at least one must-use term moved 77.3% →
+**85.4%**, and the must-use share of all terms 35.1% → **40.3%**. The move is
+legitimate by construction — Add Terms appends terms taken from the question's
+own sources, and a term from those sources is must-use by definition — so the
+bounds are re-baselined in this commit, with the reason written next to them.
+The ceiling that matters did not move: past half, "must-use" would have stopped
+distinguishing anything.
+
 ## [Unreleased] - 2026-09-11 (The matcher was rebuilding itself on every keystroke)
 
 Benchmarking the new must-use classifier to decide whether it needed a cache

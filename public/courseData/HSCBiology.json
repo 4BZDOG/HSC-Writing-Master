@@ -228,7 +228,8 @@
                       "Repetition",
                       "Outliers",
                       "Average",
-                      "Consistency"
+                      "Consistency",
+                      "primary data"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies two strategies (repetition, averaging, consistent method) and explains *how* each improves consistency/reliability. -\n3\nmarks: Identifies strategies but explanation is weak. -\n2\nmarks: Identifies one strategy with explanation. -\n1\nmark: General statement about being careful.",
                     "sampleAnswers": [
@@ -370,7 +371,8 @@
                       "Germline",
                       "Consent",
                       "Equity",
-                      "Unforeseen consequences"
+                      "Unforeseen consequences",
+                      "ethical issues"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies specific ethical issues (consent of future generations, eugenics, unforeseen consequences) and provides arguments for/against. -\n3\nmarks: Discusses issues generally. -\n2\nmarks: Identifies one issue. -\n1\nmark: General statement on ethics.",
                     "sampleAnswers": [
@@ -412,7 +414,8 @@
                       "PPE",
                       "Neutralisation",
                       "Corrosive",
-                      "Risk management"
+                      "Risk management",
+                      "safe work practices"
                     ],
                     "markingCriteria": "-\n3\nmarks: Outlines specific practices (PPE, spill management, handling technique). -\n2\nmarks: Mentions PPE generally. -\n1\nmark: States 'be careful'.",
                     "sampleAnswers": [
@@ -444,7 +447,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "Technique",
                       "Air bubbles",
                       "Stain",
                       "Iodine",
@@ -706,7 +708,8 @@
                       "Land management",
                       "Biodiversity",
                       "Observation",
-                      "Ecological stewardship"
+                      "Ecological stewardship",
+                      "Torres Strait Islander Peoples"
                     ],
                     "markingCriteria": "-\n4\nmarks: Describes traditional knowledge (cool burns, mosaic burning). Explains contribution (biodiversity maintenance, fuel load reduction). Links to modern acceptance/integration. -\n3\nmarks: Good description of practices. -\n2\nmarks: Brief mention of fire. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -1077,7 +1080,8 @@
                       "Evidence",
                       "Theory",
                       "Observation",
-                      "Peer review"
+                      "Peer review",
+                      "scientific knowledge"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains testability (falsifiable via evidence like fossils/DNA). Explains contestability (open to revision with new evidence). Concludes this defines science. -\n2\nmarks: Covers testability or contestability well. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -1119,7 +1123,8 @@
                       "Scrutiny",
                       "Integrity",
                       "Bias",
-                      "Quality control"
+                      "Quality control",
+                      "peer review"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains process (expert checking). Explains purpose (error detection, bias check, validity). Links to credibility. -\n2\nmarks: Describes process. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -1323,12 +1328,10 @@
                       "transcription",
                       "translation",
                       "gene expression",
-                      "therefore",
-                      "consequently",
                       "interrelationship",
                       "mechanism",
                       "role",
-                      "significance"
+                      "practical investigation"
                     ],
                     "sampleAnswers": [
                       {
@@ -1438,7 +1441,8 @@
                       "Exons",
                       "Pre-mRNA",
                       "Spliceosome",
-                      "Isoforms"
+                      "Isoforms",
+                      "alternative splicing"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains that pre-mRNA contains introns and exons, introns are removed, and exons can be combined in different combinations to create different mRNA transcripts. -\n2\nmarks: Mentions removal of introns and joining of exons. -\n1\nmark: States one gene can make different proteins.",
                     "sampleAnswers": [
@@ -1479,7 +1483,9 @@
                       "Complementary",
                       "Transcription",
                       "Translation",
-                      "Codon"
+                      "Codon",
+                      "DNA coding strand",
+                      "amino acid sequence"
                     ],
                     "markingCriteria": "-\n3\nmarks: Correct mRNA (AUG CCG UAA) and correct Amino Acids (Met - Pro - Stop). -\n2\nmarks: Correct mRNA but error in translation, or vice versa. -\n1\nmark: Attempt at base pairing.",
                     "sampleAnswers": [
@@ -1530,12 +1536,7 @@
                       "beta-pleated sheet",
                       "active site",
                       "denaturation",
-                      "because",
-                      "therefore",
-                      "consequently",
-                      "determines",
-                      "influences",
-                      "results in"
+                      "proteins primary"
                     ],
                     "sampleAnswers": [
                       {
@@ -1651,10 +1652,7 @@
                       "cytoplasm",
                       "codons",
                       "anticodons",
-                      "therefore",
-                      "consequently",
-                      "as a result",
-                      "because"
+                      "protein synthesis"
                     ],
                     "sampleAnswers": [
                       {
@@ -1720,7 +1718,8 @@
                       "Pigment",
                       "Aluminium ions",
                       "Gene expression",
-                      "Phenotype"
+                      "Phenotype",
+                      "hydrangea flower colour"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies pH as the environmental factor. Explains the mechanism (acidic soil = blue, alkaline = pink). Concludes phenotype is gene + environment. -\n2\nmarks: Explains pH affects colour but lacks assessment/conclusion. -\n1\nmark: States environment affects colour.",
                     "sampleAnswers": [
@@ -1760,11 +1759,7 @@
                       "dependent variable",
                       "controlled variables",
                       "phenotype",
-                      "genotype",
-                      "because",
-                      "therefore",
-                      "resulting in",
-                      "demonstrating"
+                      "genotype"
                     ],
                     "sampleAnswers": [
                       {
@@ -1826,9 +1821,6 @@
                       "RNA interference",
                       "CRISPR-Cas",
                       "post-transcriptional regulation",
-                      "therefore",
-                      "furthermore",
-                      "however",
                       "specifically"
                     ],
                     "sampleAnswers": [
@@ -1885,7 +1877,6 @@
                       "BI-12WS-07"
                     ],
                     "keywords": [
-                      "Assess",
                       "epigenetic changes",
                       "phenotype",
                       "Glucocorticoid receptor (GR) gene",
@@ -1895,11 +1886,7 @@
                       "gene expression",
                       "environmental factors",
                       "heritable characteristics",
-                      "consequently",
-                      "impact",
-                      "significance",
-                      "therefore",
-                      "influence"
+                      "changes influence"
                     ],
                     "sampleAnswers": [
                       {
@@ -1956,9 +1943,7 @@
                       "enzymes",
                       "cellular function",
                       "metabolic pathways",
-                      "structural components",
-                      "therefore",
-                      "primarily"
+                      "structural components"
                     ],
                     "sampleAnswers": [
                       {
@@ -2087,7 +2072,8 @@
                       "Homologous chromosomes",
                       "Recombinant",
                       "Alleles",
-                      "Locus"
+                      "Locus",
+                      "genetic variation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies Prophase 1 of meiosis. Explains exchange of genetic material between homologous chromosomes. States result: new combinations of alleles (recombinant chromatids). -\n2\nmarks: Describes swapping of genes. -\n1\nmark: General statement about mixing DNA.",
                     "sampleAnswers": [
@@ -2124,7 +2110,8 @@
                       "Homologous chromosomes",
                       "Gametes",
                       "Separation",
-                      "Independent"
+                      "Independent",
+                      "random segregation"
                     ],
                     "markingCriteria": "-\n3\nmarks: Segregation: separation of allele pairs (homologous chromosomes) into different gametes. Assortment: separation of *different* gene pairs independently of one another. Clearly distinguishes the scope (single pair vs multiple pairs). -\n2\nmarks: Defines both but distinction is blurry. -\n1\nmark: Definitions only.",
                     "sampleAnswers": [
@@ -2294,10 +2281,9 @@
                       "autosomes",
                       "X chromosome",
                       "hemizygous",
-                      "because",
-                      "consequently",
                       "whereas",
-                      "distinct"
+                      "distinct",
+                      "ratios observed"
                     ],
                     "sampleAnswers": [
                       {
@@ -2453,12 +2439,7 @@
                       "insertion",
                       "deletion",
                       "active site",
-                      "denaturation",
-                      "consequently",
-                      "resulting in",
-                      "leading to",
-                      "because",
-                      "therefore"
+                      "denaturation"
                     ],
                     "sampleAnswers": [
                       {
@@ -2519,9 +2500,7 @@
                       "DNA replication",
                       "genetic code",
                       "fundamentally differs",
-                      "whereas",
-                      "consequently",
-                      "resulting in"
+                      "whereas"
                     ],
                     "sampleAnswers": [
                       {
@@ -2675,11 +2654,9 @@
                       "mechanism",
                       "consequence",
                       "implication",
-                      "similarly",
                       "whereas",
                       "in contrast",
                       "both",
-                      "however",
                       "differentiation"
                     ],
                     "sampleAnswers": [
@@ -2744,12 +2721,9 @@
                       "Trisomy 21",
                       "Gamete",
                       "Zygote",
-                      "Consequently",
-                      "Therefore",
-                      "Leading to",
-                      "As a result",
                       "Specifically",
-                      "In contrast"
+                      "In contrast",
+                      "chromosomes"
                     ],
                     "sampleAnswers": [
                       {
@@ -2859,7 +2833,8 @@
                       "Marker",
                       "Association",
                       "Genome-wide association study (GWAS)",
-                      "Frequency"
+                      "Frequency",
+                      "single nucleotide polymorphisms"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines SNP (single base variation). Explains association (frequency difference in diseased vs healthy groups). Explains utility (predictive marker/GWAS). -\n2\nmarks: Defines SNP and mentions disease link. -\n1\nmark: General statement about DNA differences.",
                     "sampleAnswers": [
@@ -2904,12 +2879,7 @@
                       "polygenic traits",
                       "population bias",
                       "bioinformatics",
-                      "however",
-                      "consequently",
-                      "furthermore",
                       "despite",
-                      "therefore",
-                      "significantly",
                       "critical consideration",
                       "overall judgement"
                     ],
@@ -3076,7 +3046,8 @@
                       "Nutritional disease",
                       "Dietary fibre",
                       "Low GI",
-                      "Traditional methods"
+                      "Traditional methods",
+                      "Aboriginal Cultural Practices"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies practice (grinding native seeds/grasses). Explains nutritional content (high fibre/low GI). Links to disease prevention (diabetes/CV disease). -\n1-\n2\nmarks: Mentions eating grass seeds is healthy.",
                     "sampleAnswers": [
@@ -3249,7 +3220,8 @@
                       "Vector",
                       "Transmission",
                       "Host",
-                      "Pathogen"
+                      "Pathogen",
+                      "indirect contact"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains Indirect (via fomites/environment) vs Vector (via living organism). Compares mechanism of transfer. -\n2\nmarks: Describes both but comparison is weak. -\n1\nmark: Definitions only.",
                     "sampleAnswers": [
@@ -3335,7 +3307,8 @@
                       "Memory",
                       "Speed",
                       "Antigen",
-                      "Broad-spectrum"
+                      "Broad-spectrum",
+                      "adaptive immune"
                     ],
                     "markingCriteria": "-\n4\nmarks: Innate: non-specific, no memory, immediate. Adaptive: specific to antigen, immunological memory, delayed. Explicit distinction on both criteria. -\n3\nmarks: Covers specificity and memory but distinction is less clear. -\n2\nmarks: Describes one system well. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -3378,7 +3351,8 @@
                       "Vasodilation",
                       "Phagocytes",
                       "Permeability",
-                      "Non-specific"
+                      "Non-specific",
+                      "innate immune system"
                     ],
                     "markingCriteria": "-\n3\nmarks: Mentions release of histamines, vasodilation/blood flow, and migration of phagocytes to the site. -\n2\nmarks: Mentions swelling and heat to kill bacteria. -\n1\nmark: Mentions it gets red and hot.",
                     "sampleAnswers": [
@@ -3507,7 +3481,8 @@
                       "Apoptosis",
                       "Perforins",
                       "Lysis",
-                      "Intracellular pathogens"
+                      "Intracellular pathogens",
+                      "cell-mediated immune"
                     ],
                     "markingCriteria": "-\n2\nmarks: Mentions detection of infected body cells/MHC-I markers. Describes destruction via perforins/apoptosis. -\n1\nmark: Says they kill infected cells.",
                     "sampleAnswers": [
@@ -3593,7 +3568,8 @@
                       "Concentration",
                       "Memory cells",
                       "Rapid",
-                      "Peak"
+                      "Peak",
+                      "secondary exposure"
                     ],
                     "markingCriteria": "-\n3\nmarks: Primary: slow, lower peak (IgM then IgG). Secondary: rapid, higher peak, sustained longer due to Memory cells. -\n2\nmarks: Secondary is faster and stronger. -\n1\nmark: Secondary is better.",
                     "sampleAnswers": [
@@ -3636,7 +3612,8 @@
                       "Antibodies",
                       "Exogenous",
                       "Endogenous",
-                      "Long-term vs Short-term"
+                      "Long-term vs Short-term",
+                      "active immunity"
                     ],
                     "markingCriteria": "-\n4\nmarks: Active: Body makes antibodies/memory cells (long term). Example: Catching flu. Passive: Body receives antibodies (short term). Example: Anti-venom injection. -\n3\nmarks: Distinguishes concepts well but examples incorrect or missing. -\n2\nmarks: Definitions only. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -3765,7 +3742,9 @@
                       "Antimicrobial",
                       "Wounds",
                       "Melaleuca",
-                      "Traditional application"
+                      "Traditional application",
+                      "Aboriginal bush medicine",
+                      "Tea tree oil"
                     ],
                     "markingCriteria": "-\n3\nmarks: Traditional use (crushed leaves/paste for wounds). Active property (antiseptic/antimicrobial). Modern validation. -\n2\nmarks: Mentions it cleans cuts. -\n1\nmark: It is good for skin.",
                     "sampleAnswers": [
@@ -3856,7 +3835,6 @@
                       "Patterns",
                       "Risk factors",
                       "Intervention",
-                      "Data",
                       "Prevention"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identification of cause/source. Tracking patterns (who/where/when). Developing prevention strategies (policy/vaccination). -\n2\nmarks: Tracking disease and stopping it. -\n1\nmark: Study of disease.",
@@ -3900,7 +3878,8 @@
                       "Intervention",
                       "Control group",
                       "Case-control",
-                      "Manipulation"
+                      "Manipulation",
+                      "experimental epidemiological studies"
                     ],
                     "markingCriteria": "-\n4\nmarks: Analytical: tests hypotheses (Case-control/Cohort) to find cause (Observational). Experimental: manipulates variables (Intervention/Clinical Trial) to test efficacy. Distinguishes 'observing' vs 'intervening'. -\n2-\n3\nmarks: Describes both but comparison weak. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -4070,7 +4049,6 @@
                     "keywords": [
                       "Chronic",
                       "Acute",
-                      "Management",
                       "Fatality rate",
                       "Accumulation"
                     ],
@@ -4158,7 +4136,8 @@
                       "X-ray crystallography",
                       "Transposons",
                       "Genetics",
-                      "Diagnostics"
+                      "Diagnostics",
+                      "disease management"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies discovery (Franklin: DNA structure / McClintock: Transposons). Links to management (Understanding genetic basis of disease/Gene regulation). -\n2\nmarks: Identifies discovery. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -4244,7 +4223,8 @@
                       "Mechanism",
                       "Integration",
                       "DNA",
-                      "Causation"
+                      "Causation",
+                      "cervical cancer"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies strong correlation (HPV DNA found in nearly all cervical cancers). Identifies mechanism (viral proteins integrate into host DNA). Concludes causation is established. -\n2\nmarks: HPV causes cancer. -\n1\nmark: Vague link.",
                     "sampleAnswers": [
@@ -4330,7 +4310,8 @@
                       "Representative",
                       "Validity",
                       "Population",
-                      "Randomisation"
+                      "Randomisation",
+                      "selection error"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines selection error (bias in choosing participants). Explains random sampling (equal chance). Judgement: Essential for validity/representative data. -\n2\nmarks: Random is fairer. -\n1\nmark: General statement.",
                     "sampleAnswers": [
@@ -4557,7 +4538,8 @@
                       "Decline",
                       "Abundance",
                       "Trend",
-                      "Correlation"
+                      "Correlation",
+                      "invasive species"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies trend (Inverse relationship). Uses data points from graph. Deduces competitive exclusion or predation as the mechanism. -\n1-\n2\nmarks: Reads graph but fails to link to ecological mechanism.",
                     "sampleAnswers": [
@@ -4600,7 +4582,8 @@
                       "Climate change",
                       "Predation",
                       "Human activity",
-                      "Selection pressure"
+                      "Selection pressure",
+                      "selected Australian"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies species. Analyses human cause (e.g., habitat loss). Analyses natural cause (e.g., drought/fire). Relates combination to threatened status. -\n2\nmarks: Lists causes without analysis.",
                     "sampleAnswers": [
@@ -4778,7 +4761,8 @@
                       "Variation",
                       "Extinction risk",
                       "Adaptability",
-                      "Alleles"
+                      "Alleles",
+                      "gene pool"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies risk (inbreeding depression, lack of variation). Explains consequence (susceptibility to disease/change). Judgement: Critical threat to survival. -\n1-\n2\nmarks: Small gene pool is bad.",
                     "sampleAnswers": [
@@ -4864,7 +4848,8 @@
                       "Environment",
                       "Desiccation",
                       "Probability",
-                      "Protection"
+                      "Protection",
+                      "internal fertilisation"
                     ],
                     "markingCriteria": "-\n3\nmarks: External (e.g. Fish): High gamete count, low success rate (environmental hazard). Internal (e.g. Mammals): Low gamete count, high success rate (protected). Both involve gamete fusion. -\n1-\n2\nmarks: Internal is inside, external is outside.",
                     "sampleAnswers": [
@@ -4950,7 +4935,9 @@
                       "Allele frequency",
                       "Representative",
                       "Random",
-                      "Population"
+                      "Population",
+                      "founder effect",
+                      "genetic drift"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines Founder Effect (small group isolates). Explains mechanism (non-representative allele frequency). Links to random change (drift) in new population. -\n1-\n2\nmarks: Small group moves away and becomes different.",
                     "sampleAnswers": [
@@ -4993,7 +4980,10 @@
                       "Homogenisation",
                       "Directional",
                       "Adaptation",
-                      "Variation"
+                      "Variation",
+                      "gene flow",
+                      "selection pressures",
+                      "allele frequency"
                     ],
                     "markingCriteria": "-\n4\nmarks: Defines Gene Flow (migration/mixing). Effect: increases diversity/homogenises populations. Defines Selection Pressures (environmental factors). Effect: directional change (increases favourable alleles). Comparison of random vs directional nature. -\n2-\n3\nmarks: Defines both, comparison weak.",
                     "sampleAnswers": [
@@ -5079,7 +5069,8 @@
                       "Immune recognition",
                       "Contagious cancer",
                       "Bottleneck",
-                      "Transmission"
+                      "Transmission",
+                      "genetic diversity"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies MHC role (immune recognition). Relates low diversity to inability to recognise tumour as foreign. Explains transmission (contagious cancer). Conclusion: Rapid spread/high mortality. -\n2-\n3\nmarks: Explains they are genetically similar so they can't fight the cancer.",
                     "sampleAnswers": [
@@ -5122,7 +5113,9 @@
                       "Directional change",
                       "Rate of change",
                       "Driver",
-                      "Mechanism"
+                      "Mechanism",
+                      "natural selection",
+                      "allele frequencies"
                     ],
                     "markingCriteria": "-\n4\nmarks: Mutation: introduces new alleles (slow/rare). Selection: acts on existing alleles (fast/directional). Judgement: Selection is the primary driver of frequency change; mutation provides the raw material. -\n2-\n3\nmarks: Describes both but evaluation is weak.",
                     "sampleAnswers": [
@@ -5250,7 +5243,8 @@
                       "Clonal",
                       "Vascular wilt",
                       "Fungal",
-                      "Resistance"
+                      "Resistance",
+                      "Panama disease"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies TR4 affects Cavendish (clones). Explains mechanism (soil fungus blocks vascular tissue). Evaluates impact (devastating due to lack of genetic resistance/monoculture). -\n1-\n2\nmarks: Panama disease kills bananas.",
                     "sampleAnswers": [
@@ -5292,7 +5286,6 @@
                       "Dieback",
                       "Biodiversity loss",
                       "Economic cost",
-                      "Management",
                       "Pathogen"
                     ],
                     "markingCriteria": "-\n4\nmarks: Ecological: Loss of biodiversity/habitat structure (eucalypt dieback). Economic: Cost to forestry/tourism/management. Judgement of severity. -\n2-\n3\nmarks: Discusses dieback generally. -\n1\nmark: It kills trees.",
@@ -5336,7 +5329,8 @@
                       "Sensitivity",
                       "Pollutants",
                       "Bioindicator",
-                      "Early warning"
+                      "Early warning",
+                      "indicator species"
                     ],
                     "markingCriteria": "-\n3\nmarks: Identifies feature (permeable skin). Explains sensitivity to pollutants/pH. Justifies that their presence/absence reliably indicates ecosystem health. -\n1-\n2\nmarks: Frogs are sensitive.",
                     "sampleAnswers": [
@@ -5379,7 +5373,9 @@
                       "Food webs",
                       "Resilience",
                       "Functional redundancy",
-                      "Collapse"
+                      "Collapse",
+                      "species diversity",
+                      "changing environment"
                     ],
                     "markingCriteria": "-\n3\nmarks: Explains species interactions (food webs/symbiosis). Explains functional redundancy (if one species is lost, another takes its role). Links to stability against disturbance. -\n1-\n2\nmarks: More species means a stronger ecosystem.",
                     "sampleAnswers": [
@@ -5430,7 +5426,8 @@
                       "Conservation",
                       "Resources",
                       "Equity",
-                      "Balance"
+                      "Balance",
+                      "ecological sustainability"
                     ],
                     "markingCriteria": "-\n3\nmarks: Defines sustainability (needs of present without compromising future). Discusses intra-generational equity and biodiversity conservation. -\n1-\n2\nmarks: Defines sustainability.",
                     "sampleAnswers": [
@@ -5645,7 +5642,8 @@
                       "Sanctuary",
                       "Spill-over effect",
                       "Habitat protection",
-                      "Resilience"
+                      "Resilience",
+                      "marine reserves"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes role (No-take zones). Explains mechanism (Habitat protection, breeding sanctuary). Judgement: Effective spill-over effect increases surrounding populations. -\n1-\n2\nmarks: Fishing is banned so fish grow.",
                     "sampleAnswers": [
@@ -5688,7 +5686,8 @@
                       "Habitat",
                       "Resource allocation",
                       "Moral hazard",
-                      "Conservation"
+                      "Conservation",
+                      "ethical issues"
                     ],
                     "markingCriteria": "-\n4\nmarks: Identifies issues (animal welfare, resource allocation, ecosystem suitability). Analyses consequences (suffering of clones, distraction from saving current species). Synthesis of view. -\n2-\n3\nmarks: Discusses if we should bring it back.",
                     "sampleAnswers": [
@@ -5731,7 +5730,8 @@
                       "Chytrid fungus",
                       "Reintroduction",
                       "Genetic diversity",
-                      "Extinction"
+                      "Extinction",
+                      "conservation program"
                     ],
                     "markingCriteria": "-\n3\nmarks: Describes strategy (Captive breeding, disease-free enclosures). Outcome (Successful breeding, reintroduction challenges with Chytrid fungus). Judgement: Successful in preventing extinction, but self-sustaining wild population is difficult. -\n1-\n2\nmarks: Breeding frogs in zoos helps.",
                     "sampleAnswers": [
@@ -5831,7 +5831,8 @@
                       "Data analysis",
                       "Recombinant DNA",
                       "Synergy",
-                      "Efficiency"
+                      "Efficiency",
+                      "genetic engineering"
                     ],
                     "markingCriteria": "-\n5\nmarks: Identifies role of bioinformatics (analysing massive datasets/sequences). Identifies role of genetic engineering (manipulating DNA). Discusses the synergy (bioinformatics identifies target genes -> GE modifies them). Provides an example (e.g., vaccine design/CRISPR). -\n2-\n3\nmarks: Describes both but link/discussion is weak.",
                     "sampleAnswers": [
@@ -5917,7 +5918,9 @@
                       "Species barrier",
                       "Subset",
                       "Modification",
-                      "Insertion"
+                      "Insertion",
+                      "transgenic organisms",
+                      "genetically modified organisms"
                     ],
                     "markingCriteria": "-\n4\nmarks: Defines GMO (any genetic alteration). Defines Transgenic (gene from *different* species). Identifies relationship (All transgenic are GMOs, not vice versa). Examples (e.g., CRISPR silenced apple vs Bt Cotton). -\n2-\n3\nmarks: Definitions correct but relationship/comparison unclear.",
                     "sampleAnswers": [
@@ -5960,7 +5963,8 @@
                       "Gametes",
                       "Somatic cells",
                       "Offspring",
-                      "Evolution"
+                      "Evolution",
+                      "genetic changes"
                     ],
                     "markingCriteria": "-\n3\nmarks: Somatic: Affects body cells, not passed to offspring (non-heritable). Germline: Affects gametes/embryos, passed to offspring (heritable). Comparison of evolutionary impact. -\n1-\n2\nmarks: Germline is passed on.",
                     "sampleAnswers": [
@@ -6052,7 +6056,8 @@
                       "CFTR gene",
                       "Fragment size",
                       "Deletion",
-                      "Comparison"
+                      "Comparison",
+                      "Cystic fibrosis"
                     ],
                     "markingCriteria": "-\n4\nmarks: PCR amplifies specific gene region (CFTR). Gel Electrophoresis separates fragments by size. Comparison to healthy control reveals mutation (e.g., deletion causes shorter fragment). Diagnosis confirmed. -\n2-\n3\nmarks: Mentions amplifying DNA and seeing lines on a gel.",
                     "sampleAnswers": [
@@ -6224,7 +6229,9 @@
                       "Plasmid",
                       "Ligase",
                       "Transformation",
-                      "Fermentation"
+                      "Fermentation",
+                      "recombinant DNA technology",
+                      "produce human insulin"
                     ],
                     "markingCriteria": "-\n4\nmarks: Isolation (Human insulin gene). Restriction Enzymes (cut gene and plasmid). Ligation (Ligase joins them). Transformation (Plasmid into bacteria). Expression (Bacteria divide/produce protein). -\n2-\n3\nmarks: Misses key steps or enzymes.",
                     "sampleAnswers": [
@@ -6573,7 +6580,8 @@
                       "Hand pollination",
                       "Yield assurance",
                       "Economic viability",
-                      "Fruit set"
+                      "Fruit set",
+                      "artificial pollination"
                     ],
                     "markingCriteria": "-\n3\nmarks: Reason: Lack of natural pollinators (specific bee) outside Mexico. Method: Manual transfer of pollen. Outcome: Ensures fruit set/yield/commercial viability. -\n1-\n2\nmarks: Bees are gone so humans do it.",
                     "sampleAnswers": [

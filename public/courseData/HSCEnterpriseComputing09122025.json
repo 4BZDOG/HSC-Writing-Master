@@ -88,7 +88,8 @@
                       "data visualisation",
                       "storytelling",
                       "simplifying understanding",
-                      "highlighting results"
+                      "highlighting results",
+                      "highlighting significant results"
                     ],
                     "markingCriteria": "- 2 marks: Explains that visual elements like colour, size, and position can be used to create visual contrast and draw attention to key points (e.g., using red for a sharp increase). -\n2 marks: Explains that the human brain processes visual information more quickly than text, allowing an audience to instantly grasp trends, outliers, or patterns in a chart that would be hidden in a table of numbers.",
                     "sampleAnswers": [
@@ -123,7 +124,6 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "spreadsheet",
-                      "features",
                       "data visualisation"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one correct feature (e.g., chart/graphing tools). -\n1 mark: Identifies a second correct feature (e.g., conditional formatting).",
@@ -154,7 +154,6 @@
                     "keywords": [
                       "spreadsheet",
                       "creative design",
-                      "applications",
                       "infographic"
                     ],
                     "markingCriteria": "- 2 marks: Describes the role of the spreadsheet application: to analyse the raw data, perform calculations, and generate initial charts or tables to identify key insights. -\n2 marks: Describes the role of the creative design application: to import the key insights and charts from the spreadsheet and arrange them with custom graphics, icons, and text to create a visually appealing and narrative-driven infographic.",
@@ -418,7 +417,8 @@
                       "data integrity",
                       "risk",
                       "source",
-                      "validation"
+                      "validation",
+                      "data visualisation"
                     ],
                     "markingCriteria": "- 1 mark: Identifies the primary risk as presenting inaccurate information. -\n3 marks: Assesses the consequences of this risk, such as damage to the company's reputation, loss of customer trust, making poor business decisions based on the flawed data, and potential legal issues if the data is copyrighted.",
                     "sampleAnswers": [
@@ -484,7 +484,8 @@
                       "data warehousing",
                       "historical data",
                       "data visualisation",
-                      "trends"
+                      "trends",
+                      "current data"
                     ],
                     "markingCriteria": "- 2 marks: Explains that data warehouses are specifically designed to store and manage vast amounts of historical data, unlike operational databases which typically only hold current data. -\n2 marks: Explains that because the warehouse contains both historical and current data in a structured, integrated format, visualisation tools can easily query and combine both datasets to show trends over time and make direct comparisons.",
                     "sampleAnswers": [
@@ -519,8 +520,7 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "big data",
-                      "data visualisation",
-                      "design"
+                      "data visualisation"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one challenge (e.g., overplotting/visual clutter). -\n1 mark: Identifies a second challenge (e.g., performance/load times).",
                     "sampleAnswers": [
@@ -619,8 +619,7 @@
                       "bias",
                       "unconscious bias",
                       "data source",
-                      "accuracy",
-                      "evaluate"
+                      "accuracy"
                     ],
                     "markingCriteria": "- 2 marks: Evaluates the bias in the data source, identifying it as selection bias because it excludes people who were not hired and is opt-in, meaning unhappy employees may not respond. -\n2 marks: Evaluates the role of unconscious bias, suggesting the analysts creating the visualisation may unintentionally choose metrics or chart types that portray the company in a more positive light. -\n2 marks: Makes a clear judgement that these biases make the resulting visualisation highly inaccurate and misleading, as it is based on a fundamentally flawed and unrepresentative sample of the hiring process.",
                     "sampleAnswers": [
@@ -662,7 +661,6 @@
                     "keywords": [
                       "spreadsheets",
                       "dashboards",
-                      "evaluate",
                       "Spreadsheet software",
                       "Data visualisation",
                       "Dashboard development",
@@ -711,7 +709,7 @@
                     "keywords": [
                       "business analytics services",
                       "custom software solutions",
-                      "evaluate"
+                      "data visualisations"
                     ],
                     "markingCriteria": "- 2 marks: Evaluates the business analytics service, noting its effectiveness in terms of rapid development, lower initial cost, and broad feature set, but a lack of perfect customisation. -\n2 marks: Evaluates the custom software solution, noting its high cost and long development time, but its effectiveness in meeting highly specific security, branding, and functional requirements. -\n1 mark: Provides a final judgement, concluding that for a large enterprise with very specific needs, a custom solution is likely more effective in the long run despite the higher cost.",
                     "sampleAnswers": [
@@ -746,7 +744,8 @@
                     "keywords": [
                       "aggregation",
                       "filtering",
-                      "interrogate data"
+                      "interrogate data",
+                      "data visualisation"
                     ],
                     "markingCriteria": "- 1 mark: Defines aggregation as summarising data (e.g., calculating a total or average). -\n1 mark: Defines filtering as removing data points that do not meet a certain criterion.",
                     "sampleAnswers": [
@@ -775,7 +774,6 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "outliers",
-                      "interpreting",
                       "reasoning"
                     ],
                     "markingCriteria": "- 2 marks: Explains the effect on the visualisation: the outlier will make the bar for that month extremely tall, forcing the y-axis to rescale and making the variation between the other, 'normal' months difficult to see. -\n2 marks: Explains the effect on reasoning: it can mislead the viewer into thinking the average rainfall is higher than it typically is. A critical viewer should reason that this outlier is an unusual event and may need to be investigated or excluded to understand the normal pattern.",
@@ -881,7 +879,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "evaluating",
                       "user experience (UX)",
                       "criteria"
                     ],
@@ -911,7 +908,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "evaluating",
                       "user experience (UX)",
                       "criteria",
                       "efficiency",
@@ -979,7 +975,6 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "emerging technologies",
-                      "software",
                       "AI",
                       "user experience (UX)"
                     ],
@@ -1020,7 +1015,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "design",
                       "data visualisation",
                       "relationships"
                     ],
@@ -1050,7 +1044,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "design",
                       "data visualisation",
                       "patterns",
                       "predictive analysis",
@@ -1576,7 +1569,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "ethical",
                       "legal",
                       "privacy",
                       "bias"
@@ -1730,8 +1722,7 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "decision support system",
-                      "DSS",
-                      "applications"
+                      "DSS"
                     ],
                     "markingCriteria": "- 1 mark: Identifies one valid application (e.g., inventory management). -\n1 mark: Identifies a second valid application (e.g., financial planning, medical diagnosis).",
                     "sampleAnswers": [
@@ -1901,7 +1892,8 @@
                       "inference engine",
                       "forward chaining",
                       "backward chaining",
-                      "diagnosis"
+                      "diagnosis",
+                      "expert system"
                     ],
                     "markingCriteria": "- 1 mark: Explains the role of the knowledge base (stores rules like 'IF battery is flat THEN car won't start'). -\n1 mark: Explains the role of the inference engine (applies logic to the rules). -\n1 mark: Explains forward chaining as data-driven (starts with facts to reach a conclusion). -\n1 mark: Explains backward chaining as goal-driven (starts with a hypothesis and works backward). -\n1 mark: Correctly applies chaining to the scenario (backward chaining is best for diagnosis).",
                     "sampleAnswers": [
@@ -2249,8 +2241,6 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "design",
-                      "model",
                       "automated",
                       "smart system",
                       "inputs",
@@ -2368,9 +2358,7 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "Gantt chart",
-                      "iterative approach",
-                      "tools",
-                      "processes"
+                      "iterative approach"
                     ],
                     "markingCriteria": "- 1 mark: Identifies a valid time management tool (e.g., Gantt chart). -\n1 mark: Identifies a valid development process (e.g., iterative approach, agile methodology).",
                     "sampleAnswers": [
@@ -2402,7 +2390,8 @@
                       "Gantt chart",
                       "time management",
                       "resource management",
-                      "project management"
+                      "project management",
+                      "enterprise system"
                     ],
                     "markingCriteria": "- 2 marks: Describes an iterative approach, explaining that the system is developed in small, repeated cycles (iterations) of planning, design, building, and testing, allowing for flexibility and feedback. -\n2 marks: Describes the purpose and features of a Gantt chart, including tasks, durations, dependencies, and milestones, to track progress against a schedule. -\n1 mark: Links the two, explaining that the Gantt chart would be used to plan and track the tasks within each iteration.",
                     "sampleAnswers": [
@@ -2542,7 +2531,7 @@
                       "online collaboration",
                       "budget",
                       "planning",
-                      "tools"
+                      "enterprise system"
                     ],
                     "markingCriteria": "- 2 marks: Describes how an online collaboration tool (e.g., Microsoft Teams, Google Workspace) is used to facilitate communication, share documents (like planning documents and diagrams), and coordinate tasks among the team, especially if they are remote. -\n2 marks: Describes how a budget is a critical planning tool used to estimate and allocate financial resources for all aspects of the project, such as hardware, software licenses, and staff salaries, and to track spending against the plan.",
                     "sampleAnswers": [
@@ -2750,8 +2739,7 @@
                       "waterfall",
                       "agile",
                       "prototyping",
-                      "development approach",
-                      "evaluate"
+                      "development approach"
                     ],
                     "markingCriteria": "- 2 marks: Evaluates the approaches for the start-up, making a clear judgement that agile is highly suitable due to its flexibility in handling changing requirements and its focus on user feedback. -\n2 marks: Evaluates the approaches for the government agency, making a clear judgement that waterfall is more suitable because the requirements are stable and well-defined, allowing for detailed upfront planning and documentation. -\n2 marks: Provides clear reasoning for both judgements, linking the characteristics of the methodology to the specific needs of each project.",
                     "sampleAnswers": [
@@ -2792,8 +2780,7 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "verify",
-                      "validate",
-                      "testing"
+                      "validate"
                     ],
                     "markingCriteria": "- 1 mark: Defines verification as checking if the system was built correctly (to specifications). -\n1 mark: Defines validation as checking if the right system was built (if it meets user needs).",
                     "sampleAnswers": [
@@ -2824,8 +2811,7 @@
                       "verify",
                       "validate",
                       "test data",
-                      "documentation",
-                      "testing"
+                      "documentation"
                     ],
                     "markingCriteria": "- 2 marks: Explains that evaluating test data (checking actual output against expected output for given inputs) is a primary method of verification, as it confirms the system's logic and calculations adhere to the technical specifications. -\n2 marks: Explains that trialling the documentation with end-users is a key part of validation, as it helps confirm that the system is usable and that users can successfully learn and operate it to meet their business needs.",
                     "sampleAnswers": [
@@ -2859,9 +2845,7 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "maintenance",
-                      "evaluating",
-                      "testing"
+                      "maintenance"
                     ],
                     "markingCriteria": "- 1 mark: Identifies and describes one type (e.g., corrective maintenance). -\n1 mark: Identifies and describes a second type (e.g., adaptive or perfective maintenance).",
                     "sampleAnswers": [
@@ -2889,10 +2873,9 @@
                     "markerNotes": [],
                     "commonStudentErrors": [],
                     "keywords": [
-                      "evaluating",
                       "maintaining",
                       "enterprise system",
-                      "testing"
+                      "enterprise computing system"
                     ],
                     "markingCriteria": "- 2 marks: Explains the need for ongoing evaluation, focusing on how business needs, user expectations, and technology change over time, requiring the system to be continually assessed to ensure it remains effective and relevant. -\n2 marks: Explains the need for ongoing maintenance, such as adaptive maintenance to ensure the system works with new operating systems or browsers, and corrective maintenance to fix security vulnerabilities and bugs that emerge over time.",
                     "sampleAnswers": [
