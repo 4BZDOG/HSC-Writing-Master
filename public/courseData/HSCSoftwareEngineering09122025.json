@@ -81,7 +81,8 @@
                       "Vulnerabilities",
                       "Risk mitigation",
                       "Data integrity",
-                      "Confidentiality"
+                      "Confidentiality",
+                      "developing secure software"
                     ],
                     "markingCriteria": "Provides one mark for each distinct benefit of developing secure software that is correctly outlined with relevant features. Maximum of three marks. Benefits can include data protection, minimising cyber attacks, or reducing vulnerabilities.",
                     "sampleAnswers": [
@@ -146,7 +147,8 @@
                       "Reputational damage",
                       "Financial loss",
                       "Long-term cost",
-                      "Customer trust"
+                      "Customer trust",
+                      "secure software"
                     ],
                     "markingCriteria": "- Provides a clear justification linking secure practices to mitigating long-term risks (1 mark). • Supports the justification by explaining the high cost of fixing post-release vulnerabilities (1 mark). • Supports the justification by discussing the impact of a security breach on a startup's reputation and customer trust (2 marks). • Presents a cohesive and logical argument (1 mark).",
                     "sampleAnswers": [
@@ -281,7 +283,9 @@
                       "Threat modelling",
                       "Secure coding practices",
                       "Regulatory compliance",
-                      "Critical evaluation"
+                      "Critical evaluation",
+                      "developing secure",
+                      "minimising cyber"
                     ],
                     "markingCriteria": "1 0- 1\n2 Marks: Provides a comprehensive, insightful, and highly perceptive critical evaluation of the extent to which secure software development delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sophisticated understanding of the challenges inherent in a dynamic FinTech environment (e.g., rapid feature deployment, cloud infrastructure, regulatory compliance) and discusses how secure software practices address or are impacted by these. Justifies judgments with specific, well-articulated examples and a nuanced discussion of both successes and limitations. Arguments are well-structured, coherent, and demonstrate superior knowledge of secure software architecture principles.\n7-9 Marks: Provides a detailed and well-structured critical evaluation of the benefits of secure software development in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sound understanding of the FinTech context and how secure software practices contribute to these benefits. Arguments are supported with relevant examples, and a clear judgment is made regarding the effectiveness, though it may lack the depth or nuance of a top-range response. Discussion is mostly coherent with good application of relevant concepts.\n4-6 Marks: Describes the benefits of developing secure software (data protection, minimising cyber attacks, reducing vulnerabilities) with some attempt at evaluation. Identifies some relevant secure software practices and their impact within the FinTech scenario, but the evaluation may be more descriptive than critical, or lack depth regarding the 'extent' to which benefits are achieved. Arguments may be general or lack specific supporting examples. Understanding of the FinTech environment's unique challenges may be limited.\n2-3 Marks: Provides a basic description of one or two benefits of secure software development. Lacks significant evaluation or contextualisation within the FinTech scenario. Response is superficial, with limited detail or relevance to the question's demands.\n0-1 Mark: Provides an irrelevant or minimal response, demonstrating no understanding of the question or the syllabus content.",
                     "sampleAnswers": [
@@ -327,14 +331,15 @@
                       "Focusing too heavily on one phase while neglecting the other, failing to address 'design AND testing'."
                     ],
                     "keywords": [
-                      "Software Development Life Cycle (SDLC)",
                       "Design phase",
                       "Testing phase",
                       "Secure coding principles",
                       "Threat modelling",
                       "Security testing",
                       "Vulnerability assessment",
-                      "Code review"
+                      "Code review",
+                      "software development",
+                      "secure code"
                     ],
                     "markingCriteria": "- Provides a clear and detailed explanation of how the design phase contributes to secure code, supported by relevant examples (e.g., threat modelling, principle of least privilege). (2 marks) • Provides a clear and detailed explanation of how the testing phase contributes to secure code, supported by relevant examples (e.g., penetration testing, fuzz testing). (2 marks) • Demonstrates a logical and coherent structure, using appropriate terminology accurately throughout the response. (1 mark)",
                     "sampleAnswers": [
@@ -414,7 +419,8 @@
                       "Vulnerability management",
                       "Legacy code",
                       "Continuous monitoring",
-                      "Security posture"
+                      "Security posture",
+                      "software development"
                     ],
                     "markingCriteria": "- Identifies the key purpose of the maintenance phase in relation to ongoing security (1 mark). • Analyses the importance of proactive maintenance activities, such as patching and monitoring (2 marks). • Supports the analysis with a relevant example, such as responding to a newly discovered vulnerability in a library (1 mark).",
                     "sampleAnswers": [
@@ -532,7 +538,9 @@
                       "Security features",
                       "Human-computer interaction",
                       "Usability",
-                      "Authentication"
+                      "Authentication",
+                      "end users influence",
+                      "secure design"
                     ],
                     "markingCriteria": "Provides clear characteristics and features of how end-user capabilities influence secure software design. -\n3 Marks: Clearly describes two or more influences with relevant examples and terminology. -\n2 Marks: Describes one influence with some detail or lists multiple influences. -\n1 Mark: Identifies a basic link between users and security.",
                     "sampleAnswers": [
@@ -649,12 +657,12 @@
                       "Not providing a balanced conclusion that argues for finding an optimal trade-off."
                     ],
                     "keywords": [
-                      "Security",
                       "Usability",
                       "User experience (UX)",
                       "Trade-off",
                       "Friction",
-                      "Human factor"
+                      "Human factor",
+                      "end users"
                     ],
                     "markingCriteria": "- Identifies the key issue: the inherent conflict between security controls and user experience (1 mark). • Develops points for one perspective, explaining how strong security measures can create 'friction' and make a system unusable (2 marks). • Develops points for the alternative perspective, explaining how unusable security leads to users bypassing it, making the system insecure (2 marks). • Provides a balanced, nuanced treatment showing that the most effective security is both strong and usable (2 marks).",
                     "sampleAnswers": [
@@ -860,7 +868,8 @@
                       "Audit trails",
                       "Logging",
                       "Non-repudiation",
-                      "Security concepts"
+                      "Security concepts",
+                      "software design"
                     ],
                     "markingCriteria": "- Explains the concept of accountability as the ability to trace actions to a specific entity (1 mark). • Relates this concept to security, explaining how it helps in forensic analysis and acts as a deterrent (2 marks). • Provides a relevant example, such as detailed audit logs (1 mark).",
                     "sampleAnswers": [
@@ -1040,7 +1049,8 @@
                       "Data privacy",
                       "Sensitive data",
                       "Access control",
-                      "Threat landscape"
+                      "Threat landscape",
+                      "data protection"
                     ],
                     "markingCriteria": "- 7-8 Marks: Makes a clear and well-supported judgment on the effectiveness of both models. Provides a detailed and accurate evaluation, linking specific architectural principles and features (e.g., micro-segmentation, MFA, least privilege) to data protection, privacy, and regulatory compliance within the FinTech context. Justifies the evaluation with logical reasoning and relevant examples. •\n5-6 Marks: Makes a sound judgment. Provides a good description and some evaluation of both models. Links some security features to the requirements but may lack depth or specific application to the scenario. Justification is present but may not be fully developed. •\n3-4 Marks: Describes one or both security models with a limited attempt at evaluation or comparison. May list some security features without clearly explaining their effectiveness or relevance. The response is more descriptive than evaluative. •\n1-2 Marks: Provides a very basic or confused description of security concepts. May identify a relevant term (e.g., firewall, password) with little or no correct explanation. Fails to address the core aspects of the question. •\n0 Marks: Provides an irrelevant or non-attempted response.",
                     "sampleAnswers": [
@@ -1183,7 +1193,8 @@
                       "Data integrity",
                       "Isolation",
                       "Threat mitigation",
-                      "Vulnerability management"
+                      "Vulnerability management",
+                      "design approach"
                     ],
                     "markingCriteria": "- Provides a clear explanation of cryptography's role in security by design, with a relevant example (2 marks). • Provides a clear explanation of sandboxing's role in security by design, with a relevant example (2 marks). • Effectively links both concepts to the proactive nature of the 'security by design' approach, using appropriate terminology (1 mark).",
                     "sampleAnswers": [
@@ -1321,7 +1332,9 @@
                       "user privacy",
                       "software development lifecycle",
                       "data minimisation",
-                      "security principles"
+                      "security principles",
+                      "design approach",
+                      "software solutions"
                     ],
                     "markingCriteria": "- Clearly defines 'privacy by design' and its proactive nature, contrasting it with reactive approaches (2 marks). • Explains how specific principles of the approach (e.g., privacy embedded into design, data minimisation) respect user privacy (2 marks). • Provides a relevant and detailed example that illustrates the concept (1 mark).",
                     "sampleAnswers": [
@@ -1612,14 +1625,15 @@
                       "SAST",
                       "DAST",
                       "Penetration Testing",
-                      "SDLC (Software Development Life Cycle)",
                       "Security Testing",
                       "Vulnerability Assessment",
                       "Risk Management",
                       "Secure Coding Practices",
                       "Data Confidentiality",
                       "Data Integrity",
-                      "Quality Assurance"
+                      "Quality Assurance",
+                      "static application security",
+                      "dynamic application security"
                     ],
                     "markingCriteria": "Provides a sophisticated evaluation of the combined effectiveness of SAST, DAST, and penetration testing within the SDLC. Makes a well-supported judgement on the relative importance of each strategy, referencing the specific context of an e-commerce platform. Demonstrates a comprehensive understanding of the strengths and limitations of each approach. Uses relevant terminology accurately and effectively. (7-8 marks). Describes the strategies and provides some evaluation of their effectiveness, with a clear link to the SDLC. (5-6 marks). Outlines one or more strategies with limited evaluation. (3-4 marks). Identifies a security strategy with a basic description. (1-2 marks).",
                     "sampleAnswers": [
@@ -1763,7 +1777,9 @@
                       "Security vulnerabilities",
                       "Cross-Site Scripting (XSS)",
                       "SQL injection",
-                      "User input"
+                      "User input",
+                      "defensive data input handling",
+                      "data input handling practices"
                     ],
                     "markingCriteria": "- 1 mark for a basic definition of either validation or sanitisation. • 2 marks for a basic comparison identifying a point of difference. • 3 marks for a clear comparison of both practices and one correct example. • 4 marks for a comprehensive comparison clearly distinguishing between the two practices, and providing a correct, relevant example for each.",
                     "sampleAnswers": [
@@ -1843,7 +1859,8 @@
                       "Denial of Service (DoS)",
                       "Injection attacks",
                       "Data integrity",
-                      "Secure coding practices"
+                      "Secure coding practices",
+                      "safe application programming interface"
                     ],
                     "markingCriteria": "Provides a clear and detailed explanation of how input validation prevents specific vulnerabilities like injection attacks (2 marks). Provides a clear and detailed explanation of how rate limiting prevents specific vulnerabilities like Denial of Service or brute-force attacks (2 marks). The response must explicitly link both security measures to the creation of a safe API using appropriate terminology.",
                     "sampleAnswers": [
@@ -1924,7 +1941,9 @@
                       "System state",
                       "Fault tolerance",
                       "Data integrity",
-                      "Performance"
+                      "Performance",
+                      "efficient execution",
+                      "exception management"
                     ],
                     "markingCriteria": "- 4 marks: Provides a clear and detailed comparison of both session and exception management, explicitly linking both to efficient execution for the user with relevant technical detail. •\n3 marks: Explains both concepts with some valid points of comparison related to efficiency. •\n2 marks: Provides a sound description of both concepts but with limited comparison or link to efficiency. •\n1 mark: Provides a limited description of one or both concepts.",
                     "sampleAnswers": [
@@ -2116,7 +2135,8 @@
                       "Output encoding",
                       "Anti-CSRF tokens",
                       "Secure coding practices",
-                      "Threat mitigation"
+                      "Threat mitigation",
+                      "vulnerabilities"
                     ],
                     "markingCriteria": "Provides a clear explanation of Cross-Site Scripting (XSS) and its impact (1 mark). Identifies a correct mitigation strategy for XSS (1 mark). Provides a clear explanation of Cross-Site Request Forgery (CSRF) and its impact (1 mark). Identifies a correct mitigation strategy for CSRF (1 mark).",
                     "sampleAnswers": [
@@ -2526,7 +2546,8 @@
                       "product quality",
                       "productivity",
                       "business interactivity",
-                      "software engineering"
+                      "software engineering",
+                      "software development"
                     ],
                     "markingCriteria": "- 5 marks: Provides a comprehensive and detailed explanation of how secure practices benefit an enterprise across products, productivity, and business interactivity, using relevant examples and terminology. •\n4 marks: Explains several benefits, making clear links to products, productivity, and/or business interactivity. •\n2-3 marks: Provides a basic explanation of one or more benefits to an enterprise. •\n1 mark: Identifies at least one benefit of secure practices.",
                     "sampleAnswers": [
@@ -2593,7 +2614,8 @@
                       "Algorithmic bias",
                       "Stakeholder impact",
                       "Digital citizenship",
-                      "Regulation and legislation"
+                      "Regulation and legislation",
+                      "data security"
                     ],
                     "markingCriteria": "Provides a clear and well-supported judgement on the extent of the ramifications. Sophisticated evaluation links digital disruption, secure software, and specific social/ethical issues (employment, data security) with relevant examples. Acknowledges both positive and negative impacts. Response is logical, cohesive, and uses precise industry terminology. At the lower end, the response may be descriptive, identifying some issues with limited links to the question's core concepts of evaluation and digital disruption.",
                     "sampleAnswers": [
@@ -2761,8 +2783,7 @@
                       "Protocol",
                       "Encryption",
                       "SSL/TLS",
-                      "Data integrity",
-                      "Security"
+                      "Data integrity"
                     ],
                     "markingCriteria": "- Clearly explains the function of HTTP (1 mark). • Clearly explains the function of HTTPS, identifying encryption as the key difference (1 mark). • Compares the security implications of both, linking HTTPS to confidentiality and integrity (1 mark). • Contrasts the protocols effectively, mentioning aspects like port numbers (80 vs 443) or the role of SSL/TLS certificates (1 mark).",
                     "sampleAnswers": [
@@ -2949,7 +2970,6 @@
                     "keywords": [
                       "HTTPS",
                       "Protocol",
-                      "Security",
                       "Encryption",
                       "Data Transfer"
                     ],
@@ -2986,7 +3006,6 @@
                       "Port 443",
                       "Encryption",
                       "SSL/TLS",
-                      "Security",
                       "Data Integrity"
                     ],
                     "sampleAnswers": [
@@ -3153,8 +3172,7 @@
                       "SSL",
                       "TLS",
                       "Encryption",
-                      "Digital Certificates",
-                      "Security"
+                      "Digital Certificates"
                     ],
                     "sampleAnswers": [
                       {
@@ -3257,7 +3275,8 @@
                       "HDFS",
                       "Columnar storage",
                       "Data lake",
-                      "Analytics"
+                      "Analytics",
+                      "big data"
                     ],
                     "markingCriteria": "- Explains distributed storage (2 marks) • Explains columnar format advantages (2 marks) • Links to web-scale analytics (2 marks).",
                     "sampleAnswers": [
@@ -3457,7 +3476,8 @@
                       "Data mining",
                       "Recommendation Engine",
                       "Pattern Recognition",
-                      "Personalisation"
+                      "Personalisation",
+                      "web architecture"
                     ],
                     "markingCriteria": "- Describes data mining as finding patterns in large datasets (1 mark) • Explains a specific application like 'Customers who bought X also bought Y' (Association rules) (2 marks) • Links this to the benefit of personalised UX and increased conversion (1 mark).",
                     "sampleAnswers": [
@@ -3575,7 +3595,8 @@
                       "Back-end",
                       "JavaScript",
                       "Database",
-                      "User Interface (UI)"
+                      "User Interface (UI)",
+                      "web development"
                     ],
                     "markingCriteria": "- Provides key characteristics of client-side programming, mentioning its relation to the user's browser and UI (2 marks). • Provides key characteristics of server-side programming, mentioning its relation to business logic, databases, and security (2 marks).",
                     "sampleAnswers": [
@@ -3735,7 +3756,8 @@
                       "Repository",
                       "Branching",
                       "Merging",
-                      "Code history"
+                      "Code history",
+                      "web application"
                     ],
                     "markingCriteria": "- Provides a detailed justification by linking at least two distinct features of version control to specific benefits in a collaborative environment. (4 marks) • Provides a good justification by linking one feature of version control to a benefit. (3 marks) • Describes a reason for using version control with a limited link to collaboration. (2 marks) • Identifies a basic purpose of version control. (1 mark)",
                     "sampleAnswers": [
@@ -3870,7 +3892,8 @@
                       "Merging",
                       "Rollback",
                       "Conflict Resolution",
-                      "Git"
+                      "Git",
+                      "web application"
                     ],
                     "sampleAnswers": [
                       {
@@ -4015,7 +4038,8 @@
                       "Interoperability",
                       "Accessibility",
                       "Protocols",
-                      "Consistency"
+                      "Consistency",
+                      "World Wide Web Consortium"
                     ],
                     "sampleAnswers": [
                       {
@@ -4257,7 +4281,8 @@
                       "React",
                       "Opinionated",
                       "Flexibility",
-                      "Maintainability"
+                      "Maintainability",
+                      "front-end"
                     ],
                     "markingCriteria": "- Makes a clear evaluative judgement, acknowledging that both are valid but have different trade-offs (1 mark). • Applies multiple criteria, such as developer onboarding, long-term maintenance, and flexibility (3 marks). • Provides comprehensive evidence for each criterion, contrasting the 'opinionated' nature of a framework with the flexibility of a library-based approach (3 marks). • Synthesises the evaluation into a nuanced conclusion about the trade-offs (1 mark).",
                     "sampleAnswers": [
@@ -4543,7 +4568,8 @@
                       "Maintainability",
                       "Variables",
                       "Mixins",
-                      "Nesting"
+                      "Nesting",
+                      "web application"
                     ],
                     "markingCriteria": "- Makes a clear judgement on the value of a preprocessor for a large project (1 mark). • Explains at least two features of a preprocessor (e.g., variables, nesting) (2 marks). • Links these features to specific benefits like consistency and code reusability (2 marks). • Acknowledges a trade-off, such as the need for a build/compile step (1 mark).",
                     "sampleAnswers": [
@@ -4584,7 +4610,9 @@
                       "Presentation",
                       "Consistency",
                       "Responsiveness",
-                      "Media Queries"
+                      "Media Queries",
+                      "cascading style sheets",
+                      "web application"
                     ],
                     "sampleAnswers": [
                       {
@@ -4637,10 +4665,8 @@
                       "Open-source",
                       "LAMP",
                       "Proprietary",
-                      "Total Cost of Ownership (TCO)",
                       "Community Support",
-                      "Flexibility",
-                      "Security"
+                      "Flexibility"
                     ],
                     "markingCriteria": "- Provides a justification based on cost, mentioning zero licensing fees (1 mark). • Provides a justification based on flexibility and avoidance of vendor lock-in (2 marks). • Provides a justification based on the availability of strong community support and a large talent pool (2 marks).",
                     "sampleAnswers": [
@@ -4801,7 +4827,8 @@
                       "Responsive Design",
                       "Media Queries",
                       "Breakpoints",
-                      "Viewport"
+                      "Viewport",
+                      "display devices"
                     ],
                     "markingCriteria": "- Explains that media queries detect device properties like width (1 mark) • Explains that they apply different CSS blocks based on these conditions (breakpoints) (1 mark) • Links this to adapting layout (e.g. multi-column to single-column) for usability (1 mark).",
                     "sampleAnswers": [
@@ -4827,7 +4854,9 @@
                       "Responsiveness",
                       "Media Queries",
                       "Presentation Layer",
-                      "Flexibility"
+                      "Flexibility",
+                      "cascading style sheets",
+                      "display devices"
                     ],
                     "sampleAnswers": [
                       {
@@ -5033,9 +5062,10 @@
                       "Database",
                       "API",
                       "Business Logic",
-                      "Security",
                       "Scalability",
-                      "Performance"
+                      "Performance",
+                      "web development",
+                      "web application"
                     ],
                     "markingCriteria": "- Makes a clear judgement on the value and importance of back-end development (1 mark). • Provides detailed points for the judgement, linking back-end functions like data management, security, and business logic to the success of an e-commerce site (4 marks). • Uses appropriate terminology and presents a well-structured argument (1 mark).",
                     "sampleAnswers": [
@@ -5074,10 +5104,11 @@
                       "server-side",
                       "database",
                       "API",
-                      "security",
                       "logic",
                       "authentication",
-                      "data processing"
+                      "data processing",
+                      "back-end web development",
+                      "web application"
                     ],
                     "sampleAnswers": [
                       {
@@ -5107,12 +5138,12 @@
                       "Back-end",
                       "Client-side",
                       "Server-side",
-                      "Security",
                       "Data Integrity",
                       "User Experience (UX)",
                       "Scalability",
                       "Database",
-                      "API"
+                      "API",
+                      "web application"
                     ],
                     "sampleAnswers": [
                       {
@@ -5141,9 +5172,10 @@
                       "back-end",
                       "server-side",
                       "database",
-                      "security",
                       "dynamic data",
-                      "API"
+                      "API",
+                      "web development",
+                      "web application"
                     ],
                     "sampleAnswers": [
                       {
@@ -5198,7 +5230,8 @@
                       "Abstraction",
                       "Developer productivity",
                       "Performance",
-                      "Query optimisation"
+                      "Query optimisation",
+                      "Object-Relational Mapping"
                     ],
                     "markingCriteria": "- Clearly explains the nature of raw SQL queries (1 mark). • Clearly explains the function of an ORM as an abstraction layer (1 mark). • Provides at least one point of comparison regarding developer experience or productivity (1 mark). • Provides at least one point of comparison regarding performance or control (1 mark). • Uses appropriate terminology and structure (1 mark).",
                     "sampleAnswers": [
@@ -5402,7 +5435,8 @@
                       "Service Worker",
                       "Offline",
                       "Cache API",
-                      "Install/Activate/Fetch lifecycle"
+                      "Install/Activate/Fetch lifecycle",
+                      "progressive web app"
                     ],
                     "markingCriteria": "- Describes service worker lifecycle (2 marks) • Explains caching and fetch interception for offline use (3 marks).",
                     "sampleAnswers": [
@@ -5429,7 +5463,8 @@
                       "Offline Functionality",
                       "Caching",
                       "Installability",
-                      "PWA"
+                      "PWA",
+                      "progressive web app"
                     ],
                     "sampleAnswers": [
                       {
@@ -5772,12 +5807,13 @@
                       "Request Lifecycle",
                       "Routing",
                       "Controller",
-                      "Model",
                       "View",
                       "Database",
                       "Web Server",
                       "HTTP Request",
-                      "HTTP Response"
+                      "HTTP Response",
+                      "back-end",
+                      "web request"
                     ],
                     "markingCriteria": "- Describes the initial handling by the web server and passing the request to the framework (1 mark). • Explains the role of the router in matching the URL to a specific controller/function (2 marks). • Describes the controller's role in processing the request and interacting with the model/database (2 marks). • Explains the final step of rendering a template or generating a response to be sent back to the client (1 mark).",
                     "sampleAnswers": [
@@ -5873,7 +5909,9 @@
                       "API Contract",
                       "Parallel Development",
                       "Mock Server",
-                      "Integration"
+                      "Integration",
+                      "collaborative work",
+                      "web solution"
                     ],
                     "markingCriteria": "- Identifies the relationship between front-end/back-end teams and their reliance on an API (1 mark). • Examines an API contract as a formal agreement that defines the API's structure and data format (2 marks). • Analyses how this contract enables parallel development by allowing the front-end to work with a mock API (2 marks). • Draws a conclusion about how this reduces integration issues and improves efficiency (1 mark).",
                     "sampleAnswers": [
@@ -5914,7 +5952,11 @@
                       "Version control",
                       "Parallel development",
                       "Integration testing",
-                      "User experience"
+                      "User experience",
+                      "collaborative work practices",
+                      "front-end",
+                      "back-end developers improve",
+                      "web solution"
                     ],
                     "sampleAnswers": [
                       {
@@ -5994,7 +6036,8 @@
                       "Automation",
                       "Shell script",
                       "Deployment",
-                      "CI/CD"
+                      "CI/CD",
+                      "web application"
                     ],
                     "markingCriteria": "- Explains the purpose of the script (grouping commands for automation) (1 mark) • Describes Task 1 (e.g. pulling code from git) (1 mark) • Describes Task 2 (e.g. restarting web server) (1 mark) • Links to benefit (efficiency/reliability) (1 mark).",
                     "sampleAnswers": [
@@ -6021,7 +6064,8 @@
                       "mkdir",
                       "grep",
                       "System execution",
-                      "Operating System interaction"
+                      "Operating System interaction",
+                      "web application"
                     ],
                     "sampleAnswers": [
                       {
@@ -6394,8 +6438,8 @@
                       "Iterative development",
                       "Customer collaboration",
                       "Changing requirements",
-                      "Software development life cycle (SDLC)",
-                      "Sprint"
+                      "Sprint",
+                      "software development approach"
                     ],
                     "markingCriteria": "- Describes the rigid, sequential nature of the Waterfall model (1 mark). • Describes the flexible, iterative nature of the Agile approach (1 mark). • Explains how Agile's iterative cycles (sprints) accommodate change (1 mark). • Explains how Agile's emphasis on customer collaboration helps refine requirements over time (1 mark). • Provides a concluding statement summarising the suitability of Agile for uncertainty (1 mark).",
                     "sampleAnswers": [
@@ -6451,7 +6495,8 @@
                       "Waterfall",
                       "Cultural change",
                       "Project management",
-                      "Stakeholder management"
+                      "Stakeholder management",
+                      "Agile software development approach"
                     ],
                     "markingCriteria": "- Makes a judgement on the significance of the challenges (e.g., 'significant and primarily cultural') (1 mark). • Provides evidence, discussing challenges related to mindset shifts (e.g., from 'big upfront design' to emergent design) (2 marks). • Provides evidence, discussing challenges related to stakeholder and client management (e.g., need for continuous engagement) (2 marks). • Draws a warranted conclusion about the nature of the transition (1 mark).",
                     "sampleAnswers": [
@@ -6508,7 +6553,8 @@
                       "Safety-critical",
                       "Requirements",
                       "Documentation",
-                      "Verification"
+                      "Verification",
+                      "software development approach"
                     ],
                     "markingCriteria": "- States a clear position that Waterfall is a justifiable choice for this context (1 mark). • Provides multiple lines of reasoning, explaining that requirements for such a system are fixed and known upfront (2 marks). • Provides further reasoning, highlighting the importance of rigorous documentation and formal verification at each stage, which are strengths of Waterfall (2 marks). • Addresses the unsuitability of Agile for a safety-critical context to strengthen the argument (1 mark).",
                     "sampleAnswers": [
@@ -6565,7 +6611,8 @@
                       "WAgile",
                       "Safety-critical",
                       "Project management",
-                      "Methodology"
+                      "Methodology",
+                      "software development approach"
                     ],
                     "markingCriteria": "- States a clear position, likely justifying Waterfall or a heavily Waterfall-leaning WAgile model (1 mark). • Provides multiple lines of reasoning for the chosen approach, based on the safety-critical nature of the project (3 marks). • Justifies the choice by systematically assessing the unsuitability of the other approaches (e.g., why pure Agile is too risky) (4 marks). • Builds a compelling, logical case linking project characteristics to methodological strengths (2 marks).",
                     "sampleAnswers": [
@@ -6739,7 +6786,8 @@
                       "Consent",
                       "Transparency",
                       "Code of Conduct",
-                      "Stakeholder Management"
+                      "Stakeholder Management",
+                      "ethical issues"
                     ],
                     "markingCriteria": "- Makes a clear judgement on the ethical unacceptability of the request (1 mark). • Identifies the violation of user privacy as a key ethical issue (1 mark). • Identifies the lack of transparency and consent as another key issue (1 mark). • Assesses the engineer's professional duty to raise these concerns, potentially citing a professional code of conduct (2 marks).",
                     "sampleAnswers": [
@@ -6860,11 +6908,11 @@
                     "keywords": [
                       "Agile",
                       "Waterfall",
-                      "Software Development Life Cycle (SDLC)",
                       "Iterative",
                       "Incremental",
                       "Requirements",
-                      "Feedback"
+                      "Feedback",
+                      "software development approaches"
                     ],
                     "markingCriteria": "- Describes the key characteristics of the Waterfall approach (sequential, upfront planning) (1 mark). • Describes the key characteristics of the Agile approach (iterative, flexible) (1 mark). • Assesses Waterfall as suitable for the fixed requirements project, with justification (2 marks). • Assesses Agile as suitable for the evolving requirements project, with justification (2 marks).",
                     "sampleAnswers": [
@@ -6987,7 +7035,8 @@
                       "Hybrid Methodology",
                       "Agile",
                       "Waterfall",
-                      "SDLC"
+                      "SDLC",
+                      "software development approach"
                     ],
                     "markingCriteria": "- Correctly identifies WAgile as a hybrid model combining Waterfall and Agile (1 mark). • Explains how the two are combined (e.g., Waterfall for planning, Agile for execution) (2 marks). • Describes a suitable scenario with both fixed and evolving requirements (1 mark). • Justifies why the hybrid approach is superior in that scenario (1 mark).",
                     "sampleAnswers": [
@@ -7119,7 +7168,8 @@
                       "3-2-1 rule",
                       "Version control",
                       "Cloud storage",
-                      "Data loss"
+                      "Data loss",
+                      "programmed data"
                     ],
                     "markingCriteria": "- Proposes a clear, multi-layered backup strategy (2 marks). • The proposal correctly applies the '3-2-1 rule' (3 copies, 2 media, 1 off-site) (3 marks). • Justifies the proposal by explaining how it protects against various data loss scenarios (1 mark).",
                     "sampleAnswers": [
@@ -7181,7 +7231,8 @@
                       "Prototype",
                       "Low-fidelity",
                       "UI design",
-                      "User testing"
+                      "User testing",
+                      "user interface"
                     ],
                     "markingCriteria": "- Proposes a clear and innovative feature for a to-do list app (2 marks). • Describes the steps to create a low-fidelity prototype (e.g., paper sketch, wireframe) (2 marks). • Explains how this prototype would be used to test the UI design with users (1 mark).",
                     "sampleAnswers": [
@@ -7483,7 +7534,6 @@
                     ],
                     "keywords": [
                       "Boundary value analysis",
-                      "Testing",
                       "Test cases",
                       "Black-box testing",
                       "Input validation",
@@ -7874,7 +7924,8 @@
                     "keywords": [
                       "Subset",
                       "Field",
-                      "Relationship"
+                      "Relationship",
+                      "artificial intelligence"
                     ],
                     "markingCriteria": "2 marks: States correctly that Machine Learning is a subset or sub-field of Artificial Intelligence.\n1 mark: States they are related or that one uses the other without defining the hierarchy.",
                     "sampleAnswers": [
@@ -8114,7 +8165,8 @@
                       "Feature extraction",
                       "Pattern recognition",
                       "Neural networks",
-                      "Classification"
+                      "Classification",
+                      "image recognition"
                     ],
                     "markingCriteria": "3 marks: Describes the process clearly, including training on labelled datasets, feature extraction (identifying patterns like edges/shapes), and classification of new inputs.\n2 marks: Outlines the use of training data and pattern finding.\n1 mark: States that it uses algorithms to see or identify images.",
                     "sampleAnswers": [
@@ -8162,7 +8214,8 @@
                       "Context",
                       "Speech-to-text",
                       "Training data",
-                      "Nuance"
+                      "Nuance",
+                      "virtual personal assistants"
                     ],
                     "markingCriteria": "5 marks: Analyses effectively the role of ML/NLP in moving beyond keyword matching to understanding intent and context, citing specific mechanisms like speech-to-text and semantic analysis.\n4 marks: Explains clearly how NLP helps assistants understand human speech and context.\n3 marks: Describes the process of understanding commands using ML.\n2 marks: Identifies that ML helps understand voice commands.\n1 mark: Limited understanding.",
                     "sampleAnswers": [
@@ -8208,7 +8261,8 @@
                       "Time-series forecasting",
                       "Historical data",
                       "Demand prediction",
-                      "Inventory management"
+                      "Inventory management",
+                      "data analysis"
                     ],
                     "markingCriteria": "4 marks: Explains comprehensively how ML analyses historical patterns (seasonality, trends) to forecast future demand, linking this directly to inventory optimisation.\n3 marks: Explains the use of data to predict sales and manage stock.\n2 marks: Describes using computers to check sales numbers.\n1 mark: Vague reference to data.",
                     "sampleAnswers": [
@@ -8297,7 +8351,8 @@
                     "keywords": [
                       "Image recognition",
                       "Voice assistants",
-                      "Recommendations"
+                      "Recommendations",
+                      "common applications"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct applications (e.g., facial recognition, voice assistants, recommendation engines).\n1 mark: Identifies one application.",
                     "sampleAnswers": [
@@ -8344,7 +8399,9 @@
                       "Predictive maintenance",
                       "Log analysis",
                       "CI/CD pipeline",
-                      "Root cause analysis"
+                      "Root cause analysis",
+                      "machine learning",
+                      "DevOps"
                     ],
                     "markingCriteria": "6 marks: Analyses effectively how ML shifts DevOps from reactive to proactive, citing specific applications like anomaly detection in logs and predictive failure analysis to enhance system reliability.\n5 marks: Explains clearly the integration of ML in DevOps (AIOps) with relevant examples.\n3-4 marks: Describes how ML helps with monitoring or testing in DevOps.\n1-2 marks: Identifies that ML can automate tasks in DevOps.",
                     "sampleAnswers": [
@@ -8529,7 +8586,6 @@
                       "Nodes",
                       "Branches",
                       "Leaves",
-                      "Features",
                       "Thresholds",
                       "Interpretability"
                     ],
@@ -8674,7 +8730,8 @@
                       "Parameter",
                       "Neighbours",
                       "Comparison",
-                      "Voting"
+                      "Voting",
+                      "K-nearest neighbour"
                     ],
                     "markingCriteria": "2 marks: States clearly that K represents the number of nearest neighbours to be compared or counted for the prediction/voting.\n1 mark: States it is related to neighbours.",
                     "sampleAnswers": [
@@ -8769,7 +8826,9 @@
                       "Probability",
                       "Continuous vs Categorical",
                       "Decision boundary",
-                      "Sigmoid function"
+                      "Sigmoid function",
+                      "linear regression",
+                      "logistic regression"
                     ],
                     "markingCriteria": "4 marks: Justifies the selection by correctly identifying the problem as binary classification (Yes/No), which aligns with Logistic Regression's output (probability mapped via sigmoid), whereas Linear Regression outputs a continuous value.\n3 marks: Explains that Logistic Regression is for categories and Linear is for numbers.\n2 marks: Identifies Logistic Regression is better for Yes/No.\n1 mark: General statement.",
                     "sampleAnswers": [
@@ -8876,7 +8935,8 @@
                       "Polymorphism",
                       "Base class",
                       "Method overriding",
-                      "Attributes"
+                      "Attributes",
+                      "regression models"
                     ],
                     "markingCriteria": "5 marks: Designs a robust OOP structure with a base class containing shared attributes/methods (fit, predict), and a subclass that inherits and extends functionality for polynomial processing, correctly applying encapsulation (private attributes).\n4 marks: Designs a correct class structure with inheritance and appropriate methods.\n3 marks: Outlines the classes but OOP principles like encapsulation are weak.\n2 marks: Provides basic pseudocode for a class.\n1 mark: Limited attempt at code.",
                     "sampleAnswers": [
@@ -8972,9 +9032,9 @@
                       "Input layer",
                       "Hidden layer",
                       "Output layer",
-                      "Features",
                       "Transformation",
-                      "Prediction"
+                      "Prediction",
+                      "neural network"
                     ],
                     "markingCriteria": "3 marks: Outlines correctly the distinct roles: Input (receives raw features), Hidden (extracts patterns/transformations), Output (delivers final prediction/probability).\n2 marks: Outlines the general flow of data through the layers.\n1 mark: Identifies the layers exist.",
                     "sampleAnswers": [
@@ -9018,11 +9078,10 @@
                     "commonStudentErrors": [],
                     "keywords": [
                       "Instantiation",
-                      "Methods",
                       "Layers",
-                      "Predict",
                       "Object-Oriented syntax",
-                      "Parameters"
+                      "Parameters",
+                      "neural network"
                     ],
                     "markingCriteria": "5 marks: Constructs syntactically logical pseudocode that correctly demonstrates object instantiation, method calls for adding layers (with parameters like node count/activation), and a method call for prediction on new data.\n4 marks: Demonstrates the process clearly with correct OOP structure.\n3 marks: Demonstrates basic instantiation and usage but misses details like layer parameters.\n2 marks: Pseudocode is fragmented but shows intent.\n1 mark: Minimal attempt.",
                     "sampleAnswers": [
@@ -9442,7 +9501,8 @@
                       "Data sovereignty",
                       "Indigenous knowledge",
                       "Bias",
-                      "Respectful design"
+                      "Respectful design",
+                      "belief systems"
                     ],
                     "markingCriteria": "4 marks: Explains effectively the need for adherence to protocols (e.g., secret/sacred knowledge restrictions, deceased persons) and the concept of Indigenous Data Sovereignty in AI training.\n3 marks: Explains that cultural rules affect what data can be used.\n2 marks: Describes the need to be respectful of culture.\n1 mark: General statement about culture.",
                     "sampleAnswers": [
@@ -9493,7 +9553,8 @@
                       "Unrepresentative",
                       "Skewed data",
                       "Real-world",
-                      "Sampling"
+                      "Sampling",
+                      "dataset source bias"
                     ],
                     "markingCriteria": "2 marks: Defines dataset source bias accurately as the use of training data that is unrepresentative of the real-world population it models.\n1 mark: States it means the data is wrong or unfair.",
                     "sampleAnswers": [

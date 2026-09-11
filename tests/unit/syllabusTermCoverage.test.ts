@@ -24,9 +24,17 @@ import { isWeakLoneTerm } from '../../utils/syllabusTermGaps';
  *    all the time and this must fail on a CODE change, not on a course.
  *
  * Measured when set, over 418 questions carrying a terms list: 77.3% of them
- * carry at least one must-use term, and 35.1% of all listed terms are must-use.
- * If a content import moves these legitimately, re-measure and move the bounds
- * in one commit that says so.
+ * carried at least one must-use term, and 35.1% of all listed terms were
+ * must-use. If a content import moves these legitimately, re-measure and move
+ * the bounds in one commit that says so.
+ *
+ * RE-BASELINED once, and the reason is the point of the test working. Running
+ * the studio's two no-AI repairs over the shipped library — Tidy Terms removing
+ * 99 entries that were not syllabus terms, Add Terms appending 151 the dot
+ * point and question are built on — moved both figures, and this test is what
+ * noticed. It is a legitimate move BY CONSTRUCTION: Add Terms appends terms
+ * taken from the question's own sources, and a term from those sources is a
+ * must-use term by definition. Now 85.4% of questions and 40.3% of terms.
  */
 
 const ROOT = join(process.cwd(), 'public/courseData');
@@ -110,19 +118,22 @@ describe('must-use terms across the shipped library', () => {
   it('leaves most questions carrying at least one must-use term', () => {
     const withOne = all.filter((row) => row.mustUse.length > 0).length;
     const share = withOne / all.length;
-    // Measured at 77.3%. Below 70% the matcher has stopped seeing questions it
-    // used to; above 85% it is promoting terms nothing really names.
-    expect(share).toBeGreaterThan(0.7);
-    expect(share).toBeLessThan(0.85);
+    // Measured at 85.4% after the term repair (77.3% before it). Below 75% the
+    // matcher has stopped seeing questions it used to; above 93% it is
+    // promoting terms nothing really names — the repair cannot push it there,
+    // since it only ever adds terms a source already contains.
+    expect(share).toBeGreaterThan(0.75);
+    expect(share).toBeLessThan(0.93);
   });
 
   it('keeps the split meaningful — a minority of terms are must-use', () => {
     const terms = all.reduce((n, row) => n + row.terms.length, 0);
     const mustUse = all.reduce((n, row) => n + row.mustUse.length, 0);
     const share = mustUse / terms;
-    // Measured at 35.1%. Past half, "must-use" has stopped distinguishing
-    // anything and the panel's two groups say the same thing.
-    expect(share).toBeGreaterThan(0.28);
+    // Measured at 40.3% after the term repair (35.1% before it). Past half,
+    // "must-use" has stopped distinguishing anything and the panel's two groups
+    // say the same thing — which is the line that matters, so it has not moved.
+    expect(share).toBeGreaterThan(0.3);
     expect(share).toBeLessThan(0.5);
   });
 });
