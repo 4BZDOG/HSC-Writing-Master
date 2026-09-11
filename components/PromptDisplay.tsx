@@ -1086,7 +1086,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 sideways when a question links more outcomes than the card is
                 wide — the row height stays fixed either way. Below sm they
                 still drop to their own row, where there is no width to share. */}
-              <div className="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-nowrap items-center gap-2 overflow-x-auto scrollbar-hide py-0.5">
+              <div
+                className={`order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-nowrap items-center gap-2 py-0.5 ${
+                  // Scrolls only when it HOLDS something to scroll. It was
+                  // always a scroller, and with no outcomes linked that left a
+                  // sentence 153px wide clipped inside 102px, with
+                  // `scrollbar-hide` removing the scrollbar and nothing
+                  // focusable inside to tab to — so the only way to read the
+                  // end of "No specific outcomes linked." was a mouse wheel.
+                  // With chips it stays a scroller and needs no tabindex: the
+                  // chips are buttons, so tabbing through them scrolls it.
+                  linkedOutcomes.length > 0 ? 'overflow-x-auto scrollbar-hide' : 'overflow-hidden'
+                }`}
+              >
                 {linkedOutcomes.length > 0 ? (
                   linkedOutcomes.map((outcome) => (
                     <OutcomeChip
@@ -1101,7 +1113,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   // top put it under 2.5:1 in the light theme. The tone alone
                   // says "nothing to see" and stays readable for whoever needs
                   // to read it.
-                  <span className="text-xs text-[rgb(var(--color-text-muted))] italic font-medium whitespace-nowrap">
+                  // `truncate` rather than `whitespace-nowrap`: where the slot
+                  // really is too narrow, an ellipsis says the sentence was cut
+                  // where a hard clip mid-word just looks broken.
+                  <span className="text-xs text-[rgb(var(--color-text-muted))] italic font-medium truncate">
                     No specific outcomes linked.
                   </span>
                 )}

@@ -120,7 +120,20 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           ))}
         </div>
 
-        <div className="p-6 sm:p-8 overflow-y-auto custom-scrollbar">
+        {/*
+          Focusable because it scrolls. The "Getting started" tab is a list of
+          steps with nothing interactive in it, so a keyboard user could tab to
+          the tabs above and the buttons below but never scroll the guide
+          itself — the one panel whose whole job is to be read. `tabIndex={0}`
+          makes the arrow keys work on it; the label says which panel has
+          focus, since the three tabs share this one container.
+         */}
+        <div
+          className="p-6 sm:p-8 overflow-y-auto custom-scrollbar"
+          tabIndex={0}
+          role="region"
+          aria-label={`${TABS.find((t) => t.id === tab)?.label ?? 'Guide'} — scrollable`}
+        >
           {tab === 'guide' && (
             <>
               <ol className="space-y-4">

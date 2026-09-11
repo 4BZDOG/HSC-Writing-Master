@@ -16,6 +16,7 @@ import {
   TIER_GROUPS,
 } from '../../data/commandTerms';
 import { sanitiseKeywords } from '../../services/geminiService';
+import colors from 'tailwindcss/colors';
 
 /**
  * The band a student works toward must be ONE predefined colour everywhere. The
@@ -159,6 +160,111 @@ describe("band 3's solid pairing", () => {
     for (const band of [1, 2, 4, 5, 6]) {
       expect(getBandConfig(band).solidText).toBe('text-white print:text-white');
     }
+  });
+});
+
+/**
+ * Every band's solid pairing, measured rather than assumed.
+ *
+ * The test above says bands 1, 2, 4, 5 and 6 pair their fill with white. It
+ * never asked whether white was READABLE on them, and two of them it was not:
+ * `bg-orange-600` was 3.56:1 in both themes and `bg-green-600` 3.30:1 in the
+ * dark one, against a 4.5:1 floor. The assertion was pinning the failure in
+ * place.
+ *
+ * Nothing else was going to catch it. The e2e contrast sweep
+ * (tests/e2e/light-theme.spec.ts) measures only text on flat, near-grey
+ * surfaces, and says why: brand-coloured chrome is "a design decision to take
+ * once, not a light-theme oversight to gate on here". That is right, and this
+ * is where the decision gets taken — once, for every band, in both themes.
+ *
+ * The floor is 4.5:1, not the 3:1 large-text allowance, because the chips that
+ * wear this pairing render `.t-label` — 12px at weight 500, which is normal
+ * text under WCAG. Some uses of `solidBg` hold an icon rather than words and
+ * would be entitled to 3:1; holding all of them to the stricter floor costs a
+ * shade and removes the need to know which is which.
+ *
+ * Hexes come from Tailwind's own palette at runtime, so a palette upgrade is
+ * re-measured rather than silently trusted against a copied table. The method
+ * is cross-checked by band 3, whose numbers here reproduce the browser
+ * measurements recorded above to the same two decimals.
+ */
+describe('every band’s solid fill carries its text at AA', () => {
+  /** WCAG 2.1 relative luminance. */
+  const luminance = (hex: string): number => {
+    const full = hex.length === 4 ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}` : hex;
+    const channels = [1, 3, 5].map((i) => parseInt(full.slice(i, i + 2), 16) / 255);
+    const [r, g, b] = channels.map((v) =>
+      v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
+    );
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+
+  const contrast = (a: string, b: string): number => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  /** `bg-orange-700` / `text-white` → the hex Tailwind will actually emit. */
+  const hexOf = (token: string): string => {
+    const name = token.replace(/^(bg|text)-/, '');
+    if (name === 'white') return '#ffffff';
+    if (name === 'black') return '#000000';
+    const [family, step] = [name.replace(/-\d+$/, ''), name.match(/(\d+)$/)?.[1]];
+    const palette = (colors as unknown as Record<string, Record<string, string>>)[family];
+    const hex = step ? palette?.[step] : undefined;
+    if (!hex) throw new Error(`No Tailwind colour for "${token}"`);
+    return hex;
+  };
+
+  /**
+   * The class that applies in a given theme. The base token is the DARK theme;
+   * a `light:`-prefixed token overrides it in the light one. `print:` is a
+   * third surface — white paper — and is judged on its own below.
+   */
+  const forTheme = (classes: string, prefix: 'bg' | 'text', theme: 'dark' | 'light'): string => {
+    const tokens = classes.split(/\s+/).filter(Boolean);
+    const base = tokens.find((t) => t.startsWith(`${prefix}-`));
+    const light = tokens.find((t) => t.startsWith(`light:${prefix}-`))?.replace('light:', '');
+    const chosen = theme === 'light' ? (light ?? base) : base;
+    if (!chosen) throw new Error(`No ${prefix} class in "${classes}"`);
+    return chosen;
+  };
+
+  const BANDS = [1, 2, 3, 4, 5, 6];
+  const AA_NORMAL_TEXT = 4.5;
+
+  it.each(BANDS.flatMap((band) => (['dark', 'light'] as const).map((t) => [band, t] as const)))(
+    'band %i on the %s theme',
+    (band, theme) => {
+      const config = getBandConfig(band);
+      const fill = hexOf(forTheme(config.solidBg, 'bg', theme));
+      const text = hexOf(forTheme(config.solidText, 'text', theme));
+      const ratio = contrast(text, fill);
+
+      expect(
+        ratio,
+        `band ${band} ${theme}: ${forTheme(config.solidText, 'text', theme)} on ` +
+          `${forTheme(config.solidBg, 'bg', theme)} is ${ratio.toFixed(2)}:1, below AA’s ${AA_NORMAL_TEXT}:1`
+      ).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
+    }
+  );
+
+  it('reproduces the band 3 readings that were measured in a browser', () => {
+    // The comments above this file's band-3 block record 7.60:1 and 6.79:1,
+    // read off Chromium. If this maths disagrees with a real renderer, every
+    // other number here is suspect too.
+    const band3 = getBandConfig(3);
+    const dark = contrast(
+      hexOf(forTheme(band3.solidText, 'text', 'dark')),
+      hexOf(forTheme(band3.solidBg, 'bg', 'dark'))
+    );
+    const light = contrast(
+      hexOf(forTheme(band3.solidText, 'text', 'light')),
+      hexOf(forTheme(band3.solidBg, 'bg', 'light'))
+    );
+    expect(dark).toBeCloseTo(7.6, 1);
+    expect(light).toBeCloseTo(6.79, 1);
   });
 });
 
