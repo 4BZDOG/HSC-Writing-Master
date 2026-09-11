@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
-import { freezeAnimations } from './support/contrast';
+import { signIn, clearOnboarding, openFirstQuestion, openVerbRibbon } from './support/workspace';
+import { freezeAnimations, measureContrast, describeReadings } from './support/contrast';
 
 /**
  * WCAG 2.1 AA, by machine, on the two surfaces every user passes through.
@@ -124,6 +124,68 @@ test.describe('reflow — the primary action is reachable at phone widths', () =
       );
     });
   }
+});
+
+/**
+ * Text on BRAND-COLOURED fills — the set light-theme.spec.ts leaves alone.
+ *
+ * That sweep measures only text on flat, near-grey surfaces, and its reason is
+ * sound: it exists to catch a tone tuned against black and reused on white, and
+ * chrome that is deliberately the same colour in both themes is "a design
+ * decision to take once, not a light-theme oversight to gate on here".
+ *
+ * But "take it once" is not "never check it", and nothing was checking it. Two
+ * failures had shipped inside that gap: the band 2 and band 4 solid fills
+ * (fixed at source, and now pinned per-band in bandColors.test.ts), and the
+ * header avatar, white on `bg-indigo-500` at 4.47:1 — under the floor by 0.03,
+ * and the one indigo in the app that had drifted off the `-600` every other
+ * button rests on.
+ *
+ * So this holds the brand-coloured readings to their floor in absolute terms,
+ * which is a different question from the parity that sweep asks, and does not
+ * disturb its scope.
+ */
+test.describe('brand-coloured text meets its contrast floor', () => {
+  test.describe.configure({ timeout: 120_000 });
+  test.skip(({ browserName }) => browserName !== 'chromium', 'colour, not engine, is the subject');
+  test.skip(({ isMobile }) => !!isMobile, 'measured once, at desktop width');
+
+  test('in both themes', async ({ page }) => {
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await signIn(page);
+    await clearOnboarding(page);
+    await openFirstQuestion(page);
+    // Shut, the verb ribbon is invisible to a checker that walks text nodes,
+    // and it is most of the brand-coloured chrome there is: 3 readings without
+    // it against 11 with — which the count assertion below turned into a
+    // failure rather than a quiet pass. light-theme.spec.ts opens it for the
+    // same reason. It survives the theme switches below, so once is enough.
+    await openVerbRibbon(page);
+
+    for (const theme of ['dark', 'light'] as const) {
+      const toggle = page.getByRole('button', {
+        name: new RegExp(`switch to ${theme} theme`, 'i'),
+      });
+      if (await toggle.count()) {
+        await toggle.first().click();
+        await page.waitForTimeout(800);
+      }
+      await freezeAnimations(page);
+
+      const { readings } = await measureContrast(page);
+      const brand = readings.filter((r) => !r.neutralBackground);
+      // A run that measured no brand chrome at all would pass having proved
+      // nothing — most likely because the workspace never opened.
+      expect(brand.length, `${theme}: no brand-coloured text was measured`).toBeGreaterThan(5);
+
+      const failures = brand.filter((r) => r.ratio < r.floor);
+      expect(
+        failures,
+        `${theme} theme: ${failures.length} of ${brand.length} brand-coloured readings ` +
+          `fall below their floor\n${describeReadings(failures)}`
+      ).toEqual([]);
+    }
+  });
 });
 
 test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
