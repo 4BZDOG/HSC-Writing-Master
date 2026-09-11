@@ -166,7 +166,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({
             <span className="text-xs font-bold hidden sm:block text-slate-900 dark:text-white">
               {user.displayName}
             </span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center text-white font-bold text-xs shadow-lg">
+            {/* `-600`, not `-500`, and for the same reason every other indigo button
+                in the app rests on `-600`: white on `indigo-500` is 4.47:1, which
+                is under AA's 4.5:1 for the 12px bold initial this holds. `-600`
+                is 6.29:1. The avatar was the one place that had drifted. */}
+            <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-lg">
               {user.displayName.charAt(0)}
             </div>
           </button>
