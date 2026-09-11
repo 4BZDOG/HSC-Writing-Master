@@ -25,6 +25,13 @@ import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace'
  *     linked." sat 153px wide inside 102px, with `scrollbar-hide` removing the
  *     scrollbar and nothing focusable inside to tab to.
  *
+ * …and a third once the sweep was pointed at the modals, which is where most
+ * of this app lives:
+ *
+ *   - `scrollable-region-focusable` again, on the quick start guide's body —
+ *     the panel every new account reads first, which a keyboard user could not
+ *     scroll because its tabs and buttons sit outside the scroller.
+ *
  * Chromium only, and not on mobile widths: axe's rules are engine-independent,
  * so a second engine re-reports the same findings for twice the CI minutes.
  * Same reasoning, and the same `test.skip` pattern, as light-theme.spec.ts.
@@ -68,6 +75,34 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
 
     const { violations } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
     expect(violations, `sign-in page:${describeViolations(violations)}`).toEqual([]);
+  });
+
+  test('the modals a student opens have no violations', async ({ page }) => {
+    // This app is mostly modals, so a sweep of the workspace alone would miss
+    // most of it. The quick start guide is the one every new account meets
+    // first, and it was the third `serious` finding: its body scrolls, the
+    // "Getting started" tab has nothing interactive in it, and the tabs and
+    // footer buttons sit OUTSIDE the scroller — so a keyboard user could reach
+    // everything around the guide and never scroll the guide.
+    await signIn(page);
+    await clearOnboarding(page);
+    await openFirstQuestion(page);
+
+    const surfaces: Array<[string, RegExp]> = [
+      ['quick start guide', /quick start guide/i],
+      ['user profile', /open your profile/i],
+    ];
+
+    for (const [label, trigger] of surfaces) {
+      await page.getByRole('button', { name: trigger }).first().click();
+      await page.waitForTimeout(1500);
+
+      const { violations } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
+      expect(violations, `${label}:${describeViolations(violations)}`).toEqual([]);
+
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(600);
+    }
   });
 
   test('the workspace has no violations, in both themes', async ({ page }) => {
