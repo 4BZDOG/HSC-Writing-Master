@@ -1,12 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
 import {
   normaliseOutcomeCode,
   normaliseOutcomeLinks,
   normaliseCourseOutcomeLinks,
 } from '../../utils/dataManagerUtils';
 import { Course } from '../../types';
+import { shippedCourses, questionsOf } from './support/shippedCourseData';
 
 /**
  * An outcome link is a code, not the statement the code stands for.
@@ -88,32 +87,59 @@ describe('outcome link normalisation', () => {
 /**
  * The shipped data itself. The unit rule above can be right while the courses
  * on disk are still broken — this is the half that a student would have felt.
+ *
+ * Widened to what it always meant to cover. It read the top level of
+ * `public/courseData` only, so the two per-topic files under `topics/` — 56
+ * questions declaring outcomes, which import into Biology and Software
+ * Engineering — were never checked; and it took `parsed[0]` from an array
+ * file, so a second course in one would have been invisible too. Neither gap
+ * was hiding a break (all 340 declared links resolve today), but a scan that
+ * silently walks less than it claims reads as proof that it did.
+ *
+ * A topic file carries no outcome list of its own, which is why this needs the
+ * walker: outcomes live on the COURSE, and the manifest is the only thing that
+ * says which course a topic file lands in.
  */
 describe('shipped courses resolve their own outcomes', () => {
-  const dir = join(process.cwd(), 'public/courseData');
+  const courses = shippedCourses();
+
+  /** Outcome codes per course, taken from the course files that declare them. */
+  const codesByCourse = new Map<string, Set<string>>();
+  for (const course of courses) {
+    if (course.isTopicFile) continue;
+    const outcomes = ((course.raw as Course).outcomes ?? []).map((o) => o.code);
+    codesByCourse.set(course.courseName, new Set(outcomes));
+  }
+
+  it('knows the outcome list of every course it is about to check', () => {
+    // Without this, a renamed course silently yields an empty code set, every
+    // link "fails to resolve", and the real assertion below drowns in noise —
+    // or worse, a course with no questions passes it in silence.
+    for (const [course, codes] of codesByCourse) {
+      if (course === 'My Example Course (Template)') continue;
+      expect(codes.size, `${course} declares no outcomes`).toBeGreaterThan(0);
+    }
+  });
 
   it('every prompt that declares outcomes resolves at least one', () => {
     const orphans: string[] = [];
-    for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(readFileSync(join(dir, file), 'utf8'));
-      } catch {
-        continue;
+    let declared = 0;
+    for (const course of courses) {
+      const codes = codesByCourse.get(course.courseName) ?? new Set<string>();
+      for (const question of questionsOf(course)) {
+        const links: string[] =
+          (question.prompt as { linkedOutcomes?: string[] }).linkedOutcomes ?? [];
+        if (!links.length) continue;
+        declared++;
+        if (!links.some((code) => codes.has(code)))
+          orphans.push(`${course.file} ${question.prompt.id}: ${links.join(', ')}`);
       }
-      const course = (Array.isArray(parsed) ? parsed[0] : parsed) as Course | undefined;
-      if (!course?.topics) continue;
-      const codes = new Set((course.outcomes || []).map((o) => o.code));
-      for (const topic of course.topics)
-        for (const sub of topic.subTopics || [])
-          for (const dot of sub.dotPoints || [])
-            for (const prompt of dot.prompts || []) {
-              const links = prompt.linkedOutcomes || [];
-              if (!links.length) continue;
-              if (!links.some((code) => codes.has(code)))
-                orphans.push(`${file} ${prompt.id}: ${links.join(', ')}`);
-            }
     }
-    expect(orphans, `these questions render no "What's Assessed" panel:\n${orphans.join('\n')}`).toEqual([]);
+    // The per-topic files are the reason this number is not 284.
+    expect(declared).toBeGreaterThan(300);
+    expect(
+      orphans,
+      `these questions render no "What's Assessed" panel:\n${orphans.join('\n')}`
+    ).toEqual([]);
   });
 });

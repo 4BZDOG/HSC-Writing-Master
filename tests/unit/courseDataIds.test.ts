@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync, existsSync } from 'fs';
-import { join } from 'path';
+import { shippedCourses, type ShippedCourse } from './support/shippedCourseData';
 
 /**
  * An id identifies one thing.
@@ -20,51 +19,38 @@ import { join } from 'path';
  * The per-topic files under `topics/` are scanned too: they ship in the
  * manifest and import independently, so fixing only the aggregated course would
  * let an import put the duplicate straight back.
+ *
+ * Ids must be unique WITHIN a file, which is why this groups by file rather
+ * than by course: two files may legitimately describe the same syllabus, and
+ * only one of them is ever imported.
  */
 
-const ROOT = join(process.cwd(), 'public/courseData');
-
-type AnyNode = Record<string, any>;
-
-const courseFiles = (): string[] => {
-  const files = readdirSync(ROOT)
-    .filter((f) => f.endsWith('.json') && f !== 'manifest.json')
-    .map((f) => join(ROOT, f));
-  const topics = join(ROOT, 'topics');
-  if (existsSync(topics))
-    files.push(...readdirSync(topics).filter((f) => f.endsWith('.json')).map((f) => join(topics, f)));
-  return files;
-};
-
-/** A course file holds `topics`; a topic file IS a topic. */
-const topicsOf = (parsed: unknown): AnyNode[] => {
-  const roots = (Array.isArray(parsed) ? parsed : [parsed]) as AnyNode[];
-  return roots.flatMap((r) => (r?.topics ? r.topics : r?.subTopics ? [r] : []));
+/** Every shipped file, with the courses inside it — a file may hold more than one. */
+const byFile = (): Array<[string, ShippedCourse[]]> => {
+  const grouped = new Map<string, ShippedCourse[]>();
+  for (const course of shippedCourses()) {
+    const existing = grouped.get(course.file);
+    if (existing) existing.push(course);
+    else grouped.set(course.file, [course]);
+  }
+  return [...grouped];
 };
 
 describe('shipped course data: every id identifies one thing', () => {
-  it.each(courseFiles().map((f) => [f.replace(ROOT + '/', ''), f]))(
-    '%s has no id used twice',
-    (_name, file) => {
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(readFileSync(file, 'utf8'));
-      } catch (e) {
-        throw new Error(`${file} is not valid JSON: ${(e as Error).message}`);
-      }
+  it.each(byFile())('%s has no id used twice', (_name, courses) => {
+    const seen: Record<string, Map<string, string[]>> = {
+      subTopic: new Map(),
+      dotPoint: new Map(),
+      prompt: new Map(),
+      sampleAnswer: new Map(),
+    };
+    const note = (kind: string, id: unknown, where: string) => {
+      if (typeof id !== 'string' || !id) return;
+      seen[kind].set(id, [...(seen[kind].get(id) ?? []), where]);
+    };
 
-      const seen: Record<string, Map<string, string[]>> = {
-        subTopic: new Map(),
-        dotPoint: new Map(),
-        prompt: new Map(),
-        sampleAnswer: new Map(),
-      };
-      const note = (kind: string, id: unknown, where: string) => {
-        if (typeof id !== 'string' || !id) return;
-        seen[kind].set(id, [...(seen[kind].get(id) ?? []), where]);
-      };
-
-      for (const topic of topicsOf(parsed))
+    for (const course of courses)
+      for (const topic of course.topics)
         for (const sub of topic.subTopics ?? []) {
           note('subTopic', sub.id, sub.name);
           for (const dot of sub.dotPoints ?? []) {
@@ -77,12 +63,18 @@ describe('shipped course data: every id identifies one thing', () => {
           }
         }
 
-      const collisions: string[] = [];
-      for (const [kind, map] of Object.entries(seen))
-        for (const [id, where] of map)
-          if (where.length > 1) collisions.push(`${kind} ${id} appears ${where.length}x: ${where.join(' | ')}`);
+    const collisions: string[] = [];
+    for (const [kind, map] of Object.entries(seen))
+      for (const [id, where] of map)
+        if (where.length > 1)
+          collisions.push(`${kind} ${id} appears ${where.length}x: ${where.join(' | ')}`);
 
-      expect(collisions, collisions.join('\n')).toEqual([]);
-    }
-  );
+    expect(collisions, collisions.join('\n')).toEqual([]);
+  });
+
+  it('checked every shipped file, not an empty list', () => {
+    // `it.each` over an empty array reports nothing and passes, so the scan
+    // going blind would look exactly like the data being clean.
+    expect(byFile().length).toBeGreaterThanOrEqual(5);
+  });
 });
