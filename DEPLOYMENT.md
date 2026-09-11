@@ -249,9 +249,16 @@ This is the subset that decides how a _deployment_ behaves.
   the wildcard `*` is deliberately rejected. Unset = same-origin only (default).
 - `SUPABASE_URL` / `SUPABASE_ANON_KEY` — lets the proxy verify user tokens
   and enforce per-user daily quotas. **The anon key, not the service-role key.**
-- `SUPABASE_SERVICE_ROLE_KEY` — bypasses Row-Level Security. Needed only by the
-  Stripe webhook handler and the seed scripts. Never client-side, never in a
-  `VITE_` variable.
+- `SUPABASE_SERVICE_ROLE_KEY` — bypasses Row-Level Security, and is the only
+  identity the database accepts for columns no user may write. Needed by the
+  Stripe webhook handler, the seed scripts, and `/api/screen-contribution`.
+  Never client-side, never in a `VITE_` variable.
+- `QUALITY_SCREEN_PROVIDER` / `QUALITY_SCREEN_MODEL` — which model pre-screens
+  shared-library contributions. Defaults to Gemini Flash, which is the right
+  cost for a short structured judgement on every submission; set both to move
+  it to another provider. Without `SUPABASE_SERVICE_ROLE_KEY` the screen is
+  simply off and contributions arrive unscored — which puts them at the TOP of
+  the reviewer's queue, since nothing has checked them.
 - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_*_PRICE_ID` — billing;
   see the Stripe checklist above.
 - `MONETISATION_ENABLED`, `PLAN_FEATURE_OVERRIDES`, `FREE_TIER_FULL_FEEDBACK` —

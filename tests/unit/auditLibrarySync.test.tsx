@@ -123,12 +123,14 @@ describe('Content Audit Studio — sync repairs to the shared library', () => {
     fireEvent.click(syncBtn);
     await waitFor(
       () =>
-        // The stored AI pre-screen rides along so the review queue can triage.
+        // The studio's own quality score does NOT ride along. It used to, and
+        // that is the write the schema now forbids: a score the client chooses
+        // is a score the author chooses, and the review queue sorts on it. The
+        // pushed row arrives unscored, which puts it at the top of the queue.
         expect(contributionService.savePromptContribution).toHaveBeenCalledWith(
           'dp1',
           expect.objectContaining({ id: 'pr1' }),
-          'pending',
-          { score: 42, notes: 'Needs a stronger scenario.' }
+          'pending'
         ),
       { timeout: 8000 }
     );

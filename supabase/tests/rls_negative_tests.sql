@@ -374,6 +374,137 @@ end $$;
 rollback;
 
 -- =============================================================================
+-- The AI pre-screen score (schema: enforce_quality_score_authority)
+--
+-- The score decides where a submission sits in the reviewer's queue, and it
+-- used to be written by the browser that submitted it — so the party being
+-- triaged chose its own triage. These blocks prove the column is the server's
+-- now: an author cannot set it, cannot overwrite the one the server set, and
+-- cannot keep a score attached to text they have since rewritten.
+-- =============================================================================
+
+-- ---- 15. An author cannot score their own contribution (INSERT) --------------
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_score int; v_notes text; v_screened timestamptz;
+begin
+  insert into public.prompts (dot_point_id, question, status, created_by,
+                              quality_score, quality_notes, quality_screened_at)
+  values ('00000000-0000-0000-0000-0000000000c4', 'Self-scored RLS test prompt', 'pending',
+          '00000000-0000-0000-0000-0000000000a1',
+          100, 'Marked perfect by its own author.', now())
+  returning quality_score, quality_notes, quality_screened_at
+       into v_score, v_notes, v_screened;
+
+  if v_score is not null or v_notes is not null or v_screened is not null then
+    raise exception
+      'TEST FAILED: author-supplied pre-screen survived the insert (score %, notes %)',
+      v_score, v_notes;
+  end if;
+  raise notice 'PASS: an author cannot score their own contribution on insert';
+end $$;
+rollback;
+
+-- ---- 16. An author cannot overwrite the score the server gave them -----------
+begin;
+-- Seeded the way the screening endpoint writes it: service role / SQL editor,
+-- for which auth.uid() is null and the trigger stands aside.
+insert into public.prompts (id, dot_point_id, question, status, created_by,
+                            quality_score, quality_notes, quality_screened_at)
+  values ('00000000-0000-0000-0000-0000000000d6',
+          '00000000-0000-0000-0000-0000000000c4', 'Server-screened RLS test prompt', 'pending',
+          '00000000-0000-0000-0000-0000000000a1', 31, 'Vague wording.', now())
+  on conflict (id) do nothing;
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_score int; v_notes text;
+begin
+  update public.prompts
+     set quality_score = 100, quality_notes = 'On reflection it is excellent.'
+   where id = '00000000-0000-0000-0000-0000000000d6';
+
+  select quality_score, quality_notes into v_score, v_notes
+    from public.prompts where id = '00000000-0000-0000-0000-0000000000d6';
+  if v_score is distinct from 31 or v_notes is distinct from 'Vague wording.' then
+    raise exception
+      'TEST FAILED: author rewrote their own triage score (now %, %)', v_score, v_notes;
+  end if;
+  raise notice 'PASS: the server''s pre-screen survives an author''s update';
+end $$;
+rollback;
+
+-- ---- 17. Rewriting the screened text drops the verdict on the old text -------
+begin;
+insert into public.sample_answers (id, prompt_id, band, mark, answer, status, created_by,
+                                   quality_score, quality_notes, quality_screened_at)
+  values ('00000000-0000-0000-0000-0000000000d7',
+          '00000000-0000-0000-0000-0000000000c5', 5, 4, 'The screened answer.', 'pending',
+          '00000000-0000-0000-0000-0000000000a1', 72, 'Solid.', now())
+  on conflict (id) do nothing;
+
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_score int; v_screened timestamptz;
+begin
+  -- An edit that leaves the screened column alone keeps the score.
+  update public.sample_answers set quick_tip = 'Lead with the trade-off.'
+   where id = '00000000-0000-0000-0000-0000000000d7';
+  select quality_score into v_score from public.sample_answers
+   where id = '00000000-0000-0000-0000-0000000000d7';
+  if v_score is distinct from 72 then
+    raise exception 'TEST FAILED: an unrelated edit dropped the score (now %)', v_score;
+  end if;
+
+  -- Rewriting the answer itself does not: the verdict described words that are
+  -- no longer there, and carrying it forward would let an author get a good
+  -- score on one text and then submit another under it.
+  update public.sample_answers set answer = 'A completely different answer.'
+   where id = '00000000-0000-0000-0000-0000000000d7';
+  select quality_score, quality_screened_at into v_score, v_screened
+    from public.sample_answers where id = '00000000-0000-0000-0000-0000000000d7';
+  if v_score is not null or v_screened is not null then
+    raise exception
+      'TEST FAILED: the score outlived the text it judged (score %)', v_score;
+  end if;
+  raise notice 'PASS: a score follows the text it was given for';
+end $$;
+rollback;
+
+-- ---- 18. POSITIVE CONTROL: the server CAN write the score --------------------
+begin;
+-- No `set local role` and no JWT claims: auth.uid() is null, which is exactly
+-- what the service-role key looks like to the trigger. If this fails, the
+-- screening endpoint cannot do its job and every contribution stays unscored.
+insert into public.prompts (id, dot_point_id, question, status, created_by)
+  values ('00000000-0000-0000-0000-0000000000d8',
+          '00000000-0000-0000-0000-0000000000c4', 'Endpoint-scored RLS test prompt', 'pending',
+          '00000000-0000-0000-0000-0000000000a1')
+  on conflict (id) do nothing;
+
+do $$
+declare v_score int; v_screened timestamptz;
+begin
+  update public.prompts
+     set quality_score = 44, quality_notes = 'Thin on evidence.', quality_screened_at = now()
+   where id = '00000000-0000-0000-0000-0000000000d8';
+  select quality_score, quality_screened_at into v_score, v_screened
+    from public.prompts where id = '00000000-0000-0000-0000-0000000000d8';
+  if v_score is distinct from 44 or v_screened is null then
+    raise exception 'TEST FAILED: the server could not store a score (got %)', v_score;
+  end if;
+  raise notice 'PASS: the service-role path writes the pre-screen';
+end $$;
+rollback;
+
+-- =============================================================================
 -- Class-scoped analytics (schema §19)
 --
 -- Before §19, get_class_analytics / get_student_progress / get_response_students

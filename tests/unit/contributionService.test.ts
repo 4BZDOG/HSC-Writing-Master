@@ -32,10 +32,7 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
       hscQuestionNumber: '7b',
     };
 
-    const row = promptToRow(prompt, 'dot-uuid', 'user-uuid', 'pending', {
-      score: 82,
-      notes: 'Solid question',
-    });
+    const row = promptToRow(prompt, 'dot-uuid', 'user-uuid', 'pending');
 
     expect(row.dot_point_id).toBe('dot-uuid');
     expect(row.created_by).toBe('user-uuid');
@@ -45,8 +42,12 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     expect(row.is_past_hsc).toBe(true);
     expect(row.hsc_year).toBe(2024);
     expect(row.linked_outcomes).toEqual(['O1']);
-    expect(row.quality_score).toBe(82);
-    expect(row.quality_notes).toBe('Solid question');
+    // The AI pre-screen columns are NOT here, and that is the point: the score
+    // triages the review queue, so a row the author's browser builds must not
+    // carry one. /api/screen-contribution patches it in afterwards, with the
+    // service-role key that the schema's trigger recognises.
+    expect('quality_score' in row).toBe(false);
+    expect('quality_notes' in row).toBe(false);
   });
 
   it('defaults optional fields to null/empty and status to caller value', () => {
@@ -70,9 +71,6 @@ describe('promptToRow (app Prompt -> DB insert row)', () => {
     expect('highlighted_question' in row).toBe(false);
     expect('target_performance_bands' in row).toBe(false);
     expect('estimated_time' in row).toBe(false);
-    // No quality screen passed → null (unscored).
-    expect(row.quality_score).toBeNull();
-    expect(row.quality_notes).toBeNull();
     // No scenarioImage → all three columns default to null.
     expect(row.scenario_image_path).toBeNull();
     expect(row.scenario_image_alt).toBeNull();
@@ -187,15 +185,19 @@ describe('toQueueItems (pending rows -> review list)', () => {
     expect(promptItem.fullText).toBe('A question');
   });
 
-  it('sorts unscored items after scored ones', () => {
+  it('sorts UNSCREENED content ahead of everything scored', () => {
+    // The screen runs on the server and fails open, so no score means the one
+    // automated look at this never happened and only a person is left. It used
+    // to sort last — behind the submissions that had at least been checked.
     const items = toQueueItems(
       [
+        { id: 'worst-scored', question: 'q', created_at: null, quality_score: 1 },
+        { id: 'unscreened', question: 'q', created_at: null, quality_score: null },
         { id: 'scored', question: 'q', created_at: null, quality_score: 90 },
-        { id: 'unscored', question: 'q', created_at: null, quality_score: null },
       ],
       []
     );
-    expect(items.map((i) => i.id)).toEqual(['scored', 'unscored']);
+    expect(items.map((i) => i.id)).toEqual(['unscreened', 'worst-scored', 'scored']);
   });
 
   it('returns an empty list when nothing is pending', () => {
@@ -328,17 +330,23 @@ describe('structural mappers (app -> DB row)', () => {
 });
 
 describe('toQueueItems with structure', () => {
-  it('includes structural nodes, labelled by kind and sorted after scored items', () => {
+  it('includes structural nodes, labelled by kind and sorted last', () => {
+    // Structure is unscored too, but unlike a contribution it has no screen to
+    // fail — it is a line of text nothing has ever scored. Sorting it with the
+    // unscreened submissions would bury the ones that matter.
     const items = toQueueItems(
-      [{ id: 'p1', question: 'Scored Q', created_at: null, quality_score: 90 }],
+      [
+        { id: 'p1', question: 'Scored Q', created_at: null, quality_score: 90 },
+        { id: 'p2', question: 'Unscreened Q', created_at: null, quality_score: null },
+      ],
       [],
       [
         { id: 't1', kind: 'topic', label: 'A Topic', created_at: null },
         { id: 'd1', kind: 'dot_point', label: 'A dot point', created_at: null },
       ]
     );
-    // Scored prompt first; structure (no score) after.
-    expect(items[0].id).toBe('p1');
+    // Unscreened content, then scored content, then structure.
+    expect(items.map((i) => i.id)).toEqual(['p2', 'p1', 't1', 'd1']);
     const topic = items.find((i) => i.id === 't1')!;
     expect(topic.kind).toBe('topic');
     expect(topic.context).toBe('Topic');

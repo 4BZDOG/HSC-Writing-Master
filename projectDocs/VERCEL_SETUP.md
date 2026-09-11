@@ -145,17 +145,17 @@ purchase. See `docs/stripesetup.md` for creating the products themselves.
 webhook writes the plan onto a Supabase profile. Without an identity there is
 nothing to attach a subscription to.
 
-| Variable                            | Value                     | Purpose                                                                    |
-| ----------------------------------- | ------------------------- | -------------------------------------------------------------------------- |
-| `STRIPE_SECRET_KEY`                 | `sk_live_…` / `sk_test_…` | Server-side Stripe client. Unset = every billing endpoint returns a mock   |
-| `STRIPE_WEBHOOK_SECRET`             | `whsec_…`                 | Verifies webhook signatures. **Required in production** — see below        |
-| `SUPABASE_SERVICE_ROLE_KEY`         | Your service-role key     | Lets the webhook write plans past RLS. **Server-side only, never `VITE_`** |
-| `STRIPE_PLUS_MONTHLY_PRICE_ID`      | `price_…`                 | Which prices the server is allowed to sell                                 |
-| `STRIPE_PLUS_YEARLY_PRICE_ID`       | `price_…`                 | Which prices the server is allowed to sell                                 |
-| `STRIPE_SCHOOL_PRICE_ID`            | `price_…`                 | Per-seat school licence; unset keeps school sales enquiry-only             |
-| `VITE_STRIPE_PLUS_MONTHLY_PRICE_ID` | Same `price_…` as above   | Which prices the **client** offers                                         |
-| `VITE_STRIPE_PLUS_YEARLY_PRICE_ID`  | Same `price_…` as above   | Which prices the **client** offers                                         |
-| `VITE_STRIPE_SCHOOL_PRICE_ID`       | Same `price_…` as above   | Draws the seat picker for teachers and admins                              |
+| Variable                            | Value                     | Purpose                                                                                                                                           |
+| ----------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `STRIPE_SECRET_KEY`                 | `sk_live_…` / `sk_test_…` | Server-side Stripe client. Unset = every billing endpoint returns a mock                                                                          |
+| `STRIPE_WEBHOOK_SECRET`             | `whsec_…`                 | Verifies webhook signatures. **Required in production** — see below                                                                               |
+| `SUPABASE_SERVICE_ROLE_KEY`         | Your service-role key     | Lets the webhook write plans past RLS, and `/api/screen-contribution` write the review queue's triage scores. **Server-side only, never `VITE_`** |
+| `STRIPE_PLUS_MONTHLY_PRICE_ID`      | `price_…`                 | Which prices the server is allowed to sell                                                                                                        |
+| `STRIPE_PLUS_YEARLY_PRICE_ID`       | `price_…`                 | Which prices the server is allowed to sell                                                                                                        |
+| `STRIPE_SCHOOL_PRICE_ID`            | `price_…`                 | Per-seat school licence; unset keeps school sales enquiry-only                                                                                    |
+| `VITE_STRIPE_PLUS_MONTHLY_PRICE_ID` | Same `price_…` as above   | Which prices the **client** offers                                                                                                                |
+| `VITE_STRIPE_PLUS_YEARLY_PRICE_ID`  | Same `price_…` as above   | Which prices the **client** offers                                                                                                                |
+| `VITE_STRIPE_SCHOOL_PRICE_ID`       | Same `price_…` as above   | Draws the seat picker for teachers and admins                                                                                                     |
 
 > **Set each price ID as a matching pair, VITE\_ and unprefixed.** They are two
 > different lists: the client's decides what to _offer_, the server's decides

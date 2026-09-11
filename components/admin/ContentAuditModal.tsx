@@ -1547,13 +1547,11 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         const prompt = node?.dataRef as Prompt | undefined;
         if (!prompt) throw new Error('Prompt no longer exists locally.');
 
-        // Carry the AI pre-screen (if this prompt has been scored) so the
-        // review queue can triage the pushed repair.
-        const quality =
-          prompt.qualityScore != null
-            ? { score: prompt.qualityScore, notes: prompt.qualityNotes ?? '' }
-            : undefined;
-        await savePromptContribution(t.dotPointAppId, prompt, 'pending', quality);
+        // The studio's own Quality Check score stays local. It used to ride
+        // along into the row, but the score column is server-owned now — a
+        // number this client chose is exactly what the review queue must not
+        // sort on — so a synced repair arrives unscored and leads the queue.
+        await savePromptContribution(t.dotPointAppId, prompt, 'pending');
         for (const sa of prompt.sampleAnswers ?? []) {
           await saveSampleAnswerContribution(prompt.id, sa, 'pending');
         }
