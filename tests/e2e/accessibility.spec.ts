@@ -124,6 +124,90 @@ test.describe('reflow — the primary action is reachable at phone widths', () =
       );
     });
   }
+
+  /**
+   * The same rule, applied to EVERY control rather than the one that prompted
+   * it. Fixing the Evaluate button left two more behind — "Copy" overhanging by
+   * 8px and "Enter focus mode" entirely off-screen at 320px, both in the card
+   * header rather than the footer. A guard aimed at a single button would not
+   * have said so.
+   *
+   * "Reachable" here means inside the viewport OR inside a container the user
+   * can actually scroll — an ancestor whose `overflow-x` allows scrolling AND
+   * whose content genuinely overflows. A container that merely clips does not
+   * count, which is the distinction the whole class of bug turns on: the header
+   * bar was 347px wide at every viewport from 320 to 1280, because its tray
+   * refused to shrink, so nothing was ever bounded enough to scroll.
+   */
+  for (const width of [320, 375, 390]) {
+    test(`every control is reachable at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 });
+      await signIn(page);
+      await clearOnboarding(page);
+      await openFirstQuestion(page);
+
+      const editor = page.locator('[contenteditable="true"], textarea').first();
+      if (await editor.count()) {
+        await editor.click();
+        await page.keyboard.type('A test answer.');
+      }
+      await page.waitForTimeout(600);
+
+      const { total, unreachable } = await page.evaluate(() => {
+        const vw = document.documentElement.clientWidth;
+        const out: string[] = [];
+        const controls = document.querySelectorAll(
+          'button, a[href], input, select, textarea, [role="button"]'
+        );
+        let counted = 0;
+        controls.forEach((el) => {
+          const e = el as HTMLElement;
+          const rect = e.getBoundingClientRect();
+          // Nothing hidden, nothing disabled — WCAG exempts disabled controls,
+          // and a zero-box element is not on screen to be reached.
+          if (rect.width === 0 || rect.height === 0) return;
+          if ((e as HTMLButtonElement).disabled) return;
+          counted++;
+          if (rect.right <= vw + 2 && rect.left >= -2) return;
+
+          let parent: HTMLElement | null = e.parentElement;
+          let scrollable = false;
+          while (parent) {
+            const style = getComputedStyle(parent);
+            if (
+              /(auto|scroll)/.test(style.overflowX) &&
+              parent.scrollWidth > parent.clientWidth + 2
+            ) {
+              scrollable = true;
+              break;
+            }
+            parent = parent.parentElement;
+          }
+          if (scrollable) return;
+
+          const name = (
+            e.getAttribute('aria-label') ||
+            e.getAttribute('title') ||
+            e.textContent ||
+            ''
+          )
+            .trim()
+            .slice(0, 40);
+          out.push(`"${name}" at left=${Math.round(rect.left)}, right=${Math.round(rect.right)}`);
+        });
+        return { total: counted, unreachable: out };
+      });
+
+      // A run that found no controls proved nothing — most likely the
+      // workspace never opened and it measured a spinner.
+      expect(total, `no controls were measured at ${width}px`).toBeGreaterThan(10);
+      expect(
+        unreachable,
+        `${unreachable.length} of ${total} controls sit outside the ${width}px viewport with no ` +
+          `scrollable ancestor — a touch user cannot reach them:\n  ${unreachable.join('\n  ')}`
+      ).toEqual([]);
+    });
+  }
 });
 
 /**

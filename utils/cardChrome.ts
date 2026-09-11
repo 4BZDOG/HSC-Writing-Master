@@ -62,7 +62,15 @@ export const CARD_HEADER_META = 't-label text-white/60 leading-none';
  * than up beside the heading.
  */
 export const CARD_HEADER_TRAY =
-  'self-stretch flex flex-wrap items-end justify-end gap-x-3 gap-y-2 ml-auto flex-shrink-0';
+  // `shrink-0` at `sm` and up, where it is what stops a long heading squeezing
+  // the controls. Below `sm` it is what made them unreachable: the tray refused
+  // to shrink, so the bar inside it stayed at its content width — a constant
+  // 347px on the response card at every viewport from 320 to 1280 — and simply
+  // ran off the edge of a 320px screen. Allowed to shrink, the bar becomes
+  // bounded and can scroll (see CARD_HEADER_BAR). `min-w-0` is the half that
+  // makes shrinking actually possible: a flex item will not go below its
+  // content's intrinsic width without it.
+  'self-stretch flex flex-wrap items-end justify-end gap-x-3 gap-y-2 ml-auto min-w-0 shrink sm:shrink-0';
 
 /**
  * The dark pill bar in that corner: stat pills on the question card, the
@@ -70,4 +78,8 @@ export const CARD_HEADER_TRAY =
  * both — it is the clearest signal that the two cards belong together.
  */
 export const CARD_HEADER_BAR =
-  'flex items-center h-9 px-2 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner';
+  // Scrolls only below `sm`, and only when it has to: above that the tray is
+  // `shrink-0`, so the bar is never bounded, `scrollWidth === clientWidth` and
+  // no scroll container is created at all. The height, fill and border — the
+  // three things the matched pair rests on — are untouched either way.
+  'flex items-center h-9 px-2 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
