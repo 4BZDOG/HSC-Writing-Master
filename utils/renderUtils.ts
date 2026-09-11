@@ -483,7 +483,11 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
     },
     4: {
       bg: 'bg-green-500/10 light:bg-green-100 print:bg-green-50',
-      solidBg: 'bg-green-600 light:bg-green-700',
+      // Dark was `-600` like bands 5 and 6, but green carries far more
+      // luminance at the same step: white on `green-600` is 3.30:1, where
+      // `blue-600` is 5.17:1 and `purple-600` 5.38:1. `-700` brings it to
+      // 5.02:1 and matches what the light theme already used.
+      solidBg: 'bg-green-700 light:bg-green-700',
       border: 'border-green-500/50 light:border-green-600 print:border-green-200',
       text: 'text-green-400 light:text-green-900 print:text-green-800',
       solidText: 'text-white print:text-white',
@@ -513,7 +517,16 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
     },
     2: {
       bg: 'bg-orange-500/10 light:bg-orange-100 print:bg-orange-50',
-      solidBg: 'bg-orange-600 light:bg-orange-600',
+      // `-600` was 3.56:1 under white text, in BOTH themes — below the 4.5:1
+      // AA floor for the 12px `.t-label` chips that wear this pairing. Orange
+      // cannot be rescued the way band 3's yellow was, by darkening the text
+      // instead: `text-orange-950` on `bg-orange-600` only reaches 4.40:1, so
+      // the fill is the part that had to move. `-700` is 5.18:1, and stays
+      // clearly apart from band 1's red (CIELAB ΔE 18.8, down
+      // from 23.3 — the tightest pair in the palette before and after, and well
+      // clear of the ~10 where two fills start to read as one). Pinned, with every
+      // band's pairing computed, in bandColors.test.ts.
+      solidBg: 'bg-orange-700 light:bg-orange-700',
       border: 'border-orange-500/50 light:border-orange-600 print:border-orange-200',
       text: 'text-orange-400 light:text-orange-900 print:text-orange-800',
       solidText: 'text-white print:text-white',

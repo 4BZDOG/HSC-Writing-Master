@@ -92,6 +92,27 @@ describe('outcome chips in the prompt footer', () => {
     expect(strip.className).not.toContain('flex-wrap');
   });
 
+  it('stops being a scroller when it has no chips to scroll', () => {
+    // It was a scroller unconditionally, and with nothing focusable inside it
+    // that is a WCAG failure (`scrollable-region-focusable`): the placeholder
+    // is 153px of text in a slot that narrows to about 100px, `scrollbar-hide`
+    // removes the scrollbar, and there is no chip to tab to — so a keyboard
+    // user cannot reach the end of the sentence at all. With chips it stays a
+    // scroller and needs no tabindex, because the chips are buttons.
+    //
+    // The e2e sweep (tests/e2e/accessibility.spec.ts) catches this too, but
+    // only at a viewport narrow enough for the strip to overflow — it went
+    // green over this very defect at 1400px. This one cannot drift with layout.
+    render(<PromptDisplay {...props} prompt={{ ...prompt, linkedOutcomes: [] }} />);
+
+    const placeholder = screen.getByText(/no specific outcomes linked/i);
+    const strip = placeholder.parentElement as HTMLElement;
+    expect(strip.className).toContain('overflow-hidden');
+    expect(strip.className).not.toContain('overflow-x-auto');
+    // And the sentence ends in an ellipsis rather than a hard cut mid-word.
+    expect(placeholder.className).toContain('truncate');
+  });
+
   it('renders the hover preview outside the card, which clips its own overflow', () => {
     const { container } = render(<PromptDisplay {...props} />);
 
