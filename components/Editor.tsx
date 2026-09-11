@@ -995,7 +995,7 @@ const Editor = forwardRef<
           {/* Footer Metrics */}
           <div
             ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-surface-inner transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            className={`px-4 sm:px-6 py-3 flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-y-0 items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-surface-inner transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays
@@ -1035,7 +1035,7 @@ const Editor = forwardRef<
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-3 sm:gap-5 ml-auto">
+              <div className="flex flex-wrap sm:flex-nowrap items-center justify-end gap-x-3 sm:gap-x-5 gap-y-2 sm:gap-y-0 ml-auto">
                 <div className="flex items-center gap-2.5">
                   {/* The halo separates the band dot from the surface behind
                       it. A white ring does that on the dark footer and vanishes
