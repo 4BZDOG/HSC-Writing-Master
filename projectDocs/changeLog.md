@@ -1,5 +1,45 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-11 (The matcher was rebuilding itself on every keystroke)
+
+Benchmarking the new must-use classifier to decide whether it needed a cache
+found the cost was never the classifier: it was the matcher underneath it, and
+the bill had been going to the writing area all along.
+
+| Measured, ten-term question                                 | Before | After      |
+| ----------------------------------------------------------- | ------ | ---------- |
+| `getKeywordVariants`, one three-word term                   | 472µs  | **0.2µs**  |
+| `createKeywordRegex`, whole list                            | 6.5ms  | **5.7µs**  |
+| One must-use classification (10 terms × 5 sources)          | 24.7ms | **0.07ms** |
+| A question switch, across the five surfaces that show terms | ~124ms | **0.36ms** |
+
+`getKeywordVariants` expands a term through hyphen swaps × spelling swaps ×
+inflections and then runs every derived form back through the spelling swaps
+again. It is pure, it is called with the same handful of curated terms all day,
+and nothing remembered the answer. `renderEditorHighlights` rebuilds its regex
+on EVERY render, so a student typing into a ten-term question paid 6.5ms per
+keystroke to re-derive a regex identical to the one it had just thrown away.
+
+Both are now memoised behind a bounded map — bounded because the audit studio
+walks thousands of terms in one session, and past the cap the oldest entry is
+the one it has finished with.
+
+**Three ways a cache like this lies, each now pinned by a test:**
+
+- **A shared mutable array.** The cache holds one variant list per keyword and
+  the function is exported, so a caller that sorted or pushed to what it got
+  back would be editing the answer every later caller receives — silent
+  corruption in the matcher that decides what a student is credited for. It
+  hands out a copy.
+- **A key collision.** The regex memo keys on the term LIST, joined on NUL —
+  the one character a syllabus term cannot contain. Joined on a space,
+  `["automated unit testing"]` and `["automated", "unit", "testing"]` are the
+  same key and the second silently inherits the first's regex.
+- **Leaked regex state.** The memo holds the alternation SOURCE, never a
+  compiled regex: a compiled one carries `lastIndex`, and the callers mix
+  `.test()` (which advances it) with `.split()` and `.exec()`. Every call still
+  gets its own `RegExp`; building one from a cached source is microseconds.
+
 ## [Unreleased] - 2026-09-11 (The same terms, said the same way, wherever you meet them)
 
 The must-use split reached the panel, the exemplar brief, the marker, the

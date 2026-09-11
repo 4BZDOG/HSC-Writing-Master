@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import React from 'react';
 import {
+  createKeywordRegex,
   getKeywordVariants,
   renderEditorHighlights,
   renderFormattedText,
@@ -317,9 +318,7 @@ describe('renderFormattedText — maths/science notation', () => {
   });
 
   it('renders \\rightleftharpoons as \u21cc inline text', () => {
-    const { container } = render(
-      <>{renderFormattedText('H_2O \\rightleftharpoons H^+ + OH^-')}</>
-    );
+    const { container } = render(<>{renderFormattedText('H_2O \\rightleftharpoons H^+ + OH^-')}</>);
     expect(container.textContent).toContain('\u21cc');
   });
 
@@ -341,15 +340,9 @@ describe('renderFormattedText — maths/science notation', () => {
   // themselves to the teacher reading it, verbatim.
   it('strips $...$ delimiters a sample answer came back wrapped in', () => {
     const { container } = render(
-      <>
-        {renderFormattedText(
-          'the constant horizontal acceleration ($ax$) is 0 m/s²'
-        )}
-      </>
+      <>{renderFormattedText('the constant horizontal acceleration ($ax$) is 0 m/s²')}</>
     );
-    expect(container.textContent).toBe(
-      'the constant horizontal acceleration (ax) is 0 m/s²'
-    );
+    expect(container.textContent).toBe('the constant horizontal acceleration (ax) is 0 m/s²');
     expect(container.textContent).not.toContain('$');
   });
 
@@ -358,5 +351,48 @@ describe('renderFormattedText — maths/science notation', () => {
       <>{renderFormattedText('revenue rose from $50,000 to $80,000 that quarter')}</>
     );
     expect(container.textContent).toBe('revenue rose from $50,000 to $80,000 that quarter');
+  });
+});
+
+/**
+ * The matcher is memoised; these pin the three ways a cache can lie.
+ *
+ * Measured before it existed: expanding one three-word term's variants cost
+ * ~470µs and building a ten-term regex ~6.5ms — paid on every render of the
+ * writing overlay, so a student typing into a ten-term question paid it per
+ * keystroke. The cache is worth having; what it must never do is hand two
+ * callers the same mutable object, collide two different term lists onto one
+ * key, or leak regex state between calls.
+ */
+describe('the keyword matcher’s memo', () => {
+  it('hands out a copy, so one caller cannot corrupt another', () => {
+    const first = getKeywordVariants('data integrity');
+    const second = getKeywordVariants('data integrity');
+
+    expect(second).toEqual(first);
+    expect(second).not.toBe(first);
+
+    first.push('NONSENSE');
+    expect(getKeywordVariants('data integrity')).not.toContain('NONSENSE');
+  });
+
+  it('keeps a phrase and its words apart', () => {
+    // A key joined on spaces would make these one entry, and the second list
+    // would silently inherit the first's regex.
+    const phrase = createKeywordRegex(['data integrity'])!;
+    const words = createKeywordRegex(['data', 'integrity'])!;
+
+    expect(phrase.test('integrity matters here')).toBe(false);
+    expect(words.test('integrity matters here')).toBe(true);
+  });
+
+  it('returns a fresh regex, so one caller’s lastIndex is not another’s', () => {
+    const text = 'unit testing, then more unit testing';
+    const first = createKeywordRegex(['unit testing'])!;
+    expect(first.test(text)).toBe(true);
+    // A shared global regex would resume from the previous match and report
+    // differently on the same text.
+    expect(createKeywordRegex(['unit testing'])!.test(text)).toBe(true);
+    expect(createKeywordRegex(['unit testing'])).not.toBe(first);
   });
 });
