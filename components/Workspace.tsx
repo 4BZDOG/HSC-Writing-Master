@@ -629,6 +629,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           >
             <PromptDisplay
               prompt={currentPrompt}
+              syllabus={syllabusPlacement}
               isEnriching={isEnriching}
               enrichError={enrichError}
               onVerbClick={() => setIsGuideOpen(true)}
@@ -666,6 +667,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           <div className="animate-fade-in max-w-5xl mx-auto w-full mb-4">
             <PromptDisplay
               prompt={currentPrompt}
+              syllabus={syllabusPlacement}
               isEnriching={isEnriching}
               enrichError={enrichError}
               onVerbClick={() => setIsGuideOpen(true)}

@@ -548,7 +548,8 @@ const buildSyllabusContextBlock = (ctx?: SyllabusKeywordContext): string => {
 const keywordInstruction = (targetBand: number, hasContext: boolean): string =>
   `"keywords" are the specific syllabus terminology a Band ${targetBand} response must use — the technical terms, named concepts, processes, structures and examples an examiner expects to see.
 - 6-10 concise noun-phrases (1-3 words), lower-case unless a proper noun or established acronym (e.g. "DNA", "ATP").
-- Subject-specific ONLY: real syllabus concepts/processes/structures/named examples. Exclude generic academic words ("process", "factor", "important", "example"), the command verb and instruction words. No duplicates or near-duplicates.
+- Subject-specific ONLY: real syllabus concepts/processes/structures/named examples. Exclude generic academic words ("process", "factor", "important", "example"), ANY command verb in any form ("evaluate", "evaluating"), instruction words, and single words the whole subject is written in ("software", "security", "data"). A phrase built on such a word is fine ("data integrity"); the bare word is not. No duplicates or near-duplicates.
+- MUST-USE TERMS FIRST. A term the question, its scenario or the syllabus already names is the one a marker looks for, so list those first — and write each one in the SAME WORDS its source uses ("automated unit testing", not "automated testing methodologies"). The app re-derives that split by matching every term back against those sources, and a paraphrase is a term it cannot see the question is built on. Supporting terms — the ones a strong answer reaches for although nothing in the question names them — come after.
 ${
   hasContext
     ? '- GROUND every term in the syllabus context above: prefer the exact terminology of the dot point and its named examples, and only add closely-related terms a marker could trace to this syllabus content. Do NOT invent terms that are merely plausible for the question wording.'

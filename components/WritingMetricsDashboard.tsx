@@ -3,6 +3,7 @@ import { Prompt, WritingMode } from '../types';
 import { getCommandTermInfo, getRecommendedTime, getExpectedTerms } from '../data/commandTerms';
 import { BandConfig } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
+import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import {
   ChevronDown,
   Play,
@@ -16,6 +17,7 @@ import {
   Sparkles,
   GraduationCap,
   AlignLeft,
+  BookMarked,
 } from 'lucide-react';
 import { PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
@@ -25,6 +27,8 @@ interface PillProps {
   active: boolean;
   theme?: BandConfig;
   onClick?: () => void;
+  /** Named by the question or its syllabus — a must-use term. */
+  keyTerm?: boolean;
 }
 
 const StatBox: React.FC<{
@@ -66,7 +70,7 @@ const StructureTile: React.FC<{
   </div>
 );
 
-const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick }) => {
+const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick, keyTerm }) => {
   const interactiveStyle = onClick
     ? 'cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
     : 'cursor-default';
@@ -88,10 +92,20 @@ const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick })
       type="button"
       onClick={onClick}
       disabled={!onClick}
+      title={
+        keyTerm
+          ? 'Named in the question or its syllabus — a must-use term'
+          : 'Supporting term — click to add it to your answer'
+      }
       className={`${baseStyle} ${colorStyle}`}
     >
       {active ? (
         <Check className="w-2.5 h-2.5" strokeWidth={3} />
+      ) : keyTerm ? (
+        // The same bookmark the Syllabus Terms panel gives a must-use chip, so
+        // a term that matters more is recognisable as the same thing on both
+        // surfaces rather than two unrelated decorations.
+        <BookMarked className="w-2.5 h-2.5 shrink-0 opacity-70" />
       ) : (
         <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
       )}
@@ -105,10 +119,13 @@ interface WritingMetricsDashboardProps {
   prompt: Prompt;
   onAddWord: (word: string) => void;
   writingMode?: WritingMode;
+  /** The syllabus above this question, so the term tracker can mark the terms
+   *  the question names itself — the same split the panel above it shows. */
+  syllabus?: SyllabusPlacement;
 }
 
 export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = React.memo(
-  ({ userAnswer, prompt, onAddWord, writingMode = 'coach' }) => {
+  ({ userAnswer, prompt, onAddWord, writingMode = 'coach', syllabus }) => {
     // Exam Mode: no live feedback — just the essentials (words + a running
     // countdown). The syllabus %, insights, term tracker and connectors are all
     // coaching aids and stay hidden.
@@ -124,7 +141,23 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
     const { wordCount, analysis, keywordStats, progressInfo } = useWritingMetrics(
       userAnswer,
-      prompt
+      prompt,
+      syllabus
+    );
+
+    // The term tracker lists every term as a pill. Ordering them by whether the
+    // question names them puts the ones a marker is looking for at the front of
+    // each group, which is the only place a student reads before scrolling.
+    const isKeyTerm = useMemo(() => {
+      const keyTerms = new Set(keywordStats.mustUse);
+      return (term: string) => keyTerms.has(term);
+    }, [keywordStats.mustUse]);
+    const byPriority = useMemo(
+      () => (terms: string[]) => [
+        ...terms.filter(isKeyTerm),
+        ...terms.filter((t) => !isKeyTerm(t)),
+      ],
+      [isKeyTerm]
     );
     const recommendedTime = useMemo(
       () => getRecommendedTime(prompt.totalMarks, commandTermInfo),
@@ -313,24 +346,41 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                             ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
                             : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
                         }`}
-                        title={`Terms detected (${expectedTerms}+ expected for this verb/marks)`}
+                        title={
+                          keywordStats.mustUseTotal > 0
+                            ? `${keywordStats.mustUseUsed} of ${keywordStats.mustUseTotal} terms the question names, and ${keywordStats.used.length} of ${prompt.keywords?.length || 0} in all (${expectedTerms}+ expected for this verb/marks)`
+                            : `Terms detected (${expectedTerms}+ expected for this verb/marks)`
+                        }
                       >
-                        {keywordStats.used.length}/{prompt.keywords?.length || 0}
+                        {/* Counted apart only where both kinds exist — with one
+                            group there is nothing to separate, and the panel
+                            above makes the same call the same way. */}
+                        {keywordStats.mustUseTotal > 0 &&
+                        keywordStats.mustUseTotal < (prompt.keywords?.length || 0)
+                          ? `${keywordStats.mustUseUsed}/${keywordStats.mustUseTotal} key · ${keywordStats.used.length - keywordStats.mustUseUsed}/${(prompt.keywords?.length || 0) - keywordStats.mustUseTotal} more`
+                          : `${keywordStats.used.length}/${prompt.keywords?.length || 0}`}
                       </span>
                     )}
                   </div>
                   <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto custom-scrollbar pr-2">
-                    {keywordStats.used.map((kw) => (
+                    {byPriority(keywordStats.used).map((kw) => (
                       <Pill
                         key={kw}
                         label={kw}
                         active={true}
+                        keyTerm={isKeyTerm(kw)}
                         theme={progressInfo.currentBandColor}
                         onClick={() => onAddWord(kw)}
                       />
                     ))}
-                    {keywordStats.missed.map((kw) => (
-                      <Pill key={kw} label={kw} active={false} onClick={() => onAddWord(kw)} />
+                    {byPriority(keywordStats.missed).map((kw) => (
+                      <Pill
+                        key={kw}
+                        label={kw}
+                        active={false}
+                        keyTerm={isKeyTerm(kw)}
+                        onClick={() => onAddWord(kw)}
+                      />
                     ))}
                     {prompt.keywords?.length === 0 && (
                       <span className="text-[10px] text-slate-400 italic">No terms defined</span>

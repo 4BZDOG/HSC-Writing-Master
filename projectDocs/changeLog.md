@@ -1,5 +1,47 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-11 (The same terms, said the same way, wherever you meet them)
+
+The must-use split reached the panel, the exemplar brief, the marker, the
+coverage chip, the PDF, the nudges and readiness. Two surfaces that show the
+SAME terms to the SAME student were still showing them as one undifferentiated
+set — which is the distinction the panel exists to make, unmade twice on the
+same screen.
+
+### 📊 The metrics dashboard's term tracker
+
+Every term is a pill here, and they were ordered used-then-missed with nothing
+to say which mattered. Must-use terms now lead inside each group, carry the
+same bookmark the panel gives them, and the count splits the two kinds apart
+(`1/2 key · 0/1 more`) on the same rule the panel uses — only where both kinds
+exist. The `Syllabus %` tile still measures coverage of the whole list, which
+is what it has always meant; its tooltip now says how much of that is the terms
+the question names.
+
+### 🗂 The question card's filler list
+
+With no scenario to fill it, the card lists the question's terms "to weave in"
+— the one surface a student in Focus Mode sees at all, since the panel is gone
+there. It printed every term identically. Must-use terms now lead and carry the
+mark; supporting terms are left unmarked rather than dressed as something they
+are not.
+
+### ✍️ Our own generator learned the rule we tell external models
+
+`llmSeedBrief` tells an external LLM to write a must-use term in the same words
+its source uses, because the app re-derives the split by matching terms back
+against those sources. `keywordInstruction` — what the app's OWN keyword
+generation and enrichment send — never said it, so the app could produce
+"automated testing methodologies" for a question about "automated unit testing"
+and then fail to see that the question was built on it. It now states the
+must-use-first convention, the same-words rule, and the weak-lone-term
+exclusions the sanitiser already enforces.
+
+The audit's **Off-Syllabus Terms** description was also still describing the
+narrower rule it had before the last change; it now names what it actually
+strips (any command verb in any form, a lone subject-wallpaper word) and what
+it leaves alone (a phrase built on one of those words).
+
 ## [Unreleased] - 2026-09-10 (Every surface counts the terms the same way)
 
 The must-use split had reached the terms panel and the exemplar writer. Four

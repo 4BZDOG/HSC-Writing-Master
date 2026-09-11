@@ -473,6 +473,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
         <WritingMetricsDashboard
           userAnswer={debouncedUserAnswer}
           prompt={currentPrompt}
+          syllabus={syllabus}
           writingMode={writingMode}
           onAddWord={(word) => {
             const event = new CustomEvent('insert-text', { detail: word });

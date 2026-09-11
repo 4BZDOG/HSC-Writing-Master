@@ -26,6 +26,8 @@ export interface WritingMetrics {
     used: string[];
     missed: string[];
     score: number;
+    /** The terms the question, its scenario or its syllabus names itself. */
+    mustUse: string[];
     /** How many of the terms the question itself names, and how many landed. */
     mustUseTotal: number;
     mustUseUsed: number;
@@ -139,6 +141,7 @@ export const useWritingMetrics = (
       used,
       missed: keywords.filter((kw) => !used.includes(kw)),
       score: keywords.length ? Math.round((used.length / keywords.length) * 100) : 0,
+      mustUse: split.mustUse,
       mustUseTotal: split.mustUse.length,
       mustUseUsed: split.mustUse.filter(isUsed).length,
       /** Still to reach for, the ones the question names leading. */

@@ -377,7 +377,7 @@ export const AUDIT_FILTERS: AuditFilterDefinition[] = [
     id: 'offSyllabusTerms',
     label: 'Off-Syllabus Terms',
     title:
-      'Questions whose Syllabus Terms list carries something that is not a syllabus term — the command verb, a generic academic word, a connective like "therefore", an over-long phrase, or a duplicate. Tidy Terms removes them without touching the real terms, and needs no AI.',
+      'Questions whose Syllabus Terms list carries something that is not a syllabus term — a command verb in any form ("evaluate", "evaluating"), a lone word the whole subject is written in ("security", "testing"), a generic academic word, a connective like "therefore", an over-long phrase, or a duplicate. A phrase built on one of those words is left alone: the subject matter is in the noun. Tidy Terms removes the rest without touching the real terms, and needs no AI.',
     tone: 'sky',
     group: 'review',
     matches: hasOffSyllabusTerms,
