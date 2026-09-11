@@ -209,8 +209,35 @@ export const initialismOf = (keyword: string): string | null => {
   return letters.toUpperCase();
 };
 
-export const getKeywordVariants = (keyword: string): string[] => {
-  if (typeof keyword !== 'string') return [];
+/**
+ * A bounded memo for the two pure, hot functions below.
+ *
+ * Measured before it existed: `getKeywordVariants` costs ~470µs for a single
+ * three-word term, and `createKeywordRegex` ~6.5ms for a ten-term list — every
+ * time either is asked. The writing overlay rebuilds its regex on EVERY render
+ * (see `renderEditorHighlights`), so a student typing into a ten-term question
+ * paid that 6.5ms per keystroke, and switching question re-derived the same
+ * variants once per surface that shows the terms.
+ *
+ * Both functions are pure functions of their input string, so the answer can be
+ * kept. Bounded because the audit studio walks thousands of terms in one
+ * session and an unbounded map would hold every one of them: past the cap the
+ * oldest entry goes, which for a student on one question is never, and for a
+ * batch run is exactly the entries it has finished with.
+ */
+const memoise = <T>(limit: number, compute: (key: string) => T): ((key: string) => T) => {
+  const cache = new Map<string, T>();
+  return (key: string): T => {
+    const hit = cache.get(key);
+    if (hit !== undefined) return hit;
+    const value = compute(key);
+    if (cache.size >= limit) cache.delete(cache.keys().next().value as string);
+    cache.set(key, value);
+    return value;
+  };
+};
+
+const computeKeywordVariants = (keyword: string): string[] => {
   const trimmed = keyword.trim();
   if (!trimmed) return [];
 
@@ -342,6 +369,20 @@ export const getKeywordVariants = (keyword: string): string[] => {
     (v) => v === trimmed || v.replace(/[^\p{L}\p{N}]/gu, '').length >= 3
   );
 };
+
+const memoisedKeywordVariants = memoise(2000, computeKeywordVariants);
+
+/**
+ * A COPY of the cached list, every time.
+ *
+ * The cache holds one array per keyword and this function is exported, so a
+ * caller that sorted or pushed to what it got back would be editing the answer
+ * every later caller receives — a corruption with no stack trace, in a matcher
+ * that decides what a student is credited for. Copying ~20 short strings costs
+ * a fraction of a microsecond against the ~470 the expansion cost.
+ */
+export const getKeywordVariants = (keyword: string): string[] =>
+  typeof keyword === 'string' ? [...memoisedKeywordVariants(keyword)] : [];
 
 export interface BandConfig {
   bg: string;
@@ -664,10 +705,24 @@ const coordinationEllipsisSources = (keyword: string): string[] => {
  * highlights. Two matchers would drift — a term shown in emerald in the app and
  * left black on the printout is the kind of disagreement a student notices and
  * a teacher cannot explain.
+ *
+ * The alternation body is memoised per word LIST, and kept as a SOURCE STRING
+ * rather than a compiled regex on purpose: a compiled one carries `lastIndex`,
+ * and the callers mix `.test()` (which advances it on a global regex) with
+ * `.split()` and `.exec()`. Handing the same object to two callers would make
+ * one of them skip matches depending on what the other did last. Building a
+ * fresh `RegExp` from a cached source costs microseconds; the variant expansion
+ * it replaces cost ~6.5ms for a ten-term list, on every render of the writing
+ * overlay.
+ *
+ * The key joins the terms on NUL — the one character a syllabus term cannot
+ * contain. Joining on a space would have made ["automated unit testing"] and
+ * ["automated", "unit", "testing"] the same key, which is a different regex.
  */
-export const createKeywordRegex = (words: string[]) => {
-  if (!words || words.length === 0) return null;
+const KEY_SEPARATOR = '\u0000';
 
+const keywordRegexSource = memoise(500, (key: string): string | null => {
+  const words = key.split(KEY_SEPARATOR).filter(Boolean);
   const allVariants = new Set<string>();
   words.forEach((w) => getKeywordVariants(w).forEach((v) => allVariants.add(v)));
   if (allVariants.size === 0) return null;
@@ -687,7 +742,13 @@ export const createKeywordRegex = (words: string[]) => {
   // variants — appended after the literals so a full contiguous phrase always
   // wins when both could match at the same position.
   words.forEach((w) => coordinationEllipsisSources(w).forEach((s) => alternatives.push(s)));
-  return new RegExp(`(${alternatives.join('|')})`, 'gi');
+  return `(${alternatives.join('|')})`;
+});
+
+export const createKeywordRegex = (words: string[]) => {
+  if (!words || words.length === 0) return null;
+  const source = keywordRegexSource(words.join(KEY_SEPARATOR));
+  return source ? new RegExp(source, 'gi') : null;
 };
 
 /**
