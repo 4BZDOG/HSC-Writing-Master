@@ -1,5 +1,115 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-11 (The Evaluate button was off the screen on a phone)
+
+At 390px — an iPhone 12 — a student who had written an answer could not see the
+button that marks it. It sat at x=355–461 in a 390px viewport, and the same at
+375 and 320. It is the only way to have an answer marked.
+
+The editor's footer row was `flex` with no wrap, so once the character and word
+counts, the band label, the readiness meter and the free-evaluation counter had
+taken their width, the action ran off the end of the card. Every ancestor is
+`overflow: hidden`, and that is what made it unreachable rather than merely
+awkward: a programmatic scroll reaches into such a container, a finger does not.
+
+Both footer rows now wrap below `sm`, each wrapped line right-aligned so the
+button lands at the end of a row rather than the start of a new one. Scoped to
+below `sm` after measuring — an unscoped `flex-wrap` also fixed the phone widths
+but cost 34px of footer height at 640px, where nothing was wrong.
+
+| Width  | Before                  | After     |
+| ------ | ----------------------- | --------- |
+| 320px  | right 461 — unreachable | right 286 |
+| 375px  | right 461 — unreachable | right 341 |
+| 390px  | right 461 — unreachable | right 356 |
+| 640px  | right 590, height 89    | unchanged |
+| 900px  | right 850, height 95    | unchanged |
+| 1280px | right 1222, height 95   | unchanged |
+
+### 🔍 Why the suite could not have caught it
+
+`evaluation-flow.spec.ts` clicks that button on Mobile Safari and passes,
+because Playwright's `click()` scrolls the element into view first. Auto-scroll
+makes a test pass on a control no user could reach, and every click-based test
+in the suite shares that blind spot. The new guard measures GEOMETRY and never
+clicks: at 320, 375 and 390 the box must already be inside the viewport.
+
+Still open, and deliberately not fixed here: at 320px two header controls
+("Copy", "Enter focus mode") are outside the viewport for the same reason. They
+live in `CARD_HEADER_BAR`, chrome shared with the question card whose contract
+is "same height, same fill, same border on both", so letting it shrink and
+scroll needs its own change and its own verification.
+
+## [Unreleased] - 2026-09-11 (Three WCAG AA failures, one pinned by its own test)
+
+An axe sweep — the first in this repo — found three `serious` violations that
+had shipped.
+
+**White text failed AA on two band fills.** `bg-orange-600` (band 2) is 3.56:1
+in both themes and `bg-green-600` (band 4, dark) is 3.30:1, against the 4.5:1
+floor that applies because the chips wearing this pairing render `.t-label`,
+12px at weight 500. Green carries far more luminance than its neighbours at the
+same step: `blue-600` is 5.17:1 and `purple-600` 5.38:1. Both move to `-700`,
+reaching 5.18:1 and 5.02:1. Orange could not be rescued the way band 3's yellow
+was, by darkening the text — `text-orange-950` on `bg-orange-600` is only
+4.40:1 — so the fill had to move. The tightest adjacent pair, band 1 red
+against band 2 orange, goes from CIELAB ΔE 23.3 to 18.8, still well clear of
+the ~10 where two fills read as one.
+
+`bandColors.test.ts` had asserted that bands 1, 2, 4, 5 and 6 pair their fill
+with white. It never asked whether white was READABLE on them, so it was
+pinning the failure in place. It now computes the ratio for all six bands in
+both themes, reading hexes from `tailwindcss/colors` at runtime, and
+cross-checks itself against band 3's browser-measured figures.
+
+**Two scrollable regions had no keyboard access.** The outcome-chip strip was
+`overflow-x-auto` even with no chips in it, leaving a 153px sentence inside
+about 100px with the scrollbar hidden and nothing focusable to tab to; it now
+scrolls only when it holds chips. And the quick start guide — the panel every
+new account reads first — could not be scrolled at all by keyboard, because its
+tabs sit above the scroller and its buttons below.
+
+`UserAgreementModal` has the same scrolling body and was deliberately left
+alone: its scroller contains the consent checkbox and both buttons, so tabbing
+already scrolls it.
+
+## [Unreleased] - 2026-09-11 (The term-coverage pin was measuring an average of a good course and a broken one)
+
+The must-use coverage pin ran over every shipped course at once and reported
+85.3% of questions and 38.9% of terms — comfortably inside its bounds, and true
+of no course in the library.
+
+| Course                           | Questions with a must-use term | Terms that are must-use |
+| -------------------------------- | ------------------------------ | ----------------------- |
+| Software Engineering (reference) | 93.4%                          | 40.9%                   |
+| Biology                          | 68.4%                          | 23.8%                   |
+| Enterprise Computing             | 100.0%                         | 91.5%                   |
+
+Enterprise Computing has all but nine of its terms marked must-use, which is
+the panel's two groups saying the same thing — exactly the collapse the upper
+bound exists to catch. It passed because Biology's 23.8% pulled the average
+back into range.
+
+The range now holds over Software Engineering, the one course through a full
+authoring pass. The invariant — no lone command verb, no word the course is
+written in — still applies everywhere, because that is a rule about the
+matcher. The stale courses are measured and printed rather than asserted on.
+
+### 📌 And the structural gate that did not exist
+
+`CourseSchema` is deliberately forgiving, and was only ever exercised against
+hand-written fixtures: the content students receive had no gate at all. A
+repair on our own content is not resilience but a defect rendered invisible —
+an exemplar whose body fails to parse reaches a student reading "No answer
+provided." `courseDataIntegrity.test.ts` holds every course to that structural
+bar, verified by corrupting the shipped data and watching it fail.
+
+Two candidate checks were measured and rejected rather than shipped: "every
+question is markable" cannot fail, because `repairPromptFields` falls back to
+EXPLAIN unconditionally; and verb/mark-range disagreement is not a defect,
+because `markRange` is a typical range and a 3-mark JUSTIFY is an ordinary HSC
+question.
+
 ## [Unreleased] - 2026-09-11 (The review queue's triage score was written by the people being triaged)
 
 The shared library's AI pre-screen scores each submission so a reviewer knows
