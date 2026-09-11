@@ -10,6 +10,7 @@ import {
   Save,
   X,
   Sparkles,
+  BookMarked,
   RefreshCw,
   AlertTriangle,
   BookOpen,
@@ -30,6 +31,7 @@ import {
   ImagePlus,
 } from 'lucide-react';
 import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
+import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTermSource';
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
@@ -82,6 +84,10 @@ interface PromptDisplayProps {
       on screen. Sections with real content still render. */
   condensed?: boolean;
   breadcrumb?: string[];
+  /** The syllabus above this question. The filler list of terms marks the ones
+   *  the question names itself, so it says the same thing as the Syllabus Terms
+   *  panel rather than showing the same terms as if they were interchangeable. */
+  syllabus?: SyllabusPlacement;
   /** Exam Mode: the card states the question and nothing that coaches. The
    *  outcome briefing and the verb guide are assistance in the same sense the
    *  hidden reference rail and the writing area's strategy tip are — a student
@@ -321,6 +327,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   minTotalHeight,
   condensed = false,
   breadcrumb,
+  syllabus,
   examMode = false,
   showToast,
 }) => {
@@ -385,6 +392,21 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // which occupies a strip of the card but leaves the void underneath it.
   const showKeywordFiller =
     !prompt.scenario && !examMode && !condensed && (prompt.keywords?.length ?? 0) > 0;
+
+  // The filler list, must-use terms first. This card has no room to teach the
+  // distinction, so it carries it the way the panel does — order and a mark —
+  // rather than explaining it twice.
+  const orderedKeywords = useMemo(() => {
+    const { mustUse, supporting } = splitSyllabusTerms(prompt.keywords || [], {
+      question: prompt.question,
+      scenario: prompt.scenario,
+      ...syllabus,
+    });
+    return [
+      ...mustUse.map((term) => ({ term, isKeyTerm: true })),
+      ...supporting.map((term) => ({ term, isKeyTerm: false })),
+    ];
+  }, [prompt.keywords, prompt.question, prompt.scenario, syllabus]);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
@@ -915,12 +937,28 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <Sparkles className="w-3.5 h-3.5" /> Syllabus terms to weave in
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {prompt.keywords?.map((keyword) => (
+                  {/* Must-use terms lead and carry the bookmark, the same way
+                      the Syllabus Terms panel shows them. This list is the same
+                      terms on the same screen: printing them as one
+                      undifferentiated row told a student they were
+                      interchangeable, which is the thing the panel exists to
+                      deny. */}
+                  {orderedKeywords.map(({ term, isKeyTerm }) => (
                     <span
-                      key={keyword}
-                      className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border ${bandConfig.bg} ${bandConfig.border} ${bandConfig.text}`}
+                      key={term}
+                      title={
+                        isKeyTerm
+                          ? 'Named in the question or its syllabus — a must-use term'
+                          : undefined
+                      }
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium border ${
+                        isKeyTerm
+                          ? `${bandConfig.bg} ${bandConfig.border} ${bandConfig.text}`
+                          : 'bg-slate-100/50 dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10'
+                      }`}
                     >
-                      {keyword}
+                      {isKeyTerm && <BookMarked className="w-3 h-3 shrink-0 opacity-70" />}
+                      {term}
                     </span>
                   ))}
                 </div>
