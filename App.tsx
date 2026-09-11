@@ -33,9 +33,8 @@ import {
 } from './services/agreementService';
 import { AGREEMENT_VERSION } from './data/legalContent';
 import { isCurriculumRemote } from './services/curriculumService';
-import { savePromptContribution } from './services/contributionService';
+import { savePromptContribution, requestQualityScreen } from './services/contributionService';
 import { visibleCourses } from './utils/courseVisibility';
-import { screenContentQuality } from './services/geminiService';
 import { User, WritingMode } from './types';
 import type { StatePath, SyllabusCrumb } from './types';
 import {
@@ -322,21 +321,21 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     if (!currentPrompt || !statePath.dotPointId) return;
     setIsSubmittingPrompt(true);
     try {
-      // AI pre-screen: score the question so reviewers can triage the queue.
-      // A failed screen doesn't block submission — the score rides along and a
-      // reviewer makes the final call — but we surface it to the author.
-      const quality = await screenContentQuality(currentPrompt.question, 'question');
-
-      const { scenarioImage } = await savePromptContribution(
+      // Save FIRST, then ask the server to screen what was saved. The order is
+      // the point: the score triages the review queue, so it is the server's to
+      // decide — it reads the stored question back and reaches its own verdict,
+      // rather than taking a number from here. A screen that cannot run leaves
+      // the row unscored, which puts it at the front of the queue.
+      const { id, scenarioImage } = await savePromptContribution(
         statePath.dotPointId,
         currentPrompt,
-        'pending',
-        quality
+        'pending'
       );
 
       // Persist a newly-resolved storagePath back onto local state so a
       // second submission of the same prompt doesn't re-upload unchanged
-      // image bytes.
+      // image bytes. Before the screen below, not after: that is a model call,
+      // and nothing local should wait on it.
       if (
         scenarioImage?.storagePath &&
         scenarioImage.storagePath !== currentPrompt.scenarioImage?.storagePath
@@ -347,6 +346,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           });
         });
       }
+
+      const quality = await requestQualityScreen('prompt', id);
 
       if (quality && quality.score < 50) {
         showToast(

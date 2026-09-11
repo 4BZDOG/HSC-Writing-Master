@@ -143,23 +143,26 @@ describe('paid AI calls carry their feature tag', () => {
   });
 
   it('leaves the calls a STUDENT makes untagged', () => {
-    // Neither of these is an authoring action, and neither is sold on its own,
-    // so tagging either refuses a free student something that was never being
-    // priced:
-    //   enrichPromptDetails  → the automatic backfill that runs when ANY user
-    //                          opens a question missing a scenario, keywords or
-    //                          linked outcomes. Tagging it opened an "AI
-    //                          Content Studio" upgrade prompt at a student who
-    //                          had only clicked a question.
-    //   screenContentQuality → the automatic pre-screen on a shared-library
-    //                          contribution (it passes { studio: false })
-    // The AI quota still meters both; that is the gate that belongs here.
+    // `enrichPromptDetails` is the automatic backfill that runs when ANY user
+    // opens a question missing a scenario, keywords or linked outcomes. It is
+    // not an authoring action and is not sold on its own, so tagging it opened
+    // an "AI Content Studio" upgrade prompt at a student who had only clicked a
+    // question. The AI quota still meters it; that is the gate that belongs.
     //
     // `explainOutcomeInContext` used to be on this list. It is now sold as
     // `outcomeBriefing` — a student ASKS for it, one tap at a time, and the UI
     // says so before the tap. That is what separates a priced student feature
     // from a background call they never requested.
+    //
+    // `screenContentQuality` used to be here too, passing `{ studio: false }`,
+    // because it was the automatic pre-screen a student's shared-library
+    // contribution passed through. That screen is server-side now
+    // (/api/screen-contribution) — a triage score the author's browser computes
+    // is a score the author can choose — and what is left of the function is
+    // the studio's own batch tool, reached only from the studio. So it is
+    // metered as studio work, and the assertion below is that it no longer
+    // opts out.
     expect(bodyOf('enrichPromptDetails')).not.toContain('__feature');
-    expect(bodyOf('screenContentQuality')).toContain('studio: false');
+    expect(bodyOf('screenContentQuality')).not.toContain('studio: false');
   });
 });

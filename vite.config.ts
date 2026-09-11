@@ -126,9 +126,15 @@ function geminiDevProxy(env: Record<string, string>): Plugin {
   };
 }
 
-function billingDevProxy(): Plugin {
+/**
+ * Serves the plain POST-JSON serverless routes under `npm run dev`, so the app
+ * behaves the same locally as it does on Vercel without running `vercel dev`.
+ * Each handler is imported and driven through the same minimal req/res shapes
+ * it sees in production.
+ */
+function apiDevProxy(): Plugin {
   return {
-    name: 'billing-dev-proxy',
+    name: 'api-dev-proxy',
     configureServer(server) {
       const proxyRoute = async (
         route: string,
@@ -184,10 +190,18 @@ function billingDevProxy(): Plugin {
         );
       };
 
-      for (const route of ['create-checkout', 'customer-portal', 'stripe-webhook']) {
+      for (const route of [
+        'create-checkout',
+        'customer-portal',
+        'stripe-webhook',
+        // The contribution pre-screen. Without it, `npm run dev` 404s the call
+        // and every local contribution arrives unscored — which is the correct
+        // fail-open behaviour, and exactly the wrong thing to develop against.
+        'screen-contribution',
+      ]) {
         server.middlewares.use(`/api/${route}`, (req, res) => {
           proxyRoute(route, req, res).catch((e) => {
-            console.error(`[billing-dev-proxy] /${route}:`, e);
+            console.error(`[api-dev-proxy] /${route}:`, e);
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ error: 'Dev proxy error.' }));
@@ -210,7 +224,7 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
     },
-    plugins: [react(), fetchUrlDevProxy(), geminiDevProxy(env), billingDevProxy()],
+    plugins: [react(), fetchUrlDevProxy(), geminiDevProxy(env), apiDevProxy()],
     define: {
       // Only expose VITE_* variables (Vite's secure env approach).
       // API keys must never be in the bundle — they go through /api/gemini.

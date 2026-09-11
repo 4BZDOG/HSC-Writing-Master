@@ -1,5 +1,68 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-09-11 (The review queue's triage score was written by the people being triaged)
+
+The shared library's AI pre-screen scores each submission so a reviewer knows
+what to look at first. It ran in the browser, and the browser then wrote the
+number it got into the row it was inserting — and RLS lets an author write
+their own row. So `quality_score: 100` in devtools sank your own submission to
+the bottom of the queue, and skipping the screen entirely did the same thing
+with less effort. A moderation signal the moderated party controls is not a
+signal.
+
+### The column is the server's now
+
+- **`enforce_quality_score_authority`** (`supabase/schema.sql`) drops
+  `quality_score`, `quality_notes` and `quality_screened_at` from any write by
+  an end-user session — `auth.uid() is not null`, the same test the status
+  trigger already uses. It drops rather than raises, because the same row
+  mappers serve the studio's "Sync to Library" and an ordinary save must not
+  become an error an author can neither understand nor fix.
+- **An edit to the screened text clears the score.** The trigger is installed
+  with the content column as an argument (`question` / `answer`), so a verdict
+  never outlives the words it was given for — otherwise an author could be
+  scored well on one text and submit another underneath it. Edits to anything
+  else keep the score.
+- **`POST /api/screen-contribution`** is the only writer. It takes a row id,
+  reads the stored text back out with the service-role key, screens it with a
+  prompt that lives on the server (`api/_lib/qualityScreen.ts`), and patches the
+  result in. Nothing that decides the verdict comes from the request: not the
+  content, not the wording, not the number.
+- **A one-time cleanup nulls every score written under the old rule.** None of
+  them can be told from a forged one. It is keyed on the new
+  `quality_screened_at`, so it is idempotent and a re-apply of `schema.sql`
+  leaves real scores alone — which `03_reapply_guard.sql` now proves, because
+  that file exists for exactly this class of mistake.
+
+### Unscored now means something, so it sorts FIRST
+
+The screen fails open: a student has already written the work by the time it
+runs, so an AI outage, a spent quota or a missing service key leaves the
+contribution saved and unscored rather than lost. That makes "no score" the
+statement that the one automatic check never happened and a person is the only
+one left — so those items lead the queue instead of trailing it, and the review
+queue labels them **Not screened** rather than showing nothing. Structure
+(topics, sub-topics, dot points) has no screen to miss and stays at the back.
+
+### Smaller things that fell out of it
+
+- The screen is metered against the student's daily AI budget like any other
+  call their action causes, and is **not** gated on a paid plan — screening a
+  contribution is overhead the library imposes on a volunteer.
+- `screenContentQuality` now has one caller, the studio's own batch screen, so
+  it no longer passes `{ studio: false }`. That opt-out existed for the student
+  contribution path, which is server-side now.
+- The studio's local Quality Check score stays local: it used to ride into the
+  row on sync, which is precisely the write that is no longer allowed.
+- `getSupabaseAdmin` moved out of `api/_lib/stripe.ts` into its own module, so
+  the screening endpoint does not load the Stripe SDK into a cold function.
+
+**Proof, in the suite that runs against real Postgres**: four new blocks in
+`supabase/tests/rls_negative_tests.sql` — an author cannot score their own
+insert, cannot overwrite the score the server gave them, cannot carry a score
+across a rewrite of the screened text, and (positive control) the service-role
+path still can.
+
 ## [Unreleased] - 2026-09-11 (The shipped term lists, repaired by the studio's own rules)
 
 The audit studio has carried two repairs that need no AI for a while — Tidy

@@ -418,6 +418,84 @@ alter table public.prompts        add column if not exists quality_notes text;
 alter table public.sample_answers add column if not exists quality_score int;
 alter table public.sample_answers add column if not exists quality_notes text;
 
+-- When the screen last ran. Not decoration: it is the only way to tell "nobody
+-- has screened this" from "screened, and it scored badly", which the review
+-- queue sorts on, and it is what makes the one-time cleanup below idempotent.
+alter table public.prompts        add column if not exists quality_screened_at timestamptz;
+alter table public.sample_answers add column if not exists quality_screened_at timestamptz;
+
+-- The pre-screen score is TRIAGE data, and it used to be written by the party
+-- being triaged. The browser ran the screen and posted the number it got into
+-- the row it was inserting; RLS lets an author write their own row, so nothing
+-- stopped an author sending `quality_score: 99` — or skipping the screen and
+-- sending nothing — and placing their own submission wherever they liked in a
+-- reviewer's queue. A moderation signal the moderated party controls is not a
+-- signal at all.
+--
+-- So these three columns are now server-owned. An end-user session (auth.uid()
+-- not null, exactly as enforce_content_status_authority() means it) cannot
+-- write them; /api/screen-contribution runs the screen with the service-role
+-- key — for which auth.uid() is null — and patches the real score in.
+--
+-- It DROPS the author's value rather than raising. The same row mappers serve
+-- the contribution flow and the studio's "Sync to Library", and rows there
+-- legitimately carry a score read back out of the database moments earlier;
+-- raising would turn an ordinary save into an error the author can neither
+-- understand nor act on. Dropping the field leaves the save working and the
+-- column untrusted, which is the entire requirement.
+--
+-- tg_argv[0] names the column the score describes — `question` on prompts,
+-- `answer` on sample_answers — so that an author editing the screened text
+-- CLEARS the score instead of carrying forward a verdict on words that are no
+-- longer there. Edits to anything else keep it.
+create or replace function public.enforce_quality_score_authority()
+returns trigger language plpgsql as $$
+declare v_content_col text := tg_argv[0];
+begin
+  -- Service role, SQL editor, seeds: the screening endpoint and the operator.
+  if auth.uid() is null then
+    return new;
+  end if;
+
+  -- Nested rather than one AND chain: OLD must not be read at all on INSERT.
+  if tg_op = 'UPDATE' then
+    if to_jsonb(new) ->> v_content_col is not distinct from to_jsonb(old) ->> v_content_col then
+      new.quality_score       := old.quality_score;
+      new.quality_notes       := old.quality_notes;
+      new.quality_screened_at := old.quality_screened_at;
+      return new;
+    end if;
+  end if;
+
+  new.quality_score       := null;
+  new.quality_notes       := null;
+  new.quality_screened_at := null;
+  return new;
+end; $$;
+
+drop trigger if exists trg_prompts_quality_authority on public.prompts;
+create trigger trg_prompts_quality_authority
+  before insert or update on public.prompts
+  for each row execute function public.enforce_quality_score_authority('question');
+
+drop trigger if exists trg_sample_answers_quality_authority on public.sample_answers;
+create trigger trg_sample_answers_quality_authority
+  before insert or update on public.sample_answers
+  for each row execute function public.enforce_quality_score_authority('answer');
+
+-- One-time cleanup of the scores written under the old rule. Every existing
+-- value came from a client and none of them can be told apart from a forged
+-- one, so they all go. Idempotent, and safe to re-run on every deploy: a score
+-- the endpoint wrote carries a `quality_screened_at`, so it is never matched.
+update public.prompts
+   set quality_score = null, quality_notes = null
+ where quality_screened_at is null
+   and (quality_score is not null or quality_notes is not null);
+update public.sample_answers
+   set quality_score = null, quality_notes = null
+ where quality_screened_at is null
+   and (quality_score is not null or quality_notes is not null);
+
 -- Scenario image (carousel) support — Storage object reference, not inline
 -- bytes. Additive/optional; existing rows are unaffected. The IndexedDB path
 -- (utils/scenarioImageStorage.ts) is the local cache these columns and the

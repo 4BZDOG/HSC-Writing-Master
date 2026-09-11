@@ -38,8 +38,8 @@ import {
   saveSubTopicContribution,
   saveDotPointContribution,
   updateCourseStatus as updateRemoteCourseStatus,
+  requestQualityScreen,
 } from '../services/contributionService';
-import { screenContentQuality } from '../services/geminiService';
 import { generateId } from '../utils/idUtils';
 import { detectSubjectArea } from '../utils/subjectAreas';
 import {
@@ -749,14 +749,17 @@ export const useSyllabusData = ({
   );
 
   // Submit a single sample answer to the shared Supabase library for review.
-  // AI-pre-screens it (score attached for reviewers), then saves as `pending`.
-  // No-op outside Supabase mode; the button that calls this is only shown then.
+  // Saves as `pending`, then asks the SERVER to pre-screen what was saved — the
+  // triage score a reviewer sorts on cannot be one the author supplied. An
+  // unavailable screen leaves it unscored, which sorts it to the front of the
+  // queue. No-op outside Supabase mode; the button that calls this is only
+  // shown then.
   const handleContributeSampleAnswer = useCallback(
     async (path: StatePath, answer: SampleAnswer) => {
       if (!isCurriculumRemote() || !path.promptId) return;
       try {
-        const quality = await screenContentQuality(answer.answer, 'sample answer');
-        await saveSampleAnswerContribution(path.promptId, answer, 'pending', quality);
+        const id = await saveSampleAnswerContribution(path.promptId, answer, 'pending');
+        const quality = await requestQualityScreen('sample_answer', id);
         showToast(
           quality
             ? `Sample answer submitted for review (AI quality score ${quality.score}/100).`

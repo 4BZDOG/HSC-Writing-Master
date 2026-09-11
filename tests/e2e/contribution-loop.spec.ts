@@ -25,6 +25,9 @@ const DOT_UUID = 'c0000000-0000-4000-8000-000000000004';
 const PROMPT_UUID = 'c0000000-0000-4000-8000-000000000005';
 const PENDING_LOW_UUID = 'c0000000-0000-4000-8000-000000000006';
 const PENDING_HIGH_UUID = 'c0000000-0000-4000-8000-000000000007';
+const PENDING_UNSCREENED_UUID = 'c0000000-0000-4000-8000-000000000008';
+/** The row id the stub hands back from a contribution insert. */
+const INSERTED_PROMPT_UUID = 'd0000000-0000-4000-8000-00000000000d';
 
 const QUESTION_TEXT = 'Explain how the e2e contribution loop works.';
 
@@ -101,6 +104,14 @@ const pendingQueueRows = [
     question: 'High quality pending question',
     created_at: '2026-01-01T00:00:00Z',
     quality_score: 90,
+  },
+  {
+    // The screen runs server-side and fails open, so this is what an AI outage
+    // leaves behind: work nothing has checked. It must lead the queue.
+    id: PENDING_UNSCREENED_UUID,
+    question: 'Unscreened pending question',
+    created_at: '2026-01-03T00:00:00Z',
+    quality_score: null,
   },
 ];
 
@@ -181,6 +192,13 @@ const installSupabaseStub = async (page: Page, persona: Persona) => {
     )
   );
 
+  // The contribution pre-screen is an API call now, not an AI call the client
+  // makes and reports on: the endpoint reads the saved row itself and writes
+  // the score with the service-role key.
+  await page.route('**/api/screen-contribution', (route) =>
+    route.fulfill(json({ screened: true, score: 88, notes: 'Well-formed question.' }))
+  );
+
   await page.route('**://stub.supabase.test/**', (route) => {
     const request = route.request();
     const url = new URL(request.url());
@@ -248,7 +266,7 @@ const installSupabaseStub = async (page: Page, persona: Persona) => {
 
       if (method === 'POST') {
         // Contribution insert: echo a fresh uuid (insert().select('id').single()).
-        return route.fulfill(json({ id: 'd0000000-0000-4000-8000-00000000000d' }, 201));
+        return route.fulfill(json({ id: INSERTED_PROMPT_UUID }, 201));
       }
 
       // upsertOwned's existence pre-check filters by created_by. NOTE:
@@ -321,14 +339,24 @@ test.describe('Shared-library contribution loop (stubbed Supabase)', () => {
       (req) => req.method() === 'POST' && req.url().includes('/rest/v1/prompts'),
       { timeout: 20_000 }
     );
+    const screenRequest = page.waitForRequest(
+      (req) => req.method() === 'POST' && req.url().includes('/api/screen-contribution'),
+      { timeout: 20_000 }
+    );
     await submitButton.click();
 
     const body = (await insertRequest).postDataJSON() as Record<string, unknown>;
     expect(body.status).toBe('pending');
-    expect(body.quality_score).toBe(88);
     expect(body.created_by).toBe(STUDENT_ID);
     expect(body.legacy_id).toBe('prompt-e2e-1');
     expect(body.question).toBe(QUESTION_TEXT);
+    // The row the author inserts carries no triage score — the database would
+    // drop one anyway, and the queue must not sort on a number they chose.
+    expect('quality_score' in body).toBe(false);
+
+    // It names the saved row and nothing else: not the text, not a score.
+    const screenBody = (await screenRequest).postDataJSON() as Record<string, unknown>;
+    expect(screenBody).toEqual({ kind: 'prompt', id: INSERTED_PROMPT_UUID });
 
     await expect(page.getByText(/AI quality score 88\/100/)).toBeVisible();
   });
@@ -344,18 +372,21 @@ test.describe('Shared-library contribution loop (stubbed Supabase)', () => {
 
     await expect(page.getByRole('heading', { name: 'Review Queue' })).toBeVisible();
 
-    // Lowest quality score sorts first, with the AI badge.
+    // Unscreened first — nothing has checked it, so a reviewer is the only
+    // check there is — then scored content, lowest first.
     const items = page.locator('li', { hasText: /pending question/ });
-    await expect(items).toHaveCount(2);
-    await expect(items.first()).toContainText('Low quality pending question');
-    await expect(items.first()).toContainText('AI 35/100');
+    await expect(items).toHaveCount(3);
+    await expect(items.first()).toContainText('Unscreened pending question');
+    await expect(items.first()).toContainText('Not screened');
+    await expect(items.nth(1)).toContainText('Low quality pending question');
+    await expect(items.nth(1)).toContainText('AI 35/100');
 
     const rpcRequest = page.waitForRequest(
       (req) => req.method() === 'POST' && req.url().includes('/rest/v1/rpc/approve_prompt'),
       { timeout: 20_000 }
     );
     await items
-      .first()
+      .nth(1)
       .getByRole('button', { name: /approve/i })
       .click();
 
@@ -363,7 +394,7 @@ test.describe('Shared-library contribution loop (stubbed Supabase)', () => {
     expect(rpcBody.p_id).toBe(PENDING_LOW_UUID);
 
     await expect(page.getByText('Published to the shared library.')).toBeVisible();
-    await expect(items).toHaveCount(1);
-    await expect(items.first()).toContainText('High quality pending question');
+    await expect(items).toHaveCount(2);
+    await expect(items.first()).toContainText('Unscreened pending question');
   });
 });

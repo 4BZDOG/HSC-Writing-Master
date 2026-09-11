@@ -1102,11 +1102,11 @@ export const reviseSampleAnswer = async (
 
 /**
  * @param options.studio Whether this run belongs to the AI Content Studio, and
- *   should therefore be metered against the plan that sells it. True for the
- *   Quality Check tool an author opens deliberately; false for the automatic
- *   pre-screen a STUDENT's shared-library contribution passes through
- *   (screenContentQuality below), which is not an authoring action and must not
- *   be refused to a free account.
+ *   should therefore be metered against the plan that sells it. True for every
+ *   caller left: the Quality Check tool an author opens deliberately, and the
+ *   studio's batch screen (screenContentQuality below). The one caller that
+ *   passed false — the pre-screen on a student's shared-library contribution —
+ *   is now server-side and does not come through here at all.
  */
 export const performQualityCheck = async (
   content: string,
@@ -1150,19 +1150,23 @@ export const performQualityCheck = async (
 };
 
 /**
- * Convenience wrapper used by the shared-library contribution flow: run the AI
- * pre-screen and return just the score + summary, or `undefined` if screening
- * is unavailable (so submission can proceed unscored rather than fail).
+ * Convenience wrapper for the AI Content Studio's BATCH quality screen: run the
+ * pre-screen over one item and return just the score + summary, or `undefined`
+ * if screening is unavailable, so one bad item doesn't abort a long run.
+ *
+ * This used to serve the shared-library contribution flow as well, and passed
+ * `{ studio: false }` for that reason — a student submitting work is not doing
+ * authoring, and must not be sold the studio to do it. That flow now screens
+ * server-side (/api/screen-contribution), because a score the browser produces
+ * is a score the author can choose. What is left is the studio's own tool,
+ * reached only from the studio, so it is metered like the rest of it.
  */
 export const screenContentQuality = async (
   content: string,
   type: 'question' | 'code' | 'sample answer' = 'question'
 ): Promise<{ score: number; notes: string } | undefined> => {
   try {
-    // Untagged: a contribution pre-screen runs on a student's behalf, so it is
-    // metered by the AI quota like any other student call — not by the plan
-    // that sells the authoring studio.
-    const result = await performQualityCheck(content, type, { studio: false });
+    const result = await performQualityCheck(content, type);
     return { score: result.score, notes: result.summary };
   } catch {
     return undefined;

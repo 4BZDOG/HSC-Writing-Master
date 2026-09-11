@@ -61,8 +61,33 @@ interface ReviewQueueModalProps {
 }
 
 /** AI pre-screen score badge; colour-coded so reviewers can triage at a glance. */
-const QualityBadge: React.FC<{ score: number | null }> = ({ score }) => {
-  if (score == null) return null;
+/**
+ * The AI pre-screen, as a reviewer needs to read it.
+ *
+ * Two states matter, and the badge used to show only one. A score is advisory.
+ * NO score, on something screenable, means the automatic check never happened —
+ * the screen fails open so a student never loses work to an AI outage — and a
+ * reviewer is then the only check there is. That is why those items now lead
+ * the queue, so the badge has to say why they are up there.
+ *
+ * Structure (topics, sub-topics, dot points) has no screen to miss and shows
+ * nothing, as before.
+ */
+const QualityBadge: React.FC<{ score: number | null; kind: ModerationItem['kind'] }> = ({
+  score,
+  kind,
+}) => {
+  if (score == null) {
+    if (isStructureKind(kind)) return null;
+    return (
+      <span
+        className="px-1.5 py-0.5 rounded-lg border text-[10px] font-bold bg-slate-500/15 text-slate-400 border-slate-500/30"
+        title="No AI pre-screen ran on this — it is at the top of the queue because you are the only check on it."
+      >
+        Not screened
+      </span>
+    );
+  }
   const tone =
     score >= 75
       ? 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
@@ -72,7 +97,7 @@ const QualityBadge: React.FC<{ score: number | null }> = ({ score }) => {
   return (
     <span
       className={`px-1.5 py-0.5 rounded-lg border text-[10px] font-bold ${tone}`}
-      title="AI quality pre-screen score (client-reported — advisory only, review the content itself)"
+      title="AI quality pre-screen, run server-side — advisory only, review the content itself"
     >
       AI {score}/100
     </span>
@@ -326,7 +351,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                       <span className="t-label text-[rgb(var(--color-text-muted))]">
                         {KIND_LABEL[item.kind]}
                       </span>
-                      <QualityBadge score={item.qualityScore} />
+                      <QualityBadge score={item.qualityScore} kind={item.kind} />
                     </div>
                     {item.context && (
                       <p

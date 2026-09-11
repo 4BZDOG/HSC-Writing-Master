@@ -13,7 +13,6 @@
  * app fully functional for developers who haven't set up Stripe yet.
  */
 import Stripe from 'stripe';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 let _stripe: Stripe | null = null;
 
@@ -67,16 +66,10 @@ export const STRIPE_MISCONFIGURED_ERROR =
   'taken. Set STRIPE_SECRET_KEY in the hosting project, or clear the VITE_STRIPE_*_PRICE_ID ' +
   'variables to hide the upgrade buttons until it is ready.';
 
-let _supabaseAdmin: SupabaseClient | null = null;
-
-export const getSupabaseAdmin = (): SupabaseClient | null => {
-  if (_supabaseAdmin) return _supabaseAdmin;
-  const url = process.env.SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !serviceKey) return null;
-  _supabaseAdmin = createClient(url, serviceKey, { auth: { persistSession: false } });
-  return _supabaseAdmin;
-};
+// Re-exported so the billing endpoints keep importing it from here; it now
+// lives in its own module (api/_lib/supabaseAdmin.ts) so endpoints that need
+// the service-role client but not Stripe don't load the Stripe SDK.
+export { getSupabaseAdmin } from './supabaseAdmin';
 
 /** The origin a request demonstrably came from, or undefined if unknowable. */
 const requestOrigin = (

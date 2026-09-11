@@ -13,6 +13,11 @@
  * policies (see supabase/schema.sql §9) reject anything else server-side.
  * Publishing goes exclusively through the reviewer-gated RPCs below. This
  * client code is a convenience layer, NOT the security boundary.
+ *
+ * The same is now true of the AI pre-screen score. Nothing here writes it:
+ * `enforce_quality_score_authority` drops it from any write an end-user session
+ * makes, and `requestQualityScreen` below asks the server to produce and store
+ * it instead. See that function for why.
  */
 import { supabase, fetchAllRows } from './supabaseClient';
 import {
@@ -26,6 +31,10 @@ import {
 } from '../types';
 import { syncScenarioImageUp } from './scenarioImageSyncService';
 
+// Same origin unless the app is served from somewhere the API isn't — see the
+// VITE_API_BASE_URL note in services/aiCore.ts.
+const SCREEN_ENDPOINT = `${(import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '')}/api/screen-contribution`;
+
 export type ContributionStatus = 'private' | 'pending';
 
 /** AI pre-screen result attached to a contribution so reviewers can triage. */
@@ -33,6 +42,49 @@ export interface QualityScreen {
   score: number;
   notes: string;
 }
+
+/**
+ * Ask the server to screen a contribution that has just been saved.
+ *
+ * This used to run in the browser, and the browser then wrote the score it got
+ * into the row it was inserting. The score decides where a submission sits in
+ * the reviewer's queue, so that let an author triage themselves — send a 99 and
+ * sink to the bottom of the list, or skip the screen and never appear in it.
+ * The score columns are now server-owned (enforce_quality_score_authority in
+ * supabase/schema.sql), and /api/screen-contribution is the only writer.
+ *
+ * So this posts an id, not content and not a number: the endpoint reads the
+ * stored text back out itself and reaches its own verdict. Returning the
+ * verdict here is purely so the author can be told what the reviewer will see.
+ *
+ * Never throws, and never blocks. The contribution is already saved by the time
+ * this runs, so a screen that cannot happen — offline, AI down, daily quota
+ * spent, static hosting with no API at all — simply leaves the row unscored,
+ * and unscored sorts to the FRONT of the review queue.
+ */
+export const requestQualityScreen = async (
+  kind: 'prompt' | 'sample_answer',
+  id: string
+): Promise<QualityScreen | undefined> => {
+  if (!supabase) return undefined;
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (!token) return undefined;
+
+    const res = await fetch(SCREEN_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ kind, id }),
+    });
+    if (!res.ok) return undefined;
+    const body = (await res.json()) as { screened?: boolean; score?: number; notes?: string };
+    if (!body?.screened || typeof body.score !== 'number') return undefined;
+    return { score: body.score, notes: typeof body.notes === 'string' ? body.notes : '' };
+  } catch {
+    return undefined;
+  }
+};
 
 // --- Row shapes written to Postgres (snake_case) -----------------------------
 
@@ -57,8 +109,6 @@ export interface PromptInsertRow {
   scenario_image_alt: string | null;
   scenario_image_updated_at: string | null;
   status: ContributionStatus;
-  quality_score: number | null;
-  quality_notes: string | null;
   created_by: string;
 }
 
@@ -72,8 +122,6 @@ export interface SampleAnswerInsertRow {
   feedback: string | null;
   quick_tip: string | null;
   status: ContributionStatus;
-  quality_score: number | null;
-  quality_notes: string | null;
   created_by: string;
 }
 
@@ -83,8 +131,7 @@ export const promptToRow = (
   prompt: Prompt,
   dotPointId: string,
   userId: string,
-  status: ContributionStatus,
-  quality?: QualityScreen
+  status: ContributionStatus
 ): PromptInsertRow => ({
   dot_point_id: dotPointId,
   // Preserve the app's id as legacy_id so the read path maps the row back to
@@ -110,8 +157,6 @@ export const promptToRow = (
     ? new Date(prompt.scenarioImage.updatedAt).toISOString()
     : null,
   status,
-  quality_score: quality?.score ?? null,
-  quality_notes: quality?.notes ?? null,
   created_by: userId,
 });
 
@@ -119,8 +164,7 @@ export const sampleAnswerToRow = (
   answer: SampleAnswer,
   promptId: string,
   userId: string,
-  status: ContributionStatus,
-  quality?: QualityScreen
+  status: ContributionStatus
 ): SampleAnswerInsertRow => ({
   prompt_id: promptId,
   legacy_id: answer.id,
@@ -131,8 +175,6 @@ export const sampleAnswerToRow = (
   feedback: answer.feedback ?? null,
   quick_tip: answer.quickTip ?? null,
   status,
-  quality_score: quality?.score ?? null,
-  quality_notes: quality?.notes ?? null,
   created_by: userId,
 });
 
@@ -462,8 +504,7 @@ const upsertOwned = async (
 export const savePromptContribution = async (
   dotPointAppId: string,
   prompt: Prompt,
-  status: ContributionStatus = 'private',
-  quality?: QualityScreen
+  status: ContributionStatus = 'private'
 ): Promise<{ id: string; scenarioImage?: ScenarioImageRef }> => {
   const userId = await currentUserId();
   const dotPointId = await resolveRowId('dot_points', dotPointAppId);
@@ -471,7 +512,7 @@ export const savePromptContribution = async (
   const scenarioImage = await syncScenarioImageUp(prompt.id, prompt.scenarioImage);
   const id = await upsertOwned(
     'prompts',
-    promptToRow({ ...prompt, scenarioImage }, dotPointId, userId, status, quality)
+    promptToRow({ ...prompt, scenarioImage }, dotPointId, userId, status)
   );
   return { id, scenarioImage };
 };
@@ -480,16 +521,12 @@ export const savePromptContribution = async (
 export const saveSampleAnswerContribution = async (
   promptAppId: string,
   answer: SampleAnswer,
-  status: ContributionStatus = 'private',
-  quality?: QualityScreen
+  status: ContributionStatus = 'private'
 ): Promise<string> => {
   const userId = await currentUserId();
   const promptId = await resolveRowId('prompts', promptAppId);
   if (!promptId) throw new Error('Could not find the prompt to attach this answer to.');
-  return upsertOwned(
-    'sample_answers',
-    sampleAnswerToRow(answer, promptId, userId, status, quality)
-  );
+  return upsertOwned('sample_answers', sampleAnswerToRow(answer, promptId, userId, status));
 };
 
 /** Save a topic the user authored under the given course. Returns its uuid. */
@@ -625,8 +662,21 @@ const truncate = (text: string, max = 140): string =>
 
 /**
  * Pure assembler: flatten the two pending-row sets into a single review list,
- * lowest quality-score first (riskiest submissions surface first; unscored
- * items sort last). IO-free so it can be unit-tested directly.
+ * riskiest first. IO-free so it can be unit-tested directly.
+ *
+ * Order: UNSCREENED content, then scored content lowest-first, then structure.
+ *
+ * Unscored leads because of what "unscored" now means. The screen runs on the
+ * server (/api/screen-contribution) and fails open, so a missing score is not
+ * "nobody bothered" — it is "the one automated look at this never happened",
+ * and the only remaining safeguard is a person. It used to sort LAST, which
+ * meant the submissions with no check at all sat behind the ones that had
+ * passed one; and while the client wrote the column, an author could reach that
+ * position by simply not screening.
+ *
+ * Structure (topics, sub-topics, dot points) is unscored too, but it is a line
+ * of text with no screen to fail — it has never been screenable and sorting it
+ * with the unscreened would bury them. It stays at the back.
  */
 export const toQueueItems = (
   prompts: PendingPromptRow[],
@@ -668,9 +718,15 @@ export const toQueueItems = (
       qualityScore: null,
     })),
   ];
-  // Lowest quality first so reviewers see the riskiest submissions up top;
-  // items with no score (structure, older/manual) sort after scored ones.
-  return items.sort((a, b) => (a.qualityScore ?? 101) - (b.qualityScore ?? 101));
+  // One key covers all three bands: unscreened content is below every possible
+  // score, structure above it. Within the scored band, lowest first.
+  const UNSCREENED = -1;
+  const STRUCTURE = 101;
+  const rank = (item: ModerationItem): number => {
+    if (item.kind !== 'prompt' && item.kind !== 'sample_answer') return STRUCTURE;
+    return item.qualityScore ?? UNSCREENED;
+  };
+  return items.sort((a, b) => rank(a) - rank(b));
 };
 
 /**
