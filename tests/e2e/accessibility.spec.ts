@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { freezeAnimations } from './support/contrast';
 
 /**
  * WCAG 2.1 AA, by machine, on the two surfaces every user passes through.
@@ -63,6 +64,68 @@ const describeViolations = (
     )
     .join('');
 
+/**
+ * WCAG 1.4.10 Reflow, which axe cannot check and which the rest of the suite
+ * is structurally blind to.
+ *
+ * The Evaluate button — the only way to have an answer marked — sat outside the
+ * viewport at every width below 640px. At 390px, an iPhone 12, a student who
+ * had written an answer could not see it: the footer row was `flex` with no
+ * wrap, so its right end ran past the card, and every ancestor was
+ * `overflow: hidden`. Programmatic scrolling reaches such a container; a finger
+ * does not.
+ *
+ * Nothing caught it, and could not have. `evaluation-flow.spec.ts` clicks that
+ * button on Mobile Safari and passes, because Playwright's `click()` scrolls
+ * the element into view first — auto-scroll makes a test pass on a control no
+ * user could reach. So this measures GEOMETRY and never clicks: the box must
+ * already be inside the viewport, untouched.
+ */
+test.describe('reflow — the primary action is reachable at phone widths', () => {
+  test.describe.configure({ timeout: 120_000 });
+  test.skip(({ browserName }) => browserName !== 'chromium', 'layout, not engine, is the subject');
+  test.skip(({ isMobile }) => !!isMobile, 'the viewport is set explicitly below');
+
+  // 320 is the width WCAG 1.4.10 names, and what a 640px window gives at 200%
+  // zoom; 390 is an iPhone 12. 375 is the SE, the narrowest mainstream phone.
+  for (const width of [320, 375, 390]) {
+    test(`Evaluate is fully within the viewport at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 });
+      await signIn(page);
+      await clearOnboarding(page);
+      await openFirstQuestion(page);
+
+      // Write something, so the button is in its live state rather than disabled.
+      const editor = page.locator('[contenteditable="true"], textarea').first();
+      if (await editor.count()) {
+        await editor.click();
+        await page.keyboard.type('A test answer.');
+      }
+      await page.waitForTimeout(600);
+
+      const box = await page.evaluate(() => {
+        const vw = document.documentElement.clientWidth;
+        const button = [...document.querySelectorAll('button')].find((b) =>
+          /Evaluate your response|Write a response first/.test(b.getAttribute('title') ?? '')
+        );
+        if (!button) return null;
+        const rect = button.getBoundingClientRect();
+        return { vw, left: Math.round(rect.left), right: Math.round(rect.right) };
+      });
+
+      expect(box, 'the Evaluate button was not rendered at all').not.toBeNull();
+      expect(
+        box!.right,
+        `Evaluate runs ${box!.right - box!.vw}px past the right edge at ${width}px — ` +
+          `a touch user cannot reach it, because every ancestor clips rather than scrolls`
+      ).toBeLessThanOrEqual(box!.vw);
+      expect(box!.left, `Evaluate starts off the left edge at ${width}px`).toBeGreaterThanOrEqual(
+        0
+      );
+    });
+  }
+});
+
 test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
   test.describe.configure({ timeout: 120_000 });
 
@@ -72,6 +135,12 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
   test('the sign-in page has no violations', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('#username', { timeout: 20_000 });
+    // Mid-animation is not a state that ships. Without this the sign-in scan
+    // passed alone and failed under parallel load, catching a transitional
+    // opacity as a contrast violation — the same reason light-theme.spec.ts
+    // freezes before it measures.
+    await freezeAnimations(page);
+    await page.waitForTimeout(400);
 
     const { violations } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
     expect(violations, `sign-in page:${describeViolations(violations)}`).toEqual([]);
@@ -96,6 +165,7 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
     for (const [label, trigger] of surfaces) {
       await page.getByRole('button', { name: trigger }).first().click();
       await page.waitForTimeout(1500);
+      await freezeAnimations(page);
 
       const { violations } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
       expect(violations, `${label}:${describeViolations(violations)}`).toEqual([]);
@@ -123,6 +193,7 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
         await toggle.first().click();
         await page.waitForTimeout(800);
       }
+      await freezeAnimations(page);
 
       const { violations, passes } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
       // A run that asserted nothing would pass silently — most likely because
