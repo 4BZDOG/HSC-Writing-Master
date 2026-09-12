@@ -1,3 +1,19 @@
+/**
+ * A small IndexedDB cache for AI results that are worth not buying twice.
+ *
+ * It has exactly one consumer — the outcome briefing in OutcomeDetailModal —
+ * and that is the point of this file rather than an accident of it. The cache
+ * shipped with four writers and no readers: every evaluation, enrichment,
+ * scenario and keyword result was stored on a 30-day TTL and never read back
+ * once, so it cost a write per AI call and returned nothing. Those writers are
+ * gone; see the note above the key generator for why they did not simply gain
+ * reads.
+ *
+ * Before adding a writer, be able to name the reader. A cached AI result is
+ * only worth storing where the same input genuinely deserves the same output
+ * AND nothing else already persists it — most results in this app are written
+ * into the course tree or the response store, which are the real caches.
+ */
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 
 // IndexedDB schema for AI cache
@@ -93,8 +109,9 @@ export class AICache {
     }
   }
 
-  // Delete a specific cache entry
-  static async delete(key: string): Promise<void> {
+  // Drop one entry. Private: the only callers are `get` evicting something
+  // expired or version-stale, and `cleanup` sweeping on open.
+  private static async delete(key: string): Promise<void> {
     try {
       const db = await this.initDB();
       await db.delete(STORE_NAME, key);
@@ -142,73 +159,26 @@ export class AICache {
     }
   }
 
-  // Get cache statistics
-  static async getStats(): Promise<{ total: number; size: number; expired: number }> {
-    try {
-      const db = await this.initDB();
-      const tx = db.transaction(STORE_NAME, 'readonly');
-      const store = tx.objectStore(STORE_NAME);
-
-      const entries = await store.getAll();
-      const now = Date.now();
-
-      const stats = {
-        total: entries.length,
-        size: 0,
-        expired: 0,
-      };
-
-      entries.forEach((entry) => {
-        stats.size += JSON.stringify(entry).length;
-        if (now - entry.timestamp > CACHE_TTL) {
-          stats.expired++;
-        }
-      });
-
-      return stats;
-    } catch (error) {
-      console.error('Cache stats error:', error);
-      return { total: 0, size: 0, expired: 0 };
-    }
-  }
-
-  // --- Key Generators ---
-
-  static generatePromptKey(dotPointId: string, questionPreview: string): string {
-    return `prompt:${dotPointId}:${this.hash(questionPreview)}`;
-  }
-
-  static generateEnrichKey(promptId: string): string {
-    return `enrich:${promptId}`;
-  }
-
-  static generateEvaluationKey(promptId: string, answer: string): string {
-    return `evaluate:${promptId}:${this.hash(answer)}`;
-  }
-
-  static generateScenarioKey(promptId: string): string {
-    return `scenario:${promptId}`;
-  }
-
-  static generateKeywordsKey(promptId: string): string {
-    return `keywords:${promptId}`;
-  }
-
-  static generateImproveKey(promptId: string, answer: string, targetBand: number): string {
-    return `improve:${promptId}:${this.hash(answer)}:${targetBand}`;
-  }
-
-  static generateReviseKey(promptId: string, answer: string, targetMark: number): string {
-    return `revise:${promptId}:${this.hash(answer)}:${targetMark}`;
-  }
-
-  static generateSampleAnswerKey(promptId: string, mark: number): string {
-    return `sample:${promptId}:${mark}`;
-  }
-
-  static generateQualityCheckKey(content: string, type: string): string {
-    return `quality:${type}:${this.hash(content)}`;
-  }
+  // --- Key generators -------------------------------------------------------
+  //
+  // One, because one is what is used. There were fifteen, and fourteen of them
+  // named a result nothing ever read back: the cache was written in four places
+  // (evaluation, enrichment, scenario, keywords) and read in none, from the day
+  // it was added. It cost an IndexedDB write per AI call and a 30-day retention
+  // sweep, and bought nothing.
+  //
+  // The four writes are gone rather than given reads, because the results were
+  // already persisted somewhere that IS read, which is why nobody missed them:
+  // enrichment, scenario and keywords are written into the course tree (and
+  // `needsEnrichment` guards on those very fields, so the tree is the cache),
+  // and a marking goes to the response store, which `useAttemptHistory` reads
+  // for the question picker's personal ordering. Two of them — scenario and
+  // keywords — are behind buttons that say "generate a NEW one", where reading
+  // a cache would have been a bug rather than an optimisation.
+  //
+  // If evaluation caching is ever wanted, it needs a better key than the one
+  // that was here: `promptId + hash(answer)` says nothing about the QUESTION,
+  // so an edited question would be marked against its own old text.
 
   /**
    * An outcome briefing is a function of the QUESTION and the outcome, and of
@@ -222,30 +192,6 @@ export class AICache {
    */
   static generateOutcomeBriefingKey(question: string, outcomeCode: string): string {
     return `outcome-briefing:${outcomeCode}:${this.hash(question)}`;
-  }
-
-  static generateTopicKey(courseName: string, existingTopics: string[]): string {
-    return `topic:${this.hash(courseName)}:${this.hash(existingTopics.join(','))}`;
-  }
-
-  static generateDotPointsKey(courseName: string, topicName: string, subTopicName: string): string {
-    return `dotpoints:${this.hash(courseName + topicName + subTopicName)}`;
-  }
-
-  static generateParsingKey(text: string, type: 'outcomes' | 'structure'): string {
-    return `parse:${type}:${this.hash(text)}`;
-  }
-
-  static generateExplanationKey(question: string, outcomeCode: string): string {
-    return `explain:${outcomeCode}:${this.hash(question)}`;
-  }
-
-  static generateOutcomeSuggestionKey(question: string): string {
-    return `suggest_outcomes:${this.hash(question)}`;
-  }
-
-  static generateFetchUrlKey(url: string): string {
-    return `fetch:${this.hash(url)}`;
   }
 
   /** Closes the cached connection so the next `initDB()` opens a fresh one.

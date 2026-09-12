@@ -12,9 +12,6 @@ import type { Course } from '../../types';
  * became the outcomes offered to every HSC question in the course.
  */
 
-vi.mock('../../services/aiCache', () => ({
-  AICache: { set: vi.fn(), get: vi.fn(), generateEnrichKey: vi.fn(() => 'k') },
-}));
 vi.mock('../../services/responseService', () => ({
   persistResponse: vi.fn(),
   saveResponseFeedback: vi.fn(),

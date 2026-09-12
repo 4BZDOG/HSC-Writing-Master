@@ -21,13 +21,6 @@ vi.mock('../../services/geminiService', async (importOriginal) => {
   return { ...actual, evaluateAnswer: vi.fn() };
 });
 
-vi.mock('../../services/aiCache', () => ({
-  AICache: {
-    set: vi.fn().mockResolvedValue(undefined),
-    get: vi.fn().mockResolvedValue(null),
-    generateEvaluationKey: vi.fn((promptId: string, answer: string) => `${promptId}:${answer}`),
-  },
-}));
 
 // A signed-in free student, so the metered path is exercised as in production.
 vi.mock('../../services/authService', () => ({
