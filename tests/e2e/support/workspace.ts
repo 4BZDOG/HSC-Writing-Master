@@ -146,6 +146,80 @@ export const openVerbRibbon = async (page: Page): Promise<void> => {
     .toBeGreaterThan(200);
 };
 
+/**
+ * Put a draft in the editor.
+ *
+ * This exists because of what the contrast sweep could not see. The suite
+ * opened a question and measured, which is one screen in ONE state — and three
+ * of the surfaces carrying the app's remaining opacity-dimmed text are on that
+ * very screen, invisible only because the state they need was never reached.
+ * `LiveInsights` is the clearest case: it is mounted in
+ * `WorkspaceRightPanel` whenever the session is not an exam, and
+ * `buildWritingInsights` returns an empty array at `wordCount === 0`, so the
+ * panel returns `null` and never paints. A single word is the whole difference
+ * between covered and uncovered.
+ *
+ * Long enough to trip more than one insight, so the panel has both a warning
+ * and a positive tone in it rather than whichever one a two-word draft happens
+ * to produce.
+ */
+export const typeAnswer = async (page: Page, text?: string): Promise<void> => {
+  const editor = page.locator('textarea').first();
+  await editor.waitFor({ state: 'visible', timeout: 20_000 });
+  await editor.fill(
+    text ??
+      'A data packet travels from the application layer down through the ' +
+        'transport layer, where it is segmented and given a port number. The ' +
+        'network layer then adds addressing so routers can forward it. Each ' +
+        'layer adds its own header, and the receiving host reverses the ' +
+        'process on the way back up.'
+  );
+  // The metrics hook reads a debounced copy of the answer, so the panel
+  // appears a beat after the last keystroke rather than with it.
+  await expect(page.getByText('Live Insights')).toBeVisible({ timeout: 20_000 });
+};
+
+/**
+ * Expand a collapsed reference panel by its visible name.
+ *
+ * The workspace's panels are disclosure buttons that keep their content
+ * mounted-but-shut, and a checker that walks text nodes cannot see a panel
+ * whose content has never been opened — the same blind spot that kept the verb
+ * ribbon out of this suite until `openVerbRibbon` existed. `SampleAnswersAccordion`
+ * and `LiveInsights` both hold dimmed text behind their own toggle.
+ *
+ * Idempotent: already-open panels are left alone rather than shut.
+ */
+export const openPanel = async (page: Page, name: RegExp): Promise<void> => {
+  const toggle = page.getByRole('button', { name }).first();
+  if (!(await toggle.count())) return;
+  if ((await toggle.getAttribute('aria-expanded')) === 'false') {
+    await toggle.click();
+  }
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  // Same 500ms disclosure transition the ribbon uses; a reading taken
+  // mid-animation is a reading of a half-height panel.
+  await page.waitForTimeout(700);
+};
+
+/**
+ * Unfold the syllabus navigator back out of its breadcrumb.
+ *
+ * Choosing a question folds it away, so every spec that opens a question has
+ * been measuring the app with `PromptSelector` — 900 lines of it, and the
+ * component holding two of the opacity-dimmed rows this suite exists to catch
+ * — collapsed to nothing.
+ */
+export const expandNavigator = async (page: Page): Promise<void> => {
+  const expand = page.getByRole('button', { name: /change|expand/i }).first();
+  if (!(await expand.count())) return;
+  await expand.click();
+  await expect(page.locator('button[aria-haspopup="listbox"]').first()).toBeVisible({
+    timeout: 15_000,
+  });
+  await page.waitForTimeout(700);
+};
+
 /** Sign in, clear the gates and open a question — the usual preamble. */
 export const openWorkspace = async (page: Page): Promise<void> => {
   await signIn(page);

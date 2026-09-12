@@ -1,5 +1,13 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion, openVerbRibbon } from './support/workspace';
+import {
+  signIn,
+  clearOnboarding,
+  openFirstQuestion,
+  openVerbRibbon,
+  typeAnswer,
+  openPanel,
+  expandNavigator,
+} from './support/workspace';
 import {
   freezeAnimations,
   measureContrast,
@@ -121,4 +129,90 @@ test.describe('light theme', () => {
       'these read worse in the light theme than in the dark one, and below the floor'
     ).toEqual([]);
   });
+});
+
+/**
+ * The states the sweep above never reaches.
+ *
+ * The two tests above open a question and measure, and for a long time that
+ * read as "the workspace is covered". It is one screen in ONE state, and the
+ * distinction matters more than it sounds: three of the surfaces still dimming
+ * text with `opacity` are mounted on that very screen and simply never painted
+ * in the state the sweep leaves it in.
+ *
+ *   - `LiveInsights` is mounted whenever the session is not an exam, but
+ *     `buildWritingInsights` returns `[]` at `wordCount === 0`, so with an
+ *     empty editor the panel returns `null`.
+ *   - `SampleAnswersAccordion` is mounted and shut, and a checker that walks
+ *     text nodes cannot see inside a closed disclosure.
+ *   - `PromptSelector` is folded to a breadcrumb the moment a question is
+ *     chosen — 900 lines of navigator, unmeasured, because the act of getting
+ *     to the workspace is also the act of hiding it.
+ *
+ * None of those is an exotic state. Each is one interaction away, and each is
+ * where a student spends most of their time. The verb ribbon was in exactly
+ * this position until `openVerbRibbon` existed, and the comment on that helper
+ * records what the suite had been doing in the meantime: passing partly by
+ * never having seen the component.
+ *
+ * Each entry drives the page into one state and is measured in both themes.
+ * Adding a state here is the cheap half of the work; the expensive half is
+ * that a new state usually arrives red.
+ */
+const STATES: { name: string; reach: (page: Page) => Promise<void> }[] = [
+  {
+    name: 'a draft in the editor, with the live insights panel open',
+    reach: async (page) => {
+      await typeAnswer(page);
+      await openPanel(page, /live insights/i);
+    },
+  },
+  {
+    name: 'the sample answers accordion open',
+    reach: async (page) => {
+      await openPanel(page, /sample answers/i);
+    },
+  },
+  {
+    name: 'the syllabus navigator unfolded',
+    reach: async (page) => {
+      await expandNavigator(page);
+    },
+  },
+];
+
+test.describe('light theme, past the first screen', () => {
+  test.describe.configure({ timeout: 240_000 });
+
+  test.skip(({ isMobile }) => !!isMobile, 'measured once, at the width both cards share');
+
+  for (const state of STATES) {
+    test(`every reading surface meets AA with ${state.name}`, async ({ page }) => {
+      await page.setViewportSize(WIDE);
+      await signIn(page);
+      await clearOnboarding(page);
+      await openFirstQuestion(page);
+      await state.reach(page);
+
+      for (const theme of ['light', 'dark'] as const) {
+        await setTheme(page, theme);
+        await freezeAnimations(page);
+        const { readings, unassessed } = await measureContrast(page);
+
+        // The same guard the base sweep carries, and for the same reason: a
+        // run that measured almost nothing passes silently and proves nothing.
+        // Here it also catches a `reach` that quietly failed to reach.
+        expect(readings.length, 'nothing was measured').toBeGreaterThan(20);
+
+        const failures = readings.filter((r) => r.neutralBackground && r.ratio < r.floor);
+        expect(
+          failures,
+          `${theme} theme, ${state.name}: ${failures.length} of ${readings.length} text ` +
+            `nodes on a plain background fall below their contrast floor ` +
+            `(${unassessed} more sit over a gradient and were not assessed)\n` +
+            describeReadings(failures)
+        ).toEqual([]);
+      }
+    });
+  }
 });

@@ -27,6 +27,10 @@ import { Page } from '@playwright/test';
  *     5.9:1 (`#b91c1c` on `#fee2e2`) — calculated, not measured, which is the
  *     weaker of the two claims and is why it is written down here.
  *   - **Disabled controls are skipped**, as WCAG exempts them.
+ *   - **Fully transparent text is skipped**, because it paints nothing. The
+ *     one surface this covers is the writing editor, whose textarea is
+ *     deliberately `text-transparent` over an overlay that draws the prose;
+ *     the visible words are measured on that overlay at their real colour.
  *   - **Only the element's own background chain is composited.** An overlay
  *     sibling laid over the text is invisible to this, same as above.
  */
@@ -149,6 +153,17 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
       }
       const fg = parse(cs.color);
       if (!fg) continue;
+      // Text that paints no ink is not a reading. The writing editor stacks a
+      // `text-transparent` textarea over a highlights overlay that draws the
+      // prose — the caret is the only thing the textarea itself paints — so its
+      // value scores a flat 1:1 against any background while the words the
+      // student actually sees are measured on the overlay underneath, at their
+      // own real colour. Gating on the transparent copy would report the
+      // editor as failing at 1:1 forever, and no colour change could fix it
+      // because the transparency IS the design. `alpha === 0` is the general
+      // form of that: fully transparent text is invisible, so it has no
+      // contrast to meet and nothing to read.
+      if (fg.a === 0 || opacity === 0) continue;
 
       const size = parseFloat(cs.fontSize);
       const weight = parseInt(cs.fontWeight, 10) || 400;
