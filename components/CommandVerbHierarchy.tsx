@@ -438,7 +438,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} border border-white/20 shadow-lg transform transition-transform duration-700 group-hover/hero:rotate-6`}
+                        className={`w-12 h-12 rounded-tile flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${activeConfig.gradient} tile-bevel transform transition-transform duration-700 group-hover/hero:rotate-6`}
                       >
                         <Sparkles className="w-6 h-6 text-white" />
                       </div>

@@ -396,7 +396,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
             <MeshOverlay />
             <div className="flex justify-between items-center gap-4 relative z-10">
               <div className="flex items-center gap-5 min-w-0">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg flex items-center justify-center border border-white/20 flex-shrink-0">
+                <div className="w-14 h-14 rounded-tile bg-gradient-to-br from-indigo-500 to-purple-600 tile-bevel flex items-center justify-center flex-shrink-0">
                   <PenTool className="w-7 h-7 text-white" />
                 </div>
                 <div className="min-w-0">

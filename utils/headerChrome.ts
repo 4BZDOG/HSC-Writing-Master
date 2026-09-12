@@ -47,14 +47,46 @@ export const HEADER_INNER =
 
 /** The wordmark tile — where the brand gradient went when it came off the bar.
  *  White-alpha ON THE BRAND GRADIENT: it reads the same in both themes and is
- *  the one constant here that takes no light partner, per §2. */
+ *  the one constant here that takes no light partner, per §2. That exemption
+ *  is still the right one and `appHeaderChrome.test.tsx` still encodes it; the
+ *  edge it applies to has changed.
+ *
+ *  `tile-bevel` in place of `border border-white/20 shadow-lg`. The border was
+ *  never the even white hairline it reads as in source: the gradient tiles
+ *  under it (`background-clip: border-box`), so each rim composited 20% white
+ *  over a different part of the gradient. Sampled on this tile at DPR 1, the
+ *  top and left rims came out at 1.93:1 against the fill and the bottom and
+ *  right at 1.04:1 — an accidental bevel, lit from the top-left. The class
+ *  draws that deliberately with inset shadows, which paint inside the padding
+ *  box where the gradient cannot bleed through them. It folds the drop shadow
+ *  in because `box-shadow` is one property and a separate `shadow-lg` would
+ *  lose to it. See `index.css`.
+ *
+ *  `rounded-tile` (32%) in place of `rounded-2xl` (16px), which is the house
+ *  token for a fixed-size icon tile and fixes a shape that changed with the
+ *  viewport: 16px on the 48px tile is 33% and on the 40px tile is 40%, so the
+ *  same mark was rounder on a phone than on a laptop. A percentage radius
+ *  tracks the box, which is the whole reason that token exists. */
 export const HEADER_MARK_TILE =
-  'w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-600 to-sky-500 ' +
-  'border border-white/20 flex items-center justify-center shadow-lg';
+  'w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-tile bg-gradient-to-br from-indigo-600 to-sky-500 ' +
+  'tile-bevel flex items-center justify-center';
 
 /** "Band 6". The house display treatment — `italic uppercase` over
- *  `font-black tracking-tighter` — used in twenty-odd other files. On the rail,
- *  so it needs the pair.
+ *  `font-black tracking-tight`. On the rail, so it needs the pair.
+ *
+ *  Two corrections to what this comment used to say. It claimed the pairing is
+ *  "used in twenty-odd other files"; counted, `tracking-tighter` appears 17
+ *  times across 11 files, two of them in this one. And the tracking is applied
+ *  per site rather than baked into `.t-display`, which sets only the family
+ *  and the weight — so there is no single token to change and no twenty-file
+ *  blast radius either way.
+ *
+ *  `tracking-tight` (-0.025em) and not `tracking-tighter` (-0.05em), here
+ *  only. At the 24px this renders at, -1.2px closed the gap between the D and
+ *  the 6 enough to read as one glyph pair; -0.6px does not. The smaller sizes
+ *  the rest of the house treatment runs at do not have that problem, so they
+ *  keep the tighter value and this is a stated exception rather than a
+ *  re-tracking of the brand.
  *
  *  `truncate` rather than the bare `whitespace-nowrap` it replaced: nowrap stops
  *  a label breaking in half, it does not stop it painting straight out of its
@@ -63,16 +95,20 @@ export const HEADER_MARK_TILE =
  *  overlap; only the ink escaped. Clipped, the worst case degrades to a short
  *  wordmark instead of a wordmark printed underneath the buttons. */
 export const HEADER_WORDMARK =
-  't-display text-lg sm:text-2xl tracking-tighter leading-none italic uppercase ' +
+  't-display text-lg sm:text-2xl tracking-tight leading-none italic uppercase ' +
   'truncate text-slate-900 dark:text-white';
 
 /** "HSC Writing Coach". On the rail. The tracking no longer jumps at `sm` —
  *  it was the only responsive tracking in the codebase, and it made the label
  *  read as a different label at different widths.
  *
- *  It does step aside below `sm`, though. At 0.2em tracking the label paints
- *  164px, and a 360px rail that can no longer wrap has about 128px to give it,
- *  so it was painting straight through the action buttons — `whitespace-nowrap`
+ *  It does step aside below `sm`, though. That decision was measured back when
+ *  the label carried 0.2em of tracking and painted 164px against the roughly
+ *  128px a 360px rail can give it; `.t-label` sets `letter-spacing: normal`
+ *  now, so the overflow is smaller than the number here implies — but the rail
+ *  still cannot wrap and the label still does not fit, so the call stands and
+ *  the measurement is kept as the record of why. It was painting straight
+ *  through the action buttons — `whitespace-nowrap`
  *  keeps a label from breaking in half, it does not keep it inside its box. The
  *  tile and the wordmark still say whose app this is at that width; the gloss
  *  under them is the part a phone can spare, which is the same call the profile

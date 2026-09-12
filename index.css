@@ -526,6 +526,47 @@ a:focus-visible,
 }
 
 /*
+ * The brand tiles' edge, and what it replaces.
+ *
+ * Six gradient icon tiles across the app wore `border border-white/20` (or
+ * /10). On a gradient that is not the white hairline it reads as in source.
+ * CSS defaults `background-origin: padding-box` with
+ * `background-clip: border-box`, so the gradient TILES UNDER the border and
+ * each rim composites 20% white over whatever the gradient is doing at that
+ * edge. Sampled on the header's 48px indigo-to-sky tile at DPR 1:
+ *
+ *     top / left      border rgb(75,163,236) over fill rgb(61,96,230)  1.93:1
+ *     bottom / right  border rgb(101,127,235) over fill rgb(31,141,232) 1.04:1
+ *
+ * — a cyan rim along the top and left fading to nothing along the bottom and
+ * right. An accidental bevel, lit from the top-left, which is the direction a
+ * bevel should be lit; it was just neither deliberate nor even.
+ *
+ * So it is drawn as one, with inset shadows rather than a border: they paint
+ * inside the padding box, where the gradient cannot bleed through them, and
+ * they cost no layout. Highlight strongest on the top edge, half as strong
+ * down the left, a soft shade along the bottom.
+ *
+ * White alpha with no dark partner is correct here for the same reason
+ * `appHeaderChrome.test.tsx` exempts HEADER_MARK_TILE from the pair sweep:
+ * these values sit on a saturated brand gradient, not on a theme surface, so
+ * they read identically in both themes (DesignSpec §2).
+ *
+ * The drop shadow is folded in because `box-shadow` is one property — a
+ * `shadow-lg` alongside this class would simply lose. The two trailing values
+ * are Tailwind's `shadow-lg`, so call sites drop both `border-white/*` and
+ * `shadow-lg` and take their whole edge from here.
+ */
+.tile-bevel {
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.35),
+    inset 1px 0 0 0 rgb(255 255 255 / 0.16),
+    inset 0 -1px 0 0 rgb(0 0 0 / 0.2),
+    0 10px 15px -3px rgb(0 0 0 / 0.18),
+    0 4px 6px -4px rgb(0 0 0 / 0.18);
+}
+
+/*
  * Readability floor for micro-labels.
  *
  * The UI leans heavily on tiny uppercase tracking-heavy labels written as

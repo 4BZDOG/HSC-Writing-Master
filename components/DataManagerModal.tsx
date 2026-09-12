@@ -170,7 +170,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
         <div className="w-full md:w-72 bg-black/40 light:bg-slate-50 border-b md:border-b-0 md:border-r border-white/5 light:border-slate-200 flex flex-col flex-shrink-0 z-10 relative">
           <div className="p-5 md:p-10 border-b border-white/5 light:border-slate-200">
             <div className="flex items-center gap-4 md:mb-2">
-              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg border border-white/10">
+              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-tile bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center tile-bevel">
                 <Database className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
               <div className="flex-1 min-w-0">
