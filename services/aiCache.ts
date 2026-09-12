@@ -210,6 +210,20 @@ export class AICache {
     return `quality:${type}:${this.hash(content)}`;
   }
 
+  /**
+   * An outcome briefing is a function of the QUESTION and the outcome, and of
+   * nothing else — so the same pair always deserves the same answer, and a
+   * student who shuts the panel and opens it again should not wait for a second
+   * one or spend a second call of their daily allowance on it.
+   *
+   * Keyed on the question text rather than the prompt id because the briefing
+   * is written against the words of the question: edit the question and the old
+   * briefing is about something else, which the hash takes care of on its own.
+   */
+  static generateOutcomeBriefingKey(question: string, outcomeCode: string): string {
+    return `outcome-briefing:${outcomeCode}:${this.hash(question)}`;
+  }
+
   static generateTopicKey(courseName: string, existingTopics: string[]): string {
     return `topic:${this.hash(courseName)}:${this.hash(existingTopics.join(','))}`;
   }

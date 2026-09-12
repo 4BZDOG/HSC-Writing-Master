@@ -458,8 +458,16 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                the same bound as the report: the legend and the marked-up prose
                narrow together and stay aligned with each other, while the
                modal's header and footer stay full-width chrome. Side by side
-               needs no cap — its panes are already about half this. */
-            <div className="p-6 sm:p-8 max-w-3xl mx-auto">
+               needs no cap — its panes are already about half this.
+
+               `xl:max-w-5xl` because that IS the report's bound
+               (EvaluationDisplay is `max-w-3xl xl:max-w-5xl`) and this had only
+               copied half of it. Flat at `3xl`, the column stopped 768px into a
+               1152px modal and left a third of the width empty on either side
+               of the very thing the modal exists to show. Below `xl` the modal
+               itself is near enough 768px that the cap does nothing, so the
+               change is confined to the widths where the gap was visible. */
+            <div className="p-6 sm:p-8 max-w-3xl xl:max-w-5xl mx-auto">
               {hasOriginal && anchors.length > 0 && (
                 <p className="t-label mb-5 text-slate-400 flex flex-wrap items-center gap-x-4 gap-y-1">
                   <span className="inline-flex items-center gap-1.5">
