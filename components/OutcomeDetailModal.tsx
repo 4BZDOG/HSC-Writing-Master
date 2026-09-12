@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
+import { AICache } from '../services/aiCache';
 import { renderFormattedText, getTierScaleConfig, BAND_HEX } from '../utils/renderUtils';
 import {
   AlertCircle,
@@ -99,7 +100,12 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   const briefingLocked = isFeatureLocked('outcomeBriefing');
 
   // Re-open on whichever outcome was clicked, and start from a clean slate:
-  // the explanations are question-specific, so they must not outlive the modal.
+  // the explanations are question-specific, so they must not outlive the modal
+  // IN MEMORY. They do outlive it on disk — `fetchExplanation` reads the cache
+  // first, so a re-open of the same question refills instantly rather than
+  // spending a second call. The reset stays because the modal can re-open on a
+  // DIFFERENT question, and stale text under a new heading is worse than a
+  // spinner.
   useEffect(() => {
     if (!isOpen) return;
     setActiveCode(initialCode ?? outcomeKey.split('|')[0]);
@@ -112,9 +118,31 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
       if (!force && requested.current.has(outcome.code)) return;
       requested.current.add(outcome.code);
       setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'loading' } }));
+
+      const key = AICache.generateOutcomeBriefingKey(question, outcome.code);
+
+      // The briefing for a given question and outcome is the same briefing every
+      // time, so it is read back rather than bought again. `force` is the
+      // student asking for a second opinion and deliberately skips the read —
+      // but still writes, because the opinion they just paid for is the one they
+      // should be shown next time.
+      if (!force) {
+        const cached = await AICache.get<string>(key);
+        if (typeof cached === 'string' && cached) {
+          setExplanations((prev) => ({
+            ...prev,
+            [outcome.code]: { status: 'ready', text: cached },
+          }));
+          return;
+        }
+      }
+
       try {
         const text = await explainOutcomeInContext(question, outcome);
         setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'ready', text } }));
+        // Best-effort: a cache that cannot be written must never cost the
+        // student the briefing they already have on screen.
+        void AICache.set(key, text);
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Could not fetch explanation.';
         setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'error', message } }));
