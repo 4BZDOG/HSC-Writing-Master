@@ -83,6 +83,40 @@ if (chunks.length === 0) {
   process.exit(1);
 }
 
+/**
+ * Where the emitted URLs in `index.html` sit relative to `distDir`.
+ *
+ * Vite prefixes every URL it writes with the deploy base, and this repo builds
+ * with two different ones: Vercel serves from the root, so hrefs read
+ * `/assets/x.js`, while the Pages workflow sets `DEPLOY_BASE_PATH=/<repo>/`
+ * and they read `/<repo>/assets/x.js`. Resolving the second against `dist/`
+ * looks for `dist/<repo>/assets/x.js`, which is not where the file is.
+ *
+ * That is not a hypothetical either. This check shipped resolving hrefs with
+ * `replace(/^\//, '')`, which is correct at the root and wrong everywhere
+ * else, and it broke the Pages deploy on the very commit that added it — every
+ * eager chunk reported as missing from disk, three merges in a row, while the
+ * identical check passed on the Vercel build.
+ *
+ * It also took the byte ceiling down with it, silently, which is the worse
+ * half: with nothing resolving, `totalKb` stayed 0 and the 1900 kB rule passed
+ * by measuring nothing at all. A first load could have doubled on the Pages
+ * build and this file would have said so only in the noise of eleven
+ * missing-file errors.
+ *
+ * Derived from the HTML rather than read from an env var, so the check needs
+ * no knowledge of how the build that produced this `dist` was configured.
+ */
+const BASE = (() => {
+  const withAssets = chunks.find((c) => c.includes('/assets/')) ?? '';
+  const at = withAssets.indexOf('/assets/');
+  return at === -1 ? '' : withAssets.slice(0, at);
+})();
+
+/** The on-disk path of an emitted URL, base prefix and all. */
+const onDisk = (href) =>
+  join(distDir, (href.startsWith(BASE) ? href.slice(BASE.length) : href).replace(/^\//, ''));
+
 const assets = join(distDir, 'assets');
 const built = readdirSync(assets);
 const failures = [];
@@ -111,14 +145,28 @@ for (const [name, why] of MUST_STAY_LAZY) {
 
 let totalKb = 0;
 for (const c of chunks) {
-  const file = join(distDir, c.replace(/^\//, ''));
   try {
-    totalKb += statSync(file).size / 1024;
+    totalKb += statSync(onDisk(c)).size / 1024;
   } catch {
-    failures.push(`eager chunk ${c} is listed in index.html but not on disk`);
+    failures.push(
+      `eager chunk ${c} is listed in index.html but not on disk at ${onDisk(c)}.\n` +
+        `    If the deploy base path changed, BASE above is what resolves it.`
+    );
   }
 }
 totalKb = Math.round(totalKb);
+
+// The ceiling below divides by nothing and compares against a number, so it
+// passes cheerfully on a total of zero. That is exactly how it behaved on the
+// Pages build for three merges, and a rule that cannot fail is worse than no
+// rule — the same argument the MUST_STAY_LAZY existence check above makes.
+if (totalKb === 0) {
+  failures.push(
+    `every eager chunk measured 0 kB, so the ${EAGER_BUDGET_KB} kB ceiling ` +
+      `checked nothing. The sizes are not being read — fix that before ` +
+      `trusting this run.`
+  );
+}
 
 if (totalKb > EAGER_BUDGET_KB) {
   failures.push(
