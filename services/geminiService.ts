@@ -273,6 +273,7 @@ ${buildMarkerTermBlock(prompt, syllabus)}
 
                     ### MARKING RUBRIC
                     ${rubric}
+${buildMarkerNotesBlock(prompt)}
 
                     ### ${benchmarkHeading}
                     Use these samples to anchor your marking.
@@ -968,6 +969,45 @@ const buildMarkerTermBlock = (prompt: Prompt, syllabus?: SyllabusKeywordContext)
       `**What to do with them:** where the response does NOT earn full marks, name the terms from the first list it never uses as a specific content gap in the feedback and, where it is the single most useful next step, in the coach's tip. At full marks, do not raise them at all — an answer can satisfy the question without saying a listed word. Never move the mark for the presence or absence of a term by itself: the rubric decides the mark, and a term used incorrectly is worth less than one not used at all.`
     );
   return lines.map((line) => `${indent}${line}`).join('\n');
+};
+
+/**
+ * The per-question marking notes, handed to the marker they were written for.
+ *
+ * `markerNotes` is authored in a marker's register — "Credit explicit mention
+ * of start/stop codons", "Award higher marks for integrating the scenario",
+ * "Look for correct terminology when describing the bonds at each level" — and
+ * `ReferenceMaterials` shows it to teachers under the heading "What the marker
+ * looks for". It was never put in the marking prompt, so that heading was a
+ * promise the app did not keep: 149 of the 224 shipped Software Engineering
+ * questions carry these notes, and the marker had not seen one of them.
+ *
+ * It sits AFTER the rubric and is explicitly subordinate to it. The notes say
+ * what to watch for on this particular question; they do not add marks, and
+ * they cannot lift a response past the ceiling the verb's tier already sets —
+ * a note reading "award higher marks for X" means X is what separates a strong
+ * answer from a weak one WITHIN the rubric, not a bonus on top of it. Without
+ * that sentence, notes written in the imperative read to a model as licence to
+ * inflate.
+ *
+ * Absent or empty yields nothing at all — no heading over a blank list, the
+ * same reason the rubric has a fallback rather than an injected "undefined".
+ */
+const buildMarkerNotesBlock = (prompt: Prompt): string => {
+  const indent = '                    ';
+  const notes = (prompt.markerNotes || []).map((note) => String(note).trim()).filter(Boolean);
+  if (notes.length === 0) return '';
+
+  return [
+    '',
+    `${indent}### MARKER'S NOTES FOR THIS QUESTION`,
+    `${indent}Written by the marker who set this question, for whoever marks it. Use them to`,
+    `${indent}decide what a strong response looks like HERE. They refine the rubric above; they`,
+    `${indent}do not extend it. Awarding a mark the rubric does not support, or going past the`,
+    `${indent}maximum achievable band, is wrong even where a note is phrased as "award higher`,
+    `${indent}marks for".`,
+    ...notes.map((note) => `${indent}- ${note}`),
+  ].join('\n');
 };
 
 const buildSampleScopeBrief = (
