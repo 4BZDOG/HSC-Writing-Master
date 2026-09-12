@@ -26,6 +26,7 @@
     "demo:seed": "node supabase/demoSeed.mjs",
     "demo:reseed": "node supabase/demoSeed.mjs --reset",
     "check:bundle": "node scripts/checkChunkInitOrder.mjs",
+    "check:eager-chunks": "node scripts/checkEagerChunks.mjs",
     "measure:similarity": "node scripts/measureAnswerSimilarity.mjs",
     "check:eager-reads": "node scripts/findModuleInitReads.mjs",
     "check:dead-code": "node scripts/findOrphanModules.mjs",
