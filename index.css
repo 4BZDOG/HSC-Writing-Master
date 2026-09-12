@@ -567,6 +567,37 @@ a:focus-visible,
 }
 
 /*
+ * The two arrows on the spectrum's scale rail, pointing away from the Deep
+ * Learning Threshold — the direction each caption describes.
+ *
+ * Borders rather than a glyph, and that is the whole reason this is CSS.
+ * `tests/e2e/support/contrast.ts` skips every node inside an
+ * `[aria-hidden="true"]` subtree, so an arrow CHARACTER would have to be
+ * hidden from assistive tech — it is decoration, not a word — and hiding it
+ * would take the caption it sits inside out of the light-theme contrast audit
+ * with it. That is the blind spot that let three contrast defects ship in this
+ * component before. A zero-size box with borders carries no text node, so it
+ * can be `aria-hidden` on its own while the caption stays in the sweep. The
+ * same reasoning is why the rail's dash between tier names was an en dash and
+ * never an arrow glyph.
+ *
+ * `currentColor` so they inherit the caption's own tone in both themes, which
+ * is also why they need no light/dark pair of their own.
+ */
+.scale-arrow {
+  width: 0;
+  height: 0;
+  flex: none;
+  border-block: 4px solid transparent;
+}
+.scale-arrow-left {
+  border-right: 5px solid currentColor;
+}
+.scale-arrow-right {
+  border-left: 5px solid currentColor;
+}
+
+/*
  * Readability floor for micro-labels.
  *
  * The UI leans heavily on tiny uppercase tracking-heavy labels written as

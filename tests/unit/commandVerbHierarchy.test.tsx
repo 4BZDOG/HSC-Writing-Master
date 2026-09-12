@@ -7,7 +7,7 @@ import { TIER_GROUPS } from '../../data/commandTerms';
 import {
   RIBBON_SPECTRUM_SCALE_RAIL,
   RIBBON_TIER_SUBTITLE,
-  RIBBON_TIMELINE_CUE,
+  RIBBON_TIMELINE_THRESHOLD_CHIP,
 } from '../../utils/verbRibbonChrome';
 
 /**
@@ -24,6 +24,16 @@ beforeAll(() => {
 afterEach(cleanup);
 
 const getToggle = () => screen.getByRole('button', { name: /command verb hierarchy reference/i });
+
+/** The scale rail, matched by its exact class so a stray utility appended at
+ *  the call site fails here rather than quietly widening what these assert. */
+const rail = (container: HTMLElement): HTMLElement => {
+  const found = container.querySelector(
+    `[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`
+  ) as HTMLElement | null;
+  expect(found, 'the scale rail is not wearing RIBBON_SPECTRUM_SCALE_RAIL').toBeTruthy();
+  return found as HTMLElement;
+};
 
 describe('CommandVerbHierarchy', () => {
   it('renders the header and all six tier groups without a selected verb', () => {
@@ -409,36 +419,45 @@ describe('the spectrum says its level in words', () => {
     expect(cue.textContent).not.toMatch(/Band/);
   });
 
-  // Which side of the Deep Learning Threshold the reader's tier falls on, in
-  // place of the tier's prose subtitle. Boundary cases only: tier 3 is the last
-  // tier below the gate and tier 4 the first above it, so if the comparison
-  // were ever written `>=` instead of `>` these two are what would catch it.
-  it('tells the reader which side of the threshold their tier is on', () => {
-    const { unmount } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const below = screen.getByRole('status').parentElement as HTMLElement;
-    expect(below.textContent).toContain('Below the Deep Learning Threshold');
-    expect(below.textContent).not.toContain('Above the Deep Learning Threshold');
+  // What the threshold MEANS, which is now stated once on the rail rather than
+  // per-tier in a sentence. The old line said "Above/Below the Deep Learning
+  // Threshold" and recomputed it from the reader's tier on every question;
+  // this is a property of the ladder, not of where the reader stands on it, so
+  // it is said once and always, on the two sides it describes.
+  //
+  // Both captions render whatever tier is selected, and that is the point: a
+  // student below the gate can see what is on the other side of it.
+  it('names what each side of the threshold asks of the writer', () => {
+    const { container, unmount } = render(
+      <CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />
+    );
+    expect(rail(container).textContent).toContain('Show what you know');
+    expect(rail(container).textContent).toContain('Use what you know');
     unmount();
 
-    render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
-    const above = screen.getByRole('status').parentElement as HTMLElement;
-    expect(above.textContent).toContain('Above the Deep Learning Threshold');
-    expect(above.textContent).not.toContain('Below the Deep Learning Threshold');
+    const { container: above } = render(
+      <CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />
+    );
+    expect(rail(above).textContent).toContain('Show what you know');
+    expect(rail(above).textContent).toContain('Use what you know');
   });
 
-  // …and the clause stays OUT of the announcement. It is the same string for
-  // three tiers running, so a `status` that contained it would re-announce
-  // "Above the Deep Learning Threshold" on every move between tiers 4, 5 and 6
-  // — speech that carries no news. The `< 80` pin travels with it: tier 6 is
-  // the longest lede in the ladder.
+  // …and the threshold stays OUT of the announcement, which is the one thing
+  // that has not changed. A `status` re-announces its whole content on every
+  // change, so a region carrying the gate would replay it on every move
+  // between tiers 4, 5 and 6 — speech that carries no news. The `< 80` pin
+  // travels with it: tier 6 is the longest lede in the ladder.
   it('keeps the announcement to the lede', () => {
-    render(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
 
     const cue = screen.getByRole('status');
     expect(cue.textContent).not.toContain('Deep Learning');
     expect(cue.textContent!.length).toBeLessThan(80);
-    // But it is in the line, unhidden — outside the region, not out of reach.
-    expect(cue.parentElement!.textContent).toContain('Above the Deep Learning Threshold');
+    // And it is on the rail, unhidden — out of the announcement, not out of
+    // reach. `aria-hidden` there would take the caption out of the contrast
+    // sweep as well, which is the fault the CSS arrows exist to avoid.
+    expect(rail(container).textContent).toContain('Deep Learning Threshold');
+    expect(rail(container).closest('[aria-hidden="true"]')).toBeNull();
   });
 
   // The no-verb state names no tier, and it must not name the threshold either:
@@ -449,22 +468,30 @@ describe('the spectrum says its level in words', () => {
 
     const cue = screen.getByRole('status');
     expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
-    expect(cue.parentElement!.textContent).toBe('Choose a command verb to light the spectrum.');
+    // The rail still names the gate and its two sides — those describe the
+    // ladder, which exists before anything is picked. What must not appear is
+    // a claim about where the reader stands on it, which is exactly what the
+    // deleted "Above/Below" clause was.
     expect(container.textContent).not.toMatch(/(Above|Below) the Deep Learning Threshold/);
+    expect(rail(container).textContent).toContain('Deep Learning Threshold');
   });
 
-  // The six tier subtitles run 44 to 96 characters. Unlocked, the cue is one
-  // line for tier 4 and two for tier 6, and the whole footer — spectrum, dots,
-  // labels — steps up and down as the student moves between questions. The
-  // ribbon is the one block on this page that is meant to hold still.
+  // The footer used to step between questions because the cue line wrapped:
+  // the six tier subtitles run 44 to 96 characters, one line for tier 4 and
+  // two for tier 6. The answer was a `min-h-[2.25rem] line-clamp-2` box — a
+  // reserved two lines, of which the second was empty at every width measured.
+  //
+  // The line is gone, so the lock is not tuned, it is unnecessary: an
+  // `sr-only` region is removed from the flow and contributes no height at any
+  // tier, at any width, in any language. That is what this now pins — that the
+  // announcement never comes back into the layout — because a visible cue
+  // WITHOUT the clamp is how the footer started stepping in the first place.
   it('locks the footer’s height across every tier', () => {
     render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
-    // The whole line, which is the box the clamp is on — the live region
-    // inside it is the lede only.
-    const cue = screen.getByRole('status').parentElement as HTMLElement;
+    const cue = screen.getByRole('status');
 
-    expect(cue.className).toMatch(/min-h-\[/);
-    expect(cue.className).toContain('line-clamp-2');
+    expect(cue.className).toContain('sr-only');
+    expect(cue.className).not.toMatch(/min-h-\[/);
 
     // And the dot row no longer depends on which labels render: five of the six
     // are `hidden` below `sm`, so a row sized by its content was a different
@@ -490,69 +517,88 @@ describe('the spectrum says its level in words', () => {
  * scoped to the rail and matched by regex for that reason.
  */
 describe('the scale rail restores the arc, derived', () => {
-  const rail = (container: HTMLElement): HTMLElement => {
-    const found = container.querySelector(
-      `[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`
-    ) as HTMLElement | null;
-    expect(found, 'the scale rail is not wearing RIBBON_SPECTRUM_SCALE_RAIL').toBeTruthy();
-    return found as HTMLElement;
-  };
-
-  it('restores the scale labels without restoring the drift', () => {
+  it('names what the gate means rather than naming the tiers a fourth time', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
 
-    // The two poles, in the words the data actually holds.
-    expect(rail(container).textContent).toContain('Remember & List');
-    expect(rail(container).textContent).toContain('Evaluate, Synthesise & Create');
+    expect(rail(container).textContent).toContain('Show what you know');
+    expect(rail(container).textContent).toContain('Use what you know');
 
-    // And not in the words a hand-written copy had drifted to. `Basic Recall`
-    // is a paraphrase of `TIER_GROUPS[0].title` that exists nowhere in the
-    // data, and `Evaluate & Create` is `TIER_GROUPS[5].title` with
-    // "Synthesise" dropped. Reproducing either is the fifth hand-written copy
-    // this whole redesign exists to kill.
+    // The rail used to carry the two tier SPANS, derived — `Remember & List –
+    // Explain & Compare` and `Analyse & Apply – Evaluate, Synthesise &
+    // Create`. Deriving them was the right answer to the question being asked
+    // then, which was how to stop four hand-written labels drifting from the
+    // tier data. The better answer is not to ask: the dot row below names all
+    // six tiers and the six card headers name them again, so the rail was the
+    // third statement of the same vocabulary on one screen. It now says the
+    // one thing none of them do.
+    expect(rail(container).textContent).not.toContain(TIER_GROUPS[0].title);
+    expect(rail(container).textContent).not.toContain(TIER_GROUPS[5].title);
+
+    // The drift pin stays, and still holds app-wide: neither paraphrase may
+    // reappear anywhere, on the rail or off it.
     expect(container.textContent).not.toContain('Basic Recall');
     expect(container.textContent).not.toContain('Evaluate & Create');
   });
 
-  // Positionally, too: tiers 1 and 3 bound the left span and tiers 4 and 6 the
-  // right one, so reordering `TIER_GROUPS` fails here rather than shipping a
-  // rail that reads backwards.
-  it('names the two spans from the tier data rather than from literals', () => {
+  // Positionally: recalling is on the left of the gate and thinking on the
+  // right, because that is the direction the spectrum runs. Swapping them
+  // would read as a ladder that gets easier, and nothing else on the screen
+  // would contradict it.
+  it('puts recalling before the gate and thinking after it', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
-    const [left, right] = Array.from(rail(container).children) as HTMLElement[];
+    const [left, chip, right] = Array.from(rail(container).children) as HTMLElement[];
 
-    expect(left.textContent).toContain(TIER_GROUPS[0].title);
-    expect(left.textContent).toContain(TIER_GROUPS[2].title);
-    expect(left.textContent).not.toContain(TIER_GROUPS[3].title);
+    expect(left.textContent).toContain('Show what you know');
+    expect(chip.textContent).toBe('Deep Learning Threshold');
+    expect(right.textContent).toContain('Use what you know');
 
-    expect(right.textContent).toContain(TIER_GROUPS[3].title);
-    expect(right.textContent).toContain(TIER_GROUPS[5].title);
-    expect(right.textContent).not.toContain(TIER_GROUPS[0].title);
+    // Each caption's arrow points away from the gate, and each is hidden from
+    // assistive tech on its own — a bordered box with no text node, so the
+    // caption around it stays inside the contrast sweep.
+    expect(left.querySelector('.scale-arrow-left')).toBeTruthy();
+    expect(right.querySelector('.scale-arrow-right')).toBeTruthy();
+    expect(left.querySelector('.scale-arrow-left')!.textContent).toBe('');
   });
 
   // The rail used to also carry "Band Caps 1–3" / "Band Caps 4–6" on each
-  // span — the same leap-across-the-threshold number the cue line 20px below
-  // already states for whichever tier is active. Two captions saying the same
-  // cap is the redundancy the tier/band-cap chip fix (above, in the detail
-  // card) already retired once; the rail's job is naming the two spans, not
-  // re-deriving a number the cue gives for free.
-  it('leaves the band cap to the cue line, not the rail', () => {
+  // span. That was dropped when the cue line still existed, on the grounds
+  // that the cue stated the exact cap for the active tier; the cue has since
+  // gone too, and the answer is the same for a different reason — the stat
+  // tray above states the cap, and a band number is not what a threshold
+  // marker is for.
+  it('keeps band numbers off the rail', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
-    const [left, right] = Array.from(rail(container).children) as HTMLElement[];
 
-    expect(left.textContent).not.toContain('Band Cap');
-    expect(right.textContent).not.toContain('Band Cap');
+    expect(rail(container).textContent).not.toContain('Band Cap');
+    expect(rail(container).textContent).not.toMatch(/Band \d/);
   });
 
-  // The rail buys its row with no vertical budget at all: it is `absolute` in
-  // the air the threshold chip already hangs in, so the footer's height is
-  // unchanged and the cue's own lock is untouched. If either of these two
-  // facts stops holding, the footer starts stepping between questions again.
-  it('spends no footer height on the scale rail', () => {
+  // The rail used to buy its row for free: `absolute -top-6`, hanging in air
+  // that the cue line's `mb-7` was paying for, with the chip at `-top-11` in
+  // the same borrowed space. The old assertion pinned that arrangement — the
+  // rail must be `absolute`, and the cue must keep the `min-h` and clamp the
+  // rail was parasitic on — which is a fair description of a dependency
+  // between two elements that share no parent.
+  //
+  // Measured before it was removed: the rail sat 4px below the cue's box and
+  // the chip 0.91px below it, so deleting the cue dropped both 64px, 8px and
+  // 11px above the footer's own divider hairline. Free was never free; it was
+  // owed.
+  //
+  // So the pin is inverted. The rail is in the flow and the chip is placed
+  // against the rail, which means the only element either depends on is one it
+  // is inside. A future `-top-` on this row is the regression to catch.
+  it("owns its own row rather than hanging in another element's margin", () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
 
-    expect(rail(container).className).toContain('absolute');
-    expect(RIBBON_TIMELINE_CUE).toContain('min-h-[2.25rem]');
-    expect(RIBBON_TIMELINE_CUE).toContain('line-clamp-2');
+    expect(rail(container).className).not.toContain('absolute');
+    expect(rail(container).className).not.toMatch(/-top-/);
+    expect(RIBBON_SPECTRUM_SCALE_RAIL).not.toMatch(/-top-/);
+    // The chip is positioned, but inside the rail and at the same 50% the
+    // spectrum's threshold notch and the dashed rule both take from
+    // DEEP_LEARNING_TIER — so the three cannot drift apart.
+    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('absolute');
+    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('left-1/2');
+    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/-top-/);
   });
 });

@@ -48,10 +48,6 @@ import {
   RIBBON_SPECTRUM_LIT,
   RIBBON_SPECTRUM_SCALE_RAIL,
   RIBBON_SPECTRUM_SCALE_SPAN,
-  RIBBON_TIMELINE_CUE,
-  RIBBON_TIMELINE_CUE_BAND,
-  RIBBON_TIMELINE_CUE_SIDE,
-  RIBBON_TIMELINE_CUE_TIER,
   RIBBON_TIMELINE_DOT,
   RIBBON_TIMELINE_STEP_LABEL,
   RIBBON_TIMELINE_STEP_LABEL_IDLE,
@@ -104,6 +100,28 @@ const DEEP_LEARNING_TIER = 3;
 /** The chip's own words, so the cue can point at the marker on the bar without
  *  a second hand-written copy of its label. */
 const THRESHOLD_LABEL = 'Deep Learning Threshold';
+
+/**
+ * The two sides of the threshold, in the words a student is addressed in
+ * everywhere else on this page.
+ *
+ * They replace the rail's two derived tier-span captions, which named tiers 1
+ * and 3 on the left and 4 and 6 on the right. Those names were not wrong; they
+ * were the third statement of the same thing on one screen. The dot row 20px
+ * below names all six tiers from `tierShortLabel`, and the tier strip above
+ * names them again on six card headers. What nothing said was the only thing
+ * the threshold is FOR: that everything left of it can be answered by
+ * recalling and recounting, and everything right of it cannot.
+ *
+ * Hand-written, which the rail's own history is a warning about — four literal
+ * labels drifted out of step with the tier data twice. So they live here,
+ * beside `DEEP_LEARNING_TIER` and the label of the gate they describe, rather
+ * than inline in the JSX: these are not tier names and cannot drift from tier
+ * data, but they can drift from the boundary, and the boundary is this
+ * constant. Move the gate and the captions are the next line to read.
+ */
+const THRESHOLD_SIDE_BELOW = 'Show what you know';
+const THRESHOLD_SIDE_ABOVE = 'Use what you know';
 
 /** A percentage with trailing zeros trimmed, so tier 6 clips by `0%` rather
  *  than by `0.000%`. */
@@ -737,96 +755,43 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
               to its content instead would move every dot, which is a change to
               the thing that reads well rather than to the space around it. */}
           <div className="pt-4 pb-1 relative z-20 transition-colors duration-500">
-            {/* The cue line — what the spectrum says, in words.
+            {/* The announcement, and nothing visible.
 
-                It replaced four hand-written labels (`Basic Recall`, `Explain
-                & Compare`, `Analyse & Apply`, `Evaluate & Create`) which were
-                a fifth copy of a vocabulary this component already derives
-                everywhere else. This comment used to call them SPAN labels and
-                say they named spans rather than tiers; that was wrong, and it
-                is the reason nobody could see how to derive them. `Explain &
-                Compare` and `Analyse & Apply` are byte-identical to
-                `TIER_GROUPS[2].title` and `TIER_GROUPS[3].title`; the other two
-                are paraphrases of `TIER_GROUPS[0].title` and
-                `TIER_GROUPS[5].title`. The row was four TIER titles — tiers 1,
-                3, 4 and 6, the floor, the two sides of the Deep Learning
-                Threshold and the ceiling — with tiers 2 and 5 dropped, and
-                `justify-between` put none of them over the tier it named.
+                This was a 36px line of text reading "Tier 3 · Explain &
+                Compare · Developing — Below the Deep Learning Threshold",
+                clamped to two lines with 28px of margin under it. Measured in
+                Chromium it rendered on ONE line at every width from 640 to
+                1400, so 19.37px of its own reserved box was empty, and
+                deleting it returns exactly 64px to the footer — a third of the
+                block's 164px height, spent restating what the coloured
+                spectrum, the lit playhead, the six dot labels and the tier
+                strip above all already say.
 
-                They are back, derived, as the scale rail above the track: the
-                two SPANS those four rungs bound, which is the only partition of
-                the six tiers this app's own logic supports.
+                The `role="status"` does not go with it. A screen-reader user
+                has none of those visual statements, and this region is the
+                only thing that tells them the tier changed when the question
+                did. Sighted readers lose a redundant sentence; nobody loses
+                the announcement.
 
-                Every fragment here is sourced: the tier's own title and
-                subtitle, `getTierTargetBand`, `getBandName`. "Band Cap" rather
-                than "ceiling" because that is the wording the ribbon already
-                uses for this number, in the stat tray above and in
-                `projectDocs/commandVerbs.md`, which is the record of what a
-                student is told about a command verb.
+                The LEDE only, which is what the visible line announced too.
+                The threshold clause was deliberately outside the region
+                because it is the same string for three tiers running and a
+                `status` re-announces its whole content on every change —
+                moving between tiers 4, 5 and 6 would have replayed "Above the
+                Deep Learning Threshold" each time, speech carrying no news.
+                That clause is now the rail's two captions, which is a better
+                home for it: it was always a property of the ladder rather than
+                of the reader's place on it.
 
-                `role="status"`, which is polite, not `aria-live="assertive"`:
-                changing question is ordinary navigation, and assertive
-                interrupts a student mid-sentence. Rendered unconditionally,
-                including the no-verb case, because a live region has to exist
-                before it can change — and the no-verb string names no tier, so
-                the component still says nothing about a verb it does not
-                recognise.
-
-                The live region is the LEDE ONLY — the tier and its band name
-                — and the tail sits outside it, in the same sentence and the
-                same visible line. A `status` region announces its whole
-                content on every change, and the lede is the part that actually
-                changed and the part a reader needs: "Tier 4 · Analyse & Apply ·
-                Sound".
-
-                The lede used to say "Band Cap 4 · Sound" — the number a
-                second time, right next to the name that already carries it.
-                `getTierTargetBand(tier) === tier` always (see that function's
-                own comment), so "Tier 4" and "Band Cap 4" are the same
-                integer under two labels, the exact duplication the stat-tray
-                chip comment above this one already retired. The number stays
-                once, in "Tier 4"; "Sound" is the new information the cap
-                repeated nothing of.
-
-                That tail used to be the tier's full prose subtitle, 44–96
-                characters of elaboration, and the comment here claimed the cue
-                held "the only copy of it while the tier strip above is shut".
-                That was never true. The strip has no shut state of its own: the
-                footer and the strip are siblings under the same
-                `overflow-hidden` wrapper inside the same `inert`-gated panel,
-                so `RIBBON_TIER_SUBTITLE` renders `group.subtitle` for every
-                tier whenever this line is on screen at all. Nothing reachable
-                was lost by deleting the footer's copy.
-
-                What replaces it is structure rather than prose: which side of
-                the Deep Learning Threshold the reader's tier falls on, in 32
-                characters, pointing at the chip on the bar 20px below. It stays
-                outside the live region for the same reason the subtitle did —
-                it is the same string for three tiers running, and a `status`
-                re-announces everything it contains. */}
-            <p className={RIBBON_TIMELINE_CUE}>
-              <span role="status">
-                {activeTermInfo && activeConfig ? (
-                  <>
-                    <span className={`${RIBBON_TIMELINE_CUE_TIER} ${activeConfig.text}`}>
-                      Tier {activeTermInfo.tier} · {activeGroup?.title}
-                    </span>
-                    {' · '}
-                    <span className={RIBBON_TIMELINE_CUE_BAND}>
-                      {getBandName(getTierTargetBand(activeTermInfo.tier))}
-                    </span>
-                  </>
-                ) : (
-                  'Choose a command verb to light the spectrum.'
-                )}
-              </span>
-              {activeTermInfo && (
-                <span className={RIBBON_TIMELINE_CUE_SIDE}>
-                  {' — '}
-                  {activeTermInfo.tier > DEEP_LEARNING_TIER ? 'Above' : 'Below'} the{' '}
-                  {THRESHOLD_LABEL}
-                </span>
-              )}
+                Rendered in the no-verb state as well. A live region has to be
+                in the document before it can change, or the first change is
+                the mount and nothing is spoken. */}
+            <p className="sr-only" role="status">
+              {activeTermInfo && activeConfig
+                ? `Tier ${activeTermInfo.tier} · ${activeGroup?.title} · ${getBandName(
+                    getTierTargetBand(activeTermInfo.tier)
+                  )}`
+                : 'Choose a command verb to light the spectrum.'}
             </p>
 
             {/* The spectrum.
@@ -842,67 +807,51 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 because the track has to clip the spectrum (`overflow-hidden`)
                 and a box-shadow or a bloom is the one thing that must not be
                 clipped. */}
+            {/* The scale rail: the two sides of the gate, and the gate.
+
+                It is a row in the flow now. It used to be `absolute -top-6`
+                inside the track's wrapper, and the threshold chip `-top-11`
+                inside the dot row, both hanging in air that belonged to the
+                cue line's `mb-7` — an arrangement the old comment described as
+                spending no footer height, which was true only for as long as
+                another element kept paying. Measured, the rail sat 4px below
+                the cue's box and the chip 0.91px below it; with the cue gone
+                they would have dropped 64px, through the footer's own divider
+                and into the tier strip. Each now occupies or is positioned
+                against its own element.
+
+                The chip stays absolutely placed, but at 50% of THIS row rather
+                than at an offset from something else — the same 50% the
+                spectrum's widest boundary notch and the dashed rule below both
+                take from `DEEP_LEARNING_TIER`, so the three cannot drift.
+
+                What the captions say changed with where they sit. They were
+                the two tier spans, derived — `Remember & List – Explain &
+                Compare` and `Analyse & Apply – Evaluate, Synthesise & Create`
+                — which is the third naming of the same six tiers on one
+                screen, after the dot row and the six card headers. They now
+                name what the gate MEANS, which nothing else here says.
+
+                The arrows point away from the threshold, and are CSS borders
+                rather than glyphs: the contrast sweep skips `aria-hidden`
+                subtrees, so an arrow character would have taken its caption
+                out of the light-theme audit. A zero-size bordered box holds no
+                text node, so it hides on its own. */}
+            <div className={RIBBON_SPECTRUM_SCALE_RAIL}>
+              <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
+                <span aria-hidden="true" className="scale-arrow scale-arrow-left" />
+                <span className="ml-1.5">{THRESHOLD_SIDE_BELOW}</span>
+              </span>
+
+              <span className={RIBBON_TIMELINE_THRESHOLD_CHIP}>{THRESHOLD_LABEL}</span>
+
+              <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
+                <span className="mr-1.5">{THRESHOLD_SIDE_ABOVE}</span>
+                <span aria-hidden="true" className="scale-arrow scale-arrow-right" />
+              </span>
+            </div>
+
             <div className="relative mb-4">
-              {/* The scale rail.
-
-                  The arc four hand-written labels used to draw — `Basic
-                  Recall`, `Explain & Compare`, `Analyse & Apply`, `Evaluate &
-                  Create` — derived this time. Those four were not span labels:
-                  two were byte-identical to a `TIER_GROUPS` title and two were
-                  paraphrases of one, so the row was four TIER titles (1, 3, 4,
-                  6) with two tiers dropped, laid out by `justify-between` so
-                  none of them sat over the tier it named.
-
-                  Tiers 1, 3, 4 and 6 are the floor, the two sides of the Deep
-                  Learning Threshold, and the ceiling. That intent survives here
-                  as the two SPANS those rungs bound, which is the only
-                  partition of the six tiers the app's own logic supports: the
-                  3/4 boundary is where `getBandForMark` stops being able to
-                  return Band 4, and it is the Verb Gate's cap.
-
-                  Naming the tiers again, one per rung, is what the dot row
-                  below already does from `tierShortLabel`. This names the two
-                  halves.
-
-                  An en dash and not an arrow: `tests/e2e/support/contrast.ts`
-                  skips every node inside `[aria-hidden="true"]`, so an arrow
-                  glyph would want a hide that quietly takes this whole block of
-                  text out of the light-theme audit. A dash reads as a range and
-                  needs no hiding.
-
-                  The full titles arrive at `xl`, not at `lg`. Measured in
-                  Chromium: the right-hand caption is 441px at full length, and
-                  at 1024px it starts 51px INSIDE the threshold chip — the chip
-                  ate "ANALYS" and the rail read as a fragment. The two rungs
-                  the ladder actually has are `sm`–`lg` short labels (131px)
-                  and `xl` full titles (441px).
-
-                  This used to also carry "Band Caps 1–3" / "Band Caps 4–6" on
-                  each span — dropped because the cue line 20px below states
-                  the exact cap for whichever tier is active (`getTierTargetBand`
-                  again, singular this time), so the rail's job is only to name
-                  the two spans, not to re-derive the number the cue already
-                  gives. */}
-              <div className={RIBBON_SPECTRUM_SCALE_RAIL}>
-                <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
-                  <span className="xl:hidden">
-                    {tierShortLabel(1)} – {tierShortLabel(DEEP_LEARNING_TIER)}
-                  </span>
-                  <span className="hidden xl:inline">
-                    {tierTitle(1)} – {tierTitle(DEEP_LEARNING_TIER)}
-                  </span>
-                </span>
-
-                <span className={RIBBON_SPECTRUM_SCALE_SPAN}>
-                  <span className="xl:hidden">
-                    {tierShortLabel(DEEP_LEARNING_TIER + 1)} – {tierShortLabel(TIER_STEPS.length)}
-                  </span>
-                  <span className="hidden xl:inline">
-                    {tierTitle(DEEP_LEARNING_TIER + 1)} – {tierTitle(TIER_STEPS.length)}
-                  </span>
-                </span>
-              </div>
-
               <div className={RIBBON_TIMELINE_TRACK}>
                 <div
                   aria-hidden="true"
@@ -1006,10 +955,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   unreported. */}
               <div
                 style={{ left: pct((DEEP_LEARNING_TIER / TIER_STEPS.length) * 100) }}
-                className="absolute -translate-x-1/2 -top-11 bottom-0 w-px border-r-2 border-dashed border-slate-400 dark:border-white/25 z-0 flex flex-col items-center justify-start pointer-events-none"
-              >
-                <div className={RIBBON_TIMELINE_THRESHOLD_CHIP}>{THRESHOLD_LABEL}</div>
-              </div>
+                className="absolute -translate-x-1/2 -top-11 bottom-0 w-px border-r-2 border-dashed border-slate-400 dark:border-white/25 z-0 pointer-events-none"
+              />
 
               {sortedVerbsByGroup.map((group) => {
                 const tier = group.tier;
