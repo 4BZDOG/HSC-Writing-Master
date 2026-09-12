@@ -67,6 +67,9 @@ jobs:
       - name: Check chunk initialisation order
         run: npm run check:bundle
 
+      - name: Check nothing lazy rejoined the first load
+        run: npm run check:eager-chunks
+
       - name: SPA fallback for GitHub Pages
         run: cp dist/index.html dist/404.html
 

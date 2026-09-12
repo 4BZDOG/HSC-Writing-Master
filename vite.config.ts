@@ -297,6 +297,17 @@ export default defineConfig(({ mode }) => {
               return 'commandTerms';
             }
 
+            // Shared chrome, pinned OUT of the feature chunks for the same
+            // reason the services rule below exists. `MeshOverlay` is imported
+            // by App, AppHeader and CommandVerbHierarchy — all eager — and also
+            // by ContentAuditModal. No rule claimed it, so Rollup folded it
+            // into `admin`, and the entry then had to import that whole chunk
+            // to get one 27-line overlay: 195 kB of admin tooling in every
+            // student's first load, for a background pattern.
+            if (id.includes('/components/MeshOverlay')) {
+              return 'core';
+            }
+
             if (id.includes('/components/admin/')) {
               return 'admin';
             }

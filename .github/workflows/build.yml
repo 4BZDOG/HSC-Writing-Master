@@ -92,6 +92,13 @@ jobs:
       - name: Check chunk initialisation order
         run: npm run check:bundle
 
+      # Catches a lazy feature chunk rejoining the first load — admin tooling,
+      # the PDF engine, the provider SDK. Has happened twice, both times over a
+      # single shared module Rollup folded into the wrong chunk, and both times
+      # invisible except in a production build. See scripts/checkEagerChunks.mjs.
+      - name: Check nothing lazy rejoined the first load
+        run: npm run check:eager-chunks
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
