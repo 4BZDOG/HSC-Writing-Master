@@ -26,15 +26,27 @@
  *  and flush with the column — see the comment at the call site for why it
  *  carries no rail gutter.
  *
- *  The vertical margin is ON TOP of `<main>`'s `gap-6`, and it is the reason
- *  the ribbon reads as its own band rather than as the next block down. The
- *  page above it is a chooser (the syllabus navigator, or the breadcrumb it
- *  folds into) and the page below it is the question; the reference between
- *  them is a change of register, and at the shared 24px rhythm it did not look
- *  like one. */
+ *  It carries NO vertical margin of its own, and the reason is worth writing
+ *  down because the margin it used to carry was defended here at length.
+ *
+ *  The argument was that `my-2 sm:my-3` on top of `<main>`'s `gap-6` is what
+ *  makes the ribbon read as its own band rather than as the next block down —
+ *  a change of register between the chooser above and the question below.
+ *  The register change is real. The margin was not what delivered it: the two
+ *  edge rules do that, and they did not exist when this comment was first
+ *  written.
+ *
+ *  What the margin actually delivered was measured in Chromium at 1440x900:
+ *  60px of air above the ribbon against 36px below, in both the collapsed and
+ *  the expanded state. The asymmetry was never this constant's fault — it
+ *  comes from a zero-height flex child in `<main>` (see `App.tsx`) that makes
+ *  the column pay `gap-6` twice above and once below — but the margin was
+ *  paid on both sides of an already-lopsided boundary, so it made the gap
+ *  wider without making it evener. With the zero-height child neutralised at
+ *  its own end and this margin gone, the boundary measures 24px on each side:
+ *  `<main>`'s own rhythm, once. */
 export const RIBBON_ROOT =
-  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in ' +
-  'my-2 sm:my-3';
+  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in';
 
 /** The space an edge rule keeps from the content it bounds. Flush against the
  *  header bar, a hairline reads as that bar's own top edge rather than as the

@@ -703,7 +703,21 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
           <div className="relative z-20">
             <div className={dividerClass} />
           </div>
-          <div className="py-4 relative z-20 transition-colors duration-500">
+          {/* `pb-1`, not the `pb-4` that `py-4` used to give this block.
+              Measured in Chromium at 1440x900: the top edge rule clears the
+              header bar by 20.00px, while the bottom edge rule cleared the
+              last ink in here by 31.82px — the footer's own 16px of bottom
+              padding, plus the 20px the bottom edge rule keeps, less the
+              4.18px by which the dot row's step buttons overflow their `h-10`
+              box. 4px of padding lands that boundary on 19.82px, which is the
+              20px the top side already measures.
+
+              The overflow is the honest reason this is not simply `pb-0`: the
+              step buttons hang below the row that nominally contains them, so
+              the row's box bottom is not where the ink stops. Sizing the row
+              to its content instead would move every dot, which is a change to
+              the thing that reads well rather than to the space around it. */}
+          <div className="pt-4 pb-1 relative z-20 transition-colors duration-500">
             {/* The cue line — what the spectrum says, in words.
 
                 It replaced four hand-written labels (`Basic Recall`, `Explain

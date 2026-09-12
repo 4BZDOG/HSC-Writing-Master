@@ -910,8 +910,33 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           <div
             inert={isNavCollapsed}
             onFocusCapture={noteNavigatorFocused}
+            // `-mt-6` while collapsed, and it is a layout fix rather than a
+            // nudge. Collapsed, this wrapper is a ZERO-HEIGHT flex child of
+            // the main landmark, and `gap-6` is paid between flex items whether or not
+            // an item has any height — so the column paid 24px above this
+            // element and 24px below it for nothing in between. Measured in
+            // Chromium at 1440x900: 60px of air above the verb ribbon against
+            // 36px below, in both ribbon states, and the 24px difference is
+            // exactly this doubled gap.
+            //
+            // The fix belongs here, on the element that causes it, rather than
+            // as a compensating margin on whichever block happens to sit
+            // downstream — that would be the same spacing-set-in-two-places
+            // fault one step further along.
+            //
+            // Not unmounted, which is the other obvious way to stop a
+            // zero-height child paying a gap: `PromptSelector` holds ten
+            // pieces of its own state (the inline new-topic form and its
+            // parsed syllabus text, the question filter, the focus-area
+            // editor), and the comment below records that surviving a
+            // collapse/reopen is the whole reason this is a grid transition
+            // and not a conditional render. Unmounting to save 24px would
+            // wipe a half-typed topic every time the navigator folds.
+            //
+            // The margin sits inside the same `transition-all` as the rows, so
+            // the collapse still animates rather than snapping 24px shut.
             className={`grid transition-all duration-700 ease-in-out ${
-              isNavCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
+              isNavCollapsed ? 'grid-rows-[0fr] opacity-0 -mt-6' : 'grid-rows-[1fr] opacity-100'
             }`}
           >
             {/* The clip only needs to bite on the Y axis — it exists purely to
@@ -1028,7 +1053,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         )}
 
         {currentPrompt && canContribute && !isFocusMode && (
-          <div className="-mt-2 flex justify-end">
+          // No `-mt-2` here. It pulled this row 8px up into the verb ribbon's
+          // own bottom margin, which is a third place setting the spacing of
+          // one boundary; with the ribbon's outer margin gone and the doubled
+          // gap above it neutralised, the column's own `gap-6` is the only thing
+          // spacing this row and it does not need correcting.
+          <div className="flex justify-end">
             <button
               onClick={handleSubmitPromptToLibrary}
               disabled={isSubmittingPrompt}
