@@ -60,6 +60,42 @@ const refusal = (quota: { used: number; limit: number }) => ({
   }),
 });
 
+/**
+ * A proxy that answers every call, but only starts METERING when the test says
+ * so. The returned `meter` arms it.
+ *
+ * This is the whole reason these tests are trustworthy. Opening a question is
+ * itself an AI call — `enrichPromptDetails` fires on question-open — so a route
+ * that stamped `__quota` from the start had the ENRICHMENT cross the 80%
+ * threshold, not the evaluation. `observeQuota` records a fired threshold for
+ * the rest of the UTC day, so the evaluation that followed raised nothing at
+ * all: the toast under assertion had been raised seconds earlier, during a
+ * preamble that also waits out a 700ms ribbon animation, and it lives for five.
+ * Chromium won that race often enough to look green; Mobile Safari, slower
+ * through the same preamble, lost it and the toast had already expired.
+ *
+ * Arming after the preamble makes the evaluation the first metered call, so
+ * what these tests assert is raised by the call they are about.
+ */
+const meteredProxy = async (page: Page) => {
+  let quota: { used: number; limit: number } | undefined;
+  let deny = false;
+  await page.route('**/api/gemini', (route) =>
+    route.fulfill(deny && quota ? refusal(quota) : proxyReply(quota))
+  );
+  return {
+    /** From the next call on, the proxy reports this usage back. */
+    meter: (next: { used: number; limit: number }) => {
+      quota = next;
+    },
+    /** From the next call on, the proxy refuses with a 429. */
+    exhaust: (next: { used: number; limit: number }) => {
+      quota = next;
+      deny = true;
+    },
+  };
+};
+
 const writingSurface = (page: Page) => page.locator('textarea').first();
 
 /** Mark an answer and wait for the request to have actually gone out. */
@@ -81,10 +117,14 @@ const closeFeedback = async (page: Page) => {
 };
 
 /**
- * Two answers, because the second evaluation must actually reach the network.
- * `AICache.generateEvaluationKey` keys on the prompt and the answer text, so
- * re-marking the same words is served from IndexedDB and the proxy is never
- * called — which would make the dedupe test below pass for the wrong reason.
+ * Two answers, so the second evaluation is plainly a fresh marking of different
+ * words rather than a repeat of the first.
+ *
+ * Nothing in the app would dedupe a repeat anyway — `AICache` stores an
+ * evaluation under a prompt-and-answer key but no code path ever reads that
+ * entry back, so the same words marked twice are still two calls. Two answers
+ * because the test reads better that way, not because one would be served from
+ * a cache.
  */
 const FIRST = 'DNA replication begins when the double helix unwinds along its length.';
 const SECOND = 'Each separated strand then acts as a template for a new complementary strand.';
@@ -99,27 +139,32 @@ test.describe('daily AI allowance', () => {
   });
 
   test('warns as the allowance runs low', async ({ page }) => {
-    await page.route('**/api/gemini', (route) =>
-      route.fulfill(proxyReply({ used: 40, limit: 50 }))
-    );
+    const proxy = await meteredProxy(page);
     await openFirstQuestion(page);
+    proxy.meter({ used: 40, limit: 50 });
+
+    // Nothing has warned yet. This is the assertion that keeps the one below
+    // honest: opening the question already spent an AI call, and while that
+    // call carried a quota stamp it was the one that crossed the threshold —
+    // leaving the evaluation to raise nothing and the test to pass on a toast
+    // it had not caused.
+    const warning = page.getByText(/you've used 80% of today's AI allowance/i);
+    await expect(warning).toHaveCount(0);
+
     await evaluate(page, FIRST);
 
     // The figures are the student's own, not a generic "running low".
-    await expect(page.getByText(/you've used 80% of today's AI allowance/i)).toBeVisible({
-      timeout: 30_000,
-    });
+    await expect(warning).toBeVisible({ timeout: 30_000 });
     await expect(page.getByText(/40\/50 calls/i)).toBeVisible();
   });
 
   test('says so when the allowance is spent, while still marking the answer', async ({ page }) => {
+    const proxy = await meteredProxy(page);
+    await openFirstQuestion(page);
     // The 100% snapshot rides on a SUCCESSFUL call — the one that spent the
     // last unit. The marking must still arrive; the warning is about the next
     // call, not this one.
-    await page.route('**/api/gemini', (route) =>
-      route.fulfill(proxyReply({ used: 50, limit: 50 }))
-    );
-    await openFirstQuestion(page);
+    proxy.meter({ used: 50, limit: 50 });
     await evaluate(page, FIRST);
 
     await expect(page.getByText(/Daily AI limit reached/i).first()).toBeVisible({
@@ -129,10 +174,9 @@ test.describe('daily AI allowance', () => {
   });
 
   test('stays quiet while there is plenty left', async ({ page }) => {
-    await page.route('**/api/gemini', (route) =>
-      route.fulfill(proxyReply({ used: 10, limit: 50 }))
-    );
+    const proxy = await meteredProxy(page);
     await openFirstQuestion(page);
+    proxy.meter({ used: 10, limit: 50 });
     await evaluate(page, FIRST);
 
     // The marking lands…
@@ -143,10 +187,9 @@ test.describe('daily AI allowance', () => {
   });
 
   test('warns once per threshold, not once per call', async ({ page }) => {
-    await page.route('**/api/gemini', (route) =>
-      route.fulfill(proxyReply({ used: 41, limit: 50 }))
-    );
+    const proxy = await meteredProxy(page);
     await openFirstQuestion(page);
+    proxy.meter({ used: 41, limit: 50 });
 
     await evaluate(page, FIRST);
     const warning = page.getByText(/you've used \d+% of today's AI allowance/i);
@@ -164,8 +207,9 @@ test.describe('daily AI allowance', () => {
   });
 
   test('a refusal tells the student, and does not take their work with it', async ({ page }) => {
-    await page.route('**/api/gemini', (route) => route.fulfill(refusal({ used: 50, limit: 50 })));
+    const proxy = await meteredProxy(page);
     await openFirstQuestion(page);
+    proxy.exhaust({ used: 50, limit: 50 });
 
     await writingSurface(page).fill(FIRST);
     await page.getByRole('button', { name: /^Evaluate/ }).click();
@@ -181,8 +225,9 @@ test.describe('daily AI allowance', () => {
   test('an unmetered deployment is never warned about a limit it has not got', async ({ page }) => {
     // No Supabase server-side means no quota to echo: api/gemini.ts omits
     // `__quota` entirely. A client that invented a warning here would nag every
-    // user of a keyless local deployment.
-    await page.route('**/api/gemini', (route) => route.fulfill(proxyReply()));
+    // user of a keyless local deployment. Never metered, so the proxy answers
+    // every call — the enrichment on question-open included — without a stamp.
+    await meteredProxy(page);
     await openFirstQuestion(page);
     await evaluate(page, FIRST);
 
