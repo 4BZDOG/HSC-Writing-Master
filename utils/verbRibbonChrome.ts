@@ -231,27 +231,74 @@ export const RIBBON_TIER_CARD =
   'clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card';
 
 /** A tier card with no verb selected anywhere, or one that is not the selected
- *  verb's tier. Painted on the page background. */
-export const RIBBON_TIER_CARD_IDLE =
-  'bg-white border-slate-300 shadow-sm dark:bg-white/[0.03] dark:border-white/5 dark:shadow-none';
+ *  verb's tier. Painted on the page background.
+ *
+ *  It states a FILL and a shadow and no border colour, which is a change. It
+ *  used to carry `border-slate-300 dark:border-white/5`, and the call site
+ *  also applied the tier's own `border` on the five non-current cards — the
+ *  "coloured border specific to the tier for visual cue" the render comment
+ *  describes. Only one of those can win, and in the dark theme it was never
+ *  the tier: `dark:border-white/5` compiles to `.dark .dark\:border-white\/5`
+ *  at (0,2,0) and `border-red-500/50` is (0,1,0). Measured in Chromium, all
+ *  five idle cards painted `rgba(255,255,255,0.05)` — one grey, six tiers. In
+ *  the LIGHT theme the tier colour landed all along, because the config's
+ *  `light:border-red-600` and the neutral `border-slate-300` are both (0,1,0)
+ *  and the tier one is written later.
+ *
+ *  So the neutral goes rather than the tier, and the call site now applies the
+ *  tier's border on every card in every state. The tier config supplies both
+ *  themes itself (`border-red-500/50 light:border-red-600`), which is why
+ *  removing the pair from here does not leave a colour with no partner. */
+export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] dark:shadow-none';
 
 /** Added to the card whose tier the selected verb belongs to. Lifts it out of
- *  the strip; the tier's own border and wash arrive from the tier config. */
-export const RIBBON_TIER_CARD_CURRENT =
-  'scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5';
-
-/** Added to the five cards that are NOT the selected verb's tier. These cards
- *  still hold 32 of the ribbon's 38 verb buttons, so whatever this dims stays
- *  clickable and stays in the tab order — and a control a keyboard user can
- *  reach and click has to be legible.
+ *  the strip; the tier's own border and wash arrive from the tier config, and
+ *  its ring and glow arrive as one inline `box-shadow` in the tier's hex at
+ *  the call site — the same way the spectrum's leading edge takes its glow, so
+ *  the band palette stays the single source of the colour.
  *
- *  It was `opacity-50 light:opacity-70`, which took the card subtitle
- *  (`slate-500` on white, 4.76:1 at rest) to a measured 2.72:1. `opacity-90`
- *  costs about 5% of contrast and leaves it at the floor; the de-emphasis is
- *  carried by `scale-90` and the tier border, which are already here. One
- *  value for both themes — the split was the wrong shape of fix. */
-export const RIBBON_TIER_CARD_DIMMED =
-  'scale-90 opacity-90 hover:opacity-100 hover:scale-95 border-2';
+ *  `tier-lift-current` and not `scale-105`: `transform` is one property and
+ *  `.clip-stable` on this card already claims it. See the class in
+ *  `index.css` for the measurement and why the utility never worked.
+ *
+ *  `border-2` here, 1px on the cards that are not current. That is the reverse
+ *  of what shipped: `border-2` used to live on the five OTHER cards, so the
+ *  selected card was the thin one and its header sat 1px higher than every
+ *  other header in the row. Weight now marks the selection instead of
+ *  contradicting it.
+ *
+ *  It no longer carries `ring-4 ring-slate-900/10 dark:ring-white/5` or a 40px
+ *  black drop shadow. The ring said "selected" without saying which tier — on
+ *  a strip whose entire subject is six colour-coded tiers — and stacking a
+ *  heavy black shadow under a coloured glow is two depth cues competing for
+ *  one card. One tier-hued shadow lifts it and names it at the same time. */
+export const RIBBON_TIER_CARD_CURRENT = 'tier-lift-current border-2 z-20';
+
+/** Added to a card that is NOT the selected verb's tier, and to all six when
+ *  no verb is selected. These cards hold 32 of the ribbon's 38 verb buttons,
+ *  so everything on them stays clickable and stays in the tab order — and a
+ *  control a keyboard user can reach has to be legible.
+ *
+ *  Nothing here dims any more, which is why it is no longer called DIMMED.
+ *  The history is worth keeping because it took three passes to land:
+ *  `opacity-50 light:opacity-70` took the card subtitle to a measured 2.72:1;
+ *  `opacity-90` cost about 5% and left it AT the floor rather than above it,
+ *  and the comment that shipped it said the real de-emphasis was carried by
+ *  `scale-90` and the tier border. Half of that was untrue — `scale-90` never
+ *  applied (see `.tier-lift` in `index.css`) — so `opacity-90` was in practice
+ *  the only de-emphasis, doing it in the one currency this component has spent
+ *  three fixes learning not to spend.
+ *
+ *  It is now carried entirely by colour and weight: the current card takes the
+ *  tier's ring, glow and 2px border, and these take 1px and no shadow. Every
+ *  reading inside them is at its own full contrast, so the e2e sweep no longer
+ *  composites an ancestor opacity into 32 buttons' worth of text.
+ *
+ *  `tier-lift` gives them the hover the old `hover:scale-95` was written to
+ *  give and, being the one scale utility that actually fired, delivered
+ *  backwards: with idle cards at 1 rather than 0.9 it shrank a hovered card
+ *  and dropped its top 7.88px. */
+export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
 
 /** A tier card's header, which is the "select this tier" control. The card
  *  cannot be a button itself — the verb chips inside it are buttons already —

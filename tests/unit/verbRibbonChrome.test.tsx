@@ -20,7 +20,9 @@ import {
   RIBBON_STRIP_FADE_LEFT,
   RIBBON_STRIP_FADE_RIGHT,
   RIBBON_TIER_CARD,
-  RIBBON_TIER_CARD_DIMMED,
+  RIBBON_TIER_CARD_RECEDED,
+  RIBBON_TIER_CARD_CURRENT,
+  RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
@@ -247,18 +249,52 @@ describe('the tier strip is legible and reachable', () => {
     expect(RIBBON_TIER_CARD).toContain('overflow-hidden');
   });
 
-  // Those five cards hold 32 of the 38 verb buttons. At `opacity-70` their
-  // subtitles measured 2.72:1 against a 4.5 floor.
-  it('stops dimming the cards below the contrast floor', () => {
-    expect(RIBBON_TIER_CARD_DIMMED).toContain('opacity-90');
-    expect(RIBBON_TIER_CARD_DIMMED).not.toContain('opacity-50');
-    expect(RIBBON_TIER_CARD_DIMMED).not.toContain('light:');
+  // Those five cards hold 32 of the 38 verb buttons, and this assertion has
+  // now been through three shapes. It pinned `opacity-90` because the two
+  // values before it — `opacity-50 light:opacity-70` — measured the subtitles
+  // at 2.72:1 against a 4.5 floor, and 90 was the value that got them back to
+  // the floor. To the floor, not past it: the sibling assertion below had to
+  // darken the text as well, because opacity composites towards the background
+  // rather than scaling the ratio.
+  //
+  // What justified spending any contrast at all was the claim that the real
+  // de-emphasis came from `scale-90` and the tier border. Half of that was
+  // never true. `scale-90` has never applied — `.clip-stable` claims
+  // `transform` at equal specificity and is declared later, so all six cards
+  // computed the identity matrix in Chromium — which left `opacity-90` as the
+  // only de-emphasis on the strip, paid in the one currency this component has
+  // spent three separate fixes learning not to spend.
+  //
+  // So the dimming is gone entirely, and the pin is inverted: nothing on a
+  // receded card may cost contrast. De-emphasis is carried by weight and
+  // colour instead — 1px against the current card's 2px, and no ring, glow or
+  // shadow — none of which composites into a text reading.
+  it('de-emphasises the receded cards without spending contrast', () => {
+    expect(RIBBON_TIER_CARD_RECEDED).not.toMatch(/(^|\s)opacity-/);
+    expect(RIBBON_TIER_CARD_RECEDED).not.toContain('light:');
+    // The lift is a composed transform in `index.css`, not a `scale-*`
+    // utility, because `.clip-stable` on the same element would silently win.
+    // A `scale-*` here would be the dead class this replaced.
+    expect(RIBBON_TIER_CARD_RECEDED).toContain('tier-lift');
+    expect(RIBBON_TIER_CARD_RECEDED).not.toMatch(/(^|\s)(hover:)?scale-/);
+    expect(RIBBON_TIER_CARD_CURRENT).not.toMatch(/(^|\s)(hover:)?scale-/);
+    // Weight marks the selection rather than contradicting it: the current
+    // card is the thick one. It used to be the only 1px card in the row.
+    expect(RIBBON_TIER_CARD_CURRENT).toContain('border-2');
+    expect(RIBBON_TIER_CARD_RECEDED).not.toContain('border-2');
+    // The neutral border that outranked the tier's in the dark theme is gone,
+    // so all six cards can show their own tier at rest.
+    expect(RIBBON_TIER_CARD_IDLE).not.toMatch(/(^|\s)(dark:)?border-/);
   });
 
-  // …and the dimming alone was not enough. Opacity composites text TOWARDS the
-  // background rather than scaling the ratio, so `slate-500` under `opacity-90`
-  // measured 3.91:1 in the browser — better than 2.72:1 and still short.
-  // `slate-600` under the same dimming measures 5.83:1.
+  // …and back when the cards WERE dimmed, the dimming alone was not enough.
+  // Opacity composites text TOWARDS the background rather than scaling the
+  // ratio, so `slate-500` under `opacity-90` measured 3.91:1 in the browser —
+  // better than 2.72:1 and still short, where `slate-600` measured 5.83:1.
+  // The dimming is gone now (see above), which only widens the margin: the
+  // same tint on an undimmed card reads at its full 5.8:1. The pin stays
+  // because the tint is the half of that fix worth keeping — it is the tone
+  // this text should be at whether or not anything is compositing over it.
   it('darkens the text those cards dim, not just the dimming', () => {
     expect(RIBBON_TIER_SUBTITLE_IDLE).toContain('text-slate-600');
     expect(RIBBON_TIER_SUBTITLE_IDLE).not.toContain('text-slate-500');

@@ -484,6 +484,48 @@ a:focus-visible,
 }
 
 /*
+ * The tier cards' lift, and why it is a class here rather than `scale-*` at
+ * the call site.
+ *
+ * `transform` is ONE property. `.clip-stable` above sets it to
+ * `translateZ(0)` to force the compositing layer up front, and it is declared
+ * after `@tailwind utilities` at equal specificity (0,1,0) — so on any element
+ * carrying both, it beats every `scale-*` utility. `RIBBON_TIER_CARD` begins
+ * with `clip-stable`, and that is why the strip's `scale-110` on the current
+ * card and `scale-90` on the other five had never applied. Probed in
+ * Chromium:
+ *
+ *     scale-90 alone         -> matrix(0.9, 0, 0, 0.9, 0, 0)
+ *     clip-stable scale-90   -> matrix(1, 0, 0, 1, 0, 0)
+ *
+ * All six cards computed the identity matrix, all six tops sat on the same y,
+ * and every gap was exactly the strip's own 16px. The one scale that DID fire
+ * was `hover:scale-95` at (0,2,0), which shrank a hovered card by 5% and
+ * dropped its top 7.88px — the inverse of what it was written to do, back
+ * when idle cards were meant to sit at 90 and grow toward the reader.
+ *
+ * `.clip-stable` itself is not the thing to change: it is on ~50 cards across
+ * the app and carries a mask that `tests/unit/cornerStroke.test.ts` pins. So
+ * these classes compose the promotion hint and the scale into a single
+ * declaration and sit AFTER it, where equal specificity resolves on source
+ * order alone — no `!important`, and no other `clip-stable` surface moves.
+ *
+ * Two classes rather than one with a modifier, because a hovered CURRENT card
+ * must not pick up the idle hover: `.tier-lift:hover` at (0,2,0) would beat
+ * `.tier-lift-current` at (0,1,0) and shrink the selected card from 1.05 to
+ * 1.02. Only one of the two is ever on a card.
+ */
+.tier-lift {
+  transform: translateZ(0) scale(1);
+}
+.tier-lift:hover {
+  transform: translateZ(0) scale(1.02);
+}
+.tier-lift-current {
+  transform: translateZ(0) scale(1.05);
+}
+
+/*
  * Readability floor for micro-labels.
  *
  * The UI leans heavily on tiny uppercase tracking-heavy labels written as

@@ -31,7 +31,7 @@ import {
   RIBBON_STRIP_FADE_RIGHT,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_CURRENT,
-  RIBBON_TIER_CARD_DIMMED,
+  RIBBON_TIER_CARD_RECEDED,
   RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_LABEL,
@@ -557,16 +557,18 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       ? 'origin-right'
                       : 'origin-center';
 
-                  // Dynamic Styling for Focus Effect
-                  let cardStyle = 'scale-100 opacity-100'; // Default
-                  if (activeTermInfo) {
-                    if (isCurrentTier) {
-                      cardStyle = `${RIBBON_TIER_CARD_CURRENT} ${transformOrigin}`;
-                    } else {
-                      // Added colored border specific to the tier for visual cue
-                      cardStyle = `${RIBBON_TIER_CARD_DIMMED} ${tierConfig.border} z-0 ${transformOrigin}`;
-                    }
-                  }
+                  // One branch, not three. The old form had a no-selection
+                  // default of `scale-100 opacity-100` that said nothing the
+                  // card did not already say, and it applied the tier's border
+                  // only on the five non-current cards — where, in the dark
+                  // theme, `RIBBON_TIER_CARD_IDLE`'s neutral outranked it. The
+                  // tier's border is now unconditional and the neutral is gone
+                  // from the idle constant, so all six cards show their tier at
+                  // rest in both themes, which is the ladder this strip exists
+                  // to draw.
+                  const cardStyle = isCurrentTier
+                    ? `${RIBBON_TIER_CARD_CURRENT} ${transformOrigin}`
+                    : `${RIBBON_TIER_CARD_RECEDED} ${transformOrigin}`;
 
                   return (
                     <div
@@ -574,13 +576,30 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       ref={(el) => {
                         tierRefs.current[index] = el;
                       }}
+                      // The ring and the glow, in the tier's own hex. Inline
+                      // for the same reason the spectrum's leading edge is:
+                      // six tier colours cannot become six Tailwind classes
+                      // without a fourth hard copy of the band palette, and
+                      // `getBandHex` is the palette the spectrum 20px below is
+                      // already painted from — so the lifted card and the lit
+                      // bar state one colour between them rather than two.
+                      //
+                      // `2e` and `66` are the ring's 18% and the glow's 40%.
+                      // The ring replaces `ring-4 ring-slate-900/10`, which
+                      // marked the selection without naming the tier; the glow
+                      // replaces a 40px black drop shadow that would otherwise
+                      // be competing with it for the same depth cue.
+                      style={
+                        isCurrentTier
+                          ? {
+                              boxShadow: `0 0 0 4px ${getBandHex(group.tier)}2e, 0 24px 48px -16px ${getBandHex(group.tier)}66`,
+                            }
+                          : undefined
+                      }
                       className={`
                       ${RIBBON_TIER_CARD}
-                      ${
-                        isCurrentTier
-                          ? `${tierConfig.border} ${tierConfig.bg} light:bg-white`
-                          : RIBBON_TIER_CARD_IDLE
-                      }
+                      ${tierConfig.border}
+                      ${isCurrentTier ? `${tierConfig.bg} light:bg-white` : RIBBON_TIER_CARD_IDLE}
                       ${cardStyle}
                     `}
                     >
