@@ -142,4 +142,43 @@ describe('shipped courses resolve their own outcomes', () => {
       `these questions render no "What's Assessed" panel:\n${orphans.join('\n')}`
     ).toEqual([]);
   });
+
+  it('every code a prompt links resolves, not just one of them', () => {
+    /*
+     * The check above asks whether the PANEL appears. This one asks whether it
+     * is complete.
+     *
+     * `ReferenceMaterials` builds the panel with
+     * `courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code))`,
+     * so a code with no matching outcome contributes nothing and says nothing
+     * — `Workspace` spells this out where it widens the list to rescue
+     * cross-year links: an unresolved outcome "does not read as 'not linked',
+     * it silently disappears". A question linking SE-12-04 and a typo'd
+     * SE-12-99 therefore passes the check above, renders a panel, and shows a
+     * student one fewer standard than the content claims to mark them against.
+     *
+     * Every one of the 340-odd shipped links resolves today, so this costs
+     * nothing to hold — which is the point of holding it now rather than after
+     * the stale courses are regenerated in bulk, the event most likely to
+     * produce exactly this: a code that is nearly right.
+     */
+    const partial: string[] = [];
+    for (const course of courses) {
+      const codes = codesByCourse.get(course.courseName) ?? new Set<string>();
+      for (const question of questionsOf(course)) {
+        const links: string[] =
+          (question.prompt as { linkedOutcomes?: string[] }).linkedOutcomes ?? [];
+        if (!links.length) continue;
+        const dangling = links.filter((code) => !codes.has(code));
+        // A link list where NOTHING resolves is the assertion above; reporting
+        // it here as well would name the same question in two failures.
+        if (dangling.length && dangling.length < links.length)
+          partial.push(`${course.file} ${question.prompt.id}: ${dangling.join(', ')}`);
+      }
+    }
+    expect(
+      partial,
+      `these codes are dropped from a panel that still renders, so the gap is invisible:\n${partial.join('\n')}`
+    ).toEqual([]);
+  });
 });
