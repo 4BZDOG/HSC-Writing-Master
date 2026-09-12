@@ -121,7 +121,7 @@ const SourceBadge: React.FC<{ source?: string; derivedFromStudent?: boolean }> =
       ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
       : isUpgrade
         ? 'bg-violet-500/10 text-violet-500 dark:text-violet-400 border-violet-500/25'
-        : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10';
+        : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10';
 
   const Icon = isUser ? UserIcon : isHsc ? BookOpen : Sparkles;
   const label = isUser ? 'Student' : isHsc ? 'Official' : isUpgrade ? 'Student + AI' : 'AI Model';

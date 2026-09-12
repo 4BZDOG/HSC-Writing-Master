@@ -823,7 +823,7 @@ const Editor = forwardRef<
                 }
                 className={`w-full flex items-center gap-2.5 px-4 sm:px-6 text-left transition-all duration-300 hover:bg-amber-500/10 light:hover:bg-amber-100/70 focus-visible:bg-amber-500/10 ${
                   strategyLeading ? 'py-2.5' : 'py-1.5'
-                } ${strategySpent ? 'opacity-60 hover:opacity-100 focus-visible:opacity-100' : ''}`}
+                } ${strategySpent ? 'hover:opacity-100 focus-visible:opacity-100' : ''}`}
               >
                 {strategyLeading ? (
                   <span className="relative flex-shrink-0 w-6 h-6 rounded-lg bg-amber-500/20 light:bg-amber-200/80 border border-amber-500/40 light:border-amber-300 flex items-center justify-center">
@@ -1022,7 +1022,9 @@ const Editor = forwardRef<
                 {draftSaved !== undefined && value.trim() !== '' && (
                   <span
                     className={`hidden sm:flex items-center gap-1.5 transition-colors ${
-                      draftSaved ? 'text-emerald-500/80' : 'text-[rgb(var(--color-text-dim))]'
+                      draftSaved
+                        ? 'text-emerald-500/80 light:text-emerald-700'
+                        : 'text-[rgb(var(--color-text-dim))]'
                     }`}
                     title={draftSaved ? 'Your draft is saved on this device' : 'Saving your draft…'}
                   >

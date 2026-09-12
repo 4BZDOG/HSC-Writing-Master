@@ -97,9 +97,7 @@ const LiveInsights: React.FC<LiveInsightsProps> = React.memo(
             >
               Live Insights
             </span>
-            <span className="t-label block text-slate-500 dark:text-slate-400 opacity-80">
-              {summary}
-            </span>
+            <span className="t-label block text-slate-600 dark:text-slate-400">{summary}</span>
           </span>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">
             <PanelReadChip show={opened && isCollapsed} />

@@ -1605,7 +1605,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {clearedNotice && (
         <p
           role="status"
-          className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-600 dark:text-amber-400 animate-fade-in-up-sm"
+          className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-700 dark:text-amber-400 animate-fade-in-up-sm"
         >
           <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
         </p>
