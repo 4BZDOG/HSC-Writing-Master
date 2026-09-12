@@ -33,13 +33,6 @@ vi.mock('../../services/responseService', () => ({
   saveResponseFeedback: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock('../../services/aiCache', () => ({
-  AICache: {
-    set: vi.fn().mockResolvedValue(undefined),
-    get: vi.fn().mockResolvedValue(null),
-    generateEvaluationKey: vi.fn((promptId: string, answer: string) => `${promptId}:${answer}`),
-  },
-}));
 
 // A signed-in free student, so the counter is keyed and actually consulted.
 vi.mock('../../services/authService', () => ({

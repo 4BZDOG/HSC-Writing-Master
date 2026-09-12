@@ -17,7 +17,6 @@ import {
   SyllabusYear,
 } from '../types';
 import * as gemini from '../services/geminiService';
-import { AICache } from '../services/aiCache';
 import { emitEvalProgress } from '../services/aiCore';
 import {
   recordEvaluation,
@@ -328,11 +327,6 @@ export const useGemini = ({
         // Bookkeeping, fire-and-forget: a student waiting 40s for a mark must
         // not then wait on an IndexedDB write, and nothing here can be allowed
         // to throw its way past the result above into the catch block.
-        // The cache key comes from the generator so it hashes the WHOLE answer
-        // — the hand-rolled key used `answer.slice(0, 100)`, so two responses
-        // sharing an opening paragraph mapped to the same entry.
-        void AICache.set(AICache.generateEvaluationKey(prompt.id, answer), result);
-
         void persistResponse(prompt.id, {
           draft: answer,
           wordCount: answer.trim().split(/\s+/).filter(Boolean).length,
@@ -575,7 +569,6 @@ export const useGemini = ({
         });
 
         if (result && !aborted && isMounted.current) {
-          void AICache.set(AICache.generateEnrichKey(promptId), result);
           updateCourses((draft) => {
             findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
               if (p.id === promptId) {
@@ -623,7 +616,6 @@ export const useGemini = ({
     try {
       const scenario = await gemini.generateScenarioForPrompt(currentPrompt);
       if (scenario) {
-        void AICache.set(AICache.generateScenarioKey(currentPrompt.id), scenario);
         updateCourses((draft) =>
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             p.scenario = scenario;
@@ -654,7 +646,6 @@ export const useGemini = ({
         buildSyllabusContext()
       );
       if (keywords) {
-        void AICache.set(AICache.generateKeywordsKey(currentPrompt.id), keywords);
         updateCourses((draft) =>
           findAndUpdateItem(draft, statePath, (p: Draft<Prompt>) => {
             p.keywords = keywords;

@@ -120,11 +120,10 @@ const closeFeedback = async (page: Page) => {
  * Two answers, so the second evaluation is plainly a fresh marking of different
  * words rather than a repeat of the first.
  *
- * Nothing in the app would dedupe a repeat anyway — `AICache` stores an
- * evaluation under a prompt-and-answer key but no code path ever reads that
- * entry back, so the same words marked twice are still two calls. Two answers
- * because the test reads better that way, not because one would be served from
- * a cache.
+ * Nothing in the app would dedupe a repeat anyway — an evaluation is never
+ * cached by answer text, so the same words marked twice are two calls. Two
+ * answers because the test reads better that way, not because one would be
+ * served from a cache.
  */
 const FIRST = 'DNA replication begins when the double helix unwinds along its length.';
 const SECOND = 'Each separated strand then acts as a template for a new complementary strand.';
