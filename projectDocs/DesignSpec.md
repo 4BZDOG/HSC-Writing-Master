@@ -34,8 +34,9 @@ The application uses a 6-tier system mapped to NESA Command Verbs:
 
 ### Light Theme Parity
 
-The app was drawn dark-first, so light is where colour quietly goes missing. Two
-rules, and the second is the one that gets broken.
+The app was drawn dark-first, so light is where colour quietly goes missing.
+Three rules; the second is the one that gets broken, and the third is the one
+that gets re-derived from scratch every time it is broken.
 
 **1. A tint must be visible against the surface it is on.** Dark surfaces are
 near-black, so an alpha wash (`bg-<hue>-500/10`) reads clearly. Light surfaces
@@ -68,6 +69,43 @@ the wrong tool — most white-alpha classes in this codebase are already correct
 
 When auditing, the question is never "is this class dark-only?" but "what is it
 painted on?".
+
+**3. Never de-emphasise text with `opacity`. Change the colour instead.**
+
+Opacity does not scale a contrast ratio — it composites the text *towards* its
+background, and the loss is far from linear. That is why the arithmetic is
+never what it looks like, and why every fix that tried to keep the dimming and
+just soften it has come back:
+
+| what shipped | measured |
+| --- | --- |
+| `slate-500` on a card, undimmed | 4.81:1 |
+| the same text under `opacity-90` | 3.91:1 |
+| the same text under `opacity-70` | 2.66:1 |
+| `slate-500 opacity-80` on the insights panel | 3.22:1 |
+| `slate-500 opacity-60` on the editor's spent-strategy row | 2.30:1 |
+
+An `opacity` on an ancestor is the same fault at a distance and is harder to
+see: it reaches every reading inside that subtree, including 32 buttons' worth
+of text in the verb ribbon's case, and nothing in the class list of the failing
+element mentions it.
+
+De-emphasis is a job for tone, weight and size, all three of which are
+measurable at the element that wears them:
+
+```
+- <span className="text-slate-500 opacity-70">
++ <span className="text-slate-600 dark:text-slate-400">
+```
+
+The exemption is anything that is not read: a decorative wash, a mesh overlay,
+a gradient scrim, an icon that repeats an adjacent label. Opacity on those is
+fine and common. The rule is about text.
+
+`tests/unit/textDimming.test.ts` enforces it on the shared chrome vocabularies,
+and `tests/e2e/light-theme.spec.ts` catches it anywhere the sweep can reach —
+but the sweep only sees states it is driven into, so the rule is the primary
+defence and the tests are the backstop.
 
 **Which variant to write in new code.** Light is the base and `dark:` carries
 the override — `bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70` — as in
