@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import type { CourseOutcome } from '../../types';
 
 /**
@@ -53,8 +53,12 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe('outcome briefing paywall', () => {
-  it('never spends an AI call while the briefing is locked', () => {
+  it('never spends an AI call while the briefing is locked', async () => {
     renderModal();
+    // Settled, not merely immediate. The unlocked path now reads a cache before
+    // it calls, so the call lands a microtask late — and a synchronous "was not
+    // called" would pass here even if the guard were gone entirely.
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(explainOutcomeInContext).not.toHaveBeenCalled();
   });
 
@@ -72,7 +76,11 @@ describe('outcome briefing paywall', () => {
   it('fetches the briefing once the feature is unlocked', async () => {
     isFeatureLocked.mockReturnValue(false);
     renderModal();
-    expect(explainOutcomeInContext).toHaveBeenCalledTimes(1);
+    // Awaited rather than asserted on the spot: the unlocked path reads the
+    // briefing cache first, so the call is one microtask away from the render.
+    // Asserting synchronously passed locally and failed in CI, where opening
+    // IndexedDB took a beat longer — a race, not a rule.
+    await waitFor(() => expect(explainOutcomeInContext).toHaveBeenCalledTimes(1));
     expect(await screen.findByText(/The briefing text\./)).toBeTruthy();
   });
 });
