@@ -196,7 +196,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
           <div className="flex items-center gap-4 sm:gap-8">
             <div className="relative group/icon shrink-0">
               <div className="absolute inset-0 bg-indigo-500 blur-2xl opacity-20 group-hover/icon:opacity-40 transition-opacity duration-700" />
-              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 border border-white/20 shadow-lg flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
+              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 tile-bevel flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
                 <Library className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
               </div>
             </div>

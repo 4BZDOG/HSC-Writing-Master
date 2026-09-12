@@ -26,15 +26,27 @@
  *  and flush with the column — see the comment at the call site for why it
  *  carries no rail gutter.
  *
- *  The vertical margin is ON TOP of `<main>`'s `gap-6`, and it is the reason
- *  the ribbon reads as its own band rather than as the next block down. The
- *  page above it is a chooser (the syllabus navigator, or the breadcrumb it
- *  folds into) and the page below it is the question; the reference between
- *  them is a change of register, and at the shared 24px rhythm it did not look
- *  like one. */
+ *  It carries NO vertical margin of its own, and the reason is worth writing
+ *  down because the margin it used to carry was defended here at length.
+ *
+ *  The argument was that `my-2 sm:my-3` on top of `<main>`'s `gap-6` is what
+ *  makes the ribbon read as its own band rather than as the next block down —
+ *  a change of register between the chooser above and the question below.
+ *  The register change is real. The margin was not what delivered it: the two
+ *  edge rules do that, and they did not exist when this comment was first
+ *  written.
+ *
+ *  What the margin actually delivered was measured in Chromium at 1440x900:
+ *  60px of air above the ribbon against 36px below, in both the collapsed and
+ *  the expanded state. The asymmetry was never this constant's fault — it
+ *  comes from a zero-height flex child in `<main>` (see `App.tsx`) that makes
+ *  the column pay `gap-6` twice above and once below — but the margin was
+ *  paid on both sides of an already-lopsided boundary, so it made the gap
+ *  wider without making it evener. With the zero-height child neutralised at
+ *  its own end and this margin gone, the boundary measures 24px on each side:
+ *  `<main>`'s own rhythm, once. */
 export const RIBBON_ROOT =
-  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in ' +
-  'my-2 sm:my-3';
+  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in';
 
 /** The space an edge rule keeps from the content it bounds. Flush against the
  *  header bar, a hairline reads as that bar's own top edge rather than as the
@@ -219,27 +231,74 @@ export const RIBBON_TIER_CARD =
   'clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card';
 
 /** A tier card with no verb selected anywhere, or one that is not the selected
- *  verb's tier. Painted on the page background. */
-export const RIBBON_TIER_CARD_IDLE =
-  'bg-white border-slate-300 shadow-sm dark:bg-white/[0.03] dark:border-white/5 dark:shadow-none';
+ *  verb's tier. Painted on the page background.
+ *
+ *  It states a FILL and a shadow and no border colour, which is a change. It
+ *  used to carry `border-slate-300 dark:border-white/5`, and the call site
+ *  also applied the tier's own `border` on the five non-current cards — the
+ *  "coloured border specific to the tier for visual cue" the render comment
+ *  describes. Only one of those can win, and in the dark theme it was never
+ *  the tier: `dark:border-white/5` compiles to `.dark .dark\:border-white\/5`
+ *  at (0,2,0) and `border-red-500/50` is (0,1,0). Measured in Chromium, all
+ *  five idle cards painted `rgba(255,255,255,0.05)` — one grey, six tiers. In
+ *  the LIGHT theme the tier colour landed all along, because the config's
+ *  `light:border-red-600` and the neutral `border-slate-300` are both (0,1,0)
+ *  and the tier one is written later.
+ *
+ *  So the neutral goes rather than the tier, and the call site now applies the
+ *  tier's border on every card in every state. The tier config supplies both
+ *  themes itself (`border-red-500/50 light:border-red-600`), which is why
+ *  removing the pair from here does not leave a colour with no partner. */
+export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] dark:shadow-none';
 
 /** Added to the card whose tier the selected verb belongs to. Lifts it out of
- *  the strip; the tier's own border and wash arrive from the tier config. */
-export const RIBBON_TIER_CARD_CURRENT =
-  'scale-110 z-20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] opacity-100 ring-4 ring-slate-900/10 dark:ring-white/5';
-
-/** Added to the five cards that are NOT the selected verb's tier. These cards
- *  still hold 32 of the ribbon's 38 verb buttons, so whatever this dims stays
- *  clickable and stays in the tab order — and a control a keyboard user can
- *  reach and click has to be legible.
+ *  the strip; the tier's own border and wash arrive from the tier config, and
+ *  its ring and glow arrive as one inline `box-shadow` in the tier's hex at
+ *  the call site — the same way the spectrum's leading edge takes its glow, so
+ *  the band palette stays the single source of the colour.
  *
- *  It was `opacity-50 light:opacity-70`, which took the card subtitle
- *  (`slate-500` on white, 4.76:1 at rest) to a measured 2.72:1. `opacity-90`
- *  costs about 5% of contrast and leaves it at the floor; the de-emphasis is
- *  carried by `scale-90` and the tier border, which are already here. One
- *  value for both themes — the split was the wrong shape of fix. */
-export const RIBBON_TIER_CARD_DIMMED =
-  'scale-90 opacity-90 hover:opacity-100 hover:scale-95 border-2';
+ *  `tier-lift-current` and not `scale-105`: `transform` is one property and
+ *  `.clip-stable` on this card already claims it. See the class in
+ *  `index.css` for the measurement and why the utility never worked.
+ *
+ *  `border-2` here, 1px on the cards that are not current. That is the reverse
+ *  of what shipped: `border-2` used to live on the five OTHER cards, so the
+ *  selected card was the thin one and its header sat 1px higher than every
+ *  other header in the row. Weight now marks the selection instead of
+ *  contradicting it.
+ *
+ *  It no longer carries `ring-4 ring-slate-900/10 dark:ring-white/5` or a 40px
+ *  black drop shadow. The ring said "selected" without saying which tier — on
+ *  a strip whose entire subject is six colour-coded tiers — and stacking a
+ *  heavy black shadow under a coloured glow is two depth cues competing for
+ *  one card. One tier-hued shadow lifts it and names it at the same time. */
+export const RIBBON_TIER_CARD_CURRENT = 'tier-lift-current border-2 z-20';
+
+/** Added to a card that is NOT the selected verb's tier, and to all six when
+ *  no verb is selected. These cards hold 32 of the ribbon's 38 verb buttons,
+ *  so everything on them stays clickable and stays in the tab order — and a
+ *  control a keyboard user can reach has to be legible.
+ *
+ *  Nothing here dims any more, which is why it is no longer called DIMMED.
+ *  The history is worth keeping because it took three passes to land:
+ *  `opacity-50 light:opacity-70` took the card subtitle to a measured 2.72:1;
+ *  `opacity-90` cost about 5% and left it AT the floor rather than above it,
+ *  and the comment that shipped it said the real de-emphasis was carried by
+ *  `scale-90` and the tier border. Half of that was untrue — `scale-90` never
+ *  applied (see `.tier-lift` in `index.css`) — so `opacity-90` was in practice
+ *  the only de-emphasis, doing it in the one currency this component has spent
+ *  three fixes learning not to spend.
+ *
+ *  It is now carried entirely by colour and weight: the current card takes the
+ *  tier's ring, glow and 2px border, and these take 1px and no shadow. Every
+ *  reading inside them is at its own full contrast, so the e2e sweep no longer
+ *  composites an ancestor opacity into 32 buttons' worth of text.
+ *
+ *  `tier-lift` gives them the hover the old `hover:scale-95` was written to
+ *  give and, being the one scale utility that actually fired, delivered
+ *  backwards: with idle cards at 1 rather than 0.9 it shrank a hovered card
+ *  and dropped its top 7.88px. */
+export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
 
 /** A tier card's header, which is the "select this tier" control. The card
  *  cannot be a button itself — the verb chips inside it are buttons already —
@@ -299,67 +358,6 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
 export const RIBBON_VERB_CHIP = 't-label px-3 py-1.5 rounded-xl border transition-all duration-300';
-
-/** The one line of text above the spectrum, which says in words what the
- *  spectrum says in colour (DesignSpec §2: colour is never the only signal).
- *  Painted on the page background.
- *
- *  This is the whole line and the box the height lock sits on; the live region
- *  inside it is the lede only (the tier and its band cap), because a `status`
- *  re-announces its entire content on every change.
- *
- *  Two earlier statements here have since stopped being true and are corrected
- *  rather than deleted, because the reasoning still matters:
- *
- *  1. This constant used to record four hand-written labels — `Basic Recall`,
- *     `Explain & Compare`, `Analyse & Apply`, `Evaluate & Create` — as
- *     "span labels … none of them derivable". They were not span labels. Two
- *     are byte-identical to `TIER_GROUPS[2].title` and `TIER_GROUPS[3].title`
- *     and the other two are paraphrases of `TIER_GROUPS[0].title` and
- *     `TIER_GROUPS[5].title`, so the row was four TIER titles — tiers 1, 3, 4
- *     and 6 — laid out by `justify-between`, which put none of them over the
- *     tier it named. They are derivable, and `RIBBON_SPECTRUM_SCALE_RAIL` now
- *     derives them: those four tiers are the floor, the two sides of the Deep
- *     Learning Threshold and the ceiling, so the rail names the two SPANS they
- *     bound rather than the four rungs.
- *
- *  2. The line no longer carries the tier's prose subtitle. Its tail is
- *     `RIBBON_TIMELINE_CUE_SIDE` — which side of the threshold the reader's
- *     tier falls on, 32 characters of structure in place of 44–96 of prose.
- *     The subtitle was never the only copy: `RIBBON_TIER_SUBTITLE` renders it
- *     on the tier card, a sibling under the same `inert`-gated panel.
- *
- *  Height-locked all the same. `line-clamp-2` and a two-line floor are what
- *  keep the footer from stepping up and down between questions, and the cue
- *  still wraps to two lines at narrow widths.
- *
- *  `mb-7` and not `mb-5`: the Deep Learning Threshold chip hangs ABOVE the dot
- *  row, into the space this margin opens, and between roughly 640px and 900px
- *  the cue is two full lines while the chip is already visible (it is
- *  `hidden sm:block`). At `mb-5` the chip's pill overlapped the cue's box by
- *  4px and cleared its second line of text by 8px, which is close enough that
- *  the chip read as the end of the sentence. Measured at 640/720/800/900:
- *  `mb-6` leaves 12px of clear air under the text, `mb-7` leaves 16px, and at
- *  1400px — where the cue is one line — neither shows as slack, because the
- *  height lock has already reserved the second line.
- *
- *  `text-slate-600`, not `slate-500`: measured on this background, `slate-500`
- *  is 4.66:1 — the narrowest margin anywhere in this component. */
-export const RIBBON_TIMELINE_CUE =
-  'min-h-[2.25rem] line-clamp-2 px-1 mb-7 text-[11px] font-medium leading-snug ' +
-  'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
-
-/** The tier fragment of the cue line. Carries no colour of its own — the tier's
- *  `text` token is interpolated at the call site, the way everything
- *  tier-coloured in this component is. Painted on the page background. */
-export const RIBBON_TIMELINE_CUE_TIER = 't-label';
-
-/** The band-cap fragment of the cue line. Set in the telemetry face per
- *  DesignSpec §4 — a band number is a mark, and `RIBBON_STAT_VALUE` already
- *  sets the same number in mono six inches above. Painted on the page
- *  background. */
-export const RIBBON_TIMELINE_CUE_BAND =
-  't-label font-mono tabular-nums ' + 'text-slate-700 dark:text-slate-300';
 
 /** The timeline's progress track — the unlit ground the spectrum is painted
  *  on, and the box that clips it. Painted on the page background.
@@ -439,29 +437,32 @@ export const RIBBON_SPECTRUM_BOUNDARY =
   'absolute inset-y-0 -translate-x-1/2 pointer-events-none ' +
   'bg-slate-50 dark:bg-[rgb(var(--color-bg-base))]';
 
-/** The scale rail above the spectrum — the two spans the Deep Learning
- *  Threshold divides the ladder into. Painted on the page background.
+/** The scale rail above the spectrum — the two sides the Deep Learning
+ *  Threshold divides the ladder into, and the chip that names the gate.
+ *  Painted on the page background.
  *
- *  `absolute`, and that is the whole vertical budget: the threshold chip hangs
- *  from the dot row at `-top-11`, which puts it about 16px above the track —
- *  inside the air `RIBBON_TIMELINE_CUE`'s `mb-7` already reserves for it. The
- *  chip occupies the middle of that band and the two ends of it are empty, so
- *  this row costs the footer no height at all.
+ *  A row in the flow, which it was not. It used to be `absolute -top-6`, and
+ *  the chip beside it `-top-11`, both hanging in air that belonged to a
+ *  DIFFERENT element: the cue line's `mb-7`. The comment here called that
+ *  "the whole vertical budget" and treated costing the footer no height as the
+ *  feature. It was a dependency. Measured in Chromium, the rail sat 4px below
+ *  the cue's box and the chip 0.91px below it, so deleting the cue dropped
+ *  both of them 64px — 8px and 11px ABOVE the footer's own divider hairline,
+ *  through it and into the tier strip's padding.
  *
- *  `-top-6` and not `-top-5`, measured rather than reasoned: at `-top-5` the
- *  captions' centre line sat 4.3px below the chip's at every width from 640 to
- *  1400, which is enough to read as two rows rather than one. `-top-6` brings
- *  it to 0.2px.
+ *  Both offsets are gone. The rail occupies its own row and the chip is
+ *  positioned inside it, so the only thing either depends on is this element.
+ *  The two `-top-` values that had been measured to 0.2px against each other
+ *  are not retuned — there is nothing left to tune them against.
  *
- *  `hidden sm:flex`, the same floor as the chip it sits beside and as
- *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`: below `sm` there is no room for either,
- *  and naming a threshold whose marker is hidden points at nothing.
+ *  `hidden sm:flex`, the same floor the chip had: below `sm` there is no room
+ *  for two captions and a pill across a 360px bar, and the dot row has already
+ *  dropped five of its six labels at that width for the same reason.
  *
- *  Flush to the track's own edges (`inset-x-0`, no padding), so the left
- *  caption starts where the spectrum starts. */
+ *  Flush to the track's own edges, so the captions start and end where the
+ *  spectrum does and the chip's 50% is the threshold's 50%. */
 export const RIBBON_SPECTRUM_SCALE_RAIL =
-  'hidden sm:flex absolute inset-x-0 -top-6 items-baseline justify-between ' +
-  'pointer-events-none';
+  'hidden sm:flex relative items-center justify-between mb-2 pointer-events-none';
 
 /** One span's caption. Painted on the page background, in the tone
  *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`'s contrast fix measured at 7.24:1 — this
@@ -471,25 +472,7 @@ export const RIBBON_SPECTRUM_SCALE_RAIL =
  *  text from the audit is the blind spot that let this component's three
  *  contrast defects ship in the first place. */
 export const RIBBON_SPECTRUM_SCALE_SPAN =
-  't-label whitespace-nowrap ' + 'text-slate-600 dark:text-slate-400';
-
-/** The band-cap fragment of a span caption — the number the leap across the
- *  threshold is measured in. Set in the telemetry face per DesignSpec §4, like
- *  `RIBBON_TIMELINE_CUE_BAND` and `RIBBON_STAT_VALUE`. Its colour is the
- *  adjoining tier's and is interpolated at the call site, the way everything
- *  tier-coloured in this component is. Shown from `md`: measured in Chromium,
- *  the captions grow from 131px to 245px when this fragment appears, which at
- *  768px still leaves 21px and 24px of air either side of the threshold chip.
- *  Painted on the page background. */
-export const RIBBON_SPECTRUM_SCALE_BAND = 'hidden md:inline font-mono font-black tabular-nums';
-
-/** The cue's tail — which side of the Deep Learning Threshold the reader's tier
- *  falls on. It replaces the tier's full prose subtitle, which ran 44–96
- *  characters; this is 32. Carries no colour, so it inherits the cue's own.
- *  Painted on the page background, and deliberately OUTSIDE the live region,
- *  like the subtitle it replaces: it is the same string for three tiers running
- *  and a `status` re-announces everything it contains. */
-export const RIBBON_TIMELINE_CUE_SIDE = 'hidden sm:inline font-normal';
+  't-label inline-flex items-center whitespace-nowrap ' + 'text-slate-600 dark:text-slate-400';
 
 /** One step's dot on the timeline. Its fill is the tier's `solidBg` once the
  *  reader has reached that step. Painted on the page background. */
@@ -527,7 +510,7 @@ export const RIBBON_TIMELINE_STEP_LABEL_IDLE =
  *  painting, and saying it out loud is what lets the parity sweep read this
  *  constant at all. */
 export const RIBBON_TIMELINE_THRESHOLD_CHIP =
-  't-label hidden sm:block px-2 py-0.5 rounded-full ' +
-  'border shadow-sm whitespace-nowrap mb-2 transform -translate-y-1/2 ' +
+  't-label absolute left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full ' +
+  'border shadow-sm whitespace-nowrap ' +
   'bg-white text-slate-600 border-slate-300 ' +
   'dark:bg-[rgb(var(--color-bg-surface))] dark:text-slate-400 dark:border-white/10';
