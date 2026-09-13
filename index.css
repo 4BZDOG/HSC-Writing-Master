@@ -545,7 +545,13 @@ a:focus-visible,
 }
 
 /*
- * A tier card's edge, at the two strengths the row needs.
+ * A band-coloured edge, at the two strengths a set of them needs.
+ *
+ * Used by the verb ribbon's tier strip and by the two band ladders in the
+ * reference rail (Grade Standards, and the marking guide's criteria rows).
+ * They are the same drawing problem: several cards, each a pale wash of its
+ * own band, each needing an edge that closes the shape without competing with
+ * what is inside it.
  *
  * The border used to be `tierConfig.border` in both states — `-500/50` in dark
  * and a solid `-600` in light — with the selected card differing only in WIDTH.
@@ -565,16 +571,16 @@ a:focus-visible,
  * row, not merely the thickest.
  *
  * So: a whisper at rest and a statement when selected, from one value each.
- * `--tier-rgb` is set per card from `getBandRgb`, so both alphas come off the
+ * `--band-rgb` is set per card from `getBandRgb`, so both alphas come off the
  * single band palette rather than a second copy of it, and one alpha serves
  * both themes — a 35% tint of the tier hue reads as a soft edge on near-black
  * and on white alike, which is the same argument `.tile-bevel` makes.
  */
-.tier-edge {
-  border-color: rgb(var(--tier-rgb) / 0.35);
+.band-edge {
+  border-color: rgb(var(--band-rgb) / 0.35);
 }
-.tier-edge-current {
-  border-color: rgb(var(--tier-rgb) / 0.85);
+.band-edge-strong {
+  border-color: rgb(var(--band-rgb) / 0.85);
 }
 
 /*
