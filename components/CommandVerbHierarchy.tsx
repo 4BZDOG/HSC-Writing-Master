@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
-import { getBandHex, getBandName, getTierScaleConfig } from '../utils/renderUtils';
+import { getBandHex, getBandName, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import StrategyTip from './StrategyTip';
 import MeshOverlay from './MeshOverlay';
 import {
@@ -594,29 +594,36 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       ref={(el) => {
                         tierRefs.current[index] = el;
                       }}
-                      // The ring and the glow, in the tier's own hex. Inline
-                      // for the same reason the spectrum's leading edge is:
-                      // six tier colours cannot become six Tailwind classes
-                      // without a fourth hard copy of the band palette, and
-                      // `getBandHex` is the palette the spectrum 20px below is
-                      // already painted from — so the lifted card and the lit
-                      // bar state one colour between them rather than two.
+                      // The tier's colour, handed to CSS once as a custom
+                      // property, so the border and the glow can each take the
+                      // alpha they need without either being written down
+                      // twice. `getBandRgb` derives from `BAND_HEX`, which is
+                      // the palette the spectrum 20px below is painted from —
+                      // so the lifted card and the lit bar state one colour
+                      // between them rather than two.
                       //
-                      // `2e` and `66` are the ring's 18% and the glow's 40%.
-                      // The ring replaces `ring-4 ring-slate-900/10`, which
-                      // marked the selection without naming the tier; the glow
-                      // replaces a 40px black drop shadow that would otherwise
-                      // be competing with it for the same depth cue.
+                      // The ring's 18% and the glow's 40% are the emphasis in
+                      // full, now that the card does not scale. The ring
+                      // replaces `ring-4 ring-slate-900/10`, which marked the
+                      // selection without naming the tier; the glow replaces a
+                      // 40px black drop shadow that competed with it for the
+                      // same depth cue. Both paint outside the border box, so
+                      // neither moves a neighbour.
                       style={
-                        isCurrentTier
-                          ? {
-                              boxShadow: `0 0 0 4px ${getBandHex(group.tier)}2e, 0 24px 48px -16px ${getBandHex(group.tier)}66`,
-                            }
-                          : undefined
+                        {
+                          '--tier-rgb': getBandRgb(group.tier),
+                          ...(isCurrentTier
+                            ? {
+                                boxShadow:
+                                  '0 0 0 4px rgb(var(--tier-rgb) / 0.18), ' +
+                                  '0 24px 48px -16px rgb(var(--tier-rgb) / 0.4)',
+                              }
+                            : {}),
+                        } as React.CSSProperties
                       }
                       className={`
                       ${RIBBON_TIER_CARD}
-                      ${tierConfig.border}
+                      ${isCurrentTier ? 'tier-edge-current' : 'tier-edge'}
                       ${isCurrentTier ? `${tierConfig.bg} light:bg-white` : RIBBON_TIER_CARD_IDLE}
                       ${cardStyle}
                     `}

@@ -545,6 +545,39 @@ a:focus-visible,
 }
 
 /*
+ * A tier card's edge, at the two strengths the row needs.
+ *
+ * The border used to be `tierConfig.border` in both states — `-500/50` in dark
+ * and a solid `-600` in light — with the selected card differing only in WIDTH.
+ * Two problems came out of looking at the rendered strip rather than the class
+ * strings.
+ *
+ * In light, the idle border was the loudest thing on its own card: a solid,
+ * fully saturated 1px outline drawn around a `-100` pastel header wash. A
+ * saturated outline and a pastel fill do not read as one drawing, and on an
+ * idle card the border is the LAST place the tier needs saying — the header
+ * wash, the eyebrow, the title and eight verb chips have all said it already.
+ * Its job is to close the shape.
+ *
+ * And there was no intensity hierarchy at all. Same alpha on the selected card
+ * as on the five it is meant to stand out from, so the whole difference rested
+ * on 1px of width. The selected card should be the most saturated thing in the
+ * row, not merely the thickest.
+ *
+ * So: a whisper at rest and a statement when selected, from one value each.
+ * `--tier-rgb` is set per card from `getBandRgb`, so both alphas come off the
+ * single band palette rather than a second copy of it, and one alpha serves
+ * both themes — a 35% tint of the tier hue reads as a soft edge on near-black
+ * and on white alike, which is the same argument `.tile-bevel` makes.
+ */
+.tier-edge {
+  border-color: rgb(var(--tier-rgb) / 0.35);
+}
+.tier-edge-current {
+  border-color: rgb(var(--tier-rgb) / 0.85);
+}
+
+/*
  * The brand tiles' edge, and what it replaces.
  *
  * Six gradient icon tiles across the app wore `border border-white/20` (or
