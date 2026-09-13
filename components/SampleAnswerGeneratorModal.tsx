@@ -618,7 +618,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 </div>
 
                 <p
-                  className={`text-sm leading-relaxed font-medium ${activeBandConfig.text} opacity-90 max-w-xl`}
+                  className={`text-sm leading-relaxed font-medium ${activeBandConfig.text} max-w-xl`}
                 >
                   {selectedMarks.length === 1 ? (
                     <>
