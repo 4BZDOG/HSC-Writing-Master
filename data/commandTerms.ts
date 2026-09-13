@@ -108,7 +108,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4 or less',
     timeRange: [2, 4],
     syllabusTerms: [1, 2],
-    bandDiscrimination: 'Accuracy of identification.',
+    bandDiscrimination:
+      'Markers are checking one thing: is the name right? A wrong name earns nothing however much you write around it, and a right name needs nothing added to it.',
     genericMarkingGuide: ['1 mark: Correctly identifies the item/concept.'],
     structuralKeywords: ['is', 'are', 'named'],
     exampleQuestion: 'Identify three renewable energy sources from the text provided.',
@@ -123,7 +124,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4',
     timeRange: [2, 4],
     syllabusTerms: [1, 2],
-    bandDiscrimination: 'Accuracy of recalled facts.',
+    bandDiscrimination:
+      'Accuracy, and nothing else. A half-remembered fact hedged with “something like” reads as a guess — state what you know plainly and move on.',
     genericMarkingGuide: ['1 mark: Correctly recalls the specific fact or idea.'],
     structuralKeywords: ['state', 'list'],
     exampleQuestion: 'Recall the formula for calculating the area of a circle.',
@@ -138,7 +140,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4-1/2',
     timeRange: [2, 5],
     syllabusTerms: [2, 3],
-    bandDiscrimination: 'Sequence and accuracy of events.',
+    bandDiscrimination:
+      'Order is the mark. Every event can be correct and still score poorly if it arrives out of sequence, because the marker is following the chronology, not the detail.',
     genericMarkingGuide: [
       '1 mark: Basic list of events.',
       '2-3 marks: Accurate sequence of key events.',
@@ -157,7 +160,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '3-5 lines',
     timeRange: [2, 5],
     syllabusTerms: [1, 2],
-    bandDiscrimination: 'Accuracy of calculation and showing working.',
+    bandDiscrimination:
+      'Working earns marks even when the answer is wrong. Show the formula, show the substitution, and put units on the result — a bare number risks everything on one line.',
     genericMarkingGuide: [
       '1 mark: Correct method/formula.',
       '1 mark: Correct working.',
@@ -176,7 +180,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4-1/2',
     timeRange: [2, 5],
     syllabusTerms: [1, 2],
-    bandDiscrimination: 'Relevance of extracted details.',
+    bandDiscrimination:
+      'Relevance, not quantity. Take only what the question asked for from the source; copying a whole row or paragraph shows you have not decided which part matters.',
     genericMarkingGuide: ['1 mark: Extracts the correct information.'],
     structuralKeywords: ['from', 'data', 'source'],
     exampleQuestion: 'Extract the population data for 1990 from the table.',
@@ -194,7 +199,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4-1/2',
     timeRange: [2, 5],
     syllabusTerms: [2, 3],
-    bandDiscrimination: 'Precision of definition and essential qualities.',
+    bandDiscrimination:
+      'Precision. A definition that would fit the term beside it has not defined anything — name the essential quality that makes this thing itself.',
     genericMarkingGuide: [
       '1 mark: Basic definition.',
       '2 marks: Comprehensive definition with essential qualities.',
@@ -212,7 +218,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2',
     timeRange: [4, 7],
     syllabusTerms: [3, 4],
-    bandDiscrimination: 'Coverage of main features.',
+    bandDiscrimination:
+      'Coverage beats depth. Every main feature present in brief scores above two explored well, because an outline is judged on the shape of the whole.',
     genericMarkingGuide: ['1 mark per main feature outlined.'],
     structuralKeywords: ['mainly', 'features', 'overview', 'briefly'],
     exampleQuestion: 'Outline the main stages of the water cycle.',
@@ -227,7 +234,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2',
     timeRange: [4, 7],
     syllabusTerms: [3, 5],
-    bandDiscrimination: 'Detail and accuracy of characteristics.',
+    bandDiscrimination:
+      'Specificity. “Large and colourful” describes almost anything; the marks are in characteristics precise enough that a reader could pick your subject out of a line-up.',
     genericMarkingGuide: [
       '1-2 marks: Identifies characteristics.',
       '3+ marks: Provides detailed description of features.',
@@ -245,7 +253,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4-1/2',
     timeRange: [4, 7],
     syllabusTerms: [3, 4],
-    bandDiscrimination: 'Conciseness and relevance of details.',
+    bandDiscrimination:
+      'What you leave out. A summary that keeps the examples and the elaboration is just a shorter copy — the judgement being marked is which ideas were the important ones.',
     genericMarkingGuide: [
       '1 mark: Identifies main points.',
       '2+ marks: Concisely links main points without unnecessary detail.',
@@ -263,7 +272,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2',
     timeRange: [4, 7],
     syllabusTerms: [3, 4],
-    bandDiscrimination: 'Clarity and removal of ambiguity.',
+    bandDiscrimination:
+      'Whether the confusion is actually gone. Name the ambiguity first, then resolve it; restating the original in different words leaves the reader where they started.',
     genericMarkingGuide: [
       '1 mark: Identifies the ambiguity.',
       '2+ marks: Clearly explains to resolve confusion.',
@@ -281,7 +291,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2',
     timeRange: [4, 7],
     syllabusTerms: [3, 5],
-    bandDiscrimination: 'Accuracy of categorisation.',
+    bandDiscrimination:
+      'The basis of the sort. Correct groups earn the mark, but the marker looks for the shared characteristic you sorted on — categories with no stated principle read as guesswork.',
     genericMarkingGuide: [
       '1 mark: Correct classification.',
       '2 marks: Justification for classification if required.',
@@ -301,7 +312,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2-3/4',
     timeRange: [5, 11],
     syllabusTerms: [4, 6],
-    bandDiscrimination: 'Clarity of cause-effect relationship.',
+    bandDiscrimination:
+      'The link, not the two ends. Naming a cause and naming an effect is a low-band answer; the marks live in the sentence that says how one produces the other.',
     genericMarkingGuide: [
       '1 mark: Identifies cause.',
       '1 mark: Identifies effect.',
@@ -320,7 +332,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '3/4-1',
     timeRange: [5, 11],
     syllabusTerms: [5, 7],
-    bandDiscrimination: 'Breadth of comparison (both similarities and differences).',
+    bandDiscrimination:
+      'Both halves, held together. Similarities and differences are both required, and a response that lists one and then the other scores below one that sets them side by side.',
     genericMarkingGuide: [
       '1-2 marks: Similarities.',
       '1-2 marks: Differences.',
@@ -339,7 +352,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2-3/4',
     timeRange: [5, 9],
     syllabusTerms: [4, 6],
-    bandDiscrimination: 'Depth of difference analysis.',
+    bandDiscrimination:
+      'Differences only, each one explained. Slipping in similarities spends words on marks you cannot earn here, and a bare list without the “whereas” does half the job.',
     genericMarkingGuide: ['1 mark per valid point of contrast explained.'],
     structuralKeywords: ['unlike', 'on the other hand', 'conversely', 'differs'],
     exampleQuestion: 'Contrast the political systems of a democracy and a dictatorship.',
@@ -355,7 +369,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '3/4',
     timeRange: [5, 11],
     syllabusTerms: [4, 6],
-    bandDiscrimination: 'Clarity and relevance of the example.',
+    bandDiscrimination:
+      'Whether the example actually shows the concept working. A relevant example carries the marks; a generic one bolted to a correct definition shows knowledge, not demonstration.',
     genericMarkingGuide: [
       '1 mark: States the concept.',
       '2+ marks: Provides a clear, relevant example showing the concept in action.',
@@ -373,7 +388,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/2',
     timeRange: [4, 7],
     syllabusTerms: [3, 4],
-    bandDiscrimination: 'Justification of prediction based on data.',
+    bandDiscrimination:
+      'What the prediction rests on. Anyone can name an outcome — the marks are for tying it to the evidence or trend in front of you rather than to general expectation.',
     genericMarkingGuide: [
       '1 mark: States prediction.',
       '2 marks: Justifies prediction with available info.',
@@ -392,7 +408,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '3/4-1',
     timeRange: [5, 11],
     syllabusTerms: [5, 7],
-    bandDiscrimination: 'Comprehensiveness of reasons.',
+    bandDiscrimination:
+      'How completely the reasons cover it. One reason explains part of a phenomenon; the marker is looking for the set that together accounts for why it happened.',
     genericMarkingGuide: [
       '1 mark: Identifies event/phenomenon.',
       '2+ marks: Provides detailed reasons for its occurrence.',
@@ -413,7 +430,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1-1.5',
     timeRange: [7, 14],
     syllabusTerms: [6, 10],
-    bandDiscrimination: 'Depth of relationship analysis and implications.',
+    bandDiscrimination:
+      'Whether you got past the parts. Naming components is the entry price — analysis is the relationships between them and what those relationships imply.',
     genericMarkingGuide: [
       '2 marks: Identifies components.',
       '2 marks: Explains relationships.',
@@ -432,7 +450,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1-1.5',
     timeRange: [7, 14],
     syllabusTerms: [6, 10],
-    bandDiscrimination: 'Appropriateness of application to the new context.',
+    bandDiscrimination:
+      'Fit to this scenario. A correct principle recited in general terms scores low; the marks are in the details of this context changing how the principle plays out.',
     genericMarkingGuide: [
       '1-2 marks: Identifies relevant principle.',
       '3+ marks: Correctly applies principle to the specific scenario.',
@@ -451,7 +470,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1-1.5',
     timeRange: [7, 14],
     syllabusTerms: [6, 10],
-    bandDiscrimination: 'Depth of inquiry.',
+    bandDiscrimination:
+      'How far past the surface you go. The first issues are the obvious ones, and an examination that stops there reads as a description with a harder verb on the front.',
     genericMarkingGuide: [
       '1-2 marks: Identifies key issues.',
       '2+ marks: Probes details and context.',
@@ -470,7 +490,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1',
     timeRange: [7, 14],
     syllabusTerms: [6, 8],
-    bandDiscrimination: 'Precision of distinction.',
+    bandDiscrimination:
+      'The dividing line itself. Describing two things separately leaves the marker to do the work — say outright what one has that the other does not.',
     genericMarkingGuide: [
       '1 mark: Identifies the entities.',
       '2+ marks: Clearly explains the distinguishing factor(s).',
@@ -488,7 +509,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '3/4-1',
     timeRange: [5, 11],
     syllabusTerms: [5, 7],
-    bandDiscrimination: 'Insightfulness of meaning drawn.',
+    bandDiscrimination:
+      'Meaning, not readings. Reporting what the data says is the low-band answer; interpretation says what it signifies, and the marker is looking for the inference.',
     genericMarkingGuide: [
       '1 mark: Basic reading of data.',
       '2+ marks: Infers meaning or trends from the data/text.',
@@ -507,7 +529,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '3/4-1',
     timeRange: [5, 11],
     syllabusTerms: [5, 7],
-    bandDiscrimination: 'Reasonableness of inference beyond known data.',
+    bandDiscrimination:
+      'Whether the extension is defensible. Going beyond the data is the task, but the marks are for the reasoning that makes the leap reasonable, not the size of it.',
     genericMarkingGuide: [
       '1 mark: Uses known data.',
       '2 marks: Logically extends data to new territory.',
@@ -526,7 +549,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1-1.5',
     timeRange: [7, 14],
     syllabusTerms: [6, 10],
-    bandDiscrimination: 'Logical assembly and completeness.',
+    bandDiscrimination:
+      'Coherence of the whole. Every right element loosely assembled scores below fewer elements built into something that holds together and does its job.',
     genericMarkingGuide: [
       '1 mark: Basic elements present.',
       '2+ marks: Logical, coherent structure or build.',
@@ -547,7 +571,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1.5-2',
     timeRange: [9, 18],
     syllabusTerms: [8, 12],
-    bandDiscrimination: 'Balance of argument and breadth of issues.',
+    bandDiscrimination:
+      'Balance, then a position. Both sides are required and neither can be a token paragraph — but a discussion that never arrives anywhere scores below one that weighs and concludes.',
     genericMarkingGuide: [
       '2 marks: Points for.',
       '2 marks: Points against.',
@@ -566,7 +591,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1.5-2.5',
     timeRange: [11, 18],
     syllabusTerms: [10, 14],
-    bandDiscrimination: 'Quality of judgement and criteria used.',
+    bandDiscrimination:
+      'The criteria behind the judgement. A verdict with no stated basis is an opinion; the marker wants the standard you measured against before the judgement you reached.',
     genericMarkingGuide: ['1 mark: Clear judgement.', '2+ marks: Support with criteria/evidence.'],
     structuralKeywords: ['judgement', 'value', 'extent', 'quality', 'outcome'],
     exampleQuestion: "Assess the effectiveness of the government's fiscal policy.",
@@ -581,7 +607,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1.5-2.5',
     timeRange: [11, 18],
     syllabusTerms: [10, 14],
-    bandDiscrimination: 'Strength of logic and evidence supporting the argument.',
+    bandDiscrimination:
+      'The strength of the support, not the confidence of the claim. Every step needs evidence or reasoning under it — an assertion repeated more firmly is still an assertion.',
     genericMarkingGuide: [
       '1 mark: States argument/conclusion.',
       '3+ marks: Robust support with evidence/logic.',
@@ -600,7 +627,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1-1.5',
     timeRange: [7, 14],
     syllabusTerms: [6, 10],
-    bandDiscrimination: 'Logical flow from evidence to conclusion.',
+    bandDiscrimination:
+      'Whether the conclusion actually follows. A right answer reached by a broken chain earns little; the marks are in the visible steps from evidence to result.',
     genericMarkingGuide: [
       '1 mark: Uses evidence.',
       '2 marks: Draws logical conclusion based on evidence.',
@@ -618,7 +646,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1.5-2',
     timeRange: [9, 18],
     syllabusTerms: [8, 12],
-    bandDiscrimination: 'Strength of reasons provided.',
+    bandDiscrimination:
+      'Why this course and not the alternatives. Making a recommendation is easy — the marks are in reasons strong enough that a reader would act on them.',
     genericMarkingGuide: ['1 mark: Recommendation.', '2+ marks: Valid reasons supporting it.'],
     structuralKeywords: ['suggest', 'favour', 'reason', 'should'],
     exampleQuestion: 'Recommend a course of action for the business to improve employee retention.',
@@ -634,7 +663,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1-1.5',
     timeRange: [7, 14],
     syllabusTerms: [6, 10],
-    bandDiscrimination: 'Sensitivity and depth of value judgement.',
+    bandDiscrimination:
+      'Sensitivity to value. Stating that something is significant is not appreciation; the marks are in showing what makes it so, and for whom.',
     genericMarkingGuide: [
       '1 mark: States value.',
       '2+ marks: Explains/justifies the value/quality.',
@@ -655,7 +685,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '2-3',
     timeRange: [14, 27],
     syllabusTerms: [12, 18],
-    bandDiscrimination: 'Use of explicit criteria to form judgement.',
+    bandDiscrimination:
+      'Explicit criteria, applied. This is the verb most often answered as though it said “discuss” — a Band 6 evaluation names its criteria, weighs evidence against them, and commits.',
     genericMarkingGuide: [
       '1 mark: Judgement.',
       '2 marks: Criteria used.',
@@ -675,7 +706,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '2.5-4',
     timeRange: [14, 27],
     syllabusTerms: [15, 20],
-    bandDiscrimination: 'Depth of questioning and reflection.',
+    bandDiscrimination:
+      'Whether the critique is turned on the reasoning itself. Analysis takes the parts apart; a critical analysis also asks what the argument assumes, what it leaves out, and where that weakens it.',
     genericMarkingGuide: [
       '2 marks: Analysis of evidence.',
       '2 marks: Assessment/Judgement.',
@@ -695,7 +727,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '2.5-4',
     timeRange: [14, 27],
     syllabusTerms: [15, 20],
-    bandDiscrimination: 'Depth of questioning and reflection.',
+    bandDiscrimination:
+      'Whether you judged your own judgement. Applying criteria rigorously earns a strong evaluation — the critical marks are for naming the limits of those criteria and where your verdict could be contested.',
     genericMarkingGuide: [
       '2 marks: Evaluation against criteria.',
       '2 marks: Assessment/Judgement.',
@@ -715,7 +748,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '2-3',
     timeRange: [14, 27],
     syllabusTerms: [12, 18],
-    bandDiscrimination: 'Coherence of the whole created from parts.',
+    bandDiscrimination:
+      'Whether something new was made. Elements summarised in sequence is not synthesis; the marks are for the coherent whole that none of the parts said on its own.',
     genericMarkingGuide: [
       '2 marks: Identifies separate elements.',
       '2+ marks: Combines them into a new, coherent conclusion or whole.',
@@ -734,7 +768,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '2-3',
     timeRange: [14, 27],
     syllabusTerms: [12, 18],
-    bandDiscrimination: 'Feasibility and justification of proposal.',
+    bandDiscrimination:
+      'Feasibility as much as originality. A proposal is marked on whether it could actually be carried out, and on the argument that it should be.',
     genericMarkingGuide: [
       '1 mark: Clear proposal.',
       '2+ marks: Justification or supporting argument.',
@@ -753,7 +788,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '2.5-4',
     timeRange: [14, 27],
     syllabusTerms: [15, 20],
-    bandDiscrimination: 'Depth of inquiry and validity of conclusions.',
+    bandDiscrimination:
+      'The whole arc, not just the finding. Method, inquiry and conclusion are each marked — a strong conclusion resting on no visible method loses most of what is available.',
     genericMarkingGuide: [
       '2 marks: Planning/Method.',
       '2 marks: Inquiry/Analysis.',
@@ -773,7 +809,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1/4 or less',
     timeRange: [2, 4],
     syllabusTerms: [1, 2],
-    bandDiscrimination: 'Accuracy of the stated fact.',
+    bandDiscrimination:
+      'Accuracy and brevity together. The fact must be right, and anything added around it earns nothing while costing time you need elsewhere.',
     genericMarkingGuide: ['1 mark: Correctly states the information.'],
     structuralKeywords: ['state', 'give', 'name'],
     exampleQuestion: 'State the boiling point of water.',
@@ -788,7 +825,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
     pageEstimate: '1',
     timeRange: [7, 14],
     syllabusTerms: [6, 8],
-    bandDiscrimination: 'Precision of distinction.',
+    bandDiscrimination:
+      'The precision of the difference. Two accurate descriptions side by side is not differentiation — name the specific attribute on which they diverge.',
     genericMarkingGuide: ['1 mark: Identifies entities.', '2+ marks: Explains differences.'],
     structuralKeywords: ['distinct', 'difference'],
     exampleQuestion: 'Differentiate between the two types of cells.',
@@ -812,7 +850,8 @@ const fallbackTerm: CommandTermInfo = {
   pageEstimate: '1/2-3/4',
   timeRange: [5, 11] as [number, number],
   syllabusTerms: [4, 6] as [number, number],
-  bandDiscrimination: 'Varies',
+  bandDiscrimination:
+    'This verb is not in the guide yet, so take what follows as general advice: answer exactly what was asked, and show the reasoning behind each claim.',
   genericMarkingGuide: ['Provide a clear answer'],
   tailwind: TIER_COLORS[3],
   structuralKeywords: ['because', 'therefore'],

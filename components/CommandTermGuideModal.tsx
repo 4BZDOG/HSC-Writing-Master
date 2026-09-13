@@ -2,8 +2,22 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CommandTermInfo } from '../types';
-import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
-import { getBandRgb, getTierBandConfig } from '../utils/renderUtils';
+import {
+  X,
+  Info,
+  Award,
+  Target,
+  Hash,
+  Zap,
+  ChevronRight,
+  Lightbulb,
+  Tag,
+  Clock,
+  FileText,
+  HelpCircle,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { BandConfig, getBandRgb, getTierBandConfig } from '../utils/renderUtils';
 import { getTierTargetBand } from '../data/commandTerms';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -13,6 +27,35 @@ interface CommandTermGuideModalProps {
   onClose: () => void;
   termInfo: CommandTermInfo;
 }
+
+/**
+ * One figure in the guide's at-a-glance row.
+ *
+ * Three hand-copied blocks became five when `timeRange` and `pageEstimate`
+ * joined them, and five copies of the same twelve lines is how the fourth one
+ * ends up subtly different from the other three.
+ */
+const Stat: React.FC<{
+  icon: LucideIcon;
+  label: string;
+  value: React.ReactNode;
+  config: BandConfig;
+}> = ({ icon: Icon, label, value, config }) => (
+  <div className="p-3 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50 text-center">
+    <div
+      className={`w-9 h-9 mx-auto mb-2 rounded-full flex items-center justify-center ${config.iconBg} border band-edge`}
+    >
+      <Icon className={`w-4 h-4 ${config.text}`} />
+    </div>
+    <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">{label}</p>
+    {/* `font-bold`, not the `font-black` the three larger cards used to
+        carry: at five across these values sit at 18px, and 900 is display
+        weight (DesignSpec §4, pinned by `weightLadder.test.ts`).
+        `tabular-nums` because every one of them is a figure, so the five
+        line up rather than drifting by digit width. */}
+    <p className={`font-bold tabular-nums text-lg leading-tight ${config.text}`}>{value}</p>
+  </div>
+);
 
 const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   isOpen,
@@ -135,55 +178,93 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             </p>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div
-              className={`
-              p-4 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50
-              text-center transition-all duration-200
-            `}
-            >
-              <div
-                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border band-edge`}
-              >
-                <Target className={`w-5 h-5 ${bandConfig.text}`} />
-              </div>
-              <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Command Tier</p>
-              <p className={`font-black text-2xl ${bandConfig.text}`}>{termInfo.tier}</p>
-            </div>
+          {/* The shape of the answer, at a glance.
 
-            <div
-              className={`
-              p-4 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50
-              text-center transition-all duration-200
-            `}
-            >
-              <div
-                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border band-edge`}
-              >
-                <Hash className={`w-5 h-5 ${bandConfig.text}`} />
-              </div>
-              <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Mark Range</p>
-              <p className={`font-black text-2xl ${bandConfig.text}`}>
-                {termInfo.markRange.join('-')}
-              </p>
-            </div>
+              Five now, not three. `timeRange` and `pageEstimate` were written
+              for every verb and shown only on the ribbon; "how long should
+              this be?" is the question a student asks immediately after "what
+              is this verb asking me for?", and this is the surface they opened
+              to ask it. */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <Stat icon={Target} label="Command tier" value={termInfo.tier} config={bandConfig} />
+            <Stat
+              icon={Hash}
+              label="Marks"
+              value={termInfo.markRange.join('–')}
+              config={bandConfig}
+            />
+            <Stat
+              icon={Award}
+              label="Band ceiling"
+              value={`Band ${bandTarget}`}
+              config={bandConfig}
+            />
+            <Stat
+              icon={Clock}
+              label="Time"
+              value={`${termInfo.timeRange.join('–')} min`}
+              config={bandConfig}
+            />
+            <Stat
+              icon={FileText}
+              label="Length"
+              value={`${termInfo.pageEstimate} pg`}
+              config={bandConfig}
+            />
+          </div>
 
-            <div
-              className={`
-              p-4 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50
-              text-center transition-all duration-200
-            `}
-            >
-              <div
-                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border band-edge`}
-              >
-                <Award className={`w-5 h-5 ${bandConfig.text}`} />
-              </div>
-              <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Band Ceiling</p>
-              <p className={`font-black text-2xl ${bandConfig.text}`}>Band {bandTarget}</p>
+          {/* How to answer it.
+
+              `termInfo.tip` — the one thing in this record that tells a
+              student what to DO, and until now the guide about a verb did not
+              show it. It is on the writing surface, which is where it earns
+              its keep mid-draft; a reader who has stopped to open this modal
+              has stopped precisely because they do not know how to start. */}
+          <div className="p-5 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/30">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
+              <Lightbulb className={`w-4 h-4 ${bandConfig.text}`} />
+              How to answer it
+            </h3>
+            <div className="space-y-1.5">
+              {termInfo.tip.split('\n').map((line, i) => (
+                <p
+                  key={i}
+                  className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed"
+                >
+                  {line}
+                </p>
+              ))}
             </div>
           </div>
+
+          {/* The words that do the work.
+
+              `structuralKeywords` was in every one of these records and
+              rendered nowhere in the application. It is the most directly
+              usable thing here: the phrases that make a response READ as the
+              verb it was asked in, which is most of what separates a response
+              that answers the question from one that circles it. */}
+          {termInfo.structuralKeywords.length > 0 && (
+            <div className="p-5 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/30">
+              <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-1">
+                <Tag className={`w-4 h-4 ${bandConfig.text}`} />
+                The language of a {termInfo.term} answer
+              </h3>
+              <p className="t-label mb-3 text-[rgb(var(--color-text-muted))]">
+                Marker-facing phrasing — work these in where they fit
+              </p>
+              <ul className="flex flex-wrap gap-2">
+                {termInfo.structuralKeywords.map((keyword) => (
+                  <li
+                    key={keyword}
+                    className={`t-label px-2.5 py-1 rounded-lg border band-edge ${bandConfig.bg} ${bandConfig.text}`}
+                  >
+                    {keyword}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Band Discrimination */}
           <div
@@ -193,23 +274,33 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
           >
             <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
               <ChevronRight className={`w-4 h-4 ${bandConfig.text}`} />
-              Discrimination Factors
+              What separates a strong answer
             </h3>
             <p className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed pl-6 border-l-2 border-[rgb(var(--color-border-secondary))]">
               {termInfo.bandDiscrimination}
             </p>
           </div>
 
-          {/* Generic Marking Guide */}
+          {/* Marking guide.
+
+              Headed "NESA Marking Guide" until now, which it is not. These
+              rows are this application's own generic guidance, written against
+              the tier ladder in `projectDocs/GoldStandard.md`; NESA publishes
+              marking guidelines per paper, not per verb. A teacher reading a
+              heading with NESA's name on it is entitled to assume they are
+              reading NESA, so the heading now says whose guidance this is. */}
           <div
             className={`
             p-5 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/30
           `}
           >
-            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-1">
               <Award className={`w-4 h-4 ${bandConfig.text}`} />
-              NESA Marking Guide
+              How the marks usually fall
             </h3>
+            <p className="t-label mb-3 text-[rgb(var(--color-text-muted))]">
+              A general guide — your paper&rsquo;s own marking guidelines win
+            </p>
             <ul className="space-y-2">
               {termInfo.genericMarkingGuide.map((criterion, index) => (
                 <li
@@ -227,6 +318,21 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* A question that uses it.
+
+              `exampleQuestion` was the other field written for all 36 verbs
+              and rendered nowhere. An abstract definition plus one concrete
+              question is how a reader checks they have understood the
+              definition at all. */}
+          <div className="p-5 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/30">
+            <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
+              <HelpCircle className={`w-4 h-4 ${bandConfig.text}`} />A question that asks for this
+            </h3>
+            <p className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed font-serif italic">
+              &ldquo;{termInfo.exampleQuestion}&rdquo;
+            </p>
           </div>
         </div>
 
