@@ -23,7 +23,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import AiErrorNotice from './AiErrorNotice';
-import { getBandConfig, stripHtmlTags } from '../utils/renderUtils';
+import { getBandConfig, getBandRgb, stripHtmlTags } from '../utils/renderUtils';
 import { describeSimilarity, findNearDuplicate } from '../utils/answerSimilarity';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -298,16 +298,21 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
       onClick={handleClose}
     >
       <div
+        // The band colour once, inheriting to every `band-edge` below. The
+        // shell keeps the statement; the two seams and the target panel drop
+        // to the quiet strength, because four saturated lines down one modal
+        // is the whole band colour spent on structure.
+        style={{ '--band-rgb': getBandRgb(selectedBand) } as React.CSSProperties}
         className={`
           clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
-          w-full max-w-3xl border-2 ${activeBandConfig.border}
+          w-full max-w-3xl border-2 band-edge-strong
           animate-fade-in-up overflow-hidden flex flex-col h-[85vh] sm:h-[650px]
           ${activeBandConfig.glow}
         `}
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`relative px-8 py-6 border-b-2 ${activeBandConfig.border} overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50`}
+          className={`relative px-8 py-6 border-b-2 band-edge overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50`}
         >
           <div
             className={`absolute inset-0 opacity-10 light:opacity-5 bg-gradient-to-r ${activeBandConfig.gradient}`}
@@ -579,7 +584,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 flex-1 rounded-2xl border-2 p-6 relative overflow-hidden transition-all duration-500
                 ${
                   selectedMarks.length > 0
-                    ? `${activeBandConfig.bg} ${activeBandConfig.border}`
+                    ? `${activeBandConfig.bg} band-edge`
                     : 'bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 border-dashed'
                 }
             `}
@@ -658,7 +663,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
         </div>
 
         <div
-          className={`p-6 border-t-2 ${activeBandConfig.border} bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50/80 backdrop-blur-md`}
+          className={`p-6 border-t-2 band-edge bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50/80 backdrop-blur-md`}
         >
           {/* Generating again over the top of an unreviewed repeat would throw
               it away without anyone deciding to — the one thing this check
