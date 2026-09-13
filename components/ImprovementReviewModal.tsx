@@ -6,6 +6,7 @@ import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
+  getBandRgb,
   textContainsKeyword,
 } from '../utils/renderUtils';
 import {
@@ -283,7 +284,13 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border-2 ${bandConfig.border} animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh]`}
+        // `band-edge-strong` rather than the saturated token, matching the
+        // three band-coloured modal shells already on it. The header below is
+        // a solid gradient, so this is the only band line in the modal and it
+        // keeps the statement — it just stops being a harder edge than the
+        // ones every other modal draws.
+        style={{ '--band-rgb': getBandRgb(targetBand) } as React.CSSProperties}
+        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border-2 band-edge-strong animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh]`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
