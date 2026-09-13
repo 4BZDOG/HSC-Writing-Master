@@ -167,9 +167,28 @@ const LEVEL_LABEL: Record<(typeof LEVEL_KEYS)[number], string> = {
   dotPointId: 'syllabus point',
 };
 
+/**
+ * One hue per level of the path — course, topic, sub-topic, syllabus point,
+ * question — so a step is recognisable by colour as well as position.
+ *
+ * A NOTE ON `activeBorder`, because the two themes were not the same edge.
+ * Dark drew it at `/30` and light at a solid `-600`: 5.38:1 against white on
+ * the current step's 2px frame, where the completed step above it sits at
+ * 1.48:1. Rendered, the first screen after onboarding had one hard-edged
+ * purple rectangle on it and nothing else close, and unlike the workspace's
+ * question and response cards — whose border is tuned to their own header —
+ * this one has nothing to match: the card is white with a 28px icon tile on
+ * it, and that tile's own border is `/20`. The soft edge was the intent
+ * everywhere in this table except the light half of this one line.
+ *
+ * Now `-600/50`, which lands the current step at 2.25:1 — still half again the
+ * weight of the completed step's neutral edge, and still carrying the shadow,
+ * the scale and the deeper padding that also mark it. Kept at `-600` rather
+ * than `-500` because the hue has to read on white.
+ */
 const THEMES: Record<string, any> = {
   blue: {
-    activeBorder: 'border-blue-500/30 light:border-blue-600',
+    activeBorder: 'border-blue-500/30 light:border-blue-600/50',
     activeShadow: 'shadow-blue-900/10',
     selectedBorder: 'border-blue-500/20',
     nodeSelected:
@@ -178,7 +197,7 @@ const THEMES: Record<string, any> = {
       'bg-blue-500/10 text-blue-400 light:bg-blue-100 light:text-blue-700 border-blue-500/20',
   },
   purple: {
-    activeBorder: 'border-purple-500/30 light:border-purple-600',
+    activeBorder: 'border-purple-500/30 light:border-purple-600/50',
     activeShadow: 'shadow-purple-900/10',
     selectedBorder: 'border-purple-500/20',
     nodeSelected:
@@ -187,7 +206,7 @@ const THEMES: Record<string, any> = {
       'bg-purple-500/10 text-purple-400 light:bg-purple-100 light:text-purple-700 border-purple-500/20',
   },
   teal: {
-    activeBorder: 'border-teal-500/30 light:border-teal-600',
+    activeBorder: 'border-teal-500/30 light:border-teal-600/50',
     activeShadow: 'shadow-teal-900/10',
     selectedBorder: 'border-teal-500/20',
     nodeSelected:
@@ -196,7 +215,7 @@ const THEMES: Record<string, any> = {
       'bg-teal-500/10 text-teal-400 light:bg-teal-100 light:text-teal-700 border-teal-500/20',
   },
   pink: {
-    activeBorder: 'border-pink-500/30 light:border-pink-600',
+    activeBorder: 'border-pink-500/30 light:border-pink-600/50',
     activeShadow: 'shadow-pink-900/10',
     selectedBorder: 'border-pink-500/20',
     nodeSelected:
@@ -205,7 +224,7 @@ const THEMES: Record<string, any> = {
       'bg-pink-500/10 text-pink-400 light:bg-pink-100 light:text-pink-700 border-pink-500/20',
   },
   amber: {
-    activeBorder: 'border-amber-500/30 light:border-amber-600',
+    activeBorder: 'border-amber-500/30 light:border-amber-600/50',
     activeShadow: 'shadow-amber-900/10',
     selectedBorder: 'border-amber-500/20',
     nodeSelected:
@@ -214,7 +233,7 @@ const THEMES: Record<string, any> = {
       'bg-amber-500/10 text-amber-400 light:bg-amber-100 light:text-amber-700 border-amber-500/20',
   },
   green: {
-    activeBorder: 'border-emerald-500/30 light:border-emerald-600',
+    activeBorder: 'border-emerald-500/30 light:border-emerald-600/50',
     activeShadow: 'shadow-emerald-900/10',
     selectedBorder: 'border-emerald-500/20',
     nodeSelected:
