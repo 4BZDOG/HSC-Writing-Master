@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CommandTermInfo } from '../types';
 import { X, Info, Award, Target, Hash, Zap, ChevronRight } from 'lucide-react';
-import { getTierBandConfig } from '../utils/renderUtils';
+import { getBandRgb, getTierBandConfig } from '../utils/renderUtils';
 import { getTierTargetBand } from '../data/commandTerms';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -21,6 +21,9 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
 }) => {
   // Colour by the verb's target band so the guide matches the prompt/writing area.
   const bandConfig = getTierBandConfig(termInfo.tier);
+  // The band `bandConfig` resolves to, named once so the edge colour and the
+  // config cannot come from two different bands.
+  const bandTarget = getTierTargetBand(termInfo.tier);
 
   // Shared hook rather than a private listener, so this guide also registers
   // itself as an open overlay and Escape dismisses it without also exiting
@@ -56,9 +59,13 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
       aria-labelledby="command-term-title"
     >
       <div
+        // `--band-rgb` once, here: custom properties inherit, so every
+        // `band-edge` below draws from this without the colour being handed
+        // down by hand.
+        style={{ '--band-rgb': getBandRgb(bandTarget) } as React.CSSProperties}
         className={`
         clip-stable w-full max-w-3xl rounded-2xl shadow-lg
-        border-2 ${bandConfig.border} ${bandConfig.glow}
+        border-2 band-edge-strong ${bandConfig.glow}
         bg-[rgb(var(--color-bg-surface))]/95
         animate-fade-in-up
         overflow-hidden flex flex-col max-h-[90vh]
@@ -68,7 +75,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
         {/* Hero Header - Matching PromptGeneratorModal Style */}
         <div
           className={`
-          px-6 py-5 border-b-2 ${bandConfig.border}
+          px-6 py-5 border-b-2 band-edge
           bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0
         `}
         >
@@ -112,7 +119,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
           {/* Definition */}
           <div
             className={`
-            p-5 rounded-xl border-2 ${bandConfig.border}
+            p-5 rounded-xl border-2 band-edge
             bg-[rgb(var(--color-bg-surface-inset))]/30
             transition-all duration-200 hover:shadow-lg ${bandConfig.glow}
           `}
@@ -132,12 +139,12 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div
               className={`
-              p-4 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/50
+              p-4 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50
               text-center transition-all duration-200
             `}
             >
               <div
-                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border ${bandConfig.border}`}
+                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border band-edge`}
               >
                 <Target className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
@@ -147,12 +154,12 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
 
             <div
               className={`
-              p-4 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/50
+              p-4 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50
               text-center transition-all duration-200
             `}
             >
               <div
-                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border ${bandConfig.border}`}
+                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border band-edge`}
               >
                 <Hash className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
@@ -164,26 +171,24 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
 
             <div
               className={`
-              p-4 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/50
+              p-4 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/50
               text-center transition-all duration-200
             `}
             >
               <div
-                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border ${bandConfig.border}`}
+                className={`w-10 h-10 mx-auto mb-2 rounded-full flex items-center justify-center ${bandConfig.iconBg} border band-edge`}
               >
                 <Award className={`w-5 h-5 ${bandConfig.text}`} />
               </div>
               <p className="t-label text-[rgb(var(--color-text-muted))] mb-1">Band Ceiling</p>
-              <p className={`font-black text-2xl ${bandConfig.text}`}>
-                Band {getTierTargetBand(termInfo.tier)}
-              </p>
+              <p className={`font-black text-2xl ${bandConfig.text}`}>Band {bandTarget}</p>
             </div>
           </div>
 
           {/* Band Discrimination */}
           <div
             className={`
-            p-5 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/30
+            p-5 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/30
           `}
           >
             <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
@@ -198,7 +203,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
           {/* Generic Marking Guide */}
           <div
             className={`
-            p-5 rounded-xl border ${bandConfig.border} bg-[rgb(var(--color-bg-surface-inset))]/30
+            p-5 rounded-xl border band-edge bg-[rgb(var(--color-bg-surface-inset))]/30
           `}
           >
             <h3 className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))] mb-3">
