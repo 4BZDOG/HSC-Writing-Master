@@ -257,15 +257,24 @@ export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] da
  *  the call site — the same way the spectrum's leading edge takes its glow, so
  *  the band palette stays the single source of the colour.
  *
- *  `tier-lift-current` and not `scale-105`: `transform` is one property and
- *  `.clip-stable` on this card already claims it. See the class in
- *  `index.css` for the measurement and why the utility never worked.
+ *  `tier-lift-current` and not a `scale-*` utility: `transform` is one property
+ *  and `.clip-stable` on this card already claims it, so the utility would
+ *  silently lose. The class holds the composed transform — and, since the
+ *  measurement below, holds it at scale 1: a 5% lift overhung 6.5px each side
+ *  and took the selected card's adjacent gaps to 9.5px against the row's 16px.
+ *  See `index.css` for that, and for why the class stays rather than being
+ *  deleted.
  *
  *  `border-2` here, 1px on the cards that are not current. That is the reverse
  *  of what shipped: `border-2` used to live on the five OTHER cards, so the
  *  selected card was the thin one and its header sat 1px higher than every
  *  other header in the row. Weight now marks the selection instead of
  *  contradicting it.
+ *
+ *  With the scale gone, the ring and the glow are the whole of the emphasis,
+ *  which is what makes them worth drawing as a `box-shadow`: it paints outside
+ *  the border box without displacing a single neighbour, so the row stays on
+ *  one line.
  *
  *  It no longer carries `ring-4 ring-slate-900/10 dark:ring-white/5` or a 40px
  *  black drop shadow. The ring said "selected" without saying which tier — on
