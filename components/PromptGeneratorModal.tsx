@@ -323,7 +323,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <span className="t-label text-indigo-400 mt-1 block">AI Assistant</span>
               </div>
             </div>
-            <div className="t-label flex flex-wrap items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 ml-1 opacity-60">
+            <div className="t-label flex flex-wrap items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 ml-1">
               <span>{courseName}</span>
               <ChevronRight className="w-3 h-3 opacity-30" />
               <span>{topicName}</span>
@@ -459,7 +459,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     >
                       {marks}
                     </span>
-                    <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 ml-2 italic opacity-40">
+                    <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 ml-2 italic">
                       Value
                     </span>
                   </div>

@@ -210,7 +210,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                     <Target className={`w-3 h-3 ${tierConfig.text}`} />
                   </span>
                   <span className={`t-label ${tierConfig.text}`}>{outcome.code}</span>
-                  <span className="t-label ml-auto flex items-center gap-1.5 text-slate-500 dark:text-slate-400 opacity-70 group-hover/outcome-row:opacity-100 transition-opacity">
+                  <span className="t-label ml-auto flex items-center gap-1.5 text-slate-600 dark:text-slate-400 group-hover/outcome-row:text-slate-900 dark:group-hover/outcome-row:text-white transition-colors">
                     <Sparkles className="w-3 h-3" />
                     Explain for this question
                     {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
