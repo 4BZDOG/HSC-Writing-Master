@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
-import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
+import { renderFormattedText, getBandConfig, getBandRgb } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
 import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { formatMarkingCriteria } from '../utils/dataManagerUtils';
@@ -342,10 +342,19 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   // local override here.
                   <div
                     key={idx}
-                    className={`flex items-stretch rounded-xl border ${itemConfig.border} ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}
+                    // `band-edge` in place of the token, here and on the mark
+                    // column's divider. Same reason as the Grade Standards
+                    // ladder this panel sits beside: a saturated outline drawn
+                    // around this band's own pale wash, once for the row and
+                    // again for the internal seam, so a criteria list read as
+                    // a stack of hard-edged boxes rather than a ladder. The
+                    // comment above records the fill being fixed at source;
+                    // this is the other half of the same row.
+                    style={{ '--band-rgb': getBandRgb(item.band) } as React.CSSProperties}
+                    className={`flex items-stretch rounded-xl border band-edge ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}
                   >
                     <div
-                      className={`w-14 flex flex-col items-center justify-center p-2 border-r ${itemConfig.border} ${itemConfig.bg} flex-shrink-0`}
+                      className={`w-14 flex flex-col items-center justify-center p-2 border-r band-edge ${itemConfig.bg} flex-shrink-0`}
                     >
                       <span className={`text-lg font-bold ${itemConfig.text} leading-none`}>
                         {item.markLabel}

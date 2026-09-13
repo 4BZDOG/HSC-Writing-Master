@@ -180,10 +180,21 @@ describe('the accordion renders a row per mark level', () => {
     expect(rows).toHaveLength(3);
     for (const row of rows) {
       // A dark wash AND a light one — a row with only the dark class is the
-      // state that made the guide colourless in light mode.
+      // state that made the guide colourless in light mode. This pair is the
+      // regression this test exists for and it is unchanged.
       expect(row.className).toMatch(/bg-\w+-500\/10/);
       expect(row.className).toMatch(/light:bg-\w+-100/);
-      expect(row.className).toMatch(/border-\w+-500\/50/);
+
+      // The edge is band-derived too, but no longer the raw `-500/50` token.
+      // Drawn at full saturation around this row's own pale wash it was the
+      // loudest thing on the row — six times over, plus again on the mark
+      // column's divider — so a criteria list read as a stack of hard-edged
+      // boxes rather than a ladder. `band-edge` takes 35% of the same hue from
+      // `--band-rgb`, which is the band palette by another route rather than a
+      // neutral: the point of the original assertion was that the row is
+      // COLOURED BY ITS BAND in both themes, and it still is.
+      expect(row.className).toContain('band-edge');
+      expect((row as HTMLElement).style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
     }
   });
 });

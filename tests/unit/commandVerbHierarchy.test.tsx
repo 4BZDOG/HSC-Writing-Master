@@ -174,20 +174,20 @@ describe('CommandVerbHierarchy', () => {
     // Every card carries its own band colour, and none carries a literal: the
     // property is derived from BAND_HEX, which stays the only copy.
     for (const card of cards) {
-      expect(card.style.getPropertyValue('--tier-rgb')).toMatch(/^\d+ \d+ \d+$/);
+      expect(card.style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
     }
-    expect(new Set(cards.map((c) => c.style.getPropertyValue('--tier-rgb'))).size).toBe(6);
+    expect(new Set(cards.map((c) => c.style.getPropertyValue('--band-rgb'))).size).toBe(6);
 
-    const current = cards.filter((c) => c.className.includes('tier-edge-current'));
-    const rest = cards.filter((c) => !c.className.includes('tier-edge-current'));
+    const current = cards.filter((c) => c.className.includes('band-edge-strong'));
+    const rest = cards.filter((c) => !c.className.includes('band-edge-strong'));
     expect(current).toHaveLength(1);
     expect(rest).toHaveLength(5);
-    for (const c of rest) expect(c.className).toContain('tier-edge');
+    for (const c of rest) expect(c.className).toContain('band-edge');
 
     // The selected card's emphasis paints OUTSIDE its border box — a ring and
     // a glow — so it can be the strongest thing in the row without moving a
     // neighbour. That is the whole reason the scale was dropped.
-    expect(current[0].style.boxShadow).toContain('var(--tier-rgb)');
+    expect(current[0].style.boxShadow).toContain('var(--band-rgb)');
     for (const c of rest) expect(c.style.boxShadow).toBe('');
   });
 

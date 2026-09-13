@@ -4,7 +4,7 @@ import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } from 'lucide-react';
-import { getBandConfig, getTierScaleConfig } from '../utils/renderUtils';
+import { getBandConfig, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { canCurateContent } from '../utils/permissions';
 import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
@@ -339,11 +339,23 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                 return (
                   <div
                     key={descriptor.band}
-                    className={`relative rounded-2xl border ${bConfig.bg} ${bConfig.border} p-4 shadow-sm group/descriptor transition-all hover:shadow-lg`}
+                    // `band-edge` rather than `bConfig.border`, and the same
+                    // on the icon tile inside it. Six descriptors is a LADDER,
+                    // and the token draws a fully saturated outline — solid
+                    // `-600` in the light theme — around this band's own `-100`
+                    // wash. Rendered, that made the outline the loudest thing
+                    // on a row whose whole content is a pale tint, six times
+                    // over, with a second saturated edge on every icon tile.
+                    // The edge closes the shape; the fill, the eyebrow and the
+                    // award glyph are what say which band it is. Softened to
+                    // 35% of the same hue, from the same `--band-rgb` the verb
+                    // ribbon's strip uses.
+                    style={{ '--band-rgb': getBandRgb(descriptor.band) } as React.CSSProperties}
+                    className={`relative rounded-2xl border band-edge ${bConfig.bg} p-4 shadow-sm group/descriptor transition-all hover:shadow-lg`}
                   >
                     <div className="flex gap-4 items-start">
                       <div
-                        className={`p-2 rounded-xl ${bConfig.iconBg} border ${bConfig.border} shadow-inner`}
+                        className={`p-2 rounded-xl ${bConfig.iconBg} border band-edge shadow-inner`}
                       >
                         <Award className={`w-4 h-4 ${bConfig.text} shrink-0`} />
                       </div>

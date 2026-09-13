@@ -611,19 +611,19 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       // neither moves a neighbour.
                       style={
                         {
-                          '--tier-rgb': getBandRgb(group.tier),
+                          '--band-rgb': getBandRgb(group.tier),
                           ...(isCurrentTier
                             ? {
                                 boxShadow:
-                                  '0 0 0 4px rgb(var(--tier-rgb) / 0.18), ' +
-                                  '0 24px 48px -16px rgb(var(--tier-rgb) / 0.4)',
+                                  '0 0 0 4px rgb(var(--band-rgb) / 0.18), ' +
+                                  '0 24px 48px -16px rgb(var(--band-rgb) / 0.4)',
                               }
                             : {}),
                         } as React.CSSProperties
                       }
                       className={`
                       ${RIBBON_TIER_CARD}
-                      ${isCurrentTier ? 'tier-edge-current' : 'tier-edge'}
+                      ${isCurrentTier ? 'band-edge-strong' : 'band-edge'}
                       ${isCurrentTier ? `${tierConfig.bg} light:bg-white` : RIBBON_TIER_CARD_IDLE}
                       ${cardStyle}
                     `}
