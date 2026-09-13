@@ -11,7 +11,7 @@ import {
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { X, RefreshCw, Info } from 'lucide-react';
-import { getBandConfig } from '../utils/renderUtils';
+import { getBandConfig, getBandRgb } from '../utils/renderUtils';
 import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -116,9 +116,15 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
       onClick={handleClose}
     >
       <div
+        // The band colour once, inheriting to the seam below. Same split the
+        // generator modal took: the SHELL keeps the statement, the internal
+        // seam drops to the quiet strength — two saturated 2px lines within
+        // 90px of each other is the band spent twice on structure, and the
+        // second one lands on this band's own pale wash.
+        style={{ '--band-rgb': getBandRgb(sampleToRevise.band) } as React.CSSProperties}
         className={`
           bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
-          w-full max-w-4xl border-2 ${bandConfig.border}
+          w-full max-w-4xl border-2 band-edge-strong
           clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
         onClick={(e) => e.stopPropagation()}
@@ -126,7 +132,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         {/* Header */}
         <div
           className={`
-            px-6 py-5 border-b-2 ${bandConfig.border}
+            px-6 py-5 border-b-2 band-edge
             ${bandConfig.bg}
           `}
         >
