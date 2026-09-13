@@ -433,6 +433,22 @@ export const BAND_NAMES: Record<number, string> = {
 
 const clampBand = (band: number): number => Math.max(1, Math.min(6, Math.round(band)));
 export const getBandHex = (band: number): string => BAND_HEX[clampBand(band)];
+
+/**
+ * The same colour as `getBandHex`, as a space-separated `r g b` triplet.
+ *
+ * For the one thing a hex cannot do: be used at several alphas from CSS. The
+ * project already writes every themed colour this way — `rgb(var(--color-bg-
+ * surface))` — so a band handed to CSS as a custom property can be drawn at
+ * 35% for one state and 85% for another without the caller knowing either
+ * number, and without a second copy of the palette existing to be drifted
+ * from. Derived from `BAND_HEX`, which stays the only place these six values
+ * are written down. */
+export const getBandRgb = (band: number): string => {
+  const hex = BAND_HEX[clampBand(band)];
+  const n = parseInt(hex.slice(1), 16);
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+};
 export const getBandHexDark = (band: number): string => BAND_HEX_DARK[clampBand(band)];
 export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
 

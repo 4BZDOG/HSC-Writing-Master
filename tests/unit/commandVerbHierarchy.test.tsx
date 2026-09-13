@@ -155,6 +155,42 @@ describe('CommandVerbHierarchy', () => {
     expect(panel!.contains(screen.getByRole('button', { name: 'IDENTIFY' }))).toBe(true);
   });
 
+  /**
+   * The tier's colour reaches a card once, as a custom property, and the
+   * border draws itself from it at two strengths.
+   *
+   * The fault this pins is a row where the selected card differed from the
+   * other five only in border WIDTH: same hue, same alpha, 2px against 1px.
+   * Rendered, that put a fully saturated outline around every idle card — in
+   * the light theme, around a `-100` pastel header wash, which is the loudest
+   * possible statement of a tier on the one card not making it. Intensity has
+   * to carry the selection or width is doing a job it is too small to do.
+   */
+  it('draws the tier edge at two strengths, from one colour per card', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
+    const cards = Array.from(container.querySelectorAll('[class*="snap-center"]')) as HTMLElement[];
+    expect(cards).toHaveLength(6);
+
+    // Every card carries its own band colour, and none carries a literal: the
+    // property is derived from BAND_HEX, which stays the only copy.
+    for (const card of cards) {
+      expect(card.style.getPropertyValue('--tier-rgb')).toMatch(/^\d+ \d+ \d+$/);
+    }
+    expect(new Set(cards.map((c) => c.style.getPropertyValue('--tier-rgb'))).size).toBe(6);
+
+    const current = cards.filter((c) => c.className.includes('tier-edge-current'));
+    const rest = cards.filter((c) => !c.className.includes('tier-edge-current'));
+    expect(current).toHaveLength(1);
+    expect(rest).toHaveLength(5);
+    for (const c of rest) expect(c.className).toContain('tier-edge');
+
+    // The selected card's emphasis paints OUTSIDE its border box — a ring and
+    // a glow — so it can be the strongest thing in the row without moving a
+    // neighbour. That is the whole reason the scale was dropped.
+    expect(current[0].style.boxShadow).toContain('var(--tier-rgb)');
+    for (const c of rest) expect(c.style.boxShadow).toBe('');
+  });
+
   it('lets a keyboard user select a tier from the card header', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const header = screen.getByRole('button', { name: /Band 1 ceiling Remember & List/i });
