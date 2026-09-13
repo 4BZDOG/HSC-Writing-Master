@@ -34,27 +34,60 @@ import { join, relative, resolve } from 'node:path';
 const TEXT_COLOUR =
   /(?:^|[\s'"`{])(?:light:|dark:)?text-(?:slate|gray|zinc|neutral|stone|white|black|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-?/;
 
-/** A real opacity utility — `opacity-0` and `opacity-100` are on/off rather
- *  than dimming, and the arbitrary form is caught by the bracket. */
-const OPACITY = /(?:^|[\s'"`{])opacity-(?:[1-9]0|[1-9]5|\[)/;
+/**
+ * An opacity utility that actually dims something.
+ *
+ * `opacity-0` and `opacity-100` are a visibility toggle, not a dimming — a
+ * chevron that appears only when a row has children is either drawn or it is
+ * not, and neither state is hard to read. The first version of this check
+ * matched `opacity-100` by accident (`[1-9]0` matches the "10" inside it) and
+ * flagged exactly that case in `SelectionTree`, which is how the distinction
+ * got noticed. An arbitrary value is assumed to dim, because it usually does.
+ */
+const OPACITY_TOKEN = /(?:^|[\s'"`{])opacity-(\[[^\]]+\]|\d+)/g;
+
+const dimsSomething = (line: string): boolean => {
+  for (const m of line.matchAll(OPACITY_TOKEN)) {
+    const value = m[1];
+    if (value.startsWith('[')) return true;
+    const n = Number(value);
+    if (n !== 0 && n !== 100) return true;
+  }
+  return false;
+};
 
 /**
- * Sites carrying both, as of the pass that added this test. Every one is
- * unmeasured — no e2e state reaches it — which is exactly why none was deleted
- * on sight.
+ * The exceptions, each with the reason it is one.
+ *
+ * This replaced a per-file COUNT. A count records how much debt a file has and
+ * nothing about whether any of it is a defect, so it cannot tell a genuine
+ * exemption from an unexamined one — and it fails on the fix as loudly as on
+ * the regression. Matching on a snippet of the line says what is allowed and
+ * why, holds at zero everywhere else, and fails usefully when the exempted
+ * code changes: an exemption that stops matching is one nobody has re-read.
+ *
+ * All three are cases WCAG or the sweep already excludes, so none of them is
+ * debt being deferred.
  */
-const KNOWN: Record<string, number> = {
-  'components/AiErrorNotice.tsx': 1,
-  'components/ManifestImportModal.tsx': 1,
-  'components/MarkingCriteriaAccordion.tsx': 1,
-  'components/OutcomeDetailModal.tsx': 1,
-  'components/PromptGeneratorModal.tsx': 2,
-  'components/ReferenceMaterials.tsx': 1,
-  'components/SelectionTree.tsx': 1,
-  'components/SyllabusImportModal.tsx': 1,
-  'components/WorkspaceRightPanel.tsx': 1,
-  'components/admin/DatabaseDashboard.tsx': 1,
-};
+const EXEMPT: { match: string; why: string }[] = [
+  {
+    match: "cursor-not-allowed border-white/10 light:border-slate-400 opacity-50",
+    why:
+      'the evaluate button while the draft is empty — a DISABLED control, which ' +
+      'WCAG 1.4.3 exempts and `contrast.ts` already skips.',
+  },
+  {
+    match: "isSyncing ? 'opacity-50 cursor-not-allowed' : ''",
+    why: 'the force-sync button while a sync is running — disabled, as above.',
+  },
+  {
+    match: 'blur-[1.5px] opacity-70',
+    why:
+      'the locked-outcome teaser, which is `aria-hidden` and BLURRED on purpose: ' +
+      'it shows the shape of content the reader has not unlocked. Legible is the ' +
+      'one thing it must not be.',
+  },
+];
 
 const ROOT = resolve(__dirname, '../..');
 
@@ -67,8 +100,7 @@ const walk = (dir: string, out: string[] = []): string[] => {
   return out;
 };
 
-const offenders = (): { counts: Record<string, number>; lines: string[] } => {
-  const counts: Record<string, number> = {};
+const offenders = (): string[] => {
   const lines: string[] = [];
   for (const file of [...walk(join(ROOT, 'components')), ...walk(join(ROOT, 'utils'))]) {
     const rel = relative(ROOT, file);
@@ -76,49 +108,40 @@ const offenders = (): { counts: Record<string, number>; lines: string[] } => {
       .split('\n')
       .forEach((line, i) => {
         // Prose about the rule is not a breach of it — this file and the
-        // comments that explain past fixes both quote the class names.
+        // comments recording past fixes both quote the class names.
         const trimmed = line.trimStart();
         if (trimmed.startsWith('*') || trimmed.startsWith('//')) return;
-        if (!TEXT_COLOUR.test(line) || !OPACITY.test(line)) return;
-        counts[rel] = (counts[rel] ?? 0) + 1;
+        if (!TEXT_COLOUR.test(line) || !dimsSomething(line)) return;
+        if (EXEMPT.some((e) => line.includes(e.match))) return;
         lines.push(`${rel}:${i + 1}  ${line.trim().slice(0, 120)}`);
       });
   }
-  return { counts, lines };
+  return lines;
 };
 
 describe('text is de-emphasised with colour, not opacity', () => {
-  it('adds no new site where an opacity utility sits on coloured text', () => {
-    const { counts, lines } = offenders();
-
-    const added = Object.keys(counts).filter((f) => (counts[f] ?? 0) > (KNOWN[f] ?? 0));
-    const removed = Object.keys(KNOWN).filter((f) => (counts[f] ?? 0) < KNOWN[f]);
-
+  it('dims no text anywhere outside the three documented exceptions', () => {
     expect(
-      added,
-      'New text-dimming sites. DesignSpec §2 rule 3: opacity composites text ' +
-        'towards its background rather than scaling the ratio, so a dimmed ' +
-        'label fails contrast at a value that looks harmless. Use a darker ' +
-        'tone (and its dark: partner) instead.\n' +
-        lines.filter((l) => added.some((f) => l.startsWith(f))).join('\n')
-    ).toEqual([]);
-
-    expect(
-      removed,
-      'Sites were fixed — thank you. Lower their counts in KNOWN so the ' +
-        'ratchet holds at the new level:\n' +
-        removed.map((f) => `  '${f}': ${counts[f] ?? 0},`).join('\n')
+      offenders(),
+      'DesignSpec §2 rule 3: opacity composites text towards its background ' +
+        'rather than scaling the ratio, so a dimmed label fails contrast at a ' +
+        'value that looks harmless — `slate-500` reads 4.81:1 undimmed, 3.91:1 ' +
+        'under `opacity-90` and 2.66:1 under `opacity-70`. Use a darker tone and ' +
+        'its `dark:` partner instead. If the site genuinely should not be read ' +
+        '(disabled, aria-hidden, deliberately blurred), add it to EXEMPT above ' +
+        'with the reason.'
     ).toEqual([]);
   });
 
   /**
-   * The shared class vocabularies are held to the stronger form. Nothing in
-   * them dims text today, and they are where a single value reaches dozens of
-   * call sites at once — the verb ribbon's `opacity-90` was one constant and
-   * 32 buttons' worth of text.
+   * An exemption nobody can find is an exemption nobody has re-read. If the
+   * code it points at is edited or deleted, this says so rather than letting
+   * the list rot into a set of strings that exempt nothing.
    */
-  it('keeps the shared chrome vocabularies clean outright', () => {
-    const { lines } = offenders();
-    expect(lines.filter((l) => l.startsWith('utils/'))).toEqual([]);
+  it('keeps every exemption pointing at code that still exists', () => {
+    const all = [...walk(join(ROOT, 'components')), ...walk(join(ROOT, 'utils'))]
+      .map((f) => readFileSync(f, 'utf8'))
+      .join('\n');
+    expect(EXEMPT.filter((e) => !all.includes(e.match)).map((e) => e.match)).toEqual([]);
   });
 });

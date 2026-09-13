@@ -734,7 +734,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         `}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-black/20 light:bg-slate-200 flex items-center justify-center text-[10px] font-bold opacity-70 light:opacity-100 light:text-slate-500">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-black/20 light:bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-300 light:text-slate-600">
                             {index + 1}
                           </span>
                           <span className="truncate text-sm font-medium whitespace-nowrap">

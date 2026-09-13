@@ -159,7 +159,14 @@ test.describe('light theme', () => {
  * Adding a state here is the cheap half of the work; the expensive half is
  * that a new state usually arrives red.
  */
-const STATES: { name: string; reach: (page: Page) => Promise<void> }[] = [
+const STATES: {
+  name: string;
+  reach: (page: Page) => Promise<void>;
+  /** Which mock account to reach the state as. Defaults to the free tier,
+   *  which is what most of the app is used as; a curator-only surface has to
+   *  say so or its trigger is simply not in the DOM. */
+  as?: 'user' | 'admin';
+}[] = [
   {
     name: 'a draft in the editor, with the live insights panel open',
     reach: async (page) => {
@@ -179,6 +186,30 @@ const STATES: { name: string; reach: (page: Page) => Promise<void> }[] = [
       await expandNavigator(page);
     },
   },
+  {
+    // The reference rail's disclosures. "What's Assessed" holds the outcome
+    // rows, one of which dimmed its own action to `opacity-70` until the pass
+    // that added this state.
+    name: 'the reference panels open',
+    reach: async (page) => {
+      await openPanel(page, /what's assessed/i);
+      await openPanel(page, /syllabus terms/i);
+    },
+  },
+  // NOT here, though it should be: the question generator modal, which holds
+  // two of the sites this pass fixed and is the only unvisited MODAL among
+  // them. Reaching it is circular. Its trigger renders only when a prompt is
+  // selected AND the navigator is unfolded — but unfolding the navigator drops
+  // the sub-topic back to unselected, and re-selecting a question folds the
+  // navigator again and takes the trigger with it. Two attempts timed out
+  // clicking a button that was never in the DOM (the second as `admin`, since
+  // generation is gated on `canUseAiGeneration` — that part was a real gate
+  // and the `as` field above exists because of it).
+  //
+  // Left out rather than left flaky. Those two sites are covered by
+  // `tests/unit/textDimming.test.ts`, which is pattern-matching rather than
+  // measurement — worth remembering when the next reading in there is close to
+  // the floor.
 ];
 
 test.describe('light theme, past the first screen', () => {
@@ -189,7 +220,7 @@ test.describe('light theme, past the first screen', () => {
   for (const state of STATES) {
     test(`every reading surface meets AA with ${state.name}`, async ({ page }) => {
       await page.setViewportSize(WIDE);
-      await signIn(page);
+      await signIn(page, state.as ?? 'user');
       await clearOnboarding(page);
       await openFirstQuestion(page);
       await state.reach(page);

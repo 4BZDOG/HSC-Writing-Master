@@ -102,10 +102,18 @@ The exemption is anything that is not read: a decorative wash, a mesh overlay,
 a gradient scrim, an icon that repeats an adjacent label. Opacity on those is
 fine and common. The rule is about text.
 
-`tests/unit/textDimming.test.ts` enforces it on the shared chrome vocabularies,
-and `tests/e2e/light-theme.spec.ts` catches it anywhere the sweep can reach —
-but the sweep only sees states it is driven into, so the rule is the primary
-defence and the tests are the backstop.
+`tests/unit/textDimming.test.ts` holds this at zero across `components/` and
+`utils/`, with three named exemptions that each carry their reason: two
+disabled controls, which WCAG 1.4.3 exempts, and one deliberately blurred
+`aria-hidden` teaser. It shipped as a per-file count over eleven recorded
+sites; the count was replaced once those were read, because a number records
+how much debt a file carries and nothing about whether any of it is a defect —
+and it failed on the fix as loudly as on the regression.
+
+`tests/e2e/light-theme.spec.ts` is the other half, and the better one: it
+MEASURES rather than pattern-matches. It only sees states it is driven into,
+though, so the two are complementary — the sweep proves a ratio, the unit test
+covers everywhere the sweep has not reached yet.
 
 **Which variant to write in new code.** Light is the base and `dark:` carries
 the override — `bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70` — as in

@@ -512,8 +512,27 @@ a:focus-visible,
  *
  * Two classes rather than one with a modifier, because a hovered CURRENT card
  * must not pick up the idle hover: `.tier-lift:hover` at (0,2,0) would beat
- * `.tier-lift-current` at (0,1,0) and shrink the selected card from 1.05 to
- * 1.02. Only one of the two is ever on a card.
+ * `.tier-lift-current` at (0,1,0). Only one of the two is ever on a card.
+ *
+ * THE CURRENT CARD DOES NOT SCALE, and that is the point of it having a class
+ * of its own now. It was `scale(1.05)` for exactly one release, and measuring
+ * the result is what settled it: a 5% scale on a 260px card overhangs 6.5px
+ * each side, so the selected card's two adjacent gaps read 9.5px against the
+ * row's 16px and its top sat 7.84px above its neighbours. That is the same
+ * ragged-row artefact the strip was being fixed for — smaller, and deliberate,
+ * but the same shape — and it cannot be tuned away: any horizontal scale eats
+ * the gap it grows into, and reserving the space in layout would shift the
+ * whole row every time the selection moved.
+ *
+ * So the emphasis is carried by things that cost no geometry: a 2px tier
+ * border against the others' 1px, and the tier-hued ring and glow drawn as a
+ * `box-shadow`, which paints outside the box without displacing anything. All
+ * six cards now sit on one y with 16px between every pair, selected or not.
+ *
+ * The hover keeps its 1.02. It is transient, self-explanatory while the cursor
+ * is on the card, and 2.6px a side is under the eye's threshold for a row this
+ * wide — where the selected card's offset was permanent and had to be read
+ * against five neighbours at once.
  */
 .tier-lift {
   transform: translateZ(0) scale(1);
@@ -522,7 +541,7 @@ a:focus-visible,
   transform: translateZ(0) scale(1.02);
 }
 .tier-lift-current {
-  transform: translateZ(0) scale(1.05);
+  transform: translateZ(0) scale(1);
 }
 
 /*

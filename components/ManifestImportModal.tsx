@@ -202,7 +202,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-3 mb-2">
-                <span className="t-label text-indigo-400 opacity-80 whitespace-nowrap">
+                <span className="t-label text-indigo-300 light:text-indigo-700 whitespace-nowrap">
                   Content Library
                 </span>
                 <div className="h-px w-8 bg-indigo-500/30" />
