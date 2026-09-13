@@ -11,6 +11,7 @@ import {
   extractCommandVerb,
   commandTermsList,
   getCommandTermInfo,
+  getTierTargetBand,
 } from '../data/commandTerms';
 import {
   X,
@@ -36,6 +37,7 @@ import {
 } from 'lucide-react';
 import {
   getBandConfig,
+  getBandRgb,
   getTierBandConfig,
   getTierScaleConfig,
   escapeRegExp,
@@ -651,7 +653,15 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               </section>
 
               <section
-                className={`p-6 rounded-panel border transition-all duration-700 ${activeBandConfig.bg} ${activeBandConfig.border} shadow-lg`}
+                // The one saturated outline in an otherwise neutral modal,
+                // and it was drawn around this band's own pale wash. The
+                // chip inside it keeps its edge and becomes the accent.
+                style={
+                  {
+                    '--band-rgb': getBandRgb(getTierTargetBand(selectedTier)),
+                  } as React.CSSProperties
+                }
+                className={`p-6 rounded-panel border band-edge transition-all duration-700 ${activeBandConfig.bg} shadow-lg`}
               >
                 <div className="flex justify-between items-center mb-6">
                   <label className={`t-label flex items-center gap-3 ${activeBandConfig.text}`}>
