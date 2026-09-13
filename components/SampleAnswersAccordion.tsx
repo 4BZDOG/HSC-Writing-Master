@@ -4,6 +4,7 @@ import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import {
   renderFormattedText,
   getBandConfig,
+  getBandRgb,
   getTierScaleConfig,
   cleanMarkdown,
 } from '../utils/renderUtils';
@@ -364,7 +365,17 @@ const CarouselAccordionItem: React.FC<{
                 />
               )}
               <div
-                className={`relative rounded-2xl bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))] border ${bandConfig.border} overflow-hidden shadow-inner ${isSampleAnswerLocked(displayBand) ? 'blur-sm select-none pointer-events-none' : ''}`}
+                // The exemplar's own container, and the fourth place this band
+                // is stated inside one strip: the 56px mark tile says it, the
+                // strip's wash says it, the left rail says it, and then a
+                // fully opaque `orange-600` rectangle — 719x286 of it, measured
+                // — is drawn around the prose. Nothing about the answer itself
+                // is orange, so the loudest line in the panel belonged to the
+                // one part of it with no band content. `band-edge` keeps the
+                // container closed and lets the three cues that ARE about the
+                // band carry it.
+                style={{ '--band-rgb': getBandRgb(displayBand) } as React.CSSProperties}
+                className={`relative rounded-2xl bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))] border band-edge overflow-hidden shadow-inner ${isSampleAnswerLocked(displayBand) ? 'blur-sm select-none pointer-events-none' : ''}`}
               >
                 {/* Which exemplar, of the several at this mark.
                     The arrows in the header can step through them, but they
