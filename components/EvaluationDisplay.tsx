@@ -11,6 +11,7 @@ import {
   getBandConfig,
   getBandHex,
   getBandName,
+  getBandRgb,
   renderFormattedText,
   stripHtmlTags,
   textContainsKeyword,
@@ -1017,7 +1018,19 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           sees is the locked state below: no exemplar text, one clear CTA. */}
           {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
             <section
-              className={`clip-stable relative rounded-panel border ${exemplarConfig.border} overflow-hidden shadow-lg transition-all duration-500 group mt-4`}
+              // The only saturated edge in this modal — measured, the rest of
+              // the report is neutral cards on soft grey. `exemplarConfig.border`
+              // drew it fully opaque in the light theme (`orange-600`, alpha 1
+              // against the dark theme's 0.5), which put a harder line around
+              // the rewrite than anything else on the page and, being a stop
+              // darker than this section's own header gradient, read as an
+              // outline bolted to the header rather than as one object. Same
+              // treatment as the exemplar container in the sample answers
+              // panel, which is the same content in a different frame: the
+              // header, the fill wash and the "+1 Mark" chip say which band
+              // this is, so the edge only has to close the shape.
+              style={{ '--band-rgb': getBandRgb(exemplarBand) } as React.CSSProperties}
+              className={`clip-stable relative rounded-panel border band-edge overflow-hidden shadow-lg transition-all duration-500 group mt-4`}
             >
               <div
                 className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}
