@@ -84,6 +84,7 @@ just soften it has come back:
 | the same text under `opacity-70` | 2.66:1 |
 | `slate-500 opacity-80` on the insights panel | 3.22:1 |
 | `slate-500 opacity-60` on the editor's spent-strategy row | 2.30:1 |
+| the exemplar caption's band tone, undimmed / under `opacity-80` | 9.37:1 / 5.62:1 |
 
 An `opacity` on an ancestor is the same fault at a distance and is harder to
 see: it reaches every reading inside that subtree, including 32 buttons' worth
@@ -103,12 +104,19 @@ a gradient scrim, an icon that repeats an adjacent label. Opacity on those is
 fine and common. The rule is about text.
 
 `tests/unit/textDimming.test.ts` holds this at zero across `components/` and
-`utils/`, with three named exemptions that each carry their reason: two
-disabled controls, which WCAG 1.4.3 exempts, and one deliberately blurred
-`aria-hidden` teaser. It shipped as a per-file count over eleven recorded
-sites; the count was replaced once those were read, because a number records
-how much debt a file carries and nothing about whether any of it is a defect —
-and it failed on the fix as loudly as on the regression.
+`utils/`, with four named exemptions that each carry their reason: two disabled
+controls, which WCAG 1.4.3 exempts, one deliberately blurred `aria-hidden`
+teaser, and one decorative glyph. It shipped as a per-file count over eleven
+recorded sites; the count was replaced once those were read, because a number
+records how much debt a file carries and nothing about whether any of it is a
+defect — and it failed on the fix as loudly as on the regression.
+
+It also matches the band palette, not just spelled-out Tailwind tones. A colour
+that arrives as `${bandConfig.text}` puts no `text-purple-300` in the source for
+a pattern to find, so four band-coloured lines carried an `opacity` the check
+never looked at while it reported a clean sweep — the worst thing a guard can
+do. The last of them was `opacity-60` stacked on `animate-pulse`, which is
+itself an opacity animation.
 
 `tests/e2e/light-theme.spec.ts` is the other half, and the better one: it
 MEASURES rather than pattern-matches. It only sees states it is driven into,

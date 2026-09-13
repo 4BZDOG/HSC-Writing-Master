@@ -724,7 +724,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             >
               Sample Answers
             </span>
-            <span className={`t-label block truncate opacity-80 ${maxBandConfig.text}`}>
+            <span className={`t-label block truncate ${maxBandConfig.text}`}>
               {/* The exemplar TOTAL, not just the level count. Eleven models
                   spread over three levels and three models over three levels
                   are very different things to walk into, and the folded card

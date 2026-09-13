@@ -30,9 +30,28 @@ import { join, relative, resolve } from 'node:path';
  * DOWN is the good kind, and the right response is to record the win.
  */
 
-/** Where a text colour is being set. */
+/** Where a text colour is being set, spelled out. */
 const TEXT_COLOUR =
   /(?:^|[\s'"`{])(?:light:|dark:)?text-(?:slate|gray|zinc|neutral|stone|white|black|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-?/;
+
+/**
+ * Where a text colour arrives through the band palette instead.
+ *
+ * The literal pattern above cannot see `${bandConfig.text}` — there is no
+ * `text-purple-300` in the source to match, only an interpolation — so the
+ * check held at zero while four band-coloured lines carried an `opacity` it
+ * never looked at. `OutcomeDetailModal`'s "Analysing context…" was the clearest
+ * of them: `opacity-60` on top of `animate-pulse`, which is itself an opacity
+ * animation, so the caption spent part of every cycle at well under half
+ * strength. A hole in the check is worse than no check, because it reads as a
+ * clean sweep.
+ *
+ * `.text` and `.solidText` are the two colour fields on `BandConfig`. An
+ * interpolation is assumed to be setting a text colour when it names one of
+ * them, which also catches the odd Lucide glyph painted from the same field —
+ * see EXEMPT below for the one of those that is deliberate.
+ */
+const BAND_TEXT_COLOUR = /\$\{[^}]*\.(?:text|solidText)\b[^}]*\}/;
 
 /**
  * An opacity utility that actually dims something.
@@ -66,7 +85,7 @@ const dimsSomething = (line: string): boolean => {
  * why, holds at zero everywhere else, and fails usefully when the exempted
  * code changes: an exemption that stops matching is one nobody has re-read.
  *
- * All three are cases WCAG or the sweep already excludes, so none of them is
+ * All four are cases WCAG or the sweep already excludes, so none of them is
  * debt being deferred.
  */
 const EXEMPT: { match: string; why: string }[] = [
@@ -79,6 +98,14 @@ const EXEMPT: { match: string; why: string }[] = [
   {
     match: "isSyncing ? 'opacity-50 cursor-not-allowed' : ''",
     why: 'the force-sync button while a sync is running — disabled, as above.',
+  },
+  {
+    match: 'w-8 h-8 ${exemplarConfig.text} opacity-60',
+    why:
+      'a decorative Lucide glyph rather than text — it is the bolt above the ' +
+      '"your answer, rewritten one mark higher" pitch, and the sentence under ' +
+      'it carries the whole meaning. Caught only because the band palette ' +
+      'paints icons from the same `.text` field it paints prose from.',
   },
   {
     match: 'blur-[1.5px] opacity-70',
@@ -111,7 +138,8 @@ const offenders = (): string[] => {
         // comments recording past fixes both quote the class names.
         const trimmed = line.trimStart();
         if (trimmed.startsWith('*') || trimmed.startsWith('//')) return;
-        if (!TEXT_COLOUR.test(line) || !dimsSomething(line)) return;
+        if (!TEXT_COLOUR.test(line) && !BAND_TEXT_COLOUR.test(line)) return;
+        if (!dimsSomething(line)) return;
         if (EXEMPT.some((e) => line.includes(e.match))) return;
         lines.push(`${rel}:${i + 1}  ${line.trim().slice(0, 120)}`);
       });

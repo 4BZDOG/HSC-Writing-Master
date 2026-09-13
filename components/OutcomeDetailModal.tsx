@@ -411,9 +411,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               ) : state.status === 'loading' || state.status === 'idle' ? (
                 <div className="flex flex-col items-center justify-center h-28 gap-2.5">
                   <Loader2 className={`w-6 h-6 animate-spin ${bandConfig.text}`} />
-                  <p className={`t-label ${bandConfig.text} opacity-60 animate-pulse`}>
-                    Analysing context...
-                  </p>
+                  <p className={`t-label ${bandConfig.text} animate-pulse`}>Analysing context...</p>
                 </div>
               ) : state.status === 'error' ? (
                 <div className="bg-red-500/10 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200 flex items-start gap-2.5">
