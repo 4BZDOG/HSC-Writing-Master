@@ -106,6 +106,40 @@ jobs:
           path: dist/
           retention-days: 5
 
+      # The same two guards again, against the OTHER artefact this repo ships.
+      #
+      # Both read paths out of `dist/index.html`, and Vite prefixes every path
+      # it emits with the deploy base — `/` on Vercel, `/<repo>/` on Pages. A
+      # guard that mishandles that prefix therefore passes every PR and fails
+      # only in the deploy, where nobody is looking until the deploy goes red.
+      #
+      # Which is exactly what happened: `checkEagerChunks.mjs` shipped
+      # resolving hrefs against the root, so it looked one directory too deep
+      # on Pages and reported all eleven eager chunks as missing from disk. It
+      # broke the Pages deploy on the commit that added it and stayed broken
+      # for three merges, with the identical check green on every one of those
+      # PRs. Worse, its byte ceiling was summing zero the whole time, so the
+      # first load could have doubled unnoticed.
+      #
+      # A rebuild is ~30s and closes that gap for both guards at once. The
+      # inputs mirror `deploy-pages.yml` rather than being simplified, because
+      # the point is to build what Pages builds — `VITE_STATIC_HOSTING` in
+      # particular gates client behaviour and could plausibly move a dynamic
+      # import, which is the sort of thing these two exist to catch.
+      #
+      # Runs AFTER the upload on purpose: it overwrites `dist/`, and the
+      # artefact worth keeping is the one that gets deployed to production.
+      - name: Rebuild at the Pages base path
+        env:
+          DEPLOY_BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_ENABLE_DEMO_AUTH: 'true'
+          VITE_API_BASE_URL: ${{ vars.API_BASE_URL }}
+          VITE_STATIC_HOSTING: ${{ vars.API_BASE_URL == '' && 'true' || 'false' }}
+        run: npm run build
+
+      - name: Check both guards hold on the Pages artefact
+        run: npm run check:bundle && npm run check:eager-chunks
+
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
