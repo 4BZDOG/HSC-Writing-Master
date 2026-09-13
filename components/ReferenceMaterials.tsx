@@ -197,14 +197,27 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                   setSelectedOutcome(outcome);
                   markSupportOpened(prompt.id, 'outcomeBriefing');
                 }}
-                className={`w-full text-left rounded-2xl border ${tierConfig.border} ${tierConfig.bg} p-4 transition-all hover:shadow-lg hover:brightness-110 active:scale-[0.98] group/outcome-row`}
+                // `band-edge` twice, from one `--band-rgb` set here and
+                // inherited by the glyph inside. Same fault as the Grade
+                // Standards ladder below and the criteria rows beside it: a
+                // fully saturated outline — solid `-600` in the light theme —
+                // drawn around this tier's own pale wash, once for the row and
+                // again for the 20px target in it, so two of the loudest edges
+                // on the panel belonged to its quietest content. It is worse
+                // here than on that ladder, because every row takes its colour
+                // from the QUESTION's verb tier rather than its own: the hue is
+                // identical down the list and so distinguishes nothing. The
+                // fill and the outcome code say what these are; the edge only
+                // has to close the shape.
+                style={{ '--band-rgb': getBandRgb(verbInfo.tier) } as React.CSSProperties}
+                className={`w-full text-left rounded-2xl border band-edge ${tierConfig.bg} p-4 transition-all hover:shadow-lg hover:brightness-110 active:scale-[0.98] group/outcome-row`}
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   {/* The same target that heads the panel and marks every
                       outcome chip on the question card, so an outcome is
                       recognisable as one wherever it appears. */}
                   <span
-                    className={`w-5 h-5 shrink-0 rounded-lg flex items-center justify-center border ${tierConfig.border} ${tierConfig.bg}`}
+                    className={`w-5 h-5 shrink-0 rounded-lg flex items-center justify-center border band-edge ${tierConfig.bg}`}
                     aria-hidden="true"
                   >
                     <Target className={`w-3 h-3 ${tierConfig.text}`} />

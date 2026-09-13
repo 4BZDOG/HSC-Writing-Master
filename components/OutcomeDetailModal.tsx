@@ -4,7 +4,12 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { AICache } from '../services/aiCache';
-import { renderFormattedText, getTierScaleConfig, BAND_HEX } from '../utils/renderUtils';
+import {
+  renderFormattedText,
+  getBandRgb,
+  getTierScaleConfig,
+  BAND_HEX,
+} from '../utils/renderUtils';
 import {
   AlertCircle,
   Target,
@@ -332,8 +337,17 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Outcome description */}
-          <div className={`rounded-xl border ${bandConfig.border} ${bandConfig.bg} p-4`}>
+          {/* The outcome statement itself, and the only tinted panel in a
+              column of neutral ones. `bandConfig.border` drew a solid `-600`
+              outline around its own `-100` wash, which made the softest content
+              in the modal — a sentence of syllabus prose — the hardest-edged
+              thing under the header. `band-edge` puts it at the same weight as
+              the breadcrumb card above it and leaves the tint, the glyph and
+              the eyebrow to say which tier it belongs to. */}
+          <div
+            style={{ '--band-rgb': getBandRgb(tier) } as React.CSSProperties}
+            className={`rounded-xl border band-edge ${bandConfig.bg} p-4`}
+          >
             <p className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
               What Students Must Demonstrate
             </p>
