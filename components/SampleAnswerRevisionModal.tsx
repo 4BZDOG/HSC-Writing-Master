@@ -53,9 +53,26 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
 
-  const bandConfig = useMemo(() => getBandConfig(sampleToRevise.band), [sampleToRevise.band]);
-
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+
+  // The band this sample is ALREADY at, through the Verb Gate — not the `band`
+  // field stored on the record.
+  //
+  // Three parts of the app already treat the stored value as a cache of this
+  // one rather than a fact: the v2.4.0 migration rewrites it from
+  // `getBandForMark` (`recalculateSampleAnswerBands`), `RecalibrateSamplesModal`
+  // reports `sample.band !== derivedBand` as a mismatch to repair, and the
+  // content audit writes the strict band over it. This modal was the last
+  // reader trusting it, and the bundled seed shows what that costs: a 4/4
+  // DESCRIBE stored as `band: 6` opened a fully purple Band 6 dialog from an
+  // orange Band 2 row, because DESCRIBE is Tier 2 and caps there. Derived the
+  // same way `SampleAnswersAccordion` derives the row's own placard, so the
+  // dialog cannot disagree with the thing that opened it.
+  const sourceBand = useMemo(
+    () => getBandForMark(sampleToRevise.mark, prompt.totalMarks, commandTermInfo.tier),
+    [sampleToRevise.mark, prompt.totalMarks, commandTermInfo.tier]
+  );
+  const bandConfig = useMemo(() => getBandConfig(sourceBand), [sourceBand]);
   const tierInfo = useMemo(
     () => TIER_GROUPS.find((t) => t.tier === commandTermInfo.tier),
     [commandTermInfo.tier]
@@ -121,7 +138,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         // seam drops to the quiet strength — two saturated 2px lines within
         // 90px of each other is the band spent twice on structure, and the
         // second one lands on this band's own pale wash.
-        style={{ '--band-rgb': getBandRgb(sampleToRevise.band) } as React.CSSProperties}
+        style={{ '--band-rgb': getBandRgb(sourceBand) } as React.CSSProperties}
         className={`
           bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
           w-full max-w-4xl border-2 band-edge-strong

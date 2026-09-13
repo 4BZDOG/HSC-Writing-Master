@@ -105,10 +105,20 @@ export const preseededCourses: Course[] = [
 - 3-4 marks: Describes the process with some detail (unwinding, base pairing)
 - 5-6 marks: Explains semi-conservative nature and role of multiple enzymes
 - 7 marks: Comprehensive explanation linking mechanism to genetic continuity with precise terminology`,
+                    // A sample's `band` is a cache of the Verb Gate —
+                    // `getBandForMark(mark, totalMarks, verb tier)` — not a
+                    // number to choose. Four of these six were written `band: 6`
+                    // on the pre-Verb-Gate assumption that full marks means Band
+                    // 6, which is wrong for every verb below Tier 6: a 4/4
+                    // DESCRIBE caps at Band 2. Nothing rendered the stored value,
+                    // so it sat wrong until the revise dialog — the last reader
+                    // that trusted it — opened purple over an orange row.
+                    // `tests/unit/seedSampleBands.test.ts` now holds them to the
+                    // formula; recompute rather than guess when editing a mark.
                     sampleAnswers: [
                       {
                         id: 'sa-seed-1',
-                        band: 6,
+                        band: 3,
                         answer:
                           "DNA replication ensures genetic continuity through its **semi-conservative** mechanism, where each new DNA molecule consists of one original and one newly synthesised strand. The process begins with **helicase** unwinding the double helix, creating two template strands. **DNA polymerase** then adds complementary nucleotides (A-T, G-C) to each template in a 5' to 3' direction. On the leading strand, synthesis is continuous, while the lagging strand is synthesised discontinuously in Okazaki fragments. **DNA ligase** joins these fragments. Crucially, DNA polymerase has **proofreading** ability, correcting errors to maintain genetic fidelity. This ensures that each daughter cell receives an exact copy of the parent DNA, preserving genetic information across generations.",
                         mark: 7,
@@ -140,7 +150,7 @@ export const preseededCourses: Course[] = [
                     sampleAnswers: [
                       {
                         id: 'sa-seed-3',
-                        band: 6,
+                        band: 2,
                         answer:
                           'DNA replication involves three main steps. First, the double helix **unwinds** as **helicase** breaks the hydrogen bonds between base pairs, creating two template strands. Second, **DNA polymerase** reads each template and adds complementary **nucleotides** (A with T, G with C) to build new strands. Third, these new nucleotides are joined together to form complete DNA molecules, with each final molecule containing one original and one new strand.',
                         mark: 4,
@@ -196,7 +206,7 @@ export const preseededCourses: Course[] = [
                     sampleAnswers: [
                       {
                         id: 'sa-seed-4',
-                        band: 6,
+                        band: 4,
                         answer:
                           "The relationship between DNA, mRNA, and protein synthesis represents the **central dogma** of molecular biology. **DNA** contains the genetic code in its sequence of nucleotides. During **transcription**, a specific gene is copied into **mRNA** by RNA polymerase, with introns removed and exons spliced together. This mRNA then travels to the cytoplasm where **translation** occurs. **Ribosomes** read the mRNA in codons (triplets of nucleotides), each specifying a particular **amino acid**. tRNA molecules bring the correct amino acids, which are joined together to form a polypeptide chain that folds into a functional **protein**. Thus, DNA's information is transcribed into mRNA and then translated into protein, creating the direct link between genotype and phenotype.",
                         mark: 8,
@@ -394,7 +404,7 @@ export const preseededCourses: Course[] = [
                     sampleAnswers: [
                       {
                         id: 'sa-seed-6',
-                        band: 6,
+                        band: 3,
                         answer:
                           'According to **Brønsted-Lowry** theory, a **conjugate acid-base pair** consists of two species that differ by a single proton (H⁺). In the equilibrium: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻, NH₃ is the base because it **accepts** a proton from water to become NH₄⁺. The NH₄⁺ ion is the **conjugate acid** of NH₃. Similarly, H₂O acts as an acid by donating a proton to become OH⁻, which is its **conjugate base**. Conjugate pairs are always present in acid-base reactions, with the acid donating a proton to form its conjugate base, and the base accepting a proton to form its conjugate acid. This reciprocal relationship is fundamental to understanding acid-base equilibria.',
                         mark: 5,
