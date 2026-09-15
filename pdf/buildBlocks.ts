@@ -375,18 +375,41 @@ export const buildEvaluationBlocks = (
       const label = namedAreKey
         ? 'Terms this question names, not yet used'
         : 'Syllabus terms not yet used';
+      // Set as a labelled line, not a grey sentence. In one muted colour at
+      // `basePadTop: 0.5` it sat hard under the response panel in the same tone
+      // the report uses for captions, so it read as metadata about the box — or
+      // worse, as something the student had typed at the end of their own
+      // answer. Three changes, no new machinery: the label leads in slate bold
+      // so the line announces itself, the terms take `COLORS.keyword` — the same
+      // teal every syllabus term is already drawn in, in the response above and
+      // the rewrite below, so they are recognisable as terms on sight — and the
+      // top padding lifts it clear of the panel it is about.
+      //
+      // One run with spans, for the reason the diff key carries: sibling runs
+      // stack as separate line groups, they do not flow inline.
       blocks.push({
         kind: 'paragraph',
         id: nid('unused'),
         fullWidth: true,
         runs: [
-          run(`${label}: ${named}` + (more > 0 ? ` (and ${more} more)` : '') + '.', 8, {
+          {
+            text: `${label}: ${named}` + (more > 0 ? ` (and ${more} more)` : '') + '.',
+            baseFontPt: 8,
             color: COLORS.muted,
             lineHeightFactor: 1.3,
-          }),
+            spans: [
+              { text: `${label}: `, style: 'bold', color: COLORS.slate },
+              { text: named, style: 'bold', color: COLORS.keyword },
+              {
+                text: (more > 0 ? ` (and ${more} more)` : '') + '.',
+                style: 'normal',
+                color: COLORS.muted,
+              },
+            ],
+          },
         ],
         breakable: true,
-        basePadTop: 0.5,
+        basePadTop: 2.5,
         basePadBottom: 2.5,
       });
     }
@@ -584,14 +607,42 @@ export const buildEvaluationBlocks = (
           // The key to the two markers, and only where there are markers to
           // key. Printed unconditionally it sat above the "reworked throughout"
           // message explaining a red and a green that were nowhere on the page.
+          //
+          // It has to say HOW TO READ the grid, not just what the markers mean.
+          // Set as two bold phrases either side of a wide gap — "\u2212 what you
+          // wrote          + what it became" — one line above a two-column flow,
+          // it read as a pair of column headings promising originals on the left
+          // and rewrites on the right. What is actually below is a stack of
+          // pairs, each sentence over its own replacement, packed down one
+          // column and on into the next: `keepWithNext` on the "before" row
+          // exists precisely to stop a pair being split across that boundary,
+          // because the pairing is the whole point of the section.
+          //
+          // So the fix is the key, not the grid. Naming the reading order kills
+          // the left-right reading, and tinting each marker in the colour of the
+          // card it labels makes it a legend rather than a heading.
+          //
+          // ONE run carrying spans, not five runs. Sibling runs in a block are
+          // wrapped and drawn as stacked line groups — that is what lets a diff
+          // row hold a marker and its wrapped tail — so a sentence split across
+          // several of them sets as several lines. Inline mixing is what `spans`
+          // is for.
           blocks.push({
             kind: 'paragraph',
             id: nid('difflegend'),
             runs: [
-              run('\u2212  what you wrote          +  what it became', 7.5, {
-                style: 'bold',
+              {
+                text: 'Read each pair top to bottom: \u2212 what you wrote, then + what it became.',
+                baseFontPt: 7.5,
                 color: COLORS.muted,
-              }),
+                spans: [
+                  { text: 'Read each pair top to bottom: ', style: 'normal', color: COLORS.muted },
+                  { text: '\u2212 what you wrote', style: 'bold', color: COLORS.rose },
+                  { text: ', then ', style: 'normal', color: COLORS.muted },
+                  { text: '+ what it became', style: 'bold', color: COLORS.added },
+                  { text: '.', style: 'normal', color: COLORS.muted },
+                ],
+              },
             ],
             basePadBottom: 1.6,
           });

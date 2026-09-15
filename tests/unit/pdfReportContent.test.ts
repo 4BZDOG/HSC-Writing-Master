@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { buildEvaluationBlocks, EvaluationExportData } from '../../pdf/buildBlocks';
+import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
 import { measureBlock, meterHeight, bandScaleHeight, ruleLinesHeight } from '../../pdf/layout';
 import { ContentBlock, TextMeasurer, MM_PER_PT } from '../../pdf/types';
 import {
@@ -170,6 +170,55 @@ describe('the report says what it means', () => {
     expect(hasHeading(blocks, /what changed/i)).toBe(true);
     expect(hasText(blocks, /reworks the response throughout/i)).toBe(true);
     expect(blocks.some((b) => b.id.startsWith('chgnew-'))).toBe(false);
+  });
+
+  /**
+   * Sibling runs in a block are wrapped and drawn as STACKED line groups — that
+   * is what lets a diff row carry a marker plus its wrapped tail. So a sentence
+   * that wants two colours in it has to be one run carrying `spans`; split
+   * across several runs it sets as several lines instead, which is how the diff
+   * key first shipped as a line of text followed by a blank gap.
+   *
+   * These two lines are the report's only mixed-colour furniture, and both were
+   * built the wrong way once. Pinning the construction, not the wording.
+   */
+  const inlineMixed = (b: ContentBlock | undefined) =>
+    !!b && b.runs.length === 1 && (b.runs[0].spans?.length ?? 0) > 1;
+
+  it('keeps the diff key on one line by giving it spans, not sibling runs', () => {
+    const blocks = buildEvaluationBlocks(
+      data({
+        studentAnswer: 'The cat sat.',
+        revisedAnswer: 'The cat sat quietly on the warm mat by the fire.',
+      })
+    );
+    const legend = find(blocks, (b) => b.id.startsWith('difflegend-'))!;
+
+    expect(legend).toBeTruthy();
+    expect(inlineMixed(legend)).toBe(true);
+    // It has to say how to READ the grid: two bold phrases either side of a gap
+    // read as column headings over a two-column flow, and what is under them is
+    // a stack of pairs.
+    expect(legend.runs[0].text).toMatch(/top to bottom/i);
+  });
+
+  it('labels the unused syllabus terms and sets them in the keyword colour', () => {
+    const blocks = buildEvaluationBlocks(
+      data({
+        studentAnswer: 'Cells copy DNA.',
+        keywords: ['helicase', 'polymerase'],
+      })
+    );
+    const unused = find(blocks, (b) => b.id.startsWith('unused-'))!;
+
+    expect(unused).toBeTruthy();
+    expect(inlineMixed(unused)).toBe(true);
+    expect(unused.runs[0].text).toMatch(/helicase/);
+    // The terms carry the same teal every other syllabus term in the report is
+    // drawn in, so they are recognisable as terms rather than as a grey caption
+    // hanging off the response panel.
+    const termSpan = unused.runs[0].spans!.find((sp) => /helicase/.test(sp.text))!;
+    expect(termSpan.color).toEqual(COLORS.keyword);
   });
 
   it('omits the section entirely when the answer was not revised', () => {
