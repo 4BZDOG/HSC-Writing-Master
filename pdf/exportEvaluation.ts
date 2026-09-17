@@ -241,17 +241,36 @@ const drawPanel = (
 ): void => {
   const c = block.panelAccent ?? block.accent ?? COLORS.slate;
   const r = PANEL.radiusBaseMm * pScale;
-  // A borderless panel is a tint alone: on a diff row, a frame round every row
-  // would out-weigh the sentence inside it.
+  // Inset by the block's OWN padding, so `basePadBottom` separates the panel
+  // from what follows instead of vanishing into it.
+  //
+  // The frame used to span the whole measured height, which folds the two kinds
+  // of padding into one. `PANEL.padY` is the room the text needs inside the
+  // frame; `basePadTop`/`basePadBottom` are the room the block asked for around
+  // itself, and every unpanelled block gets exactly that. On a panelled one it
+  // bought nothing: the question card asked for 3mm beneath it and the result
+  // strip's box was measured 0.9mm away — the two largest boxes on the page all
+  // but touching, while every other section on it was held apart properly.
+  //
+  // The diff rows come out right for free. A "before" with a partner sets
+  // `basePadBottom: 0` so the two tints still meet as one card, and a pair that
+  // has no partner sets 2.6 so it separates from the next pair — which is what
+  // those numbers were written to mean.
+  const insetTop = block.frameInsetTopMm ?? 0;
+  const insetBottom = block.frameInsetBottomMm ?? 0;
+  const top = yTop + insetTop;
+  const height = Math.max(block.height - insetTop - insetBottom, r * 2);
   const fill = tint(c, block.panelBorderless ? PANEL.tintMix : PANEL.fillMix);
   doc.setFillColor(fill[0], fill[1], fill[2]);
+  // A borderless panel is a tint alone: on a diff row, a frame round every row
+  // would out-weigh the sentence inside it.
   if (block.panelBorderless) {
-    doc.roundedRect(xLeft, yTop, width, Math.max(block.height, r * 2), r, r, 'F');
+    doc.roundedRect(xLeft, top, width, height, r, r, 'F');
     return;
   }
   doc.setDrawColor(c[0], c[1], c[2]);
   doc.setLineWidth(PANEL.borderBaseMm * pScale);
-  doc.roundedRect(xLeft, yTop, width, Math.max(block.height, r * 2), r, r, 'FD');
+  doc.roundedRect(xLeft, top, width, height, r, r, 'FD');
 };
 
 const drawBlock = (
@@ -539,11 +558,38 @@ const drawQuestionCard = (
     });
   }
 
+  // The syllabus trail, ABOVE the question it orients.
+  //
+  // It sat underneath, on the reasoning that where a question came from is
+  // context a reader wants after reading it. On the page that is not how it
+  // behaves: a breadcrumb is read as a location, and a location belongs before
+  // the thing it locates — under the question it read as a citation, and it put
+  // two lines of grey between the question and the result strip that answers
+  // it. Above, it takes the eyebrow's role of saying what you are looking at,
+  // and the question runs straight into its mark.
+  let trailH = 0;
+  const subTop = y + eyePt * MM_PER_PT * 1.5;
+  if (block.subWrapped?.length) {
+    const subPt = QUESTION_SUB_PT * pScale;
+    trailH =
+      drawLines(doc, block.subWrapped, {
+        ...ctx,
+        x,
+        y: subTop + ascentMm(subPt),
+        fontPt: subPt,
+        style: 'normal',
+        color: COLORS.muted,
+        lineHeightFactor: 1.3,
+        maxWidthMm: innerW,
+      }) +
+      QUESTION_SUB_GAP_MM * pScale;
+  }
+
   // The question.
   const q = block.runs[0];
   const qPt = q.baseFontPt * pScale;
-  const qTop = y + eyePt * MM_PER_PT * 1.5;
-  const qHeight = drawLines(doc, block.wrapped[0] ?? [q.text], {
+  const qTop = subTop + trailH;
+  drawLines(doc, block.wrapped[0] ?? [q.text], {
     ...ctx,
     richLines: block.wrappedRich?.[0],
     x,
@@ -554,21 +600,6 @@ const drawQuestionCard = (
     lineHeightFactor: q.lineHeightFactor ?? 1.3,
     maxWidthMm: innerW,
   });
-
-  // The syllabus trail, under the question it qualifies.
-  if (block.subWrapped?.length) {
-    const subPt = QUESTION_SUB_PT * pScale;
-    drawLines(doc, block.subWrapped, {
-      ...ctx,
-      x,
-      y: qTop + qHeight + QUESTION_SUB_GAP_MM * pScale + ascentMm(subPt),
-      fontPt: subPt,
-      style: 'normal',
-      color: COLORS.muted,
-      lineHeightFactor: 1.3,
-      maxWidthMm: innerW,
-    });
-  }
 };
 
 /**

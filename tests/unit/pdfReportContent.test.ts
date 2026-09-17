@@ -1,6 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
-import { measureBlock, meterHeight, bandScaleHeight, ruleLinesHeight } from '../../pdf/layout';
+import {
+  bandScaleHeight,
+  fitTrailToLine,
+  measureBlock,
+  meterHeight,
+  ruleLinesHeight,
+} from '../../pdf/layout';
 import { ContentBlock, TextMeasurer, MM_PER_PT } from '../../pdf/types';
 import {
   DEFAULT_PDF_PREFERENCES,
@@ -219,6 +225,51 @@ describe('the report says what it means', () => {
     // hanging off the response panel.
     const termSpan = unused.runs[0].spans!.find((sp) => /helicase/.test(sp.text))!;
     expect(termSpan.color).toEqual(COLORS.keyword);
+  });
+
+  /**
+   * The syllabus trail is orientation, and the orienting part is the far end:
+   * the course is on the masthead, while the last segment is the only one that
+   * says where in that course the question sits. It gets ONE line, and what
+   * gets dropped to fit is the front.
+   */
+  describe('the syllabus trail keeps its end', () => {
+    const SEP = '  \u203a  ';
+    const trail = ['HSC Enterprise Computing', 'Data management', 'Securing enterprise data'].join(
+      SEP
+    );
+
+    it('leaves a trail that already fits alone', () => {
+      expect(fitTrailToLine(trail, 500, 7.5, measurer)).toBe(trail);
+    });
+
+    it('drops whole segments from the front, never the end', () => {
+      // Wide enough for the tail but not the whole path.
+      const fitted = fitTrailToLine(trail, 30, 7.5, measurer);
+
+      expect(fitted.startsWith('\u2026')).toBe(true);
+      expect(fitted.endsWith('Securing enterprise data')).toBe(true);
+      expect(fitted).not.toContain('HSC Enterprise Computing');
+      expect(measurer.measure(fitted, 7.5, 'normal')).toBeLessThanOrEqual(30);
+    });
+
+    it('clips the last segment rather than printing nothing', () => {
+      const fitted = fitTrailToLine(trail, 6, 7.5, measurer);
+
+      expect(fitted.endsWith('\u2026')).toBe(true);
+      expect(fitted.length).toBeGreaterThan(1);
+      expect(measurer.measure(fitted, 7.5, 'normal')).toBeLessThanOrEqual(6);
+    });
+
+    it('gives the question card exactly one line for it, however long', () => {
+      const long = Array(12).fill('A rather wordy syllabus segment').join(SEP);
+      const block = find(
+        buildEvaluationBlocks(data({ syllabusPath: long })),
+        (b) => b.kind === 'questionCard'
+      )!;
+
+      expect(measureBlock(block, measurer, 90, 1).subWrapped).toHaveLength(1);
+    });
   });
 
   it('omits the section entirely when the answer was not revised', () => {

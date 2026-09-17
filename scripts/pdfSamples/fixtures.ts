@@ -288,22 +288,22 @@ export const editedBand4: EvaluationExportData = {
 export const SAMPLES: { name: string; subtitle: string; data: EvaluationExportData }[] = [
   {
     name: 'A-typical-band4',
-    subtitle: 'Data visualisation — Using data to tell a story',
+    subtitle: 'HSC Enterprise Computing',
     data: typicalBand4,
   },
   {
     name: 'B-short-band2',
-    subtitle: 'Data visualisation — Using data to tell a story',
+    subtitle: 'HSC Enterprise Computing',
     data: shortBand2,
   },
   {
     name: 'C-long-band5',
-    subtitle: 'Data management — Legal, social and ethical responsibilities',
+    subtitle: 'HSC Enterprise Computing',
     data: longBand5,
   },
   {
     name: 'D-edited-band4',
-    subtitle: 'Data management — Securing enterprise data',
+    subtitle: 'HSC Enterprise Computing',
     data: editedBand4,
   },
 ];

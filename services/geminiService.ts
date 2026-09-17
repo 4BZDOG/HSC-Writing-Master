@@ -31,6 +31,7 @@ import {
   bandMarkRanges,
   getNextLevelTarget,
   getStructureGuide,
+  markForBand,
   getExpectedCharRange,
   getExpectedTerms,
   getTargetBand,
@@ -225,6 +226,19 @@ export const evaluateAnswer = async (
     getSampleScope(prompt, prompt.totalMarks, termInfo).maxChars
   );
 
+  // The rewrite targets the next BAND, and the model has to be able to work out
+  // which mark that is before it has awarded one — so it gets the ladder rather
+  // than a precomputed target. Stops at the question's own ceiling: naming
+  // bands the Verb Gate can never award would invite a rewrite aimed at one.
+  const ceilingBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier);
+  const bandLadder = Array.from({ length: ceilingBand }, (_, i) => i + 1)
+    .map(
+      (b) =>
+        `                       - Band ${b} starts at ${markForBand(b, prompt.totalMarks, termInfo.tier)}/${prompt.totalMarks}`
+    )
+    .join('\n');
+  const ceilingBandLabel = `Band ${ceilingBand}`;
+
   const benchmarks =
     benchmarkSamples.length > 0
       ? benchmarkSamples
@@ -302,7 +316,9 @@ ${buildMarkerNotesBlock(prompt)}
                          - **Middle third**: Focus on depth, specific terminology, or linking concepts. (e.g. "Swap generic words for syllabus keywords.", "Link cause and effect clearly.")
                          - **Top third**: Focus on precision, judgement, or sophisticated structuring. (e.g. "Make your judgement explicit.", "Refine wording to match exam language.")
                        - **Focus**: Target the ONE thing that lifts them to the next mark/band.
-                    6. **Revised Answer**: Lift the STUDENT'S answer by exactly ONE mark — to (the mark you awarded + 1)/${prompt.totalMarks}. If the response already achieves full marks (${prompt.totalMarks}/${prompt.totalMarks}), return an empty string for revisedAnswer instead.
+                    6. **Revised Answer**: Lift the STUDENT'S answer into the NEXT BAND — not merely one mark. The mark each band starts at on this question is:
+${bandLadder}
+                       So award your mark, read the band it falls in, and rewrite the answer to reach the first mark of the band ABOVE it. If their mark already sits in ${ceilingBandLabel} — the highest band this question can award, set by the command verb's tier — aim at full marks (${prompt.totalMarks}/${prompt.totalMarks}) instead, and if the response already achieves full marks, return an empty string for revisedAnswer.
 ${buildUpgradeStyleRules(answer, revisionCeiling)}
 
                     ### OUTPUT FORMAT (JSON)
@@ -429,14 +445,21 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
 
 // ... (keep remaining functions like improveAnswer, enrichPromptDetails, etc.) ...
 /**
- * Lifts a student's marked answer to the NEXT marking level — one more mark —
- * by editing what they wrote rather than replacing it.
+ * Lifts a student's marked answer into the NEXT BAND by editing what they wrote
+ * rather than replacing it.
  *
  * Returns the target mark and band alongside the text so the caller stores the
  * exemplar under the same figures the model was briefed on. The target comes
- * from {@link getNextLevelTarget}, never from a band jump: an upgrade aimed a
- * whole band higher came back several times longer than the student's own
- * answer, which is neither achievable under exam conditions nor instructive.
+ * from {@link getNextLevelTarget} — never recomputed here, which is how the
+ * saved exemplar's mark used to disagree with what the model was asked to write.
+ *
+ * This aimed one mark higher until the band became the point: a rewrite that
+ * moves 2/6 to 3/6 and is still Band 2 has shown the student a longer answer,
+ * not a better grade. The reason the old one-mark rule existed — band-jump
+ * rewrites running several times longer than the student's own work — is now
+ * held by {@link getUpgradeCharCeiling}, which clamps to the student's own
+ * length regardless of the target, so the brief can move without the scope
+ * moving with it.
  */
 export const improveAnswer = async (
   answer: string,
@@ -469,7 +492,7 @@ export const improveAnswer = async (
     contents: {
       parts: [
         {
-          text: `You are a NESA HSC marker showing a student how to move their own answer up ONE marking level.
+          text: `You are a NESA HSC marker showing a student how to move their own answer up ONE band.
 
                        Use British/Australian English spelling (e.g. 'analyse', 'colour', 'behaviour').
 
@@ -477,7 +500,7 @@ export const improveAnswer = async (
                        **Command verb:** ${prompt.verb} (Tier ${termInfo.tier} — ${termInfo.definition})
                        ${prompt.scenario ? `**Scenario:** ${prompt.scenario}` : ''}
                        **Marked at:** ${evaluation.overallMark}/${prompt.totalMarks} (Band ${evaluation.overallBand})
-                       **Target:** ${targetMark}/${prompt.totalMarks} (Band ${targetBand}) — one mark higher, nothing more.
+                       **Target:** ${targetMark}/${prompt.totalMarks} (Band ${targetBand}) — the next band up, and no further.
 
                        **What the marker said was missing:**
                        ${gaps.length ? gaps.map((g) => `- ${g}`).join('\n                       ') : evaluation.overallFeedback}
@@ -1089,9 +1112,9 @@ const buildUpgradeStyleRules = (studentAnswer: string, charCeiling: number): str
   const studentChars = studentAnswer.trim().length;
   const maxWords = Math.round(charCeiling / 6);
   return `- **Start from the student's own text.** Keep their sentences, their sequence of ideas, their vocabulary level and their voice wherever these already work. This is a marked-up version of THEIR answer, not a model answer written from scratch.
-                    - **Make the smallest set of changes that earns the extra mark**: repair the specific weakness, add the one missing point, term or causal link, and sharpen the wording so it meets the command verb. Leave everything else alone.
+                    - **Make the smallest set of changes that reaches the target**: repair the specific weakness, add the missing point, term or causal link, and sharpen the wording so it meets the command verb. Leave everything else alone.
                     - **Do NOT rewrite from scratch, restructure into new sections, or add an introduction/conclusion the student did not attempt.**
-                    - **Hard length ceiling: ${charCeiling} characters (about ${maxWords} words).** The student wrote ${studentChars} characters; a rewrite far longer than that teaches the wrong lesson about exam scope and is a failure even if the content is excellent.
+                    - **Hard length ceiling: ${charCeiling} characters (about ${maxWords} words).** The student wrote ${studentChars} characters; a rewrite far longer than that teaches the wrong lesson about exam scope and is a failure even if the content is excellent. A higher band is earned by precision, not by volume.
                     - It must still read like a strong Year 12 student writing under exam time pressure — same register, same style — not like a textbook or a teacher.`;
 };
 

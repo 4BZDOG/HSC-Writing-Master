@@ -387,9 +387,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   const capConfig = getBandConfig(maxBand);
 
   // What the improved response is actually worth: one mark above the student's,
-  // and the band that mark maps to. The header used to promise "Band N+1" for a
-  // rewrite briefed to earn a single extra mark, so on most questions the label
-  // over-sold what the student was reading.
+  // and the band that mark maps to. Both come from `getNextLevelTarget`, which
+  // is also what the marker was briefed with, so the header can never promise a
+  // band the rewrite was not aimed at — in either direction. It read "Band N+1"
+  // over a one-mark rewrite once, and later read the unchanged band over a
+  // rewrite the student was told was an improvement.
   const nextLevel = useMemo(
     () => getNextLevelTarget(result.overallMark, prompt.totalMarks, termInfo.tier),
     [result.overallMark, prompt.totalMarks, termInfo.tier]
@@ -513,9 +515,15 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         copies: pdfPrefs.copies,
         showFields: pdfPrefs.showFields,
         filename: `HSC-${prompt.verb}-Band${result.overallBand}-Feedback`,
-        subtitle: hierarchy
-          ? `${hierarchy.topic} — ${hierarchy.subTopic}`
-          : 'Marking Feedback Report',
+        // The COURSE, not the topic and sub-topic — those are the middle two
+        // segments of the syllabus trail printed a centimetre below, so the
+        // masthead was repeating the trail verbatim while the one thing the
+        // trail does not reliably carry went unnamed. The trail is fitted to a
+        // single line from its END (`fitTrailToLine`), so on a long path the
+        // course is the first segment dropped; said here it cannot be lost, and
+        // the two lines divide the job between them — what course this is, and
+        // where in it the question sits.
+        subtitle: hierarchy?.course?.trim() || 'Marking Feedback Report',
         onToast: showToast,
         onProgress: (_fraction, label) => setExportStatus(label),
       });

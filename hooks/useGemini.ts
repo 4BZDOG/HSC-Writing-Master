@@ -264,7 +264,7 @@ export const useGemini = ({
                 : (result.revisedAnswer?.text ?? '');
 
             if (result.revisedAnswer && revisedText.trim()) {
-              // The marker is briefed to lift the answer by exactly one mark, so
+              // The marker is briefed to lift the answer into the next band, so
               // that is what the saved exemplar is worth unless the model said
               // otherwise in the structured form.
               const nextLevel = getNextLevelTarget(
@@ -374,11 +374,12 @@ export const useGemini = ({
       setImprovementReviewLeadsToFeedback(false);
 
       try {
-        // The service owns the target (getNextLevelTarget): one mark up, with
-        // the band that mark maps to on this question. Recomputing it here is
-        // how the saved exemplar's mark used to disagree with what the model
-        // was briefed to write — and a band-jump target could even land on a
-        // mark at or below the one the student already earned.
+        // The service owns the target (getNextLevelTarget): the first mark of
+        // the next band on this question. Recomputing it here is how the saved
+        // exemplar's mark used to disagree with what the model was briefed to
+        // write. The helper is also where the two edges live — a question whose
+        // ceiling band the student already occupies, and a target that must
+        // never land at or below the mark they already earned.
         const improved = await gemini.improveAnswer(originalAnswer, prompt, evaluation);
         const { text, mark: targetMark, band: targetBand } = improved;
 

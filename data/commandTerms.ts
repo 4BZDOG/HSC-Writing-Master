@@ -1058,16 +1058,39 @@ export const markForBand = (targetBand: number, totalMarks: number, tier: number
 };
 
 /**
- * The next marking level up from a student's current mark: one more mark, and
- * the band that mark maps to on this question.
+ * The next marking level up from a student's current mark: the lowest mark that
+ * reaches the NEXT BAND, and that band.
  *
- * "Improve my answer" is a coaching move, not a request for a model answer — the
- * student needs to see the smallest change that earns the next mark, at a length
- * they could actually write. Targeting a whole band jump instead produced
- * exemplars several times longer than the student's own work, which teaches the
- * wrong lesson about exam scope. Every surface that names the improvement target
- * (the AI brief, the saved exemplar's mark, the "Improved Response" header)
- * reads it from here so they cannot disagree.
+ * This used to be "one more mark". The band was the honest reason to change it:
+ * an improved response that lifts 2/6 to 3/6 and is still labelled Band 2 ·
+ * Limited has shown the student a bigger answer, not a better grade, and the
+ * report says so twice — in the header and on the ladder.
+ *
+ * A band jump WAS tried before and reverted, because the rewrites came back
+ * several times longer than the student's own answer. What makes it safe now is
+ * that length is no longer governed by the target mark:
+ * `getUpgradeCharCeiling` takes the SMALLER of the target's scope ceiling and
+ * the student's own length plus a working margin, so a three-line answer gets
+ * back four lines whether the target is one mark up or one band up. The ceiling
+ * is anchored to the student, and moving the target does not move it.
+ *
+ * Two edges the old "+1" never had to think about:
+ *
+ *   - A question whose ceiling band the student has already reached has no next
+ *     band to aim at — a Tier 1 verb caps at Band 1, so EVERY mark on it is
+ *     Band 1. There the target is full marks: still a real lift, still the
+ *     honest ceiling, and never a band number the question cannot award.
+ *   - `markForBand` returns the LOWEST mark reaching a band, so on a question
+ *     where the student sits high inside their band it can only ever be above
+ *     them — but the fallback it returns when no mark reaches the asked-for band
+ *     is `totalMarks`, which CAN equal the mark they already have. The target is
+ *     therefore never allowed below `currentMark`, and a student already on full
+ *     marks gets `targetMark === totalMarks`, which every caller already reads
+ *     as "nothing to lift".
+ *
+ * Every surface that names the improvement target (the AI brief, the saved
+ * exemplar's mark, the "Improved Response" header, the PDF) reads it from here
+ * so they cannot disagree.
  */
 export const getNextLevelTarget = (
   currentMark: number,
@@ -1076,7 +1099,19 @@ export const getNextLevelTarget = (
 ): { targetMark: number; targetBand: number } => {
   const safeTotal = Math.max(0, totalMarks);
   const safeCurrent = Math.max(0, Math.min(currentMark, safeTotal));
-  const targetMark = Math.min(safeTotal, safeCurrent + 1);
+  const currentBand = getBandForMark(safeCurrent, safeTotal, tier);
+  // What a full-mark response to THIS question is worth — the Verb Gate's
+  // ceiling, not Band 6.
+  const ceilingBand = getBandForMark(safeTotal, safeTotal, tier);
+
+  const targetMark =
+    currentBand >= ceilingBand
+      ? safeTotal
+      : Math.min(
+          safeTotal,
+          Math.max(markForBand(currentBand + 1, safeTotal, tier), safeCurrent + 1)
+        );
+
   return { targetMark, targetBand: getBandForMark(targetMark, safeTotal, tier) };
 };
 
