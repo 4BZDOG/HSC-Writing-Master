@@ -352,10 +352,22 @@ export interface MeasuredBlock extends ContentBlock {
    * set of line breaks from the ones that were measured.
    */
   wrappedRich?: (InlineSpan[][] | null)[];
-  /** Top padding resolved to mm (basePadTop * pScale). */
+  /** Top padding resolved to mm (basePadTop * pScale, plus the panel inset). */
   padTopMm: number;
-  /** Bottom padding resolved to mm (basePadBottom * pScale). */
+  /** Bottom padding resolved to mm (basePadBottom * pScale, plus the panel inset). */
   padBottomMm: number;
+  /**
+   * The block's OWN padding, before the panel inset was folded in — i.e. the
+   * space it asked for OUTSIDE itself.
+   *
+   * A panel frame is drawn across the block's whole height, so without this the
+   * two meanings of padding are indistinguishable on a panelled block and
+   * `basePadBottom` silently becomes more room inside the frame instead of
+   * separation below it. The question card asked for 3mm under itself and got
+   * none: its frame and the result strip's box were measured 0.9mm apart.
+   */
+  frameInsetTopMm?: number;
+  frameInsetBottomMm?: number;
   /** Line height (mm) of the primary run — used for drawing and splitting. */
   lineHeightMm: number;
   /** Horizontal indent (mm) applied to body text; matches the wrap width. */

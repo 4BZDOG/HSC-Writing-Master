@@ -9,6 +9,7 @@ import { normalizeContent } from './text';
 import { parseInlineSpans, type InlineOptions } from './inline';
 import type { IconName } from './icons';
 import { getBandHexDark, getBandName, textContainsKeyword } from '../utils/renderUtils';
+import { getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
 import {
   diffWords,
   rewrittenSentenceCount,
@@ -343,7 +344,13 @@ export const buildEvaluationBlocks = (
       kind: 'paragraph',
       id: nid('ans'),
       fullWidth: true,
-      runs: [richRun(data.studentAnswer, 9.5, { color: COLORS.body, lineHeightFactor: 1.4 }, hl)],
+      // 10.5pt, a full point above the 9pt the commentary, the criteria and the
+      // next steps are set in. The three panels a reader actually compares —
+      // the question, what the student wrote, and what it could have been —
+      // were within half a point of the notes around them, so a page of this
+      // report read as one undifferentiated wall of 9pt with frames drawn on
+      // parts of it. The frames said "this is a document"; the type did not.
+      runs: [richRun(data.studentAnswer, 10.5, { color: COLORS.body, lineHeightFactor: 1.4 }, hl)],
       panel: true,
       panelAccent: COLORS.slate,
       breakable: true,
@@ -517,8 +524,21 @@ export const buildEvaluationBlocks = (
 
   // 9. Improved response (exemplar) -----------------------------------------
   if (data.revisedAnswer && data.revisedAnswer.trim()) {
-    const exBand = data.exemplarBand ?? data.overallBand + 1;
-    const exMark = data.exemplarMark ?? Math.min(data.totalMarks, data.overallMark + 1);
+    // Normally supplied by the caller, which derives them from
+    // `getNextLevelTarget`. The fallback asks the same helper rather than
+    // keeping a second rule here: a `+1` of its own is how a report came to
+    // print a band the rewrite had never been aimed at.
+    const nextLevel = getNextLevelTarget(
+      data.overallMark,
+      data.totalMarks,
+      // This layer keeps `verb` as a plain string — it is a report input, not a
+      // domain object. `getCommandTermInfo` normalises case and falls back for
+      // anything it does not recognise, so the cast cannot produce a wrong tier,
+      // only the default one.
+      getCommandTermInfo(data.verb as Parameters<typeof getCommandTermInfo>[0]).tier
+    );
+    const exBand = data.exemplarBand ?? nextLevel.targetBand;
+    const exMark = data.exemplarMark ?? nextLevel.targetMark;
     // The report has ONE accent, and it is the band this response reached. The
     // rewrite used to be framed in the EXEMPLAR's band instead, which put a
     // second hue on the page — purple beside a green result strip — for a fact
@@ -538,7 +558,10 @@ export const buildEvaluationBlocks = (
       kind: 'paragraph',
       id: nid('rev'),
       fullWidth: true,
-      runs: [richRun(data.revisedAnswer, 9.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, hl)],
+      // Set at the student's own size — the two are read against each other, and
+      // a rewrite in smaller type than the answer it improves reads as a
+      // footnote to it.
+      runs: [richRun(data.revisedAnswer, 10.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, hl)],
       panel: true,
       panelAccent: accent,
       breakable: true,

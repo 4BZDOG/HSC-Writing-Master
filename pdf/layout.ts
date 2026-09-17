@@ -50,7 +50,54 @@ export const MASTHEAD_SUB_GAP_MM = 1.4;
 /** Question-card type sizes, shared by the measurer and the drawer. */
 export const QUESTION_EYEBROW_PT = 8;
 export const QUESTION_SUB_PT = 7.5;
-export const QUESTION_SUB_GAP_MM = 2;
+/** Between the syllabus trail and the question it orients. */
+export const QUESTION_SUB_GAP_MM = 1.8;
+
+/** The separator `EvaluationDisplay` joins the syllabus trail with. */
+const TRAIL_SEPARATOR = '  \u203a  ';
+
+/**
+ * The syllabus trail, fitted to exactly ONE line, keeping the END.
+ *
+ * A trail is orientation, and the orienting part is the far end: "HSC
+ * Enterprise Computing" is on the masthead already, while "Securing enterprise
+ * data" is the only segment that says where in the course this question sits.
+ * Wrapped to two or three lines it also out-measured the question it belongs
+ * to, which is the wrong way round on the one card a reader looks at first.
+ *
+ * So segments are dropped from the FRONT until what is left fits, with a
+ * leading ellipsis standing in for what went. A single segment too long for the
+ * line on its own is clipped at the tail instead — there is no shorter true
+ * prefix of it to keep, and its opening words are the readable part.
+ */
+export const fitTrailToLine = (
+  path: string,
+  maxWidthMm: number,
+  fontPt: number,
+  measurer: TextMeasurer
+): string => {
+  const fits = (text: string) => measurer.measure(text, fontPt, 'normal') <= maxWidthMm;
+  const trail = path.trim();
+  if (!trail || fits(trail)) return trail;
+
+  const segments = trail.split(TRAIL_SEPARATOR).filter(Boolean);
+  // Grow from the end while the whole thing still fits on the line.
+  let kept: string[] = [];
+  for (let i = segments.length - 1; i >= 0; i--) {
+    const candidate = [segments[i], ...kept];
+    if (!fits('\u2026' + TRAIL_SEPARATOR + candidate.join(TRAIL_SEPARATOR))) break;
+    kept = candidate;
+  }
+  if (kept.length) return '\u2026' + TRAIL_SEPARATOR + kept.join(TRAIL_SEPARATOR);
+
+  // Not even the last segment fits. Clip it rather than print nothing.
+  const last = segments[segments.length - 1] ?? trail;
+  let clipped = last;
+  while (clipped.length > 1 && !fits(clipped + '\u2026')) {
+    clipped = clipped.slice(0, -1);
+  }
+  return clipped + '\u2026';
+};
 
 export interface GeometryOptions {
   size: PageSizeName;
@@ -169,6 +216,11 @@ export const measureBlock = (
   const panelPadX = block.panel ? PANEL.padXBaseMm * pScale : 0;
   const textIndentMm = block.panel ? panelPadX : indented ? LAYOUT.contentIndentBaseMm * pScale : 0;
   const panelPadY = block.panel ? PANEL.padYBaseMm * pScale : 0;
+  // Kept before the panel inset is added: a panel's frame is drawn inset by
+  // these, so the block's own padding separates it from its neighbours instead
+  // of disappearing into the frame's interior.
+  const frameInsetTopMm = padTop;
+  const frameInsetBottomMm = padBottom;
   padTop += panelPadY;
   padBottom += panelPadY;
 
@@ -178,6 +230,8 @@ export const measureBlock = (
       wrapped: [],
       padTopMm: padTop,
       padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
       lineHeightMm: 0,
       textIndentMm: 0,
       height: padTop + padBottom + 0.4 * pScale,
@@ -189,6 +243,8 @@ export const measureBlock = (
       wrapped: [],
       padTopMm: padTop,
       padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
       lineHeightMm: 0,
       textIndentMm: 0,
       height: padTop + padBottom,
@@ -215,6 +271,8 @@ export const measureBlock = (
       subWrapped,
       padTopMm: padTop,
       padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
       lineHeightMm: titleH,
       textIndentMm: 0,
       height: padTop + Math.max(titleH + subH, fieldsH) + padBottom,
@@ -231,6 +289,8 @@ export const measureBlock = (
       wrapped: [[block.runs[0]?.text ?? '']],
       padTopMm: padTop,
       padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
       lineHeightMm: rowH,
       textIndentMm: 0,
       height: padTop + rowH + ruleH + padBottom,
@@ -249,9 +309,11 @@ export const measureBlock = (
     const qRich = q?.spans?.length ? wrapRich(q.spans, inner, qPt, measurer) : null;
     const qH = qLines.length * runLineHeight(measurer, q, pScale);
     const subPt = QUESTION_SUB_PT * pScale;
-    const subWrapped = block.subText ? measurer.wrap(block.subText, inner, subPt, 'normal') : [];
+    // One line, fitted from the end — see `fitTrailToLine`. It is drawn ABOVE
+    // the question now, so the gap it reserves sits under it rather than over.
+    const subWrapped = block.subText ? [fitTrailToLine(block.subText, inner, subPt, measurer)] : [];
     const subH = subWrapped.length
-      ? QUESTION_SUB_GAP_MM * pScale + subWrapped.length * measurer.lineHeight(subPt, 1.3)
+      ? measurer.lineHeight(subPt, 1.3) + QUESTION_SUB_GAP_MM * pScale
       : 0;
     return {
       ...block,
@@ -260,6 +322,8 @@ export const measureBlock = (
       subWrapped,
       padTopMm: padTop,
       padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
       lineHeightMm: runLineHeight(measurer, q, pScale),
       textIndentMm,
       height: padTop + eyebrowH + qH + subH + padBottom,
@@ -287,6 +351,8 @@ export const measureBlock = (
       wrapped: [metricLines],
       padTopMm: padTop,
       padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
       lineHeightMm,
       textIndentMm: 0,
       height: padTop + pad * 2 + inner + padBottom,
@@ -343,6 +409,8 @@ export const measureBlock = (
     labelWrappedRich,
     padTopMm: padTop,
     padBottomMm: padBottom,
+    frameInsetTopMm,
+    frameInsetBottomMm,
     lineHeightMm,
     textIndentMm,
     labelExtraMm,
