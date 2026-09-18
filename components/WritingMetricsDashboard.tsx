@@ -130,10 +130,31 @@ interface WritingMetricsDashboardProps {
   /** The syllabus above this question, so the term tracker can mark the terms
    *  the question names itself — the same split the panel above it shows. */
   syllabus?: SyllabusPlacement;
+  /**
+   * Time already spent on this question, restored from the saved draft.
+   *
+   * The clock lives here but the record does not: it is saved on the Prompt
+   * beside `userDraft`, by the same machinery and under the same ownership
+   * guard, because writing six minutes onto the wrong question is the same
+   * class of mistake as writing an answer onto it.
+   */
+  elapsedSeconds?: number;
+  /** Reports the running total upward. See `onElapsedChange` in Workspace:
+   *  it lands in a ref, not in state, so a ticking clock never re-renders the
+   *  workspace — the value is picked up by the next draft flush. */
+  onElapsedChange?: (seconds: number) => void;
 }
 
 export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = React.memo(
-  ({ userAnswer, prompt, onAddWord, writingMode = 'coach', syllabus }) => {
+  ({
+    userAnswer,
+    prompt,
+    onAddWord,
+    writingMode = 'coach',
+    syllabus,
+    elapsedSeconds = 0,
+    onElapsedChange,
+  }) => {
     // Exam Mode: no live feedback — just the essentials (words + a running
     // countdown). The syllabus %, insights, term tracker and connectors are all
     // coaching aids and stay hidden.
@@ -182,29 +203,66 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // HSC conditions actually needs to know. Counting up and deriving the
     // remainder gives both readings from one number, and the overrun has
     // somewhere to go.
-    const [elapsed, setElapsed] = useState(0);
+    const [elapsed, setElapsed] = useState(elapsedSeconds);
     /** Set when the STUDENT pressed pause, so typing does not override them. */
     const pausedByUser = useRef(false);
     const lastTypedAt = useRef(0);
+    /** What the clock was last set up for, so a MODE change can be told from a
+     *  remount. The two want opposite things — see below. */
+    const setUpFor = useRef<{ promptId: string; exam: boolean } | null>(null);
 
     // Reset the clock whenever the question or the mode changes. Keyed on the
     // prompt id (not just the recommended time) so switching between two
     // questions worth the same marks still restarts it. In Exam Mode it starts
     // immediately — you are under exam conditions the moment you switch in.
+    //
+    // RESTORE OR RESET, and the difference is which of the two happened.
+    // Arriving at a question — a fresh mount, a reload, a switch back — should
+    // hand back the time already spent on it, which is the whole point of
+    // saving it. SWITCHING INTO EXAM MODE should not: that is a fresh attempt
+    // under exam conditions, and starting it part-spent would make the
+    // simulation a lie. Both paths run this effect, so it has to remember
+    // which mode it was last set up in to tell them apart.
     useEffect(() => {
-      setElapsed(0);
+      const previous = setUpFor.current;
+      const modeChanged = previous?.promptId === prompt.id && previous.exam !== isExamMode;
+      setUpFor.current = { promptId: prompt.id, exam: isExamMode };
+
+      setElapsed(modeChanged ? 0 : elapsedSeconds);
       pausedByUser.current = false;
       lastTypedAt.current = Date.now();
       setIsTimerActive(isExamMode);
+      // `elapsedSeconds` is deliberately NOT a dependency: it is the value to
+      // restore FROM, and it changes as the clock's own reports are saved back.
+      // Listing it would make every save restart the clock it just recorded.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [prompt.id, recommendedTime, isExamMode]);
+
+    // The running total, reported upward for the next draft flush to save.
+    useEffect(() => {
+      onElapsedChange?.(elapsed);
+    }, [elapsed, onElapsedChange]);
 
     // Writing starts the clock, and resumes it after an idle pause. Pressing
     // Pause is a decision, so it survives the next keystroke.
+    //
+    // THE STORED DRAFT ARRIVING IS NOT A KEYSTROKE. From in here it looks
+    // exactly like one — the text changes — and it happens on every mount,
+    // every reload and every switch back to a question already started. This
+    // fired on the mere PRESENCE of text, so once the clock began surviving a
+    // reload, reloading also started it: a student who came back to read what
+    // they had written was charged for the reading, up to the three-minute
+    // idle pause, without typing a character.
+    //
+    // The test is the one the workspace already uses to decide whether an
+    // answer belongs to its question: what is on screen is the stored draft
+    // until it differs from it.
     useEffect(() => {
       if (!userAnswer.trim()) return;
+      if (userAnswer === (prompt.userDraft ?? '')) return;
       lastTypedAt.current = Date.now();
       if (!pausedByUser.current) setIsTimerActive(true);
-    }, [userAnswer]);
+    }, [userAnswer, prompt.userDraft]);
 
     useEffect(() => {
       if (!isTimerActive) return;

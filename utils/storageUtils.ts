@@ -35,7 +35,14 @@ import {
 // Additive and optional in the same way: absence means "published", which is
 // what every course written before this meant, so there is nothing to
 // migrate here either.
-export const DATA_VERSION = '2.9.0';
+// 2.10.0: `Prompt.draftElapsedSeconds` — time already spent on a question's
+// draft, saved beside `userDraft` so a reload does not hand back the full
+// budget. Additive and optional in the same way: absence means "no time
+// recorded", which is what every draft written before this meant, so there is
+// nothing to migrate. Note the number: `isOlderThan` below parses versions
+// numerically precisely so that this bump — the first two-digit minor — does
+// not re-run every migration from 2.2.0 on a returning install.
+export const DATA_VERSION = '2.10.0';
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check

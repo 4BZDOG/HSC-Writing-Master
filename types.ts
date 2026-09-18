@@ -145,6 +145,17 @@ export interface Prompt {
   hscQuestionNumber?: string;
   userDraft?: string;
   /**
+   * Seconds already spent writing this question's draft.
+   *
+   * Saved beside `userDraft` and by the same machinery, because it is the same
+   * kind of thing: working state that belongs to one question. The app already
+   * remembers a student's words across a reload; remembering how long they
+   * have been at them is the same promise, and it matters more now that the
+   * clock is the lead figure on the live stats strip — a reload used to hand
+   * back the full budget as though no time had passed.
+   */
+  draftElapsedSeconds?: number;
+  /**
    * AI quality pre-screen (0–100 + reviewer notes), set by the audit studio's
    * "Screen Quality" batch action. Advisory triage data: rides along when the
    * prompt syncs to the shared library so reviewers see it in the queue.

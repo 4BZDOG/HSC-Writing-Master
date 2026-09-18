@@ -373,29 +373,84 @@ const Workspace: React.FC<WorkspaceProps> = ({
    * question. The three travel as one snapshot, so whichever moment a flush
    * fires in, it writes an answer to the question that answer came from.
    */
+  /**
+   * Time spent on the draft, as the clock last reported it.
+   *
+   * A ref rather than state, on purpose: the clock ticks once a second, and
+   * putting that in state would re-render the whole workspace every second to
+   * move a number the workspace does not draw. It rides along with the answer
+   * on the next flush instead.
+   */
+  const elapsedSeconds = useRef(currentPrompt?.draftElapsedSeconds ?? 0);
+  const handleElapsedChange = useCallback((seconds: number) => {
+    elapsedSeconds.current = seconds;
+  }, []);
+
+  // The clock belongs to the question it was counting. Without this, switching
+  // question carries the previous question's total into the next flush — the
+  // same mistake as filing an answer under the wrong question, which is what
+  // `answerBelongsTo` below exists to stop.
+  useEffect(() => {
+    elapsedSeconds.current = currentPrompt?.draftElapsedSeconds ?? 0;
+  }, [currentPrompt?.id, currentPrompt?.draftElapsedSeconds]);
+
   const latestDraft = useRef({
     promptId: currentPrompt?.id,
     path: statePath,
     answer: userAnswer,
     stored: currentPrompt?.userDraft,
+    storedElapsed: currentPrompt?.draftElapsedSeconds ?? 0,
   });
   latestDraft.current = {
     promptId: currentPrompt?.id,
     path: statePath,
     answer: userAnswer,
     stored: currentPrompt?.userDraft,
+    storedElapsed: currentPrompt?.draftElapsedSeconds ?? 0,
   };
 
-  const flushDraft = useCallback(() => {
-    const { promptId, path, answer, stored } = latestDraft.current;
-    if (!promptId || answerBelongsTo.current !== promptId) return;
-    if (answer === (stored ?? '')) return;
-    syllabusHandlers.updateCourses((draft: any) => {
-      findAndUpdateItem(draft, path, (p: any) => {
-        p.userDraft = answer;
+  const flushDraft = useCallback(
+    ({ final = false }: { final?: boolean } = {}) => {
+      const { promptId, path, answer, stored, storedElapsed } = latestDraft.current;
+      if (!promptId || answerBelongsTo.current !== promptId) return;
+
+      const answerChanged = answer !== (stored ?? '');
+      // Whole minutes, DURING a session. The clock reports every second and a
+      // flush fires on every pause in typing, so writing on any change would
+      // put a storage round-trip behind each tick to record a number nobody
+      // reads at that resolution.
+      //
+      // The last flush is not during a session, and the throttle has nothing to
+      // save there — it is one write, and skipping it would throw away whatever
+      // part-minute had accrued since the last one.
+      //
+      // It is a backstop rather than the main path. Because the answer and the
+      // clock are written together, a flush that saves any typing carries the
+      // clock with it, so the debounce covers nearly everything; this matters
+      // for the cases the debounce misses, like switching apps on a phone
+      // mid-sentence. Reload drift measured against the real app afterwards:
+      // one second over 74 seconds of writing.
+      const elapsed = elapsedSeconds.current;
+      const elapsedChanged = final
+        ? elapsed !== storedElapsed
+        : Math.floor(elapsed / 60) !== Math.floor(storedElapsed / 60);
+      if (!answerChanged && !elapsedChanged) return;
+
+      syllabusHandlers.updateCourses((draft: any) => {
+        findAndUpdateItem(draft, path, (p: any) => {
+          p.userDraft = answer;
+          // Never backwards. A flush can fire from `pagehide` after the clock
+          // has been reset for a different question, and a saved total that
+          // went down would read as time a student never got back.
+          p.draftElapsedSeconds = Math.max(elapsed, storedElapsed);
+        });
       });
-    });
-  }, [syllabusHandlers]);
+    },
+    [syllabusHandlers]
+  );
+
+  /** The way out: the last chance to record, so nothing is held back. */
+  const flushDraftFinal = useCallback(() => flushDraft({ final: true }), [flushDraft]);
 
   /**
    * Autosave.
@@ -422,16 +477,20 @@ const Workspace: React.FC<WorkspaceProps> = ({
    */
   useEffect(() => {
     const onHidden = () => {
-      if (document.visibilityState === 'hidden') flushDraft();
+      if (document.visibilityState === 'hidden') flushDraftFinal();
     };
-    window.addEventListener('pagehide', flushDraft);
+    // Wrapped rather than passed straight in: an event listener is handed the
+    // Event as its first argument, which is not the options object this now
+    // takes.
+    const onPageHide = () => flushDraftFinal();
+    window.addEventListener('pagehide', onPageHide);
     document.addEventListener('visibilitychange', onHidden);
     return () => {
-      window.removeEventListener('pagehide', flushDraft);
+      window.removeEventListener('pagehide', onPageHide);
       document.removeEventListener('visibilitychange', onHidden);
-      flushDraft();
+      flushDraftFinal();
     };
-  }, [flushDraft]);
+  }, [flushDraftFinal]);
 
   const handleSuggestOutcomes = async () => {
     if (!currentPrompt || !currentCourse || isSuggestingOutcomes) return;
@@ -739,6 +798,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
           // with what is actually in storage, so "Saved" is never shown over
           // unsaved words.
           draftSaved={userAnswer === (currentPrompt.userDraft ?? '')}
+          draftElapsedSeconds={currentPrompt.draftElapsedSeconds}
+          onElapsedChange={handleElapsedChange}
         />
 
         {!isFocusMode && (
