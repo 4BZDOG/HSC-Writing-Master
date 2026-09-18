@@ -189,10 +189,35 @@ export const typeAnswer = async (page: Page, text?: string): Promise<void> => {
  * and `DraftCheck` both hold dimmed text behind their own toggle.
  *
  * Idempotent: already-open panels are left alone rather than shut.
+ *
+ * A PANEL THAT IS NOT THERE IS AN ERROR, NOT A SKIP. This used to `return`
+ * quietly when the name matched nothing, and that quiet return cost the suite
+ * a whole state: "Live Insights" was renamed to "Draft check" and the contrast
+ * sweep went on passing while measuring one panel fewer — the exact failure
+ * the light-theme spec's own header warns about, green partly by never having
+ * seen the component. The `readings.length > 20` floor did not catch it either,
+ * because it counts the whole page and one panel's handful of nodes does not
+ * move it.
  */
 export const openPanel = async (page: Page, name: RegExp): Promise<void> => {
-  const toggle = page.getByRole('button', { name }).first();
-  if (!(await toggle.count())) return;
+  // DISCLOSURES ONLY, and that is the whole selector. `getByRole('button')`
+  // matched by accessible name across the entire page and took `.first()` in
+  // DOM order, which is not the same question as "which panel is this". Asking
+  // for /syllabus terms/ found the question card's "Syllabus terms to weave
+  // in" label — a button, earlier in the tree, and not a panel — and the helper
+  // then waited for an `aria-expanded` it was never going to have.
+  //
+  // Requiring the attribute also waits out the resting case for free:
+  // `DraftCheck` sits on a blank draft with no `aria-expanded` at all, because
+  // there is nothing behind it yet, and only becomes a disclosure once the
+  // debounced analysis gives it something to say.
+  const toggle = page.locator('button[aria-expanded]').filter({ hasText: name }).first();
+  await expect(
+    toggle,
+    `no OPEN-ABLE panel matching ${name} — it was renamed, it does not render in ` +
+      `this state, or it is resting with nothing behind it`
+  ).toHaveCount(1);
+
   if ((await toggle.getAttribute('aria-expanded')) === 'false') {
     await toggle.click();
   }
@@ -253,4 +278,56 @@ export const openHeaderTool = async (page: Page, name: RegExp): Promise<void> =>
   await expect(trigger).toBeVisible({ timeout: 30_000 });
   await trigger.click();
   await page.getByRole('button', { name }).click();
+};
+
+/**
+ * Walk on until the selected question links at least one syllabus outcome.
+ *
+ * `openFirstQuestion` takes the first option at every level, and in the
+ * bundled Biology curriculum that lands on a question with no linked outcomes
+ * — so `ReferenceMaterials`' "What's Assessed" panel, which renders only when
+ * `linkedOutcomes.length > 0`, is simply not in the DOM.
+ *
+ * That mattered quietly for a long time: the contrast sweep's "reference
+ * panels open" state asked for that panel, `openPanel` returned without
+ * finding it, and the state went on passing while measuring only the panel
+ * beside it. Nineteen questions in the bundled data do link outcomes; this
+ * finds one.
+ */
+export const openQuestionWithOutcomes = async (page: Page): Promise<void> => {
+  const marker = page.getByRole('button', { name: /Read before you write/i });
+  const reopen = page.getByTitle(/Open the syllabus navigator/i);
+
+  for (let dotPoint = 1; dotPoint < 10; dotPoint += 1) {
+    if (await marker.count()) return;
+
+    await reopen.click();
+    await page.waitForTimeout(600);
+
+    // The dot-point picker is the second-last combobox; the question is last.
+    const pickers = page.locator('button[aria-haspopup="listbox"]');
+    const dotPicker = pickers.nth((await pickers.count()) - 2);
+    await dotPicker.scrollIntoViewIfNeeded();
+    await dotPicker.click();
+
+    const options = page.getByRole('option');
+    await options.first().waitFor({ state: 'visible', timeout: 8_000 });
+    if ((await options.count()) <= dotPoint) break;
+    await options.nth(dotPoint).click();
+    await page.waitForTimeout(700);
+
+    // Choosing a dot point clears the question, so take its first.
+    const questionPicker = page.locator('button[aria-haspopup="listbox"]').last();
+    await questionPicker.click();
+    const questions = page.getByRole('option');
+    await questions.first().waitFor({ state: 'visible', timeout: 8_000 });
+    await questions.first().click();
+    await page.waitForTimeout(900);
+  }
+
+  await expect(
+    marker,
+    'no question in the bundled curriculum linked an outcome — the "What\'s Assessed" ' +
+      'panel cannot be reached, so any state asking for it is measuring nothing'
+  ).toHaveCount(1);
 };

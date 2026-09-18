@@ -75,9 +75,34 @@ describe('DraftCheck', () => {
     }
   });
 
-  it('renders nothing at all for a blank draft', () => {
+  // It used to `return null` here, so the panel did not exist until the first
+  // word and then pushed the metrics strip and the reference rail down the page
+  // while the student was typing — and the one moment it could say what it is
+  // for was the one moment it was absent.
+  it('rests on a blank draft rather than disappearing', () => {
     const { container } = render(<DraftCheck insights={[]} />);
-    expect(container.firstChild).toBeNull();
+
+    expect(container.firstChild).not.toBeNull();
+    expect(screen.getByText('Draft check')).toBeTruthy();
+    expect(screen.getByText(/Checks your length, syllabus terms and structure/i)).toBeTruthy();
+  });
+
+  // Nothing behind it, so it must not offer to open: a disclosure that
+  // discloses nothing is a dead control with a chevron on it.
+  it('is not a disclosure while it is resting', () => {
+    render(<DraftCheck insights={[]} />);
+
+    const row = screen.getByText('Draft check').closest('button') as HTMLButtonElement;
+    expect(row.disabled).toBe(true);
+    expect(row.getAttribute('aria-expanded')).toBeNull();
+  });
+
+  // Zero is a RESULT — "I read your draft and found nothing to fix". There is
+  // no draft yet.
+  it('shows no count until there is something to count', () => {
+    render(<DraftCheck insights={[]} />);
+    expect(screen.queryByText('0')).toBeNull();
+    expect(screen.getByText('—')).toBeTruthy();
   });
 });
 

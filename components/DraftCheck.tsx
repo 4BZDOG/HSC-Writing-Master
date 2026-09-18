@@ -57,6 +57,10 @@ interface DraftCheckProps {
  * accordions, the exemplars, the metrics strip). The summary line survives the
  * fold: with the panel shut a student still sees how many things are waiting,
  * so folding it away is a choice rather than a blindfold.
+ *
+ * On a blank draft it rests rather than disappearing — same row, same height,
+ * saying what it will do. It is not a disclosure in that state: there is
+ * nothing behind it, so the chevron goes and the row stops being a button.
  */
 const DraftCheck: React.FC<DraftCheckProps> = React.memo(
   ({ insights, defaultCollapsed = true }) => {
@@ -75,22 +79,31 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
       [insights]
     );
 
+    // Nothing to say yet, which is not the same as nothing to be.
+    //
+    // This used to `return null` on a blank draft, so the panel did not exist
+    // until the first word and then pushed the metrics strip and the whole
+    // reference rail down the page — while the student was typing. It also
+    // meant the one moment the panel could say what it is FOR was the one
+    // moment it was absent, against DesignSpec §5: an empty screen is an
+    // invitation to act.
+    const resting = insights.length === 0;
+
     const summary = useMemo(() => {
-      if (insights.length === 0) return '';
+      if (resting) return 'Checks your length, syllabus terms and structure as you write';
       if (toWorkOn > 0) return `${toWorkOn} to work on`;
       return 'Nothing to fix yet';
-    }, [insights.length, toWorkOn]);
-
-    if (insights.length === 0) return null;
+    }, [resting, toWorkOn]);
 
     return (
       <div className={`${PANEL_SURFACE} animate-fade-in`}>
         <button
           onClick={() => setIsCollapsed((c) => !c)}
-          aria-expanded={!isCollapsed}
-          aria-controls={panelId}
+          disabled={resting}
+          aria-expanded={resting ? undefined : !isCollapsed}
+          aria-controls={resting ? undefined : panelId}
           className={`w-full py-3.5 px-5 flex items-center gap-4 text-left transition-all ${
-            isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
+            resting ? 'cursor-default' : isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
           }`}
         >
           {/* The count, in the slot the other panels give an icon tile.
@@ -112,7 +125,10 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
                 : 'border-slate-300 dark:border-white/10 text-slate-500 dark:text-slate-400'
             }`}
           >
-            {toWorkOn}
+            {/* An em dash while resting, not a nought. Zero is a RESULT — it is
+                what the panel says when it has read the draft and found
+                nothing to fix — and there is no draft yet. */}
+            {resting ? '—' : toWorkOn}
           </div>
           {/* A span, not a heading: the row IS the disclosure control, and the
               rail's other panels label themselves the same way. */}
@@ -130,19 +146,21 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
           </span>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">
             <PanelReadChip show={opened && isCollapsed} />
-            <ChevronDown
-              className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 ${
-                isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
-              }`}
-            />
+            {!resting && (
+              <ChevronDown
+                className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 ${
+                  isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+                }`}
+              />
+            )}
           </div>
         </button>
 
         <div
           id={panelId}
-          inert={isCollapsed}
+          inert={isCollapsed || resting}
           className={`grid transition-all duration-500 ease-in-out ${
-            isCollapsed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
+            isCollapsed || resting ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'
           }`}
         >
           <div className="overflow-hidden">

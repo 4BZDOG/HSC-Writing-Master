@@ -143,11 +143,15 @@ export const RIBBON_DETAIL_TIER_CHIP = 't-label px-3 py-0.5 rounded-full border 
 export const RIBBON_DETAIL_DEFINITION =
   'text-sm font-bold max-w-xl leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
 
-/** The `StrategyTip`'s accent under the definition — its bullet markers and its
- *  term chips. Painted on the detail card's tier wash, and on the pale chip fill
- *  inside it, which is why it is `slate-600` and not the `slate-500` it was: on
- *  `slate-100` over a tier wash, `slate-500` is within a tenth of the floor. */
-export const RIBBON_DETAIL_TIP_ACCENT = 'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
+/* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed.
+ *
+ * Its reason is worth keeping, because it still binds whatever is painted
+ * here: on `slate-100` over a tier wash, `slate-500` sits within a tenth of
+ * the contrast floor, which is why that token was `slate-600`. `StrategyBrief`
+ * sets its checks in `--color-text-muted`, which resolves to slate-600 under
+ * `[data-theme="light"]` — the same step, arrived at from the token system
+ * rather than spelled out. `tests/e2e/light-theme.spec.ts` measures it.
+ */
 
 /** The four-stat tray on the right of the detail card. Painted on the detail
  *  card's tier wash. */

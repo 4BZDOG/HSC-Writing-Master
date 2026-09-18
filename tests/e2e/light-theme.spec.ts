@@ -7,6 +7,7 @@ import {
   typeAnswer,
   openPanel,
   expandNavigator,
+  openQuestionWithOutcomes,
 } from './support/workspace';
 import {
   freezeAnimations,
@@ -140,9 +141,9 @@ test.describe('light theme', () => {
  * text with `opacity` are mounted on that very screen and simply never painted
  * in the state the sweep leaves it in.
  *
- *   - `DraftCheck` is mounted whenever the session is not an exam, but
- *     `buildWritingInsights` returns `[]` at `wordCount === 0`, so with an
- *     empty editor the panel returns `null`.
+ *   - `DraftCheck` rests on a blank draft, so the base sweep sees its header
+ *     row but never its contents: the notes themselves only exist once there
+ *     is a draft, and they sit behind the panel's own toggle.
  *   - `SampleAnswersAccordion` is mounted and shut, and a checker that walks
  *     text nodes cannot see inside a closed disclosure.
  *   - `PromptSelector` is folded to a breadcrumb the moment a question is
@@ -168,10 +169,10 @@ const STATES: {
   as?: 'user' | 'admin';
 }[] = [
   {
-    name: 'a draft in the editor, with the live insights panel open',
+    name: 'a draft in the editor, with the draft check open',
     reach: async (page) => {
       await typeAnswer(page);
-      await openPanel(page, /live insights/i);
+      await openPanel(page, /draft check/i);
     },
   },
   {
@@ -191,7 +192,17 @@ const STATES: {
     // rows, one of which dimmed its own action to `opacity-70` until the pass
     // that added this state.
     name: 'the reference panels open',
+    // Not the free tier, and not for a role reason this time. "What's Assessed"
+    // renders only when the question links an outcome, and in the bundled
+    // Biology curriculum every such question is Tier 4+ — which the free plan
+    // locks. So the panel was unreachable as `user` in the most literal way:
+    // the questions that would have produced it cannot be selected.
+    //
+    // This state spent a long time asking for that panel, getting a silent
+    // return from `openPanel`, and measuring only the one beside it.
+    as: 'admin',
     reach: async (page) => {
+      await openQuestionWithOutcomes(page);
       await openPanel(page, /what's assessed/i);
       await openPanel(page, /syllabus terms/i);
     },

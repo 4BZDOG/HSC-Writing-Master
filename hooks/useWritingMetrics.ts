@@ -54,10 +54,30 @@ export interface WritingMetrics {
 
 /**
  * Single source of truth for everything the workspace says about a draft in
- * progress. The Live Insights strip beside the editor and the metrics
- * dashboard below it both read from here, so the two can never disagree about
- * how long the response is, which syllabus terms have landed, or what the
- * target standard is.
+ * progress. The draft check beside the editor and the metrics dashboard below
+ * it both read from here, so the two can never disagree about how long the
+ * response is, which syllabus terms have landed, or what the target standard
+ * is.
+ *
+ * TWO CALLERS, TWO CALLS, AND THAT IS FINE. `WorkspaceRightPanel` calls this
+ * and so does `WritingMetricsDashboard`, which is its own child — both over
+ * the same `debouncedUserAnswer`, so every pass here runs twice per update.
+ * That looks like an obvious thing to lift, and it was measured before anyone
+ * lifted it: a full pass over a 181-word draft with 12 syllabus terms —
+ * `analyzeText`, `splitSyllabusTerms`, a `textContainsKeyword` sweep over
+ * every term, `computeDraftReadiness` and `buildWritingInsights` — costs
+ * **0.18 ms**. The second call costs the same again, on a debounced input,
+ * perhaps twice a second.
+ *
+ * Nor is there a correctness argument for lifting it. These are pure functions
+ * over identical inputs, so the two callers cannot disagree whether or not
+ * they share one computation — the guarantee above comes from determinism, not
+ * from a shared object. Prop-drilling the result would change this component's
+ * contract and three test files to save a fifth of a millisecond.
+ *
+ * The one thing that WOULD break the guarantee is a caller passing a different
+ * answer: the dashboard must keep receiving `debouncedUserAnswer`, not the raw
+ * one. That is the invariant that matters here — not the duplicate call.
  */
 export const useWritingMetrics = (
   userAnswer: string,

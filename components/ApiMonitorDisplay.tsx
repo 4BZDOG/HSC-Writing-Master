@@ -281,7 +281,8 @@ const ApiMonitorDisplay: React.FC = () => {
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:border-[rgb(var(--color-border-accent))]/60
             transition-all duration-300 animate-fade-in
-            text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-glow))]
+            text-[rgb(var(--color-accent))] light:text-sky-700
+            hover:text-[rgb(var(--color-accent-glow))]
             hover-lift
           "
           title="Show API Usage Details"

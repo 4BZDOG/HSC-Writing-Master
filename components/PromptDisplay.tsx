@@ -581,6 +581,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   {hasOpenFlag && (
                     <button
                       onClick={() => setIsFlagModalOpen(true)}
+                      // Worse than an unnamed button: below 2xl the label is
+                      // hidden, so the accessible name fell back to `title` and
+                      // whatever a curator typed into the flag reason BECAME the
+                      // name of this control.
+                      aria-label="View the flag on this question"
                       className="t-label inline-flex items-center gap-1 leading-none bg-amber-300/25 border border-amber-200/50 rounded-full px-1.5 py-0.5 animate-fade-in hover:bg-amber-300/40 transition-colors"
                       title={`Flagged for review: ${prompt.contentFlag?.reason ?? ''}`}
                     >
@@ -761,7 +766,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {showScenarioSection && (
               <div className="relative group/scenario">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="t-section text-slate-500 light:text-slate-600 flex items-center gap-2">
+                  {/* `-400` in the dark theme, not `-500`. Measured on the
+                      question card's own surface: `slate-500` reads 3.73:1
+                      against a 4.5 floor there. It survived this long because
+                      the heading only renders for a question that HAS a
+                      scenario, and the contrast sweep's first question has
+                      none — see `openQuestionWithOutcomes`. The light partner
+                      is unchanged; it was already clearing the floor. */}
+                  <h3 className="t-section text-slate-400 light:text-slate-600 flex items-center gap-2">
                     <BookOpen className="w-3.5 h-3.5" /> Context Scenario
                   </h3>
                   {canCurate && !isEditingScenario && (

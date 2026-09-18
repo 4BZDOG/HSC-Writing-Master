@@ -3,7 +3,7 @@ import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getBandHex, getBandName, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
-import StrategyTip from './StrategyTip';
+import StrategyBrief from './StrategyBrief';
 import MeshOverlay from './MeshOverlay';
 import {
   RIBBON_CHEVRON_CHIP,
@@ -11,7 +11,6 @@ import {
   RIBBON_DETAIL_DEFINITION,
   RIBBON_DETAIL_TERM,
   RIBBON_DETAIL_TIER_CHIP,
-  RIBBON_DETAIL_TIP_ACCENT,
   RIBBON_HEADER_BAR,
   RIBBON_HEADER_SUBLABEL,
   RIBBON_HEADER_TILE,
@@ -478,10 +477,21 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           </div>
                         </div>
                         <p className={RIBBON_DETAIL_DEFINITION}>{activeTermInfo.definition}</p>
-                        <StrategyTip
-                          tip={activeTermInfo.tip}
-                          className="max-w-xl mt-2"
-                          accentClass={RIBBON_DETAIL_TIP_ACCENT}
+                        {/* The same brief the writing page and the strategy
+                            row render, so a student meets one shape of advice
+                            rather than two. It used to be a `StrategyTip` here
+                            — flat identical bullets, with the verb's method and
+                            the caveat on it given equal weight — which is the
+                            thing `StrategyBrief` exists to stop.
+
+                            Headless: the term is already a heading beside its
+                            tier chip above, and the definition is the line
+                            directly over this. */}
+                        <StrategyBrief
+                          verb={activeTermInfo.term}
+                          scale="panel"
+                          heading={false}
+                          className="mt-2"
                         />
                       </div>
                     </div>
