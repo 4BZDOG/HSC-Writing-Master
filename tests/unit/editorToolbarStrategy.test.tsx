@@ -5,6 +5,7 @@ import Editor from '../../components/Editor';
 import { getCommandTermInfo } from '../../data/commandTerms';
 import { parseStrategyTip } from '../../utils/strategyTip';
 import { PromptVerb } from '../../types';
+import { readSupportUsage } from '../../utils/supportEngagement';
 
 /**
  * The writing card's chrome. Two things it has to get right: the controls a
@@ -174,6 +175,48 @@ describe('the verb brief', () => {
       fireEvent.click(strategyToggle());
       fireEvent.click(strategyToggle());
       expect(screen.getByText(/^Read$/i)).toBeTruthy();
+    });
+  });
+
+  /**
+   * The marking report names the supports a student did not open, at the
+   * moment they are looking at a lost mark. The brief now leads on the blank
+   * page and the row is only the way back to it, so a student who read the
+   * strategy exactly as intended never touches the row — and the record has to
+   * know that, or the report says "you did not open the command verb's
+   * strategy" about the largest thing that was on their blank page.
+   */
+  describe('what the marking report is told', () => {
+    it('counts the brief on the page, not just the row', () => {
+      renderEditor({ promptId: 'q1' });
+
+      const usage = readSupportUsage('q1');
+      expect(usage.opened).toContain('strategy');
+      expect(usage.skipped).not.toContain('strategy');
+    });
+
+    // Reading it and then writing is the intended path, and it must not turn
+    // into "skipped" the moment there are words on the page.
+    it('keeps counting it once the student has started writing', () => {
+      const { rerender } = renderEditor({ promptId: 'q3' });
+      rerender(
+        <Editor
+          value="The first sentence of an answer."
+          onChange={vi.fn()}
+          verb={'DESCRIBE' as PromptVerb}
+          writingMode="coach"
+          promptId="q3"
+        />
+      );
+
+      expect(readSupportUsage('q3').skipped).not.toContain('strategy');
+    });
+
+    it('says nothing at all in Exam Mode, where there is no strategy', () => {
+      renderEditor({ promptId: 'q2', writingMode: 'exam' });
+
+      const usage = readSupportUsage('q2');
+      expect(usage.available).not.toContain('strategy');
     });
   });
 });

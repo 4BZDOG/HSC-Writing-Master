@@ -208,13 +208,6 @@ const Editor = forwardRef<
     // loud things at word zero would have spent the page's attention twice.
     const [showStrategy, setShowStrategy] = useState(false);
     const strategyOpened = useOpenedOnce(showStrategy, verb);
-    // Exam Mode has no strategy row at all, so it must not be reported as a
-    // support the student declined to open.
-    useSupportResource(
-      isExamMode || !verb ? undefined : promptId,
-      'strategy',
-      showStrategy || strategyOpened
-    );
     // Bold/italic, folded away by default — see the toolbar below.
     const [showFormatting, setShowFormatting] = useState(false);
     const strategyPanelId = useId();
@@ -243,6 +236,27 @@ const Editor = forwardRef<
      * draft this fades out and the row below is the only way back.
      */
     const showStrategyPage = !isExamMode && !!verb && value.length === 0;
+    /** Whether the brief has been on the page at all for this question. */
+    const strategyBriefSeen = useOpenedOnce(showStrategyPage, promptId);
+
+    // Exam Mode has no strategy at all, so it must not be reported as a support
+    // the student declined to open.
+    //
+    // The brief COUNTS. This used to read `showStrategy || strategyOpened` —
+    // the row, and only the row — which was right while the row was the only
+    // way to the advice. It is not any more: the brief leads on the blank page
+    // and the row is the way back to it, so a student who read the strategy
+    // exactly as intended and then started writing never touches the row. Left
+    // as it was, the marking report would tell every coach-mode student "you
+    // did not open the command verb's strategy" about the largest thing that
+    // had been on their blank page — and `SupportUsageSummary` is read at the
+    // moment a student is looking at a lost mark, which is the worst possible
+    // moment to be told something untrue about what they did.
+    useSupportResource(
+      isExamMode || !verb ? undefined : promptId,
+      'strategy',
+      showStrategy || strategyOpened || strategyBriefSeen
+    );
     // How much of the brief the card can actually finish. The writing card's
     // height is floored by the question beside it, so this is ~200px on a
     // laptop and ~100px on a phone — and a brief sized for the first is cut in

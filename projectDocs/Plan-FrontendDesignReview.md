@@ -748,6 +748,23 @@ colouring subjects for as long as it has existed; those values moved to
   right, close in the corner. This is the one band where two clusters is the
   right answer, and the 1800px grid bounds how far apart they get.
 
+### 30. The marking report would have told every student they skipped the strategy — FIXED
+
+Caught while reviewing 24, not by a test. `SupportUsageSummary` names the
+supports a student did not open, at the moment they are looking at a lost
+mark, and the strategy's record read `showStrategy || strategyOpened` — the
+row, and only the row.
+
+That was right while the row was the only way to the advice. It is not any
+more: the brief leads on the blank page and the row is the way back to it, so
+a student who read the strategy exactly as intended and then started writing
+never touches the row. Left alone, the report would have said "you did not
+open the command verb's strategy" to every coach-mode student, about the
+largest thing that had been on their blank page.
+
+The brief counts now. The worst moment to tell someone something untrue about
+what they did is while they are reading why they lost a mark.
+
 ## Checked on screen
 
 1600×950 and 2560×1100 in dark, 1600×950 in light, and 700×900 for the
@@ -958,6 +975,23 @@ gone.
 
 Folded into the label: **"Read before you write"**, one line at every width,
 narrower than the pair it replaced. Its glyph is the one the dialog opens on.
+
+### 30. The marking report would have told every student they skipped the strategy — FIXED
+
+Caught while reviewing 24, not by a test. `SupportUsageSummary` names the
+supports a student did not open, at the moment they are looking at a lost
+mark, and the strategy's record read `showStrategy || strategyOpened` — the
+row, and only the row.
+
+That was right while the row was the only way to the advice. It is not any
+more: the brief leads on the blank page and the row is the way back to it, so
+a student who read the strategy exactly as intended and then started writing
+never touches the row. Left alone, the report would have said "you did not
+open the command verb's strategy" to every coach-mode student, about the
+largest thing that had been on their blank page.
+
+The brief counts now. The worst moment to tell someone something untrue about
+what they did is while they are reading why they lost a mark.
 
 ## Checked on screen
 
