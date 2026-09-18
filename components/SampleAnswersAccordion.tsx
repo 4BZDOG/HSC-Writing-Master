@@ -806,6 +806,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                     ? 'AI sample-answer generation is part of Band 6 Plus — tap to learn more'
                     : 'Add a sample answer with AI'
                 }
+                aria-label="Generate a sample answer"
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow-lg transition-all ${
                   studioLocked
                     ? 'bg-amber-400/10 border-amber-400/40 text-amber-600 dark:text-amber-400'

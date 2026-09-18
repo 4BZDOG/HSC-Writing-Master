@@ -99,6 +99,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
           <button
             ref={expandButtonRef}
             onClick={onExpand}
+            aria-label="Change question"
             className={`t-label flex items-center gap-2 px-3.5 h-9 rounded-xl border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-[0.98] transition-all`}
             title="Open the syllabus navigator to change your selection"
           >

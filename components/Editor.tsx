@@ -672,6 +672,17 @@ const Editor = forwardRef<
                           type="button"
                           onClick={() => onWritingModeChange('coach')}
                           aria-pressed={!isExamMode}
+                          // The NAME is what you call the control; the sentence
+                          // is what it does, and `title` is already carrying
+                          // that. Without this the visible label is hidden below
+                          // 2xl, the accessible name falls back to `title`, and
+                          // a screen reader announces the button as "Coach Mode
+                          // — live highlighting, draft checks and exemplars,
+                          // button". A name that swallows a sentence also
+                          // collides with everything: a locator for the draft
+                          // check panel matched THIS button, because the words
+                          // "draft checks" are inside its tooltip.
+                          aria-label="Coach mode"
                           title="Coach Mode — live highlighting, draft checks and exemplars"
                           className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
@@ -688,6 +699,7 @@ const Editor = forwardRef<
                             }
                           }}
                           aria-pressed={isExamMode}
+                          aria-label="Exam mode"
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
                           className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >

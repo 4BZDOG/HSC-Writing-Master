@@ -71,6 +71,17 @@ interface StrategyBriefProps {
    */
   scale?: 'page' | 'panel';
   /**
+   * Whether to state the verb and its definition.
+   *
+   * False for a surface that already says both in its own chrome — the verb
+   * ribbon's detail card sets the term as a heading beside its tier chip, with
+   * the definition under it, so the brief there is the method and its checks
+   * alone. The rule goes with the heading: it separates what the verb MEANS
+   * from how to answer it, and with nothing above it to separate from, it is a
+   * line drawn for its own sake.
+   */
+  heading?: boolean;
+  /**
    * Page scale only: the measured height of the surface it is drawn on. The
    * writing card is floored by the question beside it, so this is ~200px on a
    * laptop and ~100px on a phone, and the brief trims itself to whichever it
@@ -119,6 +130,7 @@ const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string; large: boolean
 const StrategyBrief: React.FC<StrategyBriefProps> = ({
   verb,
   scale = 'panel',
+  heading = true,
   room = 0,
   className = '',
 }) => {
@@ -168,27 +180,33 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
 
   return (
     <div ref={bodyRef} className={`${large ? 'max-w-[42ch]' : 'max-w-[52ch]'} ${className}`}>
-      <p
-        className={`font-serif font-bold tracking-tight leading-none ${accent} ${
-          large ? 'text-3xl' : 'text-lg'
-        }`}
-      >
-        {info.term}
-      </p>
-      <p
-        className={`font-serif text-[rgb(var(--color-text-secondary))] ${
-          large ? 'mt-2.5 text-base leading-relaxed' : 'mt-1.5 text-[13px] leading-relaxed'
-        }`}
-      >
-        {info.definition}
-      </p>
+      {heading && (
+        <>
+          <p
+            className={`font-serif font-bold tracking-tight leading-none ${accent} ${
+              large ? 'text-3xl' : 'text-lg'
+            }`}
+          >
+            {info.term}
+          </p>
+          <p
+            className={`font-serif text-[rgb(var(--color-text-secondary))] ${
+              large ? 'mt-2.5 text-base leading-relaxed' : 'mt-1.5 text-[13px] leading-relaxed'
+            }`}
+          >
+            {info.definition}
+          </p>
+        </>
+      )}
 
       {lead && showMethod && (
         <>
-          <div
-            aria-hidden="true"
-            className={`h-px bg-[rgb(var(--color-border-secondary))] ${large ? 'my-4' : 'my-3'}`}
-          />
+          {heading && (
+            <div
+              aria-hidden="true"
+              className={`h-px bg-[rgb(var(--color-border-secondary))] ${large ? 'my-4' : 'my-3'}`}
+            />
+          )}
           <p
             className={`font-serif text-[rgb(var(--color-text-primary))] ${
               large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'

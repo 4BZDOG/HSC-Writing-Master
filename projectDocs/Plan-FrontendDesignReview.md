@@ -1007,3 +1007,106 @@ in a unit test written against the same reasoning that produced them.
 The tier palette, the luminous progression, the panel surface, the disclosure
 model, and the `t-section` / `t-label` voices. Every one of those was checked
 against the four surfaces and left alone: they are the spec working.
+
+---
+
+# Seventh pass: the follow-ups from the sixth
+
+Four of the five items the sixth pass left open. The fifth — persisting the
+clock across a refresh — touches the data layer and a version bump, so it is
+its own change.
+
+### 31. A rename silently defeated a contrast state — FIXED
+
+The sixth pass renamed "Live Insights" to "Draft check". The light-theme
+sweep's `openPanel` helper opened panels by name and **returned quietly** when
+the name matched nothing, so that state went on passing while measuring one
+panel fewer. Its sibling guard did not catch it either: `readings.length > 20`
+counts the whole page, and one panel's handful of nodes does not move it.
+
+This is the failure the spec's own header warns about — green partly by never
+having seen the component — and it had happened twice more than anyone knew:
+
+- **"What's Assessed" had never been measured at all.** It renders only when
+  the question links an outcome, and `openFirstQuestion` lands on one that
+  links none. In the bundled Biology curriculum every question that DOES link
+  outcomes is Tier 4+, which the free plan locks, so as `user` the panel was
+  unreachable in the most literal way: the questions that produce it cannot be
+  selected. `openQuestionWithOutcomes` now walks to one, and that state runs as
+  `admin`.
+- **`openPanel` was matching the wrong buttons.** It searched every button on
+  the page by accessible name and took the first in DOM order, so asking for
+  /syllabus terms/ found the question card's "Syllabus terms to weave in"
+  label — a button, earlier in the tree, and not a panel. It now looks only at
+  `button[aria-expanded]`, which is what a disclosure is, and that also waits
+  out the resting `DraftCheck` for free.
+
+A missing panel is now an error with a message naming the three things it can
+mean. **Three contrast failures fell out the moment the state actually opened**,
+all pre-existing, none reachable before:
+
+| reading                                                          | measured | floor |
+| ---------------------------------------------------------------- | -------- | ----- |
+| "Terms with this mark are named…" `emerald-600` on white         | 3.77:1   | 4.5   |
+| the API counter's figures, `--color-accent` → `sky-600` on white | 4.09:1   | 4.5   |
+| "Context Scenario" `slate-500` on the card, dark theme           | 3.73:1   | 4.5   |
+
+The last of those only renders for a question that HAS a scenario, which is the
+same gap in a second dimension.
+
+### 32. One glyph, three jobs — the other half — FIXED
+
+The sixth pass removed the lightbulb from the writing page and the draft check.
+The verb ribbon still rendered `StrategyTip`, so the same advice for the same
+verb read one way on the writing page and another in the ribbon minutes later —
+with the method and the caveat on it flattened to equal bullets. That is the
+thing `StrategyTip`'s own docstring claimed to prevent.
+
+The ribbon renders `StrategyBrief` now, headless: the term is already a heading
+beside its tier chip there, and the definition is the line above. `StrategyTip`
+is deleted. The contrast measurement its accent token carried — `slate-500` is
+within a tenth of the floor on `slate-100` over a tier wash — is kept where it
+still binds, and the sweep measures it.
+
+### 33. A control named by its own tooltip — FIXED
+
+Below `2xl` the writing-mode toggles hide their labels, so the accessible name
+fell back to `title` and a screen reader announced "Coach Mode — live
+highlighting, draft checks and exemplars, button". A name that swallows a
+sentence also collides with everything: a locator for the draft-check panel
+matched the coach toggle, because "draft checks" is inside its tooltip.
+
+The question flag chip was worse — its title interpolates the flag reason, so
+whatever a curator typed became the name of the control.
+
+Named explicitly; the sentences stay in `title`, which is what they are.
+`tests/unit/controlNames.test.tsx` holds it. Also fixed in the same sweep:
+"Change" in the breadcrumb, the sample-answer generate button, and the
+auto-save note in the results modal, which collapsed below `md` to a tick that
+said nothing at all to a screen reader.
+
+### 34. The draft check appeared mid-sentence — FIXED
+
+It returned `null` on a blank draft, so it popped into existence on the first
+word and pushed the metrics strip and the reference rail down the page while
+the student was typing — and the one moment it could say what it is for was the
+one moment it was absent (§5: an empty screen is an invitation to act).
+
+It rests now: same row, same height, saying what it will do. Not a disclosure
+in that state, because there is nothing behind it. The count reads `—` rather
+than `0`, since zero is a RESULT — what it says when it has read the draft and
+found nothing to fix — and there is no draft yet.
+
+### 35. Two calls to the metrics hook — CHECKED AND LEFT
+
+`WorkspaceRightPanel` and its child `WritingMetricsDashboard` both call
+`useWritingMetrics` over the same debounced answer, so every pass runs twice.
+Measured before touching it: a full pass over a 181-word draft with 12 syllabus
+terms costs **0.18 ms**. There is no correctness argument either — these are
+pure functions over identical inputs, so the two cannot disagree whether or not
+they share a computation.
+
+Prop-drilling the result would change a component contract and three test files
+to save a fifth of a millisecond. The measurement is recorded in the hook so
+the next reader does not re-derive it, along with the invariant that actually
+matters: the dashboard must keep receiving the DEBOUNCED answer.

@@ -116,6 +116,11 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             >
               <Check className="w-4 h-4" />
               <span className="hidden md:inline whitespace-nowrap">Auto-Saved to Library</span>
+              {/* A `title` on a div is not an accessible name — the element has
+                  no role to carry one — so below `md` this note collapsed to a
+                  tick that said nothing at all to a screen reader. The text
+                  stays readable there; only its pixels are given up. */}
+              <span className="md:hidden sr-only">Auto-saved to your library</span>
             </div>
 
             <div className="w-px h-8 bg-white/10 light:bg-slate-300 sm:mx-2"></div>

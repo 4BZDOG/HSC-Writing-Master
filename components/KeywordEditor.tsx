@@ -239,8 +239,13 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
               {countLabel}
             </span>
           </div>
+          {/* `-700`, not `-600`. DesignSpec §2 rule 1: a light step is one stop
+              deeper than its dark counterpart looks. Measured on white by
+              `tests/e2e/light-theme.spec.ts` once that suite could actually
+              reach this panel — `emerald-600` is 3.77:1 against a 4.5 floor,
+              and `emerald-700` clears it. */}
           {hasSyllabusSourced && (
-            <p className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400/80">
+            <p className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400/80">
               <BookMarked className="w-3 h-3 shrink-0" />
               Terms with this mark are named in the question itself or the syllabus it comes from.
             </p>

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
+import { getCommandTermInfo } from '../../data/commandTerms';
 import { PromptVerb } from '../../types';
 import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
 import { BAND_HEX } from '../../utils/renderUtils';
@@ -9,7 +10,6 @@ import tailwindConfig from '../../tailwind.config.js';
 import {
   RIBBON_DETAIL_CARD,
   RIBBON_DETAIL_TERM,
-  RIBBON_DETAIL_TIP_ACCENT,
   RIBBON_HEADER_BAR,
   RIBBON_HEADER_TILE,
   RIBBON_ROOT,
@@ -374,18 +374,38 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
     expect(label.className).not.toMatch(/opacity-\d/);
   });
 
-  // 4.15:1 on the tier-2 wash the ribbon paints behind it. `StrategyTip` is
-  // shared with the editor, and its own `light:text-slate-500` was overriding
-  // `--color-text-muted`, whose light value is already slate-600 — the override
-  // made the light theme lighter than the theme had asked for.
-  it('lets the muted token be the muted colour in the strategy tip', () => {
+  /**
+   * The measurement this test was written for: 4.15:1 on the tier-2 wash the
+   * ribbon paints behind the tip, because a `light:text-slate-500` override
+   * was making the light theme lighter than the theme had asked for —
+   * `--color-text-muted` already resolves to slate-600 under
+   * `[data-theme="light"]`.
+   *
+   * The component it guarded (`StrategyTip`) is gone; the ribbon now renders
+   * `StrategyBrief`, the same brief the writing page and the strategy row use.
+   * The measurement still binds whatever is painted here, so the assertion
+   * follows the content rather than retiring with the component.
+   */
+  it('lets the muted token be the muted colour in the strategy brief', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    const tip = document.querySelector('ul[role="list"] span.leading-relaxed') as HTMLElement;
-    expect(tip).toBeTruthy();
-    expect(tip.className).toContain('text-[rgb(var(--color-text-muted))]');
-    expect(tip.className).not.toContain('light:text-slate-500');
-    expect(RIBBON_DETAIL_TIP_ACCENT).toContain('text-slate-600');
+    // The checks on the verb's method — the ribbon's smallest, palest text.
+    const check = document.querySelector(
+      'div.border-l-2 p.font-serif.leading-relaxed'
+    ) as HTMLElement;
+    expect(check).toBeTruthy();
+    expect(check.className).toContain('text-[rgb(var(--color-text-muted))]');
+    expect(check.className).not.toContain('light:text-slate-500');
+  });
+
+  // Headless on this surface: the term is already a heading beside its tier
+  // chip and the definition is the line above, so the brief must not say
+  // either of them a second time.
+  it('does not repeat the verb and its definition the ribbon already states', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const info = getCommandTermInfo('DESCRIBE' as PromptVerb);
+    expect(screen.getAllByText(info.definition)).toHaveLength(1);
   });
 });
 
