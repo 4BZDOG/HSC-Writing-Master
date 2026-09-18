@@ -695,7 +695,7 @@ question, questions with no marking guide, no sample, no outcome — in the
 `AUDIT_TONE` colours the rail and the row badges already use.
 
 This is not decoration filling a hole. Coverage says how many dot points have
-*a* question and says nothing about the eighty questions underneath with no
+_a_ question and says nothing about the eighty questions underneath with no
 marking guide, and finding that out meant expanding the branch or toggling each
 filter in turn and reading the tree back. `missingSamples` was added to the
 stats roll-up for it — every other gap could already be counted for a branch;
@@ -791,3 +791,185 @@ a colour of its own, and it appears only when a run actually left something
 behind, which is the same rule `Sync to Library` follows.
 
 `Fix All Gaps` is still the one filled button on the row.
+
+---
+
+# Sixth pass: the four surfaces a student writes inside
+
+The workspace's own coaching chrome, read against the skill: the verb strategy
+area of the writing card, the Live Insights panel under it, the live stats
+strip with the timer, and the outcome brief a student opens before writing.
+
+These four had never been read as a set, and that turned out to be the
+finding. Each was designed well on its own terms; together they all claimed the
+same moment. At word zero a student met a glowing amber strategy band, a lit
+amber lightbulb on the insights panel, three large stat figures, and a footer
+saying "Before you write" — four things shouting, in a card where the writing
+had not started.
+
+The decisions below were put to the spec's owner as sixteen questions across
+four rounds before any code moved.
+
+## What it found
+
+### 22. One glyph, three jobs — FIXED
+
+`Lightbulb` marked Coach Mode in the editor header, the verb strategy row
+directly beneath it, AND the Live Insights panel below that: three different
+meanings, one glyph, all on screen at once. §5's "one glyph, one job" was
+already in the spec; nothing had read these three together.
+
+None of them kept it. The strategy row sets **the verb itself** as the mark —
+`ANALYSE` in Newsreader, in the question's tier colour, the way a command term
+is printed at the head of an HSC question. NESA's command terms are the
+vocabulary this whole app is built on; a lightbulb is the most generic thing a
+glyph can say. Coach Mode took a `Compass`, pairing against Exam's
+`GraduationCap`. The insights panel dropped its tile for the count (below).
+
+### 23. An infinite animation on a state that is not changing — FIXED
+
+`animate-pulse-glow`, 4s, behind the strategy row's lightbulb. §5 retires
+exactly this pattern and names it: "A heartbeat on a static state is decoration
+that moves." The row was not changing; it was sitting there.
+
+Gone with the leading state that carried it — see 24.
+
+### 24. The coaching claimed the moment before the first sentence, from beside it — FIXED
+
+The strategy row had three states, and its own comment said the leading one's
+"whole claim is on the moment BEFORE the first sentence". That moment is the
+blank writing surface, which was sitting empty two rows below, holding a
+placeholder.
+
+**The brief is now the blank page.** Verb, definition and method, set in
+Newsreader — the face §1 chose to "simulate the gravity of an official
+examination paper", and the same face the writing surface itself uses, so the
+page's own voice states the instruction and then hands over. It is a
+`pointer-events-none` layer sharing the textarea's padding, so the verb sits
+exactly where the student's first word will; a click anywhere still lands on
+the textarea; the first character fades it out; clearing the draft brings it
+back. The row above went to a hairline permanently — two loud things at word
+zero would spend the page's attention twice — and opens the same brief at panel
+scale mid-draft.
+
+**It trims itself to the card it is drawn on.** The writing card's height is
+floored by the question beside it: ~200px of body on a laptop, ~100px on a
+phone. A fixed per-part budget was tried first and could not work — the method
+is one line for DESCRIBE and three for EXPLAIN, and the definition wraps
+differently at every width, so any single number either hid a method that would
+have fitted or showed one that clipped. It measures instead
+(`hooks/useAvailableHeight.ts`), and cannot oscillate: the trim only ever goes
+false → true for a given verb and room.
+
+**The tip's shape is now visible.** The tips in `data/commandTerms.ts` are
+authored as a method followed by its caveats — "Just name it and stop." /
+"Explanations waste time and earn zero extra marks." Rendered as two identical
+bullets, that relationship was thrown away. The method leads at reading size;
+the checks sit under a rule, a step down in size and tone.
+
+The textarea keeps its `placeholder` attribute throughout — it is that field's
+accessible name, and dropping it while the brief showed left a screen reader
+announcing an unnamed edit box. It is hidden to the eye only.
+
+### 25. Notice colour and band colour were the same colour — FIXED
+
+Live Insights painted warnings amber, positives emerald and notes sky. Those
+are Tiers 3, 4 and 5. The panel sits directly beneath a writing surface painted
+in the question's own tier hue, so on a Tier 3 question an amber "you are
+missing terms" box sat under an amber writing card.
+
+This is open question 1 from the first pass, answered in the one place it was
+actually live. Colour as **fill** now belongs to the band system alone; a note
+is marked by a rule down its left edge and its glyph. No seventh hue was added
+— a system whose whole claim is six colours does not get a seventh for notices.
+
+### 26. "Live Insights" was dashboard vocabulary — FIXED
+
+Renamed **Draft check**, and re-cut to match: `buildWritingInsights` now puts
+everything actionable first and allows at most one line of reassurance to
+close, so a student scanning for what to do next does not filter praise out of
+the list. The lightbulb tile became the **count**, which holds the row at its
+neighbours' height and is the one marker there that says something the label
+does not.
+
+Two bugs fell out of looking at it on screen. The badge counted every note
+while the line beneath it counted only the work, so a panel showed `2` over
+"1 to work on". And the keyword nudge rendered "helicase…." — an ellipsis
+followed by a full stop.
+
+### 27. Three equal stat boxes, and a clock that could not be trusted — FIXED
+
+The strip was icon + small label + large figure, three times, divided — the
+treatment the skill names as the generic default. The three facts are not
+equal: the clock is the only one that moves on its own and the only one with a
+consequence. It leads; words and syllabus coverage support it at label weight.
+Figures take the mono face per §4, and no longer borrow emerald and sky for
+quantities that mean no band.
+
+The clock itself was worse than its presentation. It counted down from a
+per-verb, per-mark budget and **stopped dead at 00:00**, sitting red for the
+rest of the session — a cliff at exactly the point "you are two minutes over"
+becomes the useful reading. And in Coach Mode it never started unless a student
+pressed Play, which almost nobody does, so the one figure with a consequence
+was usually frozen at its starting value.
+
+It now measures time spent: starts on the first keystroke, runs past the budget
+as `+2:10 over`, and stops itself after three minutes without typing — because
+a clock that starts itself has to stop itself, or an abandoned tab reports a
+student eight hours over a six-mark question. Exam Mode never pauses: under
+exam conditions the clock does not stop while you think. A student's own Pause
+outranks the auto-start and survives the next keystroke.
+
+`animate-pulse` on the sub-minute figure is gone. It is an opacity animation
+sitting on a reading — the fault §2 rule 3 exists to keep out — and it dimmed
+the one figure that had just become urgent. Urgency is tone now. The figure
+also gained `role="timer"` and a spoken label; a ticking display is not
+readable as digits.
+
+### 28. The outcome brief was four cards and two closes — FIXED
+
+Re-cut as a reading document: the question frames at the top, the outcome
+statement is the one tinted thing on the page, the briefing is prose under it.
+The shell narrowed from `max-w-2xl` to `max-w-xl`, because the briefing ran
+95–100 characters against §4's measure rule and the whole dialog is a reading
+surface — §4 also records that capping the text inside a wide card was tried
+elsewhere and reverted.
+
+Five things went:
+
+- `← Previous` / `Next →`. Finding 10's pattern, still live here.
+- A gradient-filled "Close" styled as a primary action, in a dialog whose only
+  job is to be read, beside a ✕ that already closed it.
+- `Target` used twice in one modal, and `Sparkles` marking the AI panel — the
+  glyph finding 8 already retired, on a panel whose first screenful is NESA's
+  own syllabus wording.
+- "What Students Must Demonstrate": a label above the sentence it described,
+  written in the third person to the one person reading it. Now
+  "What you have to show".
+- `opacity-70` on the locked teaser, which the blur beside it was already
+  doing. `textDimming.test.ts`'s ratchet is at three exemptions, from four.
+
+### 29. The copy that earned the click was hidden below 1280px — FIXED
+
+"Before you write" was an eyebrow over "What's assessed", and `hidden xl:block`
+because it is the widest element in a footer row that is tight on a phone and
+tighter in the two-column layout. So on most screens the promise was simply
+gone.
+
+Folded into the label: **"Read before you write"**, one line at every width,
+narrower than the pair it replaced. Its glyph is the one the dialog opens on.
+
+## Checked on screen
+
+Driven in Chromium at 1440×950 and 390×844, both themes, against the bundled
+Biology curriculum — which is how three of the defects above were found at all.
+The blank-page brief was clipped by the card on the first build and again on
+the second, the draft-check badge disagreed with its own summary, and the
+doubled ellipsis was sitting in a live nudge. None of them would have shown up
+in a unit test written against the same reasoning that produced them.
+
+## What this pass did not change
+
+The tier palette, the luminous progression, the panel surface, the disclosure
+model, and the `t-section` / `t-label` voices. Every one of those was checked
+against the four surfaces and left alone: they are the spec working.

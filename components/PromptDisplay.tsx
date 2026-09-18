@@ -1027,22 +1027,27 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     >
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                     </div>
-                    <div className="flex flex-col text-left">
-                      {/* The eyebrow is the first casualty whenever the row is
-                        tight: it is the widest element in it and "What's
-                        assessed" already says what the button does. It costs a
-                        whole extra footer row on a phone AND in the two-column
-                        layout below xl, where this card is only ~380px wide. */}
-                      <span className="t-label hidden xl:block text-slate-500 dark:text-slate-400 leading-none mb-1">
-                        Before you write
-                      </span>
-                      <span
-                        className={`text-xs font-bold ${bandConfig.text} flex items-center gap-1.5`}
-                      >
-                        <Sparkles className="w-3 h-3 opacity-70" />
-                        What&apos;s assessed
-                      </span>
-                    </div>
+                    {/* One line, at every width.
+                      This was an eyebrow reading "Before you write" stacked
+                      over "What's assessed" — and the eyebrow was `hidden
+                      xl:block`, because it is the widest element in a footer
+                      row that is tight on a phone and tighter still in the
+                      two-column layout, where this card is only ~380px. So
+                      below 1280px the copy that earns the click was simply
+                      gone. Folding the timing into the label says both things
+                      in one line that is narrower than the pair it replaces,
+                      and it survives on a phone.
+
+                      The glyph is the one the outcome dialog opens on, so the
+                      button and the thing it opens are marked the same. It was
+                      a Sparkles, which said "AI" about a panel whose first
+                      screenful is NESA's own syllabus wording. */}
+                    <span
+                      className={`text-xs font-bold ${bandConfig.text} flex items-center gap-1.5 text-left`}
+                    >
+                      <Target className="w-3 h-3 shrink-0" />
+                      Read before you write
+                    </span>
                   </button>
                 ) : examMode ? null : (
                   <div className="flex items-center gap-3 group/link">

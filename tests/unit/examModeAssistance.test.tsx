@@ -56,14 +56,14 @@ describe('PromptDisplay under exam conditions', () => {
   it('offers the outcome briefing in Coach Mode', () => {
     render(<PromptDisplay {...props} />);
     expect(screen.getByText('SE-12-04')).toBeTruthy();
-    expect(screen.getByText(/What's assessed/i)).toBeTruthy();
+    expect(screen.getByText(/Read before you write/i)).toBeTruthy();
   });
 
   it('withholds every outcome affordance in Exam Mode', () => {
     render(<PromptDisplay {...props} examMode />);
     expect(screen.queryByText('SE-12-04')).toBeNull();
     expect(screen.queryByText('SE-12-08')).toBeNull();
-    expect(screen.queryByText(/What's assessed/i)).toBeNull();
+    expect(screen.queryByText(/Read before you write/i)).toBeNull();
     // ...and does not replace them with a curation note either.
     expect(screen.queryByText(/No specific outcomes linked/i)).toBeNull();
   });

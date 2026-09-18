@@ -28,7 +28,7 @@ import {
   ZoomIn,
   ZoomOut,
   FileText,
-  Lightbulb,
+  Compass,
   GraduationCap,
   ChevronDown,
   X,
@@ -39,6 +39,7 @@ import { getReadinessChroma, type ReadinessResult } from '../utils/draftReadines
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
+import { useAvailableHeight } from '../hooks/useAvailableHeight';
 import { PlusLockChip } from './UpgradeModal';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
@@ -54,8 +55,7 @@ import {
   CARD_HEADER_TITLE_BLOCK,
   CARD_HEADER_TRAY,
 } from '../utils/cardChrome';
-import StrategyTip from './StrategyTip';
-import { parseStrategyTip } from '../utils/strategyTip';
+import StrategyBrief from './StrategyBrief';
 
 interface EditorProps {
   value: string;
@@ -104,13 +104,6 @@ interface EditorProps {
    *  ~90px out of a card whose height is fixed by the question beside it. */
   footerAction?: React.ReactNode;
 }
-
-/**
- * Words written before the strategy row stands down from its leading state.
- * Roughly two sentences — long enough that the student has plainly started,
- * short enough that the row is out of the way before the writing gets going.
- */
-const STRATEGY_SETTLED_WORDS = 25;
 
 const MeshOverlay = ({
   opacity = 'opacity-[0.03]',
@@ -207,12 +200,12 @@ const Editor = forwardRef<
     const footerRef = useRef<HTMLDivElement>(null);
     const footerContentRef = useRef<HTMLDivElement>(null);
     const [copied, setCopied] = useState(false);
-    // Folded, like every panel around it. It used to open itself on a desktop
-    // and re-decide on every resize, which made it the one disclosure in the
-    // workspace whose state a student did not own — and the tip runs to ~180px
-    // out of a writing card that is only ~300px tall on a narrow viewport. The
-    // closed row quotes the first tip, so folding it costs a hook, not the
-    // coaching.
+    // Folded, like every panel around it, and quiet from the first frame. The
+    // row used to have a LEADING state — amber wash, a lit tile, "Read this
+    // first" — because the coaching matters most before the first sentence.
+    // The blank writing surface now carries that brief (see the overlay in the
+    // editor body), so the row is only ever the way BACK to it mid-draft. Two
+    // loud things at word zero would have spent the page's attention twice.
     const [showStrategy, setShowStrategy] = useState(false);
     const strategyOpened = useOpenedOnce(showStrategy, verb);
     // Exam Mode has no strategy row at all, so it must not be reported as a
@@ -243,26 +236,18 @@ const Editor = forwardRef<
     const verbTier = verbInfo.tier;
 
     /**
-     * When the strategy row has stopped being the most useful thing on screen.
+     * The blank page is the brief, so the brief shows while the page is blank.
      *
-     * Two ways to get there, and both are the student telling us something:
-     * they have already read it for this verb, or they are far enough into a
-     * draft that they clearly know how to start. The word floor is deliberately
-     * low — a couple of sentences — because the row's whole claim is on the
-     * moment BEFORE the first sentence, and after that it is competing with the
-     * writing for the same attention.
+     * Exam Mode has no strategy at all, and a question with no command verb has
+     * nothing to brief. Everything else: the moment there is a character in the
+     * draft this fades out and the row below is the only way back.
      */
-    const strategySpent = strategyOpened || wordCount >= STRATEGY_SETTLED_WORDS;
-    /** Shut, unspent: the state where the row is worth shouting in. */
-    const strategyLeading = !showStrategy && !strategySpent;
-
-    // The first instruction in the verb's tip, quoted in the strategy row while
-    // it is folded shut. Examples and term chips are skipped — out of context
-    // they read as a fragment; a point is a whole piece of advice on its own.
-    const strategyPreview = useMemo(() => {
-      const first = parseStrategyTip(verbInfo.tip).find((s) => s.kind === 'point');
-      return first && first.kind === 'point' ? first.text : '';
-    }, [verbInfo.tip]);
+    const showStrategyPage = !isExamMode && !!verb && value.length === 0;
+    // How much of the brief the card can actually finish. The writing card's
+    // height is floored by the question beside it, so this is ~200px on a
+    // laptop and ~100px on a phone — and a brief sized for the first is cut in
+    // half on the second.
+    const bodyHeight = useAvailableHeight(bodyRef);
 
     // Live-feedback theme. The writing surface is painted in the question's
     // TIER colour (one fixed hue per question). Progress isn't shown by
@@ -673,10 +658,10 @@ const Editor = forwardRef<
                           type="button"
                           onClick={() => onWritingModeChange('coach')}
                           aria-pressed={!isExamMode}
-                          title="Coach Mode — live highlighting, insights and exemplars"
+                          title="Coach Mode — live highlighting, draft checks and exemplars"
                           className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
-                          <Lightbulb className="w-3.5 h-3.5" />
+                          <Compass className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Coach</span>
                         </button>
                         <button
@@ -783,34 +768,14 @@ const Editor = forwardRef<
             </div>
           </div>
 
-          {/* Writing Strategy Tip — Coach mode only.
-            The row has three jobs and they pull against each other, so it has
-            three states rather than one compromise between them.
-
-            LEADING (shut, unread, nothing written yet): the coaching a student
-            most needs before the first sentence, so it is the loudest thing
-            between the header and the page — amber wash, a lit tile, "Read
-            this first", and the first tip quoted so there is something to read
-            rather than a promise of something.
-
-            OPEN: a proper card with the verb's definition set as a lead-in
-            above its tips, not a paragraph loose on the chrome.
-
-            SPENT (shut, and either already read or the student is well into a
-            draft): a hairline. The advice does not stop being available, it
-            stops competing with the writing — which is the only thing that
-            matters once the writing has started. It brightens on hover and
-            focus, so a student who wants it back does not have to hunt. */}
+          {/* The way back to the verb's brief, once the page is no longer
+            blank. It is a hairline from the first frame and stays one: the
+            brief itself leads on the empty writing surface below, where it has
+            the room to be read, and a row shouting alongside it would spend
+            the same attention twice. Opened mid-draft it shows the same brief
+            at panel scale, so the advice never reads two different ways. */}
           {!isExamMode && verb && (
-            <div
-              className={`border-t transition-colors duration-500 ${
-                strategyLeading
-                  ? 'border-amber-500/40 light:border-amber-300 bg-gradient-to-r from-amber-500/[0.13] via-amber-500/[0.06] to-transparent light:from-amber-100 light:via-amber-50 light:to-transparent'
-                  : showStrategy
-                    ? 'border-amber-500/25 light:border-amber-200 bg-amber-500/[0.05] light:bg-amber-50/60'
-                    : 'border-white/10 light:border-slate-200 bg-transparent'
-              }`}
-            >
+            <div className="border-t border-white/10 light:border-slate-200">
               <button
                 type="button"
                 onClick={() => setShowStrategy((s) => !s)}
@@ -821,69 +786,29 @@ const Editor = forwardRef<
                     ? 'Hide the writing strategy for this command verb'
                     : `How to answer a ${verbInfo.term} question`
                 }
-                className={`w-full flex items-center gap-2.5 px-4 sm:px-6 text-left transition-all duration-300 hover:bg-amber-500/10 light:hover:bg-amber-100/70 focus-visible:bg-amber-500/10 ${
-                  strategyLeading ? 'py-2.5' : 'py-1.5'
-                } ${strategySpent ? 'hover:opacity-100 focus-visible:opacity-100' : ''}`}
+                className="w-full flex items-center gap-2.5 px-4 sm:px-6 py-1.5 text-left transition-colors duration-300 hover:bg-black/5 light:hover:bg-slate-100 focus-visible:bg-black/5"
               >
-                {strategyLeading ? (
-                  <span className="relative flex-shrink-0 w-6 h-6 rounded-lg bg-amber-500/20 light:bg-amber-200/80 border border-amber-500/40 light:border-amber-300 flex items-center justify-center">
-                    {/* A slow glow, not a blink: enough to be noticed on
-                        arrival, not enough to nag while a student thinks. */}
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-0 rounded-lg bg-amber-400/30 animate-pulse-glow motion-reduce:animate-none"
-                    />
-                    <Lightbulb className="relative w-3.5 h-3.5 text-amber-400 light:text-amber-700" />
-                  </span>
-                ) : (
-                  <Lightbulb
-                    className={`w-3.5 h-3.5 flex-shrink-0 ${
-                      showStrategy
-                        ? 'text-amber-400 light:text-amber-600'
-                        : 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
-                    }`}
-                  />
-                )}
                 <span
                   className={`t-label flex-shrink-0 ${
-                    strategySpent
-                      ? 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
-                      : 'text-amber-400/90 light:text-amber-700'
+                    showStrategy
+                      ? 'text-[rgb(var(--color-text-primary))]'
+                      : 'text-[rgb(var(--color-text-muted))]'
                   }`}
                 >
-                  {strategyLeading && <span className="mr-1.5">Read this first ·</span>}
-                  {verbInfo.term} Strategy
+                  {verbInfo.term} strategy
                 </span>
-                {/* The hook. Dropped once the panel is open — it is the first
-                  line of what is now on screen — once the row has done its job,
-                  and on the narrowest widths, where it would push the row to
-                  two lines. */}
-                {strategyLeading && strategyPreview && (
-                  <span className="hidden sm:block text-[11px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 truncate min-w-0 italic">
-                    {strategyPreview}
-                  </span>
-                )}
                 <div className="flex items-center gap-2 ml-auto flex-shrink-0">
                   <PanelReadChip show={strategyOpened && !showStrategy} />
                   <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      showStrategy ? 'rotate-180 text-amber-400 light:text-amber-600' : ''
-                    } ${strategySpent ? 'text-[rgb(var(--color-text-dim))]' : 'text-amber-400/70 light:text-amber-600'}`}
+                    className={`w-3 h-3 text-[rgb(var(--color-text-dim))] transition-transform duration-200 ${
+                      showStrategy ? 'rotate-180 text-[rgb(var(--color-text-primary))]' : ''
+                    }`}
                   />
                 </div>
               </button>
               {showStrategy && (
                 <div id={strategyPanelId} className="px-4 sm:px-6 pb-4 animate-fade-in">
-                  <div className="rounded-2xl border border-amber-500/20 light:border-amber-200 bg-amber-500/[0.06] light:bg-amber-50/80 px-4 py-3.5">
-                    <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-700 leading-relaxed">
-                      {verbInfo.definition}
-                    </p>
-                    <div
-                      aria-hidden="true"
-                      className="my-3 h-px bg-amber-500/20 light:bg-amber-200"
-                    />
-                    <StrategyTip tip={verbInfo.tip} />
-                  </div>
+                  <StrategyBrief verb={verb} scale="panel" />
                 </div>
               )}
             </div>
@@ -936,6 +861,36 @@ const Editor = forwardRef<
               </div>
             )}
 
+            {/* The verb's brief, on the page it is about.
+              A layer rather than a row: in flow it would push the caret down
+              the moment a student pressed a key, and the one thing the blank
+              page should feel is still. `pointer-events-none` means a click
+              anywhere still lands on the textarea underneath, so the brief
+              never stands between a student and starting.
+
+              It shares the writing surface's own padding, so the verb sits
+              exactly where the student's first word will. That does put the
+              caret behind the verb's first letterform — but only once they
+              have clicked in, which is the moment before they type, and the
+              first character dissolves the whole thing. A line was reserved
+              above it to avoid that and cost 64px out of a card body that has
+              about 200px to give, which bought an empty band at the top and
+              clipped the method off the bottom.
+
+              It fades rather than cuts, and it comes back if the draft is
+              cleared to nothing, which is exactly when it is wanted again. */}
+            {!isExamMode && verb && (
+              <div
+                data-testid="strategy-page"
+                inert={!showStrategyPage}
+                className={`absolute inset-x-0 top-0 z-20 pointer-events-none px-5 sm:px-8 pt-8 transition-opacity duration-500 ${
+                  showStrategyPage ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <StrategyBrief verb={verb} scale="page" room={bodyHeight} />
+              </div>
+            )}
+
             <div className="grid w-full relative z-10 min-h-full">
               {/* Invisible phantom div to force height based on content */}
               <div
@@ -969,7 +924,21 @@ const Editor = forwardRef<
                 // (focus-within, inset): a textarea always matches
                 // :focus-visible, and the global rule's outline was being
                 // clipped by the card down to a single bar across the page.
-                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                // The placeholder attribute always stays — it is this
+                // textarea's accessible name, and dropping it while the brief
+                // shows left a screen reader announcing an unnamed edit field.
+                // It is only hidden to the eye: the brief is the empty state
+                // while it is up, and "Draft your Describe response here" set
+                // above a page that already names the verb and says how to
+                // answer it is the same instruction twice. One class or the
+                // other, never both — two `placeholder:text-*` utilities have
+                // equal specificity and the winner would be decided by
+                // stylesheet order rather than by this line.
+                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none ${
+                  showStrategyPage
+                    ? 'placeholder:text-transparent'
+                    : 'placeholder:text-[rgb(var(--color-text-dim))]'
+                } focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
                 style={{
                   fontSize: `${internalFontSize}px`,
                   // The caret takes the readiness hue when a live signal is

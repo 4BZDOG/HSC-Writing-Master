@@ -3,7 +3,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import PromptDisplay from '../../components/PromptDisplay';
 import Editor from '../../components/Editor';
-import LiveInsights from '../../components/LiveInsights';
+import DraftCheck from '../../components/DraftCheck';
 import WritingMetricsDashboard from '../../components/WritingMetricsDashboard';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { PANEL_SURFACE } from '../../utils/panelStyles';
@@ -231,9 +231,9 @@ describe('the panels below the cards share one surface', () => {
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
   });
 
-  it('dresses Live Insights the same way', () => {
+  it('dresses the draft check the same way', () => {
     const { container } = render(
-      <LiveInsights insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]} />
+      <DraftCheck insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]} />
     );
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
   });

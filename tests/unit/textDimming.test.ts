@@ -85,8 +85,13 @@ const dimsSomething = (line: string): boolean => {
  * why, holds at zero everywhere else, and fails usefully when the exempted
  * code changes: an exemption that stops matching is one nobody has re-read.
  *
- * All four are cases WCAG or the sweep already excludes, so none of them is
+ * All three are cases WCAG or the sweep already excludes, so none of them is
  * debt being deferred.
+ *
+ * It was four. The locked-outcome teaser in `OutcomeDetailModal` carried
+ * `blur-[1.5px] opacity-70` and was exempt because illegibility is the point of
+ * it — but the blur alone does that job, and the opacity was doing nothing the
+ * blur was not. The ratchet is at three.
  */
 const EXEMPT: { match: string; why: string }[] = [
   {
@@ -106,13 +111,6 @@ const EXEMPT: { match: string; why: string }[] = [
       '"your answer, rewritten one mark higher" pitch, and the sentence under ' +
       'it carries the whole meaning. Caught only because the band palette ' +
       'paints icons from the same `.text` field it paints prose from.',
-  },
-  {
-    match: 'blur-[1.5px] opacity-70',
-    why:
-      'the locked-outcome teaser, which is `aria-hidden` and BLURRED on purpose: ' +
-      'it shows the shape of content the reader has not unlocked. Legible is the ' +
-      'one thing it must not be.',
   },
 ];
 

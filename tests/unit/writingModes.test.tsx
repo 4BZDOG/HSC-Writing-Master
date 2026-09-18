@@ -60,7 +60,7 @@ describe('Editor writing modes', () => {
         writingMode="exam"
       />
     );
-    expect(container.textContent).not.toContain('DESCRIBE Strategy');
+    expect(container.textContent).not.toContain('DESCRIBE strategy');
     expect(container.textContent).not.toContain('Provide the characteristics');
   });
 
@@ -73,7 +73,7 @@ describe('Editor writing modes', () => {
         writingMode="coach"
       />
     );
-    expect(container.textContent).toContain('DESCRIBE Strategy');
+    expect(container.textContent).toContain('DESCRIBE strategy');
   });
 
   it('Exam Mode hides the band progress bar in the header', () => {

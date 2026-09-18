@@ -153,7 +153,7 @@ export const openVerbRibbon = async (page: Page): Promise<void> => {
  * opened a question and measured, which is one screen in ONE state — and three
  * of the surfaces carrying the app's remaining opacity-dimmed text are on that
  * very screen, invisible only because the state they need was never reached.
- * `LiveInsights` is the clearest case: it is mounted in
+ * `DraftCheck` is the clearest case: it is mounted in
  * `WorkspaceRightPanel` whenever the session is not an exam, and
  * `buildWritingInsights` returns an empty array at `wordCount === 0`, so the
  * panel returns `null` and never paints. A single word is the whole difference
@@ -176,7 +176,7 @@ export const typeAnswer = async (page: Page, text?: string): Promise<void> => {
   );
   // The metrics hook reads a debounced copy of the answer, so the panel
   // appears a beat after the last keystroke rather than with it.
-  await expect(page.getByText('Live Insights')).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText('Draft check')).toBeVisible({ timeout: 20_000 });
 };
 
 /**
@@ -186,7 +186,7 @@ export const typeAnswer = async (page: Page, text?: string): Promise<void> => {
  * mounted-but-shut, and a checker that walks text nodes cannot see a panel
  * whose content has never been opened — the same blind spot that kept the verb
  * ribbon out of this suite until `openVerbRibbon` existed. `SampleAnswersAccordion`
- * and `LiveInsights` both hold dimmed text behind their own toggle.
+ * and `DraftCheck` both hold dimmed text behind their own toggle.
  *
  * Idempotent: already-open panels are left alone rather than shut.
  */

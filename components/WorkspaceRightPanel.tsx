@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, useSyncExternalStore } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode, StatePath } from '../types';
 import Editor from './Editor';
-import LiveInsights from './LiveInsights';
+import DraftCheck from './DraftCheck';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import EvaluationResultModal from './EvaluationResultModal';
 import ImprovementReviewModal from './ImprovementReviewModal';
@@ -468,7 +468,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           the two gaps looked close enough alike to read as a mistake rather
           than two different relationships. */}
       <div className="flex flex-col gap-4">
-        {!isExamMode && <LiveInsights insights={insights} />}
+        {!isExamMode && <DraftCheck insights={insights} />}
 
         <WritingMetricsDashboard
           userAnswer={debouncedUserAnswer}
