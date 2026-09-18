@@ -207,6 +207,21 @@ const STATES: {
       await openPanel(page, /syllabus terms/i);
     },
   },
+  // NOT here, and honestly out of reach: the writing clock's urgency tones.
+  // `text-amber-700` lights under a minute remaining and `text-red-600` past
+  // the budget, and the budget is `getRecommendedTime` — two minutes at the
+  // very shortest, four to fourteen for anything a student actually writes.
+  // A sweep state cannot sit through that, and the clock pauses itself after
+  // three idle minutes in Coach Mode precisely so a tab left open does not
+  // keep counting, so waiting does not even get there.
+  //
+  // Saving elapsed time on the draft made the state RESTORABLE but not
+  // reachable: seeding it means writing into IndexedDB behind the app's back,
+  // which is a fixture pretending to be a user. `tests/unit/writingTimer.test.tsx`
+  // covers which tone is applied when, including restored past the budget;
+  // what nothing measures is the ratio those two tones actually make on the
+  // stats strip. Worth remembering before either is retuned.
+  //
   // NOT here, though it should be: the question generator modal, which holds
   // two of the sites this pass fixed and is the only unvisited MODAL among
   // them. Reaching it is circular. Its trigger renders only when a prompt is

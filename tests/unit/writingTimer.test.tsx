@@ -197,4 +197,82 @@ describe('the writing clock', () => {
     expect(clock().className).toContain('font-mono');
     expect(clock().className).toContain('tabular-nums');
   });
+
+  /**
+   * Time spent survives a reload, because the draft does.
+   *
+   * The app already promises to remember a student's words across a refresh.
+   * Handing back the full budget as though no time had passed made the lead
+   * figure on this strip the one thing on the page that forgot.
+   */
+  describe('restored from the saved draft', () => {
+    it('opens where the last session left off', () => {
+      renderStrip({ elapsedSeconds: 120 });
+
+      const remaining = BUDGET - 120;
+      expect(clock().textContent).toBe(
+        `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}`
+      );
+      // Restored, not running: it waits for the next keystroke like any other
+      // question, and says so rather than implying a clock nobody started.
+      expect(screen.getByText(/^paused$/i)).toBeTruthy();
+    });
+
+    it('restores past the budget too', () => {
+      renderStrip({ elapsedSeconds: BUDGET + 90 });
+
+      expect(clock().textContent).toBe('+01:30');
+      expect(screen.getByText(/^over \d+ min$/i)).toBeTruthy();
+    });
+
+    it('reports the running total upward for the draft to save', () => {
+      const onElapsedChange = vi.fn();
+      const { rerender } = renderStrip({ elapsedSeconds: 30, onElapsedChange });
+
+      rerender(
+        <WritingMetricsDashboard
+          userAnswer="Mitosis begins"
+          prompt={prompt()}
+          onAddWord={vi.fn()}
+          elapsedSeconds={30}
+          onElapsedChange={onElapsedChange}
+        />
+      );
+      tick(5);
+
+      expect(onElapsedChange).toHaveBeenLastCalledWith(35);
+    });
+
+    // Switching INTO Exam Mode is a fresh attempt under exam conditions, and
+    // starting it part-spent would make the simulation a lie. Arriving at the
+    // question is the opposite case, which is why the two are told apart.
+    it('starts clean when the student switches into Exam Mode', () => {
+      const { rerender } = renderStrip({ elapsedSeconds: 120 });
+
+      rerender(
+        <WritingMetricsDashboard
+          userAnswer=""
+          prompt={prompt()}
+          onAddWord={vi.fn()}
+          elapsedSeconds={120}
+          writingMode="exam"
+        />
+      );
+
+      expect(clock().textContent).toBe(
+        `${String(Math.floor(BUDGET / 60)).padStart(2, '0')}:${String(BUDGET % 60).padStart(2, '0')}`
+      );
+    });
+
+    // …but a reload mid-exam is an arrival, not a switch, and the exam clock is
+    // the one where the elapsed time matters most.
+    it('restores an exam clock that was already running', () => {
+      renderStrip({ elapsedSeconds: 60, writingMode: 'exam' });
+
+      const remaining = BUDGET - 60;
+      expect(clock().textContent).toBe(
+        `${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}`
+      );
+    });
+  });
 });

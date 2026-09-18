@@ -61,6 +61,9 @@ interface WorkspaceRightPanelProps {
   blockPaste?: boolean;
   /** Whether everything typed has reached storage. */
   draftSaved?: boolean;
+  /** Time already spent on this question's draft, and where to report it. */
+  draftElapsedSeconds?: number;
+  onElapsedChange?: (seconds: number) => void;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -95,6 +98,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   referenceSlot,
   blockPaste,
   draftSaved,
+  draftElapsedSeconds,
+  onElapsedChange,
 }) => {
   const isExamMode = writingMode === 'exam';
   // The rewrite, the diff review and the PDF's change list are one feature.
@@ -475,6 +480,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           prompt={currentPrompt}
           syllabus={syllabus}
           writingMode={writingMode}
+          elapsedSeconds={draftElapsedSeconds}
+          onElapsedChange={onElapsedChange}
           onAddWord={(word) => {
             const event = new CustomEvent('insert-text', { detail: word });
             window.dispatchEvent(event);

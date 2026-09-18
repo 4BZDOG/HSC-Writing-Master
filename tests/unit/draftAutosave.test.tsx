@@ -74,6 +74,8 @@ const statePath: StatePath = {
  */
 const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) => {
   const saved: string[] = [];
+  /** What each save wrote for the clock, alongside the words. */
+  const savedElapsed: (number | undefined)[] = [];
   const updateCourses = vi.fn((recipe: (draft: unknown) => void) => {
     // The real handler runs an immer recipe over the course tree; the draft is
     // whatever `findAndUpdateItem` reaches, so a minimal tree is enough.
@@ -93,6 +95,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
     recipe(tree);
     const p = (tree as never as typeof tree)[0].topics[0].subTopics[0].dotPoints[0].prompts[0];
     saved.push((p as Prompt).userDraft ?? '');
+    savedElapsed.push((p as Prompt).draftElapsedSeconds);
   });
 
   const current = opts.current ?? prompt();
@@ -169,7 +172,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
 
   if (opts.answer !== (current.userDraft ?? '')) type(opts.answer);
 
-  return { saved, updateCourses, view, type };
+  return { saved, savedElapsed, updateCourses, view, type };
 };
 
 describe('the draft saves itself', () => {
@@ -306,5 +309,53 @@ describe('the draft saves itself', () => {
     expect(writes.some((w) => w.promptId === 'p1')).toBe(true);
     // p2 must never receive it.
     expect(writes.filter((w) => w.promptId === 'p2')).toHaveLength(0);
+  });
+});
+
+/**
+ * The clock rides with the words.
+ *
+ * Time spent on a question is saved on the Prompt beside `userDraft`, by this
+ * same machinery and under the same ownership guard — because writing six
+ * minutes onto the wrong question is exactly the mistake `answerBelongsTo`
+ * exists to prevent, in a second currency.
+ */
+describe('the clock saves itself with the draft', () => {
+  it('does not lose the stored time when the student types', () => {
+    const { savedElapsed } = setup({
+      current: prompt({ userDraft: 'A first go.', draftElapsedSeconds: 300 }),
+      answer: 'A first go, continued.',
+    });
+
+    expect(savedElapsed.length).toBeGreaterThan(0);
+    // The flush that saves the new words must carry the old clock with them.
+    // Writing the fresh component's own starting value here would hand a
+    // student back five minutes they had already spent.
+    expect(savedElapsed.at(-1)).toBeGreaterThanOrEqual(300);
+  });
+
+  // A flush can fire from `pagehide` after the clock has been reset for a
+  // different question. A saved total that went DOWN reads as time a student
+  // never got back.
+  it('never writes a smaller total than the one already stored', () => {
+    const { savedElapsed } = setup({
+      current: prompt({ userDraft: '', draftElapsedSeconds: 600 }),
+      answer: 'Starting fresh on a question I have already spent ten minutes on.',
+    });
+
+    for (const written of savedElapsed) {
+      expect(written ?? 0).toBeGreaterThanOrEqual(600);
+    }
+  });
+
+  // The guard that matters. Until what is on screen is demonstrably this
+  // question's own text, nothing is written — the clock included.
+  it('writes nothing at all before the answer belongs to the question', () => {
+    const { savedElapsed } = setup({
+      current: prompt({ userDraft: 'Stored words.', draftElapsedSeconds: 120 }),
+      answer: 'Stored words.',
+    });
+
+    expect(savedElapsed).toEqual([]);
   });
 });

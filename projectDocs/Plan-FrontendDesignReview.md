@@ -1110,3 +1110,80 @@ Prop-drilling the result would change a component contract and three test files
 to save a fifth of a millisecond. The measurement is recorded in the hook so
 the next reader does not re-derive it, along with the invariant that actually
 matters: the dashboard must keep receiving the DEBOUNCED answer.
+
+---
+
+# Eighth pass: the clock keeps its place
+
+The last of the sixth pass's five. Held back from the seventh because it
+touches the data layer and a `DATA_VERSION` bump, and because writing six
+minutes onto the wrong question is the same class of mistake as writing an
+answer onto it — it deserved its own read.
+
+### 36. The lead figure on the strip was the one thing that forgot — FIXED
+
+Drafts persist to IndexedDB. Time spent did not, so a reload handed back the
+full budget as though no time had passed — and the sixth pass had just made
+that figure the lead of the live stats strip.
+
+`Prompt.draftElapsedSeconds` sits beside `userDraft` and is saved by the same
+machinery, under the same ownership guard: the workspace's `latestDraft`
+snapshot carries it, so whichever moment a flush fires in, the clock is
+written to the question it was counting. It never goes backwards — a flush can
+fire from `pagehide` after the clock has been reset for another question, and a
+saved total that went down reads as time a student never got back.
+
+Restore or reset, and the difference is which of the two happened. Arriving at
+a question hands back the time already spent on it. **Switching into Exam Mode
+does not**: that is a fresh attempt under exam conditions, and starting it
+part-spent would make the simulation a lie. A reload mid-exam is an arrival,
+not a switch, and that is the clock where elapsed time matters most — so the
+component remembers which mode it was last set up in to tell the two apart.
+
+### 37. Reloading started a clock nobody had started — FIXED, and only seen in the app
+
+Found by driving the real app, not by a test. The clock starts on the first
+keystroke, and the effect that does it fired on the mere PRESENCE of text. That
+was harmless while nothing survived a reload. The moment the draft came back
+WITH its words, reloading also started the clock: a student returning to read
+what they had written was charged for the reading, up to the three-minute idle
+pause, without typing a character.
+
+The test is the one the workspace already uses to decide whether an answer
+belongs to its question — what is on screen is the stored draft until it
+differs from it. The stored draft arriving looks exactly like typing from
+inside the component, and it happens on every mount, every reload and every
+switch back.
+
+Measured on the real app before and after: `07:00` on arrival, `05:44` after
+74 seconds of writing, `05:45` after a reload. One second of drift, and the
+figure no longer runs while nobody is writing.
+
+### 38. The final flush held back the part-minute — FIXED
+
+Elapsed time is written on whole minutes during a session: the clock reports
+every second and a flush fires on every pause in typing, so writing on any
+change would put a storage round-trip behind each tick to record a number
+nobody reads at that resolution. The flush on the way out is not during a
+session and the throttle saves nothing there, so it writes whatever has
+accrued.
+
+A backstop rather than the main path, and worth saying so: because the answer
+and the clock are written together, any flush that saves typing carries the
+clock with it. This is for what the debounce misses — switching apps on a
+phone mid-sentence.
+
+### Still not measurable: the clock's urgency tones
+
+`text-amber-700` under a minute and `text-red-600` past the budget. The budget
+is two minutes at the very shortest and four to fourteen for anything a student
+writes, so no sweep state can sit through it — and the clock pauses itself
+after three idle minutes precisely so a tab left open does not keep counting,
+so waiting does not get there either.
+
+Persistence made the state RESTORABLE but not reachable: seeding it means
+writing into IndexedDB behind the app's back, which is a fixture pretending to
+be a user. The unit tests cover which tone is applied when, including restored
+past the budget. What nothing measures is the ratio those two tones actually
+make on the stats strip. Recorded in `tests/e2e/light-theme.spec.ts` beside the
+other state it cannot reach.
