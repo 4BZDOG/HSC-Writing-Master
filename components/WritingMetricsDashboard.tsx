@@ -9,13 +9,9 @@ import {
   Play,
   Pause,
   RotateCcw,
-  Target,
   BarChart3,
-  Clock3,
-  Type,
   Check,
   Sparkles,
-  GraduationCap,
   AlignLeft,
   BookMarked,
 } from 'lucide-react';
@@ -31,21 +27,33 @@ interface PillProps {
   keyTerm?: boolean;
 }
 
-const StatBox: React.FC<{
-  label: string;
-  value: string | number;
-  colorClass: string;
-  icon: React.ElementType;
-}> = ({ label, value, colorClass, icon: Icon }) => (
-  <div className="flex-1 flex flex-col items-center justify-center py-3 px-2 border-r border-slate-200 dark:border-white/10 last:border-r-0 transition-colors">
-    <div className="flex items-center gap-1.5">
-      <Icon className="w-3 h-3 text-slate-500 dark:text-slate-400" />
-      <span className="t-label text-slate-500 dark:text-slate-400">{label}</span>
-    </div>
-    <span className={`text-lg font-black tabular-nums tracking-tight leading-tight ${colorClass}`}>
-      {value}
-    </span>
-  </div>
+/**
+ * How long a Coach-Mode draft may sit untouched before the clock stops.
+ *
+ * The clock starts itself on the first keystroke, which is the only way it was
+ * ever going to measure anything — in Coach Mode it waited for a Play button
+ * almost nobody presses, so the one figure on this strip with a consequence
+ * was usually frozen at its starting value. Starting itself means it also has
+ * to stop itself: a tab left open overnight would otherwise report a student
+ * eight hours over their six-mark question, and a number nobody believes is
+ * worse than no number. Exam Mode never pauses — under exam conditions the
+ * clock does not stop while you think.
+ */
+const IDLE_PAUSE_MS = 3 * 60 * 1000;
+
+/** A figure that supports the clock rather than competing with it. */
+const SupportStat: React.FC<{ children: React.ReactNode; title?: string }> = ({
+  children,
+  title,
+}) => (
+  <span title={title} className="t-label block truncate text-slate-600 dark:text-slate-300">
+    {children}
+  </span>
+);
+
+/** Telemetry, per DesignSpec §4: figures are set in the mono face. */
+const Figure: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span className="font-mono tabular-nums">{children}</span>
 );
 
 /** Compact structural stat (paragraphs / sentences / sentence length). */
@@ -167,37 +175,90 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       () => getExpectedTerms(prompt.totalMarks, commandTermInfo),
       [prompt.totalMarks, commandTermInfo]
     );
-    const [remainingTime, setRemainingTime] = useState(recommendedTime);
+    // Time SPENT, not time left. The clock used to count a remaining figure
+    // down and stop dead at 00:00, where it sat red for the rest of the
+    // session — a cliff at exactly the moment the information gets useful,
+    // because "you are two minutes over" is what a student practising under
+    // HSC conditions actually needs to know. Counting up and deriving the
+    // remainder gives both readings from one number, and the overrun has
+    // somewhere to go.
+    const [elapsed, setElapsed] = useState(0);
+    /** Set when the STUDENT pressed pause, so typing does not override them. */
+    const pausedByUser = useRef(false);
+    const lastTypedAt = useRef(0);
 
     // Reset the clock whenever the question or the mode changes. Keyed on the
     // prompt id (not just the recommended time) so switching between two
-    // questions worth the same marks still restarts the countdown. In Exam
-    // Mode the countdown auto-starts — you're "under exam conditions" the
-    // moment you switch in; in Coach Mode it waits for Play.
+    // questions worth the same marks still restarts it. In Exam Mode it starts
+    // immediately — you are under exam conditions the moment you switch in.
     useEffect(() => {
-      setRemainingTime(recommendedTime);
+      setElapsed(0);
+      pausedByUser.current = false;
+      lastTypedAt.current = Date.now();
       setIsTimerActive(isExamMode);
     }, [prompt.id, recommendedTime, isExamMode]);
+
+    // Writing starts the clock, and resumes it after an idle pause. Pressing
+    // Pause is a decision, so it survives the next keystroke.
+    useEffect(() => {
+      if (!userAnswer.trim()) return;
+      lastTypedAt.current = Date.now();
+      if (!pausedByUser.current) setIsTimerActive(true);
+    }, [userAnswer]);
+
     useEffect(() => {
       if (!isTimerActive) return;
       timerIntervalRef.current = setInterval(() => {
-        setRemainingTime((p) => {
-          if (p <= 1) {
-            setIsTimerActive(false);
-            return 0;
-          }
-          return p - 1;
-        });
+        if (!isExamMode && Date.now() - lastTypedAt.current > IDLE_PAUSE_MS) {
+          setIsTimerActive(false);
+          return;
+        }
+        setElapsed((seconds) => seconds + 1);
       }, 1000);
       return () => {
         if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
       };
-    }, [isTimerActive]);
+    }, [isTimerActive, isExamMode]);
 
     const formatTime = (s: number) =>
       `${Math.floor(s / 60)
         .toString()
         .padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+
+    const remainingTime = recommendedTime - elapsed;
+    const isOverTime = remainingTime < 0;
+    const budgetMinutes = Math.max(1, Math.round(recommendedTime / 60));
+    const clock = isOverTime
+      ? `+${formatTime(-remainingTime)}`
+      : formatTime(Math.max(0, remainingTime));
+
+    // The caption says what the figure above it is measuring against, which
+    // the figure alone cannot: before the clock starts it names the budget and
+    // where the budget comes from, and after it starts it names the direction.
+    const clockCaption = isOverTime
+      ? `over ${budgetMinutes} min`
+      : elapsed === 0
+        ? `${budgetMinutes} min for ${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}`
+        : isTimerActive
+          ? `left of ${budgetMinutes} min`
+          : 'paused';
+
+    // Tone, not opacity. The sub-minute state used to be `animate-pulse` on red
+    // text — an opacity animation on a reading, which DesignSpec §2 rule 3 is
+    // written to keep out of this codebase, and it dipped the contrast of the
+    // one figure that had just become urgent.
+    const clockTone = isOverTime
+      ? 'text-red-600 dark:text-red-400'
+      : remainingTime <= 60
+        ? 'text-amber-700 dark:text-amber-400'
+        : 'text-slate-900 dark:text-white';
+
+    // A ticking display is not readable as digits by a screen reader, and
+    // role="timer" is implicitly aria-live="off", so this is read on demand
+    // rather than announced every second.
+    const spokenClock = `${Math.floor(Math.abs(remainingTime) / 60)} minutes ${
+      Math.abs(remainingTime) % 60
+    } seconds ${isOverTime ? 'over' : 'left of'} the ${budgetMinutes} minute guide for this question`;
 
     // The panel wears the same surface as every other one below the writing
     // area — see utils/panelStyles. It used to carry a heavier border, a
@@ -213,50 +274,65 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             isCollapsed || isExamMode ? '' : 'border-b border-slate-300 dark:border-white/10'
           }`}
         >
-          <div className="flex flex-1 items-center">
-            {isExamMode ? (
-              <StatBox
-                label="Mode"
-                value="Exam"
-                colorClass="text-red-500 dark:text-red-400"
-                icon={GraduationCap}
-              />
-            ) : (
-              <StatBox
-                label="Syllabus"
-                value={`${keywordStats.score}%`}
-                colorClass="text-emerald-700 dark:text-emerald-400"
-                icon={Target}
-              />
-            )}
-            <StatBox
-              label="Words"
-              value={wordCount}
-              colorClass="text-slate-900 dark:text-white"
-              icon={Type}
-            />
-            <StatBox
-              label="Timer"
-              value={formatTime(remainingTime)}
-              colorClass={
-                remainingTime === 0
-                  ? 'text-red-600 dark:text-red-500'
-                  : remainingTime < 60 && isTimerActive
-                    ? 'text-red-600 dark:text-red-500 animate-pulse'
-                    : 'text-sky-700 dark:text-sky-400'
-              }
-              icon={Clock3}
-            />
+          {/* One lead, two supports.
+              Three equal stat boxes — icon, small label, large figure, divider
+              — is the treatment the design skill names as the generic default,
+              and the three facts here are not equal. The clock is the only one
+              that moves on its own, the only one with a consequence, and the
+              one a student under exam conditions is actually managing. Words
+              and syllabus coverage answer to it. */}
+          <div className="flex flex-1 items-center gap-5 sm:gap-8 px-4 sm:px-5 py-3 min-w-0">
+            <div className="shrink-0">
+              <span
+                role="timer"
+                aria-label={spokenClock}
+                className={`block font-mono text-2xl sm:text-3xl font-bold tabular-nums tracking-tight leading-none transition-colors duration-500 ${clockTone}`}
+              >
+                {clock}
+              </span>
+              <span className="t-label block mt-1.5 text-slate-500 dark:text-slate-400">
+                {clockCaption}
+              </span>
+            </div>
+
+            <div className="min-w-0 flex flex-col gap-1">
+              <SupportStat
+                title={`${wordCount} of about ${progressInfo.targetCount} words for a ${progressInfo.targetLabel} response`}
+              >
+                <Figure>{wordCount}</Figure> words of about{' '}
+                <Figure>{progressInfo.targetCount}</Figure>
+              </SupportStat>
+              {isExamMode ? (
+                <SupportStat title="No highlighting, no draft checks, no exemplars">
+                  Exam conditions
+                </SupportStat>
+              ) : (prompt.keywords?.length || 0) > 0 ? (
+                <SupportStat
+                  title={`${expectedTerms}+ syllabus terms expected for this verb and mark value`}
+                >
+                  <Figure>{keywordStats.used.length}</Figure> of{' '}
+                  <Figure>{prompt.keywords?.length || 0}</Figure> syllabus terms
+                </SupportStat>
+              ) : (
+                <SupportStat>{progressInfo.targetLabel} target</SupportStat>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-2 px-3 py-2 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
             <div className="flex gap-1 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10">
               <button
-                onClick={() => setIsTimerActive(!isTimerActive)}
-                disabled={remainingTime === 0}
+                onClick={() => {
+                  const next = !isTimerActive;
+                  // A deliberate pause outranks the auto-start: without this,
+                  // the next keystroke would start the clock straight back up.
+                  pausedByUser.current = !next;
+                  if (next) lastTypedAt.current = Date.now();
+                  setIsTimerActive(next);
+                }}
                 aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
                 title={isTimerActive ? 'Pause timer' : 'Start timer'}
-                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100"
+                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
               >
                 {isTimerActive ? (
                   <Pause className="w-3.5 h-3.5" />
@@ -267,7 +343,8 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               <button
                 onClick={() => {
                   setIsTimerActive(false);
-                  setRemainingTime(recommendedTime);
+                  pausedByUser.current = false;
+                  setElapsed(0);
                 }}
                 aria-label="Reset timer"
                 title="Reset timer"

@@ -140,7 +140,7 @@ test.describe('light theme', () => {
  * text with `opacity` are mounted on that very screen and simply never painted
  * in the state the sweep leaves it in.
  *
- *   - `LiveInsights` is mounted whenever the session is not an exam, but
+ *   - `DraftCheck` is mounted whenever the session is not an exam, but
  *     `buildWritingInsights` returns `[]` at `wordCount === 0`, so with an
  *     empty editor the panel returns `null`.
  *   - `SampleAnswersAccordion` is mounted and shut, and a checker that walks

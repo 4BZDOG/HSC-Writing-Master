@@ -195,9 +195,11 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
         tone: 'warning',
         message: namingMustUse
           ? `The question is built on ${examples}${missing > 2 ? ' and more' : ''} — work ${missingMustUse.length === 1 ? 'it' : 'them'} in.`
-          : `Weave in ${missing} more syllabus term${missing === 1 ? '' : 's'}${
-              examples ? `: ${examples}${missing > 2 ? '…' : ''}` : ''
-            }.`,
+          : // The ellipsis IS the end of the sentence when there are more terms
+            // than the two named — it rendered as "helicase…." otherwise.
+            `Weave in ${missing} more syllabus term${missing === 1 ? '' : 's'}${
+              examples ? `: ${examples}${missing > 2 ? '…' : '.'}` : '.'
+            }`,
       });
     } else {
       positives.push({
@@ -264,5 +266,17 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
     ];
   }
 
-  return combined.slice(0, MAX_INSIGHTS);
+  // Fixes lead; at most one line of reassurance closes.
+  //
+  // The two arrays above are named for where a check was pushed, not for what
+  // it asks of the reader: `structure-hint` is an `info` sitting in `positives`
+  // and is as actionable as anything in `warnings`. Partitioning by TONE is
+  // what the panel actually reads — a student scanning for what to do next
+  // should not have to filter praise out of the list, and more than one
+  // "strong length / all terms covered" line in a row buries the work under
+  // congratulation.
+  const actionable = combined.filter((insight) => insight.tone !== 'positive');
+  const reassurance = combined.filter((insight) => insight.tone === 'positive').slice(0, 1);
+
+  return [...actionable, ...reassurance].slice(0, MAX_INSIGHTS);
 };

@@ -1,0 +1,200 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import React from 'react';
+import { render, screen, cleanup, fireEvent, act } from '@testing-library/react';
+import { WritingMetricsDashboard } from '../../components/WritingMetricsDashboard';
+import { getRecommendedTime, getCommandTermInfo } from '../../data/commandTerms';
+import type { Prompt } from '../../types';
+
+/**
+ * The clock on the live stats strip.
+ *
+ * It used to count a remaining figure down from a per-verb, per-mark budget
+ * and stop dead at 00:00, where it sat red for the rest of the session — and
+ * in Coach Mode it never started at all unless a student pressed Play, which
+ * meant the one figure on the strip with a consequence was usually frozen at
+ * its starting value. It now measures time spent: it starts itself on the
+ * first keystroke, runs past the budget rather than into a wall, and stops
+ * itself when nobody is writing so an abandoned tab cannot report a student
+ * eight hours over a six-mark question.
+ */
+
+const prompt = (): Prompt =>
+  ({
+    id: 'p1',
+    question: 'Describe the process of mitosis.',
+    verb: 'DESCRIBE',
+    totalMarks: 4,
+    keywords: ['mitosis', 'chromosome'],
+    markingCriteria: [],
+  }) as unknown as Prompt;
+
+const BUDGET = getRecommendedTime(4, getCommandTermInfo('DESCRIBE'));
+
+const renderStrip = (props: Partial<React.ComponentProps<typeof WritingMetricsDashboard>> = {}) =>
+  render(
+    <WritingMetricsDashboard userAnswer="" prompt={prompt()} onAddWord={vi.fn()} {...props} />
+  );
+
+const clock = () => screen.getByRole('timer');
+
+beforeEach(() => vi.useFakeTimers({ shouldAdvanceTime: true }));
+afterEach(() => {
+  vi.useRealTimers();
+  cleanup();
+});
+
+const tick = (seconds: number) =>
+  act(() => {
+    vi.advanceTimersByTime(seconds * 1000);
+  });
+
+/**
+ * Time passing WITH a student writing through it.
+ *
+ * Bare `tick` is a student who has walked away, and past three minutes the
+ * clock parks itself — correctly. Anything testing the running clock over a
+ * longer span has to keep typing, so this re-renders with a longer draft each
+ * minute, which is what a keystroke looks like from this component.
+ */
+const writeFor = (rerender: (ui: React.ReactElement) => void, seconds: number) => {
+  for (let elapsed = 0, words = 1; elapsed < seconds; words += 1) {
+    const chunk = Math.min(60, seconds - elapsed);
+    tick(chunk);
+    elapsed += chunk;
+    rerender(
+      <WritingMetricsDashboard
+        userAnswer={'mitosis '.repeat(words)}
+        prompt={prompt()}
+        onAddWord={vi.fn()}
+      />
+    );
+  }
+};
+
+describe('the writing clock', () => {
+  it('opens on the budget, and says where the budget comes from', () => {
+    renderStrip();
+
+    expect(clock().textContent).toBe(
+      `${String(Math.floor(BUDGET / 60)).padStart(2, '0')}:${String(BUDGET % 60).padStart(2, '0')}`
+    );
+    // Before it starts, the caption explains the figure rather than repeating it.
+    expect(screen.getByText(new RegExp(`min for 4 marks`, 'i'))).toBeTruthy();
+  });
+
+  // The Play button was the only way in, and almost nobody presses it.
+  it('starts itself on the first keystroke', () => {
+    const { rerender } = renderStrip();
+    tick(3);
+    expect(clock().textContent).toBe(
+      `${String(Math.floor(BUDGET / 60)).padStart(2, '0')}:${String(BUDGET % 60).padStart(2, '0')}`
+    );
+
+    rerender(
+      <WritingMetricsDashboard userAnswer="Mitosis begins" prompt={prompt()} onAddWord={vi.fn()} />
+    );
+    tick(3);
+    expect(clock().textContent).not.toBe(
+      `${String(Math.floor(BUDGET / 60)).padStart(2, '0')}:${String(BUDGET % 60).padStart(2, '0')}`
+    );
+    expect(screen.getByText(/left of/i)).toBeTruthy();
+  });
+
+  // A cliff at 00:00 is exactly where "you are two minutes over" starts being
+  // the useful reading.
+  it('runs past the budget instead of stopping at zero', () => {
+    const { rerender } = renderStrip();
+    rerender(
+      <WritingMetricsDashboard userAnswer="Mitosis begins" prompt={prompt()} onAddWord={vi.fn()} />
+    );
+
+    writeFor(rerender, BUDGET + 65);
+
+    expect(clock().textContent).toMatch(/^\+/);
+    expect(screen.getByText(/^over \d+ min$/i)).toBeTruthy();
+  });
+
+  // Starting itself means it has to stop itself.
+  it('stops for an abandoned draft in Coach Mode', () => {
+    const { rerender } = renderStrip();
+    rerender(
+      <WritingMetricsDashboard userAnswer="Mitosis begins" prompt={prompt()} onAddWord={vi.fn()} />
+    );
+
+    tick(10);
+    const running = clock().textContent;
+
+    // Three minutes without a keystroke.
+    tick(4 * 60);
+    const parked = clock().textContent;
+    expect(parked).not.toBe(running);
+    expect(screen.getByText(/^paused$/i)).toBeTruthy();
+
+    // And it stays parked rather than drifting on.
+    tick(10 * 60);
+    expect(clock().textContent).toBe(parked);
+  });
+
+  // Under exam conditions the clock does not stop while you think.
+  it('never pauses itself in Exam Mode', () => {
+    renderStrip({ userAnswer: 'Mitosis begins', writingMode: 'exam' });
+
+    tick(30);
+    const before = clock().textContent;
+    tick(5 * 60);
+
+    expect(clock().textContent).not.toBe(before);
+    expect(screen.queryByText(/^paused$/i)).toBeNull();
+  });
+
+  // A deliberate pause is a decision, not an idle state.
+  it('keeps a student-pressed pause across the next keystroke', () => {
+    const { rerender } = renderStrip({ userAnswer: 'Mitosis' });
+    tick(5);
+
+    fireEvent.click(screen.getByRole('button', { name: /pause timer/i }));
+    const parked = clock().textContent;
+
+    rerender(
+      <WritingMetricsDashboard
+        userAnswer="Mitosis begins with prophase"
+        prompt={prompt()}
+        onAddWord={vi.fn()}
+      />
+    );
+    tick(20);
+
+    expect(clock().textContent).toBe(parked);
+  });
+
+  it('reads out as words, since a ticking display is not readable as digits', () => {
+    renderStrip();
+    expect(clock().getAttribute('aria-label')).toMatch(/minutes.*seconds.*left of.*guide/i);
+  });
+
+  // DesignSpec §2 rule 3: de-emphasis and urgency are jobs for tone, never for
+  // an opacity animation sitting on a reading.
+  it('marks urgency with tone, not a pulse', () => {
+    const { rerender } = renderStrip();
+    rerender(
+      <WritingMetricsDashboard userAnswer="Mitosis begins" prompt={prompt()} onAddWord={vi.fn()} />
+    );
+
+    writeFor(rerender, BUDGET - 30);
+    expect(clock().className).toMatch(/text-amber-/);
+    expect(clock().className).not.toContain('animate-pulse');
+
+    writeFor(rerender, 60);
+    expect(clock().className).toMatch(/text-red-/);
+    expect(clock().className).not.toContain('animate-pulse');
+  });
+
+  // DesignSpec §4: figures are telemetry and take the mono face. They also no
+  // longer borrow band hues — sky and emerald meant Tiers 5 and 4 on a strip
+  // where neither meant a band.
+  it('sets the figure as telemetry', () => {
+    renderStrip();
+    expect(clock().className).toContain('font-mono');
+    expect(clock().className).toContain('tabular-nums');
+  });
+});
