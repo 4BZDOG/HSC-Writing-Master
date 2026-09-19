@@ -7,7 +7,12 @@ import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } 
 import { getBandConfig, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { canCurateContent } from '../utils/permissions';
-import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import {
+  PANEL_HEADER_CLOSED,
+  PANEL_HEADER_OPEN,
+  PANEL_ROW_MIN_H,
+  PANEL_SURFACE,
+} from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { isFeatureLocked } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
@@ -51,7 +56,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-controls={panelId}
-        className={`w-full py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
+        className={`w-full ${PANEL_ROW_MIN_H} py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
       >
         <div className="flex items-center gap-4">
           <div

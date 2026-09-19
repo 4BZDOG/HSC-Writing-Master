@@ -78,8 +78,11 @@ describe('the writing clock', () => {
     expect(clock().textContent).toBe(
       `${String(Math.floor(BUDGET / 60)).padStart(2, '0')}:${String(BUDGET % 60).padStart(2, '0')}`
     );
-    // Before it starts, the caption explains the figure rather than repeating it.
-    expect(screen.getByText(new RegExp(`min for 4 marks`, 'i'))).toBeTruthy();
+    // Before it starts, the caption explains the figure rather than repeating
+    // it. It said `7 min for 4 marks` while it sat UNDER a clock reading 07:00;
+    // now the two are set on one line, where saying the figure again would be
+    // a plain repetition. The marks are the half the clock cannot say.
+    expect(screen.getByText(/^guide for 4 marks$/i)).toBeTruthy();
   });
 
   // The Play button was the only way in, and almost nobody presses it.

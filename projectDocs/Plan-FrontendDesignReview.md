@@ -1326,3 +1326,85 @@ instead — "Command verb" over the word itself — which is what someone who
 arrived by pressing a word in their own question needs to be told.
 
 It now fits one screen without scrolling. It did not before.
+
+---
+
+# Eleventh pass: the panels stand on one line
+
+Also from use: _"in two column view the placards underneath the writing prompt
+and writing area are almost aligned and have balanced spacing but the writing
+stats placard is large."_
+
+Measured at 1440×950 before changing anything, which is how "almost" turned
+out to be exact:
+
+|       | left column                   | right column                 |
+| ----- | ----------------------------- | ---------------------------- |
+| row 1 | Syllabus Terms — y 794, h 62  | Draft check — y 794, h 62    |
+| row 2 | Grade Standards — y 872, h 62 | **live stats — y 873, h 84** |
+| row 3 | Marking Guide — y 950, h 62   | Sample Answers — y 973, h 62 |
+
+Row 1 aligned to the pixel, row 2 was a pixel out, and row 3 was 23px out —
+the whole of it the one panel's extra height, handed down the column.
+
+### 45. Four panels agreed on a height by coincidence — FIXED
+
+Nothing said what height a panel row stands at. Four of the five reached 60px
+the same way by accident — `py-3.5` either side of a 32px icon tile — and the
+live stats strip, which has no tile, did not. There was no shared value to be
+wrong about, so the answer was "whatever the contents come to", and the two
+columns only read as a grid for as long as the contents happened to agree.
+
+`PANEL_ROW_MIN_H` in `utils/panelStyles.ts` now states it once, beside the
+surface all five already share, and all five carry it. A panel whose contents
+come out shorter is padded up to the line; one that wants to be taller has to
+say so on purpose.
+
+It is 61px rather than a round 60, and the odd number is the point. A 12px line
+at the 1.35 leading these panels use is 16.2px tall, and three of them stack a
+name over a caption: 32.4px of text against a 32px tile. At 60 those three
+overshot by four tenths of a pixel — invisible on any one panel, and exactly
+how the two columns' third rows ended up a pixel apart. A line the tallest
+natural stack clears puts every panel on the same whole pixel. All six now
+measure 63.0px (61 + the surface's 2px border) at every width from 768 up, and
+both columns' rows sit at 794 / 873 / 952.
+
+### 46. The clock was stacked on its own caption — FIXED
+
+The 22px was one decision: the clock at `text-3xl` with its caption set
+beneath it, 58px of stacked lead in a row whose other content is 36px.
+
+Shrinking the clock was the obvious fix and the wrong one — it is the lead
+figure on the strip, the only one that moves on its own and the only one with a
+consequence, and that was settled in the eighth pass. **The caption moved
+beside it instead.** A clock reads that way anyway — "07:00, guide for 4
+marks" is how it would be said aloud — and it puts the tallest thing in the row
+back to being the two support lines.
+
+Two things fell out of moving it:
+
+- **The caption needed a reserved slot.** It is the one string here that
+  changes length on its own — `paused` to `left of 7 min` to `over 7 min` — so
+  left to size itself it shunts the word count sideways mid-sentence.
+  `md:w-[13.5rem]` holds the longest state, checked against the longest verb
+  budget and the largest mark value.
+
+  From `md` and not `sm`, which the probe caught and the eye would not have:
+  the strip goes one-line at 640 and the controls take their full width from
+  the start, so between 640 and 767 holding 216px truncated `15 words of about
+  32` into `15 words…`. A figure the student cannot read is a worse trade than
+  a caption that moves three times in a session, and those widths are a single
+  column anyway, where nothing is lining up against the strip.
+- **The opening caption was a repetition.** It read `7 min for 4 marks` while
+  sitting under a clock reading `07:00`. That was already a restatement; on one
+  line it was a plain one. It reads `guide for 4 marks` now — the marks are the
+  half of that sentence the clock cannot say, and "guide" is the word the
+  spoken label already uses.
+
+### What the tests could not have caught
+
+Both of these are the standing rule again. No unit test can see a panel's
+height — jsdom does no layout — so `workspacePanelChrome.test.tsx` asserts the
+shared token instead, which is what stops a panel quietly leaving the set; the
+height itself was measured in a browser, at eight widths and in both themes —
+every panel 63.0px from 640 up, and both columns' rows level at 1280 and 1440.
