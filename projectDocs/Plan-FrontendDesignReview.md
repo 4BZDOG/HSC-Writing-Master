@@ -1633,3 +1633,77 @@ codebase has a guard for: a Tailwind class that survives development and is
 purged from the production build would look exactly like this. That is why the
 twelfth pass confirmed `@media (min-width:1360px)` in the built CSS by hand.
 Here the build was never the question — the branch was.
+
+---
+
+# Fifteenth pass: how the briefs wrap, and a name cut off again
+
+Reported from use with two screenshots — the strategy row and the ribbon's
+detail card — and one line: _"improve the way the text wraps in these areas on
+wider screens. The 'DISCUSS strategy / DISCUSS' text looks weird too!"_
+
+### 54. The verb was announced twice, the second time larger — FIXED
+
+The strategy row's own header reads "DISCUSS strategy". The brief opening
+underneath it led with `DISCUSS` in 18px Newsreader: the same word twice in two
+lines, the second time larger than the first, which is exactly what the row is
+FOR saying.
+
+`StrategyBrief`'s `heading` boolean could not express the fix, because it gated
+the term and the definition together. It is a three-way `lead` now — `full`
+(the blank writing page, where the brief is the only thing on screen),
+`definition` (the strategy row, whose header has just named the verb) and
+`none` (the ribbon's detail card, which sets the term beside its tier chip with
+the definition under it). The definition stays in the row: it is not a repeat
+of anything there.
+
+### 55. Short blocks stranding their last word — FIXED
+
+Measured at 1920 with both surfaces open, and the report was right. The verb's
+definition dropped its last word onto a line of its own; the tier subtitles ran
+out of words at 30%, 40%, 47% of the line; the caption under the stat tray set
+184px and then a second line **four pixels wide**, which is a full stop.
+
+None of it shows at the width these are designed at. It is what a rag does when
+a flex item is free to grow: the breaks stay legal and the last line runs out
+of words.
+
+- **`text-balance`** on the short declarative blocks read as one unit — the
+  verb's definition, a tier's subtitle. It evens every line rather than only
+  rescuing the last, which is what a two-line definition under a heading wants.
+  Measured after: the worst last line went from 16% of its longest to 76%, and
+  most sit at 95–100%.
+- **`text-pretty`** on the running text below the rule — the method, its
+  checks, the examples — which only needs its last line not to strand a word.
+
+Both degrade to ordinary wrapping where unsupported, so this is a refinement
+rather than a dependency.
+
+### 56. The sixth tier's name was ellipsised again — FIXED
+
+`EVALUATE, SYNTHESISE &…`. Third time these names have been cut: first by
+`truncate`, then by a two-line clamp that was measured at the 12px the line
+used to be and kept when the fourteenth pass took it to 14px. At 14px that name
+needs three lines in a 260px card.
+
+**And each time the check that should have caught it compared `scrollWidth`** —
+which a vertical clamp never trips, because the text fits its line and is cut
+off below it. That is the finding worth keeping, not the pixel value.
+
+Tracking cannot buy the line back: the break is word-driven, and 0.02em through
+0.06em all need the same three lines. So the clamp is three and the block's
+floor takes the third line with it — which the cards can afford, since they
+already end in empty space below their chips. All six headers measure 106.6px
+and every name arrives whole.
+
+A new `tests/e2e/verb-ribbon.spec.ts` measures **both axes** on all six cards
+and asserts the six headers agree on a height. Confirmed to fail on the
+two-line clamp with the name it loses, and to pass on three.
+
+### The correction in this pass
+
+I first blamed the ellipsis on `text-balance`, wrote that into a code comment,
+and was wrong: the clip is visible in the screenshot taken before balance was
+added anywhere. Balance and a clamp genuinely do fight — balance chooses the
+line COUNT and the clamp then cuts it — which is why the name does not take
+balance. But it did not cause this. The comment says so now.

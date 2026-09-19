@@ -841,7 +841,13 @@ const Editor = forwardRef<
               </button>
               {showStrategy && (
                 <div id={strategyPanelId} className="px-4 sm:px-6 pb-4 animate-fade-in">
-                  <StrategyBrief verb={verb} scale="panel" />
+                  {/* The row's own header, a line above, already reads
+                      "DISCUSS strategy". The brief used to open with `DISCUSS`
+                      under it in 18px Newsreader — the same word twice in two
+                      lines, the second time larger than the first, which is
+                      what the row is FOR saying. The definition stays: it is
+                      not a repeat of anything on this surface. */}
+                  <StrategyBrief verb={verb} scale="panel" lead="definition" />
                 </div>
               )}
             </div>

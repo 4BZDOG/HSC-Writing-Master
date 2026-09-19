@@ -167,7 +167,18 @@ describe('the verb brief', () => {
       const panel = document.getElementById(
         strategyToggle().getAttribute('aria-controls') as string
       ) as HTMLElement;
-      expect(within(panel).getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).term)).toBeTruthy();
+      // The brief is in the row now — recognised by its DEFINITION, because
+      // the term is no longer in here to recognise it by. The row's own header
+      // a line above reads "DESCRIBE strategy"; the brief opening with
+      // `DESCRIBE` under it said the word twice in two lines, the second time
+      // larger than the first.
+      expect(
+        within(panel).getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)
+      ).toBeTruthy();
+      expect(
+        within(panel).queryByText(getCommandTermInfo('DESCRIBE' as PromptVerb).term),
+        'the row states the verb; the brief inside it must not state it again'
+      ).toBeNull();
 
       // …and shutting it hands the page back.
       fireEvent.click(strategyToggle());

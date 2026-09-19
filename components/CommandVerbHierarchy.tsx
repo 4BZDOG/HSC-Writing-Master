@@ -492,7 +492,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         <StrategyBrief
                           verb={activeTermInfo.term}
                           scale="panel"
-                          heading={false}
+                          lead="none"
                           className="mt-2"
                         />
                       </div>

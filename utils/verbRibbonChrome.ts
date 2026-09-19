@@ -137,11 +137,38 @@ export const RIBBON_DETAIL_TERM =
  *  Painted on the detail card. */
 export const RIBBON_DETAIL_TIER_CHIP = 't-label px-3 py-0.5 rounded-full border shadow-sm';
 
+/**
+ * `text-pretty` on every block of prose in this file, and `text-balance` on
+ * the tier names.
+ *
+ * Reported from use: the wrapping "looks weird on wider screens". Measured at
+ * 1920 with the ribbon open, and it was — the caption under the stat tray set
+ * a 184px line and then a second line **four pixels wide**, which is a full
+ * stop on its own; the verb's definition dropped its last word alone; two of
+ * the six tier names split as five words over one.
+ *
+ * None of that shows at the width a card is designed at. It is what a rag does
+ * when a flex item is free to grow: the line breaks stay legal and the last
+ * one runs out of words.
+ *
+ * `text-balance` for the short declarative blocks that are read as one unit —
+ * the verb's definition, a tier's subtitle. It evens every line instead of
+ * only rescuing the last, which is what a two-line definition under a heading
+ * wants. `text-pretty` for the running text below the rule, which only needs
+ * its last line not to strand a word.
+ *
+ * NOT on the tier NAME: balance chooses the line COUNT, and a clamp on top of
+ * it is an argument the clamp wins. The name is clamped, so the two would
+ * fight.
+ *
+ * Both degrade to ordinary wrapping where they are not supported, so this is a
+ * refinement rather than a dependency.
+ */
 /** The verb's definition. Painted on the detail card. The `opacity-90` it used
  *  to carry was softening white-on-gradient text; on a tier wash it only cost
  *  contrast. */
 export const RIBBON_DETAIL_DEFINITION =
-  'text-sm font-bold max-w-xl leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
+  'text-sm font-bold max-w-xl text-balance leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
 
 /* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed.
  *
@@ -179,7 +206,7 @@ export const RIBBON_STAT_VALUE = 'font-mono text-lg font-black tabular-nums';
  *  one label a student will not already know was unreachable by keyboard and
  *  absent on touch. */
 export const RIBBON_STAT_CAPTION =
-  'text-[10px] font-bold leading-snug text-center md:text-right text-slate-600 dark:text-slate-400';
+  'text-[10px] font-bold leading-snug text-pretty text-center md:text-right text-slate-600 dark:text-slate-400';
 
 /** The hairline between two stats. Painted on the tray. */
 export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-300 dark:bg-white/10';
@@ -393,23 +420,36 @@ export const RIBBON_TIER_HEADER_LABEL_IDLE =
  *  a call site; `.t-display` carries only the face and the 900 weight, which is
  *  exactly the half worth sharing. Same voice, sized for this row.
  *
- *  It WRAPS, where it once truncated: two of the six do not fit on one line at
+ *  It WRAPS, where it once truncated: most of the six do not fit on one line at
  *  260px however it is set, and the strip used to show "Discuss, Assess & Jus…"
  *  and "Evaluate, Synthesise &…" — the one line that tells these six cards
- *  apart, ellipsised, at the top of the card. Clamped at two, which is what the
- *  longest needs; a third line would push the chips instead of filling space
- *  nobody was using. */
+ *  apart, ellipsised, at the top of the card.
+ *
+ *  Clamped at THREE, which is what the longest actually needs. Two was measured
+ *  at the 12px this line used to be and kept when the size went up, where it
+ *  put the ellipsis straight back on "Evaluate, Synthesise & Create" — and the
+ *  check that should have caught it only compared `scrollWidth`, which a
+ *  vertical clamp never trips. Tracking cannot buy the line back either: the
+ *  break is word-driven, and 0.02em through 0.06em all need the same three
+ *  lines. So the block's floor takes the third line instead, which the cards
+ *  can afford — they already end in empty space below their chips. */
 export const RIBBON_TIER_HEADER_TITLE =
-  't-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-2';
+  't-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
 
 /** The floor under the title-and-ceiling block, so a tier whose name wraps does
  *  not stand its header — and with it the subtitle and every chip below — out
- *  of step with the five beside it. Two title lines, the gap, and the ceiling. */
-export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[3.5rem] flex flex-col justify-center';
+ *  of step with the five beside it.
+ *
+ *  Three title lines, the gap, and the ceiling: 4.6rem. It is sized to the
+ *  LONGEST name rather than the common case, because the whole job of this
+ *  floor is that one card cannot push its own header out of line — and a floor
+ *  that only fits five of the six names is a floor that does not do it. */
+export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[4.6rem] flex flex-col justify-center';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
-export const RIBBON_TIER_SUBTITLE = 'px-6 pt-3 text-[11px] font-medium leading-snug relative z-10';
+export const RIBBON_TIER_SUBTITLE =
+  'px-6 pt-3 text-[11px] font-medium leading-snug text-balance relative z-10';
 
 /** The subtitle on the current tier's card, which is the one card the reader is
  *  meant to be reading. */

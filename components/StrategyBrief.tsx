@@ -71,16 +71,25 @@ interface StrategyBriefProps {
    */
   scale?: 'page' | 'panel';
   /**
-   * Whether to state the verb and its definition.
+   * How much of the verb's identity the brief states for itself, because that
+   * depends entirely on what the surface around it has already said.
    *
-   * False for a surface that already says both in its own chrome — the verb
-   * ribbon's detail card sets the term as a heading beside its tier chip, with
-   * the definition under it, so the brief there is the method and its checks
-   * alone. The rule goes with the heading: it separates what the verb MEANS
-   * from how to answer it, and with nothing above it to separate from, it is a
+   * - `full` — the term, then its definition. The blank writing page, where
+   *   the brief is the only thing on screen.
+   * - `definition` — the definition alone. The strategy row's own header reads
+   *   "DISCUSS strategy", and the brief opening underneath it with `DISCUSS`
+   *   in 18px Newsreader said the word twice in two lines, the second time
+   *   larger than the first. The definition is not a repeat of anything, so it
+   *   stays.
+   * - `none` — neither. The verb ribbon's detail card sets the term as a
+   *   heading beside its tier chip with the definition directly under it, so
+   *   the brief there is the method and its checks alone.
+   *
+   * The rule goes with whatever is above it: it separates what the verb MEANS
+   * from how to answer it, and with nothing above to separate from it is a
    * line drawn for its own sake.
    */
-  heading?: boolean;
+  lead?: 'full' | 'definition' | 'none';
   /**
    * Page scale only: the measured height of the surface it is drawn on. The
    * writing card is floored by the question beside it, so this is ~200px on a
@@ -103,7 +112,7 @@ const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string; large: boolean
       segment.kind === 'example' ? (
         <p
           key={i}
-          className={`font-serif italic border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] ${
+          className={`font-serif italic text-pretty border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] ${
             large ? 'mt-2.5 text-[15px] leading-relaxed' : 'mt-2 text-xs leading-relaxed'
           }`}
         >
@@ -130,7 +139,7 @@ const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string; large: boolean
 const StrategyBrief: React.FC<StrategyBriefProps> = ({
   verb,
   scale = 'panel',
-  heading = true,
+  lead: leadMode = 'full',
   room = 0,
   className = '',
 }) => {
@@ -142,6 +151,8 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
 
   const large = scale === 'page';
   const [lead, ...rest] = moves;
+  const showTerm = leadMode === 'full';
+  const showDefinition = leadMode !== 'none';
 
   // The checks on the method are the first thing to go at page scale: even on
   // a roomy card they do not fit under the method, and the row below opens the
@@ -180,35 +191,35 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
 
   return (
     <div ref={bodyRef} className={`${large ? 'max-w-[42ch]' : 'max-w-[52ch]'} ${className}`}>
-      {heading && (
-        <>
-          <p
-            className={`font-serif font-bold tracking-tight leading-none ${accent} ${
-              large ? 'text-3xl' : 'text-lg'
-            }`}
-          >
-            {info.term}
-          </p>
-          <p
-            className={`font-serif text-[rgb(var(--color-text-secondary))] ${
-              large ? 'mt-2.5 text-base leading-relaxed' : 'mt-1.5 text-[13px] leading-relaxed'
-            }`}
-          >
-            {info.definition}
-          </p>
-        </>
+      {showTerm && (
+        <p
+          className={`font-serif font-bold tracking-tight leading-none ${accent} ${
+            large ? 'text-3xl' : 'text-lg'
+          }`}
+        >
+          {info.term}
+        </p>
+      )}
+      {showDefinition && (
+        <p
+          className={`font-serif text-balance text-[rgb(var(--color-text-secondary))] ${
+            large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'
+          } ${showTerm ? (large ? 'mt-2.5' : 'mt-1.5') : ''}`}
+        >
+          {info.definition}
+        </p>
       )}
 
       {lead && showMethod && (
         <>
-          {heading && (
+          {showDefinition && (
             <div
               aria-hidden="true"
               className={`h-px bg-[rgb(var(--color-border-secondary))] ${large ? 'my-4' : 'my-3'}`}
             />
           )}
           <p
-            className={`font-serif text-[rgb(var(--color-text-primary))] ${
+            className={`font-serif text-pretty text-[rgb(var(--color-text-primary))] ${
               large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'
             }`}
           >
@@ -228,7 +239,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
               {checks.map((move, i) => (
                 <div key={i}>
                   <p
-                    className={`font-serif text-[rgb(var(--color-text-muted))] leading-relaxed ${
+                    className={`font-serif text-pretty text-[rgb(var(--color-text-muted))] leading-relaxed ${
                       large ? 'text-[15px]' : 'text-xs'
                     }`}
                   >
