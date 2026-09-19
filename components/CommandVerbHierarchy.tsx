@@ -699,7 +699,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           <span
                             className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : RIBBON_TIER_HEADER_LABEL_IDLE}`}
                           >
-                            Band {group.maxBand} ceiling
+                            Band {group.maxBand}
+                            {/* "ceiling" is dropped from the visible line and
+                                kept for anyone listening. On screen the word
+                                was carrying nothing the card does not already
+                                say — six cards climbing 1 to 6 under a rail
+                                labelled "Deep Learning Threshold", each with a
+                                number under its name. Read aloud it is the
+                                whole meaning: "Define & Describe, Band 2" is a
+                                target, "Band 2 ceiling" is a limit, and this
+                                ladder is about limits. */}
+                            <span className="sr-only"> ceiling</span>
                           </span>
                         </div>
                       </button>

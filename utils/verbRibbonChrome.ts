@@ -378,25 +378,29 @@ export const RIBBON_TIER_HEADER_LABEL_IDLE =
   'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
 
 /** The tier's title — the names the six cards are actually told apart by, so it
- *  leads the header, and it takes `.t-section`: the tracked-out Inter caps the
- *  app gives a section's name everywhere else. The card IS a section of the
- *  ladder, and the six names are its headings.
+ *  leads the header, in the tracked-out caps the app gives a section's name
+ *  everywhere else. The card IS a section of the ladder, and the six names are
+ *  its headings.
  *
- *  12px rather than the 14px it was, and it still reads larger: caps and
- *  0.16em of tracking buy back more width than two pixels of size cost. The
- *  token sets its own size and wins the cascade over a `text-*` utility (see
- *  the note above `.t-label` in index.css), so this is 12px whatever is written
- *  beside it.
+ *  Built from `.t-display` and the three utilities rather than from
+ *  `.t-section`, which is the same voice at a fixed 12px and 0.16em. Those two
+ *  numbers are right for a panel's name sitting alone on a row; here the line
+ *  is a heading in a 260px card with an annotation under it, and at 0.16em the
+ *  tracking was spending on air the width the WORDS needed — four of the six
+ *  names went to two lines and "Remember & List" only just held one.
+ *  `.t-section` sets its own size and wins the cascade over a `text-*` utility
+ *  (see the note above `.t-label` in index.css), so it cannot be adjusted from
+ *  a call site; `.t-display` carries only the face and the 900 weight, which is
+ *  exactly the half worth sharing. Same voice, sized for this row.
  *
- *  It WRAPS, where it used to `truncate`. Two of the six do not fit on one line
- *  at 260px, so the strip showed "Discuss, Assess & Jus…" and "Evaluate,
- *  Synthesise &…" — the one line that tells these six cards apart, ellipsised,
- *  at the top of the card. The cards already end in empty space below their
- *  chips, so the room was there.
- *
- *  Clamped at two, which is what the longest needs — a third line would push
- *  the chips instead of filling space nobody was using. */
-export const RIBBON_TIER_HEADER_TITLE = 't-section line-clamp-2';
+ *  It WRAPS, where it once truncated: two of the six do not fit on one line at
+ *  260px however it is set, and the strip used to show "Discuss, Assess & Jus…"
+ *  and "Evaluate, Synthesise &…" — the one line that tells these six cards
+ *  apart, ellipsised, at the top of the card. Clamped at two, which is what the
+ *  longest needs; a third line would push the chips instead of filling space
+ *  nobody was using. */
+export const RIBBON_TIER_HEADER_TITLE =
+  't-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-2';
 
 /** The floor under the title-and-ceiling block, so a tier whose name wraps does
  *  not stand its header — and with it the subtitle and every chip below — out

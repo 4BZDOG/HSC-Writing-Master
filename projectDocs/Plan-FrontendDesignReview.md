@@ -1571,3 +1571,65 @@ silent proves half of it; that proves the half that was visible.
 Counted in a browser as well, walking every text node for all seven
 completeness words, in an empty draft and a part-written one, in both themes:
 one occurrence, every time.
+
+---
+
+# Fourteenth pass: the tier name sized for its own row
+
+Two adjustments to the ribbon's tier cards, plus the reason the previous pass
+appeared not to have shipped.
+
+### 52. `.t-section` was the right voice at the wrong measurements — FIXED
+
+The thirteenth pass put the tier name in `.t-section`, which is correct about
+what the line IS — the app's tracked-out Inter caps, the voice a section's name
+takes everywhere else — and wrong about the numbers that go with it. The token
+is a fixed 12px at 0.16em, sized for a panel's name sitting alone on a row. In
+a 260px card with an annotation under it, that tracking was spending on air the
+width the WORDS needed: four of the six names went to two lines, and "Remember
+& List" only just held one at 148px of the 149 available.
+
+The line is built from `.t-display` and three utilities now — 14px at 0.06em,
+`leading-tight`. Same face, same 900 weight, same caps and slant; a size that
+belongs to this row rather than to a token shared with panels that have
+different problems. `.t-section` sets its own size and wins the cascade over a
+`text-*` utility (see the note above `.t-label` in `index.css`), so there was no
+adjusting it from the call site — `.t-display` carries only the face and the
+weight, which is exactly the half worth sharing.
+
+The tighter tracking pays for the extra size almost exactly: measured across
+all six, the wrap pattern is unchanged, nothing clips, and every header still
+stands at 89.0px.
+
+The test that pinned this asserted the token NAME. Rewritten to assert what the
+line is — display face, caps, italic — and that the ceiling borrows none of it.
+A test that names the spelling rather than the property fails the first time
+the spelling is right for a new reason.
+
+### 53. "ceiling" was a word the card had already said — FIXED
+
+The annotation read "Band 2 ceiling". On screen the last word carried nothing
+the card does not already say: six cards climbing 1 to 6, each with a number
+under its name, under a rail labelled "Deep Learning Threshold". It reads "Band
+2" now.
+
+**Kept for anyone listening.** Read aloud, that word is the whole meaning —
+"Define & Describe, Band 2" is a target and "Band 2 ceiling" is a limit, and
+this ladder is entirely about limits. So it moves into an `sr-only` span rather
+than out of the markup: the visible line loses a redundant word, the accessible
+name is unchanged, and the tier-header locators that spell it keep working
+because nothing about the spoken name moved.
+
+### Why the previous pass looked like it had not shipped
+
+Reported mid-session: "ribbon font changes are not showing on the github pages
+deploy". They were not, and there was nothing wrong with them —
+`.github/workflows/deploy-pages.yml` triggers on `push` to `main`, and the work
+was sitting on its branch in an open PR. `Deploy to Production` reads `skipped`
+on every PR run for the same reason.
+
+Worth recording because the failure mode it resembles is a real one this
+codebase has a guard for: a Tailwind class that survives development and is
+purged from the production build would look exactly like this. That is why the
+twelfth pass confirmed `@media (min-width:1360px)` in the built CSS by hand.
+Here the build was never the question — the branch was.
