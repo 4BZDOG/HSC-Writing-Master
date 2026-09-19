@@ -19,14 +19,31 @@ import { PROSE_BLOCK, PROSE_FLOW } from '../../utils/prose';
  * had the class from one that spells it inline.
  */
 
+/**
+ * Every file that renders the app's short prose. None of them may spell the
+ * rule inline.
+ */
 const SURFACES = [
   'components/StrategyBrief.tsx',
   'components/CommandTermGuideModal.tsx',
   'components/OutcomeDetailModal.tsx',
   'components/DraftCheck.tsx',
   'components/ReferenceMaterials.tsx',
+  'components/CommandVerbHierarchy.tsx',
   'utils/verbRibbonChrome.ts',
 ];
+
+/**
+ * …and the subset that must actually import the constants.
+ *
+ * `utils/verbRibbonChrome.ts` is deliberately not one of them. Its constants
+ * are module-scope strings, so interpolating an imported value into them would
+ * be a module-init read of that value — the temporal-dead-zone crash class
+ * `npm run check:eager-reads` exists to catch, and it rejected exactly this.
+ * The ribbon applies the rule at its call site instead, which is what that file
+ * already does with everything tier-coloured.
+ */
+const MUST_IMPORT = SURFACES.filter((f) => f !== 'utils/verbRibbonChrome.ts');
 
 const read = (file: string) => readFileSync(join(process.cwd(), file), 'utf8');
 
@@ -56,7 +73,7 @@ describe('the prose-wrapping rule', () => {
   });
 
   it('reaches every surface the report named', () => {
-    for (const file of SURFACES) {
+    for (const file of MUST_IMPORT) {
       expect(read(file), `${file} does not use the shared wrapping rule at all`).toMatch(
         /PROSE_(?:BLOCK|FLOW)/
       );

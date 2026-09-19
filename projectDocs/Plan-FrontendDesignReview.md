@@ -1782,3 +1782,31 @@ free plan locks, so the questions that produce that panel cannot be selected.
 `openQuestionWithOutcomes` documents this and `light-theme.spec.ts` signs in as
 `admin` for exactly that state. Worth recording because the failure reads as
 broken navigation and is a plan boundary.
+
+### 59. The consolidation tripped a guard, and I had misread that guard — FIXED
+
+CI rejected the sixteenth pass on `check:eager-reads`. Building the ribbon's
+three constants as template literals interpolating `PROSE_BLOCK`/`PROSE_FLOW`
+meant reading an imported value at MODULE-INIT time — the temporal-dead-zone
+crash class that script exists to catch, where a bundler puts reader and
+definer in chunks that import each other and the reader runs first.
+
+The exemption list would have taken it: `utils/prose.ts` imports nothing, so it
+cannot sit on a cycle. But `KNOWN_SAFE` is keyed by the READING file, so the
+entry would have blanket-accepted every future eager read in
+`verbRibbonChrome.ts` as well — buying silence on a real one later to excuse a
+harmless one now. The ribbon applies the rule at its CALL SITE instead, which
+is what that file already does with everything tier-coloured, and the read
+becomes render-time. Confirmed in the browser afterwards: `balance`, `pretty`
+and `balance` still land on the three elements.
+
+**And I had run that scan locally and read it as passing.** Its output ends
+with an "Accepted as safe" block that prints whether or not it failed, and I
+looked at the tail rather than the verdict. The lesson generalises past this
+script: `tail` is not a verdict, and a check that always prints something at
+the end will always look like it passed.
+
+So the CI lint job is now run the way CI runs it — every step, each one's exit
+code reported — rather than eyeballed. Doing that also surfaced two gates this
+review had never once run locally: `check:bundle` and `check:eager-chunks`,
+which need a build first. Both pass.

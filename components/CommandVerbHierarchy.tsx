@@ -4,6 +4,7 @@ import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '..
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getBandHex, getBandName, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import StrategyBrief from './StrategyBrief';
+import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import MeshOverlay from './MeshOverlay';
 import {
   RIBBON_CHEVRON_CHIP,
@@ -478,7 +479,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             Tier {activeTermInfo.tier} · {tierShortLabel(activeTermInfo.tier)}
                           </div>
                         </div>
-                        <p className={RIBBON_DETAIL_DEFINITION}>{activeTermInfo.definition}</p>
+                        <p className={`${RIBBON_DETAIL_DEFINITION} ${PROSE_BLOCK}`}>
+                          {activeTermInfo.definition}
+                        </p>
                         {/* The same brief the writing page and the strategy
                             row render, so a student meets one shape of advice
                             rather than two. It used to be a `StrategyTip` here
@@ -544,7 +547,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           thirty-eight verbs begin with a vowel, and "A
                           EXPLAIN question" is what that sentence renders for
                           every one of them. */}
-                      <p className={RIBBON_STAT_CAPTION}>
+                      <p className={`${RIBBON_STAT_CAPTION} ${PROSE_FLOW}`}>
                         {activeTermInfo.term} questions cap a response at Band{' '}
                         {getTierTargetBand(activeTermInfo.tier)}.
                       </p>
@@ -716,7 +719,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
 
                       {/* What this cognitive level actually asks of the writer. */}
                       <p
-                        className={`${RIBBON_TIER_SUBTITLE} ${isCurrentTier ? RIBBON_TIER_SUBTITLE_CURRENT : RIBBON_TIER_SUBTITLE_IDLE}`}
+                        className={`${RIBBON_TIER_SUBTITLE} ${PROSE_BLOCK} ${isCurrentTier ? RIBBON_TIER_SUBTITLE_CURRENT : RIBBON_TIER_SUBTITLE_IDLE}`}
                       >
                         {group.subtitle}
                       </p>

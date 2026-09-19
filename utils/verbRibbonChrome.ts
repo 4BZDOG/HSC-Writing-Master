@@ -22,8 +22,6 @@
  * pins that.
  */
 
-import { PROSE_BLOCK, PROSE_FLOW } from './prose';
-
 /** The ribbon's outermost box. Painted on the page background, full page width
  *  and flush with the column — see the comment at the call site for why it
  *  carries no rail gutter.
@@ -140,16 +138,28 @@ export const RIBBON_DETAIL_TERM =
 export const RIBBON_DETAIL_TIER_CHIP = 't-label px-3 py-0.5 rounded-full border shadow-sm';
 
 /**
- * How the prose in this file is allowed to break is `utils/prose`'s decision,
- * not this file's — `PROSE_BLOCK` for a short declarative block read as one
- * unit, `PROSE_FLOW` for running text, and neither on the tier NAME, which is
- * clamped. The measurements that produced the rule were taken here, and the
- * reasoning is recorded there rather than repeated at each use.
+ * How the prose in this file is allowed to break is `utils/prose`'s decision —
+ * `PROSE_BLOCK` for a short declarative block read as one unit, `PROSE_FLOW`
+ * for running text, and neither on the tier NAME, which is clamped. The
+ * measurements that produced the rule were taken here; the reasoning is
+ * recorded there rather than repeated at each use.
+ *
+ * Applied at the CALL SITE rather than baked in here, which is the same rule
+ * this file already follows for anything tier-coloured. Not only for
+ * consistency: a constant here interpolating an imported value would be
+ * reading it at module-init time, and `npm run check:eager-reads` rejects
+ * that — it is the crash class where a bundler puts reader and definer in
+ * chunks that import each other and the reader hits a temporal dead zone.
+ * `utils/prose` imports nothing and so could not actually cycle, but that
+ * script's exemption list is keyed by the READING file, so taking one would
+ * have blanket-accepted every future eager read in this file too. A
+ * render-time read costs nothing and keeps the guard honest.
  */
 /** The verb's definition. Painted on the detail card. The `opacity-90` it used
  *  to carry was softening white-on-gradient text; on a tier wash it only cost
  *  contrast. */
-export const RIBBON_DETAIL_DEFINITION = `text-sm font-bold max-w-xl ${PROSE_BLOCK} leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]`;
+export const RIBBON_DETAIL_DEFINITION =
+  'text-sm font-bold max-w-xl leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
 
 /* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed.
  *
@@ -186,7 +196,8 @@ export const RIBBON_STAT_VALUE = 'font-mono text-lg font-black tabular-nums';
  *  It was a `title` on a `<div>` with no `tabindex`, so the explanation of the
  *  one label a student will not already know was unreachable by keyboard and
  *  absent on touch. */
-export const RIBBON_STAT_CAPTION = `text-[10px] font-bold leading-snug ${PROSE_FLOW} text-center md:text-right text-slate-600 dark:text-slate-400`;
+export const RIBBON_STAT_CAPTION =
+  'text-[10px] font-bold leading-snug text-center md:text-right text-slate-600 dark:text-slate-400';
 
 /** The hairline between two stats. Painted on the tray. */
 export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-300 dark:bg-white/10';
@@ -428,7 +439,7 @@ export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[4.6rem] flex flex-col jus
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
-export const RIBBON_TIER_SUBTITLE = `px-6 pt-3 text-[11px] font-medium leading-snug ${PROSE_BLOCK} relative z-10`;
+export const RIBBON_TIER_SUBTITLE = 'px-6 pt-3 text-[11px] font-medium leading-snug relative z-10';
 
 /** The subtitle on the current tier's card, which is the one card the reader is
  *  meant to be reading. */
