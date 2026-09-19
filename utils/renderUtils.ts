@@ -686,6 +686,25 @@ export const KEYWORD_HIGHLIGHT_CLASS =
   'font-semibold text-emerald-400 light:text-emerald-800 bg-emerald-500/10 light:bg-emerald-600/10 rounded-[0.3em] px-[0.15em] box-decoration-clone print:bg-transparent print:text-emerald-800';
 export const VERB_HIGHLIGHT_CLASS =
   'font-black text-[rgb(var(--color-accent))] underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
+/**
+ * …and the same verb where it OPENS the command-verb guide.
+ *
+ * The highlight above already draws the verb bold, accent-coloured and
+ * underlined — which is to say, exactly like a hyperlink. It was not one: the
+ * only way into the guide was a chip in the card header styled identically to
+ * the "4 Marks" and "Band 2" chips beside it, which state facts and do
+ * nothing. So the affordance sat on the element that did nothing and the
+ * element that did something had no affordance.
+ *
+ * Making the highlighted verb the trigger costs no new chrome and explains the
+ * highlight that was already there: the app marks this word as the one that
+ * matters, and now pressing it says what it wants. It is also the glossary
+ * gesture every reader already knows.
+ */
+export const VERB_TRIGGER_CLASS =
+  `${VERB_HIGHLIGHT_CLASS} cursor-pointer decoration-dotted hover:decoration-solid ` +
+  'hover:decoration-[rgb(var(--color-accent))] rounded-[0.15em] ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-accent))]';
 export const KEYWORD_OVERLAY_CLASS =
   'bg-emerald-500/20 light:bg-emerald-500/25 text-emerald-400 light:text-emerald-900 rounded-[0.2em] box-decoration-clone';
 export const VERB_OVERLAY_CLASS =
@@ -807,7 +826,9 @@ const REGEX_ITALIC = new RegExp('(\\*[^*]+\\*)', 'g');
 const processInlineFormatting = (
   text: string,
   verbRegex: RegExp | null,
-  keywordRegex: RegExp | null
+  keywordRegex: RegExp | null,
+  /** Present when the command verb should open its guide — see VERB_TRIGGER_CLASS. */
+  onVerbClick?: () => void
 ): React.ReactNode[] => {
   // Every key carries its full position in the recursion. Each branch below
   // flattens its results into ONE sibling array, so a bare per-branch index
@@ -960,11 +981,32 @@ const processInlineFormatting = (
             // would be stateful (/g regex, lastIndex carries over) and drop every
             // other match — index parity is the reliable, stateless check.
             if (i % 2 === 1) {
-              return React.createElement(
-                'span',
-                { key: `v${path}.${outer}.${i}`, className: VERB_HIGHLIGHT_CLASS },
-                part
-              );
+              // A button in flowing prose, when there is a guide to open. It
+              // inherits the paragraph's type and keeps the highlight's own
+              // colour and underline, so the word reads as it always did and
+              // simply becomes pressable.
+              return onVerbClick
+                ? React.createElement(
+                    'button',
+                    {
+                      key: `v${path}.${outer}.${i}`,
+                      type: 'button',
+                      onClick: onVerbClick,
+                      className: VERB_TRIGGER_CLASS,
+                      // The matched text, not the canonical verb: the question
+                      // may say "Analysing", and "What a Analysing question
+                      // asks for" is neither grammatical nor what a reader
+                      // pressed. Naming the word and then the purpose keeps
+                      // both, and works for every inflection the matcher finds.
+                      'aria-label': `${part}: what this command verb asks for`,
+                    },
+                    part
+                  )
+                : React.createElement(
+                    'span',
+                    { key: `v${path}.${outer}.${i}`, className: VERB_HIGHLIGHT_CLASS },
+                    part
+                  );
             }
             return part;
           });
@@ -1117,7 +1159,8 @@ const renderTable = (
   table: ParsedTable,
   key: number,
   verbRegex: RegExp | null,
-  keywordRegex: RegExp | null
+  keywordRegex: RegExp | null,
+  onVerbClick?: () => void
 ): React.ReactNode => {
   const columns = Math.max(table.header.length, ...table.rows.map((r) => r.length));
   const alignFor = (col: number): string => ALIGN_CLASS[table.align[col] ?? 'left'];
@@ -1130,7 +1173,7 @@ const renderTable = (
         scope: 'col',
         className: `px-3 py-2 align-bottom t-label text-[rgb(var(--color-text-primary))] light:text-slate-900 border-b border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 ${alignFor(col)}`,
       },
-      processInlineFormatting(table.header[col] ?? '', verbRegex, keywordRegex)
+      processInlineFormatting(table.header[col] ?? '', verbRegex, keywordRegex, onVerbClick)
     )
   );
 
@@ -1149,7 +1192,7 @@ const renderTable = (
             key: col,
             className: `px-3 py-2 align-top text-[rgb(var(--color-text-secondary))] light:text-slate-700 ${alignFor(col)}`,
           },
-          processInlineFormatting(row[col] ?? '', verbRegex, keywordRegex)
+          processInlineFormatting(row[col] ?? '', verbRegex, keywordRegex, onVerbClick)
         )
       )
     )
@@ -1176,7 +1219,16 @@ const renderTable = (
 export const renderFormattedText = (
   text: string,
   keywords?: string[],
-  commandVerb?: PromptVerb
+  commandVerb?: PromptVerb,
+  /**
+   * Makes the highlighted command verb open its guide.
+   *
+   * Optional, and only the question card passes it: everywhere else this
+   * renders — feedback, exemplars, marking criteria — the verb is being quoted
+   * rather than asked, and a button in quoted prose would be a control that
+   * does something to a different question.
+   */
+  onVerbClick?: () => void
 ): React.ReactNode => {
   if (!text) return text;
 
@@ -1205,12 +1257,12 @@ export const renderFormattedText = (
     // anything that works a line at a time.
     const table = parseTable(lines, lineIdx);
     if (table) {
-      processedLines.push(renderTable(table, lineIdx, verbRegex, keywordRegex));
+      processedLines.push(renderTable(table, lineIdx, verbRegex, keywordRegex, onVerbClick));
       lineIdx = table.end - 1;
       continue;
     }
 
-    processedLines.push(renderLine(line, lineIdx, verbRegex, keywordRegex));
+    processedLines.push(renderLine(line, lineIdx, verbRegex, keywordRegex, onVerbClick));
   }
 
   return React.createElement(React.Fragment, null, processedLines);
@@ -1221,7 +1273,8 @@ function renderLine(
   line: string,
   lineIdx: number,
   verbRegex: RegExp | null,
-  keywordRegex: RegExp | null
+  keywordRegex: RegExp | null,
+  onVerbClick?: () => void
 ): React.ReactNode {
   // Horizontal rule: --- or *** or ___
   if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
@@ -1237,7 +1290,7 @@ function renderLine(
   if (headingMatch) {
     const level = headingMatch[1].length;
     const headingText = headingMatch[2];
-    const parts = processInlineFormatting(headingText, verbRegex, keywordRegex);
+    const parts = processInlineFormatting(headingText, verbRegex, keywordRegex, onVerbClick);
     const sizeClass = level === 1 ? 'text-lg' : level === 2 ? 'text-base' : 'text-sm';
     return React.createElement(
       'strong',
@@ -1265,7 +1318,7 @@ function renderLine(
     content = listMatch[3];
   }
 
-  const parts = processInlineFormatting(content, verbRegex, keywordRegex);
+  const parts = processInlineFormatting(content, verbRegex, keywordRegex, onVerbClick);
 
   const bulletElement = React.createElement(
     'span',

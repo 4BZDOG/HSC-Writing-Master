@@ -1246,3 +1246,83 @@ test written from the same reasoning that produced the code.
 
 Worth treating as the standing rule for this area rather than a run of
 coincidences: **when a surface changes, look at it.**
+
+---
+
+# Tenth pass: the two guides, and getting into them
+
+The brief this time came from use: the outcome brief and the command-verb
+guide "are not immediately obvious as items worth interacting with unless you
+already know". That is a discoverability problem before it is a design one, so
+it is the half this pass leads with.
+
+### 42. The affordance was on the element that did nothing — FIXED
+
+The command verb inside a question has always been drawn `font-black`, in the
+accent colour, `underline decoration-2` — which is to say, **exactly like a
+hyperlink**. It was a `<span>`. Meanwhile the only real way into the guide was
+a chip in the card header styled identically to the `4 Marks` and `Band 2`
+chips beside it, which state facts and do nothing: same fill, same border, same
+radius, same everything, with a hover tint and a `title` as its entire claim to
+being pressable.
+
+So the app put link styling on the thing that did nothing, and no styling on
+the thing that did something. A student who did not already know the guide
+existed had no reason to look for it — which is exactly what was reported.
+
+The highlighted verb is the trigger now. It costs no new chrome, it is where
+the eye already is, and it explains the highlight that was already there: the
+app marks this word as the one that matters, and pressing it now says what it
+wants. It is also the glossary gesture every reader knows — so the underline
+became dotted, which is what "this word has a definition" looks like.
+
+`renderFormattedText` takes an optional handler, and **only the question card
+passes it**. Everywhere else the verb renders — feedback, exemplars, marking
+criteria — it is being quoted rather than asked, and a button there would be a
+control acting on a different question. Exam Mode passes nothing: the guide is
+assistance.
+
+The header chip keeps its place (a question does not always contain its own
+verb literally) and takes the same dotted underline, so one visual language
+means "this opens the verb guide".
+
+### 43. A text button with no edge until you hover — FIXED
+
+"Read before you write" sat in a footer of icon buttons and chips with
+`border-transparent` until the pointer arrived. On a touch screen, where there
+is no hover at all, it never read as anything but a caption. It has a resting
+tint and edge now.
+
+### 44. The verb guide was seven identical boxes — FIXED
+
+The content is the best in the app — definition, the shape of the answer, how
+to answer it, the marker-facing language, what separates a strong answer, how
+the marks fall, a worked example. The presentation gave all seven the same
+bordered tinted box, each with a glyph beside its heading, over a grid of five
+stat tiles with circular icon badges. Everything looked exactly as important as
+everything else, which for a student who has stopped writing to ask "what does
+this word want?" is the one thing the page must not say.
+
+Rebuilt on the same terms as the outcome brief in pass six:
+
+- **The definition is the hero** and the only thing with a fill, set in
+  Newsreader like the outcome statement.
+- **Five figures, one line.** A tier, a mark range, a ceiling, a time and a
+  length are one reading — what am I asked for, and how much of it — not five
+  cards. The boxes, the badges and the five glyphs go; the figures keep their
+  weight and take the mono face.
+- **Sections are a heading over prose, divided by rules.** Seven glyphs gone:
+  each was the third thing announcing "this is a section" after the heading and
+  the box.
+- **The structural keywords are spaced words in the band colour**, matching
+  `StrategyBrief` — they are words to WRITE, not controls to press.
+- **One close.** The header ✕, Escape and the backdrop; the gradient "Done"
+  button went, as it did in the outcome brief.
+- **A reading measure**, `max-w-xl` like the outcome brief, down from `3xl`.
+
+The header said `Info` in a tile beside a verb, over a meta line repeating the
+tier and marks the figures now state. It says what the reader is looking at
+instead — "Command verb" over the word itself — which is what someone who
+arrived by pressing a word in their own question needs to be told.
+
+It now fits one screen without scrolling. It did not before.

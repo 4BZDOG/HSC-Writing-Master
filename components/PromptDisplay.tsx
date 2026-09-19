@@ -563,8 +563,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
                     }
                     title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
+                    // Underlined, like the verb in the question below it, so
+                    // one visual language means "this opens the verb guide" —
+                    // and so this chip stops reading as another fact chip like
+                    // the "4 Marks" and "Band 2" pills it sits beside.
                     className={`t-label leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
-                      examMode ? 'cursor-default' : 'hover:bg-white/30 active:scale-[0.98]'
+                      examMode
+                        ? 'cursor-default'
+                        : 'underline decoration-dotted decoration-white/50 underline-offset-[3px] hover:bg-white/30 hover:decoration-solid hover:decoration-white active:scale-[0.98]'
                     }`}
                   >
                     {prompt.verb}
@@ -728,7 +734,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight break-words"
                     style={{ fontSize: `${fontSize * 1.2}px`, lineHeight: 1.3 }}
                   >
-                    {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
+                    {/* The verb opens its guide. It has always been drawn
+                      bold, accent-coloured and underlined — a hyperlink in
+                      everything but behaviour — while the only real trigger was
+                      a chip up in the header dressed exactly like the "4 Marks"
+                      and "Band 2" chips that state facts and do nothing. The
+                      affordance was on the wrong element. Not in Exam Mode,
+                      where the guide is assistance. */}
+                    {renderFormattedText(
+                      prompt.question,
+                      prompt.keywords,
+                      prompt.verb,
+                      examMode ? undefined : onVerbClick
+                    )}
                   </h2>
                   {/* Curator controls: hover-revealed on pointer devices; on
                     phones (no hover) they sit in flow under the question
@@ -1026,7 +1044,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <button
                     onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
                     title="Open the outcome brief — what this question is assessing, in plain English"
-                    className={`flex items-center gap-2 sm:gap-3 group/link rounded-xl pr-1.5 sm:pr-3 -ml-1 pl-1 py-1 transition-all hover:bg-white/5 light:hover:bg-slate-100 active:scale-[0.98] ${bandConfig.border} border border-transparent hover:border-current/10`}
+                    // A resting edge, not a hover-only one. This is a text
+                    // button in a footer of icon buttons and chips, and with
+                    // nothing drawn around it until the pointer arrived it read
+                    // as a caption — on a touch screen, where there is no
+                    // hover at all, it never read as anything else.
+                    className={`flex items-center gap-2 sm:gap-3 group/link rounded-xl pr-2.5 sm:pr-3.5 pl-2 py-1.5 transition-all border ${bandConfig.bg} ${bandConfig.border} hover:brightness-110 active:scale-[0.98]`}
                   >
                     {/* Decorative icon tile — the inline Sparkles carries the
                       "there is something to read here" cue on its own, so the
