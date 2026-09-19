@@ -4,6 +4,7 @@ import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '..
 import { ChevronDown, AlignLeft, Sparkles } from 'lucide-react';
 import { getBandHex, getBandName, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import StrategyBrief from './StrategyBrief';
+import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import MeshOverlay from './MeshOverlay';
 import {
   RIBBON_CHEVRON_CHIP,
@@ -478,7 +479,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             Tier {activeTermInfo.tier} · {tierShortLabel(activeTermInfo.tier)}
                           </div>
                         </div>
-                        <p className={RIBBON_DETAIL_DEFINITION}>{activeTermInfo.definition}</p>
+                        <p className={`${RIBBON_DETAIL_DEFINITION} ${PROSE_BLOCK}`}>
+                          {activeTermInfo.definition}
+                        </p>
                         {/* The same brief the writing page and the strategy
                             row render, so a student meets one shape of advice
                             rather than two. It used to be a `StrategyTip` here
@@ -492,7 +495,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         <StrategyBrief
                           verb={activeTermInfo.term}
                           scale="panel"
-                          heading={false}
+                          lead="none"
                           className="mt-2"
                         />
                       </div>
@@ -544,7 +547,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           thirty-eight verbs begin with a vowel, and "A
                           EXPLAIN question" is what that sentence renders for
                           every one of them. */}
-                      <p className={RIBBON_STAT_CAPTION}>
+                      <p className={`${RIBBON_STAT_CAPTION} ${PROSE_FLOW}`}>
                         {activeTermInfo.term} questions cap a response at Band{' '}
                         {getTierTargetBand(activeTermInfo.tier)}.
                       </p>
@@ -699,14 +702,24 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           <span
                             className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : RIBBON_TIER_HEADER_LABEL_IDLE}`}
                           >
-                            Band {group.maxBand} ceiling
+                            Band {group.maxBand}
+                            {/* "ceiling" is dropped from the visible line and
+                                kept for anyone listening. On screen the word
+                                was carrying nothing the card does not already
+                                say — six cards climbing 1 to 6 under a rail
+                                labelled "Deep Learning Threshold", each with a
+                                number under its name. Read aloud it is the
+                                whole meaning: "Define & Describe, Band 2" is a
+                                target, "Band 2 ceiling" is a limit, and this
+                                ladder is about limits. */}
+                            <span className="sr-only"> ceiling</span>
                           </span>
                         </div>
                       </button>
 
                       {/* What this cognitive level actually asks of the writer. */}
                       <p
-                        className={`${RIBBON_TIER_SUBTITLE} ${isCurrentTier ? RIBBON_TIER_SUBTITLE_CURRENT : RIBBON_TIER_SUBTITLE_IDLE}`}
+                        className={`${RIBBON_TIER_SUBTITLE} ${PROSE_BLOCK} ${isCurrentTier ? RIBBON_TIER_SUBTITLE_CURRENT : RIBBON_TIER_SUBTITLE_IDLE}`}
                       >
                         {group.subtitle}
                       </p>

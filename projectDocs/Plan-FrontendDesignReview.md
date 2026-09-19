@@ -1571,3 +1571,242 @@ silent proves half of it; that proves the half that was visible.
 Counted in a browser as well, walking every text node for all seven
 completeness words, in an empty draft and a part-written one, in both themes:
 one occurrence, every time.
+
+---
+
+# Fourteenth pass: the tier name sized for its own row
+
+Two adjustments to the ribbon's tier cards, plus the reason the previous pass
+appeared not to have shipped.
+
+### 52. `.t-section` was the right voice at the wrong measurements — FIXED
+
+The thirteenth pass put the tier name in `.t-section`, which is correct about
+what the line IS — the app's tracked-out Inter caps, the voice a section's name
+takes everywhere else — and wrong about the numbers that go with it. The token
+is a fixed 12px at 0.16em, sized for a panel's name sitting alone on a row. In
+a 260px card with an annotation under it, that tracking was spending on air the
+width the WORDS needed: four of the six names went to two lines, and "Remember
+& List" only just held one at 148px of the 149 available.
+
+The line is built from `.t-display` and three utilities now — 14px at 0.06em,
+`leading-tight`. Same face, same 900 weight, same caps and slant; a size that
+belongs to this row rather than to a token shared with panels that have
+different problems. `.t-section` sets its own size and wins the cascade over a
+`text-*` utility (see the note above `.t-label` in `index.css`), so there was no
+adjusting it from the call site — `.t-display` carries only the face and the
+weight, which is exactly the half worth sharing.
+
+The tighter tracking pays for the extra size almost exactly: measured across
+all six, the wrap pattern is unchanged, nothing clips, and every header still
+stands at 89.0px.
+
+The test that pinned this asserted the token NAME. Rewritten to assert what the
+line is — display face, caps, italic — and that the ceiling borrows none of it.
+A test that names the spelling rather than the property fails the first time
+the spelling is right for a new reason.
+
+### 53. "ceiling" was a word the card had already said — FIXED
+
+The annotation read "Band 2 ceiling". On screen the last word carried nothing
+the card does not already say: six cards climbing 1 to 6, each with a number
+under its name, under a rail labelled "Deep Learning Threshold". It reads "Band
+2" now.
+
+**Kept for anyone listening.** Read aloud, that word is the whole meaning —
+"Define & Describe, Band 2" is a target and "Band 2 ceiling" is a limit, and
+this ladder is entirely about limits. So it moves into an `sr-only` span rather
+than out of the markup: the visible line loses a redundant word, the accessible
+name is unchanged, and the tier-header locators that spell it keep working
+because nothing about the spoken name moved.
+
+### Why the previous pass looked like it had not shipped
+
+Reported mid-session: "ribbon font changes are not showing on the github pages
+deploy". They were not, and there was nothing wrong with them —
+`.github/workflows/deploy-pages.yml` triggers on `push` to `main`, and the work
+was sitting on its branch in an open PR. `Deploy to Production` reads `skipped`
+on every PR run for the same reason.
+
+Worth recording because the failure mode it resembles is a real one this
+codebase has a guard for: a Tailwind class that survives development and is
+purged from the production build would look exactly like this. That is why the
+twelfth pass confirmed `@media (min-width:1360px)` in the built CSS by hand.
+Here the build was never the question — the branch was.
+
+---
+
+# Fifteenth pass: how the briefs wrap, and a name cut off again
+
+Reported from use with two screenshots — the strategy row and the ribbon's
+detail card — and one line: _"improve the way the text wraps in these areas on
+wider screens. The 'DISCUSS strategy / DISCUSS' text looks weird too!"_
+
+### 54. The verb was announced twice, the second time larger — FIXED
+
+The strategy row's own header reads "DISCUSS strategy". The brief opening
+underneath it led with `DISCUSS` in 18px Newsreader: the same word twice in two
+lines, the second time larger than the first, which is exactly what the row is
+FOR saying.
+
+`StrategyBrief`'s `heading` boolean could not express the fix, because it gated
+the term and the definition together. It is a three-way `lead` now — `full`
+(the blank writing page, where the brief is the only thing on screen),
+`definition` (the strategy row, whose header has just named the verb) and
+`none` (the ribbon's detail card, which sets the term beside its tier chip with
+the definition under it). The definition stays in the row: it is not a repeat
+of anything there.
+
+### 55. Short blocks stranding their last word — FIXED
+
+Measured at 1920 with both surfaces open, and the report was right. The verb's
+definition dropped its last word onto a line of its own; the tier subtitles ran
+out of words at 30%, 40%, 47% of the line; the caption under the stat tray set
+184px and then a second line **four pixels wide**, which is a full stop.
+
+None of it shows at the width these are designed at. It is what a rag does when
+a flex item is free to grow: the breaks stay legal and the last line runs out
+of words.
+
+- **`text-balance`** on the short declarative blocks read as one unit — the
+  verb's definition, a tier's subtitle. It evens every line rather than only
+  rescuing the last, which is what a two-line definition under a heading wants.
+  Measured after: the worst last line went from 16% of its longest to 76%, and
+  most sit at 95–100%.
+- **`text-pretty`** on the running text below the rule — the method, its
+  checks, the examples — which only needs its last line not to strand a word.
+
+Both degrade to ordinary wrapping where unsupported, so this is a refinement
+rather than a dependency.
+
+### 56. The sixth tier's name was ellipsised again — FIXED
+
+`EVALUATE, SYNTHESISE &…`. Third time these names have been cut: first by
+`truncate`, then by a two-line clamp that was measured at the 12px the line
+used to be and kept when the fourteenth pass took it to 14px. At 14px that name
+needs three lines in a 260px card.
+
+**And each time the check that should have caught it compared `scrollWidth`** —
+which a vertical clamp never trips, because the text fits its line and is cut
+off below it. That is the finding worth keeping, not the pixel value.
+
+Tracking cannot buy the line back: the break is word-driven, and 0.02em through
+0.06em all need the same three lines. So the clamp is three and the block's
+floor takes the third line with it — which the cards can afford, since they
+already end in empty space below their chips. All six headers measure 106.6px
+and every name arrives whole.
+
+A new `tests/e2e/verb-ribbon.spec.ts` measures **both axes** on all six cards
+and asserts the six headers agree on a height. Confirmed to fail on the
+two-line clamp with the name it loses, and to pass on three.
+
+### The correction in this pass
+
+I first blamed the ellipsis on `text-balance`, wrote that into a code comment,
+and was wrong: the clip is visible in the screenshot taken before balance was
+added anywhere. Balance and a clamp genuinely do fight — balance chooses the
+line COUNT and the clamp then cuts it — which is why the name does not take
+balance. But it did not cause this. The comment says so now.
+
+---
+
+# Sixteenth pass: the same rule, everywhere it belongs
+
+A final look across every surface this run touched, applying what the run
+itself established. Two things came out of it: a defect the fifteenth pass had
+fixed in one place and left in another, and the fact that the fix was becoming
+a habit rather than a rule.
+
+### 57. The wrapping fix had only reached the surfaces that were reported — FIXED
+
+The fifteenth pass fixed the rag on the verb briefs because those were the two
+screenshots. Measured across the rest of the session's surfaces at 1920, the
+same defect was sitting untouched on three more:
+
+- The **verb guide modal** broke `line-up` at its own hyphen and left `up.`
+  alone on a third line — a last line **4% of the longest**, and the worst
+  single instance found in this whole review.
+- The **outcome brief** set its outcome statement and the question above it
+  with ragged tails at 44%.
+- The **reference rail's** band descriptors stranded at 22% at 1440, where the
+  panel is narrow enough to wrap and wide enough not to wrap evenly.
+
+All treated. Sweeping the four widths in both themes afterwards, with every
+panel and accordion open, finds **no block left below 25%**.
+
+### 58. The rule was a habit, not a decision — FIXED
+
+By the end of the fifteenth pass the same two Tailwind utilities had been
+pasted into four files, with the reasoning written out in one of them. That is
+exactly the shape that drifts: the next call site copies the class, not the
+comment, and picks whichever of the two it saw last.
+
+`utils/prose.ts` states it once, in the shape `panelStyles.ts` and
+`cardChrome.ts` already use:
+
+- `PROSE_BLOCK` (`text-balance`) — a short declarative block read as one unit,
+  usually under a heading and often the one tinted thing on its surface: a
+  verb's definition, an outcome statement, a tier's subtitle, a quoted example
+  question. It evens every line rather than only rescuing the last.
+- `PROSE_FLOW` (`text-pretty`) — running text the reader moves through: a
+  section's body, a marking-guide row, a method and its checks.
+
+**The question is what the block IS, not how long it happens to be.** And
+neither goes on a clamped line, because balance chooses the line count and a
+clamp then cuts it — which on the tier names means the ellipsis they have been
+rescued from three times.
+
+`tests/unit/proseWrap.test.tsx` pins it by scanning source rather than
+rendering: what it guards is the ABSENCE of a literal, and a rendered tree
+cannot tell a component that never had the class from one that spells it
+inline. Confirmed to fail when the rule is written out by hand in any of the
+six surfaces that carry it.
+
+### Checked and found sound
+
+Re-measured rather than assumed, since every previous pass that assumed was
+wrong:
+
+- The six panel rows under the workspace cards: **63.0px at 1920, 1440, 1180
+  and 900, in both themes**, both columns level — unchanged by any of this.
+- The six ribbon tier headers: level, every name whole.
+- The two card headings: level at every width the spec walks.
+- The completeness word: once.
+
+### One thing that was not a product defect
+
+The outcome brief would not open for a probe signed in as `user`, and the
+timeout looked like a regression in the syllabus navigator. It is not: every
+question in the bundled curriculum that links an outcome is Tier 4+, which the
+free plan locks, so the questions that produce that panel cannot be selected.
+`openQuestionWithOutcomes` documents this and `light-theme.spec.ts` signs in as
+`admin` for exactly that state. Worth recording because the failure reads as
+broken navigation and is a plan boundary.
+
+### 59. The consolidation tripped a guard, and I had misread that guard — FIXED
+
+CI rejected the sixteenth pass on `check:eager-reads`. Building the ribbon's
+three constants as template literals interpolating `PROSE_BLOCK`/`PROSE_FLOW`
+meant reading an imported value at MODULE-INIT time — the temporal-dead-zone
+crash class that script exists to catch, where a bundler puts reader and
+definer in chunks that import each other and the reader runs first.
+
+The exemption list would have taken it: `utils/prose.ts` imports nothing, so it
+cannot sit on a cycle. But `KNOWN_SAFE` is keyed by the READING file, so the
+entry would have blanket-accepted every future eager read in
+`verbRibbonChrome.ts` as well — buying silence on a real one later to excuse a
+harmless one now. The ribbon applies the rule at its CALL SITE instead, which
+is what that file already does with everything tier-coloured, and the read
+becomes render-time. Confirmed in the browser afterwards: `balance`, `pretty`
+and `balance` still land on the three elements.
+
+**And I had run that scan locally and read it as passing.** Its output ends
+with an "Accepted as safe" block that prints whether or not it failed, and I
+looked at the tail rather than the verdict. The lesson generalises past this
+script: `tail` is not a verdict, and a check that always prints something at
+the end will always look like it passed.
+
+So the CI lint job is now run the way CI runs it — every step, each one's exit
+code reported — rather than eyeballed. Doing that also surfaced two gates this
+review had never once run locally: `check:bundle` and `check:eager-chunks`,
+which need a build first. Both pass.

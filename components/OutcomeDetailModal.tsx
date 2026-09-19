@@ -17,6 +17,7 @@ import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { isFeatureLocked } from '../services/entitlements';
 import { ContentLockOverlay, PlusLockChip } from './UpgradeModal';
 import type { PromptVerb } from '../types';
+import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 
 interface OutcomeDetailModalProps {
   isOpen: boolean;
@@ -315,7 +316,12 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               ))}
             </div>
           )}
-          <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-snug">
+          {/* The question, balanced: it is a single sentence read as one unit,
+              and set against the outcome statement below it — which is also
+              balanced — an even rag is what makes the two read as a pair. */}
+          <p
+            className={`text-sm font-semibold ${PROSE_BLOCK} text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-snug`}
+          >
             {question}
           </p>
           {verb && totalMarks && (
@@ -352,7 +358,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
           </h3>
           <p
             style={{ '--band-rgb': getBandRgb(tier) } as React.CSSProperties}
-            className={`mt-2.5 rounded-xl border band-edge ${bandConfig.bg} px-4 py-3.5 font-serif italic text-base sm:text-lg leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-800`}
+            className={`mt-2.5 rounded-xl border band-edge ${bandConfig.bg} px-4 py-3.5 font-serif italic ${PROSE_BLOCK} text-base sm:text-lg leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-800`}
           >
             {activeOutcome.description}
           </p>
@@ -421,7 +427,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                     </p>
                     {/* The syllabus wording above is on screen and unaffected —
                         which is the question a failed panel actually raises. */}
-                    <p className="text-[11px] text-red-400/90 light:text-red-600 mt-0.5 leading-relaxed">
+                    <p
+                      className={`text-[11px] ${PROSE_FLOW} text-red-400/90 light:text-red-600 mt-0.5 leading-relaxed`}
+                    >
                       {state.message} The outcome itself is above, unchanged.
                     </p>
                     <button
@@ -433,7 +441,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                   </div>
                 </div>
               ) : (
-                <div className="text-[13px] text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed animate-fade-in">
+                <div
+                  className={`text-[13px] ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed animate-fade-in`}
+                >
                   {state.text ? renderFormattedText(state.text) : null}
                 </div>
               )}

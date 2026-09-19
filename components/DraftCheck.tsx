@@ -7,6 +7,7 @@ import {
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
+import { PROSE_FLOW } from '../utils/prose';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 /**
@@ -191,7 +192,13 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
                     className={`flex items-start gap-3 border-l-2 pl-3 py-0.5 ${tone.rule}`}
                   >
                     <ToneIcon className={`w-4 h-4 mt-0.5 shrink-0 ${tone.icon}`} />
-                    <span className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                    {/* Running advice, so it only needs its last line not to
+                        strand a word — see `utils/prose`. These sit in a panel
+                        that is 793px wide in the two-column layout and 358 on
+                        a phone, which is the spread that produces a rag. */}
+                    <span
+                      className={`text-xs ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
+                    >
                       {insight.message}
                     </span>
                   </li>

@@ -416,9 +416,22 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
    * Two lines both set in the app's tracked caps read as one two-line title.
    */
   it('sets the tier name and its ceiling in different faces', () => {
-    expect(RIBBON_TIER_HEADER_TITLE).toContain('t-section');
+    // The name is the app's caps-italic display voice — asserted by what it
+    // IS rather than by which token spells it, because it is built from
+    // `.t-display` plus the three utilities now that this row wants its own
+    // size and tracking. `.t-section` would say the same thing at a fixed 12px
+    // and 0.16em, and could not be adjusted from the call site.
+    expect(RIBBON_TIER_HEADER_TITLE).toMatch(/(^|\s)t-display(\s|$)/);
+    expect(RIBBON_TIER_HEADER_TITLE).toContain('uppercase');
+    expect(RIBBON_TIER_HEADER_TITLE).toContain('italic');
+
+    // …and the annotation is none of those, in the mono face.
     expect(RIBBON_TIER_HEADER_LABEL).toContain('font-mono');
-    expect(RIBBON_TIER_HEADER_LABEL).not.toContain('t-section');
+    for (const caps of ['t-display', 't-section', 'uppercase', 'italic']) {
+      expect(RIBBON_TIER_HEADER_LABEL, `the ceiling must not borrow \`${caps}\``).not.toContain(
+        caps
+      );
+    }
   });
 
   /**

@@ -137,6 +137,24 @@ export const RIBBON_DETAIL_TERM =
  *  Painted on the detail card. */
 export const RIBBON_DETAIL_TIER_CHIP = 't-label px-3 py-0.5 rounded-full border shadow-sm';
 
+/**
+ * How the prose in this file is allowed to break is `utils/prose`'s decision —
+ * `PROSE_BLOCK` for a short declarative block read as one unit, `PROSE_FLOW`
+ * for running text, and neither on the tier NAME, which is clamped. The
+ * measurements that produced the rule were taken here; the reasoning is
+ * recorded there rather than repeated at each use.
+ *
+ * Applied at the CALL SITE rather than baked in here, which is the same rule
+ * this file already follows for anything tier-coloured. Not only for
+ * consistency: a constant here interpolating an imported value would be
+ * reading it at module-init time, and `npm run check:eager-reads` rejects
+ * that — it is the crash class where a bundler puts reader and definer in
+ * chunks that import each other and the reader hits a temporal dead zone.
+ * `utils/prose` imports nothing and so could not actually cycle, but that
+ * script's exemption list is keyed by the READING file, so taking one would
+ * have blanket-accepted every future eager read in this file too. A
+ * render-time read costs nothing and keeps the guard honest.
+ */
 /** The verb's definition. Painted on the detail card. The `opacity-90` it used
  *  to carry was softening white-on-gradient text; on a tier wash it only cost
  *  contrast. */
@@ -378,30 +396,46 @@ export const RIBBON_TIER_HEADER_LABEL_IDLE =
   'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
 
 /** The tier's title — the names the six cards are actually told apart by, so it
- *  leads the header, and it takes `.t-section`: the tracked-out Inter caps the
- *  app gives a section's name everywhere else. The card IS a section of the
- *  ladder, and the six names are its headings.
+ *  leads the header, in the tracked-out caps the app gives a section's name
+ *  everywhere else. The card IS a section of the ladder, and the six names are
+ *  its headings.
  *
- *  12px rather than the 14px it was, and it still reads larger: caps and
- *  0.16em of tracking buy back more width than two pixels of size cost. The
- *  token sets its own size and wins the cascade over a `text-*` utility (see
- *  the note above `.t-label` in index.css), so this is 12px whatever is written
- *  beside it.
+ *  Built from `.t-display` and the three utilities rather than from
+ *  `.t-section`, which is the same voice at a fixed 12px and 0.16em. Those two
+ *  numbers are right for a panel's name sitting alone on a row; here the line
+ *  is a heading in a 260px card with an annotation under it, and at 0.16em the
+ *  tracking was spending on air the width the WORDS needed — four of the six
+ *  names went to two lines and "Remember & List" only just held one.
+ *  `.t-section` sets its own size and wins the cascade over a `text-*` utility
+ *  (see the note above `.t-label` in index.css), so it cannot be adjusted from
+ *  a call site; `.t-display` carries only the face and the 900 weight, which is
+ *  exactly the half worth sharing. Same voice, sized for this row.
  *
- *  It WRAPS, where it used to `truncate`. Two of the six do not fit on one line
- *  at 260px, so the strip showed "Discuss, Assess & Jus…" and "Evaluate,
- *  Synthesise &…" — the one line that tells these six cards apart, ellipsised,
- *  at the top of the card. The cards already end in empty space below their
- *  chips, so the room was there.
+ *  It WRAPS, where it once truncated: most of the six do not fit on one line at
+ *  260px however it is set, and the strip used to show "Discuss, Assess & Jus…"
+ *  and "Evaluate, Synthesise &…" — the one line that tells these six cards
+ *  apart, ellipsised, at the top of the card.
  *
- *  Clamped at two, which is what the longest needs — a third line would push
- *  the chips instead of filling space nobody was using. */
-export const RIBBON_TIER_HEADER_TITLE = 't-section line-clamp-2';
+ *  Clamped at THREE, which is what the longest actually needs. Two was measured
+ *  at the 12px this line used to be and kept when the size went up, where it
+ *  put the ellipsis straight back on "Evaluate, Synthesise & Create" — and the
+ *  check that should have caught it only compared `scrollWidth`, which a
+ *  vertical clamp never trips. Tracking cannot buy the line back either: the
+ *  break is word-driven, and 0.02em through 0.06em all need the same three
+ *  lines. So the block's floor takes the third line instead, which the cards
+ *  can afford — they already end in empty space below their chips. */
+export const RIBBON_TIER_HEADER_TITLE =
+  't-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
 
 /** The floor under the title-and-ceiling block, so a tier whose name wraps does
  *  not stand its header — and with it the subtitle and every chip below — out
- *  of step with the five beside it. Two title lines, the gap, and the ceiling. */
-export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[3.5rem] flex flex-col justify-center';
+ *  of step with the five beside it.
+ *
+ *  Three title lines, the gap, and the ceiling: 4.6rem. It is sized to the
+ *  LONGEST name rather than the common case, because the whole job of this
+ *  floor is that one card cannot push its own header out of line — and a floor
+ *  that only fits five of the six names is a floor that does not do it. */
+export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[4.6rem] flex flex-col justify-center';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
