@@ -669,6 +669,23 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
 
   const totalSamples = groupedAnswers.reduce((sum, g) => sum + g.answers.length, 0);
 
+  /**
+   * The folded card's second line.
+   *
+   * The exemplar TOTAL, not just the level count: eleven models spread over
+   * three levels and three models over three levels are very different things
+   * to walk into, and this used to describe both as "3 performance levels".
+   *
+   * Built once rather than inline, so the `title` that makes it readable when
+   * it truncates is the same string it renders. On a phone the line wants
+   * 195px in a 138px row, and the part that gets cut is the band ceiling on
+   * the end.
+   */
+  const exemplarSummary =
+    (groupedAnswers.length > 0
+      ? `${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'} · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'}`
+      : 'No models yet') + ` · Band ceiling ${maxPossibleBand}`;
+
   const handleRecalibrate = async (
     sampleIds: string[],
     onProgress?: (done: number, total: number) => void
@@ -735,15 +752,11 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             >
               Sample Answers
             </span>
-            <span className={`t-label block truncate ${maxBandConfig.text}`}>
-              {/* The exemplar TOTAL, not just the level count. Eleven models
-                  spread over three levels and three models over three levels
-                  are very different things to walk into, and the folded card
-                  used to describe both as "3 performance levels". */}
-              {groupedAnswers.length > 0
-                ? `${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'} · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'}`
-                : 'No models yet'}
-              {` · Band ceiling ${maxPossibleBand}`}
+            <span
+              title={exemplarSummary}
+              className={`t-label block truncate ${maxBandConfig.text}`}
+            >
+              {exemplarSummary}
             </span>
           </div>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">

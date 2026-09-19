@@ -178,6 +178,8 @@ if (totalKb > EAGER_BUDGET_KB) {
 if (failures.length > 0) {
   console.error('\nEager-chunk check FAILED:\n');
   for (const f of failures) console.error(`  - ${f}\n`);
+  // The verdict last — see the note at the end of findModuleInitReads.mjs.
+  console.error(`FAIL — ${failures.length} eager-chunk problem(s).`);
   process.exit(1);
 }
 
@@ -185,3 +187,4 @@ console.log(
   `Eager chunks OK: ${chunks.length} chunks, ${totalKb} kB in the first load; ` +
     `${MUST_STAY_LAZY.map(([n]) => n).join(', ')} all stayed out.`
 );
+console.log(`\nPASS — the first load is ${totalKb} kB and nothing lazy rejoined it.`);

@@ -199,4 +199,21 @@ if (accepted.length > 0) {
   }
 }
 
-process.exit(review.length === 0 ? 0 : 1);
+/*
+ * The VERDICT LAST, and unmistakable.
+ *
+ * The "Accepted as safe" block above prints whether or not this run passed, so
+ * for a while the last thing on screen was a reassuring list of things that
+ * were fine — and a failing run read as a passing one to anyone who looked at
+ * the tail rather than the exit code. That is not a hypothetical: a change was
+ * pushed on the strength of it and CI rejected it.
+ *
+ * So the final line states the outcome in one word, and does it on stderr when
+ * it is bad, which is where a reader's eye and most log viewers already go.
+ */
+if (review.length === 0) {
+  console.log('\nPASS — no unexplained eager reads of imported values.');
+  process.exit(0);
+}
+console.error(`\nFAIL — ${review.length} eager read(s) of an imported value at module init.`);
+process.exit(1);
