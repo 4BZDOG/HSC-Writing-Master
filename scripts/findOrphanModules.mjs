@@ -152,4 +152,13 @@ if (exempt.length > 0) {
   }
 }
 
-process.exit(orphans.length === 0 ? 0 : 1);
+// The verdict last — see the note at the end of findModuleInitReads.mjs. The
+// "Accepted as unimported" block prints either way, so without this the tail of
+// a failing run looks exactly like the tail of a passing one.
+if (AS_JSON) process.exit(orphans.length === 0 ? 0 : 1);
+if (orphans.length === 0) {
+  console.log(`\nPASS — every one of ${scanned.length} scanned modules has an importer.`);
+  process.exit(0);
+}
+console.error(`\nFAIL — ${orphans.length} module(s) that nothing imports.`);
+process.exit(1);

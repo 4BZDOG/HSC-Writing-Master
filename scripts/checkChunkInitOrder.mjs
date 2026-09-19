@@ -150,6 +150,7 @@ for (const [file, info] of chunks) {
 
 if (problems.length === 0) {
   console.log(`✓ ${chunks.size} chunks checked — no top-level read crosses a chunk cycle.`);
+  console.log('\nPASS — no top-level read crosses a chunk cycle.');
   process.exit(0);
 }
 
@@ -162,4 +163,6 @@ console.error(
 for (const p of problems) {
   console.error(`  ${p.chunk}  reads '${p.binding}'  from  ${p.source}  (which imports it back)`);
 }
+// The verdict last — see the note at the end of findModuleInitReads.mjs.
+console.error(`\nFAIL — ${problems.length} top-level read(s) across a chunk cycle.`);
 process.exit(1);

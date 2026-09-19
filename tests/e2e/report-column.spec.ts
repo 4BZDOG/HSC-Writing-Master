@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { findClippedText, describeClipped } from './support/clipping';
 
 /**
  * The marking report is a document with a margin, not a column in an empty card.
@@ -35,6 +36,9 @@ const MARKED = {
 };
 
 /** Column geometry, the prose measure, and anything overflowing its box. */
+/** The marking report itself — the clipping sweep is scoped to it here. */
+const MAIN = '.EvaluationDisplay';
+
 const layout = (page: Page) =>
   page.evaluate(() => {
     const root = document.querySelector('.EvaluationDisplay') as HTMLElement | null;
@@ -48,7 +52,7 @@ const layout = (page: Page) =>
     // Characters per line, from the element's own computed font rather than an
     // assumed average width — the interface face has changed once already.
     const prose = Array.from(root.querySelectorAll('p')).find(
-      (p) => (p.textContent || '').length > 120,
+      (p) => (p.textContent || '').length > 120
     ) as HTMLElement | undefined;
     let chars: number | null = null;
     if (prose) {
@@ -60,18 +64,6 @@ const layout = (page: Page) =>
       probe.remove();
     }
 
-    const clipped: string[] = [];
-    root.querySelectorAll<HTMLElement>('*').forEach((el) => {
-      if (!el.offsetParent) return;
-      const ownText = Array.from(el.childNodes).some(
-        (n) => n.nodeType === 3 && (n.textContent || '').trim().length > 1,
-      );
-      if (!ownText) return;
-      if (el.scrollWidth > el.clientWidth + 1 && getComputedStyle(el).overflow !== 'visible') {
-        clipped.push(`"${(el.textContent || '').trim().slice(0, 30)}"`);
-      }
-    });
-
     return {
       sideBySide: a.top < m.bottom && a.left >= m.right - 1,
       asideAbove: a.bottom <= m.top + 1,
@@ -79,7 +71,6 @@ const layout = (page: Page) =>
       asideWidth: Math.round(a.width),
       chars,
       docWidth: document.documentElement.scrollWidth,
-      clipped: Array.from(new Set(clipped)),
     };
   });
 
@@ -98,7 +89,7 @@ test.describe('marking report column', () => {
           candidates: [{ finishReason: 'STOP' }],
           usageMetadata: { totalTokenCount: 120 },
         }),
-      }),
+      })
     );
 
     await page.setViewportSize({ width: 1440, height: 950 });
@@ -110,7 +101,7 @@ test.describe('marking report column', () => {
       .first()
       .fill(
         'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +
-          'template, and complementary bases are added along it to build two identical molecules.',
+          'template, and complementary bases are added along it to build two identical molecules.'
       );
     await page.getByRole('button', { name: /^Evaluate/ }).click();
     await page.getByText(FEEDBACK).waitFor({ timeout: 60_000 });
@@ -123,7 +114,8 @@ test.describe('marking report column', () => {
       expect(l, `no report at ${width}`).not.toBeNull();
       expect(l!.sideBySide, `${width}: should be one column`).toBe(false);
       expect(l!.asideAbove, `${width}: the mark should come before the report`).toBe(true);
-      expect(l!.clipped, `${width}: clipped text`).toEqual([]);
+      const clipped = await findClippedText(page, MAIN);
+      expect(clipped, `${width}: clipped text\n${describeClipped(clipped)}`).toEqual([]);
       expect(l!.docWidth, `${width}: horizontal overflow`).toBeLessThanOrEqual(width);
     }
 
@@ -140,7 +132,8 @@ test.describe('marking report column', () => {
       // 106 characters before the change, 86 after. The skill asks for 80; this
       // is the closest the layout reaches without a label losing its word.
       expect(l!.chars, `${width}: line too long`).toBeLessThanOrEqual(92);
-      expect(l!.clipped, `${width}: clipped text`).toEqual([]);
+      const clipped = await findClippedText(page, MAIN);
+      expect(clipped, `${width}: clipped text\n${describeClipped(clipped)}`).toEqual([]);
       expect(l!.docWidth, `${width}: horizontal overflow`).toBeLessThanOrEqual(width);
     }
   });

@@ -104,7 +104,22 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                 // `location` rather than `page`: this names the deepest place in
                 // the path, but the page the student is on is the question below.
                 aria-current={isLast ? 'location' : undefined}
-                title={canJump ? `Go back to choose a different ${LEVEL_NAMES[level]}` : item.label}
+                // The LABEL first, then what pressing it does.
+                //
+                // The label truncates at 150px on a phone and 250px on a
+                // laptop, and a jumpable crumb's title used to read "Go back to
+                // choose a different Topic" — which names the level but never
+                // the crumb, so "Construct models of the processes of DNA
+                // replication." was cut to "Construct models of the process…"
+                // with nothing anywhere carrying the rest. Truncation is a fair
+                // choice for a path that has to fit one line; losing the words
+                // is not, and the last crumb already made the right bargain by
+                // titling itself with its own label.
+                title={
+                  canJump
+                    ? `${item.label} — go back to choose a different ${LEVEL_NAMES[level]}`
+                    : item.label
+                }
                 className={`
                     flex items-center ${scale.crumb} rounded-lg font-medium
                     whitespace-nowrap border transition-all duration-200

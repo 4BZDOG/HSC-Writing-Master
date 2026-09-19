@@ -1810,3 +1810,82 @@ So the CI lint job is now run the way CI runs it — every step, each one's exit
 code reported — rather than eyeballed. Doing that also surfaced two gates this
 review had never once run locally: `check:bundle` and `check:eager-chunks`,
 which need a build first. Both pass.
+
+---
+
+# Seventeenth pass: turning two lessons into two guards
+
+The sixteenth pass ended by writing down two lessons. A lesson written down is
+a lesson that gets forgotten, so this pass makes each of them something the
+build enforces — and looking for where else each applied turned up five real
+defects.
+
+### 60. A width check never sees a vertical clamp — GUARDED
+
+The ribbon's tier names were ellipsised, fixed, and ellipsised again, and each
+time the assertion guarding them compared `scrollWidth` against `clientWidth`.
+With `line-clamp-2` the text fits its line perfectly and is cut off BELOW it,
+so a width check reports a clean bill on a card reading "EVALUATE, SYNTHESISE
+&…".
+
+Searching for the same half-written check found it once more, in
+`report-column.spec.ts`: a general "is any text clipped in the marking report"
+sweep, on one axis. It also counted `overflow: auto` as clipping, which is
+wrong in the other direction — a scrollable box still has its words.
+
+`tests/e2e/support/clipping.ts` now holds the rule, once:
+
+- **Both axes**, each judged by its own overflow property, because `overflow`
+  the shorthand cannot describe a row that scrolls sideways and hides
+  downwards.
+- **Only `hidden` and `clip` cut text off.** `auto` and `scroll` are reachable.
+- **Truncation is allowed when the words are recoverable** — a `title` or
+  `aria-label`, on the element or any ancestor, carrying the full string. That
+  is the bargain the app already makes wherever it truncates on purpose.
+- **Visually-hidden text is skipped**, since being clipped to nothing is the
+  entire mechanism of `sr-only`.
+
+`tests/e2e/no-clipped-text.spec.ts` runs it across the whole workspace at three
+widths in both themes, with every panel and accordion open.
+
+**It found five losses on its first run**, each a truncated label with nothing
+anywhere carrying the rest:
+
+| where           | cut            | what was missing                                                                      |
+| --------------- | -------------- | ------------------------------------------------------------------------------------- |
+| Breadcrumb      | 296px into 250 | the tooltip named the LEVEL — "Go back to choose a different Topic" — never the crumb |
+| Navigator bar   | 306px into 164 | the selected QUESTION, with no title                                                  |
+| Combobox (×2)   | 376px into 188 | the chosen dot point, with no title                                                   |
+| Exemplars panel | 195px into 138 | the band ceiling on the end of the summary                                            |
+
+All four surfaces now carry the full string in a `title`, and the sweep is
+clean at every width in both themes.
+
+### 61. A verdict that is not the last line will be misread — GUARDED
+
+`check:eager-reads` rejected the sixteenth pass in CI. It had been run locally
+and read as passing, because its output ends with an "Accepted as safe" block
+that prints whether or not the run succeeded: the tail of a failing run looked
+exactly like the tail of a passing one, and the verdict several lines up had
+scrolled away. `check:dead-code` had the identical shape, and
+`checkDeployment` ended on "See DEPLOYMENT.md…", which reads like a footer.
+
+Reading `tail` instead of `$?` is a habit, and habits are not fixed by resolve.
+So the contract is structural: **every check script's last line is `PASS — …`
+or `FAIL — …`**, with failures on stderr. All five now do it, and
+`tests/unit/checkScriptVerdict.test.ts` runs the two pure-static scanners to
+prove it rather than trusting their source. Confirmed to fail when a verdict
+line is removed.
+
+Chasing this also surfaced the fact that two CI gates — `check:bundle` and
+`check:eager-chunks`, which need a build first — had never once been run
+locally across this entire review. Both pass, and both now state their verdict
+the same way.
+
+### The shape of both findings
+
+Neither lesson was about the surface it was found on. A width check that misses
+a clamp, and a verdict that is not where a reader looks, are both _the check
+being right about the wrong thing_ — and in both cases the fix was to move the
+rule somewhere it is stated once and cannot be half-remembered at the next call
+site.

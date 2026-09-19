@@ -512,6 +512,11 @@ const Combobox: React.FC<ComboboxProps> = ({
         onKeyDown={handleKeyDown}
         disabled={disabled}
         className={`${baseInputStyles} ${stateStyles}`}
+        // The chosen value truncates inside — a dot point runs to 376px in a
+        // 188px control on a phone — so the whole of it lives here. `label`
+        // rather than `renderLabel`: the latter is a node, and this is the
+        // plain string it was built from.
+        title={selectedOption ? selectedOption.label : placeholder}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}

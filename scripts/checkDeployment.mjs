@@ -802,8 +802,12 @@ const main = async () => {
 
   if (errors.length > 0) {
     console.log('\nSee DEPLOYMENT.md for what each of these means in context.');
+    // …and the verdict after the pointer, not before it, so the last line is
+    // the outcome rather than a helpful-sounding footer.
+    console.error(`\nFAIL — ${errors.length} deployment error(s).`);
     process.exit(1);
   }
+  console.log('\nPASS — no deployment errors.');
   process.exit(0);
 };
 

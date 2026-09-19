@@ -72,7 +72,16 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
             >
               {prompt.verb}
             </span>
-            <p className="min-w-0 truncate text-[13px] font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug">
+            {/* Titled, because it truncates. On a phone this line shows about
+                164px of a 306px question and there is nowhere else on that
+                screen the rest of it appears — the card below shows the
+                question too, but this bar is what a student reads while the
+                card is scrolled away. Truncating a path is a fair trade for
+                one line; truncating the QUESTION without recourse is not. */}
+            <p
+              title={prompt.question}
+              className="min-w-0 truncate text-[13px] font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug"
+            >
               {prompt.question}
             </p>
           </div>
