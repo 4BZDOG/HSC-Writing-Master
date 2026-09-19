@@ -7,6 +7,7 @@ import { BandConfig, getBandRgb, getTierBandConfig } from '../utils/renderUtils'
 import { getTierTargetBand } from '../data/commandTerms';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
@@ -167,7 +168,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
         <div className="px-6 sm:px-7 py-6 overflow-y-auto flex-1">
           {/* The answer to the question they opened this with. */}
           <p
-            className={`rounded-xl border band-edge ${bandConfig.bg} px-4 py-3.5 font-serif italic text-base sm:text-lg leading-relaxed text-[rgb(var(--color-text-primary))]`}
+            className={`rounded-xl border band-edge ${bandConfig.bg} px-4 py-3.5 font-serif italic ${PROSE_BLOCK} text-base sm:text-lg leading-relaxed text-[rgb(var(--color-text-primary))]`}
           >
             {termInfo.definition}
           </p>
@@ -194,7 +195,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                 {termInfo.tip.split('\n').map((line, i) => (
                   <p
                     key={i}
-                    className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed"
+                    className={`text-sm ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))] leading-relaxed`}
                   >
                     {line}
                   </p>
@@ -222,7 +223,9 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             )}
 
             <Section title="What separates a strong answer">
-              <p className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed">
+              <p
+                className={`text-sm ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))] leading-relaxed`}
+              >
                 {termInfo.bandDiscrimination}
               </p>
             </Section>
@@ -238,7 +241,7 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
                 {termInfo.genericMarkingGuide.map((criterion, index) => (
                   <li
                     key={index}
-                    className={`border-l-2 ${bandConfig.border} pl-3 text-sm leading-relaxed text-[rgb(var(--color-text-secondary))]`}
+                    className={`border-l-2 ${bandConfig.border} pl-3 text-sm ${PROSE_FLOW} leading-relaxed text-[rgb(var(--color-text-secondary))]`}
                   >
                     {criterion}
                   </li>
@@ -249,7 +252,9 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
             {/* An abstract definition plus one concrete question is how a
                 reader checks they have understood the definition at all. */}
             <Section title="A question that asks for this">
-              <p className="font-serif italic text-sm sm:text-base leading-relaxed text-[rgb(var(--color-text-secondary))]">
+              <p
+                className={`font-serif italic ${PROSE_BLOCK} text-sm sm:text-base leading-relaxed text-[rgb(var(--color-text-secondary))]`}
+              >
                 &ldquo;{termInfo.exampleQuestion}&rdquo;
               </p>
             </Section>

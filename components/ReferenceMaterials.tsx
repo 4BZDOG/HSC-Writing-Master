@@ -13,6 +13,7 @@ import {
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
+import { PROSE_FLOW } from '../utils/prose';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { isFeatureLocked } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
@@ -234,7 +235,9 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                     {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
+                <p
+                  className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
+                >
                   {outcome.description}
                 </p>
               </button>
@@ -298,7 +301,9 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                         className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
                         aria-hidden="true"
                       />
-                      <span className="text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
+                      <span
+                        className={`text-[11px] ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
+                      >
                         {mistake}
                       </span>
                     </li>
@@ -329,7 +334,9 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                         className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-indigo-400/70"
                         aria-hidden="true"
                       />
-                      <span className="text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
+                      <span
+                        className={`text-[11px] ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
+                      >
                         {note}
                       </span>
                     </li>
@@ -389,7 +396,9 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                             • {descriptor.shortLabel}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
+                        <p
+                          className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
+                        >
                           {descriptor.description}
                         </p>
                       </div>

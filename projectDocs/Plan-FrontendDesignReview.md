@@ -1707,3 +1707,78 @@ and was wrong: the clip is visible in the screenshot taken before balance was
 added anywhere. Balance and a clamp genuinely do fight — balance chooses the
 line COUNT and the clamp then cuts it — which is why the name does not take
 balance. But it did not cause this. The comment says so now.
+
+---
+
+# Sixteenth pass: the same rule, everywhere it belongs
+
+A final look across every surface this run touched, applying what the run
+itself established. Two things came out of it: a defect the fifteenth pass had
+fixed in one place and left in another, and the fact that the fix was becoming
+a habit rather than a rule.
+
+### 57. The wrapping fix had only reached the surfaces that were reported — FIXED
+
+The fifteenth pass fixed the rag on the verb briefs because those were the two
+screenshots. Measured across the rest of the session's surfaces at 1920, the
+same defect was sitting untouched on three more:
+
+- The **verb guide modal** broke `line-up` at its own hyphen and left `up.`
+  alone on a third line — a last line **4% of the longest**, and the worst
+  single instance found in this whole review.
+- The **outcome brief** set its outcome statement and the question above it
+  with ragged tails at 44%.
+- The **reference rail's** band descriptors stranded at 22% at 1440, where the
+  panel is narrow enough to wrap and wide enough not to wrap evenly.
+
+All treated. Sweeping the four widths in both themes afterwards, with every
+panel and accordion open, finds **no block left below 25%**.
+
+### 58. The rule was a habit, not a decision — FIXED
+
+By the end of the fifteenth pass the same two Tailwind utilities had been
+pasted into four files, with the reasoning written out in one of them. That is
+exactly the shape that drifts: the next call site copies the class, not the
+comment, and picks whichever of the two it saw last.
+
+`utils/prose.ts` states it once, in the shape `panelStyles.ts` and
+`cardChrome.ts` already use:
+
+- `PROSE_BLOCK` (`text-balance`) — a short declarative block read as one unit,
+  usually under a heading and often the one tinted thing on its surface: a
+  verb's definition, an outcome statement, a tier's subtitle, a quoted example
+  question. It evens every line rather than only rescuing the last.
+- `PROSE_FLOW` (`text-pretty`) — running text the reader moves through: a
+  section's body, a marking-guide row, a method and its checks.
+
+**The question is what the block IS, not how long it happens to be.** And
+neither goes on a clamped line, because balance chooses the line count and a
+clamp then cuts it — which on the tier names means the ellipsis they have been
+rescued from three times.
+
+`tests/unit/proseWrap.test.tsx` pins it by scanning source rather than
+rendering: what it guards is the ABSENCE of a literal, and a rendered tree
+cannot tell a component that never had the class from one that spells it
+inline. Confirmed to fail when the rule is written out by hand in any of the
+six surfaces that carry it.
+
+### Checked and found sound
+
+Re-measured rather than assumed, since every previous pass that assumed was
+wrong:
+
+- The six panel rows under the workspace cards: **63.0px at 1920, 1440, 1180
+  and 900, in both themes**, both columns level — unchanged by any of this.
+- The six ribbon tier headers: level, every name whole.
+- The two card headings: level at every width the spec walks.
+- The completeness word: once.
+
+### One thing that was not a product defect
+
+The outcome brief would not open for a probe signed in as `user`, and the
+timeout looked like a regression in the syllabus navigator. It is not: every
+question in the bundled curriculum that links an outcome is Tier 4+, which the
+free plan locks, so the questions that produce that panel cannot be selected.
+`openQuestionWithOutcomes` documents this and `light-theme.spec.ts` signs in as
+`admin` for exactly that state. Worth recording because the failure reads as
+broken navigation and is a plan boundary.

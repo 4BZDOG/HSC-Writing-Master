@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
 import { parseStrategyTip, type TipSegment } from '../utils/strategyTip';
+import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import type { PromptVerb } from '../types';
 
 /**
@@ -112,7 +113,7 @@ const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string; large: boolean
       segment.kind === 'example' ? (
         <p
           key={i}
-          className={`font-serif italic text-pretty border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] ${
+          className={`font-serif italic ${PROSE_FLOW} border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] ${
             large ? 'mt-2.5 text-[15px] leading-relaxed' : 'mt-2 text-xs leading-relaxed'
           }`}
         >
@@ -202,7 +203,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
       )}
       {showDefinition && (
         <p
-          className={`font-serif text-balance text-[rgb(var(--color-text-secondary))] ${
+          className={`font-serif ${PROSE_BLOCK} text-[rgb(var(--color-text-secondary))] ${
             large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'
           } ${showTerm ? (large ? 'mt-2.5' : 'mt-1.5') : ''}`}
         >
@@ -219,7 +220,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
             />
           )}
           <p
-            className={`font-serif text-pretty text-[rgb(var(--color-text-primary))] ${
+            className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-primary))] ${
               large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'
             }`}
           >
@@ -239,7 +240,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
               {checks.map((move, i) => (
                 <div key={i}>
                   <p
-                    className={`font-serif text-pretty text-[rgb(var(--color-text-muted))] leading-relaxed ${
+                    className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-muted))] leading-relaxed ${
                       large ? 'text-[15px]' : 'text-xs'
                     }`}
                   >
