@@ -130,11 +130,20 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
                 nothing to fix — and there is no draft yet. */}
             {resting ? '—' : toWorkOn}
           </div>
-          {/* A span, not a heading: the row IS the disclosure control, and the
-              rail's other panels label themselves the same way. */}
+          {/* The panel's NAME takes the section treatment and the line under it
+              stays `.t-label` — the pairing `ReferenceMaterials` describes as
+              what makes the two read as a heading and its caption rather than
+              two labels.
+
+              This carried `.t-label` for both, with a comment claiming the
+              other panels did the same. They do not: `AccordionSection` and
+              `SampleAnswersAccordion` both set their name in `.t-section`, and
+              on a phone all five panels stack in one column where this was the
+              only one labelling itself differently. A span rather than a
+              heading element is still right — the row IS the disclosure. */}
           <span className="text-left">
             <span
-              className={`t-label block ${
+              className={`t-section block ${
                 isCollapsed
                   ? 'text-slate-500 dark:text-slate-400'
                   : 'text-slate-900 dark:text-white'

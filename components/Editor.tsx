@@ -234,8 +234,15 @@ const Editor = forwardRef<
      * Exam Mode has no strategy at all, and a question with no command verb has
      * nothing to brief. Everything else: the moment there is a character in the
      * draft this fades out and the row below is the only way back.
+     *
+     * ONE PLACE AT A TIME. Opening the row on a blank page used to render the
+     * verb twice — the panel's copy above, the page's below it, the second one
+     * clipped mid-definition by the space the first had just taken. The page
+     * yields to the panel, so opening the row on a blank page trades the large
+     * brief for the complete one: panel scale also carries the checks on the
+     * method, which the page drops to fit.
      */
-    const showStrategyPage = !isExamMode && !!verb && value.length === 0;
+    const showStrategyPage = !isExamMode && !!verb && value.length === 0 && !showStrategy;
     /** Whether the brief has been on the page at all for this question. */
     const strategyBriefSeen = useOpenedOnce(showStrategyPage, promptId);
 
