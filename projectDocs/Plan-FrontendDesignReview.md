@@ -1475,3 +1475,45 @@ Verified in Chromium in both themes at 1920 / 1600 / 1440 / 1400 / 1370 / 1360
 / 1359 / 1340 / 1300 / 1280 / 900 / 640 / 390, and the arbitrary breakpoint
 confirmed present in the production CSS — a class Tailwind purged would drop
 the size silently.
+
+### 50. The name and its annotation were the same voice — FIXED
+
+Finding 47 left both lines of the tier card header set the same way: the name
+in a bold sans and the ceiling in the app's tracked caps, the same hue at the
+same strength on every idle card. Reading down, they were a two-line title
+rather than a name with an annotation under it — and on the selected card,
+where both are `solidText`, there was nothing but the words to tell them apart.
+
+The two now differ on every axis that is not colour:
+
+- **The name takes `.t-section`** — the tracked-out Inter caps the app gives a
+  section's name everywhere else, which is what these cards are: six sections
+  of the ladder, each with a heading. 12px rather than 14, and it still reads
+  larger, because caps and 0.16em of tracking buy back more width than two
+  pixels of size cost. (The token sets its own size and wins the cascade over a
+  `text-*` utility — see the note above `.t-label` in index.css — so there is no
+  arguing with it from the call site.)
+- **The ceiling takes JetBrains Mono**, because it is the only thing in this
+  header that is a figure. DesignSpec §4 gives mono to "marks, token counts and
+  system logs", and the ribbon's own stat tray already sets its four numbers in
+  it — the face is not a new idea here, it is the one the ribbon uses whenever
+  it states a number. Different family, weight, case and slant from the line
+  above: no two-line title left to misread.
+- **And it is dimmed by colour, never opacity.** The step down is the same
+  `slate-600` pair the card's subtitle two lines below already uses, measured
+  on this card at 5.8:1 where `slate-500` reads 3.91:1 through the card's own
+  `opacity-90`. The old `opacity-60` over the tier's `text` colour is what
+  measured 2.97:1 on tier 6, and the test that caught that is rewritten rather
+  than deleted: it now pins the colour step and still forbids the opacity.
+
+**The selected card is deliberately not dimmed.** Its header is a saturated
+tier gradient, where the only ways down from `solidText` are an alpha that
+reads differently on each of the six fills — tier 3's yellow has caught this
+codebase twice — and an opacity §2 rule 3 keeps off readings. It is also the
+one card the reader is meant to be reading. There the mono face and the weight
+separate the two lines on their own, which is why they had to differ by more
+than colour in the first place.
+
+Measured in both themes with the ribbon open: all six headers still 89.0px,
+nothing clipped, and `light-theme.spec.ts` — which expands the ribbon in its
+`beforeEach` precisely so these ~120 text nodes are audited — green.

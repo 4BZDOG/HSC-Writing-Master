@@ -331,9 +331,7 @@ export const RIBBON_TIER_HEADER =
   'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** "Band 3 ceiling", UNDER the tier's title. Painted on the tier card header,
- *  in the tier's own `text` colour — or, on the current card, in the `solidText`
- *  it inherits from the header itself.
+/** "Band 3 ceiling", UNDER the tier's title.
  *
  *  It sat above the title as an eyebrow, which put the consequence before the
  *  thing it is a consequence OF: a reader scanning six cards met "Band 1
@@ -342,34 +340,63 @@ export const RIBBON_TIER_HEADER =
  *  follows it, which is also the order the card is spoken in — "Define &
  *  Describe, Band 2 ceiling".
  *
- *  It takes the tracked-out caps `.t-section` gives a panel's name elsewhere in
- *  the app. Set under the title rather than over it, `.t-label`'s sentence case
- *  read as a second line of the title rather than as a caption on it; the caps
- *  and the tracking are what say "this is the label, that was the name" without
- *  needing a size step to do it.
+ *  MONO, because it is the only thing in this header that is a figure.
+ *  DesignSpec §4 gives JetBrains Mono to "marks, token counts, and system
+ *  logs", and the ribbon's own stat tray already sets its four numbers in it —
+ *  so the face is not a new idea here, it is the one the ribbon uses whenever
+ *  it states a number. It also puts the widest possible daylight between this
+ *  line and the tracked-out Inter caps directly above it: different family,
+ *  different weight, different case, no slant. Two lines that were both set in
+ *  the same caps read as one two-line title rather than as a name and its
+ *  annotation.
  *
  *  It used to add `opacity-60` on the five idle cards, and that was the whole
  *  of its contrast problem: `text-purple-900` on `bg-purple-100` is about 9:1
- *  and measured **2.97:1** through the opacity, on a card that is also dimmed to
- *  90%. The tier `text` tokens are already the darkest step the shared config
- *  offers (`-900`), so there was nothing left to darken — the opacity had to go. */
-export const RIBBON_TIER_HEADER_LABEL = 't-section block mt-1 truncate';
+ *  and measured **2.97:1** through the opacity, on a card that is also dimmed
+ *  to 90%. Dimming is a colour decision here rather than an opacity one — see
+ *  `RIBBON_TIER_HEADER_LABEL_IDLE`. */
+export const RIBBON_TIER_HEADER_LABEL =
+  'font-mono text-xs font-medium tracking-tight block mt-1 truncate';
+
+/** The dimmed step for the ceiling on the five cards that are not selected.
+ *
+ *  It carried the tier's own `text` colour, the same one the title above it
+ *  carries, so the name and its annotation were the same hue at the same
+ *  strength and only the face told them apart. This drops it to the muted pair
+ *  the card's own subtitle already uses two lines below — `slate-600` rather
+ *  than `slate-500` for the reason recorded on `RIBBON_TIER_SUBTITLE_IDLE`:
+ *  measured in the browser, slate-500 reads 3.91:1 under the card's `opacity-90`
+ *  and slate-600 reads 5.8:1.
+ *
+ *  The CURRENT card is deliberately not dimmed. Its header is a saturated tier
+ *  gradient, where the only ways down from `solidText` are an alpha that reads
+ *  differently on every one of the six fills and an opacity DesignSpec §2 rule 3
+ *  keeps off readings — and tier 3's yellow has already caught this codebase
+ *  twice. It is also the one card the reader is meant to be reading. There, the
+ *  mono face and the weight do the separating on their own. */
+export const RIBBON_TIER_HEADER_LABEL_IDLE =
+  'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
 
 /** The tier's title — the names the six cards are actually told apart by, so it
- *  leads the header.
+ *  leads the header, and it takes `.t-section`: the tracked-out Inter caps the
+ *  app gives a section's name everywhere else. The card IS a section of the
+ *  ladder, and the six names are its headings.
+ *
+ *  12px rather than the 14px it was, and it still reads larger: caps and
+ *  0.16em of tracking buy back more width than two pixels of size cost. The
+ *  token sets its own size and wins the cascade over a `text-*` utility (see
+ *  the note above `.t-label` in index.css), so this is 12px whatever is written
+ *  beside it.
  *
  *  It WRAPS, where it used to `truncate`. Two of the six do not fit on one line
- *  at 260px: "Discuss, Assess & Justify" needs 157px of the 149 available and
- *  "Evaluate, Synthesise & Create" needs 187, so the strip showed "Discuss,
- *  Assess & Jus…" and "Evaluate, Synthesise &…". That was survivable while the
- *  line was the second thing in the header; as the lead it is the first thing
- *  cut, on the one line that tells these six cards apart. The cards already end
- *  in empty space below their chips, so the room was there.
+ *  at 260px, so the strip showed "Discuss, Assess & Jus…" and "Evaluate,
+ *  Synthesise &…" — the one line that tells these six cards apart, ellipsised,
+ *  at the top of the card. The cards already end in empty space below their
+ *  chips, so the room was there.
  *
  *  Clamped at two, which is what the longest needs — a third line would push
  *  the chips instead of filling space nobody was using. */
-export const RIBBON_TIER_HEADER_TITLE =
-  'text-sm font-black leading-tight tracking-tight line-clamp-2';
+export const RIBBON_TIER_HEADER_TITLE = 't-section line-clamp-2';
 
 /** The floor under the title-and-ceiling block, so a tier whose name wraps does
  *  not stand its header — and with it the subtitle and every chip below — out

@@ -24,6 +24,9 @@ import {
   RIBBON_TIER_CARD_CURRENT,
   RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HEADER,
+  RIBBON_TIER_HEADER_LABEL,
+  RIBBON_TIER_HEADER_LABEL_IDLE,
+  RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_TIER_UNDERLINE,
   RIBBON_SPECTRUM_SCALE_RAIL,
@@ -364,16 +367,58 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
     expect(rail.closest('[aria-hidden="true"]')).toBeNull();
   });
 
-  // 2.97:1 on tier 6 and worse below it. The tier `text` tokens are already the
-  // darkest step `getBandConfig` offers, so the opacity was the whole defect.
-  it('states each card’s band ceiling without dimming it', () => {
+  /**
+   * The ceiling IS dimmed now — it is an annotation under the tier's name, not
+   * a second heading — and the whole point is that it is dimmed the way the
+   * rest of this file dims things.
+   *
+   * It used to carry `opacity-60` over the tier's own `text` colour, which
+   * measured 2.97:1 on tier 6 and worse below it: the tier tokens are already
+   * the darkest step `getBandConfig` offers, so there was nothing left to
+   * darken and the opacity was the whole defect. The step down is a COLOUR now,
+   * to the same `slate-600` pair the card's subtitle two lines below uses —
+   * measured on this card at 5.8:1, where `slate-500` reads 3.91:1 under the
+   * card's own `opacity-90`. Same shape as the three tests above it.
+   */
+  it('dims each card’s band ceiling by colour, never by opacity', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
     const header = screen.getByRole('button', { name: /Band 6 ceiling/i });
     const label = header.querySelector('span') as HTMLElement;
     expect(label.textContent).toBe('Band 6 ceiling');
-    expect(label.className).toContain('text-purple-900');
+    expect(label.className).toContain(RIBBON_TIER_HEADER_LABEL_IDLE);
+    expect(RIBBON_TIER_HEADER_LABEL_IDLE).toContain('text-slate-600');
+    expect(RIBBON_TIER_HEADER_LABEL_IDLE).not.toMatch(/(^|\s)text-slate-500/);
     expect(label.className).not.toMatch(/opacity-\d/);
+  });
+
+  /**
+   * …and the card the reader is actually on is NOT dimmed.
+   *
+   * Its header is a saturated tier gradient. The only steps down from
+   * `solidText` there are an alpha that reads differently on each of the six
+   * fills — tier 3's yellow has caught this codebase twice — and an opacity
+   * DesignSpec §2 rule 3 keeps off readings. On that card the mono face and the
+   * weight separate the annotation from the name on their own.
+   */
+  it('leaves the selected card’s ceiling at full strength', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const header = screen.getByRole('button', { name: /Define & Describe Band 2 ceiling/i });
+    const label = header.querySelector('span') as HTMLElement;
+    expect(label.className).not.toContain(RIBBON_TIER_HEADER_LABEL_IDLE);
+    expect(label.className).not.toMatch(/opacity-\d/);
+  });
+
+  /**
+   * The name and the annotation have to be told apart by more than colour, for
+   * the selected card where they share one, and for anyone who cannot use hue.
+   * Two lines both set in the app's tracked caps read as one two-line title.
+   */
+  it('sets the tier name and its ceiling in different faces', () => {
+    expect(RIBBON_TIER_HEADER_TITLE).toContain('t-section');
+    expect(RIBBON_TIER_HEADER_LABEL).toContain('font-mono');
+    expect(RIBBON_TIER_HEADER_LABEL).not.toContain('t-section');
   });
 
   /**

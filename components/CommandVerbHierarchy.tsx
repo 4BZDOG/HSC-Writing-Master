@@ -34,6 +34,7 @@ import {
   RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_LABEL,
+  RIBBON_TIER_HEADER_LABEL_IDLE,
   RIBBON_TIER_HEADER_TEXT,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE,
@@ -696,7 +697,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                               and worse below it, and there was no darker step
                               in the shared config to reach for. */}
                           <span
-                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : tierConfig.text}`}
+                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : RIBBON_TIER_HEADER_LABEL_IDLE}`}
                           >
                             Band {group.maxBand} ceiling
                           </span>
