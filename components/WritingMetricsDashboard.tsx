@@ -15,7 +15,7 @@ import {
   AlignLeft,
   BookMarked,
 } from 'lucide-react';
-import { PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import { PANEL_HEADER_OPEN, PANEL_ROW_MIN_H, PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 interface PillProps {
@@ -315,13 +315,17 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       ? `+${formatTime(-remainingTime)}`
       : formatTime(Math.max(0, remainingTime));
 
-    // The caption says what the figure above it is measuring against, which
-    // the figure alone cannot: before the clock starts it names the budget and
-    // where the budget comes from, and after it starts it names the direction.
+    // The caption says what the figure beside it is measuring against, which
+    // the figure alone cannot: before the clock starts it says the figure is a
+    // guide and what earns it, and after it starts it names the direction.
+    //
+    // It used to open `7 min for 4 marks`, which was a restatement while it sat
+    // under a clock reading 07:00 and is a plain repetition now the two are on
+    // one line. The marks are the half of that sentence the clock cannot say.
     const clockCaption = isOverTime
       ? `over ${budgetMinutes} min`
       : elapsed === 0
-        ? `${budgetMinutes} min for ${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}`
+        ? `guide for ${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}`
         : isTimerActive
           ? `left of ${budgetMinutes} min`
           : 'paused';
@@ -353,7 +357,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
         {/* The divider only earns its place when something sits below it —
             collapsed, it doubled up with the card's own bottom border. */}
         <div
-          className={`flex flex-col sm:flex-row items-stretch ${PANEL_HEADER_OPEN} ${
+          className={`flex flex-col sm:flex-row items-stretch ${PANEL_ROW_MIN_H} ${PANEL_HEADER_OPEN} ${
             isCollapsed || isExamMode ? '' : 'border-b border-slate-300 dark:border-white/10'
           }`}
         >
@@ -364,21 +368,42 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               that moves on its own, the only one with a consequence, and the
               one a student under exam conditions is actually managing. Words
               and syllabus coverage answer to it. */}
-          <div className="flex flex-1 items-center gap-5 sm:gap-8 px-4 sm:px-5 py-3 min-w-0">
-            <div className="shrink-0">
+          <div className="flex flex-1 items-center gap-4 sm:gap-6 px-4 sm:px-5 py-3 min-w-0">
+            {/* The caption sits BESIDE the figure, not under it.
+                Stacked, the pair stood 58px tall and dragged the whole panel
+                to 82px against the 62px every other panel keeps. Set on one
+                line the clock reads the way a clock is spoken — "07:00, guide
+                for 4 marks" — and the tallest thing in the row goes back to
+                being the two support lines.
+
+                A reserved slot from `md` up, because the caption is the one
+                string here that changes length on its own (`paused` to `left
+                of 7 min` to `over 7 min`). Left to size itself it shunts the
+                word count sideways mid-sentence, which is the sort of motion
+                DesignSpec §5 keeps off a static reading.
+
+                From `md` UP, and not from `sm`, because between the two the
+                row is at its tightest: the strip goes one-line at 640 and the
+                controls take their full width from the start, so holding
+                216px here truncated `15 words of about 32` into `15 words…` —
+                measured at 640 and 660. A figure the student cannot read is a
+                worse trade than a caption that moves three times in a
+                session, and those widths are a single column anyway, where
+                nothing is lining up against the strip. */}
+            <div className="shrink-0 flex items-baseline gap-2 md:w-[13.5rem]">
               <span
                 role="timer"
                 aria-label={spokenClock}
-                className={`block font-mono text-2xl sm:text-3xl font-bold tabular-nums tracking-tight leading-none transition-colors duration-500 ${clockTone}`}
+                className={`font-mono text-2xl sm:text-3xl font-bold tabular-nums tracking-tight leading-none transition-colors duration-500 ${clockTone}`}
               >
                 <Clock value={clock} />
               </span>
-              <span className="t-label block mt-1.5 text-slate-500 dark:text-slate-400">
+              <span className="t-label min-w-0 truncate text-slate-500 dark:text-slate-400">
                 {clockCaption}
               </span>
             </div>
 
-            <div className="min-w-0 flex flex-col gap-1">
+            <div className="min-w-0 flex flex-col gap-0.5">
               <SupportStat
                 title={`${wordCount} of about ${progressInfo.targetCount} words for a ${progressInfo.targetLabel} response`}
               >

@@ -1,7 +1,12 @@
 import React, { useId, useMemo, useState } from 'react';
 import { CheckCircle2, AlertTriangle, Info, ChevronDown } from 'lucide-react';
 import { InsightTone, WritingInsight } from '../utils/writingAnalysis';
-import { PANEL_HEADER_CLOSED, PANEL_HEADER_OPEN, PANEL_SURFACE } from '../utils/panelStyles';
+import {
+  PANEL_HEADER_CLOSED,
+  PANEL_HEADER_OPEN,
+  PANEL_ROW_MIN_H,
+  PANEL_SURFACE,
+} from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 
 /**
@@ -102,7 +107,7 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
           disabled={resting}
           aria-expanded={resting ? undefined : !isCollapsed}
           aria-controls={resting ? undefined : panelId}
-          className={`w-full py-3.5 px-5 flex items-center gap-4 text-left transition-all ${
+          className={`w-full ${PANEL_ROW_MIN_H} py-3.5 px-5 flex items-center gap-4 text-left transition-all ${
             resting ? 'cursor-default' : isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
           }`}
         >

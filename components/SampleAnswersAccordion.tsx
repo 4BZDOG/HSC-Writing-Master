@@ -9,7 +9,7 @@ import {
   cleanMarkdown,
 } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
-import { PANEL_SURFACE } from '../utils/panelStyles';
+import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import type { SyllabusKeywordContext } from '../services/geminiService';
@@ -709,7 +709,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           onClick={() => setIsCollapsed((c) => !c)}
           aria-expanded={!isCollapsed}
           aria-controls={panelId}
-          className={`flex-1 min-w-0 py-3.5 pl-5 pr-3 flex items-center gap-4 text-left transition-all group relative z-10 ${
+          className={`flex-1 min-w-0 ${PANEL_ROW_MIN_H} py-3.5 pl-5 pr-3 flex items-center gap-4 text-left transition-all group relative z-10 ${
             isCollapsed ? 'hover:bg-slate-50 dark:hover:bg-white/[0.02]' : ''
           }`}
         >

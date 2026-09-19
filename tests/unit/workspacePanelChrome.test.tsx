@@ -6,7 +6,9 @@ import Editor from '../../components/Editor';
 import DraftCheck from '../../components/DraftCheck';
 import WritingMetricsDashboard from '../../components/WritingMetricsDashboard';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
-import { PANEL_SURFACE } from '../../utils/panelStyles';
+import { AccordionSection } from '../../components/ReferenceMaterials';
+import { BookOpen } from 'lucide-react';
+import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../../utils/panelStyles';
 import {
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
@@ -263,6 +265,64 @@ describe('the panels below the cards share one surface', () => {
     for (const container of named) {
       const name = container.querySelector('button span.t-section');
       expect(name, 'a panel whose name is not set in the section voice').toBeTruthy();
+    }
+  });
+
+  /**
+   * …and stand on the same line.
+   *
+   * In the two-column layout these panels sit in one column with the reference
+   * rail's in the other, so their rows read as a grid whether or not anyone
+   * designed one. Four of the five reached the same height by coincidence —
+   * `py-3.5` either side of a 32px icon tile — and the live metrics strip,
+   * which has no tile and stacked its clock over a caption, stood 22px taller.
+   * That put the third row of one column visibly below the third row of the
+   * other, which is what a reader notices first about a wall of panels.
+   *
+   * jsdom does no layout, so this asserts the shared token rather than a
+   * measured height; the height itself was checked in a browser. What the
+   * token buys is that a panel cannot quietly leave the set.
+   */
+  it('stands every panel header on the same line', () => {
+    const panels: Array<[string, HTMLElement]> = [
+      [
+        'live writing stats',
+        render(<WritingMetricsDashboard userAnswer="" prompt={prompt()} onAddWord={vi.fn()} />)
+          .container,
+      ],
+      ['draft check', render(<DraftCheck insights={[]} />).container],
+      [
+        'exemplars',
+        render(
+          <SampleAnswersAccordion
+            prompt={prompt()}
+            onSampleAnswerGenerated={vi.fn()}
+            onUseSampleAnswer={vi.fn()}
+            onDeleteSampleAnswer={vi.fn()}
+            onUpdateSampleAnswer={vi.fn()}
+            userRole="user"
+          />
+        ).container,
+      ],
+      [
+        'reference rail accordion',
+        render(
+          <AccordionSection title="Syllabus Terms" icon={<BookOpen />}>
+            <p>Weave these terms in.</p>
+          </AccordionSection>
+        ).container,
+      ],
+    ];
+
+    for (const [name, container] of panels) {
+      const surface = container.firstElementChild!;
+      const row = surface.querySelector(`[class*="${PANEL_ROW_MIN_H}"]`);
+      expect(row, `${name}: no header row carrying the shared height`).toBeTruthy();
+      // The FIRST row, not something buried in the body it discloses.
+      expect(
+        surface.firstElementChild!.contains(row!),
+        `${name}: the shared height is not on the panel's top row`
+      ).toBe(true);
     }
   });
 
