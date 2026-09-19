@@ -1392,9 +1392,10 @@ Two things fell out of moving it:
   From `md` and not `sm`, which the probe caught and the eye would not have:
   the strip goes one-line at 640 and the controls take their full width from
   the start, so between 640 and 767 holding 216px truncated `15 words of about
-  32` into `15 words…`. A figure the student cannot read is a worse trade than
+32` into `15 words…`. A figure the student cannot read is a worse trade than
   a caption that moves three times in a session, and those widths are a single
   column anyway, where nothing is lining up against the strip.
+
 - **The opening caption was a repetition.** It read `7 min for 4 marks` while
   sitting under a clock reading `07:00`. That was already a restatement; on one
   line it was a plain one. It reads `guide for 4 marks` now — the marks are the
@@ -1408,3 +1409,165 @@ height — jsdom does no layout — so `workspacePanelChrome.test.tsx` asserts t
 shared token instead, which is what stops a panel quietly leaving the set; the
 height itself was measured in a browser, at eight widths and in both themes —
 every panel 63.0px from 640 up, and both columns' rows level at 1280 and 1440.
+
+---
+
+# Twelfth pass: the ribbon's tier cards, and two titles that were too small
+
+Three asks from use, all about type and order rather than behaviour.
+
+### 47. The consequence came before the thing it was a consequence of — FIXED
+
+Each tier card in the command verb ribbon led with "Band N ceiling" as an
+eyebrow over its name. So a reader scanning the strip met "Band 1 ceiling",
+"Band 2 ceiling", "Band 3 ceiling" in a row — six near-identical lines — before
+any of the words that tell the six cards apart. The name leads now and the
+ceiling follows it, which is also the order the card is spoken in: "Define &
+Describe, Band 2 ceiling".
+
+The ceiling line takes the tracked-out caps `.t-section` gives a panel's name
+elsewhere in the app. Under the title rather than over it, `.t-label`'s
+sentence case read as a second line of the title rather than as a caption on
+it; the caps and the tracking say "this is the label, that was the name"
+without needing a size step to do it.
+
+The reorder changes the tier header button's accessible name, which is a real
+consequence and not a test to paper over — three locators follow it.
+
+### 48. Two of the six tier names were cut off — FIXED
+
+Pre-existing, and promoting the name to the lead line is what made it matter:
+"Discuss, Assess & Justify" needs 157px of the 149 a 260px card gives it, and
+"Evaluate, Synthesise & Create" needs 187, so the strip showed "Discuss, Assess
+& Jus…" and "Evaluate, Synthesise &…" — the one line that tells these cards
+apart, ellipsised, at the top of the card.
+
+The name wraps now, clamped at two lines, with a floor under the title block so
+a tier whose name wraps does not stand its header — and with it the subtitle
+and every chip below — out of step with the five beside it. Measured: all six
+headers 89.0px, nothing clipped. It cost nothing, because the cards already end
+in empty space below their chips.
+
+### 49. The two card titles were smaller than their own icon tiles — FIXED
+
+"Writing Prompt" and "Written Response" name the two things the whole workspace
+is, and at `text-base sm:text-lg` they sat below the 40px tile beside them and
+level with the chips underneath — each card reading as a strip of chrome with a
+caption rather than as a titled surface.
+
+**The step had to be measured, not chosen.** 24px takes 63px more of the
+header's wrapping row than 18px did on the response card, and below 1360px that
+is enough to drop its corner bar onto its own line while the question card's —
+narrower, so its bar is smaller — stays up beside the heading. The two bars end
+up 44px apart: the pair coming apart, which is the one thing `utils/cardChrome`
+exists to stop.
+
+`workspace-chrome.spec.ts` caught it at 1280 on the first try, which is the
+whole reason that spec exists — it was written after this pair drifted three
+times and was hand-checked at one window size each time.
+
+So the full step waits for room: `text-lg sm:text-xl min-[1360px]:text-2xl`.
+1360 is not a round number because it is not a guess — it is where the bar
+stops fitting, found by walking the widths. Both sides of it are now in the
+spec's width list, so the step cannot quietly move.
+
+Verified in Chromium in both themes at 1920 / 1600 / 1440 / 1400 / 1370 / 1360
+/ 1359 / 1340 / 1300 / 1280 / 900 / 640 / 390, and the arbitrary breakpoint
+confirmed present in the production CSS — a class Tailwind purged would drop
+the size silently.
+
+### 50. The name and its annotation were the same voice — FIXED
+
+Finding 47 left both lines of the tier card header set the same way: the name
+in a bold sans and the ceiling in the app's tracked caps, the same hue at the
+same strength on every idle card. Reading down, they were a two-line title
+rather than a name with an annotation under it — and on the selected card,
+where both are `solidText`, there was nothing but the words to tell them apart.
+
+The two now differ on every axis that is not colour:
+
+- **The name takes `.t-section`** — the tracked-out Inter caps the app gives a
+  section's name everywhere else, which is what these cards are: six sections
+  of the ladder, each with a heading. 12px rather than 14, and it still reads
+  larger, because caps and 0.16em of tracking buy back more width than two
+  pixels of size cost. (The token sets its own size and wins the cascade over a
+  `text-*` utility — see the note above `.t-label` in index.css — so there is no
+  arguing with it from the call site.)
+- **The ceiling takes JetBrains Mono**, because it is the only thing in this
+  header that is a figure. DesignSpec §4 gives mono to "marks, token counts and
+  system logs", and the ribbon's own stat tray already sets its four numbers in
+  it — the face is not a new idea here, it is the one the ribbon uses whenever
+  it states a number. Different family, weight, case and slant from the line
+  above: no two-line title left to misread.
+- **And it is dimmed by colour, never opacity.** The step down is the same
+  `slate-600` pair the card's subtitle two lines below already uses, measured
+  on this card at 5.8:1 where `slate-500` reads 3.91:1 through the card's own
+  `opacity-90`. The old `opacity-60` over the tier's `text` colour is what
+  measured 2.97:1 on tier 6, and the test that caught that is rewritten rather
+  than deleted: it now pins the colour step and still forbids the opacity.
+
+**The selected card is deliberately not dimmed.** Its header is a saturated
+tier gradient, where the only ways down from `solidText` are an alpha that
+reads differently on each of the six fills — tier 3's yellow has caught this
+codebase twice — and an opacity §2 rule 3 keeps off readings. It is also the
+one card the reader is meant to be reading. There the mono face and the weight
+separate the two lines on their own, which is why they had to differ by more
+than colour in the first place.
+
+Measured in both themes with the ribbon open: all six headers still 89.0px,
+nothing clipped, and `light-theme.spec.ts` — which expands the ribbon in its
+`beforeEach` precisely so these ~120 text nodes are audited — green.
+
+---
+
+# Thirteenth pass: the footer said it twice
+
+Reported from use with a screenshot of the writing card's footer:
+
+> Band 5 Target · Excellent · **Coming along** │ **Coming along** ▬▬▬ 49%
+
+### 51. The completeness word appeared twice in one row — FIXED
+
+Two surfaces had independently decided to carry it, and nothing put them side
+by side until this row existed:
+
+- `Editor` appended it to the target-band pill — a deliberate decision, with a
+  comment explaining that the muted word "names the fill's meaning as
+  READINESS". True, and it was the right call when the pill and the footer
+  action were further apart.
+- `ReadinessMeter` carries it as the label beside its bar and percentage,
+  because colour never travels alone here: the hue, the number and the word are
+  one reading, and the meter's whole contract is that the three arrive
+  together.
+
+`WorkspaceRightPanel` hands the meter to the editor as its `footerAction`, so
+both ended up in the same flex row a few inches apart — the same two words
+twice, once hanging off a statement about the QUESTION and once attached to the
+meter measuring the DRAFT.
+
+**The meter's copy survives**, because it is the one with something to explain:
+it sits against the bar and the percentage it describes. What is left on the
+pill is the question's fixed goal, which is what that pill was always for.
+
+Nothing else moves. The word still rides with the colour at the point of
+submission, still never names a band, still disappears under exam conditions,
+and the Evaluate button's `aria-label` still speaks the same label and
+percentage — the three signals the accent's honesty rests on are all intact,
+because all three were the meter's, not the pill's.
+
+### The test that was asserting the bug
+
+`editorReadinessHint.test.tsx` had a case named "shows the readiness
+completeness word in the footer when non-neutral" — green, and describing
+exactly what the user reported. It only ever rendered `Editor` on its own,
+where there is one copy and no contradiction; the duplication only exists in
+the composition `WorkspaceRightPanel` builds.
+
+So the replacement asserts the composition rather than the part: it renders the
+editor WITH a `ReadinessMeter` as its `footerAction`, the way the app does, and
+pins `getAllByText('Getting there')` at length 1. Asserting the editor is
+silent proves half of it; that proves the half that was visible.
+
+Counted in a browser as well, walking every text node for all seven
+completeness words, in an empty draft and a part-written one, in both themes:
+one occurrence, every time.

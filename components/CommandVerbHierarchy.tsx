@@ -34,6 +34,8 @@ import {
   RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_LABEL,
+  RIBBON_TIER_HEADER_LABEL_IDLE,
+  RIBBON_TIER_HEADER_TEXT,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE,
   RIBBON_TIER_SUBTITLE_CURRENT,
@@ -677,24 +679,28 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
                           {group.emoji}
                         </div>
-                        <div className="min-w-0">
-                          {/* No opacity on either branch. Through `opacity-60`
-                              — on a card that is itself dimmed to 90% — the
-                              tier's own `-900` text measured 2.97:1 on tier 6
-                              and worse below it, and there was no darker step
-                              in the shared config to reach for. Ten pixels
-                              against the title's fourteen is what makes an
-                              eyebrow read as one. */}
-                          <span
-                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : tierConfig.text}`}
-                          >
-                            Band {group.maxBand} ceiling
-                          </span>
+                        <div className={RIBBON_TIER_HEADER_TEXT}>
+                          {/* The NAME first, then what it costs you.
+                              The ceiling sat above as an eyebrow, so a reader
+                              scanning the six cards met "Band 1 ceiling",
+                              "Band 2 ceiling", "Band 3 ceiling" in a row
+                              before any of the words that tell them apart.
+                              This is also the order the card is spoken in. */}
                           <h4
                             className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? tierConfig.solidText : tierConfig.text}`}
                           >
                             {group.title}
                           </h4>
+                          {/* No opacity on either branch. Through `opacity-60`
+                              — on a card that is itself dimmed to 90% — the
+                              tier's own `-900` text measured 2.97:1 on tier 6
+                              and worse below it, and there was no darker step
+                              in the shared config to reach for. */}
+                          <span
+                            className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : RIBBON_TIER_HEADER_LABEL_IDLE}`}
+                          >
+                            Band {group.maxBand} ceiling
+                          </span>
                         </div>
                       </button>
 

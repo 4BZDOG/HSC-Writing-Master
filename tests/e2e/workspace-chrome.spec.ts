@@ -60,7 +60,15 @@ test.describe('workspace card chrome', () => {
     // 1600: comfortable. 1440: the width a 15" laptop actually runs at. 1280:
     // the two-column breakpoint itself, where the question card is narrowest
     // and its header has least room before it wraps.
-    for (const width of [1600, 1440, 1280]) {
+    //
+    // 1360 and 1359 are the two sides of the heading's own step (see
+    // CARD_HEADER_TITLE): above it the heading takes 24px, below it 20px,
+    // because 24px is where the response card's corner bar stops fitting
+    // beside the heading and drops to its own line — while the question
+    // card's, being narrower, stays up. That is exactly the 44px split this
+    // test caught when the step was first set at `sm`, so both sides of it
+    // are measured rather than the safe one alone.
+    for (const width of [1600, 1440, 1360, 1359, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
       // The height sync settles over a frame or two; give it several.
       await page.waitForTimeout(700);
