@@ -1187,3 +1187,62 @@ be a user. The unit tests cover which tone is applied when, including restored
 past the budget. What nothing measures is the ratio those two tones actually
 make on the stats strip. Recorded in `tests/e2e/light-theme.spec.ts` beside the
 other state it cannot reach.
+
+---
+
+# Ninth pass: looking at it
+
+No new brief — the four surfaces from passes six to eight, driven in Chromium
+and read on screen at 1440 and 390 in both themes. Three findings, all of them
+things only a screenshot shows.
+
+### 39. Opening the strategy row on a blank page rendered the verb twice — FIXED
+
+The worst of the three, and invisible to every test. On a blank page the brief
+is the writing surface; opening the row put a second copy of the same verb and
+the same definition in a panel above it, and the panel's height pushed the page
+copy down until it was clipped mid-sentence. Two DESCRIBEs, one of them cut in
+half.
+
+The brief shows in ONE place at a time. The page yields to the panel, so
+opening the row on a blank page trades the large brief for the complete one —
+panel scale also carries the checks on the method, which the page drops to fit.
+Shutting it hands the page back.
+
+### 40. One panel in the column labelled itself differently — FIXED
+
+`DraftCheck` set its name AND its summary in `.t-label`, under a comment
+claiming "the rail's other panels label themselves the same way". They do not:
+`AccordionSection` and `SampleAnswersAccordion` both set the name in
+`.t-section` with the caption in `.t-label`, and `ReferenceMaterials` carries a
+comment explaining that this is what makes the pair read as a heading and its
+caption rather than two labels.
+
+On a desktop it read as a slight oddity between the two columns. On a phone,
+where all five panels stack — Draft check, Syllabus terms, Grade standards,
+Marking guide, Sample answers — it was the only one in a different voice.
+`tests/unit/workspacePanelChrome.test.tsx` now holds the treatment across the
+panels that share the column.
+
+### 41. The clock read as three tokens — FIXED
+
+JetBrains Mono gives the colon a full digit's advance, which is right for a
+column of figures and wrong for a time. At 30px the lead figure on the stats
+strip read `07 : 00`, with air around the middle.
+
+Pulling the colon 0.18em each side closes it without touching the DIGITS, so
+they keep their tabular advance and the figure does not jitter as it ticks —
+which is the whole reason it is set in mono. Compared on screen before
+choosing: `tracking-tighter` on the whole string was indistinguishable from the
+default, and 0.28em crowded the colon into the digits either side of it.
+
+## The pattern, four passes running
+
+Every pass since the sixth has found something in the browser that the tests
+agreed on and got wrong: a brief clipped by its card, a badge disagreeing with
+its own summary, a doubled ellipsis, a clock starting itself on reload, a verb
+rendered twice, a panel in the wrong voice. None of them would have failed a
+test written from the same reasoning that produced the code.
+
+Worth treating as the standing rule for this area rather than a run of
+coincidences: **when a surface changes, look at it.**

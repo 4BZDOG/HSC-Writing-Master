@@ -152,6 +152,28 @@ describe('the verb brief', () => {
       expect(strategyToggle().className).not.toMatch(/amber/);
     });
 
+    /**
+     * One place at a time. Opening the row on a blank page used to render the
+     * verb TWICE — the panel's copy, and the page's below it, the second one
+     * clipped mid-definition by the space the first had just taken.
+     */
+    it('takes the page over rather than doubling it', () => {
+      renderEditor();
+      expect(pageIsShowing()).toBe(true);
+
+      fireEvent.click(strategyToggle());
+
+      expect(pageIsShowing()).toBe(false);
+      const panel = document.getElementById(
+        strategyToggle().getAttribute('aria-controls') as string
+      ) as HTMLElement;
+      expect(within(panel).getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).term)).toBeTruthy();
+
+      // …and shutting it hands the page back.
+      fireEvent.click(strategyToggle());
+      expect(pageIsShowing()).toBe(true);
+    });
+
     it('opens mid-draft to the same brief', () => {
       renderEditor({ value: Array.from({ length: 30 }, (_, i) => `word${i}`).join(' ') });
       expect(pageIsShowing()).toBe(false);

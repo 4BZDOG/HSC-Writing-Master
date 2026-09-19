@@ -56,6 +56,31 @@ const Figure: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span className="font-mono tabular-nums">{children}</span>
 );
 
+/**
+ * A clock, rather than two numbers and a colon.
+ *
+ * JetBrains Mono gives the colon a full digit's advance, which is right for a
+ * column of figures and wrong for a time: at 30px the lead figure on this strip
+ * read as "07 : 00", three tokens with air around the middle one. Pulling the
+ * colon in by 0.18em each side closes that without touching the DIGITS, so they
+ * keep their tabular advance and the figure does not jitter as it ticks —
+ * which is the whole reason it is set in mono.
+ *
+ * Compared on screen at 30px before choosing: `tracking-tighter` on the whole
+ * string was indistinguishable from the default, and 0.28em crowded the colon
+ * into the digits either side of it.
+ */
+const Clock: React.FC<{ value: string }> = ({ value }) => (
+  <>
+    {value.split(':').map((part, i) => (
+      <React.Fragment key={i}>
+        {i > 0 && <span className="-mx-[0.18em]">:</span>}
+        {part}
+      </React.Fragment>
+    ))}
+  </>
+);
+
 /** Compact structural stat (paragraphs / sentences / sentence length). */
 const StructureTile: React.FC<{
   label: string;
@@ -346,7 +371,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 aria-label={spokenClock}
                 className={`block font-mono text-2xl sm:text-3xl font-bold tabular-nums tracking-tight leading-none transition-colors duration-500 ${clockTone}`}
               >
-                {clock}
+                <Clock value={clock} />
               </span>
               <span className="t-label block mt-1.5 text-slate-500 dark:text-slate-400">
                 {clockCaption}

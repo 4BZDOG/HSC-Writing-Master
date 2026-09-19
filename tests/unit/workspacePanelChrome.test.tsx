@@ -238,6 +238,34 @@ describe('the panels below the cards share one surface', () => {
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
   });
 
+  /**
+   * A panel's NAME takes the section voice; the line under it is its caption.
+   *
+   * `DraftCheck` set both in `.t-label`, with a comment claiming the others did
+   * the same — they do not. On a phone all five panels stack in one column, and
+   * it was the only one labelling itself differently.
+   */
+  it('gives every panel in the column the same name treatment', () => {
+    const named = [
+      render(<DraftCheck insights={[]} />).container,
+      render(
+        <SampleAnswersAccordion
+          prompt={prompt()}
+          onSampleAnswerGenerated={vi.fn()}
+          onUseSampleAnswer={vi.fn()}
+          onDeleteSampleAnswer={vi.fn()}
+          onUpdateSampleAnswer={vi.fn()}
+          userRole="user"
+        />
+      ).container,
+    ];
+
+    for (const container of named) {
+      const name = container.querySelector('button span.t-section');
+      expect(name, 'a panel whose name is not set in the section voice').toBeTruthy();
+    }
+  });
+
   it('dresses the exemplars the same way', () => {
     const { container } = render(
       <SampleAnswersAccordion
