@@ -331,21 +331,50 @@ export const RIBBON_TIER_HEADER =
   'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** "Band 3 ceiling", above the tier's title. Painted on the tier card header,
+/** "Band 3 ceiling", UNDER the tier's title. Painted on the tier card header,
  *  in the tier's own `text` colour — or, on the current card, in the `solidText`
  *  it inherits from the header itself.
+ *
+ *  It sat above the title as an eyebrow, which put the consequence before the
+ *  thing it is a consequence OF: a reader scanning six cards met "Band 1
+ *  ceiling", "Band 2 ceiling", "Band 3 ceiling" down the row before any of the
+ *  names that tell those numbers apart. The name leads now and the ceiling
+ *  follows it, which is also the order the card is spoken in — "Define &
+ *  Describe, Band 2 ceiling".
+ *
+ *  It takes the tracked-out caps `.t-section` gives a panel's name elsewhere in
+ *  the app. Set under the title rather than over it, `.t-label`'s sentence case
+ *  read as a second line of the title rather than as a caption on it; the caps
+ *  and the tracking are what say "this is the label, that was the name" without
+ *  needing a size step to do it.
  *
  *  It used to add `opacity-60` on the five idle cards, and that was the whole
  *  of its contrast problem: `text-purple-900` on `bg-purple-100` is about 9:1
  *  and measured **2.97:1** through the opacity, on a card that is also dimmed to
  *  90%. The tier `text` tokens are already the darkest step the shared config
- *  offers (`-900`), so there was nothing left to darken — the opacity had to go.
- *  The eyebrow still reads as an eyebrow: ten pixels against the title's
- *  fourteen, with 0.2em of tracking doing the rest. */
-export const RIBBON_TIER_HEADER_LABEL = 't-label block mb-0.5 truncate';
+ *  offers (`-900`), so there was nothing left to darken — the opacity had to go. */
+export const RIBBON_TIER_HEADER_LABEL = 't-section block mt-1 truncate';
 
-/** The tier's title. Painted on the tier card header. */
-export const RIBBON_TIER_HEADER_TITLE = 'text-sm font-black truncate tracking-tight';
+/** The tier's title — the names the six cards are actually told apart by, so it
+ *  leads the header.
+ *
+ *  It WRAPS, where it used to `truncate`. Two of the six do not fit on one line
+ *  at 260px: "Discuss, Assess & Justify" needs 157px of the 149 available and
+ *  "Evaluate, Synthesise & Create" needs 187, so the strip showed "Discuss,
+ *  Assess & Jus…" and "Evaluate, Synthesise &…". That was survivable while the
+ *  line was the second thing in the header; as the lead it is the first thing
+ *  cut, on the one line that tells these six cards apart. The cards already end
+ *  in empty space below their chips, so the room was there.
+ *
+ *  Clamped at two, which is what the longest needs — a third line would push
+ *  the chips instead of filling space nobody was using. */
+export const RIBBON_TIER_HEADER_TITLE =
+  'text-sm font-black leading-tight tracking-tight line-clamp-2';
+
+/** The floor under the title-and-ceiling block, so a tier whose name wraps does
+ *  not stand its header — and with it the subtitle and every chip below — out
+ *  of step with the five beside it. Two title lines, the gap, and the ceiling. */
+export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[3.5rem] flex flex-col justify-center';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */

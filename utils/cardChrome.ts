@@ -46,9 +46,30 @@ export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5';
  * taking the whole title block, and with it the bar docked at the bottom of
  * the row, out of step with the other card. A floor the chips fit inside keeps
  * the two rows identical whatever is in them.
+ *
+ * The size steps up twice, and the second step waits for room.
+ *
+ * These are the names of the two things the whole workspace is: the question
+ * and the answer. At the `text-base sm:text-lg` they were, they sat below the
+ * 40px icon tile beside them and level with the chips underneath, so each card
+ * read as a strip of chrome with a caption rather than as a titled surface.
+ * 24px puts the name back in proportion to its own tile.
+ *
+ * But the heading and the corner bar share one wrapping row, and 24px takes
+ * 63px more of it on the response card than 18px did. Measured across widths:
+ * below 1360px the response card's bar drops to its own line while the
+ * question card's — which is narrower — stays up beside the heading, and the
+ * two bars end up 44px apart. That is the pair coming apart, which is the one
+ * thing this file exists to stop, and `workspace-chrome.spec.ts` catches it at
+ * 1280.
+ *
+ * So the full step is held until there is width for it. 1360 is not a round
+ * number because it is not a guess: it is where the bar stops fitting. Below
+ * it the heading takes `text-xl`, which is still a step up from before and
+ * holds the bars level at every width down to the two-column breakpoint.
  */
 export const CARD_HEADER_TITLE =
-  'flex flex-wrap items-center gap-2 min-h-7 text-base sm:text-lg t-display tracking-normal uppercase italic leading-none drop-shadow-sm';
+  'flex flex-wrap items-center gap-2 min-h-7 text-lg sm:text-xl min-[1360px]:text-2xl t-display tracking-normal uppercase italic leading-none drop-shadow-sm';
 
 /** The one line under the title — "Band 2 ceiling", the band + progress meter.
  *  Floored for the same reason: both cards put a chip on this line. */

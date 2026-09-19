@@ -84,7 +84,9 @@ describe('the ribbon wears the shared vocabulary', () => {
       expect(card.className).toContain(RIBBON_TIER_CARD);
     }
 
-    const header = screen.getByRole('button', { name: /Band 1 ceiling Remember & List/i });
+    // Name-then-ceiling: the header reads its tier's NAME first and the band
+    // it caps at under it, so the accessible name follows that order too.
+    const header = screen.getByRole('button', { name: /Remember & List Band 1 ceiling/i });
     expect(header.className).toContain(RIBBON_TIER_HEADER);
   });
 
@@ -213,7 +215,7 @@ describe('the tier strip is legible and reachable', () => {
 
     // Tier 3 is the one that exposes it: white on yellow-500 is 1.92:1, and
     // `getBandConfig` answers `text-yellow-950` when asked.
-    const header = screen.getByRole('button', { name: /Band 3 ceiling Explain & Compare/i });
+    const header = screen.getByRole('button', { name: /Explain & Compare Band 3 ceiling/i });
     expect(header.className).toContain('text-yellow-950');
     expect(header.className).not.toContain('text-white');
 

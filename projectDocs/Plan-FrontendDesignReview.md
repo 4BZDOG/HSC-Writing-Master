@@ -1392,9 +1392,10 @@ Two things fell out of moving it:
   From `md` and not `sm`, which the probe caught and the eye would not have:
   the strip goes one-line at 640 and the controls take their full width from
   the start, so between 640 and 767 holding 216px truncated `15 words of about
-  32` into `15 words…`. A figure the student cannot read is a worse trade than
+32` into `15 words…`. A figure the student cannot read is a worse trade than
   a caption that moves three times in a session, and those widths are a single
   column anyway, where nothing is lining up against the strip.
+
 - **The opening caption was a repetition.** It read `7 min for 4 marks` while
   sitting under a clock reading `07:00`. That was already a restatement; on one
   line it was a plain one. It reads `guide for 4 marks` now — the marks are the
@@ -1408,3 +1409,69 @@ height — jsdom does no layout — so `workspacePanelChrome.test.tsx` asserts t
 shared token instead, which is what stops a panel quietly leaving the set; the
 height itself was measured in a browser, at eight widths and in both themes —
 every panel 63.0px from 640 up, and both columns' rows level at 1280 and 1440.
+
+---
+
+# Twelfth pass: the ribbon's tier cards, and two titles that were too small
+
+Three asks from use, all about type and order rather than behaviour.
+
+### 47. The consequence came before the thing it was a consequence of — FIXED
+
+Each tier card in the command verb ribbon led with "Band N ceiling" as an
+eyebrow over its name. So a reader scanning the strip met "Band 1 ceiling",
+"Band 2 ceiling", "Band 3 ceiling" in a row — six near-identical lines — before
+any of the words that tell the six cards apart. The name leads now and the
+ceiling follows it, which is also the order the card is spoken in: "Define &
+Describe, Band 2 ceiling".
+
+The ceiling line takes the tracked-out caps `.t-section` gives a panel's name
+elsewhere in the app. Under the title rather than over it, `.t-label`'s
+sentence case read as a second line of the title rather than as a caption on
+it; the caps and the tracking say "this is the label, that was the name"
+without needing a size step to do it.
+
+The reorder changes the tier header button's accessible name, which is a real
+consequence and not a test to paper over — three locators follow it.
+
+### 48. Two of the six tier names were cut off — FIXED
+
+Pre-existing, and promoting the name to the lead line is what made it matter:
+"Discuss, Assess & Justify" needs 157px of the 149 a 260px card gives it, and
+"Evaluate, Synthesise & Create" needs 187, so the strip showed "Discuss, Assess
+& Jus…" and "Evaluate, Synthesise &…" — the one line that tells these cards
+apart, ellipsised, at the top of the card.
+
+The name wraps now, clamped at two lines, with a floor under the title block so
+a tier whose name wraps does not stand its header — and with it the subtitle
+and every chip below — out of step with the five beside it. Measured: all six
+headers 89.0px, nothing clipped. It cost nothing, because the cards already end
+in empty space below their chips.
+
+### 49. The two card titles were smaller than their own icon tiles — FIXED
+
+"Writing Prompt" and "Written Response" name the two things the whole workspace
+is, and at `text-base sm:text-lg` they sat below the 40px tile beside them and
+level with the chips underneath — each card reading as a strip of chrome with a
+caption rather than as a titled surface.
+
+**The step had to be measured, not chosen.** 24px takes 63px more of the
+header's wrapping row than 18px did on the response card, and below 1360px that
+is enough to drop its corner bar onto its own line while the question card's —
+narrower, so its bar is smaller — stays up beside the heading. The two bars end
+up 44px apart: the pair coming apart, which is the one thing `utils/cardChrome`
+exists to stop.
+
+`workspace-chrome.spec.ts` caught it at 1280 on the first try, which is the
+whole reason that spec exists — it was written after this pair drifted three
+times and was hand-checked at one window size each time.
+
+So the full step waits for room: `text-lg sm:text-xl min-[1360px]:text-2xl`.
+1360 is not a round number because it is not a guess — it is where the bar
+stops fitting, found by walking the widths. Both sides of it are now in the
+spec's width list, so the step cannot quietly move.
+
+Verified in Chromium in both themes at 1920 / 1600 / 1440 / 1400 / 1370 / 1360
+/ 1359 / 1340 / 1300 / 1280 / 900 / 640 / 390, and the arbitrary breakpoint
+confirmed present in the production CSS — a class Tailwind purged would drop
+the size silently.
