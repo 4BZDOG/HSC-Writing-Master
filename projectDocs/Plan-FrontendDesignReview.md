@@ -1517,3 +1517,57 @@ than colour in the first place.
 Measured in both themes with the ribbon open: all six headers still 89.0px,
 nothing clipped, and `light-theme.spec.ts` — which expands the ribbon in its
 `beforeEach` precisely so these ~120 text nodes are audited — green.
+
+---
+
+# Thirteenth pass: the footer said it twice
+
+Reported from use with a screenshot of the writing card's footer:
+
+> Band 5 Target · Excellent · **Coming along** │ **Coming along** ▬▬▬ 49%
+
+### 51. The completeness word appeared twice in one row — FIXED
+
+Two surfaces had independently decided to carry it, and nothing put them side
+by side until this row existed:
+
+- `Editor` appended it to the target-band pill — a deliberate decision, with a
+  comment explaining that the muted word "names the fill's meaning as
+  READINESS". True, and it was the right call when the pill and the footer
+  action were further apart.
+- `ReadinessMeter` carries it as the label beside its bar and percentage,
+  because colour never travels alone here: the hue, the number and the word are
+  one reading, and the meter's whole contract is that the three arrive
+  together.
+
+`WorkspaceRightPanel` hands the meter to the editor as its `footerAction`, so
+both ended up in the same flex row a few inches apart — the same two words
+twice, once hanging off a statement about the QUESTION and once attached to the
+meter measuring the DRAFT.
+
+**The meter's copy survives**, because it is the one with something to explain:
+it sits against the bar and the percentage it describes. What is left on the
+pill is the question's fixed goal, which is what that pill was always for.
+
+Nothing else moves. The word still rides with the colour at the point of
+submission, still never names a band, still disappears under exam conditions,
+and the Evaluate button's `aria-label` still speaks the same label and
+percentage — the three signals the accent's honesty rests on are all intact,
+because all three were the meter's, not the pill's.
+
+### The test that was asserting the bug
+
+`editorReadinessHint.test.tsx` had a case named "shows the readiness
+completeness word in the footer when non-neutral" — green, and describing
+exactly what the user reported. It only ever rendered `Editor` on its own,
+where there is one copy and no contradiction; the duplication only exists in
+the composition `WorkspaceRightPanel` builds.
+
+So the replacement asserts the composition rather than the part: it renders the
+editor WITH a `ReadinessMeter` as its `footerAction`, the way the app does, and
+pins `getAllByText('Getting there')` at length 1. Asserting the editor is
+silent proves half of it; that proves the half that was visible.
+
+Counted in a browser as well, walking every text node for all seven
+completeness words, in an empty draft and a part-written one, in both themes:
+one occurrence, every time.

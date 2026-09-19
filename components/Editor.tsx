@@ -1056,15 +1056,20 @@ const Editor = forwardRef<
                       ? 'Exam Conditions'
                       : `Band ${chroma.targetBand} Target · ${chroma.name}`}
                   </span>
-                  {/* The target-band pill above is the question's honest, fixed
-                      goal. This muted word names the fill's meaning as READINESS
-                      — a completeness word (never a band name), only once the
-                      draft has real substance and outside exam mode. */}
-                  {!isExamMode && readiness && !readiness.isNeutral && (
-                    <span className="t-label text-[rgb(var(--color-text-dim))]">
-                      · {readiness.label}
-                    </span>
-                  )}
+                  {/* The completeness word used to be repeated here, appended
+                      to the target-band pill as `· Coming along`. The
+                      `ReadinessMeter` a few inches to the right — in this same
+                      footer row, inside `footerAction` — already carries it,
+                      beside the bar and the percentage it belongs to, so the
+                      row read "Band 5 Target · Excellent · Coming along |
+                      Coming along ▬▬ 49%": the same two words twice, once
+                      hanging off a statement about the QUESTION and once
+                      attached to the meter measuring the DRAFT.
+
+                      The meter's copy is the one that survives, because it is
+                      the one with something to explain. What is left here is
+                      the question's fixed goal, which is what this pill was
+                      always for. */}
                 </div>
                 {footerAction}
               </div>
