@@ -502,15 +502,40 @@ const AppModals: React.FC<AppModalsProps> = ({
           user={user}
           onUpdateUser={onUpdateUser}
           onLogout={onLogout}
+          /*
+           * Each of these three HANDS OFF to another modal, so the profile
+           * closes behind them.
+           *
+           * It is not a tidiness preference — without it the three rows are
+           * dead buttons. `activeModals` is a Set, so nothing closes anything
+           * else, and the profile sits at `z-profile` (2000) while the guide
+           * and the legal reader sit at 940 and 950. The modal they open
+           * therefore renders UNDERNEATH the profile's own opaque panel and
+           * its `bg-black/80` backdrop: the user presses "Compare Plans" and
+           * the screen does not change. The plan comparison is the only route
+           * to the plan table, which is also the only in-app route to a School
+           * licence, so this buried the entire thing.
+           *
+           * Closing is the right answer rather than re-tiering the shared
+           * z-scale: each row already carries an external-link icon, which
+           * promises "this takes you somewhere else", and the scale's ordering
+           * has a documented rationale that is not ours to reshuffle from
+           * here.
+           */
           onOpenQuickStart={() => {
+            closeModal('userProfile');
             setQuickStartTab('guide');
             modalHandlers.openModal('quickStart');
           }}
           onComparePlans={() => {
+            closeModal('userProfile');
             setQuickStartTab('plans');
             modalHandlers.openModal('quickStart');
           }}
-          onOpenLegal={() => modalHandlers.openModal('legalDocuments')}
+          onOpenLegal={() => {
+            closeModal('userProfile');
+            modalHandlers.openModal('legalDocuments');
+          }}
         />
       )}
 

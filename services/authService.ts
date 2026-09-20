@@ -249,19 +249,24 @@ const applySchoolPlan = async (userId: string, user: User): Promise<User> => {
   try {
     const { data, error } = await supabase!
       .from('profiles')
-      .select('school:school_id (plan_status, plan_period_end)')
+      .select('school:school_id (plan_status, plan_period_end, plan_cancel_at_period_end)')
       .eq('id', userId)
       .maybeSingle();
     if (error || !data) return user;
     const school = (Array.isArray(data.school) ? data.school[0] : data.school) as {
       plan_status?: string;
       plan_period_end?: string | null;
+      plan_cancel_at_period_end?: boolean | null;
     } | null;
     if (school && ['active', 'trialing', 'past_due'].includes(school.plan_status ?? '')) {
       return {
         ...user,
         stripePlan: 'school',
         ...(school.plan_period_end ? { planPeriodEnd: school.plan_period_end } : {}),
+        // Carried so the profile can tell "renews then" from "stops then". A
+        // database that predates the column returns undefined, which reads as
+        // "renewing" — the behaviour before this existed.
+        ...(school.plan_cancel_at_period_end === true ? { planCancelAtPeriodEnd: true } : {}),
       };
     }
     return user;

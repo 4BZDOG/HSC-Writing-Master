@@ -77,7 +77,13 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   />
 );
 
-const PlanCard: React.FC<{ user: User }> = ({ user }) => {
+/**
+ * `onDismiss` closes the profile when a control here hands off to the upgrade
+ * prompt. The prompt sits at `z-upgrade` (900) and the profile at `z-profile`
+ * (2000), so without it the prompt opens underneath and the button reads as
+ * broken — the same inversion that made the profile's three help rows dead.
+ */
+const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDismiss }) => {
   const plan: Plan = getUserPlan(user);
   const isPaid = plan !== 'free';
   /** Whether this deployment charges for anything at all (pilots do not). */
@@ -113,7 +119,18 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
 
   const billing: BillingState | null = lookup.status === 'found' ? lookup.state : null;
   const periodEnd = billing?.currentPeriodEnd ?? user.planPeriodEnd ?? null;
-  const endsAtPeriodEnd = billing?.cancelAtPeriodEnd === true;
+  /**
+   * Is `periodEnd` a renewal date or a stop date?
+   *
+   * Their own subscription row answers it when they have one. When they do not
+   * — a school seat licence held through someone else's purchase — the answer
+   * comes off the school, carried onto the profile at sign-in. Without that
+   * second branch a student at a lapsing school was told their plan "renews"
+   * on the exact day their whole school drops back to the free tier.
+   */
+  const endsAtPeriodEnd = billing
+    ? billing.cancelAtPeriodEnd === true
+    : user.planCancelAtPeriodEnd === true;
 
   /**
    * Does this user hold the plan through a subscription of their OWN?
@@ -205,7 +222,14 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
                 month: 'short',
                 year: 'numeric',
               })}
-              {endsAtPeriodEnd && ' — cancelled, no further charges'}
+              {/* "No further charges" is a reassurance for someone who was
+                  being charged. Someone holding the plan through their
+                  school's licence never was, and the thing they actually need
+                  to know is whose decision it was. */}
+              {endsAtPeriodEnd &&
+                (perkPlan
+                  ? ' — your school’s licence ends then'
+                  : ' — cancelled, no further charges')}
             </span>
           )}
         </p>
@@ -231,7 +255,10 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
         )}
         {!isPaid && selling && (
           <button
-            onClick={() => requestUpgrade('fullFeedback')}
+            onClick={() => {
+              requestUpgrade('fullFeedback');
+              onDismiss();
+            }}
             className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3 h-3" />
@@ -691,7 +718,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 </div>
               </div>
 
-              <PlanCard user={user} />
+              <PlanCard user={user} onDismiss={onClose} />
 
               {/* Performance Summary */}
               <div
