@@ -721,11 +721,16 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   </div>
                   <div className="flex md:flex-col flex-1 px-2 pb-2 md:pb-4 gap-1 md:gap-0 md:space-y-1">
                     {topicTabs.map((tab, index) => (
+                      // The row is a container, and the two things you can do
+                      // to it are buttons. It used to be a `<div onClick>`
+                      // holding the delete button, so switching topic was
+                      // mouse-only — no tab stop, no role, no key handler —
+                      // and a `<button>` could not wrap it, because a button
+                      // may not contain another one.
                       <div
                         key={tab.id}
-                        onClick={() => setActiveTabId(tab.id)}
                         className={`
-                          group flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all flex-shrink-0
+                          group flex items-center justify-between px-3 py-2.5 rounded-lg transition-all flex-shrink-0
                           ${
                             activeTabId === tab.id
                               ? 'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white text-white light:text-slate-900 shadow-sm border border-[rgb(var(--color-border-secondary))] light:border-slate-300'
@@ -733,18 +738,29 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           }
                         `}
                       >
-                        <div className="flex items-center gap-2 min-w-0">
+                        <button
+                          type="button"
+                          onClick={() => setActiveTabId(tab.id)}
+                          aria-current={activeTabId === tab.id ? 'true' : undefined}
+                          className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                        >
                           <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-black/20 light:bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-300 light:text-slate-600">
                             {index + 1}
                           </span>
                           <span className="truncate text-sm font-medium whitespace-nowrap">
                             {tab.name || 'Untitled Topic'}
                           </span>
-                        </div>
+                        </button>
                         {topicTabs.length > 1 && (
                           <button
                             onClick={(e) => handleRemoveTab(tab.id, e)}
-                            className="p-1 rounded-lg hover:bg-red-500/20 light:hover:bg-red-50 text-transparent group-hover:text-red-400 light:group-hover:text-red-500 transition-colors ml-2"
+                            // `text-transparent` until the row is hovered hid
+                            // this from a keyboard user completely: they could
+                            // tab onto a control they could not see. It shows
+                            // on focus as well as on hover now, and says what
+                            // it removes rather than relying on a `title`.
+                            className="p-1 rounded-lg hover:bg-red-500/20 light:hover:bg-red-50 text-transparent group-hover:text-red-400 light:group-hover:text-red-500 focus-visible:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 transition-colors ml-2"
+                            aria-label={`Remove ${tab.name || 'Untitled Topic'}`}
                             title="Remove Topic"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
