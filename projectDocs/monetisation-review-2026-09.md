@@ -245,6 +245,29 @@ members of a licensed school who wait (see §4).
   is "Who it covers". That is honest, and it is also the whole pitch — worth a
   product decision about whether School should carry something of its own
   (class-scoped analytics is the obvious candidate) rather than a code change.
+- **A school member's own profile card still reads an end date as a renewal
+  date.** §10 fixed this where an admin can act on it (the usage dashboard).
+  The member's card resolves `periodEnd` from `user.planPeriodEnd`, which
+  `applySchoolPlan` copies off the school row, but the client never reads
+  `plan_cancel_at_period_end` — so a student at a lapsing school is told
+  "Renews 1 Mar". Smaller harm (they cannot act on it either way) and a bigger
+  change: it needs the flag on the `User` type, which means a schema bump and a
+  migration.
+- **No end-to-end coverage of the paywall.** `tests/e2e/quota.spec.ts` covers
+  the AI budget; nothing walks free → locked control → prompt → checkout. Unit
+  coverage is strong, but the defect in §1 was a *wiring* defect, which is
+  exactly what an e2e catches and a unit test does not.
+- **Nothing notices when a school outgrows its licence.** The dashboard shows
+  the over-seat warning, but only to an admin who happens to open it.
+- **`sampleAnswers` is the one UI-only gate with a real fix available** —
+  withhold exemplars at the point they are FETCHED rather than blurring content
+  the client already holds. The other three (`advancedQuestions`, `pdfExport`,
+  `examMode`) are honestly unfixable at that layer, for the reasons in
+  `api/_lib/planPolicy.ts`.
+- **`STRIPE_AUTOMATIC_TAX` has still never been exercised against a live
+  account.** The August verification could not confirm Stripe's exact failure
+  mode with no origin address; the opt-in flag is safe either way, but the
+  operator owes a test-mode checkout before flipping it.
 - The August pass's out-of-scope list still stands: automatic display-price
   reconciliation, in-app proration, a referral engine, an onshore marking
   engine, class-scoped analytics.
