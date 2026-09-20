@@ -228,7 +228,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                   }
                 }}
                 placeholder="Add a focus area…"
-                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-white border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:border-emerald-500 transition-colors"
+                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:border-emerald-500 transition-colors"
               />
               <button
                 onClick={addDraft}

@@ -107,6 +107,25 @@ export default {
         },
         accent: 'rgb(var(--color-accent) / <alpha-value>)',
       },
+      /*
+       * The same surface tokens again, for GRADIENT STOPS.
+       *
+       * `backgroundColor` above does not feed `from-*` / `via-*` / `to-*` —
+       * those read `gradientColorStops`, which falls back to `colors`, which
+       * here holds only `primary` and `accent`. So a fade that has to end in
+       * the page's own colour had no theme-aware way to say so, and the one
+       * place that needs it (the verb ribbon's strip fades) wrote the light
+       * value out as a literal `from-slate-50` with a `dark:` partner — a
+       * hand-copied snapshot of `--color-bg-base` that silently went wrong the
+       * moment that token moved, which is exactly what has just happened.
+       *
+       * Only the two a fade can legitimately end in: the page behind it, and
+       * the card it might instead sit on.
+       */
+      gradientColorStops: {
+        base: 'rgb(var(--color-bg-base) / <alpha-value>)',
+        surface: 'rgb(var(--color-bg-surface) / <alpha-value>)',
+      },
       textColor: {
         primary: 'rgb(var(--color-text-primary) / <alpha-value>)',
         secondary: 'rgb(var(--color-text-secondary) / <alpha-value>)',

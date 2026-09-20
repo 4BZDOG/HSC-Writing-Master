@@ -13,11 +13,19 @@
 export const PANEL_SURFACE =
   'clip-stable rounded-panel border border-slate-300 dark:border-white/20 bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm overflow-hidden transition-all duration-300';
 
-/** The tone a panel's header row takes while its body is open. */
-export const PANEL_HEADER_OPEN = 'bg-slate-50/50 dark:bg-white/[0.03]';
+/** The tone a panel's header row takes while its body is open.
+ *
+ *  `slate-100` at full strength, where it was `slate-50/50`. The panel it sits
+ *  on is white, so that was a half-strength wash of a tone already within 2% of
+ *  its own background: the row said nothing about whether the panel was open,
+ *  which is the single thing it exists to say. Its dark partner is unchanged —
+ *  `white/[0.03]` on a near-black panel is a step you can see, and that is the
+ *  asymmetry, not an oversight. */
+export const PANEL_HEADER_OPEN = 'bg-slate-100 dark:bg-white/[0.03]';
 
-/** …and while it is shut, where the whole row is the control. */
-export const PANEL_HEADER_CLOSED = 'hover:bg-slate-50 dark:hover:bg-white/[0.02]';
+/** …and while it is shut, where the whole row is the control. Same move, same
+ *  reason: a hover a mouse cannot see is not feedback. */
+export const PANEL_HEADER_CLOSED = 'hover:bg-slate-100 dark:hover:bg-white/[0.02]';
 
 /**
  * The height every panel header row stands at.

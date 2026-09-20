@@ -37,7 +37,7 @@ const AnswerMetricsDisplay: React.FC<AnswerMetricsDisplayProps> = ({
       };
     }
     return {
-      bg: 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white',
+      bg: 'bg-[rgb(var(--color-bg-surface-inset))]',
       border: 'border-[rgb(var(--color-border-secondary))] light:border-slate-400',
       text: 'text-[rgb(var(--color-text-muted))] light:text-slate-600',
       icon: 'text-slate-400',

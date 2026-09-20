@@ -803,7 +803,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
                       placeholder={`Paste dot points, sub-topics, or raw text here...\n\ne.g.:\nInquiry Question 1\n• describes the features of...\n• outlines the importance of...`}
-                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
+                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
                     />
                   </div>
                 </div>
@@ -819,7 +819,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   <span>
                     {targetCourse ? `Merge into "${targetCourse.name}"` : 'Structure Preview'}
                   </span>
-                  <span className="bg-[rgb(var(--color-bg-surface-inset))] light:bg-white px-2 py-0.5 rounded-full normal-case font-semibold">
+                  <span className="bg-[rgb(var(--color-bg-surface-inset))] px-2 py-0.5 rounded-full normal-case font-semibold">
                     {previewStats.topics} topics · {previewStats.subTopics} sub-topics ·{' '}
                     {previewStats.dotPoints} dot points
                   </span>

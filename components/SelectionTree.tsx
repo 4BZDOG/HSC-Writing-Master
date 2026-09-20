@@ -97,7 +97,7 @@ const TreeItemComponent: React.FC<TreeItemComponentProps> = ({
           checked={isSelected}
           onChange={(e) => onToggleSelect(item.id, e.target.checked)}
           onKeyDown={handleCheckboxKeyDown}
-          className="h-3.5 w-3.5 rounded-lg border-gray-600 light:border-slate-400 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))] mr-2.5 cursor-pointer"
+          className="h-3.5 w-3.5 rounded-lg border-gray-600 light:border-slate-400 bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-accent))] focus:ring-[rgb(var(--color-accent))] mr-2.5 cursor-pointer"
           aria-label={`Select ${item.label}`}
         />
 

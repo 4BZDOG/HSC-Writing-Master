@@ -368,7 +368,7 @@ const ActionButton = ({
               ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-sm'
               : variant === 'vault'
                 ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
-                : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
+                : 'bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
     }`}
     title={locked ? `${title} — part of ${planLabelForFeature('aiContentStudio')}` : title}
   >
@@ -1629,7 +1629,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {clearedNotice && (
         <p
           role="status"
-          className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-700 dark:text-amber-400 animate-fade-in-up-sm"
+          className="mb-3 flex items-center gap-1.5 text-xs font-medium text-amber-800 dark:text-amber-400 animate-fade-in-up-sm"
         >
           <RotateCcw className="w-3.5 h-3.5 shrink-0" aria-hidden="true" /> {clearedNotice}
         </p>

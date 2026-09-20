@@ -35,8 +35,53 @@ The application uses a 6-tier system mapped to NESA Command Verbs:
 ### Light Theme Parity
 
 The app was drawn dark-first, so light is where colour quietly goes missing.
-Three rules; the second is the one that gets broken, and the third is the one
-that gets re-derived from scratch every time it is broken.
+Four rules. Rule 0 is the ground the other three stand on and was missing for
+most of this app's life; the second is the one that gets broken, and the third
+is the one that gets re-derived from scratch every time it is broken.
+
+**0. Both themes have a depth ladder, and light's runs the other way.**
+
+Depth in the dark theme is luminance — the page at `10 15 26`, a card at
+`18 24 38`, something lifted above the card at `30 41 59`. Translated
+token-for-token into light, those became `248 250 252` / `255 255 255` /
+`255 255 255`: a card sat ΔL\* 1.8 off the page it was on, and `surface` and
+`elevated` were literally the same white. Every boundary in the light theme was
+therefore carried by a 1px border, and those borders were alphas tuned against
+near-black (see rule 2). The result is the "white on white" a bright monitor
+turns into a lightbox.
+
+The light ladder is now built on the relationship a light interface actually
+has — **paper is the bright thing, and the desk it sits on is not**:
+
+| token                         | light         | job                                                                                 |
+| ----------------------------- | ------------- | ----------------------------------------------------------------------------------- |
+| `--color-bg-base`             | `226 232 240` | the desk                                                                            |
+| `--color-bg-surface`          | `255 255 255` | the paper — unchanged, because it is what ~520 hard-written `bg-white`s already are |
+| `--color-bg-surface-elevated` | `248 250 252` | a strip or menu lying **on** the paper                                              |
+| `--color-bg-surface-inset`    | `231 237 244` | a well cut **into** the paper                                                       |
+| `--color-bg-surface-light`    | `215 222 233` | a chip raised off the paper                                                         |
+
+Note the direction. In dark, `elevated` is **lighter** than `surface`; in light
+it is **darker**. Elevation reads as separation from the surface, and which way
+that runs flips with the theme, because white has no headroom above it. An
+"elevated" token that is brighter than the card it sits on is the light theme's
+version of the mistake rule 2 describes.
+
+`tests/unit/surfaceLadder.test.ts` holds both halves — a card at least ΔL\* 3
+off its page, and no two rungs the same colour — in **both** themes. It measures
+in ΔL\* rather than in a WCAG contrast ratio on purpose: WCAG contrast is built
+for text and carries a `+0.05` that swamps the luminances near black, so the
+same perceptual step scores 1.08:1 on the dark ramp and 1.23:1 on the light one.
+Held to a ratio, the check would either wave the light defect through or fail
+the dark theme for a step that has always been fine.
+
+The corollary, and the thing that actually breaks when the ground moves: **a
+literal is not a token.** Anything painting "the page's own colour" — a fade
+that ends in it, a gap cut through a bar to show it — names `bg-base` /
+`from-base`, never a `slate-50` measured off the screen once and written down.
+The verb ribbon had two of those, each with a comment recording the value it had
+been measured at, and both would have gone on painting near-white slots on a
+page that is no longer near-white.
 
 **1. A tint must be visible against the surface it is on.** Dark surfaces are
 near-black, so an alpha wash (`bg-<hue>-500/10`) reads clearly. Light surfaces
@@ -72,18 +117,18 @@ painted on?".
 
 **3. Never de-emphasise text with `opacity`. Change the colour instead.**
 
-Opacity does not scale a contrast ratio — it composites the text *towards* its
+Opacity does not scale a contrast ratio — it composites the text _towards_ its
 background, and the loss is far from linear. That is why the arithmetic is
 never what it looks like, and why every fix that tried to keep the dimming and
 just soften it has come back:
 
-| what shipped | measured |
-| --- | --- |
-| `slate-500` on a card, undimmed | 4.81:1 |
-| the same text under `opacity-90` | 3.91:1 |
-| the same text under `opacity-70` | 2.66:1 |
-| `slate-500 opacity-80` on the insights panel | 3.22:1 |
-| `slate-500 opacity-60` on the editor's spent-strategy row | 2.30:1 |
+| what shipped                                                    | measured        |
+| --------------------------------------------------------------- | --------------- |
+| `slate-500` on a card, undimmed                                 | 4.81:1          |
+| the same text under `opacity-90`                                | 3.91:1          |
+| the same text under `opacity-70`                                | 2.66:1          |
+| `slate-500 opacity-80` on the insights panel                    | 3.22:1          |
+| `slate-500 opacity-60` on the editor's spent-strategy row       | 2.30:1          |
 | the exemplar caption's band tone, undimmed / under `opacity-80` | 9.37:1 / 5.62:1 |
 
 An `opacity` on an ancestor is the same fault at a distance and is harder to

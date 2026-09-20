@@ -697,7 +697,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {/* Question Section - "The Canvas" */}
             <div className="group/question relative pt-2">
               {isEditingQuestion ? (
-                <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-panel border border-white/10 light:border-slate-300 shadow-inner">
+                <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-panel border border-white/10 light:border-slate-300 shadow-inner">
                   <div className="px-2 pt-2">
                     <MathSymbolToolbar
                       textareaRef={questionTextareaRef}
@@ -847,7 +847,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 )}
 
                 {isEditingScenario ? (
-                  <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] light:bg-white rounded-2xl border border-white/10 light:border-slate-300">
+                  <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-2xl border border-white/10 light:border-slate-300">
                     <div className="px-2 pt-2">
                       <MathSymbolToolbar
                         textareaRef={scenarioTextareaRef}
@@ -1021,7 +1021,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
-            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border-t border-white/10 light:border-slate-200/50 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-surface-inner"
+            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-[rgb(var(--color-bg-surface-inset))]/60 border-t border-white/10 light:border-slate-300 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-surface-inner"
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays
@@ -1095,7 +1095,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="t-label text-slate-500 dark:text-slate-400 leading-none mb-1">
+                      <span className="t-label text-slate-600 dark:text-slate-400 leading-none mb-1">
                         Syllabus
                       </span>
                       <span className={`t-label ${bandConfig.text}`}>Outcome Link</span>

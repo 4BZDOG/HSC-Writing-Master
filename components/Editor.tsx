@@ -856,7 +856,7 @@ const Editor = forwardRef<
           {/* Editor Body with Grid Stacking for Auto-Height */}
           <div
             ref={bodyRef}
-            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
+            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
           >
             {/* Progress-Aware Background Bloom */}
             <div
@@ -1003,7 +1003,7 @@ const Editor = forwardRef<
           {/* Footer Metrics */}
           <div
             ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-y-0 items-center border-t border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface))]/80 light:bg-slate-50 rounded-b-surface-inner transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
+            className={`px-4 sm:px-6 py-3 flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-y-0 items-center border-t border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface))]/80 light:bg-[rgb(var(--color-bg-surface-inset))] rounded-b-surface-inner transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays

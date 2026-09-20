@@ -399,7 +399,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   onChange={(e) => setSyllabusText(e.target.value)}
                   rows={10}
                   placeholder={`Paste the topic's sub-topics and dot points here...\n\ne.g.:\nInquiry Question 1: How do we describe motion?\n• describes uniform straight-line motion...\n• analyses the relative motion of objects...\n\nInquiry Question 2: How is motion measured?\n• measures displacement, velocity and acceleration...`}
-                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[180px]"
+                  className="w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[180px]"
                 />
               </div>
             </div>
@@ -436,7 +436,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   <span>
                     {targetTopic ? `Add into "${targetTopic.name}"` : `New topic structure`}
                   </span>
-                  <span className="bg-[rgb(var(--color-bg-surface-inset))] light:bg-white px-2 py-0.5 rounded-full normal-case font-semibold">
+                  <span className="bg-[rgb(var(--color-bg-surface-inset))] px-2 py-0.5 rounded-full normal-case font-semibold">
                     {stats.subTopics} sub-topics · {stats.dotPoints} dot points
                   </span>
                 </div>

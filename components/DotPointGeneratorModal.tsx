@@ -141,7 +141,7 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isLoading}
-              className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-white hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 border border-transparent light:border-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 border border-transparent light:border-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancel
             </button>

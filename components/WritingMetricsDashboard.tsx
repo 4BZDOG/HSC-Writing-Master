@@ -93,13 +93,13 @@ const StructureTile: React.FC<{
     className={`rounded-xl border p-2.5 text-center transition-colors duration-300 ${
       alert
         ? 'border-amber-300 dark:border-amber-500/30 bg-amber-50/60 dark:bg-amber-900/10'
-        : 'border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03]'
+        : 'border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/[0.03]'
     }`}
   >
     <span className="block text-lg font-black tabular-nums tracking-tight text-slate-900 dark:text-white">
       {value}
     </span>
-    <span className="t-label block text-slate-500 dark:text-slate-400 mt-0.5">{label}</span>
+    <span className="t-label block text-slate-600 dark:text-slate-400 mt-0.5">{label}</span>
   </div>
 );
 
@@ -111,7 +111,7 @@ const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick, k
   const baseStyle = `inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border ${interactiveStyle}`;
 
   let colorStyle =
-    'bg-slate-50 dark:bg-white/[0.03] text-slate-600 dark:text-white/60 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20';
+    'bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-white/60 border-slate-300 dark:border-white/10 hover:border-slate-400 dark:hover:border-white/20';
 
   if (active && theme) {
     colorStyle = `${theme.bg} ${theme.text} ${theme.border} shadow-sm`;
@@ -398,7 +398,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               >
                 <Clock value={clock} />
               </span>
-              <span className="t-label min-w-0 truncate text-slate-500 dark:text-slate-400">
+              <span className="t-label min-w-0 truncate text-slate-600 dark:text-slate-400">
                 {clockCaption}
               </span>
             </div>
@@ -440,7 +440,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 }}
                 aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
                 title={isTimerActive ? 'Pause timer' : 'Start timer'}
-                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
+                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
               >
                 {isTimerActive ? (
                   <Pause className="w-3.5 h-3.5" />
@@ -456,7 +456,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 }}
                 aria-label="Reset timer"
                 title="Reset timer"
-                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all active:scale-90"
+                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
@@ -471,7 +471,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                     ? 'Show syllabus term tracker and structure breakdown'
                     : 'Collapse metrics'
                 }
-                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
+                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
               >
                 {/* Named, not just a chevron — the panel starts collapsed, so
                     nothing else tells a student the term tracker is in here. */}
@@ -499,11 +499,11 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <div className="flex items-center justify-between gap-4 mb-3 px-0.5">
                   <div className="flex items-center gap-3 min-w-0">
                     <BarChart3 className="w-4 h-4 shrink-0 text-indigo-500 dark:text-indigo-400" />
-                    <span className="t-label sm:tracking-[0.3em] text-slate-500 dark:text-slate-400 truncate">
+                    <span className="t-label sm:tracking-[0.3em] text-slate-600 dark:text-slate-400 truncate">
                       Target Standard: {progressInfo.targetLabel}
                     </span>
                   </div>
-                  <span className="t-label font-mono text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                  <span className="t-label font-mono text-slate-600 dark:text-slate-400 whitespace-nowrap">
                     {Math.round(progressInfo.percentage)}% Capacity
                   </span>
                 </div>
@@ -520,7 +520,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                   <div className="flex items-center justify-between gap-3 px-0.5">
                     <div className="flex items-center gap-3">
                       <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                      <h4 className="t-section text-slate-500 dark:text-slate-400">
+                      <h4 className="t-section text-slate-600 dark:text-slate-400">
                         Syllabus Terms
                       </h4>
                     </div>
@@ -529,7 +529,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                         className={`t-label px-2 py-0.5 rounded-full border ${
                           keywordStats.missed.length === 0
                             ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
-                            : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
+                            : 'text-slate-600 dark:text-slate-400 border-slate-300 dark:border-white/10'
                         }`}
                         title={
                           keywordStats.mustUseTotal > 0
@@ -576,7 +576,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-3 px-0.5">
                     <AlignLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
-                    <h4 className="t-section text-slate-500 dark:text-slate-400">Structure</h4>
+                    <h4 className="t-section text-slate-600 dark:text-slate-400">Structure</h4>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <StructureTile
@@ -598,7 +598,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                       }
                     />
                   </div>
-                  <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 px-0.5">
+                  <p className="text-[10px] font-medium text-slate-600 dark:text-slate-400 px-0.5">
                     {analysis.wordCount === 0
                       ? 'Structure updates live as you write.'
                       : analysis.longestSentenceWords > 45

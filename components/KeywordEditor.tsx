@@ -173,7 +173,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
       ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border} shadow-sm`
       : fromSyllabus
         ? 'bg-emerald-50/60 dark:bg-emerald-500/[0.07] text-emerald-700 dark:text-emerald-300 border-emerald-300/70 dark:border-emerald-500/30 hover:border-emerald-400 dark:hover:border-emerald-500/50'
-        : 'bg-slate-100/50 dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 hover:bg-slate-100 dark:hover:bg-white/[0.06]';
+        : 'bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-slate-400 border-slate-300 dark:border-white/10 hover:border-slate-400 dark:hover:border-white/20 hover:bg-slate-200 dark:hover:bg-white/[0.06]';
 
     return (
       <button

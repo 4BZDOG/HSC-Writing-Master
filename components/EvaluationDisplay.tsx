@@ -843,7 +843,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           teacher as a self-contained record of what was actually submitted. */}
           {userAnswer.trim() && (
             <section className={`${CARD} overflow-hidden`}>
-              <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 bg-slate-50/70 dark:bg-white/[0.03]">
+              <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-300 dark:border-white/5 bg-slate-100 dark:bg-white/[0.03]">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
                     <PenLine className="w-4 h-4" />

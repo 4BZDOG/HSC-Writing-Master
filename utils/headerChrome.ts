@@ -19,11 +19,18 @@
 
 /** The bar itself — a glass rail. Content scrolls under a translucent surface
  *  rather than behind an opaque wall, which is the point of §1's glassmorphism.
- *  Painted on the page background and `AnimatedBackground` beneath it. */
+ *  Painted on the page background and `AnimatedBackground` beneath it.
+ *
+ *  `border-slate-300`, where it was `slate-200`. Its dark partner is white at
+ *  10% over a near-black page, which is the edge the rail is actually read by
+ *  when it floats over scrolled content; slate-200 over the light page was the
+ *  same declaration doing none of that work, and the bar's bottom edge simply
+ *  was not there. See the light token block in `index.css` for why an alpha
+ *  tuned on one ground cannot be carried to the other unchanged. */
 export const HEADER_BAR =
   'sticky top-0 z-header h-16 flex items-center ' +
   'bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70 backdrop-blur-2xl ' +
-  'border-b border-slate-200 dark:border-white/10 ' +
+  'border-b border-slate-300 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
 
 /** Edge-lighting on the glass. Static by design — the tier colour is already

@@ -114,10 +114,29 @@ describe('the ribbon wears the shared vocabulary', () => {
  */
 describe('the bar carries both themes', () => {
   it('paints its own background in light and in dark', () => {
-    expect(RIBBON_HEADER_BAR).toContain('bg-white/60');
+    expect(RIBBON_HEADER_BAR).toContain('bg-white/80');
     expect(RIBBON_HEADER_BAR).toContain('dark:bg-[rgb(var(--color-bg-surface))]/40');
     expect(RIBBON_HEADER_BAR).toContain('backdrop-blur-xl');
     expect(RIBBON_HEADER_BAR).toContain('text-slate-900 dark:text-white');
+  });
+
+  /**
+   * The bar is a BOX, and it has to look like one in both themes.
+   *
+   * It shipped with a fill and no border, which works on near-black — glass at
+   * `bg-surface/40` over the dark page is a step the eye reads as a pane. Over
+   * the light page it was `bg-white/60` on rgb(248, 250, 252): 1.03:1, no
+   * border, so the ribbon's only stated boundaries were the two hairlines above
+   * and below it, and those were a slate-300 alpha measuring 1.28:1. Three
+   * boundaries, none of them visible, which is what "the border of the command
+   * verb hierarchy is not clear" was describing.
+   *
+   * So the border is pinned as a pair, not left to the fill.
+   */
+  it('closes its own box with a border in both themes', () => {
+    expect(RIBBON_HEADER_BAR).toMatch(/(^|\s)border(\s|$)/);
+    expect(RIBBON_HEADER_BAR).toContain('border-slate-300');
+    expect(RIBBON_HEADER_BAR).toContain('dark:border-white/10');
   });
 
   it('no longer hangs a full-bleed gradient across the whole bar', () => {
@@ -496,10 +515,29 @@ describe('the tier strip says what it is and where it ends', () => {
       expect(el.className).toContain('pointer-events-none');
     }
 
-    // The light end is the page's own background, measured at
-    // rgb(248, 250, 252), not white — a white fade on it is a smear.
-    expect(RIBBON_STRIP_FADE_LEFT).toContain('from-slate-50');
-    expect(RIBBON_STRIP_FADE_LEFT).toContain('dark:from-[rgb(var(--color-bg-base))]');
+    // A fade ends in the page's own background — NAMED, never measured and
+    // copied. It used to be the pair `from-slate-50
+    // dark:from-[rgb(var(--color-bg-base))]`, with a comment recording that
+    // slate-50 was `--color-bg-base`'s light value "measured at
+    // rgb(248, 250, 252)". It was, on the day it was written. When the light
+    // theme's page moved off near-white, that literal stayed behind and the
+    // fade would have painted a pale slot at each end of a strip whose page is
+    // no longer anywhere near it. `from-base` is theme-aware on its own, so
+    // there is no second copy left to drift.
+    for (const fade of [RIBBON_STRIP_FADE_LEFT, RIBBON_STRIP_FADE_RIGHT]) {
+      expect(fade).toContain('from-base');
+      expect(fade).not.toMatch(/from-(slate|white|gray|zinc)-?\d*/);
+    }
+  });
+
+  /**
+   * The same rule, for the five gaps cut into the spectrum. They are the page
+   * showing through, so they are the page's token — a literal here is a gap
+   * that stops matching the thing it is supposed to be a gap in.
+   */
+  it('cuts its spectrum gaps in the page’s own token, not a copy of its value', () => {
+    expect(RIBBON_SPECTRUM_BOUNDARY).toContain('bg-base');
+    expect(RIBBON_SPECTRUM_BOUNDARY).not.toMatch(/bg-(slate|white|gray|zinc)-?\d*/);
   });
 
   it('snaps proximately, because three things scroll this strip', () => {
