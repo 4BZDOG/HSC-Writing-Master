@@ -57,6 +57,7 @@ import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile } from './utils/storageUtils';
+import { dailyResetPhrase } from './utils/dailyReset';
 import {
   ASSIGNMENT_PARAM,
   buildAssignmentLink,
@@ -557,7 +558,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       showToast(
         // The live figure — a deployment override, or the limit the server
         // itself last reported — not the number compiled into this bundle.
-        `You've used all ${freeEvalLimit()} free evaluations for today. Upgrade to Plus for unlimited marking.`,
+        `You've used all ${freeEvalLimit()} free markings for today — your next one is at ${dailyResetPhrase()}. ${PLAN_LABELS.plus} removes the limit.`,
         'info'
       );
       // `fullFeedback` because marking has no feature key of its own (it is

@@ -14,7 +14,7 @@ import { AlertCircle, Target, X, Loader2, ChevronRight, RefreshCw } from 'lucide
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
-import { isFeatureLocked } from '../services/entitlements';
+import { isFeatureLocked, planLabelForFeature } from '../services/entitlements';
 import { ContentLockOverlay, PlusLockChip } from './UpgradeModal';
 import type { PromptVerb } from '../types';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
@@ -389,7 +389,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             {briefingLocked && (
               <ContentLockOverlay
                 feature="outcomeBriefing"
-                message="Outcome briefings are a Plus feature"
+                message={`Outcome briefings are part of ${planLabelForFeature('outcomeBriefing')}`}
                 className="rounded-xl"
               />
             )}

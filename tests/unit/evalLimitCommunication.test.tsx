@@ -35,6 +35,7 @@ import {
 } from '../../services/entitlements';
 import UpgradeModal from '../../components/UpgradeModal';
 import FreeEvalCounter from '../../components/FreeEvalCounter';
+import { dailyResetPhrase } from '../../utils/dailyReset';
 
 beforeEach(() => localStorage.clear());
 afterEach(cleanup);
@@ -52,7 +53,9 @@ describe('the remaining-markings counter is visible, not hover-only', () => {
     act(() => {
       recordEvaluation();
     });
-    expect(screen.getByText(`${FREE_TIER_EVAL_LIMIT - 1}/${FREE_TIER_EVAL_LIMIT} left`)).toBeTruthy();
+    expect(
+      screen.getByText(`${FREE_TIER_EVAL_LIMIT - 1}/${FREE_TIER_EVAL_LIMIT} left`)
+    ).toBeTruthy();
   });
 
   it('says plainly when the allowance is gone', () => {
@@ -123,12 +126,23 @@ describe('the upgrade prompt at the daily limit', () => {
     expect(screen.queryByRole('heading', { name: /Full Marking Feedback/i })).toBeNull();
   });
 
-  it('states the allowance and that it returns', () => {
+  it('states the allowance and when it returns, in the reader’s own clock', () => {
     // "You've hit a wall" converts worse than "here is the wall, and here is
     // when it moves" — and the second one is also the truth.
+    //
+    // The reset is a UTC day boundary, which for the NSW students this is built
+    // for is mid-morning, not midnight. It used to say "reset at midnight",
+    // which a student read as their own — so they came back before school and
+    // found the allowance still spent. The phrase is now localised, and this
+    // pins the prompt to the same helper the counter chip uses rather than to
+    // one timezone's wording.
     openAtLimit();
-    expect(screen.getByText(new RegExp(`${FREE_TIER_EVAL_LIMIT} marked answers a day`))).toBeTruthy();
-    expect(screen.getByText(/reset at midnight/i)).toBeTruthy();
+    expect(
+      screen.getByText(new RegExp(`${FREE_TIER_EVAL_LIMIT} marked answers a day`))
+    ).toBeTruthy();
+    const blurb = screen.getByText(/marked answers a day/i).textContent ?? '';
+    expect(blurb).toContain(`your next one is at ${dailyResetPhrase()}`);
+    expect(blurb).not.toMatch(/midnight UTC/i);
   });
 
   it('still leads with the feature when a locked control opened it', () => {
@@ -154,10 +168,7 @@ describe('a guest is told the real next step', () => {
 
     const cta = screen.getByRole('button', { name: /Create an account/i });
     fireEvent.click(cta);
-    expect(showToast).toHaveBeenCalledWith(
-      expect.stringMatching(/free account first/i),
-      'info'
-    );
+    expect(showToast).toHaveBeenCalledWith(expect.stringMatching(/free account first/i), 'info');
   });
 });
 

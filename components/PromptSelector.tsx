@@ -72,7 +72,12 @@ import { getTierScaleConfig } from '../utils/renderUtils';
 import { getFocusAreas, splitDotPointDescription } from '../utils/dataManagerUtils';
 import FocusAreaEditorModal from './FocusAreaEditorModal';
 import { getPastHscLabel } from '../utils/pastHscUtils';
-import { isFeatureLocked, isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
+import {
+  isFeatureLocked,
+  isQuestionTierLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { isCourseDemandAvailable } from '../services/courseDemandService';
 import { PlusLockChip } from './UpgradeModal';
 import { parseSyllabusStructure } from '../services/geminiService';
@@ -365,7 +370,7 @@ const ActionButton = ({
                 ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
                 : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
     }`}
-    title={locked ? `${title} — part of Band 6 Plus` : title}
+    title={locked ? `${title} — part of ${planLabelForFeature('aiContentStudio')}` : title}
   >
     {Icon && <Icon className="w-4 h-4" />}
     {label && <span className="t-label hidden sm:inline whitespace-nowrap">{label}</span>}
@@ -1733,7 +1738,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           }
                           title={
                             studioLocked
-                              ? 'AI question generation is part of Band 6 Plus — tap to learn more'
+                              ? `AI question generation is part of ${planLabelForFeature('aiContentStudio')} — tap to learn more`
                               : undefined
                           }
                           className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 active:scale-[0.98] transition-all ${

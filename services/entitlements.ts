@@ -218,19 +218,42 @@ export const getUserPlan = (user?: User | null): Plan => {
 
 /**
  * The features a plan unlocks, in the display order of PREMIUM_FEATURES.
- * The upgrade prompt lists these rather than every key in PREMIUM_FEATURES —
- * otherwise it advertises school-only perks (the AI Content Studio) to
- * someone buying Plus.
+ * The upgrade prompt lists these rather than every key, so it never advertises
+ * a perk the plan being sold does not carry. With the shipped policy every
+ * feature is Plus, so the two lists coincide; a deployment that prices a gate
+ * at School through PLAN_FEATURE_OVERRIDES is the case this protects.
  */
 export const planFeatureKeys = (plan: Plan): PremiumFeatureKey[] => featuresForPlan(plan);
 
 /**
  * The cheapest plan that unlocks a feature — what the upgrade prompt should
  * actually be selling. Without this the prompt offers Plus for every lock,
- * including school-only features, which is a dead end for a user who already
- * holds Plus (teachers do, as a staff perk).
+ * which is a dead end for a School-priced gate and for a user who already holds
+ * Plus (teachers do, as a staff perk).
  */
 export const lowestPlanForFeature = (feature: PremiumFeatureKey): Plan => featureMinPlan(feature);
+
+/**
+ * The full plan NAME to use in prose about a gated feature — "Band 6 Plus",
+ * "School".
+ *
+ * The lock chips and the upgrade prompt already derive their label from the
+ * feature key, but the sentences around them did not: a dozen tooltips and
+ * overlay captions spelled "Band 6 Plus" out by hand. Two ways that goes wrong,
+ * and neither needs a bug to be introduced — only a deployment to use a lever
+ * the app already ships:
+ *
+ *   - `PLAN_FEATURE_OVERRIDES=sampleAnswers:school` moves one gate, and the
+ *     chip beside the control says "School" while the tooltip on the same
+ *     control still says "part of Band 6 Plus".
+ *   - Renaming the plan in PLAN_LABELS renames it everywhere the label is read
+ *     and nowhere it was typed.
+ *
+ * Call sites still name only the feature key, which is the whole point of the
+ * policy layer.
+ */
+export const planLabelForFeature = (feature: PremiumFeatureKey): string =>
+  PLAN_LABELS[lowestPlanForFeature(feature)];
 
 /** True when the given feature should render in its locked state. */
 export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null): boolean => {
@@ -517,6 +540,19 @@ const checkoutReturnUrl = (): string =>
 export interface BillingUrlResult {
   url: string | null;
   error: string | null;
+  /**
+   * The HTTP status the endpoint answered with, so a caller can tell the
+   * refusals apart rather than just printing the sentence.
+   *
+   * 409 is the one that matters to the UI: `create-checkout` refuses a second
+   * concurrent subscription and tells the user to "Manage subscription" — a
+   * button that lives in the profile, not in the prompt they are standing in.
+   * With the status, the prompt can put the billing portal in front of them
+   * instead of naming a control they now have to go and find.
+   *
+   * Null when the request never reached the server (offline, DNS, CORS).
+   */
+  status: number | null;
 }
 
 const postBilling = async (
@@ -536,13 +572,16 @@ const postBilling = async (
       test?: boolean;
     } | null;
     if (!res.ok || !data?.url) {
-      return { url: null, error: data?.error || fallbackError };
+      return { url: null, error: data?.error || fallbackError, status: res.status };
     }
-    return { url: data.url, error: null };
+    return { url: data.url, error: null, status: res.status };
   } catch {
-    return { url: null, error: fallbackError };
+    return { url: null, error: fallbackError, status: null };
   }
 };
+
+/** The status `create-checkout` uses to refuse a second concurrent subscription. */
+export const ALREADY_SUBSCRIBED_STATUS = 409;
 
 /**
  * Request a Stripe Checkout session from the server. Returns the URL to

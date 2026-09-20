@@ -1,6 +1,7 @@
 import React, { useSyncExternalStore } from 'react';
 import { Lock } from 'lucide-react';
 import { freeEvalLimit, freeEvalsRemaining, subscribeEvalCount } from '../services/entitlements';
+import { dailyResetPhrase } from '../utils/dailyReset';
 
 /**
  * "3/5 left" — the free tier's remaining daily markings, stated where the
@@ -45,9 +46,12 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
     <span
       data-testid="free-eval-counter"
       title={
+        // The reset is stated in the reader's own clock. The boundary is a UTC
+        // day, which is 10am AEST for the students this is built for — see
+        // utils/dailyReset.ts.
         remaining === 0
-          ? `You have used all ${limit} free evaluations for today. The allowance resets at midnight UTC.`
-          : `Free plan: ${remaining} of ${limit} daily evaluations left. Resets at midnight UTC.`
+          ? `You have used all ${limit} free markings for today. Your next one is at ${dailyResetPhrase()}.`
+          : `Free plan: ${remaining} of ${limit} daily markings left. Resets at ${dailyResetPhrase()}.`
       }
       className={`t-label inline-flex items-center gap-1 px-2 py-1 rounded-lg border flex-shrink-0 tabular-nums ${tone} ${className}`}
     >

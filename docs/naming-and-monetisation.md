@@ -89,15 +89,23 @@ Practical checks before committing (can't be done from here):
   an admin can tidy. Teachers keep everything below a topic. The route out for
   them is the course-request flow below — not a plan upgrade, and worth saying
   explicitly if a teacher asks why the button is gone.
-- **School / faculty licence** — seat-based. Direct seat purchase now exists in
-  the upgrade modal for teacher and admin accounts once
-  `STRIPE_SCHOOL_PRICE_ID` / `VITE_STRIPE_SCHOOL_PRICE_ID` are set: a seat
-  picker (5–1000, clamped both client- and server-side) checks out with the
-  seat count as the Stripe quantity, and the webhook syncs
-  `schools.plan_status` / `plan_seats` so every member of the buyer's school
-  holds the plan. Students and unauthenticated buyers still get the enquiry
-  mailto (`VITE_SCHOOL_CONTACT_EMAIL`), and invoicing/PO remains the right
-  answer for public schools that cannot pay by card.
+- **School / faculty licence** — seat-based. Direct seat purchase exists for
+  teacher and admin accounts once `STRIPE_SCHOOL_PRICE_ID` /
+  `VITE_STRIPE_SCHOOL_PRICE_ID` are set: a seat picker (5–1000, clamped both
+  client- and server-side) checks out with the seat count as the Stripe
+  quantity, and the webhook syncs `schools.plan_status` / `plan_seats` so every
+  member of the buyer's school holds the plan. Students and unauthenticated
+  buyers get the enquiry mailto (`VITE_SCHOOL_CONTACT_EMAIL`), and invoicing/PO
+  remains the right answer for public schools that cannot pay by card.
+
+  **Where the panel lives matters, and it is the mistake this shipped with.**
+  It was inside the upgrade prompt only — which opens when a LOCKED control is
+  pressed. Teachers hold Plus through the staff perk and admins hold School by
+  role, so neither of the two roles allowed to buy a licence ever has a locked
+  control, and the panel could not be reached at all. It now renders in the
+  plan comparison (Profile → Compare plans), which is where staff actually
+  arrive, as well as in the prompt. `tests/unit/schoolLicenceRoute.test.tsx`
+  keeps the reachability argument honest.
 
   Seats are the billed quantity; membership is **not** capped per login, so a
   school can quietly outgrow its licence. The admin usage dashboard now shows
@@ -235,6 +243,31 @@ rise applied itself retroactively.
   dashboard. It was designed to be tunable without a deploy from the day it
   shipped (`set_plan_setting`), but had no control anywhere in the app.
 - Added: school licences show seats against members, with an over-seat warning.
+
+## 6. The reachability and wording audit (September 2026)
+
+- Fixed: **nobody could buy a School licence.** The seat picker was shown only
+  to teachers and admins, inside a prompt that opens only on a LOCKED control —
+  and those two roles hold a paid plan already, so they have none. The panel now
+  lives in the plan comparison as well, where staff actually arrive.
+- Fixed: the daily allowance was described three ways — "midnight UTC" on the
+  counter chip, a bare "midnight" in the upgrade prompt, "every day" in the plan
+  comparison. The boundary is a UTC day, which is 10am AEST for the students
+  this is built for, so "midnight" sent them back before school to find the
+  allowance still spent. One helper (`utils/dailyReset.ts`) now states it in the
+  reader's own clock, everywhere.
+- Fixed: checkout's "you already have a subscription" refusal (409) named a
+  control two screens away in the profile. The prompt now turns its own CTA into
+  that control.
+- Fixed: a dozen tooltips and overlay captions spelled "Band 6 Plus" out by
+  hand, so a `PLAN_FEATURE_OVERRIDES` deployment could show a "School" chip
+  beside a caption reading "part of Band 6 Plus". They derive the label from the
+  feature key now (`planLabelForFeature`).
+- Fixed: the plans tab was labelled "Free vs Plus" over a three-plan table, and
+  the header's help button inherited whichever tab was opened last.
+- Fixed: setup docs claimed the billing portal needs no configuration, while the
+  app sends users there to change plans and seats — which the portal only allows
+  once those are switched on.
 - Added: course creation is admin-only, with the course-request queue as the
   route out for everyone else.
 - Fixed: the remaining-markings count lived in the Evaluate button's `title`

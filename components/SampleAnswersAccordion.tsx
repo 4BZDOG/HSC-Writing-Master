@@ -46,7 +46,12 @@ import {
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
-import { isFeatureLocked, isSampleAnswerLocked, requestUpgrade } from '../services/entitlements';
+import {
+  isFeatureLocked,
+  isSampleAnswerLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
 
 // --- Shared Internal Components ---
@@ -361,7 +366,7 @@ const CarouselAccordionItem: React.FC<{
               {isSampleAnswerLocked(displayBand) && (
                 <ContentLockOverlay
                   feature="sampleAnswers"
-                  message={`Band ${displayBand} sample answers are a Plus feature`}
+                  message={`Band ${displayBand} sample answers are part of ${planLabelForFeature('sampleAnswers')}`}
                 />
               )}
               <div
@@ -816,7 +821,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 }
                 title={
                   studioLocked
-                    ? 'AI sample-answer generation is part of Band 6 Plus — tap to learn more'
+                    ? `AI sample-answer generation is part of ${planLabelForFeature('aiContentStudio')} — tap to learn more`
                     : 'Add a sample answer with AI'
                 }
                 aria-label="Generate a sample answer"

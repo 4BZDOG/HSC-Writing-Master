@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import type { CourseOutcome } from '../../types';
+import { planLabelForFeature } from '../../services/entitlements';
 
 /**
  * The outcome briefing is now a sold feature (`outcomeBriefing`).
@@ -64,7 +65,13 @@ describe('outcome briefing paywall', () => {
 
   it('says the briefing is a paid feature, and offers a way to unlock it', () => {
     renderModal();
-    expect(screen.getByText(/Outcome briefings are a Plus feature/i)).toBeTruthy();
+    // Matched against the DERIVED label, not a typed-out "Plus": a deployment
+    // that prices briefings at School must relabel this caption too.
+    expect(
+      screen.getByText(
+        new RegExp(`Outcome briefings are part of ${planLabelForFeature('outcomeBriefing')}`, 'i')
+      )
+    ).toBeTruthy();
     expect(screen.getByRole('button', { name: /Unlock with/i })).toBeTruthy();
   });
 

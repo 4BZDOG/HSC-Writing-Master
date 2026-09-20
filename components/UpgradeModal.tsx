@@ -2,31 +2,21 @@ import React, { useState, useEffect, useCallback } from 'react';
 import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import {
-  Crown,
-  Lock,
-  Check,
-  Sparkles,
-  X,
-  Zap,
-  TrendingUp,
-  School,
-  Minus,
-  Plus,
-} from 'lucide-react';
+import { Crown, Lock, Check, Sparkles, X, Zap, TrendingUp } from 'lucide-react';
 import { User } from '../types';
 import {
   PREMIUM_FEATURES,
   PLAN_LABELS,
   UPGRADE_REQUEST_EVENT,
   PremiumFeatureKey,
+  ALREADY_SUBSCRIBED_STATUS,
   createCheckoutUrl,
+  createPortalUrl,
   planFeatureKeys,
   lowestPlanForFeature,
+  planLabelForFeature,
   STRIPE_PRICE_IDS,
   PLAN_PRICING,
-  SCHOOL_CONTACT_EMAIL,
-  SCHOOL_SEAT_LIMITS,
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
   monetisationEnabled,
@@ -35,6 +25,8 @@ import {
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import SchoolLicencePanel from './SchoolLicencePanel';
+import { dailyResetPhrase } from '../utils/dailyReset';
 
 /**
  * The plan a lock should NAME, as one or two words fit for a chip.
@@ -49,7 +41,10 @@ const lockLabelFor = (feature?: PremiumFeatureKey): string =>
   feature && lowestPlanForFeature(feature) === 'school' ? 'School' : 'Plus';
 
 /**
- * Small amber lock chip for a gated-but-visible control. Sits inline next to
+ * Small amber lock chip for a gated-but-visible control. Uses the SHORT plan
+ * label ("Plus", "School") because a chip sits inline beside a control's own
+ * label and has no room for the full name; everything with room — the overlay
+ * button below, the tooltips, the prompt — says "Band 6 Plus" in full. Sits inline next to
  * the control's label so the feature is discoverable before it's paid for.
  *
  * Pass the `feature` it guards so the chip names the plan that actually unlocks
@@ -100,7 +95,7 @@ export const ContentLockOverlay: React.FC<{
           }
           className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
         >
-          Unlock with {lockLabelFor(feature)}
+          Unlock with {planLabelForFeature(feature)}
         </button>
       </div>
     </div>
@@ -126,8 +121,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const [reason, setReason] = useState<UpgradeReason | null>(null);
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('yearly');
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [seats, setSeats] = useState<number>(SCHOOL_SEAT_LIMITS.default);
-  const [isBuyingSeats, setIsBuyingSeats] = useState(false);
+  /**
+   * Set when checkout refuses because this account already holds a live
+   * subscription (409, api/create-checkout). The refusal tells the user to use
+   * "Manage subscription" — which lives in the profile, two screens away from
+   * the prompt they are standing in. Rather than name a control and leave them
+   * to find it, the CTA becomes that control.
+   */
+  const [alreadySubscribed, setAlreadySubscribed] = useState(false);
 
   // A deployment may legitimately sell one billing period only — a school
   // pilot on annual invoicing, or a monthly launch with the annual price still
@@ -148,11 +149,6 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const plusPriceId = effectivePeriod === 'yearly' ? yearlyPrice : monthlyPrice;
   const plusPriceDisplay =
     effectivePeriod === 'yearly' ? PLAN_PRICING.yearly : PLAN_PRICING.monthly;
-  // Seat licences are a staff purchase: shown to teachers/admins once the
-  // school price exists; students keep the enquiry link.
-  const canBuySeats =
-    !!STRIPE_PRICE_IDS.school && (user?.role === 'teacher' || user?.role === 'admin');
-
   /**
    * A guest has no account for a subscription to attach to, so checkout cannot
    * work: /api/create-checkout answers 401 "Authentication required." — a
@@ -195,6 +191,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
     setFeature(null);
     setReason(null);
     setIsRedirecting(false);
+    setAlreadySubscribed(false);
   }, []);
   useEscapeKey(!!feature, close);
   // Tab stays inside the dialog while it is open, and focus returns to
@@ -215,20 +212,42 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       return;
     }
     setIsRedirecting(true);
-    const { url, error } = await createCheckoutUrl(plusPriceId);
+    const { url, error, status } = await createCheckoutUrl(plusPriceId);
     if (url) {
       window.location.href = url;
-    } else {
-      showToast(error ?? 'Could not start checkout. Please try again.', 'error');
-      setIsRedirecting(false);
+      return;
     }
+    // Already subscribed: not an error the user can act on by trying again.
+    // Swap the CTA to the billing portal, which is where plan and seat changes
+    // actually happen, and say so in the prompt rather than only in a toast.
+    if (status === ALREADY_SUBSCRIBED_STATUS) {
+      setAlreadySubscribed(true);
+      setIsRedirecting(false);
+      return;
+    }
+    showToast(error ?? 'Could not start checkout. Please try again.', 'error');
+    setIsRedirecting(false);
+  };
+
+  const handleManageSubscription = async () => {
+    setIsRedirecting(true);
+    const { url, error } = await createPortalUrl();
+    if (url) {
+      window.location.href = url;
+      return;
+    }
+    showToast(error ?? 'Could not open the billing portal. Please try again shortly.', 'error');
+    setIsRedirecting(false);
   };
 
   if (!feature) return null;
   const meta = PREMIUM_FEATURES[feature];
-  // Sell the plan that actually unlocks THIS feature. A school-only feature
-  // (the AI Content Studio) must not be pitched as Plus — a teacher already
-  // has Plus, so an "Upgrade to Plus" CTA would leave them where they started.
+  // Sell the plan that actually unlocks THIS feature, never a fixed "Plus".
+  // Nothing SHIPS at School any more — the AI Content Studio moved to Plus so
+  // the teacher staff perk would reach it — but a deployment can still price
+  // any gate at School through PLAN_FEATURE_OVERRIDES, and pitching such a gate
+  // as Plus leaves a teacher (who already holds Plus) exactly where they
+  // started.
   const requiredPlan = lowestPlanForFeature(feature);
   const sellsPlus = requiredPlan === 'plus';
   const perkKeys = planFeatureKeys(requiredPlan);
@@ -248,7 +267,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const atDailyLimit = reason === 'dailyLimit';
   const headline = atDailyLimit ? "You've used today's free markings" : meta.title;
   const blurb = atDailyLimit
-    ? `The free plan includes ${freeEvalLimit()} marked answers a day, and yours reset at midnight. ` +
+    ? // The reset is stated in the reader's own clock. "Midnight" was read as
+      // THEIR midnight; the boundary is a UTC day, which is mid-morning here.
+      `The free plan includes ${freeEvalLimit()} marked answers a day, and your next one is at ${dailyResetPhrase()}. ` +
       `${PLAN_LABELS.plus} removes the limit entirely — mark as many drafts as you write.`
     : meta.blurb;
 
@@ -417,18 +438,20 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 about) instead. */}
             {sellsPlus && (
               <button
-                onClick={handleUpgrade}
+                onClick={alreadySubscribed ? handleManageSubscription : handleUpgrade}
                 disabled={isRedirecting}
                 className="t-label flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
                 {isRedirecting
                   ? 'Redirecting…'
-                  : isGuest
-                    ? 'Create an account'
-                    : stripeReady
-                      ? 'Upgrade now'
-                      : 'Keep me posted'}
+                  : alreadySubscribed
+                    ? 'Manage subscription'
+                    : isGuest
+                      ? 'Create an account'
+                      : stripeReady
+                        ? 'Upgrade now'
+                        : 'Keep me posted'}
               </button>
             )}
             <button
@@ -439,107 +462,30 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             </button>
           </div>
 
-          {stripeReady && sellsPlus && (
-            <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
-              Cancel anytime from your profile — no lock-in.
+          {alreadySubscribed ? (
+            <p className="mt-3 text-center text-[11px] font-medium text-amber-500 light:text-amber-600 leading-relaxed">
+              You already have a live subscription, so there is nothing to buy here. Change your
+              plan or seat count in the billing portal.
             </p>
+          ) : (
+            stripeReady &&
+            sellsPlus && (
+              <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                Cancel anytime from your profile — no lock-in.
+              </p>
+            )
           )}
 
-          {/* School seat licence — a direct purchase for staff once the school
-              price is configured. Seats are the billed quantity; every member
-              of the buyer's school gets the plan while it's active. */}
-          {canBuySeats && (
-            <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-100">
-              <div className="rounded-2xl bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200 p-4">
-                <span className="t-label text-indigo-400 light:text-indigo-600 flex items-center gap-2 mb-3">
-                  <School className="w-3.5 h-3.5" /> School licence
-                </span>
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      aria-label="Fewer seats"
-                      onClick={() => setSeats((s) => Math.max(SCHOOL_SEAT_LIMITS.min, s - 5))}
-                      className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
-                    >
-                      <Minus className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="w-16 text-center text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tabular-nums">
-                      {seats}
-                    </span>
-                    <button
-                      type="button"
-                      aria-label="More seats"
-                      onClick={() => setSeats((s) => Math.min(SCHOOL_SEAT_LIMITS.max, s + 5))}
-                      className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="t-label text-slate-400 ml-1">
-                      seats · {PLAN_PRICING.schoolSeat}/student/yr
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    disabled={isBuyingSeats}
-                    onClick={async () => {
-                      if (isBuyingSeats) return;
-                      setIsBuyingSeats(true);
-                      const { url, error } = await createCheckoutUrl(
-                        STRIPE_PRICE_IDS.school,
-                        seats
-                      );
-                      if (url) {
-                        window.location.href = url;
-                      } else {
-                        showToast(
-                          error ?? 'Could not start the school checkout. Please try again.',
-                          'error'
-                        );
-                        setIsBuyingSeats(false);
-                      }
-                    }}
-                    className="t-label px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all disabled:opacity-60"
-                  >
-                    {isBuyingSeats ? 'Redirecting…' : `Buy ${seats} seats`}
-                  </button>
-                </div>
-                <p className="mt-2.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
-                  Everyone in your school gets {PLAN_LABELS.school} while the licence is active.
-                  Make sure your school is set up (and you're in it) before purchasing.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Teachers buying for a class, or schools buying seats, need a human
-              conversation rather than an individual checkout — unless the
-              direct seat purchase above is available. */}
-          {!canBuySeats && (
-            <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-100 text-center">
-              {SCHOOL_CONTACT_EMAIL ? (
-                <a
-                  href={`mailto:${SCHOOL_CONTACT_EMAIL}?subject=${encodeURIComponent('School / class licence enquiry')}`}
-                  className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-                >
-                  Buying for a class or school? Ask about a school licence →
-                </a>
-              ) : (
-                <button
-                  onClick={() => {
-                    showToast(
-                      'School licensing is coming — ask your school admin to register interest.',
-                      'info'
-                    );
-                    close();
-                  }}
-                  className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-                >
-                  Buying for a class or school? Ask about a school licence →
-                </button>
-              )}
-            </div>
-          )}
+          {/* The School licence route — a seat purchase for staff, an enquiry
+              link for everyone else. Lives in its own component because the
+              plan comparison shows the same panel: staff never see a locked
+              control, so the prompt alone could not sell them a licence. */}
+          <SchoolLicencePanel
+            user={user}
+            showToast={showToast}
+            onDone={close}
+            className="mt-4 pt-4 border-t border-white/5 light:border-slate-100"
+          />
         </div>
       </div>
     </div>,
