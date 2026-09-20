@@ -74,7 +74,10 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
 
   // First run offers the bundled curriculum; take it so there is something to
   // answer. It opens behind the guide, so it only appears once that is gone.
-  const importButton = page.getByRole('button', { name: /import \d+ items?/i });
+  // "Add N syllabuses" — the button used to read "Import N Items", which named
+  // a database operation on a count of records rather than the thing a teacher
+  // is actually doing.
+  const importButton = page.getByRole('button', { name: /add \d+ syllabus(es)?/i });
   await importButton.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
   if (await importButton.count()) {
     await importButton.first().click();
