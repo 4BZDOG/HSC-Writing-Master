@@ -69,13 +69,28 @@ export const RIBBON_EDGE_RULE_GAP_BOTTOM = 'mt-4 sm:mt-5';
  *  The height is LOCKED — `min-h` against shrinking, `whitespace-nowrap` and
  *  `truncate` on the pieces below against growing — and
  *  `tests/unit/commandVerbHierarchy.test.tsx` pins it. Every geometry token
- *  here is unchanged from the gradient version. */
+ *  here is unchanged from the gradient version.
+ *
+ *  It carries a BORDER, which it did not. Unbordered glass works in the dark
+ *  theme because `bg-surface/40` over a near-black page is a 1.3:1 step and
+ *  the eye reads it as a pane; the light theme's `bg-white/60` over a page
+ *  that was itself 248,250,252 was 1.03:1, so the bar had no edge in any
+ *  direction and the ribbon's only boundaries were the two hairlines above and
+ *  below it — which had the same problem. The page is now the desk rather than
+ *  more paper, so the fill does most of the work; the border is what closes
+ *  the box, and the reason it is 1px of a real tone rather than more alpha is
+ *  recorded on the light token block in `index.css`.
+ *
+ *  Adding it costs no height: Tailwind's preflight sets `box-sizing:
+ *  border-box`, so the 2px lands inside the `min-h` the height lock is made
+ *  of. */
 export const RIBBON_HEADER_BAR =
   'w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 ' +
   'relative z-10 overflow-hidden rounded-xl transition-colors duration-500 group/header ' +
   'text-slate-900 dark:text-white ' +
-  'bg-white/60 hover:bg-white/80 backdrop-blur-xl ' +
-  'dark:bg-[rgb(var(--color-bg-surface))]/40 dark:hover:bg-[rgb(var(--color-bg-surface))]/60';
+  'border border-slate-300 dark:border-white/10 ' +
+  'bg-white/80 hover:bg-white dark:bg-[rgb(var(--color-bg-surface))]/40 backdrop-blur-xl ' +
+  'dark:hover:bg-[rgb(var(--color-bg-surface))]/60';
 
 /** Edge-lighting under the bar, and where the tier colour went. Painted on the
  *  bar's own bottom edge; the gradient itself is the tier config's and is
@@ -176,7 +191,7 @@ export const RIBBON_DETAIL_DEFINITION =
 export const RIBBON_STAT_TRAY =
   'flex items-center gap-4 px-5 py-3 rounded-2xl backdrop-blur-md self-stretch md:self-auto ' +
   'justify-center shadow-inner flex-wrap ' +
-  'bg-slate-100 border border-slate-200 dark:bg-black/20 dark:border-white/10';
+  'bg-slate-100 border border-slate-300 dark:bg-black/20 dark:border-white/10';
 
 /** "Marks", "Band Cap", "Time", "Terms". Painted on the tray. */
 export const RIBBON_STAT_LABEL = 't-label mb-0.5 text-slate-600 dark:text-slate-400';
@@ -200,7 +215,7 @@ export const RIBBON_STAT_CAPTION =
   'text-[10px] font-bold leading-snug text-center md:text-right text-slate-600 dark:text-slate-400';
 
 /** The hairline between two stats. Painted on the tray. */
-export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-300 dark:bg-white/10';
+export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-400 dark:bg-white/10';
 
 /** The horizontal tier strip. Six 260px cards plus gaps is ~1580px, so it
  *  overflows at nearly every width. Painted on the page background.
@@ -229,17 +244,23 @@ export const RIBBON_STRIP =
  *  pixels of gradient is worth, and a fade at an edge that happens to be flush
  *  costs nothing to look at.
  *
- *  `slate-50` is not a guess at "white": the page behind the strip measures
- *  rgb(248, 250, 252) in the light theme, which is `--color-bg-base` exactly,
- *  and a white fade on it would read as a pale smear rather than as depth. The
- *  dark side takes the token directly.
+ *  `from-base` rather than the pair it was — `from-slate-50
+ *  dark:from-[rgb(var(--color-bg-base))]`. The comment here used to explain
+ *  that `slate-50` "is not a guess at white: the page behind the strip
+ *  measures rgb(248, 250, 252) in the light theme, which is `--color-bg-base`
+ *  exactly". It was right about the value and wrong to write it down: a
+ *  literal copy of a token is a snapshot, and when the light theme's base
+ *  moved off near-white this fade would have kept fading to the old one —
+ *  painting a pale slot at each end of the strip on a page that is no longer
+ *  that colour. `from-base` is the same token the dark side was already
+ *  naming, and it is theme-aware on its own, so the pair collapses to one
+ *  word that cannot drift.
  *
  *  `z-10` puts them over the five idle cards but under the current one, which
  *  carries `z-20` — fading out the card the reader is being pointed at would
  *  be the wrong way round. Painted on the page background. */
 const RIBBON_STRIP_FADE =
-  'absolute top-0 bottom-4 w-8 z-10 pointer-events-none to-transparent ' +
-  'from-slate-50 dark:from-[rgb(var(--color-bg-base))]';
+  'absolute top-0 bottom-4 w-8 z-10 pointer-events-none to-transparent from-base';
 export const RIBBON_STRIP_FADE_LEFT = `${RIBBON_STRIP_FADE} left-0 bg-gradient-to-r`;
 export const RIBBON_STRIP_FADE_RIGHT = `${RIBBON_STRIP_FADE} right-0 bg-gradient-to-l`;
 
@@ -469,9 +490,15 @@ export const RIBBON_VERB_CHIP = 't-label px-3 py-1.5 rounded-xl border transitio
  *  A visual judgement, stated as one. `mb-4` moved to the wrapper, which is
  *  what the leading edge and the ignition flare are positioned against — both
  *  must be free of this box's `overflow-hidden` or the clip eats the very bloom
- *  they exist to draw. */
+ *  they exist to draw.
+ *
+ *  `slate-300` in light, where it was `slate-200`. The track is painted on the
+ *  page, and the page in the light theme IS slate-200 now — so the unlit
+ *  ground of the spectrum was the one colour it could not be, and the bar
+ *  vanished wherever the dormant gradient over it is faintest. One step
+ *  deeper puts it back on the right side of its own background. */
 export const RIBBON_TIMELINE_TRACK =
-  'relative h-3 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden';
+  'relative h-3 bg-slate-300 dark:bg-white/10 rounded-full overflow-hidden';
 
 /** The whole cognitive journey, unlit — every tier's colour at low opacity
  *  across the full width, so the tiers a reader has not reached yet read as
@@ -535,10 +562,16 @@ export const RIBBON_SPECTRUM_DOT_BLOOM =
  *  Painted in the page's own background colour on top of the track, so they
  *  read as physical gaps cut into the spectrum rather than as lines drawn over
  *  it. Width comes from the call site: the 3/4 boundary is wider, because it is
- *  the threshold. */
+ *  the threshold.
+ *
+ *  "The page's own background colour" is the whole mechanism, so it is named
+ *  as the token and not spelled out — `bg-base`, which is theme-aware by
+ *  itself. Written as the literal pair it was (`bg-slate-50`), these five gaps
+ *  stayed near-white when the light theme's page went to the deeper stock, and
+ *  a gap that is brighter than what it is cut into is not a gap, it is five
+ *  glowing slots down the middle of the spectrum. */
 export const RIBBON_SPECTRUM_BOUNDARY =
-  'absolute inset-y-0 -translate-x-1/2 pointer-events-none ' +
-  'bg-slate-50 dark:bg-[rgb(var(--color-bg-base))]';
+  'absolute inset-y-0 -translate-x-1/2 pointer-events-none bg-base';
 
 /** The scale rail above the spectrum — the two sides the Deep Learning
  *  Threshold divides the ladder into, and the chip that names the gate.
@@ -615,5 +648,5 @@ export const RIBBON_TIMELINE_STEP_LABEL_IDLE =
 export const RIBBON_TIMELINE_THRESHOLD_CHIP =
   't-label absolute left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full ' +
   'border shadow-sm whitespace-nowrap ' +
-  'bg-white text-slate-600 border-slate-300 ' +
+  'bg-white text-slate-600 border-slate-400 ' +
   'dark:bg-[rgb(var(--color-bg-surface))] dark:text-slate-400 dark:border-white/10';

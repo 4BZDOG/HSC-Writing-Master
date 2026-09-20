@@ -1889,3 +1889,88 @@ a clamp, and a verdict that is not where a reader looks, are both _the check
 being right about the wrong thing_ — and in both cases the fix was to move the
 rule somewhere it is stated once and cannot be half-remembered at the next call
 site.
+
+## A later pass: the light theme had no depth ladder
+
+Reported by the app's owner, in two halves that turned out to be one defect:
+"white on white is occurring a lot and is blinding on bright monitors", and
+"border of the command verb hierarchy is not clear (possibly a bug!)".
+
+### 62. The light theme's three depth tokens were one colour — FIXED
+
+Measured before touching anything:
+
+| relationship                   | dark    | light                         |
+| ------------------------------ | ------- | ----------------------------- |
+| page → card                    | 1.08:1  | **1.05:1**                    |
+| `surface` → `surface-elevated` | 1.21:1  | **1.00:1** (identical tokens) |
+| verb ribbon's edge rule → page | 11.20:1 | **1.28:1**                    |
+
+The third line is the reported bug, and it is the whole defect in miniature.
+Both themes draw that hairline with the _same class_ —
+`via-[rgb(var(--color-border-secondary))]/75`. In dark the token is pure white,
+and white at 75% over near-black is a line you can see from across the room. In
+light the token was `slate-300`, and slate-300 at 75% over a page that was
+itself `248 250 252` is nothing at all. **Alpha does not survive the trip
+between grounds**; the tone underneath it has to absorb the difference, and
+nobody had checked that it did.
+
+The same arithmetic explains the first complaint without any further diagnosis.
+A page at `248 250 252` behind cards at `255 255 255` is not a page behind
+cards, it is one continuous sheet of light with some hairlines drawn on it —
+which is exactly what a bright monitor renders as glare.
+
+The fix is a ground, not a coat of paint: the desk drops to `226 232 240`, the
+ladder gets four distinct rungs, `--color-border-secondary` moves to slate-500
+so its `/15`…`/75` range behaves, and `--color-text-dim` follows the desk down
+so it stays over the AA floor on it. See DesignSpec §2 rule 0 for the table and
+the direction argument. Roughly 520 hard-written `bg-white` cards got a real
+edge from the first line alone, untouched.
+
+### Why nothing caught it
+
+Worth writing down, because the gap is structural rather than an oversight.
+
+- The **unit suites read class strings.** A token whose _value_ is wrong reads
+  exactly like one whose value is right, so no amount of pinning class names
+  could have seen this.
+- `light-theme.spec.ts` **measures text against its background**, and text was
+  never the problem — near-black on white is 21:1 whichever white it is. What
+  had gone missing was every boundary _between_ surfaces, which is not a
+  property of any single element and so is not something a per-element sweep
+  can be asked about.
+
+So the guard had to be a third kind. `tests/unit/surfaceLadder.test.ts` reads
+the token table itself and asserts a ladder exists in **both** themes — the one
+place the defect is a fact rather than an emergent property. It was confirmed to
+fail on the shipped values (ΔL\* 1.82, and `surface-elevated` duplicating
+`surface`) and to pass the dark theme unchanged.
+
+A browser sweep written for this pass — every painted surface whose background
+is within 1.08:1 of its nearest painted ancestor _and_ which has no visible
+border or shadow — found nine real sites at the start and three non-defects at
+the end (the page base against itself, a decorative blurred blob, and a wrapper
+that legitimately shares its band's fill). It is not committed: it wants a live
+page and a driven state, which is `light-theme.spec.ts`'s job, and the ladder
+test covers the cause rather than the symptoms.
+
+### 63. Overrides that undercut the token they sit beside — FIXED
+
+Fifteen sites read `bg-[rgb(var(--color-bg-surface-inset))] light:bg-white` — a
+token meaning "recessed" with a hand-written light override meaning "the
+brightest value there is". They were not wrong when they were written: `inset`
+was `slate-100`, a 1.09:1 non-step, so white was the only value that did
+anything. With a real inset they are what _produces_ white on white, so they are
+gone and the token applies. The text twin of the same pattern
+(`text-[rgb(var(--color-text-muted))] light:text-slate-500`) is still widespread
+and mostly harmless on white; only the sites the AA sweep actually failed were
+changed.
+
+### The shape of this finding
+
+The same shape as 61 and 62 before it: not "somebody picked a bad colour" but
+**a value that was correct once, copied to a second place, and left there.**
+The ribbon's `from-slate-50`, the fifteen `light:bg-white`s, and the light
+theme's whole token block were each an accurate reading of something — taken at
+a moment, written down, and then not re-taken. The fix in every case was to make
+the second copy stop existing.

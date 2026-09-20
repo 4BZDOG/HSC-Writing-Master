@@ -84,7 +84,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
       <div className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
-        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-50 flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
+        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
           <MeshOverlay opacity="opacity-[0.03]" />
 
           <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0">
@@ -136,7 +136,15 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 sm:p-10 custom-scrollbar bg-[rgb(var(--color-bg-base))]/50 light:bg-slate-50">
+        {/* The desk this modal's cards sit on. `EvaluationDisplay` fills it
+            with six opaque `bg-white` cards, so the ground under them cannot be
+            another sheet of near-white — it was `light:bg-slate-50`, which put
+            those cards at 1.05:1 against it and left them to be held up by a
+            hairline apiece. It takes the page's own base token instead, at full
+            strength in light: the `/50` is right in dark, where it lets the
+            surface beneath warm the ground, and in light it only washes the
+            desk back out towards the paper it is supposed to be distinct from. */}
+        <div className="flex-1 overflow-y-auto p-6 sm:p-10 custom-scrollbar bg-[rgb(var(--color-bg-base))]/50 light:bg-[rgb(var(--color-bg-base))]">
           <EvaluationDisplay
             result={result}
             prompt={prompt}

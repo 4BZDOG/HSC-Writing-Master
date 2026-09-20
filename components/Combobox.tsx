@@ -488,7 +488,7 @@ const Combobox: React.FC<ComboboxProps> = ({
     }
   } else {
     // Closed and Empty: Neutral surface with faint border (Fixed from stark white)
-    stateStyles = `bg-[rgb(var(--color-bg-surface-inset))] light:bg-white border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 ${theme.hoverBorder}`;
+    stateStyles = `bg-[rgb(var(--color-bg-surface-inset))] border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] ${theme.hoverBorder}`;
   }
 
   const listStateStyles = isOpen

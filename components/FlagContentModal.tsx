@@ -111,7 +111,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
                     placeholder={`e.g. "The marking guide adds to 7 but the ${itemLabel} is worth 6."`}
                     rows={3}
                     autoFocus
-                    className="w-full rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-white p-3 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-dim))] light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 resize-none"
+                    className="w-full rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]/50 p-3 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-dim))] light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 resize-none"
                   />
                 </>
               )}

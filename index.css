@@ -61,20 +61,75 @@ html {
   --color-yellow: 234 179 8;
 }
 
+/*
+ * The light theme.
+ *
+ * It is not a tint of the dark one, and the three tokens that carry DEPTH are
+ * where that stops being a slogan. In the dark theme depth is luminance: the
+ * page is 10,15,26, a card is 18,24,38, and something lifted above the card is
+ * 30,41,59 — three real rungs, each visible. Translated token-for-token, those
+ * three became 248,250,252 / 255,255,255 / 255,255,255: a 1.05:1 step and then
+ * no step at all. Every boundary in the light theme was therefore left to a 1px
+ * border, and those borders were themselves alphas tuned against near-black.
+ *
+ * So the ladder is rebuilt here, on the one relationship a light interface
+ * actually has: PAPER IS THE BRIGHT THING, AND THE DESK IT SITS ON IS NOT.
+ * That is also the answer to the reading this app is for — an HSC booklet on a
+ * desk under exam-room light, not a lightbox.
+ *
+ *   base     226 232 240   the desk. Every white card in the app — and there
+ *                          are ~520 hard-written `bg-white`s — gets a 1.23:1
+ *                          edge from this line alone, without one of them
+ *                          being touched. It is also what stops the largest
+ *                          area on screen being a sheet of #fff.
+ *   surface  255 255 255   the paper. Unchanged, because it is what all those
+ *                          `bg-white`s already are; moving it would split the
+ *                          codebase in two.
+ *   elevated 248 250 252   a strip or a menu lying ON the paper. Note the
+ *                          direction: in dark, elevated is LIGHTER than the
+ *                          surface; in light it is darker. Elevation reads as
+ *                          separation from the surface, and which way that
+ *                          runs flips with the theme — white has no headroom
+ *                          above it. This is not a new opinion either, it is
+ *                          the value five call sites had already hand-written
+ *                          as their own `light:bg-slate-50` override for this
+ *                          token, now stated once where the token lives.
+ *   inset    231 237 244   a well cut INTO the paper. A hair above the desk,
+ *                          so it reads as a recess rather than a hole.
+ *   light    215 222 233   a chip or hover raised off the paper, one clear
+ *                          step below the well.
+ *
+ * `--color-border-secondary` moves for a related reason, and it is worth
+ * saying because it is the actual mechanism behind the verb ribbon's
+ * invisible edge rules. That token is the ALPHA CARRIER: the codebase applies
+ * it at /15 through /75. In dark it is pure white, and white at 75% over
+ * near-black is an 11.2:1 hairline. In light it was slate-300, and slate-300
+ * at 75% over the page was 1.28:1 — the same class, the same alpha, one line
+ * that blazes and one that is not there. Alpha does not survive the trip
+ * between grounds; the tone underneath it has to absorb the difference.
+ * slate-500 does: /15 is still a whisper, /75 is now a line you can see.
+ *
+ * `--color-text-dim` follows the desk down. On the old near-white page it read
+ * 4.80:1; on this one it would have read 3.89:1, under the AA floor, and the
+ * page is exactly where this token is used — breadcrumbs, the spectrum's scale
+ * captions, the tier strip's step labels. 84 96 117 restores it to 5.17:1 on
+ * the desk and 6.37:1 on paper, and leaves `muted` a rung above it rather than
+ * colliding with it.
+ */
 [data-theme='light'] {
   --color-primary: 79 70 229;
   --color-accent: 2 132 199;
-  --color-bg-base: 248 250 252;
+  --color-bg-base: 226 232 240;
   --color-bg-surface: 255 255 255;
-  --color-bg-surface-elevated: 255 255 255;
-  --color-bg-surface-inset: 241 245 249;
-  --color-border-secondary: 203 213 225;
+  --color-bg-surface-elevated: 248 250 252;
+  --color-bg-surface-inset: 231 237 244;
+  --color-border-secondary: 100 116 139;
 
   --color-text-primary: 15 23 42;
   --color-text-secondary: 51 65 85;
   --color-text-muted: 71 85 105;
-  --color-text-dim: 100 116 139;
-  --color-bg-surface-light: 226 232 240;
+  --color-text-dim: 84 96 117;
+  --color-bg-surface-light: 215 222 233;
   --color-accent-dark: 3 105 161;
   --color-accent-glow: 14 165 233;
   --color-border-primary: 148 163 184;
