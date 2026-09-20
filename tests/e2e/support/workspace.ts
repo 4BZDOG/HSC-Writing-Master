@@ -38,38 +38,51 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
     await agree.click();
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
-  // Dismiss the quick-start guide by pressing ITS OWN button, inside ITS OWN
-  // dialog, and check that it actually went.
+  // Dismiss the quick-start guide by firing ITS OWN button's handler, and
+  // check that it actually went.
   //
-  // This used to be a bare `page.keyboard.press('Escape')` whose follow-up wait
-  // swallowed its own timeout. Two things defeat that. The guide animates in
-  // after the mock login's deliberate delay, so under load the keystroke can
-  // arrive before the modal is listening; and at a phone width the guide and
-  // the curriculum-import prompt are open AT THE SAME TIME, so a single Escape
-  // is arbitrated to whichever registered last and the guide stays put. The
-  // swallowed failure then said nothing, and every click afterwards spent its
-  // full timeout being told the guide's backdrop "intercepts pointer events" —
-  // which is how one un-dismissed modal produced failures in three unrelated
-  // specs at once, and made this helper take 38 seconds to do nothing.
+  // This used to be a bare `page.keyboard.press('Escape')` whose follow-up
+  // wait swallowed its own timeout. Two things defeat that. The guide animates
+  // in after the mock login's deliberate delay, so under load the keystroke
+  // can arrive before the modal is listening; and at a phone width the guide
+  // and the curriculum-import prompt are open AT THE SAME TIME, so a single
+  // Escape is arbitrated by `useEscapeKey`'s stack to whichever registered
+  // last and the guide stays put.
+  //
+  // Replacing it with a real `.click()` swapped one swallowed failure for
+  // another. On Mobile Safari — iPhone 12, so a 390px viewport at a device
+  // pixel ratio of 3 — the click never got past Playwright's "visible, enabled
+  // and stable" wait inside the five-second budget it was given, on a runner
+  // already hosting two WebKit workers and two Vite dev servers. Chromium
+  // resolves the same click in about 100ms. Three attempts each ate their
+  // budget in silence, the guide stayed open, and the NEXT click in the helper
+  // spent the whole 120-second test timeout being told the guide's backdrop
+  // "intercepts pointer events" — which is how one un-dismissed modal produced
+  // nine failures across three unrelated specs.
+  //
+  // So this helper no longer re-proves the guide's buttons are clickable on
+  // every spec that merely wants past them. `dispatchEvent` runs the React
+  // handler without the actionability wait, and `paywall.spec.ts` pins the
+  // real thing — that the X is reachable by a genuine click at a phone width,
+  // which is where it was covered until this branch.
   //
   // Scoped by the dialog that contains the guide's own tabs, so it cannot pick
   // up the import prompt's buttons or a toast's "Close notification".
   const guideDialog = page
     .getByRole('dialog')
     .filter({ has: page.getByRole('button', { name: /getting started/i }) });
-  await guideDialog.waitFor({ state: 'visible', timeout: 8_000 }).catch(() => {});
-  // "Start writing" rather than the header's X: it is the guide's own primary
-  // action, it is the biggest target on the panel, and it is the one a student
-  // actually presses. (The X was genuinely broken until this branch — its
-  // header content wrapper covered it — which is how this helper's real
-  // problem surfaced.)
-  for (let attempt = 0; attempt < 3 && (await guideDialog.count()); attempt++) {
+  await guideDialog.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+  if (await guideDialog.count()) {
+    // "Start writing" rather than the header's X: it is the guide's own
+    // primary action and the one a student actually presses. `.last()` because
+    // both it and the X match, and the footer comes later in the DOM.
     await guideDialog
       .getByRole('button', { name: /start writing|^close$/i })
       .last()
-      .click({ timeout: 5_000 })
-      .catch(() => {});
-    await guideDialog.waitFor({ state: 'detached', timeout: 5_000 }).catch(() => {});
+      .dispatchEvent('click');
+    // Loud, and at the point of the problem. A swallowed failure here reports
+    // itself two minutes later as an unrelated click on an unrelated spec.
+    await expect(guideDialog).toHaveCount(0, { timeout: 20_000 });
   }
 
   // First run offers the bundled curriculum; take it so there is something to

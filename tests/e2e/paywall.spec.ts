@@ -87,6 +87,19 @@ test.describe('a modal can be closed by its close button', () => {
    *
    * The upgrade prompt's X was covered at EVERY width. The guide's only at a
    * phone width, where the headline wraps and the block grows under it.
+   *
+   * These two are the suite's only genuine clicks on a modal's X, and that is
+   * deliberate: an occluded control is exactly what `.click()` catches and
+   * nothing else does. They are also the only place that cost has to be paid,
+   * which is why `clearOnboarding` fires the handler directly instead.
+   *
+   * Neither click carries a short budget any more. Both did, and on Mobile
+   * Safari both spent it inside Playwright's "visible, enabled and stable"
+   * wait without ever reaching the hit test — the same click that Chromium
+   * settles in about 100ms. A short budget on WebKit does not prove the button
+   * is covered; it proves the runner was busy. The describe block's own 90s
+   * timeout is the budget, and a button that is genuinely covered still fails
+   * on "intercepts pointer events" long before it.
    */
   test('the upgrade prompt closes from its X, at both widths', async ({ page }) => {
     await withoutMotion(page);
@@ -102,8 +115,8 @@ test.describe('a modal can be closed by its close button', () => {
         )
       );
       const prompt = page.getByRole('dialog', { name: /full marking feedback/i });
-      await prompt.waitFor({ state: 'visible', timeout: 10_000 });
-      await prompt.getByRole('button', { name: /^close$/i }).click({ timeout: 5_000 });
+      await prompt.waitFor({ state: 'visible', timeout: 20_000 });
+      await prompt.getByRole('button', { name: /^close$/i }).click();
       await expect(prompt).toHaveCount(0);
     }
   });
@@ -123,7 +136,16 @@ test.describe('a modal can be closed by its close button', () => {
       .getByRole('dialog')
       .filter({ has: page.getByRole('button', { name: /getting started/i }) });
     await guide.waitFor({ state: 'visible', timeout: 20_000 });
-    await guide.getByRole('button', { name: /^close$/i }).click({ timeout: 5_000 });
+    // Let first run finish before measuring the X. The guide opens at the
+    // busiest moment the app has — the bundled curriculum is being discovered
+    // behind it — and the prompt offering that curriculum is the signal that
+    // the work is done. Clicking into the middle of it was measuring the
+    // runner, not the button.
+    await page
+      .getByRole('button', { name: /add \d+ syllabus(es)?/i })
+      .waitFor({ state: 'attached', timeout: 30_000 })
+      .catch(() => {});
+    await guide.getByRole('button', { name: /^close$/i }).click();
     await expect(guide).toHaveCount(0);
   });
 });
