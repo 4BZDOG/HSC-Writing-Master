@@ -96,6 +96,22 @@ interface SampleAnswerRow {
   source: SampleAnswer['source'] | null;
   feedback: string | null;
   quick_tip: string | null;
+  /**
+   * Set only on the rows synthesised from `withheld_sample_answers()`. The
+   * table itself has no such column — a withheld exemplar is not a row with a
+   * flag on it, it is a row the policy refused to return at all.
+   */
+  withheld?: boolean;
+}
+
+/** What `withheld_sample_answers()` returns — no column that could carry prose. */
+interface WithheldAnswerRow {
+  id: string;
+  prompt_id: string;
+  legacy_id: string | null;
+  band: number;
+  mark: number;
+  source: SampleAnswer['source'] | null;
 }
 
 export interface CurriculumRows {
@@ -144,6 +160,7 @@ const mapSampleAnswer = (row: SampleAnswerRow): SampleAnswer => ({
   source: row.source ?? 'AI',
   feedback: row.feedback ?? undefined,
   quickTip: row.quick_tip ?? undefined,
+  ...(row.withheld ? { withheld: true } : {}),
 });
 
 const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
@@ -245,6 +262,53 @@ export const assembleCourses = (rows: CurriculumRows): Course[] => {
 
 // --- Remote fetch ------------------------------------------------------------
 
+/**
+ * The exemplars this reader is not being sent, as rows with no prose in them.
+ *
+ * The band ceiling used to be `blur-sm` over text the server had already
+ * delivered; schema.sql §25 makes the policy drop the row instead, so the free
+ * tier's request simply does not come back with a band-6 answer in it. That
+ * closes the hole and takes the upsell with it — a lock the client cannot see
+ * is a lock it cannot offer to lift.
+ *
+ * `withheld_sample_answers()` gives back everything ABOUT those rows (band,
+ * mark, source) and nothing OF them: the function does not select `answer`,
+ * `feedback` or `quick_tip` at all, so this path cannot become the leak the
+ * policy exists to prevent. They rejoin the tree as ordinary exemplars carrying
+ * `withheld`, which is what the workspace draws its locked card from.
+ *
+ * Degrades to nothing at all, deliberately. A deployment that has not applied
+ * §25 yet has no such function, and PostgREST answers a missing RPC with an
+ * error — the same shape of problem `withYear` above handles for a column that
+ * arrived late. The curriculum must never fail to load over a lock that cannot
+ * be described; the worst case is the old behaviour, which is that nothing is
+ * offered for sale here.
+ */
+const withheldSampleAnswers = async (
+  client: NonNullable<typeof supabase>
+): Promise<SampleAnswerRow[]> => {
+  try {
+    const { data, error } = await client.rpc('withheld_sample_answers');
+    if (error || !Array.isArray(data)) return [];
+    return (data as WithheldAnswerRow[]).map((row) => ({
+      id: row.id,
+      prompt_id: row.prompt_id,
+      legacy_id: row.legacy_id,
+      band: row.band,
+      mark: row.mark,
+      // Empty rather than a placeholder sentence: nothing should ever render
+      // it, and a sentence would be one refactor away from being rendered.
+      answer: '',
+      source: row.source ?? 'AI',
+      feedback: null,
+      quick_tip: null,
+      withheld: true,
+    }));
+  } catch {
+    return [];
+  }
+};
+
 export const isCurriculumRemote = (): boolean => isSupabaseConfigured && Boolean(supabase);
 
 /**
@@ -291,7 +355,7 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
     );
 
   const label = 'Curriculum load failed';
-  const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers] =
+  const [courses, outcomes, topics, subTopics, dotPoints, prompts, sampleAnswers, withheld] =
     await Promise.all([
       fetchAllRows<CourseRow>(
         () => visible('courses', 'id, legacy_id, name, subject, status'),
@@ -314,6 +378,7 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
       ),
       fetchAllRows<PromptRow>(() => visible('prompts', '*'), label),
       fetchAllRows<SampleAnswerRow>(() => visible('sample_answers', '*'), label),
+      withheldSampleAnswers(client),
     ]);
 
   return assembleCourses({
@@ -323,6 +388,6 @@ export const fetchRemoteCourses = async (): Promise<Course[]> => {
     subTopics,
     dotPoints,
     prompts,
-    sampleAnswers,
+    sampleAnswers: [...sampleAnswers, ...withheld],
   });
 };

@@ -677,6 +677,13 @@ create policy prompts_delete on public.prompts for delete
   using (created_by = auth.uid() or public.is_admin());
 
 -- Sample answers (status-bearing)
+--
+-- NOTE: this is the BASELINE only, as for `profiles` in §8. §25 REPLACES this
+-- policy with one that also withholds exemplars above the free tier's band
+-- ceiling, because that rule depends on `sample_answer_withheld()`, which
+-- cannot exist before the plan settings §20 creates. On its own the clause
+-- below serves every approved exemplar to every reader, which is not the
+-- shipped behaviour.
 drop policy if exists answers_read on public.sample_answers;
 create policy answers_read on public.sample_answers for select
   using (status = 'approved' or created_by = auth.uid() or public.is_reviewer());
@@ -3280,6 +3287,90 @@ revoke all on function public.remove_from_class(uuid, text) from public;
 grant execute on function public.list_class_members(uuid) to authenticated;
 grant execute on function public.remove_from_class(uuid, text) to authenticated;
 
+-- -----------------------------------------------------------------------------
+-- §25 · Withheld exemplars — the paywall's one content gate that was a CSS class
+-- -----------------------------------------------------------------------------
+-- The free tier may read exemplars up to a band (3, by default) and no further.
+-- That rule was enforced by `blur-sm select-none pointer-events-none` on a div
+-- whose text was already in the document: the server sent every band-6 exemplar
+-- to every free account and the client drew frosted glass over it. Removing one
+-- class in the inspector, or reading the response in the network tab, bought the
+-- whole library. `projectDocs/monetisation-review-2026-09.md` filed it as the one
+-- UI-only gate with a real fix available; this is that fix.
+--
+-- WITHHOLDING THE ROW, NOT REDACTING IT. The first cut of this was a view that
+-- kept the row and nulled its three prose columns, which reads better — the
+-- client is told exactly what is behind the plan. It was also bypassable in one
+-- request: Supabase grants `authenticated` SELECT on every table and lets RLS do
+-- the gating, so `/rest/v1/sample_answers` returned the prose the view had just
+-- hidden. A redaction you can route around is the same CSS class one layer down.
+-- Revoking the table's SELECT was not the way out either: the review queue and
+-- every author's own read go through it.
+--
+-- So the policy itself drops the row, and `withheld_sample_answers()` below
+-- hands back everything ABOUT the ones it dropped — band, mark, how many — with
+-- no column that could carry the writing. The lock survives, the upsell survives,
+-- and there is no second door.
+
+-- The band ceiling, as a tunable setting like the evaluation allowance above.
+-- The DEFAULT must match FREE_TIER_MAX_SAMPLE_BAND in services/planLimits.ts,
+-- which tests/unit/entitlementConstants.test.ts pins.
+create or replace function public.free_sample_band_cap()
+returns integer language sql stable security definer set search_path = public as $$
+  select coalesce(
+    (select value from public.plan_settings where key = 'free_sample_band_cap'),
+    3
+  );
+$$;
+
+-- True when this exemplar must not be served to the caller.
+--
+-- The exemptions are not politeness, they are correctness. An ADMIN runs the
+-- content tools and has to read what they are moderating. The AUTHOR wrote it —
+-- a teacher who contributes a band-6 exemplar, or a student whose own marked
+-- answer was saved back as one, must never be sold their own writing. And a
+-- school running this for itself never asked to be metered: `caller_plan()`
+-- still answers 'free' for its students, so the `free_sample_band_cap` setting
+-- doubles as the opt-out — set it to 6 and nothing is ever withheld.
+create or replace function public.sample_answer_withheld(p_band integer, p_created_by uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select p_band > public.free_sample_band_cap()
+     and public.caller_plan() = 'free'
+     and not public.is_admin()
+     and (p_created_by is null or auth.uid() is null or p_created_by <> auth.uid());
+$$;
+
+-- The gate itself. Everything `answers_read` allowed before, minus the prose the
+-- reader has not paid for — enforced where a browser cannot reach it.
+drop policy if exists answers_read on public.sample_answers;
+create policy answers_read on public.sample_answers
+  for select using (
+    (status = 'approved' or created_by = auth.uid() or public.is_reviewer())
+    and not public.sample_answer_withheld(band, created_by)
+  );
+
+-- What the reader is missing, without any of it.
+--
+-- Returns no `answer`, `feedback` or `quick_tip` — not nulled, ABSENT — so this
+-- cannot become the leak it exists to prevent. It is what lets the workspace say
+-- "two Band 6 exemplars, part of Plus" over an empty card instead of silently
+-- dropping the feature and the reason to upgrade with it.
+--
+-- `security definer` because the policy above has, correctly, already hidden
+-- these rows from the caller; approved content only, so it can never disclose
+-- the existence of somebody's unpublished draft.
+create or replace function public.withheld_sample_answers()
+returns table (id uuid, prompt_id uuid, legacy_id text, band integer, mark integer,
+               source answer_source, created_at timestamptz)
+language sql stable security definer set search_path = public as $$
+  select s.id, s.prompt_id, s.legacy_id, s.band, s.mark, s.source, s.created_at
+    from public.sample_answers s
+   where s.status = 'approved'
+     and public.sample_answer_withheld(s.band, s.created_by);
+$$;
+
+revoke all on function public.withheld_sample_answers() from public;
+grant execute on function public.withheld_sample_answers() to anon, authenticated;
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

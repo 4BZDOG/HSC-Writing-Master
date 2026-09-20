@@ -19,7 +19,13 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
   it('wires the full hierarchy together by foreign key', () => {
     const rows: CurriculumRows = {
       courses: [
-        { id: 'c-uuid', legacy_id: 'course-1', name: 'Software', subject: 'TAS', status: 'approved' },
+        {
+          id: 'c-uuid',
+          legacy_id: 'course-1',
+          name: 'Software',
+          subject: 'TAS',
+          status: 'approved',
+        },
       ],
       outcomes: [{ course_id: 'c-uuid', code: 'O1', description: 'Outcome one', position: 0 }],
       topics: [
@@ -357,5 +363,100 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     expect('status' in byName('Approved')).toBe(false);
     expect(byName('Private').status).toBe('draft');
     expect(byName('Pending').status).toBe('draft');
+  });
+});
+
+/**
+ * Exemplars the server refused to send.
+ *
+ * The free tier's band ceiling used to be `blur-sm` over prose the server had
+ * already delivered. schema.sql §25 makes the policy drop the row, and
+ * `withheld_sample_answers()` hands back what remains sayable about it — band,
+ * mark, source, and nothing that could carry the writing. The loader appends
+ * those to the real rows, so the tree still knows the exemplar exists.
+ */
+describe('withheld exemplars keep their place in the tree', () => {
+  const withOneOfEach = (): CurriculumRows => ({
+    ...emptyRows(),
+    courses: [
+      { id: 'c', legacy_id: 'course-1', name: 'Software', subject: 'TAS', status: 'approved' },
+    ],
+    topics: [
+      {
+        id: 't',
+        course_id: 'c',
+        legacy_id: 'topic-1',
+        name: 'T',
+        position: 0,
+        band_descriptors: [],
+      },
+    ],
+    subTopics: [{ id: 's', topic_id: 't', legacy_id: 'sub-1', name: 'S', position: 0 }],
+    dotPoints: [{ id: 'd', sub_topic_id: 's', legacy_id: 'dp-1', description: 'D', position: 0 }],
+    prompts: [
+      {
+        id: 'p',
+        dot_point_id: 'd',
+        legacy_id: 'prompt-1',
+        question: 'Q',
+        verb: 'EXPLAIN',
+        total_marks: 15,
+        position: 0,
+      } as unknown as CurriculumRows['prompts'][number],
+    ],
+    sampleAnswers: [
+      {
+        id: 'a-open',
+        prompt_id: 'p',
+        legacy_id: 'sa-1',
+        band: 3,
+        mark: 6,
+        answer: 'REAL PROSE',
+        source: 'AI',
+        feedback: null,
+        quick_tip: null,
+      },
+      // As the loader synthesises it from the RPC: no prose, flagged.
+      {
+        id: 'a-locked',
+        prompt_id: 'p',
+        legacy_id: 'sa-2',
+        band: 6,
+        mark: 14,
+        answer: '',
+        source: 'HSC_EXEMPLAR',
+        feedback: null,
+        quick_tip: null,
+        withheld: true,
+      },
+    ],
+  });
+
+  const samplesOf = (rows: CurriculumRows) =>
+    assembleCourses(rows)[0].topics[0].subTopics[0].dotPoints[0].prompts[0].sampleAnswers;
+
+  it('keeps both, so the lock has something to sit on', () => {
+    const samples = samplesOf(withOneOfEach());
+    expect(samples).toHaveLength(2);
+    expect(samples.map((s) => s.band)).toEqual([3, 6]);
+  });
+
+  it('marks the withheld one, and only that one', () => {
+    const samples = samplesOf(withOneOfEach());
+    expect(samples.find((s) => s.band === 6)?.withheld).toBe(true);
+    // An ordinary exemplar must not carry the flag at all — the workspace
+    // reads `Boolean(sample.withheld)` and a stray `false` is one refactor
+    // away from becoming a lock over readable text.
+    expect(samples.find((s) => s.band === 3)).not.toHaveProperty('withheld');
+  });
+
+  it('carries no prose on the withheld one', () => {
+    const locked = samplesOf(withOneOfEach()).find((s) => s.band === 6)!;
+    expect(locked.answer).toBe('');
+    expect(locked.feedback).toBeUndefined();
+    expect(locked.quickTip).toBeUndefined();
+    // But it does keep what the card has to say.
+    expect(locked.mark).toBe(14);
+    expect(locked.source).toBe('HSC_EXEMPLAR');
   });
 });

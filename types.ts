@@ -90,6 +90,14 @@ export interface SampleAnswer {
   feedback?: string;
   quickTip?: string;
   contentFlag?: ContentFlag;
+  /**
+   * True when the server refused this exemplar's prose because the reader's
+   * plan does not reach its band (supabase/schema.sql §25). `answer` is empty
+   * on such a row — it was never sent — so the workspace shows the lock and
+   * what is behind it rather than frosted glass over text anyone could read
+   * out of the network tab.
+   */
+  withheld?: boolean;
 }
 
 export interface ScenarioImageRef {
