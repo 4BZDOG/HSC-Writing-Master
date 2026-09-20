@@ -26,6 +26,8 @@ import {
   type PremiumFeatureKey,
 } from '../services/entitlements';
 import { persistResponse, saveResponseFeedback } from '../services/responseService';
+import { authService } from '../services/authService';
+import { applyEvaluation } from '../utils/progression';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { getFocusAreas } from '../utils/dataManagerUtils';
 import { getBandForMark, getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
@@ -335,11 +337,34 @@ export const useGemini = ({
         // Bookkeeping, fire-and-forget: a student waiting 40s for a mark must
         // not then wait on an IndexedDB write, and nothing here can be allowed
         // to throw its way past the result above into the catch block.
-        void persistResponse(prompt.id, {
-          draft: answer,
-          wordCount: answer.trim().split(/\s+/).filter(Boolean).length,
-          result,
-        });
+        const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
+        void persistResponse(prompt.id, { draft: answer, wordCount, result });
+
+        // The student's own running totals — what the profile's stats, level
+        // and achievements are all drawn from.
+        //
+        // This hook has taken `user` and `onUpdateUser` since it was written
+        // and never called either, so nothing in the running app ever moved a
+        // single one of those numbers. Every real account showed a profile of
+        // permanent zeros: no answers completed, Band 0.0, no words written,
+        // Level 1 at 0%, and all eight achievements locked for good. Only the
+        // demo cohort had figures, because the demo seed computes them
+        // directly — which is exactly why it went unnoticed.
+        //
+        // Counted once per marked answer, here, where a mark has actually come
+        // back. Not in `recordEvaluation` above: that spends the free tier's
+        // daily allowance and fires before the provider answers, so a failed
+        // marking would still have awarded the XP for one.
+        if (user && onUpdateUser) {
+          const updated: User = {
+            ...user,
+            stats: applyEvaluation(user.stats, { band: result.overallBand, wordCount }),
+          };
+          onUpdateUser(updated);
+          // Persist through the same path the profile's own Save uses; it is
+          // best-effort and swallows its own failures in mock mode.
+          void authService.updateUser(updated);
+        }
       } catch (error) {
         const elapsed = Math.round((Date.now() - evalStart) / 1000);
         emitEvalProgress({
@@ -354,7 +379,7 @@ export const useGemini = ({
         setIsEvaluating(false);
       }
     },
-    [handleApiError, updateCourses, statePath, showToast, buildSyllabusContext]
+    [handleApiError, updateCourses, statePath, showToast, buildSyllabusContext, user, onUpdateUser]
   );
 
   const resetEvaluation = useCallback(() => {

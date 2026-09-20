@@ -12,9 +12,15 @@ import { expect, Page } from '@playwright/test';
  * Sign in as one of the mock accounts. `user` is the free tier, which is what
  * most specs want; `admin` holds the most permissive plan, so it is the one to
  * use when a spec needs a feature the free tier has withheld (the answer
- * rewrite, PDF export).
+ * rewrite, PDF export). `teacher` is the third: it holds Plus through the
+ * staff perk, which makes it the account with NOTHING locked and no
+ * subscription of its own — the case the paywall's routing has to answer
+ * without ever showing it a lock.
  */
-export const signIn = async (page: Page, account: 'user' | 'admin' = 'user'): Promise<void> => {
+export const signIn = async (
+  page: Page,
+  account: 'user' | 'teacher' | 'admin' = 'user'
+): Promise<void> => {
   await page.goto('/');
   await page.fill('#username', account);
   await page.fill('#password', account);
@@ -28,18 +34,69 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
   const agree = page.getByRole('button', { name: /agree and continue/i });
   await agree.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
   if (await agree.count()) {
-    await page.getByRole('checkbox').first().check();
+    // Scoped to the gate's own dialog. A bare page-wide `getByRole('checkbox')`
+    // now competes with the first-run syllabus import, which renders eight of
+    // its own behind the gate — and on the guest path gets there first. Unscoped
+    // it is either the wrong checkbox or a strict-mode violation, depending on
+    // which of the two wins the race.
+    const gate = page.getByRole('dialog').filter({ has: agree });
+    await gate.getByRole('checkbox').first().check();
     await agree.click();
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
-  const guide = page.getByRole('button', { name: /start writing/i });
-  await guide.waitFor({ state: 'visible', timeout: 8_000 }).catch(() => {});
-  await page.keyboard.press('Escape');
-  await guide.waitFor({ state: 'hidden', timeout: 8_000 }).catch(() => {});
+  // Dismiss the quick-start guide by firing ITS OWN button's handler, and
+  // check that it actually went.
+  //
+  // This used to be a bare `page.keyboard.press('Escape')` whose follow-up
+  // wait swallowed its own timeout. Two things defeat that. The guide animates
+  // in after the mock login's deliberate delay, so under load the keystroke
+  // can arrive before the modal is listening; and at a phone width the guide
+  // and the curriculum-import prompt are open AT THE SAME TIME, so a single
+  // Escape is arbitrated by `useEscapeKey`'s stack to whichever registered
+  // last and the guide stays put.
+  //
+  // Replacing it with a real `.click()` swapped one swallowed failure for
+  // another. On Mobile Safari — iPhone 12, so a 390px viewport at a device
+  // pixel ratio of 3 — the click never got past Playwright's "visible, enabled
+  // and stable" wait inside the five-second budget it was given, on a runner
+  // already hosting two WebKit workers and two Vite dev servers. Chromium
+  // resolves the same click in about 100ms. Three attempts each ate their
+  // budget in silence, the guide stayed open, and the NEXT click in the helper
+  // spent the whole 120-second test timeout being told the guide's backdrop
+  // "intercepts pointer events" — which is how one un-dismissed modal produced
+  // nine failures across three unrelated specs.
+  //
+  // So this helper no longer re-proves the guide's buttons are clickable on
+  // every spec that merely wants past them. `dispatchEvent` runs the React
+  // handler without the actionability wait, and `paywall.spec.ts` pins the
+  // real thing — that the X is reachable by a genuine click at a phone width,
+  // which is where it was covered until this branch.
+  //
+  // Scoped by the dialog that contains the guide's own tabs, so it cannot pick
+  // up the import prompt's buttons or a toast's "Close notification".
+  const guideDialog = page
+    .getByRole('dialog')
+    .filter({ has: page.getByRole('button', { name: /getting started/i }) });
+  await guideDialog.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+  if (await guideDialog.count()) {
+    // "Start writing" rather than the header's X: it is the guide's own
+    // primary action and the one a student actually presses. `.last()` because
+    // both it and the X match, and the footer comes later in the DOM.
+    await guideDialog
+      .getByRole('button', { name: /start writing|^close$/i })
+      .last()
+      .dispatchEvent('click');
+    // Loud, and at the point of the problem. A swallowed failure here reports
+    // itself two minutes later as an unrelated click on an unrelated spec.
+    await expect(guideDialog).toHaveCount(0, { timeout: 20_000 });
+  }
 
   // First run offers the bundled curriculum; take it so there is something to
   // answer. It opens behind the guide, so it only appears once that is gone.
-  const importButton = page.getByRole('button', { name: /import \d+ items?/i });
+  // "Add N syllabuses" — the button used to read "Import N Items", which named
+  // a database operation on a count of records rather than the thing a teacher
+  // is actually doing.
+  const importButton = page.getByRole('button', { name: /add \d+ syllabus(es)?/i });
   await importButton.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
   if (await importButton.count()) {
     await importButton.first().click();
@@ -62,8 +119,28 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
   ]) {
     const trigger = page.locator('button[aria-haspopup="listbox"]', { hasText: placeholder });
     if (!(await trigger.count())) continue; // already chosen for us
-    await trigger.first().click();
+
+    // Open the picker, and re-open it if the list came up empty.
+    //
+    // The options are populated from the curriculum import that `clearOnboarding`
+    // has just kicked off, so a picker opened in the gap between "the trigger
+    // exists" and "the courses are in IndexedDB" renders no options at all —
+    // and a single `waitFor` on a list that will never fill just burns its
+    // timeout. Re-opening is what actually re-reads the data. This surfaced
+    // once `clearOnboarding` stopped spending 38 seconds on swallowed waits,
+    // which had been hiding the race by accident.
     const option = page.getByRole('option').first();
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await trigger.first().click();
+      try {
+        await option.waitFor({ state: 'visible', timeout: 5_000 });
+        break;
+      } catch {
+        // Shut the empty list before trying again, or the next click re-opens
+        // onto the same stale popup.
+        await page.keyboard.press('Escape').catch(() => {});
+      }
+    }
     await option.waitFor({ state: 'visible', timeout: 10_000 });
     await option.click();
   }

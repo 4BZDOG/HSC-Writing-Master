@@ -53,7 +53,14 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
         {isErrorState && (
           <button
             onClick={() => setShowError(false)}
-            className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-white/10 light:hover:bg-slate-200 transition-colors text-[rgb(var(--color-text-muted))]"
+            /* z-20 is preventive, not a fix: this button already paints above
+               the `absolute inset-0` glow behind it, because it comes later
+               and neither declares a z-index. Two other modals had exactly
+               this shape with a `relative z-10` sibling AFTER the button and
+               were silently unclickable, so the rule is declared rather than
+               left to DOM order. Enforced by
+               tests/unit/modalCloseButtonStacking.test.ts. */
+            className="absolute top-3 right-3 z-20 p-1.5 rounded-full hover:bg-white/10 light:hover:bg-slate-200 transition-colors text-[rgb(var(--color-text-muted))]"
             aria-label="Close"
           >
             <X className="w-4 h-4" />

@@ -49,25 +49,121 @@ const TEACHER: Persona = {
  */
 const BY_VERB = [
   // Band-capped at 3, so 100% "struggling" — yet the best marks on the chart.
-  { label: 'EXPLAIN', attempts: 107, students: 12, avg_mark: 2.9, avg_band: 2.29, low_band_rate: 1, avg_mark_frac: 0.577 },
+  {
+    label: 'EXPLAIN',
+    attempts: 107,
+    students: 12,
+    avg_mark: 2.9,
+    avg_band: 2.29,
+    low_band_rate: 1,
+    avg_mark_frac: 0.577,
+  },
   // Band-capped at 1: every attempt is "struggling", every mark is half.
-  { label: 'IDENTIFY', attempts: 104, students: 12, avg_mark: 1.0, avg_band: 1, low_band_rate: 1, avg_mark_frac: 0.483 },
-  { label: 'Unspecified', attempts: 74, students: 12, avg_mark: 2.9, avg_band: 2.2, low_band_rate: 1, avg_mark_frac: 0.587 },
-  { label: 'DESCRIBE', attempts: 55, students: 12, avg_mark: 1.8, avg_band: 1.45, low_band_rate: 1, avg_mark_frac: 0.453 },
-  { label: 'DISTINGUISH', attempts: 50, students: 12, avg_mark: 3.3, avg_band: 3.1, low_band_rate: 0.9, avg_mark_frac: 0.55 },
+  {
+    label: 'IDENTIFY',
+    attempts: 104,
+    students: 12,
+    avg_mark: 1.0,
+    avg_band: 1,
+    low_band_rate: 1,
+    avg_mark_frac: 0.483,
+  },
+  {
+    label: 'Unspecified',
+    attempts: 74,
+    students: 12,
+    avg_mark: 2.9,
+    avg_band: 2.2,
+    low_band_rate: 1,
+    avg_mark_frac: 0.587,
+  },
+  {
+    label: 'DESCRIBE',
+    attempts: 55,
+    students: 12,
+    avg_mark: 1.8,
+    avg_band: 1.45,
+    low_band_rate: 1,
+    avg_mark_frac: 0.453,
+  },
+  {
+    label: 'DISTINGUISH',
+    attempts: 50,
+    students: 12,
+    avg_mark: 3.3,
+    avg_band: 3.1,
+    low_band_rate: 0.9,
+    avg_mark_frac: 0.55,
+  },
   // The LOWEST band ≤ 3 rate — the old ranking's "least worrying" verb — on
   // nearly half the available marks lost.
-  { label: 'EVALUATE', attempts: 23, students: 11, avg_mark: 4.3, avg_band: 3.48, low_band_rate: 0.435, avg_mark_frac: 0.532 },
-  { label: 'OUTLINE', attempts: 23, students: 10, avg_mark: 1.6, avg_band: 1.3, low_band_rate: 1, avg_mark_frac: 0.543 },
+  {
+    label: 'EVALUATE',
+    attempts: 23,
+    students: 11,
+    avg_mark: 4.3,
+    avg_band: 3.48,
+    low_band_rate: 0.435,
+    avg_mark_frac: 0.532,
+  },
+  {
+    label: 'OUTLINE',
+    attempts: 23,
+    students: 10,
+    avg_mark: 1.6,
+    avg_band: 1.3,
+    low_band_rate: 1,
+    avg_mark_frac: 0.543,
+  },
   // Weakest by marks after DESCRIBE.
-  { label: 'ASSESS', attempts: 11, students: 7, avg_mark: 3.2, avg_band: 2.82, low_band_rate: 0.727, avg_mark_frac: 0.455 },
+  {
+    label: 'ASSESS',
+    attempts: 11,
+    students: 7,
+    avg_mark: 3.2,
+    avg_band: 2.82,
+    low_band_rate: 0.727,
+    avg_mark_frac: 0.455,
+  },
 ];
 
 const BY_TOPIC = [
-  { label: 'Data visualisation', attempts: 171, students: 12, avg_mark: 2.4, avg_band: 1.9, low_band_rate: 0.91, avg_mark_frac: 0.757 },
-  { label: 'Intelligent systems', attempts: 104, students: 12, avg_mark: 2.2, avg_band: 1.8, low_band_rate: 1, avg_mark_frac: 0.816 },
-  { label: 'Data science', attempts: 88, students: 12, avg_mark: 2.3, avg_band: 1.9, low_band_rate: 0.98, avg_mark_frac: 0.807 },
-  { label: 'Enterprise project', attempts: 84, students: 12, avg_mark: 2.3, avg_band: 2.0, low_band_rate: 0.95, avg_mark_frac: 0.798 },
+  {
+    label: 'Data visualisation',
+    attempts: 171,
+    students: 12,
+    avg_mark: 2.4,
+    avg_band: 1.9,
+    low_band_rate: 0.91,
+    avg_mark_frac: 0.757,
+  },
+  {
+    label: 'Intelligent systems',
+    attempts: 104,
+    students: 12,
+    avg_mark: 2.2,
+    avg_band: 1.8,
+    low_band_rate: 1,
+    avg_mark_frac: 0.816,
+  },
+  {
+    label: 'Data science',
+    attempts: 88,
+    students: 12,
+    avg_mark: 2.3,
+    avg_band: 1.9,
+    low_band_rate: 0.98,
+    avg_mark_frac: 0.807,
+  },
+  {
+    label: 'Enterprise project',
+    attempts: 84,
+    students: 12,
+    avg_mark: 2.3,
+    avg_band: 2.0,
+    low_band_rate: 0.95,
+    avg_mark_frac: 0.798,
+  },
 ];
 
 const CLASS_ANALYTICS = {
@@ -90,12 +186,60 @@ const ROSTER = [
 const STUDENT_PROGRESS = {
   username: 'demo.olivia',
   byVerb: [
-    { label: 'IDENTIFY', attempts: 9, students: 1, avg_mark: 1, avg_band: 1, low_band_rate: 1, avg_mark_frac: 0.482 },
-    { label: 'DESCRIBE', attempts: 6, students: 1, avg_mark: 3.6, avg_band: 2, low_band_rate: 1, avg_mark_frac: 0.889 },
-    { label: 'EXPLAIN', attempts: 11, students: 1, avg_mark: 4.3, avg_band: 3, low_band_rate: 1, avg_mark_frac: 0.865 },
-    { label: 'DISTINGUISH', attempts: 5, students: 1, avg_mark: 3, avg_band: 4, low_band_rate: 0, avg_mark_frac: 0.5 },
-    { label: 'ASSESS', attempts: 2, students: 1, avg_mark: 1.8, avg_band: 2, low_band_rate: 1, avg_mark_frac: 0.25 },
-    { label: 'EVALUATE', attempts: 3, students: 1, avg_mark: 2.7, avg_band: 2, low_band_rate: 1, avg_mark_frac: 0.333 },
+    {
+      label: 'IDENTIFY',
+      attempts: 9,
+      students: 1,
+      avg_mark: 1,
+      avg_band: 1,
+      low_band_rate: 1,
+      avg_mark_frac: 0.482,
+    },
+    {
+      label: 'DESCRIBE',
+      attempts: 6,
+      students: 1,
+      avg_mark: 3.6,
+      avg_band: 2,
+      low_band_rate: 1,
+      avg_mark_frac: 0.889,
+    },
+    {
+      label: 'EXPLAIN',
+      attempts: 11,
+      students: 1,
+      avg_mark: 4.3,
+      avg_band: 3,
+      low_band_rate: 1,
+      avg_mark_frac: 0.865,
+    },
+    {
+      label: 'DISTINGUISH',
+      attempts: 5,
+      students: 1,
+      avg_mark: 3,
+      avg_band: 4,
+      low_band_rate: 0,
+      avg_mark_frac: 0.5,
+    },
+    {
+      label: 'ASSESS',
+      attempts: 2,
+      students: 1,
+      avg_mark: 1.8,
+      avg_band: 2,
+      low_band_rate: 1,
+      avg_mark_frac: 0.25,
+    },
+    {
+      label: 'EVALUATE',
+      attempts: 3,
+      students: 1,
+      avg_mark: 2.7,
+      avg_band: 2,
+      low_band_rate: 1,
+      avg_mark_frac: 0.333,
+    },
   ],
   totals: { total_attempts: 36, active_students: 1, avg_band: 2.08, avg_mark_frac: 0.636 },
   trend: [2, 3, 2, 4, 3, 5, 4, 5, 6, 5].map((band, i) => ({
@@ -243,13 +387,23 @@ const login = async (page: Page, persona: Persona) => {
   await page.getByRole('button', { name: /sign in/i }).click();
 
   // The stubbed curriculum read path is empty (this spec never touches the
-  // tree), so the app offers its first-run Content Library import. That modal
-  // covers the header, and the analytics buttons live in the header.
-  const skip = page.getByRole('button', { name: /skip import/i });
-  await skip.click({ timeout: 30_000 }).catch(() => {
+  // tree), so the app offers its first-run syllabus import. That modal covers
+  // the header, and the analytics buttons live in the header.
+  //
+  // Found by the dialog's own accessible name, not by the button's wording.
+  // This read `/skip import/i`; the button became "Skip for now", the click's
+  // `.catch()` swallowed the miss, and the `toBeHidden` behind it passed on a
+  // locator matching nothing at all — an assertion that cannot fail once its
+  // subject stops existing. The prompt stayed open and intercepted every
+  // header click for the rest of the spec.
+  const importPrompt = page.getByRole('dialog', { name: /add syllabuses/i });
+  await importPrompt.waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {
     /* Already dismissed, or a build that doesn't offer it — carry on. */
   });
-  await expect(skip).toBeHidden({ timeout: 15_000 });
+  if (await importPrompt.count()) {
+    await importPrompt.getByRole('button', { name: /skip for now/i }).click();
+    await expect(importPrompt).toHaveCount(0, { timeout: 15_000 });
+  }
 };
 
 /** Dimension labels in the Class Insights table, top (weakest) first. */

@@ -292,7 +292,13 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           <button
             onClick={close}
             aria-label="Close"
-            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors"
+            /* z-20, above the header's own content wrapper.
+               That wrapper is `relative z-10` and this button had no z-index at
+               all, so the crown-and-headline block covered it outright — at
+               EVERY width, not just on a phone. The close button on the
+               highest-intent surface in the product did nothing; the only ways
+               out were "Maybe later", Escape or the backdrop. */
+            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>

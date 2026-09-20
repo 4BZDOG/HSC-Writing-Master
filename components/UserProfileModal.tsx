@@ -11,6 +11,7 @@ import {
   LogOut,
   Shield,
   Save,
+  Pencil,
   Edit2,
   Check,
   Flame,
@@ -37,7 +38,8 @@ import {
 } from 'lucide-react';
 import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
-import { canUseAiGeneration } from '../utils/permissions';
+import { canUseAiGeneration, roleLabel } from '../utils/permissions';
+import { levelProgress } from '../utils/progression';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -77,7 +79,13 @@ const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   />
 );
 
-const PlanCard: React.FC<{ user: User }> = ({ user }) => {
+/**
+ * `onDismiss` closes the profile when a control here hands off to the upgrade
+ * prompt. The prompt sits at `z-upgrade` (900) and the profile at `z-profile`
+ * (2000), so without it the prompt opens underneath and the button reads as
+ * broken — the same inversion that made the profile's three help rows dead.
+ */
+const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDismiss }) => {
   const plan: Plan = getUserPlan(user);
   const isPaid = plan !== 'free';
   /** Whether this deployment charges for anything at all (pilots do not). */
@@ -113,7 +121,18 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
 
   const billing: BillingState | null = lookup.status === 'found' ? lookup.state : null;
   const periodEnd = billing?.currentPeriodEnd ?? user.planPeriodEnd ?? null;
-  const endsAtPeriodEnd = billing?.cancelAtPeriodEnd === true;
+  /**
+   * Is `periodEnd` a renewal date or a stop date?
+   *
+   * Their own subscription row answers it when they have one. When they do not
+   * — a school seat licence held through someone else's purchase — the answer
+   * comes off the school, carried onto the profile at sign-in. Without that
+   * second branch a student at a lapsing school was told their plan "renews"
+   * on the exact day their whole school drops back to the free tier.
+   */
+  const endsAtPeriodEnd = billing
+    ? billing.cancelAtPeriodEnd === true
+    : user.planCancelAtPeriodEnd === true;
 
   /**
    * Does this user hold the plan through a subscription of their OWN?
@@ -205,7 +224,14 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
                 month: 'short',
                 year: 'numeric',
               })}
-              {endsAtPeriodEnd && ' — cancelled, no further charges'}
+              {/* "No further charges" is a reassurance for someone who was
+                  being charged. Someone holding the plan through their
+                  school's licence never was, and the thing they actually need
+                  to know is whose decision it was. */}
+              {endsAtPeriodEnd &&
+                (perkPlan
+                  ? ' — your school’s licence ends then'
+                  : ' — cancelled, no further charges')}
             </span>
           )}
         </p>
@@ -231,7 +257,10 @@ const PlanCard: React.FC<{ user: User }> = ({ user }) => {
         )}
         {!isPaid && selling && (
           <button
-            onClick={() => requestUpgrade('fullFeedback')}
+            onClick={() => {
+              requestUpgrade('fullFeedback');
+              onDismiss();
+            }}
             className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3 h-3" />
@@ -291,7 +320,6 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
-  const [tempPrefs, setTempPrefs] = useState<UserPreferences>({ ...user.preferences });
   const [displayName, setDisplayName] = useState(user.displayName);
   const [isEditingName, setIsEditingName] = useState(false);
 
@@ -340,8 +368,16 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
     }
   };
 
-  const xpForNextLevel = user.stats.level * 1000;
-  const progressPercent = Math.min(100, (user.stats.xp / xpForNextLevel) * 100);
+  /**
+   * Progress through the CURRENT level, from the app's one progression curve
+   * (utils/progression.ts).
+   *
+   * This used to be `xp / (level * 1000)` — a second, disagreeing curve. The
+   * demo seed derived a level at 100 XP each, so a seeded student on 465 XP
+   * was labelled Level 5 by one rule and shown "9% to next level" by another,
+   * when the rule that produced the 5 puts them 65% of the way to 6.
+   */
+  const progress = levelProgress(user.stats.xp);
   const levelTier = Math.min(6, Math.ceil(user.stats.level / 5));
   const bandConfig = getBandConfig(levelTier);
 
@@ -432,6 +468,19 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
+  /**
+   * The unfinished achievement closest to done — the one thing the header's
+   * "4/8" cannot tell anyone. Ordered by proportion complete so a student two
+   * answers off Scholar is pointed at Scholar rather than at Novelist.
+   */
+  const nextAchievement = useMemo(
+    () =>
+      achievements
+        .filter((a) => !a.unlocked)
+        .sort((a, b) => b.progress / b.total - a.progress / a.total)[0],
+    [achievements]
+  );
+
   const performanceSummary = useMemo(() => {
     const { questionsAnswered, averageBand, totalWordsWritten, streakDays } = user.stats;
     if (questionsAnswered === 0)
@@ -452,23 +501,90 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      setTempPrefs({ ...user.preferences });
       setDisplayName(user.displayName);
       setIsEditingName(false);
     }
   }, [isOpen, user]);
 
+  /**
+   * Disarm account deletion whenever the modal opens.
+   *
+   * It used to survive the exit everyone actually takes. `isConfirmingDelete`
+   * and `deleteConfirmText` were reset by the Cancel button and by nothing
+   * else — so a student who opened the confirmation, typed DELETE, thought
+   * better of it and pressed Close (or Escape) came back to a profile with the
+   * red panel already open, the word already typed and "Delete permanently"
+   * already enabled. One tap from irreversible, in a state they believed they
+   * had backed out of. The comment on these fields says a mis-tap must not be
+   * able to destroy a year of a student's work; this is what makes that true
+   * for the exit they take.
+   *
+   * Keyed on `isOpen` ALONE, unlike the draft resync above. Saving settings
+   * replaces the `user` object, and the Save button sits directly below the
+   * delete panel — so sharing that effect's dependencies would have closed an
+   * open confirmation out from under the user's cursor.
+   */
+  useEffect(() => {
+    if (isOpen) {
+      setIsConfirmingDelete(false);
+      setDeleteConfirmText('');
+      setDataRightsMessage(null);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
-  const handleSaveSettings = () => {
-    const updatedUser = { ...user, displayName, preferences: tempPrefs };
+  /**
+   * Commit the NAME on its own.
+   *
+   * The tick beside the name used to call `handleSaveSettings`, which writes
+   * `preferences: tempPrefs` as well — so renaming yourself also committed
+   * every settings toggle you had flicked and not decided on, and "Save
+   * Settings" at the bottom likewise committed a half-typed name. One action
+   * wearing two labels. They are separate edits and they save separately now.
+   */
+  const handleSaveName = () => {
+    const trimmed = displayName.trim();
+    // An empty name would leave the header blank and the avatar initial gone.
+    if (!trimmed) {
+      setDisplayName(user.displayName);
+      setIsEditingName(false);
+      return;
+    }
+    const updatedUser = { ...user, displayName: trimmed };
+    setDisplayName(trimmed);
     onUpdateUser(updatedUser);
-    setIsEditingName(false);
     authService.updateUser(updatedUser);
+    setIsEditingName(false);
   };
 
-  const togglePref = (key: keyof UserPreferences) => {
-    setTempPrefs((prev) => ({ ...prev, [key]: !prev[key] }));
+  /** Abandon the rename and put the real name back. */
+  const cancelNameEdit = () => {
+    setDisplayName(user.displayName);
+    setIsEditingName(false);
+  };
+
+  /**
+   * Write a preference change straight through, the way the header's own theme
+   * button already does.
+   *
+   * These four toggles used to edit a `tempPrefs` draft that only reached the
+   * account when "Save Settings" was pressed, which was wrong twice over.
+   *
+   * It lost work: Close, Escape and a backdrop click all discarded the draft
+   * with no warning, and the re-open effect then overwrote it, so a student who
+   * flicked a switch and shut the panel had simply not changed anything and was
+   * never told.
+   *
+   * And it defeated two of the four. Theme and High Contrast exist to change
+   * how the app looks; a preview you cannot see until you commit it is not a
+   * preview. The header's theme control has always applied instantly, so the
+   * same switch behaved one way in the header and another here.
+   */
+  const commitPrefs = (patch: Partial<UserPreferences>) => {
+    const updatedUser = { ...user, preferences: { ...user.preferences, ...patch } };
+    onUpdateUser(updatedUser);
+    authService.updateUser(updatedUser);
   };
 
   return createPortal(
@@ -487,93 +603,134 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       >
         <MeshOverlay opacity="opacity-[0.03]" />
 
-        {/* Profile Identity Header */}
-        <div className="flex-shrink-0 px-5 sm:px-12 py-6 sm:py-8 flex flex-col md:flex-row items-center gap-5 md:gap-10 border-b border-white/5 light:border-slate-200 relative overflow-hidden">
+        {/*
+          Profile Identity Header.
+
+          It used to state the same three facts up to four times each. "Level
+          5" sat on the avatar badge, again in the meta row, and again in a
+          card below the fold; "4/8 Unlocked" sat in the meta row, in the tab
+          label and in the achievements summary. Between them they took 205px
+          of a 720px laptop screen — 37% of a phone — leaving about 330px of
+          scroller for the content anyone came for, with the plan card and the
+          account controls both below the fold.
+
+          So each fact is stated once, where it means the most: the level on
+          the badge that is already drawn for it, the progression as one meter
+          that says what it is counting, the streak as the one number that
+          changes daily. The achievement count belongs to its own tab, which
+          already carries it.
+        */}
+        <div className="flex-shrink-0 px-5 sm:px-10 py-5 sm:py-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-7 border-b border-white/5 light:border-slate-200 relative overflow-hidden">
           <div className="relative group shrink-0">
             <div
               className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
             />
             <div
-              className={`relative w-20 h-20 sm:w-28 sm:h-28 rounded-tile bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-lg border-4 border-white/10 transform group-hover:scale-105 transition-transform duration-500`}
+              className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-lg border-4 border-white/10`}
             >
-              <span className="text-4xl sm:text-5xl font-black text-white">
+              <span className="text-3xl sm:text-4xl font-black text-white">
                 {user.displayName.charAt(0).toUpperCase()}
               </span>
             </div>
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-lg">
-              <span className={`text-xs font-bold ${bandConfig.text}`}>{user.stats.level}</span>
+            {/* The level lives HERE and nowhere else in this header — the meter
+                below names the one being worked towards, not the one held. */}
+            <div
+              className="absolute -bottom-2 -right-2 px-2 h-7 min-w-7 rounded-xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-lg"
+              title={`Level ${user.stats.level}`}
+            >
+              <span className={`text-xs font-bold tabular-nums ${bandConfig.text}`}>
+                <span className="sr-only">Level </span>
+                {user.stats.level}
+              </span>
             </div>
           </div>
 
-          <div className="flex-1 min-w-0 text-center md:text-left">
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4 mb-3">
+          <div className="flex-1 min-w-0 w-full text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3">
               {isEditingName ? (
-                <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-center gap-2 min-w-0 w-full">
                   <input
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    className="bg-white/5 light:bg-slate-100 border-b-2 border-indigo-500 text-2xl sm:text-3xl font-black text-white light:text-slate-900 focus:outline-none px-2 min-w-0 w-full"
+                    onKeyDown={(e) => {
+                      // Enter commits and Escape abandons, which is what every
+                      // inline editor does and this one did neither: the only
+                      // way out was the tick, and Escape fell through to the
+                      // dialog's own handler and shut the whole modal — taking
+                      // the half-typed name with it.
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleSaveName();
+                      } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        cancelNameEdit();
+                      }
+                    }}
+                    aria-label="Your display name"
+                    maxLength={60}
+                    className="flex-1 bg-white/5 light:bg-slate-100 border-b-2 border-indigo-500 text-xl sm:text-2xl font-black text-white light:text-slate-900 focus:outline-none px-2 py-1 min-w-0 rounded-t-lg"
                     autoFocus
                   />
                   <button
-                    onClick={handleSaveSettings}
-                    aria-label="Save"
-                    className="p-2 bg-indigo-500 text-white rounded-xl shrink-0"
+                    onClick={handleSaveName}
+                    aria-label="Save your name"
+                    className="p-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded-xl shrink-0 transition-colors"
                   >
-                    <Save className="w-5 h-5" />
+                    <Save className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={cancelNameEdit}
+                    aria-label="Cancel renaming"
+                    className="p-2 bg-white/5 light:bg-slate-200 text-slate-400 light:text-slate-600 rounded-xl shrink-0 hover:bg-white/10 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
               ) : (
-                <h2
-                  onClick={() => setIsEditingName(true)}
-                  className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight cursor-pointer hover:text-indigo-400 transition-colors break-words max-w-full"
-                >
-                  {user.displayName}
-                </h2>
+                <>
+                  {/* A real button, not an h2 with an onClick. The name was
+                      editable only by mouse — no tab stop, no role, no
+                      keyboard route — so a keyboard or screen-reader user
+                      could not rename themselves at all, and nobody else could
+                      tell it was editable either. */}
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingName(true)}
+                    className="group/name flex items-center gap-2 min-w-0 max-w-full rounded-lg px-1 -mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  >
+                    <h2 className="text-xl sm:text-3xl font-black text-white light:text-slate-900 tracking-tight break-words text-left group-hover/name:text-indigo-400 transition-colors">
+                      {user.displayName}
+                    </h2>
+                    <Pencil className="w-3.5 h-3.5 shrink-0 text-slate-500 group-hover/name:text-indigo-400 transition-colors" />
+                    <span className="sr-only">Rename yourself</span>
+                  </button>
+                  <span className="t-label px-2.5 py-1 rounded-full bg-white/5 light:bg-indigo-50 border border-white/10 light:border-indigo-200 text-indigo-400">
+                    {roleLabel(user.role)}
+                  </span>
+                </>
               )}
-              <span className="t-label px-3 py-1 rounded-full bg-white/5 light:bg-indigo-50 border border-white/10 light:border-indigo-200 text-indigo-400">
-                {user.role}
-              </span>
-            </div>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-slate-400 light:text-slate-600 text-sm font-medium">
-              <span className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-indigo-500" /> Level {user.stats.level}
-              </span>
-              <span className="flex items-center gap-2">
-                <Flame className="w-4 h-4 text-orange-500" /> {user.stats.streakDays} Day Active
-                Streak
-              </span>
-              <span className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-amber-500" /> {unlockedCount}/{achievements.length}{' '}
-                Unlocked
-              </span>
             </div>
 
-            <div className="lg:hidden mt-4 flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-40 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
-                <div
-                  className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
-                  style={{ width: `${progressPercent}%` }}
-                />
+            {/* One progression meter, naming what it counts. It replaced two
+                copies of the same bar (a mobile one and a desktop one) sitting
+                either side of a third statement of the level in words. */}
+            <div className="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-28 sm:w-36 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
+                  <div
+                    className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
+                    style={{ width: `${progress.percent}%` }}
+                  />
+                </div>
+                <span className="text-[11px] font-medium text-slate-400 light:text-slate-600 tabular-nums whitespace-nowrap">
+                  {progress.into}/{progress.needed} XP to Level {progress.nextLevel}
+                </span>
               </div>
-              <span className="text-[10px] font-mono font-bold text-indigo-400">
-                {Math.round(progressPercent)}% to next level
+              <span className="flex items-center gap-1.5 text-[11px] font-medium text-slate-400 light:text-slate-600 whitespace-nowrap">
+                <Flame className="w-3.5 h-3.5 text-orange-500" />
+                {user.stats.streakDays}-day streak
               </span>
-            </div>
-          </div>
-
-          <div className="flex-shrink-0 flex-col items-end gap-2 hidden lg:flex">
-            <div className="flex items-center gap-2">
-              <span className="t-label text-slate-500">Level Progress</span>
-              <span className="text-xs font-mono font-bold text-indigo-400">
-                {Math.round(progressPercent)}%
-              </span>
-            </div>
-            <div className="w-48 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
-              <div
-                className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
-                style={{ width: `${progressPercent}%` }}
-              />
             </div>
           </div>
         </div>
@@ -663,35 +820,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 ))}
               </div>
 
-              {/* XP & Level Card */}
-              <div className="p-6 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2.5 rounded-xl ${bandConfig.iconBg}`}>
-                      <Sparkles className={`w-5 h-5 ${bandConfig.text}`} />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-white light:text-slate-900">
-                        Level {user.stats.level}
-                      </h4>
-                      <p className="t-label text-slate-500">
-                        {user.stats.xp} / {xpForNextLevel} XP
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-mono font-bold text-indigo-400">
-                    {Math.round(progressPercent)}%
-                  </span>
-                </div>
-                <div className="w-full h-3 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
-                  <div
-                    className={`h-full bg-gradient-to-r ${bandConfig.gradient} rounded-full transition-all duration-1000 ease-out`}
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-              </div>
-
-              <PlanCard user={user} />
+              {/* The XP & Level card stood here, restating the level and the
+                  progress bar the header now carries properly — a third copy
+                  of the level on a screen that had four. Removing it is what
+                  brings the plan card above the fold on a laptop. */}
+              <PlanCard user={user} onDismiss={onClose} />
 
               {/* Performance Summary */}
               <div
@@ -716,29 +849,42 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
           {activeTab === 'achievements' && (
             <div className="space-y-6 animate-fade-in">
-              {/* Progress overview */}
-              <div className="flex items-center gap-4 p-5 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
-                <div className="relative">
-                  <MiniProgressRing
-                    percent={(unlockedCount / achievements.length) * 100}
-                    size={56}
-                    color="stroke-amber-500"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Star className="w-5 h-5 text-amber-400" />
+              {/*
+                The count that stood here is in the tab label directly above
+                it, and it was in the header too — three statements of "4 of 8"
+                within 250px, the middle one costing 100px of a 330px scroller
+                and pushing the achievements themselves below the fold.
+
+                What is left is the sentence the count could not say: what to
+                do next. It reads the nearest unfinished achievement rather
+                than restating arithmetic the reader has already been given
+                twice.
+              */}
+              {nextAchievement && (
+                <div className="flex items-center gap-4 px-5 py-4 rounded-panel bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200">
+                  <div className="relative shrink-0">
+                    <MiniProgressRing
+                      percent={(nextAchievement.progress / nextAchievement.total) * 100}
+                      size={48}
+                      color="stroke-amber-500"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Star className="w-4 h-4 text-amber-400" />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white light:text-slate-900">
-                    {unlockedCount} of {achievements.length} Unlocked
-                  </h4>
-                  <p className="text-xs text-slate-500 font-medium mt-0.5">
-                    {unlockedCount === achievements.length
-                      ? 'All achievements unlocked!'
-                      : `${achievements.length - unlockedCount} remaining — keep going!`}
+                  <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+                    Closest to unlocking:{' '}
+                    <span className="font-bold text-white light:text-slate-900">
+                      {nextAchievement.title}
+                    </span>{' '}
+                    — {nextAchievement.description.replace(/\.$/, '')}. You're at{' '}
+                    <span className="font-bold tabular-nums">
+                      {nextAchievement.progress} of {nextAchievement.total}
+                    </span>
+                    .
                   </p>
                 </div>
-              </div>
+              )}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {achievements.map((ach) => {
@@ -816,55 +962,70 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     label: 'High Contrast',
                     desc: 'Increase text legibility.',
                   },
-                ].map((pref, i) => (
-                  <div
-                    key={pref.id}
-                    className={`flex items-center justify-between px-6 sm:px-10 py-6 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
-                  >
-                    <div className="flex items-center gap-4 sm:gap-6">
-                      <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
-                        <pref.icon className="w-5 h-5" />
+                ].map((pref, i) => {
+                  const on =
+                    pref.id === 'theme'
+                      ? user.preferences.theme === 'light'
+                      : !!user.preferences[pref.id as keyof UserPreferences];
+                  return (
+                    <div
+                      key={pref.id}
+                      className={`flex items-center justify-between gap-4 px-5 sm:px-10 py-5 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
+                    >
+                      <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                        <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
+                          <pref.icon className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <h4
+                            id={`pref-${pref.id}-label`}
+                            className="text-sm font-bold text-white light:text-slate-900"
+                          >
+                            {pref.label}
+                          </h4>
+                          <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed">
+                            {pref.desc}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-white light:text-slate-900">
-                          {pref.label}
-                        </h4>
-                        <p className="text-xs text-slate-500 font-medium mt-1">{pref.desc}</p>
-                      </div>
-                    </div>
 
-                    {pref.isTheme ? (
+                      {/* A real switch: `role="switch"` with `aria-checked` and
+                          a name. These were bare buttons with no accessible
+                          name and no state, so a screen reader announced four
+                          identical unlabelled buttons and never said whether
+                          any of them was on. */}
                       <button
+                        type="button"
+                        role="switch"
+                        aria-checked={on}
+                        aria-labelledby={`pref-${pref.id}-label`}
                         onClick={() =>
-                          setTempPrefs((p) => ({
-                            ...p,
-                            theme: p.theme === 'light' ? 'dark' : 'light',
-                          }))
+                          pref.id === 'theme'
+                            ? commitPrefs({ theme: on ? 'dark' : 'light' })
+                            : commitPrefs({ [pref.id]: !on } as Partial<UserPreferences>)
                         }
-                        className={`w-14 h-8 rounded-full relative transition-colors duration-500 ${tempPrefs.theme === 'light' ? 'bg-indigo-500' : 'bg-slate-800 light:bg-slate-300'}`}
+                        className={`w-14 h-8 shrink-0 rounded-full relative transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))] ${
+                          on
+                            ? pref.id === 'theme'
+                              ? 'bg-indigo-500'
+                              : 'bg-emerald-500'
+                            : 'bg-slate-800 light:bg-slate-300'
+                        }`}
                       >
                         <div
-                          className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-500 flex items-center justify-center ${tempPrefs.theme === 'light' ? 'left-7' : 'left-1'}`}
+                          className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-500 flex items-center justify-center ${on ? 'left-7' : 'left-1'}`}
                         >
-                          {tempPrefs.theme === 'light' ? (
-                            <Sun className="w-3 h-3 text-indigo-500" />
-                          ) : (
-                            <Moon className="w-3 h-3 text-slate-800" />
-                          )}
+                          {pref.id === 'theme' &&
+                            (on ? (
+                              <Sun className="w-3 h-3 text-indigo-500" />
+                            ) : (
+                              <Moon className="w-3 h-3 text-slate-800" />
+                            ))}
                         </div>
                       </button>
-                    ) : (
-                      <button
-                        onClick={() => togglePref(pref.id as any)}
-                        className={`w-14 h-8 rounded-full relative transition-colors duration-500 ${tempPrefs[pref.id as keyof UserPreferences] ? 'bg-emerald-500' : 'bg-slate-800 light:bg-slate-300'}`}
-                      >
-                        <div
-                          className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white transition-all duration-500 ${tempPrefs[pref.id as keyof UserPreferences] ? 'translate-x-6' : ''}`}
-                        />
-                      </button>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Help & agreements. Kept here rather than behind a separate
@@ -1022,14 +1183,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 )}
               </div>
 
-              <div className="flex justify-end pt-4">
-                <button
-                  onClick={handleSaveSettings}
-                  className="px-10 py-4 rounded-panel font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg active:scale-[0.98] transition-all flex items-center gap-3"
-                >
-                  <Save className="w-4 h-4" /> Save Settings
-                </button>
-              </div>
+              {/* "Save Settings" stood here. With the switches above writing
+                  through immediately there is nothing left for it to save, and
+                  a Save button beside controls that have already taken effect
+                  only invites the reader to wonder which of the two is true. */}
             </div>
           )}
         </div>

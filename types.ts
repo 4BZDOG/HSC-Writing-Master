@@ -362,6 +362,17 @@ export interface User {
   stripePlan?: 'free' | 'plus' | 'school';
   /** ISO date the current billing period ends (renewal or expiry). */
   planPeriodEnd?: string;
+  /**
+   * Set when `planPeriodEnd` is the date the plan ENDS rather than renews.
+   *
+   * Only meaningful for a plan held through someone else's subscription — a
+   * school seat licence — because a user with their own subscription row reads
+   * `cancel_at_period_end` straight off it. Stripe keeps a cancelling
+   * subscription at status 'active' to the very end of the period, so without
+   * this a student at a lapsing school was told their plan "renews" on the day
+   * it stops.
+   */
+  planCancelAtPeriodEnd?: boolean;
 }
 
 export interface BackgroundTask {

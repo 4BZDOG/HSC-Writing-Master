@@ -21,9 +21,13 @@ panel simply sat behind a door that the only two roles allowed to open it can
 never reach. That is the shape of most of what follows: correct code, wired to
 nothing, or described in words that had drifted away from it.
 
-Twelve findings, eleven fixed here, one deliberately left. Full suite green:
-lint, unit tests, both type-checks, a production build, and the chunk-order,
-eager-read and dead-code guards.
+Fourteen findings, thirteen fixed, one deliberately left. Full suite green:
+lint, unit tests, end-to-end tests, both type-checks, a production build, and
+the chunk-order, eager-read and dead-code guards.
+
+Findings §1–§12 shipped in #266. §13–§14 came out of writing the end-to-end
+coverage that §4 of *Still open* had called for — which is itself the argument
+for having written it.
 
 ## 2. Findings
 
@@ -198,6 +202,41 @@ inconsistency is a decision rather than an oversight.
 so a **buyer** — personal or school — unlocks without re-login. It is the other
 members of a licensed school who wait (see §4).
 
+### 13. The profile's three help rows were dead buttons — P0, fixed
+
+Found by the new end-to-end spec, and invisible to every unit test in the
+codebase.
+
+`activeModals` is a `Set`, so opening a modal closes nothing. The profile sits
+at `z-profile` (2000); the quick-start guide at 940 and the legal reader at 950.
+So "Quick Start Guide", "Compare Plans" and "Terms & Privacy" each opened a
+modal **underneath** the profile's own opaque panel and its `bg-black/80`
+backdrop. The user pressed the row and the screen did not change.
+
+This mattered here because the plan comparison is the only route to the plan
+table, which is the only in-app route to a School licence — so §1's fix landed
+on a surface nobody could actually open.
+
+Why no test caught it: Playwright's `toBeVisible` and Testing Library's queries
+both model *rendered*, not *reachable*. The element was in the tree the whole
+time. Only a **click** exposed it, reporting that the profile's own subtree
+intercepted the pointer.
+
+**Fixed** by closing the profile when it hands off. That is the right answer
+rather than re-tiering the shared z-scale: each row already carries an
+external-link icon promising "this takes you elsewhere", and the scale's
+ordering has a documented rationale that is not this review's to reshuffle.
+
+### 14. The upgrade prompt opened behind the surface that asked for it — P1, fixed
+
+The same inversion, one layer down. `z-upgrade` is 900, below both the
+quick-start modal (940) that hosts the plan comparison and the profile (2000)
+whose plan card offers "Upgrade to Band 6 Plus". Both CTAs opened a prompt the
+user could not see.
+
+**Fixed** with the same rule: a CTA that hands off dismisses the surface it was
+pressed from.
+
 ## 3. What was checked and found sound
 
 - **Enforcement is where it claims to be.** `api/_lib/planPolicy.ts` is honest
@@ -229,10 +268,22 @@ members of a licensed school who wait (see §4).
   its fabricated subscription rows have no Stripe customer behind them, so the
   portal button will fail for demo accounts.
 
-## 4. Still open (not attempted here)
+## 4. Closed since the first pass
+
+- **A school member's own profile card read an end date as a renewal date.**
+  §10 fixed this where an admin can act on it; the member's card now reads the
+  same flag, carried onto the profile by `applySchoolPlan`. `User` plan fields
+  are auth-session state rather than curriculum data, so this needed no schema
+  bump or migration — the first pass over-estimated it.
+- **No end-to-end coverage of the paywall.** `tests/e2e/paywall.spec.ts` now
+  walks the free tier's counter, the plan comparison, the upgrade route, and a
+  teacher's route to the School licence. Writing it found §13 and §14
+  immediately, which is the case for having it.
+
+## 5. Still open (not attempted here)
 
 - **A licence going live mid-session does not reach other members until they
-  reload.** `applySchoolPlan` runs inside `refreshSession`, which fires at app
+  reload.** *(The one remaining item from the first pass's list.)* `applySchoolPlan` runs inside `refreshSession`, which fires at app
   load and on checkout return — so the buyer unlocks immediately, and everyone
   else in their school keeps seeing locks until their next load. The divergence
   is safe (the server is authoritative and the more generous of the two) but a
@@ -245,18 +296,6 @@ members of a licensed school who wait (see §4).
   is "Who it covers". That is honest, and it is also the whole pitch — worth a
   product decision about whether School should carry something of its own
   (class-scoped analytics is the obvious candidate) rather than a code change.
-- **A school member's own profile card still reads an end date as a renewal
-  date.** §10 fixed this where an admin can act on it (the usage dashboard).
-  The member's card resolves `periodEnd` from `user.planPeriodEnd`, which
-  `applySchoolPlan` copies off the school row, but the client never reads
-  `plan_cancel_at_period_end` — so a student at a lapsing school is told
-  "Renews 1 Mar". Smaller harm (they cannot act on it either way) and a bigger
-  change: it needs the flag on the `User` type, which means a schema bump and a
-  migration.
-- **No end-to-end coverage of the paywall.** `tests/e2e/quota.spec.ts` covers
-  the AI budget; nothing walks free → locked control → prompt → checkout. Unit
-  coverage is strong, but the defect in §1 was a *wiring* defect, which is
-  exactly what an e2e catches and a unit test does not.
 - **Nothing notices when a school outgrows its licence.** The dashboard shows
   the over-seat warning, but only to an admin who happens to open it.
 - **`sampleAnswers` is the one UI-only gate with a real fix available** —

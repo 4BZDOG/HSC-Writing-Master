@@ -6,23 +6,14 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { SUBJECT_AREAS, SUBJECT_AREA_ICON, SUBJECT_AREA_TILE } from '../utils/subjectAreas';
 import {
-  CheckSquare,
-  Square,
+  ChevronDown,
   Download,
-  FileJson,
-  Sparkles,
   Loader2,
   AlertCircle,
-  Cpu,
-  BookOpen,
-  ChevronDown,
   Lock,
   Search,
   X,
   Library,
-  Check,
-  Filter,
-  Database,
 } from 'lucide-react';
 
 interface ManifestImportModalProps {
@@ -140,6 +131,16 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
     return { groups, allVisibleDocIds };
   }, [localDocs, searchQuery]);
 
+  /** The faculties with names the app does not carry yet, in catalogue order. */
+  const notCarried = useMemo(
+    () =>
+      SUBJECT_AREAS.map((subject) => ({
+        subject,
+        placeholders: filteredGroupedDocs.groups[subject]?.placeholders ?? [],
+      })).filter((entry) => entry.placeholders.length > 0),
+    [filteredGroupedDocs]
+  );
+
   /**
    * Fix: Added type assertion to Object.values to prevent 'unknown' type errors during placeholder checking.
    */
@@ -182,7 +183,12 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       tabIndex={-1}
       role="dialog"
       aria-modal="true"
-      aria-label="Import a course pack"
+      /* Named by its own heading rather than by a second, separate string.
+         The hand-written name was "Import a course pack" while the heading
+         read "Add syllabuses", so a screen reader announced the dialog as one
+         thing and then read out another — and the two had already drifted
+         once. `aria-labelledby` cannot drift. */
+      aria-labelledby="manifest-import-title"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-3 sm:p-6 animate-fade-in"
     >
       <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
@@ -200,19 +206,19 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 <Library className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
               </div>
             </div>
+            {/* The eyebrow above the heading read "Content Library" and the
+                heading read "Content Library". A label that repeats the thing
+                it labels is not a label. */}
             <div className="min-w-0">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="t-label text-indigo-300 light:text-indigo-700 whitespace-nowrap">
-                  Content Library
-                </span>
-                <div className="h-px w-8 bg-indigo-500/30" />
-              </div>
-              <h2 className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight leading-none">
-                Content Library
+              <h2
+                id="manifest-import-title"
+                className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight leading-none"
+              >
+                Add syllabuses
               </h2>
               <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-3 max-w-lg leading-relaxed">
-                Synthesise your workspace with specialised NESA syllabus models. Select your core
-                curriculum units below.
+                Tick the NESA syllabuses you teach. You can add more at any time from the curriculum
+                tools.
               </p>
             </div>
           </div>
@@ -225,7 +231,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-12 py-4 bg-black/20 light:bg-slate-50 border border-white/5 light:border-slate-200 rounded-2xl text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-inner font-medium"
-                placeholder="Filter syllabus units..."
+                placeholder="Search syllabuses"
               />
               {searchQuery && (
                 <button
@@ -243,24 +249,28 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         {/* Scrollable Catalogue */}
         <div className="flex-1 overflow-y-auto px-5 sm:px-12 pb-8 sm:pb-12 custom-scrollbar bg-black/10 light:bg-slate-50/50 relative">
           <div className="sticky top-0 z-20 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-3 bg-[rgb(var(--color-bg-surface))]/60 light:bg-white/80 backdrop-blur-md -mx-5 sm:-mx-12 px-5 sm:px-12 border-b border-white/5 light:border-slate-200 mb-8">
-            <div className="flex items-center gap-6 flex-wrap">
-              <div className="t-label flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600">
-                <Filter className="w-3.5 h-3.5" /> Filter Content
-              </div>
-              <div className="h-4 w-px bg-white/10" />
+            {/* A chip reading "Filter Content" sat here, styled exactly like
+                a button and doing nothing — the search field above is the
+                filter. The count is what this row is for. */}
+            <div className="flex items-center gap-5 flex-wrap">
               <span className="text-xs font-bold text-slate-500">
-                Showing{' '}
                 <span className="text-white light:text-slate-900">
                   {filteredGroupedDocs.allVisibleDocIds.length}
                 </span>{' '}
-                units
+                {filteredGroupedDocs.allVisibleDocIds.length === 1 ? 'syllabus' : 'syllabuses'}
+                {selectedIds.size > 0 && (
+                  <span className="text-indigo-400 light:text-indigo-600">
+                    {' '}
+                    · {selectedIds.size} ticked
+                  </span>
+                )}
               </span>
               {unresolvedTopicCount > 0 && (
                 <div className="t-label flex items-center gap-2.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 light:text-amber-700">
                   <AlertCircle className="w-3.5 h-3.5" />
-                  {unresolvedTopicCount} topic manifest
-                  {unresolvedTopicCount === 1 ? ' entry is' : ' entries are'} missing target-course
-                  metadata
+                  {unresolvedTopicCount === 1
+                    ? '1 topic names no course to add itself to'
+                    : `${unresolvedTopicCount} topics name no course to add themselves to`}
                 </div>
               )}
             </div>
@@ -271,8 +281,8 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
               className="t-label text-indigo-400 hover:text-indigo-300 transition-colors py-2 px-4 rounded-xl hover:bg-indigo-500/5"
             >
               {filteredGroupedDocs.allVisibleDocIds.every((id) => selectedIds.has(id))
-                ? 'Deselect Collection'
-                : 'Select All Visible'}
+                ? 'Clear selection'
+                : 'Select all'}
             </button>
           </div>
 
@@ -282,165 +292,197 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 <Search className="w-10 h-10 text-slate-600" />
               </div>
               <p className="text-xl font-black text-slate-500 tracking-tight">
-                No matches found in standard registry
+                No syllabus matches “{searchQuery}”
               </p>
               <button
                 onClick={() => setSearchQuery('')}
                 className="mt-6 text-sm font-bold text-indigo-400 hover:underline"
               >
-                Reset filters
+                Show all syllabuses
               </button>
             </div>
           ) : (
-            <div className="space-y-16">
+            <div className="space-y-10">
               {SUBJECT_AREAS.map((subject) => {
                 const group = filteredGroupedDocs.groups[subject];
-                if (!group) return null;
+                // A faculty with nothing to tick is not a section. Five of the
+                // eight rendered as a full heading — coloured icon tile, 20px
+                // black title, "0 available" and an empty bordered list — to
+                // say the app does not carry them yet. Measured on the shipped
+                // manifest, those five took 41% of the scroll height of a
+                // screen whose entire job is choosing between the other three.
+                // Everything they had to say is one line, and it is now at the
+                // bottom with the rest of it.
+                if (!group || group.docs.length === 0) return null;
 
-                const { docs, placeholders } = group;
+                const { docs } = group;
                 const Icon = SUBJECT_AREA_ICON[subject];
 
                 return (
                   <section key={subject} className="animate-fade-in">
-                    <div className="flex items-center gap-5 mb-8 px-2">
+                    <div className="flex items-center gap-4 mb-3 px-1">
                       <div
                         className={`p-2.5 rounded-xl border shadow-lg ${SUBJECT_AREA_TILE[subject]}`}
                       >
                         <Icon className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-xl font-black text-white light:text-slate-900 italic tracking-tight">
+                        <h3 className="text-xl font-black text-white light:text-slate-900 tracking-tight">
                           {subject}
                         </h3>
-                        <div className="flex items-center gap-2 mt-1">
-                          <div className="h-1 w-1 rounded-full bg-slate-700" />
-                          <span className="t-label text-slate-500">
-                            {docs.length} Active Records
-                          </span>
-                        </div>
+                        <span className="text-[11px] font-medium text-slate-500">
+                          {docs.length} available
+                        </span>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/*
+                      A checklist, not a gallery.
+
+                      These were cards in a three-up grid: 280px each to carry
+                      one thing the reader is actually choosing between — the
+                      syllabus name — alongside a file icon identical on every
+                      card, a "Course JSON" pill naming a file format, and the
+                      source filename. Eight syllabuses filled two and a half
+                      screens, so picking the three you teach meant scrolling
+                      past the ones you don't.
+
+                      The content is a list of names to tick. So it is a list
+                      of names to tick, and all eight fit above the fold.
+                    */}
+                    <ul className="rounded-panel border border-white/5 light:border-slate-200 bg-white/[0.02] light:bg-white overflow-hidden divide-y divide-white/5 light:divide-slate-200">
                       {docs.map((doc) => {
                         const isSelected = selectedIds.has(doc.id);
+                        const orphanTopic =
+                          doc.type === 'topic' && !doc.targetCourseName && !doc.targetCourseId;
                         return (
-                          <div
+                          <li
                             key={doc.id}
-                            className={`
- relative flex flex-col p-6 rounded-panel border transition-all duration-500 group cursor-pointer overflow-hidden
-                                                    ${
-                                                      isSelected
-                                                        ? 'bg-indigo-500/10 border-indigo-500/40 shadow-lg shadow-indigo-900/20 scale-[1.03]'
-                                                        : 'bg-white/[0.03] light:bg-white border-white/5 light:border-slate-200 hover:border-white/20 light:hover:border-slate-300 hover:bg-white/[0.05] light:hover:bg-slate-50 hover:-translate-y-1'
-                                                    }
-                                                    ${isImporting ? 'opacity-40 grayscale pointer-events-none' : ''}
-                                                `}
-                            onClick={() => toggleSelect(doc.id)}
+                            className={`flex flex-wrap items-center gap-x-4 gap-y-3 px-4 sm:px-5 py-3.5 transition-colors ${
+                              isSelected
+                                ? 'bg-indigo-500/[0.07] light:bg-indigo-50/70'
+                                : 'hover:bg-white/[0.03] light:hover:bg-slate-50'
+                            } ${isImporting ? 'opacity-40 pointer-events-none' : ''}`}
                           >
-                            {/* Selection Pulse Glow */}
-                            {isSelected && (
-                              <div className="absolute -top-10 -right-10 w-24 h-24 bg-indigo-500/20 blur-3xl" />
-                            )}
-                            <MeshOverlay
-                              opacity={isSelected ? 'opacity-[0.06]' : 'opacity-[0.02]'}
+                            {/*
+                              The checkbox is a checkbox. It used to be a
+                              decorative circle inside a clickable `<div>`, with
+                              no tab stop, no role and no key handler, so
+                              choosing what to import — the only thing this
+                              screen does — could not be done from a keyboard
+                              at all. The label covers the name and the empty
+                              space beside it, giving a large target without
+                              swallowing the subject picker to its right.
+                            */}
+                            <input
+                              type="checkbox"
+                              id={`doc-${doc.id}`}
+                              checked={isSelected}
+                              onChange={() => toggleSelect(doc.id)}
+                              disabled={isImporting}
+                              className="w-4 h-4 shrink-0 accent-indigo-500 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]"
                             />
-
-                            <div className="flex justify-between items-start mb-6 relative z-10">
-                              <div
-                                className={`p-2 rounded-xl bg-black/20 border border-white/5 ${isSelected ? 'text-indigo-400' : 'text-slate-600'}`}
-                              >
-                                <FileJson className="w-5 h-5" />
-                              </div>
-                              <div
-                                className={`
-                                                        w-7 h-7 rounded-full flex items-center justify-center transition-all duration-500 border
-                                                        ${
-                                                          isSelected
-                                                            ? 'bg-indigo-500 border-white/20 text-white shadow-lg'
-                                                            : 'bg-white/5 light:bg-slate-100 border-white/5 light:border-slate-300 text-transparent group-hover:border-white/20'
-                                                        }
-                                                     `}
-                              >
-                                <Check className="w-4 h-4" />
-                              </div>
-                            </div>
-
-                            <div className="relative z-10 flex-1">
-                              <h4
-                                className={`text-lg font-black leading-tight tracking-tight mb-3 ${isSelected ? 'text-white' : 'text-slate-300 light:text-slate-800'}`}
+                            {/* Capped, so the picker to its right stays beside
+                                the name it belongs to. Uncapped it was pushed
+                                to the far edge of an 1150px row — the name at
+                                x=140, the subject that names it at x=995, with
+                                nothing in between and every select in the
+                                section reading the same word. */}
+                            <label
+                              htmlFor={`doc-${doc.id}`}
+                              className="flex-1 min-w-0 sm:max-w-sm cursor-pointer select-none"
+                              title={doc.source}
+                            >
+                              <span
+                                className={`block text-sm font-bold leading-snug ${
+                                  isSelected
+                                    ? 'text-white light:text-slate-900'
+                                    : 'text-slate-300 light:text-slate-800'
+                                }`}
                               >
                                 {doc.name}
-                              </h4>
-                              <div className="flex flex-wrap items-center gap-2 mb-3">
-                                <span className="t-label text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
-                                  {doc.type === 'topic' ? 'Topic JSON' : 'Course JSON'}
+                              </span>
+                              {/* What a topic attaches to, as a sentence. It
+                                  was a pill reading "Target HSC Biology" —
+                                  a label and a value with no verb between
+                                  them, sitting at the same weight as a pill
+                                  naming the file format. */}
+                              {doc.type === 'topic' && !orphanTopic && (
+                                <span className="block text-[11px] text-slate-500 light:text-slate-500 mt-0.5">
+                                  adds to {doc.targetCourseName || doc.targetCourseId}
                                 </span>
-                                {doc.type === 'topic' &&
-                                  (doc.targetCourseName || doc.targetCourseId) && (
-                                    <span className="t-label text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-full border border-sky-500/20">
-                                      Target {doc.targetCourseName || doc.targetCourseId}
-                                    </span>
-                                  )}
-                                {doc.type === 'topic' &&
-                                  !doc.targetCourseName &&
-                                  !doc.targetCourseId && (
-                                    <span className="t-label text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
-                                      Missing target
-                                    </span>
-                                  )}
-                              </div>
-                              <p className="t-label text-slate-500 flex items-center gap-2">
-                                <Database className="w-3 h-3" /> {doc.source}
-                              </p>
-                            </div>
+                              )}
+                              {orphanTopic && (
+                                <span className="flex items-center gap-1.5 text-[11px] font-medium text-amber-500 light:text-amber-600 mt-0.5">
+                                  <AlertCircle className="w-3 h-3 shrink-0" />
+                                  No course named — this one has nowhere to go
+                                </span>
+                              )}
+                            </label>
 
-                            {/* Dynamic Categorisation */}
-                            <div
-                              className={`mt-6 pt-5 border-t border-white/5 relative z-10 ${isSelected ? 'block' : 'opacity-0 group-hover:opacity-100 transition-opacity duration-500'}`}
-                            >
-                              <div className="relative" onClick={(e) => e.stopPropagation()}>
-                                <select
-                                  value={doc.subject || 'Other'}
-                                  onChange={(e) => handleSubjectChange(doc.id, e.target.value)}
-                                  className="t-label w-full bg-black/30 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 rounded-xl py-2.5 px-4 appearance-none cursor-pointer hover:border-indigo-500/30 transition-colors focus:outline-none"
-                                >
-                                  {SUBJECT_AREAS.map((s) => (
-                                    <option key={s} value={s}>
-                                      {s}
-                                    </option>
-                                  ))}
-                                </select>
-                                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-600 pointer-events-none" />
-                              </div>
+                            {/* `appearance-none` and a drawn chevron, like
+                                every other select in the app — left native, it
+                                rendered an OS control in the middle of the
+                                app's own surfaces. Full width on a phone so it
+                                takes its own line instead of squeezing the
+                                name it belongs to into two. */}
+                            <div className="relative w-full sm:w-auto order-last sm:order-none">
+                              <select
+                                value={doc.subject || 'Other'}
+                                onChange={(e) => handleSubjectChange(doc.id, e.target.value)}
+                                disabled={isImporting}
+                                aria-label={`Subject area for ${doc.name}`}
+                                className="t-label w-full sm:w-[11rem] appearance-none bg-black/20 light:bg-slate-100 border border-white/5 light:border-slate-300 text-slate-400 light:text-slate-600 rounded-lg py-2 pl-3 pr-9 cursor-pointer hover:border-indigo-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                              >
+                                {SUBJECT_AREAS.map((area) => (
+                                  <option key={area} value={area}>
+                                    {area}
+                                  </option>
+                                ))}
+                              </select>
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
                             </div>
-                          </div>
+                          </li>
                         );
                       })}
-
-                      {/* Locked Placeholders */}
-                      {placeholders.map((ph, i) => (
-                        <div
-                          key={`ph-${i}`}
-                          className="relative flex items-center justify-between p-6 rounded-panel border border-dashed border-white/5 light:border-slate-200 bg-black/10 light:bg-slate-50/50 opacity-40 cursor-not-allowed select-none transition-opacity hover:opacity-50"
-                        >
-                          <div className="flex items-center gap-4">
-                            <div className="p-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-700">
-                              <Lock className="w-5 h-5" />
-                            </div>
-                            <span className="text-sm font-black text-slate-500 tracking-tight italic">
-                              {ph}
-                            </span>
-                          </div>
-                          <span className="t-label text-indigo-400/50 bg-indigo-500/5 px-2.5 py-1 rounded-full border border-indigo-500/10">
-                            Coming Soon
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                    </ul>
                   </section>
                 );
               })}
+
+              {/* Everything the app does not carry yet, once, at the end.
+                  These were full dashed cards the same size as a real choice,
+                  then a line under each faculty — which still meant a faculty
+                  with nothing in it wore a heading. A teacher does want to
+                  know whether Drama is coming, so no name is dropped; it is
+                  simply not laid out like something you can tick. */}
+              {notCarried.length > 0 && (
+                <section className="pt-8 border-t border-white/5 light:border-slate-200">
+                  <h3 className="t-label flex items-center gap-2 text-slate-500 light:text-slate-500">
+                    <Lock className="w-3 h-3" />
+                    Not carried yet
+                  </h3>
+                  <dl className="mt-3 space-y-1.5">
+                    {notCarried.map(({ subject, placeholders }) => (
+                      <div
+                        key={subject}
+                        className="flex flex-wrap gap-x-2 text-[11px] leading-relaxed"
+                      >
+                        {/* A fixed column so seven faculty names scan down
+                            the left edge rather than ragging against their
+                            own lengths. Drops back to flow on a phone, where
+                            the names wrap anyway. */}
+                        <dt className="font-bold text-slate-400 light:text-slate-600 sm:w-32 sm:shrink-0">
+                          {subject}
+                        </dt>
+                        <dd className="text-slate-500 light:text-slate-500">
+                          {placeholders.join(', ')}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              )}
             </div>
           )}
         </div>
@@ -453,7 +495,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
               disabled={isImporting}
               className="t-label px-6 sm:px-10 py-3 sm:py-4 rounded-panel text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
             >
-              Skip Import
+              Skip for now
             </button>
           </div>
 
@@ -479,12 +521,12 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             {isImporting ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Importing...
+                Adding…
               </>
             ) : (
               <>
                 <Download className="w-5 h-5" />
-                Import {selectedIds.size} Items
+                {selectedIds.size === 1 ? 'Add 1 syllabus' : `Add ${selectedIds.size} syllabuses`}
               </>
             )}
           </button>

@@ -18,6 +18,25 @@ import { UserRole } from '../types';
  *   guest   — read-only trial; nothing is persisted server-side.
  */
 
+/**
+ * How a role should be NAMED to the person who holds it.
+ *
+ * `UserRole` is a database value, and the profile was printing it raw: an
+ * account chip that read "user", which is what the schema calls a student and
+ * not what anyone calls themselves. The identifiers stay as they are — the
+ * schema, the RLS policies and the quota tables all key on them — and this is
+ * the one place that turns them into English.
+ */
+export const ROLE_LABELS: Record<UserRole, string> = {
+  admin: 'Administrator',
+  teacher: 'Teacher',
+  user: 'Student',
+  guest: 'Guest',
+};
+
+/** The role as the account holder should read it. */
+export const roleLabel = (role: UserRole): string => ROLE_LABELS[role] ?? 'Student';
+
 /** Create and edit curriculum content: questions, samples, rubrics, keywords. */
 export const canCurateContent = (role: UserRole): boolean => role === 'admin' || role === 'teacher';
 
