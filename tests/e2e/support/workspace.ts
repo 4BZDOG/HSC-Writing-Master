@@ -38,10 +38,39 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
     await agree.click();
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
-  const guide = page.getByRole('button', { name: /start writing/i });
-  await guide.waitFor({ state: 'visible', timeout: 8_000 }).catch(() => {});
-  await page.keyboard.press('Escape');
-  await guide.waitFor({ state: 'hidden', timeout: 8_000 }).catch(() => {});
+  // Dismiss the quick-start guide by pressing ITS OWN button, inside ITS OWN
+  // dialog, and check that it actually went.
+  //
+  // This used to be a bare `page.keyboard.press('Escape')` whose follow-up wait
+  // swallowed its own timeout. Two things defeat that. The guide animates in
+  // after the mock login's deliberate delay, so under load the keystroke can
+  // arrive before the modal is listening; and at a phone width the guide and
+  // the curriculum-import prompt are open AT THE SAME TIME, so a single Escape
+  // is arbitrated to whichever registered last and the guide stays put. The
+  // swallowed failure then said nothing, and every click afterwards spent its
+  // full timeout being told the guide's backdrop "intercepts pointer events" —
+  // which is how one un-dismissed modal produced failures in three unrelated
+  // specs at once, and made this helper take 38 seconds to do nothing.
+  //
+  // Scoped by the dialog that contains the guide's own tabs, so it cannot pick
+  // up the import prompt's buttons or a toast's "Close notification".
+  const guideDialog = page
+    .getByRole('dialog')
+    .filter({ has: page.getByRole('button', { name: /getting started/i }) });
+  await guideDialog.waitFor({ state: 'visible', timeout: 8_000 }).catch(() => {});
+  // "Start writing" rather than the header's X: it is the guide's own primary
+  // action, it is the biggest target on the panel, and it is the one a student
+  // actually presses. (The X was genuinely broken until this branch — its
+  // header content wrapper covered it — which is how this helper's real
+  // problem surfaced.)
+  for (let attempt = 0; attempt < 3 && (await guideDialog.count()); attempt++) {
+    await guideDialog
+      .getByRole('button', { name: /start writing|^close$/i })
+      .last()
+      .click({ timeout: 5_000 })
+      .catch(() => {});
+    await guideDialog.waitFor({ state: 'detached', timeout: 5_000 }).catch(() => {});
+  }
 
   // First run offers the bundled curriculum; take it so there is something to
   // answer. It opens behind the guide, so it only appears once that is gone.
@@ -68,8 +97,28 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
   ]) {
     const trigger = page.locator('button[aria-haspopup="listbox"]', { hasText: placeholder });
     if (!(await trigger.count())) continue; // already chosen for us
-    await trigger.first().click();
+
+    // Open the picker, and re-open it if the list came up empty.
+    //
+    // The options are populated from the curriculum import that `clearOnboarding`
+    // has just kicked off, so a picker opened in the gap between "the trigger
+    // exists" and "the courses are in IndexedDB" renders no options at all —
+    // and a single `waitFor` on a list that will never fill just burns its
+    // timeout. Re-opening is what actually re-reads the data. This surfaced
+    // once `clearOnboarding` stopped spending 38 seconds on swallowed waits,
+    // which had been hiding the race by accident.
     const option = page.getByRole('option').first();
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await trigger.first().click();
+      try {
+        await option.waitFor({ state: 'visible', timeout: 5_000 });
+        break;
+      } catch {
+        // Shut the empty list before trying again, or the next click re-opens
+        // onto the same stale popup.
+        await page.keyboard.press('Escape').catch(() => {});
+      }
+    }
     await option.waitFor({ state: 'visible', timeout: 10_000 });
     await option.click();
   }

@@ -31,18 +31,31 @@ const withoutMotion = async (page: Page): Promise<void> => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
 };
 
+// Every test here signs in, clears onboarding and walks into the app before it
+// asserts anything, which on webkit at a phone width does not fit the default
+// 30s. The repo gives its other full-journey specs the same room —
+// `agreement-gate` 60s, `evaluation-flow` 90s, `quota` and `accessibility`
+// 120s.
+test.describe.configure({ timeout: 90_000 });
+
 /**
  * Profile → Settings → Compare plans, which is where the plan table lives.
  * Three clicks deep, which is itself worth knowing: this is the only route to
  * it, and it is the route the School licence panel had to be put on.
  */
-const openPlanComparison = async (page: import('@playwright/test').Page) => {
+const openPlanComparison = async (page: Page) => {
   await page.getByRole('button', { name: /open your profile/i }).click();
-  await page.getByRole('button', { name: /^Settings$/ }).click();
-  await page
-    .getByRole('button', { name: /compare plans/i })
-    .first()
-    .click();
+  // Wait for the dialog before reaching into it, and scroll the tab into view
+  // before clicking: the tab row is an `overflow-x-auto` scroller, and at a
+  // phone width "Settings" is its last item, so on webkit the click spent its
+  // whole timeout waiting for an element that was never quite in position.
+  await page.getByRole('dialog', { name: /your profile/i }).waitFor({ state: 'visible' });
+  const settings = page.getByRole('button', { name: /^Settings$/ });
+  await settings.scrollIntoViewIfNeeded();
+  await settings.click();
+  const compare = page.getByRole('button', { name: /compare plans/i }).first();
+  await compare.scrollIntoViewIfNeeded();
+  await compare.click();
   // A tagline, not a plan name: the profile card names plans too.
   await expect(page.getByText(/One licence covering every student and teacher/i)).toBeVisible({
     timeout: 15_000,
@@ -61,6 +74,57 @@ test.describe('the profile hands off rather than stacking', () => {
     await clearOnboarding(page);
     await openPlanComparison(page);
     await expect(page.getByRole('dialog', { name: /your profile/i })).toHaveCount(0);
+  });
+});
+
+test.describe('a modal can be closed by its close button', () => {
+  /**
+   * Both of these were dead, and no unit test could have caught either: the
+   * button rendered, had its name and its handler, and was in the tree. It was
+   * simply covered. The header's content wrapper is `relative z-10`, the close
+   * button sat at `z-10` (the guide) or at no z-index at all (the prompt), and
+   * the wrapper comes later in the DOM — so it won and swallowed every click.
+   *
+   * The upgrade prompt's X was covered at EVERY width. The guide's only at a
+   * phone width, where the headline wraps and the block grows under it.
+   */
+  test('the upgrade prompt closes from its X, at both widths', async ({ page }) => {
+    await withoutMotion(page);
+    await signIn(page, 'user');
+    await clearOnboarding(page);
+    for (const width of [390, 1280]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page.evaluate(() =>
+        window.dispatchEvent(
+          new CustomEvent('writing-studio:upgrade-request', {
+            detail: { feature: 'fullFeedback' },
+          })
+        )
+      );
+      const prompt = page.getByRole('dialog', { name: /full marking feedback/i });
+      await prompt.waitFor({ state: 'visible', timeout: 10_000 });
+      await prompt.getByRole('button', { name: /^close$/i }).click({ timeout: 5_000 });
+      await expect(prompt).toHaveCount(0);
+    }
+  });
+
+  test('the quick-start guide closes from its X on a phone', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await withoutMotion(page);
+    await signIn(page, 'user');
+    // Deliberately NOT clearOnboarding — the guide is the subject here.
+    const agree = page.getByRole('button', { name: /agree and continue/i });
+    await agree.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+    if (await agree.count()) {
+      await page.getByRole('checkbox').first().check();
+      await agree.click();
+    }
+    const guide = page
+      .getByRole('dialog')
+      .filter({ has: page.getByRole('button', { name: /getting started/i }) });
+    await guide.waitFor({ state: 'visible', timeout: 20_000 });
+    await guide.getByRole('button', { name: /^close$/i }).click({ timeout: 5_000 });
+    await expect(guide).toHaveCount(0);
   });
 });
 

@@ -1845,7 +1845,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               ? 'Close the studio — the batch carries on, and each step reports as it finishes'
               : 'Close'
           }
-          className="absolute top-4 right-4 md:right-6 w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+          /* z-20 is preventive here, not a fix: this button already paints on
+             top, because it is the LAST positioned sibling and the header's
+             content wrapper carries no explicit z-index. Two other modals had
+             the same absolute close button sitting under a wrapper that DID
+             (`relative z-10`, later in the DOM) and were silently unclickable.
+             Declaring the z-index brings this one under the same rule, which
+             `tests/unit/modalCloseButtonStacking.test.ts` now enforces. */
+          className="absolute top-4 right-4 md:right-6 z-20 w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
         >
           <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
         </button>

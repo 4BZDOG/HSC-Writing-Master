@@ -86,7 +86,16 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           <button
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-10"
+            /* z-20, above the header's own content wrapper.
+               That wrapper is `relative z-10` and comes LATER in the DOM, so
+               at the same z-index it wins the stacking contest and covers this
+               button. At laptop width the title block is narrow enough that
+               they never overlap; at a phone width the headline wraps, the
+               block grows under the X, and the close button silently stops
+               working — Playwright reported the wrapper "intercepts pointer
+               events" for every click on it. The only way out of the guide on
+               a phone was "Start writing" at the bottom, or Escape. */
+            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>
