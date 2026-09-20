@@ -21,9 +21,9 @@ panel simply sat behind a door that the only two roles allowed to open it can
 never reach. That is the shape of most of what follows: correct code, wired to
 nothing, or described in words that had drifted away from it.
 
-Eight findings, seven fixed here, one deliberately left. Full suite green:
-lint, 2529 unit tests across 256 files, both type-checks, the eager-read and
-dead-code guards.
+Twelve findings, eleven fixed here, one deliberately left. Full suite green:
+lint, unit tests, both type-checks, a production build, and the chunk-order,
+eager-read and dead-code guards.
 
 ## 2. Findings
 
@@ -137,7 +137,53 @@ header's help button opens the modal without saying which tab it wants. Press
 "Compare plans" once and the help button showed the price table from then on.
 The tab now resets to the guide on close.
 
-### 8. AI-quota messages still say "midnight UTC" — left as is, deliberately
+### 8. The same refusal said two different things — P1, fixed
+
+Running out of markings can be caught twice: by the client's pre-check in
+`App.handleEvaluate`, and by the proxy's 402 in `useGemini`. Both opened the
+same prompt (good) and then toasted different sentences. The server's is
+correct but it cannot name a reset time — it does not know the caller's
+timezone — and it spells the plan out as a literal, so a student who hit the
+limit on a second device read a vaguer message than the one they got on the
+first.
+
+**Fixed**: one `evalLimitMessage()` in `services/entitlements.ts`, called by
+both. The server's 402 body is still the fallback if the error ever arrives
+without figures; the sync that precedes it has already made the client's
+numbers authoritative.
+
+### 9. A school licence could be bought by someone with no school — P1, fixed
+
+`create-checkout` checked the buyer's **role** but not their **school**. Buy 30
+seats with `school_id` unset and the webhook stamps the plan onto the purchaser
+alone and logs a console warning — N seats' money, one seat's effect, and
+nothing in the app says so. Nor is it recoverable by fixing the account: the
+`schools` row is never back-filled, so an admin attaching them afterwards does
+nothing until the subscription next updates, up to a year later.
+
+The panel already warned about this in prose ("make sure your school is set up,
+and you're in it"). **Fixed** by enforcing it where it can hold — a 400 before
+any money moves, naming the step that fixes it (Admin → Schools). Ordered
+*after* the duplicate-subscription guard, because "you already have a
+subscription" is the stronger answer when both apply.
+
+### 10. The admin dashboard called an ending licence a renewing one — P1, fixed
+
+Stripe keeps a cancelling subscription at status `active` right up to the
+period boundary, so `plan_status` alone cannot tell a renewal date from an end
+date. The school licence cell rendered "renews 1 Mar" for a licence that would
+lapse on 1 Mar and drop every student in the school back to the free tier. The
+user-facing profile card had already been fixed for personal subscriptions
+(`cancelAtPeriodEnd`); the institutional one had not, and it is the one where
+the surprise is thirty people wide.
+
+**Fixed**: `schools.plan_cancel_at_period_end` (schema §13, `add column if not
+exists`), written by the webhook and cleared on deletion, surfaced by
+`list_schools()`, and rendered as an amber "ends 1 Mar — cancelled". A database
+that has not re-applied the schema returns the field absent, which reads as
+today's behaviour rather than breaking.
+
+### 11. AI-quota messages still say "midnight UTC" — left as is, deliberately
 
 `utils/quotaWarnings.ts` and the proxy's 429 body describe the **AI call
 budget**, not the paywall. Different meter, different audience: the copy ends
@@ -145,6 +191,12 @@ budget**, not the paywall. Different meter, different audience: the copy ends
 "Budgets reset at midnight UTC" wants the server's clock, not the browser's.
 The server cannot know the caller's timezone anyway. Noted here so the
 inconsistency is a decision rather than an oversight.
+
+### 12. Checkout-success polling is sound — checked, no change
+
+`App`'s post-checkout poll calls `refreshSession`, which runs `applySchoolPlan`,
+so a **buyer** — personal or school — unlocks without re-login. It is the other
+members of a licensed school who wait (see §4).
 
 ## 3. What was checked and found sound
 
@@ -167,14 +219,24 @@ inconsistency is a decision rather than an oversight.
   a pilot deployment sees ticks rather than crosses.
 - **Legal copy matches the code.** `data/legalContent.ts` interpolates the real
   free-tier numbers rather than restating them.
+- **The billing portal cannot be offered to someone who has none.** The profile
+  card distinguishes "no subscription" from "could not tell", and falls back to
+  offering the portal on a failed lookup rather than telling a real subscriber
+  they have nothing to manage. The new 409 → portal route cannot reach the
+  portal's 404 either: a 409 means a subscription row exists, which means the
+  same webhook wrote the customer id.
+- **The demo seed is honest about its own limits** — it says in a comment that
+  its fabricated subscription rows have no Stripe customer behind them, so the
+  portal button will fail for demo accounts.
 
 ## 4. Still open (not attempted here)
 
-- **A licence going live mid-session does not reach the client until sign-out.**
-  `authService` stamps `stripePlan: 'school'` at sign-in; the server resolves it
-  per request. The divergence is safe (the server is authoritative and the more
-  generous of the two) but a student whose school buys a licence during a
-  lesson keeps seeing locks until they reload.
+- **A licence going live mid-session does not reach other members until they
+  reload.** `applySchoolPlan` runs inside `refreshSession`, which fires at app
+  load and on checkout return — so the buyer unlocks immediately, and everyone
+  else in their school keeps seeing locks until their next load. The divergence
+  is safe (the server is authoritative and the more generous of the two) but a
+  teacher who buys a licence mid-lesson has thirty students still locked out.
 - **The School branch of the upgrade prompt is dead code under the shipped
   policy.** Nothing is priced at `school`, so `sellsPlus` is always true. Kept
   because `PLAN_FEATURE_OVERRIDES` can still reach it; worth deleting if that

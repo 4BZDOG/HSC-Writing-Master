@@ -8,6 +8,7 @@ import {
   type Plan,
   type PremiumFeatureKey,
 } from './planPolicy';
+import { dailyResetPhrase } from '../utils/dailyReset';
 import type { User } from '../types';
 import type { UserRole } from '../types';
 
@@ -360,6 +361,24 @@ const effectiveEvalLimit = (): number => {
 
 /** This deployment's free daily evaluation allowance, as the UI should state it. */
 export const freeEvalLimit = (): number => effectiveEvalLimit();
+
+/**
+ * The one sentence the app uses when the daily marking allowance runs out.
+ *
+ * There are two places that moment can be caught — the client's own pre-check
+ * (App.handleEvaluate) and the proxy's 402 (useGemini's EvaluationLimitError) —
+ * and they were saying different things. The server's sentence is correct but
+ * it cannot name a reset time (it does not know the caller's timezone) and it
+ * spells the plan out as a literal, so a student who hit the limit on a second
+ * device read a different, vaguer message than the one they got on the first.
+ *
+ * A FUNCTION, evaluated at call time: it reads the live allowance (which an
+ * admin can change without a deploy, and which the server corrects on a
+ * refusal) and the reader's own clock.
+ */
+export const evalLimitMessage = (): string =>
+  `You've used all ${freeEvalLimit()} free markings for today — your next one is at ` +
+  `${dailyResetPhrase()}. ${PLAN_LABELS.plus} removes the limit.`;
 
 // ---------------------------------------------------------------------------
 // Change notification

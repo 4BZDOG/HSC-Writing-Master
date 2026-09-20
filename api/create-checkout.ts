@@ -15,7 +15,9 @@
  * `seats` (clamped to SCHOOL_SEAT_LIMITS, 5–1000) is honoured ONLY for the
  * school licence price (STRIPE_SCHOOL_PRICE_ID) — individual Plus prices
  * always check out with quantity 1 regardless of what the client sends.
- * School licences are also refused unless the buyer is a teacher or admin.
+ * School licences are also refused unless the buyer is a teacher or admin AND
+ * is attached to a school — a licence with no school to attach to would cover
+ * only the buyer, at N seats' price.
  *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
@@ -148,7 +150,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     if (supabase) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('stripe_customer_id, role')
+        .select('stripe_customer_id, role, school_id')
         .eq('id', auth.userId)
         .maybeSingle();
       if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
@@ -193,6 +195,30 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         res.status(409).json({
           error:
             'You already have an active subscription. Use “Manage subscription” to change your plan or seats.',
+        });
+        return;
+      }
+
+      // A licence with no school to attach to grants the plan to the buyer and
+      // nobody else. The webhook already handles that case — it stamps the
+      // purchaser's profile and logs a warning — but a warning in a server log
+      // is not a refund: the buyer has paid for N seats, one of which does
+      // anything, and nothing in the app tells them. The school row is not
+      // back-filled either, so an admin assigning their school afterwards does
+      // not rescue the licence until the subscription next updates.
+      //
+      // So it is refused before any money moves, with the step that fixes it.
+      // The upgrade panel already warns ("make sure your school is set up, and
+      // you're in it") — this is the same rule, enforced where it can hold.
+      //
+      // AFTER the duplicate guard deliberately: a buyer who is already
+      // subscribed should be told that first, because it is the stronger
+      // answer — they should not be buying at all, school or no school.
+      if (sellablePrices[priceId] === 'school' && !profile?.school_id) {
+        res.status(400).json({
+          error:
+            'Your account is not attached to a school yet, so a licence would only cover you. ' +
+            'Ask an admin to add you to your school (Admin → Schools), then buy the seats.',
         });
         return;
       }

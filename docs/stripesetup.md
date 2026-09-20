@@ -370,8 +370,11 @@ Sell a whole-school licence directly from the upgrade modal:
    - `VITE_SCHOOL_SEAT_PRICE_DISPLAY=A$4` (display only)
 3. **Re-apply the schema** (`supabase/schema.sql` §13 adds
    `schools.stripe_subscription_id / plan_seats / plan_status /
-plan_period_end` and `subscriptions.seats` — all `add column if not
-exists`, safe to re-run).
+plan_period_end / plan_cancel_at_period_end` and `subscriptions.seats` — all
+`add column if not exists`, safe to re-run). Re-applying also refreshes
+`list_schools()`, which is what puts the licence columns in front of an admin;
+until you do, the dashboard shows the licence as "unknown" and reads an end
+date as a renewal date.
 
 How it works: a teacher or admin picks a seat count and checks out; the
 webhook stores the seat quantity and stamps the licence onto **their
@@ -383,5 +386,8 @@ personal subscriptions). Seats are the billed quantity — compare
 true-ups.
 
 **Important**: the buyer must belong to a school (Admin → Schools) _before_
-purchasing; otherwise only the buyer's own account holds the plan until an
-admin assigns their school.
+purchasing. `api/create-checkout` now refuses a school-price checkout from an
+account with no `school_id` and says so, rather than taking the money for N
+seats and licensing one person — the school row is not back-filled when an
+admin assigns them later, so the licence would stay attached to nothing until
+the subscription next updates.

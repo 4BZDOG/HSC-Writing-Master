@@ -32,6 +32,8 @@ import {
   subscribeEvalCount,
   FREE_TIER_EVAL_LIMIT,
   UPGRADE_REQUEST_EVENT,
+  evalLimitMessage,
+  PLAN_LABELS,
 } from '../../services/entitlements';
 import UpgradeModal from '../../components/UpgradeModal';
 import FreeEvalCounter from '../../components/FreeEvalCounter';
@@ -103,6 +105,32 @@ describe('the free-evaluation mirror announces its own changes', () => {
     expect(freeEvalsRemaining()).toBe(FREE_TIER_EVAL_LIMIT);
     syncFreeEvalCount(FREE_TIER_EVAL_LIMIT);
     expect(freeEvalsRemaining()).toBe(0);
+  });
+});
+
+describe('one sentence for the limit, whichever side catches it', () => {
+  /**
+   * The moment can be caught twice: by the client's own pre-check
+   * (App.handleEvaluate) and by the proxy's 402 (useGemini). They used to say
+   * different things — the server cannot name a reset time because it does not
+   * know the caller's timezone, and it spelled the plan out as a literal — so a
+   * student who hit the limit on a second device read a vaguer message than the
+   * one they got on the first. Both now call this.
+   */
+  it('states the live allowance, when it returns, and what removes it', () => {
+    const message = evalLimitMessage();
+    expect(message).toContain(`all ${FREE_TIER_EVAL_LIMIT} free markings`);
+    expect(message).toContain(dailyResetPhrase());
+    expect(message).toContain(PLAN_LABELS.plus);
+  });
+
+  it('quotes the limit the SERVER last enforced, not the bundled default', () => {
+    // An admin can change the allowance in Postgres without a deploy, and the
+    // proxy reports the live figure on a refusal. Quoting the compiled-in
+    // number after that would tell the student a limit nobody is holding them
+    // to.
+    syncFreeEvalCount(3, 3);
+    expect(evalLimitMessage()).toContain('all 3 free markings');
   });
 });
 

@@ -149,6 +149,14 @@ export interface SchoolRow {
   plan_status?: string;
   plan_seats?: number;
   plan_period_end?: string | null;
+  /**
+   * Set when the licence is due to LAPSE at `plan_period_end` rather than
+   * renew there. Stripe keeps a cancelling subscription at status 'active'
+   * until the boundary, so without this the dashboard read an end date as a
+   * renewal date — and the only warning a school got that it was about to lose
+   * the plan was losing it.
+   */
+  plan_cancel_at_period_end?: boolean;
 }
 
 /** Statuses under which a school licence is live (matches the webhook's grace rule). */
