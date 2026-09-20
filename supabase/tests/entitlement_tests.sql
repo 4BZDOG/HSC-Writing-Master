@@ -18,6 +18,11 @@
 -- =============================================================================
 
 -- ---- Setup -------------------------------------------------------------------
+-- Fixture ids live in their own `ea..` range. They used to reuse the `d..` and
+-- `e5` ids from rls_negative_tests.sql, which share this database: `e5` is a
+-- TEACHER there and this file committed `role = 'admin'` onto it. CI survived
+-- on file order alone, and a second run against the same database collided on
+-- `topics_pkey` outright.
 begin;
 insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-0000-0000-0000000000e1', 'ent_test_free@example.test',
@@ -28,7 +33,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
    '{"username":"ent_test_teacher","display_name":"Ent Teacher"}'),
   ('00000000-0000-0000-0000-0000000000e4', 'ent_test_member@example.test',
    '{"username":"ent_test_member","display_name":"Ent School Member"}'),
-  ('00000000-0000-0000-0000-0000000000e5', 'ent_test_admin@example.test',
+  ('00000000-0000-0000-0000-00000000ea05', 'ent_test_admin@example.test',
    '{"username":"ent_test_admin","display_name":"Ent Admin"}')
 on conflict (id) do nothing;
 
@@ -37,7 +42,7 @@ update public.profiles set role = 'student', stripe_plan = 'free'
               '00000000-0000-0000-0000-0000000000e2',
               '00000000-0000-0000-0000-0000000000e4');
 update public.profiles set role = 'teacher' where id = '00000000-0000-0000-0000-0000000000e3';
-update public.profiles set role = 'admin' where id = '00000000-0000-0000-0000-0000000000e5';
+update public.profiles set role = 'admin' where id = '00000000-0000-0000-0000-00000000ea05';
 -- A paid personal plan, as the Stripe webhook would leave it.
 update public.profiles set stripe_plan = 'plus' where id = '00000000-0000-0000-0000-0000000000e2';
 
@@ -54,30 +59,30 @@ update public.profiles set school_id = '00000000-0000-0000-0000-0000000000f1'
 -- one written by the free student themselves. Committed, so the blocks below
 -- can roll back their own writes without taking the fixture with them.
 insert into public.courses (id, name, status)
-  values ('00000000-0000-0000-0000-0000000000d1', 'Ent Test Course', 'approved')
+  values ('00000000-0000-0000-0000-00000000ea01', 'Ent Test Course', 'approved')
   on conflict (id) do nothing;
 insert into public.topics (id, course_id, name, status)
-  values ('00000000-0000-0000-0000-0000000000d2',
-          '00000000-0000-0000-0000-0000000000d1', 'Ent Test Topic', 'approved')
+  values ('00000000-0000-0000-0000-00000000ea02',
+          '00000000-0000-0000-0000-00000000ea01', 'Ent Test Topic', 'approved')
   on conflict (id) do nothing;
 insert into public.sub_topics (id, topic_id, name, status)
-  values ('00000000-0000-0000-0000-0000000000d3',
-          '00000000-0000-0000-0000-0000000000d2', 'Ent Test SubTopic', 'approved')
+  values ('00000000-0000-0000-0000-00000000ea03',
+          '00000000-0000-0000-0000-00000000ea02', 'Ent Test SubTopic', 'approved')
   on conflict (id) do nothing;
 insert into public.dot_points (id, sub_topic_id, description, status)
-  values ('00000000-0000-0000-0000-0000000000d4',
-          '00000000-0000-0000-0000-0000000000d3', 'Ent Test DotPoint', 'approved')
+  values ('00000000-0000-0000-0000-00000000ea04',
+          '00000000-0000-0000-0000-00000000ea03', 'Ent Test DotPoint', 'approved')
   on conflict (id) do nothing;
 insert into public.prompts (id, dot_point_id, question, status)
-  values ('00000000-0000-0000-0000-0000000000d5',
-          '00000000-0000-0000-0000-0000000000d4', 'Ent Test Prompt', 'approved')
+  values ('00000000-0000-0000-0000-00000000ea06',
+          '00000000-0000-0000-0000-00000000ea04', 'Ent Test Prompt', 'approved')
   on conflict (id) do nothing;
 insert into public.sample_answers (id, prompt_id, band, mark, answer, status, created_by) values
-  ('00000000-0000-0000-0000-0000000000d6', '00000000-0000-0000-0000-0000000000d5',
+  ('00000000-0000-0000-0000-00000000ea07', '00000000-0000-0000-0000-00000000ea06',
    3, 6, 'AT-CAP PROSE', 'approved', null),
-  ('00000000-0000-0000-0000-0000000000d7', '00000000-0000-0000-0000-0000000000d5',
+  ('00000000-0000-0000-0000-00000000ea08', '00000000-0000-0000-0000-00000000ea06',
    6, 12, 'ABOVE-CAP PROSE', 'approved', null),
-  ('00000000-0000-0000-0000-0000000000d8', '00000000-0000-0000-0000-0000000000d5',
+  ('00000000-0000-0000-0000-00000000ea09', '00000000-0000-0000-0000-00000000ea06',
    6, 12, 'MY OWN PROSE', 'approved', '00000000-0000-0000-0000-0000000000e1')
   on conflict (id) do nothing;
 
@@ -419,13 +424,13 @@ begin
   -- redaction-view design could not survive: Supabase grants `authenticated`
   -- SELECT on every table, so anything the gate does not do HERE is decoration.
   select answer into v_above from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000d7';
+   where id = '00000000-0000-0000-0000-00000000ea08';
   if v_above is not null then
     raise exception 'TEST FAILED: above-cap prose reached a free reader (%)', v_above;
   end if;
 
   select answer into v_at from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000d6';
+   where id = '00000000-0000-0000-0000-00000000ea07';
   if v_at is distinct from 'AT-CAP PROSE' then
     raise exception 'TEST FAILED: an at-cap exemplar was withheld from the free tier (%)',
       coalesce(v_at, '<null>');
@@ -434,7 +439,7 @@ begin
   -- Their own writing. A student whose marked answer was saved back as an
   -- exemplar must not be sold it.
   select answer into v_mine from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000d8';
+   where id = '00000000-0000-0000-0000-00000000ea09';
   if v_mine is distinct from 'MY OWN PROSE' then
     raise exception 'TEST FAILED: an author was refused their own exemplar (%)',
       coalesce(v_mine, '<null>');
@@ -457,7 +462,7 @@ begin
   -- The author's own band-6 exemplar is NOT withheld, so it must not be
   -- reported as something to buy.
   if exists (select 1 from public.withheld_sample_answers()
-              where id = '00000000-0000-0000-0000-0000000000d8') then
+              where id = '00000000-0000-0000-0000-00000000ea09') then
     raise exception 'TEST FAILED: an author was told their own exemplar is behind the plan';
   end if;
   raise notice 'PASS: the lock is reported with the band and the mark, and no prose';
@@ -471,7 +476,7 @@ do $$
 declare v text; v_n int;
 begin
   select answer into v from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000d7';
+   where id = '00000000-0000-0000-0000-00000000ea08';
   if v is distinct from 'ABOVE-CAP PROSE' then
     raise exception 'TEST FAILED: a paid reader was refused an exemplar they bought (%)',
       coalesce(v, '<null>');
@@ -485,13 +490,13 @@ end $$;
 reset role;
 
 -- An admin, who has to read what they are moderating.
-set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e5","role":"authenticated"}';
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000ea05","role":"authenticated"}';
 set local role authenticated;
 do $$
 declare v text;
 begin
   select answer into v from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000d7';
+   where id = '00000000-0000-0000-0000-00000000ea08';
   if v is distinct from 'ABOVE-CAP PROSE' then
     raise exception 'TEST FAILED: an admin could not read an exemplar they moderate (%)',
       coalesce(v, '<null>');
@@ -513,7 +518,7 @@ do $$
 declare v text; v_n int;
 begin
   select answer into v from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000d7';
+   where id = '00000000-0000-0000-0000-00000000ea08';
   if v is distinct from 'ABOVE-CAP PROSE' then
     raise exception 'TEST FAILED: a cap of 6 still withheld a band-6 exemplar (%)',
       coalesce(v, '<null>');
@@ -532,7 +537,7 @@ rollback;
 -- pending exemplar has no band ceiling to be behind — it is not published yet.
 begin;
 insert into public.sample_answers (id, prompt_id, band, mark, answer, status, created_by)
-  values ('00000000-0000-0000-0000-0000000000da', '00000000-0000-0000-0000-0000000000d5',
+  values ('00000000-0000-0000-0000-00000000ea0a', '00000000-0000-0000-0000-00000000ea06',
           6, 12, 'PENDING PROSE', 'pending', '00000000-0000-0000-0000-0000000000e1')
   on conflict (id) do nothing;
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
@@ -541,7 +546,7 @@ do $$
 declare v text;
 begin
   select answer into v from public.sample_answers
-   where id = '00000000-0000-0000-0000-0000000000da';
+   where id = '00000000-0000-0000-0000-00000000ea0a';
   if v is distinct from 'PENDING PROSE' then
     raise exception 'TEST FAILED: a reviewer lost sight of a pending exemplar (%)',
       coalesce(v, '<null>');
