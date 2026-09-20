@@ -13,6 +13,9 @@ const upserts: Array<{ table: string; values: Record<string, unknown> }> = [];
 const sessionCreateMock = vi.fn();
 /** Role the mocked profile lookup returns — school licences are staff-only. */
 let profileRole = 'teacher';
+/** School the buyer belongs to. `null` is a staff account nobody has assigned
+ *  yet — a licence bought there would cover the buyer and nobody else. */
+let profileSchoolId: string | null = 'school-1';
 
 const makeSupabaseMock = () => ({
   from: (table: string) => ({
@@ -29,9 +32,11 @@ const makeSupabaseMock = () => ({
     select: () => ({
       eq: () => ({
         maybeSingle: async () => ({
-          data: { id: 'user-1', school_id: 'school-1', role: profileRole },
+          data: { id: 'user-1', school_id: profileSchoolId, role: profileRole },
         }),
-        single: async () => ({ data: { id: 'user-1', school_id: 'school-1', role: profileRole } }),
+        single: async () => ({
+          data: { id: 'user-1', school_id: profileSchoolId, role: profileRole },
+        }),
         // create-checkout's duplicate-subscription guard chains
         // .in('status', [...]).limit(1).maybeSingle() on the subscriptions
         // lookup; these seat/allowlist cases have no live subscription, so it
@@ -94,10 +99,11 @@ beforeEach(() => {
   upserts.length = 0;
   sessionCreateMock.mockReset();
   profileRole = 'teacher';
+  profileSchoolId = 'school-1';
 });
 
 describe('webhook: school seat licence sync', () => {
-  const schoolSubEvent = (status: string, quantity = 30) => ({
+  const schoolSubEvent = (status: string, quantity = 30, cancelAtPeriodEnd = false) => ({
     method: 'POST',
     headers: {},
     body: {
@@ -107,6 +113,7 @@ describe('webhook: school seat licence sync', () => {
           id: 'sub_school_1',
           customer: 'cus_1',
           status,
+          cancel_at_period_end: cancelAtPeriodEnd,
           items: {
             data: [
               {
@@ -153,6 +160,26 @@ describe('webhook: school seat licence sync', () => {
       (u) => u.table === 'profiles' && 'stripe_plan' in u.values
     )?.values;
     expect(profileWrite?.stripe_plan).toBe('school');
+  });
+
+  it('records that a cancelling licence will LAPSE, not renew', async () => {
+    // Stripe holds a cancelling subscription at 'active' right up to the
+    // boundary, so status alone cannot tell the admin dashboard whether
+    // plan_period_end is a renewal date or the day the whole school drops back
+    // to the free tier. It read as a renewal until this was carried across.
+    const res = makeRes();
+    await webhookHandler(schoolSubEvent('active', 30, true), res);
+    const schoolWrite = updates.find((u) => u.table === 'schools')?.values;
+    expect(schoolWrite?.plan_status).toBe('active');
+    expect(schoolWrite?.plan_cancel_at_period_end).toBe(true);
+  });
+
+  it('clears the lapse flag on an ordinary renewing licence', async () => {
+    const res = makeRes();
+    await webhookHandler(schoolSubEvent('active'), res);
+    expect(updates.find((u) => u.table === 'schools')?.values.plan_cancel_at_period_end).toBe(
+      false
+    );
   });
 
   it('ends the school licence when the subscription is deleted', async () => {
@@ -221,6 +248,28 @@ describe('create-checkout: seat quantities', () => {
     await checkoutHandler(post({ priceId: 'price_school', seats: 30 }), res);
     expect(res.statusCode).toBe(403);
     expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('refuses a school licence when the buyer belongs to no school', async () => {
+    // The webhook would stamp the plan onto the purchaser alone and log a
+    // warning nobody reads — N seats' money for one seat's effect, and the
+    // school row is never back-filled once an admin assigns them. Refuse it
+    // before any money moves, and say what fixes it.
+    profileSchoolId = null;
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_school', seats: 30 }), res);
+    expect(res.statusCode).toBe(400);
+    expect(String((res.body as { error?: string })?.error)).toMatch(/not attached to a school/i);
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('still sells an individual Plus plan to a buyer with no school', async () => {
+    // The precondition is about the LICENCE, not the account: a personal Plus
+    // subscription covers one person and needs no school.
+    profileSchoolId = null;
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_yearly' }), res);
+    expect(res.statusCode).toBe(200);
   });
 
   it('still sells an individual Plus plan to a student', async () => {

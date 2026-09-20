@@ -46,7 +46,7 @@ import {
 import { isCourseDemandAvailable } from './services/courseDemandService';
 import {
   isEvalLimitReached,
-  freeEvalLimit,
+  evalLimitMessage,
   refreshFreeEvalCount,
   requestUpgrade,
   PLAN_LABELS,
@@ -554,12 +554,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const handleEvaluate = useCallback(() => {
     if (!currentPrompt || !userAnswer.trim()) return;
     if (isEvalLimitReached(user)) {
-      showToast(
-        // The live figure — a deployment override, or the limit the server
-        // itself last reported — not the number compiled into this bundle.
-        `You've used all ${freeEvalLimit()} free evaluations for today. Upgrade to Plus for unlimited marking.`,
-        'info'
-      );
+      // Shared with the server-refusal path in useGemini, so the same event is
+      // described the same way whichever side catches it. Reads the live figure
+      // — a deployment override, or the limit the server itself last reported —
+      // not the number compiled into this bundle.
+      showToast(evalLimitMessage(), 'info');
       // `fullFeedback` because marking has no feature key of its own (it is
       // metered by count, not gated by plan); the reason is what makes the
       // prompt describe the limit rather than the criterion breakdown.

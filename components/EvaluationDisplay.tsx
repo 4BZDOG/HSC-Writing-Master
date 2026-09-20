@@ -62,7 +62,12 @@ import {
   readPdfPreferences,
   writePdfPreferences,
 } from '../utils/pdfExportPreferences';
-import { isFeatureLocked, isFeedbackLocked, requestUpgrade } from '../services/entitlements';
+import {
+  isFeatureLocked,
+  isFeedbackLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
 
@@ -716,7 +721,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       aria-busy={isExporting}
                       title={
                         pdfLocked
-                          ? 'PDF export is part of Band 6 Plus — tap to learn more'
+                          ? `PDF export is part of ${planLabelForFeature('pdfExport')} — tap to learn more`
                           : undefined
                       }
                       className={`px-5 py-3 rounded-l-2xl text-white text-xs font-bold shadow-sm transition-all border border-r-0 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
@@ -946,7 +951,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               {feedbackLocked && (
                 <ContentLockOverlay
                   feature="fullFeedback"
-                  message="Your improvement path is a Plus feature"
+                  message={`Your improvement path is part of ${planLabelForFeature('fullFeedback')}`}
                   className="rounded-panel"
                 />
               )}
@@ -982,7 +987,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             {feedbackLocked && (
               <ContentLockOverlay
                 feature="fullFeedback"
-                message="Detailed criterion feedback is a Plus feature"
+                message={`Detailed criterion feedback is part of ${planLabelForFeature('fullFeedback')}`}
               />
             )}
             <div
@@ -1083,7 +1088,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       disabled={isImproving}
                       title={
                         upgradesLocked
-                          ? 'AI answer upgrades are part of Band 6 Plus — tap to learn more'
+                          ? `AI answer upgrades are part of ${planLabelForFeature('answerUpgrades')} — tap to learn more`
                           : undefined
                       }
                       className={`t-label px-5 py-3 rounded-xl text-white border transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
@@ -1141,9 +1146,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                       Your answer, rewritten one mark higher — in your own words
                     </p>
                     <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-                      Band 6 Plus rewrites what you wrote to reach {exemplarMark}/
-                      {prompt.totalMarks}, keeping your structure and voice, and shows you the
-                      changes side by side so you can see exactly what the extra mark was for.
+                      {planLabelForFeature('answerUpgrades')} rewrites what you wrote to reach{' '}
+                      {exemplarMark}/{prompt.totalMarks}, keeping your structure and voice, and
+                      shows you the changes side by side so you can see exactly what the extra mark
+                      was for.
                     </p>
                     <button
                       onClick={() => requestUpgrade('answerUpgrades')}

@@ -3,6 +3,7 @@ import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import type { EvaluationResult, Prompt, PromptVerb } from '../../types';
 import { LOCKED_FEEDBACK_PLACEHOLDER } from '../../api/_lib/entitlements';
+import { planLabelForFeature } from '../../services/entitlements';
 
 /**
  * Everything the server REDACTS must be presented as locked by the client.
@@ -76,14 +77,18 @@ afterEach(cleanup);
 
 describe('redacted free-tier feedback is presented as locked', () => {
   /**
-   * One ContentLockOverlay renders one "Unlock with Plus" button, so counting
+   * One ContentLockOverlay renders one "Unlock with …" button, so counting
    * them counts the panels that actually carry the lock. Both redacted panels
    * are on screen here, so both overlays must be.
    */
   it('draws an unlock affordance for each redacted panel, not just one', () => {
     renderDisplay();
 
-    expect(screen.getAllByRole('button', { name: /unlock with plus/i })).toHaveLength(2);
+    expect(
+      screen.getAllByRole('button', {
+        name: new RegExp(`unlock with ${planLabelForFeature('fullFeedback')}`, 'i'),
+      })
+    ).toHaveLength(2);
   });
 
   it('locks the improvement path, not only the criteria breakdown', () => {

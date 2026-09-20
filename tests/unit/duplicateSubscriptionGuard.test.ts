@@ -50,7 +50,11 @@ const makeSupabaseMock = () => ({
       select: () => ({
         eq: () => ({
           maybeSingle: async () => ({
-            data: { stripe_customer_id: 'cus_1', role: profileRole },
+            // `school_id` present: create-checkout also refuses a school
+            // licence bought by an account attached to no school, and that
+            // guard sits just after this one. Without a school here, the
+            // school case below would be answered by the wrong refusal.
+            data: { stripe_customer_id: 'cus_1', role: profileRole, school_id: 'school-1' },
           }),
         }),
       }),

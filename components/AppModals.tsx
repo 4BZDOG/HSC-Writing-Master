@@ -520,10 +520,19 @@ const AppModals: React.FC<AppModalsProps> = ({
         <QuickStartModal
           key={quickStartTab}
           isOpen={isModalOpen('quickStart')}
-          onClose={() => closeModal('quickStart')}
+          onClose={() => {
+            closeModal('quickStart');
+            // Back to the guide for the next opener. The header's help button
+            // opens this modal without saying which tab it wants, so without
+            // this reset it inherited whatever the last opener chose — press
+            // "Compare plans" once and the help button showed the price table
+            // from then on.
+            setQuickStartTab('guide');
+          }}
           user={user}
           initialTab={quickStartTab}
           onOpenLegal={() => modalHandlers.openModal('legalDocuments')}
+          showToast={showToast}
         />
       )}
 

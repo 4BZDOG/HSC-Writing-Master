@@ -29,7 +29,15 @@ const user = {
 } as unknown as User;
 
 const open = () =>
-  render(<QuickStartModal isOpen onClose={() => {}} user={user} onOpenLegal={() => {}} />);
+  render(
+    <QuickStartModal
+      isOpen
+      onClose={() => {}}
+      user={user}
+      onOpenLegal={() => {}}
+      showToast={() => {}}
+    />
+  );
 
 /** The scrolling panel: the one element carrying `overflow-y-auto`. */
 const scrollPanel = (): HTMLElement => {
@@ -50,8 +58,8 @@ describe('the quick start guide’s scrolling body', () => {
     expect(scrollPanel().getAttribute('aria-label')).toMatch(/getting started/i);
 
     // Switching tabs relabels it rather than leaving the old name behind.
-    fireEvent.click(screen.getByRole('button', { name: /free vs plus/i }));
-    expect(scrollPanel().getAttribute('aria-label')).toMatch(/free vs plus/i);
+    fireEvent.click(screen.getByRole('button', { name: /compare plans/i }));
+    expect(scrollPanel().getAttribute('aria-label')).toMatch(/compare plans/i);
   });
 
   it('still has nothing focusable of its own on the guide tab', () => {

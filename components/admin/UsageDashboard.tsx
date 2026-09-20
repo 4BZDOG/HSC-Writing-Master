@@ -191,13 +191,24 @@ const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
         </span>
       )}
       {school.plan_period_end && (
-        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
-          renews{' '}
+        // "Renews" is only true while the licence is actually renewing. Stripe
+        // keeps a cancelling subscription at status 'active' to the very end of
+        // the period, so this row used to promise a renewal on the exact date
+        // the whole school would drop back to the free tier.
+        <span
+          className={`text-[10px] ${
+            school.plan_cancel_at_period_end
+              ? 'font-bold text-amber-500'
+              : 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
+          }`}
+        >
+          {school.plan_cancel_at_period_end ? 'ends' : 'renews'}{' '}
           {new Date(school.plan_period_end).toLocaleDateString('en-AU', {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
           })}
+          {school.plan_cancel_at_period_end && ' — cancelled'}
         </span>
       )}
     </div>

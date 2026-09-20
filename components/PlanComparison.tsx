@@ -9,7 +9,10 @@ import {
   type Plan,
 } from '../services/entitlements';
 import { buildPlanComparison, COMPARED_PLANS, PLAN_TAGLINES } from '../utils/planComparison';
+import SchoolLicencePanel, { hasSchoolRoute } from './SchoolLicencePanel';
+import { dailyResetTime } from '../utils/dailyReset';
 import type { User } from '../types';
+import type { ToastType } from '../hooks/useToast';
 
 /**
  * Free vs Plus vs School, built from `utils/planComparison.ts` — which is
@@ -67,9 +70,19 @@ interface PlanComparisonProps {
   user?: User | null;
   /** Shown under the table when the caller wants the upgrade route offered. */
   showUpgradeCta?: boolean;
+  /** Reports a failed School checkout. Without it the School row is a price
+   *  with no way to act on it — see the note on SchoolLicencePanel. */
+  showToast?: (message: string, type: ToastType) => void;
+  /** Dismisses the surface this table sits in, after an action that ends it. */
+  onDone?: () => void;
 }
 
-const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = true }) => {
+const PlanComparison: React.FC<PlanComparisonProps> = ({
+  user,
+  showUpgradeCta = true,
+  showToast,
+  onDone,
+}) => {
   const rows = buildPlanComparison();
   const currentPlan = getUserPlan(user ?? null);
 
@@ -191,8 +204,8 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
       {showUpgradeCta && currentPlan === 'free' && monetisationEnabled() && (
         <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200">
           <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
-            The free plan resets every day and never expires. Upgrade when you want the full
-            feedback, not because you ran out of time.
+            Your free markings come back every day at {dailyResetTime()}, and the plan never
+            expires. Upgrade when you want the full feedback, not because you ran out of time.
           </p>
           <button
             onClick={() => requestUpgrade('fullFeedback')}
@@ -201,6 +214,17 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({ user, showUpgradeCta = 
             <Crown className="w-3.5 h-3.5" /> See {PLAN_LABELS.plus}
           </button>
         </div>
+      )}
+
+      {/* The School column's route out of the table.
+          The School plan had a price in the header card above and nowhere to
+          act on it: the seat picker lived only inside the upgrade prompt, and
+          the prompt only opens on a LOCKED control — which a teacher or admin,
+          the only two roles allowed to buy a licence, never has. This is where
+          staff actually arrive (Profile → Compare plans), so the route belongs
+          here. */}
+      {showUpgradeCta && showToast && hasSchoolRoute() && (
+        <SchoolLicencePanel user={user} showToast={showToast} onDone={onDone} className="mt-4" />
       )}
     </div>
   );

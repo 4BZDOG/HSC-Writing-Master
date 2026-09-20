@@ -267,14 +267,16 @@ You should see `stripe_plan = 'plus'` and a valid `plan_period_end`.
 
 ## Step 7 — Manage Subscriptions (Billing Portal)
 
-Logged-in paid users can manage their subscription from their **profile modal** (the user avatar → Overview tab → Plan card → "Manage Subscription" button). This opens the Stripe Billing Portal where they can:
+Logged-in paid users can manage their subscription from their **profile modal** (the user avatar → Overview tab → Plan card → "Manage Subscription" button), and from the upgrade prompt when checkout refuses a second subscription. This opens the Stripe Billing Portal where they can:
 
-- Upgrade/downgrade plans
 - Cancel their subscription
 - Update payment method
 - View invoices
+- Change plan or seat count — **only if you enable it**, see below
 
-> The portal works out of the box — no additional Stripe configuration needed. Stripe hosts the portal UI.
+> Stripe hosts the portal UI, so nothing needs deploying. But **check what your portal configuration actually allows** before going live: the app sends users there for plan and seat changes in two places — `api/create-checkout` refuses a second concurrent subscription with "Use *Manage subscription* to change your plan or seats", and the upgrade prompt turns its own CTA into that portal link when it sees that refusal. If the portal cannot switch plans or update quantities, both messages point at a dead end.
+>
+> In **Settings → Billing → Customer portal**, confirm that *Customers can switch plans* is on and that every price you sell is listed as a switchable product, and that *Customers can update quantities* is on (this is what lets a school top up seats). Cancellation, payment-method updates and invoice history are the parts that work without configuration.
 
 ---
 
@@ -359,14 +361,20 @@ Sell a whole-school licence directly from the upgrade modal:
 2. **Set the env vars** (server _and_ client must agree):
    - `STRIPE_SCHOOL_PRICE_ID=price_…` (server — maps the price to the
      `school` plan and allows seat quantities at checkout)
-   - `VITE_STRIPE_SCHOOL_PRICE_ID=price_…` (client — switches the upgrade
-     modal's school section from an enquiry link to a direct seat purchase
-     for teachers/admins)
+   - `VITE_STRIPE_SCHOOL_PRICE_ID=price_…` (client — switches the School
+     licence panel from an enquiry link to a direct seat purchase for
+     teachers/admins. That panel appears in the plan comparison, Profile →
+     Compare plans, and in the upgrade prompt. The comparison is the one that
+     matters: staff hold a paid plan already, so they never meet a locked
+     control and the prompt never opens for them)
    - `VITE_SCHOOL_SEAT_PRICE_DISPLAY=A$4` (display only)
 3. **Re-apply the schema** (`supabase/schema.sql` §13 adds
    `schools.stripe_subscription_id / plan_seats / plan_status /
-plan_period_end` and `subscriptions.seats` — all `add column if not
-exists`, safe to re-run).
+plan_period_end / plan_cancel_at_period_end` and `subscriptions.seats` — all
+`add column if not exists`, safe to re-run). Re-applying also refreshes
+`list_schools()`, which is what puts the licence columns in front of an admin;
+until you do, the dashboard shows the licence as "unknown" and reads an end
+date as a renewal date.
 
 How it works: a teacher or admin picks a seat count and checks out; the
 webhook stores the seat quantity and stamps the licence onto **their
@@ -378,5 +386,8 @@ personal subscriptions). Seats are the billed quantity — compare
 true-ups.
 
 **Important**: the buyer must belong to a school (Admin → Schools) _before_
-purchasing; otherwise only the buyer's own account holds the plan until an
-admin assigns their school.
+purchasing. `api/create-checkout` now refuses a school-price checkout from an
+account with no `school_id` and says so, rather than taking the money for N
+seats and licensing one person — the school row is not back-filled when an
+admin assigns them later, so the licence would stay attached to nothing until
+the subscription next updates.

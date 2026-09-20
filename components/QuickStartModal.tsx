@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { X, Rocket, Crown, Lightbulb, Clock, Lock, Scale, ArrowRight } from 'lucide-react';
 import type { User } from '../types';
+import type { ToastType } from '../hooks/useToast';
 import { QUICK_START_ICONS } from './agreementIcons';
 import { trackForRole, POWER_TIPS } from '../data/quickStartContent';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -29,6 +30,9 @@ interface QuickStartModalProps {
   user: User;
   /** Opens the Terms & Privacy reader — offered as a footer link. */
   onOpenLegal: () => void;
+  /** Passed through to the plan comparison, whose School licence route can
+   *  start a checkout and has to be able to report a failure. */
+  showToast: (message: string, type: ToastType) => void;
   /** Which tab opens first. The profile's "Compare plans" opens on `plans`;
    *  AppModals keys this component on the value so a re-open honours it. */
   initialTab?: QuickStartTab;
@@ -39,6 +43,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
   onClose,
   user,
   onOpenLegal,
+  showToast,
   initialTab = 'guide',
 }) => {
   const [tab, setTab] = useState<QuickStartTab>(initialTab);
@@ -56,7 +61,9 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 
   const TABS: { id: QuickStartTab; label: string; icon: typeof Rocket }[] = [
     { id: 'guide', label: 'Getting started', icon: Rocket },
-    { id: 'plans', label: 'Free vs Plus', icon: Crown },
+    // Named for what it shows — three plans, not two. It was "Free vs Plus"
+    // while the table already carried a School column with its own price.
+    { id: 'plans', label: 'Compare plans', icon: Crown },
     { id: 'tips', label: 'Good to know', icon: Lightbulb },
   ];
 
@@ -205,7 +212,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                 what that includes — and what the other plans add. Everything below is read straight
                 from the app’s own access rules, so it is always current.
               </p>
-              <PlanComparison user={user} />
+              <PlanComparison user={user} showToast={showToast} onDone={onClose} />
             </>
           )}
 

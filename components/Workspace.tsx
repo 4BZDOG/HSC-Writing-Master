@@ -32,7 +32,11 @@ import WorkspaceRightPanel from './WorkspaceRightPanel';
 import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
 import { isOverlayOpen } from '../hooks/useEscapeKey';
-import { isQuestionTierLocked, requestUpgrade } from '../services/entitlements';
+import {
+  isQuestionTierLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 import type { AppGeminiHandlers, AppModalHandlers } from '../hooks/appHandlerTypes';
@@ -84,20 +88,22 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
         <Lock className="w-7 h-7 text-amber-500" />
       </div>
       <p className="t-label text-amber-500 mb-3">
-        {verb} · {marks} {marks === 1 ? 'mark' : 'marks'} · Band 6 Plus
+        {verb} · {marks} {marks === 1 ? 'mark' : 'marks'} ·{' '}
+        {planLabelForFeature('advancedQuestions')}
       </p>
       <h3 className="text-lg font-serif leading-relaxed text-slate-800 dark:text-slate-200 mb-6">
         {question}
       </h3>
       <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
-        Higher-order questions — Analyse, Evaluate, Discuss — are part of Band 6 Plus. Your free
-        plan covers every question up to tier {freeTierLimits().maxQuestionTier}.
+        Higher-order questions — Analyse, Evaluate, Discuss — are part of{' '}
+        {planLabelForFeature('advancedQuestions')}. Your free plan covers every question up to tier{' '}
+        {freeTierLimits().maxQuestionTier}.
       </p>
       <button
         onClick={() => requestUpgrade('advancedQuestions')}
         className="t-label px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
       >
-        Unlock with Plus
+        Unlock with {planLabelForFeature('advancedQuestions')}
       </button>
     </div>
   </div>

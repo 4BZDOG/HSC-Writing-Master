@@ -1581,6 +1581,15 @@ alter table public.schools
   add column if not exists plan_status            text not null default 'none',
   add column if not exists plan_period_end        timestamptz;
 
+-- Whether the licence is set to lapse at the end of the paid period.  Stripe
+-- keeps a cancelling subscription at status 'active' right up to the boundary,
+-- so `plan_status` alone cannot tell "renews on this date" from "ends on this
+-- date" — and the admin dashboard was saying "renews" for a licence that was
+-- about to drop a whole school back to the free tier.  Mirrors
+-- `subscriptions.cancel_at_period_end` for the school row.
+alter table public.schools
+  add column if not exists plan_cancel_at_period_end boolean not null default false;
+
 -- Supersedes §11's resolve_ai_quota with a LICENCE-aware version.
 --
 -- §11 grants the 300-call floor on `profiles.stripe_plan` alone, which the
@@ -1646,7 +1655,8 @@ begin
          where u.school_id = s.id and u.day = (now() at time zone 'utc')::date), 0),
       'plan_status', s.plan_status,
       'plan_seats', s.plan_seats,
-      'plan_period_end', s.plan_period_end
+      'plan_period_end', s.plan_period_end,
+      'plan_cancel_at_period_end', s.plan_cancel_at_period_end
     ) as row_obj
     from public.schools s
   ) sub;

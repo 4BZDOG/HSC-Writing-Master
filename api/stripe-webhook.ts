@@ -510,6 +510,11 @@ async function handleSubscriptionUpsert(
           plan_seats: seats,
           plan_status: status,
           plan_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
+          // Stripe holds a cancelling subscription at 'active' until the
+          // boundary, so without this the dashboard reads the end date as a
+          // renewal date and nobody finds out the school is about to lose the
+          // plan until it has.
+          plan_cancel_at_period_end: cancelAtPeriodEnd,
         })
         .eq('id', schoolId);
       if (schoolError) {
@@ -559,7 +564,7 @@ async function handleSubscriptionDeleted(
   // school plan at their next session refresh.
   await supabase
     .from('schools')
-    .update({ plan_status: 'canceled', plan_period_end: null })
+    .update({ plan_status: 'canceled', plan_period_end: null, plan_cancel_at_period_end: false })
     .eq('stripe_subscription_id', subId);
 
   // Find the user and downgrade their cached plan to free (unless they have

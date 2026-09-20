@@ -15,7 +15,7 @@ import {
 } from '../utils/panelStyles';
 import { PROSE_FLOW } from '../utils/prose';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
-import { isFeatureLocked } from '../services/entitlements';
+import { isFeatureLocked, planLabelForFeature } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import { useSupportResource } from '../hooks/useSupportResource';
 import { markSupportOpened, type SupportResourceId } from '../utils/supportEngagement';
@@ -193,7 +193,8 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
             {briefingLocked && (
               <p className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
                 <PlusLockChip feature="outcomeBriefing" />
-                Briefings are part of Band 6 Plus — the outcomes themselves are always free to read.
+                Briefings are part of {planLabelForFeature('outcomeBriefing')} — the outcomes
+                themselves are always free to read.
               </p>
             )}
             {linkedOutcomes.map((outcome) => (

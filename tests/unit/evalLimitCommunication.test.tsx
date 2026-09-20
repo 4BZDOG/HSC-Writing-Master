@@ -32,9 +32,12 @@ import {
   subscribeEvalCount,
   FREE_TIER_EVAL_LIMIT,
   UPGRADE_REQUEST_EVENT,
+  evalLimitMessage,
+  PLAN_LABELS,
 } from '../../services/entitlements';
 import UpgradeModal from '../../components/UpgradeModal';
 import FreeEvalCounter from '../../components/FreeEvalCounter';
+import { dailyResetPhrase } from '../../utils/dailyReset';
 
 beforeEach(() => localStorage.clear());
 afterEach(cleanup);
@@ -52,7 +55,9 @@ describe('the remaining-markings counter is visible, not hover-only', () => {
     act(() => {
       recordEvaluation();
     });
-    expect(screen.getByText(`${FREE_TIER_EVAL_LIMIT - 1}/${FREE_TIER_EVAL_LIMIT} left`)).toBeTruthy();
+    expect(
+      screen.getByText(`${FREE_TIER_EVAL_LIMIT - 1}/${FREE_TIER_EVAL_LIMIT} left`)
+    ).toBeTruthy();
   });
 
   it('says plainly when the allowance is gone', () => {
@@ -103,6 +108,32 @@ describe('the free-evaluation mirror announces its own changes', () => {
   });
 });
 
+describe('one sentence for the limit, whichever side catches it', () => {
+  /**
+   * The moment can be caught twice: by the client's own pre-check
+   * (App.handleEvaluate) and by the proxy's 402 (useGemini). They used to say
+   * different things — the server cannot name a reset time because it does not
+   * know the caller's timezone, and it spelled the plan out as a literal — so a
+   * student who hit the limit on a second device read a vaguer message than the
+   * one they got on the first. Both now call this.
+   */
+  it('states the live allowance, when it returns, and what removes it', () => {
+    const message = evalLimitMessage();
+    expect(message).toContain(`all ${FREE_TIER_EVAL_LIMIT} free markings`);
+    expect(message).toContain(dailyResetPhrase());
+    expect(message).toContain(PLAN_LABELS.plus);
+  });
+
+  it('quotes the limit the SERVER last enforced, not the bundled default', () => {
+    // An admin can change the allowance in Postgres without a deploy, and the
+    // proxy reports the live figure on a refusal. Quoting the compiled-in
+    // number after that would tell the student a limit nobody is holding them
+    // to.
+    syncFreeEvalCount(3, 3);
+    expect(evalLimitMessage()).toContain('all 3 free markings');
+  });
+});
+
 describe('the upgrade prompt at the daily limit', () => {
   const showToast = vi.fn();
   const user = { username: 'student-a', role: 'user', stats: {} } as unknown as User;
@@ -123,12 +154,23 @@ describe('the upgrade prompt at the daily limit', () => {
     expect(screen.queryByRole('heading', { name: /Full Marking Feedback/i })).toBeNull();
   });
 
-  it('states the allowance and that it returns', () => {
+  it('states the allowance and when it returns, in the reader’s own clock', () => {
     // "You've hit a wall" converts worse than "here is the wall, and here is
     // when it moves" — and the second one is also the truth.
+    //
+    // The reset is a UTC day boundary, which for the NSW students this is built
+    // for is mid-morning, not midnight. It used to say "reset at midnight",
+    // which a student read as their own — so they came back before school and
+    // found the allowance still spent. The phrase is now localised, and this
+    // pins the prompt to the same helper the counter chip uses rather than to
+    // one timezone's wording.
     openAtLimit();
-    expect(screen.getByText(new RegExp(`${FREE_TIER_EVAL_LIMIT} marked answers a day`))).toBeTruthy();
-    expect(screen.getByText(/reset at midnight/i)).toBeTruthy();
+    expect(
+      screen.getByText(new RegExp(`${FREE_TIER_EVAL_LIMIT} marked answers a day`))
+    ).toBeTruthy();
+    const blurb = screen.getByText(/marked answers a day/i).textContent ?? '';
+    expect(blurb).toContain(`your next one is at ${dailyResetPhrase()}`);
+    expect(blurb).not.toMatch(/midnight UTC/i);
   });
 
   it('still leads with the feature when a locked control opened it', () => {
@@ -154,10 +196,7 @@ describe('a guest is told the real next step', () => {
 
     const cta = screen.getByRole('button', { name: /Create an account/i });
     fireEvent.click(cta);
-    expect(showToast).toHaveBeenCalledWith(
-      expect.stringMatching(/free account first/i),
-      'info'
-    );
+    expect(showToast).toHaveBeenCalledWith(expect.stringMatching(/free account first/i), 'info');
   });
 });
 

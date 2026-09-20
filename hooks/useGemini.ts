@@ -19,6 +19,7 @@ import {
 import * as gemini from '../services/geminiService';
 import { emitEvalProgress } from '../services/aiCore';
 import {
+  evalLimitMessage,
   recordEvaluation,
   requestUpgrade,
   syncFreeEvalCount,
@@ -162,11 +163,18 @@ export const useGemini = ({
         // The server's figures win over the local mirror — including the
         // limit, which an admin can change in the database without a deploy.
         syncFreeEvalCount(error.used, error.limit);
-        showToast(error.message, 'info');
+        // Say what the LOCAL pre-check says. The server's own sentence is
+        // correct but it is written without a timezone (it cannot know the
+        // caller's) and names the plan as a literal, so the same event was
+        // described one way when the client caught it and another way when the
+        // server did. The sync above has just made the client's figures
+        // authoritative, so it can now state the reset too.
+        const message = evalLimitMessage();
+        showToast(message, 'info');
         // Same limit, reached server-side rather than caught by the local
         // pre-check — so the prompt must say the same thing.
         requestUpgrade('fullFeedback', 'dailyLimit');
-        return error.message;
+        return message;
       }
       // The plan doesn't include this feature at all. Sell the RIGHT thing:
       // the prompt is opened for the feature that was actually refused.
