@@ -12,9 +12,15 @@ import { expect, Page } from '@playwright/test';
  * Sign in as one of the mock accounts. `user` is the free tier, which is what
  * most specs want; `admin` holds the most permissive plan, so it is the one to
  * use when a spec needs a feature the free tier has withheld (the answer
- * rewrite, PDF export).
+ * rewrite, PDF export). `teacher` is the third: it holds Plus through the
+ * staff perk, which makes it the account with NOTHING locked and no
+ * subscription of its own — the case the paywall's routing has to answer
+ * without ever showing it a lock.
  */
-export const signIn = async (page: Page, account: 'user' | 'admin' = 'user'): Promise<void> => {
+export const signIn = async (
+  page: Page,
+  account: 'user' | 'teacher' | 'admin' = 'user'
+): Promise<void> => {
   await page.goto('/');
   await page.fill('#username', account);
   await page.fill('#password', account);

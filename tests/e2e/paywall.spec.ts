@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
 
 /**
@@ -23,8 +23,13 @@ import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace'
  * lifts in, so a plain click waits out the full timeout. `index.css` already
  * neutralises every animation and transition under `prefers-reduced-motion`,
  * so asking for it is both the fix and a pass over that path.
+ *
+ * Applied per page rather than through `test.use`, which the suite's own
+ * type-check rejects on the base `test` object.
  */
-test.use({ reducedMotion: 'reduce' });
+const withoutMotion = async (page: Page): Promise<void> => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+};
 
 /**
  * Profile → Settings → Compare plans, which is where the plan table lives.
@@ -34,7 +39,10 @@ test.use({ reducedMotion: 'reduce' });
 const openPlanComparison = async (page: import('@playwright/test').Page) => {
   await page.getByRole('button', { name: /open your profile/i }).click();
   await page.getByRole('button', { name: /^Settings$/ }).click();
-  await page.getByRole('button', { name: /compare plans/i }).first().click();
+  await page
+    .getByRole('button', { name: /compare plans/i })
+    .first()
+    .click();
   // A tagline, not a plan name: the profile card names plans too.
   await expect(page.getByText(/One licence covering every student and teacher/i)).toBeVisible({
     timeout: 15_000,
@@ -48,6 +56,7 @@ test.describe('the profile hands off rather than stacking', () => {
     // pressed the row and nothing visible happened. `toBeVisible` does not
     // model occlusion, so only a click could catch it: the buried CTA reported
     // "element intercepts pointer events" from the profile's own subtree.
+    await withoutMotion(page);
     await signIn(page, 'user');
     await clearOnboarding(page);
     await openPlanComparison(page);
@@ -59,6 +68,7 @@ test.describe('the free tier can see what it is held to', () => {
   test('states the remaining markings as text, not as a tooltip', async ({ page }) => {
     // A `title` attribute is not a limit anyone on a phone can plan around,
     // and most students are on one.
+    await withoutMotion(page);
     await signIn(page, 'user');
     await clearOnboarding(page);
     await openFirstQuestion(page);
@@ -70,6 +80,7 @@ test.describe('the free tier can see what it is held to', () => {
   test('names the plan and a price in the comparison, not just a list of crosses', async ({
     page,
   }) => {
+    await withoutMotion(page);
     await signIn(page, 'user');
     await clearOnboarding(page);
     await openPlanComparison(page);
@@ -79,6 +90,7 @@ test.describe('the free tier can see what it is held to', () => {
   });
 
   test('offers an upgrade route from the comparison', async ({ page }) => {
+    await withoutMotion(page);
     await signIn(page, 'user');
     await clearOnboarding(page);
     await openPlanComparison(page);
@@ -95,6 +107,7 @@ test.describe('staff can reach the School licence', () => {
     // staff perk, so no control is ever locked for them and the upgrade prompt
     // — which is where the seat picker used to live, alone — cannot open. The
     // route has to be somewhere they actually go.
+    await withoutMotion(page);
     await signIn(page, 'teacher');
     await clearOnboarding(page);
     await openPlanComparison(page);
@@ -102,6 +115,7 @@ test.describe('staff can reach the School licence', () => {
   });
 
   test('a teacher is not shown a free-tier marking limit', async ({ page }) => {
+    await withoutMotion(page);
     await signIn(page, 'teacher');
     await clearOnboarding(page);
     await openFirstQuestion(page);
@@ -111,6 +125,7 @@ test.describe('staff can reach the School licence', () => {
 
 test.describe('an unlocked account sees no paywall', () => {
   test('an admin is metered by nothing and sold nothing', async ({ page }) => {
+    await withoutMotion(page);
     await signIn(page, 'admin');
     await clearOnboarding(page);
     await openFirstQuestion(page);
