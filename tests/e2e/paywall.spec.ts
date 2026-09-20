@@ -129,7 +129,10 @@ test.describe('a modal can be closed by its close button', () => {
     const agree = page.getByRole('button', { name: /agree and continue/i });
     await agree.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
     if (await agree.count()) {
-      await page.getByRole('checkbox').first().check();
+      // Scoped to the gate's own dialog — the first-run syllabus import
+      // renders eight checkboxes of its own behind it.
+      const gate = page.getByRole('dialog').filter({ has: agree });
+      await gate.getByRole('checkbox').first().check();
       await agree.click();
     }
     const guide = page

@@ -183,7 +183,12 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       tabIndex={-1}
       role="dialog"
       aria-modal="true"
-      aria-label="Import a course pack"
+      /* Named by its own heading rather than by a second, separate string.
+         The hand-written name was "Import a course pack" while the heading
+         read "Add syllabuses", so a screen reader announced the dialog as one
+         thing and then read out another — and the two had already drifted
+         once. `aria-labelledby` cannot drift. */
+      aria-labelledby="manifest-import-title"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-3 sm:p-6 animate-fade-in"
     >
       <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
@@ -205,7 +210,10 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 heading read "Content Library". A label that repeats the thing
                 it labels is not a label. */}
             <div className="min-w-0">
-              <h2 className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight leading-none">
+              <h2
+                id="manifest-import-title"
+                className="text-2xl sm:text-4xl font-black text-white light:text-slate-900 tracking-tight leading-none"
+              >
                 Add syllabuses
               </h2>
               <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-3 max-w-lg leading-relaxed">

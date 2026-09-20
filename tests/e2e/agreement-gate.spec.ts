@@ -25,8 +25,13 @@ const signIn = async (page: Page, username: string, password: string) => {
 };
 
 const acceptAgreement = async (page: Page) => {
-  await page.getByRole('checkbox').check();
-  await page.getByRole('button', { name: /agree and continue/i }).click();
+  // Scoped to the gate's own dialog. Unscoped, this is a strict-mode
+  // violation the moment the first-run syllabus import renders its eight
+  // checkboxes behind the gate — which it already does on the guest path.
+  const agree = page.getByRole('button', { name: /agree and continue/i });
+  const gate = page.getByRole('dialog').filter({ has: agree });
+  await gate.getByRole('checkbox').check();
+  await agree.click();
 };
 
 /**
@@ -104,7 +109,20 @@ test.describe('agreement gate', () => {
     await expect(page.getByText(STUDENT_CHARTER)).toBeVisible();
     // Nothing to sign: a read-only trial that persists nothing server-side is
     // not the moment to demand a signature.
-    await expect(page.getByRole('checkbox')).toHaveCount(0);
+    //
+    // Scoped to the gate. Unscoped, this asked the whole page for checkboxes
+    // and got the eight belonging to the first-run syllabus import sitting
+    // behind the gate — which says nothing about whether a guest is asked to
+    // sign anything. It only ever passed because that list used to be built
+    // from `<div>`s with no role at all.
+    // Found by the one button a guest is offered, so the scope cannot quietly
+    // resolve to nothing and turn this into an assertion that always passes —
+    // which is precisely how the unscoped version survived.
+    const gate = page
+      .getByRole('dialog')
+      .filter({ has: page.getByRole('button', { name: /let me look around/i }) });
+    await expect(gate).toHaveCount(1);
+    await expect(gate.getByRole('checkbox')).toHaveCount(0);
 
     await page.getByRole('button', { name: /let me look around/i }).click();
     await dismissQuickStart(page);

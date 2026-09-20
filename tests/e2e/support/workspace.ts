@@ -34,7 +34,13 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
   const agree = page.getByRole('button', { name: /agree and continue/i });
   await agree.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
   if (await agree.count()) {
-    await page.getByRole('checkbox').first().check();
+    // Scoped to the gate's own dialog. A bare page-wide `getByRole('checkbox')`
+    // now competes with the first-run syllabus import, which renders eight of
+    // its own behind the gate — and on the guest path gets there first. Unscoped
+    // it is either the wrong checkbox or a strict-mode violation, depending on
+    // which of the two wins the race.
+    const gate = page.getByRole('dialog').filter({ has: agree });
+    await gate.getByRole('checkbox').first().check();
     await agree.click();
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
