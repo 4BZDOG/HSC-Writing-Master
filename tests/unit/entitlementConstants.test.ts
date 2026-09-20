@@ -1,7 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { FREE_TIER_EVAL_LIMIT, SCHOOL_SEAT_LIMITS } from '../../services/entitlements';
+import {
+  FREE_TIER_EVAL_LIMIT,
+  FREE_TIER_MAX_SAMPLE_BAND,
+  SCHOOL_SEAT_LIMITS,
+} from '../../services/entitlements';
 import { SCHOOL_SEAT_LIMITS as SERVER_SEAT_LIMITS } from '../../api/_lib/entitlements';
 
 /**
@@ -25,6 +29,50 @@ describe('entitlement constants stay in sync', () => {
       );
     expect(match, 'free_evaluation_limit() default not found in schema.sql').not.toBeNull();
     expect(Number(match![1])).toBe(FREE_TIER_EVAL_LIMIT);
+  });
+
+  it('the database caps free-tier exemplars at the band the UI advertises', () => {
+    // The band ceiling moved from a CSS class to an RLS policy (schema.sql
+    // §25). If these two drift, the client draws a lock over an exemplar the
+    // server did send, or — worse — offers one it will refuse to deliver.
+    const match =
+      /create or replace function public\.free_sample_band_cap\(\)[\s\S]*?where key = 'free_sample_band_cap'\),\s*(\d+)/.exec(
+        schemaSql
+      );
+    expect(match, 'free_sample_band_cap() default not found in schema.sql').not.toBeNull();
+    expect(Number(match![1])).toBe(FREE_TIER_MAX_SAMPLE_BAND);
+  });
+
+  it('the exemplar gate is a policy, not a class the inspector can delete', () => {
+    // The whole point of §25. If `answers_read` stops consulting
+    // sample_answer_withheld(), the prose is being sent again and whatever the
+    // client draws over it is decoration.
+    //
+    // The LAST definition, deliberately. `answers_read` is declared twice: a
+    // baseline in the policies section and the real one in §25, which is the
+    // same forward-replacement the file uses for `profiles_read`. Reading the
+    // first would assert the rule the baseline states and pass while the gate
+    // was gone.
+    const policies = [
+      ...schemaSql.matchAll(/create policy answers_read on public\.sample_answers[\s\S]*?\);/g),
+    ];
+    expect(policies.length, 'answers_read policy not found in schema.sql').toBeGreaterThan(0);
+    expect(policies[policies.length - 1][0]).toMatch(
+      /not public\.sample_answer_withheld\(band, created_by\)/
+    );
+  });
+
+  it('the report of what is locked cannot carry what is locked', () => {
+    // withheld_sample_answers() exists to describe the rows the policy just
+    // refused. The moment it selects a prose column it becomes the leak it was
+    // written to close.
+    const fn = /create or replace function public\.withheld_sample_answers\(\)[\s\S]*?\$\$;/.exec(
+      schemaSql
+    );
+    expect(fn, 'withheld_sample_answers() not found in schema.sql').not.toBeNull();
+    expect(fn![0]).not.toMatch(/s\.answer|s\.feedback|s\.quick_tip/);
+    // And it must never describe an unpublished draft.
+    expect(fn![0]).toMatch(/s\.status = 'approved'/);
   });
 
   it('an admin can retune the limit without a migration', () => {

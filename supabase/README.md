@@ -124,9 +124,33 @@ service-role script, which run outside a user JWT — can change a role.
 Admins can also call `select public.set_user_role('<user-id>', 'teacher');`
 from the app instead of a raw `update`.
 
-Run `supabase/tests/rls_negative_tests.sql` in the SQL editor after applying
-`schema.sql` to verify this (and a few other authorisation boundaries) hold —
-see that file for what it checks and why.
+Run `npm run test:rls` to verify this (and every other authorisation boundary)
+holds — see **Running the database tests** below.
+
+### Running the database tests
+
+```bash
+docker run --rm -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres --name hsc-rls postgres:15
+npm run test:rls
+docker rm -f hsc-rls
+```
+
+`npm run test:rls` applies the compat shim, `schema.sql`, the test grants and
+then all three SQL test files, in the same order and with the same double apply
+as `.github/workflows/build.yml` — so a green run here means a green **RLS
+Policy Tests** job. Connection comes from the standard `PG*` variables, so
+point it wherever you like; `--keep` leaves the database behind to poke at.
+
+It creates its own database each run and drops it afterwards. That is not
+tidiness: the three test files seed **committed** fixtures into one shared id
+namespace, so a second run against the same database trips over rows the first
+one left. CI never sees it because a container is fresh every time.
+
+Until this existed, the only ways to run these were to push and wait for CI, or
+to paste them into a live project's SQL editor — so the boundary that most
+deserves a fast local loop was the one without one. It is worth running before
+any change to `schema.sql`: it is what caught a paywall gate that looked
+airtight and was bypassable in one request (§25).
 
 ### AI usage quotas (per user and per group)
 

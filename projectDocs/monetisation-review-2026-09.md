@@ -26,7 +26,7 @@ lint, unit tests, end-to-end tests, both type-checks, a production build, and
 the chunk-order, eager-read and dead-code guards.
 
 Findings §1–§12 shipped in #266. §13–§14 came out of writing the end-to-end
-coverage that §4 of *Still open* had called for — which is itself the argument
+coverage that §4 of _Still open_ had called for — which is itself the argument
 for having written it.
 
 ## 2. Findings
@@ -168,7 +168,7 @@ nothing until the subscription next updates, up to a year later.
 The panel already warned about this in prose ("make sure your school is set up,
 and you're in it"). **Fixed** by enforcing it where it can hold — a 400 before
 any money moves, naming the step that fixes it (Admin → Schools). Ordered
-*after* the duplicate-subscription guard, because "you already have a
+_after_ the duplicate-subscription guard, because "you already have a
 subscription" is the stronger answer when both apply.
 
 ### 10. The admin dashboard called an ending licence a renewing one — P1, fixed
@@ -218,7 +218,7 @@ table, which is the only in-app route to a School licence — so §1's fix lande
 on a surface nobody could actually open.
 
 Why no test caught it: Playwright's `toBeVisible` and Testing Library's queries
-both model *rendered*, not *reachable*. The element was in the tree the whole
+both model _rendered_, not _reachable_. The element was in the tree the whole
 time. Only a **click** exposed it, reporting that the profile's own subtree
 intercepted the pointer.
 
@@ -280,10 +280,53 @@ pressed from.
   teacher's route to the School licence. Writing it found §13 and §14
   immediately, which is the case for having it.
 
+### 15. The exemplar gate was a CSS class — P1, fixed
+
+The free tier may read exemplars up to Band 3. That rule was
+`blur-sm select-none pointer-events-none` on a div whose text was already in
+the document. The server sent every Band 6 exemplar to every free account and
+the client drew frosted glass over it: one class deleted in the inspector, or
+one look at the network tab, bought the library.
+
+**Fixed in `supabase/schema.sql` §25**, where a browser cannot reach it.
+`answers_read` now also requires `not sample_answer_withheld(band, created_by)`,
+so the row is never returned.
+
+Two things about the shape of the fix are worth recording, because the obvious
+version of each is wrong:
+
+- **It withholds the ROW, not the columns.** The first cut was a view that kept
+  the row and nulled its three prose columns, which reads better — the client is
+  told exactly what is behind the plan. It was also bypassable in one request:
+  Supabase grants `authenticated` SELECT on every table and lets RLS gate it, so
+  `/rest/v1/sample_answers` returned the prose the view had just hidden. The
+  entitlement test that proves this now reads the **table**, not the view that
+  is gone, for exactly that reason. Revoking the table's SELECT was not the way
+  out either — the review queue and every author's own read go through it.
+- **The upsell had to be rebuilt separately.** Dropping the row closes the hole
+  and takes the lock with it: a gate the client cannot see is a gate that sells
+  nothing. `withheld_sample_answers()` returns everything _about_ the refused
+  rows — band, mark, source — and selects no prose column at all, so that path
+  cannot become the leak it exists to prevent. `tests/unit/entitlementConstants.test.ts`
+  asserts it never starts selecting one.
+
+Three exemptions, all of them corrections rather than courtesies: an **admin**
+has to read what they are moderating; the **author** must never be sold their
+own writing (a student's marked answer can be saved back as an exemplar); and a
+school running this for itself never asked to be metered, so the
+`free_sample_band_cap` plan setting doubles as the opt-out — set it to 6 and
+nothing is ever withheld.
+
+The workspace shows a real locked card now (band, mark, and the route to Plus)
+instead of blurring prose it no longer has. Verified against a local Postgres
+running the full CI SQL pipeline: six new entitlement assertions covering the
+free reader, the paying reader, the admin, the author, the tuned-off cap and
+the review queue.
+
 ## 5. Still open (not attempted here)
 
 - **A licence going live mid-session does not reach other members until they
-  reload.** *(The one remaining item from the first pass's list.)* `applySchoolPlan` runs inside `refreshSession`, which fires at app
+  reload.** _(The one remaining item from the first pass's list.)_ `applySchoolPlan` runs inside `refreshSession`, which fires at app
   load and on checkout return — so the buyer unlocks immediately, and everyone
   else in their school keeps seeing locks until their next load. The divergence
   is safe (the server is authoritative and the more generous of the two) but a
@@ -298,9 +341,8 @@ pressed from.
   (class-scoped analytics is the obvious candidate) rather than a code change.
 - **Nothing notices when a school outgrows its licence.** The dashboard shows
   the over-seat warning, but only to an admin who happens to open it.
-- **`sampleAnswers` is the one UI-only gate with a real fix available** —
-  withhold exemplars at the point they are FETCHED rather than blurring content
-  the client already holds. The other three (`advancedQuestions`, `pdfExport`,
+- ~~**`sampleAnswers` is the one UI-only gate with a real fix available**~~ —
+  **done**, see §15 below. The other three (`advancedQuestions`, `pdfExport`,
   `examMode`) are honestly unfixable at that layer, for the reasons in
   `api/_lib/planPolicy.ts`.
 - **`STRIPE_AUTOMATIC_TAX` has still never been exercised against a live

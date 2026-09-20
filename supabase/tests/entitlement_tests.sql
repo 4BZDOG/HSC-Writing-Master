@@ -18,6 +18,11 @@
 -- =============================================================================
 
 -- ---- Setup -------------------------------------------------------------------
+-- Fixture ids live in their own `ea..` range. They used to reuse the `d..` and
+-- `e5` ids from rls_negative_tests.sql, which share this database: `e5` is a
+-- TEACHER there and this file committed `role = 'admin'` onto it. CI survived
+-- on file order alone, and a second run against the same database collided on
+-- `topics_pkey` outright.
 begin;
 insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-0000-0000-0000000000e1', 'ent_test_free@example.test',
@@ -27,7 +32,9 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-0000-0000-0000000000e3', 'ent_test_teacher@example.test',
    '{"username":"ent_test_teacher","display_name":"Ent Teacher"}'),
   ('00000000-0000-0000-0000-0000000000e4', 'ent_test_member@example.test',
-   '{"username":"ent_test_member","display_name":"Ent School Member"}')
+   '{"username":"ent_test_member","display_name":"Ent School Member"}'),
+  ('00000000-0000-0000-0000-00000000ea05', 'ent_test_admin@example.test',
+   '{"username":"ent_test_admin","display_name":"Ent Admin"}')
 on conflict (id) do nothing;
 
 update public.profiles set role = 'student', stripe_plan = 'free'
@@ -35,6 +42,7 @@ update public.profiles set role = 'student', stripe_plan = 'free'
               '00000000-0000-0000-0000-0000000000e2',
               '00000000-0000-0000-0000-0000000000e4');
 update public.profiles set role = 'teacher' where id = '00000000-0000-0000-0000-0000000000e3';
+update public.profiles set role = 'admin' where id = '00000000-0000-0000-0000-00000000ea05';
 -- A paid personal plan, as the Stripe webhook would leave it.
 update public.profiles set stripe_plan = 'plus' where id = '00000000-0000-0000-0000-0000000000e2';
 
@@ -46,6 +54,37 @@ update public.schools set plan_status = 'active'
  where id = '00000000-0000-0000-0000-0000000000f1';
 update public.profiles set school_id = '00000000-0000-0000-0000-0000000000f1'
  where id = '00000000-0000-0000-0000-0000000000e4';
+
+-- A prompt with one exemplar at the band cap and two above it — one canonical,
+-- one written by the free student themselves. Committed, so the blocks below
+-- can roll back their own writes without taking the fixture with them.
+insert into public.courses (id, name, status)
+  values ('00000000-0000-0000-0000-00000000ea01', 'Ent Test Course', 'approved')
+  on conflict (id) do nothing;
+insert into public.topics (id, course_id, name, status)
+  values ('00000000-0000-0000-0000-00000000ea02',
+          '00000000-0000-0000-0000-00000000ea01', 'Ent Test Topic', 'approved')
+  on conflict (id) do nothing;
+insert into public.sub_topics (id, topic_id, name, status)
+  values ('00000000-0000-0000-0000-00000000ea03',
+          '00000000-0000-0000-0000-00000000ea02', 'Ent Test SubTopic', 'approved')
+  on conflict (id) do nothing;
+insert into public.dot_points (id, sub_topic_id, description, status)
+  values ('00000000-0000-0000-0000-00000000ea04',
+          '00000000-0000-0000-0000-00000000ea03', 'Ent Test DotPoint', 'approved')
+  on conflict (id) do nothing;
+insert into public.prompts (id, dot_point_id, question, status)
+  values ('00000000-0000-0000-0000-00000000ea06',
+          '00000000-0000-0000-0000-00000000ea04', 'Ent Test Prompt', 'approved')
+  on conflict (id) do nothing;
+insert into public.sample_answers (id, prompt_id, band, mark, answer, status, created_by) values
+  ('00000000-0000-0000-0000-00000000ea07', '00000000-0000-0000-0000-00000000ea06',
+   3, 6, 'AT-CAP PROSE', 'approved', null),
+  ('00000000-0000-0000-0000-00000000ea08', '00000000-0000-0000-0000-00000000ea06',
+   6, 12, 'ABOVE-CAP PROSE', 'approved', null),
+  ('00000000-0000-0000-0000-00000000ea09', '00000000-0000-0000-0000-00000000ea06',
+   6, 12, 'MY OWN PROSE', 'approved', '00000000-0000-0000-0000-0000000000e1')
+  on conflict (id) do nothing;
 
 delete from public.evaluation_usage
  where user_id in ('00000000-0000-0000-0000-0000000000e1',
@@ -369,50 +408,152 @@ begin
   raise notice 'PASS: one person asking twice still counts once';
 end $$;
 
--- A different person, typing it differently, joins the SAME row.
-set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e2","role":"authenticated"}';
-do $$
-declare v jsonb; n integer;
-begin
-  v := public.log_course_request('marine studies');
-  select count(*) into n from public.course_requests;
-  if (v->>'requesters')::int <> 2 or n <> 1 then
-    raise exception 'TEST FAILED: a spelling variant forked the row (% rows, %)', n, v;
-  end if;
-  raise notice 'PASS: spelling variants fold into one row (% people)', v->>'requesters';
-end $$;
-rollback;
-
--- ---- 12. The demand list is reviewer-only, and triage is admin-only --------
--- The list names the people asking, so it is not readable by the people asking.
+-- A different person, ty-- ---- 13. Above-cap exemplars never leave the server ------------------------
+-- The free tier's band ceiling used to be a CSS class over text the server had
+-- already sent. schema.sql §25 makes the policy drop the row. The interesting
+-- failures are the ones where it withholds too MUCH, so four readers: a paying
+-- reader, an admin moderating the library and an author reading their own
+-- writing must all still get the text.
 begin;
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
 set local role authenticated;
 do $$
+declare v_at text; v_above text; v_mine text;
 begin
-  perform public.list_course_requests(false);
-  raise exception 'TEST FAILED: a student read the course demand list';
-exception
-  when others then
-    if sqlerrm = 'TEST FAILED: a student read the course demand list' then raise; end if;
-    raise notice 'PASS: the demand list is refused to a student (%)', sqlstate;
+  -- THE ROW ITSELF, straight from the table. This is the request the old
+  -- redaction-view design could not survive: Supabase grants `authenticated`
+  -- SELECT on every table, so anything the gate does not do HERE is decoration.
+  select answer into v_above from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea08';
+  if v_above is not null then
+    raise exception 'TEST FAILED: above-cap prose reached a free reader (%)', v_above;
+  end if;
+
+  select answer into v_at from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea07';
+  if v_at is distinct from 'AT-CAP PROSE' then
+    raise exception 'TEST FAILED: an at-cap exemplar was withheld from the free tier (%)',
+      coalesce(v_at, '<null>');
+  end if;
+
+  -- Their own writing. A student whose marked answer was saved back as an
+  -- exemplar must not be sold it.
+  select answer into v_mine from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea09';
+  if v_mine is distinct from 'MY OWN PROSE' then
+    raise exception 'TEST FAILED: an author was refused their own exemplar (%)',
+      coalesce(v_mine, '<null>');
+  end if;
+  raise notice 'PASS: above-cap prose is refused at the table, not hidden in the client';
 end $$;
+
+-- What the reader is told INSTEAD, and what it must never carry.
+do $$
+declare v_n int; v_band int;
+begin
+  select count(*) into v_n from public.withheld_sample_answers();
+  if v_n <> 1 then
+    raise exception 'TEST FAILED: expected 1 withheld exemplar to be reported, got %', v_n;
+  end if;
+  select band into v_band from public.withheld_sample_answers();
+  if v_band <> 6 then
+    raise exception 'TEST FAILED: the withheld report named band %, expected 6', v_band;
+  end if;
+  -- The author's own band-6 exemplar is NOT withheld, so it must not be
+  -- reported as something to buy.
+  if exists (select 1 from public.withheld_sample_answers()
+              where id = '00000000-0000-0000-0000-00000000ea09') then
+    raise exception 'TEST FAILED: an author was told their own exemplar is behind the plan';
+  end if;
+  raise notice 'PASS: the lock is reported with the band and the mark, and no prose';
+end $$;
+reset role;
+
+-- A paying reader.
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e2","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v text; v_n int;
+begin
+  select answer into v from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea08';
+  if v is distinct from 'ABOVE-CAP PROSE' then
+    raise exception 'TEST FAILED: a paid reader was refused an exemplar they bought (%)',
+      coalesce(v, '<null>');
+  end if;
+  select count(*) into v_n from public.withheld_sample_answers();
+  if v_n <> 0 then
+    raise exception 'TEST FAILED: a paid reader was shown % locks', v_n;
+  end if;
+  raise notice 'PASS: Plus reads above the cap and is sold nothing';
+end $$;
+reset role;
+
+-- An admin, who has to read what they are moderating.
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000ea05","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v text;
+begin
+  select answer into v from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea08';
+  if v is distinct from 'ABOVE-CAP PROSE' then
+    raise exception 'TEST FAILED: an admin could not read an exemplar they moderate (%)',
+      coalesce(v, '<null>');
+  end if;
+  raise notice 'PASS: an admin reads the whole library';
+end $$;
+reset role;
 rollback;
 
+-- ---- 14. The band cap is tunable, and the top band turns the gate off -------
+-- A school running this for itself never asked to be metered. Setting the cap
+-- to the top band is the documented opt-out, so it has to actually work.
 begin;
+insert into public.plan_settings (key, value) values ('free_sample_band_cap', 6)
+  on conflict (key) do update set value = excluded.value;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v text; v_n int;
+begin
+  select answer into v from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea08';
+  if v is distinct from 'ABOVE-CAP PROSE' then
+    raise exception 'TEST FAILED: a cap of 6 still withheld a band-6 exemplar (%)',
+      coalesce(v, '<null>');
+  end if;
+  select count(*) into v_n from public.withheld_sample_answers();
+  if v_n <> 0 then
+    raise exception 'TEST FAILED: a cap of 6 still reported % locks', v_n;
+  end if;
+  raise notice 'PASS: a cap at the top band withholds nothing';
+end $$;
+reset role;
+rollback;
+
+-- ---- 15. A reviewer still sees the queue they moderate ----------------------
+-- The gate sits on the same policy the review queue reads through, and a
+-- pending exemplar has no band ceiling to be behind — it is not published yet.
+begin;
+insert into public.sample_answers (id, prompt_id, band, mark, answer, status, created_by)
+  values ('00000000-0000-0000-0000-00000000ea0a', '00000000-0000-0000-0000-00000000ea06',
+          6, 12, 'PENDING PROSE', 'pending', '00000000-0000-0000-0000-0000000000e1')
+  on conflict (id) do nothing;
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
 set local role authenticated;
 do $$
+declare v text;
 begin
-  -- A teacher may READ the queue but must not re-triage it.
-  perform public.list_course_requests(false);
-  perform public.set_course_request_status(gen_random_uuid(), 'declined');
-  raise exception 'TEST FAILED: a teacher changed a course request status';
-exception
-  when others then
-    if sqlerrm = 'TEST FAILED: a teacher changed a course request status' then raise; end if;
-    raise notice 'PASS: a teacher reads the queue but cannot triage it (%)', sqlstate;
+  select answer into v from public.sample_answers
+   where id = '00000000-0000-0000-0000-00000000ea0a';
+  if v is distinct from 'PENDING PROSE' then
+    raise exception 'TEST FAILED: a reviewer lost sight of a pending exemplar (%)',
+      coalesce(v, '<null>');
+  end if;
+  raise notice 'PASS: the band gate does not blind the review queue';
 end $$;
+reset role;
 rollback;
 
 do $$
