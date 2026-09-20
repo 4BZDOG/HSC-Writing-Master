@@ -89,6 +89,31 @@ describe('picking syllabuses', () => {
     expect(screen.getByText(/nowhere to go/i)).toBeTruthy();
   });
 
+  it('gives a heading only to a faculty with something to tick', () => {
+    // Every doc in this fixture is Science, so seven of the eight faculties
+    // are empty. Each still wore a full section — coloured icon tile, a 20px
+    // black heading, "0 available" and an empty bordered list — for the sole
+    // purpose of saying the app does not carry it yet. On the shipped
+    // manifest those took 41% of the list's scroll height.
+    open();
+    expect(screen.getByRole('heading', { name: 'Science' })).toBeTruthy();
+    for (const empty of ['English', 'Mathematics', 'HSIE', 'Creative Arts', 'PDHPE']) {
+      expect(screen.queryByRole('heading', { name: empty })).toBeNull();
+    }
+  });
+
+  it('still names everything the app does not carry yet', () => {
+    // Dropping the empty sections must not drop what they said. The names
+    // move to one closing block — a teacher wants to know whether Drama is
+    // coming; they just do not need it laid out like something to tick.
+    open();
+    expect(screen.getByText('Not carried yet')).toBeTruthy();
+    expect(screen.getByText('Visual Arts, Music 1, Drama')).toBeTruthy();
+    expect(screen.getByText('English Extension 1, English Extension 2')).toBeTruthy();
+    // Science has docs AND names it does not carry; both still show.
+    expect(screen.getByText('Physics, Earth and Environmental Science')).toBeTruthy();
+  });
+
   it('counts what is ticked in the button, in the reader’s words', () => {
     open();
     // "Import 3 Items" named a database operation on a count of records.

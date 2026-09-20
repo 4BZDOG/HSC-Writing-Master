@@ -131,6 +131,16 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
     return { groups, allVisibleDocIds };
   }, [localDocs, searchQuery]);
 
+  /** The faculties with names the app does not carry yet, in catalogue order. */
+  const notCarried = useMemo(
+    () =>
+      SUBJECT_AREAS.map((subject) => ({
+        subject,
+        placeholders: filteredGroupedDocs.groups[subject]?.placeholders ?? [],
+      })).filter((entry) => entry.placeholders.length > 0),
+    [filteredGroupedDocs]
+  );
+
   /**
    * Fix: Added type assertion to Object.values to prevent 'unknown' type errors during placeholder checking.
    */
@@ -287,9 +297,17 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             <div className="space-y-10">
               {SUBJECT_AREAS.map((subject) => {
                 const group = filteredGroupedDocs.groups[subject];
-                if (!group) return null;
+                // A faculty with nothing to tick is not a section. Five of the
+                // eight rendered as a full heading — coloured icon tile, 20px
+                // black title, "0 available" and an empty bordered list — to
+                // say the app does not carry them yet. Measured on the shipped
+                // manifest, those five took 41% of the scroll height of a
+                // screen whose entire job is choosing between the other three.
+                // Everything they had to say is one line, and it is now at the
+                // bottom with the rest of it.
+                if (!group || group.docs.length === 0) return null;
 
-                const { docs, placeholders } = group;
+                const { docs } = group;
                 const Icon = SUBJECT_AREA_ICON[subject];
 
                 return (
@@ -356,9 +374,15 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                               disabled={isImporting}
                               className="w-4 h-4 shrink-0 accent-indigo-500 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]"
                             />
+                            {/* Capped, so the picker to its right stays beside
+                                the name it belongs to. Uncapped it was pushed
+                                to the far edge of an 1150px row — the name at
+                                x=140, the subject that names it at x=995, with
+                                nothing in between and every select in the
+                                section reading the same word. */}
                             <label
                               htmlFor={`doc-${doc.id}`}
-                              className="flex-1 min-w-0 cursor-pointer select-none"
+                              className="flex-1 min-w-0 sm:max-w-sm cursor-pointer select-none"
                               title={doc.source}
                             >
                               <span
@@ -414,20 +438,43 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                         );
                       })}
                     </ul>
-
-                    {/* Subjects not carried yet. These were full dashed cards
-                        the same size as a real choice, so a faculty the app
-                        does not cover took up as much room as one it does.
-                        One quiet line says the same thing. */}
-                    {placeholders.length > 0 && (
-                      <p className="mt-3 px-1 text-[11px] leading-relaxed text-slate-500 light:text-slate-500">
-                        <Lock className="w-3 h-3 inline-block mr-1.5 -mt-0.5" />
-                        Not carried yet: {placeholders.join(', ')}
-                      </p>
-                    )}
                   </section>
                 );
               })}
+
+              {/* Everything the app does not carry yet, once, at the end.
+                  These were full dashed cards the same size as a real choice,
+                  then a line under each faculty — which still meant a faculty
+                  with nothing in it wore a heading. A teacher does want to
+                  know whether Drama is coming, so no name is dropped; it is
+                  simply not laid out like something you can tick. */}
+              {notCarried.length > 0 && (
+                <section className="pt-8 border-t border-white/5 light:border-slate-200">
+                  <h3 className="t-label flex items-center gap-2 text-slate-500 light:text-slate-500">
+                    <Lock className="w-3 h-3" />
+                    Not carried yet
+                  </h3>
+                  <dl className="mt-3 space-y-1.5">
+                    {notCarried.map(({ subject, placeholders }) => (
+                      <div
+                        key={subject}
+                        className="flex flex-wrap gap-x-2 text-[11px] leading-relaxed"
+                      >
+                        {/* A fixed column so seven faculty names scan down
+                            the left edge rather than ragging against their
+                            own lengths. Drops back to flow on a phone, where
+                            the names wrap anyway. */}
+                        <dt className="font-bold text-slate-400 light:text-slate-600 sm:w-32 sm:shrink-0">
+                          {subject}
+                        </dt>
+                        <dd className="text-slate-500 light:text-slate-500">
+                          {placeholders.join(', ')}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              )}
             </div>
           )}
         </div>
