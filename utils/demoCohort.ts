@@ -26,6 +26,7 @@
  *     import from both Node and the bundle.
  */
 import type { EvaluationCriterion, EvaluationResult, PromptVerb, UserStats } from '../types';
+import { levelForXp, xpForEvaluation } from './progression';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AI_MODELS } from '../services/aiModels';
 import {
@@ -333,16 +334,19 @@ const deriveStats = (attempts: DemoAttempt[], rand: () => number): UserStats => 
   const averageBand = bands.length
     ? Number((bands.reduce((s, b) => s + b, 0) / bands.length).toFixed(2))
     : 0;
-  // 10 XP per attempt plus 5 per band above 3 — enough to put the cohort across
-  // several levels so the profile modal shows a spread rather than all level 1.
-  const xp = attempts.reduce((sum, a) => sum + 10 + Math.max(0, a.band - 3) * 5, 0);
+  // The app's own award rule, not a second copy of it. This file used to be
+  // the ONLY place the progression existed, and the profile modal drew its
+  // meter against a different curve entirely — so a seeded student on 465 XP
+  // was shown as Level 5 and "9% to next level" by a bar that disagreed with
+  // the arithmetic that produced the 5.
+  const xp = attempts.reduce((sum, a) => sum + xpForEvaluation(a.band), 0);
   // `Number.isFinite(MAX_SAFE_INTEGER)` is true, so a sentinel would sail
   // through the guard below and produce a timestamp ~10^23 ms in the past.
   const mostRecent = attempts.length ? Math.min(...attempts.map((a) => a.daysAgo)) : 0;
 
   return {
     xp,
-    level: Math.max(1, Math.floor(xp / 100) + 1),
+    level: levelForXp(xp),
     questionsAnswered: attempts.length,
     totalWordsWritten: words,
     averageBand,

@@ -111,7 +111,11 @@ test.describe('staff can reach the School licence', () => {
     await signIn(page, 'teacher');
     await clearOnboarding(page);
     await openPlanComparison(page);
-    await expect(page.getByText(/school licence/i).first()).toBeVisible();
+    // The ROUTE, not any text mentioning a licence. `/school licence/i` also
+    // matches the comparison table's own row note — which is `hidden sm:block`,
+    // so on a phone this asserted a hidden element and failed on Mobile Safari
+    // while passing everywhere the table is drawn.
+    await expect(page.getByRole('button', { name: /ask about a school licence/i })).toBeVisible();
   });
 
   test('a teacher is not shown a free-tier marking limit', async ({ page }) => {
