@@ -170,7 +170,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
       className={`p-6 rounded-panel border flex items-start gap-5 ${
         isPaid
           ? 'bg-amber-400/5 border-amber-400/20'
-          : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-200'
+          : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-300'
       }`}
     >
       <div
@@ -184,12 +184,12 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             {PLAN_LABELS[plan]}
           </h4>
           {isPaid && (
-            <span className="t-label px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500">
+            <span className="t-label px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500 light:text-amber-800">
               {perkPlan ? 'Included' : 'Active'}
             </span>
           )}
         </div>
-        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed mb-3">
+        <p className="text-xs text-[rgb(var(--color-text-muted))] leading-relaxed mb-3">
           {/* Plan-accurate, not aspirational — read from the live policy rather
               than asserted, so a deployment that moves the studio between plans
               cannot leave this card claiming otherwise.
@@ -246,7 +246,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
           </button>
         )}
         {perkPlan && (
-          <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+          <p className="text-[10px] text-[rgb(var(--color-text-muted))] leading-relaxed">
             {plan === 'school'
               ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
               : 'Included with your account — there is nothing to pay and no subscription of your own to manage.'}

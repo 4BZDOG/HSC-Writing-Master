@@ -2114,3 +2114,20 @@ sub-value in `text-white/10` — an alpha standing in for a tone, which is
 DesignSpec §2 rule 3, and about 1.2:1 on the dark panel. That is the one place
 in three passes where the dark side was the worse half, so it is the one place
 the dark theme moved. Both now carry a real pair.
+
+### 69. The last student-facing surfaces — FIXED
+
+Focus mode came back clean on the first sweep, which is worth recording as a
+negative result: it paints its own ambience over the page and had already been
+tuned per theme in `index.css`, so the token change carried it.
+
+The profile's plan card had not. Its free-tier state was `slate-100` on the
+near-white modal shell behind a `slate-200` border, so neither the fill nor the
+edge said "card"; its two remaining `light:text-slate-500`s undercut
+`--color-text-muted` in the same way the seven fixed above did, reading 4.34:1
+once the card had a tone at all. The "Active"/"Included" chip a paid account
+sees was `text-amber-500` on a 20% amber wash: **2.01:1**, and outside the free
+account's render path, so no sweep driven as a student would ever have shown it.
+
+After: **zero surfaces and zero readings** across the profile in both the free
+and the paid state, and focus mode.
