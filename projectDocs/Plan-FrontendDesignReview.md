@@ -1974,3 +1974,160 @@ The ribbon's `from-slate-50`, the fifteen `light:bg-white`s, and the light
 theme's whole token block were each an accurate reading of something — taken at
 a moment, written down, and then not re-taken. The fix in every case was to make
 the second copy stop existing.
+
+## A second sweep, once the ground was right
+
+With the surfaces separated, the browser sweep could see readings the
+white-on-white had been hiding. Same method — drive the app into a state, then
+ask every painted element whether it has a step or an edge, and every text node
+whether it clears AA on a flat ground.
+
+### 64. A theme pair has a direction, and six pointed the wrong way — GUARDED
+
+The find of this pass, and the one no reviewer would catch by eye. Text is read
+against its surface, so the tone moves opposite to the surface: **the light side
+is the higher Tailwind step.** `text-slate-600 dark:text-slate-400` is right;
+`text-slate-400 dark:text-slate-500` is the same declaration with its two values
+swapped.
+
+| where                                                                       | pair                                  | measured                      |
+| --------------------------------------------------------------------------- | ------------------------------------- | ----------------------------- |
+| the header menu's group labels                                              | `text-slate-400 dark:text-slate-500`  | 2.56:1 on the white panel     |
+| a criterion's number, which its own comment says exists to be read out loud | `text-slate-300 dark:text-slate-600`  | 1.60:1 on white               |
+| the band ladder's unreached rungs                                           | `text-slate-300 dark:text-slate-600`  | 1.60:1 on white               |
+| the exemplars' empty state                                                  | `text-slate-300 dark:text-slate-600`  | 1.60:1, under an `opacity-60` |
+| the audit studio's empty state                                              | `text-slate-700 light:text-slate-300` | 1.25:1 on its own tile        |
+| the quick-start guide's step numbers                                        | `text-slate-600 light:text-slate-500` | 4.34:1 on the step card       |
+
+A swapped pair is not "one theme slightly worse". It is the wrong tone on
+**both** grounds, and it survives review because each half looks like a tone
+somebody chose.
+
+`tests/unit/themePairDirection.test.ts` holds it. It checks `text-*` only, and
+that restraint is the point: for a FILL or a BORDER the relationship genuinely
+reverses — a divider is darker than white and lighter than near-black — so
+nineteen `bg-slate-300 dark:bg-slate-700`-shaped pairs in this codebase are all
+correct. A check that flagged those would be switched off inside a week. One
+exemption is recorded, with its reason: a filter button that renders `disabled`
+in the same expression, which WCAG 1.4.3 exempts. The exemption list is itself
+asserted to still match something, so a stale exemption cannot sit there reading
+like coverage.
+
+### 65. Overrides that undercut the token beside them, again — FIXED
+
+The same shape as 63, in the other currency. Seven sites read
+`text-[rgb(var(--color-text-muted))] light:text-slate-400` — a token that is
+slate-600 in light (7.65:1 on white) with an override taking it to 2.58:1. Three
+of them stacked an `/80` alpha on top, which is DesignSpec §2 rule 3 in a form
+the `opacity-*` sweep does not match.
+
+`UserProfileModal` had the whole-file version: fourteen bare `text-slate-500`s
+with no light partner. They squeaked past on white at 4.80:1 and failed at
+4.34:1 the moment this pass gave that modal real surfaces. Given a light partner
+only — the dark theme was never the complaint.
+
+### 66. `--color-accent` was mediocre in both directions — FIXED
+
+sky-600 measures **4.10:1 on white**, under the AA floor, and the token is read
+as text at sixty sites and painted under white text at fifty-five more. A
+mid-tone is equally unconvincing against black and against white, so both uses
+were failing the same number.
+
+sky-700 takes the text to 5.93:1 **and** the white-on-accent button to 5.93:1.
+There is no trade here, which is why it took this long to notice — nothing was
+obviously broken enough to look at. `--color-accent-dark` moves to sky-800 so
+the pair keeps its gap.
+
+This retired a claim in `cohortHeatmapContrast.test.ts`, which asserted that at
+full accent "light mode has no working ink at all". That was true of sky-600 —
+4.10:1 against white, 4.39:1 against slate-900, neither clearing AA. White ink
+clears sky-700 at 5.93:1, so the sentence is now false. The test still pins the
+original bug, restated as what it was always really checking: at full accent
+each theme's **own** ink fails, so the ramp has to stop short in both.
+
+### 67. One panel had its own copy of the shared tones — FIXED
+
+`SampleAnswersAccordion` hand-wrote `bg-slate-50/50` and `hover:bg-slate-50`
+instead of importing `PANEL_HEADER_OPEN` / `PANEL_HEADER_CLOSED`, which it was
+already three imports away from. So it was the one panel in the set that did not
+move when those constants did. It imports them now, which is both the fix and
+one fewer copy.
+
+### What the sweep says now
+
+Driven through the workspace with every panel open, the profile, the quick-start
+guide, the admin tools menu and three admin dashboards: **zero readings under
+AA, and zero surfaces without a step or an edge** — bar three the sweep is
+expected to name and a human has to judge (the page's own base layer measured
+against itself, a decorative blurred blob, and a wrapper that legitimately
+shares its band's fill).
+
+Two probe bugs are worth recording, because both produced confident false
+positives and a less careful pass would have "fixed" real code to satisfy them:
+reading `backgroundColor` through a gradient reports white-on-orange as
+white-on-white, and reading `borderTopColor` on a `border-b`-only strip reports
+a perfectly good rule as no rule at all. `light-theme.spec.ts` already returns
+`unassessable` for the first; the second is why the border check now reads the
+edge that actually has width.
+
+### 68. The two admin studios, and a `-400` ramp with no light half — FIXED
+
+The Data Vault and the Content Audit Studio had never been swept. Both showed
+the same two things.
+
+**A semantic ramp written only for the dark theme.** The audit studio grades
+coverage in `text-red-400` / `text-amber-400` / `text-emerald-400`, with no
+light partner anywhere, on near-white panels:
+
+| tone          | on white   |
+| ------------- | ---------- |
+| `red-400`     | 2.77:1     |
+| `emerald-400` | **1.92:1** |
+| `amber-400`   | **1.67:1** |
+
+These are the percentages the screen exists to report. They were legible in one
+theme out of two.
+
+The light partner is **two** stops deeper for amber and emerald and one for red,
+and that asymmetry is not a fudge — it is luminance. On the page, `amber-700`
+reads 4.07:1 and `emerald-700` 4.45:1, both short of the floor, while `red-700`
+clears at 5.25:1 and `red-800` starts reading as maroon rather than as the alarm
+colour. DesignSpec §2 already records the same asymmetry about tier 3's yellow;
+this is it applied to a three-step ramp.
+
+**`light:bg-slate-50` doing duty as both the ground and the things on it.** The
+audit studio is a full-screen modal — it _is_ a page — and painted its ground
+with a hand-copy of what `--color-bg-base` used to be, then put slate-50 panels
+on it. `AuditTreeRow`'s `STICKY_GROUND` carried a third copy of the same value,
+and a sticky row that does not paint exactly the ground it scrolls over shows
+the rows beneath through the gap. All three name the token now. The Data Vault's
+rail, header and footer were slate-50 on a white shell: three 1.05:1 non-steps
+around the one surface meant to be the paper.
+
+After: **zero surfaces and zero readings** in both, where the first pass over
+them found seven surfaces and nine readings.
+
+### One thing changed in the dark theme
+
+`DataManagerModal`'s stat block set its label in `text-white/30` and its
+sub-value in `text-white/10` — an alpha standing in for a tone, which is
+DesignSpec §2 rule 3, and about 1.2:1 on the dark panel. That is the one place
+in three passes where the dark side was the worse half, so it is the one place
+the dark theme moved. Both now carry a real pair.
+
+### 69. The last student-facing surfaces — FIXED
+
+Focus mode came back clean on the first sweep, which is worth recording as a
+negative result: it paints its own ambience over the page and had already been
+tuned per theme in `index.css`, so the token change carried it.
+
+The profile's plan card had not. Its free-tier state was `slate-100` on the
+near-white modal shell behind a `slate-200` border, so neither the fill nor the
+edge said "card"; its two remaining `light:text-slate-500`s undercut
+`--color-text-muted` in the same way the seven fixed above did, reading 4.34:1
+once the card had a tone at all. The "Active"/"Included" chip a paid account
+sees was `text-amber-500` on a 20% amber wash: **2.01:1**, and outside the free
+account's render path, so no sweep driven as a student would ever have shown it.
+
+After: **zero surfaces and zero readings** across the profile in both the free
+and the paid state, and focus mode.

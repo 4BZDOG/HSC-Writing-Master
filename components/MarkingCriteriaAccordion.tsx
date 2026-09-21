@@ -221,7 +221,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow-lg ${
                 studioLocked
                   ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
-                  : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-indigo-500 dark:text-indigo-400'
+                  : 'bg-white dark:bg-white/5 border-slate-300 dark:border-white/10 hover:border-indigo-500/30 text-indigo-600 dark:text-indigo-400'
               }`}
             >
               {isGenerating ? (
@@ -373,8 +373,13 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 {renderFormattedText(markingCriteria, prompt.keywords, prompt.verb)}
               </div>
             ) : (
-              <div className="py-8 px-4 text-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-xl">
-                <p className="t-label text-slate-400">
+              <div className="py-8 px-4 text-center border-2 border-dashed border-slate-300 dark:border-white/10 rounded-xl">
+                {/* A pair, where it was a bare `text-slate-400` — a dark-theme
+                    tone with no light partner, measuring 2.56:1 on the white
+                    panel behind it. It is also the only thing this state says,
+                    so it is the one reading on the surface that has to be
+                    legible. DesignSpec §2. */}
+                <p className="t-label text-slate-600 dark:text-slate-400">
                   {canCurate
                     ? canGenerate
                       ? 'No marking criteria yet — add them with Edit, or start one with AI Draft.'

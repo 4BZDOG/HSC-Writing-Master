@@ -35,9 +35,10 @@ The application uses a 6-tier system mapped to NESA Command Verbs:
 ### Light Theme Parity
 
 The app was drawn dark-first, so light is where colour quietly goes missing.
-Four rules. Rule 0 is the ground the other three stand on and was missing for
-most of this app's life; the second is the one that gets broken, and the third
-is the one that gets re-derived from scratch every time it is broken.
+Five rules. The two numbered 0 are the ground the other three stand on and were
+both missing for most of this app's life; of the rest, the second is the one
+that gets broken, and the third is the one that gets re-derived from scratch
+every time it is broken.
 
 **0. Both themes have a depth ladder, and light's runs the other way.**
 
@@ -82,6 +83,21 @@ that ends in it, a gap cut through a bar to show it — names `bg-base` /
 The verb ribbon had two of those, each with a comment recording the value it had
 been measured at, and both would have gone on painting near-white slots on a
 page that is no longer near-white.
+
+**0b. A theme pair has a DIRECTION, and it is not the same for ink and fills.**
+
+For TEXT the rule is one line — **the light side is the higher Tailwind step**,
+because ink has to move opposite to its ground. `text-slate-600
+dark:text-slate-400` is right; `text-slate-400 dark:text-slate-500` is that
+declaration with its two values swapped, and a swapped pair is the wrong tone on
+_both_ grounds rather than one. Six shipped that way, between 1.25:1 and 4.34:1,
+including a criterion number whose own comment said it existed to be read out
+loud. `tests/unit/themePairDirection.test.ts` holds it.
+
+For a FILL or a BORDER the relationship reverses, and the check deliberately
+does not look at them: a divider is _darker_ than white and _lighter_ than
+near-black, so `bg-slate-300 dark:bg-slate-700` is correct and reads as inverted
+to the ink rule. Nineteen such pairs are in the codebase and every one is right.
 
 **1. A tint must be visible against the surface it is on.** Dark surfaces are
 near-black, so an alpha wash (`bg-<hue>-500/10`) reads clearly. Light surfaces

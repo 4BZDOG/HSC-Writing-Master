@@ -190,9 +190,15 @@ export const HEADER_STORAGE_ALERT =
   'bg-red-100 text-red-700 border-red-200 ' +
   'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30';
 
-/** Library / Moderation / AI. Painted on the panel. */
+/** Library / Moderation / AI. Painted on the panel.
+ *
+ *  Its pair used to be the wrong way round — `text-slate-400
+ *  dark:text-slate-500`, which is the two values of every other label in this
+ *  file swapped. The consequence was not symmetrical: slate-400 on the white
+ *  menu panel measured 2.56:1, so in the light theme the three words that say
+ *  what the menu is grouped BY were the least legible thing in it. */
 export const HEADER_MENU_GROUP_LABEL =
-  't-label px-3 pt-2 pb-1 ' + 'text-slate-400 dark:text-slate-500';
+  't-label px-3 pt-2 pb-1 ' + 'text-slate-600 dark:text-slate-400';
 
 /** The profile control at the far right — name plus avatar chip. On the rail.
  *  The chip's own `bg-indigo-500` is brand-solid by intent and is not part of

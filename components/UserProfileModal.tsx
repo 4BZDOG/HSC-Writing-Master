@@ -170,7 +170,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
       className={`p-6 rounded-panel border flex items-start gap-5 ${
         isPaid
           ? 'bg-amber-400/5 border-amber-400/20'
-          : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-200'
+          : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-300'
       }`}
     >
       <div
@@ -184,12 +184,12 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             {PLAN_LABELS[plan]}
           </h4>
           {isPaid && (
-            <span className="t-label px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500">
+            <span className="t-label px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500 light:text-amber-800">
               {perkPlan ? 'Included' : 'Active'}
             </span>
           )}
         </div>
-        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed mb-3">
+        <p className="text-xs text-[rgb(var(--color-text-muted))] leading-relaxed mb-3">
           {/* Plan-accurate, not aspirational — read from the live policy rather
               than asserted, so a deployment that moves the studio between plans
               cannot leave this card claiming otherwise.
@@ -246,7 +246,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
           </button>
         )}
         {perkPlan && (
-          <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+          <p className="text-[10px] text-[rgb(var(--color-text-muted))] leading-relaxed">
             {plan === 'school'
               ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
               : 'Included with your account — there is nothing to pay and no subscription of your own to manage.'}
@@ -702,10 +702,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     <h2 className="text-xl sm:text-3xl font-black text-white light:text-slate-900 tracking-tight break-words text-left group-hover/name:text-indigo-400 transition-colors">
                       {user.displayName}
                     </h2>
-                    <Pencil className="w-3.5 h-3.5 shrink-0 text-slate-500 group-hover/name:text-indigo-400 transition-colors" />
+                    <Pencil className="w-3.5 h-3.5 shrink-0 text-slate-500 light:text-slate-600 group-hover/name:text-indigo-400 transition-colors" />
                     <span className="sr-only">Rename yourself</span>
                   </button>
-                  <span className="t-label px-2.5 py-1 rounded-full bg-white/5 light:bg-indigo-50 border border-white/10 light:border-indigo-200 text-indigo-400">
+                  <span className="t-label px-2.5 py-1 rounded-full bg-white/5 light:bg-indigo-50 border border-white/10 light:border-indigo-200 text-indigo-400 light:text-indigo-700">
                     {roleLabel(user.role)}
                   </span>
                 </>
@@ -736,7 +736,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex-shrink-0 flex border-b border-white/5 light:border-slate-100 px-4 sm:px-10 bg-black/10 light:bg-slate-50/50 overflow-x-auto scrollbar-hide">
+        <div className="flex-shrink-0 flex border-b border-white/5 light:border-slate-300 px-4 sm:px-10 bg-black/10 light:bg-slate-100 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
             {
@@ -749,7 +749,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`t-label px-4 sm:px-6 py-4 sm:py-5 border-b-2 transition-all flex items-center gap-2 sm:gap-3 whitespace-nowrap ${activeTab === tab.id ? `border-indigo-500 text-white light:text-slate-900` : 'border-transparent text-slate-500 hover:text-slate-300 light:hover:text-slate-700'}`}
+              className={`t-label px-4 sm:px-6 py-4 sm:py-5 border-b-2 transition-all flex items-center gap-2 sm:gap-3 whitespace-nowrap ${activeTab === tab.id ? `border-indigo-500 text-white light:text-slate-900` : 'border-transparent text-slate-500 light:text-slate-600 hover:text-slate-300 light:hover:text-slate-700'}`}
             >
               <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-indigo-400' : ''}`} />{' '}
               {tab.label}
@@ -802,7 +802,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="p-5 rounded-panel bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 flex flex-col items-center text-center group hover:bg-white/[0.06] light:hover:bg-slate-100 transition-all duration-300 hover:border-white/10 light:hover:border-slate-300"
+                    className="p-5 rounded-panel bg-white/[0.03] light:bg-slate-100 border border-white/5 light:border-slate-300 flex flex-col items-center text-center group hover:bg-white/[0.06] light:hover:bg-slate-100 transition-all duration-300 hover:border-white/10 light:hover:border-slate-300"
                   >
                     <div className="relative mb-3">
                       <MiniProgressRing percent={stat.ringPercent} color={stat.ringColor} />
@@ -815,7 +815,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     <span className="text-2xl font-black text-white light:text-slate-900 tracking-tighter tabular-nums">
                       {stat.val}
                     </span>
-                    <span className="t-label text-slate-500 mt-1">{stat.label}</span>
+                    <span className="t-label text-slate-500 light:text-slate-600 mt-1">
+                      {stat.label}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -903,7 +905,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <h4
-                            className={`font-bold text-sm ${ach.unlocked ? 'text-white light:text-slate-900' : 'text-slate-500'}`}
+                            className={`font-bold text-sm ${ach.unlocked ? 'text-white light:text-slate-900' : 'text-slate-500 light:text-slate-600'}`}
                           >
                             {ach.title}
                           </h4>
@@ -911,7 +913,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                             <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
                           )}
                         </div>
-                        <p className="text-xs text-slate-500 font-medium">{ach.description}</p>
+                        <p className="text-xs text-slate-500 light:text-slate-600 font-medium">
+                          {ach.description}
+                        </p>
                         {!ach.unlocked && (
                           <div className="mt-2 flex items-center gap-2">
                             <div className="flex-1 h-1 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden">
@@ -973,7 +977,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                       className={`flex items-center justify-between gap-4 px-5 sm:px-10 py-5 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
                     >
                       <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-                        <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
+                        <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500 light:text-slate-600">
                           <pref.icon className="w-5 h-5" />
                         </div>
                         <div className="min-w-0">
@@ -983,7 +987,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           >
                             {pref.label}
                           </h4>
-                          <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed">
+                          <p className="text-xs text-slate-500 light:text-slate-600 font-medium mt-1 leading-relaxed">
                             {pref.desc}
                           </p>
                         </div>
@@ -1072,19 +1076,19 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           className={`w-full flex items-center justify-between px-6 sm:px-10 py-6 text-left hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== all.length - 1 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
                         >
                           <div className="flex items-center gap-4 sm:gap-6">
-                            <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500">
+                            <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500 light:text-slate-600">
                               <entry.icon className="w-5 h-5" />
                             </div>
                             <div>
                               <h4 className="text-sm font-bold text-white light:text-slate-900">
                                 {entry.label}
                               </h4>
-                              <p className="text-xs text-slate-500 font-medium mt-1">
+                              <p className="text-xs text-slate-500 light:text-slate-600 font-medium mt-1">
                                 {entry.desc}
                               </p>
                             </div>
                           </div>
-                          <ExternalLink className="w-4 h-4 text-slate-500 shrink-0" />
+                          <ExternalLink className="w-4 h-4 text-slate-500 light:text-slate-600 shrink-0" />
                         </button>
                       );
                     })}
@@ -1096,9 +1100,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
                 <div className="px-6 sm:px-10 pt-6 pb-2">
                   <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
-                    <Database className="w-4 h-4 text-slate-500" /> Your Data
+                    <Database className="w-4 h-4 text-slate-500 light:text-slate-600" /> Your Data
                   </h4>
-                  <p className="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed">
+                  <p className="text-xs text-slate-500 light:text-slate-600 font-medium mt-1.5 leading-relaxed">
                     Take a copy of everything we hold about your account, or delete it. Curriculum
                     content is not personal data and is not included in the export.
                   </p>
@@ -1133,13 +1137,13 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                         This deletes your profile, your responses and all your progress. It cannot
                         be undone.
                       </p>
-                      <p className="text-[11px] text-slate-500 font-medium leading-relaxed mt-2">
+                      <p className="text-[11px] text-slate-500 light:text-slate-600 font-medium leading-relaxed mt-2">
                         Anything you contributed to the shared library stays, with your name
                         removed. Consider downloading your data first.
                       </p>
                       <label
                         htmlFor="delete-confirm"
-                        className="t-label block text-slate-500 mt-4 mb-2"
+                        className="t-label block text-slate-500 light:text-slate-600 mt-4 mb-2"
                       >
                         Type DELETE to confirm
                       </label>
@@ -1192,13 +1196,13 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Modular Footer */}
-        <div className="flex-shrink-0 px-6 sm:px-12 py-5 sm:py-6 border-t border-white/5 light:border-slate-100 bg-black/20 light:bg-slate-50 flex justify-between items-center z-10">
+        <div className="flex-shrink-0 px-6 sm:px-12 py-5 sm:py-6 border-t border-white/5 light:border-slate-300 bg-black/20 light:bg-slate-100 flex justify-between items-center z-10">
           <button
             onClick={() => {
               onClose();
               onLogout();
             }}
-            className="t-label text-red-500 hover:text-red-400 transition-colors flex items-center gap-2 group"
+            className="t-label text-red-500 light:text-red-700 hover:text-red-400 light:hover:text-red-800 transition-colors flex items-center gap-2 group"
           >
             <LogOut className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Log Out
           </button>

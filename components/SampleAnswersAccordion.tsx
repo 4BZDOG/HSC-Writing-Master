@@ -9,7 +9,12 @@ import {
   cleanMarkdown,
 } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
-import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../utils/panelStyles';
+import {
+  PANEL_HEADER_CLOSED,
+  PANEL_HEADER_OPEN,
+  PANEL_ROW_MIN_H,
+  PANEL_SURFACE,
+} from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import type { SyllabusKeywordContext } from '../services/geminiService';
@@ -467,7 +472,7 @@ const CarouselAccordionItem: React.FC<{
                   )}
 
                   {/* Controls Bar */}
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/[0.02]">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/[0.02]">
                     <AnswerMetricsDisplay
                       metrics={metrics}
                       showLabel={false}
@@ -757,7 +762,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           are simply not rendered for a student or a guest. */}
       <div
         className={`w-full flex items-stretch relative overflow-hidden transition-all ${
-          isCollapsed ? '' : 'bg-slate-50/50 dark:bg-white/[0.03]'
+          isCollapsed ? '' : PANEL_HEADER_OPEN
         }`}
       >
         <div
@@ -769,7 +774,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           aria-expanded={!isCollapsed}
           aria-controls={panelId}
           className={`flex-1 min-w-0 ${PANEL_ROW_MIN_H} py-3.5 pl-5 pr-3 flex items-center gap-4 text-left transition-all group relative z-10 ${
-            isCollapsed ? 'hover:bg-slate-50 dark:hover:bg-white/[0.02]' : ''
+            isCollapsed ? PANEL_HEADER_CLOSED : ''
           }`}
         >
           <div
@@ -902,9 +907,9 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               />
             ))
           ) : (
-            <div className="py-12 flex flex-col items-center text-center opacity-60">
-              <FileText className="w-8 h-8 text-slate-300 dark:text-slate-600 mb-3" />
-              <p className="text-xs font-medium text-slate-500">
+            <div className="py-12 flex flex-col items-center text-center">
+              <FileText className="w-8 h-8 text-slate-500 mb-3" />
+              <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
                 No model responses available yet.
               </p>
               {canCurate && (

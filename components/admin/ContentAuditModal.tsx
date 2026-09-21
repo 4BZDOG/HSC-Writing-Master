@@ -1738,10 +1738,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     totalDotPoints > 0 ? Math.round((coveredDotPoints / totalDotPoints) * 100) : 0;
   const healthColor =
     healthPercentage < 50
-      ? 'text-red-400'
+      ? 'text-red-400 light:text-red-700'
       : healthPercentage < 80
-        ? 'text-amber-400'
-        : 'text-emerald-400';
+        ? 'text-amber-400 light:text-amber-800'
+        : 'text-emerald-400 light:text-emerald-800';
 
   return createPortal(
     <div
@@ -1750,7 +1750,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-hidden animate-fade-in"
+      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] flex flex-col overflow-hidden animate-fade-in"
     >
       {/* Header.
           It used to be a 10rem band holding the title, a paragraph, an
@@ -1961,7 +1961,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
         <div className="flex-1 min-w-0 flex flex-col">
           {/* Tree */}
-          <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] light:bg-slate-50 custom-scrollbar">
+          <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
             <div className="min-w-[700px] max-w-[1528px] pb-16">
               {filteredTreeData.length > 0 ? (
                 <div
@@ -1982,7 +1982,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                    show — three different situations and one shrug. */
                 <div className="py-32 text-center animate-fade-in">
                   <div className="w-20 h-20 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-6 mx-auto shadow-inner">
-                    <Filter className="w-10 h-10 text-slate-700 light:text-slate-300" />
+                    <Filter className="w-10 h-10 text-slate-400 light:text-slate-500" />
                   </div>
                   {treeData.length === 0 ? (
                     <>

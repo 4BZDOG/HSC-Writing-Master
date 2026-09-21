@@ -88,7 +88,7 @@ describe('cohort heatmap ramp', () => {
     // Guards the parser itself: a silent regex miss would make every contrast
     // assertion below meaningless.
     expect(token(':root', 'color-accent')).toEqual([14, 165, 233]);
-    expect(token("\\[data-theme='light'\\]", 'color-accent')).toEqual([2, 132, 199]);
+    expect(token("\\[data-theme='light'\\]", 'color-accent')).toEqual([3, 105, 161]);
     expect(token(':root', 'color-bg-surface')).toEqual([18, 24, 38]);
   });
 
@@ -127,13 +127,28 @@ describe('cohort heatmap ramp', () => {
   }
 
   it('would catch a ramp that ran to full accent', () => {
-    // The original bug, pinned so the regression is described rather than merely
-    // absent: full accent fails in both themes, whichever ink you choose.
+    // The original bug, pinned so the regression is described rather than
+    // merely absent: at full accent each theme's OWN ink stops working, so the
+    // ramp has to stop short in both.
     const dark = THEMES[0];
     const light = THEMES[1];
-    expect(contrast(WHITE, dark.accent)).toBeLessThan(AA);
-    expect(contrast(SLATE_900, dark.accent)).toBeGreaterThan(AA); // dark mode would need an ink flip…
-    expect(contrast(WHITE, light.accent)).toBeLessThan(AA);
-    expect(contrast(SLATE_900, light.accent)).toBeLessThan(AA); // …and light mode has no working ink at all
+    expect(contrast(dark.ink, dark.accent)).toBeLessThan(AA); // white on sky-500: 2.77:1
+    expect(contrast(light.ink, light.accent)).toBeLessThan(AA); // slate-900 on sky-700: 3.01:1
+
+    // Each theme would need the OTHER theme's ink, which is the same statement
+    // from the other side and the reason an ink flip is not a fix — it just
+    // moves which cells are unreadable.
+    expect(contrast(SLATE_900, dark.accent)).toBeGreaterThan(AA);
+    expect(contrast(WHITE, light.accent)).toBeGreaterThan(AA);
+
+    // That last line used to assert the opposite, with the comment "light mode
+    // has no working ink at all". It was true of the accent this app used to
+    // ship — sky-600, which read 4.10:1 against white and 4.39:1 against
+    // slate-900, so neither ink cleared AA. The light accent is sky-700 now
+    // (see the light token block in `index.css`: the token is read as text at
+    // sixty sites and painted under white text at fifty-five more, and a
+    // mid-tone was mediocre against both). White ink clears it at 5.93:1, so
+    // the light theme is no longer inkless — it just is not painted in white
+    // here. The ramp still cannot run to full, for the reason above.
   });
 });

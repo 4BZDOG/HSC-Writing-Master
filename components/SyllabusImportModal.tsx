@@ -702,7 +702,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   label="Syllabus page URL"
                   placeholder="https://educationstandards.nsw.edu.au/..."
                 />
-                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-muted))]/80 light:text-slate-400">
+                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-muted))]">
                   {NESA_HOST_HINT}
                 </p>
               </div>

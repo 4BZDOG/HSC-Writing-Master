@@ -915,7 +915,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       /* Compact empty state — a single row, so a scenario-less
                        question doesn't push the writing surface down screen. */
                       <div className="flex flex-wrap items-center justify-center py-2 text-center gap-x-4 gap-y-2">
-                        <p className="text-xs text-slate-500 font-medium">No scenario provided.</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+                          No scenario provided.
+                        </p>
                         {canGenerate && (
                           <button
                             onClick={studioAction(onGenerateScenario)}
@@ -923,7 +925,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                             title={studioTitle('Generate Context')}
                             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 hover:scale-105 ${
                               studioChrome ||
-                              'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-500/20'
+                              'bg-indigo-500/10 light:bg-indigo-100 text-indigo-400 light:text-indigo-700 border border-indigo-500/20 light:border-indigo-300 hover:bg-indigo-500/20 light:hover:bg-indigo-200'
                             }`}
                           >
                             <Sparkles className="w-3.5 h-3.5" /> Generate Context
