@@ -28,7 +28,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
       {courses.map((course) => (
         <div
           key={course.id}
-          className={`clip-stable rounded-panel overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 light:bg-indigo-50/60 border-indigo-500/30 light:border-indigo-300 shadow-lg' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200'}`}
+          className={`clip-stable rounded-panel overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 light:bg-indigo-50/60 border-indigo-500/30 light:border-indigo-300 shadow-lg' : 'bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300'}`}
         >
           <button
             onClick={() => toggleCourse(course.id)}
@@ -51,7 +51,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                     {course.topics.length} {course.topics.length === 1 ? 'Topic' : 'Topics'}
                   </span>
                   <div className="h-1 w-1 rounded-full bg-slate-700 light:bg-slate-300" />
-                  <span className="t-label text-indigo-400/60 light:text-indigo-500">
+                  <span className="t-label text-indigo-400 light:text-indigo-700">
                     {course.subject || 'General'}
                   </span>
                 </div>

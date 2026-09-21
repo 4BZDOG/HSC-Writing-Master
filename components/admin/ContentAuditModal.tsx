@@ -1738,10 +1738,10 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     totalDotPoints > 0 ? Math.round((coveredDotPoints / totalDotPoints) * 100) : 0;
   const healthColor =
     healthPercentage < 50
-      ? 'text-red-400'
+      ? 'text-red-400 light:text-red-700'
       : healthPercentage < 80
-        ? 'text-amber-400'
-        : 'text-emerald-400';
+        ? 'text-amber-400 light:text-amber-800'
+        : 'text-emerald-400 light:text-emerald-800';
 
   return createPortal(
     <div
@@ -1750,7 +1750,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Content audit studio"
-      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] light:bg-slate-50 flex flex-col overflow-hidden animate-fade-in"
+      className="fixed inset-0 z-modal-elevated bg-[rgb(var(--color-bg-base))] flex flex-col overflow-hidden animate-fade-in"
     >
       {/* Header.
           It used to be a 10rem band holding the title, a paragraph, an
@@ -1961,7 +1961,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
         <div className="flex-1 min-w-0 flex flex-col">
           {/* Tree */}
-          <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] light:bg-slate-50 custom-scrollbar">
+          <div className="flex-1 min-h-0 overflow-auto bg-[rgb(var(--color-bg-base))] custom-scrollbar">
             <div className="min-w-[700px] max-w-[1528px] pb-16">
               {filteredTreeData.length > 0 ? (
                 <div

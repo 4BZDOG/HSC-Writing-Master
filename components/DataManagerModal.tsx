@@ -65,12 +65,12 @@ const InstrumentMetric = ({
   colorClass: string;
 }) => (
   <div className="flex flex-col gap-1 px-8 py-4 border-r border-white/5 light:border-slate-200 last:border-r-0">
-    <MicroLabel className="text-white/30 light:text-slate-500">{label}</MicroLabel>
+    <MicroLabel className="text-slate-400 light:text-slate-600">{label}</MicroLabel>
     <div className="flex items-baseline gap-2">
       <span className={`text-4xl font-black tracking-tighter tabular-nums ${colorClass}`}>
         {value}
       </span>
-      {subValue && <span className="t-label text-white/10 light:text-slate-500">{subValue}</span>}
+      {subValue && <span className="t-label text-slate-400 light:text-slate-600">{subValue}</span>}
     </div>
   </div>
 );
@@ -104,7 +104,7 @@ const NavButton = ({
             ${
               activeTab === tab
                 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/20 scale-[1.02] border border-white/20'
-                : 'text-slate-500 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
+                : 'text-slate-500 light:text-slate-600 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
             }
         `}
   >
@@ -167,7 +167,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
 
         {/* Studio Sidebar — compact strip on phones so the working pane keeps
             most of the modal height; full-height rail from md up. */}
-        <div className="w-full md:w-72 bg-black/40 light:bg-slate-50 border-b md:border-b-0 md:border-r border-white/5 light:border-slate-200 flex flex-col flex-shrink-0 z-10 relative">
+        <div className="w-full md:w-72 bg-black/40 light:bg-slate-100 border-b md:border-b-0 md:border-r border-white/5 light:border-slate-300 flex flex-col flex-shrink-0 z-10 relative">
           <div className="p-5 md:p-10 border-b border-white/5 light:border-slate-200">
             <div className="flex items-center gap-4 md:mb-2">
               <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-tile bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center tile-bevel">
@@ -177,14 +177,14 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                 <h2 className="text-xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
                   Studio
                 </h2>
-                <span className="t-label text-indigo-400">Vault</span>
+                <span className="t-label text-indigo-400 light:text-indigo-700">Vault</span>
               </div>
               {/* Phones have no Escape key and the Disconnect footer is hidden
                   below md, so the compact header carries the close control. */}
               <button
                 onClick={onClose}
                 aria-label="Close Data Vault"
-                className="md:hidden p-2.5 rounded-xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-200"
+                className="md:hidden p-2.5 rounded-xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-200"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -215,10 +215,10 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
             />
           </div>
 
-          <div className="hidden md:block p-8 border-t border-white/5 light:border-slate-200 bg-black/20 light:bg-slate-50">
+          <div className="hidden md:block p-8 border-t border-white/5 light:border-slate-300 bg-black/20 light:bg-slate-100">
             <button
               onClick={onClose}
-              className="t-label w-full py-4 rounded-2xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 hover:text-white light:hover:text-slate-900 transition-all flex items-center justify-center gap-3 border border-white/5 light:border-slate-200 shadow-lg"
+              className="t-label w-full py-4 rounded-2xl bg-white/5 light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition-all flex items-center justify-center gap-3 border border-white/5 light:border-slate-200 shadow-lg"
             >
               <X className="w-4 h-4" /> Disconnect
             </button>
@@ -228,11 +228,11 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
         {/* Main Interface */}
         <div className="flex-1 bg-[rgb(var(--color-bg-base))]/30 relative overflow-hidden flex flex-col z-10">
           {/* Telemetry Header */}
-          <div className="px-5 md:px-10 py-5 md:py-8 border-b border-white/5 light:border-slate-200 bg-black/20 light:bg-slate-50 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-8">
+          <div className="px-5 md:px-10 py-5 md:py-8 border-b border-white/5 light:border-slate-300 bg-black/20 light:bg-slate-100 flex flex-col lg:flex-row justify-between items-center gap-4 md:gap-8">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2 opacity-40">
                 <Zap className="w-3 h-3 text-indigo-400" />
-                <MicroLabel className="text-white light:text-slate-500">
+                <MicroLabel className="text-white light:text-slate-600">
                   System Diagnostics
                 </MicroLabel>
               </div>
@@ -274,7 +274,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                         <h4 className="text-sm font-black text-white light:text-slate-900 italic">
                           Sequence Manager
                         </h4>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-slate-500 light:text-slate-600">
                           Reorder curriculum hierarchy for optimal session flow and NESA alignment.
                         </p>
                       </div>

@@ -77,7 +77,7 @@ const COURSE_STICKY_TOP = 'top-11'; // clears the faculty band exactly
  * own — the row's own fill is a translucent tint over the tree's background,
  * and left transparent the content underneath reads straight through it.
  */
-const STICKY_GROUND = 'bg-[rgb(var(--color-bg-base))] light:bg-slate-50';
+const STICKY_GROUND = 'bg-[rgb(var(--color-bg-base))]';
 
 /**
  * Where the keyboard is.
@@ -103,7 +103,11 @@ const NAME_COLUMN_REM = 46;
 const nameColumnCap = (level: number) => `calc(${NAME_COLUMN_REM}rem - ${level * INDENT_STEP}px)`;
 
 const coverageTone = (pct: number) =>
-  pct < 50 ? 'text-red-400' : pct < 80 ? 'text-amber-400' : 'text-emerald-400';
+  pct < 50
+    ? 'text-red-400 light:text-red-700'
+    : pct < 80
+      ? 'text-amber-400 light:text-amber-800'
+      : 'text-emerald-400 light:text-emerald-800';
 
 const coverageFill = (pct: number) =>
   pct < 50 ? 'bg-red-400' : pct < 80 ? 'bg-amber-400' : 'bg-emerald-400';
@@ -200,7 +204,7 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
       >
         {node.label}
       </span>
-      <span className="t-label text-slate-500 whitespace-nowrap">
+      <span className="t-label text-slate-500 light:text-slate-600 whitespace-nowrap">
         {courseCount} course{courseCount === 1 ? '' : 's'}
       </span>
       <div className="flex-1 min-w-0 hidden lg:flex items-center justify-end pr-5">

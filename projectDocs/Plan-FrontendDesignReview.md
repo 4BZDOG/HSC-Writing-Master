@@ -2069,3 +2069,48 @@ white-on-white, and reading `borderTopColor` on a `border-b`-only strip reports
 a perfectly good rule as no rule at all. `light-theme.spec.ts` already returns
 `unassessable` for the first; the second is why the border check now reads the
 edge that actually has width.
+
+### 68. The two admin studios, and a `-400` ramp with no light half — FIXED
+
+The Data Vault and the Content Audit Studio had never been swept. Both showed
+the same two things.
+
+**A semantic ramp written only for the dark theme.** The audit studio grades
+coverage in `text-red-400` / `text-amber-400` / `text-emerald-400`, with no
+light partner anywhere, on near-white panels:
+
+| tone          | on white   |
+| ------------- | ---------- |
+| `red-400`     | 2.77:1     |
+| `emerald-400` | **1.92:1** |
+| `amber-400`   | **1.67:1** |
+
+These are the percentages the screen exists to report. They were legible in one
+theme out of two.
+
+The light partner is **two** stops deeper for amber and emerald and one for red,
+and that asymmetry is not a fudge — it is luminance. On the page, `amber-700`
+reads 4.07:1 and `emerald-700` 4.45:1, both short of the floor, while `red-700`
+clears at 5.25:1 and `red-800` starts reading as maroon rather than as the alarm
+colour. DesignSpec §2 already records the same asymmetry about tier 3's yellow;
+this is it applied to a three-step ramp.
+
+**`light:bg-slate-50` doing duty as both the ground and the things on it.** The
+audit studio is a full-screen modal — it _is_ a page — and painted its ground
+with a hand-copy of what `--color-bg-base` used to be, then put slate-50 panels
+on it. `AuditTreeRow`'s `STICKY_GROUND` carried a third copy of the same value,
+and a sticky row that does not paint exactly the ground it scrolls over shows
+the rows beneath through the gap. All three name the token now. The Data Vault's
+rail, header and footer were slate-50 on a white shell: three 1.05:1 non-steps
+around the one surface meant to be the paper.
+
+After: **zero surfaces and zero readings** in both, where the first pass over
+them found seven surfaces and nine readings.
+
+### One thing changed in the dark theme
+
+`DataManagerModal`'s stat block set its label in `text-white/30` and its
+sub-value in `text-white/10` — an alpha standing in for a tone, which is
+DesignSpec §2 rule 3, and about 1.2:1 on the dark panel. That is the one place
+in three passes where the dark side was the worse half, so it is the one place
+the dark theme moved. Both now carry a real pair.
