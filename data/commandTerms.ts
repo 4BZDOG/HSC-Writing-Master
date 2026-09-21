@@ -966,21 +966,36 @@ export const getCommandTermsForMarks = (
  * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier is
  * the sole cap — there is no secondary marks-based limit.
  *
- * Below that ceiling there is ONE rule, and it is a ladder of marks, not a
- * fraction of them: each mark dropped costs exactly one band. On a 4-mark
- * Evaluate (Tier 6) that reads 4/4 → Band 6, 3/4 → Band 5, 2/4 → Band 4,
- * 1/4 → Band 3, and 0 → Band 1. Bands below the bottom rung are simply not
- * reachable on a question that short — see {@link bandsForQuestion}, which is
- * what every surface should ask for the ladder rather than assuming Bands
- * 1..maxBand are all in play.
+ * Below that ceiling the ladder is counted DOWN from full marks, never up from
+ * zero. That direction is the whole point: the ceiling belongs to full marks
+ * and to nothing else, and each step down costs a band.
  *
- * A proportional rule for short questions was tried and withdrawn. Scaling by
- * the FRACTION of marks earned (ceil(mark / total × maxBand)) reads plausibly
- * in isolation but breaks the thing the ladder is for: it puts 2/4 and 3/4 two
- * bands apart while 1/4 and 2/4 sit one apart, so the exemplars, the marking
- * guide rows and the colour of each stopped stepping evenly. The offset rule
- * below is what the marking guide is written against, so it is what the bands
- * are read from.
+ * Two shapes, same direction.
+ *
+ * FEWER MARKS THAN BANDS — one band per mark. On a 4-mark Evaluate (Tier 6)
+ * that reads 4/4 → Band 6, 3/4 → Band 5, 2/4 → Band 4, 1/4 → Band 3. Bands
+ * below the bottom rung are simply not reachable on a question that short —
+ * see {@link bandsForQuestion}, which is what every surface should ask for the
+ * ladder rather than assuming Bands 1..maxBand are all in play.
+ *
+ * MORE MARKS THAN BANDS — the marks are spread as evenly as the count allows,
+ * and any REMAINDER goes to the bottom bands, so the top of the ladder stays as
+ * narrow as the arithmetic permits. A 6-mark Justify (Tier 5, six marks over
+ * five bands) reads 6/6 → Band 5, 5/6 → Band 4, 4/6 → Band 3, 3/6 → Band 2,
+ * and 2/6 and 1/6 → Band 1.
+ *
+ * This branch used to scale by the FRACTION of marks earned,
+ * ceil(mark / total × maxBand), which reads plausibly and is wrong at the only
+ * rung that really matters. `ceil` reaches the ceiling EARLY: it made 5/6 and
+ * 6/6 both Band 5, and on a 20-mark Evaluate it handed Band 6 to everything
+ * from 17/20 up. A student one mark short of full marks was told they were at
+ * the verb's ceiling — the app's most generous claim, made where it was least
+ * earned. The doc here had already recorded that rule as withdrawn while the
+ * code still ran it; now both say the same thing.
+ *
+ * A fractional mark (the library holds half marks) resolves to the band its
+ * WHOLE marks earn. Half a mark is not half a band, and `getBandConfig` has no
+ * colour for Band 4.5.
  *
  * @param mark The mark achieved or target mark.
  * @param totalMarks The total marks available for the question.
@@ -992,14 +1007,26 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
 
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
   const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
-  const clampedMark = Math.min(mark, totalMarks);
+  const clampedMark = Math.min(Math.floor(mark), Math.floor(totalMarks));
+  if (clampedMark <= 0) return 1;
 
   // Fewer marks than bands: one band per mark, counted DOWN from the ceiling.
   if (totalMarks <= maxBand) {
-    return maxBand - totalMarks + clampedMark;
+    return maxBand - Math.floor(totalMarks) + clampedMark;
   }
 
-  return Math.min(maxBand, Math.max(1, Math.ceil((clampedMark / totalMarks) * maxBand)));
+  // More marks than bands: walk down from the ceiling, spending each band's
+  // width of marks as we go. The bottom `remainder` bands are one mark wider,
+  // which is what keeps the TOP band narrow — the ceiling costs full marks.
+  const width = Math.floor(Math.floor(totalMarks) / maxBand);
+  const remainder = Math.floor(totalMarks) % maxBand;
+  let dropped = Math.floor(totalMarks) - clampedMark;
+  for (let band = maxBand; band > 1; band--) {
+    const bandWidth = band <= remainder ? width + 1 : width;
+    if (dropped < bandWidth) return band;
+    dropped -= bandWidth;
+  }
+  return 1;
 };
 
 /**

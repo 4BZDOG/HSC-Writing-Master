@@ -326,14 +326,18 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
     ]);
 
     // Long enough to spread and every band is in play, some over a range.
+    // The REMAINDER goes to the bottom, so the ceiling stays as narrow as eight
+    // marks over six bands allows: Band 6 is full marks and nothing else.
+    // Previously this read `{ band: 6, lo: 7, hi: 8 }` — 7/8 was told it was at
+    // the verb's ceiling.
     expect(bandsForQuestion(6, 6)).toEqual([6, 5, 4, 3, 2, 1]);
     expect(bandMarkRanges(8, 6)).toEqual([
-      { band: 6, lo: 7, hi: 8 },
-      { band: 5, lo: 6, hi: 6 },
-      { band: 4, lo: 5, hi: 5 },
-      { band: 3, lo: 3, hi: 4 },
-      { band: 2, lo: 2, hi: 2 },
-      { band: 1, lo: 1, hi: 1 },
+      { band: 6, lo: 8, hi: 8 },
+      { band: 5, lo: 7, hi: 7 },
+      { band: 4, lo: 6, hi: 6 },
+      { band: 3, lo: 5, hi: 5 },
+      { band: 2, lo: 3, hi: 4 },
+      { band: 1, lo: 1, hi: 2 },
     ]);
 
     // A low-tier verb never lists a band above its ceiling.
@@ -349,6 +353,31 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
     expect(Array.from({ length: 6 }, (_, i) => getBandForMark(i + 1, 6, 6))).toEqual([
       1, 2, 3, 4, 5, 6,
     ]);
+  });
+
+  it('gives the ceiling band to full marks and to nothing else', () => {
+    // The defect this rule replaced: ceil(mark / total × maxBand) reached the
+    // ceiling EARLY, so a 6-mark Justify called both 5/6 and 6/6 Band 5, and a
+    // 20-mark Evaluate called everything from 17/20 up a Band 6. One mark short
+    // of full marks is not the top of the ladder.
+    expect(getBandForMark(6, 6, 5)).toBe(5);
+    expect(getBandForMark(5, 6, 5)).toBe(4);
+    expect(getBandForMark(20, 20, 6)).toBe(6);
+    expect(getBandForMark(17, 20, 6)).toBe(5);
+
+    // Counted down from the ceiling, the remainder falling to the bottom bands.
+    expect(Array.from({ length: 6 }, (_, i) => getBandForMark(i + 1, 6, 5))).toEqual([
+      1, 1, 2, 3, 4, 5,
+    ]);
+  });
+
+  it('resolves a half mark to the band its whole marks earn', () => {
+    // The library holds half marks. `maxBand - totalMarks + mark` handed them
+    // straight through, so a 2.5/4 Evaluate returned Band 4.5 — a band with no
+    // name, no colour and no descriptor.
+    expect(getBandForMark(2.5, 4, 6)).toBe(4);
+    expect(Number.isInteger(getBandForMark(2.5, 4, 6))).toBe(true);
+    expect(Number.isInteger(getBandForMark(3.5, 6, 5))).toBe(true);
   });
 
   it('still reaches the tier ceiling on full marks under either rule', () => {

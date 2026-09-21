@@ -131,14 +131,21 @@ const RUN_ON_SENTENCE_WORDS = 45;
 const FALLBACK_TARGET_WORDS = 100;
 
 /**
- * The completeness-score window the colour is spread across, calibrated against
- * the exemplar library (see the chroma comment in `computeDraftReadiness`): a
- * score at or below `CHROMA_FLOOR` sits at the bottom of the question's palette,
- * and `CHROMA_FLOOR + CHROMA_SPAN` (not 100 — complete answers score well short
- * of it) reaches the top. Widen the span to make the top colour harder to earn;
+ * The completeness-score window the colour is spread across: a score at or
+ * below `CHROMA_FLOOR` sits at the bottom of the question's palette, and
+ * `CHROMA_FLOOR + CHROMA_SPAN` (not 100 — complete answers score well short of
+ * it) reaches the top. Widen the span to make the top colour harder to earn;
  * raise the floor to hold weak answers lower.
+ *
+ * Re-derived by measuring every marked exemplar in `public/courseData`, which
+ * `tests/unit/readinessCalibration.test.ts` re-runs so these two numbers are
+ * never again a figure nobody can reproduce. Across 821 samples the scores run
+ * min 13, median 71, p90 93. The floor sits at the first quartile of the
+ * Band 1 exemplars (33) so a genuinely thin draft stays at the bottom of the
+ * palette, and floor + span lands on that p90, so the top colour needs a draft
+ * more complete than nine in ten finished exemplars.
  */
-const CHROMA_FLOOR = 25;
+const CHROMA_FLOOR = 33;
 const CHROMA_SPAN = 60;
 
 const clamp01 = (n: number): number => Math.max(0, Math.min(1, n));
@@ -232,15 +239,32 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
   //     (`CHROMA_FLOOR`..`CHROMA_FLOOR+CHROMA_SPAN` → 0..1). A ~50% answer now
   //     sits around the middle of the palette; only a near-complete answer earns
   //     the top colour.
-  //  2. It must still REACH the top. A complete answer scores well short of 100,
-  //     so the span tops out at CHROMA_FLOOR+CHROMA_SPAN (not 100) — otherwise a
-  //     full Band-6 response could never turn purple.
+  //  2. It must still REACH the top of what it is allowed to claim. A complete
+  //     answer scores well short of 100, so the span tops out at
+  //     CHROMA_FLOOR+CHROMA_SPAN (not 100) — otherwise the top colour available
+  //     here could never be earned at all.
+  //  3. IT MUST NEVER CLAIM THE QUESTION'S CEILING BAND. This is the cap below,
+  //     and it is the one thing the old rule could not be tuned into. Measured
+  //     over every marked exemplar in the library, the readiness score does not
+  //     separate the top bands: mean 52 at Band 1, 75 at Band 3, 66 at Band 4,
+  //     67 at Band 5, 71 at Band 6 — it PEAKS in the middle and falls away, and
+  //     every band from 1 to 6 has exemplars scoring 100. That is not a mistuned
+  //     window, it is the signal's ceiling: length, structure, keyword coverage
+  //     and sentence variety are all things a thorough but unconvincing answer
+  //     does well. So the hue stops one band short of the question's ceiling.
+  //     The ceiling band is a judgement about the quality of an argument, and
+  //     this module cannot see an argument — only how much of one is on the
+  //     page. Awarding it is the marker's job, and the marker's alone.
   //
   // `level` 0 stays neutral slate; any real content is at least band 1 (red).
   // The label and score are left uncapped and uncalibrated: a complete
   // short-answer draft still reads "Ready to submit", just in a colour that
   // reflects the mark it is worth rather than merely its length.
-  const cappedBand = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1));
+  //
+  // A one-band question (Tier 1) has nothing below its ceiling, so it keeps the
+  // single colour it has rather than losing the accent entirely.
+  const targetBand = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1));
+  const cappedBand = Math.max(1, targetBand - 1);
   const chromaFraction = clamp01((score - CHROMA_FLOOR) / CHROMA_SPAN);
   const chromaLevel: ReadinessLevel =
     level === 0

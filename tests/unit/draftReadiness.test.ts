@@ -389,19 +389,31 @@ describe('computeDraftReadiness — colour caps at, and is calibrated within, th
       })
     );
 
-  it('a complete answer reaches the top colour while the label stays uncapped', () => {
+  it('a complete answer says so in words, but never in the ceiling colour', () => {
     const green = completeDraft(4); // a Band-4 (green) question
     expect(green.level).toBe(6); // completeness still tops out
     expect(green.label).toBe('Ready to submit'); // …and says so
-    expect(green.chromaLevel).toBe(4); // …in the question's own top colour (green)
+    // …but the hue stops one band short. Completeness is length, structure,
+    // keyword coverage and variety — all things a thorough but unconvincing
+    // answer does well — so the ceiling band stays the marker's to award.
+    expect(green.chromaLevel).toBe(3);
   });
 
-  it('never lets a question show a hue above its target band', () => {
-    for (const maxBand of [1, 2, 3, 4, 5, 6]) {
+  it('never shows the question’s ceiling band, however complete the draft', () => {
+    // A 6-mark Justify caps at Band 5, and a long, well-structured,
+    // keyword-rich answer used to glow Band 5 while the same writing was marked
+    // 3/6. The colour can reach the band BELOW the ceiling and no further.
+    for (const maxBand of [2, 3, 4, 5, 6]) {
       const r = completeDraft(maxBand);
-      expect(r.chromaLevel).toBeLessThanOrEqual(maxBand);
-      expect(r.chromaLevel).toBe(maxBand); // a COMPLETE answer earns the top
+      expect(r.chromaLevel).toBeLessThan(maxBand);
+      expect(r.chromaLevel).toBe(maxBand - 1); // a COMPLETE answer earns that
     }
+  });
+
+  it('keeps its one colour on a question with no band below the ceiling', () => {
+    // Tier 1 caps at Band 1. There is nothing under it, so the accent stays
+    // rather than vanishing into the neutral pre-writing slate.
+    expect(completeDraft(1).chromaLevel).toBe(1);
   });
 
   // The headline regression: a roughly half-marks answer must sit around the
