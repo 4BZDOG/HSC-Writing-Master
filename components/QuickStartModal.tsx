@@ -180,7 +180,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                             {step.detail.map((line) => (
                               <li
                                 key={line}
-                                className="text-[11px] leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-500 flex gap-2.5"
+                                className="text-[11px] leading-relaxed text-[rgb(var(--color-text-muted))] flex gap-2.5"
                               >
                                 <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-indigo-400/60" />
                                 <span>{line}</span>
@@ -192,7 +192,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                             cannot do — the note only appears when the feature
                             is genuinely beyond their plan. */}
                         {step.planNote && plan === 'free' && (
-                          <p className="mt-3 inline-flex items-start gap-2 text-[10px] text-amber-500 leading-relaxed">
+                          <p className="mt-3 inline-flex items-start gap-2 text-[10px] text-amber-500 light:text-amber-800 leading-relaxed">
                             <Lock className="w-3 h-3 mt-0.5 shrink-0" />
                             {step.planNote}
                           </p>

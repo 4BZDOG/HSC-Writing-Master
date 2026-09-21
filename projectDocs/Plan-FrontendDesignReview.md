@@ -2131,3 +2131,194 @@ account's render path, so no sweep driven as a student would ever have shown it.
 
 After: **zero surfaces and zero readings** across the profile in both the free
 and the paid state, and focus mode.
+
+## The command verb guide: "clunky, and confusing if you just want to write"
+
+Reported by the app's owner about the surface that teaches the thing this whole
+application is built on.
+
+### 70. The brief was drawn on the student's writing surface — FIXED
+
+The verb's brief rendered at two scales. `panel` sat inside a disclosure above
+the writing area. `page` drew the same brief as a `pointer-events-none` layer
+**on** the blank writing surface, sharing the textarea's own padding so the verb
+sat exactly where the student's first word would go.
+
+Five things came with that, and the code had a comment defending each one:
+
+1. **The verb was named twice, in adjacent lines.** The row above read
+   `DESCRIBE strategy`; the overlay opened with `DESCRIBE` at 30px directly
+   under it. A comment in `Editor.tsx` describes this exact fault being fixed —
+   and it was, for the panel. The page kept `lead="full"` and kept doing it.
+2. **The placeholder was switched to `text-transparent`** while the overlay
+   showed, so the blank page carried no invitation to write at all.
+3. **The caret landed behind the verb's first letterform.** The call site's
+   comment acknowledged it: "That does put the caret behind the verb's first
+   letterform — but only once they have clicked in".
+4. **It showed less than the panel did.** The layer measured the card
+   (`useAvailableHeight`) against its own `scrollHeight` and dropped the checks
+   — and on a phone the method too — to fit. So the first version of the advice
+   a student ever met was the one with the caveats missing, on a tip shaped
+   "do this / and here is what it costs you".
+5. **All of it vanished at keystroke one.** The student who wanted the advice
+   lost it the instant they acted on it.
+
+The arithmetic in (4) is the tell. A component that has to measure the box it is
+in and delete its own content to survive there is in the wrong box — and the box
+was the student's writing surface.
+
+### What replaced it
+
+**The writing surface belongs to the student; guidance sits above it, never on
+it.** The app already contained the better answer: the strategy row, opened, is
+compact and complete and leaves a visible placeholder. It just was not the
+default and was not worth opening.
+
+The row is now a **glossary line**, which is what a NESA command term actually
+is:
+
+```
+DESCRIBE   Provide the characteristics and features of something in detail.   How to answer ⌄
+```
+
+The term in the app's UI face, its meaning in Newsreader — the change of face
+doing the work a label like "Definition:" would otherwise have to do. The
+definition is the one sentence a student most needs, and it is now on screen for
+the **whole draft** rather than only until the first keystroke. The method and
+its checks sit behind the disclosure, reachable at any length of draft rather
+than only while the page is empty.
+
+Three smaller decisions inside that:
+
+- **The definition is content; the toggle is a control.** For one revision the
+  whole row was a button, which put the definition inside the control's
+  accessible name — "DESCRIBE, provide the characteristics and features of
+  something in detail, How to answer, button" — and meant clicking the sentence
+  to re-read it collapsed the panel being read.
+- **The chevron is named.** "How to answer" is the question a student arrives
+  with, and it is the one control on that card that can say what pressing it
+  gives you.
+- **The panel opens headless** (`lead="none"`). With the row stating the term
+  and its meaning, every surface in the app that shows a verb now names it
+  exactly once.
+
+### What went with it
+
+`scale`, `room`, `SURFACE_TOP_PAD`, the measure-and-trim `useLayoutEffect`, the
+`trimmed` state, the `strategyBriefSeen` tracking, and `hooks/useAvailableHeight.ts`
+entirely — its whole docstring was about fitting a brief into the writing card,
+and it had no other consumer.
+
+`useSupportResource` goes back to `showStrategy || strategyOpened`. It had been
+widened to count the page brief, because back then a student could read the
+strategy exactly as intended without ever touching the row. The definition that
+replaced it is _not_ the strategy — one sentence, unmissable, and nobody chooses
+to read it. Opening the panel is a choice, and a choice is the only thing worth
+reporting to a student as one.
+
+### 71. Two more readings on surfaces this pass deepened — FIXED
+
+The quick-start guide's plan note was a bare `text-amber-500`: **1.96:1** on the
+step card. Two stops deeper in light, for the reason recorded on the audit
+studio's coverage ramp. Its step details carried the same
+`light:text-slate-500`-undercutting-`--color-text-muted` pattern as the seven
+fixed two passes ago, at 4.34:1.
+
+Swept after: the open course picker, the expanded verb ribbon, the help modal,
+and the editor at both desktop and phone width with the method open — **zero
+surfaces and zero readings** in every one.
+
+## Say it once: three more copies on the writing page
+
+Same method as the contrast sweep, turned on WORDS: collect every visible text
+run in the workspace and group by the string. Anything a reader meets twice is a
+candidate for the treatment the footer's completeness word already got — keep
+the copy with something to explain, drop the other.
+
+The scan has to be scoped honestly or it reports nothing but noise. The verb
+ribbon is excluded (a reference panel listing all six tiers is the thing being
+referenced, not a repetition), so are `sr-only` nodes, and it must run with the
+ribbon **folded** — caught mid-fold it reports the whole ladder.
+
+### 72. The readiness percentage was rendered twice on one card — FIXED
+
+`WorkspaceRightPanel` passes `progress={readiness.score / 100}` **and**
+`readiness` to the same `Editor`. The header drew its own `role="progressbar"`
+plus the number; the footer's `ReadinessMeter` drew the same number again. The
+comment at the call site records this as an achievement — _"Same signal the
+Evaluate button and the ReadinessMeter read, so the three never disagree"_ —
+which is the right answer to the wrong question.
+
+The header's copy was the poorer one: white on the band gradient, with neither
+the completeness WORD nor the band hue that make the number mean anything, sat
+in the title block where a reader is looking for what the card IS rather than
+how far along it is. The meter keeps it, for the reason this file already
+records about the word the meter took back from the target-band pill: **the
+meter's copy is the one with something to explain**, and it sits where the
+decision is made, beside Evaluate.
+
+`workspaceReadinessButton.test.tsx` had been disambiguating its query with a
+colon — `{ name: /draft readiness:/i }` — precisely because there were two bars,
+and said so in a comment. It asserts `getAllByRole('progressbar')` has length 1
+now, which is the assertion that would have caught this.
+
+### 73. A character count, in an app that measures nothing in characters — FIXED
+
+The footer counted `0 Chars` beside `0 Words`. There is no character limit on
+the answer, `value.length` was read to render that counter and in no other
+place, and every other length statement in the application is in words — "15
+words of about 32", `wordCount`, `commandTerms`' page estimates. A text-editor
+convention standing beside the counter that does mean something, halving its
+prominence. Both counters also carried a glyph at `opacity-50` repeating their
+own label; those went with it.
+
+### 74. The question, stated twice, ~430px apart — FIXED
+
+`SyllabusNavBar` put the full question text on a second row under the path,
+truncated at 13px, while the prompt card below set the same sentence as its own
+content in the reading face at 20px.
+
+The code defended it: _"the card below shows the question too, but this bar is
+what a student reads while the card is scrolled away."_ That is not something
+this bar can do. It is a plain flex child of `<main>` with no `sticky`, and it
+sits **above** the question card — so it scrolls off first. There is no scroll
+position at which the bar is visible and the card is not.
+
+Making the claim true was the other option and is worse: pinning a 76px bar
+under a 64px header spends ~15% of a laptop viewport, and ~17% of a phone's, on
+chrome — while Focus Mode exists to remove exactly that. So the question text
+goes, the verb chip and the marks/band move down beside the controls, and the
+bar is one row.
+
+### 75. One chip, written three times, drifted — FIXED
+
+The supporting syllabus-term chip appears in the prompt card, the draft check
+and the keyword editor. It is the same object in all three and each had its own
+copy:
+
+```
+bg-slate-100    text-slate-700  border-slate-300   keyword editor
+bg-slate-100    text-slate-700  border-slate-300   draft check
+bg-slate-100/50 text-slate-600  border-slate-200   prompt card
+```
+
+The third is the one a student meets **first**, before writing a word, and it
+was the faintest: a half-strength slate-100 on the white prompt card is a 1.05:1
+fill behind a 1.17:1 border, so it had neither a face nor an edge. The other two
+only look right because they were corrected one at a time, in two separate
+passes of this review, with neither pass aware of the third.
+
+`utils/termChrome.ts` states the resting tone once. Hover stays at the call
+site, because that genuinely differs — the prompt card's chips are read, the
+other two are pressed. The used/must-use states are untouched: they take the
+question's tier hue from `getBandConfig`, which is `renderUtils`' to decide.
+
+### A probe bug worth recording, again
+
+The contrast sweep reported the student's own draft at 1:1 once the textarea had
+text in it. The writing surface's textarea is `text-transparent` by design, with
+a highlights overlay beneath carrying the visible words — so the probe was
+measuring an intentionally invisible layer. It skips text at alpha < 0.05 now.
+That is the third false positive this sweep has produced (gradient grounds, and
+`borderTopColor` on a bottom-only rule are the other two), and each one would
+have had somebody "fix" working code to satisfy it.

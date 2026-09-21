@@ -97,14 +97,21 @@ const renderPanel = (
 };
 
 describe('the Evaluate button + readiness meter (step 4)', () => {
-  it('mounts the readiness meter in the footer for a non-exam draft', () => {
+  it('mounts ONE readiness meter, in the footer, for a non-exam draft', () => {
     renderPanel({ userAnswer: SUBSTANTIAL_DRAFT });
-    // The editor header now also carries a "Draft readiness" progress bar
-    // (Surface B, step 5); the meter is the one whose accessible name also
-    // speaks the label and percentage, so colour never travels alone.
-    const meter = screen.getByRole('progressbar', { name: /draft readiness:/i });
-    expect(meter).toBeTruthy();
-    expect(meter.getAttribute('aria-label')).toMatch(/draft readiness/i);
+
+    // There used to be two. The editor header carried its own "Draft readiness"
+    // bar and percentage, fed by `progress={readiness.score / 100}` — the same
+    // number this meter shows, rendered a second time in the card's title
+    // block, without the completeness word or the band hue that make it mean
+    // anything. This assertion is the one that would have caught that, and the
+    // reason the query below no longer needs a colon to disambiguate.
+    expect(screen.getAllByRole('progressbar')).toHaveLength(1);
+
+    const meter = screen.getByRole('progressbar', { name: /draft readiness/i });
+    // Colour never travels alone: the accessible name speaks the label and the
+    // percentage the hue is standing for.
+    expect(meter.getAttribute('aria-label')).toMatch(/draft readiness: .+, \d+%/i);
   });
 
   it('gives the button the honest readiness aria-label once there is substance', () => {

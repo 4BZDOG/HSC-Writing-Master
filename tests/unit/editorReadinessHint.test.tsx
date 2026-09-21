@@ -8,17 +8,28 @@ import { PromptVerb } from '../../types';
 
 /**
  * The writing card's live draft-readiness accents (Surface B). The tier hue is
- * the question's fixed identity; readiness is layered on only as a header
- * progress bar (given an accessible name), a soft glow and a caret tint —
- * never a band name, and never under exam conditions or on a blank page.
+ * the question's fixed identity; readiness is layered on as a soft glow and a
+ * caret tint — never a band name, and never under exam conditions or on a
+ * blank page.
  *
- * The completeness WORD is not one of them, and that is the point of the last
- * two tests here. The editor used to append it to the target-band pill as
- * `Band 5 Target · Excellent · Coming along`, while the `ReadinessMeter` in
- * the same footer row carried it again beside the bar and percentage it
- * belongs to. Reported from use: the same two words twice, a few inches apart,
- * once hanging off a statement about the QUESTION and once attached to the
- * meter measuring the DRAFT.
+ * SAY IT ONCE. This card has now shed two copies of the same signal, in the
+ * same shape both times:
+ *
+ *   - The completeness WORD. The editor appended it to the target-band pill as
+ *     `Band 5 Target · Excellent · Coming along` while the `ReadinessMeter` in
+ *     the same footer row carried it again beside the bar and percentage it
+ *     belongs to — the same two words twice, a few inches apart, once hanging
+ *     off a statement about the QUESTION and once attached to the meter
+ *     measuring the DRAFT.
+ *   - The PERCENTAGE and its bar. The header carried its own `role="progressbar"`
+ *     fed by `progress={readiness.score / 100}` — the meter's own number,
+ *     rendered a second time in the title block, white on the band gradient,
+ *     with neither the completeness word nor the band hue that make it mean
+ *     anything.
+ *
+ * Both times the meter's copy is the one that survives: it is the one with
+ * something to explain, and it sits where the decision is made, beside
+ * Evaluate. What is left in the header is the question's fixed goal.
  */
 
 vi.mock('../../services/entitlements', () => ({
@@ -60,13 +71,22 @@ const renderEditor = (props: Partial<React.ComponentProps<typeof Editor>> = {}) 
   );
 
 describe('editor readiness hint (Surface B)', () => {
-  it('names the header progress bar and reflects the progress value', () => {
+  it('draws no progress bar of its own — the meter is the card\'s only one', () => {
     renderEditor({ readiness: readyish, progress: 0.62 });
 
-    const bar = screen.getByRole('progressbar', { name: /draft readiness/i });
-    expect(bar.getAttribute('aria-valuenow')).toBe('62');
-    expect(bar.getAttribute('aria-valuemin')).toBe('0');
-    expect(bar.getAttribute('aria-valuemax')).toBe('100');
+    // The header's bar restated `readiness.score` without the word or the hue.
+    // The editor alone is now silent about it; the card's single meter arrives
+    // through `footerAction`, which the test below assembles.
+    expect(screen.queryAllByRole('progressbar')).toHaveLength(0);
+  });
+
+  it('keeps the question\'s fixed goal in the header, which is not the draft', () => {
+    renderEditor({ readiness: readyish, progress: 0.62 });
+
+    // "Band 2" as the target is identity — what this card is FOR — and stays.
+    // A percentage is telemetry about the draft, and belongs with the meter.
+    expect(screen.getByText(/^Band \d$/)).toBeTruthy();
+    expect(screen.queryByText(/62%/)).toBeNull();
   });
 
   it('leaves the completeness word to the meter, and keeps the goal pill', () => {
@@ -105,7 +125,7 @@ describe('editor readiness hint (Surface B)', () => {
     renderEditor({ readiness: readyish, writingMode: 'exam', progress: 0.62 });
 
     expect(screen.queryByText(/Getting there/)).toBeNull();
-    expect(screen.queryByRole('progressbar', { name: /draft readiness/i })).toBeNull();
+    expect(screen.queryAllByRole('progressbar')).toHaveLength(0);
     expect(screen.getByText(/Exam Conditions/)).toBeTruthy();
   });
 });

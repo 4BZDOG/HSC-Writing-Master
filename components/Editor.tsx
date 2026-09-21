@@ -23,11 +23,9 @@ import {
   Copy,
   Check,
   PenTool,
-  Type,
   Baseline,
   ZoomIn,
   ZoomOut,
-  FileText,
   Compass,
   GraduationCap,
   ChevronDown,
@@ -39,7 +37,6 @@ import { getReadinessChroma, type ReadinessResult } from '../utils/draftReadines
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
-import { useAvailableHeight } from '../hooks/useAvailableHeight';
 import { PlusLockChip } from './UpgradeModal';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
@@ -228,47 +225,24 @@ const Editor = forwardRef<
     const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
     const verbTier = verbInfo.tier;
 
-    /**
-     * The blank page is the brief, so the brief shows while the page is blank.
-     *
-     * Exam Mode has no strategy at all, and a question with no command verb has
-     * nothing to brief. Everything else: the moment there is a character in the
-     * draft this fades out and the row below is the only way back.
-     *
-     * ONE PLACE AT A TIME. Opening the row on a blank page used to render the
-     * verb twice — the panel's copy above, the page's below it, the second one
-     * clipped mid-definition by the space the first had just taken. The page
-     * yields to the panel, so opening the row on a blank page trades the large
-     * brief for the complete one: panel scale also carries the checks on the
-     * method, which the page drops to fit.
-     */
-    const showStrategyPage = !isExamMode && !!verb && value.length === 0 && !showStrategy;
-    /** Whether the brief has been on the page at all for this question. */
-    const strategyBriefSeen = useOpenedOnce(showStrategyPage, promptId);
-
     // Exam Mode has no strategy at all, so it must not be reported as a support
     // the student declined to open.
     //
-    // The brief COUNTS. This used to read `showStrategy || strategyOpened` —
-    // the row, and only the row — which was right while the row was the only
-    // way to the advice. It is not any more: the brief leads on the blank page
-    // and the row is the way back to it, so a student who read the strategy
-    // exactly as intended and then started writing never touches the row. Left
-    // as it was, the marking report would tell every coach-mode student "you
-    // did not open the command verb's strategy" about the largest thing that
-    // had been on their blank page — and `SupportUsageSummary` is read at the
-    // moment a student is looking at a lost mark, which is the worst possible
-    // moment to be told something untrue about what they did.
+    // The row, and only the row. This briefly also counted a `strategyBriefSeen`
+    // — whether the old page-scale brief had been on the blank writing surface
+    // — because back then a student could read the strategy exactly as intended
+    // without ever touching the row, and reporting otherwise would have told
+    // them something untrue at the moment they were looking at a lost mark.
+    //
+    // That brief is gone. What replaced it is the definition in the strategy
+    // row's own header, and that is NOT the strategy: it is one sentence, it is
+    // unmissable, and nobody chooses to read it. Opening the row is a choice a
+    // student makes, which is the only thing worth reporting as one.
     useSupportResource(
       isExamMode || !verb ? undefined : promptId,
       'strategy',
-      showStrategy || strategyOpened || strategyBriefSeen
+      showStrategy || strategyOpened
     );
-    // How much of the brief the card can actually finish. The writing card's
-    // height is floored by the question beside it, so this is ~200px on a
-    // laptop and ~100px on a phone — and a brief sized for the first is cut in
-    // half on the second.
-    const bodyHeight = useAvailableHeight(bodyRef);
 
     // Live-feedback theme. The writing surface is painted in the question's
     // TIER colour (one fixed hue per question). Progress isn't shown by
@@ -637,25 +611,27 @@ const Editor = forwardRef<
                     </div>
                   ) : (
                     <div className={CARD_HEADER_META_ROW}>
+                      {/* The question's fixed goal, and nothing about the
+                          draft.
+
+                          A second readiness bar and its percentage used to sit
+                          here. `WorkspaceRightPanel` passes
+                          `progress={readiness.score / 100}` and `readiness`
+                          to this same component, so the number was rendered
+                          twice on one card — and the copy up here was the
+                          poorer one: white on the band gradient, with no
+                          completeness WORD and no band hue, in the title block
+                          where a reader is looking for what the card IS rather
+                          than how far along it is.
+
+                          The footer's `ReadinessMeter` keeps it, for the reason
+                          the footer already records about the completeness word
+                          it took back from the target-band pill: the meter's
+                          copy is the one with something to explain, and it sits
+                          where the decision is made, beside Evaluate. */}
                       <span className="t-label leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
-                      <div
-                        className="h-1 w-16 bg-white/20 rounded-full overflow-hidden"
-                        role="progressbar"
-                        aria-valuenow={Math.round((progress || 0) * 100)}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label="Draft readiness"
-                      >
-                        <div
-                          className="h-full bg-white transition-all duration-1000 ease-out"
-                          style={{ width: `${Math.min(100, progress * 100)}%` }}
-                        />
-                      </div>
-                      <p className={`${CARD_HEADER_META} whitespace-nowrap`}>
-                        {Math.min(100, Math.round(progress * 100))}%
-                      </p>
                     </div>
                   )}
                 </div>
@@ -801,53 +777,84 @@ const Editor = forwardRef<
             </div>
           </div>
 
-          {/* The way back to the verb's brief, once the page is no longer
-            blank. It is a hairline from the first frame and stays one: the
-            brief itself leads on the empty writing surface below, where it has
-            the room to be read, and a row shouting alongside it would spend
-            the same attention twice. Opened mid-draft it shows the same brief
-            at panel scale, so the advice never reads two different ways. */}
+          {/* The verb, and what it wants — a glossary line above the page it
+            applies to.
+
+            A NESA command term IS a dictionary entry, so the row is set as
+            one: the term in the app's own UI face, its meaning in Newsreader,
+            the change of face doing the work a label like "Definition:" would
+            otherwise have to do. It reads at a glance and it never moves.
+
+            This row used to say `DESCRIBE strategy` and nothing else, because
+            the meaning was carried by a brief drawn ON the blank writing
+            surface below. That brief is gone (see `StrategyBrief`), and what
+            it was doing has split in two: the definition — the one sentence a
+            student most needs — is here, on screen for the whole draft rather
+            than only until the first keystroke; and the METHOD is behind this
+            disclosure, reachable at any point rather than only while the page
+            is empty.
+
+            So the definition is stated once on this surface and the panel
+            below opens headless. Every surface in the app that shows a verb
+            now names it exactly once. */}
           {!isExamMode && verb && (
-            <div className="border-t border-white/10 light:border-slate-200">
-              <button
-                type="button"
-                onClick={() => setShowStrategy((s) => !s)}
-                aria-expanded={showStrategy}
-                aria-controls={strategyPanelId}
-                title={
-                  showStrategy
-                    ? 'Hide the writing strategy for this command verb'
-                    : `How to answer a ${verbInfo.term} question`
-                }
-                className="w-full flex items-center gap-2.5 px-4 sm:px-6 py-1.5 text-left transition-colors duration-300 hover:bg-black/5 light:hover:bg-slate-100 focus-visible:bg-black/5"
-              >
-                <span
-                  className={`t-label flex-shrink-0 ${
-                    showStrategy
-                      ? 'text-[rgb(var(--color-text-primary))]'
-                      : 'text-[rgb(var(--color-text-muted))]'
-                  }`}
-                >
-                  {verbInfo.term} strategy
+            <div className="border-t border-white/10 light:border-slate-300">
+              {/* The definition is CONTENT, and the toggle is a control, so
+                  they are not the same element.
+
+                  The whole row was one button for a moment, which put the
+                  definition inside the control's accessible name: a screen
+                  reader announced "DESCRIBE, provide the characteristics and
+                  features of something in detail, How to answer, button" as
+                  the label of a thing to press. It also meant a student who
+                  clicked the sentence to re-read it collapsed the panel they
+                  were reading. A named button of its own says exactly what it
+                  does, and the sentence beside it stays a sentence. */}
+              <div className="flex items-baseline gap-x-3 px-4 sm:px-6 py-2">
+                <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-primary))]">
+                  {verbInfo.term}
                 </span>
-                <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+                {/* The meaning, in the reading face. It WRAPS rather than
+                    truncating: this is the one sentence a student most needs
+                    and the longest of them runs past a phone's width, so
+                    trimming it would withhold the thing the row is for. */}
+                <p className="font-serif text-[13px] leading-snug min-w-0 text-[rgb(var(--color-text-muted))]">
+                  {verbInfo.definition}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowStrategy((s) => !s)}
+                  aria-expanded={showStrategy}
+                  aria-controls={strategyPanelId}
+                  className="t-label ml-auto flex-shrink-0 self-center flex items-center gap-2 -mr-1.5 px-1.5 py-1 rounded-lg transition-colors duration-300 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-black/5 light:hover:bg-slate-100"
+                >
                   <PanelReadChip show={strategyOpened && !showStrategy} />
+                  {/* Named, not a bare chevron. It is the one control on this
+                      card that can say what a student gets by pressing it, and
+                      "How to answer" is the question they arrived with. The
+                      verb goes in the accessible name rather than the visible
+                      one, which already sits two words to the left. */}
+                  <span className="hidden sm:inline">
+                    {showStrategy ? 'Hide' : 'How to answer'}
+                  </span>
+                  <span className="sr-only">
+                    {showStrategy ? 'Hide how to answer a ' : 'How to answer a '}
+                    {verbInfo.term} question
+                  </span>
                   <ChevronDown
-                    className={`w-3 h-3 text-[rgb(var(--color-text-dim))] transition-transform duration-200 ${
-                      showStrategy ? 'rotate-180 text-[rgb(var(--color-text-primary))]' : ''
+                    className={`w-3 h-3 transition-transform duration-200 ${
+                      showStrategy ? 'rotate-180' : ''
                     }`}
                   />
-                </div>
-              </button>
+                </button>
+              </div>
               {showStrategy && (
                 <div id={strategyPanelId} className="px-4 sm:px-6 pb-4 animate-fade-in">
-                  {/* The row's own header, a line above, already reads
-                      "DISCUSS strategy". The brief used to open with `DISCUSS`
-                      under it in 18px Newsreader — the same word twice in two
-                      lines, the second time larger than the first, which is
-                      what the row is FOR saying. The definition stays: it is
-                      not a repeat of anything on this surface. */}
-                  <StrategyBrief verb={verb} scale="panel" lead="definition" />
+                  {/* Headless: the row above names the verb and states its
+                      meaning, so what is left for the brief is the method and
+                      its checks — which is the half a student cannot get from
+                      the definition alone. */}
+                  <StrategyBrief verb={verb} lead="none" />
                 </div>
               )}
             </div>
@@ -900,36 +907,6 @@ const Editor = forwardRef<
               </div>
             )}
 
-            {/* The verb's brief, on the page it is about.
-              A layer rather than a row: in flow it would push the caret down
-              the moment a student pressed a key, and the one thing the blank
-              page should feel is still. `pointer-events-none` means a click
-              anywhere still lands on the textarea underneath, so the brief
-              never stands between a student and starting.
-
-              It shares the writing surface's own padding, so the verb sits
-              exactly where the student's first word will. That does put the
-              caret behind the verb's first letterform — but only once they
-              have clicked in, which is the moment before they type, and the
-              first character dissolves the whole thing. A line was reserved
-              above it to avoid that and cost 64px out of a card body that has
-              about 200px to give, which bought an empty band at the top and
-              clipped the method off the bottom.
-
-              It fades rather than cuts, and it comes back if the draft is
-              cleared to nothing, which is exactly when it is wanted again. */}
-            {!isExamMode && verb && (
-              <div
-                data-testid="strategy-page"
-                inert={!showStrategyPage}
-                className={`absolute inset-x-0 top-0 z-20 pointer-events-none px-5 sm:px-8 pt-8 transition-opacity duration-500 ${
-                  showStrategyPage ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <StrategyBrief verb={verb} scale="page" room={bodyHeight} />
-              </div>
-            )}
-
             <div className="grid w-full relative z-10 min-h-full">
               {/* Invisible phantom div to force height based on content */}
               <div
@@ -963,21 +940,14 @@ const Editor = forwardRef<
                 // (focus-within, inset): a textarea always matches
                 // :focus-visible, and the global rule's outline was being
                 // clipped by the card down to a single bar across the page.
-                // The placeholder attribute always stays — it is this
-                // textarea's accessible name, and dropping it while the brief
-                // shows left a screen reader announcing an unnamed edit field.
-                // It is only hidden to the eye: the brief is the empty state
-                // while it is up, and "Draft your Describe response here" set
-                // above a page that already names the verb and says how to
-                // answer it is the same instruction twice. One class or the
-                // other, never both — two `placeholder:text-*` utilities have
-                // equal specificity and the winner would be decided by
-                // stylesheet order rather than by this line.
-                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none ${
-                  showStrategyPage
-                    ? 'placeholder:text-transparent'
-                    : 'placeholder:text-[rgb(var(--color-text-dim))]'
-                } focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                // The placeholder is always visible now. It used to be turned
+                // transparent while the page brief was up, on the grounds that
+                // the brief was the empty state and saying both was saying the
+                // instruction twice. The brief is gone, and what that left
+                // behind was the real problem underneath it: a blank writing
+                // surface with no invitation to write on it, and a caret that
+                // landed behind the brief's first letterform.
+                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
                 style={{
                   fontSize: `${internalFontSize}px`,
                   // The caret takes the readiness hue when a live signal is
@@ -1014,13 +984,17 @@ const Editor = forwardRef<
               className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
             >
               <div className="t-label flex items-center gap-4 sm:gap-6 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
-                <span className="flex items-center gap-1.5">
-                  <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
-                  {value.length === 1 ? 'Char' : 'Chars'}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
-                  {wordCount === 1 ? 'Word' : 'Words'}
+                {/* Words, and not also characters.
+                    A character count is a text-editor convention, and nothing
+                    in this application is measured in characters: the length
+                    guidance says "15 words of about 32", the metrics panel
+                    counts words, and `commandTerms` estimates pages. It was
+                    also load-bearing nowhere — `value.length` was read here and
+                    in no other place. Standing beside the counter that DOES
+                    mean something, it halved the prominence of the one a
+                    student is actually working to. */}
+                <span>
+                  {wordCount} {wordCount === 1 ? 'Word' : 'Words'}
                 </span>
                 {/* The draft saves itself a second after typing stops. Saying so
                   is the point: a student who cannot see that their work is kept

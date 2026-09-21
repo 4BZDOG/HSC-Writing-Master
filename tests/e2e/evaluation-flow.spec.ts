@@ -65,7 +65,10 @@ test.describe('Evaluation flow', () => {
     await writingSurface(page).fill(answer);
 
     await expect(page.getByText(/\b7 Words\b/i)).toBeVisible();
-    await expect(page.getByText(new RegExp(`\\b${answer.length} Chars\\b`, 'i'))).toBeVisible();
+    // Words, and only words. The card used to count characters beside them;
+    // nothing in this application is measured in characters, and the second
+    // counter halved the prominence of the one a student writes to.
+    await expect(page.getByText(/\bChars?\b/i)).toHaveCount(0);
     await expect(evaluate).toBeEnabled();
   });
 

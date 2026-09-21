@@ -492,12 +492,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             Headless: the term is already a heading beside its
                             tier chip above, and the definition is the line
                             directly over this. */}
-                        <StrategyBrief
-                          verb={activeTermInfo.term}
-                          scale="panel"
-                          lead="none"
-                          className="mt-2"
-                        />
+                        <StrategyBrief verb={activeTermInfo.term} lead="none" className="mt-2" />
                       </div>
                     </div>
 
