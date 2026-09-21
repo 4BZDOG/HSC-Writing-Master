@@ -2322,3 +2322,67 @@ measuring an intentionally invisible layer. It skips text at alpha < 0.05 now.
 That is the third false positive this sweep has produced (gradient grounds, and
 `borderTopColor` on a bottom-only rule are the other two), and each one would
 have had somebody "fix" working code to satisfy it.
+
+### 76. Eight pale overrides the pair check could not see — GUARDED
+
+`themePairDirection.test.ts` looks for grey-grey PAIRS. `text-[rgb(var(--color-text-muted))]
+light:text-slate-300` is not one — the base is a token — so nothing matched it,
+and it survived three passes of this review in eight files.
+
+Six of the eight were **48px empty-state icons** in the admin modals. The token
+reads **8.46:1** against the dark panel; the override took the same element to
+**1.48:1** against the white one. The light theme did not have those icons at
+all. Dropping the override restores parity at 7.58:1.
+
+The other two were delete controls at `muted/50`. There the override is the
+right tool and was just aimed too pale: dropping it would leave 2.32:1, under
+WCAG 1.4.11's 3:1 for a graphical control, so they take an explicit
+`light:text-slate-500` — quiet until hover, and over the floor.
+
+The guard added for it is deliberately narrow. **slate-400 and paler is never
+right on any ground this application has** — 2.56:1 and 1.48:1 on white, which
+is the lightest surface in the app — so that is the line. `light:text-slate-500`
+is 4.76:1 on white and mostly correct; about forty of those exist, and flagging
+them would get the check switched off within a week. The ones that do fail sit
+on a TINTED ground, which is a property of the page rather than the source, and
+`light-theme.spec.ts` measures those.
+
+### Why four sweeps walked past them
+
+The browser sweep only ever measured two things: TEXT NODES, and painted
+SURFACES. An `<svg>` is neither. Six 48px icons sat at 1.48:1 through four
+passes of this review because nothing was looking at icons at all — not the
+static check (it wanted a grey-grey pair), not the browser sweep (it wanted a
+text node), and not `light-theme.spec.ts`, which walks text for the same reason.
+
+The sweep measures glyphs now — any `<svg>` over 28px, its `currentColor`
+against its painted ground, held to WCAG 1.4.11's 3:1 rather than AA's 4.5.
+Re-run across the five admin modals that are reachable without a live backend:
+every glyph over the floor, the repaired empty-state icon at **7.58:1**, and no
+readings under AA anywhere.
+
+This is the fourth false negative or false positive the tooling has produced in
+this review — gradient grounds, bottom-only borders, transparent text layers,
+and now glyphs. Each one is the same lesson in a different costume: **a sweep
+finds what it was told to look for, and its silence is only worth what its
+coverage is.**
+
+### A limit worth stating rather than papering over
+
+Three of the eight sites — the Review Queue, Class Insights and Student
+Progress modals — could not be swept. They are gated on `canModerate(role) &&
+isCurriculumRemote()`, and the Supabase-configured dev server has no mock
+password login: it offers OAuth and a guest, and a guest holds no moderator
+role. Reaching them needs the elaborate request stubbing
+`contribution-loop.spec.ts` carries. Their icons were repaired by the same
+one-line change as the five that WERE verified, and they are the same component
+shape, but they have not been looked at. Recorded so the next pass knows the
+green tick above does not cover them.
+
+It earned its place on the first run by finding a ninth site the grep behind
+this pass had missed: a `light:text-slate-200` on the audit studio's coverage
+ring. That one is exempted rather than moved, with its reason — it is the
+unfilled TRACK of the ring, an SVG stroke in `currentColor` and a surface rather
+than ink, and the filled arc plus the percentage at its centre carry the value.
+It takes the same tone the verb ribbon's timeline track does. Confirmed to fail,
+naming file and line, when a pale override is reintroduced.

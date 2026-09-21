@@ -1783,7 +1783,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     stroke="currentColor"
                     strokeWidth="6"
                     fill="transparent"
-                    className="text-white/5 light:text-slate-200"
+                    className="text-white/5 light:text-slate-300"
                   />
                   <circle
                     cx="32"
