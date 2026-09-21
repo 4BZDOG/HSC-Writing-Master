@@ -493,7 +493,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-white relative">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-8 bg-[rgb(var(--color-bg-surface))]/50 light:bg-[rgb(var(--color-bg-base))] relative">
             {view === 'overview' && (
               <>
                 {isLoading && !stats ? (

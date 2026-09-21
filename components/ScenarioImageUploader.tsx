@@ -161,7 +161,7 @@ const ScenarioImageUploader: React.FC<ScenarioImageUploaderProps> = ({
           <Loader2 className="w-5 h-5 text-[rgb(var(--color-accent))] animate-spin" />
         ) : (
           <>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
               Click here and paste an image, or upload one below.
             </p>
             <input

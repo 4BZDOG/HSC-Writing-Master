@@ -345,9 +345,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                 </button>
               </div>
 
-              <p className="text-[10px] text-[rgb(var(--color-text-muted))]/80 light:text-slate-400">
-                {NESA_HOST_HINT}
-              </p>
+              <p className="text-[10px] text-[rgb(var(--color-text-muted))]">{NESA_HOST_HINT}</p>
             </div>
           </div>
 

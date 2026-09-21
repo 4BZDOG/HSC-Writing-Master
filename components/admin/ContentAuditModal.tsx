@@ -1982,7 +1982,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                    show — three different situations and one shrug. */
                 <div className="py-32 text-center animate-fade-in">
                   <div className="w-20 h-20 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 mb-6 mx-auto shadow-inner">
-                    <Filter className="w-10 h-10 text-slate-700 light:text-slate-300" />
+                    <Filter className="w-10 h-10 text-slate-400 light:text-slate-500" />
                   </div>
                   {treeData.length === 0 ? (
                     <>

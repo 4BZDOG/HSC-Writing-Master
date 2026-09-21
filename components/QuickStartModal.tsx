@@ -158,13 +158,13 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                   return (
                     <li
                       key={step.title}
-                      className="flex gap-4 p-5 rounded-2xl bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200"
+                      className="flex gap-4 p-5 rounded-2xl bg-white/[0.03] light:bg-slate-100 border border-white/5 light:border-slate-300"
                     >
                       <div className="shrink-0 flex flex-col items-center gap-2">
                         <span className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 light:text-indigo-600">
                           <Icon className="w-4 h-4" />
                         </span>
-                        <span className="text-[10px] font-black text-slate-600 light:text-slate-500 tabular-nums">
+                        <span className="text-[10px] font-black text-slate-400 light:text-slate-600 tabular-nums">
                           {String(index + 1).padStart(2, '0')}
                         </span>
                       </div>

@@ -597,7 +597,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               <div className="flex-grow overflow-hidden flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl">
                 <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center flex-shrink-0">
                   <div className="flex items-center gap-2 min-w-0">
-                    <FolderTree className="w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] light:text-slate-400 flex-shrink-0" />
+                    <FolderTree className="w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] flex-shrink-0" />
                     <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700 truncate">
                       {importedTopic.name}
                     </span>
@@ -622,7 +622,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                               className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
                             >
                               <ChevronRight
-                                className={`w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] light:text-slate-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
+                                className={`w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
                               />
                               <Layers className="w-3.5 h-3.5 text-purple-400 light:text-purple-500 flex-shrink-0" />
                               <span className="font-semibold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 truncate">
@@ -674,11 +674,11 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                                   key={dp.id ?? dpIdx}
                                   className="group/dp flex items-start gap-2 px-2 py-1.5 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/40 light:hover:bg-slate-100 transition-colors"
                                 >
-                                  <Hash className="w-3 h-3 mt-0.5 text-slate-600 light:text-slate-400 flex-shrink-0" />
+                                  <Hash className="w-3 h-3 mt-0.5 text-[rgb(var(--color-text-muted))] flex-shrink-0" />
                                   <span className="flex-1 leading-relaxed">
                                     {dp.description}
                                     {dp.prompts.length > 0 && (
-                                      <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-400">
+                                      <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))]">
                                         <FileText className="w-2.5 h-2.5" />
                                         {dp.prompts.length}
                                       </span>

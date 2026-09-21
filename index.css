@@ -115,10 +115,21 @@ html {
  * captions, the tier strip's step labels. 84 96 117 restores it to 5.17:1 on
  * the desk and 6.37:1 on paper, and leaves `muted` a rung above it rather than
  * colliding with it.
+ *
+ * `--color-accent` goes one step deeper too, and this one is free. It was
+ * sky-600, which measures 4.10:1 on white — under the AA floor, and the token
+ * is read as TEXT at 60 sites (links, inline actions) as well as painted as a
+ * FILL under white text at 55 more. Both directions were failing the same
+ * number, because a mid-tone is equally mediocre against black and against
+ * white. sky-700 takes the text to 5.93:1 AND the white-on-accent button to
+ * 5.93:1: there is no trade to make. It is also what §2 rule 1 already says
+ * about light steps being one stop deeper, applied to the one token that had
+ * not had it applied. `--color-accent-dark` moves to sky-800 so the pair keeps
+ * its gap rather than collapsing onto the value `accent` just took.
  */
 [data-theme='light'] {
   --color-primary: 79 70 229;
-  --color-accent: 2 132 199;
+  --color-accent: 3 105 161;
   --color-bg-base: 226 232 240;
   --color-bg-surface: 255 255 255;
   --color-bg-surface-elevated: 248 250 252;
@@ -130,7 +141,7 @@ html {
   --color-text-muted: 71 85 105;
   --color-text-dim: 84 96 117;
   --color-bg-surface-light: 215 222 233;
-  --color-accent-dark: 3 105 161;
+  --color-accent-dark: 7 89 133;
   --color-accent-glow: 14 165 233;
   --color-border-primary: 148 163 184;
   --color-border-accent: 2 132 199;

@@ -161,7 +161,7 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
                     ? goalConfig.text
                     : b <= currentBand
                       ? 'text-slate-600 dark:text-slate-300'
-                      : 'text-slate-300 dark:text-slate-600'
+                      : 'text-slate-500 dark:text-slate-400'
                 }`}
               >
                 {b}
@@ -280,7 +280,7 @@ const CriteriaRow: React.FC<CriteriaRowProps> = ({
         <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 leading-snug flex-1 min-w-0">
           {/* Numbered, so a criterion can be referred to out loud — "look at
               three" — rather than by quoting its wording back. */}
-          <span className="text-slate-300 dark:text-slate-600 tabular-nums mr-2">{index + 1}</span>
+          <span className="text-slate-500 dark:text-slate-400 tabular-nums mr-2">{index + 1}</span>
           {criterion.criterion}
         </h4>
         <div
