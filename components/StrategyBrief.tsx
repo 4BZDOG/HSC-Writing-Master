@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
 import { parseStrategyTip, type TipSegment } from '../utils/strategyTip';
@@ -6,19 +6,36 @@ import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import type { PromptVerb } from '../types';
 
 /**
- * One command verb's strategy, set as a brief rather than as a tip list.
+ * One command verb's strategy — the method for answering it, set as a brief
+ * rather than as a tip list.
  *
- * The verb is the mark. A lightbulb said "here is a tip", which is the most
- * generic thing a glyph can say and was saying it in three places on one
- * screen — the coach-mode toggle, this brief and the draft check below it. The
- * verb says which verb, and NESA's command terms are the vocabulary this whole
- * app is built on, so it is also the one word a student needs to recognise
- * before writing a sentence.
+ * It is set in Newsreader, the face §1 of the spec chose "to simulate the
+ * gravity of an official examination paper" and the same face the writing
+ * surface uses. The advice about how to write reads in the voice of the thing
+ * being written.
  *
- * It is set in Newsreader — the face §1 of the spec chose "to simulate the
- * gravity of an official examination paper", and the same face the writing
- * surface itself uses. At page scale this brief IS the blank writing surface,
- * so the page's own voice states the instruction and then hands over.
+ * ## It no longer draws itself on the writing surface
+ *
+ * This component used to have two scales. `panel` is what survives: the brief
+ * inside a disclosure, above the writing area. `page` drew the same brief as a
+ * `pointer-events-none` layer ON the blank writing surface, sharing its
+ * padding so the verb sat exactly where the student's first word would go.
+ *
+ * That cost more than it looks. The placeholder had to be turned transparent
+ * while it showed, so a blank page carried no invitation to write at all; a
+ * click to start put the caret behind the verb's first letterform, which the
+ * call site's own comment acknowledged and accepted; and the layer had to
+ * MEASURE the card and drop its own content to fit, so the version a student
+ * met first was the version missing the checks. All of it vanished at the
+ * first keystroke — so the student who wanted the advice lost it the instant
+ * they acted on it.
+ *
+ * The writing surface belongs to the student. The verb's meaning now sits in
+ * the strategy row's own header, where it stays readable while they draft, and
+ * the method lives here, one click away and available at any point. With the
+ * page scale went `room`, the measure-and-trim effect, the trimmed state and
+ * the surface-padding constant — all of which existed only to squeeze this
+ * into a box it should not have been in.
  *
  * ## The shape of a tip
  *
@@ -59,75 +76,43 @@ const groupTip = (segments: TipSegment[]): TipMove[] => {
   return moves;
 };
 
-/** The writing surface's own top padding, which `room` includes and the brief does not. */
-const SURFACE_TOP_PAD = 32;
-
 interface StrategyBriefProps {
   verb: PromptVerb;
   /**
-   * `page` sets the brief on the blank writing surface, where it is the only
-   * thing on screen and can take the room. `panel` is the same brief inside
-   * the strategy row's disclosure, opened mid-draft, where it is competing
-   * with the student's own words for height.
-   */
-  scale?: 'page' | 'panel';
-  /**
-   * How much of the verb's identity the brief states for itself, because that
-   * depends entirely on what the surface around it has already said.
+   * Whether the brief states the verb's definition for itself, which depends
+   * on what the surface around it has already said.
    *
-   * - `full` — the term, then its definition. The blank writing page, where
-   *   the brief is the only thing on screen.
-   * - `definition` — the definition alone. The strategy row's own header reads
-   *   "DISCUSS strategy", and the brief opening underneath it with `DISCUSS`
-   *   in 18px Newsreader said the word twice in two lines, the second time
-   *   larger than the first. The definition is not a repeat of anything, so it
-   *   stays.
-   * - `none` — neither. The verb ribbon's detail card sets the term as a
-   *   heading beside its tier chip with the definition directly under it, so
-   *   the brief there is the method and its checks alone.
+   * - `definition` — the definition, then the method. For a surface that names
+   *   the verb but not its meaning.
+   * - `none` — the method alone. Both call sites are now this: the editor's
+   *   strategy row carries the definition in its own header, and the verb
+   *   ribbon's detail card sets it under the term as a heading. Keeping the
+   *   option is what stops the next surface having to choose between repeating
+   *   the definition and forking this component.
    *
-   * The rule goes with whatever is above it: it separates what the verb MEANS
-   * from how to answer it, and with nothing above to separate from it is a
-   * line drawn for its own sake.
+   * The rule goes with the definition: it separates what the verb MEANS from
+   * how to answer it, and with nothing above it is a line drawn for its own
+   * sake.
    */
-  lead?: 'full' | 'definition' | 'none';
-  /**
-   * Page scale only: the measured height of the surface it is drawn on. The
-   * writing card is floored by the question beside it, so this is ~200px on a
-   * laptop and ~100px on a phone, and the brief trims itself to whichever it
-   * is. 0 means "not measured yet" — assume there is room, because the first
-   * paint is the one a student sees.
-   */
-  room?: number;
+  lead?: 'definition' | 'none';
   className?: string;
 }
 
 /** The detail hanging off a move: a template to copy, or the words to use. */
-const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string; large: boolean }> = ({
-  detail,
-  accent,
-  large,
-}) => (
+const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string }> = ({ detail, accent }) => (
   <>
     {detail.map((segment, i) =>
       segment.kind === 'example' ? (
         <p
           key={i}
-          className={`font-serif italic ${PROSE_FLOW} border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] ${
-            large ? 'mt-2.5 text-[15px] leading-relaxed' : 'mt-2 text-xs leading-relaxed'
-          }`}
+          className={`font-serif italic ${PROSE_FLOW} border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] mt-2 text-xs leading-relaxed`}
         >
           {segment.text}
         </p>
       ) : (
         // The words themselves, set apart by spacing and colour rather than
         // boxed into chips: they are words to write, not controls to press.
-        <p
-          key={i}
-          className={`font-serif flex flex-wrap ${accent} ${
-            large ? 'mt-2.5 gap-x-5 gap-y-1 text-[15px]' : 'mt-2 gap-x-3.5 gap-y-1 text-xs'
-          }`}
-        >
+        <p key={i} className={`font-serif flex flex-wrap ${accent} mt-2 gap-x-3.5 gap-y-1 text-xs`}>
           {segment.items.map((item) => (
             <span key={item}>{item}</span>
           ))}
@@ -139,9 +124,7 @@ const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string; large: boolean
 
 const StrategyBrief: React.FC<StrategyBriefProps> = ({
   verb,
-  scale = 'panel',
-  lead: leadMode = 'full',
-  room = 0,
+  lead: leadMode = 'none',
   className = '',
 }) => {
   const info = useMemo(() => getCommandTermInfo(verb), [verb]);
@@ -150,103 +133,44 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
   // ribbon and the question card are already painted in.
   const accent = useMemo(() => getBandConfig(info.tier).text, [info.tier]);
 
-  const large = scale === 'page';
-  const [lead, ...rest] = moves;
-  const showTerm = leadMode === 'full';
-  const showDefinition = leadMode !== 'none';
-
-  // The checks on the method are the first thing to go at page scale: even on
-  // a roomy card they do not fit under the method, and the row below opens the
-  // whole brief including them, which is the division that row is for.
-  const checks = large ? [] : rest;
-
-  /**
-   * …and on a phone, where the writing card's body is nearer 100px than 200,
-   * the method goes too. What is left — the verb and what it means — is the
-   * part that still finishes.
-   *
-   * MEASURED, not estimated. A fixed per-part budget was tried first and could
-   * not work: the method is one line for DESCRIBE and three for EXPLAIN, and
-   * the definition wraps differently at every card width, so any single number
-   * either hid a method that would have fitted or showed one that clipped.
-   *
-   * It cannot oscillate. `trimmed` only ever goes false → true for a given
-   * verb and room, and the reset below is what re-opens the question when
-   * either changes — so the worst case is two renders, and a brief that has
-   * been trimmed never measures itself back into overflowing.
-   */
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const [trimmed, setTrimmed] = useState(false);
-
-  useLayoutEffect(() => {
-    setTrimmed(false);
-  }, [verb, room]);
-
-  useLayoutEffect(() => {
-    if (!large || trimmed || room === 0) return;
-    const natural = bodyRef.current?.scrollHeight ?? 0;
-    if (natural > room - SURFACE_TOP_PAD) setTrimmed(true);
-  }, [large, trimmed, room]);
-
-  const showMethod = !large || !trimmed;
+  const [lead, ...checks] = moves;
+  const showDefinition = leadMode === 'definition';
 
   return (
-    <div ref={bodyRef} className={`${large ? 'max-w-[42ch]' : 'max-w-[52ch]'} ${className}`}>
-      {showTerm && (
-        <p
-          className={`font-serif font-bold tracking-tight leading-none ${accent} ${
-            large ? 'text-3xl' : 'text-lg'
-          }`}
-        >
-          {info.term}
-        </p>
-      )}
+    <div className={`max-w-[52ch] ${className}`}>
       {showDefinition && (
-        <p
-          className={`font-serif ${PROSE_BLOCK} text-[rgb(var(--color-text-secondary))] ${
-            large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'
-          } ${showTerm ? (large ? 'mt-2.5' : 'mt-1.5') : ''}`}
-        >
-          {info.definition}
-        </p>
+        <>
+          <p
+            className={`font-serif ${PROSE_BLOCK} text-[rgb(var(--color-text-secondary))] text-[13px] leading-relaxed`}
+          >
+            {info.definition}
+          </p>
+          <div aria-hidden="true" className="h-px bg-[rgb(var(--color-border-secondary))] my-3" />
+        </>
       )}
 
-      {lead && showMethod && (
+      {lead && (
         <>
-          {showDefinition && (
-            <div
-              aria-hidden="true"
-              className={`h-px bg-[rgb(var(--color-border-secondary))] ${large ? 'my-4' : 'my-3'}`}
-            />
-          )}
           <p
-            className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-primary))] ${
-              large ? 'text-base leading-relaxed' : 'text-[13px] leading-relaxed'
-            }`}
+            className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-primary))] text-[13px] leading-relaxed`}
           >
             {lead.text}
           </p>
-          <MoveDetail detail={lead.detail} accent={accent} large={large} />
+          <MoveDetail detail={lead.detail} accent={accent} />
 
           {/* The checks on the method above, not more instructions beside it.
               Indented past the lead's left edge and set a step down in size and
               tone, which is the whole of what marks them as subordinate. */}
           {checks.length > 0 && (
-            <div
-              className={`border-l-2 border-[rgb(var(--color-border-secondary))] ${
-                large ? 'mt-4 pl-4 space-y-2' : 'mt-2.5 pl-3 space-y-1.5'
-              }`}
-            >
+            <div className="border-l-2 border-[rgb(var(--color-border-secondary))] mt-2.5 pl-3 space-y-1.5">
               {checks.map((move, i) => (
                 <div key={i}>
                   <p
-                    className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-muted))] leading-relaxed ${
-                      large ? 'text-[15px]' : 'text-xs'
-                    }`}
+                    className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-muted))] leading-relaxed text-xs`}
                   >
                     {move.text}
                   </p>
-                  <MoveDetail detail={move.detail} accent={accent} large={large} />
+                  <MoveDetail detail={move.detail} accent={accent} />
                 </div>
               ))}
             </div>

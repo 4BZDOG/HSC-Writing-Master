@@ -7,14 +7,30 @@ import { parseStrategyTip } from '../../utils/strategyTip';
 import type { PromptVerb } from '../../types';
 
 /**
- * The verb's brief, which the blank writing surface and the strategy row both
- * render so the advice never reads two different ways.
+ * The verb's brief — the METHOD for answering a command term, which the
+ * editor's strategy row and the verb ribbon's detail card both render so the
+ * advice never reads two different ways.
  *
- * Two things it has to get right. The tips in `data/commandTerms.ts` are
- * authored as a method followed by its caveats, and rendering both as
- * identical bullets threw that relationship away. And the writing card's
- * height is not its own — it is floored by the question beside it — so a brief
- * sized for a laptop was cut in half on a phone.
+ * The tips in `data/commandTerms.ts` are authored as a method followed by its
+ * caveats, and rendering both as identical bullets threw that relationship
+ * away. Holding that shape is most of what this file is for.
+ *
+ * ## What used to be here, and why it is gone
+ *
+ * This component had a second scale, `page`, which drew the brief as a layer
+ * ON the blank writing surface. It carried a `room` prop, measured its own
+ * `scrollHeight` against it and dropped the checks — and on a phone the method
+ * too — to fit. Four tests below described that arithmetic, and they were
+ * correct about it.
+ *
+ * The arithmetic was the tell. A component that has to measure the box it is
+ * in and delete its own content to survive there is in the wrong box: the box
+ * was the student's writing surface, and the cost of being on it was a
+ * transparent placeholder, a caret behind the verb's first letterform, and a
+ * brief that showed a student its incomplete version first. The verb's meaning
+ * now sits in the strategy row's header and the method sits here, at one size,
+ * whole. There is nothing left to trim, so there is nothing left to test about
+ * trimming.
  */
 
 afterEach(cleanup);
@@ -24,34 +40,21 @@ const points = parseStrategyTip(info.tip).filter((s) => s.kind === 'point');
 const method = points[0] && points[0].kind === 'point' ? points[0].text : '';
 const check = points[1] && points[1].kind === 'point' ? points[1].text : '';
 
-/** jsdom reports 0 for every layout box, so the brief's height is stubbed. */
-const withNaturalHeight = (height: number) =>
-  Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
-    configurable: true,
-    value: height,
-  });
-
-afterEach(() => {
-  Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
-    configurable: true,
-    value: 0,
-  });
-});
-
 describe('the verb brief', () => {
-  it('leads with the verb, not a glyph', () => {
-    const { container } = render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" />);
+  it('is the method, in the exam paper’s own voice', () => {
+    const { container } = render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} />);
 
-    expect(screen.getByText(info.term)).toBeTruthy();
+    const methodLine = screen.getByText(method);
     // Newsreader — the face the writing surface and the exemplars use for the
     // exam paper's own voice, per DesignSpec §1.
-    expect(screen.getByText(info.term).className).toContain('font-serif');
+    expect(methodLine.className).toContain('font-serif');
+    // No glyph announcing "here is a tip": the method says what it is.
     expect(container.querySelector('svg')).toBeNull();
   });
 
   // The method and its caveat used to be two identical bullets.
   it('sets the method above its checks, not beside them', () => {
-    render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="panel" />);
+    render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} />);
 
     const methodLine = screen.getByText(method);
     const checkLine = screen.getByText(check);
@@ -61,59 +64,49 @@ describe('the verb brief', () => {
     expect(methodLine.parentElement?.className).not.toContain('border-l-2');
   });
 
-  // The row below the page opens the whole brief, which is what it is for.
-  it('keeps the checks for the panel and not the page', () => {
-    const { container: panel } = render(
-      <StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="panel" />
-    );
-    expect(within(panel).getByText(check)).toBeTruthy();
+  /**
+   * Whole, at one size. The page scale showed a student the method without its
+   * checks, and on a phone showed neither — so the first version of the advice
+   * anyone met was the one with the caveats missing, which for a tip shaped
+   * "do this / and here is what it costs you" is the wrong half to drop.
+   */
+  it('keeps the checks, rather than dropping them to fit', () => {
+    const { container } = render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} />);
 
-    cleanup();
-    const { container: page } = render(
-      <StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" />
-    );
-    expect(within(page).queryByText(check)).toBeNull();
-    expect(within(page).getByText(method)).toBeTruthy();
+    expect(within(container).getByText(method)).toBeTruthy();
+    expect(within(container).getByText(check)).toBeTruthy();
   });
 
-  describe('fitting the card it is drawn on', () => {
-    it('shows the method when the card can finish it', () => {
-      withNaturalHeight(200);
-      render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" room={400} />);
-      expect(screen.getByText(method)).toBeTruthy();
+  describe('what it says for itself, and what the surface above it has said', () => {
+    /**
+     * Both call sites name the verb themselves — the editor's row sets the
+     * term beside its definition, and the ribbon's detail card sets it as a
+     * heading — so the default is headless. A brief that re-announced either
+     * would be the duplication this whole surface was rebuilt to remove.
+     */
+    it('states neither the term nor the meaning by default', () => {
+      render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} />);
+
+      expect(screen.queryByText(info.term)).toBeNull();
+      expect(screen.queryByText(info.definition)).toBeNull();
     });
 
-    // A phone's writing card has about 100px of body. Verb and definition
-    // finish there; the method does not, and half a sentence is worse than
-    // none — the strategy row still opens the whole brief.
-    it('drops the method when it would be cut off', () => {
-      withNaturalHeight(260);
-      render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" room={180} />);
-
-      expect(screen.getByText(info.term)).toBeTruthy();
-      expect(screen.getByText(info.definition)).toBeTruthy();
-      expect(screen.queryByText(method)).toBeNull();
-    });
-
-    it('assumes there is room until it has been measured', () => {
-      withNaturalHeight(260);
-      // room 0 is "no ResizeObserver yet", and the first paint is the one a
-      // student sees — so it shows everything rather than pre-emptively
-      // trimming and flashing the method in a beat later.
-      render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" room={0} />);
-      expect(screen.getByText(method)).toBeTruthy();
-    });
-
-    it('re-decides when the card resizes, rather than staying trimmed', () => {
-      withNaturalHeight(260);
-      const { rerender } = render(
-        <StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" room={180} />
+    it('states the meaning, and rules it off, when asked to lead with it', () => {
+      const { container } = render(
+        <StrategyBrief verb={'DESCRIBE' as PromptVerb} lead="definition" />
       );
-      expect(screen.queryByText(method)).toBeNull();
 
-      // The workspace grew — a shorter question beside it, or a rotated phone.
-      rerender(<StrategyBrief verb={'DESCRIBE' as PromptVerb} scale="page" room={500} />);
-      expect(screen.getByText(method)).toBeTruthy();
+      expect(screen.getByText(info.definition)).toBeTruthy();
+      // The rule belongs to the definition: it separates what the verb MEANS
+      // from how to answer it, so it exists only when there is something above
+      // it to separate from.
+      expect(container.querySelector('.h-px')).toBeTruthy();
+    });
+
+    it('draws no rule when there is nothing above it to divide', () => {
+      const { container } = render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} lead="none" />);
+
+      expect(container.querySelector('.h-px')).toBeNull();
     });
   });
 });

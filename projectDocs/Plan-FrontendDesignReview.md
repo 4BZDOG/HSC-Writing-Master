@@ -2131,3 +2131,99 @@ account's render path, so no sweep driven as a student would ever have shown it.
 
 After: **zero surfaces and zero readings** across the profile in both the free
 and the paid state, and focus mode.
+
+## The command verb guide: "clunky, and confusing if you just want to write"
+
+Reported by the app's owner about the surface that teaches the thing this whole
+application is built on.
+
+### 70. The brief was drawn on the student's writing surface — FIXED
+
+The verb's brief rendered at two scales. `panel` sat inside a disclosure above
+the writing area. `page` drew the same brief as a `pointer-events-none` layer
+**on** the blank writing surface, sharing the textarea's own padding so the verb
+sat exactly where the student's first word would go.
+
+Five things came with that, and the code had a comment defending each one:
+
+1. **The verb was named twice, in adjacent lines.** The row above read
+   `DESCRIBE strategy`; the overlay opened with `DESCRIBE` at 30px directly
+   under it. A comment in `Editor.tsx` describes this exact fault being fixed —
+   and it was, for the panel. The page kept `lead="full"` and kept doing it.
+2. **The placeholder was switched to `text-transparent`** while the overlay
+   showed, so the blank page carried no invitation to write at all.
+3. **The caret landed behind the verb's first letterform.** The call site's
+   comment acknowledged it: "That does put the caret behind the verb's first
+   letterform — but only once they have clicked in".
+4. **It showed less than the panel did.** The layer measured the card
+   (`useAvailableHeight`) against its own `scrollHeight` and dropped the checks
+   — and on a phone the method too — to fit. So the first version of the advice
+   a student ever met was the one with the caveats missing, on a tip shaped
+   "do this / and here is what it costs you".
+5. **All of it vanished at keystroke one.** The student who wanted the advice
+   lost it the instant they acted on it.
+
+The arithmetic in (4) is the tell. A component that has to measure the box it is
+in and delete its own content to survive there is in the wrong box — and the box
+was the student's writing surface.
+
+### What replaced it
+
+**The writing surface belongs to the student; guidance sits above it, never on
+it.** The app already contained the better answer: the strategy row, opened, is
+compact and complete and leaves a visible placeholder. It just was not the
+default and was not worth opening.
+
+The row is now a **glossary line**, which is what a NESA command term actually
+is:
+
+```
+DESCRIBE   Provide the characteristics and features of something in detail.   How to answer ⌄
+```
+
+The term in the app's UI face, its meaning in Newsreader — the change of face
+doing the work a label like "Definition:" would otherwise have to do. The
+definition is the one sentence a student most needs, and it is now on screen for
+the **whole draft** rather than only until the first keystroke. The method and
+its checks sit behind the disclosure, reachable at any length of draft rather
+than only while the page is empty.
+
+Three smaller decisions inside that:
+
+- **The definition is content; the toggle is a control.** For one revision the
+  whole row was a button, which put the definition inside the control's
+  accessible name — "DESCRIBE, provide the characteristics and features of
+  something in detail, How to answer, button" — and meant clicking the sentence
+  to re-read it collapsed the panel being read.
+- **The chevron is named.** "How to answer" is the question a student arrives
+  with, and it is the one control on that card that can say what pressing it
+  gives you.
+- **The panel opens headless** (`lead="none"`). With the row stating the term
+  and its meaning, every surface in the app that shows a verb now names it
+  exactly once.
+
+### What went with it
+
+`scale`, `room`, `SURFACE_TOP_PAD`, the measure-and-trim `useLayoutEffect`, the
+`trimmed` state, the `strategyBriefSeen` tracking, and `hooks/useAvailableHeight.ts`
+entirely — its whole docstring was about fitting a brief into the writing card,
+and it had no other consumer.
+
+`useSupportResource` goes back to `showStrategy || strategyOpened`. It had been
+widened to count the page brief, because back then a student could read the
+strategy exactly as intended without ever touching the row. The definition that
+replaced it is _not_ the strategy — one sentence, unmissable, and nobody chooses
+to read it. Opening the panel is a choice, and a choice is the only thing worth
+reporting to a student as one.
+
+### 71. Two more readings on surfaces this pass deepened — FIXED
+
+The quick-start guide's plan note was a bare `text-amber-500`: **1.96:1** on the
+step card. Two stops deeper in light, for the reason recorded on the audit
+studio's coverage ramp. Its step details carried the same
+`light:text-slate-500`-undercutting-`--color-text-muted` pattern as the seven
+fixed two passes ago, at 4.34:1.
+
+Swept after: the open course picker, the expanded verb ribbon, the help modal,
+and the editor at both desktop and phone width with the method open — **zero
+surfaces and zero readings** in every one.

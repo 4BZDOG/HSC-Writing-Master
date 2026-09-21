@@ -65,6 +65,8 @@ describe('editor formatting tools', () => {
 });
 
 describe('the verb brief', () => {
+  const term = (verb = 'DESCRIBE') => getCommandTermInfo(verb as PromptVerb).term;
+  const definition = (verb = 'DESCRIBE') => getCommandTermInfo(verb as PromptVerb).definition;
   const firstTip = (verb: string) => {
     const segment = parseStrategyTip(getCommandTermInfo(verb as PromptVerb).tip).find(
       (s) => s.kind === 'point'
@@ -72,10 +74,10 @@ describe('the verb brief', () => {
     return segment && segment.kind === 'point' ? segment.text : '';
   };
 
-  const strategyToggle = () => screen.getByRole('button', { name: /strategy/i });
-  const page = () => screen.getByTestId('strategy-page');
-  /** The brief stays mounted and fades, so showing is a class, not presence. */
-  const pageIsShowing = () => page().className.includes('opacity-100');
+  const strategyToggle = () => screen.getByRole('button', { name: /how to answer a .* question/i });
+  const openPanel = () =>
+    document.getElementById(strategyToggle().getAttribute('aria-controls') as string) as HTMLElement;
+  const writingSurface = () => document.querySelector('textarea') as HTMLTextAreaElement;
 
   beforeEach(() => {
     vi.stubGlobal('innerWidth', 1440);
@@ -84,121 +86,117 @@ describe('the verb brief', () => {
   afterEach(() => vi.unstubAllGlobals());
 
   /**
-   * The blank page IS the brief. The row above it used to carry a LEADING
-   * state — amber wash, a lit lightbulb, "Read this first" and a quoted tip —
-   * to claim the moment before the first sentence. The writing surface is that
-   * moment, has the room to be read in, and costs no layout, so the brief
-   * moved onto it and the row went quiet permanently.
+   * THE WRITING SURFACE BELONGS TO THE STUDENT.
+   *
+   * The brief used to be drawn ON the blank writing surface, as a
+   * `pointer-events-none` layer sharing the textarea's own padding so the verb
+   * sat exactly where the first word would go. Three things came with that and
+   * none of them were worth it: the placeholder had to be turned transparent,
+   * so a blank page carried no invitation to write at all; a click to start put
+   * the caret behind the verb's first letterform; and the layer measured the
+   * card and dropped its own checks to fit, so the version a student met first
+   * was the incomplete one. At the first keystroke all of it vanished — the
+   * student who wanted the advice lost it the instant they acted on it.
+   *
+   * What replaced it is a glossary line above the surface: the term, its
+   * meaning, and a named way in to the method. These tests hold the two halves
+   * of that — nothing on the writing surface, and the meaning never leaving
+   * the screen.
    */
-  it('briefs the verb on the blank page', () => {
-    renderEditor();
+  it('leaves the writing surface to the student', () => {
+    // The placeholder is the parent's to supply; `Workspace` passes the same
+    // shape. It is here because the point of the test is that it SHOWS.
+    renderEditor({ placeholder: 'Draft your DESCRIBE response here…' });
 
-    expect(pageIsShowing()).toBe(true);
-    const brief = within(page());
-    expect(brief.getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).term)).toBeTruthy();
-    expect(brief.getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)).toBeTruthy();
-    expect(brief.getByText(firstTip('DESCRIBE'))).toBeTruthy();
+    expect(screen.queryByTestId('strategy-page')).toBeNull();
+    // The invitation to write, never hidden. It used to be switched to
+    // `text-transparent` whenever the page brief was up, which is what left a
+    // blank writing surface with nothing on it saying a student could write.
+    expect(writingSurface().placeholder).toMatch(/draft your/i);
+    expect(writingSurface().className).toContain('placeholder:text-[rgb(var(--color-text-dim))]');
+    expect(writingSurface().className).not.toContain('placeholder:text-transparent');
   });
 
-  // Never in the way: a click anywhere on the surface has to reach the
-  // textarea underneath, and the brief must not be in the tab order.
-  it('never stands between the student and the page', () => {
+  it('states the verb and what it wants, above the page rather than on it', () => {
     renderEditor();
-    expect(page().className).toContain('pointer-events-none');
-    expect(within(page()).queryByRole('button')).toBeNull();
+
+    expect(screen.getByText(term())).toBeTruthy();
+    expect(screen.getByText(definition())).toBeTruthy();
+    // Shut, so the method is not competing with the writing area for height.
+    expect(strategyToggle().getAttribute('aria-expanded')).toBe('false');
+    expect(screen.queryByText(firstTip('DESCRIBE'))).toBeNull();
   });
 
-  it('stands down the moment there is a draft, and comes back if it is cleared', () => {
-    const { rerender } = renderEditor();
-    expect(pageIsShowing()).toBe(true);
+  /**
+   * The point of moving it. The old brief was at its largest on a blank page
+   * and gone at keystroke one; the definition a student needs WHILE drafting
+   * now stays put, and the method stays one press away at any length of draft.
+   */
+  it('keeps the meaning on screen once the student is writing', () => {
+    renderEditor({ value: 'The first sentence of an answer.' });
 
-    rerender(
-      <Editor value="A" onChange={vi.fn()} verb={'DESCRIBE' as PromptVerb} writingMode="coach" />
-    );
-    expect(pageIsShowing()).toBe(false);
-    expect(page().hasAttribute('inert')).toBe(true);
-
-    // Clearing the draft to nothing is exactly when it is wanted again.
-    rerender(
-      <Editor value="" onChange={vi.fn()} verb={'DESCRIBE' as PromptVerb} writingMode="coach" />
-    );
-    expect(pageIsShowing()).toBe(true);
+    expect(screen.getByText(term())).toBeTruthy();
+    expect(screen.getByText(definition())).toBeTruthy();
+    expect(strategyToggle()).toBeTruthy();
   });
 
   it('briefs whichever verb the question uses', () => {
     renderEditor({ verb: 'EVALUATE' as PromptVerb });
 
-    expect(within(page()).getByText(firstTip('EVALUATE'))).toBeTruthy();
-    expect(screen.getByText(/EVALUATE strategy/i)).toBeTruthy();
+    expect(screen.getByText(term('EVALUATE'))).toBeTruthy();
+    expect(screen.getByText(definition('EVALUATE'))).toBeTruthy();
   });
 
   it('is absent in Exam Mode — the strategy is assistance', () => {
     renderEditor({ writingMode: 'exam' });
-    expect(screen.queryByRole('button', { name: /strategy/i })).toBeNull();
-    expect(screen.queryByTestId('strategy-page')).toBeNull();
+
+    expect(screen.queryByRole('button', { name: /how to answer/i })).toBeNull();
+    expect(screen.queryByText(definition())).toBeNull();
   });
 
-  /**
-   * The row is the way BACK to the brief once the page is no longer blank, and
-   * nothing more. It is a hairline from the first frame: two loud things at
-   * word zero would spend the page's attention twice.
-   */
-  describe('the row back to it', () => {
-    it('is quiet from the first frame, on a blank page', () => {
-      renderEditor();
-
-      expect(strategyToggle().getAttribute('aria-expanded')).toBe('false');
-      expect(screen.queryByText(/Read this first/i)).toBeNull();
-      expect(strategyToggle().className).not.toMatch(/amber/);
-    });
-
+  describe('the way in to the method', () => {
     /**
-     * One place at a time. Opening the row on a blank page used to render the
-     * verb TWICE — the panel's copy, and the page's below it, the second one
-     * clipped mid-definition by the space the first had just taken.
+     * The definition is a READING and the toggle is a CONTROL, so they are not
+     * the same element. As one button the row put the whole definition inside
+     * the control's accessible name — "DESCRIBE, provide the characteristics
+     * and features of something in detail, How to answer, button" — and a
+     * student who clicked the sentence to re-read it collapsed the panel they
+     * were reading.
      */
-    it('takes the page over rather than doubling it', () => {
+    it('is a named control of its own, not the sentence beside it', () => {
       renderEditor();
-      expect(pageIsShowing()).toBe(true);
 
-      fireEvent.click(strategyToggle());
-
-      expect(pageIsShowing()).toBe(false);
-      const panel = document.getElementById(
-        strategyToggle().getAttribute('aria-controls') as string
-      ) as HTMLElement;
-      // The brief is in the row now — recognised by its DEFINITION, because
-      // the term is no longer in here to recognise it by. The row's own header
-      // a line above reads "DESCRIBE strategy"; the brief opening with
-      // `DESCRIBE` under it said the word twice in two lines, the second time
-      // larger than the first.
-      expect(
-        within(panel).getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)
-      ).toBeTruthy();
-      expect(
-        within(panel).queryByText(getCommandTermInfo('DESCRIBE' as PromptVerb).term),
-        'the row states the verb; the brief inside it must not state it again'
-      ).toBeNull();
-
-      // …and shutting it hands the page back.
-      fireEvent.click(strategyToggle());
-      expect(pageIsShowing()).toBe(true);
+      // The accessible name says what pressing it does, and nothing else.
+      expect(strategyToggle().textContent).not.toContain(definition());
+      // Pressing the definition is not pressing anything.
+      const meaning = screen.getByText(definition());
+      expect(meaning.closest('button')).toBeNull();
     });
 
-    it('opens mid-draft to the same brief', () => {
+    it('opens to the method and its checks, and says the verb no second time', () => {
+      renderEditor();
+      fireEvent.click(strategyToggle());
+
+      const panel = openPanel();
+      expect(within(panel).getByText(firstTip('DESCRIBE'))).toBeTruthy();
+      // The row a line above states both; repeating either here is the fault
+      // this whole surface was rebuilt to remove.
+      expect(
+        within(panel).queryByText(term()),
+        'the row states the verb; the panel inside it must not state it again'
+      ).toBeNull();
+      expect(
+        within(panel).queryByText(definition()),
+        'the row states the meaning; the panel inside it must not state it again'
+      ).toBeNull();
+    });
+
+    it('opens the same way mid-draft as on a blank page', () => {
       renderEditor({ value: Array.from({ length: 30 }, (_, i) => `word${i}`).join(' ') });
-      expect(pageIsShowing()).toBe(false);
 
       fireEvent.click(strategyToggle());
       expect(strategyToggle().getAttribute('aria-expanded')).toBe('true');
-
-      const panel = document.getElementById(
-        strategyToggle().getAttribute('aria-controls') as string
-      ) as HTMLElement;
-      expect(within(panel).getByText(firstTip('DESCRIBE'))).toBeTruthy();
-      expect(
-        within(panel).getByText(getCommandTermInfo('DESCRIBE' as PromptVerb).definition)
-      ).toBeTruthy();
+      expect(within(openPanel()).getByText(firstTip('DESCRIBE'))).toBeTruthy();
     });
 
     it('marks itself read once it has been opened and shut again', () => {
@@ -212,26 +210,30 @@ describe('the verb brief', () => {
   });
 
   /**
-   * The marking report names the supports a student did not open, at the
-   * moment they are looking at a lost mark. The brief now leads on the blank
-   * page and the row is only the way back to it, so a student who read the
-   * strategy exactly as intended never touches the row — and the record has to
-   * know that, or the report says "you did not open the command verb's
-   * strategy" about the largest thing that was on their blank page.
+   * The marking report names the supports a student did not open, at the moment
+   * they are looking at a lost mark — so what counts as "opened" has to be
+   * something they actually chose to do.
+   *
+   * While the brief led on the blank page, it counted: a student could read the
+   * strategy exactly as intended without ever touching the row, and reporting
+   * otherwise would have told them something untrue. The definition that
+   * replaced it is NOT the strategy — it is one sentence, it is unmissable, and
+   * nobody chooses to read it. Opening the panel is the choice, and the only
+   * thing worth reporting as one.
    */
   describe('what the marking report is told', () => {
-    it('counts the brief on the page, not just the row', () => {
+    it('counts opening the method, not merely being shown the meaning', () => {
       renderEditor({ promptId: 'q1' });
+      expect(readSupportUsage('q1').opened).not.toContain('strategy');
 
-      const usage = readSupportUsage('q1');
-      expect(usage.opened).toContain('strategy');
-      expect(usage.skipped).not.toContain('strategy');
+      fireEvent.click(strategyToggle());
+      expect(readSupportUsage('q1').opened).toContain('strategy');
     });
 
-    // Reading it and then writing is the intended path, and it must not turn
-    // into "skipped" the moment there are words on the page.
     it('keeps counting it once the student has started writing', () => {
       const { rerender } = renderEditor({ promptId: 'q3' });
+      fireEvent.click(strategyToggle());
+
       rerender(
         <Editor
           value="The first sentence of an answer."

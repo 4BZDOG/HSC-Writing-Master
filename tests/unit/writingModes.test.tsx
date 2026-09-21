@@ -2,6 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import React from 'react';
 import Editor from '../../components/Editor';
+import { getCommandTermInfo } from '../../data/commandTerms';
 
 /**
  * The student writing area has two experiences:
@@ -60,20 +61,20 @@ describe('Editor writing modes', () => {
         writingMode="exam"
       />
     );
-    expect(container.textContent).not.toContain('DESCRIBE strategy');
-    expect(container.textContent).not.toContain('Provide the characteristics');
+    expect(container.textContent).not.toContain(getCommandTermInfo('DESCRIBE').definition);
+    expect(container.textContent).not.toContain('How to answer');
   });
 
-  it('Coach Mode shows the writing strategy tip', () => {
+  it('Coach Mode shows the command verb and what it wants', () => {
     const { container } = render(
-      <Editor
-        value={answer}
-        onChange={() => {}}
-        verb="DESCRIBE"
-        writingMode="coach"
-      />
+      <Editor value={answer} onChange={() => {}} verb="DESCRIBE" writingMode="coach" />
     );
-    expect(container.textContent).toContain('DESCRIBE strategy');
+    // The row read "DESCRIBE strategy" and nothing else while the meaning was
+    // carried by a brief drawn on the blank writing surface. It states the
+    // term and its definition now, and it stays on screen mid-draft — which is
+    // the state this test renders.
+    expect(container.textContent).toContain('DESCRIBE');
+    expect(container.textContent).toContain(getCommandTermInfo('DESCRIBE').definition);
   });
 
   it('Exam Mode hides the band progress bar in the header', () => {
