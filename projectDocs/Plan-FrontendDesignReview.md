@@ -2227,3 +2227,98 @@ fixed two passes ago, at 4.34:1.
 Swept after: the open course picker, the expanded verb ribbon, the help modal,
 and the editor at both desktop and phone width with the method open — **zero
 surfaces and zero readings** in every one.
+
+## Say it once: three more copies on the writing page
+
+Same method as the contrast sweep, turned on WORDS: collect every visible text
+run in the workspace and group by the string. Anything a reader meets twice is a
+candidate for the treatment the footer's completeness word already got — keep
+the copy with something to explain, drop the other.
+
+The scan has to be scoped honestly or it reports nothing but noise. The verb
+ribbon is excluded (a reference panel listing all six tiers is the thing being
+referenced, not a repetition), so are `sr-only` nodes, and it must run with the
+ribbon **folded** — caught mid-fold it reports the whole ladder.
+
+### 72. The readiness percentage was rendered twice on one card — FIXED
+
+`WorkspaceRightPanel` passes `progress={readiness.score / 100}` **and**
+`readiness` to the same `Editor`. The header drew its own `role="progressbar"`
+plus the number; the footer's `ReadinessMeter` drew the same number again. The
+comment at the call site records this as an achievement — _"Same signal the
+Evaluate button and the ReadinessMeter read, so the three never disagree"_ —
+which is the right answer to the wrong question.
+
+The header's copy was the poorer one: white on the band gradient, with neither
+the completeness WORD nor the band hue that make the number mean anything, sat
+in the title block where a reader is looking for what the card IS rather than
+how far along it is. The meter keeps it, for the reason this file already
+records about the word the meter took back from the target-band pill: **the
+meter's copy is the one with something to explain**, and it sits where the
+decision is made, beside Evaluate.
+
+`workspaceReadinessButton.test.tsx` had been disambiguating its query with a
+colon — `{ name: /draft readiness:/i }` — precisely because there were two bars,
+and said so in a comment. It asserts `getAllByRole('progressbar')` has length 1
+now, which is the assertion that would have caught this.
+
+### 73. A character count, in an app that measures nothing in characters — FIXED
+
+The footer counted `0 Chars` beside `0 Words`. There is no character limit on
+the answer, `value.length` was read to render that counter and in no other
+place, and every other length statement in the application is in words — "15
+words of about 32", `wordCount`, `commandTerms`' page estimates. A text-editor
+convention standing beside the counter that does mean something, halving its
+prominence. Both counters also carried a glyph at `opacity-50` repeating their
+own label; those went with it.
+
+### 74. The question, stated twice, ~430px apart — FIXED
+
+`SyllabusNavBar` put the full question text on a second row under the path,
+truncated at 13px, while the prompt card below set the same sentence as its own
+content in the reading face at 20px.
+
+The code defended it: _"the card below shows the question too, but this bar is
+what a student reads while the card is scrolled away."_ That is not something
+this bar can do. It is a plain flex child of `<main>` with no `sticky`, and it
+sits **above** the question card — so it scrolls off first. There is no scroll
+position at which the bar is visible and the card is not.
+
+Making the claim true was the other option and is worse: pinning a 76px bar
+under a 64px header spends ~15% of a laptop viewport, and ~17% of a phone's, on
+chrome — while Focus Mode exists to remove exactly that. So the question text
+goes, the verb chip and the marks/band move down beside the controls, and the
+bar is one row.
+
+### 75. One chip, written three times, drifted — FIXED
+
+The supporting syllabus-term chip appears in the prompt card, the draft check
+and the keyword editor. It is the same object in all three and each had its own
+copy:
+
+```
+bg-slate-100    text-slate-700  border-slate-300   keyword editor
+bg-slate-100    text-slate-700  border-slate-300   draft check
+bg-slate-100/50 text-slate-600  border-slate-200   prompt card
+```
+
+The third is the one a student meets **first**, before writing a word, and it
+was the faintest: a half-strength slate-100 on the white prompt card is a 1.05:1
+fill behind a 1.17:1 border, so it had neither a face nor an edge. The other two
+only look right because they were corrected one at a time, in two separate
+passes of this review, with neither pass aware of the third.
+
+`utils/termChrome.ts` states the resting tone once. Hover stays at the call
+site, because that genuinely differs — the prompt card's chips are read, the
+other two are pressed. The used/must-use states are untouched: they take the
+question's tier hue from `getBandConfig`, which is `renderUtils`' to decide.
+
+### A probe bug worth recording, again
+
+The contrast sweep reported the student's own draft at 1:1 once the textarea had
+text in it. The writing surface's textarea is `text-transparent` by design, with
+a highlights overlay beneath carrying the visible words — so the probe was
+measuring an intentionally invisible layer. It skips text at alpha < 0.05 now.
+That is the third false positive this sweep has produced (gradient grounds, and
+`borderTopColor` on a bottom-only rule are the other two), and each one would
+have had somebody "fix" working code to satisfy it.

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { PANEL_HEADER_OPEN, PANEL_ROW_MIN_H, PANEL_SURFACE } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { TERM_CHIP_HOVER, TERM_CHIP_RESTING } from '../utils/termChrome';
 
 interface PillProps {
   label: string;
@@ -110,8 +111,7 @@ const Pill: React.FC<PillProps> = React.memo(({ label, active, theme, onClick, k
 
   const baseStyle = `inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border ${interactiveStyle}`;
 
-  let colorStyle =
-    'bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-white/60 border-slate-300 dark:border-white/10 hover:border-slate-400 dark:hover:border-white/20';
+  let colorStyle = `${TERM_CHIP_RESTING} ${TERM_CHIP_HOVER}`;
 
   if (active && theme) {
     colorStyle = `${theme.bg} ${theme.text} ${theme.border} shadow-sm`;

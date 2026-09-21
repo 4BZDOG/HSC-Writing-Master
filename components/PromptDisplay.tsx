@@ -54,6 +54,7 @@ import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
 import FlagContentModal from './FlagContentModal';
+import { TERM_CHIP_RESTING } from '../utils/termChrome';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -986,7 +987,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium border ${
                         isKeyTerm
                           ? `${bandConfig.bg} ${bandConfig.border} ${bandConfig.text}`
-                          : 'bg-slate-100/50 dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10'
+                          : TERM_CHIP_RESTING
                       }`}
                     >
                       {isKeyTerm && <BookMarked className="w-3 h-3 shrink-0 opacity-70" />}

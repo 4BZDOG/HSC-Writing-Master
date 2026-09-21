@@ -65,29 +65,29 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
               component the workspace renders, one density down. */}
           <Breadcrumb items={crumbs} size="dense" label="Syllabus path" />
 
-          {/* The selected question + its verb / marks / target band. */}
-          <div className="flex items-center gap-2.5 mt-2 pl-2">
-            <span
-              className={`t-label shrink-0 px-2 py-0.5 rounded-lg ${band.solidBg} ${band.solidText} shadow-sm`}
-            >
-              {prompt.verb}
-            </span>
-            {/* Titled, because it truncates. On a phone this line shows about
-                164px of a 306px question and there is nowhere else on that
-                screen the rest of it appears — the card below shows the
-                question too, but this bar is what a student reads while the
-                card is scrolled away. Truncating a path is a fair trade for
-                one line; truncating the QUESTION without recourse is not. */}
-            <p
-              title={prompt.question}
-              className="min-w-0 truncate text-[13px] font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug"
-            >
-              {prompt.question}
-            </p>
-          </div>
+          {/* The question's own TEXT used to sit here, on a second row under
+              the path, truncated at 13px.
+
+              It was defended as the copy "a student reads while the card is
+              scrolled away". That is not something this bar can do. It is a
+              plain flex child of `<main>` (see `App.tsx`) with no `sticky`, and
+              it sits ABOVE the question card — so it scrolls off FIRST, and
+              there is no scroll position at which it is visible and the card is
+              not. The question was simply being stated twice, ~430px apart,
+              once truncated small and once as the card's own content in the
+              reading face at 20px.
+
+              What identifies the question rather than the path — the verb, the
+              marks and the target band — moves to the row below, where the
+              controls already are. The bar is one row now. */}
         </div>
 
         <div className="flex items-center gap-2.5 shrink-0">
+          <span
+            className={`t-label shrink-0 px-2 py-0.5 rounded-lg ${band.solidBg} ${band.solidText} shadow-sm`}
+          >
+            {prompt.verb}
+          </span>
           <div className="t-label hidden md:flex items-center gap-2.5 text-[rgb(var(--color-text-muted))]">
             <span>{prompt.totalMarks} marks</span>
             <span className="w-px h-3.5 bg-[rgb(var(--color-border-secondary))]" />

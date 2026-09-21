@@ -23,11 +23,9 @@ import {
   Copy,
   Check,
   PenTool,
-  Type,
   Baseline,
   ZoomIn,
   ZoomOut,
-  FileText,
   Compass,
   GraduationCap,
   ChevronDown,
@@ -613,25 +611,27 @@ const Editor = forwardRef<
                     </div>
                   ) : (
                     <div className={CARD_HEADER_META_ROW}>
+                      {/* The question's fixed goal, and nothing about the
+                          draft.
+
+                          A second readiness bar and its percentage used to sit
+                          here. `WorkspaceRightPanel` passes
+                          `progress={readiness.score / 100}` and `readiness`
+                          to this same component, so the number was rendered
+                          twice on one card — and the copy up here was the
+                          poorer one: white on the band gradient, with no
+                          completeness WORD and no band hue, in the title block
+                          where a reader is looking for what the card IS rather
+                          than how far along it is.
+
+                          The footer's `ReadinessMeter` keeps it, for the reason
+                          the footer already records about the completeness word
+                          it took back from the target-band pill: the meter's
+                          copy is the one with something to explain, and it sits
+                          where the decision is made, beside Evaluate. */}
                       <span className="t-label leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
-                      <div
-                        className="h-1 w-16 bg-white/20 rounded-full overflow-hidden"
-                        role="progressbar"
-                        aria-valuenow={Math.round((progress || 0) * 100)}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label="Draft readiness"
-                      >
-                        <div
-                          className="h-full bg-white transition-all duration-1000 ease-out"
-                          style={{ width: `${Math.min(100, progress * 100)}%` }}
-                        />
-                      </div>
-                      <p className={`${CARD_HEADER_META} whitespace-nowrap`}>
-                        {Math.min(100, Math.round(progress * 100))}%
-                      </p>
                     </div>
                   )}
                 </div>
@@ -984,13 +984,17 @@ const Editor = forwardRef<
               className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
             >
               <div className="t-label flex items-center gap-4 sm:gap-6 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
-                <span className="flex items-center gap-1.5">
-                  <Type className="w-3.5 h-3.5 opacity-50" /> {value.length}{' '}
-                  {value.length === 1 ? 'Char' : 'Chars'}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 opacity-50" /> {wordCount}{' '}
-                  {wordCount === 1 ? 'Word' : 'Words'}
+                {/* Words, and not also characters.
+                    A character count is a text-editor convention, and nothing
+                    in this application is measured in characters: the length
+                    guidance says "15 words of about 32", the metrics panel
+                    counts words, and `commandTerms` estimates pages. It was
+                    also load-bearing nowhere — `value.length` was read here and
+                    in no other place. Standing beside the counter that DOES
+                    mean something, it halved the prominence of the one a
+                    student is actually working to. */}
+                <span>
+                  {wordCount} {wordCount === 1 ? 'Word' : 'Words'}
                 </span>
                 {/* The draft saves itself a second after typing stops. Saying so
                   is the point: a student who cannot see that their work is kept
