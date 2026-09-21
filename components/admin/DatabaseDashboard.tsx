@@ -663,7 +663,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                   </div>
                 ) : backups.length === 0 ? (
                   <div className="text-center py-12 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 rounded-xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300">
-                    <History className="w-12 h-12 text-[rgb(var(--color-text-muted))] light:text-slate-300 mx-auto mb-3" />
+                    <History className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
                     <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                       No backups found.
                     </p>

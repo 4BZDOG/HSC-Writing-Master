@@ -57,6 +57,17 @@ const EXEMPT = new Map<string, string>([
     'components/admin/contentAudit/AuditPieces.tsx:text-slate-600 light:text-slate-400',
     'the `empty` branch of a filter button that is `disabled` in the same expression — WCAG 1.4.3',
   ],
+  [
+    'components/admin/contentAudit/AuditPieces.tsx:light:text-slate-400',
+    'the same element, seen by the pale-ink check rather than the pair check',
+  ],
+  [
+    'components/admin/ContentAuditModal.tsx:light:text-slate-300',
+    'the unfilled TRACK of the coverage ring, drawn as an SVG stroke in ' +
+      '`currentColor` — a surface rather than ink. The filled arc and the ' +
+      'percentage at its centre carry the value, and this is the tone the verb ' +
+      "ribbon's timeline track takes in light for the same reason.",
+  ],
 ]);
 
 const walk = (dir: string): string[] =>
@@ -101,6 +112,33 @@ const findPairs = (): Pair[] => {
   return found;
 };
 
+/**
+ * The palest tone the light theme may set on a reading or a control glyph.
+ *
+ * slate-400 measures 2.56:1 on white — under AA's 4.5 for text and under WCAG
+ * 1.4.11's 3:1 for a graphical object — and there is no neutral surface in this
+ * application lighter than white, so no ground exists on which it passes.
+ * slate-300 is 1.48:1, which is not a tone, it is an absence.
+ */
+const PALEST_LIGHT_STEP = 500;
+
+/** Every `light:text-<grey>-<step>` in the source, wherever it sits. */
+const findLightInk = (): Pair[] => {
+  const found: Pair[] = [];
+  const re = new RegExp(`light:text-${HUE}-(\\d{2,3})`, 'g');
+  for (const file of ROOTS.flatMap(walk)) {
+    if (file.includes('.test.')) continue;
+    readFileSync(file, 'utf8')
+      .split('\n')
+      .forEach((line, i) => {
+        for (const m of line.matchAll(re)) {
+          found.push({ file, line: i + 1, text: m[0], lightStep: +m[1], darkStep: 0 });
+        }
+      });
+  }
+  return found;
+};
+
 describe('a theme pair points the right way', () => {
   it('finds pairs to check at all, so a broken matcher cannot pass silently', () => {
     // The whole file is worthless if the regex stops matching, and "zero
@@ -120,10 +158,43 @@ describe('a theme pair points the right way', () => {
     ).toEqual([]);
   });
 
+
+  /**
+   * The other half of the same fault, which the pair check above cannot see.
+   *
+   * `text-[rgb(var(--color-text-muted))] light:text-slate-300` is not a
+   * grey-grey PAIR — the base is a token — so nothing matched it, and it
+   * survived three passes of this review in eight files. The token resolves to
+   * slate-600 in light and reads 7.58:1; the override took the same element to
+   * **1.48:1**, against 8.46:1 for its dark twin. Six of the eight were 48px
+   * empty-state icons, so the light theme simply did not have them.
+   *
+   * The rule is deliberately narrow. `light:text-slate-500` is 4.76:1 on white
+   * and is fine there — roughly forty of those exist, most of them correct, and
+   * a check that flagged them would be switched off within a week. The ones
+   * that fail sit on a TINTED ground, which is a property of the page rather
+   * than the source, and `light-theme.spec.ts` measures those. What is
+   * decidable here is that slate-400 and paler is never right, on any ground
+   * this application has.
+   */
+  it('never sets a light-theme reading paler than the floor', () => {
+    const tooPale = findLightInk()
+      .filter((p) => p.lightStep < PALEST_LIGHT_STEP)
+      .filter((p) => !EXEMPT.has(`${p.file}:${p.text}`));
+
+    expect(
+      tooPale.map((p) => `${p.file}:${p.line}  ${p.text}`),
+      'slate-400 is 2.56:1 on white and slate-300 is 1.48:1 — below AA for text ' +
+        'and below 1.4.11 for a glyph, on the lightest surface this app has'
+    ).toEqual([]);
+  });
+
   it('keeps its exemptions honest', () => {
     // An exemption that no longer matches anything is a comment pretending to
     // be a rule, and the next person reads it as coverage.
-    const all = new Set(findPairs().map((p) => `${p.file}:${p.text}`));
+    const all = new Set(
+      [...findPairs(), ...findLightInk()].map((p) => `${p.file}:${p.text}`)
+    );
     for (const key of EXEMPT.keys()) {
       expect(all.has(key), `the exemption \`${key}\` no longer matches any pair — delete it`).toBe(
         true

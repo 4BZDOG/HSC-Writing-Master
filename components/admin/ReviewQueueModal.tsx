@@ -320,7 +320,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
             </div>
           ) : visibleItems.length === 0 ? (
             <div className="text-center py-16">
-              <Inbox className="w-12 h-12 text-[rgb(var(--color-text-muted))] light:text-slate-300 mx-auto mb-3" />
+              <Inbox className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                 {counts.all === 0 ? 'Nothing awaiting review.' : 'Nothing of this kind is pending.'}
               </p>

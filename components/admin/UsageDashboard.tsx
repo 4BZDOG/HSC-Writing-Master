@@ -736,7 +736,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
         <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6">
           {!remote ? (
             <div className="text-center py-16">
-              <Info className="w-12 h-12 text-[rgb(var(--color-text-muted))] light:text-slate-300 mx-auto mb-3" />
+              <Info className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                 Usage metering requires Supabase.
               </p>

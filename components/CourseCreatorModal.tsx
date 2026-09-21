@@ -311,7 +311,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                         <button
                           type="button"
                           onClick={() => handleDeleteOutcome(index)}
-                          className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-300 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
+                          className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-500 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
                           title="Delete Outcome"
                         >
                           <Trash2 className="h-4 w-4" />

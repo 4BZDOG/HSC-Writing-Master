@@ -134,7 +134,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
       {courses.length === 0 && (
         <div className="py-20 text-center flex flex-col items-center gap-6">
           <div className="w-20 h-20 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 shadow-inner">
-            <Hash className="w-10 h-10 text-white/10 light:text-slate-300" />
+            <Hash className="w-10 h-10 text-[rgb(var(--color-text-muted))]" />
           </div>
           <p className="text-xs font-semibold text-slate-500 light:text-slate-500">
             No courses yet
