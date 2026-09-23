@@ -287,3 +287,43 @@ readiness, editor and outcome-chip assertions); Chromium e2e for the evaluation
 flow, workspace chrome, light theme, accessibility and no-clipped-text (26 of
 26); screenshots before and after with a typed response and the draft check
 open, both themes, 1280px and 390px.
+
+## PR 7 — Show each question's own ceiling on the grade ladder, and give exemplars a length
+
+The brief: the sample answers and the marking placards (Grade Standards and the
+Marking Guide in the reference rail).
+
+**Grade Standards showed six equal rungs.** A command verb caps the band a
+question can reach — a DESCRIBE question tops out at Band 2 — but the panel
+listed all six NESA band descriptors in full colour, Band 6 first. A student on
+a DESCRIBE question read four descriptors they could not earn before reaching
+their own. The ladder stays whole (seeing the rungs above is how a student
+learns what the verb holds back), but:
+
+- rungs above the question's ceiling lose their tinted fill and say "Beyond
+  what a describe question can reach" — the fill, not the ink, so the text
+  stays above AA in the light theme;
+- the ceiling carries a "Top band for this question" badge and a ring;
+- the panel's subtitle says "This question reaches Band N" while it is shut.
+
+**Bug — Grade Standards was missing on most topics.** The panel rendered
+only when the topic carried its own band descriptors, and only the three
+seeded demo topics did. On any topic imported or loaded from the shared
+library it was simply absent (reported from the live site on a phone). It now
+falls back to NESA's general band descriptors
+(`NESA_PERFORMANCE_BAND_DESCRIPTORS`), which were already in the app.
+
+**The Marking Guide's subtitle said "Top level: Band 2" over an empty
+panel**, as though a guide existed and topped out there. It now says "Not
+written yet" until there is one, and "Written to Band N" once there is.
+
+**Exemplars state their length.** The first thing a student does with an
+exemplar is hold their draft against it, and the word guide under the draft
+(PR #278) counts in words — so each exemplar's header now says how many words it
+runs to, beside its mark. "4/4 Marks" became "4/4 marks", and the 9px "2/3"
+position counter is 11px.
+
+**Checked:** `npm run test:all` (new cases in `workspaceReferenceRail.test.tsx`
+and `manyExemplarsAndQuestions.test.tsx`; one assertion reworded for the new
+subtitle); screenshots of the ladder and the exemplar header in both themes at
+1280px.
