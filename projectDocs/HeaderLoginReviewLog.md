@@ -360,7 +360,7 @@ pinning the six-column layout); Chromium e2e for the verb ribbon, light theme,
 no-clipped-text, workspace chrome and accessibility (22 of 22); screenshots at
 1280px and 1440px in both themes and at 390px.
 
-## PR 9 — Show a student where the extra mark came from, and why
+## PR #281 — Show a student where the extra mark came from, and why
 
 The brief: the "improve my answer" modal (a full redesign if worthwhile), the
 on-screen evaluation, and the exported PDF.
