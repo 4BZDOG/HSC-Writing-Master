@@ -3,6 +3,7 @@ import { preseededCourses } from '../../data/seedData';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { getBandForMark, getCommandTermInfo, commandTerms } from '../../data/commandTerms';
+import { wholeSampleMark } from '../../utils/dataManagerUtils';
 import type { Course, PromptVerb, Topic } from '../../types';
 
 /**
@@ -105,6 +106,39 @@ describe('the bundled seed stores the band the Verb Gate derives', () => {
         'than the formula — `npx tsx scripts/canonicaliseCourseData.mts` does it for ' +
         'the files under public/courseData.'
     ).toEqual([]);
+  });
+});
+
+/**
+ * The marker awards whole marks, and `sample_answers.mark` is an integer column:
+ * 32 shipped samples at 1.5/3 stopped `supabase/seed.mjs` at the first of them,
+ * and their derived bands came out as 1.5 and 3.5.
+ */
+describe('every shipped sample answer has a mark its question can award', () => {
+  it('is a whole number from 0 to the question total', () => {
+    const bad: string[] = [];
+    for (const { file, courses } of shippedCourses())
+      for (const course of courses)
+        for (const topic of course.topics ?? [])
+          for (const subTopic of topic.subTopics ?? [])
+            for (const dotPoint of subTopic.dotPoints ?? [])
+              for (const prompt of dotPoint.prompts ?? [])
+                for (const sample of prompt.sampleAnswers ?? [])
+                  if (
+                    !Number.isInteger(sample.mark) ||
+                    sample.mark < 0 ||
+                    sample.mark > prompt.totalMarks
+                  )
+                    bad.push(`${file}: ${sample.mark}/${prompt.totalMarks} — ${sample.id}`);
+    expect(bad, 'Run `npm run content:canonicalise` and re-mark any it rounds down.').toEqual([]);
+  });
+
+  it('rounds a half mark down and keeps a mark inside the question', () => {
+    expect(wholeSampleMark(1.5, 3)).toBe(1);
+    expect(wholeSampleMark('2', 3)).toBe(2);
+    expect(wholeSampleMark(7, 5)).toBe(5);
+    expect(wholeSampleMark(-1, 5)).toBe(0);
+    expect(wholeSampleMark(undefined, 5)).toBe(0);
   });
 });
 

@@ -885,6 +885,23 @@ export const analyzeAndSanitizeImportData = (
   }
 };
 
+/**
+ * A sample answer's mark as one the question can award: a whole number from 0
+ * to its total. The marker only ever awards whole marks, the database stores
+ * them in an integer column (a 1.5 stops `supabase/seed.mjs` outright), and a
+ * half mark is rounded DOWN so an exemplar never claims more than it earned.
+ */
+export const wholeSampleMark = (mark: unknown, totalMarks: unknown): number => {
+  const m = Number(mark);
+  const whole = Number.isFinite(m) ? Math.max(0, Math.floor(m)) : 0;
+  const total = Number(totalMarks);
+  return Number.isFinite(total) && total > 0 ? Math.min(whole, total) : whole;
+};
+
+/**
+ * Every sample answer's mark made whole (`wholeSampleMark`) and its band
+ * re-derived from that mark through the question's command verb.
+ */
 export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
   return courses.map((course) => ({
     ...course,
@@ -900,10 +917,10 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
             return {
               ...prompt,
               sampleAnswers:
-                prompt.sampleAnswers?.map((sa) => ({
-                  ...sa,
-                  band: getBandForMark(sa.mark, prompt.totalMarks, tier),
-                })) || [],
+                prompt.sampleAnswers?.map((sa) => {
+                  const mark = wholeSampleMark(sa.mark, prompt.totalMarks);
+                  return { ...sa, mark, band: getBandForMark(mark, prompt.totalMarks, tier) };
+                }) || [],
             };
           }),
         })),

@@ -707,3 +707,34 @@ at once.
 real generators against a mocked model: accepted first time, retried with the
 reason, refused on a second miss; new cases in `generateNewPrompt.test.ts`),
 `format:check`.
+
+## PR #286 — Whole marks, so the seed runs and the marker reads no "undefined"
+
+Once PRs #284 and #285 had merged, I read what the marker is given and what
+the seed writes.
+
+**Bug — the seed stopped at the first half mark.** 32 shipped sample answers
+(31 at 1.5/3, one at 2.5/5, all in HSC Biology) had a fractional mark.
+`sample_answers.mark` is an integer column and `supabase/seed.mjs` throws on
+the first insert that fails, so a fresh seed ended partway through Biology.
+The half marks also produced half bands (1.5, 3.5, 4.5) in the #284 pass,
+because `getBandForMark` returns what it is given. The marker awards only
+whole marks, so a benchmark at 1.5 is one it cannot match either.
+
+- `wholeSampleMark` makes a sample's mark a whole number from 0 to the
+  question's total, **rounding a half mark down** so an exemplar never claims
+  more than it earned. `recalculateSampleAnswerBands` — the import, migration
+  and canonicaliser rule — applies it before deriving the band.
+- The 32 are now at 1/3 (and 2/5), and `npm run content:canonicalise` lists
+  every mark it rounds so a curator can re-mark any that deserve the higher
+  mark. `seedSampleBands.test.ts` fails if a fractional or out-of-range mark
+  ships again (it fails against the old files).
+
+**Bug — every benchmark told the marker its notes were "undefined".** The
+marking prompt printed `[Marker Notes]: ${s.feedback}` under each benchmark.
+Not one of the 1,016 shipped sample answers has feedback, so every question
+that shipped with samples showed the marker the literal text "undefined" under
+each benchmark. The line is now left out when a sample has no notes.
+
+**Checked:** `npm run test:all` (2690), `npm run content:check` clean,
+`format:check`.

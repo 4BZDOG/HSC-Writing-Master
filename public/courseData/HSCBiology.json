@@ -4471,9 +4471,9 @@
                       },
                       {
                         "id": "sa-bio-change-1-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Cane toads were brought in to eat beetles but they became pests. They are poisonous so when animals like snakes eat them, the animals die. This has made the number of native animals go down.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4514,9 +4514,9 @@
                       },
                       {
                         "id": "sa-bio-change-2-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Monoculture is growing one type of plant. This is bad because if a bug comes that eats that plant, it destroys the whole crop. It also ruins the soil because the plants use up all the nutrients.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4558,9 +4558,9 @@
                       },
                       {
                         "id": "sa-bio-change-3-half",
-                        "band": 2.5,
+                        "band": 2,
                         "answer": "The graph shows that when the invasive species goes up, the native species goes down. In year 1 there were lots of natives but by year 10 there are hardly any.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4647,7 +4647,7 @@
                         "id": "sa-bio-change-5-half",
                         "band": 1,
                         "answer": "The Cassowary is important because it eats fruit and poops out the seeds. This helps trees grow in new places. If they weren't there, the trees wouldn't grow.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4688,9 +4688,9 @@
                       },
                       {
                         "id": "sa-bio-change-6-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "If Dingos are gone, there will be more foxes and cats because nothing is eating them. Also there will be too many kangaroos eating all the grass.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4737,9 +4737,9 @@
                       },
                       {
                         "id": "sa-bio-gen-1-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "Genetic diversity is having different genes. If a disease comes, some animals might survive because of their genes. This keeps the species alive, which is good for the whole ecosystem.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4781,9 +4781,9 @@
                       },
                       {
                         "id": "sa-bio-gen-2-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "A small gene pool is bad because all the cheetahs are related. If they get a disease, they might all die because they are too similar. It makes it hard for them to survive.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4824,9 +4824,9 @@
                       },
                       {
                         "id": "sa-bio-gen-3-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Runners make clones so the plants are exactly the same. Pollination mixes the pollen from two plants so the babies are different. Sexual reproduction creates variation.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4868,9 +4868,9 @@
                       },
                       {
                         "id": "sa-bio-gen-4-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "External fertilisation is like fish laying eggs in water. They make lots of eggs because many get eaten. Internal is inside the body, like humans. It is safer so you don't need as many eggs.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4911,9 +4911,9 @@
                       },
                       {
                         "id": "sa-bio-gen-5-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Binary fission makes exact copies. If the environment changes, the bacteria might all die because none of them are different enough to survive the change.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -4956,9 +4956,9 @@
                       },
                       {
                         "id": "sa-bio-gen-6-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "The founder effect is when a few animals move to a new island. They only have their own genes, which might not be like the big group they came from. So the new group evolves differently.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5047,7 +5047,7 @@
                         "id": "sa-bio-gen-8-half",
                         "band": 1,
                         "answer": "We used coloured beads to be genes. We picked them out of a hat. A limitation is that beads aren't real animals so they don't die or reproduce for real.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5176,9 +5176,9 @@
                       },
                       {
                         "id": "sa-bio-gen-11-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "SNPs are small changes in DNA. As a population stays apart, they get more differences in their SNPs. This shows that they are evolving away from each other.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5264,9 +5264,9 @@
                       },
                       {
                         "id": "sa-bio-gen-13-half",
-                        "band": 4.5,
+                        "band": 4,
                         "answer": "Panama disease is a fungus that kills banana trees. Since all bananas are clones, if one gets sick, they all do. It is very bad for farmers.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5350,9 +5350,9 @@
                       },
                       {
                         "id": "sa-bio-gen-15-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "Frogs absorb water through their skin. If the water is dirty, the frogs get sick or die. So if you see lots of frogs, the water is clean.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5395,9 +5395,9 @@
                       },
                       {
                         "id": "sa-bio-gen-16-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Species diversity is important because everything is connected. If you lose one animal, the animals that eat it might die too. But if there are lots of different animals, the ecosystem can handle changes better.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5492,7 +5492,7 @@
                         "id": "sa-bio-sus-2-half",
                         "band": 1,
                         "answer": "A totem is an animal that is special to a person. They aren't allowed to eat it. This helps protect that animal so there are always enough of them.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5533,9 +5533,9 @@
                       },
                       {
                         "id": "sa-bio-sus-3-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "At the airport, they check your bags for food or wood. This is to stop bugs and diseases coming into Australia and making our plants and animals sick.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5663,9 +5663,9 @@
                       },
                       {
                         "id": "sa-bio-sus-6-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "Marine reserves stop people from fishing. This lets the fish lay eggs and grow. It helps keep different types of fish alive in the ocean.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5751,9 +5751,9 @@
                       },
                       {
                         "id": "sa-bio-sus-8-half",
-                        "band": 4.5,
+                        "band": 4,
                         "answer": "They breed the frogs in zoos to stop them dying out. Then they put them back in the wild in special cages. It is working because the frogs are not extinct yet.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5794,9 +5794,9 @@
                       },
                       {
                         "id": "sa-bio-sus-9-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "The hot water makes the coral turn white and die. Because the fish live in the coral, they will have nowhere to live and will die too. Biodiversity will go down.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5852,9 +5852,9 @@
                       },
                       {
                         "id": "sa-bio-mod-1-half",
-                        "band": 2.5,
+                        "band": 2,
                         "answer": "Bioinformatics uses computers to study DNA. Genetic engineering changes DNA. They work together because you need the computer to find the gene before you can cut it out and put it in something else. This helps make medicines faster.",
-                        "mark": 2.5,
+                        "mark": 2,
                         "source": "AI"
                       }
                     ],
@@ -5895,9 +5895,9 @@
                       },
                       {
                         "id": "sa-bio-mod-2-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Farmers use Bt Cotton. It is a GMO that kills caterpillars because it has a bacteria gene in it. This means farmers don't have to spray as much poison.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -5984,9 +5984,9 @@
                       },
                       {
                         "id": "sa-bio-mod-4-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "Somatic therapy changes body cells so the kids don't get the change. Germline therapy changes the sperm or egg, so the babies will have the new genes.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6120,9 +6120,9 @@
                       },
                       {
                         "id": "sa-bio-dis-2-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "GenBank is good because it stores lots of DNA information. Doctors can use it to see if a gene is normal or not. It helps scientists share their work.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6208,7 +6208,7 @@
                         "id": "sa-bio-dis-4-half",
                         "band": 1,
                         "answer": "They use a virus to put a good gene into the eye. This fixes the broken gene so the person can see better again.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6337,9 +6337,9 @@
                       },
                       {
                         "id": "sa-bio-dis-7-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "CRISPR can cut the DNA and fix the bad gene that causes Sickle Cell. This would mean the person is cured forever and doesn't need medicine anymore.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6466,9 +6466,9 @@
                       },
                       {
                         "id": "sa-bio-dis-10-half",
-                        "band": 4.5,
+                        "band": 4,
                         "answer": "Scientists put *Wolbachia* bacteria into mosquitoes. This stops the mosquito from spreading Dengue virus. It is good because it stops people getting sick without killing all the mosquitoes.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6558,9 +6558,9 @@
                       },
                       {
                         "id": "sa-bio-ag-1-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "Aboriginal people built stone traps in rivers to catch eels. They changed the water flow to keep the eels there so they could eat them later. This is biotechnology because they used living things.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6601,9 +6601,9 @@
                       },
                       {
                         "id": "sa-bio-ag-2-half",
-                        "band": 1.5,
+                        "band": 1,
                         "answer": "There are no natural bees to pollinate vanilla here. So farmers have to do it by hand with a stick. If they didn't do this, there would be no vanilla beans to sell.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6645,9 +6645,9 @@
                       },
                       {
                         "id": "sa-bio-ag-3-half",
-                        "band": 4.5,
+                        "band": 4,
                         "answer": "Tissue culture grows new plants in a lab from small pieces. It is good because you can make lots of copies of a rare plant quickly. This helps stop them going extinct.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
@@ -6688,9 +6688,9 @@
                       },
                       {
                         "id": "sa-bio-ag-4-half",
-                        "band": 3.5,
+                        "band": 3,
                         "answer": "Scientists take water samples and test the DNA in it. Computers match the DNA to animals. This tells them what lives there without having to catch them. If there are lots of different animals, the ecosystem is healthy.",
-                        "mark": 1.5,
+                        "mark": 1,
                         "source": "AI"
                       }
                     ],
