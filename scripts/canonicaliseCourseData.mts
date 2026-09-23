@@ -17,7 +17,10 @@
 //     gets the one the app would infer at runtime (from the question text,
 //     else EXPLAIN), and a missing mark value gets the verb's minimum. Those
 //     are LISTED, because an inferred verb is a guess a curator should confirm.
-//   • `recalculateSampleAnswerBands` — every sample answer stores the band its
+//   • `recalculateSampleAnswerBands` — every sample answer's mark is made a
+//     whole number the question can award (`wholeSampleMark`: a half mark is
+//     rounded down; the database column is an integer, so a 1.5 stops the seed),
+//     and every sample answer stores the band its
 //     mark is worth on its own question (`getBandForMark` through the verb's
 //     tier). The band is not a fact of its own; it is the mark read through the
 //     Verb Gate, and a stored copy that disagrees has drifted.
@@ -45,6 +48,7 @@ const files: { path: string; kind: 'courses' | 'topic' }[] = [
 ];
 
 let bandsFixed = 0;
+const marksFixed: string[] = [];
 let filesChanged = 0;
 const inferredVerbs: string[] = [];
 
@@ -80,7 +84,12 @@ for (const file of files) {
               );
             }
             (before.sampleAnswers ?? []).forEach((sa, i) => {
-              if (sa.band !== after.sampleAnswers[i].band) bandsFixed++;
+              const fixed = after.sampleAnswers[i];
+              if (sa.band !== fixed.band) bandsFixed++;
+              if (sa.mark !== fixed.mark)
+                marksFixed.push(
+                  `${String(sa.mark).padEnd(5)} → ${fixed.mark}/${after.totalMarks}  "${before.question.slice(0, 70)}"`
+                );
             });
           })
         )
@@ -99,9 +108,14 @@ for (const file of files) {
 
 console.log(
   `${check ? 'Would change' : 'Changed'} ${filesChanged} of ${files.length} files: ` +
+    `${marksFixed.length} sample-answer marks made whole, ` +
     `${bandsFixed} sample-answer bands re-derived from their marks, ` +
     `${inferredVerbs.length} command verbs inferred.`
 );
+if (marksFixed.length) {
+  console.log('\nMarks made whole — a half mark is rounded down; re-mark any that deserve more:');
+  for (const line of marksFixed) console.log('  ' + line);
+}
 if (inferredVerbs.length) {
   console.log('\nInferred verbs — confirm each, and correct the file where the guess is wrong:');
   console.log('  now        was        question');

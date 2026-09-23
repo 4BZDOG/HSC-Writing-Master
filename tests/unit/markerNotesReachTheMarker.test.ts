@@ -109,6 +109,23 @@ describe("the marker's notes reach the marker", () => {
     expect(text).not.toContain("MARKER'S NOTES");
   });
 
+  it('gives a benchmark without notes no notes line, rather than "undefined"', async () => {
+    // Not one shipped sample answer carries marker notes, so every benchmark the
+    // marker was shown ended "[Marker Notes]: undefined".
+    const prompt = {
+      ...promptWith(),
+      sampleAnswers: [
+        { id: 'a', mark: 6, band: 2, answer: 'Full answer.', source: 'AI' },
+        { id: 'b', mark: 3, band: 1, answer: 'Half answer.', source: 'AI', feedback: 'Thin.' },
+      ],
+    } as unknown as Prompt;
+    await evaluateAnswer('An answer.', prompt);
+    const text = sentPrompt(fetchMock);
+    expect(text).not.toContain('undefined');
+    expect(text).toContain('[Marker Notes]: Thin.');
+    expect(text.match(/\[Marker Notes\]/g)).toHaveLength(1);
+  });
+
   it('drops blank entries rather than emitting an empty bullet', async () => {
     await evaluateAnswer('An answer.', promptWith(['   ', '', 'A real note.']));
     const text = sentPrompt(fetchMock);

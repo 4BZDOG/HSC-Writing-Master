@@ -244,8 +244,11 @@ export const evaluateAnswer = async (
     benchmarkSamples.length > 0
       ? benchmarkSamples
           .map(
+            // No shipped sample carries marker notes, and an interpolated
+            // `undefined` read to the marker as notes saying "undefined".
             (s) =>
-              `[SAMPLE: ${s.mark}/${prompt.totalMarks} Marks]\n${s.answer}\n[Marker Notes]: ${s.feedback}\n`
+              `[SAMPLE: ${s.mark}/${prompt.totalMarks} Marks]\n${s.answer}\n` +
+              (s.feedback?.trim() ? `[Marker Notes]: ${s.feedback.trim()}\n` : '')
           )
           .join('\n')
       : 'No benchmark samples provided. Rely strictly on the rubric.';
