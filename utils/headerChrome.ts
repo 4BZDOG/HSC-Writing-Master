@@ -100,10 +100,17 @@ export const HEADER_MARK_TILE =
  *  box, and a row that no longer wraps hands the brand block whatever width the
  *  controls leave. Flexbox was already sizing the two clusters so they did not
  *  overlap; only the ink escaped. Clipped, the worst case degrades to a short
- *  wordmark instead of a wordmark printed underneath the buttons. */
+ *  wordmark instead of a wordmark printed underneath the buttons.
+ *
+ *  Below 360px, though, the clipped case was the only case. Measured at 320px
+ *  with an admin's four controls, the rail leaves the wordmark about 30px and it
+ *  painted "B…" — a letter and an ellipsis, not a brand. So under 360px it is
+ *  visually hidden (`max-[359px]:sr-only`) and stays the page's `<h1>` for a
+ *  screen reader; the gradient tile carries the brand alone at that width, as
+ *  it does for the sub-label below `sm`. 360px is where "BAND 6" fits whole. */
 export const HEADER_WORDMARK =
   't-display text-lg sm:text-2xl tracking-tight leading-none italic uppercase ' +
-  'truncate text-slate-900 dark:text-white';
+  'truncate text-slate-900 dark:text-white max-[359px]:sr-only';
 
 /** "HSC Writing Coach". On the rail. The tracking no longer jumps at `sm` —
  *  it was the only responsive tracking in the codebase, and it made the label
@@ -145,9 +152,14 @@ export const HEADER_MENU_PANEL =
   'bg-white border border-slate-200 ' +
   'dark:bg-[rgb(var(--color-bg-surface-elevated))] dark:border-white/10';
 
-/** One tool inside the popover. Painted on `HEADER_MENU_PANEL`. */
+/** One tool inside the popover. Painted on `HEADER_MENU_PANEL`.
+ *
+ *  `text-left` here as well as on the panel: a `<button>` does not inherit
+ *  `text-align` — the user-agent sheet sets it to `center` — so the panel's
+ *  own `text-left` never reached the rows, and every two-line tool name sat
+ *  centred under a left-aligned group label. */
 export const HEADER_MENU_ITEM =
-  'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-colors ' +
+  'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-xs font-bold transition-colors ' +
   'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10';
 
 /** The parenthetical half of a tool's name, carried as a second line so the

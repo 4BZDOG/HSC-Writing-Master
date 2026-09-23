@@ -79,12 +79,19 @@ jobs:
     steps:
       # Until the three Vercel secrets are configured, skip cleanly instead of
       # failing every run — GitHub Pages remains the active deployment.
+      #
+      # A warning, not the notice the preview job uses, and a line in the run
+      # summary: on a push to main this job goes green having deployed nothing,
+      # and a notice was easy to read past as "deployed". The same call
+      # build.yml's Netlify job makes.
       - name: Check Vercel secrets
         id: vercel
         run: |
           if [ -z "${{ secrets.VERCEL_TOKEN }}" ] || [ -z "${{ secrets.VERCEL_ORG_ID }}" ] || [ -z "${{ secrets.VERCEL_PROJECT_ID }}" ]; then
             echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Vercel secrets not configured (VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID) — skipping deploy. See the header of this workflow file for setup."
+            echo "::warning::Vercel secrets not configured (VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID) — nothing was deployed to Vercel. GitHub Pages remains the active deployment; see the header of this workflow file for setup."
+            echo "### Nothing was deployed to Vercel" >> "$GITHUB_STEP_SUMMARY"
+            echo "The Vercel secrets are not configured, so every deploy step was skipped. GitHub Pages is the active deployment." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "configured=true" >> "$GITHUB_OUTPUT"
           fi

@@ -667,12 +667,21 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                           Band {result.overallBand} · {getBandName(result.overallBand)}
                         </span>
                       </div>
-                      <h1 className="text-6xl sm:text-7xl font-black tracking-tight italic leading-none">
+                      {/* A `<p>`, not the `<h1>` it was. A number is not a heading:
+                          it made the mark the page's second level-one heading,
+                          under this panel's own `<h2>`, and a screen reader read
+                          it as "15 slash 20". The slash is drawn for the eye and
+                          "out of" is spoken for the ear. */}
+                      <p className="text-6xl sm:text-7xl font-black tracking-tight italic leading-none">
                         {result.overallMark}
-                        <span className="text-3xl font-medium align-top opacity-60">
+                        <span
+                          className="text-3xl font-medium align-top opacity-60"
+                          aria-hidden="true"
+                        >
                           /{prompt.totalMarks}
                         </span>
-                      </h1>
+                        <span className="sr-only"> out of {prompt.totalMarks}</span>
+                      </p>
                       {/* "Result", not "Assessment Score". The word carries weight in the HSC
                       that practice marking has not earned, which is why it was taken out
                       of the exported report; the screen it was exported from still said
