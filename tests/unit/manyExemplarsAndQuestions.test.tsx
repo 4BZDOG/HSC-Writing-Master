@@ -68,6 +68,13 @@ describe('many exemplars at one mark', () => {
     sample('h1', { source: 'HSC_EXEMPLAR' }),
   ];
 
+  // A student holds their draft up against an exemplar first by length, and
+  // the word guide under the draft counts words, so the exemplar says its own.
+  it('states the exemplar length in words beside its mark', () => {
+    renderSamples(six);
+    expect(screen.getAllByText('12 words').length).toBeGreaterThan(0);
+  });
+
   it('says how many exemplars there are, not just how many levels', () => {
     renderSamples([...six, sample('b1', { mark: 4 })]);
     expect(screen.getByText(/2 levels · 7 exemplars/i)).toBeTruthy();

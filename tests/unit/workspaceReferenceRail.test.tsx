@@ -267,6 +267,60 @@ describe('panel chrome consistency', () => {
     }
   });
 
+  // A DESCRIBE question reaches Band 2 at most. The ladder above it is still
+  // shown — that is how a student learns what the verb holds back — but it no
+  // longer reads as if every rung were on offer.
+  it('marks the top band a question can reach, and says why the rungs above are out of reach', () => {
+    const ladder = {
+      ...topic(),
+      performanceBandDescriptors: [
+        { band: 3, shortLabel: 'Developing', description: 'Basic understanding.' },
+        { band: 2, shortLabel: 'Limited', description: 'Elementary understanding.' },
+        { band: 1, shortLabel: 'Elementary', description: 'Minimal understanding.' },
+      ],
+    } as unknown as Topic;
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({ verb: 'DESCRIBE' as PromptVerb, totalMarks: 4 })}
+        topic={ladder}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    expect(screen.getByText('This question reaches Band 2')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
+    expect(screen.getAllByText('Top band for this question')).toHaveLength(1);
+    expect(screen.getAllByText(/Beyond what a describe question can reach/)).toHaveLength(1);
+  });
+
+  // Only the seeded demo topics carried descriptors, so on an imported or
+  // library topic the panel vanished. It falls back to NESA's general set.
+  it('shows Grade Standards on a topic with no descriptors of its own', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt()}
+        topic={{ ...topic(), performanceBandDescriptors: undefined } as unknown as Topic}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
+    expect(screen.getByText('Band 6')).toBeTruthy();
+    expect(screen.getByText('Band 1')).toBeTruthy();
+  });
+
+  it('says the Marking Guide is not written yet rather than naming a band over nothing', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({ markingCriteria: '' })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    expect(screen.getByText('Not written yet')).toBeTruthy();
+  });
+
   it('does not head the Marking Guide twice', () => {
     render(
       <ReferenceMaterials
@@ -280,7 +334,9 @@ describe('panel chrome consistency', () => {
     // The panel supplies the title and the band line; the criteria manager
     // used to repeat both immediately underneath.
     expect(screen.queryByText(/^Marking Criteria$/i)).toBeNull();
-    expect(screen.getByText(/Top level: Band \d/i)).toBeTruthy();
+    // Worded for whether a guide exists: "Written to Band N", or "Not written
+    // yet" rather than a band line over an empty panel.
+    expect(screen.getByText(/Written to Band \d|Not written yet/i)).toBeTruthy();
   });
 
   /**

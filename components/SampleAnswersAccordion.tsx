@@ -63,6 +63,10 @@ import { PlusLockChip } from './UpgradeModal';
 
 // --- Shared Internal Components ---
 
+/** Words in an exemplar, counted the way the live word guide counts a draft. */
+const countWords = (text: string | undefined): number =>
+  (text || '').trim().split(/\s+/).filter(Boolean).length;
+
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
     className={`absolute inset-0 ${opacity} light:opacity-[0.08] pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
@@ -313,8 +317,16 @@ const CarouselAccordionItem: React.FC<{
                 <span
                   className={`text-sm font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}
                 >
-                  {group.mark}/{prompt.totalMarks} Marks
+                  {group.mark}/{prompt.totalMarks} marks
                 </span>
+                {/* Its length, because the first thing a student does with an
+                    exemplar is hold their own draft up against it, and the word
+                    guide under their draft counts in the same unit. */}
+                {!locked && (
+                  <span className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
+                    {countWords(currentSample.answer)} words
+                  </span>
+                )}
                 {group.answers.length > 1 && (
                   <span className="t-label flex items-center gap-1 text-slate-400 bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-lg">
                     <Layers className="w-2.5 h-2.5" /> {group.answers.length}
@@ -354,7 +366,7 @@ const CarouselAccordionItem: React.FC<{
                 {/* "2 of 3", not a bare "2": the position is meaningless
                     without the total, and a batch of exemplars now arrives
                     several at a time. */}
-                <span className="text-[9px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
+                <span className="text-[11px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
                   {currentIndex + 1}/{group.answers.length}
                 </span>
                 <button

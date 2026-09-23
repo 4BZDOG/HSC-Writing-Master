@@ -6,6 +6,7 @@ import OutcomeDetailModal from './OutcomeDetailModal';
 import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } from 'lucide-react';
 import { getBandConfig, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { NESA_PERFORMANCE_BAND_DESCRIPTORS } from '../data/performanceBands';
 import { canCurateContent } from '../utils/permissions';
 import {
   PANEL_HEADER_CLOSED,
@@ -163,6 +164,18 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   const linkedOutcomes = useMemo(
     () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
     [courseOutcomes, prompt.linkedOutcomes]
+  );
+  // The topic's own descriptors when it has them, and NESA's general band
+  // descriptors when it does not. Only the three seeded demo topics carried a
+  // set, so on any topic imported or loaded from the shared library the Grade
+  // Standards panel was simply absent — the one panel that says what each band
+  // means, missing without a word on exactly the courses teachers add.
+  const bandDescriptors = useMemo(
+    () =>
+      topic?.performanceBandDescriptors?.length
+        ? topic.performanceBandDescriptors
+        : NESA_PERFORMANCE_BAND_DESCRIPTORS,
+    [topic?.performanceBandDescriptors]
   );
   const maxPossibleBand = useMemo(
     () => getBandForMark(prompt.totalMarks, prompt.totalMarks, verbInfo.tier),
@@ -349,19 +362,29 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         </AccordionSection>
       )}
 
-      {topic?.performanceBandDescriptors && topic.performanceBandDescriptors.length > 0 && (
+      {bandDescriptors.length > 0 && (
         <AccordionSection
           title="Grade Standards"
+          subtitle={`This question reaches Band ${maxPossibleBand}`}
           icon={<GraduationCap />}
           band={6}
           resetKey={prompt.id}
           supportId="gradeStandards"
         >
           <div className="space-y-4">
-            {[...topic.performanceBandDescriptors]
+            {[...bandDescriptors]
               .sort((a, b) => b.band - a.band)
               .map((descriptor) => {
                 const bConfig = getBandConfig(descriptor.band);
+                // All six bands are shown — it is a ladder, and seeing the rungs
+                // above is how a student learns what the verb holds back — but
+                // they used to be shown as equals, so on a DESCRIBE question
+                // (Band 2 at most) a student read four descriptors they could
+                // not earn, in full colour, before reaching their own. The rungs
+                // above this question's ceiling now step back and say why, and
+                // the ceiling itself says it is the top.
+                const aboveCeiling = descriptor.band > maxPossibleBand;
+                const isCeiling = descriptor.band === maxPossibleBand;
                 return (
                   <div
                     key={descriptor.band}
@@ -377,7 +400,11 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                     // 35% of the same hue, from the same `--band-rgb` the verb
                     // ribbon's strip uses.
                     style={{ '--band-rgb': getBandRgb(descriptor.band) } as React.CSSProperties}
-                    className={`relative rounded-2xl border band-edge ${bConfig.bg} p-4 shadow-sm group/descriptor transition-all hover:shadow-lg`}
+                    className={`relative rounded-2xl border band-edge p-4 group/descriptor transition-all ${
+                      // Out of reach steps back by losing its FILL, not its ink:
+                      // a 60% wash over the text put it under AA on white.
+                      aboveCeiling ? 'bg-transparent' : `${bConfig.bg} shadow-sm hover:shadow-lg`
+                    } ${isCeiling ? 'ring-2 ring-offset-0 ring-[rgb(var(--band-rgb)/0.45)]' : ''}`}
                   >
                     <div className="flex gap-4 items-start">
                       <div
@@ -385,8 +412,8 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                       >
                         <Award className={`w-4 h-4 ${bConfig.text} shrink-0`} />
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-1.5">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
                           <span className={`t-label ${bConfig.text}`}>Band {descriptor.band}</span>
                           {/* The band's word ("Outstanding", "Sound") sits on a
                               tinted card in both themes, so it cannot afford a
@@ -396,12 +423,24 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
                           <span className="t-label text-slate-600 dark:text-slate-300">
                             • {descriptor.shortLabel}
                           </span>
+                          {isCeiling && (
+                            <span
+                              className={`t-label ml-auto shrink-0 px-2 py-0.5 rounded-lg border band-edge ${bConfig.text}`}
+                            >
+                              Top band for this question
+                            </span>
+                          )}
                         </div>
                         <p
                           className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
                         >
                           {descriptor.description}
                         </p>
+                        {aboveCeiling && (
+                          <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
+                            Beyond what a {prompt.verb.toLowerCase()} question can reach.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -413,7 +452,11 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
 
       <AccordionSection
         title="Marking Guide"
-        subtitle={`Top level: Band ${maxPossibleBand}`}
+        // It said "Top level: Band 2" over an empty panel, as though a guide
+        // existed and topped out there.
+        subtitle={
+          prompt.markingCriteria?.trim() ? `Written to Band ${maxPossibleBand}` : 'Not written yet'
+        }
         icon={<ListChecks />}
         band={5}
         resetKey={prompt.id}
