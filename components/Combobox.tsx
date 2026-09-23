@@ -45,6 +45,13 @@ interface ComboboxOption {
   id: string;
   label: string;
   renderLabel?: React.ReactNode;
+  /**
+   * What the CLOSED control shows once this option is chosen, when that should
+   * differ from its row in the list. A row can carry facts that help choose
+   * ("2 questions") and are noise once chosen — or, as there, said again by
+   * the step below it.
+   */
+  renderSelected?: React.ReactNode;
   marks?: number;
   verb?: PromptVerb;
   isNew?: boolean;
@@ -78,6 +85,22 @@ interface ComboboxProps {
    * than a blank field. Omit it and the empty state stays a plain message.
    */
   emptyAction?: { label: string; onAction: (query: string) => void };
+  /**
+   * `quiet` keeps a CHOSEN value on a neutral surface instead of washing the
+   * whole control in `color`. For a stack of pickers — the syllabus navigator
+   * has five, one hue each — the wash turned every answered step into a
+   * coloured slab, and the answered steps outshouted the one still to answer.
+   * The hue stays on the option's own icon tile and on the open state. Tiered
+   * options (questions) keep their tier colour either way: that one means
+   * something.
+   */
+  appearance?: 'filled' | 'quiet';
+  /**
+   * A short name for what was chosen ("Topic"), shown at the end of the closed
+   * control once it has a value. A chosen row otherwise shows only the answer,
+   * and a stack of answers does not say which question each one answered.
+   */
+  caption?: string;
 }
 
 const colorStyles: Record<
@@ -213,6 +236,8 @@ const Combobox: React.FC<ComboboxProps> = ({
   disabled = false,
   color = 'default',
   emptyAction,
+  appearance = 'filled',
+  caption,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -483,6 +508,8 @@ const Combobox: React.FC<ComboboxProps> = ({
     if (selectedOption.tier !== undefined) {
       const tc = getTierScaleConfig(selectedOption.tier);
       stateStyles = `${tc.bg} ${tc.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm`;
+    } else if (appearance === 'quiet') {
+      stateStyles = `bg-[rgb(var(--color-bg-surface))]/70 light:bg-white border-white/10 light:border-slate-200 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm ${theme.hoverBorder}`;
     } else {
       stateStyles = `${theme.bg} ${theme.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm ${theme.hoverBorder}`;
     }
@@ -525,11 +552,18 @@ const Combobox: React.FC<ComboboxProps> = ({
         <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
           {selectedOption?.isNew && <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />}
           <span className="truncate w-full block">
-            {selectedOption ? selectedOption.renderLabel || selectedOption.label : placeholder}
+            {selectedOption
+              ? selectedOption.renderSelected || selectedOption.renderLabel || selectedOption.label
+              : placeholder}
           </span>
         </span>
+        {caption && selectedOption && !isOpen && (
+          <span className="t-label hidden sm:inline shrink-0 ml-3 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            {caption}
+          </span>
+        )}
         <ChevronDown
-          className={`h-5 w-5 ml-2 transition-transform duration-500 ${isOpen ? `rotate-180 ${theme.icon}` : 'opacity-40'}`}
+          className={`h-5 w-5 ml-2 shrink-0 transition-transform duration-500 ${isOpen ? `rotate-180 ${theme.icon}` : 'opacity-40'}`}
         />
       </button>
 

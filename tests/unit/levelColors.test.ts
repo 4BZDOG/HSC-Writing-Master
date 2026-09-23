@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   LEVEL_HUE,
   LEVEL_ICON_TINT,
+  LEVEL_TILE,
   COMPLETION_HUE,
   getLevelHue,
   getLevelIconTint,
@@ -53,6 +54,24 @@ describe('level icon tints', () => {
 
   it('has an icon tint for every level and nothing else', () => {
     expect(Object.keys(LEVEL_ICON_TINT).sort()).toEqual([...LEVELS].sort());
+  });
+});
+
+describe('level tiles', () => {
+  // The sub-topic tile was hand-written as indigo while everything else said
+  // teal. Every tile is now read from here, so pin that each one is its level's
+  // hue — in both themes — and nothing else's.
+  it('tints each tile with its own level hue only', () => {
+    for (const level of LEVELS) {
+      const hue = LEVEL_HUE[level];
+      const tile = LEVEL_TILE[level];
+      expect(tile).toContain(`text-${hue}-400`);
+      expect(tile).toContain(`light:text-${hue}-700`);
+      for (const other of LEVELS.filter((l) => LEVEL_HUE[l] !== hue)) {
+        expect(tile).not.toContain(`-${LEVEL_HUE[other]}-`);
+      }
+      expect(tile).not.toContain('emerald');
+    }
   });
 });
 

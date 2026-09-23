@@ -1001,7 +1001,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     title="Collapse the navigator and focus on your response"
                   >
                     <ChevronUp className="w-3.5 h-3.5" />
-                    Collapse to breadcrumb
+                    {/* What it does for the reader, not what it turns into:
+                        "Collapse to breadcrumb" named the mechanism. */}
+                    Hide navigator
                   </button>
                 </div>
               )}
