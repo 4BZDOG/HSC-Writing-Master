@@ -56,7 +56,7 @@ import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
-import { loadUserProfile } from './utils/storageUtils';
+import { loadUserProfile, STORAGE_KEYS } from './utils/storageUtils';
 import {
   ASSIGNMENT_PARAM,
   buildAssignmentLink,
@@ -583,6 +583,15 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     } else {
       html.removeAttribute('data-theme');
       html.classList.add('dark');
+    }
+    // Remembered for the signed-out screens, which have no user to ask. A
+    // light-theme user used to be greeted by a dark sign-in page on every
+    // fresh load. Plain `localStorage` in a try: a blocked store only costs
+    // the preload, never the theme itself.
+    try {
+      localStorage.setItem(STORAGE_KEYS.THEME, isLight ? 'light' : 'dark');
+    } catch {
+      /* storage unavailable — the sign-in page falls back to dark */
     }
   }, [user.preferences.theme]);
 
@@ -1470,7 +1479,7 @@ const App: React.FC = () => {
         <LoginPage
           onLogin={(u) => {
             setUser(u);
-            showToast(`Auth session active: ${u.displayName}`, 'success');
+            showToast(`Signed in as ${u.displayName}`, 'success');
           }}
         />
       ) : isBlockedByAgreement ? null : (

@@ -53,6 +53,14 @@ interface AppHeaderProps {
  * width, because work that is not saving is the one thing a student must not
  * find out about later.
  */
+/**
+ * The avatar's letter. Upper-cased because a display name that falls back to an
+ * email address ("jsmith@…") otherwise gives a lower-case chip, and never empty:
+ * a blank name would leave a bare indigo square with nothing in it.
+ */
+const avatarInitial = (displayName: string): string =>
+  displayName.trim().charAt(0).toUpperCase() || '?';
+
 const AppHeader: React.FC<AppHeaderProps> = ({
   user,
   onUpdateUser,
@@ -136,7 +144,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                 preferences: { ...user.preferences, theme: next },
               };
               onUpdateUser(updatedUser);
-              authService.updateUser(updatedUser);
+              // Fire-and-forget, but not unhandled: the theme has already
+              // changed on screen, and a failed profile write (offline, an
+              // expired session) should not surface as an uncaught rejection
+              // for a preference the next toggle will save again anyway.
+              authService.updateUser(updatedUser).catch(() => {});
             }}
             title={
               user.preferences.theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'
@@ -171,7 +183,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                 is under AA's 4.5:1 for the 12px bold initial this holds. `-600`
                 is 6.29:1. The avatar was the one place that had drifted. */}
             <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-lg">
-              {user.displayName.charAt(0)}
+              {avatarInitial(user.displayName)}
             </div>
           </button>
         </div>

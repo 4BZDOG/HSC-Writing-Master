@@ -10,6 +10,23 @@
     />
     <title>Band 6 — AI Writing Coach &amp; Marker for the NSW HSC</title>
     <!--
+      THEME PRELOAD. The signed-out screens have no user whose preference to
+      read, so without this they always opened dark — including for someone who
+      had chosen light and just signed out. App.tsx records the last theme
+      under this key; the string must match STORAGE_KEYS.THEME. Runs in the
+      head so the first paint is already in the right theme. Anything other
+      than 'light' leaves the default (dark) alone.
+    -->
+    <script>
+      try {
+        if (localStorage.getItem('hsc-ai-evaluator-theme') === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {
+        /* storage blocked — stay on the default theme */
+      }
+    </script>
+    <!--
       Styling (Tailwind + the app's custom CSS) is compiled into the bundle at
       build time — see index.css and tailwind.config.js. The former
       cdn.tailwindcss.com runtime script and the CDN import map are gone: the
