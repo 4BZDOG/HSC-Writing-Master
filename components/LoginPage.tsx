@@ -13,6 +13,8 @@ import {
 } from '../services/signupPolicy';
 import type { Provider } from '@supabase/auth-js';
 import AuthBackdrop from './AuthBackdrop';
+import AuthBrand from './AuthBrand';
+import MeshOverlay from './MeshOverlay';
 import {
   Lock,
   User as UserIcon,
@@ -23,7 +25,6 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import LegalDocumentModal from './LegalDocumentModal';
-import BandLadderMark from './BandLadderMark';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -33,27 +34,26 @@ interface LoginPageProps {
 // guard keeps environments without the define from throwing a ReferenceError.
 const APP_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
 
-const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
+/** The mock accounts, whose passwords are their usernames (services/authService). */
+const DEMO_ACCOUNTS = [
+  { username: 'admin', role: 'Admin' },
+  { username: 'teacher', role: 'Teacher' },
+  { username: 'user', role: 'Student' },
+] as const;
 
 /**
  * Per-field validation message. Sits under its own field rather than joining a
  * single banner at the bottom, so "the passwords do not match" points at the
  * box that needs retyping instead of making the reader work it out.
  */
-const FieldError = ({ message }: { message?: string }) =>
+const FieldError = ({ id, message }: { id: string; message?: string }) =>
   message ? (
     <p
+      id={id}
       role="alert"
       className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1 animate-fade-in"
     >
-      <AlertCircle className="w-3 h-3 shrink-0" /> {message}
+      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" /> {message}
     </p>
   ) : null;
 
@@ -70,6 +70,7 @@ const InputField = ({
   icon: Icon,
   hasError,
   autoComplete,
+  describedBy,
 }: {
   id: string;
   label: string;
@@ -82,6 +83,8 @@ const InputField = ({
   /** Overrides the sign-in default. Sign-up needs 'new-password' so a password
    *  manager offers to generate one instead of filling the old one in. */
   autoComplete?: string;
+  /** The id of the message explaining this field's error, when there is one. */
+  describedBy?: string;
 }) => (
   <div className="space-y-2.5">
     <label htmlFor={id} className="t-label block text-slate-400 light:text-slate-600 ml-1">
@@ -100,6 +103,7 @@ const InputField = ({
     `}
     >
       <Icon
+        aria-hidden="true"
         className={`ml-4 h-4 w-4 transition-colors duration-300 ${hasError ? 'text-red-400' : 'text-slate-500 group-focus-within/input:text-indigo-400'}`}
       />
       <input
@@ -107,11 +111,13 @@ const InputField = ({
         type={type}
         value={value}
         onChange={onChange}
+        aria-invalid={hasError || undefined}
+        aria-describedby={hasError ? describedBy : undefined}
         autoComplete={
           autoComplete ??
           (id === 'username' ? (isSupabaseConfigured ? 'email' : 'username') : 'current-password')
         }
-        className="block w-full pl-3 pr-4 py-4 bg-transparent text-white light:text-slate-900 placeholder-slate-600 outline-none focus:outline-none focus:ring-0 border-none font-medium text-sm"
+        className="block w-full pl-3 pr-4 py-4 bg-transparent text-white light:text-slate-900 placeholder-slate-500 outline-none focus:outline-none focus:ring-0 border-none font-medium text-sm"
         placeholder={placeholder}
       />
     </div>
@@ -236,8 +242,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   // invites a second submit, which just fails as "already registered".
   const [confirmationSentTo, setConfirmationSentTo] = useState<string | null>(null);
 
-  const [usernameError, setUsernameError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
   // Readable BEFORE signing in — being asked to accept an agreement you had no
   // way of reading first is the thing everyone hates about consent dialogs.
   const [isLegalOpen, setIsLegalOpen] = useState(false);
@@ -253,8 +257,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setResetSentTo(null);
     setConfirmationSentTo(null);
     setFieldErrors({});
-    setUsernameError(false);
-    setPasswordError(false);
     setPassword('');
     setConfirmPassword('');
   };
@@ -320,36 +322,37 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       return;
     }
     setError(null);
-    setUsernameError(false);
-    setPasswordError(false);
 
     const trimmedUsername = username.trim();
-    const trimmedPassword = password.trim();
 
-    let isValid = true;
+    // Said under the field that is empty, the same way sign-up does it, rather
+    // than as one "required fields missing" banner that leaves the reader to
+    // work out which.
+    const errors: SignupFieldErrors = {};
     if (!trimmedUsername) {
-      setUsernameError(true);
-      isValid = false;
+      errors.email = isSupabaseConfigured ? 'Enter your email address.' : 'Enter your username.';
     }
-    if (!trimmedPassword) {
-      setPasswordError(true);
-      isValid = false;
-    }
-    if (!isValid) {
-      setError('Required fields missing.');
-      return;
-    }
+    // Emptiness is judged on the trimmed value, but the password itself is
+    // sent exactly as typed. Sign-up stores it untrimmed, so trimming here
+    // locked out anyone whose password began or ended with a space.
+    if (!password.trim()) errors.password = 'Enter your password.';
+    setFieldErrors(errors);
+    if (hasSignupErrors(errors)) return;
 
     setIsLoading(true);
     try {
-      const user = await authService.login(trimmedUsername, trimmedPassword);
+      const user = await authService.login(trimmedUsername, password);
       onLogin(user);
     } catch (err) {
       // Configuration problems (e.g. demo auth disabled in production) carry
       // an actionable message — don't flatten those into "bad password".
       const message = err instanceof Error ? err.message : '';
       setError(
-        message.includes('not configured') ? message : 'Invalid credentials. Access denied.'
+        message.includes('not configured')
+          ? message
+          : isSupabaseConfigured
+            ? 'That email and password do not match an account. Check both and try again.'
+            : 'That username and password do not match an account. Check both and try again.'
       );
     } finally {
       setIsLoading(false);
@@ -357,12 +360,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   const handleGuestLogin = async () => {
+    setError(null);
     setIsLoading(true);
     try {
       const user = await authService.loginAsGuest();
       onLogin(user);
-    } catch (error) {
-      setError('Guest session failed.');
+    } catch {
+      setError('Could not start a guest session. Try again in a moment.');
     } finally {
       setIsLoading(false);
     }
@@ -380,369 +384,390 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden px-6 selection:bg-indigo-500/30">
+    /* `my-auto` on the column, not `justify-center` on the page. Centring with
+       justify-content pushes content that is taller than the viewport off BOTH
+       ends, and the top half cannot be scrolled back to — at 1280×768 the band
+       mark was cut off above the fold, and on a phone the demo accounts hung
+       below the backdrop. Auto margins centre when there is room and fall back
+       to plain top-down flow when there is not. */
+    <div className="min-h-screen w-full flex flex-col items-center relative px-6 py-10 sm:py-14 selection:bg-indigo-500/30">
       <AuthBackdrop />
 
-      {/* Hero Branding Section */}
-      <div className="text-center mb-12 relative z-10 animate-fade-in">
-        <div className="inline-block mb-6">
-          <BandLadderMark />
-        </div>
+      <div className="my-auto w-full flex flex-col items-center">
+        <AuthBrand tagline="Write a response to an HSC question, and see it marked against the NESA band descriptors." />
 
-        <div className="flex flex-col gap-2">
-          {/* The same name the header sets, set the same way. This was Plex
-              700 in sentence case while `HEADER_WORDMARK` was Inter 900 italic
-              caps — the two screens everyone sees, disagreeing about the brand,
-              with the disagreement on the FIRST of them. `t-display` carries
-              the face and the weight; the caps, slope and tracking are the
-              wordmark's own and are repeated here rather than shared, because
-              the two differ in size and nothing else. */}
-          <h1 className="t-display text-4xl tracking-tighter uppercase italic text-white light:text-slate-900 leading-none">
-            Band 6
-          </h1>
-          <p className="text-slate-400 light:text-slate-500 text-sm mt-4 max-w-sm mx-auto leading-relaxed">
-            Write a response to an HSC question, and see it marked against the NESA band
-            descriptors.
-          </p>
-        </div>
-      </div>
+        {/* Main Login Card */}
+        <div
+          className="w-full max-w-[420px] relative z-10 animate-fade-in-up"
+          style={{ animationDelay: '200ms' }}
+        >
+          <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-surface shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
+            <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
-      {/* Main Login Card */}
-      <div
-        className="w-full max-w-[420px] relative z-10 animate-fade-in-up"
-        style={{ animationDelay: '200ms' }}
-      >
-        <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-surface shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
-          <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
-
-          <div className="p-10 relative z-10">
-            {resetSentTo ? (
-              /* Deliberately does NOT say whether an account exists — see
+            <div className="p-10 relative z-10">
+              {resetSentTo ? (
+                /* Deliberately does NOT say whether an account exists — see
                  authService.requestPasswordReset. "No account with that email"
                  turns this form into a way to discover who has one, and here
                  that is a roster of students. */
-              <div className="space-y-5 animate-fade-in" data-testid="reset-sent">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
-                  <MailCheck className="w-7 h-7 text-emerald-400" />
+                <div className="space-y-5 animate-fade-in" data-testid="reset-sent">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
+                    <MailCheck className="w-7 h-7 text-emerald-400 light:text-emerald-600" />
+                  </div>
+                  <h2 className="text-xl font-bold text-white light:text-slate-900">
+                    Check your email
+                  </h2>
+                  <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
+                    If an account exists for{' '}
+                    <span className="font-bold text-slate-200 light:text-slate-800">
+                      {resetSentTo}
+                    </span>
+                    , a link to set a new password is on its way. It expires shortly and can only be
+                    used once.
+                  </p>
+                  <p className="text-xs text-slate-500 light:text-slate-600 leading-relaxed">
+                    Nothing arrived? Check the junk folder, and confirm you typed the address you
+                    signed up with. School mail filters are often the culprit — an administrator can
+                    reset the password directly if the link never lands.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResetSentTo(null);
+                      switchMode('signin');
+                    }}
+                    className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                  >
+                    Back to sign in
+                  </button>
                 </div>
-                <h2 className="text-xl font-bold text-white light:text-slate-900">
-                  Check your email
-                </h2>
-                <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
-                  If an account exists for{' '}
-                  <span className="font-bold text-slate-200 light:text-slate-800">
-                    {resetSentTo}
-                  </span>
-                  , a link to set a new password is on its way. It expires shortly and can only be
-                  used once.
-                </p>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Nothing arrived? Check the junk folder, and confirm you typed the address you
-                  signed up with. School mail filters are often the culprit — an administrator can
-                  reset the password directly if the link never lands.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setResetSentTo(null);
-                    switchMode('signin');
-                  }}
-                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
-                >
-                  Back to sign in
-                </button>
-              </div>
-            ) : confirmationSentTo ? (
-              /* The account exists but is inert until the emailed link is
+              ) : confirmationSentTo ? (
+                /* The account exists but is inert until the emailed link is
                  followed. Say exactly that — "check your email" without
                  saying why leaves people retrying the form. */
-              <div className="space-y-5 animate-fade-in" data-testid="signup-confirmation">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
-                  <MailCheck className="w-7 h-7 text-emerald-400" />
-                </div>
-                <h2 className="text-xl font-bold text-white light:text-slate-900">
-                  Confirm your email
-                </h2>
-                <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
-                  We sent a confirmation link to{' '}
-                  <span className="font-bold text-slate-200 light:text-slate-800">
-                    {confirmationSentTo}
-                  </span>
-                  . Click it to activate the account, then come back and sign in. The account will
-                  not work until you do.
-                </p>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Nothing arrived? Check the junk folder. School mail filters are often the culprit
-                  — an administrator can confirm the account manually in Supabase if it never lands.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setConfirmationSentTo(null);
-                    switchMode('signin');
-                  }}
-                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
-                >
-                  Back to sign in
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-7">
-                {mode === 'reset' && (
-                  <div className="space-y-2">
-                    <h2 className="text-lg font-bold text-white light:text-slate-900">
-                      Reset your password
-                    </h2>
-                    <p className="text-xs text-slate-400 light:text-slate-600 leading-relaxed">
-                      Enter the email address on your account and we will send you a link to set a
-                      new password.
-                    </p>
+                <div className="space-y-5 animate-fade-in" data-testid="signup-confirmation">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
+                    <MailCheck className="w-7 h-7 text-emerald-400 light:text-emerald-600" />
                   </div>
-                )}
-
-                {mode === 'signup' && (
-                  <InputField
-                    id="displayName"
-                    label="Full name (optional)"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    type="text"
-                    placeholder="How your name appears in the app"
-                    icon={UserIcon}
-                    hasError={false}
-                    autoComplete="name"
-                  />
-                )}
-
-                <div>
-                  <InputField
-                    id="username"
-                    label={isSupabaseConfigured ? 'Email' : 'Username'}
-                    value={username}
-                    onChange={(e) => {
-                      setUsername(e.target.value);
-                      setUsernameError(false);
-                      setFieldErrors((prev) => ({ ...prev, email: undefined }));
+                  <h2 className="text-xl font-bold text-white light:text-slate-900">
+                    Confirm your email
+                  </h2>
+                  <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
+                    We sent a confirmation link to{' '}
+                    <span className="font-bold text-slate-200 light:text-slate-800">
+                      {confirmationSentTo}
+                    </span>
+                    . Click it to activate the account, then come back and sign in. The account will
+                    not work until you do.
+                  </p>
+                  <p className="text-xs text-slate-500 light:text-slate-600 leading-relaxed">
+                    Nothing arrived? Check the junk folder. School mail filters are often the
+                    culprit — an administrator can confirm the account manually in Supabase if it
+                    never lands.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setConfirmationSentTo(null);
+                      switchMode('signin');
                     }}
-                    type={isSupabaseConfigured ? 'email' : 'text'}
-                    placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
-                    icon={UserIcon}
-                    hasError={usernameError || Boolean(fieldErrors.email)}
-                  />
-                  <FieldError message={fieldErrors.email} />
-                  {mode === 'signup' && signupAllowedDomains().length > 0 && !fieldErrors.email && (
-                    <p className="text-xs text-slate-500 leading-relaxed mt-2 ml-1">
-                      {allowedDomainMessage(signupAllowedDomains())}
-                    </p>
+                    className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                  >
+                    Back to sign in
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-7">
+                  {mode === 'reset' && (
+                    <div className="space-y-2">
+                      <h2 className="text-lg font-bold text-white light:text-slate-900">
+                        Reset your password
+                      </h2>
+                      <p className="text-xs text-slate-400 light:text-slate-600 leading-relaxed">
+                        Enter the email address on your account and we will send you a link to set a
+                        new password.
+                      </p>
+                    </div>
                   )}
-                </div>
 
-                <div className={mode === 'reset' ? 'hidden' : undefined}>
-                  <InputField
-                    id="password"
-                    label="Password"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      setPasswordError(false);
-                      setFieldErrors((prev) => ({ ...prev, password: undefined }));
-                    }}
-                    type="password"
-                    placeholder={
-                      mode === 'signup'
-                        ? `At least ${MIN_PASSWORD_LENGTH} characters`
-                        : 'Enter password'
-                    }
-                    icon={Lock}
-                    hasError={passwordError || Boolean(fieldErrors.password)}
-                    autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                  />
-                  <FieldError message={fieldErrors.password} />
-                </div>
+                  {mode === 'signup' && (
+                    <h2 className="text-lg font-bold text-white light:text-slate-900">
+                      Create your account
+                    </h2>
+                  )}
 
-                {mode === 'signup' && (
+                  {mode === 'signup' && (
+                    <InputField
+                      id="displayName"
+                      label="Full name (optional)"
+                      value={displayName}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      type="text"
+                      placeholder="How your name appears in the app"
+                      icon={UserIcon}
+                      hasError={false}
+                      autoComplete="name"
+                    />
+                  )}
+
                   <div>
                     <InputField
-                      id="confirmPassword"
-                      label="Confirm password"
-                      value={confirmPassword}
+                      id="username"
+                      label={isSupabaseConfigured ? 'Email' : 'Username'}
+                      value={username}
                       onChange={(e) => {
-                        setConfirmPassword(e.target.value);
-                        setFieldErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+                        setUsername(e.target.value);
+                        setFieldErrors((prev) => ({ ...prev, email: undefined }));
+                      }}
+                      type={isSupabaseConfigured ? 'email' : 'text'}
+                      placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
+                      icon={UserIcon}
+                      hasError={Boolean(fieldErrors.email)}
+                      describedBy="username-error"
+                    />
+                    <FieldError id="username-error" message={fieldErrors.email} />
+                    {mode === 'signup' &&
+                      signupAllowedDomains().length > 0 &&
+                      !fieldErrors.email && (
+                        <p className="text-xs text-slate-500 light:text-slate-600 leading-relaxed mt-2 ml-1">
+                          {allowedDomainMessage(signupAllowedDomains())}
+                        </p>
+                      )}
+                  </div>
+
+                  <div className={mode === 'reset' ? 'hidden' : undefined}>
+                    <InputField
+                      id="password"
+                      label="Password"
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        setFieldErrors((prev) => ({ ...prev, password: undefined }));
                       }}
                       type="password"
-                      placeholder="Type the password again"
+                      placeholder={
+                        mode === 'signup'
+                          ? `At least ${MIN_PASSWORD_LENGTH} characters`
+                          : 'Enter password'
+                      }
                       icon={Lock}
-                      hasError={Boolean(fieldErrors.confirmPassword)}
-                      autoComplete="new-password"
+                      hasError={Boolean(fieldErrors.password)}
+                      describedBy="password-error"
+                      autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                     />
-                    <FieldError message={fieldErrors.confirmPassword} />
+                    <FieldError id="password-error" message={fieldErrors.password} />
                   </div>
-                )}
 
-                {error && (
-                  <div
-                    role="alert"
-                    className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
-                  >
-                    <AlertCircle className="w-4 h-4 shrink-0 mt-px" /> {error}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={isLoading || oauthLoading !== null}
-                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
-                >
-                  {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <>
-                      {mode === 'signup'
-                        ? 'Create account'
-                        : mode === 'reset'
-                          ? 'Send reset link'
-                          : 'Sign in'}
-                    </>
+                  {mode === 'signup' && (
+                    <div>
+                      <InputField
+                        id="confirmPassword"
+                        label="Confirm password"
+                        value={confirmPassword}
+                        onChange={(e) => {
+                          setConfirmPassword(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+                        }}
+                        type="password"
+                        placeholder="Type the password again"
+                        icon={Lock}
+                        hasError={Boolean(fieldErrors.confirmPassword)}
+                        describedBy="confirmPassword-error"
+                        autoComplete="new-password"
+                      />
+                      <FieldError
+                        id="confirmPassword-error"
+                        message={fieldErrors.confirmPassword}
+                      />
+                    </div>
                   )}
-                </button>
 
-                {mode === 'reset' ? (
-                  <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                    Remembered it?{' '}
-                    <button
-                      type="button"
-                      onClick={() => switchMode('signin')}
-                      className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                  {error && (
+                    <div
+                      role="alert"
+                      className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
                     >
-                      Back to sign in
-                    </button>
-                  </p>
-                ) : (
-                  <div className="space-y-3">
-                    {/* Password sign-in only. There is nothing to reset on a mock
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-px" aria-hidden="true" /> {error}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || oauthLoading !== null}
+                    aria-busy={isLoading || undefined}
+                    className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+                        {/* The spinner alone left the button with no name at all
+                          while it worked. */}
+                        <span className="sr-only">
+                          {mode === 'signup'
+                            ? 'Creating account…'
+                            : mode === 'reset'
+                              ? 'Sending reset link…'
+                              : 'Signing in…'}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        {mode === 'signup'
+                          ? 'Create account'
+                          : mode === 'reset'
+                            ? 'Send reset link'
+                            : 'Sign in'}
+                      </>
+                    )}
+                  </button>
+
+                  {mode === 'reset' ? (
+                    <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                      Remembered it?{' '}
+                      <button
+                        type="button"
+                        onClick={() => switchMode('signin')}
+                        className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                      >
+                        Back to sign in
+                      </button>
+                    </p>
+                  ) : (
+                    <div className="space-y-3">
+                      {/* Password sign-in only. There is nothing to reset on a mock
                         deployment, and an SSO account's password lives with the
                         identity provider, not here. */}
-                    {mode === 'signin' && isSupabaseConfigured && (
-                      <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                        <button
-                          type="button"
-                          onClick={() => switchMode('reset')}
-                          className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
-                        >
-                          Forgot your password?
-                        </button>
-                      </p>
-                    )}
-                    {signupAvailable() && (
-                      <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                        {mode === 'signin'
-                          ? "Don't have an account? "
-                          : 'Already have an account? '}
-                        <button
-                          type="button"
-                          onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
-                          className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
-                        >
-                          {mode === 'signin' ? 'Create one' : 'Sign in'}
-                        </button>
-                      </p>
-                    )}
-                  </div>
-                )}
-              </form>
-            )}
-
-            {isSupabaseConfigured && OAUTH_PROVIDERS.length > 0 && (
-              <div className="mt-7">
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
-                  <span className="t-label text-slate-500">or continue with</span>
-                  <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
-                </div>
-                <div className="flex gap-3">
-                  {OAUTH_PROVIDERS.map(({ id, label, icon: Icon }) => (
-                    <button
-                      key={id}
-                      type="button"
-                      onClick={() => handleOAuthLogin(id)}
-                      disabled={isLoading || oauthLoading !== null}
-                      className="flex-1 py-3.5 rounded-2xl font-bold text-xs text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-50 border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      title={`Sign in with ${label}`}
-                    >
-                      {oauthLoading === id ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Icon />
+                      {mode === 'signin' && isSupabaseConfigured && (
+                        <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                          <button
+                            type="button"
+                            onClick={() => switchMode('reset')}
+                            className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                          >
+                            Forgot your password?
+                          </button>
+                        </p>
                       )}
-                      <span className="hidden sm:inline">{label}</span>
-                    </button>
-                  ))}
+                      {signupAvailable() && (
+                        <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                          {mode === 'signin'
+                            ? "Don't have an account? "
+                            : 'Already have an account? '}
+                          <button
+                            type="button"
+                            onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
+                            className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                          >
+                            {mode === 'signin' ? 'Create one' : 'Sign in'}
+                          </button>
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </form>
+              )}
+
+              {isSupabaseConfigured && OAUTH_PROVIDERS.length > 0 && (
+                <div className="mt-7">
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
+                    <span className="t-label text-slate-500 light:text-slate-600">
+                      or continue with
+                    </span>
+                    <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
+                  </div>
+                  <div className="flex gap-3">
+                    {OAUTH_PROVIDERS.map(({ id, label, icon: Icon }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => handleOAuthLogin(id)}
+                        disabled={isLoading || oauthLoading !== null}
+                        className="flex-1 py-3.5 rounded-2xl font-bold text-xs text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-50 border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        title={`Sign in with ${label}`}
+                      >
+                        {oauthLoading === id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                        ) : (
+                          <Icon />
+                        )}
+                        {/* `sr-only`, not `hidden`, below `sm`: a phone has room
+                          for the logo only, but the button still needs a name. */}
+                        <span className="sr-only sm:not-sr-only">{label}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
+              )}
+
+              <div className="mt-7">
+                <button
+                  type="button"
+                  onClick={handleGuestLogin}
+                  disabled={isLoading || oauthLoading !== null}
+                  className="t-label w-full py-4 rounded-2xl text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <BookOpen className="w-4 h-4" aria-hidden="true" /> Continue as guest
+                </button>
               </div>
-            )}
-
-            <div className="mt-7">
-              <button
-                onClick={handleGuestLogin}
-                disabled={isLoading || oauthLoading !== null}
-                className="t-label w-full py-4 rounded-2xl text-slate-300 light:text-slate-600 bg-white/5 light:bg-slate-100 border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <BookOpen className="w-4 h-4" /> Continue as Guest
-              </button>
             </div>
-          </div>
 
-          {/* Footer Info */}
-          <div className="t-label bg-black/40 light:bg-slate-100 px-10 py-5 border-t border-white/10 light:border-slate-200 flex justify-between items-center text-slate-500">
-            <div className="flex items-center gap-4">
+            {/* Footer Info */}
+            <div className="t-label bg-black/40 light:bg-slate-100 px-10 py-5 border-t border-white/10 light:border-slate-200 flex justify-between items-center text-slate-500 light:text-slate-600">
               <button
                 type="button"
                 onClick={() => setIsLegalOpen(true)}
-                className="hover:text-indigo-400 transition-colors"
+                className="hover:text-indigo-400 light:hover:text-indigo-700 underline-offset-2 hover:underline transition-colors"
               >
                 Terms &amp; Privacy
               </button>
-              <span>v{APP_VERSION}</span>
+              <span className="font-mono">v{APP_VERSION}</span>
             </div>
           </div>
-        </div>
 
-        <p className="mt-5 text-center text-[10px] leading-relaxed text-slate-500 light:text-slate-500 font-medium px-4">
-          Signing in means agreeing to the Terms of Use and Privacy Notice. Marks given here are
-          practice feedback from an AI — never an official HSC result.
-        </p>
+          <p className="mt-5 text-center text-xs leading-relaxed text-slate-400 light:text-slate-600 px-4">
+            Signing in means agreeing to the Terms of Use and Privacy Notice. Marks given here are
+            practice feedback from an AI — never an official HSC result.
+          </p>
 
-        <LegalDocumentModal isOpen={isLegalOpen} onClose={() => setIsLegalOpen(false)} />
+          <LegalDocumentModal isOpen={isLegalOpen} onClose={() => setIsLegalOpen(false)} />
 
-        {/* Identity Hint Section — only when the local demo accounts actually
+          {/* Identity Hint Section — only when the local demo accounts actually
             work (dev builds, or VITE_ENABLE_DEMO_AUTH=true). In Supabase mode
-            logins are real email accounts and these hints would mislead. */}
-        {!isSupabaseConfigured && isDemoAuthEnabled() && (
-          <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
-            <p className="t-label text-slate-500 mb-4">Demo Accounts</p>
-            <div className="flex justify-center gap-10">
-              <div className="flex flex-col items-center">
-                <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
-                  admin
-                </span>
-                <span className="t-label text-slate-500 mt-2">Admin</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
-                  teacher
-                </span>
-                <span className="t-label text-slate-500 mt-2">Teacher</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 shadow-lg">
-                  user
-                </span>
-                <span className="t-label text-slate-500 mt-2">Student</span>
+            logins are real email accounts and these hints would mislead.
+            Each chip fills the form rather than only naming an account: the
+            password was never shown anywhere, so the hint used to be half of
+            what someone needed to get in. */}
+          {!isSupabaseConfigured && isDemoAuthEnabled() && mode === 'signin' && (
+            <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
+              <p className="t-label text-slate-400 light:text-slate-600 mb-1">Demo accounts</p>
+              <p className="text-xs text-slate-500 light:text-slate-600 mb-4">
+                The password is the same as the username. Choose one to fill the form.
+              </p>
+              <div className="flex justify-center gap-3 sm:gap-6">
+                {DEMO_ACCOUNTS.map(({ username: demo, role }) => (
+                  <button
+                    key={demo}
+                    type="button"
+                    onClick={() => {
+                      setUsername(demo);
+                      setPassword(demo);
+                      setFieldErrors({});
+                      setError(null);
+                    }}
+                    aria-label={`Fill in the ${role.toLowerCase()} demo account`}
+                    className="group flex flex-col items-center rounded-xl px-2 py-1.5 hover:bg-white/5 light:hover:bg-slate-900/5 transition-colors"
+                  >
+                    <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 group-hover:border-indigo-400/60 transition-colors">
+                      {demo}
+                    </span>
+                    <span className="t-label text-slate-500 light:text-slate-600 mt-2">{role}</span>
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

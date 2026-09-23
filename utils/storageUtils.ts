@@ -54,6 +54,9 @@ export const STORAGE_KEYS = {
   AUTH_USER: 'hsc-ai-auth-user-v2',
   AI_CONFIG: 'hsc-ai-evaluator-ai-config', // Active AI engine per role (basic/reasoning)
   QUOTA_WARNINGS: 'hsc-ai-evaluator-quota-warnings', // Per-UTC-day dedupe of 80%/100% quota toasts
+  // Last theme shown, read by the inline script in index.html before React
+  // mounts so the sign-in screen opens in it. Keep the two strings in step.
+  THEME: 'hsc-ai-evaluator-theme',
 } as const;
 
 export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Supabase' | 'Error' | 'Loading';
