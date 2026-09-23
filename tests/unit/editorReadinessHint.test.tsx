@@ -95,7 +95,7 @@ describe('editor readiness hint (Surface B)', () => {
     expect(screen.queryByText(/Getting there/)).toBeNull();
     // The question's fixed goal pill is what this row was always for, and is
     // untouched.
-    expect(screen.getByText(/Band \d Target/)).toBeTruthy();
+    expect(screen.getByText(/Band \d target/i)).toBeTruthy();
   });
 
   /**
@@ -126,6 +126,6 @@ describe('editor readiness hint (Surface B)', () => {
 
     expect(screen.queryByText(/Getting there/)).toBeNull();
     expect(screen.queryAllByRole('progressbar')).toHaveLength(0);
-    expect(screen.getByText(/Exam Conditions/)).toBeTruthy();
+    expect(screen.getByText(/Exam conditions/i)).toBeTruthy();
   });
 });

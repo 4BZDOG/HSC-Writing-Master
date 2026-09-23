@@ -217,7 +217,15 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
   const raw = 0.35 * length + 0.3 * keywords + 0.2 * structure + 0.15 * variety;
   const score = Math.round(raw * 100);
 
-  const level = resolveLevel(score, wordCount);
+  // "Ready to submit" is a promise the draft check below it has to agree with.
+  // Length is only 35% of the score, so a draft twelve words short of the
+  // full-mark length could still reach the top label while the check under it
+  // said "About 12 more words to reach full-mark length". The top rung now
+  // waits for the two things the check names by name: the length, and every
+  // term the question itself is built on. The score is untouched.
+  const resolved = resolveLevel(score, wordCount);
+  const meetsTheCheck = length >= 1 && mustUseUsed >= mustUseTotal;
+  const level: ReadinessLevel = resolved === 6 && !meetsTheCheck ? 5 : resolved;
 
   // The COLOUR walks the question's OWN palette (red → its target band) in step
   // with how complete the answer is, and is capped at that target band — no

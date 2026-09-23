@@ -105,7 +105,7 @@ describe('outcome chips in the prompt footer', () => {
     // green over this very defect at 1400px. This one cannot drift with layout.
     render(<PromptDisplay {...props} prompt={{ ...prompt, linkedOutcomes: [] }} />);
 
-    const placeholder = screen.getByText(/no specific outcomes linked/i);
+    const placeholder = screen.getByText(/no outcomes linked/i);
     const strip = placeholder.parentElement as HTMLElement;
     expect(strip.className).toContain('overflow-hidden');
     expect(strip.className).not.toContain('overflow-x-auto');

@@ -65,7 +65,7 @@ describe('PromptDisplay under exam conditions', () => {
     expect(screen.queryByText('SE-12-08')).toBeNull();
     expect(screen.queryByText(/Read before you write/i)).toBeNull();
     // ...and does not replace them with a curation note either.
-    expect(screen.queryByText(/No specific outcomes linked/i)).toBeNull();
+    expect(screen.queryByText(/No outcomes linked/i)).toBeNull();
   });
 
   it('still shows the directive, but not its guide', () => {

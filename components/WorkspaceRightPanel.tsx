@@ -22,6 +22,13 @@ import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 import type { AppGeminiHandlers } from '../hooks/appHandlerTypes';
 
+/** Apple keyboards say ⌘; everything else says Ctrl. Read once — it cannot
+ *  change while the page is open. */
+const IS_APPLE =
+  typeof navigator !== 'undefined' &&
+  /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || '');
+const SUBMIT_SHORTCUT = IS_APPLE ? '⌘ ↵' : 'Ctrl ↵';
+
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
   editorHeight?: string; // Kept for interface compatibility but ignored
@@ -279,6 +286,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     freeEvalsRemaining()
   );
 
+  const shortcutName = IS_APPLE ? '⌘ + Enter' : 'Ctrl + Enter';
   const evalCounterTitle =
     remainingEvals === Infinity
       ? ''
@@ -324,7 +332,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             ? 'Evaluating your response…'
             : !userAnswer.trim()
               ? 'Write a response first, then evaluate'
-              : `Evaluate your response (Ctrl / ⌘ + Enter)${evalCounterTitle}`
+              : `Evaluate your response (${shortcutName})${evalCounterTitle}`
         }
         className={`
           group px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm tracking-tight
@@ -357,14 +365,18 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               against the dark footer, invisible against the light theme's pale
               grey one. Unset, the label inherits the button's own colour. */}
             <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
+            {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
+                Windows and ChromeOS machines most NSW schools issue, where
+                the shortcut is Ctrl + Enter — and at 9px the glyph blurred
+                into a smudge. */}
             <kbd
-              className={`hidden md:inline text-[9px] font-bold border rounded-lg px-1 py-0.5 tracking-normal transition-opacity ${
+              className={`hidden md:inline text-[10px] font-bold border rounded-lg px-1.5 py-0.5 tracking-normal whitespace-nowrap transition-opacity ${
                 userAnswer.trim()
                   ? 'bg-white/15 border-white/10 opacity-60 group-hover:opacity-100'
                   : 'bg-black/5 border-current/20 opacity-50'
               }`}
             >
-              ⌘↵
+              {SUBMIT_SHORTCUT}
             </kbd>
           </>
         )}

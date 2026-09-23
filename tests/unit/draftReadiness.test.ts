@@ -202,8 +202,33 @@ describe('computeDraftReadiness — score → level thresholds', () => {
   });
 
   it('score 89 lands on level 6 (Ready to submit)', () => {
-    // length 2400/3500 = 24/35 → 0.24, keywords 1 → 0.30, structure 1 → 0.20,
-    // variety 1 → 0.15.
+    // length 2400/2400 = 1 → 0.35, keywords 19/30 → 0.19, structure 1 → 0.20,
+    // variety 1 → 0.15. Full length, so the top rung's length gate is met and
+    // this pins only the score boundary.
+    const result = computeDraftReadiness(
+      makeInput({
+        analysis: analysis({
+          wordCount: 2400,
+          sentenceCount: 5,
+          longestSentenceWords: 20,
+          paragraphCount: 3,
+        }),
+        wordCount: 2400,
+        targetWordCount: 2400,
+        keywordsTotal: 30,
+        keywordsUsed: 19,
+        maxBand: 4,
+      })
+    );
+    expect(result.score).toBe(89);
+    expect(result.level).toBe(6);
+    expect(result.label).toBe('Ready to submit');
+  });
+
+  // The top label is a promise the draft check has to agree with. This draft
+  // scores 89 — the old boundary case — while still well short of its length,
+  // and the check under the meter would be asking for more words.
+  it('holds "Ready to submit" back while the draft is short of its length', () => {
     const result = computeDraftReadiness(
       makeInput({
         analysis: analysis({
@@ -220,8 +245,30 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(89);
-    expect(result.level).toBe(6);
-    expect(result.label).toBe('Ready to submit');
+    expect(result.level).toBe(5);
+    expect(result.label).toBe('Nearly ready');
+  });
+
+  it('holds "Ready to submit" back while a term the question names is missing', () => {
+    const result = computeDraftReadiness(
+      makeInput({
+        analysis: analysis({
+          wordCount: 300,
+          sentenceCount: 6,
+          longestSentenceWords: 20,
+          paragraphCount: 3,
+        }),
+        wordCount: 300,
+        targetWordCount: 200,
+        keywordsTotal: 10,
+        keywordsUsed: 9,
+        mustUseTotal: 2,
+        mustUseUsed: 1,
+        maxBand: 4,
+      })
+    );
+    expect(result.score).toBeGreaterThanOrEqual(89);
+    expect(result.label).toBe('Nearly ready');
   });
 
   it('a full, well-structured draft reaches the top of the palette (5/6)', () => {
