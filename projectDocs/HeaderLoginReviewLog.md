@@ -450,7 +450,7 @@ paywall, report column, modal scroll, light theme, accessibility and
 no-clipped-text; screenshots of the modal in both themes at 1280px and at
 390px, of the report, and of the exported PDF before and after.
 
-## PR 10 — A new student's first five minutes, on a phone
+## PR #282 — A new student's first five minutes, on a phone
 
 The brief: keep going on the most valuable improvements. The live site was
 being checked on a phone, so this pass walks a new student account through
