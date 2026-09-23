@@ -15,7 +15,11 @@ const ApiHealthIndicator: React.FC = () => {
       shadow: 'shadow-[0_0_15px_rgba(16,185,129,0.05)]',
       title: 'API Connection: Healthy',
       content: null,
-      animation: 'hover:scale-105',
+      // Not on a phone. A green "all is well" dot is nothing to act on, and
+      // at 390px it sat permanently over the answer being written — the left
+      // edge of every card is text there. The degraded state below, which is
+      // worth seeing, still shows at every width.
+      animation: 'hover:scale-105 max-sm:hidden',
     },
     DEGRADED: {
       Icon: AlertTriangle,

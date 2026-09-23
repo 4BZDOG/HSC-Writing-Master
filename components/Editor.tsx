@@ -17,6 +17,7 @@ import {
 import { getCommandTermInfo } from '../data/commandTerms';
 import {
   Maximize,
+  Lock,
   Minimize,
   Bold,
   Italic,
@@ -643,7 +644,11 @@ const Editor = forwardRef<
                 the floor of the row they read as the pair of the pills across
                 the gap, which is what they are. */}
               <div className={CARD_HEADER_TRAY}>
-                <div className={`${CARD_HEADER_BAR} gap-1`}>
+                {/* Tighter on a phone, and without the hairline separators,
+                    so the whole bar fits a 360px screen: it scrolls there, and
+                    nothing says so, so the focus-mode button at its end was
+                    cut in half and easily never found. */}
+                <div className={`${CARD_HEADER_BAR} gap-0.5 sm:gap-1`}>
                   {onWritingModeChange && (
                     <>
                       <div
@@ -688,10 +693,22 @@ const Editor = forwardRef<
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>
-                          {isFeatureLocked('examMode') && <PlusLockChip className="ml-0.5" />}
+                          {/* A lock alone on a phone. The "Plus" chip was the
+                              widest thing in this bar, and at 390px it pushed
+                              focus mode off the end of a strip that scrolls
+                              with nothing to say it does. */}
+                          {isFeatureLocked('examMode') && (
+                            <>
+                              <Lock
+                                className="w-3 h-3 text-amber-300 sm:hidden"
+                                aria-hidden="true"
+                              />
+                              <PlusLockChip className="ml-0.5 max-sm:hidden" />
+                            </>
+                          )}
                         </button>
                       </div>
-                      <div className="w-px h-4 bg-white/20 mx-0.5" />
+                      <div className="w-px h-4 bg-white/20 mx-0.5 max-sm:hidden" />
                     </>
                   )}
                   {/* Bold and italic sat open in the toolbar permanently, and an
@@ -729,7 +746,7 @@ const Editor = forwardRef<
                           />
                         </div>
                       )}
-                      <div className="w-px h-4 bg-white/20 mx-0.5" />
+                      <div className="w-px h-4 bg-white/20 mx-0.5 max-sm:hidden" />
                     </>
                   )}
                   <ToolbarButton
@@ -744,7 +761,7 @@ const Editor = forwardRef<
                     tooltip="Larger text"
                     disabled={internalFontSize >= 32}
                   />
-                  <div className="w-px h-4 bg-white/20 mx-0.5" />
+                  <div className="w-px h-4 bg-white/20 mx-0.5 max-sm:hidden" />
                   <ToolbarButton
                     onClick={handleCopy}
                     icon={copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}

@@ -217,8 +217,9 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 Add syllabuses
               </h2>
               <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-3 max-w-lg leading-relaxed">
-                Tick the NESA syllabuses you teach. You can add more at any time from the curriculum
-                tools.
+                {/* Students meet this on their first sign-in too, and were
+                    asked for the syllabuses they teach. */}
+                Tick the NESA syllabuses you study or teach. You can add more at any time.
               </p>
             </div>
           </div>

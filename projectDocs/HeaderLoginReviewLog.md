@@ -449,3 +449,70 @@ and `check:eager-chunks` after a build; Chromium e2e for the evaluation flow,
 paywall, report column, modal scroll, light theme, accessibility and
 no-clipped-text; screenshots of the modal in both themes at 1280px and at
 390px, of the report, and of the exported PDF before and after.
+
+## PR #282 — A new student's first five minutes, on a phone
+
+The brief: keep going on the most valuable improvements. The live site was
+being checked on a phone, so this pass walks a new student account through
+the whole journey at 390px (an iPhone 13) — sign in, the agreement, the quick
+start, adding syllabuses, choosing a question, writing, marking — in both
+themes, and fixes what got in the way.
+
+**Bug — accepting the agreement switched a light-theme device to dark.** A
+new profile's preferences defaulted to `theme: 'dark'`, and the first profile
+write (accepting the agreement) applied it over the theme the student had
+just chosen on the sign-in page. In Supabase mode the same default applied on
+every sign-in until a theme was saved from the profile. An unset theme now
+comes from the one the device is showing; a stored one still wins.
+
+**Bug — every new account's first action ended in a warning.** The
+first-run import pre-ticks the built-in sample courses and the Heredity
+topic, but the topic targets "HSC Biology" and the sample course is "HSC
+Biology (Advanced)". So pressing "Add 3 syllabuses" reported "Imported 2
+items. One topic was left out because the course it belongs to is not in
+your workspace", about a topic the student never chose. A topic is now only
+ticked to begin with when its course is ticked too
+(`untickUnplaceableTopics`). The result names what was added — "Added 2
+syllabuses" — rather than "items".
+
+**Toasts arrive at the top on a phone.** Since PR #281 a toast shows over a
+modal, and full-width at the foot of the screen it sat over the agreement's
+tick box and the quick start's "Start writing" for its whole life — the first
+two screens a new account sees. Below `sm` toasts now drop in at the top,
+over the app bar, where a phone's own notices arrive. From `sm` they stay
+bottom-left.
+
+**The connection dot is gone from phones while all is well.** The green
+"healthy" dot sat permanently over the answer being written at 390px, and
+tells a student nothing to act on. The degraded state still shows at every
+width.
+
+**The writing toolbar fits a phone.** It scrolled sideways at 360px and 390px
+with nothing to say so, and the focus-mode button at its end was cut in half.
+The Exam button's "Plus" chip is a lock alone below `sm`, and the bar is
+tighter there with no hairline separators. It now fits from 360px (only a
+320px screen still scrolls, by 16px).
+
+**Copy.** The syllabus picker asked students for "the NESA syllabuses you
+teach"; it says "you study or teach".
+
+**Looked at and left.** A full-page capture of the home screen was 470px
+wide, which looked like sideways scrolling. It is the navigator's deliberate
+`-mx-24 px-24` gutter (App.tsx explains why), and `overflow-x: clip` on the
+page means nothing scrolls. The prompt card's outcome footer is roomy on a
+phone but not broken.
+
+**Correction to PR #281.** Its log and PR description said Chromium e2e ran
+25 of 25 locally. That run never started: without
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` the browser failed to launch, and the
+exit code read was `tail`'s. #281's e2e evidence is CI's E2E job, which passed
+on the merged head; the PR description has been corrected.
+
+**Checked:** `npm run test:all` (new `firstRunImportSelection.test.ts`; new
+cases in `authService.test.ts` and `apiHealthIndicator.test.tsx`),
+`check:bundle` and `check:eager-chunks` after a build; Chromium e2e with the
+executable path set, 49 of 49 (workspace chrome, no-clipped-text, light theme,
+accessibility, evaluation flow, quota, agreement gate, paywall, report column,
+modal scroll); the phone journey captured
+before and after in both themes; the editor bar measured at 320, 360, 390
+and 430px.

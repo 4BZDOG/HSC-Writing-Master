@@ -135,4 +135,23 @@ describe('mapProfileToUser', () => {
     expect(user.preferences).toBeDefined();
     expect(user.stats.streakDays).toBeGreaterThanOrEqual(1);
   });
+
+  /**
+   * A fixed `theme: 'dark'` default turned a light-theme device dark on its
+   * first profile write — accepting the agreement — overriding the choice the
+   * student had just made on the sign-in page.
+   */
+  it('takes an unset theme from the device, and a stored one from the profile', () => {
+    localStorage.setItem('hsc-ai-evaluator-theme', 'light');
+    try {
+      expect(mapProfileToUser('learner@example.com', null).preferences.theme).toBe('light');
+      expect(
+        mapProfileToUser('learner@example.com', { preferences: { theme: 'dark' } }).preferences
+          .theme
+      ).toBe('dark');
+    } finally {
+      localStorage.removeItem('hsc-ai-evaluator-theme');
+    }
+    expect(mapProfileToUser('learner@example.com', null).preferences.theme).toBe('dark');
+  });
 });
