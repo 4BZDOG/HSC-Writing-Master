@@ -109,7 +109,7 @@ only live deployment.
 for report column, workspace chrome, accessibility and the evaluation flow, and
 screenshots of the header and open tools menu at 320, 360 and 1280px.
 
-## PR 4 — AI waits that draw the work, teach something, and tell the truth about time
+## PR #276 — AI waits that draw the work, teach something, and tell the truth about time
 
 The brief: make the AI loading spinners and the glowing background more
 elegant, detailed, varied, engaging, informative and whimsical.
