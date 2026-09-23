@@ -39,7 +39,7 @@ layout; it had a different mark and wordmark. Errors use `role="alert"`.
 (agreement gate, axe on sign-in, light theme, workspace chrome), production
 build and `check:bundle`. Deployed to GitHub Pages by the merge.
 
-## PR 2 — One field, one button, and errors that say what actually went wrong
+## PR #274 — One field, one button, and errors that say what actually went wrong
 
 **Bug — every sign-in failure blamed the password.** `supabaseLogin` turned
 every Supabase error into "Invalid username or password", so a student who was
