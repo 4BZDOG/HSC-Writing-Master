@@ -1525,7 +1525,10 @@ const App: React.FC = () => {
         </div>
       )}
       <ApiStatusIndicator />
-      <ApiHealthIndicator />
+      {/* Signed-in only. The dot reports on the AI connection, which nobody on
+          the sign-in page can use yet — and at phone width it sat on top of
+          the disclaimer and the demo-account chips. */}
+      {user && <ApiHealthIndicator />}
     </div>
   );
 };

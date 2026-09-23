@@ -12,9 +12,9 @@ import BandLadderMark from './BandLadderMark';
  * different-looking app from the one they signed up to. One component means
  * one brand.
  *
- * `headingLevel` because sign-in's wordmark is the page's `<h1>`, and the reset
- * page's own card carries the task heading — the wordmark stays the `<h1>` on
- * both, so the card headings are `<h2>` either way.
+ * The wordmark is the page's `<h1>` on every signed-out screen, so the task
+ * heading inside each card ("Create your account", "Choose a new password")
+ * is an `<h2>`.
  */
 const AuthBrand: React.FC<{ tagline?: React.ReactNode }> = ({ tagline }) => (
   <div className="text-center mb-10 sm:mb-12 relative z-10 animate-fade-in">

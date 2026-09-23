@@ -102,4 +102,31 @@ describe('LoginPage sign-in', () => {
     expect((screen.getByLabelText(/username/i) as HTMLInputElement).value).toBe('teacher');
     expect((screen.getByLabelText(/^password$/i) as HTMLInputElement).value).toBe('teacher');
   });
+
+  it('names the sign-in form, and leaves focus alone on arrival', () => {
+    // Focus moves to a heading only when the card's contents CHANGE; landing on
+    // the page must not steal it.
+    render(<LoginPage onLogin={onLogin} />);
+    expect(document.activeElement).toBe(document.body);
+    expect(screen.getByRole('heading', { name: /^sign in$/i })).toBeTruthy();
+  });
+
+  it('shows the service wording for anything other than a bad password', async () => {
+    // Offline, rate-limited or unconfirmed used to be flattened into "that
+    // password does not match", sending the reader the wrong way.
+    loginMock.mockRejectedValue(
+      new Error(
+        'Could not reach the sign-in service. Check your internet connection and try again.'
+      )
+    );
+    const user = userEvent.setup();
+    render(<LoginPage onLogin={onLogin} />);
+
+    await user.type(screen.getByLabelText(/username/i), 'user');
+    await user.type(screen.getByLabelText(/^password$/i), 'user');
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
+
+    expect(await screen.findByText(/could not reach the sign-in service/i)).toBeTruthy();
+    expect(screen.queryByText(/do not match an account/i)).toBeNull();
+  });
 });
