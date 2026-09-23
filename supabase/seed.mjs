@@ -13,7 +13,17 @@
 //        export SUPABASE_URL="https://<project>.supabase.co"
 //        export SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
 //        export SEED_ADMIN_ID="<uuid of an existing admin profile>"  # optional
-//   4. node supabase/seed.mjs
+//   4. npm run content:check   # the files must be canonical — see below
+//   5. node supabase/seed.mjs
+//
+// The files are uploaded AS THEY ARE, so run `npm run content:canonicalise`
+// after editing anything under public/courseData/ (CI fails until you do). It
+// re-derives every sample answer's `band` from its mark — the paywall below
+// (`sample_answer_withheld`) reads the STORED band, and 675 shipped bands had
+// drifted from the one the app shows — and writes the command verb for any
+// question that had none, listing each so you can confirm the guess. Re-running
+// this seed then updates rows already in the database, since it upserts on
+// legacy_id.
 //
 // The manifest at courseData/manifest.json decides which files load. Files of
 // type "course" are imported as full courses; "topic" entries are skipped here

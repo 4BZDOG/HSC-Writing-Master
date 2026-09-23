@@ -162,7 +162,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   }
                 ]
               }
@@ -198,7 +199,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-1-6",
-                        "band": 6,
+                        "band": 5,
                         "answer": "A control group (e.g., bacteria treated with water/saline) is essential to provide a baseline for comparison. It ensures that any observed inhibition of bacterial growth is due to the antibiotic itself and not other variables like temperature or nutrient availability, thereby validifying the causal relationship.",
                         "mark": 3,
                         "source": "AI"
@@ -235,7 +236,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-2-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Firstly, repeating the experiment multiple times (e.g., 3 trials) allows for the identification of outliers and ensures results are consistent. Secondly, calculating the average of these trials smooths out random errors, providing a more representative and reliable value for enzyme activity at each temperature.",
                         "mark": 4,
                         "source": "AI"
@@ -271,7 +272,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-3-6",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Wikipedia generally has low reliability for a scientific investigation because it is open-source and can be edited by anyone, lacking formal peer review. While useful for initial background, data must be cross-referenced with reputable scientific journals or government health websites to ensure accuracy.",
                         "mark": 3,
                         "source": "AI"
@@ -312,7 +313,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   }
                 ]
               },
@@ -341,13 +343,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-5-6",
-                        "band": 3,
+                        "band": 5,
                         "answer": "A potometer is the appropriate equipment. It is designed to measure the rate of water uptake by a cut shoot, which is directly proportional to the rate of transpiration (water loss). This allows for quantitative and precise data collection compared to weighing the plant.",
                         "mark": 3,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "JUSTIFY"
                   }
                 ]
               },
@@ -378,7 +381,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-plan-inv-6-6",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Germline editing with CRISPR raises significant ethical concerns. Primarily, it involves changing the DNA of future generations who cannot provide consent. There is also the risk of 'off-target' effects creating unforeseen genetic defects. Furthermore, it raises issues of equity and eugenics, where technology might only be available to the wealthy, potentially creating a genetic divide in society.",
                         "mark": 4,
                         "source": "AI"
@@ -421,7 +424,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-1-6",
-                        "band": 3,
+                        "band": 2,
                         "answer": "When handling HCl, wear safety glasses, gloves, and a lab coat to prevent skin/eye contact. Use a dropper for precise transfer to avoid spills. If a spill occurs, neutralise immediately and inform the supervisor.",
                         "mark": 3,
                         "source": "AI"
@@ -456,7 +459,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-2-6",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Peel a thin layer of onion epidermis and place it flat on a glass slide. Add a drop of iodine stain to contrast the nucleus. Carefully lower a coverslip at a 45-degree angle using a needle to prevent air bubbles from trapping under the glass, ensuring a clear view.",
                         "mark": 3,
                         "source": "AI"
@@ -492,7 +495,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-3-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Systematic recording, such as logging initial and final burette readings in a pre-drawn table immediately, is crucial to prevent data loss or memory errors. It allows for the quick calculation of titre volumes and immediate identification of discordant results, ensuring only concordant data is used for the average, improving accuracy.",
                         "mark": 3,
                         "source": "AI"
@@ -528,7 +531,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-conduct-inv-4-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Peer-reviewed journals offer high utility for scientific depth and reliability as they undergo rigorous scrutiny by experts, though they use complex terminology. General media articles are more accessible and good for current events/context but often lack detail, may sensationalise findings, or lack citations, reducing their utility as a primary scientific source.",
                         "mark": 4,
                         "source": "AI"
@@ -570,7 +573,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-1-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Quantitative data is numerical and measurable, such as 'soil temperature is 24°C'. Qualitative data is descriptive and observational, such as 'leaves appear yellow and wilted'. Quantitative data allows for statistical analysis, while qualitative provides context.",
                         "mark": 3,
                         "source": "AI"
@@ -642,7 +645,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-3-6",
-                        "band": 6,
+                        "band": 5,
                         "answer": "A line graph is appropriate because the independent variable (time) is continuous. It effectively illustrates the trend and rate of change in heart rate (dependent variable) across the exercise period, allowing interpolation between points, whereas a bar chart suggests discrete categories.",
                         "mark": 3,
                         "source": "AI"
@@ -678,7 +681,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-4-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Acknowledging sources via referencing is critical to avoid plagiarism (intellectual theft). It also upholds scientific integrity by allowing other researchers to locate the original studies, verify the data, and assess the credibility of the information used to support arguments.",
                         "mark": 3,
                         "source": "AI"
@@ -715,7 +718,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-process-data-5-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Aboriginal peoples have used 'cool burns' (cultural burning) for thousands of years to manage country. These low-intensity fires reduce fuel loads and promote germination of specific plant species without destroying the canopy or killing animals. Modern science has examined this knowledge, recognizing its superiority over intense hazard reduction burns for maintaining biodiversity and preventing catastrophic wildfires, leading to its integration into current land management strategies.",
                         "mark": 4,
                         "source": "AI"
@@ -757,7 +760,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-1-6",
-                        "band": 3,
+                        "band": 2,
                         "answer": "As temperature increases, enzyme activity increases quantitatively due to higher kinetic energy causing more collisions. This peaks at the optimum temperature. Beyond this, activity rapidly decreases to zero as the enzyme's protein structure denatures, a qualitative change in the active site shape.",
                         "mark": 3,
                         "source": "AI"
@@ -793,7 +796,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-2-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "An outlier (e.g., a stunted plant) might occur due to experimental error (e.g., missed watering) or biological variation (genetic mutation/disease). It should be analysed; if identified as a procedural error, it can be excluded from the average to prevent skewing the trend, but it must be noted in the report.",
                         "mark": 3,
                         "source": "AI"
@@ -829,7 +832,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-3-6",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Universal indicator paper is limited by subjective colour interpretation and low resolution (often whole integers), leading to high uncertainty. A digital pH probe provides an objective, precise decimal reading (e.g., pH 7.2), significantly reducing measurement error. Thus, paper is limited to qualitative estimates, while probes are required for accurate quantitative analysis.",
                         "mark": 3,
                         "source": "AI"
@@ -865,7 +868,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-4-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Validity refers to whether the experiment actually tests the hypothesis (i.e., are variables controlled so only the independent affects the dependent?). Reliability refers to the consistency of the results upon repetition. An experiment can be reliable (consistent wrong results) without being valid (measuring the wrong thing).",
                         "mark": 3,
                         "source": "AI"
@@ -901,7 +904,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-analyse-data-5-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "The trend indicates a direct correlation. Interpretation via natural selection: Antibiotics act as a selection pressure. Bacteria with random mutations conferring resistance survive and reproduce, while susceptible ones die. Frequent use accelerates this process, increasing the allele frequency for resistance. Conclusion: Overuse of antibiotics drives the evolution of resistant bacterial populations.",
                         "mark": 4,
                         "source": "AI"
@@ -1020,7 +1023,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "PREDICT"
                   }
                 ]
               },
@@ -1087,7 +1091,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-problem-solve-4-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Scientific knowledge like evolution is not dogma; it is testable via observation (e.g., fossil records, DNA sequencing) which supports the theory. It is also contestable; if new evidence (e.g., a fossil in the wrong strata) contradicted it, the theory would be revised. This capacity for testing and revision is what distinguishes science from belief systems.",
                         "mark": 3,
                         "source": "AI"
@@ -1130,7 +1134,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-1-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Peer review involves independent experts in the field scrutinising a study's methodology and data before publication. This process filters out flawed science, identifies bias, and ensures conclusions are supported by evidence, thereby upholding the integrity and credibility of scientific knowledge.",
                         "mark": 3,
                         "source": "AI"
@@ -1165,13 +1169,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-2-6",
-                        "band": 3,
+                        "band": 5,
                         "answer": "A pie chart is the most appropriate visual medium. It effectively displays proportional data as 'slices' of a whole (100%), allowing for an immediate visual comparison of the relative contribution of different food sources to the total diet.",
                         "mark": 3,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "JUSTIFY"
                   }
                 ]
               },
@@ -1201,7 +1206,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-communicate-3-6",
-                        "band": 4,
+                        "band": 3,
                         "answer": "*Homo sapiens* (or Homo sapiens underlined if handwritten).",
                         "mark": 2,
                         "source": "AI"
@@ -1285,14 +1290,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-1-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "DNA contains the sugar deoxyribose and the nitrogenous base Thymine, whereas RNA contains the sugar ribose and the base Uracil (replacing Thymine). Structurally, DNA is a double-stranded helix designed for long-term storage of genetic information, while RNA is typically single-stranded and shorter-lived, serving functional roles in protein synthesis.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-1-3",
-                        "band": 3,
+                        "band": 2,
                         "answer": "DNA is double stranded and RNA is single stranded. DNA has Thymine but RNA has Uracil instead.",
                         "mark": 2,
                         "source": "AI"
@@ -1338,7 +1343,7 @@
                         "id": "sa-b90e43c1-4d95-462f-a20a-55c1946b0b31",
                         "answer": "Polypeptide synthesis, a core process in gene expression, begins with transcription. The DNA template strand serves as a guide for RNA polymerase, which unwinds the DNA and synthesises a complementary mRNA molecule using free-floating RNA nucleotides, incorporating uracil. The mRNA, carrying the genetic code, then exits the nucleus to the cytoplasm, demonstrating its crucial role as an information intermediary. During translation, ribosomes, comprising ribosomal ribonucleic acid (rRNA), attach to the mRNA. The start codon (AUG) on the mRNA signals the initiation of polypeptide synthesis. Subsequently, specific tRNA molecules, each carrying a particular amino acid, bind to their complementary mRNA codons. The ribosome then catalyses the formation of peptide bonds between adjacent amino acids, a critical mechanism for building the polypeptide chain. This process continues until a stop codon is encountered, releasing the complete polypeptide. The significance of codons in dictating the amino acid sequence, coupled with precise peptide bond formation, ensures the accurate synthesis of a functional polypeptide, as clearly demonstrated in a practical modelling investigation. This interrelationship among components is vital.",
                         "mark": 5,
-                        "band": 5
+                        "band": 4
                       }
                     ],
                     "question": "ANALYSE the interconnected roles of the template strand, RNA polymerase, mRNA, ribosomes (containing rRNA), tRNA, and amino acids in the accurate synthesis of a polypeptide, referencing the significance of codons and peptide bond formation, as would be demonstrated in a practical modelling investigation.",
@@ -1404,14 +1409,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-2-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "During translation, tRNA acts as an adaptor molecule. It carries specific amino acids to the ribosome. The tRNA's anticodon binds complementary to the mRNA codon, ensuring that the amino acids are added in the correct order specified by the genetic code to form a polypeptide chain.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-2-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "tRNA brings the amino acids to the ribosome so they can be joined together.",
                         "mark": 1,
                         "source": "AI"
@@ -1448,14 +1453,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-3-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "During mRNA processing, non-coding regions (introns) are removed. Alternative splicing allows the remaining coding regions (exons) to be joined in various combinations. This results in different mature mRNA sequences from the same primary transcript, each translating into a distinct protein isoform, thereby increasing the diversity of the proteome.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-3-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Alternative splicing is when the gene cuts out parts called introns and keeps exons. Different exons can be put together to make different proteins.",
                         "mark": 1,
                         "source": "AI"
@@ -1498,13 +1503,14 @@
                       },
                       {
                         "id": "sa-heredity-4-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "mRNA: TAC GGC ATT\nAmino Acids: Tyr - Gly - Ile\n(Incorrect: transcribed the coding strand directly instead of creating the mRNA equivalent which matches coding strand with U subbed for T).",
                         "mark": 1,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   }
                 ]
               },
@@ -1543,7 +1549,7 @@
                         "id": "sa-e5c27a8a-3f16-4e6c-a979-d2b79f717952",
                         "answer": "The intricate relationship between a protein's structural levels and its biological function is exemplified by haemoglobin, an oxygen-transport protein. Its **primary structure** is the unique linear **amino acid sequence** of its **polypeptide** chains, linked by covalent **peptide bonds**. This genetically encoded sequence **determines** all subsequent folding. **Consequently**, local folding occurs, forming **secondary structures** such as **alpha-helix** and **beta-pleated sheet** motifs, which are stabilised by **hydrogen bonds** between the backbone atoms of the amino acids.\n\nNext, the overall three-dimensional folding of each single **polypeptide** chain establishes the **tertiary structure**. For haemoglobin, this complex shape is stabilised by interactions between amino acid side chains, including **hydrophobic interactions** (non-polar groups clustering internally), **hydrophilic interactions** (polar groups facing the aqueous environment), **ionic bonds**, and covalent **disulfide bridges**. This specific 3D shape is critical for its biological role.\n\nHaemoglobin further exhibits **quaternary structure**, where four individual **polypeptide** subunits (two alpha and two beta globin chains) associate. These subunits are held together by various non-covalent interactions, including **hydrogen bonds**, **ionic bonds**, and **hydrophobic interactions**. The final precise **protein structure**, particularly its **quaternary structure**, **results in** the formation of four distinct binding sites for oxygen. This specific conformation **determines** haemoglobin's crucial **protein function** in efficiently binding and transporting oxygen throughout the body. Any significant alteration to this intricate folding, such as through **denaturation**, would compromise its specific function.",
                         "mark": 7,
-                        "band": 5
+                        "band": 3
                       }
                     ],
                     "question": "Explain, using a specific example, the intricate relationship between a protein's primary, secondary, tertiary, and quaternary structural levels and its specific biological function.",
@@ -1608,14 +1614,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-5-6",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Proteins function as biological catalysts; for example, the enzyme Amylase speeds up the breakdown of starch into sugars during digestion. They also provide structural support; Collagen is a fibrous protein that gives strength and elasticity to skin and connective tissues.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-5-3",
-                        "band": 3,
+                        "band": 1,
                         "answer": "Proteins act as enzymes to speed up reactions, like in the stomach. They also help build parts of the body like muscles.",
                         "mark": 2,
                         "source": "AI"
@@ -1659,7 +1665,7 @@
                         "id": "sa-713da4a4-1f9b-4616-a065-cd1876b8ca47",
                         "answer": "The DNA sequence of the 'Amylase-A' gene determines an individual's **genotype** for starch digestion. Protein synthesis is crucial as it links this **DNA sequence** to the observable digestive **phenotype**. Initially, in the **nucleus**, the 'Amylase-A' **gene** undergoes **transcription**, where its **DNA sequence** is copied into a messenger RNA (**mRNA**) molecule. This is the first step of the **central dogma**. The **mRNA** then exits the **nucleus** and enters the **cytoplasm**, where it binds to **ribosomes** for **translation**. During **translation**, **codons** on the **mRNA** are recognised by complementary **anticodons** on **tRNA** molecules, each delivering a specific **amino acid**. **As a result**, these **amino acids** are sequentially joined to form a linear **polypeptide** chain. This **polypeptide** subsequently folds into a precise three-dimensional **protein structure**, forming the active amylase **enzyme**. **Therefore**, the accuracy of this entire process, from **DNA sequence** to correct **protein structure**, is paramount. **Consequently**, a functional amylase **enzyme** efficiently breaks down starch, leading to a specific digestive **phenotype**. Conversely, if a mutation in the **gene** alters the **DNA sequence**, it can lead to incorrect **amino acids**, an improperly folded or non-functional **enzyme**, **because** the **protein structure** is compromised. This directly impacts the individual's ability to digest starch, manifesting in an altered digestive **phenotype**.",
                         "mark": 5,
-                        "band": 5
+                        "band": 3
                       }
                     ],
                     "question": "Explain the crucial role of protein synthesis in the relationship between the DNA sequence of the 'Amylase-A' gene and an individual's observable digestive phenotype.",
@@ -1725,14 +1731,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-6-6",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Hydrangeas demonstrate that phenotype is not solely determined by genotype. While the plant has genes for flower pigments, the soil pH determines the colour. In acidic soil (pH < 6), aluminium is available, turning flowers blue. In alkaline soil (pH > 7), flowers appear pink. Thus, the environment significantly influences the physical expression of the trait.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-6-3",
-                        "band": 2,
+                        "band": 3,
                         "answer": "Hydrangeas change colour depending on the soil. If the soil is different, the flowers look different.",
                         "mark": 1,
                         "source": "AI"
@@ -1766,7 +1772,7 @@
                         "id": "sa-0ee2cf56-aa38-4bfe-a21f-451c1a1c2644",
                         "answer": "A controlled scientific investigation could demonstrate the effect of temperature (independent variable) on fur colour in Himalayan rabbits. Genetically identical rabbits (controlled variables) would be raised at different temperatures, for example, 15°C and 30°C. The dependent variable would be the resulting fur colour on their extremities. If rabbits raised at 15°C develop dark fur while those at 30°C develop white fur, despite having the same genotype, this demonstrates the environment's impact on phenotype. Therefore, these differing phenotypes show that temperature influences the gene expression of the pigment-producing enzyme, demonstrating how environmental factors regulate gene expression.",
                         "mark": 3,
-                        "band": 5
+                        "band": 3
                       }
                     ],
                     "question": "Explain how a controlled scientific investigation could be designed and interpreted to demonstrate the effect of a specific environmental factor on gene expression in an organism.",
@@ -1828,7 +1834,7 @@
                         "id": "sa-6f46d97c-5a22-4eaf-a94f-e3d51b84b589",
                         "answer": "Regulatory RNA plays a critical role in controlling gene expression by modulating protein synthesis, primarily at the post-transcriptional regulation level. Two prominent types are miRNA (microRNA) and siRNA (small interfering RNA). miRNA molecules, typically 20-22 nucleotides long, bind to target messenger RNA (mRNA) sequences with imperfect complementarity, therefore inhibiting protein translation or promoting mRNA degradation. This mechanism facilitates the fine-tuning of protein levels across numerous physiological processes. Furthermore, siRNA molecules, usually 20-25 nucleotides, exhibit perfect complementarity to their target mRNA. Upon binding, they induce direct cleavage and degradation of the mRNA through the RNA-induced silencing complex (RISC), leading to potent and sequence-specific gene silencing. These mechanisms are central to RNA interference (RNAi).\n\nThis comprehensive understanding has paved the way for significant biotechnological application in addressing a range of disorders. RNA interference therapy, for instance, leverages the natural gene silencing pathways by introducing synthetic siRNA molecules. These therapeutic RNAs are designed to target and degrade the mRNA of disease-causing genes, such as an overexpressed oncogene. However, challenges like efficient delivery and potential off-target effects still exist. Despite this, the precise manipulation of pathogenic gene expression via RNAi offers a promising strategy for targeted therapies.",
                         "mark": 5,
-                        "band": 6
+                        "band": 5
                       }
                     ],
                     "question": "Discuss the role of regulatory RNA in gene expression and its potential biotechnological application in addressing disorders like the one described.",
@@ -1893,7 +1899,7 @@
                         "id": "sa-0157e686-8cb6-4aaf-9741-72336be18f73",
                         "answer": "Epigenetic changes profoundly influence the phenotype of organisms by modulating gene expression without altering the underlying DNA sequence. These changes, primarily DNA methylation and histone modification, control chromatin accessibility, consequently dictating which genes are active or silenced. To assess their pervasive impact, we can examine the Glucocorticoid receptor (GR) gene and the agouti gene.\n\nDNA methylation involves the addition of a methyl group to cytosine bases, typically in CpG sites, within gene promoters. This often leads to gene silencing by impeding transcription factor binding or recruiting methyl-binding proteins that compact chromatin. Histone modification, on the other hand, involves chemical tags (e.g., acetylation, methylation) added to histone proteins around which DNA is wrapped. Acetylation generally loosens chromatin, promoting gene expression, while some methylation patterns compact it, repressing expression. These mechanisms are crucial in regulating how environmental factors influence an organism's development and physiology.\n\nThe Glucocorticoid receptor (GR) gene provides a clear example in mammals. In rats, the level of maternal care (licking and grooming) early in life dictates the methylation status of the GR gene promoter in hippocampal neurons. High maternal care leads to less methylation of the GR promoter, particularly at specific CpG sites. This reduced methylation consequently allows for greater GR gene expression, resulting in more GR receptors. Organisms with high GR levels exhibit a more robust negative feedback on the stress response axis, developing a calmer, less anxious phenotype. Conversely, low maternal care results in increased methylation of the GR promoter, suppressing GR gene expression and leading to fewer GR receptors. Therefore, these individuals develop a heightened stress response and an anxious phenotype, demonstrating a lasting influence of early environmental factors on adult behaviour and stress resilience.\n\nSimilarly, the agouti gene in mice illustrates the potent influence of epigenetics on coat colour and metabolic health. The viable yellow agouti allele (A^vy) in mice, when unmethylated at a retrotransposon insertion upstream of the coding region, leads to constitutive agouti gene expression. This results in a yellow coat colour, obesity, and an increased susceptibility to diabetes – a distinct metabolic phenotype. However, maternal diet rich in methyl donors (e.g., folic acid, vitamin B12) during gestation can increase DNA methylation at this critical regulatory region of the A^vy allele in offspring. This increased methylation silences the agouti gene, leading to a brown coat colour and a lean, healthy metabolic phenotype. This demonstrates the significant impact of maternal nutrition as an environmental factor on epigenetic marks, which are then passed to offspring cells during development, shaping their heritable characteristics and lifelong health outcomes. Through these examples, it is evident that epigenetic changes act as a critical interface between an organism's genome and its environment, dynamically influencing phenotype.",
                         "mark": 8,
-                        "band": 6
+                        "band": 5
                       }
                     ],
                     "question": "Assess how epigenetic changes influence the phenotype of organisms, with specific reference to the Glucocorticoid receptor (GR) gene and the agouti gene.",
@@ -1950,7 +1956,7 @@
                         "id": "sa-2bc2e25f-dd56-4f79-b897-51a17bc2a148",
                         "answer": "Polypeptide synthesis is vital. It creates proteins which are crucial for life. These proteins primarily serve as enzymes for various metabolic functions and form essential structural components within cells.",
                         "mark": 2,
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "question": "Outline the importance of polypeptide synthesis in living things.",
@@ -2017,7 +2023,7 @@
                         "id": "sa-bf43708f-3848-49ca-ad21-7c6e4f601800",
                         "answer": "A \"gene\" is a fundamental unit of inheritance, a specific segment of \"DNA\" located at a particular \"locus\" on a \"chromosome\", coding for a specific functional product or \"trait\". For example, the \"CFTR gene\" located on chromosome 7 is responsible for regulating chloride ion transport. An \"allele\", in contrast, is a variant form of a \"gene\". Individuals inherit two \"alleles\" for each \"gene\", one from each parent, found at the same \"locus\" on \"homologous chromosomes\". For \"cystic fibrosis\", the CFTR gene has a dominant functional allele (F) and a recessive mutated allele (f) that causes the disease. The \"genotype\" is the specific combination of \"alleles\" an individual possesses for a particular \"gene\". Whereas the gene defines the potential trait, the \"genotype\" dictates its \"expression\". For \"cystic fibrosis\", possible \"genotypes\" are FF (unaffected, \"homozygous\" dominant), Ff (carrier, \"heterozygous\"), and ff (affected by \"cystic fibrosis\", \"homozygous\" recessive). Distinct from both, the \"phenotype\" is the observable characteristic resulting from this \"genotype\", such as being healthy or showing cystic fibrosis symptoms.",
                         "mark": 6,
-                        "band": 5
+                        "band": 4
                       }
                     ],
                     "question": "Distinguish between the terms 'allele', 'gene', and 'genotype', using the inheritance of a specific trait like cystic fibrosis as an example, to explain their interrelationships and distinct roles in determining an organism's characteristics.",
@@ -2079,14 +2085,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-7-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Crossing over occurs during Prophase 1 of meiosis when homologous chromosomes pair up. Segments of non-sister chromatids are exchanged/swapped. This creates new combinations of alleles on the chromosomes (recombinants) that differ from the parents, thereby increasing the genetic variation in the gametes produced.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-7-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Crossing over helps variation because the chromosomes swap parts so the offspring aren't exactly the same as the parents.",
                         "mark": 1,
                         "source": "AI"
@@ -2117,7 +2123,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-8-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Random segregation refers to the separation of homologous chromosome pairs during Anaphase I, ensuring gametes receive only one allele for each gene. Independent assortment refers to the fact that the way one pair of homologous chromosomes lines up and separates does not affect how another pair separates. Essentially, segregation is about splitting alleles, while assortment is about the random mix of maternal/paternal chromosomes.",
                         "mark": 3,
                         "source": "AI"
@@ -2160,14 +2166,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-9-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "In codominance, both alleles in a heterozygote are fully expressed, resulting in a phenotype where both traits appear distinct. For example, a Roan cow has both red and white hairs expressed simultaneously. In incomplete dominance, neither allele is dominant, resulting in a blending of the two traits to create a third, intermediate phenotype. For example, red and white snapdragons produce pink offspring.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-9-3",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Codominance is when you see both colours, like a spotted cow. Incomplete dominance is when they mix, like red and white making pink flowers.",
                         "mark": 2,
                         "source": "AI"
@@ -2203,14 +2209,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-10-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "In autosomal inheritance, traits are carried on non-sex chromosomes, so males and females have an equal chance of inheriting and expressing the trait. In sex-linked (X-linked recessive) inheritance, males are much more likely to express the trait because they are hemizygous (XY). They lack a second X chromosome to mask a recessive allele, whereas females (XX) would need two copies to express it.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-10-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Sex-linked traits show up more in men because they only have one X chromosome. Autosomal traits show up the same in men and women.",
                         "mark": 1,
                         "source": "AI"
@@ -2246,14 +2252,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-11-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Mother: X^H X^h. Father: X^H Y.\nPunnett Square shows: X^H X^H (Normal F), X^H X^h (Carrier F), X^H Y (Normal M), X^h Y (Affected M).\nThere is a 25% (1 in 4) chance of having an affected child (specifically, an affected male).",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-11-3",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Parents: Xh X and X Y.\nSquare shows one boy gets the disease gene.\nAnswer: 25% chance.\n(Genotypes not clearly defined).",
                         "mark": 2,
                         "source": "AI"
@@ -2351,14 +2357,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-12-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A pedigree identifies a recessive trait if the trait 'skips' a generation, or specifically if two unaffected parents produce an affected offspring (indicating parents were heterozygous carriers). Conversely, if two affected parents produce an unaffected offspring, the trait must be dominant, as the parents were heterozygous and passed on the recessive 'normal' alleles.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-12-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "If the trait skips a generation it is usually recessive. If it shows up in every generation it is dominant.",
                         "mark": 1,
                         "source": "AI"
@@ -2400,14 +2406,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-13-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "UV radiation carries high energy that excites electrons in DNA bases. This causes adjacent thymine bases on the same strand to form covalent bonds with each other, creating 'thymine dimers'. This distorts the DNA double helix, preventing accurate replication or transcription, often leading to frameshift or substitution mutations.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-13-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "UV radiation hits the DNA and breaks the bonds or makes the bases stick together wrong, causing a mutation.",
                         "mark": 1,
                         "source": "AI"
@@ -2446,7 +2452,7 @@
                         "id": "sa-b1443750-8591-4405-8a9d-7a1a5d4f4c3b",
                         "answer": "Mutations in coding DNA fundamentally alter protein function by modifying the genetic instructions for amino acid sequence. During transcription, the mutated DNA is copied into mRNA, which is then translated into a polypeptide chain. Point mutations involve a single nucleotide change. A substitution replaces one nucleotide with another. If this leads to a different amino acid being coded (missense mutation), it alters the primary amino acid sequence. Consequently, this can change how the polypeptide folds, impacting the secondary and tertiary protein structure. For example, a change in a crucial amino acid within an enzyme's active site could reduce its binding affinity or catalytic efficiency, resulting in impaired protein function. A nonsense substitution prematurely introduces a stop codon, leading to a truncated, non-functional protein. Frameshift mutations, caused by insertions or deletions of nucleotides (not in multiples of three), have more drastic effects. These alter the reading frame of the mRNA during translation, therefore changing every subsequent codon downstream from the mutation. This dramatically changes the entire amino acid sequence, completely re-shaping the primary protein structure. Because the amino acid sequence is vital for proper folding, these mutations often lead to severely misfolded or non-functional proteins, potentially causing denaturation or aggregation. This structural compromise directly impacts the protein's ability to perform its specific role, whether it's structural support, enzymatic activity, or transport. In summary, different mutation types in coding DNA alter the amino acid sequence, which critically dictates protein structure, ultimately modifying or completely impairing its specific protein function.",
                         "mark": 7,
-                        "band": 5
+                        "band": 3
                       }
                     ],
                     "question": "EXPLAIN how different types of mutations in coding DNA can ultimately alter the function of a protein.",
@@ -2507,7 +2513,7 @@
                         "id": "sa-919f9184-b95f-4072-87d1-0cd60326f60c",
                         "answer": "A base insertion adds a nucleotide, shifting the reading frame downstream by adding genetic information. A base deletion removes one, shifting it upstream by removing genetic information. Both cause frameshift mutations, altering subsequent codons and the polypeptide sequence.",
                         "mark": 2,
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "question": "OUTLINE how a base insertion mutation fundamentally differs from a base deletion mutation in its effect on the resulting polypeptide sequence.",
@@ -2565,14 +2571,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-14-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A missense mutation involves a base substitution that results in a different amino acid being incorporated into the polypeptide. This may alter the protein's function but the protein is still produced. In contrast, a nonsense mutation substitutes a base to create a premature 'Stop' codon. This terminates translation early, resulting in a truncated, incomplete polypeptide that is almost always non-functional. Thus, nonsense mutations typically have a more severe effect.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-14-3",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Missense changes one amino acid to another. Nonsense changes a codon to a stop signal. Nonsense is worse because the protein stops being made.",
                         "mark": 2,
                         "source": "AI"
@@ -2608,7 +2614,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-15-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Chromosomal inversion involves a segment of a chromosome breaking off, reversing its orientation (180 degrees), and reattaching to the *same* chromosome. Translocation involves a segment breaking off and attaching to a different, *non-homologous* chromosome. The distinction is that inversion affects gene order on one chromosome, while translocation moves genes to an entirely different chromosome.",
                         "mark": 3,
                         "source": "AI"
@@ -2664,7 +2670,7 @@
                         "id": "sa-cbe048d6-bdf0-4a87-864e-9da40d585456",
                         "answer": "Point mutations and chromosomal mutations both represent alterations to an organism's genetic material, however, they differ significantly in their scale, mechanisms, and overall phenotypic consequences and implications for human health.Both types of mutations affect the genotype and can be passed through heredity.Point mutations involve changes to a single nucleotide base within a gene's DNA sequence. Their primary mechanism includes substitution, where one base is swapped for another, or the insertion or deletion of a single nucleotide. An insertion or deletion can lead to a frameshift mutation, altering every subsequent codon. The consequence is often a change in a single gene's product, such as the altered haemoglobin in sickle cell anaemia due to a single base substitution.In contrast, chromosomal mutations involve large-scale alterations to chromosome structure or number. Their mechanisms typically arise from errors during cell division, such as non-disjunction, leading to aneuploidy (e.g., Trisomy 21, resulting in Down syndrome). Other mechanisms include structural changes like translocations (e.g., Philadelphia chromosome in chronic myeloid leukaemia), inversions, large deletions, or duplications of entire chromosome segments.The phenotypic consequences similarly vary. Point mutations often result in single-gene disorders, with phenotypes ranging from mild to severe depending on the gene affected, like cystic fibrosis. However, chromosomal mutations, due to their extensive changes involving multiple genes, generally lead to more severe and widespread developmental syndromes. Aneuploidy, for instance, often has profound developmental implications or can be lethal.The implications for human health are distinct. Point mutations are responsible for many hereditary diseases, impacting specific cellular processes. Whereas chromosomal mutations are often associated with severe congenital abnormalities, developmental delays, and a significant risk of conditions like cancer susceptibility, reflecting their broader impact on the entire genome and thus organismal development.",
                         "mark": 8,
-                        "band": 5
+                        "band": 3
                       }
                     ],
                     "question": "Compare point mutations and chromosomal mutations, outlining their distinct mechanisms, potential phenotypic consequences, and implications for human health.",
@@ -2730,7 +2736,7 @@
                         "id": "sa-c94be6d2-8986-4eb8-bfd2-b2f4ac37c4b9",
                         "answer": "The origin of a karyotype displaying Trisomy 21 (47, +21) can be explained by specific non-disjunction events during meiosis, which directly relate to the arrangement of chromosomes into homologous pairs. Non-disjunction refers to the failure of homologous chromosomes or sister chromatids to separate properly during cell division, resulting in aneuploidy, specifically trisomy in this case. Consequently, an individual's cells contain three copies of chromosome 21 instead of the usual two. \n\nSpecifically, non-disjunction can occur in Meiosis I. During prophase I, homologous pairs of chromosome 21 align. If this homologous pair fails to separate during anaphase I, two abnormal secondary meiocytes are formed. One will contain both homologous chromosomes 21 (an n+1 condition), and the other will lack chromosome 21 entirely (an n-1 condition). Therefore, if the resulting n+1 gamete is fertilised by a normal gamete, the zygote will have three copies of chromosome 21, leading to Trisomy 21.\n\nIn contrast, non-disjunction can also occur during Meiosis II. Following a normal Meiosis I, the secondary meiocytes typically proceed to Meiosis II where sister chromatids separate. If in one of these secondary meiocytes, the sister chromatids of chromosome 21 fail to separate during anaphase II, it results in an abnormal distribution. As a result, two types of gametes are produced from this specific secondary meiocyte: one with an extra chromosome 21 (n+1) and one lacking chromosome 21 (n-1). The other secondary meiocyte from Meiosis I would produce two normal (n) gametes. Consequently, if an n+1 gamete from Meiosis II non-disjunction is fertilised by a normal gamete, the zygote will also have the 47, +21 karyotype.",
                         "mark": 8,
-                        "band": 5
+                        "band": 4
                       }
                     ],
                     "question": "ANALYSE how the arrangement of chromosomes into homologous pairs during meiosis can explain the origin of such a karyotype, detailing the specific non-disjunction event(s) that could lead to this outcome.",
@@ -2796,14 +2802,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-16-6",
-                        "band": 5,
+                        "band": 4,
                         "answer": "A somatic mutation occurs in body cells. Its implication is limited to the individual organism, potentially causing cancer (tumour formation) or local disease, but it cannot be passed to offspring. A germline mutation occurs in the gametes (sperm/egg). While it may not affect the parent, it is heritable and will be present in every cell of the offspring. This has broader implications for the population's gene pool and evolution, as it introduces new variants (genetic diversity) or genetic diseases that can be passed down generations.",
                         "mark": 5,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-16-3",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Somatic mutations happen in the body and can cause cancer but aren't passed to kids. Germline mutations happen in sex cells so they are passed to kids and can cause genetic diseases.",
                         "mark": 2,
                         "source": "AI"
@@ -2840,14 +2846,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-heredity-17-6",
-                        "band": 5,
+                        "band": 3,
                         "answer": "SNPs are variations at a single nucleotide position in DNA that occur in at least 1% of the population. They act as genetic markers. By comparing the frequency of specific SNPs in groups of people with a disease versus those without, scientists can identify SNPs that are statistically associated with the disease. This helps locate genes responsible for the disease and assess individual risk susceptibility.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-heredity-17-3",
-                        "band": 2,
+                        "band": 1,
                         "answer": "SNPs are small changes in DNA. Scientists look for them to see if a person might get a disease.",
                         "mark": 1,
                         "source": "AI"
@@ -2888,7 +2894,7 @@
                         "id": "sa-efe9f51b-6055-4ba4-b843-db7397eb3877",
                         "answer": "Single Nucleotide Polymorphism (SNP) testing and associated SNP databases hold immense promise in diagnostic medicine, offering personalised insights into disease risk, prognosis, and therapeutic responses. However, their widespread and effective application is profoundly shaped by a range of significant limitations and constraints that demand critical consideration for both scientific validity and equitable patient care.A primary scientific limitation of SNP testing stems from challenges in data interpretation and the inherent complexity of human genetics. Many common diseases are not monogenic, but rather complex conditions manifesting as polygenic traits where multiple SNPs interact with numerous environmental factors. Consequently, the individual predictive value, or penetrance, of a single SNP for such conditions is often low, incomplete, and highly variable between individuals. Furthermore, discerning the precise functional significance of many identified SNPs, and thus establishing clear genotype-phenotype correlations, remains a considerable hurdle. This makes it difficult to distinguish between benign variations and pathogenic mutations, especially for novel discoveries. Effective bioinformatics tools and robust statistical models are crucial for sifting through vast datasets, yet the interpretive power of these tools is still evolving, posing a constraint on precise clinical utility. Therefore, translating raw SNP data into definitive, actionable diagnostic information requires a cautious and multi-faceted approach.SNP databases themselves introduce critical consideration due to prevalent population bias, which presents a major constraint on their universal applicability. Historical data collection has disproportionately focused on populations of European descent, significantly limiting the diagnostic medicine utility and generalisability of SNP panels for diverse ethnic groups. This creates profound inequities in healthcare, as disease associations and risk alleles derived primarily from one population may not apply universally, leading to misdiagnosis or missed diagnoses in underrepresented groups. Moreover, the ethical implications surrounding patient privacy and data security are paramount. Despite anonymisation efforts, the sheer volume and unique nature of personal genetic information stored in these databases present ongoing risks of re-identification, discrimination, or unauthorised access. Consequently, comprehensive genetic counselling is not merely supplementary but essential; it ensures patients fully understand not only the diagnostic insights provided by SNP testing but also the inherent limitations, uncertainties, and potential psychosocial repercussions of their genetic data.Overall judgement, while SNP testing and SNP databases offer transformative potential in diagnostic medicine, their current limitations regarding scientific interpretation, database diversity, and profound ethical implications cannot be overstated. A balanced and responsible approach, integrating robust bioinformatics methodologies, comprehensive genetic counselling, and equitable data collection strategies, is essential to mitigate these constraints and safely and effectively realise their full promise for advancing human health.",
                         "mark": 10,
-                        "band": 6
+                        "band": 5
                       }
                     ],
                     "question": "ASSESS the potential limitations and constraints of SNP testing and databases in diagnostic medicine.",
@@ -2966,14 +2972,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-1-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Type 2 Diabetes is a non-infectious disease influenced by both genetics and environment. A person may inherit genes that make them resistant to insulin or prone to obesity (genetic predisposition). However, the disease often only develops if this genetic susceptibility is combined with environmental factors such as a sedentary lifestyle and a diet high in refined sugars. It is the interaction between the genetic risk and the environmental lifestyle factors that leads to the physiological failure of blood glucose regulation.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-ni-1-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Type 2 diabetes is caused by bad diet and genes. If your parents have it, you might get it too. If you eat too much sugar, that is the environment part. Together they make you sick.",
                         "mark": 2,
                         "source": "AI"
@@ -3009,14 +3015,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-2-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Scurvy is a nutritional disease caused by a deficiency in Vitamin C, whereas Cystic Fibrosis is a genetic disease caused by a mutation in the CFTR gene. The effect of Scurvy is the breakdown of collagen leading to bleeding gums and poor wound healing, which can be reversed with diet. In contrast, Cystic Fibrosis affects the exocrine glands producing thick mucus in the lungs and digestive system, causing respiratory failure, which is chronic and cannot be cured, only managed.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-ni-2-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Scurvy is caused by no vitamin C and makes your teeth fall out. Cystic fibrosis is genetic and makes it hard to breathe. One is from food and one is from DNA.",
                         "mark": 2,
                         "source": "AI"
@@ -3053,14 +3059,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ni-3-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Aboriginal peoples traditionally grind native grasses like Kangaroo grass to make flour for bread. This practice prevents nutritional diseases because native grains are typically high in dietary fibre and have a low Glycaemic Index (GI) compared to processed white flour. A diet high in fibre and low in GI helps regulate blood sugar and reduces the risk of Type 2 diabetes and cardiovascular disease.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-ni-3-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Aboriginal people eat native grasses which are healthy. This stops them from getting sick because it is better food than junk food.",
                         "mark": 1,
                         "source": "AI"
@@ -3103,7 +3109,7 @@
                       },
                       {
                         "id": "sa-ni-4-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "The campaign was good because everyone knows the song. It told people to wear hats and sunscreen. This stopped people getting burnt, so it probably stopped some skin cancer. It was effective.",
                         "mark": 2,
                         "source": "AI"
@@ -3145,14 +3151,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-1-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Influenza is caused by a virus, which is a non-cellular pathogen. Malaria is caused by Plasmodium, which is a protozoan (microorganism). Tinea is caused by a fungus (microorganism).",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-1-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Influenza is a bacteria. Malaria is a parasite. Tinea is a fungus.",
                         "mark": 1,
                         "source": "AI"
@@ -3190,7 +3196,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-2-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Tapeworms possess a scolex (head) equipped with hooks and suckers. This adaptation allows them to firmly attach to the lining of the host's intestine, preventing them from being expelled by the body's natural peristalsis movements.",
                         "mark": 2,
                         "source": "AI"
@@ -3227,14 +3233,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-3-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Indirect contact transmission involves the transfer of pathogens via a non-living object (fomite) or environment, such as touching a contaminated door handle. In contrast, vector transmission involves a living organism (usually an insect like a mosquito) acting as a carrier to transfer the pathogen from an infected host to a new host, often injecting it directly into the blood.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-3-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Indirect is when you touch something dirty. Vector is when a mosquito bites you.",
                         "mark": 1,
                         "source": "AI"
@@ -3270,14 +3276,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-4-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "1. Collect a sample of pond water. 2. Boil half the sample for 10 minutes and leave half untreated (control). 3. Using sterile technique, innoculate one agar plate with boiled water and another with unboiled water. 4. Seal and incubate both plates at 25°C for 3 days. 5. Count and compare the number of bacterial colonies on each plate.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-4-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Boil the water then put it on a plate. Wait a few days and see if mould grows.",
                         "mark": 1,
                         "source": "AI"
@@ -3314,14 +3320,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-5-full",
-                        "band": 5,
+                        "band": 4,
                         "answer": "The innate immune response is non-specific, reacting the same way to all pathogens (e.g., inflammation), and it possesses no immunological memory of prior infections. In contrast, the adaptive immune response is highly specific, recognising unique antigens on pathogens, and it retains immunological memory (via memory B and T cells), allowing for a faster and stronger response upon re-exposure.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-5-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Innate is the first line of defence and kills everything. Adaptive takes longer but is better at killing specific bugs. Adaptive remembers the germs.",
                         "mark": 2,
                         "source": "AI"
@@ -3358,14 +3364,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-6-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The inflammatory response is a non-specific defence mechanism triggered by tissue damage. Damaged cells release histamines which cause vasodilation and increased permeability of blood vessels. This increases blood flow (heat/redness) and allows phagocytes to migrate into the tissue to engulf pathogens and debris.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-6-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Inflammation happens when you get cut. It gets red and swollen because blood goes there to fight the infection.",
                         "mark": 1,
                         "source": "AI"
@@ -3401,14 +3407,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-7-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "37°C is the optimum temperature for *E. coli* as it mimics the mammalian gut environment where they naturally thrive. At this temperature, bacterial enzymes function at their maximum rate without denaturing, facilitating rapid metabolism and cell division (binary fission), leading to maximum colony growth.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-7-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "37 degrees is body temperature. E. coli lives in guts so it grows best there because it is warm.",
                         "mark": 1,
                         "source": "AI"
@@ -3444,14 +3450,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-8-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Interleukins function as chemical messengers bridging the innate and adaptive systems. When a Macrophage (innate) presents an antigen, it releases Interleukin-1, which activates the specific Helper T Cell. The Helper T cell then releases Interleukin-2, which stimulates its own cloning and activates B cells and Cytotoxic T cells, initiating the adaptive response.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-8-half",
-                        "band": 2,
+                        "band": 3,
                         "answer": "Interleukins are chemicals that cells use to talk. The macrophage tells the T cell there is a germ using these chemicals so the T cell can start working.",
                         "mark": 1,
                         "source": "AI"
@@ -3488,14 +3494,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-9-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Cytotoxic T Cells identify body cells infected by viruses or pathogens via foreign antigens on their MHC-I markers. They bind to these cells and release chemicals like perforins that induce apoptosis (cell suicide), effectively destroying the infected cell and the pathogen inside.",
                         "mark": 2,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-9-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "Cytotoxic T cells kill cells that have viruses in them.",
                         "mark": 1,
                         "source": "AI"
@@ -3531,14 +3537,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-10-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Upon activation by a specific antigen and cytokines from Helper T cells, a B cell undergoes clonal expansion (rapid division). These clones differentiate into Plasma Cells, which mass-produce specific antibodies to fight the current infection, and Memory B Cells, which remain in the body to provide long-term immunity.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-10-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "B cells find a germ and then turn into plasma cells. The plasma cells shoot out antibodies to stick to the germs.",
                         "mark": 1,
                         "source": "AI"
@@ -3575,14 +3581,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-11-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The primary response has a significant lag phase and produces a lower concentration of antibodies as naive B cells must be activated. The secondary response is immediate, produces a much higher concentration of antibodies (logarithmic increase), and lasts longer. This difference is due to the presence of Memory B cells formed during the first exposure.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-11-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "The first time you get sick it takes a while to make antibodies. The second time, your body remembers so it makes antibodies much faster and you don't get sick.",
                         "mark": 1,
                         "source": "AI"
@@ -3619,14 +3625,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-12-full",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Active immunity involves the body's own immune system producing antibodies and memory cells in response to an antigen, providing long-term protection; for example, recovering from Chickenpox (natural). Passive immunity involves receiving pre-made antibodies from an external source, providing immediate but short-term protection without memory; for example, an injection of anti-venom after a snake bite (artificial).",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-12-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Active immunity is when you make your own antibodies, like getting sick. Passive is when you get given them, like a baby getting milk from its mum.",
                         "mark": 2,
                         "source": "AI"
@@ -3662,14 +3668,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-13-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Vaccines introduce a harmless form of a pathogen (attenuated, dead, or subunit) containing antigens into the body. This triggers the adaptive immune system to launch a primary response, producing specific antibodies and Memory B and T cells. Because the pathogen is disabled, it does not cause the disease, but the memory cells remain to provide rapid immunity upon future exposure.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-13-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Vaccines give you a weak version of the virus. Your body fights it and remembers it so next time you don't get sick.",
                         "mark": 1,
                         "source": "AI"
@@ -3705,14 +3711,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-14-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Antibiotics target bacterial structures absent in human cells, such as destroying the cell wall (e.g., Penicillin) or inhibiting protein synthesis at the ribosome. Antivirals cannot kill viruses directly as they are intracellular; instead, they inhibit stages of the viral replication cycle, such as blocking entry to the host cell or inhibiting DNA polymerase. Antibiotics are ineffective against viruses.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-14-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Antibiotics kill bacteria by breaking their walls. Antivirals stop viruses from reproducing inside cells. You can't use antibiotics for the flu.",
                         "mark": 2,
                         "source": "AI"
@@ -3750,14 +3756,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-15-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Tea Tree oil (from *Melaleuca alternifolia*) was traditionally used by Aboriginal peoples by crushing leaves into a paste to treat open wounds and skin infections. It contains active compounds like terpenes which have strong antiseptic and antifungal properties, effectively killing bacteria and preventing infection.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-15-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Tea tree oil is put on cuts to stop them getting infected. It kills bacteria.",
                         "mark": 1,
                         "source": "AI"
@@ -3793,14 +3799,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-inf-16-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Quarantine isolates individuals who are infected or suspected of exposure for a duration equal to the incubation period of the pathogen. This physically prevents contact between the host and the susceptible population, thereby breaking the chain of transmission and preventing the pathogen from spreading into the community.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-inf-16-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Quarantine keeps sick people away from healthy people so the virus doesn't spread to everyone.",
                         "mark": 1,
                         "source": "AI"
@@ -3841,14 +3847,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-1-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Epidemiology involves studying the distribution and determinants of disease. By identifying the source of an outbreak and tracking patterns of transmission (who is affected, where, and when), epidemiologists can identify risk factors. This data is used to develop evidence-based public health interventions, such as vaccination programs or travel restrictions, to control the spread.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-1-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Epidemiology studies germs to see where they come from. They help the government make rules to stop people getting sick.",
                         "mark": 1,
                         "source": "AI"
@@ -3885,14 +3891,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-2-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Analytical studies are observational; they test hypotheses about the cause of disease by analysing data relationships (e.g., smoking vs lung cancer in a cohort) without changing conditions. Experimental studies involve active intervention; the researcher manipulates a variable (e.g., giving a new drug vs a placebo) to test the efficacy of a treatment or prevention strategy.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-2-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Analytical studies look at data to find the cause, like comparing sick people to healthy people. Experimental studies are like testing a new medicine where you give it to people to see if it works.",
                         "mark": 2,
                         "source": "AI"
@@ -3928,14 +3934,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-3-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "A cohort study is an analytical, longitudinal study. It recruits two groups of people free of the disease: one group exposed to a potential risk factor (e.g., smokers) and one unexposed group. These groups are followed over time to compare the incidence of disease development, helping to establish a causal link between the risk factor and the disease.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-3-half",
-                        "band": 2,
+                        "band": 3,
                         "answer": "A cohort study follows a group of people for a long time to see if they get sick. It compares people who do something (like smoke) with people who don't.",
                         "mark": 1,
                         "source": "AI"
@@ -3971,7 +3977,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-4-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Notifiable disease reporting is a highly effective surveillance method where doctors must legally report specific diseases to health authorities. This allows for early detection of outbreaks and immediate resource allocation (e.g., contact tracing). However, it relies on symptomatic patients seeking care; it is less effective for asymptomatic diseases where under-reporting occurs. Overall, it remains the backbone of public health monitoring.",
                         "mark": 4,
                         "source": "AI"
@@ -4014,7 +4020,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-5-full",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Incidence refers to the number of *new* cases of a disease diagnosed within a specific time period (risk of contracting). Prevalence refers to the *total* number of existing cases (both new and old) in the population at a specific point in time (burden of disease).",
                         "mark": 3,
                         "source": "AI"
@@ -4099,14 +4105,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-7-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Epidemiological studies (like Doll & Hill) established a causal link between smoking and lung cancer. This data was used to implement strategies to reduce the risk factor, including high taxation, plain packaging laws, and bans on advertising. These interventions effectively reduced smoking rates and consequently lung cancer incidence.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-7-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "They found out smoking causes cancer. So the government made cigarettes expensive and put scary pictures on the packets to stop people buying them.",
                         "mark": 1,
                         "source": "AI"
@@ -4143,14 +4149,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-8-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Rosalind Franklin's work in X-ray crystallography provided crucial evidence for the double-helix structure of DNA. This understanding of DNA structure is the foundation of modern genetics, enabling the identification of genetic mutations responsible for hereditary diseases and the development of diagnostic tools and gene therapies.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-8-half",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Rosalind Franklin took photos of DNA. This helped Watson and Crick find the structure. Now we can test DNA for diseases.",
                         "mark": 1,
                         "source": "AI"
@@ -4186,7 +4192,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-9-full",
-                        "band": 5,
+                        "band": 4,
                         "answer": "A correlational relationship means two variables change together (e.g., ice cream sales and sunburns), but one does not necessarily cause the other. A causal relationship implies that a change in one variable is directly responsible for the change in the other (e.g., UV exposure causes sunburn). Determining causation requires identifying a biological mechanism.",
                         "mark": 3,
                         "source": "AI"
@@ -4230,14 +4236,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-10-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Epidemiological studies showed a 99.7% correlation between Cervical Cancer cases and the presence of HPV. Further biological research identified the mechanism: HPV integrates its DNA into host cells, disrupting tumour suppressor genes. This combination of strong statistical correlation and a confirmed biological mechanism establishes HPV as the *cause* of cervical cancer.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-10-half",
-                        "band": 2,
+                        "band": 3,
                         "answer": "HPV is a virus that is found in almost all women with cervical cancer. Because the virus is always there, scientists know it causes the cancer.",
                         "mark": 1,
                         "source": "AI"
@@ -4317,14 +4323,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-12-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Selection error occurs when the study group does not represent the population (e.g., only surveying hospital patients). Random sampling is essential as it ensures every individual has an equal chance of selection, eliminating bias. This ensures the results are representative of the wider population, significantly increasing the validity of the study.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-12-half",
-                        "band": 2,
+                        "band": 3,
                         "answer": "Random sampling is important so you don't just pick people who are already sick. It makes the test fair.",
                         "mark": 1,
                         "source": "AI"
@@ -4360,14 +4366,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-epi-13-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Measurement bias can occur due to inconsistent testing criteria. If only severe hospital cases are tested while mild cases are ignored, the data will incorrectly suggest a higher mortality rate and lower incidence than reality.",
                         "mark": 2,
                         "source": "AI"
                       },
                       {
                         "id": "sa-epi-13-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "If you don't test everyone, you don't know the real numbers.",
                         "mark": 1,
                         "source": "AI"
@@ -4410,7 +4416,7 @@
                       },
                       {
                         "id": "sa-epi-14-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "The Framingham study looked at people's hearts for a long time. It found that smoking and fatty food are bad for you. This helped doctors tell people how to stay healthy.",
                         "mark": 2,
                         "source": "AI"
@@ -4458,14 +4464,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-1-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The introduction of the Cane Toad as a biological control agent has caused significant ecosystem changes due to its lack of natural predators and toxic skin secretions. Native predators like the Northern Quoll have suffered rapid population declines due to poisoning after attempting to eat the toads (a new selection pressure). Additionally, Cane Toads outcompete native amphibians for food and habitat, altering food webs and reducing local biodiversity.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-change-1-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Cane toads were brought in to eat beetles but they became pests. They are poisonous so when animals like snakes eat them, the animals die. This has made the number of native animals go down.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4501,14 +4507,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-2-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Monoculture involves growing a single crop species over a large area, which drastically reduces local biodiversity. This lack of genetic and species diversity makes the ecosystem highly susceptible to disease outbreaks, as the pathogen can spread rapidly between identical hosts. Furthermore, it depletes specific soil nutrients, leading to soil degradation and a reliance on chemical fertilisers, negatively impacting overall ecosystem health.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-change-2-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Monoculture is growing one type of plant. This is bad because if a bug comes that eats that plant, it destroys the whole crop. It also ruins the soil because the plants use up all the nutrients.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4545,14 +4551,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-3-full",
-                        "band": 5,
+                        "band": 4,
                         "answer": "The data demonstrates a strong negative correlation between the populations. As the invasive Species B increases from 100 to 5000 individuals, the native Species A declines from 1000 to near extinction. This interpretation suggests that Species B is outcompeting Species A for resources (or preying upon it), demonstrating the destructive effect of invasive species on native abundance.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-change-3-half",
-                        "band": 3,
+                        "band": 2.5,
                         "answer": "The graph shows that when the invasive species goes up, the native species goes down. In year 1 there were lots of natives but by year 10 there are hardly any.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4632,14 +4638,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-5-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The Cassowary is a keystone species because it plays a critical role in seed dispersal that no other animal can fulfil. It eats large rainforest fruits and disperses the seeds over long distances via its scat, often aiding germination. Without the Cassowary, these plant species would fail to reproduce or disperse, leading to a collapse in the structural complexity and biodiversity of the rainforest.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-change-5-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "The Cassowary is important because it eats fruit and poops out the seeds. This helps trees grow in new places. If they weren't there, the trees wouldn't grow.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4675,14 +4681,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-change-6-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Removing the Dingo would likely cause a 'mesopredator release', leading to a population explosion of feral cats and foxes. This would result in the rapid decline or extinction of small native mammals and reptiles. Additionally, herbivore populations (like Kangaroos) would increase unchecked, leading to overgrazing and degradation of vegetation structure.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-change-6-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "If Dingos are gone, there will be more foxes and cats because nothing is eating them. Also there will be too many kangaroos eating all the grass.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4724,14 +4730,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-1-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "High genetic diversity within a species increases the probability that some individuals possess alleles allowing them to survive environmental changes (e.g., disease). This ensures the species persists. Healthy species populations maintain food webs and symbiotic relationships, thereby supporting the overall structural complexity and resilience of the ecosystem against collapse.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-1-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "Genetic diversity is having different genes. If a disease comes, some animals might survive because of their genes. This keeps the species alive, which is good for the whole ecosystem.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4768,14 +4774,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-2-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "A small gene pool, as seen in Cheetahs, is a critical threat to survival. It leads to low genetic variation, meaning the population lacks the alleles required to adapt to new selection pressures like disease. It also increases inbreeding depression, resulting in poor reproductive health. Therefore, a small gene pool significantly increases the risk of extinction.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-2-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "A small gene pool is bad because all the cheetahs are related. If they get a disease, they might all die because they are too similar. It makes it hard for them to survive.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4811,14 +4817,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-3-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Reproduction via runners (e.g., strawberries) is asexual, producing genetically identical clones of the parent with zero variation (barring mutation). In contrast, pollination is sexual reproduction involving meiosis and the fusion of gametes. This creates offspring with new allele combinations, resulting in high genetic variation within the species.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-3-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Runners make clones so the plants are exactly the same. Pollination mixes the pollen from two plants so the babies are different. Sexual reproduction creates variation.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4855,14 +4861,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-4-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "External fertilisation (e.g., coral spawning) involves releasing massive numbers of gametes into water to compensate for high predation and environmental loss, resulting in a low success rate per gamete. Internal fertilisation (e.g., humans) involves fewer gametes but offers protection from the environment and predation within the female body, resulting in a much higher success rate of fertilisation.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-4-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "External fertilisation is like fish laying eggs in water. They make lots of eggs because many get eaten. Internal is inside the body, like humans. It is safer so you don't need as many eggs.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4898,14 +4904,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-5-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Binary fission produces genetically identical offspring. In a stable environment, this ensures rapid population growth. However, in a changing environment, this lack of genetic variation is detrimental. If a new selection pressure arises (e.g., pH change), it is likely that no individuals possess the allele to survive, risking the extinction of the entire population and halting species continuity.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-5-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Binary fission makes exact copies. If the environment changes, the bacteria might all die because none of them are different enough to survive the change.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4943,14 +4949,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-6-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The Founder Effect occurs when a small group of individuals becomes isolated from a larger population to start a new colony (e.g., Darwin's finches). This small group likely carries a non-representative sample of the original gene pool. As they reproduce, the allele frequencies of the new population will drift away from the original simply due to the random nature of the founders' genetics, rather than selection pressures.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-6-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "The founder effect is when a few animals move to a new island. They only have their own genes, which might not be like the big group they came from. So the new group evolves differently.",
                         "mark": 1.5,
                         "source": "AI"
@@ -4989,7 +4995,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-7-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Gene flow involves the transfer of alleles between populations via migration. This typically introduces new alleles, increasing genetic diversity and homogenising allele frequencies between populations. In contrast, selection pressures (e.g., predation) act on existing variation. They do not introduce new alleles but change the frequency of existing ones by favouring traits that aid survival. While gene flow can be random, selection pressure causes directional change towards adaptation.",
                         "mark": 4,
                         "source": "AI"
@@ -5032,14 +5038,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-8-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "We used a bag of red and white beads to represent a gene pool, where red was dominant and white recessive. We randomly drew pairs to simulate mating and removed specific combinations to simulate selection. A limitation is that this model simplifies complex biological processes; it does not account for environmental factors, mutation rates, or the vast timescale of real evolution.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-8-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "We used coloured beads to be genes. We picked them out of a hat. A limitation is that beads aren't real animals so they don't die or reproduce for real.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5128,7 +5134,7 @@
                       },
                       {
                         "id": "sa-bio-gen-10-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "Mutation creates new genes but it happens slowly. Natural selection picks the good genes and makes them common much faster. So natural selection has a bigger effect on the numbers.",
                         "mark": 2,
                         "source": "AI"
@@ -5170,13 +5176,14 @@
                       },
                       {
                         "id": "sa-bio-gen-11-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "SNPs are small changes in DNA. As a population stays apart, they get more differences in their SNPs. This shows that they are evolving away from each other.",
                         "mark": 1.5,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   }
                 ]
               },
@@ -5206,14 +5213,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-12-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Physically, a plant may respond by reinforcing its cell walls with lignin or depositing callose at the infection site. This creates a stronger barrier to prevent the fungus from penetrating healthy cells. Chemically, the plant may produce phytoalexins or enzymes like chitinases. These compounds are toxic to the fungus or degrade its cell wall, effectively halting the infection.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-12-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "A physical response is dropping leaves that have the fungus on them. A chemical response is making poisons that kill the fungus.",
                         "mark": 2,
                         "source": "AI"
@@ -5257,7 +5264,7 @@
                       },
                       {
                         "id": "sa-bio-gen-13-half",
-                        "band": 3,
+                        "band": 4.5,
                         "answer": "Panama disease is a fungus that kills banana trees. Since all bananas are clones, if one gets sick, they all do. It is very bad for farmers.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5292,7 +5299,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-14-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Ecologically, *Phytophthora* causes severe dieback in native plants like Banksias and Jarrah, destroying habitat structure and reducing biodiversity by removing food sources for fauna. Economically, this devastates the timber industry and impacts tourism in affected areas. The pathogen is assessed as a major biological threat requiring costly management strategies to contain spread.",
                         "mark": 4,
                         "source": "AI"
@@ -5336,14 +5343,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-15-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Frogs are ideal indicator species because they have permeable skin that absorbs water and oxygen directly from the environment. This makes them highly sensitive to chemical pollutants and changes in pH. Therefore, a decline in frog population or presence of deformities provides a reliable early warning of degrading water quality before other species are affected.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-15-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "Frogs absorb water through their skin. If the water is dirty, the frogs get sick or die. So if you see lots of frogs, the water is clean.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5381,14 +5388,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-gen-16-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Species diversity ensures complex food webs and interdependence. In a diverse ecosystem, if one species declines due to environmental change, others can often fulfil its ecological niche (functional redundancy). This buffer capacity maintains ecosystem processes (like pollination or decomposition), ensuring the overall system remains stable and resilient rather than collapsing.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-gen-16-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Species diversity is important because everything is connected. If you lose one animal, the animals that eat it might die too. But if there are lots of different animals, the ecosystem can handle changes better.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5433,14 +5440,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-1-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Ecological sustainability involves managing resources to meet current needs without compromising the ability of future generations to meet theirs. It requires maintaining biodiversity and ecosystem integrity. This involves principles like the precautionary principle and ensuring that the rate of resource harvest does not exceed the rate of regeneration.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-sus-1-half",
-                        "band": 2,
+                        "band": 3,
                         "answer": "Sustainability means not using everything up. We need to save some resources for the future and not destroy the environment.",
                         "mark": 1,
                         "source": "AI"
@@ -5476,14 +5483,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-2-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Totemic systems assign a specific plant or animal as a totem to an individual or clan. This creates a spiritual responsibility of stewardship. Individuals are forbidden from eating or harming their totem. This acts as a conservation measure, ensuring that specific species are protected and never over-harvested, maintaining biodiversity and the health of Country.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-sus-2-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "A totem is an animal that is special to a person. They aren't allowed to eat it. This helps protect that animal so there are always enough of them.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5519,14 +5526,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-3-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Biosecurity inspections aim to prevent the entry of exotic pathogens and invasive species. Officers screen luggage and mail for organic matter that could carry pests (like fruit flies) or diseases (like Foot and Mouth). By stopping these vectors at the border, Australia protects its agricultural industries and native ecosystems from devastating outbreaks.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-sus-3-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "At the airport, they check your bags for food or wood. This is to stop bugs and diseases coming into Australia and making our plants and animals sick.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5569,7 +5576,7 @@
                       },
                       {
                         "id": "sa-bio-sus-4-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "When horses got the flu, they stopped moving them around and vaccinated them. This worked because the disease disappeared. It was a good plan.",
                         "mark": 2,
                         "source": "AI"
@@ -5612,7 +5619,7 @@
                       },
                       {
                         "id": "sa-bio-sus-5-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "Using poison didn't work well because there was too much cactus. But introducing the Cactoblastis moth worked really well because the caterpillars ate the cactus and cleared the land.",
                         "mark": 2,
                         "source": "AI"
@@ -5649,14 +5656,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-6-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Marine Reserves are highly effective as 'no-take' zones. By prohibiting fishing and mining, they protect habitats and allow fish to grow larger and reproduce more. This creates a 'spill-over effect', where the increased population migrates to surrounding areas, thereby maintaining biodiversity and restocking fisheries.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-sus-6-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "Marine reserves stop people from fishing. This lets the fish lay eggs and grow. It helps keep different types of fish alive in the ocean.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5744,7 +5751,7 @@
                       },
                       {
                         "id": "sa-bio-sus-8-half",
-                        "band": 3,
+                        "band": 4.5,
                         "answer": "They breed the frogs in zoos to stop them dying out. Then they put them back in the wild in special cages. It is working because the frogs are not extinct yet.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5780,14 +5787,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-sus-9-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Rising temperatures act as a selection pressure causing coral bleaching (expulsion of symbiotic algae). If heat stress persists, widespread coral death occurs. Since coral provides the structural habitat for the ecosystem, its loss will lead to a collapse in reef fish populations and a significant reduction in overall marine biodiversity.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-sus-9-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "The hot water makes the coral turn white and die. Because the fish live in the coral, they will have nowhere to live and will die too. Biodiversity will go down.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5838,14 +5845,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-1-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "The integration of bioinformatics and genetic engineering has revolutionised biotechnology by increasing precision and speed. Bioinformatics allows scientists to analyse massive biological datasets to identify specific gene sequences responsible for traits (e.g., disease resistance). Once identified, genetic engineering techniques like CRISPR-Cas9 are used to precisely modify or insert these genes into organisms. For example, in the development of mRNA vaccines, bioinformatics was used to model the viral spike protein structure rapidly, allowing genetic engineering to synthesise the specific mRNA sequence required, significantly shortening the development timeline compared to traditional methods.",
                         "mark": 5,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-mod-1-half",
-                        "band": 3,
+                        "band": 2.5,
                         "answer": "Bioinformatics uses computers to study DNA. Genetic engineering changes DNA. They work together because you need the computer to find the gene before you can cut it out and put it in something else. This helps make medicines faster.",
                         "mark": 2.5,
                         "source": "AI"
@@ -5881,14 +5888,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-2-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "In Australian agriculture, biotechnology is used to produce Bt Cotton. This transgenic crop has been genetically modified to contain a gene from the bacterium *Bacillus thuringiensis*, which produces a protein toxic to the *Helicoverpa* caterpillar pest. This application protects the crop from predation, significantly reducing the need for chemical pesticides and increasing yield.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-mod-2-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Farmers use Bt Cotton. It is a GMO that kills caterpillars because it has a bacteria gene in it. This means farmers don't have to spray as much poison.",
                         "mark": 1.5,
                         "source": "AI"
@@ -5926,14 +5933,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-3-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A Genetically Modified Organism (GMO) is any organism whose genetic material has been altered using genetic engineering techniques. A Transgenic Organism is a specific subset of GMO where the genetic modification involves the insertion of a gene from a *different* species. For example, the Flavr Savr tomato was a GMO where its own gene was silenced (no foreign DNA), whereas Bt Cotton is transgenic because it contains a gene from a bacterium. All transgenic organisms are GMOs, but not all GMOs are transgenic.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-mod-3-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "A GMO is anything with changed DNA. A transgenic organism is when you take DNA from one animal and put it in another. For example, glowing fish have jelly fish DNA so they are transgenic. Both are types of biotechnology.",
                         "mark": 2,
                         "source": "AI"
@@ -5970,14 +5977,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-4-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Somatic gene therapy modifies DNA in body cells (e.g., lung cells for Cystic Fibrosis). These changes are restricted to the individual and are not heritable by offspring. In contrast, germline gene therapy modifies DNA in gametes or early embryos. These changes are integrated into every cell of the developing organism and are heritable, passing the modification to future generations and altering the gene pool.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-mod-4-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "Somatic therapy changes body cells so the kids don't get the change. Germline therapy changes the sperm or egg, so the babies will have the new genes.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6013,7 +6020,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-mod-5-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Computer modelling is critically important in modern drug development. 'In silico' simulations allow researchers to predict how a potential drug molecule will interact with a target protein (e.g., docking simulations) before physical synthesis. This drastically reduces the time and cost associated with traditional trial-and-error methods by filtering out ineffective candidates early. Therefore, modelling acts as a vital screening tool that accelerates the pipeline from discovery to clinical trials.",
                         "mark": 4,
                         "source": "AI"
@@ -6063,14 +6070,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-1-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "To diagnose Cystic Fibrosis, DNA is extracted and PCR is used to amplify the specific region of the CFTR gene where the mutation (e.g., delta-F508 deletion) occurs. The amplified DNA is then run on Gel Electrophoresis. Since the mutant allele has a deletion (missing base pairs), it is lighter and travels further than the normal allele. By comparing the banding pattern to a normal control, the presence of the genetic defect can be confirmed.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-dis-1-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "PCR makes lots of copies of the DNA. Then you use gel electrophoresis to separate the DNA. If the person has Cystic Fibrosis, their DNA will look different on the gel compared to a healthy person because the gene is broken.",
                         "mark": 2,
                         "source": "AI"
@@ -6106,14 +6113,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-2-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "NCBI GenBank is highly valuable as a centralised, open-access repository of genetic sequences. It allows researchers globally to compare patient DNA against reference genomes to identify new mutations. It also enables the statistical analysis of disease prevalence across different populations, facilitating targeted public health strategies and accelerating the development of treatments.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-dis-2-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "GenBank is good because it stores lots of DNA information. Doctors can use it to see if a gene is normal or not. It helps scientists share their work.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6149,7 +6156,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-3-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Genetic screening for BRCA1/2 offers the significant benefit of early risk identification. Positive results empower individuals to take preventative action, such as increased monitoring or prophylactic mastectomy, significantly reducing mortality. However, risks include severe psychological distress and anxiety upon receiving a positive result. There are also ethical concerns regarding genetic privacy and the potential for life insurance discrimination based on pre-existing genetic risks.",
                         "mark": 4,
                         "source": "AI"
@@ -6192,14 +6199,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-4-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Luxturna treats inherited retinal dystrophy caused by mutations in the RPE65 gene. The method involves injecting a modified viral vector containing a functional copy of the RPE65 gene directly into the retina. The outcome is that retinal cells begin producing the missing enzyme, halting tissue degeneration and significantly improving or restoring vision in patients.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-dis-4-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "They use a virus to put a good gene into the eye. This fixes the broken gene so the person can see better again.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6237,14 +6244,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-5-full",
-                        "band": 3,
+                        "band": 2,
                         "answer": "1. The human insulin gene is isolated. 2. A bacterial plasmid is cut using the same restriction enzyme to create sticky ends. 3. The insulin gene and plasmid are joined using DNA ligase to form recombinant DNA. 4. The plasmid is inserted into a bacterium (Transformation). 5. The bacteria are cultured in fermentation tanks, where they reproduce and synthesise the human insulin protein, which is then extracted and purified.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-dis-5-half",
-                        "band": 3,
+                        "band": 1,
                         "answer": "You take the insulin gene from a human. You cut a plasmid ring from a bacteria. You stick the gene into the plasmid with glue. Then you put it back in the bacteria. The bacteria grows and makes insulin.",
                         "mark": 2,
                         "source": "AI"
@@ -6287,7 +6294,7 @@
                       },
                       {
                         "id": "sa-bio-dis-6-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "Monoclonal antibodies attach to cancer cells and help the immune system kill them. The data shows that people live longer when they use them. It is better than chemo because it doesn't make you as sick.",
                         "mark": 2,
                         "source": "AI"
@@ -6323,14 +6330,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-7-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Sickle Cell Anaemia is caused by a single point mutation. Currently, treatments manage symptoms. Future CRISPR applications aim to extract patient stem cells, edit the DNA to correct the mutation or reactivate fetal haemoglobin production, and re-implant them. This offers the potential for a one-time, permanent functional cure, replacing lifelong palliative care.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-dis-7-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "CRISPR can cut the DNA and fix the bad gene that causes Sickle Cell. This would mean the person is cured forever and doesn't need medicine anymore.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6366,7 +6373,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-8-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Gene therapies (e.g., Luxturna) often cost hundreds of thousands of dollars due to research costs. This creates a significant ethical issue of equity; treatment becomes a privilege of the wealthy rather than a human right. This could exacerbate existing socioeconomic health disparities. Therefore, the current model is ethically flawed unless governments subsidise access to ensure justice for all patients.",
                         "mark": 4,
                         "source": "AI"
@@ -6409,14 +6416,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-dis-9-full",
-                        "band": 5,
+                        "band": 3,
                         "answer": "PCR diagnoses infection by detecting and amplifying trace amounts of the pathogen's genetic material (DNA/RNA). It is highly sensitive and can detect active infection early. ELISA diagnoses infection by detecting specific proteins (antigens or antibodies) in the blood using a colour-change reaction. While PCR looks for the pathogen's code, ELISA often looks for the body's immune response to the pathogen.",
                         "mark": 4,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-dis-9-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "PCR finds the virus's DNA. It copies it so we can see it. ELISA looks for antibodies in the blood to see if you have been sick. PCR is for DNA, ELISA is for proteins.",
                         "mark": 2,
                         "source": "AI"
@@ -6459,7 +6466,7 @@
                       },
                       {
                         "id": "sa-bio-dis-10-half",
-                        "band": 3,
+                        "band": 4.5,
                         "answer": "Scientists put *Wolbachia* bacteria into mosquitoes. This stops the mosquito from spreading Dengue virus. It is good because it stops people getting sick without killing all the mosquitoes.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6502,7 +6509,7 @@
                       },
                       {
                         "id": "sa-bio-dis-11-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "mRNA vaccines can be made very fast. This helps society because people get protected sooner. This means fewer people die and businesses can open up again. It is very beneficial.",
                         "mark": 2,
                         "source": "AI"
@@ -6544,14 +6551,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-1-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "The Budj Bim eel traps demonstrate sophisticated biotechnology involving hydrological engineering. Aboriginal peoples modified water channels and built stone weirs to trap eels and create artificial pond habitats. This managed the breeding cycle and ensured a sustainable, year-round food supply, representing an early form of environmental manipulation for production.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-ag-1-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "Aboriginal people built stone traps in rivers to catch eels. They changed the water flow to keep the eels there so they could eat them later. This is biotechnology because they used living things.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6594,13 +6601,14 @@
                       },
                       {
                         "id": "sa-bio-ag-2-half",
-                        "band": 3,
+                        "band": 1.5,
                         "answer": "There are no natural bees to pollinate vanilla here. So farmers have to do it by hand with a stick. If they didn't do this, there would be no vanilla beans to sell.",
                         "mark": 1.5,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "ACCOUNT"
                   }
                 ]
               },
@@ -6637,7 +6645,7 @@
                       },
                       {
                         "id": "sa-bio-ag-3-half",
-                        "band": 3,
+                        "band": 4.5,
                         "answer": "Tissue culture grows new plants in a lab from small pieces. It is good because you can make lots of copies of a rare plant quickly. This helps stop them going extinct.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6673,14 +6681,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-4-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "eDNA analysis involves sequencing trace DNA found in soil or water samples. Bioinformatics compares these sequences against databases to identify all species present. This allows scientists to measure species richness (biodiversity) and detect the presence of invasive or endangered species without disturbing the environment, providing a comprehensive snapshot of ecosystem health.",
                         "mark": 3,
                         "source": "AI"
                       },
                       {
                         "id": "sa-bio-ag-4-half",
-                        "band": 3,
+                        "band": 3.5,
                         "answer": "Scientists take water samples and test the DNA in it. Computers match the DNA to animals. This tells them what lives there without having to catch them. If there are lots of different animals, the ecosystem is healthy.",
                         "mark": 1.5,
                         "source": "AI"
@@ -6722,13 +6730,14 @@
                       },
                       {
                         "id": "sa-bio-ag-5-half",
-                        "band": 3,
+                        "band": 2,
                         "answer": "They sequence the DNA of Tasmanian Devils to see their genes. This helps them pick which ones should have babies together. They want to mix the genes up as much as possible so the babies are healthy and might survive the cancer.",
                         "mark": 2,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "ACCOUNT"
                   }
                 ]
               },
@@ -6758,7 +6767,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-6-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Golden Rice is biofortified with Vitamin A. The benefit is humanitarian: it addresses severe deficiency in developing nations, potentially preventing blindness and death in millions of children. However, ethical implications include concerns over corporate control of the food supply (patents), potential allergic reactions, and the risk of cross-pollination affecting traditional rice varieties (biodiversity loss).",
                         "mark": 4,
                         "source": "AI"
@@ -6808,7 +6817,7 @@
                       },
                       {
                         "id": "sa-bio-ag-7-half",
-                        "band": 3,
+                        "band": 4,
                         "answer": "If the big GM salmon escape, they will eat all the food because they are bigger. They might push the normal salmon away. This is bad for the environment because the normal salmon might die out.",
                         "mark": 2,
                         "source": "AI"
@@ -6844,7 +6853,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bio-ag-8-full",
-                        "band": 6,
+                        "band": 5,
                         "answer": "Economically, Bt Cotton is highly attractive to farmers because it reduces the cost of pesticides and increases yield, driving widespread uptake. Socially, there is less resistance to GM cotton compared to food crops because it is a fibre, not ingested. Therefore, economic factors act as a strong positive driver, while the specific social context (non-food) minimises barriers, leading to over 90% adoption in Australia.",
                         "mark": 4,
                         "source": "AI"

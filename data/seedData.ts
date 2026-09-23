@@ -101,10 +101,10 @@ export const preseededCourses: Course[] = [
                       'genetic continuity',
                       'proofreading',
                     ],
-                    markingCriteria: `- 1-2 marks: Basic identification of replication purpose or key enzyme
-- 3-4 marks: Describes the process with some detail (unwinding, base pairing)
-- 5-6 marks: Explains semi-conservative nature and role of multiple enzymes
-- 7 marks: Comprehensive explanation linking mechanism to genetic continuity with precise terminology`,
+                    markingCriteria: `7 marks: Explains how semi-conservative replication, complementary base pairing and proofreading produce identical copies of DNA, and links each to continuity of genetic information between generations, using precise terminology
+5-6 marks: Explains the semi-conservative mechanism and the roles of helicase and DNA polymerase, with a clear link to accurate copying
+3-4 marks: Describes the steps of replication (unwinding, base pairing, synthesis) with some link to continuity
+1-2 marks: Identifies a feature of replication or a key enzyme`,
                     // A sample's `band` is a cache of the Verb Gate —
                     // `getBandForMark(mark, totalMarks, verb tier)` — not a
                     // number to choose. Four of these six were written `band: 6`
@@ -120,7 +120,7 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-1',
                         band: 3,
                         answer:
-                          "DNA replication ensures genetic continuity through its **semi-conservative** mechanism, where each new DNA molecule consists of one original and one newly synthesised strand. The process begins with **helicase** unwinding the double helix, creating two template strands. **DNA polymerase** then adds complementary nucleotides (A-T, G-C) to each template in a 5' to 3' direction. On the leading strand, synthesis is continuous, while the lagging strand is synthesised discontinuously in Okazaki fragments. **DNA ligase** joins these fragments. Crucially, DNA polymerase has **proofreading** ability, correcting errors to maintain genetic fidelity. This ensures that each daughter cell receives an exact copy of the parent DNA, preserving genetic information across generations.",
+                          "DNA replication ensures genetic continuity because it produces two DNA molecules that carry the same base sequence as the original, so each daughter cell inherits identical genetic information. Replication is **semi-conservative**: **helicase** unwinds the double helix by breaking the hydrogen bonds between complementary bases, and each separated strand then acts as a template. **DNA polymerase** adds free nucleotides to each template in the 5' to 3' direction following **complementary base pairing** — adenine with thymine and cytosine with guanine — so the sequence of each new strand is dictated by the old one. Because DNA polymerase builds in only one direction, the leading strand is synthesised continuously while the lagging strand is made as Okazaki fragments, which **DNA ligase** joins into a continuous strand. Accuracy is maintained by **proofreading**: DNA polymerase detects and replaces mismatched bases, reducing errors to roughly one in a billion bases. As a result, each new molecule contains one original and one new strand with an almost identical sequence. When the cell divides by mitosis or meiosis, every daughter cell therefore receives a faithful copy of the genetic code, preserving characteristics from one generation to the next.",
                         mark: 7,
                         // Fixed: Added missing source property
                         source: 'AI',
@@ -140,6 +140,13 @@ export const preseededCourses: Course[] = [
                     question: 'Describe the key steps involved in DNA replication.',
                     totalMarks: 4,
                     verb: 'DESCRIBE',
+                    // The question every new account opens first. It was the
+                    // one shipped question with no marking guide, so the marker
+                    // had only the verb to go on.
+                    markingCriteria: `4 marks: Describes the key steps of DNA replication in sequence — unwinding by helicase, complementary base pairing, and synthesis of new strands by DNA polymerase — using accurate terminology
+3 marks: Describes most of the key steps in sequence, with some accurate terminology
+2 marks: Outlines some steps of replication, or names the key enzymes with limited description
+1 mark: Identifies a relevant feature of DNA replication`,
                     keywords: [
                       'unwinding',
                       'helicase',
@@ -152,7 +159,7 @@ export const preseededCourses: Course[] = [
                         id: 'sa-seed-3',
                         band: 2,
                         answer:
-                          'DNA replication involves three main steps. First, the double helix **unwinds** as **helicase** breaks the hydrogen bonds between base pairs, creating two template strands. Second, **DNA polymerase** reads each template and adds complementary **nucleotides** (A with T, G with C) to build new strands. Third, these new nucleotides are joined together to form complete DNA molecules, with each final molecule containing one original and one new strand.',
+                          'DNA replication is semi-conservative and occurs in three key steps. First, the double helix **unwinds** as the enzyme **helicase** breaks the hydrogen bonds between complementary bases, exposing two template strands. Second, **DNA polymerase** moves along each template, adding free **nucleotides** by **complementary base pairing** — adenine with thymine and cytosine with guanine. Third, the new nucleotides are joined into a continuous sugar-phosphate backbone, producing two identical DNA molecules. Each molecule contains one original strand and one newly synthesised strand.',
                         mark: 4,
                         // Fixed: Added missing source property
                         source: 'AI',
@@ -201,14 +208,17 @@ export const preseededCourses: Course[] = [
                       'central dogma',
                       'gene expression',
                     ],
-                    markingCriteria: `- 6-7 marks: Analyses key components and relationships
-- 8 marks: Sophisticated analysis linking all components with detailed mechanism`,
+                    markingCriteria: `8 marks: Analyses how the base sequence of DNA determines mRNA through transcription and the amino acid sequence through translation, explaining the role of codons, tRNA and ribosomes and how the relationship expresses genetic information
+6-7 marks: Explains the relationships between DNA, mRNA and protein through transcription and translation, with some detail of the mechanism
+4-5 marks: Describes transcription and translation, with some reference to how they relate
+2-3 marks: Outlines the roles of DNA, mRNA or proteins
+1 mark: Provides a relevant fact about protein synthesis`,
                     sampleAnswers: [
                       {
                         id: 'sa-seed-4',
                         band: 4,
                         answer:
-                          "The relationship between DNA, mRNA, and protein synthesis represents the **central dogma** of molecular biology. **DNA** contains the genetic code in its sequence of nucleotides. During **transcription**, a specific gene is copied into **mRNA** by RNA polymerase, with introns removed and exons spliced together. This mRNA then travels to the cytoplasm where **translation** occurs. **Ribosomes** read the mRNA in codons (triplets of nucleotides), each specifying a particular **amino acid**. tRNA molecules bring the correct amino acids, which are joined together to form a polypeptide chain that folds into a functional **protein**. Thus, DNA's information is transcribed into mRNA and then translated into protein, creating the direct link between genotype and phenotype.",
+                          "DNA, mRNA and proteins are linked in a directional relationship — the **central dogma** — in which the base sequence of DNA determines the amino acid sequence of a protein, and so its function. The information is stored in **DNA** as a sequence of nucleotide bases within a gene. During **transcription** in the nucleus, RNA polymerase unwinds the gene and assembles a complementary **mRNA** strand from the template strand, with uracil replacing thymine. In eukaryotes the pre-mRNA is processed: introns are removed and exons spliced together, so one gene can give rise to more than one protein. The mature mRNA carries the code to the cytoplasm, protecting the DNA in the nucleus while allowing the message to be read many times. During **translation**, a **ribosome** reads the mRNA three bases at a time. Each **codon** is matched by the anticodon of a tRNA molecule carrying a specific **amino acid**, and peptide bonds join the amino acids into a polypeptide that folds into a functional **protein**. The relationship therefore has two steps with different roles: transcription selects and copies the information, and translation converts it from the language of nucleotides into the language of amino acids. Because the code is read in triplets, a change to a single DNA base can alter one codon and so one amino acid, which is why a mutation in DNA can change a protein's shape and function. In this way the three molecules connect genotype to phenotype.",
                         mark: 8,
                         // Fixed: Added missing source property
                         source: 'AI',
@@ -276,14 +286,18 @@ export const preseededCourses: Course[] = [
                       'limitations',
                       'contamination',
                     ],
-                    markingCriteria: `- 8-9 marks: Sound evaluation with clear criteria and evidence
-- 10 marks: Critical evaluation with balanced arguments and sophisticated synthesis`,
+                    markingCriteria: `10 marks: Makes a supported judgement about the significance of PCR, weighing specific applications against its limitations (contamination, primer design, error rate, need for a known sequence) with relevant examples
+8-9 marks: Makes a judgement about the significance of PCR, supported by applications and limitations
+6-7 marks: Explains applications and limitations of PCR, with an implied judgement
+4-5 marks: Describes how PCR works and some of its uses
+2-3 marks: Outlines PCR or one of its applications
+1 mark: Provides a relevant fact about PCR`,
                     sampleAnswers: [
                       {
                         id: 'sa-seed-5',
                         band: 6,
                         answer:
-                          "PCR has revolutionised biotechnology since its development in the 1980s, with **significant** applications across multiple fields. In **forensics**, PCR enables DNA profiling from minute crime scene samples, solving cold cases and exonerating the innocent. In **medicine**, it diagnoses genetic disorders and infectious diseases by detecting pathogen DNA, as seen in COVID-19 testing. **Quantitative PCR** allows precise measurement of gene expression, advancing cancer research. However, limitations exist. PCR is highly sensitive to **contamination**—a single DNA molecule can create false positives. It requires high-quality, intact DNA templates and expensive **thermocycler** equipment. Additionally, PCR amplifies specific sequences but doesn't provide functional context. Despite these limitations, its ability to generate millions of DNA copies rapidly makes PCR indispensable, though results must be interpreted alongside other molecular techniques for robust conclusions.",
+                          "PCR is one of the most **significant** tools in modern biotechnology because it makes any known DNA sequence available in useful quantities within hours, although its limitations mean its results must be interpreted with care. In PCR, a sample is cycled through **denaturation** (about 95 °C), annealing of primers (about 55 °C) and extension by heat-stable Taq polymerase (about 72 °C), doubling the target sequence each cycle, so 30 cycles can produce over a billion copies.\n\nIts applications are wide and important. In **forensics**, PCR allows DNA profiles to be produced from trace samples such as a single hair root, which has solved cold cases and exonerated the wrongly convicted. In **medicine**, it detects pathogens and genetic disorders early: RT-PCR was the standard diagnostic test for COVID-19, and screening for mutations such as those causing cystic fibrosis relies on it. **Quantitative PCR** measures gene expression, supporting cancer research, and PCR underpins DNA sequencing, genetic engineering and conservation studies of endangered species.\n\nHowever, PCR has significant limitations. It is extremely sensitive to **contamination** — a single stray DNA molecule can be amplified into a false positive — so strict laboratory controls are needed. Primers can only be designed when part of the target sequence is already known, so PCR cannot find unknown genes. Taq polymerase lacks proofreading, so an early error is copied into every later cycle, and degraded samples may fail to amplify. PCR also shows that a sequence is present, not whether it is active or what it does, and **thermocycler** equipment and reagents add cost.\n\nOn balance, PCR's significance is very high. Its limitations are largely technical and are managed through controls, careful primer design and proofreading polymerases, whereas no other technique matches its speed and sensitivity. Its value is greatest when its results are confirmed with other molecular techniques, which is why it remains central to biotechnology rather than a complete answer on its own.",
                         mark: 10,
                         // Fixed: Added missing source property
                         source: 'AI',
@@ -399,8 +413,10 @@ export const preseededCourses: Course[] = [
                       'acceptor',
                       'equilibrium',
                     ],
-                    markingCriteria: `- 3-4 marks: Explains definition with basic example
-- 5 marks: Clear explanation with detailed example showing proton transfer`,
+                    markingCriteria: `5 marks: Explains the Brønsted-Lowry definitions of acids and bases as proton donors and acceptors, and uses a balanced equation to identify both conjugate acid-base pairs and the proton transfer between them
+3-4 marks: Explains the definitions and identifies conjugate pairs in an example
+2 marks: Defines a Brønsted-Lowry acid or base, or identifies a conjugate pair
+1 mark: Provides a relevant fact about acids or bases`,
                     sampleAnswers: [
                       {
                         id: 'sa-seed-6',

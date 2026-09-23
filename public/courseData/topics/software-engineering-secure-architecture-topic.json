@@ -44,7 +44,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-1a2e3a02-17b1-4586-8e0d-58d75db5973f",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Developing secure software provides several key benefits. Firstly, it ensures robust data protection by safeguarding sensitive user information, such as personal details and financial data, from unauthorised access through measures like encryption and access controls. This builds user trust and ensures compliance with privacy regulations. Secondly, it minimises the risk of cyber attacks. By following secure coding practices and implementing defensive layers, developers can reduce the software's attack surface, making it more resilient to threats like SQL injection and malware. Finally, secure development practices help in reducing vulnerabilities. By conducting regular code reviews and security testing throughout the development lifecycle, potential weaknesses are identified and patched before release, which prevents future exploitation and lowers long-term maintenance costs.",
                   "mark": 3,
                   "source": "AI"
@@ -109,21 +109,21 @@
               "sampleAnswers": [
                 {
                   "id": "sa-17810d3e-6118-4e53-aef7-7ce69c329c0b",
-                  "band": 6,
+                  "band": 5,
                   "answer": "Investing in secure software development practices is a critical, non-negotiable strategy for a new startup, and is justified by the catastrophic long-term consequences of neglect. While startups often prioritise speed to market, failing to embed security from the outset incurs a significant 'security debt'. Firstly, the cost of remediating vulnerabilities after a product has launched is exponentially higher than addressing them during development. A post-release breach requires costly emergency patching, system downtime, and forensic analysis, diverting crucial resources away from growth. Secondly, for a new startup, reputation and customer trust are its most valuable assets. A single data breach can be an extinction-level event, destroying customer confidence and making it impossible to attract new users or investors. The long-term reputational damage far outweighs the initial time and cost investment in secure coding, threat modelling, and security testing. Therefore, investing in security is not a cost, but an essential insurance policy that justifies itself by ensuring the startup's long-term viability and trustworthiness in the market.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-8eaf5cde-8b77-4c20-a0b8-74d4b824324a",
-                  "band": 2,
+                  "band": 1,
                   "answer": "A startup needs security so it doesn't get hacked. If it gets hacked it will lose all its money. So you have to spend money on security to make it safe.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-b028e51b-3b33-4cab-b905-fad04f5fb502",
-                  "band": 4,
+                  "band": 3,
                   "answer": "A startup should invest in secure software practices. This is justified because fixing a security problem after the software is released costs a lot more money and time than building it securely from the start. Also, if a new company has a data breach, customers will not trust it and the company could fail. So, it's better to spend the money early to protect the business's reputation and avoid bigger problems later.",
                   "mark": 3,
                   "source": "AI"
@@ -297,42 +297,42 @@
               "sampleAnswers": [
                 {
                   "id": "sa-3e574c04-91d7-4c56-8041-62d4d272e29e",
-                  "band": 5,
+                  "band": 3,
                   "answer": "The design and testing phases of the Software Development Life Cycle (SDLC) are fundamental to developing secure code because they embed security proactively rather than treating it as an afterthought. The design phase establishes a secure foundation, while the testing phase validates its implementation.\n\nIn the design phase, security requirements are translated into architectural controls. A key practice is 'Threat Modelling', where potential threats are identified, enumerated, and mitigated before any code is written. For example, when designing an online banking application, a threat model would identify the risk of Cross-Site Scripting (XSS) in user input fields. The design would then specify that all user-supplied data must be sanitised and encoded before being rendered on a page. Another crucial design principle is the 'Principle of Least Privilege', ensuring components and users only have the minimum level of access necessary. For instance, the application design would dictate that a standard user's session token cannot be used to access administrative functions, architecturally preventing privilege escalation attacks.\n\nThe testing phase is crucial for verifying that the security controls conceived during design are implemented correctly and for discovering any emergent vulnerabilities. This goes beyond simple functional testing. 'Penetration Testing', or ethical hacking, is a common technique where security professionals actively try to exploit the application. For example, a penetration tester might attempt SQL injection attacks on login forms to see if they can bypass authentication, thus verifying the security of the database interaction layer. Additionally, automated tools can be used for 'Static Application Security Testing' (SAST), which analyses source code for known vulnerability patterns, and 'Dynamic Application Security Testing' (DAST), which tests the running application for exploitable flaws. These testing methods provide concrete evidence of the application's security posture and ensure that the secure design was not compromised during development.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-b9821ea6-4a27-427a-8bbf-bfd10a970b42",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Good design makes software secure. The programmer should think about making the program look good and be easy to use. If the design is good, there will be no problems. Testing is when you check for bugs. You click all the buttons to see if they work. If you find a bug and fix it, the code is more secure because bugs are bad. For example, you test if the login button works.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-8e363d3c-0154-4e33-9269-0fefc50a9a91",
-                  "band": 4,
+                  "band": 3,
                   "answer": "The design and testing phases are fundamental to developing secure code because they integrate security considerations throughout the Software Development Life Cycle (SDLC), proactively preventing vulnerabilities and reactively identifying and rectifying them.\n\nDuring the design phase, security is embedded from the outset, rather than being an afterthought. This is crucial for building a robust foundation. A key activity is Threat Modelling, where potential security risks, vulnerabilities, and attack vectors are systematically identified and analysed. For example, when designing an online banking system, threat modelling might identify risks like data interception or unauthorised access. This understanding then guides architectural decisions, such as requiring all sensitive data to be encrypted both in transit (using protocols like TLS) and at rest (e.g., database encryption) and implementing strict access controls. By designing these security features into the system from day one, many common vulnerabilities are prevented from ever being coded in.\n\nThe testing phase then serves as a critical verification step, ensuring that the security measures designed are effective and identifying any flaws introduced during development. This phase employs various techniques to uncover vulnerabilities. For instance, Vulnerability Scanning can automatically detect known weaknesses in code or configurations. More comprehensively, Penetration Testing involves ethical hackers simulating real-world attacks to find exploitable weaknesses. A penetration tester might attempt techniques like SQL injection or Cross-Site Scripting (XSS) on a web application to exploit insecure input validation or improper output encoding. Discovering these vulnerabilities during testing allows developers to patch and remediate them before the software is deployed to users, thereby preventing potential data breaches or service disruptions in a live environment.\n\nTogether, the design and testing phases form an essential cycle: design builds in security proactively, while testing validates and strengthens it reactively. This integrated approach ensures that security is a continuous consideration, significantly reducing the attack surface and leading to the development of much more resilient and secure software.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-d301999b-da96-4bcb-89cc-d1849a62a0d1",
-                  "band": 4,
+                  "band": 3,
                   "answer": "The design and testing phases of the Software Development Life Cycle (SDLC) are fundamental to developing secure code by proactively addressing potential weaknesses and identifying existing vulnerabilities before deployment.In the design phase, security is integrated from the outset. This often involves threat modelling, where potential attack vectors and vulnerabilities are identified and analysed before any code is written. For example, if designing an e-commerce platform, the team would consider how user authentication will be handled, what data needs encryption, and how to prevent common attacks like SQL injection. By planning for secure input validation and robust authentication mechanisms at this stage, the architecture is built with security in mind, making it inherently more difficult for attackers to exploit.The testing phase then acts as a crucial verification step. After code is written, various security tests are performed to uncover flaws that might have been missed in design or introduced during coding. For instance, penetration testing involves ethical hackers simulating real-world attacks to find exploitable vulnerabilities, such as an exposed API endpoint or insecure server configuration. Automated vulnerability scanning tools are also used to identify known security weaknesses, like outdated libraries or misconfigurations, that could lead to data breaches or system compromise. Finding and fixing these issues during testing, such as patching a detected cross-site scripting (XSS) vulnerability, ensures that the final software released to users is significantly more secure.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-05504a00-e562-4e90-b9ea-16f9102b274c",
-                  "band": 3,
+                  "band": 2,
                   "answer": "In the design phase of software development, you try to plan security. This means thinking about how to build the software so it's protected from bad stuff. For example, deciding who can use what parts of the program, like different users having different access. This helps stop people from doing things they shouldn't. Then, in the testing phase, you check if the security worked. You have to find problems before the software is released. This means running the software and seeing if it breaks or if there are any holes. Like, checking if someone can get past the login screen easily. If you don't test, the code might have security issues and then it's not safe to use.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-c4cbd3d0-76ef-44b6-8a6f-fba1e7ef9ee8",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Design and testing are important parts of making computer programs. In the design phase, you plan out how the software will look and what it will do, like where the buttons are. Testing is when you try out the program to see if it works correctly and doesn't have problems. This helps make the code secure because if you plan it well and test it, then it should work better and not let bad things happen. For example, during testing, you check if users can log in.",
                   "mark": 1,
                   "source": "AI"
@@ -433,7 +433,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-0814b7c2-6df9-4d91-b1bc-6dfae2626fab",
-                  "band": 3,
+                  "band": 2,
                   "answer": "During the 'requirements definition' phase, security considerations are incorporated by explicitly defining them as a core part of the project's specifications, alongside functional requirements. This process involves identifying potential threats and compliance obligations early. Characteristics of this process include interviewing stakeholders about data sensitivity, identifying legal and regulatory obligations (like GDPR or health privacy laws), and specifying non-functional requirements related to security. For example, the team would define data encryption standards (e.g., 'all passwords must be stored using bcrypt hashing'), define user roles and access control levels (e.g., 'only administrators can delete user accounts'), and specify compliance needs (e.g., 'the system must be compliant with the PCI DSS standard for handling credit card data'). These become mandatory criteria that guide the design and testing of the application.",
                   "mark": 3,
                   "source": "AI"
@@ -495,7 +495,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-57970f8b-d5cc-48ed-8498-49201d11ad34",
-                  "band": 3,
+                  "band": 2,
                   "answer": "The capabilities and experience of end users significantly influence secure software design by creating a trade-off between usability and security. For instance, an inexperienced user may find complex password requirements (e.g., 16 characters with symbols) difficult to manage, leading them to write passwords down, which is a security risk. To address this, designers might implement more user-friendly but secure alternatives like biometric authentication or simpler multi-factor authentication (MFA) prompts. Conversely, for experienced users like system administrators, the software can expose advanced security configurations, such as setting detailed access control lists or managing encryption keys, as these users possess the technical knowledge to use them correctly. For novice users, these features should be automated or hidden behind sensible defaults to prevent misconfigurations that could create vulnerabilities.",
                   "mark": 3,
                   "source": "AI"
@@ -567,14 +567,14 @@
                 },
                 {
                   "id": "sa-102dd318-fda8-4588-9a10-473a5562e903",
-                  "band": 2,
+                  "band": 3,
                   "answer": "It should have big buttons so they can see them. And it should have a password to be secure.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-590350ec-724a-477a-8217-4346a0e62d4e",
-                  "band": 3,
+                  "band": 4,
                   "answer": "One feature would be to use fingerprints to log in instead of passwords, because they might forget their password. Another feature is to make the error messages very simple and not scary, so they don't get confused if something goes wrong. This makes it easier for them to use it safely.",
                   "mark": 2,
                   "source": "AI"
@@ -617,7 +617,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-6fa6df29-5b5b-4586-9889-9f2bed5c87e6",
-                  "band": 6,
+                  "band": 5,
                   "answer": "The statement 'The most secure system is one that is unusable' highlights the fundamental tension between implementing robust security controls and maintaining a positive user experience. While technically true in a theoretical sense, in practice, it is a flawed perspective because it ignores the human factor, which is often the weakest link in any security chain.\n\nOn one hand, many strong security measures inherently add 'friction' for the user, which can degrade usability. Forcing users to have 32-character passwords changed weekly, requiring multi-factor authentication for every single action, and imposing short session timeouts creates a highly secure environment. However, if a system is too difficult or frustrating to use, users will inevitably find workarounds that undermine its security, such as writing down complex passwords, disabling security features, or exporting data to less secure, more convenient platforms.\n\nOn the other hand, a system that prioritises usability at the expense of security is equally dangerous. A system with no passwords or simple, easily guessable ones might be very 'usable' but offers no protection. Therefore, the discussion reveals that the statement is a paradox. A theoretically secure but unusable system is practically insecure because it encourages unsafe user behaviour. The most effective secure software is not the one with the most aggressive controls, but the one that strikes an optimal balance. It integrates security in a way that is as seamless and intuitive as possible for its target users, making the secure path the easiest path.",
                   "mark": 7,
                   "source": "AI"
@@ -687,42 +687,42 @@
               "sampleAnswers": [
                 {
                   "id": "sa-03386d6e-f116-41b4-9271-077868e19d43",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Authentication and authorisation are two distinct but related fundamental concepts in secure software design. Authentication is the process of verifying a user's identity, essentially proving they are who they claim to be. This is typically achieved by the user providing credentials, such as a username and password, a biometric scan, or a security token. The system then validates these credentials against a stored, secure record. In contrast, authorisation is the process that occurs after successful authentication. It determines what an authenticated user is permitted to do within the system. This involves checking the user's permissions, roles, or privileges to grant or deny access to specific resources, features, or data. The key comparison is that they are sequential steps in a security process; authentication must happen before authorisation can be granted. The primary contrast is their purpose: authentication answers the question 'Who are you?', while authorisation answers the question 'What are you allowed to do?'. For example, in a school management system, a teacher logs in by providing their unique staff ID and password (authentication). Once authenticated, the system checks their role. Because they are a 'teacher', they are granted access to view student grades and attendance for their own classes (authorisation), but they are denied access to the school's financial records, which are restricted to users with an 'administrator' role.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-40dc044a-1e0e-4c15-8d63-e48850511b02",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Authentication and authorisation are about security for a program. You need a password to get into the computer. This is so nobody can hack you. Authorisation is when you have the authority to use the computer. They are basically the same thing to keep things safe.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-762d03e3-bd38-4bf5-b165-2344f6cb0100",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Authentication and authorisation are two distinct yet interconnected pillars of secure software design, both crucial for controlling access to resources. Authentication is the process of verifying a user's identity, essentially answering the question \"Who are you?\". This typically involves providing credentials such as a username and password, a biometric scan, or a digital certificate. For example, when a user attempts to log into an online banking system, they must first authenticate themselves by entering their correct username and password. If the credentials match, their identity is confirmed. Authorisation, on the other hand, determines what an authenticated user is permitted to do or access, answering the question \"What are you allowed to do?\". It defines the specific access rights or permissions a user or system has over a resource. Following the banking example, once the user has successfully authenticated, the system then authorises them based on their role (e.g., account holder, bank manager). An account holder might be authorised to view their balance and transfer funds, but not to approve large loan applications or access other customers' details. This illustrates the key contrast: authentication establishes who you are, while authorisation dictates what actions you can perform with that established identity. Both processes are fundamental for maintaining security and ensuring data confidentiality and integrity by enforcing proper access control.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-ca3d45b5-1037-4e33-ba83-0bbc1642204b",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Authentication is about verifying who a user is. It's like checking someone's ID at the entrance to make sure they are who they claim to be. For example, when you log into an online banking system, you provide your username and password to authenticate your identity. This process confirms that you are the legitimate account holder.Authorisation, on the other hand, determines what an authenticated user is allowed to do. Once you're inside the banking system, authorisation decides which actions you can perform. A regular customer might be authorised to view their balance and make transfers, but they wouldn't be authorised to approve new loans or modify system settings. An administrator, however, would have different authorisations allowing them to perform those higher-level tasks.The key difference is that authentication answers the question 'Are you who you say you are?', while authorisation answers 'What are you allowed to do?'. They are both fundamental to secure software design because authentication ensures only legitimate users can access the system, and authorisation then ensures those users can only perform actions appropriate to their role, preventing misuse or unauthorised data access.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-c7b255aa-30e8-41e7-96d9-5de8cceb64cb",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Authentication is about proving who you are to a system. For example, when you type your username and password to log into your email, the system authenticates you. It checks if those details match what it has.Authorisation happens after authentication. It's about what you are allowed to do. So, if you log into a website, you might be authorised to view your own profile, but you are not authorised to see other people's private messages unless you are an administrator. This is about your permissions.They are different because one is about identity and the other is about what actions you can take. Both are important for making software secure because they stop people from doing things they shouldn't.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-4a3515a0-c422-47fc-bd3e-070519f9f940",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Authentication is when you login to a system with your username and password, so the system knows it's really you. Authorisation is about what parts of the system you are allowed to use after you have logged in. For example, some users can only view things, while others can change them. They both make sure only the right people use the software.",
                   "mark": 2,
                   "source": "AI"
@@ -767,7 +767,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-726ea2d7-e5aa-4074-af92-d814ebd9bb16",
-                  "band": 5,
+                  "band": 3,
                   "answer": "The CIA Triad is a foundational model for secure software design, and all three principles are critical for an online voting system. Confidentiality ensures that data is accessible only to authorised users. In this context, it means a voter's choice must be secret. This is applied by encrypting the ballot data both in transit (using TLS) and at rest in the database, ensuring that no one, not even system administrators, can see how an individual voted. Integrity ensures that data is accurate and has not been tampered with. For a voting system, this is paramount to ensure votes are not altered. This is applied by using cryptographic hashing. When a vote is cast, it is hashed. The system can later verify the integrity of the vote tallies by re-hashing the ballots to ensure they match the original hash values, proving no votes were added or changed. Availability ensures that the system is operational and accessible when needed. For an election, the system must be available for the entire voting period. This is applied by designing a resilient infrastructure with redundancy, such as load-balanced servers and backup data centres, to protect against hardware failures or Denial of Service (DoS) attacks that could prevent citizens from casting their vote.",
                   "mark": 6,
                   "source": "AI"
@@ -781,7 +781,7 @@
                 },
                 {
                   "id": "sa-c1f2f1db-d308-4536-b8ca-1ac4ce1113f0",
-                  "band": 3,
+                  "band": 2,
                   "answer": "For an online voting system, Confidentiality is about keeping the vote private, which is done using encryption. Integrity means making sure nobody can change the votes. This can be done using hashing to see if the data is the same. Availability means the system must be online during the election so everyone can vote. This requires backup servers so it doesn't crash. All three are needed to make the system secure and fair.",
                   "mark": 4,
                   "source": "AI"
@@ -823,14 +823,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-258e3eb4-7521-44b3-a02a-dce7eb6ccd32",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Accountability is a fundamental security concept that ensures the actions of an entity (a user or a system) can be traced uniquely to that entity. Its importance in secure software design is twofold: it provides the foundation for forensic analysis after a security incident and acts as a deterrent against misuse. By implementing mechanisms that record 'who' did 'what' and 'when', the system creates an audit trail. For example, a secure financial application should log every significant action, such as money transfers. An audit log entry might record: 'User_ID 123 transferred $500 to Account_ID 456 from IP address 192.168.1.100 at 2025-11-13T10:00:00Z'. If a fraudulent transaction occurs, this log makes it possible to investigate the breach and determine which account was compromised. This ability to trace actions holds users accountable and is essential for security investigations and non-repudiation (the inability to deny an action).",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-ae6ca663-df13-4b6a-9a7d-55a34b50da00",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Accountability means the system knows who did something. It is important so you can blame the right person if something goes wrong. Like if a user deletes a file, the logs will show their name.",
                   "mark": 2,
                   "source": "AI"
@@ -880,7 +880,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-c8b91a1e-467d-485f-876d-e6628b8b0cb6",
-                  "band": 6,
+                  "band": 5,
                   "answer": "The principles of 'Availability' and strong security are often in tension, creating a complex balancing act for software engineers. The core issue is that while both are security goals, the implementation of one can negatively impact the other.\n\nOn one hand, overly stringent security controls can hinder availability. For example, an aggressively configured firewall or Web Application Firewall (WAF) might generate false positives, blocking legitimate users from accessing the service. Similarly, requiring extremely complex, multi-step Multi-Factor Authentication (MFA) for every minor action can degrade the user experience to the point where the service is considered unusable, and therefore unavailable, for its intended purpose. In these cases, the pursuit of perfect security compromises the system's primary function of being accessible.\n\nOn the other hand, a lack of security can lead to a catastrophic failure of availability. A system with poor security is vulnerable to Denial of Service (DoS) or Distributed Denial of Service (DDoS) attacks, where an attacker floods the system with traffic, making it unavailable to all users. Furthermore, a successful ransomware attack can encrypt all system data and halt operations entirely, representing a total loss of availability until the issue is resolved. In this perspective, robust security controls are not a hindrance to availability, but a prerequisite for it.\n\nIn conclusion, the tension is not a simple choice of one over the other, but a matter of risk management. A nuanced approach is required, where security controls are implemented in a way that is proportional to the threat, without unduly compromising the system's performance and accessibility. The goal is not maximum security, but optimal security that ensures the system remains both safe and available for its users.",
                   "mark": 7,
                   "source": "AI"
@@ -938,7 +938,7 @@
                 },
                 {
                   "id": "sa-1fd584da-20fe-4e3c-aaf5-8781c6641868",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Confidentiality is about keeping things secret. Integrity is about making sure things are not changed.",
                   "mark": 1,
                   "source": "AI"
@@ -1017,7 +1017,7 @@
                 },
                 {
                   "id": "sa-bc34e860-20ab-46bf-8a44-fcba59d78527",
-                  "band": 5,
+                  "band": 6,
                   "answer": "For a FinTech startup's mobile application handling sensitive user data, the implementation of a Zero Trust Architecture (ZTA) is significantly more effective than a traditional perimeter-based security model in ensuring comprehensive data protection, security, privacy, and regulatory compliance.\n\nA **traditional perimeter-based security model** operates on the assumption that everything inside the network boundary (the 'perimeter') is trusted, while everything outside is untrusted. Security efforts primarily focus on building strong defenses at this boundary, using firewalls and intrusion detection systems to prevent external threats from entering. While this model offers a basic level of protection, it is inherently vulnerable to insider threats or sophisticated external attacks that manage to breach the perimeter. Once an attacker gains access to the 'trusted' internal network, they can often move laterally with relative ease, increasing the **attack surface** and compromising sensitive data like bank account details and transaction history. This approach struggles with modern cloud-based and mobile environments, where the traditional perimeter is often dissolved or ambiguous, making comprehensive **data protection** and **privacy** difficult to guarantee if the initial defense fails. Furthermore, maintaining **regulatory compliance** with strict data protection laws (e.g., PCI DSS, GDPR) becomes challenging, as a single breach could expose vast amounts of data.\n\nIn contrast, a **Zero Trust Architecture (ZTA)** fundamentally shifts this paradigm to \"never trust, always verify.\" It assumes no implicit trust, regardless of whether the user or device is inside or outside the network. Every access request, from any entity, must be authenticated and authorised. This approach is far superior for a FinTech application due to several key features:\n\n1.  **Multi-Factor Authentication (MFA) and Identity and Access Management (IAM):** ZTA rigorously enforces strong identity verification. For the FinTech app, users would require MFA for all critical access points, like logging in or confirming transactions, significantly reducing the risk of unauthorised access even if credentials are stolen. IAM systems ensure that only authenticated and authorised users can access specific resources, enhancing **data protection** and **privacy**.\n2.  **Least Privilege Access:** This principle ensures that users and applications are granted only the minimum level of access required to perform their specific tasks. For example, a customer support agent might only be able to view masked transaction data, not full bank account details. This drastically limits the potential damage if an account is compromised, improving **security** and **data protection**.\n3.  **Micro-segmentation:** ZTA divides the network into small, isolated segments. If one part of the FinTech application is compromised, the breach is contained within that micro-segment, preventing attackers from moving laterally to other sensitive databases containing personal identification information or bank details. This significantly reduces the **attack surface** and bolsters **data protection**.\n4.  **Continuous Monitoring and Verification:** ZTA continuously monitors user and device behavior for anomalies, re-authenticating and re-authorising access if suspicious activity is detected. This adaptive security model offers dynamic protection against evolving threats.\n5.  **Encryption:** While not exclusive to ZTA, **encryption** of sensitive data both at rest (e.g., databases) and in transit (e.g., API calls) is a fundamental component that complements ZTA's access controls, providing an additional layer of **data protection** and **privacy**.\n\n**Justification:** For a FinTech application dealing with highly sensitive financial and personal data, ZTA's granular control, constant verification, and containment capabilities directly address the critical needs for **data protection**, **security**, and **privacy**. Its 'assume breach' mindset means that even if a part of the system is compromised, the impact is minimised. This proactive and layered approach makes it far easier to demonstrate and achieve **regulatory compliance** with stringent financial regulations, as access to sensitive data is tightly controlled, monitored, and auditable. A perimeter-based model, by contrast, creates a single point of failure that, if breached, leaves the entire internal system vulnerable, making it inadequate for the stringent requirements of modern FinTech applications.\n\nTherefore, ZTA is the superior choice, providing a robust and resilient security posture essential for protecting user trust and meeting regulatory obligations.",
                   "mark": 7,
                   "source": "AI"
@@ -1146,35 +1146,35 @@
               "sampleAnswers": [
                 {
                   "id": "sa-da3e2328-733a-4167-a74f-7fd82dd42c33",
-                  "band": 5,
+                  "band": 3,
                   "answer": "The 'security by design' approach involves proactively integrating security measures throughout the entire software development lifecycle, rather than treating security as an afterthought. Both cryptography and sandboxing are fundamental techniques that contribute to this approach.\n\nCryptography contributes by protecting data confidentiality and integrity. By designing the system to encrypt sensitive data both in transit (while being sent over a network) and at rest (while stored in a database or on a disk), developers build in protection against data breaches from the outset. For example, a web application designed with security in mind will use Transport Layer Security (TLS) to encrypt all communication between the client and server. It would also use a strong hashing algorithm like bcrypt for storing user passwords, ensuring that even if the database is compromised, the passwords remain secure. This is a design choice that anticipates threats and mitigates them proactively.\n\nSandboxing contributes by enforcing the principle of least privilege and containing potential threats. It involves creating an isolated, restricted environment where untrusted code can be executed without being able to access or damage the wider system. In a security-by-design approach, developers identify components that handle untrusted input, such as a plugin system or a document parser, and architect the solution to run them within a sandbox. For instance, modern web browsers execute JavaScript from websites in a strict sandbox, preventing malicious scripts from accessing the user's local file system. This design decision contains the impact of a potential vulnerability, protecting the host system and user data.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-2d0a1e6a-596d-475f-bd2b-560bace39a79",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Security is important for programs. You use cryptography to make secret codes so hackers can't read stuff. Sandboxing is for playing games safely. You put them in the program when you design it so it is a good design and it will be secure.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-6225fe57-25e1-4128-b839-a4d62671734c",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Security by design means building security into software from the very beginning of its development, rather than trying to add it as an afterthought. Both cryptography and sandboxing are crucial for this approach.Cryptography contributes to security by design primarily by ensuring data confidentiality and integrity. For example, when you design an application that stores sensitive user data, encrypting this data from the outset means that even if a database is breached, the information remains unreadable to an unauthorised person. This is a design choice to protect confidentiality. Similarly, using cryptographic hashing for password storage ensures that original passwords are never stored in plain text, protecting them from leaks and verifying data integrity if changes occur. An everyday example is the use of HTTPS for websites, which encrypts all communication between your browser and the server by design.Sandboxing, on the other hand, contributes by providing isolation and limiting the potential impact of vulnerabilities. When software is designed to run different components or untrusted code within isolated environments (sandboxes), a security flaw or malicious code in one part cannot easily affect the entire system. For instance, web browsers often run different tabs or plugins in their own sandboxes. If a malicious website tries to exploit a vulnerability in one tab, the sandbox prevents it from accessing your computer's files or other browser tabs. This is a design decision to mitigate threats by containing them, limiting damage and making the system more resilient from the ground up.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-83bb54d9-a203-4ea5-ab11-335f88d557e9",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Cryptography helps make software secure by protecting information. It's like locking up important data so only the right people can see it. For example, when you use a website like Google, your information is encrypted so it can't be stolen by others. This makes sure that the data stays confidential.\n\nSandboxing is another way to make software safe. It basically creates a separate area for an application to run in. If something bad happens in that area, like a virus, it can't spread to other parts of your computer. For example, how a web browser opens different tabs; if one tab has a problem, it doesn't crash the whole browser. This stops bad stuff from affecting everything.\n\nBoth of these contribute to 'security by design' because you build them into the software from the beginning. You don't just add security at the end after the software is finished. It's better because it helps prevent security problems before they even start, rather than trying to fix them later.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-f394356e-d320-433e-8dfb-d27c85d8029a",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Cryptography helps keep things secret. For example, when you type your password, it gets scrambled so no one can easily see it. Sandboxing means programs are kept apart. This is good because if one program has a problem, it won't affect other parts of the computer. These two things make software safer.",
                   "mark": 2,
                   "source": "AI"
@@ -1217,7 +1217,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-cb79fc93-a660-4062-8dc4-a257186eb528",
-                  "band": 6,
+                  "band": 5,
                   "answer": "Sandboxing is a highly effective security mitigation strategy, but it is not a complete solution on its own. Its primary value is in threat containment. By executing untrusted or potentially malicious code in a restricted environment with limited access to the host system's resources (like the file system or network), sandboxing ensures that even if a vulnerability is exploited, the damage is confined to the sandbox. This is the principle behind modern web browsers running JavaScript from different websites in isolated processes. However, the effectiveness of sandboxing is limited by the integrity of the sandbox itself. Sophisticated attackers actively search for 'sandbox escape' vulnerabilities, which are flaws in the isolation mechanism that allow malicious code to break out and gain control of the host system. Therefore, while sandboxing is a critical layer in a 'defense in depth' security model, it cannot be the only layer. In assessment, it is an essential and effective tool for containment, but it must be combined with other security practices like secure coding and timely patching to be truly effective.",
                   "mark": 6,
                   "source": "AI"
@@ -1284,42 +1284,42 @@
               "sampleAnswers": [
                 {
                   "id": "sa-4e6c9e5a-fa2d-45dd-9934-9f10d09e7afe",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Privacy by Design (PbD) is a proactive software development methodology where privacy considerations are embedded into the entire development lifecycle, from the initial design phase through to deployment and maintenance. Its core principle is to anticipate and prevent privacy issues before they occur, rather than reacting to data breaches after the fact. This proactive approach fundamentally respects user privacy by making it a core functional requirement of the system, not an afterthought. Key principles include 'privacy as the default setting,' ensuring users' data is protected without them needing to take any action, and 'data minimisation,' where the software only collects personal information that is strictly necessary for its stated purpose. For example, a new e-commerce application developed using PbD would, during its design phase, decide to only collect a user's name, address, and payment details for a transaction. It would not collect date of birth or phone number unless essential for delivery. All collected data would be encrypted by default, both in transit and at rest. In contrast, a reactive approach might involve building the application to collect extensive user data for marketing, and only implementing stronger encryption or adding privacy settings after a public data breach exposes customer information, damaging user trust and company reputation.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-8b28f4ba-557a-4587-9075-0c11eb0d50e7",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Privacy by design is making sure a program is private. You need to put in a good firewall and make sure people use strong passwords. This stops hackers from getting in and stealing the data. It's important for keeping things safe.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-18f98323-f75a-4c05-b555-bfe68e507c3a",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Privacy by design (PbD) is a foundational approach to software development that integrates privacy considerations throughout the entire system's lifecycle, right from the initial design phase. Its core characteristic is its proactive nature; instead of treating privacy as an add-on or a reactive measure to security breaches, PbD ensures that privacy is 'baked in' and embedded into the architecture, design, and operation of IT systems and business practices. This makes privacy a default setting rather than an option users must consciously choose.By adopting a proactive stance, privacy by design fundamentally respects user privacy by ensuring that data collection, storage, and processing practices are inherently privacy-enhancing. Key principles include data minimisation, where only the absolutely necessary data is collected; providing end-to-end security; and offering granular user control over their personal information.For example, consider the development of a smart home device, like a voice assistant. A privacy by design approach would dictate that the device is engineered to process voice commands locally on the device whenever possible, rather than sending all audio recordings to cloud servers by default (data minimisation). Users would be explicitly prompted for consent before any data leaves the device and given clear options to control what data is shared, with whom, and for what purpose. Furthermore, any data transmitted would be encrypted by default, and the system would be designed to only activate listening when a specific wake word is detected, rather than continuous, unmonitored recording. This proactive integration of privacy safeguards ensures user data is protected by default and by design.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-fba51d45-c677-41f2-b062-9fa281cc06c8",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Privacy by design is when you build privacy into a software solution right from the very beginning, during the initial design and development stages. This makes it a proactive approach because developers are thinking ahead and trying to prevent privacy issues before they happen, instead of waiting for a problem and then trying to fix it later. It's about designing privacy in from the ground up, not as an afterthought.\n\nThis approach respects user privacy because it aims to make privacy the default setting for any new system or service. It means that privacy protections are embedded directly into the system's architecture and how it functions. For example, a key part is data minimisation, which means the system should only collect the essential personal information needed, and not collect extra data just in case.\n\nFor example, if you were developing a new social media app, privacy by design would mean that from day one, you would ensure that all user posts are private by default, unless the user actively chooses to make them public. You would also design the system so that it only asks for your name and email upon sign-up, not your full address or phone number, unless absolutely necessary for a core function. This is how it proactively protects user privacy by integrating it from the outset.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-1996689e-5a40-4847-8ef7-f0b8cd20dfc3",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Privacy by design means that when you are making software, you put privacy first right from the start. It is proactive because it's about thinking ahead and including privacy from the beginning, rather than waiting for problems with data after the software is finished. This helps with user privacy because privacy settings and protections are included early on, so users can trust the system. For example, a company making an online store would make sure that the website security is good when they first build it, so people's shopping details are safe and not easily stolen.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-1ecc0232-4261-4340-848c-483d26fe78e0",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Privacy by design means that software should have privacy built into it. It should keep user data private. For example, an app might only ask for your name and not your address if it doesn't need it.",
                   "mark": 1,
                   "source": "AI"
@@ -1454,7 +1454,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-fade8f6b-f831-44bf-8bb7-04510002b9d9",
-                  "band": 6,
+                  "band": 5,
                   "answer": "For a small, independent online art gallery, I would recommend a disaster recovery strategy based on a cold site combined with regular, automated off-site backups to a cloud storage service.\n\nThe primary reason for this recommendation is cost-effectiveness. The gallery is a small business with likely limited financial resources. A hot or warm site would be prohibitively expensive to maintain. A cold site, which is essentially just a designated space with power and networking, is the cheapest option.\n\nThis recommendation is justified by the specific business context. The website is primarily for marketing, not for processing critical real-time transactions. Therefore, the business can tolerate a relatively high Recovery Time Objective (RTO) and Recovery Point Objective (RPO). An RTO of 24-48 hours, the time it would take to procure new hardware and restore the site from a backup, is likely acceptable. Similarly, an RPO of several hours is also acceptable; if the site is restored from the last nightly backup, the only data lost would be minor content updates, not critical customer transactions. The low financial and operational impact of this potential downtime and minor data loss makes the cost savings of a cold site a sensible business trade-off.",
                   "mark": 6,
                   "source": "AI"
@@ -1726,35 +1726,35 @@
               "sampleAnswers": [
                 {
                   "id": "sa-e9f4ecbe-72a8-4a76-98c5-f2676be507f4",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Input validation and input sanitisation are both crucial defensive data input handling practices, but they serve different purposes. Input validation is the process of checking if user-supplied data conforms to a set of predefined rules or constraints before it is processed. It is a rejection-based approach; if the data is invalid, it is rejected, and an error is typically shown to the user. An example is checking if a date of birth field is in the 'DD/MM/YYYY' format and represents a plausible age. In contrast, input sanitisation is the process of modifying user input to remove or neutralise potentially malicious characters or code. It is a transformation-based approach, aiming to make data safe to use. An example is removing `<script>` tags from a user's comment to prevent Cross-Site Scripting (XSS) attacks. Therefore, while validation ensures data integrity and format, sanitisation focuses on security by preventing attacks.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-adfa4a2c-bf5a-4c19-8c95-48c73c505e88",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Validation is when you check the data. You have to make sure it's good for the computer. Sanitisation is cleaning the data so the program doesn't break. You need to do both to stop errors.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-a651782b-7819-458b-a80b-9f28a3ea3067",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Input validation and input sanitisation are both defensive programming practices used to ensure data integrity and security when dealing with user input. Input validation is about checking the data *before* it is processed or stored. It verifies that the input meets specific criteria, such as data type, length, format, or range. The goal is to prevent invalid or malicious data from entering the system at all. For example, if a website asks for an email address, validation would check if the input string contains an '@' symbol and a domain (e.g., 'user@example.com') to ensure it's a valid email format.\n\nInput sanitisation, on the other hand, is about cleaning or modifying the data *after* it has been received but *before* it is used or displayed. It involves removing or neutralising potentially harmful characters or scripts within the input to prevent vulnerabilities like Cross-Site Scripting (XSS) or SQL Injection. For instance, if a user submits a comment containing HTML tags like `<script>alert('xss')</script>`, sanitisation would convert the `<` and `>` characters to their HTML entities (`&lt;` and `&gt;`) so that the script is displayed as text rather than executed in the browser.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-5650f939-322c-4854-ae9b-46af47931357",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Input validation is when a program checks if the data a user types in meets certain rules before it's processed. For instance, if a website asks for an email address, validation makes sure it has an '@' symbol and a '.' like 'name@example.com'. If it doesn't fit the expected format, the system won't accept it and might show an error.\n\nInput sanitisation is different because it changes or cleans the input to make it safe, instead of just rejecting it. For example, if a user tries to type something like '<script>alert('hello')</script>' into a comment box, sanitisation would remove or change the '<' and '>' characters so that the code can't actually run on the webpage. This cleans the input to prevent bad things from happening.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-33bd7e90-94bf-40b2-b332-21ecece308cf",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Input validation is when you check if the data someone puts in is correct. For example, if a website asks for your age, validation makes sure you put in a number, not letters. Input sanitisation is like cleaning the data to make it safe. Like if someone types something rude into a comment box, the program can take out the bad words before it gets saved.",
                   "mark": 1,
                   "source": "AI"
@@ -1806,35 +1806,35 @@
               "sampleAnswers": [
                 {
                   "id": "sa-604fddf0-3a27-41d2-be66-86480999623f",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Implementing input validation and rate limiting are two critical strategies for creating a safe API and minimising software vulnerabilities. \n\nInput validation ensures that any data received by the API from a client is in the expected format, type, and range before it is processed. This is a primary defence against injection attacks. For example, by validating that a user ID parameter is an integer, the API can prevent a malicious user from injecting SQL commands (SQL injection) or scripts (Cross-Site Scripting - XSS) into the query. It sanitises data, effectively neutralising threats that could otherwise lead to data breaches, unauthorised access, or manipulation of the backend database. This makes the API safer by securing its data processing layer.\n\nRate limiting protects the API by controlling the frequency of requests a client can make within a specific time window. This directly mitigates Denial of Service (DoS) attacks, where an attacker overwhelms the server with a flood of requests, making it unavailable to legitimate users. It also prevents brute-force attacks on authentication endpoints, where an attacker repeatedly tries different password combinations. By limiting login attempts, the API significantly reduces the risk of unauthorised account access. This contributes to a safe and resilient API by ensuring its availability and protecting user credentials.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-71cdfa70-99bc-4e6a-b148-aec00bf94a68",
-                  "band": 2,
+                  "band": 1,
                   "answer": "To make a safe API you need to check things. Rate limiting is when you limit the speed. This stops hackers from trying passwords too fast. You also need to validate the input to make sure the data is good so the program doesn't crash. This stops viruses.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-eb60ac7a-8d34-4005-a3b1-bc2ad977002e",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Implementing input validation contributes to API safety by ensuring that all data received from users is in the correct format and meets expected criteria before it is processed. This helps to prevent common software vulnerabilities such as injection attacks (e.g., SQL injection or cross-site scripting) by filtering out malicious code or unexpected inputs that could otherwise manipulate the API or its backend systems. Basically, it cleans the data before use.Rate limiting enhances API security by restricting the number of requests a user or an IP address can make within a specific timeframe. This mechanism is crucial for preventing Denial of Service (DoS) attacks, where attackers flood the API with requests to make it unavailable for legitimate users. It also helps to mitigate brute-force attacks aimed at guessing credentials or API keys.By combining both input validation and rate limiting, an API establishes a stronger defense. Input validation protects against data-centric attacks by ensuring the integrity and safety of individual requests, while rate limiting guards against volumetric attacks and abuse by controlling the rate of requests. This dual approach significantly minimises software vulnerabilities by addressing different attack vectors, making the API more resilient and secure overall.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-edf00722-c294-4902-b3ce-d2aaf26de725",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Input validation helps keep an API safe because it checks the data that comes into the system. This makes sure that only correct information is processed, stopping bad data from causing issues or making the system crash. Rate limiting stops too many requests from happening at once. This protects the API from getting overwhelmed when lots of users try to access it quickly. Together, these two things make the API more secure by controlling what goes in and how often it's used, which helps prevent problems with the software.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-274f9d92-2342-47e8-befa-59add32b8d67",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Input validation checks what data goes into the API. This helps make sure the system works correctly. Rate limiting helps by stopping too many requests from coming in at once, so the API doesn't get overloaded.",
                   "mark": 1,
                   "source": "AI"
@@ -1887,35 +1887,35 @@
               "sampleAnswers": [
                 {
                   "id": "sa-be15eeaa-d0a3-4da3-b73e-0446ed2be671",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Session management and exception management are both crucial for ensuring efficient software execution, but they address different aspects of system stability and user experience. Session management proactively maintains user state across multiple requests in a stateless environment like HTTP. Its efficiency lies in managing server-side resources, such as memory and database connections, allocated to a user's session. By implementing mechanisms like session timeouts and efficient data serialisation, developers prevent memory leaks and excessive resource consumption, ensuring the application remains responsive for all concurrent users. In contrast, exception management is a reactive process that handles runtime errors or unexpected events. Its role in efficiency is to prevent application crashes that would disrupt the user and potentially lead to data loss. By using structures like try-catch-finally blocks, the software can gracefully handle errors, log them for debugging, and continue operating without terminating. This maintains application availability and perceived performance. The key comparison is that session management ensures efficiency during normal, stateful interactions by managing resources over time, while exception management ensures efficiency by providing stability and a path to recovery when operations fail, preventing catastrophic shutdowns.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-6e4d841e-6a3d-4286-aae1-8e79af296040",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Session management is when you log into a website. Exception management is when an error message pops up. They are both about the computer talking to the user. It is efficient because it helps the computer work.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-094aeed2-cff3-4255-9726-e52a292efbe4",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Session management is about maintaining a user's state and context throughout their interaction with a software application, like remembering if a user is logged in or what items are in their shopping cart. This ensures efficient execution for the user because they don't have to repeat actions or re-enter information constantly, making their experience continuous and seamless. It saves time and resources by keeping track of the user's progress. Exception management, however, deals with unexpected problems or 'errors' that occur during the software's operation. Its role is to handle these issues gracefully, preventing the entire program from crashing. For example, if a database connection fails, exception management can display a user-friendly error message rather than the software simply stopping. This is vital for efficient execution because it prevents data loss and avoids forcing the user to restart or abandon their task, which would be highly inefficient. So, session management ensures efficiency by facilitating a smooth, continuous flow during normal use, while exception management ensures efficiency by mitigating disruptions and preventing system failures when abnormal events happen, both contributing to a better user experience.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-26ee32b2-26a8-40ea-9ad4-671e1188789f",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Session management helps keep track of what a user is doing, like if they are logged in to a website or app. It remembers their state so they don't have to log in over and over, which makes using the software quicker and easier for them. It's about maintaining their unique interaction session from start to finish. Exception management is when the software encounters an error or something unexpected happens. It tries to catch these problems so the program doesn't just crash. Instead, it might show an error message or try to recover, letting the user continue or at least understand what went wrong. Both are important for users because session management makes sure the user's journey is smooth and they don't lose their place, making the software seem efficient. Exception management stops bad errors from completely stopping the software, so it keeps running and the user isn't stuck with a frozen screen, which also helps with the feeling of efficient execution.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-05c08fd5-84e0-4c45-b046-da7d8b93bec4",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Session management makes sure the user can stay using the program without losing their stuff. Exception management is when the program finds problems or errors. They both help the software run so it doesn't just stop working for the user.",
                   "mark": 1,
                   "source": "AI"
@@ -1959,7 +1959,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-320060d4-304b-45bf-9791-128f2aebb462",
-                  "band": 5,
+                  "band": 4,
                   "answer": "The choice between server-side and client-side session management is a critical architectural decision with significant trade-offs regarding scalability and security. Server-side session management is a stateful approach. When a user logs in, the server creates a session, stores the session data (e.g., user ID, permissions) on the server, and gives the client a simple session ID cookie. On each request, the server uses the ID to look up the session data. The main advantage is security and control; the server is the single source of truth, and a session can be instantly invalidated on the server-side. The major drawback is scalability; in a large, distributed system, ensuring every server has access to the session store can become a complex bottleneck.\n\nClient-side session management, commonly implemented with JSON Web Tokens (JWTs), is a stateless approach. When a user logs in, the server creates a JWT containing the user's data, cryptographically signs it, and sends the entire token to the client. The client then includes this token in the header of every subsequent request. The server can verify the signature on the token to trust its contents without needing to store anything on the server. The primary advantage is scalability; any server can validate a token without needing a shared session store, which is ideal for microservices. However, the trade-off is reduced control. Since the token lives on the client, it cannot be easily invalidated before its expiry time, making logout or immediate session termination more complex. Also, if the token is stolen (e.g., via an XSS attack), an attacker can use it until it expires.",
                   "mark": 7,
                   "source": "AI"
@@ -2012,7 +2012,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-aea52549-1ba4-4c2c-9c6f-1e65cfdb738e",
-                  "band": 3,
+                  "band": 2,
                   "answer": "The purpose of exception management is threefold. Firstly, it prevents unexpected runtime errors from crashing the entire application, which improves system robustness. Secondly, it allows the program to handle errors gracefully, for instance by displaying a user-friendly error message and allowing the user to continue, rather than terminating. Thirdly, it provides a mechanism to log detailed error information, which is essential for developers to debug and fix the root cause of the problem.",
                   "mark": 3,
                   "source": "AI"
@@ -2079,35 +2079,35 @@
               "sampleAnswers": [
                 {
                   "id": "sa-c811a639-655f-47ac-82d6-0b7da134118d",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Cross-Site Scripting (XSS) is an injection vulnerability where an attacker injects malicious client-side scripts (e.g., JavaScript) into web pages viewed by other users. This compromises security by allowing the attacker to bypass access controls, steal sensitive data like session cookies, or deface the website. A key mitigation strategy is output encoding, where user-supplied data is sanitised before being rendered in a browser. For example, characters like '<' and '>' are converted to their HTML entities ('&lt;' and '&gt;'), preventing the browser from executing them as code. Cross-Site Request Forgery (CSRF) is a vulnerability that tricks a victim's authenticated browser into sending a forged HTTP request to a web application. This can force the user to perform unwanted actions like changing their password or transferring funds without their consent. The primary mitigation is using anti-CSRF tokens. The server generates a unique, unpredictable token for each user session and embeds it in forms. When the form is submitted, the server validates that the submitted token matches the one stored in the session, thus ensuring the request is legitimate and not forged from another site.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-bf512b30-3f12-42c6-bb85-f689251c7b14",
-                  "band": 2,
+                  "band": 1,
                   "answer": "XSS and CSRF are when hackers steal your information. To stop this, you need good security like a firewall. You should also make sure your code doesn't have bugs so hackers can't get in. Making users have strong passwords also helps keep the website safe from these attacks.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-ddcaefb5-b7d8-4551-a69e-ba3dfab45471",
-                  "band": 4,
+                  "band": 3,
                   "answer": "XSS (Cross-Site Scripting) compromises security when an attacker injects malicious script into a web page, often through user input fields. When an unsuspecting user views that page, the malicious script executes in their browser. This can allow the attacker to steal the user's session cookies, deface the website, or redirect the user to a malicious site. To mitigate XSS, web applications should implement output encoding, which means converting any user-supplied data into a safe format before rendering it in the HTML, preventing it from being interpreted as active code.\n\nCSRF (Cross-Site Request Forgery) compromises security by tricking a logged-in user into performing an unwanted action on a web application where they are already authenticated. An attacker might embed a malicious request in an email or a seemingly innocent webpage. When the user visits this malicious content, their browser automatically sends the forged request to the legitimate site, using the user's existing authentication. This could lead to actions like changing passwords, making purchases, or transferring funds without the user's intent. To mitigate CSRF, a common strategy is to use anti-CSRF tokens. These are unique, unpredictable values generated by the server and included in all state-changing requests, which the server then validates upon submission.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-58639721-8674-4ce6-899e-a7be7e0a0c57",
-                  "band": 3,
+                  "band": 2,
                   "answer": "XSS (Cross-Site Scripting) can compromise a web application by letting attackers inject harmful scripts into web pages. When another user views that page, the malicious script runs in their browser. This can steal their cookies or change what they see. To stop XSS, you should always check and filter all user input before it's saved or displayed.\n\nCSRF (Cross-Site Request Forgery) is when an attacker tricks a logged-in user into performing an unwanted action on a web application. For example, a user might click a link on a bad website, and that link sends a request to their bank's website, making a transfer they didn't intend. To prevent CSRF, web applications can use special anti-CSRF tokens in forms.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-ea6c7dff-9493-4e42-9c2d-369a79ee967d",
-                  "band": 2,
+                  "band": 1,
                   "answer": "XSS and CSRF are bad because they let attackers do bad things to websites. XSS means someone can put weird code on a webpage to cause problems. CSRF is when a user is tricked into doing something without knowing it. To stop these, websites just need to be more careful with what they show and what users click.",
                   "mark": 1,
                   "source": "AI"
@@ -2148,14 +2148,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
-                  "band": 5,
+                  "band": 3,
                   "answer": "A race condition is a vulnerability that can occur in a concurrent system when the outcome of an operation depends on the uncontrollable sequence or timing of multiple threads or processes. It is a 'time-of-check to time-of-use' (TOCTOU) flaw. For example, in an e-commerce application, a user might want to apply a single-use discount voucher. The system might first check if the voucher is valid and then, in a separate step, apply the discount and mark the voucher as used. An attacker could exploit this by sending two simultaneous requests to use the same voucher. If both requests pass the 'check' phase before either one completes the 'use' phase, the attacker could successfully redeem the single-use voucher twice, 'racing' the system's logic. This exploits the tiny time gap between the system checking the voucher's validity and it being invalidated in the database.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-5570115e-876b-4bb3-a7ce-ebd3c01d11e6",
-                  "band": 3,
+                  "band": 2,
                   "answer": "A race condition is when two things happen at the same time and it breaks the program. A hacker can use this to cheat a system, like getting something for free by sending two requests very fast.",
                   "mark": 2,
                   "source": "AI"
@@ -2199,7 +2199,7 @@
                 },
                 {
                   "id": "sa-23383e3b-a0aa-464b-8f84-7a9a57c1af5b",
-                  "band": 2,
+                  "band": 1,
                   "answer": "It is when the login is broken and doesn't work.",
                   "mark": 1,
                   "source": "AI"
@@ -2242,14 +2242,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
-                  "band": 5,
+                  "band": 3,
                   "answer": "XSS and CSRF are both major web application vulnerabilities, but they operate via different mechanisms and have distinct primary impacts. The core similarity is that they both exploit the trust a user has in a legitimate website.\n\nThe mechanism of XSS involves an attacker injecting malicious client-side script (usually JavaScript) into a web page that is then viewed by a victim. The victim's browser, trusting the script came from the legitimate site, executes it. The primary impact of XSS is the compromise of confidentiality; the script can be used to steal the victim's session cookies, capture keystrokes, or scrape sensitive information from the page. It effectively allows the attacker to impersonate the user or see what the user sees.\n\nThe mechanism of CSRF is different. It does not involve injecting code into the vulnerable site. Instead, it exploits the fact that a user is already authenticated. The attacker crafts a malicious link or form on a separate, attacker-controlled site. When the victim clicks this link, their browser is tricked into sending a forged, state-changing request to the legitimate site (e.g., a request to change their password or transfer money). The primary impact of CSRF is the compromise of integrity; the attacker forces the victim's browser to perform an action on their behalf without their consent.\n\nIn comparison, XSS is an attack against the user's client-side relationship with the site, aimed at stealing data. CSRF is an attack against the site's server-side trust in the user's browser, aimed at performing unauthorised actions.",
                   "mark": 6,
                   "source": "AI"
                 },
                 {
                   "id": "sa-6a1fb53d-51ed-4003-b2cb-05d49be1dddf",
-                  "band": 3,
+                  "band": 2,
                   "answer": "XSS is when a hacker puts bad code on a website. When you visit it, the code runs and can steal your password. CSRF is when a hacker tricks you into clicking a bad link that makes you do something you don't want to do, like sending money from your bank account. Both are bad for security.",
                   "mark": 3,
                   "source": "AI"
@@ -2302,35 +2302,35 @@
               "sampleAnswers": [
                 {
                   "id": "sa-70acc2e1-28d0-4173-a306-5a5a2f743ba2",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Secure coding practices are crucial for protecting systems from vulnerabilities. For file attacks, a key practice is rigorous input validation and sanitisation. This prevents attacks like Path Traversal, where an attacker uses input like '../' to access restricted files. For example, a web application that allows users to download a file should sanitise the requested filename to ensure it contains no directory traversal sequences and only allows access to files within a designated public directory. Additionally, applying the Principle of Least Privilege by running the application with minimal file system permissions ensures that even if a vulnerability is exploited, the damage is contained.\n\nFor side-channel attacks, which exploit information leaked from the physical implementation of a system, a primary mitigation is using constant-time algorithms. These algorithms take the same amount of time to execute regardless of the input data. For example, a cryptographic function comparing a user's provided password hash to the stored hash should not return immediately upon finding the first mismatch. A naive string comparison would do this, leaking timing information that an attacker could use to guess the hash character by character. A constant-time comparison function would check all characters, ensuring the execution time is always the same, thus mitigating this timing attack vector.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-ca8533b4-0b2b-4f59-89b9-782e4c1fa7d4",
-                  "band": 2,
+                  "band": 1,
                   "answer": "To stop hackers, you need to write secure code. For files, you can use a password so only the right user can open it. For side-channel attacks, you should make sure the software has good antivirus protection and a firewall. This will block the attacks from getting in.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-610a4b09-5108-4602-a647-7b937b34f2d3",
-                  "band": 4,
+                  "band": 3,
                   "answer": "Secure coding practices are important for protecting against various cyberattacks. For **file attacks**, a primary practice is robust **input validation**. This involves carefully checking and sanitizing all user-supplied data to ensure it doesn't contain malicious characters or patterns that could manipulate file paths or commands. For example, to prevent a **path traversal attack**, a system should validate user input for file requests, specifically disallowing sequences like '..' (dot-dot-slash) that could allow an attacker to access directories outside the intended scope. Another practice is implementing the principle of **least privilege** through **access control**, ensuring that an application only has the minimum necessary permissions to interact with files, reducing the potential damage if compromised. For **side-channel attacks**, the key is to ensure that code execution does not leak sensitive information through observable effects like timing differences. This is achieved through **constant-time operations**. A common example is in cryptographic functions, such as comparing a user-provided password with a stored hash. Instead of stopping the comparison as soon as a mismatch is found (which would take less time for incorrect prefixes), a secure implementation will always perform the comparison over the full length of the data, taking the same amount of time regardless of whether the inputs match or where they differ. This prevents an attacker from performing a **timing attack** to infer character-by-character the correct password by observing execution times.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-92d5f355-c321-46a5-b90d-6f42acb97f79",
-                  "band": 3,
+                  "band": 2,
                   "answer": "For file attacks, secure coding means you should always check what users type in. If someone tries to put in strange characters or file paths into a box, the code needs to stop it before it does anything. This helps protect important files. For example, if a user types \"../../config.txt\" into an input field, the code should not let them access that file they shouldn't see. This prevents them from going to other folders.\n\nFor side-channel attacks, it's about not giving away clues. This means writing code carefully so that it doesn't accidentally show information. Like, if your program checks a password, and it takes longer to say 'wrong' when a few letters are right compared to when all letters are wrong, that's a problem. Secure coding would make sure the password check always finishes in the same amount of time, no matter what, so an attacker can't guess character by character.",
                   "mark": 2,
                   "source": "AI"
                 },
                 {
                   "id": "sa-c74fb7eb-6595-47ff-ad1a-a253e39c3d93",
-                  "band": 2,
+                  "band": 1,
                   "answer": "For file attacks, secure coding means checking what people type into the program so they can't mess with files. An example is not letting them type in special characters that could open other files. For side-channel attacks, you just have to make sure your code runs fast so no one can guess things from it.",
                   "mark": 1,
                   "source": "AI"
@@ -2370,7 +2370,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-1d99e355-f75e-49a4-8dd4-caac82832d6f",
-                  "band": 3,
+                  "band": 2,
                   "answer": "A timing attack is a type of side-channel attack where an attacker attempts to compromise a system by analysing the time taken to execute cryptographic algorithms. The core characteristic is that it exploits information leaked not from the output of the code, but from its physical implementation. The attacker sends multiple inputs to a function (e.g., a password checker) and precisely measures the response time for each. If the function returns slightly faster when the first character of a guess is correct, the attacker can infer that character and repeat the process for the next, eventually revealing the entire secret.",
                   "mark": 3,
                   "source": "AI"
@@ -2434,21 +2434,21 @@
               "sampleAnswers": [
                 {
                   "id": "sa-a15023c2-4cd7-4e59-9bb3-bde9ea46726a",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Collaboration significantly enhances the development of safe and secure software by leveraging diverse expertise and implementing rigorous quality assurance processes. Delegating tasks based on expertise is a core benefit. For instance, a security specialist can be assigned to implement and test the authentication and encryption modules, bringing a deep understanding of common vulnerabilities like SQL injection or cross-site scripting (XSS). This is far more effective than a generalist developer handling these critical components, reducing the likelihood of introducing security flaws. Furthermore, collaboration improves the overall quality of the solution through practices like peer code reviews and pair programming. When multiple developers examine a piece of code, they bring different perspectives, making it more likely that subtle logic errors or potential security loopholes are identified and rectified before the code is merged. This collective oversight ensures the final product is not only functional but also robust, reliable, and secure against potential threats.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-7988386a-423d-4a9c-a42b-27893dcfa615",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Collaboration is when a team works together. It helps make software better because more people can write the code faster. If they delegate tasks, the project gets finished on time. This makes the software good quality.",
                   "mark": 1,
                   "source": "AI"
                 },
                 {
                   "id": "sa-eaefb3fe-98f9-4a61-96dd-054e8bf584b8",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Collaboration helps make software secure because team members can review each other's code. This is called a code review. This process helps find security mistakes or bugs that a single programmer might have missed. Also, when you delegate tasks, a person with security expertise can focus on the security parts of the program, making the final solution better.",
                   "mark": 2,
                   "source": "AI"
@@ -2489,14 +2489,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-bd9605c5-ba3c-4427-a4af-dede5295ceb6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "The implementation of safe and secure development practices provides significant, multifaceted benefits to an enterprise by embedding quality and resilience throughout the Software Development Life Cycle (SDLC). These benefits manifest in improved products, enhanced productivity, and safer business interactivity. Firstly, integrating practices like threat modelling, static code analysis, and peer code reviews directly improves the final product. By identifying and mitigating vulnerabilities early, the enterprise delivers software that is more robust, reliable, and resistant to attack. This reduces the risk of data breaches, builds customer trust, and enhances the company's brand reputation, leading to a stronger market position. Secondly, these practices boost long-term productivity. While they may require an initial investment of time in the design and coding phases, this 'shift-left' approach is far more efficient than addressing security flaws post-release. Fixing a vulnerability in a deployed product can be up to 100 times more expensive than fixing it during development. This proactive approach minimises costly emergency patching, downtime, and reputational damage control, allowing development teams to focus on innovation rather than reactive fixes. Finally, secure development is fundamental to modern business interactivity. In a connected ecosystem, software must interact with customers, suppliers, and partners via APIs and other interfaces. By enforcing secure coding standards and data encryption, an enterprise ensures that these interactions are safe, protecting sensitive data and ensuring compliance with regulations like GDPR. This fosters trust with partners and enables the enterprise to participate in new digital markets and supply chains with confidence, directly supporting business growth and collaboration.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-9bb3fbfd-65fe-4065-9ea2-e2d98ef11b17",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Secure software is good for a business because it stops hackers. If you have good passwords and a firewall the hackers can't get in. This helps the business make more money because their website does not go down. Productivity is when you work fast and making it secure slows you down.",
                   "mark": 1,
                   "source": "AI"
@@ -2599,7 +2599,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-87e9b34c-3a20-4d32-9fd5-7b99ccbede8d",
-                  "band": 3,
+                  "band": 2,
                   "answer": "A key social issue an enterprise must consider is the maintenance of public trust. When developing secure software, the company has a social responsibility to safeguard user data. A data breach resulting from insecure software can lead to widespread social harm, such as financial loss and identity theft, which erodes public trust in both the enterprise and the digital economy. An important ethical issue is informed consent. Ethically, developers and the enterprise must be transparent about what user data is collected and why. It is unethical to collect more data than necessary or to mislead users about how it is protected, as this infringes on an individual's fundamental right to privacy, regardless of how 'secure' the data storage is.",
                   "mark": 3,
                   "source": "AI"
@@ -2649,7 +2649,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-2c469616-ab2c-4726-bbc3-75714af63664",
-                  "band": 6,
+                  "band": 5,
                   "answer": "The implementation of secure software that collects vast user data creates a significant ethical tension between an enterprise's business objectives and an individual's fundamental right to privacy. The discussion centres on the fact that secure software is a dual-use technology: it is required to enable large-scale data collection while also being the primary tool for protecting that data.\n\nFrom the enterprise perspective, the collection of user data is a primary driver of modern business models. This data is used to personalise user experiences, improve services, and, most importantly, for targeted advertising, which is the revenue model for many large platforms. From this viewpoint, data is an asset, and secure software is the vault required to protect that asset, thereby safeguarding the business's value and reputation.\n\nFrom the individual's perspective, this mass data collection, even when 'secure', poses a major ethical problem. It infringes upon the right to privacy and can lead to a state of 'surveillance capitalism', where personal experiences are commodified. The security of the software does not negate the ethical concerns of the collection itself. A breach of this secure data can lead to catastrophic personal harm, such as identity theft. Furthermore, the data can be used in ethically questionable ways, such as for discriminatory pricing or political manipulation, even without a breach.\n\nIn conclusion, the tension is profound. Secure software is a necessary but not sufficient condition for ethical data handling. While enterprises are driven to collect data for profit, they have an ethical duty to practice data minimisation, be transparent about collection, and provide users with genuine control. The role of the software engineer is therefore not just to build a secure vault, but to question what is being put inside it and why.",
                   "mark": 8,
                   "source": "AI"

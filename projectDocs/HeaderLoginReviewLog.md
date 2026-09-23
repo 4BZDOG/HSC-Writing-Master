@@ -565,3 +565,107 @@ fails without the fix; new cases in `progression.test.ts` and
 build; Chromium e2e, 36 of 36 (workspace chrome, light theme, accessibility,
 evaluation flow, paywall, modal scroll, no-clipped-text); in the app, both settings switched on in
 both themes, a question opened into Focus Mode, and `data-contrast` applied.
+
+## PR #284 — Seed content that agrees with itself
+
+The brief: once the student and teacher workflows were sound, look at the
+backend — in particular what an admin seeds, so that the questions, guides and
+exemplars the marker is given are valid and consistent.
+
+I ran every shipped question (495) and sample answer (1,022) — `data/seedData.ts`
+and everything under `public/courseData/` — through the app's own rules.
+
+**Bug — the database locked exemplars by a band the app does not show.** A
+sample answer's `band` is a stored copy of its mark read through the command
+verb (`getBandForMark`), and 675 shipped copies had drifted: "3/3 — Band 6" on
+a JUSTIFY question the verb caps at Band 5, "4/4 — Band 5" on an EXPLAIN that
+tops out at Band 3. The app never showed those numbers — every surface derives
+the band — so a test deliberately left the files alone as harmless. They were
+not harmless in Supabase: `supabase/seed.mjs` uploads the files as they are,
+and the paywall withholds a sample answer by its stored band
+(`sample_answer_withheld(band, …)`), so the server withheld exemplars by one
+band while the app labelled and locked them by another. The files are
+corrected, and `seedSampleBands.test.ts` now covers them, so CI fails if a
+file drifts again.
+
+**Bug — 34 shipped questions had no command verb.** The app infers one at
+runtime; the seed wrote `verb: null` to the database. Each now stores the verb
+the app infers — listed below for you to confirm, since several questions do
+not open with a NESA command term at all and are better reworded. A new test
+keeps a question from shipping without a verb.
+
+**Bug — a missing verb was inferred as the most demanding verb anywhere in the
+question.** "Explain the code optimisation technique of memoization. Provide a
+'before' and 'after' … to demonstrate …" became a DEMONSTRATE question, a tier
+above what it asks, with a higher band ceiling to match. The verb a question
+opens with now governs it (`leadingCommandVerb`); the old rule is the fallback
+for a question that opens with something else.
+
+**A tool to keep it that way.** `npm run content:canonicalise` applies the
+app's own import rules (imported, not copied) to the files in place and lists
+every verb it had to infer; `npm run content:check` reports without writing.
+`supabase/seed.mjs` now says to run the check first, and re-running the seed
+updates the rows already in the database (it upserts on `legacy_id`).
+
+**The demo questions every new account sees.**
+
+- "Describe the key steps involved in DNA replication" — the question everyone
+  opens first — was the one shipped question with no marking guide. It has one.
+- The other four seed guides covered only the top of the mark range (the
+  10-mark EVALUATE guide described 8–10 marks and nothing below) and were
+  written ascending, which the Content Audit Studio itself flags as
+  non-standard. Each is now a complete, descending ladder from full marks to 1.
+- The four full-mark seed exemplars ran 70–126 words against a full-mark guide
+  of 80–450 words, so a student read that full marks takes half the length the
+  marker is told to expect. They are rewritten to the guide's length with the
+  same content in more depth.
+
+**Inferred verbs to confirm** (from `npm run content:canonicalise`):
+
+| Inferred | Question opens |
+| --- | --- |
+| EXPLAIN | "A student hypothesised that 'all bacteria are killed by penicillin'…" |
+| EXPLAIN | "Develop a risk assessment for using a scalpel…" |
+| JUSTIFY | "Select appropriate equipment to measure the rate of transpiration…" |
+| PREDICT | "Use a Punnett square model to predict the probability…" |
+| JUSTIFY | "Select the most appropriate visual medium…" |
+| EXPLAIN | "Given the DNA coding strand sequence 5'-ATG CCG TAA-3', determine…" (×2) |
+| EXPLAIN | "Relate the accumulation of Single Nucleotide Polymorphisms…" |
+| ACCOUNT | "Account for the widespread use of artificial pollination…" |
+| ACCOUNT | "Account for the use of genomic sequencing in the conservation…" |
+| EXPLAIN | "In data analytics, what is the difference between a pattern and a trend?" |
+| INVESTIGATE | "Investigate how advancements in BOTH storage/memory…" |
+| EXPLAIN | "What is the primary function of an OLAP system?" |
+| EXPLAIN | "In the context of data integrity, what is the difference…" |
+| EXPLAIN | "In a data visualisation, what is the difference between aggregation and filtering…" |
+| EXPLAIN | "Why must a data visualisation be relevant to its intended audience?" |
+| INVESTIGATE | "Investigate how emerging AI-powered software could impact…" |
+| EXPLAIN | "You need to create a visualisation to show the relationship…" |
+| EXPLAIN | "Design a concept for an interactive data visualisation…" |
+| EXPLAIN | "What is the purpose of a primary key and a foreign key…" |
+| INVESTIGATE | "An intelligent system is used by a court to predict…" |
+| RECOMMEND | "Provide one fact and one IF-THEN rule for a simple expert system…" |
+| EXPLAIN | "Develop a set of at least three IF-THEN rules…" |
+| DESCRIBE | "Design a model for an automated smart window blind system… Describe…" |
+| COMPARE | "Compare 'Cookies' and 'LocalStorage'… Recommend…" |
+| EXPLAIN | "Explain the purpose of database indexing and evaluate its impact…" |
+| CONSTRUCT | "Construct a shell script command…" |
+| EXPLAIN | "Document a simple linear search algorithm…" |
+| EXPLAIN | "Develop a test plan for a login function…" |
+| EXPLAIN | "Explain the code optimisation technique of memoization…" |
+| STATE | "State the relationship between Artificial Intelligence…" |
+| STATE | "State the purpose of the 'K' parameter…" |
+| DEMONSTRATE | "Design a class structure in pseudocode for a `PolynomialRegression` model…" |
+| STATE | "State one way automation can improve production efficiency…" |
+
+**Looked at and left.** 75 guides whose top line is below the question's marks
+are additive ("1 mark: … 1 mark: …"), a legitimate NESA style, not an error.
+The 340 guides the studio calls non-standard, the 45 under-length full-mark
+exemplars in the course files and the questions whose marks sit outside their
+verb's usual range are already reported by the Content Audit Studio, which has
+the bulk actions to repair them; they are content to rewrite, not rules to
+change.
+
+**Checked:** `npm run test:all` (the widened `seedSampleBands.test.ts`, which
+fails against the old files; a new verb test; new cases in
+`importVerbIntegrity.test.ts`), `npm run content:check` clean, `format:check`.
