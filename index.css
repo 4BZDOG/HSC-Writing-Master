@@ -173,6 +173,25 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/*
+ * High Contrast (profile → Settings). A filter on the ROOT element: it is the
+ * one element a filter does not turn into a containing block for fixed
+ * descendants, so the header, the toasts and every portalled dialog keep their
+ * positions while all of them — including the many surfaces coloured with
+ * fixed Tailwind shades rather than the theme tokens — gain contrast together.
+ * The muted and dim text tokens also move toward the secondary tone, so the
+ * quietest copy gains more than the filter alone gives it.
+ */
+html[data-contrast='high'] {
+  filter: contrast(1.25);
+  --color-text-muted: 196 203 214;
+  --color-text-dim: 170 180 194;
+}
+html[data-contrast='high'][data-theme='light'] {
+  --color-text-muted: 51 65 85;
+  --color-text-dim: 71 85 105;
+}
+
 body {
   background-color: rgb(var(--color-bg-base));
   color: rgb(var(--color-text-primary));

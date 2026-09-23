@@ -315,6 +315,18 @@ export interface UserStats {
   questionsAnswered: number;
   totalWordsWritten: number;
   averageBand: number;
+  /**
+   * Mean share of the available marks earned, 0–1, over the answers marked
+   * since it was first recorded (`markShareCount` of them).
+   *
+   * The fair average. A band is capped by the question's command verb, so
+   * averaging bands across a mix of DESCRIBE and EVALUATE questions reports a
+   * student earning every mark on offer as "Band 2.6 — room to grow". A share
+   * of each question's own marks measures every answer against what it could
+   * have earned. Optional: profiles from before it was kept have neither field.
+   */
+  markShareMean?: number;
+  markShareCount?: number;
   lastActive: number;
   streakDays: number;
 }

@@ -39,7 +39,7 @@ import {
 import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
 import { canUseAiGeneration, roleLabel } from '../utils/permissions';
-import { levelProgress } from '../utils/progression';
+import { averageMarkPercent, levelProgress } from '../utils/progression';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -486,7 +486,15 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
     if (questionsAnswered === 0)
       return { text: 'Complete your first evaluation to start tracking progress.', positive: true };
     const parts: string[] = [];
-    if (averageBand >= 5) parts.push(`averaging Band ${averageBand.toFixed(1)}`);
+    // The share of the marks on offer where it is known. An average BAND told a
+    // student earning every mark on DESCRIBE questions — which top out at Band
+    // 2 — that they were "averaging Band 2.0 — room to grow".
+    const markPercent = averageMarkPercent(user.stats);
+    if (markPercent !== null) {
+      parts.push(
+        `earning ${markPercent}% of the marks on offer${markPercent >= 80 ? '' : markPercent >= 60 ? ' — keep pushing' : ' — room to grow'}`
+      );
+    } else if (averageBand >= 5) parts.push(`averaging Band ${averageBand.toFixed(1)}`);
     else if (averageBand >= 4)
       parts.push(`averaging Band ${averageBand.toFixed(1)} — keep pushing`);
     else parts.push(`averaging Band ${averageBand.toFixed(1)} — room to grow`);
@@ -495,7 +503,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       parts.push(`${(totalWordsWritten / 1000).toFixed(1)}k words written`);
     return {
       text: `You've completed ${questionsAnswered} evaluation${questionsAnswered === 1 ? '' : 's'}, ${parts.join(', ')}.${streakDays >= 3 ? ' Keep the momentum going!' : ' Try to write every day to build your streak.'}`,
-      positive: averageBand >= 4,
+      positive: markPercent !== null ? markPercent >= 60 : averageBand >= 4,
     };
   }, [user.stats]);
 
@@ -772,14 +780,27 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     ringColor: 'stroke-emerald-500',
                     ringPercent: Math.min(100, user.stats.questionsAnswered),
                   },
-                  {
-                    label: 'Avg Band',
-                    val: user.stats.averageBand.toFixed(1),
-                    icon: Target,
-                    color: 'text-indigo-400',
-                    ringColor: 'stroke-indigo-500',
-                    ringPercent: (user.stats.averageBand / 6) * 100,
-                  },
+                  // Marks earned, as a share of the marks on offer, once the
+                  // profile has that figure. Measured against each question's
+                  // own total, it cannot mistake a command verb's ceiling for
+                  // a weak answer the way an average band does.
+                  averageMarkPercent(user.stats) !== null
+                    ? {
+                        label: 'Avg mark',
+                        val: `${averageMarkPercent(user.stats)}%`,
+                        icon: Target,
+                        color: 'text-indigo-400',
+                        ringColor: 'stroke-indigo-500',
+                        ringPercent: averageMarkPercent(user.stats)!,
+                      }
+                    : {
+                        label: 'Avg Band',
+                        val: user.stats.averageBand.toFixed(1),
+                        icon: Target,
+                        color: 'text-indigo-400',
+                        ringColor: 'stroke-indigo-500',
+                        ringPercent: (user.stats.averageBand / 6) * 100,
+                      },
                   {
                     label: 'Words',
                     val:
@@ -948,23 +969,21 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     desc: 'Switch to light mode.',
                     isTheme: true,
                   },
+                  // Auto-Save is gone from this list. Drafts save as you type
+                  // whatever it said — nothing read the setting — so a switch
+                  // that appeared to stop saving was a promise the app did not
+                  // keep, about the one thing a student cannot afford to lose.
                   {
                     id: 'defaultFocusMode',
                     icon: MousePointer2,
-                    label: 'Default Focus Mode',
-                    desc: 'Automatically hide menus on entry.',
-                  },
-                  {
-                    id: 'autoSave',
-                    icon: Save,
-                    label: 'Auto-Save',
-                    desc: 'Automatically save your drafts.',
+                    label: 'Open questions in Focus Mode',
+                    desc: 'The navigator and panels step aside whenever you open a question.',
                   },
                   {
                     id: 'highContrast',
                     icon: Zap,
                     label: 'High Contrast',
-                    desc: 'Increase text legibility.',
+                    desc: 'Stronger text and edges across the app.',
                   },
                 ].map((pref, i) => {
                   const on =
@@ -974,7 +993,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   return (
                     <div
                       key={pref.id}
-                      className={`flex items-center justify-between gap-4 px-5 sm:px-10 py-5 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 3 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
+                      className={`flex items-center justify-between gap-4 px-5 sm:px-10 py-5 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 2 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
                     >
                       <div className="flex items-center gap-4 sm:gap-5 min-w-0">
                         <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500 light:text-slate-600">

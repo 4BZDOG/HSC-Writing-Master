@@ -242,6 +242,8 @@ export interface DemoAttempt {
   draft: string;
   wordCount: number;
   mark: number;
+  /** Out of — for the share of marks earned the profile averages. */
+  totalMarks: number;
   band: number;
   evaluation: EvaluationResult;
 }
@@ -350,6 +352,15 @@ const deriveStats = (attempts: DemoAttempt[], rand: () => number): UserStats => 
     questionsAnswered: attempts.length,
     totalWordsWritten: words,
     averageBand,
+    markShareMean: attempts.length
+      ? Number(
+          (
+            attempts.reduce((s, a) => s + (a.totalMarks > 0 ? a.mark / a.totalMarks : 0), 0) /
+            attempts.length
+          ).toFixed(4)
+        )
+      : 0,
+    markShareCount: attempts.length,
     // Relative to the run time, like every other date in the cohort.
     lastActive: Date.now() - mostRecent * 86_400_000,
     streakDays: intBetween(rand, 1, 12),
@@ -448,6 +459,7 @@ export const generateCohort = ({
           draft,
           wordCount: countWords(draft),
           mark,
+          totalMarks: prompt.totalMarks,
           band,
           evaluation: buildEvaluation(rand, prompt, mark, band),
         };

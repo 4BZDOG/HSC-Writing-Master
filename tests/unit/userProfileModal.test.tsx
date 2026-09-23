@@ -180,9 +180,9 @@ describe('preference switches', () => {
     const onUpdateUser = vi.fn();
     renderModal({ onUpdateUser });
     openSettings();
-    fireEvent.click(screen.getByRole('switch', { name: /auto-save/i }));
+    fireEvent.click(screen.getByRole('switch', { name: /high contrast/i }));
     expect(onUpdateUser).toHaveBeenCalledWith(
-      expect.objectContaining({ preferences: expect.objectContaining({ autoSave: false }) })
+      expect.objectContaining({ preferences: expect.objectContaining({ highContrast: true }) })
     );
     expect(updateUserMock).toHaveBeenCalled();
     expect(screen.queryByRole('button', { name: /save settings/i })).toBeNull();
@@ -191,11 +191,24 @@ describe('preference switches', () => {
   it('announce what they are and whether they are on', () => {
     renderModal();
     openSettings();
-    const autoSave = screen.getByRole('switch', { name: /auto-save/i });
-    expect(autoSave.getAttribute('aria-checked')).toBe('true');
+    expect(
+      screen
+        .getByRole('switch', { name: /open questions in focus mode/i })
+        .getAttribute('aria-checked')
+    ).toBe('false');
     expect(
       screen.getByRole('switch', { name: /high contrast/i }).getAttribute('aria-checked')
     ).toBe('false');
+  });
+
+  /**
+   * Auto-Save did nothing — drafts save as you type whatever it said — so a
+   * student who switched it off believed their work was no longer being kept.
+   */
+  it('offers no switch for a setting the app does not honour', () => {
+    renderModal();
+    openSettings();
+    expect(screen.queryByRole('switch', { name: /auto-save/i })).toBeNull();
   });
 });
 
@@ -212,5 +225,23 @@ describe('what the header says', () => {
     renderModal();
     expect(screen.getByText(/65\/100 XP to Level 6/i)).toBeTruthy();
     expect(screen.queryByText(/9%/)).toBeNull();
+  });
+});
+
+describe('the average on the stats tab', () => {
+  it('shows the share of the marks on offer once the profile keeps it', () => {
+    const user = makeUser();
+    renderModal({
+      user: { ...user, stats: { ...user.stats, markShareMean: 0.9, markShareCount: 12 } },
+    });
+    expect(screen.getByText('90%')).toBeTruthy();
+    expect(screen.getByText('Avg mark')).toBeTruthy();
+    expect(screen.queryByText('Avg Band')).toBeNull();
+    expect(screen.getByText(/earning 90% of the marks on offer/)).toBeTruthy();
+  });
+
+  it('keeps the band average for a profile that predates it', () => {
+    renderModal();
+    expect(screen.getByText('Avg Band')).toBeTruthy();
   });
 });

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   XP_PER_LEVEL,
   applyEvaluation,
+  averageMarkPercent,
   levelForXp,
   levelProgress,
   xpForEvaluation,
@@ -112,5 +113,39 @@ describe('folding one marked answer into a profile', () => {
     expect(after.totalWordsWritten).toBe(0);
     expect(Number.isFinite(after.averageBand)).toBe(true);
     expect(Number.isFinite(after.xp)).toBe(true);
+  });
+});
+
+/**
+ * A band is capped by the question's command verb, so an average of bands told
+ * a student earning every mark on DESCRIBE questions that they were "averaging
+ * Band 2.0 — room to grow". The share of each question's own marks is fair to
+ * every question.
+ */
+describe('the share of the marks on offer', () => {
+  it('averages each answer against its own question', () => {
+    let stats = applyEvaluation(blank, { band: 2, wordCount: 90, mark: 4, totalMarks: 4 });
+    stats = applyEvaluation(stats, { band: 4, wordCount: 200, mark: 4, totalMarks: 8 });
+    expect(averageMarkPercent(stats)).toBe(75);
+    expect(stats.markShareCount).toBe(2);
+  });
+
+  it('full marks on a capped question is 100%, whatever its band', () => {
+    const stats = applyEvaluation(blank, { band: 2, wordCount: 90, mark: 4, totalMarks: 4 });
+    expect(averageMarkPercent(stats)).toBe(100);
+    expect(stats.averageBand).toBe(2);
+  });
+
+  it('starts from nothing on a profile that predates it, rather than guessing', () => {
+    const older: UserStats = { ...blank, questionsAnswered: 30, averageBand: 3.1 };
+    expect(averageMarkPercent(older)).toBeNull();
+    const after = applyEvaluation(older, { band: 3, wordCount: 100, mark: 3, totalMarks: 6 });
+    expect(averageMarkPercent(after)).toBe(50);
+    expect(after.markShareCount).toBe(1);
+  });
+
+  it('leaves the share alone when the marks are not known', () => {
+    const after = applyEvaluation(blank, { band: 3, wordCount: 100 });
+    expect(averageMarkPercent(after)).toBeNull();
   });
 });

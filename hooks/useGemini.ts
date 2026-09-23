@@ -377,7 +377,12 @@ export const useGemini = ({
         if (user && onUpdateUser) {
           const updated: User = {
             ...user,
-            stats: applyEvaluation(user.stats, { band: result.overallBand, wordCount }),
+            stats: applyEvaluation(user.stats, {
+              band: result.overallBand,
+              wordCount,
+              mark: result.overallMark,
+              totalMarks: prompt.totalMarks,
+            }),
           };
           onUpdateUser(updated);
           // Persist through the same path the profile's own Save uses; it is
