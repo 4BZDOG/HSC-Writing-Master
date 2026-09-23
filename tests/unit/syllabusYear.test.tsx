@@ -24,7 +24,9 @@ import {
  */
 
 vi.mock('../../services/geminiService', () => ({ parseSyllabusStructure: vi.fn() }));
-vi.mock('../../services/responseService', () => ({ fetchMyAttempts: vi.fn(async () => new Map()) }));
+vi.mock('../../services/responseService', () => ({
+  fetchMyAttempts: vi.fn(async () => new Map()),
+}));
 
 beforeAll(() => {
   Element.prototype.scrollIntoView = vi.fn();
@@ -255,7 +257,11 @@ const withDotPoint = (t: Topic, suffix: string): Topic => ({
       id: `st-${suffix}`,
       name: `Sub-topic ${suffix}`,
       dotPoints: [
-        { id: `dp-${suffix}`, description: `Dot point ${suffix}`, prompts: [prompt(`p-${suffix}`)] },
+        {
+          id: `dp-${suffix}`,
+          description: `Dot point ${suffix}`,
+          prompts: [prompt(`p-${suffix}`)],
+        },
       ],
     },
   ],
@@ -307,8 +313,7 @@ const renderNavigator = (courses: Course[], path: Partial<StatePath> = {}) => {
 };
 
 /** The year control sits beside the course name and shows the active year. */
-const yearControl = () =>
-  screen.getByRole('button', { name: /Year 1[12]/ }) as HTMLButtonElement;
+const yearControl = () => screen.getByRole('button', { name: /Year 1[12]/ }) as HTMLButtonElement;
 
 const openYearList = () => {
   fireEvent.click(yearControl());
@@ -464,7 +469,10 @@ describe('the sub-topic question count', () => {
     ],
   };
 
-  it('shows the total question count for a populated sub-topic, and no badge for an empty one', () => {
+  // An empty sub-topic used to carry no badge at all, which looked the same as
+  // one whose count simply had not been drawn, and a student found out it was
+  // empty only by opening it. It says so now, in the same muted voice.
+  it('shows the total question count for a populated sub-topic, and says when one is empty', () => {
     renderNavigator(courseWith([mixedTopic]), { topicId: 't' });
     const list = openSubTopicList();
 
@@ -472,7 +480,7 @@ describe('the sub-topic question count', () => {
     expect(within(fullRow).getByText('3 questions')).toBeTruthy();
 
     const emptyRow = within(list).getByText('Empty sub-topic').closest('li') as HTMLElement;
-    expect(within(emptyRow).queryByText(/question/i)).toBeNull();
+    expect(within(emptyRow).getByText('No questions yet')).toBeTruthy();
   });
 
   it('uses the singular for exactly one question', () => {

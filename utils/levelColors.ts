@@ -49,6 +49,30 @@ export const LEVEL_ICON_TINT: Record<CurriculumLevel, string> = {
 };
 
 /**
+ * The small icon tile that stands for a level — on every option in the
+ * navigator's pickers, and on each step's header. Tinted fill, glyph and edge,
+ * both themes.
+ *
+ * These were written out by hand at each of six sites and had drifted: the
+ * sub-topic's tile was indigo while its picker, its rail node and this file
+ * all said teal. The tile is the ONE place a chosen level still carries its hue
+ * now that the chosen row itself is neutral, so it has to be right.
+ * Full literals, for the same Tailwind reason as above.
+ */
+export const LEVEL_TILE: Record<CurriculumLevel, string> = {
+  course:
+    'bg-blue-500/15 text-blue-400 border-blue-500/25 light:bg-blue-100 light:text-blue-700 light:border-blue-200',
+  topic:
+    'bg-purple-500/15 text-purple-400 border-purple-500/25 light:bg-purple-100 light:text-purple-700 light:border-purple-200',
+  subTopic:
+    'bg-teal-500/15 text-teal-400 border-teal-500/25 light:bg-teal-100 light:text-teal-700 light:border-teal-200',
+  dotPoint:
+    'bg-pink-500/15 text-pink-400 border-pink-500/25 light:bg-pink-100 light:text-pink-700 light:border-pink-200',
+  prompt:
+    'bg-amber-500/15 text-amber-400 border-amber-500/25 light:bg-amber-100 light:text-amber-700 light:border-amber-200',
+};
+
+/**
  * The completion status hue — deliberately NOT one of the level hues, so a
  * "done" tick can never be mistaken for a level's own colour.
  */

@@ -17,7 +17,7 @@ import {
   widestFilter,
 } from '../utils/questionFilter';
 import { suggestNextQuestion } from '../utils/personalOrdering';
-import { LEVEL_HUE } from '../utils/levelColors';
+import { LEVEL_HUE, LEVEL_TILE } from '../utils/levelColors';
 import {
   SYLLABUS_YEARS,
   activeSyllabusYear,
@@ -474,7 +474,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(c.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+            <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
               <Book className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
@@ -514,7 +514,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           disabled: !selectable,
           renderLabel: (
             <div className={`flex items-center gap-3 ${selectable ? '' : 'opacity-60'}`}>
-              <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 light:bg-blue-100 light:text-blue-700 border border-blue-500/20 flex-shrink-0">
+              <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="min-w-0">
@@ -563,10 +563,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         isNew: newlyAddedIds.has(t.id),
         renderLabel: (
           <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-500 light:bg-purple-100 light:text-purple-700 border border-purple-500/20 flex-shrink-0">
+            <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.topic}`}>
               <Layers className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{t.name}</span>
+            {/* How much is inside, so the list says where the depth is before
+                anyone opens a topic to find out. */}
+            {t.subTopics?.length > 0 && (
+              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                {t.subTopics.length} sub-topic{t.subTopics.length === 1 ? '' : 's'}
+              </span>
+            )}
             {/* Per topic, so a half-finished course says WHICH half. */}
             {canCurate && (
               <CoverageChip coverage={questionCoverage({ topics: [t] })} label={t.name} />
@@ -587,15 +594,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           isNew: newlyAddedIds.has(st.id),
           renderLabel: (
             <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-500 light:bg-indigo-100 light:text-indigo-700 border border-indigo-500/20 flex-shrink-0">
+              {/* Teal, from LEVEL_TILE: this tile was hand-written as indigo
+                  while the picker, the rail and levelColors all said teal. */}
+              <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.subTopic}`}>
                 <FolderOpen className="w-4 h-4" />
               </div>
               <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
-              {questionCount > 0 && (
-                <span className="t-label flex-shrink-0 text-indigo-500/80 light:text-indigo-700">
-                  {questionCount} question{questionCount === 1 ? '' : 's'}
-                </span>
-              )}
+              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                {questionCount > 0
+                  ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
+                  : 'No questions yet'}
+              </span>
             </div>
           ),
         };
@@ -612,23 +621,47 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         // hidden items findable, so typing a focus area still locates its dot
         // point.
         const { stem, items } = splitDotPointDescription(dp.description);
+        const questionCount = dp.prompts?.length ?? 0;
         return {
           id: dp.id,
           label: stem,
           searchText: items.join(' '),
           isNew: newlyAddedIds.has(dp.id),
+          // Chosen, the statement alone: the question step directly below
+          // counts its own questions, and a count here said it twice.
+          renderSelected: (
+            <div className="flex items-center gap-3">
+              <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.dotPoint}`}>
+                <List className="w-4 h-4" />
+              </div>
+              <span className="min-w-0 overflow-hidden text-ellipsis font-medium">{stem}</span>
+            </div>
+          ),
           renderLabel: (
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-lg bg-pink-500/20 text-pink-500 light:bg-pink-100 light:text-pink-700 border border-pink-500/20 mt-0.5 flex-shrink-0">
+              <div
+                className={`p-1.5 rounded-lg border mt-0.5 flex-shrink-0 ${LEVEL_TILE.dotPoint}`}
+              >
                 <List className="w-4 h-4" />
               </div>
               <span className="min-w-0">
-                <span className="block leading-snug font-medium">{stem}</span>
-                {items.length > 0 && (
-                  <span className="t-label block mt-0.5 text-emerald-500/80">
-                    {items.length} focus area{items.length === 1 ? '' : 's'}
-                  </span>
-                )}
+                {/* `overflow-hidden text-ellipsis` rather than `truncate`: in the
+                    closed control, which is `nowrap`, a long statement ends in
+                    an ellipsis instead of running under the chevron; in the
+                    open list, which wraps, it still reads in full. */}
+                <span className="block leading-snug font-medium overflow-hidden text-ellipsis">
+                  {stem}
+                </span>
+                {/* What is here to practise, in the muted voice every other
+                    count in the picker uses. The focus-area count was emerald,
+                    which is the rail's "done" colour and nothing else. */}
+                <span className="t-label block mt-0.5 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  {questionCount > 0
+                    ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
+                    : 'No questions yet'}
+                  {items.length > 0 &&
+                    ` · ${items.length} focus area${items.length === 1 ? '' : 's'}`}
+                </span>
               </span>
             </div>
           ),
@@ -1000,11 +1033,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const getBoxClasses = (isSelected: boolean, isActive: boolean, colorKey: string) => {
     const theme = THEMES[colorKey] || THEMES.blue; // Defensive fallback
+    // An answered step is a single row — the picker and nothing around it.
+    // It used to be a tinted card holding a tinted control, five of them
+    // stacked, so the steps already answered were the loudest thing on screen
+    // and the one still open had to shout over them. The open step keeps its
+    // frame and its hue; the answered ones step back.
     if (isSelected) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))]/60 light:bg-white border ${theme.selectedBorder} light:border-slate-300 light:shadow-sm py-3 px-4 z-10`;
+      return `relative rounded-2xl transition-all duration-500 ease-out w-full py-1 z-10`;
     }
+    // No `scale`: a 1% scale resamples the text inside, and the open step
+    // already has the frame, the shadow and the extra padding to mark it.
     if (isActive) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-lg ${theme.activeShadow} py-6 px-6 scale-[1.01] z-20`;
+      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-lg ${theme.activeShadow} py-6 px-6 z-20`;
     }
     return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
   };
@@ -1045,6 +1085,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 disabled={isLoading}
                 placeholder={isLoading ? 'Loading courses…' : 'Select Course...'}
                 color="blue"
+                appearance="quiet"
+                caption="Course"
                 emptyAction={
                   canRequestCourse
                     ? {
@@ -1067,6 +1109,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   onChange={handleYearChange}
                   placeholder="Select Year..."
                   color="blue"
+                  appearance="quiet"
                 />
               </div>
             )}
@@ -1199,6 +1242,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   }
                   placeholder="Select Topic..."
                   color="purple"
+                  appearance="quiet"
+                  caption="Topic"
                 />
               </div>
               {canCurate && (
@@ -1397,6 +1442,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   }
                   placeholder="Select Sub-Topic..."
                   color="teal"
+                  appearance="quiet"
+                  caption="Sub-topic"
                 />
               </div>
               {canCurate && (
@@ -1452,7 +1499,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               />
             </div>
             {!isDotPointSelected && (
-              <StepHeader icon={List} label="Syllabus Content" colorKey={LEVEL_HUE.dotPoint} />
+              <StepHeader icon={List} label="Syllabus point" colorKey={LEVEL_HUE.dotPoint} />
             )}
             {dotPointOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
@@ -1480,6 +1527,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   }
                   placeholder="Select Dot Point..."
                   color="pink"
+                  appearance="quiet"
+                  // Beside the focus picker the step already has a label above
+                  // it, lined up with "Active Focus"; a caption too would say
+                  // it twice.
+                  caption={isDotPointSelected && hasSubItems ? undefined : 'Syllabus point'}
                 />
               </div>
 
@@ -1493,6 +1545,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     onChange={handleSubItemToggle}
                     placeholder="Refine Scope..."
                     color="green"
+                    appearance="quiet"
                   />
                 </div>
               )}
@@ -1680,6 +1733,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   }}
                   placeholder="Select Question..."
                   color="amber"
+                  caption="Question"
                 />
               </div>
               {canCurate && (

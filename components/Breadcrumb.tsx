@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { ChevronRight, BookOpen, Layers, Folder, Hash } from 'lucide-react';
 import type { SyllabusCrumb } from '../types';
 
@@ -38,6 +38,8 @@ const SIZES = {
     crumb: 'gap-2 px-3 py-1.5 text-sm',
     icon: 'w-4 h-4',
     chevron: 'w-4 h-4 mx-2',
+    item: 'flex-shrink-0',
+    labelWidth: 'max-w-[150px] sm:max-w-[250px]',
   },
   dense: {
     // No surface of its own: the collapsed navigator bar is already a card, and
@@ -47,6 +49,20 @@ const SIZES = {
     crumb: 'gap-1.5 px-2 py-1 text-[11px]',
     icon: 'w-3 h-3',
     chevron: 'w-3 h-3 mx-1',
+    // Crumbs SHRINK here rather than scroll. The bar is one row beside the
+    // verb, marks and Change button, and a scrolled path pinned to its end
+    // showed the course as "logy (Advanced)" — cut mid-word at the left edge
+    // with nothing saying more was there. Shrinking truncates every crumb a
+    // little, each with an ellipsis and its full name in the title, and the
+    // deepest crumb gives way last. Below the floor it still scrolls, and the
+    // edge fades say so.
+    //
+    // From `sm` up. On a phone the bar has about 150px for the path, and four
+    // crumbs shrunk to fit it read "H… › D… › C…", which says nothing, so there
+    // the crumbs keep their width, the list scrolls to the deepest one as it
+    // always did, and the fade at the start shows the rest is there.
+    item: 'flex-shrink-0 sm:flex-shrink sm:min-w-[4.5rem] sm:last:flex-shrink-[0.4]',
+    labelWidth: 'max-w-[150px] sm:max-w-none sm:min-w-0',
   },
 } as const;
 
@@ -63,6 +79,28 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const scrollRef = useRef<HTMLOListElement>(null);
   const scale = SIZES[size];
 
+  // Which ends of the path are out of view, so the list can fade there. A hard
+  // cut at the edge reads as the end of the text; a fade reads as "more".
+  const [hidden, setHidden] = useState({ start: false, end: false });
+  const measure = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const start = el.scrollLeft > 1;
+    const end = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
+    setHidden((prev) => (prev.start === start && prev.end === end ? prev : { start, end }));
+  }, []);
+  useEffect(() => {
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [measure]);
+  const fade =
+    hidden.start || hidden.end
+      ? `linear-gradient(to right, ${hidden.start ? 'transparent, black 24px' : 'black'}, ${
+          hidden.end ? 'black calc(100% - 24px), transparent' : 'black'
+        })`
+      : undefined;
+
   // Keyed on the path's CONTENT, not the array's identity. `items` is a fresh
   // literal on every parent render, and the parent re-renders on every
   // keystroke — keyed on `items` this pinned the list to its right-hand end
@@ -76,13 +114,16 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     // options bag, so the preference is read here instead.
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     el.scrollTo({ left: el.scrollWidth, behavior: reduce ? 'auto' : 'smooth' });
-  }, [pathKey]);
+    measure();
+  }, [pathKey, measure]);
 
   return (
     <nav className={scale.shell} aria-label={label}>
       <ol
         ref={scrollRef}
+        onScroll={measure}
         className={`flex items-center overflow-x-auto scrollbar-hide ${scale.list}`}
+        style={fade ? { maskImage: fade, WebkitMaskImage: fade } : undefined}
       >
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
@@ -91,7 +132,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           const canJump = !!item.onClick;
 
           return (
-            <li key={`breadcrumb-${index}`} className="flex items-center flex-shrink-0">
+            <li key={`breadcrumb-${index}`} className={`flex items-center ${scale.item}`}>
               {index > 0 && (
                 <ChevronRight
                   className={`${scale.chevron} text-[rgb(var(--color-text-muted))]/50 flex-shrink-0`}
@@ -121,7 +162,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                     : item.label
                 }
                 className={`
-                    flex items-center ${scale.crumb} rounded-lg font-medium
+                    flex items-center min-w-0 ${scale.crumb} rounded-lg font-medium
                     whitespace-nowrap border transition-all duration-200
                     ${
                       isLast
@@ -136,7 +177,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                 >
                   <Icon className={scale.icon} />
                 </span>
-                <span className="truncate max-w-[150px] sm:max-w-[250px]">{item.label}</span>
+                <span className={`truncate ${scale.labelWidth}`}>{item.label}</span>
                 {/* Outside the truncating span, so a long course name can never
                     eat the year, and outside `label`, so `crumbs.map(c => c.label)`
                     still yields the plain names the PDF export and the AI
