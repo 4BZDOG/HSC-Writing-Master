@@ -233,7 +233,7 @@ Chromium e2e for workspace chrome, light theme, accessibility, verb ribbon and
 no-clipped-text (22 of 22); screenshots of every step, open and closed, in both
 themes at 1280px and at 390px.
 
-## PR 6 — Tell a student the length the marker expects, and find the words they wrote
+## PR #278 — Tell a student the length the marker expects, and find the words they wrote
 
 The brief: find bugs and refinements in the writing prompt, the writing area
 and the live stats, which work together.
