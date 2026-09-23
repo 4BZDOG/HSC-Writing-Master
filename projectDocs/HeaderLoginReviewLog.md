@@ -81,7 +81,7 @@ width it covered the disclaimer and the demo chips.
 reset UI tests), Chromium e2e for the agreement gate and accessibility specs,
 and screenshots of both themes at 1280px and 375px.
 
-## PR 3 — The header at 320px, a mark that is not a heading, and deploys that say when they did nothing
+## PR #275 — The header at 320px, a mark that is not a heading, and deploys that say when they did nothing
 
 **Header**
 
