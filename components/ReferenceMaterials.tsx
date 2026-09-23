@@ -6,6 +6,7 @@ import OutcomeDetailModal from './OutcomeDetailModal';
 import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } from 'lucide-react';
 import { getBandConfig, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { NESA_PERFORMANCE_BAND_DESCRIPTORS } from '../data/performanceBands';
 import { canCurateContent } from '../utils/permissions';
 import {
   PANEL_HEADER_CLOSED,
@@ -163,6 +164,18 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   const linkedOutcomes = useMemo(
     () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
     [courseOutcomes, prompt.linkedOutcomes]
+  );
+  // The topic's own descriptors when it has them, and NESA's general band
+  // descriptors when it does not. Only the three seeded demo topics carried a
+  // set, so on any topic imported or loaded from the shared library the Grade
+  // Standards panel was simply absent — the one panel that says what each band
+  // means, missing without a word on exactly the courses teachers add.
+  const bandDescriptors = useMemo(
+    () =>
+      topic?.performanceBandDescriptors?.length
+        ? topic.performanceBandDescriptors
+        : NESA_PERFORMANCE_BAND_DESCRIPTORS,
+    [topic?.performanceBandDescriptors]
   );
   const maxPossibleBand = useMemo(
     () => getBandForMark(prompt.totalMarks, prompt.totalMarks, verbInfo.tier),
@@ -349,7 +362,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         </AccordionSection>
       )}
 
-      {topic?.performanceBandDescriptors && topic.performanceBandDescriptors.length > 0 && (
+      {bandDescriptors.length > 0 && (
         <AccordionSection
           title="Grade Standards"
           subtitle={`This question reaches Band ${maxPossibleBand}`}
@@ -359,7 +372,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           supportId="gradeStandards"
         >
           <div className="space-y-4">
-            {[...topic.performanceBandDescriptors]
+            {[...bandDescriptors]
               .sort((a, b) => b.band - a.band)
               .map((descriptor) => {
                 const bConfig = getBandConfig(descriptor.band);

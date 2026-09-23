@@ -293,6 +293,22 @@ describe('panel chrome consistency', () => {
     expect(screen.getAllByText(/Beyond what a describe question can reach/)).toHaveLength(1);
   });
 
+  // Only the seeded demo topics carried descriptors, so on an imported or
+  // library topic the panel vanished. It falls back to NESA's general set.
+  it('shows Grade Standards on a topic with no descriptors of its own', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt()}
+        topic={{ ...topic(), performanceBandDescriptors: undefined } as unknown as Topic}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
+    expect(screen.getByText('Band 6')).toBeTruthy();
+    expect(screen.getByText('Band 1')).toBeTruthy();
+  });
+
   it('says the Marking Guide is not written yet rather than naming a band over nothing', () => {
     render(
       <ReferenceMaterials
