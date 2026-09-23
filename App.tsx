@@ -5,6 +5,7 @@ import AppHeader from './components/AppHeader';
 import MeshOverlay from './components/MeshOverlay';
 import Toast from './components/Toast';
 import ApiHealthIndicator from './components/ApiHealthIndicator';
+import AmbientAurora from './components/AmbientAurora';
 import ApiStatusIndicator from './components/ApiStatusIndicator';
 import BackgroundTaskIndicator from './components/BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
@@ -69,40 +70,8 @@ import { findAndUpdateItem } from './utils/stateUtils';
 const AnimatedBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {/* The `blob` keyframes live in index.css — see the note there. */}
       <div className="absolute inset-0 bg-[rgb(var(--color-bg-base))]" />
-      <div className="absolute inset-0 light:hidden">
-        <div
-          className="absolute top-0 -left-4 w-96 h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30"
-          style={{ animation: 'blob 10s infinite ease-in-out' }}
-        />
-        <div
-          className="absolute top-0 -right-4 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30"
-          style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '2s' }}
-        />
-        <div
-          className="absolute -bottom-32 -left-20 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[80px] opacity-30"
-          style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '4s' }}
-        />
-        <div
-          className="absolute -bottom-40 -right-20 w-80 h-80 bg-pink-600 rounded-full mix-blend-screen filter blur-[80px] opacity-20"
-          style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '6s' }}
-        />
-      </div>
-      <div className="absolute inset-0 hidden light:block">
-        <div
-          className="absolute top-0 -left-4 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-40"
-          style={{ animation: 'blob 10s infinite ease-in-out' }}
-        />
-        <div
-          className="absolute top-0 -right-4 w-96 h-96 bg-sky-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-40"
-          style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '2s' }}
-        />
-        <div
-          className="absolute -bottom-32 left-20 w-96 h-96 bg-violet-200 rounded-full mix-blend-multiply filter blur-[100px] opacity-30"
-          style={{ animation: 'blob 10s infinite ease-in-out', animationDelay: '4s' }}
-        />
-      </div>
+      <AmbientAurora />
       <div
         className="absolute inset-0 opacity-[0.03] light:opacity-[0.02] mix-blend-overlay"
         style={{
