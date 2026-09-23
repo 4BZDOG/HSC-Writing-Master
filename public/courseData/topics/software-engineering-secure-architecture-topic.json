@@ -38,7 +38,8 @@
                 "Vulnerabilities",
                 "Risk mitigation",
                 "Data integrity",
-                "Confidentiality"
+                "Confidentiality",
+                "developing secure software"
               ],
               "markingCriteria": "Provides one mark for each distinct benefit of developing secure software that is correctly outlined with relevant features. Maximum of three marks. Benefits can include data protection, minimising cyber attacks, or reducing vulnerabilities.",
               "sampleAnswers": [
@@ -103,7 +104,8 @@
                 "Reputational damage",
                 "Financial loss",
                 "Long-term cost",
-                "Customer trust"
+                "Customer trust",
+                "secure software"
               ],
               "markingCriteria": "- Provides a clear justification linking secure practices to mitigating long-term risks (1 mark). • Supports the justification by explaining the high cost of fixing post-release vulnerabilities (1 mark). • Supports the justification by discussing the impact of a security breach on a startup's reputation and customer trust (2 marks). • Presents a cohesive and logical argument (1 mark).",
               "sampleAnswers": [
@@ -238,7 +240,9 @@
                 "Threat modelling",
                 "Secure coding practices",
                 "Regulatory compliance",
-                "Critical evaluation"
+                "Critical evaluation",
+                "developing secure",
+                "minimising cyber"
               ],
               "markingCriteria": "1 0- 1\n2 Marks: Provides a comprehensive, insightful, and highly perceptive critical evaluation of the extent to which secure software development delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sophisticated understanding of the challenges inherent in a dynamic FinTech environment (e.g., rapid feature deployment, cloud infrastructure, regulatory compliance) and discusses how secure software practices address or are impacted by these. Justifies judgments with specific, well-articulated examples and a nuanced discussion of both successes and limitations. Arguments are well-structured, coherent, and demonstrate superior knowledge of secure software architecture principles.\n7-9 Marks: Provides a detailed and well-structured critical evaluation of the benefits of secure software development in data protection, minimising cyber attacks, and reducing vulnerabilities. Demonstrates a sound understanding of the FinTech context and how secure software practices contribute to these benefits. Arguments are supported with relevant examples, and a clear judgment is made regarding the effectiveness, though it may lack the depth or nuance of a top-range response. Discussion is mostly coherent with good application of relevant concepts.\n4-6 Marks: Describes the benefits of developing secure software (data protection, minimising cyber attacks, reducing vulnerabilities) with some attempt at evaluation. Identifies some relevant secure software practices and their impact within the FinTech scenario, but the evaluation may be more descriptive than critical, or lack depth regarding the 'extent' to which benefits are achieved. Arguments may be general or lack specific supporting examples. Understanding of the FinTech environment's unique challenges may be limited.\n2-3 Marks: Provides a basic description of one or two benefits of secure software development. Lacks significant evaluation or contextualisation within the FinTech scenario. Response is superficial, with limited detail or relevance to the question's demands.\n0-1 Mark: Provides an irrelevant or minimal response, demonstrating no understanding of the question or the syllabus content.",
               "sampleAnswers": [
@@ -284,14 +288,15 @@
                 "Focusing too heavily on one phase while neglecting the other, failing to address 'design AND testing'."
               ],
               "keywords": [
-                "Software Development Life Cycle (SDLC)",
                 "Design phase",
                 "Testing phase",
                 "Secure coding principles",
                 "Threat modelling",
                 "Security testing",
                 "Vulnerability assessment",
-                "Code review"
+                "Code review",
+                "software development",
+                "secure code"
               ],
               "markingCriteria": "- Provides a clear and detailed explanation of how the design phase contributes to secure code, supported by relevant examples (e.g., threat modelling, principle of least privilege). (2 marks) • Provides a clear and detailed explanation of how the testing phase contributes to secure code, supported by relevant examples (e.g., penetration testing, fuzz testing). (2 marks) • Demonstrates a logical and coherent structure, using appropriate terminology accurately throughout the response. (1 mark)",
               "sampleAnswers": [
@@ -344,7 +349,7 @@
               "id": "prompt-1763040000002-d4e5f6g",
               "question": "Analyse the role of the 'maintenance' phase of the software development life cycle in preserving the security of an application over time. Use examples to support your answer.",
               "totalMarks": 4,
-              "verb": "APPLY",
+              "verb": "ANALYSE",
               "scenario": "A company launched a successful web application two years ago. The management team now wants to reduce the budget for the original development team, arguing that the project is 'finished'. The lead engineer must prepare a report analysing the critical role of the ongoing maintenance phase in protecting the application from new and emerging security threats.",
               "linkedOutcomes": [
                 "SE-12-08",
@@ -371,7 +376,8 @@
                 "Vulnerability management",
                 "Legacy code",
                 "Continuous monitoring",
-                "Security posture"
+                "Security posture",
+                "software development"
               ],
               "markingCriteria": "- Identifies the key purpose of the maintenance phase in relation to ongoing security (1 mark). • Analyses the importance of proactive maintenance activities, such as patching and monitoring (2 marks). • Supports the analysis with a relevant example, such as responding to a newly discovered vulnerability in a library (1 mark).",
               "sampleAnswers": [
@@ -489,7 +495,9 @@
                 "Security features",
                 "Human-computer interaction",
                 "Usability",
-                "Authentication"
+                "Authentication",
+                "end users influence",
+                "secure design"
               ],
               "markingCriteria": "Provides clear characteristics and features of how end-user capabilities influence secure software design. -\n3 Marks: Clearly describes two or more influences with relevant examples and terminology. -\n2 Marks: Describes one influence with some detail or lists multiple influences. -\n1 Mark: Identifies a basic link between users and security.",
               "sampleAnswers": [
@@ -606,12 +614,12 @@
                 "Not providing a balanced conclusion that argues for finding an optimal trade-off."
               ],
               "keywords": [
-                "Security",
                 "Usability",
                 "User experience (UX)",
                 "Trade-off",
                 "Friction",
-                "Human factor"
+                "Human factor",
+                "end users"
               ],
               "markingCriteria": "- Identifies the key issue: the inherent conflict between security controls and user experience (1 mark). • Develops points for one perspective, explaining how strong security measures can create 'friction' and make a system unusable (2 marks). • Develops points for the alternative perspective, explaining how unusable security leads to users bypassing it, making the system insecure (2 marks). • Provides a balanced, nuanced treatment showing that the most effective security is both strong and usable (2 marks).",
               "sampleAnswers": [
@@ -817,7 +825,8 @@
                 "Audit trails",
                 "Logging",
                 "Non-repudiation",
-                "Security concepts"
+                "Security concepts",
+                "software design"
               ],
               "markingCriteria": "- Explains the concept of accountability as the ability to trace actions to a specific entity (1 mark). • Relates this concept to security, explaining how it helps in forensic analysis and acts as a deterrent (2 marks). • Provides a relevant example, such as detailed audit logs (1 mark).",
               "sampleAnswers": [
@@ -997,7 +1006,8 @@
                 "Data privacy",
                 "Sensitive data",
                 "Access control",
-                "Threat landscape"
+                "Threat landscape",
+                "data protection"
               ],
               "markingCriteria": "- 7-8 Marks: Makes a clear and well-supported judgment on the effectiveness of both models. Provides a detailed and accurate evaluation, linking specific architectural principles and features (e.g., micro-segmentation, MFA, least privilege) to data protection, privacy, and regulatory compliance within the FinTech context. Justifies the evaluation with logical reasoning and relevant examples. •\n5-6 Marks: Makes a sound judgment. Provides a good description and some evaluation of both models. Links some security features to the requirements but may lack depth or specific application to the scenario. Justification is present but may not be fully developed. •\n3-4 Marks: Describes one or both security models with a limited attempt at evaluation or comparison. May list some security features without clearly explaining their effectiveness or relevance. The response is more descriptive than evaluative. •\n1-2 Marks: Provides a very basic or confused description of security concepts. May identify a relevant term (e.g., firewall, password) with little or no correct explanation. Fails to address the core aspects of the question. •\n0 Marks: Provides an irrelevant or non-attempted response.",
               "sampleAnswers": [
@@ -1050,7 +1060,7 @@
               "id": "prompt-1763170000001-final30-01",
               "question": "Analyse the role of data encryption as a security feature for ensuring both data protection and regulatory compliance.",
               "totalMarks": 5,
-              "verb": "APPLY",
+              "verb": "ANALYSE",
               "scenario": "A company is preparing for its annual privacy audit. The legal counsel asks the head of software engineering to analyse and document how the company's use of end-to-end encryption specifically helps them meet their obligations under the GDPR.",
               "linkedOutcomes": [
                 "SE-12-04",
@@ -1140,7 +1150,8 @@
                 "Data integrity",
                 "Isolation",
                 "Threat mitigation",
-                "Vulnerability management"
+                "Vulnerability management",
+                "design approach"
               ],
               "markingCriteria": "- Provides a clear explanation of cryptography's role in security by design, with a relevant example (2 marks). • Provides a clear explanation of sandboxing's role in security by design, with a relevant example (2 marks). • Effectively links both concepts to the proactive nature of the 'security by design' approach, using appropriate terminology (1 mark).",
               "sampleAnswers": [
@@ -1278,7 +1289,9 @@
                 "user privacy",
                 "software development lifecycle",
                 "data minimisation",
-                "security principles"
+                "security principles",
+                "design approach",
+                "software solutions"
               ],
               "markingCriteria": "- Clearly defines 'privacy by design' and its proactive nature, contrasting it with reactive approaches (2 marks). • Explains how specific principles of the approach (e.g., privacy embedded into design, data minimisation) respect user privacy (2 marks). • Provides a relevant and detailed example that illustrates the concept (1 mark).",
               "sampleAnswers": [
@@ -1569,14 +1582,15 @@
                 "SAST",
                 "DAST",
                 "Penetration Testing",
-                "SDLC (Software Development Life Cycle)",
                 "Security Testing",
                 "Vulnerability Assessment",
                 "Risk Management",
                 "Secure Coding Practices",
                 "Data Confidentiality",
                 "Data Integrity",
-                "Quality Assurance"
+                "Quality Assurance",
+                "static application security",
+                "dynamic application security"
               ],
               "markingCriteria": "Provides a sophisticated evaluation of the combined effectiveness of SAST, DAST, and penetration testing within the SDLC. Makes a well-supported judgement on the relative importance of each strategy, referencing the specific context of an e-commerce platform. Demonstrates a comprehensive understanding of the strengths and limitations of each approach. Uses relevant terminology accurately and effectively. (7-8 marks). Describes the strategies and provides some evaluation of their effectiveness, with a clear link to the SDLC. (5-6 marks). Outlines one or more strategies with limited evaluation. (3-4 marks). Identifies a security strategy with a basic description. (1-2 marks).",
               "sampleAnswers": [
@@ -1720,7 +1734,9 @@
                 "Security vulnerabilities",
                 "Cross-Site Scripting (XSS)",
                 "SQL injection",
-                "User input"
+                "User input",
+                "defensive data input handling",
+                "data input handling practices"
               ],
               "markingCriteria": "- 1 mark for a basic definition of either validation or sanitisation. • 2 marks for a basic comparison identifying a point of difference. • 3 marks for a clear comparison of both practices and one correct example. • 4 marks for a comprehensive comparison clearly distinguishing between the two practices, and providing a correct, relevant example for each.",
               "sampleAnswers": [
@@ -1800,7 +1816,8 @@
                 "Denial of Service (DoS)",
                 "Injection attacks",
                 "Data integrity",
-                "Secure coding practices"
+                "Secure coding practices",
+                "safe application programming interface"
               ],
               "markingCriteria": "Provides a clear and detailed explanation of how input validation prevents specific vulnerabilities like injection attacks (2 marks). Provides a clear and detailed explanation of how rate limiting prevents specific vulnerabilities like Denial of Service or brute-force attacks (2 marks). The response must explicitly link both security measures to the creation of a safe API using appropriate terminology.",
               "sampleAnswers": [
@@ -1881,7 +1898,9 @@
                 "System state",
                 "Fault tolerance",
                 "Data integrity",
-                "Performance"
+                "Performance",
+                "efficient execution",
+                "exception management"
               ],
               "markingCriteria": "- 4 marks: Provides a clear and detailed comparison of both session and exception management, explicitly linking both to efficient execution for the user with relevant technical detail. •\n3 marks: Explains both concepts with some valid points of comparison related to efficiency. •\n2 marks: Provides a sound description of both concepts but with limited comparison or link to efficiency. •\n1 mark: Provides a limited description of one or both concepts.",
               "sampleAnswers": [
@@ -2073,7 +2092,8 @@
                 "Output encoding",
                 "Anti-CSRF tokens",
                 "Secure coding practices",
-                "Threat mitigation"
+                "Threat mitigation",
+                "vulnerabilities"
               ],
               "markingCriteria": "Provides a clear explanation of Cross-Site Scripting (XSS) and its impact (1 mark). Identifies a correct mitigation strategy for XSS (1 mark). Provides a clear explanation of Cross-Site Request Forgery (CSRF) and its impact (1 mark). Identifies a correct mitigation strategy for CSRF (1 mark).",
               "sampleAnswers": [
@@ -2483,7 +2503,8 @@
                 "product quality",
                 "productivity",
                 "business interactivity",
-                "software engineering"
+                "software engineering",
+                "software development"
               ],
               "markingCriteria": "- 5 marks: Provides a comprehensive and detailed explanation of how secure practices benefit an enterprise across products, productivity, and business interactivity, using relevant examples and terminology. •\n4 marks: Explains several benefits, making clear links to products, productivity, and/or business interactivity. •\n2-3 marks: Provides a basic explanation of one or more benefits to an enterprise. •\n1 mark: Identifies at least one benefit of secure practices.",
               "sampleAnswers": [
@@ -2550,7 +2571,8 @@
                 "Algorithmic bias",
                 "Stakeholder impact",
                 "Digital citizenship",
-                "Regulation and legislation"
+                "Regulation and legislation",
+                "data security"
               ],
               "markingCriteria": "Provides a clear and well-supported judgement on the extent of the ramifications. Sophisticated evaluation links digital disruption, secure software, and specific social/ethical issues (employment, data security) with relevant examples. Acknowledges both positive and negative impacts. Response is logical, cohesive, and uses precise industry terminology. At the lower end, the response may be descriptive, identifying some issues with limited links to the question's core concepts of evaluation and digital disruption.",
               "sampleAnswers": [
