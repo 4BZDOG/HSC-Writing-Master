@@ -566,7 +566,7 @@ build; Chromium e2e, 36 of 36 (workspace chrome, light theme, accessibility,
 evaluation flow, paywall, modal scroll, no-clipped-text); in the app, both settings switched on in
 both themes, a question opened into Focus Mode, and `data-contrast` applied.
 
-## PR 12 — Seed content that agrees with itself
+## PR #284 — Seed content that agrees with itself
 
 The brief: once the student and teacher workflows were sound, look at the
 backend — in particular what an admin seeds, so that the questions, guides and
