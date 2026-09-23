@@ -1472,7 +1472,7 @@ const App: React.FC = () => {
           isSaving={isAcceptingAgreement}
         />
       )}
-      {/* Toasts dock at the bottom: full width below `sm`, bottom-LEFT above it.
+      {/* Toasts dock bottom-LEFT from `sm`, and full width at the TOP below it.
 
           Every other corner is occupied. `top-24 right-4`, where this used to
           sit, put the card on the breadcrumb bar — at 390px it covered the whole
@@ -1494,7 +1494,13 @@ const App: React.FC = () => {
           student was looking at. */}
       {toast &&
         createPortal(
-          <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:left-4 z-toast animate-slide-in">
+          // On a phone it drops in at the TOP. Full-width at the foot of the
+          // screen it sat over whatever a dialog keeps at its foot — the
+          // agreement's tick box and the quick start's "Start writing" — for
+          // its whole lifetime, and those are the first two screens a new
+          // account sees. Over the app bar it covers only chrome, and the top
+          // of the screen is where a phone's own notices arrive.
+          <div className="fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] sm:top-auto sm:inset-x-auto sm:bottom-4 sm:left-4 z-toast animate-slide-in">
             <Toast
               key={toast.id}
               message={toast.message}

@@ -34,6 +34,27 @@ const DEFAULT_PREFERENCES: UserPreferences = {
   theme: 'dark', // Default theme
 };
 
+/**
+ * Defaults for a profile with no stored preferences, taking its theme from
+ * the one this device is already showing.
+ *
+ * A fixed `theme: 'dark'` overrode the choice the student had just made on the
+ * sign-in page: a light-theme device went dark the moment the first profile
+ * was written — accepting the agreement, on a first sign-in — and in Supabase
+ * mode on every sign-in until the student saved a theme from their profile.
+ * A theme the profile HAS stored still wins; this only fills the gap.
+ */
+const defaultPreferences = (): UserPreferences => {
+  let theme: UserPreferences['theme'] = DEFAULT_PREFERENCES.theme;
+  try {
+    // Raw, like the writer in App.tsx and the preload in index.html.
+    if (window.localStorage.getItem(STORAGE_KEYS.THEME) === 'light') theme = 'light';
+  } catch {
+    /* storage unavailable — keep the default */
+  }
+  return { ...DEFAULT_PREFERENCES, theme };
+};
+
 const DEFAULT_STATS: UserStats = {
   xp: 0,
   level: 1,
@@ -145,7 +166,7 @@ export const mapProfileToUser = (
     username,
     role: mapSupabaseRole(profile?.role),
     displayName: profile?.display_name || username,
-    preferences: { ...DEFAULT_PREFERENCES, ...(profile?.preferences || {}) },
+    preferences: { ...defaultPreferences(), ...(profile?.preferences || {}) },
     stats: { ...DEFAULT_STATS, ...(profile?.stats || {}) },
     ...(stripePlan && stripePlan !== 'free' ? { stripePlan } : {}),
     ...(profile?.plan_period_end ? { planPeriodEnd: profile.plan_period_end } : {}),
@@ -181,7 +202,7 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
         username: userLower,
         role: mockUser.role,
         displayName: mockUser.name,
-        preferences: { ...DEFAULT_PREFERENCES },
+        preferences: defaultPreferences(),
         stats: { ...DEFAULT_STATS },
       };
       // Give the demo accounts a term's worth of history so the features that
@@ -750,7 +771,7 @@ export const authService = {
       username: 'guest',
       role: 'guest',
       displayName: 'Guest Visitor',
-      preferences: { ...DEFAULT_PREFERENCES },
+      preferences: defaultPreferences(),
       stats: { ...DEFAULT_STATS },
     };
 

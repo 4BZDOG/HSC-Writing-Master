@@ -39,6 +39,8 @@ describe('ApiHealthIndicator', () => {
     render(<ApiHealthIndicator />);
     const dot = screen.getByRole('status');
     expect(dot.getAttribute('aria-label')).toBe('API Connection: Healthy');
+    // Nothing to act on, so not on a phone, where it sat over the answer.
+    expect(dot.className).toMatch(/max-sm:hidden/);
   });
 
   it('announces the recent error count when degraded (not tooltip-only)', () => {
@@ -47,10 +49,14 @@ describe('ApiHealthIndicator', () => {
     const dot = screen.getByRole('status');
     // The count is in an accessible name, reachable without hover/pointer.
     expect(dot.getAttribute('aria-label')).toContain('3/5 recent errors');
+    // A warning is worth the space at every width.
+    expect(dot.className).not.toMatch(/max-sm:hidden/);
   });
 
   it('renders nothing when blocked — the banner owns that state', () => {
-    mockStatus.mockReturnValue(status({ state: 'BLOCKED', isBlocked: true, blockedUntil: Date.now() + 60000 }));
+    mockStatus.mockReturnValue(
+      status({ state: 'BLOCKED', isBlocked: true, blockedUntil: Date.now() + 60000 })
+    );
     const { container } = render(<ApiHealthIndicator />);
     expect(container.firstChild).toBeNull();
     expect(screen.queryByRole('status')).toBeNull();

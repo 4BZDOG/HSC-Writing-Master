@@ -140,6 +140,28 @@ const resolveTopicTargetCourse = (
 };
 
 /**
+ * A topic is only ticked to begin with if the course it belongs to will be
+ * there to receive it.
+ *
+ * The manifest pre-ticks the Heredity topic for "HSC Biology", but the built-in
+ * sample course a new workspace starts with is "HSC Biology (Advanced)" — so
+ * every new account's first action ended in "Imported 2 items. One topic was
+ * left out because the course it belongs to is not in your workspace", about a
+ * topic they never chose. Mutates and returns `docs`.
+ */
+export const untickUnplaceableTopics = (docs: DiscoveredDoc[]): DiscoveredDoc[] => {
+  const coursesTicked = docs
+    .filter((doc) => doc.type === 'course' && doc.selected)
+    .map((doc) => doc.data as Course);
+  docs.forEach((doc) => {
+    if (doc.type === 'topic' && doc.selected) {
+      doc.selected = !!resolveTopicTargetCourse(doc, coursesTicked);
+    }
+  });
+  return docs;
+};
+
+/**
  * The `year` field a newly created topic should carry.
  *
  * Year 12 is written as ABSENCE, not as `'year12'`: every topic authored before
@@ -292,6 +314,8 @@ export const useSyllabusData = ({
             console.warn('[Discovery] Manifest fetch failed, relying on seeds.');
           }
 
+          untickUnplaceableTopics(potentialDocs);
+
           setDiscoveredDocs(potentialDocs);
         } catch (error) {
           console.error('[Discovery] Fatal:', error);
@@ -313,6 +337,7 @@ export const useSyllabusData = ({
         if (docsToImport.length === 0) return false;
 
         let importedCount = 0;
+        let coursesAdded = 0;
         let skippedTopics = 0;
 
         updateCourses((draft) => {
@@ -337,6 +362,7 @@ export const useSyllabusData = ({
             }
 
             importedCount++;
+            coursesAdded++;
           });
 
           topicDocs.forEach((doc) => {
@@ -365,15 +391,23 @@ export const useSyllabusData = ({
           // topic read "1 topic file still need a target course in manifest
           // metadata" — which also named the file format rather than the thing
           // the teacher is missing, and did not say what to do about it.
-          const items = `${importedCount} ${importedCount === 1 ? 'item' : 'items'}`;
+          // Named for what was added. "Imported 2 items" after pressing "Add 2
+          // syllabuses" read as a different count of a different thing.
+          const topicsAdded = importedCount - coursesAdded;
+          const items = [
+            coursesAdded && `${coursesAdded} ${coursesAdded === 1 ? 'syllabus' : 'syllabuses'}`,
+            topicsAdded && `${topicsAdded} ${topicsAdded === 1 ? 'topic' : 'topics'}`,
+          ]
+            .filter(Boolean)
+            .join(' and ');
           const leftOut =
             skippedTopics === 1
               ? 'One topic was left out because the course it belongs to is not in your workspace'
               : `${skippedTopics} topics were left out because the courses they belong to are not in your workspace`;
           const syncMessage =
             skippedTopics > 0
-              ? `Imported ${items}. ${leftOut}. Import the missing course first, then bring these in again.`
-              : `Imported ${items}.`;
+              ? `Added ${items}. ${leftOut}. Add the missing course first, then bring these in again.`
+              : `Added ${items}.`;
           showToast(syncMessage, skippedTopics > 0 ? 'info' : 'success');
           return true;
         }
