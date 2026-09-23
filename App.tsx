@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
+import { createPortal } from 'react-dom';
 import PromptSelector from './components/PromptSelector';
 import Workspace from './components/Workspace';
 import AppHeader from './components/AppHeader';
@@ -421,6 +422,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   const {
     evaluationResult,
+    evaluatedAnswer,
     setEvaluationResult,
     isEvaluating,
     evaluationError,
@@ -1065,7 +1067,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             enrichError={enrichError}
             isImproving={isImproving}
             improveAnswerError={improveAnswerError}
-            evaluatedAnswer={userAnswer}
+            evaluatedAnswer={evaluatedAnswer || userAnswer}
             handleEvaluate={handleEvaluate}
             geminiHandlers={geminiHandlers}
             modalHandlers={modalHandlers}
@@ -1483,18 +1485,27 @@ const App: React.FC = () => {
           no button a student needs. An informational notice should not be
           blocking clicks on anything for the fourteen seconds an actionable
           toast can live. */}
-      {toast && (
-        <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:left-4 z-toast animate-slide-in">
-          <Toast
-            key={toast.id}
-            message={toast.message}
-            type={toast.type}
-            action={toast.action}
-            duration={toast.durationMs}
-            onClose={hideToast}
-          />
-        </div>
-      )}
+      {/* Portalled to <body>, beside the modals. Rendered here it sat inside
+          the app root's `relative z-10` stacking context, so its z-toast
+          (1000) only ranked it among the page's own layers: every modal is
+          portalled to <body> at z-100 and up, and no toast could ever be seen
+          over one. "Marking complete", a failed PDF export, and the Undo
+          after a rewrite replaced the draft all landed under the dialog the
+          student was looking at. */}
+      {toast &&
+        createPortal(
+          <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:left-4 z-toast animate-slide-in">
+            <Toast
+              key={toast.id}
+              message={toast.message}
+              type={toast.type}
+              action={toast.action}
+              duration={toast.durationMs}
+              onClose={hideToast}
+            />
+          </div>,
+          document.body
+        )}
       <ApiStatusIndicator />
       {/* Signed-in only. The dot reports on the AI connection, which nobody on
           the sign-in page can use yet — and at phone width it sat on top of

@@ -76,6 +76,29 @@ describe('useGemini stale evaluation results', () => {
     expect(result.current.evaluationResult).toEqual(expect.objectContaining({ overallMark: 3 }));
   });
 
+  /**
+   * The report, the PDF and "Improve my answer" all need the answer the mark
+   * is FOR. They were handed the live draft, so once the student put the
+   * rewrite in it the report printed the rewrite as "as submitted" beside the
+   * original's mark.
+   */
+  it('keeps the answer that was marked, not whatever the draft becomes', async () => {
+    const promptA = makePrompt('prompt-a');
+    vi.mocked(gemini.evaluateAnswer).mockResolvedValue(evaluation as never);
+
+    const { result } = renderHook((props) => useGemini(props), {
+      initialProps: baseProps(promptA),
+    });
+
+    await act(async () => {
+      await result.current.evaluate('the answer as marked', promptA);
+    });
+    expect(result.current.evaluatedAnswer).toBe('the answer as marked');
+
+    act(() => result.current.resetEvaluation());
+    expect(result.current.evaluatedAnswer).toBe('');
+  });
+
   it('suppresses a late result after switching questions, but still saves it', async () => {
     const promptA = makePrompt('prompt-a');
     const promptB = makePrompt('prompt-b');

@@ -17,10 +17,16 @@ import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import { getReadinessChroma } from '../utils/draftReadiness';
 import ReadinessMeter from './ReadinessMeter';
-import { freeEvalsRemaining, isFeatureLocked, subscribeEvalCount } from '../services/entitlements';
+import {
+  freeEvalsRemaining,
+  isFeatureLocked,
+  isFeedbackLocked,
+  subscribeEvalCount,
+} from '../services/entitlements';
 import FreeEvalCounter from './FreeEvalCounter';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 import type { AppGeminiHandlers } from '../hooks/appHandlerTypes';
+import { MARKING_TOAST_SLOT, type ShowToast } from '../hooks/useToast';
 
 /** Apple keyboards say ⌘; everything else says Ctrl. Read once — it cannot
  *  change while the page is open. */
@@ -71,6 +77,8 @@ interface WorkspaceRightPanelProps {
   /** Time already spent on this question's draft, and where to report it. */
   draftElapsedSeconds?: number;
   onElapsedChange?: (seconds: number) => void;
+  /** For the undo offered after a rewrite replaces the draft. */
+  showToast?: ShowToast;
 }
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
@@ -107,6 +115,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   draftSaved,
   draftElapsedSeconds,
   onElapsedChange,
+  showToast,
 }) => {
   const isExamMode = writingMode === 'exam';
   // The rewrite, the diff review and the PDF's change list are one feature.
@@ -189,6 +198,28 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       text: config.solidText,
     };
   }, [readiness.isNeutral, readiness.chromaLevel, isExamMode]);
+
+  /**
+   * Put a rewrite in the draft — and keep the way back.
+   *
+   * Both "Use this version" buttons overwrite the editor with the marker's
+   * text. The editor's own undo does not survive a programmatic replacement,
+   * so without this the student's draft was gone the moment they pressed it:
+   * the copy saved to the sample answers is the evaluated one, not whatever
+   * they had typed since.
+   */
+  const applyRevision = (text: string) => {
+    const previous = userAnswer;
+    setUserAnswer(text);
+    if (previous.trim() && previous !== text) {
+      showToast?.(
+        'Your draft now holds the improved version.',
+        'success',
+        { label: 'Undo', onClick: () => setUserAnswer(previous) },
+        MARKING_TOAST_SLOT
+      );
+    }
+  };
 
   const handleSaveUserResponse = () => {
     if (!currentPrompt || !evaluationResult || !userAnswer) return;
@@ -528,7 +559,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           result={evaluationResult}
           prompt={currentPrompt}
           userAnswer={evaluatedAnswer}
-          onUseRevisedAnswer={setUserAnswer}
+          onUseRevisedAnswer={applyRevision}
           onImproveAnswer={() =>
             geminiHandlers.improveAnswer(evaluatedAnswer, currentPrompt, evaluationResult)
           }
@@ -559,7 +590,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           targetBand={reviewSubject.band}
           targetMark={reviewSubject.mark}
           originalMark={reviewSubject.originalMark}
-          onApply={setUserAnswer}
+          // The marker's own advice, beside the edits that act on it. Withheld
+          // where the plan redacts it, rather than listing the placeholder.
+          markerAsked={isFeedbackLocked() ? undefined : evaluationResult?.improvements}
+          onApply={applyRevision}
         />
       )}
     </div>

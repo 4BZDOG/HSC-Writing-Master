@@ -99,14 +99,23 @@ describe('ImprovementReviewModal', () => {
   it('names the mark it moved from and to', () => {
     renderModal();
 
-    expect(screen.getByText('4 → 5/8')).toBeTruthy();
-    expect(screen.getByText(/\+1 mark/)).toBeTruthy();
+    const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
+    expect(within(dialog).getByText('4')).toBeTruthy();
+    expect(within(dialog).getByText('5')).toBeTruthy();
+    expect(screen.getByText(/Band 4 · \+1 mark/)).toBeTruthy();
+  });
+
+  it('says how many marks when the gain is more than one', () => {
+    renderModal({ originalMark: 3, targetMark: 5 });
+
+    expect(screen.getByRole('dialog', { name: 'Your answer, 2 marks higher' })).toBeTruthy();
+    expect(screen.getByText(/\+2 marks/)).toBeTruthy();
   });
 
   it('names the syllabus terms the revision brought in', () => {
     renderModal();
 
-    const panel = screen.getByText(/Syllabus terms the revision added/).closest('div')!;
+    const panel = screen.getByText(/Syllabus terms the revision added/).closest('section')!;
     expect(within(panel).getByText('latency')).toBeTruthy();
     // A term the student already used is not claimed as new.
     expect(within(panel).queryByText('cache hit ratio')).toBeNull();
@@ -176,6 +185,77 @@ describe('ImprovementReviewModal', () => {
     fireEvent.click(screen.getByLabelText('Previous change'));
     fireEvent.click(screen.getByLabelText('Previous change'));
     expect(screen.getByText('3/3')).toBeTruthy();
+  });
+
+  it('numbers each edit on the page and lists the same numbers in the margin', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const items = within(margin).getAllByRole('listitem');
+    expect(items).toHaveLength(3);
+    // A replacement shows what was cut and what took its place.
+    expect(items[0].textContent).toContain('two');
+    expect(items[0].textContent).toContain('alpha');
+    // The page carries a numbered marker for each edit.
+    expect(screen.getByLabelText('Edit 1')).toBeTruthy();
+    expect(screen.getByLabelText('Edit 3')).toBeTruthy();
+  });
+
+  it('moves to an edit picked from the margin or the page', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    fireEvent.click(within(margin).getAllByRole('button')[2]);
+    expect(screen.getByText('3/3')).toBeTruthy();
+
+    fireEvent.click(screen.getByLabelText('Edit 2'));
+    expect(screen.getByText('2/3')).toBeTruthy();
+  });
+
+  it('puts the marker’s advice beside the edits', () => {
+    renderModal({ markerAsked: ['Name the effect on latency.', '  '] });
+
+    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    expect(within(margin).getByText('What the marker asked for')).toBeTruthy();
+    expect(margin.textContent).toContain('Name the effect on');
+  });
+
+  it('leaves the advice out when there is none', () => {
+    renderModal();
+    expect(screen.queryByText('What the marker asked for')).toBeNull();
+  });
+
+  it('offers a clean copy with nothing marked', () => {
+    renderModal();
+
+    fireEvent.click(screen.getByText('Clean copy'));
+    expect(screen.queryAllByTitle('Added by the marker')).toHaveLength(0);
+    expect(screen.getByText(/Caching stores frequently requested data/)).toBeTruthy();
+  });
+
+  /**
+   * The side-by-side column holds only equal and inserted runs, so an index
+   * into the full diff lands on different words there. The stepper used to
+   * ring text several runs away from the edit it named.
+   */
+  it('rings the named edit in the side-by-side column', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    fireEvent.click(screen.getByText('Side by side'));
+    fireEvent.click(screen.getByLabelText('Next change'));
+    const ringed = Array.from(document.body.querySelectorAll('mark')).filter((m) =>
+      m.className.includes('ring-2')
+    );
+    expect(ringed.map((m) => m.textContent?.trim())).toEqual(['beta']);
   });
 
   it('is announced as a dialog', () => {

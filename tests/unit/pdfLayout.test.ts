@@ -165,6 +165,29 @@ describe('flowBlocks (column-major)', () => {
     expect(new Set(placed.map((p) => `${p.page}/${p.column}`)).size).toBe(1);
   });
 
+  it('does not balance the columns by cutting a checklist in two', () => {
+    // A short page the balancer evens out. The most even cut here falls
+    // between the first and second tick box; the list keeps together instead.
+    const heading = { ...block(10, 'heading'), id: 'h' };
+    const items = [1, 2, 3].map((n) => ({ ...block(12, 'listItem'), checkbox: true, id: `i${n}` }));
+    const { placements } = flowBlocks([block(60), heading, ...items, block(40)], geo);
+    const placed = placements.filter((p) => p.block.id === 'h' || p.block.id.startsWith('i'));
+
+    expect(new Set(placed.map((p) => p.column)).size).toBe(1);
+  });
+
+  it('still balances between one diff pair and the next', () => {
+    // The What Changed rows are list items too, and the break between one
+    // pair and the next is exactly where they may go to the other column.
+    const pairs = [1, 2, 3, 4].flatMap((n) => [
+      { ...block(20, 'listItem'), keepWithNext: true, id: `m${n}` },
+      { ...block(20, 'listItem'), id: `p${n}` },
+    ]);
+    const { placements } = flowBlocks(pairs, geo);
+
+    expect(new Set(placements.map((p) => p.column)).size).toBe(2);
+  });
+
   it('splits a section that could never fit a column, rather than loop', () => {
     // The rule is "move it if a fresh column would hold it". One that would not
     // has to break somewhere, and here is as good as anywhere.

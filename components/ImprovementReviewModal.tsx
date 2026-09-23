@@ -6,26 +6,11 @@ import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
-  getBandRgb,
+  getBandHex,
+  renderFormattedText,
   textContainsKeyword,
 } from '../utils/renderUtils';
-import {
-  Sparkles,
-  Copy,
-  ArrowRight,
-  ArrowLeft,
-  X,
-  Check,
-  CheckCircle2,
-  User as UserIcon,
-  Columns2,
-  AlignLeft,
-  Plus,
-  Minus,
-  Hash,
-  Target,
-  TrendingUp,
-} from 'lucide-react';
+import { Copy, ArrowRight, ArrowLeft, X, Check, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import {
@@ -50,6 +35,14 @@ interface ImprovementReviewModalProps {
   originalMark?: number;
   onApply: (text: string) => void;
   /**
+   * What the marker told the student to do — the evaluation's `improvements`.
+   *
+   * The edits are the marker acting on that advice, so the two belong on one
+   * screen: the list says why, the page shows where. Omit it (a plan without
+   * full feedback has it redacted) and the margin opens on the edits.
+   */
+  markerAsked?: string[];
+  /**
    * Label for a "carry on" action in the footer, e.g. "See my full feedback".
    *
    * Set when this comparison is standing in front of something rather than
@@ -61,97 +54,139 @@ interface ImprovementReviewModalProps {
   continueLabel?: string;
 }
 
-type ViewMode = 'unified' | 'split';
+type ViewMode = 'marked' | 'clean' | 'split';
+
+const VIEWS: { id: ViewMode; label: string }[] = [
+  { id: 'marked', label: 'Edits marked' },
+  { id: 'clean', label: 'Clean copy' },
+  { id: 'split', label: 'Side by side' },
+];
 
 /**
- * Tailwind classes for each kind of run, in both views.
+ * Tailwind classes for each kind of run, on the page and in the margin.
  *
  * Colour is never the only cue: added text is underlined and cut text is struck
  * through, so the diff still reads for a colour-blind student, in a greyscale
- * print of the PDF, and at a glance from across a classroom.
+ * print, and at a glance from across a classroom.
  */
 const OP_CLASS: Record<DiffSegment['op'], string> = {
   equal: '',
   insert:
-    'bg-emerald-500/20 text-emerald-900 dark:text-emerald-200 rounded-lg px-0.5 underline decoration-emerald-500/60 decoration-2 underline-offset-2',
+    'bg-emerald-500/15 text-emerald-900 dark:text-emerald-200 rounded-lg px-0.5 underline decoration-emerald-600/60 dark:decoration-emerald-400/60 decoration-2 underline-offset-[3px]',
   delete:
-    'bg-rose-500/20 text-rose-900/80 dark:text-rose-200/75 rounded-lg px-0.5 line-through decoration-rose-500/70 decoration-2',
+    'bg-rose-500/10 text-rose-800/80 dark:text-rose-300/75 rounded-lg px-0.5 line-through decoration-rose-600/70 dark:decoration-rose-400/70 decoration-2',
 };
 
+/** One edit: the run of cut and added words between two stretches of the student's own. */
+interface Edit {
+  /** Index in `segments` of the edit's first run — the jump target. */
+  anchor: number;
+  removed: string;
+  added: string;
+}
+
 /**
- * Renders a run of diff segments as flowing prose. `white-space: pre-wrap` on
- * the container keeps the author's own line breaks, and each segment carries
- * its trailing whitespace, so the marked-up text reads exactly like the plain
- * text with colour added.
+ * The page. `white-space: pre-wrap` keeps the student's own line breaks, and
+ * each segment carries its trailing whitespace, so the marked-up text reads
+ * exactly like the plain text with the edits drawn on.
+ *
+ * With `editNumbers` each edit opens with its number, matching the margin — so
+ * "look at edit 4" means the same place in both.
  */
 const DiffText: React.FC<{
   segments: DiffSegment[];
   fontSize: number;
-  /** Segment index that "jump to change" is currently pointing at. */
-  activeIndex?: number | null;
-  /** Registers each changed run so the jump can scroll it into view. */
+  /** Segment index of the first run of the edit the reader is on. */
+  activeAnchor?: number | null;
+  /** Segment index → edit number, for the numbered view. */
+  editNumbers?: Map<number, number>;
+  /** Registers each edit's first run so the stepper can scroll to it. */
   registerMark?: (index: number, el: HTMLElement | null) => void;
-}> = ({ segments, fontSize, activeIndex = null, registerMark }) => (
-  <p
-    className="font-serif leading-loose whitespace-pre-wrap text-slate-800 dark:text-slate-200"
-    style={{ fontSize: `${fontSize}px` }}
-  >
-    {segments.map((segment, index) =>
-      segment.op === 'equal' ? (
-        <React.Fragment key={index}>{segment.value}</React.Fragment>
-      ) : (
-        <mark
-          key={index}
-          ref={registerMark ? (el) => registerMark(index, el) : undefined}
-          className={`${OP_CLASS[segment.op]} ${
-            // The focused change gets a ring rather than a different colour, so
-            // "where am I" never competes with "what kind of change is this".
-            index === activeIndex
-              ? 'ring-2 ring-offset-1 ring-indigo-400 ring-offset-transparent'
-              : ''
-          }`}
-          title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
-        >
-          {segment.value}
-        </mark>
-      )
-    )}
-  </p>
-);
-
-const StatChip: React.FC<{
-  icon: React.ElementType;
-  label: string;
-  value: string;
-  tone?: 'add' | 'cut' | 'neutral';
-}> = ({ icon: Icon, label, value, tone = 'neutral' }) => {
-  const tones = {
-    add: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25',
-    cut: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25',
-    neutral:
-      'bg-slate-500/10 text-slate-600 dark:text-slate-300 border-slate-400/25 dark:border-white/10',
-  };
+  onSelectEdit?: (editIndex: number) => void;
+  bandHex: string;
+}> = ({
+  segments,
+  fontSize,
+  activeAnchor = null,
+  editNumbers,
+  registerMark,
+  onSelectEdit,
+  bandHex,
+}) => {
+  // Every run of the active edit wears the ring, not only its first — a
+  // replacement is a cut AND an insertion, and ringing half of it pointed at
+  // the struck word while the new wording sat unmarked beside it.
+  let inActive = false;
   return (
-    <span
-      className={`t-label inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border ${tones[tone]}`}
+    <p
+      className="font-serif leading-[1.9] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+      style={{ fontSize: `${fontSize}px` }}
     >
-      <Icon className="w-3 h-3" />
-      <span className="tabular-nums">{value}</span>
-      <span className="opacity-70 font-medium normal-case tracking-normal">{label}</span>
-    </span>
+      {segments.map((segment, index) => {
+        if (segment.op === 'equal') {
+          inActive = false;
+          return <React.Fragment key={index}>{segment.value}</React.Fragment>;
+        }
+        const previous = segments[index - 1];
+        const opensEdit = !previous || previous.op === 'equal';
+        if (opensEdit) inActive = index === activeAnchor;
+        const number = opensEdit ? editNumbers?.get(index) : undefined;
+        return (
+          <React.Fragment key={index}>
+            {number !== undefined && (
+              <button
+                type="button"
+                onClick={() => onSelectEdit?.(number - 1)}
+                aria-label={`Edit ${number}`}
+                className={`inline-flex items-center justify-center align-[0.3em] mr-0.5 min-w-[1.4em] h-[1.4em] px-1 rounded-full font-sans text-[10px] font-bold tabular-nums leading-none transition-colors ${
+                  inActive
+                    ? 'text-white'
+                    : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-white/20'
+                }`}
+                style={inActive ? { backgroundColor: bandHex } : undefined}
+              >
+                {number}
+              </button>
+            )}
+            <mark
+              ref={opensEdit && registerMark ? (el) => registerMark(index, el) : undefined}
+              // The focused edit gets a ring rather than a different colour, so
+              // "where am I" never competes with "what kind of edit is this".
+              className={`${OP_CLASS[segment.op]} ${inActive ? 'ring-2 ring-offset-1 ring-offset-transparent' : ''}`}
+              style={inActive ? ({ '--tw-ring-color': bandHex } as React.CSSProperties) : undefined}
+              title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
+            >
+              {segment.value}
+            </mark>
+          </React.Fragment>
+        );
+      })}
+    </p>
   );
 };
 
+/** A heading in the margin: small, quiet, and the same everywhere in it. */
+const RailHeading: React.FC<{ children: React.ReactNode; aside?: React.ReactNode }> = ({
+  children,
+  aside,
+}) => (
+  <div className="flex items-baseline justify-between gap-3 mb-3">
+    <h3 className="text-[13px] font-semibold text-slate-800 dark:text-slate-100">{children}</h3>
+    {aside}
+  </div>
+);
+
 /**
- * "Your answer → your improved answer", with the changes marked.
+ * "Your answer → your answer, one mark higher", with the marker's edits drawn
+ * on it.
  *
  * The improvement is briefed as an EDIT of the student's own response
- * (`getNextLevelTarget`, `buildUpgradeStyleRules`), so the only reading that
- * makes sense is a diff: added words in green, cut words struck through in red,
- * everything else theirs. A student who sees "you kept 84% of your own words
- * and these eleven earned the extra mark" learns something an unmarked block of
- * new prose cannot teach — and the retention figure is also how they can tell
- * at a glance whether the AI actually followed the brief.
+ * (`getNextLevelTarget`, `buildUpgradeStyleRules`), so it reads as a marked-up
+ * page: added words underlined in green, cut words struck through, everything
+ * else theirs. Each edit is numbered, and the margin lists them under what the
+ * marker asked for — the page shows where the extra mark came from, the margin
+ * says why. "These eleven edits, for these three reasons" teaches something an
+ * unmarked block of new prose cannot.
  */
 const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   isOpen,
@@ -163,24 +198,25 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   targetMark,
   originalMark,
   onApply,
+  markerAsked,
   continueLabel,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const [view, setView] = useState<ViewMode>('unified');
-  const [fontSize, setFontSize] = useState(15);
-  const [changeCursor, setChangeCursor] = useState(0);
+  const [view, setView] = useState<ViewMode>('marked');
+  const [fontSize, setFontSize] = useState(17);
+  const [cursor, setCursor] = useState(0);
   const markRefs = useRef(new Map<number, HTMLElement>());
+  const railRefs = useRef(new Map<number, HTMLElement>());
   const titleId = useId();
+  const descId = useId();
   const bandConfig = getBandConfig(targetBand);
+  const bandHex = getBandHex(targetBand);
 
   useEscapeKey(isOpen, onClose);
 
   // Tab stays inside the dialog while it is open, and focus returns to
-
-  // whatever opened it on close. Partners `useEscapeKey` — same stack,
-
-  // same topmost-only arbitration.
-
+  // whatever opened it on close. Partners `useEscapeKey` — same stack, same
+  // topmost-only arbitration.
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
 
@@ -203,49 +239,97 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const originalSide = useMemo(() => segmentsForSide(segments, 'original'), [segments]);
   const revisedSide = useMemo(() => segmentsForSide(segments, 'revised'), [segments]);
 
-  // Which syllabus terms the revision brought in. This is the single most
-  // actionable thing on the screen: it names what the extra mark was for.
+  // Grouped so a deletion and the insertion replacing it count as one edit —
+  // that is how a reader sees them, and counting them separately would make an
+  // eleven-edit revision claim twenty-two.
+  const anchors = useMemo(() => changeAnchors(segments), [segments]);
+  const edits = useMemo<Edit[]>(
+    () =>
+      anchors.map((anchor) => {
+        let removed = '';
+        let added = '';
+        for (let i = anchor; i < segments.length && segments[i].op !== 'equal'; i++) {
+          if (segments[i].op === 'delete') removed += segments[i].value;
+          else added += segments[i].value;
+        }
+        return { anchor, removed: removed.trim(), added: added.trim() };
+      }),
+    [anchors, segments]
+  );
+  const editNumbers = useMemo(
+    () => new Map(anchors.map((anchor, i) => [anchor, i + 1] as const)),
+    [anchors]
+  );
+  /**
+   * Each edit's first ADDED run, as an index into the revised column of the
+   * side-by-side view. That column holds only the equal and inserted runs, so
+   * an index into the full diff points at the wrong words there — the old
+   * stepper ringed text several runs away from the edit it named. A pure cut
+   * has nothing on the revised side, so it maps to -1 and is not ringed.
+   */
+  const revisedAnchors = useMemo(() => {
+    const toRevised = new Map<number, number>();
+    let r = 0;
+    segments.forEach((s, j) => {
+      if (s.op !== 'delete') toRevised.set(j, r++);
+    });
+    return anchors.map((anchor) => {
+      for (let j = anchor; j < segments.length && segments[j].op !== 'equal'; j++) {
+        if (segments[j].op === 'insert') return toRevised.get(j) ?? -1;
+      }
+      return -1;
+    });
+  }, [anchors, segments]);
+
+  // Which syllabus terms the revision brought in: it names what the extra mark
+  // was for in the question's own vocabulary.
   const newKeywords = useMemo(() => {
-    const added = segments
-      .filter((s) => s.op === 'insert')
-      .map((s) => s.value)
-      .join(' ');
+    const added = edits.map((e) => e.added).join(' ');
     if (!added.trim()) return [];
     return (originalPrompt.keywords || []).filter(
       (kw) => kw && textContainsKeyword(added, kw) && !textContainsKeyword(originalText, kw)
     );
-  }, [segments, originalPrompt.keywords, originalText]);
+  }, [edits, originalPrompt.keywords, originalText]);
 
-  // Where the "next change" control is pointing, and how to move it. Grouped
-  // so a deletion and the insertion replacing it count as one change — that is
-  // how a reader sees them, and counting them separately would make an eleven-
-  // change revision claim twenty-two.
-  const anchors = useMemo(() => changeAnchors(segments), [segments]);
+  const asked = useMemo(
+    () => (markerAsked || []).map((s) => s.trim()).filter(Boolean),
+    [markerAsked]
+  );
 
   useEffect(() => {
-    // A fresh comparison starts at the first change, not wherever the last one
+    // A fresh comparison starts at the first edit, not wherever the last one
     // left the cursor.
-    setChangeCursor(0);
+    setCursor(0);
     markRefs.current.clear();
-  }, [originalText, revisedText, view, isOpen]);
+  }, [originalText, revisedText, isOpen]);
 
-  const jumpToChange = useCallback(
-    (delta: number) => {
-      if (anchors.length === 0) return;
-      const next = (changeCursor + delta + anchors.length) % anchors.length;
-      setChangeCursor(next);
-
-      // Moving the cursor is the point; scrolling to it is a nicety. Guarded so
-      // an environment without `scrollIntoView` cannot turn the button into a
-      // thrown error, and so the app's reduced-motion setting is honoured.
-      const target = markRefs.current.get(anchors[next]);
-      if (typeof target?.scrollIntoView !== 'function') return;
+  /**
+   * Put the reader on an edit, in the page and in the margin. Moving the
+   * cursor is the point; scrolling to it is a nicety, guarded so an
+   * environment without `scrollIntoView` cannot turn a click into a thrown
+   * error, and so the reduced-motion setting is honoured.
+   */
+  const goTo = useCallback(
+    (index: number) => {
+      if (edits.length === 0) return;
+      const next = (index + edits.length) % edits.length;
+      setCursor(next);
       const reduceMotion =
         typeof window.matchMedia === 'function' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      target.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+      const behavior: ScrollBehavior = reduceMotion ? 'auto' : 'smooth';
+      const mark = markRefs.current.get(
+        view === 'split' ? revisedAnchors[next] : edits[next].anchor
+      );
+      if (typeof mark?.scrollIntoView === 'function') {
+        mark.scrollIntoView({ block: 'center', behavior });
+      }
+      const item = railRefs.current.get(next);
+      if (typeof item?.scrollIntoView === 'function') {
+        item.scrollIntoView({ block: 'nearest', behavior });
+      }
     },
-    [anchors, changeCursor]
+    [edits, view, revisedAnchors]
   );
 
   const registerMark = useCallback((index: number, el: HTMLElement | null) => {
@@ -271,11 +355,25 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   // A rewrite identical to the student's answer is worth exactly what theirs
   // was, so the header must not go on claiming the extra mark, and there is
   // nothing to copy across.
-  const unchanged = hasOriginal && anchors.length === 0;
+  const unchanged = hasOriginal && edits.length === 0;
+  const gained =
+    !unchanged && originalMark !== undefined && targetMark !== undefined
+      ? targetMark - originalMark
+      : 0;
+  const activeAnchor = view === 'clean' ? null : (edits[cursor]?.anchor ?? null);
+  const comparing = hasOriginal && !unchanged;
+
+  const secondaryButton =
+    't-label flex-1 sm:flex-none py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 transition-colors flex items-center justify-center gap-2';
+  const primaryButton = `t-label flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-white font-semibold ${bandConfig.solidBg} hover:brightness-110 active:brightness-95 transition-[filter] flex items-center justify-center gap-2`;
+  const toolGroup =
+    'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20';
+  const toolButton =
+    'p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors disabled:opacity-40';
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-improvement p-4"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-improvement p-2 sm:p-4"
       onClick={onClose}
     >
       <div
@@ -284,293 +382,391 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        // `band-edge-strong` rather than the saturated token, matching the
-        // three band-coloured modal shells already on it. The header below is
-        // a solid gradient, so this is the only band line in the modal and it
-        // keeps the statement — it just stops being a harder edge than the
-        // ones every other modal draws.
-        style={{ '--band-rgb': getBandRgb(targetBand) } as React.CSSProperties}
-        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border-2 band-edge-strong animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh]`}
+        aria-describedby={descId}
+        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border border-slate-200 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div
-          className={`px-6 py-5 bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0`}
-        >
-          <div
-            className="absolute inset-0 opacity-[0.12] mix-blend-overlay pointer-events-none"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10 gap-4">
-            <div className="flex items-center gap-4 min-w-0">
-              <div className="w-12 h-12 shrink-0 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner border border-white/30">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <div className="min-w-0">
-                <h2
-                  id={titleId}
-                  className="text-xl font-black text-white tracking-normal italic leading-none truncate"
-                >
-                  {unchanged ? 'Your answer, unchanged' : 'Your answer, improved'}
-                </h2>
-                <div className="flex flex-wrap items-center gap-2 text-white/90 font-medium text-xs mt-0.5">
-                  {unchanged && <span>The marker left it as you wrote it</span>}
-                  {!unchanged && targetMark !== undefined && (
-                    <span className="bg-white/20 px-2 py-0.5 rounded-lg font-bold">
-                      {originalMark !== undefined ? `${originalMark} → ` : ''}
-                      {targetMark}/{originalPrompt.totalMarks}
-                    </span>
+        {/* The band this revision reaches, as one rule across the top — the
+            only saturated colour on the frame, so the edits keep the page's
+            attention. It replaces a full-width gradient header with a grid
+            texture, which outshouted the words it was introducing. */}
+        <div className="h-1 shrink-0" style={{ backgroundColor: bandHex }} aria-hidden="true" />
+
+        <header className="px-5 sm:px-8 pt-5 pb-4 flex items-start justify-between gap-4 shrink-0">
+          <div className="min-w-0">
+            <h2
+              id={titleId}
+              className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight"
+            >
+              {/* The gain is usually one mark, but not always — a student already
+                  in the question's top band is lifted to full marks. */}
+              {unchanged
+                ? 'Your answer, unchanged'
+                : gained === 1
+                  ? 'Your answer, one mark higher'
+                  : gained > 1
+                    ? `Your answer, ${gained} marks higher`
+                    : 'Your answer, improved'}
+            </h2>
+            <p
+              id={descId}
+              className="mt-1.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl"
+            >
+              {unchanged
+                ? 'The marker left it as you wrote it.'
+                : hasOriginal
+                  ? 'The marker’s edits, drawn on your own writing.'
+                  : 'The marker’s version of this answer.'}
+            </p>
+          </div>
+
+          <div className="flex items-start gap-3 sm:gap-5 shrink-0">
+            {/* The mark it moved, said once and large enough to be the point.
+                The chip it replaces put "3 → 4/4" at 12px inside a gradient. */}
+            {!unchanged && targetMark !== undefined && (
+              <div className="text-right">
+                <p className="flex items-baseline justify-end gap-1.5 tabular-nums leading-none">
+                  {originalMark !== undefined && (
+                    <>
+                      <span className="text-lg font-semibold text-slate-500 dark:text-slate-400">
+                        {originalMark}
+                      </span>
+                      <span className="text-slate-500 dark:text-slate-400" aria-label="to">
+                        →
+                      </span>
+                    </>
                   )}
-                  {!unchanged && <span>Band {targetBand} standard</span>}
-                  {!unchanged &&
-                    originalMark !== undefined &&
-                    targetMark !== undefined &&
-                    targetMark > originalMark && (
-                      <>
-                        <span className="opacity-60">·</span>
-                        <span className="inline-flex items-center gap-1">
-                          <TrendingUp className="w-3 h-3" />+{targetMark - originalMark} mark
-                        </span>
-                      </>
-                    )}
-                </div>
+                  <span className={`text-3xl font-black ${bandConfig.text}`}>{targetMark}</span>
+                  <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                    <span aria-hidden="true">/</span>
+                    <span className="sr-only"> out of </span>
+                    {originalPrompt.totalMarks}
+                  </span>
+                </p>
+                <p className="t-label mt-1.5 text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                  Band {targetBand}
+                  {gained > 0 && ` · +${gained} mark${gained === 1 ? '' : 's'}`}
+                </p>
               </div>
-            </div>
+            )}
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 shrink-0 rounded-lg bg-white/20 hover:bg-white/30 transition-all flex items-center justify-center backdrop-blur-sm"
+              className="w-9 h-9 shrink-0 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center justify-center"
             >
-              <X className="w-5 h-5 text-white" />
+              <X className="w-5 h-5" />
             </button>
           </div>
-        </div>
+        </header>
 
-        {/* Summary + controls */}
-        <div className="px-6 py-3 border-b border-slate-200 dark:border-white/10 bg-slate-50/60 dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 flex-shrink-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <StatChip icon={Plus} label="added" value={`${stats.added}`} tone="add" />
-            <StatChip icon={Minus} label="cut" value={`${stats.removed}`} tone="cut" />
-            {hasOriginal && (
-              <StatChip
-                icon={Hash}
-                label="of your words kept"
-                value={`${retentionPct}%`}
-                tone="neutral"
-              />
-            )}
-          </div>
+        <div className="px-5 sm:px-8 py-2.5 border-y border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
+          {comparing && (
+            <div
+              className="flex items-center gap-0.5 p-0.5 rounded-xl bg-slate-200/70 dark:bg-black/25"
+              role="group"
+              aria-label="How to show the revision"
+            >
+              {VIEWS.map((v) => (
+                <button
+                  key={v.id}
+                  onClick={() => setView(v.id)}
+                  aria-pressed={view === v.id}
+                  className={`t-label px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
+                    view === v.id
+                      ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                  }`}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* How much of the answer is still the student's. Retention is the
+              reassurance a student needs before they read on, and the figure
+              that shows whether the rewrite actually followed its brief. */}
+          {comparing && (
+            <p className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
+              <span className="font-semibold text-slate-800 dark:text-slate-100">
+                {retentionPct}%
+              </span>{' '}
+              <span>of your words kept</span>
+              <span className="hidden md:inline">
+                {' '}
+                · {stats.originalWords} → {stats.revisedWords} words
+              </span>
+            </p>
+          )}
 
           <div className="flex items-center gap-2 ml-auto">
-            {/* Stepping through the changes. On a 300-word revision the coloured
-                runs are scattered through several screens, and "find the next
-                one" is not a job to leave to the reader. */}
-            {anchors.length > 1 && (
-              <div className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10">
+            {/* Stepping through the edits. On a 300-word revision the marks
+                are scattered through several screens, and "find the next one"
+                is not a job to leave to the reader. */}
+            {edits.length > 1 && view !== 'clean' && (
+              <div className={toolGroup}>
                 <button
-                  onClick={() => jumpToChange(-1)}
+                  onClick={() => goTo(cursor - 1)}
                   aria-label="Previous change"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                  className={toolButton}
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                 </button>
-                <span className="px-1 text-[10px] font-bold text-slate-500 dark:text-slate-300 tabular-nums whitespace-nowrap">
-                  {changeCursor + 1}/{anchors.length}
+                <span className="px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tabular-nums whitespace-nowrap">
+                  {cursor + 1}/{edits.length}
                 </span>
                 <button
-                  onClick={() => jumpToChange(1)}
+                  onClick={() => goTo(cursor + 1)}
                   aria-label="Next change"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                  className={toolButton}
                 >
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             )}
-            <div className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10">
+            <div className={toolGroup}>
               <button
-                onClick={() => setFontSize((s) => Math.max(12, s - 2))}
-                disabled={fontSize <= 12}
+                onClick={() => setFontSize((s) => Math.max(13, s - 2))}
+                disabled={fontSize <= 13}
                 aria-label="Decrease text size"
-                className="px-2 py-1 text-[11px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-40"
+                className={`${toolButton} px-2 py-1 text-[11px] font-bold`}
               >
                 A−
               </button>
               <button
-                onClick={() => setFontSize((s) => Math.min(28, s + 2))}
-                disabled={fontSize >= 28}
+                onClick={() => setFontSize((s) => Math.min(27, s + 2))}
+                disabled={fontSize >= 27}
                 aria-label="Increase text size"
-                className="px-2 py-1 text-[11px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-40"
+                className={`${toolButton} px-2 py-1 text-[11px] font-bold`}
               >
                 A+
               </button>
             </div>
-            {hasOriginal && (
-              <div
-                className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10"
-                role="group"
-                aria-label="Comparison view"
-              >
-                <button
-                  onClick={() => setView('unified')}
-                  aria-pressed={view === 'unified'}
-                  className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all ${
-                    view === 'unified'
-                      ? 'bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white'
-                      : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-                  }`}
-                >
-                  <AlignLeft className="w-3 h-3" /> Marked up
-                </button>
-                <button
-                  onClick={() => setView('split')}
-                  aria-pressed={view === 'split'}
-                  className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg transition-all ${
-                    view === 'split'
-                      ? 'bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white'
-                      : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-                  }`}
-                >
-                  <Columns2 className="w-3 h-3" /> Side by side
-                </button>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Body */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar bg-[rgb(var(--color-bg-surface))] light:bg-white">
-          {/* An identical rewrite is a real outcome, not an empty screen: the
-              marker had nothing to add, and saying so plainly is worth more to
-              the student than a page of unmarked text they have to compare by
-              eye to discover the same thing. */}
-          {hasOriginal && anchors.length === 0 && (
-            <div className="mx-6 sm:mx-8 mt-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/25 flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
-              <div>
-                <p className="text-sm text-emerald-800 dark:text-emerald-300">
-                  No changes — this is already your answer
-                </p>
-                <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80 mt-0.5 leading-relaxed">
-                  The marker did not change anything, so there is nothing here to copy across. Try
-                  marking a fuller draft, or regenerate for a second opinion.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {!hasOriginal || view === 'unified' ? (
-            /* Unified view is one reading column in a 1152px modal, so it takes
-               the same bound as the report: the legend and the marked-up prose
-               narrow together and stay aligned with each other, while the
-               modal's header and footer stay full-width chrome. Side by side
-               needs no cap — its panes are already about half this.
-
-               `xl:max-w-5xl` because that IS the report's bound
-               (EvaluationDisplay is `max-w-3xl xl:max-w-5xl`) and this had only
-               copied half of it. Flat at `3xl`, the column stopped 768px into a
-               1152px modal and left a third of the width empty on either side
-               of the very thing the modal exists to show. Below `xl` the modal
-               itself is near enough 768px that the cap does nothing, so the
-               change is confined to the widths where the gap was visible. */
-            <div className="p-6 sm:p-8 max-w-3xl xl:max-w-5xl mx-auto">
-              {hasOriginal && anchors.length > 0 && (
-                <p className="t-label mb-5 text-slate-400 flex flex-wrap items-center gap-x-4 gap-y-1">
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-lg bg-emerald-500/30 border border-emerald-500/50" />
-                    added
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-lg bg-rose-500/30 border border-rose-500/50" />
-                    cut
-                  </span>
-                  <span className="normal-case tracking-normal font-medium opacity-70">
-                    everything unmarked is your own writing
-                  </span>
-                </p>
-              )}
-              <DiffText
-                segments={hasOriginal ? segments : revisedSide}
-                fontSize={fontSize}
-                activeIndex={anchors[changeCursor] ?? null}
-                registerMark={registerMark}
-              />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-white/10">
-              <div>
-                <div className="sticky top-0 px-6 py-2.5 bg-slate-100/90 dark:bg-white/[0.04] backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
-                  <UserIcon className="w-3.5 h-3.5 text-slate-500" />
-                  <h3 className="t-section text-slate-600 dark:text-slate-300">Your original</h3>
-                  <span className="ml-auto text-[10px] font-bold text-slate-400 tabular-nums">
-                    {stats.originalWords} words
-                  </span>
-                </div>
-                <div className="p-6 opacity-90">
-                  <DiffText segments={originalSide} fontSize={fontSize} />
+        {/* The page and its margin. From `lg` each scrolls on its own, so the
+            list of edits stays beside the text it points into. Below `lg` the
+            margin follows the page in one scroll. */}
+        <div
+          className={`flex-1 min-h-0 overflow-y-auto custom-scrollbar ${
+            comparing ? 'lg:overflow-hidden lg:grid lg:grid-cols-[minmax(0,1fr)_21rem]' : ''
+          }`}
+        >
+          <div className={comparing ? 'lg:overflow-y-auto lg:min-h-0 custom-scrollbar' : ''}>
+            {/* An identical rewrite is a real outcome, not an empty screen: the
+                marker had nothing to add, and saying so plainly is worth more
+                than a page of unmarked text to compare by eye. */}
+            {unchanged && (
+              <div className="mx-5 sm:mx-8 mt-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-500/25 flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
+                <div>
+                  <p className="text-sm text-emerald-800 dark:text-emerald-300">
+                    No changes — this is already your answer
+                  </p>
+                  <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80 mt-0.5 leading-relaxed">
+                    The marker did not change anything, so there is nothing here to copy across. Try
+                    marking a fuller draft, or regenerate for a second opinion.
+                  </p>
                 </div>
               </div>
-              <div>
-                <div
-                  className={`sticky top-0 px-6 py-2.5 ${bandConfig.bg} backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10`}
-                >
-                  <Sparkles className={`w-3.5 h-3.5 ${bandConfig.text}`} />
-                  <h3 className={`t-section ${bandConfig.text}`}>Improved</h3>
-                  <span className="ml-auto text-[10px] font-bold text-slate-400 tabular-nums">
-                    {stats.revisedWords} words
-                  </span>
-                </div>
-                <div className="p-6">
-                  {/* The revised column owns the jump targets in split view:
-                      it is the side a student is being asked to write. */}
-                  <DiffText
-                    segments={revisedSide}
-                    fontSize={fontSize}
-                    activeIndex={anchors[changeCursor] ?? null}
-                    registerMark={registerMark}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+            )}
 
-          {newKeywords.length > 0 && (
-            <div className="mx-6 sm:mx-8 mb-8 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-500/20">
-              <p className="t-label text-indigo-600 dark:text-indigo-400 mb-2.5 flex items-center gap-2">
-                <Target className="w-3.5 h-3.5" /> Syllabus terms the revision added
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {newKeywords.map((kw) => (
-                  <span
-                    key={kw}
-                    className="px-2.5 py-1 rounded-lg bg-white dark:bg-black/20 border border-indigo-200 dark:border-indigo-500/30 text-indigo-800 dark:text-indigo-200 text-[11px] font-bold"
-                  >
-                    {kw}
-                  </span>
+            {comparing && view === 'split' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-white/10">
+                {(
+                  [
+                    ['Your original', stats.originalWords, originalSide, false],
+                    ['Improved', stats.revisedWords, revisedSide, true],
+                  ] as const
+                ).map(([label, words, side, isRevised]) => (
+                  <div key={label}>
+                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-slate-50/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
+                      {isRevised && (
+                        <span
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: bandHex }}
+                          aria-hidden="true"
+                        />
+                      )}
+                      <h3 className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
+                        {label}
+                      </h3>
+                      <span className="ml-auto t-label text-slate-500 dark:text-slate-400 tabular-nums">
+                        {words} words
+                      </span>
+                    </div>
+                    <div className="px-5 sm:px-6 py-6">
+                      {/* The revised column owns the jump targets: it is the
+                          side a student is being asked to write. */}
+                      <DiffText
+                        segments={side}
+                        fontSize={fontSize}
+                        bandHex={bandHex}
+                        activeAnchor={isRevised ? (revisedAnchors[cursor] ?? null) : null}
+                        registerMark={isRevised ? registerMark : undefined}
+                      />
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
+            ) : (
+              /* One reading column, bounded to a line people read at (about 70
+                 characters at the default size) rather than to the modal. The
+                 bound wraps the legend and the prose together, so the two
+                 narrow as one. */
+              <div className="px-5 sm:px-10 py-7 max-w-3xl mx-auto">
+                {comparing && view === 'marked' && (
+                  <p className="t-label mb-5 text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span className={OP_CLASS.insert}>added</span>
+                    <span className={OP_CLASS.delete}>cut</span>
+                    <span>everything unmarked is your own writing</span>
+                  </p>
+                )}
+                {comparing && view === 'marked' ? (
+                  <DiffText
+                    segments={segments}
+                    fontSize={fontSize}
+                    activeAnchor={activeAnchor}
+                    editNumbers={editNumbers}
+                    registerMark={registerMark}
+                    onSelectEdit={goTo}
+                    bandHex={bandHex}
+                  />
+                ) : (
+                  <p
+                    className="font-serif leading-[1.9] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+                    style={{ fontSize: `${fontSize}px` }}
+                  >
+                    {renderFormattedText(revisedText, originalPrompt.keywords)}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* The margin: why first — the marker's own advice — then where,
+              edit by edit, then the vocabulary the edits brought in. */}
+          {comparing && (
+            <aside
+              aria-label="What changed and why"
+              className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/10 bg-slate-50/70 dark:bg-white/[0.02] lg:overflow-y-auto lg:min-h-0 custom-scrollbar px-5 sm:px-6 py-6 flex flex-col gap-7"
+            >
+              {asked.length > 0 && (
+                <section>
+                  <RailHeading>What the marker asked for</RailHeading>
+                  <ul className="space-y-2.5">
+                    {asked.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex gap-2.5 text-[13px] leading-relaxed text-slate-700 dark:text-slate-300"
+                      >
+                        <ArrowUpRight
+                          className={`w-3.5 h-3.5 mt-[3px] shrink-0 ${bandConfig.text}`}
+                          aria-hidden="true"
+                        />
+                        <span>{renderFormattedText(item, originalPrompt.keywords)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              <section>
+                <RailHeading
+                  aside={
+                    <span className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
+                      {edits.length}
+                    </span>
+                  }
+                >
+                  The edits
+                </RailHeading>
+                <ol className="flex flex-col gap-1">
+                  {edits.map((edit, i) => {
+                    const active = i === cursor && view !== 'clean';
+                    return (
+                      <li
+                        key={edit.anchor}
+                        ref={(el) => {
+                          if (el) railRefs.current.set(i, el);
+                          else railRefs.current.delete(i);
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (view === 'clean') setView('marked');
+                            goTo(i);
+                          }}
+                          aria-current={active ? 'true' : undefined}
+                          className={`w-full text-left flex gap-3 p-2.5 rounded-xl border transition-colors ${
+                            active
+                              ? 'bg-white dark:bg-white/[0.06] border-slate-300 dark:border-white/15 shadow-sm'
+                              : 'border-transparent hover:bg-white/70 dark:hover:bg-white/[0.04]'
+                          }`}
+                        >
+                          <span
+                            className={`mt-0.5 shrink-0 inline-flex items-center justify-center min-w-[1.5rem] h-6 px-1 rounded-full text-[11px] font-bold tabular-nums ${
+                              active
+                                ? 'text-white'
+                                : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300'
+                            }`}
+                            style={active ? { backgroundColor: bandHex } : undefined}
+                          >
+                            {i + 1}
+                          </span>
+                          <span className="min-w-0 font-serif text-[14px] leading-relaxed text-slate-700 dark:text-slate-300 line-clamp-4">
+                            {edit.removed && (
+                              <span className={OP_CLASS.delete}>{edit.removed}</span>
+                            )}
+                            {edit.removed && edit.added && (
+                              <span className="font-sans text-slate-400"> → </span>
+                            )}
+                            {edit.added && <span className={OP_CLASS.insert}>{edit.added}</span>}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </section>
+
+              {newKeywords.length > 0 && (
+                <section>
+                  <RailHeading>Syllabus terms the revision added</RailHeading>
+                  <div className="flex flex-wrap gap-1.5">
+                    {newKeywords.map((kw) => (
+                      <span
+                        key={kw}
+                        className="px-2.5 py-1 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-xs font-semibold"
+                      >
+                        {kw}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </aside>
           )}
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 flex-shrink-0">
-          <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center sm:text-left">
+        <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-left">
             {continueLabel
               ? // Standing in front of the marking summary, the useful thing to
-                // say is what is behind it \u2014 not where the samples were filed.
-                'Your mark, the criteria breakdown and the marker\u2019s commentary come next.'
+                // say is what is behind it — not where the samples were filed.
+                'Your mark, the criteria breakdown and the marker’s commentary come next.'
               : unchanged
-                ? 'Your answer is saved to this question\u2019s sample answers.'
-                : "Both versions are saved to this question's sample answers."}
+                ? 'Your answer is saved to this question’s sample answers.'
+                : 'Both versions are saved to this question’s sample answers.'}
           </p>
 
-          <div className="flex flex-wrap items-center justify-end gap-3 w-full sm:w-auto">
-            <button
-              onClick={handleCopy}
-              className="t-label flex-1 sm:flex-none py-2.5 px-5 rounded-xl text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2"
-            >
+          {/* On a phone the way forward takes its own full-width row above the
+              other two; three abreast, "See my full feedback" wrapped to three
+              lines in a button 110px wide. */}
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-end gap-2.5 w-full sm:w-auto">
+            <button onClick={handleCopy} className={secondaryButton}>
               {isCopied ? (
                 <Check className="w-4 h-4 text-emerald-500" />
               ) : (
@@ -584,14 +780,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             {!unchanged && (
               <button
                 onClick={handleApply}
-                className={
-                  continueLabel
-                    ? // The way forward is the filled button when there is one,
-                      // so this steps back to the outline treatment rather than
-                      // competing with it.
-                      't-label flex-1 sm:flex-none py-2.5 px-5 rounded-xl text-slate-600 dark:text-slate-300 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-2'
-                    : `t-label flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`
-                }
+                title="Put this version in your draft"
+                className={continueLabel ? secondaryButton : `${primaryButton} col-span-1`}
               >
                 <span>Use this version</span>
                 {!continueLabel && <ArrowRight className="w-4 h-4" />}
@@ -605,7 +795,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <button
                 onClick={onClose}
                 autoFocus
-                className={`t-label flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-white shadow-lg bg-gradient-to-r ${bandConfig.gradient} hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2`}
+                className={`${primaryButton} col-span-2 order-first sm:order-none`}
               >
                 <span>{continueLabel}</span>
                 <ArrowRight className="w-4 h-4" />

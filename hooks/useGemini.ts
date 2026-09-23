@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { MARKING_TOAST_SLOT, type ShowToast } from './useToast';
 import { Draft } from 'immer';
 import {
   Course,
@@ -64,7 +65,7 @@ export interface AnswerImprovement {
 type PreviewNode = SyllabusPreviewNode;
 
 interface GeminiHookProps {
-  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
+  showToast: ShowToast;
   updateCourses: (updater: (draft: Draft<Course[]>) => void) => void;
   statePath: StatePath;
   currentPrompt?: Prompt | null;
@@ -85,6 +86,16 @@ export const useGemini = ({
   onUpdateUser,
 }: GeminiHookProps) => {
   const [evaluationResult, setEvaluationResult] = useState<EvaluationResult | null>(null);
+  /**
+   * The answer `evaluationResult` is a mark FOR, captured when it was marked.
+   *
+   * The report used to be handed the live draft instead, so the moment the
+   * draft changed — most visibly when "Use this version" put the rewrite in
+   * it — the report printed the rewrite as "your response, as submitted" with
+   * the original's 3/4 beside it, the PDF exported it as the student's answer,
+   * and "Improve my answer" rewrote the rewrite and diffed it against itself.
+   */
+  const [evaluatedAnswer, setEvaluatedAnswer] = useState('');
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evaluationError, setEvaluationError] = useState<string | null>(null);
 
@@ -316,6 +327,7 @@ export const useGemini = ({
         // feedback modal over a different question.
         if (activePromptIdRef.current === prompt.id) {
           setEvaluationResult(result);
+          setEvaluatedAnswer(answer);
           // Lead with the comparison when marking produced a rewrite: "here are
           // the words that would have earned the next mark" lands before a page
           // of criteria, not after it. Guarded on the TEXT for the same reason
@@ -331,7 +343,14 @@ export const useGemini = ({
             setShowImprovementReview(true);
           }
           const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
-          showToast(`Marking complete in ${elapsed2}s. Results auto-saved to library.`, 'success');
+          // Keyed, so the Undo raised when the student then puts the rewrite
+          // in their draft takes this slot instead of queueing behind it.
+          showToast(
+            `Marking complete in ${elapsed2}s. Results auto-saved to library.`,
+            'success',
+            undefined,
+            MARKING_TOAST_SLOT
+          );
         }
 
         // Bookkeeping, fire-and-forget: a student waiting 40s for a mark must
@@ -384,6 +403,7 @@ export const useGemini = ({
 
   const resetEvaluation = useCallback(() => {
     setEvaluationResult(null);
+    setEvaluatedAnswer('');
     setEvaluationError(null);
     setImprovement(null);
     setShowImprovementReview(false);
@@ -938,6 +958,7 @@ export const useGemini = ({
 
   return {
     evaluationResult,
+    evaluatedAnswer,
     setEvaluationResult,
     isEvaluating,
     evaluationError,

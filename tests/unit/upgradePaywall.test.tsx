@@ -104,8 +104,8 @@ describe('the answer upgrade is paywalled end to end', () => {
 
     // The exemplar text is a paid asset — it is not rendered while locked…
     expect(screen.queryByText(/reducing latency/)).toBeNull();
-    expect(screen.queryByText('Compare with mine')).toBeNull();
-    expect(screen.queryByText('Use This Answer')).toBeNull();
+    expect(screen.queryByText('See the edits')).toBeNull();
+    expect(screen.queryByText('Use this version')).toBeNull();
     // …but the section itself stays, so the upgrade is reachable.
     expect(screen.getByText('Improved Response')).toBeTruthy();
     expect(screen.getByText('See what Plus unlocks')).toBeTruthy();
