@@ -327,3 +327,35 @@ position counter is 11px.
 and `manyExemplarsAndQuestions.test.tsx`; one assertion reworded for the new
 subtitle); screenshots of the ladder and the exemplar header in both themes at
 1280px.
+
+## PR 8 — Show the whole verb ladder at laptop width, and say what each rung allows
+
+The brief: the command verb hierarchy ribbon.
+
+**The top of the ladder was off-screen.** The six tier cards sat in a strip
+that scrolled at every width. At 1280px — the width the page is mostly used at
+— the fifth tier (Discuss, Assess & Justify) was cut in half and the sixth
+(Evaluate, Synthesise & Create) was not on screen at all: the two rungs the
+ladder exists to show a student they are climbing toward. From `xl` the strip
+is a six-column grid (189px a column at 1216px of content, which holds the
+longest chip, DIFFERENTIATE). The edge fades hide where nothing scrolls. In a
+column that narrow the emoji beside the name left the name 90px and clipped
+"REMEMBER" mid-letter, so from `xl` the emoji stands above the name, and the
+headers share a floor so every subtitle starts on one line. Below `xl` the
+strip scrolls and centres the current tier exactly as before.
+
+**"Band 2" read as a target.** Each tier card showed "Band N" under its name,
+with the word "ceiling" hidden for screen readers only — so the limit was the
+meaning, and only listeners were told it. The cards now read "Up to Band N" to
+everyone, and the hidden word is gone.
+
+**Smaller fixes** — the detail tray's time read "4-7m" beside a "Marks"
+figure, where "m" could be either; it reads "4–7 min", and every range in the
+tray uses an en dash. On a phone the "Tier 2 · Define" chip broke after its
+dot; it stays whole and the row wraps instead.
+
+**Checked:** `npm run test:all` (updated accessible-name matches in
+`verbRibbonChrome.test.tsx` and `commandVerbHierarchy.test.tsx`, and a new case
+pinning the six-column layout); Chromium e2e for the verb ribbon, light theme,
+no-clipped-text, workspace chrome and accessibility (22 of 22); screenshots at
+1280px and 1440px in both themes and at 390px.
