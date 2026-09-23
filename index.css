@@ -211,22 +211,134 @@ body.focus-mode .focus-ambient {
   }
 }
 
-/* The drifting-orb motion shared by the app background and the auth backdrop.
-   It used to live in an inline <style> inside AnimatedBackground, which meant
-   any other component using `animation: blob` silently depended on that one
-   being mounted. */
-@keyframes blob {
+/*
+ * The aurora — drifting colour behind every screen (components/AmbientAurora).
+ *
+ * There used to be one `blob` keyframe, one duration (10s) and delays two
+ * seconds apart, so four orbs moved as a single visible loop: the same lurch
+ * up-and-right every ten seconds, forever. Now there are three drift paths and
+ * each orb runs one at its own long duration (29s–61s) from a random point in
+ * its cycle, so the composition does not visibly repeat and is not the same on
+ * two visits. Each path turns and stretches the orb unevenly — scaleX and
+ * scaleY apart, plus a slow rotation — so a soft circle reads as a shifting
+ * bloom of ink rather than a ball sliding about. Transform only, so it stays
+ * on the compositor.
+ */
+@keyframes aurora-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1);
+  }
+  25% {
+    transform: translate3d(6vw, -4vh, 0) rotate(24deg) scale(1.18, 0.92);
+  }
+  55% {
+    transform: translate3d(-3vw, 5vh, 0) rotate(-12deg) scale(0.9, 1.14);
+  }
+  80% {
+    transform: translate3d(4vw, 3vh, 0) rotate(8deg) scale(1.06, 1);
+  }
+}
+@keyframes aurora-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1);
+  }
+  30% {
+    transform: translate3d(-7vw, 3vh, 0) rotate(-30deg) scale(0.88, 1.2);
+  }
+  65% {
+    transform: translate3d(3vw, -6vh, 0) rotate(18deg) scale(1.22, 0.94);
+  }
+}
+@keyframes aurora-drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1.05, 0.95);
+  }
+  40% {
+    transform: translate3d(5vw, 6vh, 0) rotate(40deg) scale(0.92, 1.1);
+  }
+  70% {
+    transform: translate3d(-5vw, -2vh, 0) rotate(-20deg) scale(1.15, 1.02);
+  }
+}
+
+/* While AI work is in flight the aurora leans in: a little brighter, a little
+   closer to the middle. It is the room noticing, not a second spinner — the
+   change is a slow 1.6s ease, so it registers as mood rather than motion.
+   `body.ai-busy` is set by utils/aiBusySignal.ts for as long as any AI wait
+   card is on screen. */
+.aurora {
+  opacity: 0.8;
+  transition:
+    opacity 1.6s ease,
+    transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.ai-busy .aurora {
+  opacity: 1;
+  transform: scale(0.94);
+}
+
+/*
+ * The AI wait glyphs (components/AiWaitGlyph). Each one's LAST frame is its
+ * resting picture, because the reduced-motion block below runs every animation
+ * once, instantly: a reader who asked for stillness gets the finished drawing —
+ * lines written, words highlighted — rather than an empty frame.
+ */
+@keyframes glyph-write {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes glyph-swipe {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes glyph-hop {
   0% {
-    transform: translate(0px, 0px) scale(1);
+    transform: translateY(0);
   }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
+  40% {
+    transform: translateY(-7px);
   }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
+  70% {
+    transform: translateY(1px);
   }
   100% {
-    transform: translate(0px, 0px) scale(1);
+    transform: translateY(0);
+  }
+}
+@keyframes glyph-cascade {
+  0% {
+    opacity: 0.3;
+    transform: scaleY(1);
+  }
+  18% {
+    opacity: 1;
+    transform: scaleY(1.9);
+  }
+  45%,
+  100% {
+    opacity: 0.75;
+    transform: scaleY(1);
+  }
+}
+@keyframes glyph-settle {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
