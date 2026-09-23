@@ -11,7 +11,6 @@ import {
   getBandConfig,
   getBandHex,
   getBandName,
-  getBandRgb,
   renderFormattedText,
   stripHtmlTags,
   textContainsKeyword,
@@ -23,7 +22,6 @@ import {
   XCircle,
   Hash,
   Award,
-  AlertTriangle,
   Trophy,
   ClipboardList,
   FileDown,
@@ -93,16 +91,12 @@ const MetricCard = ({
   icon: LucideIcon;
   theme: BandConfig;
 }) => (
-  <div
-    className={`bg-white dark:bg-white/5 rounded-panel p-4 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col gap-3 h-full relative overflow-hidden group hover:shadow-lg transition-all duration-300`}
-  >
+  <div className="bg-white dark:bg-white/5 rounded-panel p-4 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col gap-3 h-full relative overflow-hidden">
     {/* Icon sits inline with its label rather than floating in its own row —
         keeps the tile compact so the score placard beside it doesn't have to
         stretch to match an artificially tall column. */}
     <div className="flex items-center gap-2.5">
-      <div
-        className={`p-2 rounded-xl shrink-0 ${theme.bg} ${theme.text} group-hover:scale-110 transition-transform duration-300`}
-      >
+      <div className={`p-2 rounded-xl shrink-0 ${theme.bg} ${theme.text}`}>
         <Icon className="w-4 h-4" />
       </div>
       <h4 className="t-label text-slate-500 dark:text-slate-400 truncate">{label}</h4>
@@ -120,18 +114,25 @@ const MetricCard = ({
 // goal. Achieved bands fill in the current band's canonical colour (BAND_HEX,
 // via getBandHex, so it always matches the placard beside it); the numbered
 // rungs and the distance text carry the information without relying on colour.
-const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: number }) => {
+const BandGoalCard = ({
+  currentBand,
+  maxBand,
+  capNote,
+}: {
+  currentBand: number;
+  maxBand: number;
+  /** Why the goal is where it is, when the command verb caps it. */
+  capNote?: React.ReactNode;
+}) => {
   const goalConfig = getBandConfig(maxBand);
   const reached = currentBand >= maxBand;
   const bandsAway = Math.max(0, maxBand - currentBand);
   const rungs = Array.from({ length: maxBand }, (_, i) => i + 1);
 
   return (
-    <div className="bg-white dark:bg-white/5 rounded-panel p-4 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col justify-between gap-3 h-full relative overflow-hidden group hover:shadow-lg transition-all duration-300">
+    <div className="bg-white dark:bg-white/5 rounded-panel p-4 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col justify-between gap-3 h-full relative overflow-hidden">
       <div className="flex items-center gap-2.5">
-        <div
-          className={`p-2 rounded-xl shrink-0 ${goalConfig.bg} ${goalConfig.text} group-hover:scale-110 transition-transform duration-300`}
-        >
+        <div className={`p-2 rounded-xl shrink-0 ${goalConfig.bg} ${goalConfig.text}`}>
           <Trophy className="w-4 h-4" />
         </div>
         <h4 className="t-section text-slate-500 dark:text-slate-400 truncate">
@@ -175,6 +176,11 @@ const BandGoalCard = ({ currentBand, maxBand }: { currentBand: number; maxBand: 
           Now Band {currentBand} · {getBandName(currentBand)}
         </p>
       </div>
+      {capNote && (
+        <p className="pt-3 mt-1 border-t border-slate-200/80 dark:border-white/10 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+          {capNote}
+        </p>
+      )}
     </div>
   );
 };
@@ -273,7 +279,7 @@ const CriteriaRow: React.FC<CriteriaRowProps> = ({
 
   return (
     <div
-      className={`group relative p-5 sm:p-6 ${CARD} hover:border-slate-300 dark:hover:border-white/20 hover:shadow-lg transition-all duration-300 animate-fade-in-up-sm CriteriaRow`}
+      className={`relative p-5 sm:p-6 ${CARD} animate-fade-in-up-sm CriteriaRow`}
       style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
     >
       <div className="flex items-start justify-between gap-4">
@@ -332,7 +338,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   onSaveToSamples,
   onFeedbackSubmit,
   hierarchy,
-  userName = 'Student',
+  userName,
   showToast,
 }) => {
   const bandConfig = getBandConfig(result.overallBand);
@@ -691,12 +697,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     <div
                       className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-lg no-print`}
                     >
-                      {result.overallBand >= 5 ? (
+                      {/* Measured against the question's own ceiling, not
+                          against Band 6. A 3/4 on a DESCRIBE is the top band
+                          that question can award, and it wore a warning
+                          triangle because Band 2 is low on a six-band scale. */}
+                      {result.overallBand >= maxBand || result.overallMark >= prompt.totalMarks ? (
                         <Trophy className="w-7 h-7 text-white" />
-                      ) : result.overallBand >= 3 ? (
-                        <Target className="w-7 h-7 text-white" />
                       ) : (
-                        <AlertTriangle className="w-7 h-7 text-white" />
+                        <Target className="w-7 h-7 text-white" />
                       )}
                     </div>
                   </div>
@@ -801,7 +809,31 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
             {/* Goal + Metrics */}
             <div className="lg:col-span-5 xl:col-span-full flex flex-col gap-4">
-              <BandGoalCard currentBand={result.overallBand} maxBand={maxBand} />
+              {/* Why the goal is capped where it is, told on the goal itself.
+                  The "Band N Goal" states the ceiling; without the reason a
+                  student or teacher reads it as a harsh marker rather than the
+                  verb's own limit. It used to be a card of its own at the head
+                  of the report, the first thing read — above the student's own
+                  answer — and a paragraph away from the goal it explained.
+                  Only when the cap binds (below Band 6), and carried by the
+                  text alone, so it stands on greyscale and to a screen reader. */}
+              <BandGoalCard
+                currentBand={result.overallBand}
+                maxBand={maxBand}
+                capNote={
+                  capIsBinding ? (
+                    <>
+                      <span className="font-semibold text-slate-800 dark:text-slate-100">
+                        {prompt.verb}
+                      </span>{' '}
+                      is a Tier {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command, so{' '}
+                      <span className={`font-semibold ${capConfig.text}`}>Band {maxBand}</span> is
+                      the top of the scale for this question — even a flawless response tops out
+                      here.
+                    </>
+                  ) : undefined
+                }
+              />
               <div className="grid grid-cols-2 gap-4">
                 <MetricCard
                   label="Volume"
@@ -823,31 +855,6 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         </aside>
 
         <div className="flex flex-col gap-6 min-w-0 xl:order-1">
-          {/* Why the goal above is capped where it is. The "Band N Goal" card states
-          the ceiling; without this a student or teacher can read it as the
-          marker being harsh rather than as the verb's own cognitive limit.
-          Shown only when the cap actually binds (below Band 6) — a tier-6 verb
-          leaves the full range open and needs no explanation. The meaning is
-          carried entirely by the text, not the tier tint, so it stands on a
-          greyscale print and to a screen reader. */}
-          {capIsBinding && (
-            <div className={`${CARD} flex items-start gap-4 p-5`}>
-              <div className={`p-2.5 rounded-xl shrink-0 ${capConfig.iconBg} ${capConfig.text}`}>
-                <Award className="w-5 h-5" />
-              </div>
-              <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-300 pt-0.5">
-                <span className="font-bold text-slate-800 dark:text-slate-100">
-                  '{prompt.verb}'
-                </span>{' '}
-                is a Tier {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command. Its cognitive
-                demand caps the achievable result at{' '}
-                <span className={`font-bold ${capConfig.text}`}>Band {maxBand}</span> — even a
-                flawless response tops out here, so this is the ceiling the mark is measured
-                against, not a harsh marker.
-              </p>
-            </div>
-          )}
-
           {/* Student Response — included so the report can be shared with a
           teacher as a self-contained record of what was actually submitted. */}
           {userAnswer.trim() && (
@@ -858,7 +865,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     <PenLine className="w-4 h-4" />
                   </div>
                   <h3 className="t-section text-slate-500 dark:text-slate-400">
-                    {userName}'s Response
+                    {userName ? `${userName}'s response` : 'Your response'}
                   </h3>
                 </div>
                 <span className="t-label text-slate-500 dark:text-slate-400">
@@ -1037,132 +1044,94 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           answer upgrades (redactPaidFeedback), which left `revisedText` empty
           and hid this whole section — including the upgrade button inside it
           that is the only thing selling the feature. The section a free user
-          sees is the locked state below: no exemplar text, one clear CTA. */}
-          {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
-            <section
-              // The only saturated edge in this modal — measured, the rest of
-              // the report is neutral cards on soft grey. `exemplarConfig.border`
-              // drew it fully opaque in the light theme (`orange-600`, alpha 1
-              // against the dark theme's 0.5), which put a harder line around
-              // the rewrite than anything else on the page and, being a stop
-              // darker than this section's own header gradient, read as an
-              // outline bolted to the header rather than as one object. Same
-              // treatment as the exemplar container in the sample answers
-              // panel, which is the same content in a different frame: the
-              // header, the fill wash and the "+1 Mark" chip say which band
-              // this is, so the edge only has to close the shape.
-              style={{ '--band-rgb': getBandRgb(exemplarBand) } as React.CSSProperties}
-              className={`clip-stable relative rounded-panel border band-edge overflow-hidden shadow-lg transition-all duration-500 group mt-4`}
-            >
-              <div
-                className={`absolute inset-0 ${exemplarConfig.bg} opacity-[0.03] pointer-events-none no-print`}
-              />
-              <MeshOverlay />
+          sees is the locked state below: no exemplar text, one clear CTA.
 
-              <div
-                className={`px-8 py-5 bg-gradient-to-r ${exemplarConfig.gradient} flex flex-wrap justify-between items-center gap-4 relative z-10`}
+          It takes the same heading and card as every other section. It was a
+          saturated gradient banner with a grid texture and three glass buttons
+          on it — the loudest object in the report, sitting under the criteria
+          it depends on. The band now shows as one rule across the card's top,
+          as it does on the comparison this section opens. */}
+          {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
+            <section className="relative">
+              <SectionHeading
+                icon={Zap}
+                label="Improved Response"
+                tone={exemplarConfig.text}
+                toneBg={exemplarConfig.bg}
               >
-                <div className="flex items-center gap-5">
-                  <div className="p-3 rounded-2xl bg-white/20 shadow-inner backdrop-blur-sm text-white">
-                    <Zap className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-black tracking-normal italic text-white">
-                      Improved Response
-                    </h4>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="t-label text-white/90">
-                        {revisedText
-                          ? `Your answer, lifted to ${exemplarMark}/${prompt.totalMarks} — Band ${exemplarBand}`
-                          : `See your answer rewritten to ${exemplarMark}/${prompt.totalMarks}`}
-                      </span>
-                      {revisedText && result.overallMark < exemplarMark && (
-                        <span className="t-label px-2 py-0.5 rounded-lg bg-white/20 text-white backdrop-blur-sm no-print">
-                          +{exemplarMark - result.overallMark} Mark
-                        </span>
+                {revisedText && result.overallMark < exemplarMark && (
+                  <span className="t-label ml-auto text-slate-500 dark:text-slate-400 tabular-nums">
+                    {exemplarMark}/{prompt.totalMarks} · Band {exemplarBand} · +
+                    {exemplarMark - result.overallMark} mark
+                    {exemplarMark - result.overallMark === 1 ? '' : 's'}
+                  </span>
+                )}
+                {upgradesLocked && <PlusLockChip />}
+              </SectionHeading>
+              <div className={`${CARD} overflow-hidden`}>
+                <div
+                  className="h-1"
+                  style={{ backgroundColor: getBandHex(exemplarBand) }}
+                  aria-hidden="true"
+                />
+                {revisedText ? (
+                  <>
+                    <div className="px-6 sm:px-8 pt-6 pb-6">
+                      <p className="t-label mb-3 text-slate-500 dark:text-slate-400">
+                        Your answer with the marker&apos;s edits made
+                      </p>
+                      <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
+                        {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
+                      </div>
+                    </div>
+                    <div className="px-6 sm:px-8 py-4 border-t border-slate-200/80 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-wrap items-center gap-2.5 no-print">
+                      {/* The comparison is the point: the rewrite is an EDIT of
+                          the student's own answer, and reading it as a block of
+                          prose hides the handful of words that earned the mark. */}
+                      {onCompareImprovement && (
+                        <button
+                          onClick={onCompareImprovement}
+                          className={`t-label px-5 py-2.5 rounded-xl text-white font-semibold ${exemplarConfig.solidBg} hover:brightness-110 transition-[filter] flex items-center gap-2`}
+                        >
+                          <Columns2 className="w-4 h-4" />
+                          See the edits
+                        </button>
+                      )}
+                      <button
+                        onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
+                        className="t-label px-5 py-2.5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 transition-colors flex items-center gap-2"
+                      >
+                        <ArrowUpCircle className="w-4 h-4" />
+                        Use this version
+                      </button>
+                      {/* Gated on MARKS, not bands: a student sitting at 5/6
+                          inside the top band still has a mark to win, and the
+                          band test hid the control from them. */}
+                      {result.overallMark < prompt.totalMarks && (
+                        <button
+                          onClick={onImproveAnswer}
+                          disabled={isImproving}
+                          className="t-label sm:ml-auto px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:opacity-60"
+                        >
+                          <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
+                          {isImproving ? 'Regenerating…' : 'Regenerate'}
+                        </button>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-3 no-print">
-                  {/* Gated on MARKS, not bands: a student sitting at 5/6 inside the
-                  top band still has a mark to win, and the band test hid the
-                  control from them. */}
-                  {result.overallMark < prompt.totalMarks && (
-                    <button
-                      onClick={
-                        upgradesLocked ? () => requestUpgrade('answerUpgrades') : onImproveAnswer
-                      }
-                      disabled={isImproving}
-                      title={
-                        upgradesLocked
-                          ? `AI answer upgrades are part of ${planLabelForFeature('answerUpgrades')} — tap to learn more`
-                          : undefined
-                      }
-                      className={`t-label px-5 py-3 rounded-xl text-white border transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm ${
-                        upgradesLocked
-                          ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
-                          : 'bg-white/10 hover:bg-white/20 border-white/20'
-                      }`}
-                    >
-                      <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
-                      {isImproving
-                        ? 'Regenerating...'
-                        : revisedText
-                          ? 'Regenerate'
-                          : 'Improve my answer'}
-                      {upgradesLocked && (
-                        <PlusLockChip className="bg-white/15 border-white/40 text-white" />
-                      )}
-                    </button>
-                  )}
-                  {/* The comparison is the point: the rewrite is an EDIT of the
-                  student's own answer, and reading it as a block of prose hides
-                  the handful of words that earned the extra mark. */}
-                  {revisedText && onCompareImprovement && (
-                    <button
-                      onClick={onCompareImprovement}
-                      className="t-label px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all hover:scale-105 active:scale-[0.98] flex items-center gap-2 backdrop-blur-sm"
-                    >
-                      <Columns2 className="w-4 h-4" />
-                      Compare with mine
-                    </button>
-                  )}
-                  {revisedText && (
-                    <button
-                      onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
-                      className="t-label px-6 py-3 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 border-2 border-transparent hover:border-white/50 transition-all hover:scale-105 active:scale-[0.98] shadow-lg flex items-center gap-2"
-                    >
-                      <span>Use This Answer</span>
-                      <ArrowUpCircle className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* The surface token, not a hand-picked hex. `#0f1420` was the one
-              colour on this page that could not follow a theme change. */}
-              <div className="p-6 sm:p-8 bg-white dark:bg-[rgb(var(--color-bg-surface))] relative z-10">
-                {revisedText ? (
-                  <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
-                    {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
-                  </div>
+                  </>
                 ) : (
-                  <div className="flex flex-col items-center text-center gap-3 py-6 no-print">
-                    <Zap className={`w-8 h-8 ${exemplarConfig.text} opacity-60`} />
-                    <p className="text-sm text-slate-700 dark:text-slate-200">
+                  <div className="flex flex-col items-center text-center gap-3 px-6 py-10 no-print">
+                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
                       Your answer, rewritten one mark higher — in your own words
                     </p>
                     <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
                       {planLabelForFeature('answerUpgrades')} rewrites what you wrote to reach{' '}
                       {exemplarMark}/{prompt.totalMarks}, keeping your structure and voice, and
-                      shows you the changes side by side so you can see exactly what the extra mark
-                      was for.
+                      marks every edit so you can see exactly what the extra mark was for.
                     </p>
                     <button
                       onClick={() => requestUpgrade('answerUpgrades')}
-                      className={`t-label mt-1 px-6 py-3 rounded-xl text-white shadow-lg bg-gradient-to-r ${exemplarConfig.gradient} hover:scale-105 active:scale-[0.98] transition-all`}
+                      className={`t-label mt-1 px-6 py-2.5 rounded-xl text-white font-semibold ${exemplarConfig.solidBg} hover:brightness-110 transition-[filter]`}
                     >
                       See what Plus unlocks
                     </button>
@@ -1172,14 +1141,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             </section>
           )}
 
-          {/* Feedback Footer */}
-          <div className="mt-4 flex justify-center no-print">
-            <div className="w-full max-w-2xl bg-slate-50 dark:bg-white/5 rounded-panel p-1 border border-slate-200/80 dark:border-white/10">
-              <ResponseFeedback
-                onFeedbackSubmit={onFeedbackSubmit}
-                existingFeedback={result.userFeedback}
-              />
-            </div>
+          {/* Feedback on the marking itself. One card: it used to sit in a
+              bordered wrapper of its own, whose padding and the card's own
+              top margin left an empty band above "Rate this evaluation". */}
+          <div className="no-print">
+            <ResponseFeedback
+              onFeedbackSubmit={onFeedbackSubmit}
+              existingFeedback={result.userFeedback}
+            />
           </div>
         </div>
       </div>

@@ -104,14 +104,7 @@ const EXEMPT: { match: string; why: string }[] = [
     match: "isSyncing ? 'opacity-50 cursor-not-allowed' : ''",
     why: 'the force-sync button while a sync is running — disabled, as above.',
   },
-  {
-    match: 'w-8 h-8 ${exemplarConfig.text} opacity-60',
-    why:
-      'a decorative Lucide glyph rather than text — it is the bolt above the ' +
-      '"your answer, rewritten one mark higher" pitch, and the sentence under ' +
-      'it carries the whole meaning. Caught only because the band palette ' +
-      'paints icons from the same `.text` field it paints prose from.',
-  },
+
 ];
 
 const ROOT = resolve(__dirname, '../..');

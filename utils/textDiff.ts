@@ -502,8 +502,29 @@ const sentenceSpans = (text: string): SentenceSpan[] => {
   return spans;
 };
 
-/** Indices of the spans overlapping [start, end), or the one containing `start`. */
-const spanIndicesTouching = (spans: SentenceSpan[], start: number, end: number): number[] => {
+/**
+ * Indices of the spans overlapping [start, end), or the one containing `start`.
+ *
+ * An empty range is where the OTHER side added or cut words. When it falls in
+ * the gap after a sentence ("…the bases.␣|Then…") it belongs to the sentence it
+ * follows: "exposing two template strands" was appended to that sentence, not
+ * prefixed to the next. Attributing it forward chained each sentence's edit to
+ * the next one's, until the group spanned three sentences and was dropped as a
+ * wholesale rewrite, so the report said "2 of your 5 sentences rewritten" of a
+ * revision that had touched all five.
+ */
+const spanIndicesTouching = (
+  spans: SentenceSpan[],
+  start: number,
+  end: number,
+  text: string
+): number[] => {
+  if (start === end) {
+    const before = spans.findIndex(
+      (s, i) => s.end <= start && (spans[i + 1]?.start ?? Infinity) >= start
+    );
+    if (before >= 0 && !text.slice(spans[before].end, start).trim()) return [before];
+  }
   const hit: number[] = [];
   spans.forEach((s, i) => {
     if (s.start < Math.max(end, start + 1) && s.end > start) hit.push(i);
@@ -593,8 +614,8 @@ export const sentenceChanges = (original: string, revised: string): SentenceChan
     if (!substantiveChanges([{ removed: edit.removed.trim(), added: edit.added.trim() }]).length) {
       continue;
     }
-    const before = spanIndicesTouching(beforeSpans, edit.oStart, edit.oEnd);
-    const after = spanIndicesTouching(afterSpans, edit.rStart, edit.rEnd);
+    const before = spanIndicesTouching(beforeSpans, edit.oStart, edit.oEnd, original);
+    const after = spanIndicesTouching(afterSpans, edit.rStart, edit.rEnd, revised);
     if (!before.length && !after.length) continue;
 
     const last = groups[groups.length - 1];

@@ -41,6 +41,14 @@ export type ToastType = 'success' | 'error' | 'warning' | 'info';
  * everything else the app has to say for the length of the run, and shows the
  * reader perhaps every third step anyway.
  */
+/**
+ * The slot the "marking complete" notice holds, and what the student does next
+ * with the result. Putting the rewrite in the draft raises an Undo seconds
+ * later; unkeyed it queued behind the marking notice and was not on screen
+ * when it mattered.
+ */
+export const MARKING_TOAST_SLOT = 'marking';
+
 export type ShowToast = (
   message: string,
   type?: ToastType,

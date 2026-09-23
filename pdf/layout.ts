@@ -946,6 +946,12 @@ const flowSpanBand = (
  * as near equal as possible, and never falls between a heading and the block it
  * introduces, or between the halves of a bound pair.
  */
+/** Two consecutive items of one ticked or tick-box list. */
+const sameChecklist = (a: MeasuredBlock, b: MeasuredBlock): boolean =>
+  a.kind === 'listItem' &&
+  b.kind === 'listItem' &&
+  ((!!a.checkbox && !!b.checkbox) || (!!a.tick && !!b.tick));
+
 const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page: number): void => {
   if (geo.columnsPerPage < 2) return;
   const onPage = placements.filter((p) => p.page === page);
@@ -972,6 +978,14 @@ const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page:
     // diff pair into the next column, which is precisely the split the binding
     // exists to prevent.
     if (ordered[k].block.kind === 'heading' || ordered[k].block.keepWithNext) continue;
+    // Nor inside a list. The flow keeps a short section whole
+    // (`sectionHeight`), and this pass then undid it: the most even cut on a
+    // one-page report fell between the first and second of three Next Steps,
+    // so the heading and one tick box sat at the foot of the left column and
+    // the other two headed the right one, above Criteria Breakdown.
+    // (A checklist, not the What Changed pairs: those are list items too, and
+    // the cut between one pair and the next is exactly where they may break.)
+    if (sameChecklist(ordered[k].block, ordered[k + 1].block)) continue;
     // A spacer at the head of the new column would print as a gap.
     if (ordered[k + 1].block.kind === 'spacer') continue;
     const head = depthOf(0, k + 1);

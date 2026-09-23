@@ -359,3 +359,93 @@ dot; it stays whole and the row wraps instead.
 pinning the six-column layout); Chromium e2e for the verb ribbon, light theme,
 no-clipped-text, workspace chrome and accessibility (22 of 22); screenshots at
 1280px and 1440px in both themes and at 390px.
+
+## PR #281 — Show a student where the extra mark came from, and why
+
+The brief: the "improve my answer" modal (a full redesign if worthwhile), the
+on-screen evaluation, and the exported PDF.
+
+**The improvement modal, redesigned.** It was a diff under a saturated
+gradient header with a grid texture: twelve coloured runs scattered through
+the text, "54 added · 6 cut" in chips, and nothing to say why any of it was
+there. It is now the student's answer as a marked-up page with a margin.
+
+- Each edit is numbered in place and listed in the margin by the same
+  number. Click either one and the page and the margin both move to it;
+  the stepper and the ring follow.
+- The margin opens with **what the marker asked for** — the evaluation's own
+  improvement points — so the page shows where the mark came from and the
+  margin says why. It is withheld where the plan redacts that feedback.
+- Three views: edits marked, a clean copy to read the new version plainly,
+  and side by side.
+- The frame steps back: one band-coloured rule across the top, the mark
+  moved stated large ("3 → 4/4, Band 2 · +1 mark"), and the band's solid
+  colour on the one primary button. On a phone the way forward takes its
+  own full-width row; three abreast, "See my full feedback" wrapped to three
+  lines.
+- The title says the real gain. It always read "one mark higher", but a
+  student already in the question's top band is lifted to full marks, which
+  can be two.
+
+**Bug — side by side ringed the wrong words.** The edit cursor indexed the
+full diff, but the right-hand column holds only the kept and added runs, so
+"next change" ringed text several runs from the edit it named. Each edit now
+maps to its own run in that column.
+
+**Bug — "Use this version" could not be undone.** It overwrote the draft,
+and the editor's undo does not survive a programmatic replacement. It now
+raises an Undo that puts the draft back.
+
+**Bug — the report showed the rewrite as "your response, as submitted".**
+The report, the PDF and "Improve my answer" were handed the live draft rather
+than the answer that was marked. Once the student used the rewrite, the
+report printed it beside the original's 3/4, the PDF exported it as their
+answer, and "Improve my answer" rewrote the rewrite and diffed it against
+itself ("No changes"). The marked answer is now captured when the mark
+arrives (`evaluatedAnswer` in `useGemini`).
+
+**Bug — no toast could be seen over a modal.** The toast rendered inside the
+app root's `relative z-10` stacking context, so its z-index only ranked it
+among the page's own layers, and every modal is portalled above that.
+"Marking complete", a failed PDF export and the new Undo all landed under the
+dialog the student was reading. It is portalled to `<body>` and ranks above
+the modal tiers. The Undo shares the marking notice's slot, so it replaces
+"Marking complete" rather than queueing behind it.
+
+**The on-screen evaluation.**
+
+- A 3/4 on a DESCRIBE — the top band that question can award — wore a
+  warning triangle, because Band 2 is low on a six-band scale. The placard's
+  icon is now measured against the question's own ceiling.
+- The note explaining the verb's cap was a card of its own at the head of
+  the report, above the student's answer. It is now a line on the Band Goal
+  card it explains.
+- The Improved Response section takes the same heading and card as every
+  other section instead of a gradient banner, with "See the edits", "Use
+  this version" (it said "Use This Answer" here and "Use this version" in
+  the modal) and a quieter "Regenerate".
+- "Student's Response" is "Your response". Static cards no longer lift and
+  scale their icons on hover as if they were buttons. "Rate this evaluation"
+  lost the empty band its double wrapper left above it.
+
+**The PDF.**
+
+- **Bug — "2 of your 5 sentences rewritten" of a revision that rewrote all
+  five.** Words added at the end of a sentence were credited to the sentence
+  after it, which chained each edit to the next until the group spanned three
+  sentences and was dropped as a wholesale rewrite. They now belong to the
+  sentence they follow, and What Changed lists all five.
+- **Next Steps split across the columns** — the heading and one tick box at
+  the foot of the left column, the other two at the head of the right. The
+  flow already keeps a short section whole; the column balancer then cut it.
+  It no longer cuts inside a checklist, and still balances between What
+  Changed's pairs.
+
+**Checked:** `npm run test:all` (new `sentenceChanges.test.ts`; new cases in
+`improvementReviewModal.test.tsx`, `pdfLayout.test.ts` and
+`useGeminiStaleResult.test.tsx`; button labels updated in two tests; one
+text-dimming exemption removed with the code it pointed at), `check:bundle`
+and `check:eager-chunks` after a build; Chromium e2e for the evaluation flow,
+paywall, report column, modal scroll, light theme, accessibility and
+no-clipped-text; screenshots of the modal in both themes at 1280px and at
+390px, of the report, and of the exported PDF before and after.

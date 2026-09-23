@@ -66,7 +66,7 @@ describe('comparing the marking rewrite', () => {
   it('offers the comparison for a rewrite that came from marking', () => {
     const { onCompareImprovement } = renderDisplay();
 
-    fireEvent.click(screen.getByText('Compare with mine'));
+    fireEvent.click(screen.getByText('See the edits'));
 
     expect(onCompareImprovement).toHaveBeenCalled();
   });
@@ -74,14 +74,14 @@ describe('comparing the marking rewrite', () => {
   it('hides the comparison when there is no rewrite to compare', () => {
     renderDisplay({}, result({ revisedAnswer: '' }));
 
-    expect(screen.queryByText('Compare with mine')).toBeNull();
+    expect(screen.queryByText('See the edits')).toBeNull();
   });
 
   it('hides it when the caller supplies no handler', () => {
     renderDisplay({ onCompareImprovement: undefined });
 
-    expect(screen.queryByText('Compare with mine')).toBeNull();
+    expect(screen.queryByText('See the edits')).toBeNull();
     // The rest of the section is still there — only the control goes.
-    expect(screen.getByText('Use This Answer')).toBeTruthy();
+    expect(screen.getByText('Use this version')).toBeTruthy();
   });
 });
