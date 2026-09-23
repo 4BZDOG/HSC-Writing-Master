@@ -317,6 +317,8 @@ jobs:
           if [ -z "${{ secrets.NETLIFY_AUTH_TOKEN }}" ] || [ -z "${{ secrets.NETLIFY_SITE_ID }}" ]; then
             echo "configured=false" >> "$GITHUB_OUTPUT"
             echo "::warning::Netlify secrets not configured (NETLIFY_AUTH_TOKEN / NETLIFY_SITE_ID) — nothing was deployed to Netlify. GitHub Pages remains the active deployment; see DEPLOYMENT.md."
+            echo "### Nothing was deployed to Netlify" >> "$GITHUB_STEP_SUMMARY"
+            echo "The Netlify secrets are not configured, so every deploy step was skipped. GitHub Pages is the active deployment." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "configured=true" >> "$GITHUB_OUTPUT"
           fi

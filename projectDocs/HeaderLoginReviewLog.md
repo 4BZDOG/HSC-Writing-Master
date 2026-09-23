@@ -73,7 +73,38 @@ Before, pressing "Create one" swapped the form silently.
 It reports on an AI connection nobody on the sign-in page can use, and at phone
 width it covered the disclaimer and the demo chips.
 
+**Also fixed** — a stale comment in `AuthBrand` from PR #273 that described a
+`headingLevel` prop the component never had.
+
 **Checked:** `npm run test:all` (2,606 unit tests, including new
 `authServiceSignInErrors.test.ts` and additions to the sign-in, sign-up and
 reset UI tests), Chromium e2e for the agreement gate and accessibility specs,
 and screenshots of both themes at 1280px and 375px.
+
+## PR 3 — The header at 320px, a mark that is not a heading, and deploys that say when they did nothing
+
+**Header**
+
+- **Tools menu alignment.** Every tool name in the admin/teacher popover was
+  centred under a left-aligned group label. The panel set `text-left`, but a
+  `<button>` does not inherit `text-align` (the user-agent sheet centres it), so
+  it never reached the rows. `HEADER_MENU_ITEM` now carries `text-left` itself.
+- **Wordmark at 320px.** With an admin's four controls the rail leaves the
+  wordmark about 30px, and `truncate` painted "B…". Below 360px it is now
+  visually hidden (`max-[359px]:sr-only`) and stays the page's `<h1>`; the
+  gradient tile carries the brand at that width. 360px is where it fits whole.
+
+**Evaluation result** — the overall mark was an `<h1>`: a second level-one
+heading on the page, under the panel's own `<h2>`, read aloud as "15 slash 20".
+It is a `<p>`; the slash is drawn for the eye and "out of" is spoken for the ear.
+
+**Deploy reporting** — the Vercel production job and the Netlify job in
+`build.yml` both go green having deployed nothing while their secrets are unset.
+The Vercel job's `::notice::` is now a `::warning::` (matching Netlify), and both
+write "Nothing was deployed to …" to the run summary. GitHub Pages remains the
+only live deployment.
+
+**Checked:** `npm run test:all` (2,609 unit tests, including new cases in
+`appHeaderChrome.test.tsx` and `feedbackSummaryChrome.test.tsx`), Chromium e2e
+for report column, workspace chrome, accessibility and the evaluation flow, and
+screenshots of the header and open tools menu at 320, 360 and 1280px.

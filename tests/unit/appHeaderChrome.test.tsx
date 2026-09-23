@@ -283,6 +283,21 @@ describe('the bar is one height at every width and every role', () => {
     }
   });
 
+  // At 320px an admin's rail left the wordmark about 30px, and `truncate`
+  // painted "B…". Below 360px it is visually hidden, not removed: it is still
+  // the page's <h1>.
+  it('hides the wordmark visually below 360px rather than printing "B…"', () => {
+    expect(HEADER_WORDMARK).toContain('max-[359px]:sr-only');
+    expect(HEADER_WORDMARK).not.toMatch(/(^|\s)hidden(\s|$)/);
+  });
+
+  // A <button> does not inherit `text-align`; the user-agent sheet centres it.
+  // The panel's `text-left` never reached the rows, so two-line tool names sat
+  // centred under left-aligned group labels.
+  it('left-aligns the tools on the button itself', () => {
+    expect(HEADER_MENU_ITEM).toMatch(/(^|\s)text-left(\s|$)/);
+  });
+
   // The constants are not the whole story: two clusters kept their `flex-wrap`
   // as literals in the JSX, and removing it from HEADER_INNER alone would have
   // left the header wrapping exactly as before.

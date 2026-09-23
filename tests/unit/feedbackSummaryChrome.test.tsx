@@ -99,3 +99,13 @@ describe('the marking summary', () => {
     expect(screen.getByText('Criteria Breakdown')).toBeTruthy();
   });
 });
+
+describe('the overall mark', () => {
+  // It was an <h1>: a second level-one heading on the page, under the panel's
+  // own <h2>, read aloud as "4 slash 8".
+  it('is not a heading, and is spoken as "out of"', () => {
+    renderDisplay();
+    expect(screen.queryAllByRole('heading', { level: 1 })).toHaveLength(0);
+    expect(screen.getByText(/out of 8/)).toBeTruthy();
+  });
+});
