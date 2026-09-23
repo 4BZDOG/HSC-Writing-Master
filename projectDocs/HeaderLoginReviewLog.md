@@ -328,7 +328,7 @@ and `manyExemplarsAndQuestions.test.tsx`; one assertion reworded for the new
 subtitle); screenshots of the ladder and the exemplar header in both themes at
 1280px.
 
-## PR 8 — Show the whole verb ladder at laptop width, and say what each rung allows
+## PR #280 — Show the whole verb ladder at laptop width, and say what each rung allows
 
 The brief: the command verb hierarchy ribbon.
 
