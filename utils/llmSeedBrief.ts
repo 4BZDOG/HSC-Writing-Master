@@ -1,5 +1,5 @@
 import type { Course } from '../types';
-import { commandTermsList, TIER_GROUPS } from '../data/commandTerms';
+import { bandMarkRanges, commandTermsList, TIER_GROUPS } from '../data/commandTerms';
 
 /**
  * The authoring rules an external LLM needs to write course data this app can
@@ -35,6 +35,32 @@ const verbsByTier = (): Record<string, string> => {
   return lines;
 };
 
+/**
+ * The exact rows a marking guide above 6 marks must have, by tier and mark
+ * value — one per band the question can award, with that band's mark range.
+ *
+ * The same ladder `utils/markingGuideLadder.ts` holds every AI-written guide to
+ * and the Content Audit Studio treats as standard, derived from `bandMarkRanges`
+ * so the brief cannot drift from it. "Band-range lines" alone was not enough: a
+ * model left to pick its own ranges wrote 8 / 6-7 / 4-5 / 2-3 / 1 for every
+ * 8-mark question, which is right for no tier.
+ */
+const guideRowsOver6 = (): Record<string, string> => {
+  const rows: Record<string, string> = {};
+  for (const group of TIER_GROUPS) {
+    const verbs = commandTermsList.filter((v) => v.tier === group.tier);
+    const maxMarks = Math.max(0, ...verbs.map((v) => v.markRange[1]));
+    for (const marks of [7, 8, 9, 10, 12, 15, 20].filter((m) => m <= maxMarks)) {
+      rows[`tier ${group.tier}, ${marks} marks`] = bandMarkRanges(marks, group.tier)
+        .map(({ lo, hi }) =>
+          lo === hi ? `${lo} mark${lo === 1 ? '' : 's'}:` : `${lo}-${hi} marks:`
+        )
+        .join(' / ');
+    }
+  }
+  return rows;
+};
+
 export const buildLlmSeedInstructions = () => ({
   ROLE: 'You are an expert NESA HSC content writer extending a syllabus dataset for an AI writing-coach app. The "data" array below is the existing content and the exact shape to follow. Return a JSON document of the same shape and nothing else — no markdown fences, no commentary.',
   LANGUAGE:
@@ -45,6 +71,8 @@ export const buildLlmSeedInstructions = () => ({
     STEM: "The question stem must begin with, or prominently use, its verb and genuinely demand that verb's thinking: an EVALUATE question needs a judgement against criteria, not a description.",
     TYPICAL_MARKS: verbsByTier(),
   },
+  DEPTH:
+    'Write 2-4 questions for every dot point, each on a different verb and mark value, so a dot point can be practised from recall up to extended response. Across a topic: mostly 3-6 mark questions, some 2-mark recall questions, and at least one 7+ mark extended response on a tier 5-6 verb. Give most questions a "scenario": a realistic context paragraph (who, what, why — 2-4 sentences) the answer has to use.',
   DOT_POINTS: {
     RULE: 'Each dot point "description" is the syllabus\'s own words and should begin with a command verb ("describe the OSI model…").',
     FOCUS_AREAS:
@@ -56,8 +84,15 @@ export const buildLlmSeedInstructions = () => ({
     UP_TO_6_MARKS:
       'One line per mark value, descending, no ranges. "4 marks: … \\n3 marks: … \\n2 marks: … \\n1 mark: …"',
     OVER_6_MARKS:
-      "Band-range lines, descending, discriminated by QUALITY OF THINKING rather than length. The top range demands the verb's full cognitive level; middle ranges show sound knowledge a step below it; the lowest is fragmentary.",
+      "Exactly the rows in OVER_6_MARKS_ROWS for the verb's tier and the question's marks — one per band the question can award, with that band's mark range, top first. Discriminate them by QUALITY OF THINKING rather than length: the top row demands the verb's full cognitive level; middle rows show sound knowledge a step below it; the lowest is fragmentary.",
+    OVER_6_MARKS_ROWS: guideRowsOver6(),
+    NOT_ADDITIVE:
+      'Describe a whole answer at each mark, not separate components that add up ("Makes a judgement (1 mark) • Applies criterion A (2 marks)…"). The app checks guides against the rows above and flags any other layout as non-standard.',
   },
+  MARKER_NOTES:
+    '"markerNotes": 2-4 short notes in a marker\'s own register on what separates a strong answer to THIS question ("A top-tier evaluation acknowledges that a combined strategy is superior"). The marker reads them after the marking criteria and they refine it — they never add marks the criteria do not award.',
+  COMMON_STUDENT_ERRORS:
+    '"commonStudentErrors": 2-4 specific mistakes students make on THIS question ("Describing the two approaches without judging their effectiveness"). Students see them as things to avoid, so write each as the mistake itself, not as advice.',
   SYLLABUS_TERMS: {
     WHAT: '"keywords" are the syllabus terminology a full-mark answer must use — technical terms, named concepts, processes, structures and examples an examiner expects. 6-10 of them, concise noun phrases of 1-3 words, lower case unless a proper noun or established acronym. No command verbs, no generic academic words ("process", "factor", "important"), no connectives ("therefore", "however").',
     MUST_USE_FIRST:
@@ -67,7 +102,8 @@ export const buildLlmSeedInstructions = () => ({
   },
   SAMPLE_ANSWERS: {
     LADDER:
-      "Give each question answers at DIFFERENT mark values: always a full-mark exemplar, plus at least one clearly weaker response (roughly half marks) whose flaws match that mark's line in the marking criteria. Never two answers with the same text.",
+      "Give each question three answers at DIFFERENT mark values — full marks, the middle of the range and the bottom (for a 5-mark question: 5, 3 and 1; for 2 marks: 2 and 1) — each with flaws that match that mark's line in the marking criteria. The marker is calibrated against these, so a question with only a full-mark answer gives it nothing to compare a weaker answer with. Never two answers with the same text.",
+    MARK: '"mark" is a whole number from 0 to totalMarks — never a half mark (the database stores an integer and rejects 1.5). Do not write "band": the app works it out from the mark and the verb.',
     TERMS:
       "The full-mark exemplar must use EVERY must-use term from that question's keywords, each doing real work in a sentence rather than listed. A lower-mark answer uses proportionally fewer, taking must-use terms before supporting ones and falling back on general language for the rest — the terms it leaves out are part of why it earns less. Never bolt terms onto an answer that has not earned them.",
     LENGTH:
@@ -76,7 +112,7 @@ export const buildLlmSeedInstructions = () => ({
       '"source" is always "AI". "feedback" explains, in marker language, exactly why the answer earns its mark and what would lift it.',
   },
   QUALITY_BAR:
-    'Factually accurate and syllabus-authentic. No placeholder text, no duplicated questions. Before returning: every verb is on the list, every totalMarks is inside its verb\'s range, every linkedOutcomes code exists in the course\'s outcomes array, and every markingCriteria line starts with "N marks:" or "N-M marks:".',
+    'Factually accurate and syllabus-authentic. No placeholder text, no duplicated questions. Before returning: every verb is on the list, every totalMarks is inside its verb\'s range, every linkedOutcomes code exists in the course\'s outcomes array, every markingCriteria line starts with "N marks:" or "N-M marks:" and has the rows MARKING_CRITERIA asks for, and every sample mark is a whole number no higher than totalMarks.',
 });
 
 /**

@@ -1604,12 +1604,26 @@ export const getLLMImportTemplate = () =>
                           markingCriteria: '<see MARKING_CRITERIA>',
                           keywords: ['<must-use terms first — see SYLLABUS_TERMS>'],
                           linkedOutcomes: ['<codes from the outcomes array>'],
+                          markerNotes: ['<see MARKER_NOTES>'],
+                          commonStudentErrors: ['<see COMMON_STUDENT_ERRORS>'],
                           sampleAnswers: [
                             {
                               mark: 4,
                               answer: '<the full sample response — see SAMPLE_ANSWERS>',
                               source: 'AI',
                               feedback: '<2-3 sentences of marker commentary>',
+                            },
+                            {
+                              mark: 2,
+                              answer: '<a middle answer — see SAMPLE_ANSWERS.LADDER>',
+                              source: 'AI',
+                              feedback: '<why it earns 2, and what would lift it>',
+                            },
+                            {
+                              mark: 1,
+                              answer: '<a bottom answer — see SAMPLE_ANSWERS.LADDER>',
+                              source: 'AI',
+                              feedback: '<why it earns 1, and what would lift it>',
                             },
                           ],
                         },

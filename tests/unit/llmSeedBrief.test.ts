@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { buildLlmSeedInstructions, buildSeedExportFile } from '../../utils/llmSeedBrief';
 import { analyzeAndSanitizeImportData, getLLMImportTemplate } from '../../utils/dataManagerUtils';
 import { commandTermsList } from '../../data/commandTerms';
+import { guideLadderProblem } from '../../utils/markingGuideLadder';
 import type { Course } from '../../types';
 
 /**
@@ -90,8 +91,36 @@ describe('the authoring brief an export carries', () => {
 
     const shapedPrompt =
       template._instructions_for_llm.SHAPE.topics[0].subTopics[0].dotPoints[0].prompts[0];
-    ['question', 'verb', 'totalMarks', 'markingCriteria', 'keywords', 'sampleAnswers'].forEach(
-      (field) => expect(shapedPrompt).toHaveProperty(field)
-    );
+    [
+      'question',
+      'verb',
+      'totalMarks',
+      'markingCriteria',
+      'keywords',
+      'markerNotes',
+      'commonStudentErrors',
+      'sampleAnswers',
+    ].forEach((field) => expect(shapedPrompt).toHaveProperty(field));
+    // A ladder of answers, not one exemplar: the marker calibrates against them.
+    const marks = shapedPrompt.sampleAnswers.map((s: { mark: number }) => s.mark);
+    expect(new Set(marks).size).toBeGreaterThanOrEqual(3);
+    marks.forEach((m: number) => expect(Number.isInteger(m)).toBe(true));
+  });
+
+  it('lists guide rows above 6 marks that the app accepts', () => {
+    // "Band-range lines" alone let a model choose its own ranges. The rows are
+    // derived from the same ladder every AI-written guide is checked against,
+    // so a guide written from them passes that check — for every tier and mark
+    // value the brief lists.
+    const rows = buildLlmSeedInstructions().MARKING_CRITERIA.OVER_6_MARKS_ROWS;
+    expect(Object.keys(rows).length).toBeGreaterThan(5);
+    for (const [key, line] of Object.entries(rows)) {
+      const [, tier, marks] = key.match(/tier (\d), (\d+) marks/)!.map(Number);
+      const guide = line
+        .split(' / ')
+        .map((row) => `${row} descriptor`)
+        .join('\n');
+      expect(guideLadderProblem(guide, marks, tier), key).toBeNull();
+    }
   });
 });
