@@ -669,3 +669,41 @@ change.
 **Checked:** `npm run test:all` (the widened `seedSampleBands.test.ts`, which
 fails against the old files; a new verb test; new cases in
 `importVerbIntegrity.test.ts`), `npm run content:check` clean, `format:check`.
+
+## PR #285 — Every generated marking guide is checked before it is saved
+
+The follow-on from PR #284: the content an admin seeds is only as consistent as
+what the AI generators write into it, so this pass read the generators' save
+paths.
+
+Sample answers are fine — every generator derives the band from
+`getBandForMark` rather than taking the model's word. Question generators pin
+the verb and the mark value the teacher chose. Marking guides were the gap.
+
+**Bug — a generated marking guide was saved without being read.** The rubric
+brief (`buildMarkingCriteriaInstruction`) asks for an exact ladder: on a
+question of six marks or fewer, one row per mark from full marks down to 1;
+above that, one row per band the question can award, each carrying that band's
+mark range. Whatever came back — starting at 3 of 4 marks, skipping a mark,
+climbing instead of descending — became the rubric every later answer to that
+question is marked against. In a bulk "Write Marking Guides" or "Reformat
+Guides" run from the Content Audit Studio, it did that to dozens of questions
+at once.
+
+- `utils/markingGuideLadder.ts` knows the rows the brief asked for (from
+  `bandMarkRanges`, the ladder the brief itself is built from), reads the rows
+  a guide actually has, and names the difference.
+- Writing or revising a guide now checks it. A miss gets one retry that tells
+  the model exactly what was wrong; a second miss is refused with that
+  sentence ("…has rows for 3, 2, 1 marks; it needs 4, 3, 2, 1 marks. Nothing
+  was saved — try again"), which the studio's task list and the guide editor
+  already show.
+- A newly generated question brings its own guide from the same call; that is
+  held to the same ladder. A miss is rewritten through the checked generator,
+  and if that fails the question is kept with no guide — which the studio
+  lists as needing one — rather than with a wrong one.
+
+**Checked:** `npm run test:all` (new `markingGuideLadder.test.ts` drives the
+real generators against a mocked model: accepted first time, retried with the
+reason, refused on a second miss; new cases in `generateNewPrompt.test.ts`),
+`format:check`.
