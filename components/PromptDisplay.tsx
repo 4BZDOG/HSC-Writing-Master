@@ -1003,7 +1003,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between animate-fade-in">
                 <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
                   <Info className="w-3.5 h-3.5" />
-                  <span>Context Enrichment Failed: {enrichError}</span>
+                  {/* A student was shown "Context Enrichment Failed: AI Service
+                      Unavailable after 16s: Server is missing GEMINI_API_KEY
+                      configuration." The enrichment only adds extras (a
+                      scenario, terms, outcome links); nothing they need to
+                      write or be marked depends on it, so that is what they
+                      are told. Someone who can fix it still gets the cause. */}
+                  <span>
+                    {canCurate
+                      ? `Couldn't add a scenario and terms to this question: ${enrichError}`
+                      : "Couldn't load the extra detail for this question. You can still write and be marked as normal."}
+                  </span>
                 </div>
                 <button
                   onClick={onDismissEnrichError}
@@ -1160,7 +1170,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   // really is too narrow, an ellipsis says the sentence was cut
                   // where a hard clip mid-word just looks broken.
                   <span className="text-xs text-[rgb(var(--color-text-muted))] italic font-medium truncate">
-                    No specific outcomes linked.
+                    No outcomes linked
                   </span>
                 )}
               </div>

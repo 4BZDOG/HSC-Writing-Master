@@ -1178,28 +1178,63 @@ export const getBandForWordCount = (wordCount: number, totalMarks: number): numb
 };
 
 /**
+ * How long a full-mark answer to a question worth `marks` usually runs, in
+ * words — the ONE length the app states anywhere.
+ *
+ * Three things read it: the marker (through `getStructureGuide`, which tells
+ * it what a full-mark answer looks like), the sample-answer generator (the
+ * same), and the live word guide under the student's draft
+ * (`useWritingMetrics`). The live guide used to derive its own figure from the
+ * question's BAND CEILING instead — `BAND_METRICS[band].min × marks` — and a
+ * command verb caps the band, so a 4-mark DESCRIBE (Band 2 at most) was given
+ * 8 words a mark: "about 32 words", while the marker was told the same
+ * question's full-mark answer runs 80-120. A student following the guide wrote
+ * a third of what the marker was looking for.
+ */
+const FULL_MARK_WORDS: Record<number, [number, number]> = {
+  1: [1, 10],
+  2: [15, 40],
+  3: [40, 80],
+  4: [80, 120],
+  5: [110, 160],
+  6: [140, 220],
+  7: [180, 280],
+  8: [220, 350],
+  9: [280, 400],
+  10: [320, 450],
+};
+
+/** `[min, max]` words for a full-mark answer. Past 10 marks it scales at the
+ *  10-mark rate (32-45 words a mark). */
+export const getFullMarkWordRange = (marks: number): [number, number] => {
+  const m = Math.max(1, Math.round(marks || 1));
+  if (m <= 10) return FULL_MARK_WORDS[m];
+  return [m * 32, m * 45];
+};
+
+const STRUCTURE_BY_MARK: Record<number, string> = {
+  1: 'Recall a single fact, term, or feature.',
+  2: 'Recall two distinct points OR one point + a brief example.',
+  3: 'Three clear points OR two points + one relevant example OR a simple cause-effect link.',
+  4: 'Clear explanation with at least two linked points and one specific example/quote. Logical connections shown.',
+  5: 'Detailed explanation OR beginning of analysis: breaks concept into parts, shows relationships, uses specific evidence.',
+  6: 'Sophisticated breakdown of components, clear patterns/relationships identified, multiple pieces of evidence integrated.',
+  7: 'Analysis + explicit judgement or assessment of significance/effectiveness/limitations. Weighs evidence.',
+  8: 'Sustained judgement supported by detailed, integrated evidence. Consider alternatives or implications.',
+  9: 'Perceptive, nuanced judgement. Addresses counter-arguments or limitations. Original insight.',
+  10: 'Seamless synthesis of ideas, highly original or perceptive conclusion, exceptional depth and fluency.',
+};
+
+/**
  * Returns the explicit structural requirements for a given mark based on NESA guidelines.
- * Used by the AI to generate accurately structured sample answers.
+ * Used by the AI to generate accurately structured sample answers, and given to
+ * the marker as what a full-mark answer looks like. The word range comes from
+ * `getFullMarkWordRange`, so it cannot drift from the live guide.
  */
 export const getStructureGuide = (mark: number): string => {
-  if (mark <= 1) return 'Recall a single fact, term, or feature. (Approx 1-10 words)';
-  if (mark === 2)
-    return 'Recall two distinct points OR one point + a brief example. (Approx 15-40 words)';
-  if (mark === 3)
-    return 'Three clear points OR two points + one relevant example OR a simple cause-effect link. (Approx 40-80 words)';
-  if (mark === 4)
-    return 'Clear explanation with at least two linked points and one specific example/quote. Logical connections shown. (Approx 80-120 words)';
-  if (mark === 5)
-    return 'Detailed explanation OR beginning of analysis: breaks concept into parts, shows relationships, uses specific evidence. (Approx 110-160 words)';
-  if (mark === 6)
-    return 'Sophisticated breakdown of components, clear patterns/relationships identified, multiple pieces of evidence integrated. (Approx 140-220 words)';
-  if (mark === 7)
-    return 'Analysis + explicit judgement or assessment of significance/effectiveness/limitations. Weighs evidence. (Approx 180-280 words)';
-  if (mark === 8)
-    return 'Sustained judgement supported by detailed, integrated evidence. Consider alternatives or implications. (Approx 220-350 words)';
-  if (mark === 9)
-    return 'Perceptive, nuanced judgement. Addresses counter-arguments or limitations. Original insight. (Approx 280-400 words)';
-  return 'Seamless synthesis of ideas, highly original or perceptive conclusion, exceptional depth and fluency. (Approx 320-450+ words)';
+  const m = Math.max(1, Math.min(10, Math.round(mark || 1)));
+  const [min, max] = getFullMarkWordRange(mark);
+  return `${STRUCTURE_BY_MARK[m]} (Approx ${min}-${max}${m >= 10 ? '+' : ''} words)`;
 };
 
 /**

@@ -405,7 +405,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
             <div className="min-w-0 flex flex-col gap-0.5">
               <SupportStat
-                title={`${wordCount} of about ${progressInfo.targetCount} words for a ${progressInfo.targetLabel} response`}
+                title={`${wordCount} of about ${progressInfo.targetCount} words — the usual length of a full-mark answer to a ${prompt.totalMarks}-mark question`}
               >
                 <Figure>{wordCount}</Figure> words of about{' '}
                 <Figure>{progressInfo.targetCount}</Figure>

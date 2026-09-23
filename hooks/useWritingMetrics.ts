@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Prompt } from '../types';
 import {
-  BAND_METRICS,
+  getFullMarkWordRange,
   getCommandTermInfo,
   getBandForMark,
   getExpectedTerms,
@@ -113,20 +113,14 @@ export const useWritingMetrics = (
   );
 
   const progressInfo = useMemo(() => {
-    const targetMetric = BAND_METRICS.find((b) => b.band === maxBand) || BAND_METRICS[0];
-    // Guard against a malformed/zero-mark prompt producing a 0 target, which
-    // would turn the percentage into NaN and render "NaN%".
-    const targetCount = Math.max(
-      1,
-      Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.min)
-    );
-    // BAND_METRICS has always carried a `max` multiplier; nothing read it, so
-    // "this is quite long" was measured against 1.6 × the MINIMUM instead of
-    // the top of the band's own range.
-    const targetCountMax = Math.max(
-      targetCount,
-      Math.ceil(prompt.totalMarks * targetMetric.wordCountMultiplier.max)
-    );
+    // The length the MARKER is told a full-mark answer runs (see
+    // getFullMarkWordRange). This used to come from the band ceiling instead,
+    // which a command verb caps — a 4-mark DESCRIBE was told "about 32 words"
+    // while its marker was told 80-120. Never below 1, so a malformed 0-mark
+    // prompt cannot turn the percentage into NaN.
+    const [minWords, maxWords] = getFullMarkWordRange(prompt.totalMarks);
+    const targetCount = Math.max(1, minWords);
+    const targetCountMax = Math.max(targetCount, maxWords);
     return {
       targetLabel: `Band ${maxBand}`,
       targetCount,

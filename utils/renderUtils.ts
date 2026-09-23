@@ -295,11 +295,24 @@ const computeKeywordVariants = (keyword: string): string[] => {
     if (lower.endsWith('ied')) {
       variants.add(t.slice(0, -3) + 'y'); // Identified -> Identify
     } else if (lower.endsWith('ing')) {
-      variants.add(t.slice(0, -3)); // Testing -> Test
-      variants.add(t.slice(0, -3) + 'e'); // Computing -> Compute
+      // The stem, and the stem's own third-person and past forms. A term
+      // written as a gerund ("unwinding") used to reach only its stem, so an
+      // answer that said "helicase unwinds the helix" — the form a student
+      // actually writes — was told to "weave in unwinding". The -ed forms of a
+      // stem that is not a verb ("unwinded") match nothing, the same inert
+      // over-generation the rules above already accept.
+      const stem = t.slice(0, -3);
+      variants.add(stem); // Testing -> Test
+      variants.add(stem + 's'); // Unwinding -> Unwinds
+      variants.add(stem + 'ed'); // Testing -> Tested, Computing -> Computed
+      variants.add(stem + 'e'); // Computing -> Compute
+      variants.add(stem + 'es'); // Computing -> Computes
     } else if (lower.endsWith('ed')) {
       variants.add(t.slice(0, -2)); // Tested -> Test
+      variants.add(t.slice(0, -2) + 's'); // Tested -> Tests
+      variants.add(t.slice(0, -2) + 'ing'); // Tested -> Testing
       variants.add(t.slice(0, -1)); // Encoded -> Encode
+      variants.add(t.slice(0, -1) + 's'); // Encoded -> Encodes
     } else if (lower.endsWith('e') && !lower.endsWith('ee')) {
       variants.add(t.slice(0, -1) + 'ing'); // Compute -> Computing
       variants.add(t + 'd'); // Compute -> Computed

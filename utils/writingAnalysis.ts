@@ -143,20 +143,20 @@ export const buildWritingInsights = (input: InsightInput): WritingInsight[] => {
       warnings.push({
         id: 'length-short',
         tone: remaining > targetWordCount * 0.5 ? 'warning' : 'info',
-        message: `About ${Math.max(1, remaining)} more words to reach ${targetLabel} length.`,
+        message: `About ${Math.max(1, remaining)} more words to reach full-mark length.`,
       });
     } else if (wordCount > upper * LONG_TOLERANCE && wordCount > MIN_WORDS_BEFORE_LONG) {
       lengthState = 'long';
       warnings.push({
         id: 'length-long',
         tone: 'warning',
-        message: `At ${wordCount} words this runs past the ${targetLabel} range (about ${upper}) — make sure every sentence earns marks.`,
+        message: `At ${wordCount} words this runs past the usual full-mark length (about ${upper}) — make sure every sentence earns marks.`,
       });
     } else {
       positives.push({
         id: 'length-good',
         tone: 'positive',
-        message: `Strong length for a ${targetLabel} response.`,
+        message: 'A full-mark length. Now make every sentence earn its place.',
       });
     }
   }

@@ -232,3 +232,58 @@ breadcrumb call it.
 Chromium e2e for workspace chrome, light theme, accessibility, verb ribbon and
 no-clipped-text (22 of 22); screenshots of every step, open and closed, in both
 themes at 1280px and at 390px.
+
+## PR #278 — Tell a student the length the marker expects, and find the words they wrote
+
+The brief: find bugs and refinements in the writing prompt, the writing area
+and the live stats, which work together.
+
+**Bug — the live word guide contradicted the marker.** The guide under the
+draft took its length from the question's band ceiling
+(`BAND_METRICS[band].min × marks`), and a command verb caps the band. A 4-mark
+DESCRIBE (Band 2 at most) was therefore "about 32 words", while the marking
+prompt told the AI a full-mark answer to the same question runs 80-120, and the
+sample-answer generator was told the same. A student following the guide wrote
+a third of what the marker was looking for. `getFullMarkWordRange` in
+`data/commandTerms.ts` is now the one length: `getStructureGuide` builds its
+"(Approx a-b words)" from it, and `useWritingMetrics` reads it. The length
+messages say "full-mark length" instead of "Band 2 length".
+
+**Bug — a term written as a gerund missed the student's own word.** The
+matcher turned the syllabus term "unwinding" into "unwind" and stopped there,
+so "helicase unwinds the helix" was told to "weave in unwinding". The stem of
+an -ing or -ed term is now inflected in turn ("unwinds", "tested" → "tests",
+"computing" → "computes"), still refusing look-alikes ("wound", "window").
+
+**Refinement — "Ready to submit" agrees with the draft check.** Length is 35%
+of the readiness score, so a draft twelve words short could read "Ready to
+submit" beside a check asking for twelve more words. The top label now waits
+for the length and for every term the question names; the score is unchanged.
+The boundary test that pinned "89 → Ready to submit" with a short draft now
+pins it with a full-length one, and two new cases pin the gate.
+
+**Smaller fixes**
+
+- The Evaluate button's shortcut chip always read ⌘↵ — a Mac key on the
+  Windows and ChromeOS machines most NSW schools issue — at 9px. It now reads
+  Ctrl ↵ or ⌘ ↵ for the platform, at 10px, and the title names the right key.
+- The target pill read "Band 2 Target · Limited", which put the band's
+  descriptor next to "target" as though the goal were limited, and wrapped at
+  1280px. It reads "Band 2 target" on one line; the descriptor is in the title.
+- A student whose question enrichment failed saw "Context Enrichment Failed:
+  AI Service Unavailable after 16s: Server is missing GEMINI_API_KEY
+  configuration." They are now told they can still write and be marked;
+  curators still see the cause.
+- "No specific outcomes linked." was cut to "No specific outcomes link…" in the
+  prompt card's footer at every desktop width; "No outcomes linked" fits.
+
+**Looked at and left** — the timer (counts up, pauses after three idle
+minutes, restores per question, does not charge for reading a restored draft)
+and the automatic question enrichment (one call when a question without a
+scenario opens, not on typing) both behave as their comments say.
+
+**Checked:** `npm run test:all` (new `writingSurfaceFixes.test.ts`, updated
+readiness, editor and outcome-chip assertions); Chromium e2e for the evaluation
+flow, workspace chrome, light theme, accessibility and no-clipped-text (26 of
+26); screenshots before and after with a typed response and the draft check
+open, both themes, 1280px and 390px.

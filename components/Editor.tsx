@@ -1031,10 +1031,21 @@ const Editor = forwardRef<
                     className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
                     style={{ backgroundColor: chroma.accent }}
                   />
-                  <span className="t-label text-[rgb(var(--color-text-secondary))]">
-                    {isExamMode
-                      ? 'Exam Conditions'
-                      : `Band ${chroma.targetBand} Target · ${chroma.name}`}
+                  {/* "Band 2 target", not "Band 2 Target · Limited". The band's
+                      NESA descriptor beside the word "target" read as though the
+                      goal itself were "limited" — to a student aiming at the top
+                      of a DESCRIBE question, which is capped at Band 2 by its
+                      verb. The descriptor rides in the title for anyone who
+                      wants it. `whitespace-nowrap`: at 1280px it broke in two. */}
+                  <span
+                    className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))]"
+                    title={
+                      isExamMode
+                        ? undefined
+                        : `The highest band this question can reach: Band ${chroma.targetBand} (${chroma.name})`
+                    }
+                  >
+                    {isExamMode ? 'Exam conditions' : `Band ${chroma.targetBand} target`}
                   </span>
                   {/* The completeness word used to be repeated here, appended
                       to the target-band pill as `· Coming along`. The
