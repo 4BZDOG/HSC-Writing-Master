@@ -175,7 +175,7 @@ so overlapping waits end in either order).
 light theme and quota specs; screenshots of every glyph in both themes, under
 reduced motion, and of the aurora idle and busy.
 
-## PR 5 — Let the answered steps of the syllabus navigator step back
+## PR #277 — Let the answered steps of the syllabus navigator step back
 
 The brief: improve the syllabus navigator's design, styling and polish, in the
 same way as the header, sign-in and AI waits.
