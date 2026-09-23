@@ -902,6 +902,30 @@ export const extractCommandVerb = (text: string): CommandTermInfo | undefined =>
   return matches[0];
 };
 
+/**
+ * The command term a question OPENS with, if it opens with one.
+ *
+ * The verb that governs a question is the one it leads with — "Explain the
+ * technique of memoization. Provide a 'before' and 'after' to demonstrate…" is
+ * an EXPLAIN question. `extractCommandVerb` answers a different question (the
+ * most demanding verb anywhere in the text) and called that one DEMONSTRATE,
+ * raising its band ceiling a tier. Used first wherever a missing verb is
+ * inferred from a question; `extractCommandVerb` remains the fallback for a
+ * question that leads with something else ("Design a model… Describe…").
+ */
+export const leadingCommandVerb = (question: string): CommandTermInfo | undefined => {
+  const opening = question.trim().toLowerCase();
+  if (!opening) return undefined;
+  let best: CommandTermInfo | undefined;
+  for (const info of commandTerms.values()) {
+    const term = info.term.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (new RegExp(`^${term}\\b`).test(opening) && (!best || info.term.length > best.term.length)) {
+      best = info;
+    }
+  }
+  return best;
+};
+
 export const getCommandTermsForMarks = (
   marks: number
 ): { terms: CommandTermInfo[]; primaryTerm: CommandTermInfo } => {

@@ -124,13 +124,37 @@ describe('repairPromptIntegrity (v2.3.0 migration)', () => {
     } as unknown as Course;
 
     const [repaired] = repairPromptIntegrity([course]);
-    const [broken, healthy] =
-      repaired.topics[0].subTopics[0].dotPoints[0].prompts;
+    const [broken, healthy] = repaired.topics[0].subTopics[0].dotPoints[0].prompts;
 
     expect(broken.verb).toBe('ASSESS');
     expect(broken.totalMarks).toBeGreaterThanOrEqual(1);
     // Healthy prompt is returned untouched (same reference — cheap no-op).
     expect(healthy.verb).toBe('DESCRIBE');
     expect(healthy.totalMarks).toBe(4);
+  });
+});
+
+/**
+ * The verb a question OPENS with governs it. Inferring the most demanding verb
+ * anywhere in the text made "Explain the code optimisation technique of
+ * memoization. Provide a 'before' and 'after' … to demonstrate …" a
+ * DEMONSTRATE question, a tier above what it asks.
+ */
+describe('inferring a missing verb from the question', () => {
+  it('takes the verb the question leads with', () => {
+    const p = parsePrompt({
+      question:
+        "Explain the code optimisation technique of memoization. Provide a 'before' and 'after' example to demonstrate it.",
+      totalMarks: 5,
+    });
+    expect(p.verb).toBe('EXPLAIN');
+  });
+
+  it('falls back to the most demanding verb when the question leads with none', () => {
+    const p = parsePrompt({
+      question: 'Design a model for a smart blind. Describe how it responds to light.',
+      totalMarks: 4,
+    });
+    expect(p.verb).toBe('DESCRIBE');
   });
 });

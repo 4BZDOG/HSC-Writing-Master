@@ -32,6 +32,8 @@
     "check:eager-reads": "node scripts/findModuleInitReads.mjs",
     "check:dead-code": "node scripts/findOrphanModules.mjs",
     "check:deploy": "node scripts/checkDeployment.mjs",
+    "content:canonicalise": "npx tsx scripts/canonicaliseCourseData.mts",
+    "content:check": "npx tsx scripts/canonicaliseCourseData.mts --check",
     "samples:pdf": "node scripts/generatePdfSamples.mjs"
   },
   "dependencies": {

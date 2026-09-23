@@ -36,7 +36,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-template-01",
-                        "band": 5,
+                        "band": 2,
                         "mark": 4,
                         "answer": "A well-structured sample answer that meets the criteria for the specified mark. It should correctly use the keywords and address the command verb 'Describe' by providing detailed characteristics and features."
                       }

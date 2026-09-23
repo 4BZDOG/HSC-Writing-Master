@@ -32,14 +32,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-1-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "DNA contains the sugar deoxyribose and the nitrogenous base Thymine, whereas RNA contains the sugar ribose and the base Uracil (replacing Thymine). Structurally, DNA is a double-stranded helix designed for long-term storage of genetic information, while RNA is typically single-stranded and shorter-lived, serving functional roles in protein synthesis.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-1-3",
-                  "band": 3,
+                  "band": 2,
                   "answer": "DNA is double stranded and RNA is single stranded. DNA has Thymine but RNA has Uracil instead.",
                   "mark": 2,
                   "source": "AI"
@@ -87,7 +87,7 @@
                   "id": "sa-b90e43c1-4d95-462f-a20a-55c1946b0b31",
                   "answer": "Polypeptide synthesis, a core process in gene expression, begins with transcription. The DNA template strand serves as a guide for RNA polymerase, which unwinds the DNA and synthesises a complementary mRNA molecule using free-floating RNA nucleotides, incorporating uracil. The mRNA, carrying the genetic code, then exits the nucleus to the cytoplasm, demonstrating its crucial role as an information intermediary. During translation, ribosomes, comprising ribosomal ribonucleic acid (rRNA), attach to the mRNA. The start codon (AUG) on the mRNA signals the initiation of polypeptide synthesis. Subsequently, specific tRNA molecules, each carrying a particular amino acid, bind to their complementary mRNA codons. The ribosome then catalyses the formation of peptide bonds between adjacent amino acids, a critical mechanism for building the polypeptide chain. This process continues until a stop codon is encountered, releasing the complete polypeptide. The significance of codons in dictating the amino acid sequence, coupled with precise peptide bond formation, ensures the accurate synthesis of a functional polypeptide, as clearly demonstrated in a practical modelling investigation. This interrelationship among components is vital.",
                   "mark": 5,
-                  "band": 5
+                  "band": 4
                 }
               ],
               "question": "ANALYSE the interconnected roles of the template strand, RNA polymerase, mRNA, ribosomes (containing rRNA), tRNA, and amino acids in the accurate synthesis of a polypeptide, referencing the significance of codons and peptide bond formation, as would be demonstrated in a practical modelling investigation.",
@@ -153,14 +153,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-2-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "During translation, tRNA acts as an adaptor molecule. It carries specific amino acids to the ribosome. The tRNA's anticodon binds complementary to the mRNA codon, ensuring that the amino acids are added in the correct order specified by the genetic code to form a polypeptide chain.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-2-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "tRNA brings the amino acids to the ribosome so they can be joined together.",
                   "mark": 1,
                   "source": "AI"
@@ -196,14 +196,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-3-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "During mRNA processing, non-coding regions (introns) are removed. Alternative splicing allows the remaining coding regions (exons) to be joined in various combinations. This results in different mature mRNA sequences from the same primary transcript, each translating into a distinct protein isoform, thereby increasing the diversity of the proteome.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-3-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Alternative splicing is when the gene cuts out parts called introns and keeps exons. Different exons can be put together to make different proteins.",
                   "mark": 1,
                   "source": "AI"
@@ -244,13 +244,14 @@
                 },
                 {
                   "id": "sa-heredity-4-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "mRNA: TAC GGC ATT\nAmino Acids: Tyr - Gly - Ile\n(Incorrect: transcribed the coding strand directly instead of creating the mRNA equivalent which matches coding strand with U subbed for T).",
                   "mark": 1,
                   "source": "AI"
                 }
               ],
-              "isPastHSC": false
+              "isPastHSC": false,
+              "verb": "EXPLAIN"
             }
           ]
         },
@@ -294,7 +295,7 @@
                   "id": "sa-e5c27a8a-3f16-4e6c-a979-d2b79f717952",
                   "answer": "The intricate relationship between a protein's structural levels and its biological function is exemplified by haemoglobin, an oxygen-transport protein. Its **primary structure** is the unique linear **amino acid sequence** of its **polypeptide** chains, linked by covalent **peptide bonds**. This genetically encoded sequence **determines** all subsequent folding. **Consequently**, local folding occurs, forming **secondary structures** such as **alpha-helix** and **beta-pleated sheet** motifs, which are stabilised by **hydrogen bonds** between the backbone atoms of the amino acids.\n\nNext, the overall three-dimensional folding of each single **polypeptide** chain establishes the **tertiary structure**. For haemoglobin, this complex shape is stabilised by interactions between amino acid side chains, including **hydrophobic interactions** (non-polar groups clustering internally), **hydrophilic interactions** (polar groups facing the aqueous environment), **ionic bonds**, and covalent **disulfide bridges**. This specific 3D shape is critical for its biological role.\n\nHaemoglobin further exhibits **quaternary structure**, where four individual **polypeptide** subunits (two alpha and two beta globin chains) associate. These subunits are held together by various non-covalent interactions, including **hydrogen bonds**, **ionic bonds**, and **hydrophobic interactions**. The final precise **protein structure**, particularly its **quaternary structure**, **results in** the formation of four distinct binding sites for oxygen. This specific conformation **determines** haemoglobin's crucial **protein function** in efficiently binding and transporting oxygen throughout the body. Any significant alteration to this intricate folding, such as through **denaturation**, would compromise its specific function.",
                   "mark": 7,
-                  "band": 5
+                  "band": 3
                 }
               ],
               "question": "Explain, using a specific example, the intricate relationship between a protein's primary, secondary, tertiary, and quaternary structural levels and its specific biological function.",
@@ -359,14 +360,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-5-6",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Proteins function as biological catalysts; for example, the enzyme Amylase speeds up the breakdown of starch into sugars during digestion. They also provide structural support; Collagen is a fibrous protein that gives strength and elasticity to skin and connective tissues.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-5-3",
-                  "band": 3,
+                  "band": 1,
                   "answer": "Proteins act as enzymes to speed up reactions, like in the stomach. They also help build parts of the body like muscles.",
                   "mark": 2,
                   "source": "AI"
@@ -413,7 +414,7 @@
                   "id": "sa-713da4a4-1f9b-4616-a065-cd1876b8ca47",
                   "answer": "The DNA sequence of the 'Amylase-A' gene determines an individual's **genotype** for starch digestion. Protein synthesis is crucial as it links this **DNA sequence** to the observable digestive **phenotype**. Initially, in the **nucleus**, the 'Amylase-A' **gene** undergoes **transcription**, where its **DNA sequence** is copied into a messenger RNA (**mRNA**) molecule. This is the first step of the **central dogma**. The **mRNA** then exits the **nucleus** and enters the **cytoplasm**, where it binds to **ribosomes** for **translation**. During **translation**, **codons** on the **mRNA** are recognised by complementary **anticodons** on **tRNA** molecules, each delivering a specific **amino acid**. **As a result**, these **amino acids** are sequentially joined to form a linear **polypeptide** chain. This **polypeptide** subsequently folds into a precise three-dimensional **protein structure**, forming the active amylase **enzyme**. **Therefore**, the accuracy of this entire process, from **DNA sequence** to correct **protein structure**, is paramount. **Consequently**, a functional amylase **enzyme** efficiently breaks down starch, leading to a specific digestive **phenotype**. Conversely, if a mutation in the **gene** alters the **DNA sequence**, it can lead to incorrect **amino acids**, an improperly folded or non-functional **enzyme**, **because** the **protein structure** is compromised. This directly impacts the individual's ability to digest starch, manifesting in an altered digestive **phenotype**.",
                   "mark": 5,
-                  "band": 5
+                  "band": 3
                 }
               ],
               "question": "Explain the crucial role of protein synthesis in the relationship between the DNA sequence of the 'Amylase-A' gene and an individual's observable digestive phenotype.",
@@ -478,14 +479,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-6-6",
-                  "band": 6,
+                  "band": 5,
                   "answer": "Hydrangeas demonstrate that phenotype is not solely determined by genotype. While the plant has genes for flower pigments, the soil pH determines the colour. In acidic soil (pH < 6), aluminium is available, turning flowers blue. In alkaline soil (pH > 7), flowers appear pink. Thus, the environment significantly influences the physical expression of the trait.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-6-3",
-                  "band": 2,
+                  "band": 3,
                   "answer": "Hydrangeas change colour depending on the soil. If the soil is different, the flowers look different.",
                   "mark": 1,
                   "source": "AI"
@@ -523,7 +524,7 @@
                   "id": "sa-0ee2cf56-aa38-4bfe-a21f-451c1a1c2644",
                   "answer": "A controlled scientific investigation could demonstrate the effect of temperature (independent variable) on fur colour in Himalayan rabbits. Genetically identical rabbits (controlled variables) would be raised at different temperatures, for example, 15°C and 30°C. The dependent variable would be the resulting fur colour on their extremities. If rabbits raised at 15°C develop dark fur while those at 30°C develop white fur, despite having the same genotype, this demonstrates the environment's impact on phenotype. Therefore, these differing phenotypes show that temperature influences the gene expression of the pigment-producing enzyme, demonstrating how environmental factors regulate gene expression.",
                   "mark": 3,
-                  "band": 5
+                  "band": 3
                 }
               ],
               "question": "Explain how a controlled scientific investigation could be designed and interpreted to demonstrate the effect of a specific environmental factor on gene expression in an organism.",
@@ -588,7 +589,7 @@
                   "id": "sa-6f46d97c-5a22-4eaf-a94f-e3d51b84b589",
                   "answer": "Regulatory RNA plays a critical role in controlling gene expression by modulating protein synthesis, primarily at the post-transcriptional regulation level. Two prominent types are miRNA (microRNA) and siRNA (small interfering RNA). miRNA molecules, typically 20-22 nucleotides long, bind to target messenger RNA (mRNA) sequences with imperfect complementarity, therefore inhibiting protein translation or promoting mRNA degradation. This mechanism facilitates the fine-tuning of protein levels across numerous physiological processes. Furthermore, siRNA molecules, usually 20-25 nucleotides, exhibit perfect complementarity to their target mRNA. Upon binding, they induce direct cleavage and degradation of the mRNA through the RNA-induced silencing complex (RISC), leading to potent and sequence-specific gene silencing. These mechanisms are central to RNA interference (RNAi).\n\nThis comprehensive understanding has paved the way for significant biotechnological application in addressing a range of disorders. RNA interference therapy, for instance, leverages the natural gene silencing pathways by introducing synthetic siRNA molecules. These therapeutic RNAs are designed to target and degrade the mRNA of disease-causing genes, such as an overexpressed oncogene. However, challenges like efficient delivery and potential off-target effects still exist. Despite this, the precise manipulation of pathogenic gene expression via RNAi offers a promising strategy for targeted therapies.",
                   "mark": 5,
-                  "band": 6
+                  "band": 5
                 }
               ],
               "question": "Discuss the role of regulatory RNA in gene expression and its potential biotechnological application in addressing disorders like the one described.",
@@ -658,7 +659,7 @@
                   "id": "sa-0157e686-8cb6-4aaf-9741-72336be18f73",
                   "answer": "Epigenetic changes profoundly influence the phenotype of organisms by modulating gene expression without altering the underlying DNA sequence. These changes, primarily DNA methylation and histone modification, control chromatin accessibility, consequently dictating which genes are active or silenced. To assess their pervasive impact, we can examine the Glucocorticoid receptor (GR) gene and the agouti gene.\n\nDNA methylation involves the addition of a methyl group to cytosine bases, typically in CpG sites, within gene promoters. This often leads to gene silencing by impeding transcription factor binding or recruiting methyl-binding proteins that compact chromatin. Histone modification, on the other hand, involves chemical tags (e.g., acetylation, methylation) added to histone proteins around which DNA is wrapped. Acetylation generally loosens chromatin, promoting gene expression, while some methylation patterns compact it, repressing expression. These mechanisms are crucial in regulating how environmental factors influence an organism's development and physiology.\n\nThe Glucocorticoid receptor (GR) gene provides a clear example in mammals. In rats, the level of maternal care (licking and grooming) early in life dictates the methylation status of the GR gene promoter in hippocampal neurons. High maternal care leads to less methylation of the GR promoter, particularly at specific CpG sites. This reduced methylation consequently allows for greater GR gene expression, resulting in more GR receptors. Organisms with high GR levels exhibit a more robust negative feedback on the stress response axis, developing a calmer, less anxious phenotype. Conversely, low maternal care results in increased methylation of the GR promoter, suppressing GR gene expression and leading to fewer GR receptors. Therefore, these individuals develop a heightened stress response and an anxious phenotype, demonstrating a lasting influence of early environmental factors on adult behaviour and stress resilience.\n\nSimilarly, the agouti gene in mice illustrates the potent influence of epigenetics on coat colour and metabolic health. The viable yellow agouti allele (A^vy) in mice, when unmethylated at a retrotransposon insertion upstream of the coding region, leads to constitutive agouti gene expression. This results in a yellow coat colour, obesity, and an increased susceptibility to diabetes – a distinct metabolic phenotype. However, maternal diet rich in methyl donors (e.g., folic acid, vitamin B12) during gestation can increase DNA methylation at this critical regulatory region of the A^vy allele in offspring. This increased methylation silences the agouti gene, leading to a brown coat colour and a lean, healthy metabolic phenotype. This demonstrates the significant impact of maternal nutrition as an environmental factor on epigenetic marks, which are then passed to offspring cells during development, shaping their heritable characteristics and lifelong health outcomes. Through these examples, it is evident that epigenetic changes act as a critical interface between an organism's genome and its environment, dynamically influencing phenotype.",
                   "mark": 8,
-                  "band": 6
+                  "band": 5
                 }
               ],
               "question": "Assess how epigenetic changes influence the phenotype of organisms, with specific reference to the Glucocorticoid receptor (GR) gene and the agouti gene.",
@@ -717,7 +718,7 @@
                   "id": "sa-2bc2e25f-dd56-4f79-b897-51a17bc2a148",
                   "answer": "Polypeptide synthesis is vital. It creates proteins which are crucial for life. These proteins primarily serve as enzymes for various metabolic functions and form essential structural components within cells.",
                   "mark": 2,
-                  "band": 3
+                  "band": 2
                 }
               ],
               "question": "Outline the importance of polypeptide synthesis in living things.",
@@ -784,7 +785,7 @@
                   "id": "sa-bf43708f-3848-49ca-ad21-7c6e4f601800",
                   "answer": "A \"gene\" is a fundamental unit of inheritance, a specific segment of \"DNA\" located at a particular \"locus\" on a \"chromosome\", coding for a specific functional product or \"trait\". For example, the \"CFTR gene\" located on chromosome 7 is responsible for regulating chloride ion transport. An \"allele\", in contrast, is a variant form of a \"gene\". Individuals inherit two \"alleles\" for each \"gene\", one from each parent, found at the same \"locus\" on \"homologous chromosomes\". For \"cystic fibrosis\", the CFTR gene has a dominant functional allele (F) and a recessive mutated allele (f) that causes the disease. The \"genotype\" is the specific combination of \"alleles\" an individual possesses for a particular \"gene\". Whereas the gene defines the potential trait, the \"genotype\" dictates its \"expression\". For \"cystic fibrosis\", possible \"genotypes\" are FF (unaffected, \"homozygous\" dominant), Ff (carrier, \"heterozygous\"), and ff (affected by \"cystic fibrosis\", \"homozygous\" recessive). Distinct from both, the \"phenotype\" is the observable characteristic resulting from this \"genotype\", such as being healthy or showing cystic fibrosis symptoms.",
                   "mark": 6,
-                  "band": 5
+                  "band": 4
                 }
               ],
               "question": "Distinguish between the terms 'allele', 'gene', and 'genotype', using the inheritance of a specific trait like cystic fibrosis as an example, to explain their interrelationships and distinct roles in determining an organism's characteristics.",
@@ -845,14 +846,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-7-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Crossing over occurs during Prophase 1 of meiosis when homologous chromosomes pair up. Segments of non-sister chromatids are exchanged/swapped. This creates new combinations of alleles on the chromosomes (recombinants) that differ from the parents, thereby increasing the genetic variation in the gametes produced.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-7-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Crossing over helps variation because the chromosomes swap parts so the offspring aren't exactly the same as the parents.",
                   "mark": 1,
                   "source": "AI"
@@ -882,7 +883,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-8-6",
-                  "band": 5,
+                  "band": 4,
                   "answer": "Random segregation refers to the separation of homologous chromosome pairs during Anaphase I, ensuring gametes receive only one allele for each gene. Independent assortment refers to the fact that the way one pair of homologous chromosomes lines up and separates does not affect how another pair separates. Essentially, segregation is about splitting alleles, while assortment is about the random mix of maternal/paternal chromosomes.",
                   "mark": 3,
                   "source": "AI"
@@ -925,14 +926,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-9-6",
-                  "band": 5,
+                  "band": 4,
                   "answer": "In codominance, both alleles in a heterozygote are fully expressed, resulting in a phenotype where both traits appear distinct. For example, a Roan cow has both red and white hairs expressed simultaneously. In incomplete dominance, neither allele is dominant, resulting in a blending of the two traits to create a third, intermediate phenotype. For example, red and white snapdragons produce pink offspring.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-9-3",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Codominance is when you see both colours, like a spotted cow. Incomplete dominance is when they mix, like red and white making pink flowers.",
                   "mark": 2,
                   "source": "AI"
@@ -968,14 +969,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-10-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "In autosomal inheritance, traits are carried on non-sex chromosomes, so males and females have an equal chance of inheriting and expressing the trait. In sex-linked (X-linked recessive) inheritance, males are much more likely to express the trait because they are hemizygous (XY). They lack a second X chromosome to mask a recessive allele, whereas females (XX) would need two copies to express it.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-10-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "Sex-linked traits show up more in men because they only have one X chromosome. Autosomal traits show up the same in men and women.",
                   "mark": 1,
                   "source": "AI"
@@ -1011,14 +1012,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-11-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "Mother: X^H X^h. Father: X^H Y.\nPunnett Square shows: X^H X^H (Normal F), X^H X^h (Carrier F), X^H Y (Normal M), X^h Y (Affected M).\nThere is a 25% (1 in 4) chance of having an affected child (specifically, an affected male).",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-11-3",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Parents: Xh X and X Y.\nSquare shows one boy gets the disease gene.\nAnswer: 25% chance.\n(Genotypes not clearly defined).",
                   "mark": 2,
                   "source": "AI"
@@ -1117,14 +1118,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-12-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "A pedigree identifies a recessive trait if the trait 'skips' a generation, or specifically if two unaffected parents produce an affected offspring (indicating parents were heterozygous carriers). Conversely, if two affected parents produce an unaffected offspring, the trait must be dominant, as the parents were heterozygous and passed on the recessive 'normal' alleles.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-12-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "If the trait skips a generation it is usually recessive. If it shows up in every generation it is dominant.",
                   "mark": 1,
                   "source": "AI"
@@ -1166,14 +1167,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-13-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "UV radiation carries high energy that excites electrons in DNA bases. This causes adjacent thymine bases on the same strand to form covalent bonds with each other, creating 'thymine dimers'. This distorts the DNA double helix, preventing accurate replication or transcription, often leading to frameshift or substitution mutations.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-13-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "UV radiation hits the DNA and breaks the bonds or makes the bases stick together wrong, causing a mutation.",
                   "mark": 1,
                   "source": "AI"
@@ -1217,7 +1218,7 @@
                   "id": "sa-b1443750-8591-4405-8a9d-7a1a5d4f4c3b",
                   "answer": "Mutations in coding DNA fundamentally alter protein function by modifying the genetic instructions for amino acid sequence. During transcription, the mutated DNA is copied into mRNA, which is then translated into a polypeptide chain. Point mutations involve a single nucleotide change. A substitution replaces one nucleotide with another. If this leads to a different amino acid being coded (missense mutation), it alters the primary amino acid sequence. Consequently, this can change how the polypeptide folds, impacting the secondary and tertiary protein structure. For example, a change in a crucial amino acid within an enzyme's active site could reduce its binding affinity or catalytic efficiency, resulting in impaired protein function. A nonsense substitution prematurely introduces a stop codon, leading to a truncated, non-functional protein. Frameshift mutations, caused by insertions or deletions of nucleotides (not in multiples of three), have more drastic effects. These alter the reading frame of the mRNA during translation, therefore changing every subsequent codon downstream from the mutation. This dramatically changes the entire amino acid sequence, completely re-shaping the primary protein structure. Because the amino acid sequence is vital for proper folding, these mutations often lead to severely misfolded or non-functional proteins, potentially causing denaturation or aggregation. This structural compromise directly impacts the protein's ability to perform its specific role, whether it's structural support, enzymatic activity, or transport. In summary, different mutation types in coding DNA alter the amino acid sequence, which critically dictates protein structure, ultimately modifying or completely impairing its specific protein function.",
                   "mark": 7,
-                  "band": 5
+                  "band": 3
                 }
               ],
               "question": "EXPLAIN how different types of mutations in coding DNA can ultimately alter the function of a protein.",
@@ -1280,7 +1281,7 @@
                   "id": "sa-919f9184-b95f-4072-87d1-0cd60326f60c",
                   "answer": "A base insertion adds a nucleotide, shifting the reading frame downstream by adding genetic information. A base deletion removes one, shifting it upstream by removing genetic information. Both cause frameshift mutations, altering subsequent codons and the polypeptide sequence.",
                   "mark": 2,
-                  "band": 3
+                  "band": 2
                 }
               ],
               "question": "OUTLINE how a base insertion mutation fundamentally differs from a base deletion mutation in its effect on the resulting polypeptide sequence.",
@@ -1338,14 +1339,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-14-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "A missense mutation involves a base substitution that results in a different amino acid being incorporated into the polypeptide. This may alter the protein's function but the protein is still produced. In contrast, a nonsense mutation substitutes a base to create a premature 'Stop' codon. This terminates translation early, resulting in a truncated, incomplete polypeptide that is almost always non-functional. Thus, nonsense mutations typically have a more severe effect.",
                   "mark": 4,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-14-3",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Missense changes one amino acid to another. Nonsense changes a codon to a stop signal. Nonsense is worse because the protein stops being made.",
                   "mark": 2,
                   "source": "AI"
@@ -1381,7 +1382,7 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-15-6",
-                  "band": 5,
+                  "band": 4,
                   "answer": "Chromosomal inversion involves a segment of a chromosome breaking off, reversing its orientation (180 degrees), and reattaching to the *same* chromosome. Translocation involves a segment breaking off and attaching to a different, *non-homologous* chromosome. The distinction is that inversion affects gene order on one chromosome, while translocation moves genes to an entirely different chromosome.",
                   "mark": 3,
                   "source": "AI"
@@ -1439,7 +1440,7 @@
                   "id": "sa-cbe048d6-bdf0-4a87-864e-9da40d585456",
                   "answer": "Point mutations and chromosomal mutations both represent alterations to an organism's genetic material, however, they differ significantly in their scale, mechanisms, and overall phenotypic consequences and implications for human health.Both types of mutations affect the genotype and can be passed through heredity.Point mutations involve changes to a single nucleotide base within a gene's DNA sequence. Their primary mechanism includes substitution, where one base is swapped for another, or the insertion or deletion of a single nucleotide. An insertion or deletion can lead to a frameshift mutation, altering every subsequent codon. The consequence is often a change in a single gene's product, such as the altered haemoglobin in sickle cell anaemia due to a single base substitution.In contrast, chromosomal mutations involve large-scale alterations to chromosome structure or number. Their mechanisms typically arise from errors during cell division, such as non-disjunction, leading to aneuploidy (e.g., Trisomy 21, resulting in Down syndrome). Other mechanisms include structural changes like translocations (e.g., Philadelphia chromosome in chronic myeloid leukaemia), inversions, large deletions, or duplications of entire chromosome segments.The phenotypic consequences similarly vary. Point mutations often result in single-gene disorders, with phenotypes ranging from mild to severe depending on the gene affected, like cystic fibrosis. However, chromosomal mutations, due to their extensive changes involving multiple genes, generally lead to more severe and widespread developmental syndromes. Aneuploidy, for instance, often has profound developmental implications or can be lethal.The implications for human health are distinct. Point mutations are responsible for many hereditary diseases, impacting specific cellular processes. Whereas chromosomal mutations are often associated with severe congenital abnormalities, developmental delays, and a significant risk of conditions like cancer susceptibility, reflecting their broader impact on the entire genome and thus organismal development.",
                   "mark": 8,
-                  "band": 5
+                  "band": 3
                 }
               ],
               "question": "Compare point mutations and chromosomal mutations, outlining their distinct mechanisms, potential phenotypic consequences, and implications for human health.",
@@ -1508,7 +1509,7 @@
                   "id": "sa-c94be6d2-8986-4eb8-bfd2-b2f4ac37c4b9",
                   "answer": "The origin of a karyotype displaying Trisomy 21 (47, +21) can be explained by specific non-disjunction events during meiosis, which directly relate to the arrangement of chromosomes into homologous pairs. Non-disjunction refers to the failure of homologous chromosomes or sister chromatids to separate properly during cell division, resulting in aneuploidy, specifically trisomy in this case. Consequently, an individual's cells contain three copies of chromosome 21 instead of the usual two. \n\nSpecifically, non-disjunction can occur in Meiosis I. During prophase I, homologous pairs of chromosome 21 align. If this homologous pair fails to separate during anaphase I, two abnormal secondary meiocytes are formed. One will contain both homologous chromosomes 21 (an n+1 condition), and the other will lack chromosome 21 entirely (an n-1 condition). Therefore, if the resulting n+1 gamete is fertilised by a normal gamete, the zygote will have three copies of chromosome 21, leading to Trisomy 21.\n\nIn contrast, non-disjunction can also occur during Meiosis II. Following a normal Meiosis I, the secondary meiocytes typically proceed to Meiosis II where sister chromatids separate. If in one of these secondary meiocytes, the sister chromatids of chromosome 21 fail to separate during anaphase II, it results in an abnormal distribution. As a result, two types of gametes are produced from this specific secondary meiocyte: one with an extra chromosome 21 (n+1) and one lacking chromosome 21 (n-1). The other secondary meiocyte from Meiosis I would produce two normal (n) gametes. Consequently, if an n+1 gamete from Meiosis II non-disjunction is fertilised by a normal gamete, the zygote will also have the 47, +21 karyotype.",
                   "mark": 8,
-                  "band": 5
+                  "band": 4
                 }
               ],
               "question": "ANALYSE how the arrangement of chromosomes into homologous pairs during meiosis can explain the origin of such a karyotype, detailing the specific non-disjunction event(s) that could lead to this outcome.",
@@ -1574,14 +1575,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-16-6",
-                  "band": 5,
+                  "band": 4,
                   "answer": "A somatic mutation occurs in body cells. Its implication is limited to the individual organism, potentially causing cancer (tumour formation) or local disease, but it cannot be passed to offspring. A germline mutation occurs in the gametes (sperm/egg). While it may not affect the parent, it is heritable and will be present in every cell of the offspring. This has broader implications for the population's gene pool and evolution, as it introduces new variants (genetic diversity) or genetic diseases that can be passed down generations.",
                   "mark": 5,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-16-3",
-                  "band": 3,
+                  "band": 2,
                   "answer": "Somatic mutations happen in the body and can cause cancer but aren't passed to kids. Germline mutations happen in sex cells so they are passed to kids and can cause genetic diseases.",
                   "mark": 2,
                   "source": "AI"
@@ -1617,14 +1618,14 @@
               "sampleAnswers": [
                 {
                   "id": "sa-heredity-17-6",
-                  "band": 5,
+                  "band": 3,
                   "answer": "SNPs are variations at a single nucleotide position in DNA that occur in at least 1% of the population. They act as genetic markers. By comparing the frequency of specific SNPs in groups of people with a disease versus those without, scientists can identify SNPs that are statistically associated with the disease. This helps locate genes responsible for the disease and assess individual risk susceptibility.",
                   "mark": 3,
                   "source": "AI"
                 },
                 {
                   "id": "sa-heredity-17-3",
-                  "band": 2,
+                  "band": 1,
                   "answer": "SNPs are small changes in DNA. Scientists look for them to see if a person might get a disease.",
                   "mark": 1,
                   "source": "AI"
@@ -1670,7 +1671,7 @@
                   "id": "sa-efe9f51b-6055-4ba4-b843-db7397eb3877",
                   "answer": "Single Nucleotide Polymorphism (SNP) testing and associated SNP databases hold immense promise in diagnostic medicine, offering personalised insights into disease risk, prognosis, and therapeutic responses. However, their widespread and effective application is profoundly shaped by a range of significant limitations and constraints that demand critical consideration for both scientific validity and equitable patient care.A primary scientific limitation of SNP testing stems from challenges in data interpretation and the inherent complexity of human genetics. Many common diseases are not monogenic, but rather complex conditions manifesting as polygenic traits where multiple SNPs interact with numerous environmental factors. Consequently, the individual predictive value, or penetrance, of a single SNP for such conditions is often low, incomplete, and highly variable between individuals. Furthermore, discerning the precise functional significance of many identified SNPs, and thus establishing clear genotype-phenotype correlations, remains a considerable hurdle. This makes it difficult to distinguish between benign variations and pathogenic mutations, especially for novel discoveries. Effective bioinformatics tools and robust statistical models are crucial for sifting through vast datasets, yet the interpretive power of these tools is still evolving, posing a constraint on precise clinical utility. Therefore, translating raw SNP data into definitive, actionable diagnostic information requires a cautious and multi-faceted approach.SNP databases themselves introduce critical consideration due to prevalent population bias, which presents a major constraint on their universal applicability. Historical data collection has disproportionately focused on populations of European descent, significantly limiting the diagnostic medicine utility and generalisability of SNP panels for diverse ethnic groups. This creates profound inequities in healthcare, as disease associations and risk alleles derived primarily from one population may not apply universally, leading to misdiagnosis or missed diagnoses in underrepresented groups. Moreover, the ethical implications surrounding patient privacy and data security are paramount. Despite anonymisation efforts, the sheer volume and unique nature of personal genetic information stored in these databases present ongoing risks of re-identification, discrimination, or unauthorised access. Consequently, comprehensive genetic counselling is not merely supplementary but essential; it ensures patients fully understand not only the diagnostic insights provided by SNP testing but also the inherent limitations, uncertainties, and potential psychosocial repercussions of their genetic data.Overall judgement, while SNP testing and SNP databases offer transformative potential in diagnostic medicine, their current limitations regarding scientific interpretation, database diversity, and profound ethical implications cannot be overstated. A balanced and responsible approach, integrating robust bioinformatics methodologies, comprehensive genetic counselling, and equitable data collection strategies, is essential to mitigate these constraints and safely and effectively realise their full promise for advancing human health.",
                   "mark": 10,
-                  "band": 6
+                  "band": 5
                 }
               ],
               "question": "ASSESS the potential limitations and constraints of SNP testing and databases in diagnostic medicine.",

@@ -63,7 +63,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-01-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two main purposes of data visualisation are to simplify complex datasets, making them easier to understand at a glance, and to tell a story by guiding the audience through the data to a specific conclusion or insight.",
                         "mark": 2,
                         "source": "AI"
@@ -95,7 +95,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-01-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A data visualisation is more effective because it uses visual cues to draw the audience's attention to what is important. For example, a line chart can use a steeply rising line and a contrasting colour like red to immediately highlight a dramatic increase in sea levels. This creates an instant visual impact that a table of numbers cannot.\n\nFurthermore, visualisations leverage pre-attentive attributes that our brains process very quickly. An audience can spot a trend or an outlier in a graph in seconds, whereas finding the same significant result in a large table of raw data would require careful and time-consuming reading and comparison, making the message less impactful and harder to grasp.",
                         "mark": 4,
                         "source": "AI"
@@ -130,7 +130,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-02-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two features of spreadsheet software used for data visualisation are its built-in charting tools, which can create various graphs like bar, line, and pie charts, and conditional formatting, which automatically changes the appearance of cells (e.g., their colour) based on the data they contain.",
                         "mark": 2,
                         "source": "AI"
@@ -160,7 +160,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-02-4m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "An analyst would first use the spreadsheet application to process and analyse the raw customer data. They could use pivot tables to summarise the data and create basic charts, like a bar chart showing the age distribution, to understand the key trends. This step is for analysis and finding the story in the data.\n\nNext, they would export these key charts and figures into a creative design application like Adobe Illustrator or Canva. In this application, they would not be limited by the spreadsheet's formatting. They could integrate the charts into a custom layout, use brand colours, add illustrative icons, and write compelling text to build a narrative, resulting in a professional and highly engaging infographic that tells a clear story.",
                         "mark": 4,
                         "source": "AI"
@@ -201,7 +201,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-dv-03-4m",
@@ -226,7 +227,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-03-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "By visually comparing the two datasets, for instance by overlaying two line graphs, the city council might identify a negative correlation: a trend showing that as public transport usage has increased over the five years, the trend for air pollution has decreased. They might also identify a recurring pattern, such as pollution dropping significantly on weekends when commuter traffic is lower.\n\nThis identified relationship is the basis for predictive data analytics. The council can use this historical data to build a model that predicts future outcomes. They could forecast that if they introduce a new train line that is projected to increase public transport usage by 20%, it will likely lead to a 5% reduction in key pollutants, providing a data-driven justification for the project.",
                         "mark": 4,
                         "source": "AI"
@@ -262,7 +263,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-04-2m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The evolution of processing power, particularly with multi-core CPUs and powerful GPUs, has massively impacted data analytics. It has enabled analysts to process and query huge datasets (big data) much faster and to run computationally intensive machine learning algorithms that would have been impractical on older hardware.",
                         "mark": 2,
                         "source": "AI"
@@ -293,13 +294,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-04-4m",
-                        "band": 3,
+                        "band": 6,
                         "answer": "Advancements in storage and memory, such as the development of high-speed solid-state drives (SSDs) and the decreasing cost of cloud object storage, have made it economically feasible for enterprises to store petabytes of data. Increased RAM allows for larger datasets to be held in memory for rapid processing.\n\nThese storage advancements are enabled by the evolution of communication media. The widespread availability of high-bandwidth fibre optic internet allows enterprises to quickly transfer these massive datasets to cloud data centres for processing and analysis. Without fast communication media, the benefits of cheap, vast cloud storage would be negated by slow data transfer speeds, making modern cloud-based analytics impractical.",
                         "mark": 4,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "INVESTIGATE"
                   }
                 ]
               },
@@ -333,7 +335,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-dv-05-4m",
@@ -357,7 +360,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-05-4m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "An OLAP cube would pre-calculate and store sales data across the dimensions of Product, Time, and Location. This allows the retail manager to perform multi-dimensional analysis with near-instantaneous results. For example, they could 'slice' the cube to view total sales for a single 'Product' across all times and locations. They could 'dice' the cube to look at a very specific intersection, like sales of 'Laptops' in 'Sydney' during 'December'. They could also 'drill down' on the 'Time' dimension to move from viewing total annual sales to breaking it down by quarter, month, and then day, all without writing complex database queries.",
                         "mark": 4,
                         "source": "AI"
@@ -398,7 +401,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-dv-06-4m",
@@ -424,7 +428,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-06-4m",
-                        "band": 6,
+                        "band": 5,
                         "answer": "The risk to the enterprise is extremely high. By using an unverified source, the data's integrity is unknown, and it may be inaccurate, biased, or outdated. If the enterprise publishes a visualisation based on this flawed data, it risks misleading its audience. This can lead to significant reputational damage and a loss of trust from customers and stakeholders. Furthermore, making strategic business decisions based on this visualisation would be dangerous, potentially leading to financial losses. There is also a legal risk if the third-party data was protected by copyright, leading to infringement claims.",
                         "mark": 4,
                         "source": "AI"
@@ -459,7 +463,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-07-2m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "A major benefit of a data warehouse is that it provides a 'single source of truth'. It integrates and cleans data from multiple disparate sources across the enterprise, providing a consistent and reliable dataset that can be used to create comprehensive and accurate data visualisations.",
                         "mark": 2,
                         "source": "AI"
@@ -491,7 +495,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-07-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Data warehouses are architected specifically to store large volumes of historical data over many years, which is something operational databases are not designed for. They collect and archive snapshots of data over time.\n\nThis has a direct impact on visualisation, as it allows analysts to query this rich historical data alongside up-to-the-minute current data. A visualisation tool can therefore easily be connected to the warehouse to create a chart that plots a 10-year sales trend and overlays the current month's performance. This provides vital context, allowing the business to identify long-term patterns, seasonality, and assess if current performance is genuinely good or just part of a recurring cycle.",
                         "mark": 4,
                         "source": "AI"
@@ -526,7 +530,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-08-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two design challenges created by big data are managing visual clutter, where plotting millions of data points on a single chart makes it unreadable, and ensuring performance, as visualisations can become slow and unresponsive when trying to process and render massive datasets.",
                         "mark": 2,
                         "source": "AI"
@@ -557,7 +561,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-08-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Visualising big data can reveal complex, large-scale patterns that are impossible to detect in a small dataset. While a small sample might show an average trend, a big data visualisation can show the variation and outliers with much higher confidence. \n\nFor example, visualising a survey of 100 customers might suggest that 'Product A' is popular. However, visualising big data from millions of transactions might reveal a deeper insight: 'Product A' is extremely popular, but only with customers aged 18-24 in metropolitan areas, and its sales have a strong correlation with social media marketing campaigns. This type of granular, multi-faceted insight is only possible with the scope and depth provided by big data.",
                         "mark": 4,
                         "source": "AI"
@@ -593,7 +597,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-09-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Bias from a data source refers to a flaw in the data itself, for example, if a political poll only surveyed people in a single wealthy city, its results would be biased. Audience bias, or confirmation bias, relates to the person viewing the visualisation, who may interpret it in a way that confirms their own existing opinions, regardless of what the data actually shows.",
                         "mark": 2,
                         "source": "AI"
@@ -677,14 +681,14 @@
                       },
                       {
                         "id": "sa-af4326fb-24ae-4dfc-ae30-8ef21034a96e",
-                        "band": 2,
+                        "band": 1,
                         "answer": "An advantage of using `spreadsheet software` for `data visualisation` dashboards is its widespread availability and familiarity, making it an accessible and low-cost tool for basic `data analysis`.",
                         "mark": 1,
                         "source": "AI"
                       },
                       {
                         "id": "sa-3a78bf6b-d22e-47d1-9c15-0ef335ac26a9",
-                        "band": 2,
+                        "band": 1,
                         "answer": "An advantage of utilising spreadsheet software for data visualisation dashboard development is its widespread availability and user familiarity, which can significantly lower initial training costs and simplify data analysis for basic dashboards. Conversely, a disadvantage is that spreadsheets often have performance limitations and reduced interactivity when handling large datasets, thereby impeding sophisticated data analysis and limiting the dynamic capabilities often required for advanced data visualisation dashboards.",
                         "mark": 2,
                         "source": "AI"
@@ -757,7 +761,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-dv-11-4m",
@@ -780,7 +785,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-11-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The effect of the extreme outlier on the bar chart would be to dramatically skew the visual scale. The bar representing the outlier month will be so tall that the y-axis will have to stretch to accommodate it. As a result, the bars for all the other months will appear comparatively small and flattened, making it very difficult for the viewer to discern the more subtle variations between them.\n\nThis impacts the viewer's reasoning. A superficial look might lead to the incorrect conclusion that the region experiences extremely high rainfall. An effective interrogation of the data would require the viewer to reason that this outlier is an exceptional event (perhaps a cyclone) and not representative of a typical month. To truly understand the normal pattern, the viewer might need to mentally (or with filtering tools) exclude the outlier.",
                         "mark": 4,
                         "source": "AI"
@@ -827,7 +832,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-dv-12-4m",
@@ -851,7 +857,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-12-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Allowing customisation significantly improves UX by giving users control. A salesperson might customise their dashboard to show only the metrics relevant to their own region and targets, filtering out the noise. This makes the tool more efficient and personally relevant, which increases user engagement.\n\nIncorporating live analysis, where the data updates in real-time, enhances the UX by making the dashboard a vital tool for immediate decision-making. Seeing live sales data as it comes in allows the team to react quickly to opportunities or problems. This provides a much better experience than working with a static report that is already outdated by the time it is read.",
                         "mark": 4,
                         "source": "AI"
@@ -886,7 +892,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-13-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two criteria for evaluating the UX of a data visualisation are clarity (how quickly and easily can a user understand the information being presented?) and efficiency (how quickly can a user find the specific information they need or complete their intended task?).",
                         "mark": 2,
                         "source": "AI"
@@ -917,7 +923,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-13-4m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "To evaluate 'efficiency', I would conduct user testing with the factory floor managers. I would give them specific tasks, such as 'Find out which production line had the most downtime yesterday', and time how long it takes them to find the answer using the dashboard. A lower time would indicate a more efficient design.\n\nTo evaluate 'audience interpretation', I would use qualitative methods. I would show a manager a specific chart or a key performance indicator on the dashboard and ask them open-ended questions like, 'What does this tell you?' or 'What action would you take based on this information?'. This would reveal if the managers are correctly and consistently interpreting the visualisations as intended by the designers.",
                         "mark": 4,
                         "source": "AI"
@@ -953,7 +959,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-14-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "An emerging hardware technology is Augmented Reality (AR) glasses. This could change UI design for data visualisation by moving beyond 2D screens and allowing interactive charts and data to be overlaid onto the real world, creating immersive, contextual data experiences.",
                         "mark": 2,
                         "source": "AI"
@@ -982,13 +988,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-14-4m",
-                        "band": 3,
+                        "band": 6,
                         "answer": "AI-powered software is set to dramatically improve the UX of data analytics. One major impact is through Natural Language Query (NLQ). Instead of needing to learn a complex interface or a query language, users could simply type or speak a question like 'Show me the top 5 selling products in NSW last quarter'. The AI would interpret the question and generate the correct visualisation, making data analysis accessible to a much wider, non-technical audience.\n\nAnother impact is the automation of insight generation. An AI could proactively analyse a dataset and automatically highlight significant findings, correlations, or anomalies that a human analyst might have missed. This enhances the UX by reducing manual effort and helping users discover valuable insights more quickly.",
                         "mark": 4,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "INVESTIGATE"
                   }
                 ]
               }
@@ -1028,7 +1035,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-dv-15-5m",
@@ -1059,7 +1067,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   }
                 ]
               },
@@ -1089,7 +1098,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-16-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Cybersecurity measures, like firewalls and access controls, are proactive methods designed to prevent data from being breached or compromised by unauthorised users. Data backup is a reactive method focused on data recovery; it involves creating copies of data so that it can be restored in the event of data loss due to hardware failure, cyberattack, or accidental deletion.",
                         "mark": 2,
                         "source": "AI"
@@ -1119,7 +1128,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-16-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Strong cybersecurity is essential to protect the confidentiality of the sensitive customer data. Measures like encryption of data at rest and in transit, and strict role-based access controls, are needed to prevent unauthorised access and data breaches, which could lead to massive fines and reputational damage.\n\nHowever, cybersecurity alone is not enough. A robust backup strategy is also essential for business continuity. If the data warehouse is compromised by a ransomware attack that encrypts all the data, or a critical hardware failure occurs, cybersecurity measures cannot help. Only a recent, secure backup can be used to restore the data warehouse, ensuring that the business intelligence visualisations can be brought back online quickly with minimal data loss.",
                         "mark": 4,
                         "source": "AI"
@@ -1167,7 +1176,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-01-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "The two main categories are quantitative data (numerical) and qualitative data (descriptive). Quantitative data can be represented by Integer or Float data types, while qualitative data is typically represented by a String data type.",
                         "mark": 2,
                         "source": "AI"
@@ -1199,7 +1208,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-01-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Quantitative data is numerical information that can be measured and is used for statistical analysis. In this scenario, the 'hours a user watches' is quantitative data, as it is a measurable number. This would be stored using an Integer or Float data type.\n\nQualitative data is descriptive, non-numerical information that provides context and insight. The 'written reviews' are qualitative data because they describe a user's opinion and cannot be easily measured. This would be stored using a String or Text data type.",
                         "mark": 4,
                         "source": "AI"
@@ -1235,7 +1244,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-02-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Nominal data involves categories that do not have a natural order or ranking, such as eye colour or brand names. Ordinal data consists of categories that have a meaningful order or rank, but the differences between the ranks are not necessarily equal, such as clothing sizes (Small, Medium, Large).",
                         "mark": 2,
                         "source": "AI"
@@ -1266,7 +1275,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-02-4m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "The 'city of origin' is at the nominal level of measurement. The cities are distinct categories, but there is no intrinsic order or ranking between them. \n\nThe 'room number' is also nominal. While it is a number, it acts as a label to identify a room and performing mathematical operations like finding an average room number would be meaningless. \n\nThe 'satisfaction rating' is at the ordinal level. The star ratings have a clear order (5 stars is better than 4), but the difference in satisfaction between 1 and 2 stars is not necessarily the same as between 4 and 5 stars.",
                         "mark": 4,
                         "source": "AI"
@@ -1302,7 +1311,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-03-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Active data collection requires the user to consciously provide information, such as filling out a form or answering a survey. Passive data collection gathers information in the background without direct user engagement, such as an app collecting location data or website analytics tracking clicks.",
                         "mark": 2,
                         "source": "AI"
@@ -1333,7 +1342,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-03-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The company uses both methods to get a complete picture of a user's health. Active data collection, like logging meals, is necessary to gather subjective information that a device cannot know on its own. Passive collection, like tracking heart rate, provides continuous, objective data without requiring effort from the user. \n\nA key benefit of using computerised methods for this is efficiency and scale. The device can automatically and continuously sample heart rate data from thousands of users simultaneously, a task that would be impossible to perform manually. This allows for large-scale data analysis and the identification of broad health trends.",
                         "mark": 4,
                         "source": "AI"
@@ -1368,7 +1377,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-04-2m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Primary data is original data collected directly by a researcher for a specific purpose, for example, through surveys or interviews they conduct themselves. Secondary data is data that was collected by someone else for a different purpose, which the researcher then reuses, such as census data or information from a published study.",
                         "mark": 2,
                         "source": "AI"
@@ -1399,7 +1408,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-04-4m",
-                        "band": 6,
+                        "band": 5,
                         "answer": "The secondary data from the 5-year-old publication poses significant data quality issues. Its relevance is low because market trends and consumer behaviour can change drastically over five years, meaning the report's findings may no longer apply to the current market. This directly impacts its validity, which is the extent to which the data measures what it claims to measure. The data may have been valid for the market conditions five years ago, but it is not valid for making decisions about a new product launch today. Using this outdated data could lead to inaccurate conclusions and poor business strategy.",
                         "mark": 4,
                         "source": "AI"
@@ -1435,7 +1444,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-05-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two key features of blockchain that make it suitable for verifying data are immutability and decentralisation. Immutability means that once a transaction or record is added to the chain, it cannot be altered or deleted. Decentralisation means the ledger is copied and spread across many computers, so there is no single point of failure and records can be verified by consensus.",
                         "mark": 2,
                         "source": "AI"
@@ -1467,7 +1476,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-05-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Blockchain can create a transparent and secure digital ledger for tracking luxury goods. Each time an item moves in the supply chain—from the manufacturer to the shipper, to the retailer—a new transaction is recorded. This transaction, containing details like timestamp and location, is added as a permanent 'block' to the item's unique digital chain.\n\nBecause the blockchain is immutable, these historical records cannot be altered, which prevents criminals from faking the item's provenance. As the ledger is decentralised, all authorised parties in the supply chain can view this history, allowing them to independently verify the item's journey and confirm its authenticity before it is sold to the customer.",
                         "mark": 4,
                         "source": "AI"
@@ -1503,7 +1512,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-06-2m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "In the context of big data, 'volume' refers to the enormous scale or quantity of data being generated and stored, often in terabytes or petabytes. 'Velocity' refers to the high speed at which this data is created, processed, and analysed, such as in real-time streaming from social media or financial markets.",
                         "mark": 2,
                         "source": "AI"
@@ -1535,7 +1544,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-06-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The company deals with high 'volume' from its thousands of stores, creating massive datasets that require optimised storage. It also has high 'variety', as it collects structured sales data, unstructured social media comments, and semi-structured weblogs. Finally, the data has high 'velocity', arriving in real-time from website traffic.\n\nA data warehouse is designed to solve these challenges. It acts as a large, centralised repository that can handle the massive volume of data. It uses processes to transform the varied data into a standardised format, allowing structured and unstructured data to be analysed together. This enables the company to perform complex queries and gain business intelligence from all its data sources in one place.",
                         "mark": 4,
                         "source": "AI"
@@ -1577,7 +1586,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-07-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "An ethical issue is ensuring the data collection method is not biased against certain groups of people, leading to unfair outcomes. A legal issue is complying with legislation such as the Privacy Act 1988, which governs how personal information must be handled securely and with consent.",
                         "mark": 2,
                         "source": "AI"
@@ -1608,7 +1617,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-07-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The ethical issue here is data bias. Because the algorithm was trained on historical data that reflects a bias towards hiring men, it has 'learned' to associate male characteristics with successful applications. This creates a discriminatory system where the algorithm unfairly penalises female applicants, perpetuating past inequalities and producing inaccurate and unethical hiring recommendations.\n\nTo mitigate this, the company could audit its training dataset to identify and remove sources of bias. They could ensure the data is more representative of the desired workforce demographics or use specialised techniques during the algorithm's training to enforce fairness and ensure it does not use gender-related proxies in its decision-making.",
                         "mark": 4,
                         "source": "AI"
@@ -1655,7 +1664,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   },
                   {
                     "id": "prompt-ec-08-4m",
@@ -1681,7 +1691,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-08-4m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The tables are related through the 'TeamID' field. 'TeamID' is the primary key in the 'Teams' table, uniquely identifying each team. It is used as a foreign key in the 'Players' table to create a link, assigning each player to a specific team.\n\nThe SQL query to list the players on the 'Sharks' team would be:\n```sql\nSELECT Players.PlayerName \nFROM Players \nINNER JOIN Teams ON Players.TeamID = Teams.TeamID \nWHERE Teams.TeamName = 'Sharks';\n```",
                         "mark": 4,
                         "source": "AI"
@@ -1728,7 +1738,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-01-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two applications of decision support systems in an enterprise are clinical DSS in hospitals, which help doctors diagnose patients by analysing symptoms and patient data, and financial DSS, which assist managers in making investment decisions by modelling market data.",
                         "mark": 2,
                         "source": "AI"
@@ -1759,7 +1769,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-01-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A decision support system for a logistics manager would integrate and analyse data from multiple sources. It would take into account the list of delivery addresses, real-time traffic information, weather conditions, and the capacity of each delivery vehicle. The system would process this information using algorithms to model various potential routes.\n\nInstead of providing a single 'best' route, the DSS would present a few optimised options to the manager. For example, it might show one route that is the shortest distance but has potential traffic delays, and another that is slightly longer but avoids congestion. This allows the manager to use their human expertise and judgement to assess the trade-offs and make the final, well-informed decision.",
                         "mark": 4,
                         "source": "AI"
@@ -1796,7 +1806,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-02-3m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Structured decisions are repetitive and routine, and can be fully automated because they are based on a clear, finite set of rules (e.g., reordering stock when it falls below a set level). Unstructured decisions are complex, non-routine problems where the rules are not known and human intuition and judgement are critical (e.g., designing a new marketing campaign). Semi-structured decisions are in the middle, where a DSS can provide analysis and data, but the final choice still requires human judgement.",
                         "mark": 3,
                         "source": "AI"
@@ -1829,7 +1839,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-02-6m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "**Structured:** A bank deciding whether to approve a personal loan application. The decision is based on a finite set of instructions: if the applicant's credit score is above 700 and their income is above $50,000, the loan is automatically approved. The DSS performs this automated decision without human intervention.\n\n**Semi-structured:** A retail manager deciding how to price a new product. The DSS can analyse historical sales data, competitor pricing, and production costs to suggest an optimal price range. However, the manager must use their judgement to make the final decision, considering factors like brand positioning and marketing strategy.\n\n**Unstructured:** A board of directors deciding whether to launch a new, innovative product line in an emerging market. There is no precedent for this decision. A DSS can only provide data exploration tools and financial models to simulate potential outcomes, but the final decision relies heavily on the board's experience, judgement, and strategic vision.",
                         "mark": 6,
                         "source": "AI"
@@ -1866,7 +1876,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-03-3m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "The knowledge base is the component that stores the facts and rules about a specific domain, captured from human experts. The inference engine is the reasoning component or 'brain' of the system; it applies logical rules to the knowledge base to draw conclusions and solve problems. The user interface (UI) is the layer that allows a non-expert user to query the system and receive advice or answers.",
                         "mark": 3,
                         "source": "AI"
@@ -1899,7 +1909,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-03-5m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "In a vehicle mechanic expert system, the knowledge base would contain facts (e.g., 'A battery has terminals') and rules from expert mechanics (e.g., 'IF the engine does not crank AND the lights are dim, THEN the battery is likely flat'). The inference engine uses this knowledge to reason about a problem.\n\n**Forward chaining** is a data-driven approach. The mechanic would input all the known symptoms (the facts), and the inference engine would fire all applicable rules until it reaches a conclusion about the fault.\n\n**Backward chaining** is a goal-driven approach, more suitable for diagnosis. The system would start with a hypothesis (e.g., 'The problem is the battery'). It would then work backward, checking the knowledge base to see if the rules supporting this conclusion are met by asking the mechanic questions (e.g., 'Are the lights dim?'). It continues this until the hypothesis is proven or disproven.",
                         "mark": 5,
                         "source": "AI"
@@ -1936,7 +1946,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-04-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "A major social issue is the potential for large-scale job displacement as intelligent systems automate tasks previously done by humans. A key ethical issue is algorithmic bias, where an AI system makes unfair or discriminatory decisions because it was trained on biased historical data.",
                         "mark": 2,
                         "source": "AI"
@@ -1967,13 +1977,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-04-5m",
-                        "band": 3,
+                        "band": 6,
                         "answer": "The ethical issue of bias is critical here. If the historical arrest and conviction data used to train the system reflects past societal or institutional biases against certain racial or socio-economic groups, the intelligent system will learn and perpetuate these biases. It might unfairly predict a higher reoffending risk for individuals from these groups, even if their individual circumstances suggest otherwise, leading to discriminatory bail decisions.\n\nThe issue of accountability is also profound. If the system makes a demonstrably wrong prediction that results in a person being unfairly denied bail, it is not clear who is responsible. Is it the software developers who wrote the algorithm, the data scientists who trained it, or the judge who relied on its recommendation? This lack of a clear chain of accountability, often called the 'black box' problem, is a major ethical barrier to the use of such systems in high-stakes environments like the justice system.",
                         "mark": 5,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "INVESTIGATE"
                   }
                 ]
               }
@@ -2009,7 +2020,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-05-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two key infrastructure components for an enterprise IoT network are the end-point devices themselves (the sensors and actuators that collect and act on data) and robust communication links (like Wi-Fi, 5G, or LoRaWAN) to transmit the data from these devices.",
                         "mark": 2,
                         "source": "AI"
@@ -2041,7 +2052,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-05-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "In a smart factory, local servers used for edge computing play a critical role in immediate processing. Data from a sensor that detects a critical failure on the assembly line needs to be acted upon in milliseconds. An edge server on the factory floor can process this data instantly and trigger an actuator to shut down the machine, avoiding the delay (latency) of sending the data to the cloud and back.\n\nCloud storage serves a different purpose. It acts as a central repository for all the data collected over time from all sensors. This aggregated historical data is then used for large-scale analysis, such as identifying long-term maintenance trends, optimising overall factory performance, and training the machine learning models that are then deployed to the edge servers.",
                         "mark": 4,
                         "source": "AI"
@@ -2077,7 +2088,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-06-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "An intelligent system can enhance traditional CCTV by adding automated facial recognition to identify persons of interest in a crowd, and by using anomaly detection to automatically alert security staff to unusual behaviour, such as a person running or an abandoned package.",
                         "mark": 2,
                         "source": "AI"
@@ -2108,7 +2119,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-06-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A bank's intelligent fraud prevention system continuously analyses a customer's transaction data to build a sophisticated model of their typical spending behaviour. This includes factors like the usual time of day for purchases, common locations, average transaction amounts, and types of merchants.\n\nWhen the customer attempts a new transaction, the intelligent system assesses it in real-time against this established profile. A transaction that deviates significantly from the norm—such as a large purchase from a new overseas website—is flagged as an anomaly. The system then automatically assigns a risk score, and if it exceeds a certain threshold, it can instantly decline the transaction and trigger a security alert to the customer for verification, preventing the fraud before it is completed.",
                         "mark": 4,
                         "source": "AI"
@@ -2150,13 +2161,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-07-2m",
-                        "band": 3,
+                        "band": 5,
                         "answer": "**Fact:** A golden retriever is a large dog.\n**Rule:** IF pet_size_preference = 'small' AND pet_type = 'dog' THEN pet_recommendation != 'golden retriever'.",
                         "mark": 2,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "RECOMMEND"
                   },
                   {
                     "id": "prompt-is-07-4m",
@@ -2187,7 +2199,8 @@
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "EXPLAIN"
                   }
                 ]
               },
@@ -2220,7 +2233,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-08-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "The input sensor would be a passive infrared (PIR) motion sensor to detect movement. The output actuator would be the light-emitting diode (LED) light itself, which is turned on or off.",
                         "mark": 2,
                         "source": "AI"
@@ -2250,13 +2263,14 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-08-5m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "This automated smart blind system would have several inputs and one primary output.\n\n**Inputs:**\n1.  A light sensor (photodiode) to measure the brightness of the sunlight outside.\n2.  A real-time clock to know the time of day.\n3.  An internal room temperature sensor.\n\n**Outputs:**\n1.  An electric motor (actuator) connected to the blinds to open or close them.\n\n**Processing Logic:** The system's microcontroller would run an algorithm with rules such as:\n*   IF time is between 7am and 9am, THEN open blinds (to let in morning light).\n*   IF time is after 9am AND light_sensor_reading > threshold_A AND temperature > 24°C, THEN close blinds (to block heat and glare during the day).\n*   IF time is after 6pm, THEN open blinds (to let in evening light before closing for the night).",
                         "mark": 5,
                         "source": "AI"
                       }
                     ],
-                    "isPastHSC": false
+                    "isPastHSC": false,
+                    "verb": "DESCRIBE"
                   }
                 ]
               },
@@ -2286,7 +2300,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-09-2m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "An expert system in a streaming service acts as a recommendation engine. It uses a knowledge base of rules about movie genres, actors, and user preferences to efficiently analyse a user's viewing history. It then suggests content the user is highly likely to enjoy, which increases user engagement and makes it easier for them to find content without endless searching.",
                         "mark": 2,
                         "source": "AI"
@@ -2317,7 +2331,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-is-09-6m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "An autonomous vehicle is a complex intelligent system that relies on multiple, specialised expert systems working in concert. \n\nOne critical component is the **perception system**. This expert system takes data from sensors like cameras and LiDAR and uses a knowledge base of rules to identify and classify objects. For example, a rule might be 'IF an object has two legs and is moving at 5 km/h, THEN it is a pedestrian'. This efficiently turns raw sensor data into meaningful facts.\n\nThese facts are then fed into a second **path planning and decision-making system**. This expert system's knowledge base contains the rules of the road, principles of defensive driving, and the vehicle's physical limitations. Its inference engine uses the facts from the perception system (e.g., 'there is a pedestrian ahead') to make efficient decisions like 'decrease speed' or 'change lanes'.\n\nThese systems work together in a continuous loop. The perception system constantly updates the facts about the environment, and the planning system constantly reassesses its decisions. This integration is crucial for the vehicle's ability to navigate safely and efficiently through complex and dynamic environments.",
                         "mark": 6,
                         "source": "AI"
@@ -2364,7 +2378,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-01-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "A tool used for time management is a Gantt chart, which visually represents the project schedule. A process used for project development is an iterative approach, where the project is built in repeated cycles of development and testing.",
                         "mark": 2,
                         "source": "AI"
@@ -2397,7 +2411,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-01-5m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "An iterative approach is a process where the enterprise system is developed in a series of repeated cycles or 'iterations'. In each cycle, a small portion of the system is designed, built, and tested. This allows the development team to get regular feedback from the client and make adjustments, which is more flexible than building the entire system at once.\n\nA Gantt chart is a project management tool used for time and resource management. It is a horizontal bar chart that visually displays the project schedule. It lists all required tasks, their start and end dates, their durations, and their dependencies (which tasks must be completed before others can begin). The team would use the Gantt chart to plan the specific tasks and allocate resources for each iteration, and to track progress against the project's overall timeline and deadlines.",
                         "mark": 5,
                         "source": "AI"
@@ -2433,7 +2447,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-02-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "A benefit of offshore development is often a significant reduction in labour costs. A challenge is managing communication and collaboration effectively across different time zones and cultural contexts.",
                         "mark": 2,
                         "source": "AI"
@@ -2464,7 +2478,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-02-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "The trend of 'working remotely' has meant that enterprise projects are no longer limited by geography when sourcing talent. However, it requires a heavy reliance on online collaboration tools like Slack, Zoom, and Jira for communication and task management. Project managers must adapt their style to manage a distributed team, focusing more on clear documentation and measurable outcomes.\n\nThe growth of 'freelance work' (the gig economy) has affected resourcing by allowing enterprises, especially start-ups, to access highly specialised skills for specific parts of a project without hiring a full-time employee. A project might hire a freelance UI designer for two months, for example. This is cost-effective but requires project managers to be skilled at breaking down the project into discrete tasks and managing contracts.",
                         "mark": 4,
                         "source": "AI"
@@ -2506,7 +2520,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-03-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "A system flowchart shows the sequence of operations and the flow of control in a system, including processing steps, decisions, and inputs/outputs. A data flow diagram (DFD) focuses only on the movement of data through a system; it shows where data comes from, how it is transformed, and where it is stored, but it does not show processing logic like loops or decisions.",
                         "mark": 2,
                         "source": "AI"
@@ -2537,7 +2551,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-03-4m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "During the planning phase, an online collaboration tool like Google Workspace is essential for team coordination. It allows the project team to work together on planning documents in real-time, store design diagrams like flowcharts in a central repository, and communicate effectively through chat and video calls, ensuring everyone is aligned on the project goals and plan.\n\nA budget is a fundamental planning tool that defines the financial constraints of the project. It involves estimating the costs for all necessary resources, including developer salaries, software licenses, hardware infrastructure, and training. The budget is used to secure funding and acts as a baseline throughout the project to monitor and control spending, ensuring the project remains financially viable.",
                         "mark": 4,
                         "source": "AI"
@@ -2573,7 +2587,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-04-3m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "Computational thinking is a problem-solving approach that involves breaking a complex problem down into smaller parts (decomposition) and developing a step-by-step solution (algorithm). Design thinking is a human-centred approach that focuses on empathy for the user to create solutions that are desirable and meet their needs. Systems thinking is a holistic approach that focuses on understanding how all the different parts of a system interact with each other to produce the overall result.",
                         "mark": 3,
                         "source": "AI"
@@ -2605,7 +2619,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-04-6m",
-                        "band": 3,
+                        "band": 2,
                         "answer": "**Design thinking** would be applied first to ensure the app meets user needs. The team would interview customers to understand their banking habits and pain points. They would then create user personas and journey maps, and develop interactive prototypes of the app's interface to test with users, ensuring it is intuitive and solves real problems for them.\n\n**Computational thinking** would be used by the software developers to build the app. They would use decomposition to break the complex application down into smaller, manageable modules like 'user authentication', 'view balance', and 'transfer funds'. For each module, they would develop precise, step-by-step algorithms to handle the logic and data processing.\n\n**Systems thinking** would be essential to understand the entire ecosystem. The developers must consider how the mobile app (one part of the system) interacts with all the other components. This includes ensuring secure communication with the bank's central database, integrating with third-party fraud detection systems, and connecting to payment networks, understanding that a change in one part of the system can have consequences for another.",
                         "mark": 6,
                         "source": "AI"
@@ -2647,7 +2661,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-05-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Interviews are a qualitative tool used to gather in-depth information and understand the 'why' behind user needs from a small number of stakeholders. Surveys are a quantitative tool used to gather specific, structured data from a large group of users to identify broad trends and priorities.",
                         "mark": 2,
                         "source": "AI"
@@ -2678,7 +2692,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-05-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "A prototype is a preliminary, interactive model of the proposed system. The team would use it as a tool to inform requirements by showing it to end-users. By clicking through the prototype, users can provide specific, tangible feedback on the layout and features, helping the team to understand and clarify what the system needs to do. This is far more effective than just discussing abstract ideas.\n\nAn analytical report, such as a technical feasibility report, is used to inform the system's limitations. The team would research and document factors like the performance of existing servers, the budget allocated for new hardware, and the complexity of integrating with legacy databases. This report provides a clear, data-driven understanding of the technical and financial constraints that the new system must operate within.",
                         "mark": 4,
                         "source": "AI"
@@ -2714,7 +2728,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-06-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "The waterfall approach is a rigid, sequential development model where the project progresses through distinct phases (e.g., requirements, design, implementation, testing) in a linear order. The agile approach is an iterative model where the project is broken into small increments or 'sprints', with each sprint involving a full cycle of development and allowing for requirements to change and evolve.",
                         "mark": 2,
                         "source": "AI"
@@ -2786,7 +2800,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-07-2m",
-                        "band": 5,
+                        "band": 4,
                         "answer": "Verification is the process of checking that the system is built correctly according to its design and specifications. It answers the question, 'Are we building the product right?'. Validation is the process of checking that the system meets the actual needs and expectations of the user. It answers the question, 'Are we building the right product?'.",
                         "mark": 2,
                         "source": "AI"
@@ -2817,7 +2831,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-07-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Evaluating test data is a core activity for verification. Testers create a set of test cases with specific inputs and pre-calculated expected outputs. They run these inputs through the system and compare the actual output to the expected output. If they match, it verifies that the system's code and logic have been implemented correctly according to the design specifications.\n\nTrialling the operation and maintenance documentation is crucial for validation. A support team or end-user might be asked to follow the user manual to perform a task. If the documentation is clear, accurate, and allows the user to successfully operate the system to achieve their business goal, it helps validate that the right product has been built for the user's needs.",
                         "mark": 4,
                         "source": "AI"
@@ -2851,7 +2865,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-08-2m",
-                        "band": 2,
+                        "band": 1,
                         "answer": "Two types of software maintenance are corrective maintenance, which involves fixing bugs and defects discovered after the system is released, and perfective maintenance, which involves adding new features or improving existing functionality based on user feedback.",
                         "mark": 2,
                         "source": "AI"
@@ -2881,7 +2895,7 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-08-4m",
-                        "band": 5,
+                        "band": 3,
                         "answer": "Ongoing evaluation is essential because the business environment is not static. An enterprise system that was effective at launch may become less so as business goals evolve, new competitors emerge, and user expectations change. Continuous evaluation, through user feedback and performance monitoring, allows the enterprise to identify where the system is no longer meeting its needs, informing future updates.\n\nMaintenance is crucial for keeping the system operational and secure. Adaptive maintenance is required to make the system compatible with new technologies, like updated web browsers or operating systems. Corrective maintenance is vital for fixing bugs and, most importantly, patching security vulnerabilities that are discovered over time. Without ongoing maintenance, the system would become unstable, insecure, and eventually obsolete.",
                         "mark": 4,
                         "source": "AI"

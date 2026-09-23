@@ -17,6 +17,7 @@ import {
   getBandForMark,
   getCommandTermInfo,
   extractCommandVerb,
+  leadingCommandVerb,
 } from '../data/commandTerms';
 import { generateId } from './idUtils';
 import { buildLlmSeedInstructions } from './llmSeedBrief';
@@ -431,6 +432,9 @@ const repairPromptFields = <T extends { verb?: PromptVerb; question: string; tot
 ): T & { verb: PromptVerb; totalMarks: number } => {
   const verb =
     normalizeVerb(prompt.verb) ??
+    // The verb the question opens with governs it; the most demanding verb
+    // anywhere in the text only when it opens with something else.
+    leadingCommandVerb(prompt.question)?.term ??
     extractCommandVerb(prompt.question)?.term ??
     ('EXPLAIN' as PromptVerb);
   const termInfo = getCommandTermInfo(verb);
