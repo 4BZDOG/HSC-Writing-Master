@@ -463,7 +463,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         <Sparkles className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <div className="flex items-center gap-3 mb-1">
+                        {/* Wraps, so on a phone the tier chip drops under the
+                            verb whole rather than breaking after its dot. */}
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mb-1">
                           <h4 className={RIBBON_DETAIL_TERM}>{activeTermInfo.term}</h4>
                           {/* The tier, said as the tier. This chip used to read
                               `Band {tier}` while the tray six inches to the
@@ -501,7 +503,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         <div className="flex flex-col items-center">
                           <span className={RIBBON_STAT_LABEL}>Marks</span>
                           <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                            {activeTermInfo.markRange.join('-')}
+                            {activeTermInfo.markRange.join('–')}
                           </span>
                         </div>
                         <div className={RIBBON_STAT_DIVIDER} />
@@ -518,7 +520,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         >
                           <span className={RIBBON_STAT_LABEL}>Time</span>
                           <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                            {activeTermInfo.timeRange.join('-')}m
+                            {/* "4–7 min", not "4-7m": beside a "Marks" figure, a
+                                bare m read as marks as easily as minutes. */}
+                            {activeTermInfo.timeRange.join('–')} min
                           </span>
                         </div>
                         <div className={`${RIBBON_STAT_DIVIDER} hidden sm:block`} />
@@ -528,7 +532,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         >
                           <span className={RIBBON_STAT_LABEL}>Terms</span>
                           <span className={`${RIBBON_STAT_VALUE} ${activeConfig.text}`}>
-                            {activeTermInfo.syllabusTerms.join('-')}
+                            {activeTermInfo.syllabusTerms.join('–')}
                           </span>
                         </div>
                       </div>
@@ -674,7 +678,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
                         className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 ${tierConfig.solidText}` : `${tierConfig.bg} border-white/5 light:border-slate-200`}`}
                       >
-                        <div className="text-4xl filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
+                        <div className="text-4xl xl:text-3xl leading-none filter drop-shadow-lg transform transition-transform duration-500 group-hover/card:scale-110">
                           {group.emoji}
                         </div>
                         <div className={RIBBON_TIER_HEADER_TEXT}>
@@ -697,17 +701,14 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           <span
                             className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : RIBBON_TIER_HEADER_LABEL_IDLE}`}
                           >
-                            Band {group.maxBand}
-                            {/* "ceiling" is dropped from the visible line and
-                                kept for anyone listening. On screen the word
-                                was carrying nothing the card does not already
-                                say — six cards climbing 1 to 6 under a rail
-                                labelled "Deep Learning Threshold", each with a
-                                number under its name. Read aloud it is the
-                                whole meaning: "Define & Describe, Band 2" is a
-                                target, "Band 2 ceiling" is a limit, and this
-                                ladder is about limits. */}
-                            <span className="sr-only"> ceiling</span>
+                            {/* "Up to Band 2", visibly. A bare "Band 2" under the
+                                name read as a target to anyone looking, and the
+                                header's own title already said "up to". */}
+                            Up to Band {group.maxBand}
+                            {/* It said "Band 2" on screen and "Band 2 ceiling" to
+                                a screen reader, because the limit was the whole
+                                meaning and only listeners were told it. "Up to"
+                                says it to everyone, so the hidden word went. */}
                           </span>
                         </div>
                       </button>

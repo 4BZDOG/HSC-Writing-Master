@@ -193,7 +193,7 @@ describe('CommandVerbHierarchy', () => {
 
   it('lets a keyboard user select a tier from the card header', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-    const header = screen.getByRole('button', { name: /Remember & List Band 1 ceiling/i });
+    const header = screen.getByRole('button', { name: /Remember & List Up to Band 1/i });
 
     expect(header.getAttribute('aria-pressed')).toBe('false');
     fireEvent.click(header);

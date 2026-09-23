@@ -150,7 +150,9 @@ export const RIBBON_DETAIL_TERM =
 
 /** The tier chip beside the verb. Its colours come from the tier config.
  *  Painted on the detail card. */
-export const RIBBON_DETAIL_TIER_CHIP = 't-label px-3 py-0.5 rounded-full border shadow-sm';
+export const RIBBON_DETAIL_TIER_CHIP =
+  // `whitespace-nowrap`: on a phone "Tier 2 · Define" broke after the dot.
+  't-label px-3 py-0.5 rounded-full border shadow-sm whitespace-nowrap';
 
 /**
  * How the prose in this file is allowed to break is `utils/prose`'s decision —
@@ -232,7 +234,14 @@ export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-400 dark:bg-white/10';
  *  inside it are focusable, and a 51st tab stop in front of them buys nothing.
  *  Do not add one. */
 export const RIBBON_STRIP =
-  'flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-proximity scrollbar-hide';
+  'flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-proximity scrollbar-hide ' +
+  // From `xl` the six tiers sit side by side. The strip scrolled at every
+  // width, so on a 1280px laptop — the width the page is mostly used at —
+  // Evaluate, the top of the ladder, was off-screen and Discuss was cut in
+  // half: the two rungs the ladder is there to show a student they are
+  // climbing toward. At 1216px of content, six columns are 189px each, which
+  // holds the longest verb chip (DIFFERENTIATE) with room to spare.
+  'xl:grid xl:grid-cols-6 xl:overflow-visible xl:gap-3';
 
 /** The two edge fades over the strip, one per side, in the wrapper that until
  *  now held nothing but a `relative`. `scrollbar-hide` takes away the only
@@ -260,7 +269,9 @@ export const RIBBON_STRIP =
  *  carries `z-20` — fading out the card the reader is being pointed at would
  *  be the wrong way round. Painted on the page background. */
 const RIBBON_STRIP_FADE =
-  'absolute top-0 bottom-4 w-8 z-10 pointer-events-none to-transparent from-base';
+  // Hidden from `xl`, where the strip no longer scrolls and there is nothing
+  // past either edge to fade toward.
+  'absolute top-0 bottom-4 w-8 z-10 pointer-events-none to-transparent from-base xl:hidden';
 export const RIBBON_STRIP_FADE_LEFT = `${RIBBON_STRIP_FADE} left-0 bg-gradient-to-r`;
 export const RIBBON_STRIP_FADE_RIGHT = `${RIBBON_STRIP_FADE} right-0 bg-gradient-to-l`;
 
@@ -271,7 +282,7 @@ export const RIBBON_STRIP_FADE_RIGHT = `${RIBBON_STRIP_FADE} right-0 bg-gradient
  *  sliced by the card edge. The strip is a flex row, so leaving the height to
  *  the content makes every card as tall as the tallest for free. */
 export const RIBBON_TIER_CARD =
-  'clip-stable flex-shrink-0 w-[260px] min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card';
+  'clip-stable flex-shrink-0 w-[260px] xl:w-auto xl:min-w-0 min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card';
 
 /** A tier card with no verb selected anywhere, or one that is not the selected
  *  verb's tier. Painted on the page background.
@@ -368,6 +379,11 @@ export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
  *  away on three sides. Inset is the shape this particular button can wear. */
 export const RIBBON_TIER_HEADER =
   'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 ' +
+  // From `xl`, where the six cards share the row at about 189px each, the
+  // emoji stands above the name instead of beside it. Side by side, the name
+  // had 90px — less than "REMEMBER" set in the display face — and a word that
+  // cannot wrap was clipped mid-letter.
+  'xl:flex-col xl:items-start xl:gap-2 xl:px-4 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** "Band 3 ceiling", UNDER the tier's title.
@@ -456,11 +472,13 @@ export const RIBBON_TIER_HEADER_TITLE =
  *  LONGEST name rather than the common case, because the whole job of this
  *  floor is that one card cannot push its own header out of line — and a floor
  *  that only fits five of the six names is a floor that does not do it. */
-export const RIBBON_TIER_HEADER_TEXT = 'min-w-0 min-h-[4.6rem] flex flex-col justify-center';
+export const RIBBON_TIER_HEADER_TEXT =
+  'min-w-0 min-h-[4.6rem] xl:min-h-[5rem] xl:w-full flex flex-col justify-center';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
-export const RIBBON_TIER_SUBTITLE = 'px-6 pt-3 text-[11px] font-medium leading-snug relative z-10';
+export const RIBBON_TIER_SUBTITLE =
+  'px-6 xl:px-4 pt-3 text-[11px] font-medium leading-snug relative z-10';
 
 /** The subtitle on the current tier's card, which is the one card the reader is
  *  meant to be reading. */

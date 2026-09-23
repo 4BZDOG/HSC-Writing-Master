@@ -89,7 +89,7 @@ describe('the ribbon wears the shared vocabulary', () => {
 
     // Name-then-ceiling: the header reads its tier's NAME first and the band
     // it caps at under it, so the accessible name follows that order too.
-    const header = screen.getByRole('button', { name: /Remember & List Band 1 ceiling/i });
+    const header = screen.getByRole('button', { name: /Remember & List Up to Band 1/i });
     expect(header.className).toContain(RIBBON_TIER_HEADER);
   });
 
@@ -237,7 +237,7 @@ describe('the tier strip is legible and reachable', () => {
 
     // Tier 3 is the one that exposes it: white on yellow-500 is 1.92:1, and
     // `getBandConfig` answers `text-yellow-950` when asked.
-    const header = screen.getByRole('button', { name: /Explain & Compare Band 3 ceiling/i });
+    const header = screen.getByRole('button', { name: /Explain & Compare Up to Band 3/i });
     expect(header.className).toContain('text-yellow-950');
     expect(header.className).not.toContain('text-white');
 
@@ -402,9 +402,9 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
   it('dims each card’s band ceiling by colour, never by opacity', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    const header = screen.getByRole('button', { name: /Band 6 ceiling/i });
+    const header = screen.getByRole('button', { name: /Up to Band 6/i });
     const label = header.querySelector('span') as HTMLElement;
-    expect(label.textContent).toBe('Band 6 ceiling');
+    expect(label.textContent).toBe('Up to Band 6');
     expect(label.className).toContain(RIBBON_TIER_HEADER_LABEL_IDLE);
     expect(RIBBON_TIER_HEADER_LABEL_IDLE).toContain('text-slate-600');
     expect(RIBBON_TIER_HEADER_LABEL_IDLE).not.toMatch(/(^|\s)text-slate-500/);
@@ -423,7 +423,7 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
   it('leaves the selected card’s ceiling at full strength', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    const header = screen.getByRole('button', { name: /Define & Describe Band 2 ceiling/i });
+    const header = screen.getByRole('button', { name: /Define & Describe Up to Band 2/i });
     const label = header.querySelector('span') as HTMLElement;
     expect(label.className).not.toContain(RIBBON_TIER_HEADER_LABEL_IDLE);
     expect(label.className).not.toMatch(/opacity-\d/);
@@ -727,5 +727,17 @@ describe('the cognitive spectrum lights one geometry from one palette', () => {
     for (const frame of Object.values(keyframes.dotBloom)) {
       expect(frame.transform).toMatch(/^scale\([\d.]+\)$/);
     }
+  });
+});
+
+describe('the six tiers at laptop width', () => {
+  // The strip scrolled at every width, so on a 1280px laptop the top of the
+  // ladder — Evaluate — was off-screen and Discuss was cut in half.
+  it('lays the six tiers side by side from xl, with no fades over edges that do not scroll', () => {
+    expect(RIBBON_STRIP).toContain('xl:grid');
+    expect(RIBBON_STRIP).toContain('xl:grid-cols-6');
+    expect(RIBBON_STRIP).toContain('xl:overflow-visible');
+    expect(RIBBON_STRIP_FADE_LEFT).toContain('xl:hidden');
+    expect(RIBBON_STRIP_FADE_RIGHT).toContain('xl:hidden');
   });
 });
