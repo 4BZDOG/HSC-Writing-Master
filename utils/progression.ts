@@ -71,6 +71,15 @@ export const levelProgress = (xp: number): LevelProgress => {
 };
 
 /**
+ * The average share of the marks on offer, as a whole percentage, or null
+ * while no answer has been marked since the figure was first kept.
+ */
+export const averageMarkPercent = (stats: UserStats): number | null =>
+  (stats.markShareCount ?? 0) > 0 && Number.isFinite(stats.markShareMean)
+    ? Math.round(stats.markShareMean! * 100)
+    : null;
+
+/**
  * Fold one marked answer into a student's running stats.
  *
  * `averageBand` is a true running mean over every answer ever marked, computed
@@ -81,7 +90,7 @@ export const levelProgress = (xp: number): LevelProgress => {
  */
 export const applyEvaluation = (
   stats: UserStats,
-  result: { band: number; wordCount: number }
+  result: { band: number; wordCount: number; mark?: number; totalMarks?: number }
 ): UserStats => {
   const band = Number.isFinite(result.band) ? Math.max(0, result.band) : 0;
   const words = Number.isFinite(result.wordCount) ? Math.max(0, Math.trunc(result.wordCount)) : 0;
@@ -89,12 +98,27 @@ export const applyEvaluation = (
   const previousMean = Number.isFinite(stats.averageBand) ? Math.max(0, stats.averageBand) : 0;
   const xp = Math.max(0, stats.xp) + xpForEvaluation(band);
 
+  // The share of this question's marks, when the caller knows them. Kept as a
+  // running mean over its own count: older profiles start it from nothing
+  // rather than inventing a history for the answers marked before it existed.
+  const hasShare =
+    Number.isFinite(result.mark) && Number.isFinite(result.totalMarks) && result.totalMarks! > 0;
+  const shareCount = Math.max(0, stats.markShareCount ?? 0);
+  const shareMean = Number.isFinite(stats.markShareMean) ? stats.markShareMean! : 0;
+  const share = hasShare ? Math.min(1, Math.max(0, result.mark! / result.totalMarks!)) : 0;
+
   return {
     ...stats,
     questionsAnswered: answered,
     totalWordsWritten: Math.max(0, stats.totalWordsWritten) + words,
     // Rounded to two places for storage; the UI shows one.
     averageBand: Number(((previousMean * (answered - 1) + band) / answered).toFixed(2)),
+    ...(hasShare
+      ? {
+          markShareMean: Number(((shareMean * shareCount + share) / (shareCount + 1)).toFixed(4)),
+          markShareCount: shareCount + 1,
+        }
+      : {}),
     xp,
     level: levelForXp(xp),
   };

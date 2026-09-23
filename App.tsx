@@ -566,6 +566,30 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     }
   }, [user.preferences.theme]);
 
+  // High Contrast, from the profile's Settings. The switch was there, saved and
+  // read by nothing, so a student who turned it on saw no change at all. Most
+  // of the app colours its text with fixed Tailwind shades rather than the
+  // theme tokens, so re-pointing tokens would reach a fraction of it; the
+  // filter on the root element reaches everything, including portalled
+  // dialogs, and on the ROOT it creates no containing block, so fixed and
+  // sticky chrome stays where it is. See index.css, `data-contrast`.
+  useEffect(() => {
+    const html = document.documentElement;
+    if (user.preferences.highContrast) html.setAttribute('data-contrast', 'high');
+    else html.removeAttribute('data-contrast');
+  }, [user.preferences.highContrast]);
+
+  // Default Focus Mode, from the same Settings: every question opens in Focus
+  // Mode. Keyed on the question, not the preference — turning the setting on
+  // should not throw the student out of the view they are in, and leaving
+  // Focus Mode on one question must stay left until they open another.
+  const defaultFocusRef = useRef(user.preferences.defaultFocusMode);
+  defaultFocusRef.current = user.preferences.defaultFocusMode;
+  const openPromptId = currentPrompt?.id;
+  useEffect(() => {
+    if (openPromptId && defaultFocusRef.current) setIsFocusMode(true);
+  }, [openPromptId]);
+
   // Paint a calm ambient gradient on the page background while writing in Focus
   // Mode, so the mode reads as a distinct, immersive space (see index.css).
   useEffect(() => {

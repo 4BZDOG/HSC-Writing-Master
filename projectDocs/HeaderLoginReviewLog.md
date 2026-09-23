@@ -516,3 +516,52 @@ accessibility, evaluation flow, quota, agreement gate, paywall, report column,
 modal scroll); the phone journey captured
 before and after in both themes; the editor bar measured at 320, 360, 390
 and 430px.
+
+## PR #283 — Settings that do what they say, and an average that is fair to every question
+
+The profile is what a student opens to see how they are going. Three of its
+four settings did nothing, and its headline average told students who were
+earning every mark on offer that they had "room to grow".
+
+**Bug — High Contrast, Auto-Save and Default Focus Mode were switches wired
+to nothing.** They saved to the profile and nothing in the app read them.
+
+- **High Contrast** now works. Most of the app colours its text with fixed
+  Tailwind shades rather than the theme tokens, so re-pointing tokens would
+  reach a fraction of it; instead `html[data-contrast='high']` applies
+  `filter: contrast(1.25)` to the root element — the one element a filter does
+  not turn into a containing block, so the header, toasts and portalled
+  dialogs keep their positions — and lifts the muted and dim text tokens.
+- **Default Focus Mode** now works, renamed "Open questions in Focus Mode":
+  each question the student opens enters Focus Mode. It is keyed on the
+  question, so turning it on does not throw them out of the view they are in,
+  and leaving Focus Mode stays left until they open another question.
+- **Auto-Save** is removed. Drafts save as you type whatever it said, so a
+  switch that appeared to stop saving was a promise about the one thing a
+  student cannot afford to lose that the app did not keep.
+
+**The average is a share of the marks on offer.** A band is capped by the
+question's command verb, so averaging bands across a mix of DESCRIBE and
+EVALUATE questions told a student earning full marks on DESCRIBE (capped at
+Band 2) that they were "averaging Band 2.0 — room to grow". The profile now
+keeps the mean share of each question's own marks (`markShareMean`,
+`markShareCount` on `UserStats`, updated in `applyEvaluation`), and the stats
+tile reads "Avg mark 90%" with a summary to match ("earning 90% of the marks
+on offer"). A profile from before the figure was kept starts it fresh rather
+than inventing a history, and shows the band average until its first new
+mark. The demo cohort derives the figure from its attempts.
+
+**Bug — Focus Mode's Marking Guide said a guide existed, and did not count
+as opened.** Focus Mode has no reference rail, so the workspace builds its own
+Marking Guide panel, and that copy had drifted from the rail's: it still read
+"Top level: Band 2" over an empty guide (PR #279 fixed only the rail), and it
+had no `supportId`. So a student who read the guide in Focus Mode was told in
+their report that they had written without opening it. It now says "Not
+written yet" / "Written to Band N" and records the opening.
+
+**Checked:** `npm run test:all` (new `focusModeMarkingGuide.test.tsx`, which
+fails without the fix; new cases in `progression.test.ts` and
+`userProfileModal.test.tsx`), `check:bundle` and `check:eager-chunks` after a
+build; Chromium e2e, 36 of 36 (workspace chrome, light theme, accessibility,
+evaluation flow, paywall, modal scroll, no-clipped-text); in the app, both settings switched on in
+both themes, a question opened into Focus Mode, and `data-contrast` applied.

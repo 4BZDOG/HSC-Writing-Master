@@ -590,9 +590,20 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const markingGuideCard = (
     <AccordionSection
       title="Marking Guide"
-      subtitle={`Top level: Band ${getBandForMark(currentPrompt.totalMarks, currentPrompt.totalMarks, getCommandTermInfo(currentPrompt.verb).tier)}`}
+      // The same panel as the reference rail's, and it has to say the same
+      // things. This copy — the one Focus Mode shows, with no rail to hold the
+      // other — still read "Top level: Band 2" over an empty guide, and it
+      // carried no `supportId`: a student who read the guide in Focus Mode was
+      // told in their report that they had written without opening it.
+      subtitle={
+        currentPrompt.markingCriteria?.trim()
+          ? `Written to Band ${getBandForMark(currentPrompt.totalMarks, currentPrompt.totalMarks, getCommandTermInfo(currentPrompt.verb).tier)}`
+          : 'Not written yet'
+      }
       icon={<ListChecks />}
       band={5}
+      resetKey={currentPrompt.id}
+      supportId="markingGuide"
     >
       <MarkingCriteriaManager
         prompt={currentPrompt}
