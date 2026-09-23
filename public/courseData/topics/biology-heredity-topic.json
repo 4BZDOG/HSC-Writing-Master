@@ -75,12 +75,10 @@
                 "transcription",
                 "translation",
                 "gene expression",
-                "therefore",
-                "consequently",
                 "interrelationship",
                 "mechanism",
                 "role",
-                "significance"
+                "practical investigation"
               ],
               "sampleAnswers": [
                 {
@@ -190,7 +188,8 @@
                 "Exons",
                 "Pre-mRNA",
                 "Spliceosome",
-                "Isoforms"
+                "Isoforms",
+                "alternative splicing"
               ],
               "markingCriteria": "-\n3\nmarks: Explains that pre-mRNA contains introns and exons, introns are removed, and exons can be combined in different combinations to create different mRNA transcripts. -\n2\nmarks: Mentions removal of introns and joining of exons. -\n1\nmark: States one gene can make different proteins.",
               "sampleAnswers": [
@@ -231,7 +230,9 @@
                 "Complementary",
                 "Transcription",
                 "Translation",
-                "Codon"
+                "Codon",
+                "DNA coding strand",
+                "amino acid sequence"
               ],
               "markingCriteria": "-\n3\nmarks: Correct mRNA (AUG CCG UAA) and correct Amino Acids (Met - Pro - Stop). -\n2\nmarks: Correct mRNA but error in translation, or vice versa. -\n1\nmark: Attempt at base pairing.",
               "sampleAnswers": [
@@ -283,12 +284,7 @@
                 "beta-pleated sheet",
                 "active site",
                 "denaturation",
-                "because",
-                "therefore",
-                "consequently",
-                "determines",
-                "influences",
-                "results in"
+                "proteins primary"
               ],
               "sampleAnswers": [
                 {
@@ -404,10 +400,7 @@
                 "cytoplasm",
                 "codons",
                 "anticodons",
-                "therefore",
-                "consequently",
-                "as a result",
-                "because"
+                "protein synthesis"
               ],
               "sampleAnswers": [
                 {
@@ -473,7 +466,8 @@
                 "Pigment",
                 "Aluminium ions",
                 "Gene expression",
-                "Phenotype"
+                "Phenotype",
+                "hydrangea flower colour"
               ],
               "markingCriteria": "-\n3\nmarks: Identifies pH as the environmental factor. Explains the mechanism (acidic soil = blue, alkaline = pink). Concludes phenotype is gene + environment. -\n2\nmarks: Explains pH affects colour but lacks assessment/conclusion. -\n1\nmark: States environment affects colour.",
               "sampleAnswers": [
@@ -513,11 +507,7 @@
                 "dependent variable",
                 "controlled variables",
                 "phenotype",
-                "genotype",
-                "because",
-                "therefore",
-                "resulting in",
-                "demonstrating"
+                "genotype"
               ],
               "sampleAnswers": [
                 {
@@ -579,9 +569,6 @@
                 "RNA interference",
                 "CRISPR-Cas",
                 "post-transcriptional regulation",
-                "therefore",
-                "furthermore",
-                "however",
                 "specifically"
               ],
               "sampleAnswers": [
@@ -638,7 +625,6 @@
                 "BI-12WS-07"
               ],
               "keywords": [
-                "Assess",
                 "epigenetic changes",
                 "phenotype",
                 "Glucocorticoid receptor (GR) gene",
@@ -648,11 +634,7 @@
                 "gene expression",
                 "environmental factors",
                 "heritable characteristics",
-                "consequently",
-                "impact",
-                "significance",
-                "therefore",
-                "influence"
+                "changes influence"
               ],
               "sampleAnswers": [
                 {
@@ -709,9 +691,7 @@
                 "enzymes",
                 "cellular function",
                 "metabolic pathways",
-                "structural components",
-                "therefore",
-                "primarily"
+                "structural components"
               ],
               "sampleAnswers": [
                 {
@@ -840,7 +820,8 @@
                 "Homologous chromosomes",
                 "Recombinant",
                 "Alleles",
-                "Locus"
+                "Locus",
+                "genetic variation"
               ],
               "markingCriteria": "-\n3\nmarks: Identifies Prophase 1 of meiosis. Explains exchange of genetic material between homologous chromosomes. States result: new combinations of alleles (recombinant chromatids). -\n2\nmarks: Describes swapping of genes. -\n1\nmark: General statement about mixing DNA.",
               "sampleAnswers": [
@@ -877,7 +858,8 @@
                 "Homologous chromosomes",
                 "Gametes",
                 "Separation",
-                "Independent"
+                "Independent",
+                "random segregation"
               ],
               "markingCriteria": "-\n3\nmarks: Segregation: separation of allele pairs (homologous chromosomes) into different gametes. Assortment: separation of *different* gene pairs independently of one another. Clearly distinguishes the scope (single pair vs multiple pairs). -\n2\nmarks: Defines both but distinction is blurry. -\n1\nmark: Definitions only.",
               "sampleAnswers": [
@@ -1047,17 +1029,16 @@
                 "autosomes",
                 "X chromosome",
                 "hemizygous",
-                "because",
-                "consequently",
                 "whereas",
-                "distinct"
+                "distinct",
+                "ratios observed"
               ],
               "sampleAnswers": [
                 {
                   "id": "sa-c832e439-1d59-4ec7-973e-d417afddf46f",
                   "answer": "Sex-linked genes are on X chromosomes, autosomal on autosomes. Males are hemizygous for X-linked traits, causing distinct genotype and phenotype ratios.",
                   "mark": 2,
-                  "band": 2
+                  "band": 3
                 }
               ],
               "question": "Explain the genetic basis for the differences in genotype and phenotype ratios observed in Punnett squares when comparing sex-linked and autosomal inheritance.",
@@ -1088,7 +1069,7 @@
               ],
               "id": "prompt-1d991b45-fb55-4f90-9be5-f5c1763fe867",
               "totalMarks": 2,
-              "verb": "DEFINE"
+              "verb": "EXPLAIN"
             }
           ]
         },
@@ -1206,12 +1187,7 @@
                 "insertion",
                 "deletion",
                 "active site",
-                "denaturation",
-                "consequently",
-                "resulting in",
-                "leading to",
-                "because",
-                "therefore"
+                "denaturation"
               ],
               "sampleAnswers": [
                 {
@@ -1272,9 +1248,7 @@
                 "DNA replication",
                 "genetic code",
                 "fundamentally differs",
-                "whereas",
-                "consequently",
-                "resulting in"
+                "whereas"
               ],
               "sampleAnswers": [
                 {
@@ -1428,11 +1402,9 @@
                 "mechanism",
                 "consequence",
                 "implication",
-                "similarly",
                 "whereas",
                 "in contrast",
                 "both",
-                "however",
                 "differentiation"
               ],
               "sampleAnswers": [
@@ -1497,12 +1469,9 @@
                 "Trisomy 21",
                 "Gamete",
                 "Zygote",
-                "Consequently",
-                "Therefore",
-                "Leading to",
-                "As a result",
                 "Specifically",
-                "In contrast"
+                "In contrast",
+                "chromosomes"
               ],
               "sampleAnswers": [
                 {
@@ -1612,7 +1581,8 @@
                 "Marker",
                 "Association",
                 "Genome-wide association study (GWAS)",
-                "Frequency"
+                "Frequency",
+                "single nucleotide polymorphisms"
               ],
               "markingCriteria": "-\n3\nmarks: Defines SNP (single base variation). Explains association (frequency difference in diseased vs healthy groups). Explains utility (predictive marker/GWAS). -\n2\nmarks: Defines SNP and mentions disease link. -\n1\nmark: General statement about DNA differences.",
               "sampleAnswers": [
@@ -1657,12 +1627,7 @@
                 "polygenic traits",
                 "population bias",
                 "bioinformatics",
-                "however",
-                "consequently",
-                "furthermore",
                 "despite",
-                "therefore",
-                "significantly",
                 "critical consideration",
                 "overall judgement"
               ],

@@ -25,6 +25,13 @@
 //     tier). The band is not a fact of its own; it is the mark read through the
 //     Verb Gate, and a stored copy that disagrees has drifted.
 //
+//   • A topic file that repeats a topic already in a course file (same topic
+//     id) is rewritten as an exact copy of it. The course file is the one the
+//     seed uploads and the one the library repairs have been run over; the
+//     app merges a ticked topic file OVER the course's topic, imported fields
+//     winning, so a stale copy quietly undid those repairs for every teacher
+//     who added the course.
+//
 // `tests/unit/seedSampleBands.test.ts` fails CI when a shipped file disagrees.
 // =============================================================================
 
@@ -46,6 +53,11 @@ const files: { path: string; kind: 'courses' | 'topic' }[] = [
     .filter((f) => f.endsWith('.json'))
     .map((f) => ({ path: join(dataDir, 'topics', f), kind: 'topic' as const })),
 ];
+
+// Course files first, so a topic file can be compared with the topic it repeats.
+files.sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'courses' ? -1 : 1));
+const courseTopics = new Map<string, Topic>();
+const topicsCopied: string[] = [];
 
 let bandsFixed = 0;
 const marksFixed: string[] = [];
@@ -97,8 +109,19 @@ for (const file of files) {
     )
   );
 
+  if (file.kind === 'courses')
+    repaired.forEach((course) => course.topics.forEach((t) => courseTopics.set(t.id, t)));
+
+  const canonical = file.kind === 'topic' ? courseTopics.get(repaired[0].topics[0].id) : undefined;
+  if (canonical && JSON.stringify(canonical) !== JSON.stringify(repaired[0].topics[0]))
+    topicsCopied.push(`${file.path.slice(dataDir.length + 1)} ← its topic in the course file`);
+
   const out =
-    file.kind === 'topic' ? repaired[0].topics[0] : Array.isArray(parsed) ? repaired : repaired[0];
+    file.kind === 'topic'
+      ? (canonical ?? repaired[0].topics[0])
+      : Array.isArray(parsed)
+        ? repaired
+        : repaired[0];
   const next = JSON.stringify(out, null, 2) + (raw.endsWith('\n') ? '\n' : '');
   if (next !== raw) {
     filesChanged++;
@@ -110,8 +133,10 @@ console.log(
   `${check ? 'Would change' : 'Changed'} ${filesChanged} of ${files.length} files: ` +
     `${marksFixed.length} sample-answer marks made whole, ` +
     `${bandsFixed} sample-answer bands re-derived from their marks, ` +
-    `${inferredVerbs.length} command verbs inferred.`
+    `${inferredVerbs.length} command verbs inferred, ` +
+    `${topicsCopied.length} topic files brought into line with their course.`
 );
+for (const line of topicsCopied) console.log('  ' + line);
 if (marksFixed.length) {
   console.log('\nMarks made whole — a half mark is rounded down; re-mark any that deserve more:');
   for (const line of marksFixed) console.log('  ' + line);

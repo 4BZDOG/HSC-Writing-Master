@@ -738,3 +738,40 @@ each benchmark. The line is now left out when a sample has no notes.
 
 **Checked:** `npm run test:all` (2690), `npm run content:check` clean,
 `format:check`.
+
+## PR #287 — One copy of each topic, and no template in the shared library
+
+Before this change I checked what `supabase/seed.mjs` would put in a fresh
+database: ids, column types, and which manifest entries it reads. The ids are
+clean: no duplicates and none missing across 418 questions and 821 samples.
+Two things were not.
+
+**Bug — the topic files undid the library repairs.** The manifest's two topic
+files (Heredity, which is ticked by default, and Secure Software Architecture)
+repeat topics that are already in their course files, with the same ids. When
+a teacher adds the course, the app merges the ticked topic file over the
+course's own topic, and the imported fields win. The copies had drifted:
+
+- "Explain the genetic basis for the differences in genotype and phenotype
+  ratios…" became **DEFINE**, a lower tier with a lower band ceiling;
+- two "Analyse the role of…" Software Engineering questions became **APPLY**;
+- 123 keywords that the term repairs (#223, #226) had removed from the course
+  files came back, including connectives such as "therefore".
+
+The course file is canonical, because it is what the seed uploads and what the
+repairs have been run over. `npm run content:canonicalise` now rewrites a
+topic file that repeats a course topic as an exact copy of it, and a new test
+in `seedSampleBands.test.ts` fails when the two drift apart (it fails against
+the old files).
+
+**Bug — the seed published the example template as a real course.**
+`templateCourseData.json` ("My Example Course (Template)", with "Example
+Topic 1") is a format example for teachers writing their own imports. The seed
+uploaded it with `status: 'approved'`, so it appeared in every student's
+library. The seed now skips it. **If you have already seeded, delete that
+course row by hand** (legacy id `course-template-01`); its topics, questions
+and samples cascade. The seed also notes why topic entries are not uploaded:
+the course file already carries them.
+
+**Checked:** `npm run test:all` (2691), `npm run content:check` clean,
+`format:check`.

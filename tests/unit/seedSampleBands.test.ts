@@ -166,3 +166,30 @@ describe('every shipped question names its command verb', () => {
     ).toEqual([]);
   });
 });
+
+/**
+ * The two topic files repeat topics that are already in their course files, and
+ * the app merges a ticked topic file OVER the course's topic with the imported
+ * fields winning. The copies had drifted: an "Explain…" question tagged DEFINE,
+ * two "Analyse…" questions tagged APPLY, and 79 keywords the library repair had
+ * removed — all restored for every teacher who added HSC Biology or Software
+ * Engineering. The course file is canonical (it is what the seed uploads).
+ */
+describe('a topic file that repeats a course topic is an exact copy of it', () => {
+  it('matches the topic of the same id in its course file', () => {
+    const courseTopics = new Map<string, Topic>();
+    const topicFiles: { file: string; topic: Topic }[] = [];
+    for (const { file, courses } of shippedCourses().slice(1))
+      for (const course of courses)
+        for (const topic of course.topics ?? [])
+          if (file.startsWith('topics/')) topicFiles.push({ file, topic });
+          else courseTopics.set(topic.id, topic);
+
+    const repeated = topicFiles.filter(({ topic }) => courseTopics.has(topic.id));
+    expect(repeated.length).toBeGreaterThan(0);
+    for (const { file, topic } of repeated)
+      expect(topic, `${file}: run \`npm run content:canonicalise\``).toEqual(
+        courseTopics.get(topic.id)
+      );
+  });
+});

@@ -200,7 +200,14 @@ async function importCourse(course, subject) {
 async function main() {
   const manifestRaw = await readFile(join(COURSE_DATA_DIR, 'manifest.json'), 'utf8');
   const manifest = JSON.parse(manifestRaw);
-  const courseEntries = arr(manifest.entries).filter((e) => e.type === 'course');
+  // `templateCourseData.json` ("My Example Course (Template)") is a file format
+  // example for teachers writing their own imports, not curriculum: seeded as
+  // approved content it sat in every student's library. Topic entries are not
+  // seeded either — each repeats a topic already in its course file (the
+  // canonicaliser keeps them identical), so the course file carries it.
+  const courseEntries = arr(manifest.entries).filter(
+    (e) => e.type === 'course' && e.file !== 'templateCourseData.json'
+  );
 
   console.log(`Seeding ${courseEntries.length} course file(s) from courseData/…\n`);
 
