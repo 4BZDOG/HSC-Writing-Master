@@ -517,7 +517,7 @@ modal scroll); the phone journey captured
 before and after in both themes; the editor bar measured at 320, 360, 390
 and 430px.
 
-## PR 11 — Settings that do what they say, and an average that is fair to every question
+## PR #283 — Settings that do what they say, and an average that is fair to every question
 
 The profile is what a student opens to see how they are going. Three of its
 four settings did nothing, and its headline average told students who were
