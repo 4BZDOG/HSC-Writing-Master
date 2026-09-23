@@ -775,3 +775,38 @@ the course file already carries them.
 
 **Checked:** `npm run test:all` (2691), `npm run content:check` clean,
 `format:check`.
+
+## PR #288 — The authoring brief asks for the Software Engineering standard
+
+Most of the shipped courses are due to be regenerated in bulk with an external
+tool, with HSC Software Engineering as the reference. The brief that tool will
+be given already existed, in three forms: the rules every export carries
+(`utils/llmSeedBrief.ts`), the **Download Template** file in Data Vault →
+Import, and the prose version in `docs/dataset-generation-prompt.md`. Measured
+against Software Engineering and against this week's checks, it fell short:
+
+- **No marker notes or common errors.** Software Engineering has them on most
+  questions, and the marker reads the notes, but neither field was mentioned
+  or shown. The brief now defines both and the template includes them.
+- **Guides above 6 marks had no fixed rows.** "Band-range lines" let a model
+  pick its own ranges (the doc's own 8-mark example, 8 / 6-7 / 4-5 / 2-3 / 1,
+  is right for no tier). The brief now lists the exact rows for every tier
+  and mark value, **printed from `bandMarkRanges`** — the ladder PR #285
+  enforces — so it cannot drift. A test writes a guide from every listed row
+  set and runs it through the app's ladder check. It also says not to write
+  additive guides ("Makes a judgement (1 mark) • …"), which the studio flags.
+- **One exemplar per question was acceptable.** The brief now asks for three
+  answers per question at full, middle and bottom marks, the way Software
+  Engineering is written, so the marker has something to compare a weaker
+  answer with. The template shows the three answers.
+- **Marks and bands.** Marks must be whole numbers (PR #286), and `band` is
+  not written, because the app works it out.
+- **Depth.** 2-4 questions per dot point on different verbs and marks, and
+  scenarios on most questions.
+
+The prose doc says Software Engineering is the reference to export and hand
+to the model, and gains a **Seeding the shared library** section: file and
+manifest, ids, `content:canonicalise` / `content:check`, tests, then
+`seed.mjs`.
+
+**Checked:** `npm run test:all` (2692), `format:check`.

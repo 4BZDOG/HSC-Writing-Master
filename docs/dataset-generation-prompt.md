@@ -24,7 +24,17 @@ Why this prompt is shaped the way it is:
 - **Dot points that end in `including a, b and c`** get those items parsed as
   toggleable *focus areas* in the navigator and the question generator.
 - **Marking criteria are line-based** (`N marks: …` / `N–M marks: …`), which
-  the marking accordion parses; bullet points and paragraphs are not.
+  the marking accordion parses; bullet points and paragraphs are not. Above 6
+  marks the rows are fixed by the verb's tier — the table below is printed
+  from the app's own ladder, and the downloaded template carries the full set.
+- **Every question gets a ladder of answers** (full, middle, bottom). The
+  marker is calibrated against them; one full-mark exemplar gives it nothing
+  to compare a weaker answer with.
+
+**The reference standard is HSC Software Engineering** — 2-4 questions per dot
+point across 2-12 marks, a full/middle/bottom sample ladder, marker notes and
+common student errors on most questions. When in doubt, export that course
+and hand it to the model as the example.
 
 ---
 
@@ -35,7 +45,7 @@ markdown fences, no commentary.
 
 SUBJECT: <<e.g. HSC Software Engineering>>
 TOPICS TO COVER: <<e.g. Programming for the web; Secure software architecture>>
-DEPTH: <<e.g. 2 sub-topics per topic, 3 dot points per sub-topic, 2 questions per dot point, 2 sample answers per question>>
+DEPTH: <<e.g. 2 sub-topics per topic, 3 dot points per sub-topic, 3 questions per dot point, 3 sample answers per question>>
 
 LANGUAGE: British/Australian English throughout (analyse, colour, organisation,
 programme). No American spellings anywhere, including inside sample answers.
@@ -65,9 +75,11 @@ OUTPUT SHAPE (exactly this structure; omit all id fields — the app generates t
                   "markingCriteria": "<see MARKING CRITERIA RULES>",
                   "keywords": ["<5-10 technical terms>"],
                   "linkedOutcomes": ["<outcome codes from the outcomes array>"],
+                  "markerNotes": ["<2-4 notes — see MARKER NOTES>"],
+                  "commonStudentErrors": ["<2-4 mistakes — see COMMON ERRORS>"],
                   "sampleAnswers": [
                     {
-                      "mark": <integer ≤ totalMarks>,
+                      "mark": <whole number, 0 to totalMarks — no "band" field>,
                       "answer": "<the full sample response>",
                       "source": "AI",
                       "feedback": "<2-3 sentences of marker commentary>"
@@ -96,11 +108,11 @@ QUESTION RULES
   requires a judgement against criteria, not a description.
 - "verb" MUST be one of the canonical verbs below, in UPPERCASE, exactly.
 - "totalMarks" MUST be an integer within the verb's typical range below.
-- Mix mark values across the dataset: mostly 3-6 mark questions, with some
-  1-2 mark recall questions and at least one 8+ mark extended response per
-  topic using a Tier 5-6 verb.
-- "scenario": give roughly half the questions a realistic industry/context
-  paragraph (who, what, why — 2-4 sentences). Use "" for direct questions.
+- Write 2-4 questions per dot point, each on a different verb and mark value.
+  Across a topic: mostly 3-6 mark questions, some 2-mark recall questions and
+  at least one 7+ mark extended response using a Tier 5-6 verb.
+- "scenario": give most questions a realistic industry/context paragraph
+  (who, what, why — 2-4 sentences) the answer has to use. Use "" otherwise.
 - "linkedOutcomes" must reference 1-3 codes that exist in the outcomes array.
 
 VERB LIST (verb — typical marks)
@@ -117,12 +129,34 @@ MARKING CRITERIA RULES
 - Questions of 6 marks or fewer: one line PER mark value, descending, no
   ranges. Example for 4 marks:
   "4 marks: Provides a detailed description of X including A and B, using specific terminology\n3 marks: Describes X with some specific detail\n2 marks: Outlines basic features of X\n1 mark: Identifies a relevant feature of X"
-- Questions above 6 marks: band-range lines, descending, discriminated by
-  QUALITY OF THINKING, not length. The top range must demand the verb's full
-  cognitive level (judgement/relationships/synthesis); middle ranges show
-  sound knowledge a step below the verb (describes where it should analyse);
-  the lowest range is fragmentary. Example for 8 marks:
-  "8 marks: Makes a sustained, criteria-based judgement …\n6-7 marks: Thorough knowledge with an inconsistent line of argument …\n4-5 marks: Sound knowledge that describes rather than evaluates …\n2-3 marks: Basic statements with general terminology\n1 mark: Minimal relevant response"
+- Questions above 6 marks: EXACTLY these rows for the verb's tier, top first,
+  discriminated by QUALITY OF THINKING, not length. The top row must demand
+  the verb's full cognitive level; middle rows show sound knowledge a step
+  below the verb (describes where it should analyse); the lowest is
+  fragmentary.
+    Tier 4, 7 marks:  6-7 / 4-5 / 2-3 / 1
+    Tier 4, 8 marks:  7-8 / 5-6 / 3-4 / 1-2
+    Tier 5, 8 marks:  7-8 / 5-6 / 4 / 2-3 / 1
+    Tier 5, 10 marks: 9-10 / 7-8 / 5-6 / 3-4 / 1-2
+    Tier 6, 8 marks:  7-8 / 6 / 5 / 3-4 / 2 / 1
+    Tier 6, 10 marks: 9-10 / 7-8 / 6 / 4-5 / 2-3 / 1
+    Tier 6, 12 marks: 11-12 / 9-10 / 7-8 / 5-6 / 3-4 / 1-2
+  (The downloaded template lists every tier and mark value.) Example for a
+  Tier 6 verb at 8 marks:
+  "7-8 marks: Makes a sustained, criteria-based judgement …\n6 marks: …\n5 marks: …\n3-4 marks: Sound knowledge that describes rather than evaluates …\n2 marks: Basic statements with general terminology\n1 mark: Minimal relevant response"
+- Describe a whole answer at each mark, never components that add up
+  ("Makes a judgement (1 mark) • Applies criterion A (2 marks)"). The app
+  flags that layout as non-standard.
+
+MARKER NOTES
+- "markerNotes": 2-4 short notes in a marker's register on what separates a
+  strong answer to THIS question. The marker reads them after the criteria;
+  they refine it and never add marks the criteria do not award.
+
+COMMON ERRORS
+- "commonStudentErrors": 2-4 specific mistakes students make on THIS question,
+  written as the mistake itself ("Describing both approaches without judging
+  their effectiveness"). Students see them as things to avoid.
 
 SYLLABUS TERM RULES
 - "keywords" are the syllabus terminology a full-mark answer must use. Order
@@ -138,10 +172,11 @@ SYLLABUS TERM RULES
   "important"), no connectives ("therefore", "however").
 
 SAMPLE ANSWER RULES
-- For each question provide the requested number of sample answers at
-  DIFFERENT mark values: always include one full-mark exemplar, plus at least
-  one clearly weaker response (roughly half marks) whose flaws match the
-  marking criteria for that mark.
+- For each question write three answers at DIFFERENT mark values: full
+  marks, the middle and the bottom (5-mark question: 5, 3 and 1; 2-mark
+  question: 2 and 1), each with flaws that match that mark's criteria line.
+- "mark" is a whole number from 0 to totalMarks — never a half mark. Do not
+  write "band"; the app derives it from the mark and the verb.
 - The full-mark exemplar must use EVERY must-use term from that question's
   keywords, each doing real work in a sentence rather than listed. A lower-mark
   answer uses proportionally fewer, taking must-use terms before supporting
@@ -167,6 +202,24 @@ QUALITY BAR
 ---
 
 ## After generating
+
+### Seeding the shared library (admin)
+
+1. Save each course as a JSON array of courses in `public/courseData/` and list
+   it in `public/courseData/manifest.json` as `{ "file": …, "type": "course",
+   "subject": … }`. Give every item an `id` (the seed matches existing rows by
+   it, so a re-seed updates rather than duplicates); keep the ids of anything
+   that already exists. A file straight from the model has no ids — import it
+   through **Data Vault → Import** and export it again, and the export has them.
+2. `npm run content:canonicalise` — applies the app's import rules (verbs,
+   whole marks, derived bands, topic files matched to their course) and lists
+   anything it had to guess. Then `npm run content:check` must report nothing.
+3. `npm test` — the seed-content tests fail on anything the canonicaliser could
+   not fix.
+4. `node supabase/seed.mjs` (see its header for the environment it needs).
+   Topic entries in the manifest are not seeded; the course file carries them.
+
+### Importing into one workspace
 
 1. Save the model's output as a `.json` file.
 2. In the app: **Data Vault → Import**, choose the file, review the preview
