@@ -108,3 +108,69 @@ only live deployment.
 `appHeaderChrome.test.tsx` and `feedbackSummaryChrome.test.tsx`), Chromium e2e
 for report column, workspace chrome, accessibility and the evaluation flow, and
 screenshots of the header and open tools menu at 320, 360 and 1280px.
+
+## PR 4 — AI waits that draw the work, teach something, and tell the truth about time
+
+The brief: make the AI loading spinners and the glowing background more
+elegant, detailed, varied, engaging, informative and whimsical.
+
+**What was there.** Every AI wait showed the same three rings (a ping, a dashed
+orbit, a spinning arc) around an icon, a checklist of invented pipeline steps
+("Optimising heuristic constraints…", "Verifying output integrity…"), a bar
+that crept to 98% and sat there, and the task type in monospace. The marking
+wait rotated made-up hints ("Calibrating with benchmarks…") over the real
+progress events after five seconds. The background was four circles on one
+10-second keyframe, two seconds apart, so the whole sky lurched the same way
+every ten seconds.
+
+**The drawing (`components/AiWaitGlyph.tsx`)** — each task draws its own work:
+
+- *Marking*: the band ladder, the app's own mark, with a marker's caret hopping
+  between bands on a random walk that leans to the middle, weighing where the
+  response sits.
+- *Writing*: handwriting on ruled exam paper with a red margin. Each page is a
+  new generated scribble (humps, loops, tall strokes, descenders, slanted),
+  written word by word.
+- *Reading*: lines of text with a highlighter picking out different words each
+  pass.
+- *Anything else*: the ladder lighting up band by band.
+
+Randomness only picks shapes; the motion is CSS (transform and dash-offset).
+Under reduced motion nothing ticks and each glyph shows its finished drawing.
+
+**The card (`components/LoadingIndicator.tsx`)**
+
+- Steps in plain words ("Checking what the command verb asks for", "Weighing up
+  a band"), drawn as a short timeline, with the current step given to screen
+  readers once rather than the whole list read out on every change.
+- An honest clock: elapsed time; "usually about Ns" only when the caller gave
+  an estimate; past it, "Taking longer than usual. Still working." and an
+  indeterminate bar, instead of a bar parked at 98%.
+- A note about HSC writing (`utils/waitTips.ts`), chosen for who is waiting —
+  command-verb advice for a student waiting on a mark, question-design advice
+  for a teacher generating one — set as a marker's margin comment in Newsreader
+  italic. It rotates every nine seconds, starts at a random note, and sits
+  outside the live region so it is never announced on its own clock.
+- "Working with {engine}" in a sentence, not the task type in monospace.
+- Errors read "The AI request did not finish" and the reason, not "System
+  Interruption".
+
+**The marking wait (`components/EvaluationProgressBar.tsx`)** — the same
+ladder and notes, but its status line is the real event stream: it says when it
+is retrying or which model it has switched to, and no longer paints invented
+hints over those states.
+
+**The aurora (`components/AmbientAurora.tsx`, `index.css`)** — five orbs in
+the band palette's cool end (with one low Band 4 emerald), each on its own path
+and its own long clock (29–61s) from a random starting point, turned and
+stretched unevenly so they bloom rather than slide. Orbs are radial gradients,
+not blurred circles: at these sizes an 80–130px `filter: blur` is rasterised in
+tiles, which showed as hard vertical seams. The sign-in backdrop uses the same
+component. While any AI wait is on screen the aurora leans in — brighter and a
+little closer — via `body.ai-busy` (`utils/aiBusySignal.ts`, reference counted
+so overlapping waits end in either order).
+
+**Checked:** `npm run test:all`, new `aiWaitCard.test.tsx` and
+`ambientAurora.test.tsx`; Chromium e2e for the evaluation flow, accessibility,
+light theme and quota specs; screenshots of every glyph in both themes, under
+reduced motion, and of the aurora idle and busy.
