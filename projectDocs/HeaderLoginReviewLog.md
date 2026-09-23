@@ -174,3 +174,61 @@ so overlapping waits end in either order).
 `ambientAurora.test.tsx`; Chromium e2e for the evaluation flow, accessibility,
 light theme and quota specs; screenshots of every glyph in both themes, under
 reduced motion, and of the aurora idle and busy.
+
+## PR 5 — Let the answered steps of the syllabus navigator step back
+
+The brief: improve the syllabus navigator's design, styling and polish, in the
+same way as the header, sign-in and AI waits.
+
+**What was there.** Each answered step of the navigator (course, year, topic,
+sub-topic, syllabus point) was a tinted card holding a tinted control — five of
+them, blue, purple, teal, pink, amber — so once three or four steps were
+answered they were the loudest thing on screen and the one step still open had
+to shout over them. A chosen step showed only its answer, so a stack of answers
+did not say which question each one answered. The only count anywhere was
+questions per sub-topic. The folded bar scrolled its path to the end, which at
+1280px cut the course name to "logy (Advanced)" with nothing to say more was
+there.
+
+**Answered steps step back**
+
+- `Combobox` gains `appearance="quiet"`: a chosen value sits on a neutral
+  surface, and the level's hue stays on the option's own tile and on the open
+  state. Other pickers in the app are unchanged (default `filled`).
+- An answered step is a single row — no card around the control.
+- Each chosen row carries a small caption naming its level (Course, Topic,
+  Sub-topic, Syllabus point, Question), from `sm` up.
+- The question row keeps its tier colour: that colour means the question's
+  cognitive tier.
+- The open step loses its `scale-[1.01]`, which resampled its text.
+
+**One source for level colour** — `LEVEL_TILE` in `utils/levelColors.ts`
+supplies every level tile. The sub-topic tile had been hand-written indigo
+while the picker, the rail and `levelColors` all said teal.
+
+**Counts that help choose**
+
+- Topics show how many sub-topics they hold.
+- Sub-topics and syllabus points show how many questions they hold, and say
+  "No questions yet" rather than nothing (an earlier test pinned the silence;
+  it now pins the sentence, with the reason).
+- Counts use the muted voice. The focus-area count was emerald, which is the
+  rail's "done" colour and nothing else.
+- A chosen syllabus point shows its statement alone (`renderSelected`), since
+  the question step directly below counts its own questions, and ends in an
+  ellipsis instead of running under the chevron on a phone.
+
+**The folded bar** — from `sm` up, crumbs shrink to fit (each truncated with
+its full name in the title, the deepest giving way last) instead of scrolling;
+on a phone they keep their width and scroll to the deepest, as before. Either
+way the path fades at whichever edge still overflows.
+
+**Words** — "Collapse to breadcrumb" (the mechanism) is "Hide navigator";
+the open step's "Syllabus Content" is "Syllabus point", as its caption and the
+breadcrumb call it.
+
+**Checked:** `npm run test:all` (new `navigatorPolish.test.tsx`, additions to
+`levelColors.test.ts`, one updated assertion in `syllabusYear.test.tsx`);
+Chromium e2e for workspace chrome, light theme, accessibility, verb ribbon and
+no-clipped-text (22 of 22); screenshots of every step, open and closed, in both
+themes at 1280px and at 390px.
