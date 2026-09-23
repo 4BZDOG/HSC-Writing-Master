@@ -40,6 +40,7 @@ import {
 import { generateId } from '../utils/idUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
+import { guideLadderProblem } from '../utils/markingGuideLadder';
 import {
   formatMarkingCriteria,
   normalizeSyllabusStructure,
@@ -1385,7 +1386,28 @@ export const refineManualPrompt = async (
     isPastHSC: false,
   };
 
-  return newPrompt;
+  return withLadderGuide(newPrompt);
+};
+
+/**
+ * A new question's marking guide, held to the same ladder as one written on
+ * its own (`enforceGuideLadder`).
+ *
+ * The question generators ask for the guide in the same call as the question,
+ * and saved whatever came back. A guide that misses the ladder is rewritten
+ * by `generateRubricForPrompt`, which checks and retries; if that fails too the
+ * question is kept with no guide — which the Content Audit Studio lists as
+ * needing one — rather than with a wrong one the marker would be handed.
+ */
+const withLadderGuide = async (prompt: Prompt): Promise<Prompt> => {
+  const tier = getCommandTermInfo(prompt.verb).tier;
+  if (!prompt.markingCriteria?.trim()) return prompt;
+  if (!guideLadderProblem(prompt.markingCriteria, prompt.totalMarks, tier)) return prompt;
+  try {
+    return { ...prompt, markingCriteria: await generateRubricForPrompt(prompt, []) };
+  } catch {
+    return { ...prompt, markingCriteria: '' };
+  }
 };
 
 export const generateNewPrompt = async (
@@ -1503,7 +1525,7 @@ export const generateNewPrompt = async (
   const modelVerb = (data.verb || '').trim().toUpperCase() as PromptVerb;
   const verb = allowedVerbs.has(modelVerb) ? modelVerb : (primaryVerb ?? modelVerb);
 
-  return {
+  return withLadderGuide({
     id: generateId('prompt'),
     question: data.question,
     totalMarks: marks,
@@ -1515,7 +1537,7 @@ export const generateNewPrompt = async (
     linkedOutcomes: data.linkedOutcomes || [],
     sampleAnswers: [],
     isPastHSC: false,
-  };
+  });
 };
 
 export const generateSampleAnswer = async (
@@ -2056,7 +2078,52 @@ export const generateRubricForPrompt = async (
   const response = await generateContentWithRetry(request);
   // Free-text response (no JSON schema to lean on), so the ladder has to be
   // repaired here or the teacher gets one undifferentiated block in the editor.
-  return formatMarkingCriteria(response.text || '');
+  return enforceGuideLadder(
+    request,
+    formatMarkingCriteria(response.text || ''),
+    prompt,
+    termInfo.tier
+  );
+};
+
+/**
+ * Read a generated marking guide before it is saved.
+ *
+ * The brief asks for an exact ladder (see `utils/markingGuideLadder`), and a
+ * guide that came back starting below full marks, skipping a mark or climbing
+ * was saved as it was — as the rubric every later answer is marked against.
+ * One retry, naming what was wrong; a second miss is refused rather than
+ * saved, and the message says so.
+ */
+const enforceGuideLadder = async (
+  request: { contents: { parts: { text: string }[] } },
+  guide: string,
+  prompt: Prompt,
+  tier: number
+): Promise<string> => {
+  const problem = guideLadderProblem(guide, prompt.totalMarks, tier);
+  if (!problem) return guide;
+  const retry = {
+    ...request,
+    contents: {
+      parts: [
+        {
+          text:
+            request.contents.parts[0].text +
+            `\n\nYOUR PREVIOUS MARKING GUIDE WAS REJECTED: ${problem}. ` +
+            `Write it again with exactly those rows, in that order, one per line.`,
+        },
+      ],
+    },
+  };
+  const second = formatMarkingCriteria((await generateContentWithRetry(retry)).text || '');
+  const stillWrong = guideLadderProblem(second, prompt.totalMarks, tier);
+  if (stillWrong) {
+    throw new Error(
+      `The marking guide the AI wrote did not follow the ${prompt.totalMarks}-mark ladder (${stillWrong}). Nothing was saved — try again.`
+    );
+  }
+  return second;
 };
 
 /**
@@ -2097,7 +2164,12 @@ VERB: ${prompt.verb} (Cognitive Tier: ${termInfo.tier})
     },
   };
   const response = await generateContentWithRetry(request);
-  return formatMarkingCriteria(response.text || '');
+  return enforceGuideLadder(
+    request,
+    formatMarkingCriteria(response.text || ''),
+    prompt,
+    termInfo.tier
+  );
 };
 
 /**

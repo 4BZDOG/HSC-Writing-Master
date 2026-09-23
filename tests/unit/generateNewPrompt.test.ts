@@ -223,3 +223,62 @@ describe('generateNewPrompt extended-response rubrics', () => {
     expect(sent).not.toContain('band-aligned mark ranges');
   });
 });
+
+/**
+ * The guide a question is generated with is the rubric every answer to it is
+ * marked against, and it used to be saved unread. It is now held to the same
+ * ladder as a guide written on its own.
+ */
+describe('the marking guide a new question comes with', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+  const text = (t: string) =>
+    ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        text: t,
+        candidates: [{ finishReason: 'STOP' }],
+        usageMetadata: { totalTokenCount: 50 },
+      }),
+    }) as unknown as Response;
+  const question = (markingCriteria: string) =>
+    makeProxyResponse({
+      question: 'Describe X.',
+      verb: 'Describe',
+      scenario: '',
+      markingCriteria,
+      keywords: ['x'],
+      linkedOutcomes: [],
+    });
+  const LADDER = '4 marks: a\n3 marks: b\n2 marks: c\n1 mark: d';
+
+  beforeEach(() => {
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+  });
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('keeps a guide that follows the ladder, with no extra call', async () => {
+    fetchMock.mockResolvedValueOnce(question(LADDER));
+    const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    expect(prompt.markingCriteria).toMatch(/^4 marks: a/);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('rewrites a guide that misses the ladder', async () => {
+    fetchMock
+      .mockResolvedValueOnce(question('2 marks: a\n1 mark: b'))
+      .mockResolvedValue(text(LADDER));
+    const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    expect(prompt.markingCriteria).toMatch(/^4 marks: a/);
+  });
+
+  it('keeps the question with no guide rather than a wrong one', async () => {
+    fetchMock
+      .mockResolvedValueOnce(question('2 marks: a\n1 mark: b'))
+      .mockResolvedValue(text('2 marks: a'));
+    const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
+    expect(prompt.question).toBe('Describe X.');
+    expect(prompt.markingCriteria).toBe('');
+  });
+});
