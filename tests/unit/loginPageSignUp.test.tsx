@@ -50,6 +50,18 @@ describe('LoginPage sign-up', () => {
     expect(screen.getByRole('button', { name: /create one/i })).toBeTruthy();
   });
 
+  it('moves focus to the sign-up heading on switching', async () => {
+    // Swapping the form's fields under someone's cursor used to be silent to a
+    // screen reader: "Create one" was pressed and nothing said what was there.
+    const user = userEvent.setup();
+    render(<LoginPage onLogin={onLogin} />);
+    await openSignUp(user);
+
+    expect(document.activeElement).toBe(
+      screen.getByRole('heading', { name: /create your account/i })
+    );
+  });
+
   it('reveals the sign-up fields on switching', async () => {
     const user = userEvent.setup();
     render(<LoginPage onLogin={onLogin} />);

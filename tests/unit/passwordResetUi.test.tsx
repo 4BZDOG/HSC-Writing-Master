@@ -147,6 +147,20 @@ describe('setting the new password', () => {
     expect(completePasswordResetMock).not.toHaveBeenCalled();
   });
 
+  it('ties the error to its field, so a screen reader hears why', async () => {
+    // The reset screen had its own field component, and it had lost this: a
+    // rejected password was marked red and nothing else.
+    const user = userEvent.setup();
+    render(<ResetPasswordPage onComplete={onComplete} onCancel={onCancel} />);
+    await fill(user, 'correct-horse', 'different-horse');
+
+    const confirm = await screen.findByLabelText(/confirm new password/i);
+    expect(confirm.getAttribute('aria-invalid')).toBe('true');
+    const describedBy = confirm.getAttribute('aria-describedby');
+    expect(describedBy).toBeTruthy();
+    expect(document.getElementById(describedBy!)?.textContent).toMatch(/do not match/i);
+  });
+
   it('enforces the same minimum length as sign-up', async () => {
     // A password accepted at registration and refused at reset is the kind of
     // inconsistency people report as "it will not let me back in".

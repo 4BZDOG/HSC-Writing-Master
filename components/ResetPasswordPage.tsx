@@ -10,7 +10,15 @@ import {
 import { Lock, ArrowRight, AlertCircle, Loader2, KeyRound } from 'lucide-react';
 import AuthBackdrop from './AuthBackdrop';
 import AuthBrand from './AuthBrand';
+import AuthField from './AuthField';
 import MeshOverlay from './MeshOverlay';
+import {
+  AUTH_CARD,
+  AUTH_COLUMN,
+  AUTH_PAGE,
+  AUTH_PRIMARY_BUTTON,
+  AUTH_TEXT_LINK,
+} from '../utils/authChrome';
 
 interface ResetPasswordPageProps {
   /** Called with the signed-in user once the new password is set. */
@@ -18,48 +26,6 @@ interface ResetPasswordPageProps {
   /** Called when the user backs out; the caller returns to the login screen. */
   onCancel: () => void;
 }
-
-const Field = ({
-  id,
-  label,
-  value,
-  onChange,
-  placeholder,
-  hasError,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-  hasError: boolean;
-}) => (
-  <div className="space-y-2.5">
-    <label htmlFor={id} className="t-label block text-slate-400 light:text-slate-600 ml-1">
-      {label}
-    </label>
-    <div
-      className={`relative flex items-center bg-black/50 light:bg-slate-50 border-2 rounded-2xl transition-colors duration-300 ${
-        hasError
-          ? 'border-red-500/50 bg-red-500/[0.02]'
-          : 'border-white/10 light:border-slate-300 focus-within:border-indigo-500'
-      }`}
-    >
-      <Lock className={`ml-4 h-4 w-4 ${hasError ? 'text-red-400' : 'text-slate-500'}`} />
-      <input
-        id={id}
-        type="password"
-        value={value}
-        onChange={onChange}
-        // Always a NEW password here, so a password manager offers to generate
-        // and store one instead of filling in the one that is being replaced.
-        autoComplete="new-password"
-        className="block w-full pl-3 pr-4 py-4 bg-transparent text-white light:text-slate-900 placeholder-slate-600 outline-none border-none font-medium text-sm"
-        placeholder={placeholder}
-      />
-    </div>
-  </div>
-);
 
 /**
  * The second half of a password reset: the screen the emailed link lands on.
@@ -100,22 +66,23 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
   };
 
   return (
-    /* Laid out as the sign-in page is, and for the same reason: `my-auto`
-       centres without pushing a tall column off the top of a short screen. */
-    <div className="min-h-screen w-full flex flex-col items-center relative px-6 py-10 sm:py-14">
+    <div className={AUTH_PAGE}>
       <AuthBackdrop />
 
-      <div className="my-auto w-full flex flex-col items-center">
+      <div className={AUTH_COLUMN}>
         <AuthBrand />
 
         <div className="w-full max-w-[420px] relative z-10 animate-fade-in-up">
-          <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-surface shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
-            <MeshOverlay opacity="opacity-[0.04]" />
+          <div className={AUTH_CARD}>
+            <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
             <div className="p-10 relative z-10">
               <form onSubmit={handleSubmit} className="space-y-7" data-testid="reset-password-form">
                 <div className="space-y-3">
                   <div className="w-14 h-14 rounded-2xl bg-indigo-500/15 border-2 border-indigo-500/30 flex items-center justify-center">
-                    <KeyRound className="w-7 h-7 text-indigo-400" />
+                    <KeyRound
+                      className="w-7 h-7 text-indigo-400 light:text-indigo-600"
+                      aria-hidden="true"
+                    />
                   </div>
                   <h2 className="text-xl font-bold text-white light:text-slate-900">
                     Choose a new password
@@ -125,63 +92,52 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                   </p>
                 </div>
 
-                <div>
-                  <Field
-                    id="newPassword"
-                    label="New password"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      setFieldErrors((prev) => ({ ...prev, password: undefined }));
-                    }}
-                    placeholder={`At least ${MIN_PASSWORD_LENGTH} characters`}
-                    hasError={Boolean(fieldErrors.password)}
-                  />
-                  {fieldErrors.password && (
-                    <p
-                      role="alert"
-                      className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1"
-                    >
-                      <AlertCircle className="w-3 h-3 shrink-0" /> {fieldErrors.password}
-                    </p>
-                  )}
-                </div>
+                <AuthField
+                  id="newPassword"
+                  label="New password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setFieldErrors((prev) => ({ ...prev, password: undefined }));
+                  }}
+                  type="password"
+                  placeholder={`At least ${MIN_PASSWORD_LENGTH} characters`}
+                  icon={Lock}
+                  // Always a NEW password here, so a password manager offers to
+                  // generate and store one instead of filling in the old one.
+                  autoComplete="new-password"
+                  error={fieldErrors.password}
+                />
 
-                <div>
-                  <Field
-                    id="confirmNewPassword"
-                    label="Confirm new password"
-                    value={confirmPassword}
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                      setFieldErrors((prev) => ({ ...prev, confirmPassword: undefined }));
-                    }}
-                    placeholder="Type it again"
-                    hasError={Boolean(fieldErrors.confirmPassword)}
-                  />
-                  {fieldErrors.confirmPassword && (
-                    <p
-                      role="alert"
-                      className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1"
-                    >
-                      <AlertCircle className="w-3 h-3 shrink-0" /> {fieldErrors.confirmPassword}
-                    </p>
-                  )}
-                </div>
+                <AuthField
+                  id="confirmNewPassword"
+                  label="Confirm new password"
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    setFieldErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+                  }}
+                  type="password"
+                  placeholder="Type it again"
+                  icon={Lock}
+                  autoComplete="new-password"
+                  error={fieldErrors.confirmPassword}
+                />
 
                 {error && (
                   <div
                     role="alert"
                     className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
                   >
-                    <AlertCircle className="w-4 h-4 shrink-0 mt-px" /> {error}
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-px" aria-hidden="true" /> {error}
                   </div>
                 )}
 
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 border-2 border-white/10"
+                  aria-busy={isLoading || undefined}
+                  className={AUTH_PRIMARY_BUTTON}
                 >
                   {isLoading ? (
                     <>
@@ -190,17 +146,13 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                     </>
                   ) : (
                     <>
-                      Set password <ArrowRight className="w-4 h-4" />
+                      Set password <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </>
                   )}
                 </button>
 
                 <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                  <button
-                    type="button"
-                    onClick={onCancel}
-                    className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
-                  >
+                  <button type="button" onClick={onCancel} className={AUTH_TEXT_LINK}>
                     Cancel and sign out
                   </button>
                 </p>

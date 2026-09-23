@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { User } from '../types';
 import { authService, isDemoAuthEnabled } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
@@ -15,16 +15,16 @@ import type { Provider } from '@supabase/auth-js';
 import AuthBackdrop from './AuthBackdrop';
 import AuthBrand from './AuthBrand';
 import MeshOverlay from './MeshOverlay';
-import {
-  Lock,
-  User as UserIcon,
-  BookOpen,
-  AlertCircle,
-  Loader2,
-  MailCheck,
-  type LucideIcon,
-} from 'lucide-react';
+import { Lock, User as UserIcon, BookOpen, AlertCircle, Loader2, MailCheck } from 'lucide-react';
 import LegalDocumentModal from './LegalDocumentModal';
+import AuthField from './AuthField';
+import {
+  AUTH_CARD,
+  AUTH_COLUMN,
+  AUTH_PAGE,
+  AUTH_PRIMARY_BUTTON,
+  AUTH_TEXT_LINK,
+} from '../utils/authChrome';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -40,89 +40,6 @@ const DEMO_ACCOUNTS = [
   { username: 'teacher', role: 'Teacher' },
   { username: 'user', role: 'Student' },
 ] as const;
-
-/**
- * Per-field validation message. Sits under its own field rather than joining a
- * single banner at the bottom, so "the passwords do not match" points at the
- * box that needs retyping instead of making the reader work it out.
- */
-const FieldError = ({ id, message }: { id: string; message?: string }) =>
-  message ? (
-    <p
-      id={id}
-      role="alert"
-      className="flex items-center gap-1.5 text-red-400 light:text-red-600 text-[11px] mt-2 ml-1 animate-fade-in"
-    >
-      <AlertCircle className="w-3 h-3 shrink-0" aria-hidden="true" /> {message}
-    </p>
-  ) : null;
-
-/**
- * InputField defined outside to prevent focus-loss bug during re-renders.
- */
-const InputField = ({
-  id,
-  label,
-  value,
-  onChange,
-  type,
-  placeholder,
-  icon: Icon,
-  hasError,
-  autoComplete,
-  describedBy,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type: string;
-  placeholder: string;
-  icon: LucideIcon;
-  hasError: boolean;
-  /** Overrides the sign-in default. Sign-up needs 'new-password' so a password
-   *  manager offers to generate one instead of filling the old one in. */
-  autoComplete?: string;
-  /** The id of the message explaining this field's error, when there is one. */
-  describedBy?: string;
-}) => (
-  <div className="space-y-2.5">
-    <label htmlFor={id} className="t-label block text-slate-400 light:text-slate-600 ml-1">
-      {label}
-    </label>
-    <div
-      className={`
-        relative group/input flex items-center 
-        bg-black/50 light:bg-slate-50 
-        border-2 rounded-2xl transition-colors duration-300 ease-out
-        ${
-          hasError
-            ? 'border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.15)] bg-red-500/[0.02]'
-            : 'border-white/10 light:border-slate-300 hover:border-white/20 light:hover:border-slate-400 focus-within:border-indigo-500 focus-within:bg-black/70 focus-within:shadow-[0_0_30px_rgba(99,102,241,0.25)]'
-        }
-    `}
-    >
-      <Icon
-        aria-hidden="true"
-        className={`ml-4 h-4 w-4 transition-colors duration-300 ${hasError ? 'text-red-400' : 'text-slate-500 group-focus-within/input:text-indigo-400'}`}
-      />
-      <input
-        id={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        aria-invalid={hasError || undefined}
-        aria-describedby={hasError ? describedBy : undefined}
-        autoComplete={
-          autoComplete ??
-          (id === 'username' ? (isSupabaseConfigured ? 'email' : 'username') : 'current-password')
-        }
-        className="block w-full pl-3 pr-4 py-4 bg-transparent text-white light:text-slate-900 placeholder-slate-500 outline-none focus:outline-none focus:ring-0 border-none font-medium text-sm"
-        placeholder={placeholder}
-      />
-    </div>
-  </div>
-);
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24">
@@ -246,8 +163,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   // way of reading first is the thing everyone hates about consent dialogs.
   const [isLegalOpen, setIsLegalOpen] = useState(false);
 
+  // When the card's contents are swapped — a mode switch, or a form replaced by
+  // its "check your email" panel — focus moves to the new heading, so a screen
+  // reader hears what is now there instead of silence on a vanished button.
+  // Not on first render: arriving on the page leaves focus where it lands.
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const formChanged = useRef(false);
+  useEffect(() => {
+    if (!formChanged.current) return;
+    headingRef.current?.focus();
+  }, [mode, resetSentTo, confirmationSentTo]);
+
   /** Clear everything transient when moving between modes. */
   const switchMode = (next: 'signin' | 'signup' | 'reset') => {
+    formChanged.current = true;
     setMode(next);
     setError(null);
     // Both success panels replace the form, so today their own buttons are the
@@ -275,6 +204,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       // Shown whether or not an account exists — see requestPasswordReset. The
       // wording is careful for that reason: it must not become a way to find
       // out who has an account here.
+      formChanged.current = true;
       setResetSentTo(email);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not send the reset email.');
@@ -298,6 +228,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     try {
       const result = await authService.signUp(username.trim(), password, displayName);
       if (result.status === 'confirmation-required') {
+        formChanged.current = true;
         setConfirmationSentTo(result.email);
         return;
       }
@@ -344,11 +275,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       const user = await authService.login(trimmedUsername, password);
       onLogin(user);
     } catch (err) {
-      // Configuration problems (e.g. demo auth disabled in production) carry
-      // an actionable message — don't flatten those into "bad password".
+      // Only a genuine credential rejection is restated here. Everything else
+      // — demo auth switched off, offline, rate-limited, an unconfirmed
+      // account — arrives already worded by authService with its own remedy,
+      // and flattening it into "bad password" sends the reader the wrong way.
       const message = err instanceof Error ? err.message : '';
       setError(
-        message.includes('not configured')
+        message && !/invalid username or password/i.test(message)
           ? message
           : isSupabaseConfigured
             ? 'That email and password do not match an account. Check both and try again.'
@@ -384,16 +317,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   return (
-    /* `my-auto` on the column, not `justify-center` on the page. Centring with
-       justify-content pushes content that is taller than the viewport off BOTH
-       ends, and the top half cannot be scrolled back to — at 1280×768 the band
-       mark was cut off above the fold, and on a phone the demo accounts hung
-       below the backdrop. Auto margins centre when there is room and fall back
-       to plain top-down flow when there is not. */
-    <div className="min-h-screen w-full flex flex-col items-center relative px-6 py-10 sm:py-14 selection:bg-indigo-500/30">
+    <div className={AUTH_PAGE}>
       <AuthBackdrop />
 
-      <div className="my-auto w-full flex flex-col items-center">
+      <div className={AUTH_COLUMN}>
         <AuthBrand tagline="Write a response to an HSC question, and see it marked against the NESA band descriptors." />
 
         {/* Main Login Card */}
@@ -401,7 +328,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           className="w-full max-w-[420px] relative z-10 animate-fade-in-up"
           style={{ animationDelay: '200ms' }}
         >
-          <div className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-white/20 light:border-slate-300/80 rounded-surface shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)] overflow-hidden relative">
+          <div className={AUTH_CARD}>
             <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
             <div className="p-10 relative z-10">
@@ -414,7 +341,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
                     <MailCheck className="w-7 h-7 text-emerald-400 light:text-emerald-600" />
                   </div>
-                  <h2 className="text-xl font-bold text-white light:text-slate-900">
+                  <h2
+                    ref={headingRef}
+                    tabIndex={-1}
+                    className="text-xl font-bold text-white light:text-slate-900 outline-none"
+                  >
                     Check your email
                   </h2>
                   <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
@@ -436,7 +367,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                       setResetSentTo(null);
                       switchMode('signin');
                     }}
-                    className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                    className={AUTH_PRIMARY_BUTTON}
                   >
                     Back to sign in
                   </button>
@@ -449,7 +380,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/30 flex items-center justify-center">
                     <MailCheck className="w-7 h-7 text-emerald-400 light:text-emerald-600" />
                   </div>
-                  <h2 className="text-xl font-bold text-white light:text-slate-900">
+                  <h2
+                    ref={headingRef}
+                    tabIndex={-1}
+                    className="text-xl font-bold text-white light:text-slate-900 outline-none"
+                  >
                     Confirm your email
                   </h2>
                   <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
@@ -471,47 +406,54 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                       setConfirmationSentTo(null);
                       switchMode('signin');
                     }}
-                    className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all flex items-center justify-center gap-3 border-2 border-white/10 hover:border-white/20"
+                    className={AUTH_PRIMARY_BUTTON}
                   >
                     Back to sign in
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-7">
-                  {mode === 'reset' && (
-                    <div className="space-y-2">
-                      <h2 className="text-lg font-bold text-white light:text-slate-900">
-                        Reset your password
-                      </h2>
+                <>
+                  {/* Every mode has a heading, and switching modes moves focus
+                    to it. Swapping the form's fields under someone's cursor
+                    used to be silent to a screen reader: "Create one" was
+                    pressed and nothing said a different form was now there.
+                    Sign-in's heading is visually hidden — the card is plainly
+                    a sign-in card and a title would only repeat the button. */}
+                  <div className={mode === 'signin' ? 'sr-only' : 'space-y-2 mb-7'}>
+                    <h2
+                      ref={headingRef}
+                      tabIndex={-1}
+                      className="text-lg font-bold text-white light:text-slate-900 outline-none"
+                    >
+                      {mode === 'signup'
+                        ? 'Create your account'
+                        : mode === 'reset'
+                          ? 'Reset your password'
+                          : 'Sign in'}
+                    </h2>
+                    {mode === 'reset' && (
                       <p className="text-xs text-slate-400 light:text-slate-600 leading-relaxed">
                         Enter the email address on your account and we will send you a link to set a
                         new password.
                       </p>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
-                  {mode === 'signup' && (
-                    <h2 className="text-lg font-bold text-white light:text-slate-900">
-                      Create your account
-                    </h2>
-                  )}
+                  <form onSubmit={handleSubmit} className="space-y-7">
+                    {mode === 'signup' && (
+                      <AuthField
+                        id="displayName"
+                        label="Full name (optional)"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        type="text"
+                        placeholder="How your name appears in the app"
+                        icon={UserIcon}
+                        autoComplete="name"
+                      />
+                    )}
 
-                  {mode === 'signup' && (
-                    <InputField
-                      id="displayName"
-                      label="Full name (optional)"
-                      value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                      type="text"
-                      placeholder="How your name appears in the app"
-                      icon={UserIcon}
-                      hasError={false}
-                      autoComplete="name"
-                    />
-                  )}
-
-                  <div>
-                    <InputField
+                    <AuthField
                       id="username"
                       label={isSupabaseConfigured ? 'Email' : 'Username'}
                       value={username}
@@ -522,45 +464,40 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                       type={isSupabaseConfigured ? 'email' : 'text'}
                       placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
                       icon={UserIcon}
-                      hasError={Boolean(fieldErrors.email)}
-                      describedBy="username-error"
-                    />
-                    <FieldError id="username-error" message={fieldErrors.email} />
-                    {mode === 'signup' &&
-                      signupAllowedDomains().length > 0 &&
-                      !fieldErrors.email && (
-                        <p className="text-xs text-slate-500 light:text-slate-600 leading-relaxed mt-2 ml-1">
-                          {allowedDomainMessage(signupAllowedDomains())}
-                        </p>
-                      )}
-                  </div>
-
-                  <div className={mode === 'reset' ? 'hidden' : undefined}>
-                    <InputField
-                      id="password"
-                      label="Password"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        setFieldErrors((prev) => ({ ...prev, password: undefined }));
-                      }}
-                      type="password"
-                      placeholder={
-                        mode === 'signup'
-                          ? `At least ${MIN_PASSWORD_LENGTH} characters`
-                          : 'Enter password'
+                      autoComplete={isSupabaseConfigured ? 'email' : 'username'}
+                      error={fieldErrors.email}
+                      hint={
+                        mode === 'signup' && signupAllowedDomains().length > 0
+                          ? allowedDomainMessage(signupAllowedDomains())
+                          : undefined
                       }
-                      icon={Lock}
-                      hasError={Boolean(fieldErrors.password)}
-                      describedBy="password-error"
-                      autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                     />
-                    <FieldError id="password-error" message={fieldErrors.password} />
-                  </div>
 
-                  {mode === 'signup' && (
-                    <div>
-                      <InputField
+                    {/* Kept mounted in reset mode, only hidden, so a password
+                      manager's association with the form survives the switch. */}
+                    <div className={mode === 'reset' ? 'hidden' : undefined}>
+                      <AuthField
+                        id="password"
+                        label="Password"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          setFieldErrors((prev) => ({ ...prev, password: undefined }));
+                        }}
+                        type="password"
+                        placeholder={
+                          mode === 'signup'
+                            ? `At least ${MIN_PASSWORD_LENGTH} characters`
+                            : 'Enter password'
+                        }
+                        icon={Lock}
+                        autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                        error={fieldErrors.password}
+                      />
+                    </div>
+
+                    {mode === 'signup' && (
+                      <AuthField
                         id="confirmPassword"
                         label="Confirm password"
                         value={confirmPassword}
@@ -571,100 +508,96 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         type="password"
                         placeholder="Type the password again"
                         icon={Lock}
-                        hasError={Boolean(fieldErrors.confirmPassword)}
-                        describedBy="confirmPassword-error"
                         autoComplete="new-password"
+                        error={fieldErrors.confirmPassword}
                       />
-                      <FieldError
-                        id="confirmPassword-error"
-                        message={fieldErrors.confirmPassword}
-                      />
-                    </div>
-                  )}
-
-                  {error && (
-                    <div
-                      role="alert"
-                      className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
-                    >
-                      <AlertCircle className="w-4 h-4 shrink-0 mt-px" aria-hidden="true" /> {error}
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={isLoading || oauthLoading !== null}
-                    aria-busy={isLoading || undefined}
-                    className="w-full py-4 rounded-2xl font-bold text-sm text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-900/40 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3 group/btn border-2 border-white/10 hover:border-white/20"
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
-                        {/* The spinner alone left the button with no name at all
-                          while it worked. */}
-                        <span className="sr-only">
-                          {mode === 'signup'
-                            ? 'Creating account…'
-                            : mode === 'reset'
-                              ? 'Sending reset link…'
-                              : 'Signing in…'}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        {mode === 'signup'
-                          ? 'Create account'
-                          : mode === 'reset'
-                            ? 'Send reset link'
-                            : 'Sign in'}
-                      </>
                     )}
-                  </button>
 
-                  {mode === 'reset' ? (
-                    <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                      Remembered it?{' '}
-                      <button
-                        type="button"
-                        onClick={() => switchMode('signin')}
-                        className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
+                    {error && (
+                      <div
+                        role="alert"
+                        className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
                       >
-                        Back to sign in
-                      </button>
-                    </p>
-                  ) : (
-                    <div className="space-y-3">
-                      {/* Password sign-in only. There is nothing to reset on a mock
+                        <AlertCircle className="w-4 h-4 shrink-0 mt-px" aria-hidden="true" />{' '}
+                        {error}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isLoading || oauthLoading !== null}
+                      aria-busy={isLoading || undefined}
+                      className={AUTH_PRIMARY_BUTTON}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+                          {/* The spinner alone left the button with no name at all
+                          while it worked. */}
+                          <span className="sr-only">
+                            {mode === 'signup'
+                              ? 'Creating account…'
+                              : mode === 'reset'
+                                ? 'Sending reset link…'
+                                : 'Signing in…'}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          {mode === 'signup'
+                            ? 'Create account'
+                            : mode === 'reset'
+                              ? 'Send reset link'
+                              : 'Sign in'}
+                        </>
+                      )}
+                    </button>
+
+                    {mode === 'reset' ? (
+                      <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                        Remembered it?{' '}
+                        <button
+                          type="button"
+                          onClick={() => switchMode('signin')}
+                          className={AUTH_TEXT_LINK}
+                        >
+                          Back to sign in
+                        </button>
+                      </p>
+                    ) : (
+                      <div className="space-y-3">
+                        {/* Password sign-in only. There is nothing to reset on a mock
                         deployment, and an SSO account's password lives with the
                         identity provider, not here. */}
-                      {mode === 'signin' && isSupabaseConfigured && (
-                        <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                          <button
-                            type="button"
-                            onClick={() => switchMode('reset')}
-                            className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
-                          >
-                            Forgot your password?
-                          </button>
-                        </p>
-                      )}
-                      {signupAvailable() && (
-                        <p className="text-center text-xs text-slate-400 light:text-slate-600">
-                          {mode === 'signin'
-                            ? "Don't have an account? "
-                            : 'Already have an account? '}
-                          <button
-                            type="button"
-                            onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
-                            className="font-bold text-indigo-400 hover:text-indigo-300 underline underline-offset-2"
-                          >
-                            {mode === 'signin' ? 'Create one' : 'Sign in'}
-                          </button>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </form>
+                        {mode === 'signin' && isSupabaseConfigured && (
+                          <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                            <button
+                              type="button"
+                              onClick={() => switchMode('reset')}
+                              className={AUTH_TEXT_LINK}
+                            >
+                              Forgot your password?
+                            </button>
+                          </p>
+                        )}
+                        {signupAvailable() && (
+                          <p className="text-center text-xs text-slate-400 light:text-slate-600">
+                            {mode === 'signin'
+                              ? "Don't have an account? "
+                              : 'Already have an account? '}
+                            <button
+                              type="button"
+                              onClick={() => switchMode(mode === 'signin' ? 'signup' : 'signin')}
+                              className={AUTH_TEXT_LINK}
+                            >
+                              {mode === 'signin' ? 'Create one' : 'Sign in'}
+                            </button>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </form>
+                </>
               )}
 
               {isSupabaseConfigured && OAUTH_PROVIDERS.length > 0 && (
@@ -741,7 +674,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           {!isSupabaseConfigured && isDemoAuthEnabled() && mode === 'signin' && (
             <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '500ms' }}>
               <p className="t-label text-slate-400 light:text-slate-600 mb-1">Demo accounts</p>
-              <p className="text-xs text-slate-500 light:text-slate-600 mb-4">
+              <p className="text-xs text-slate-400 light:text-slate-600 mb-4">
                 The password is the same as the username. Choose one to fill the form.
               </p>
               <div className="flex justify-center gap-3 sm:gap-6">
@@ -761,7 +694,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     <span className="text-white light:text-slate-800 text-xs font-mono font-bold tracking-tight px-3 py-1 rounded-lg bg-white/5 light:bg-slate-200 border border-white/10 light:border-slate-300 group-hover:border-indigo-400/60 transition-colors">
                       {demo}
                     </span>
-                    <span className="t-label text-slate-500 light:text-slate-600 mt-2">{role}</span>
+                    <span className="t-label text-slate-400 light:text-slate-600 mt-2">{role}</span>
                   </button>
                 ))}
               </div>

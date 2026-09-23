@@ -388,9 +388,8 @@ const hydrateSessionUser = async (authUser: { id: string; email?: string }): Pro
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
   const client = supabase!;
   const { data, error } = await client.auth.signInWithPassword({ email, password });
-  if (error || !data.user) {
-    throw new Error('Invalid username or password');
-  }
+  if (error) throw new Error(describeSignInError(error));
+  if (!data.user) throw new Error('Invalid username or password');
 
   let profile: ProfileRow | null = null;
   let profileReadOk = true;
@@ -460,6 +459,42 @@ const describeSignUpError = (message: string): string => {
     return 'Too many attempts. Wait a minute and try again.';
   }
   return message;
+};
+
+/**
+ * Supabase's password sign-in errors, restated. Every failure used to become
+ * "Invalid username or password", so a student who was offline, rate-limited
+ * or had not yet clicked their confirmation link was told their password was
+ * wrong — and went on retyping a password that was right. Only a genuine
+ * credential rejection keeps that wording (LoginPage matches on it to say it
+ * in full).
+ */
+const describeSignInError = (error: {
+  message?: string;
+  name?: string;
+  status?: number;
+  code?: string;
+}): string => {
+  const m = (error.message ?? '').toLowerCase();
+  // Narrower than isTransientAuthError, which also counts a missing status: at
+  // the sign-in form a doubtful case must read as a rejection, not an outage.
+  if (
+    (error.name ?? '').includes('Retryable') ||
+    error.status === 0 ||
+    m.includes('failed to fetch')
+  ) {
+    return 'Could not reach the sign-in service. Check your internet connection and try again.';
+  }
+  if (error.code === 'email_not_confirmed' || m.includes('email not confirmed')) {
+    return (
+      'This account has not been confirmed yet. Follow the link in the confirmation ' +
+      'email, then sign in. Nothing arrived? Check the junk folder.'
+    );
+  }
+  if (error.status === 429 || m.includes('rate limit') || m.includes('too many')) {
+    return 'Too many sign-in attempts. Wait a minute and try again.';
+  }
+  return 'Invalid username or password';
 };
 
 /**
