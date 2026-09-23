@@ -288,7 +288,7 @@ flow, workspace chrome, light theme, accessibility and no-clipped-text (26 of
 26); screenshots before and after with a typed response and the draft check
 open, both themes, 1280px and 390px.
 
-## PR 7 — Show each question's own ceiling on the grade ladder, and give exemplars a length
+## PR #279 — Show each question's own ceiling on the grade ladder, and give exemplars a length
 
 The brief: the sample answers and the marking placards (Grade Standards and the
 Marking Guide in the reference rail).
