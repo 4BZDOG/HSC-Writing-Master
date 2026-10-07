@@ -3,37 +3,44 @@
     {
       "file": "HSCEnterpriseComputing09122025.json",
       "type": "course",
-      "subject": "TAS"
+      "subject": "TAS",
+      "selected": true
     },
     {
       "file": "HSCSoftwareEngineering09122025.json",
       "type": "course",
-      "subject": "TAS"
+      "subject": "TAS",
+      "selected": true
     },
     {
       "file": "HSCModernHistory.json",
       "type": "course",
-      "subject": "HSIE"
+      "subject": "HSIE",
+      "selected": true
     },
     {
       "file": "HSCLegalStudies.json",
       "type": "course",
-      "subject": "HSIE"
+      "subject": "HSIE",
+      "selected": true
     },
     {
       "file": "HSCBusinessStudies.json",
       "type": "course",
-      "subject": "HSIE"
+      "subject": "HSIE",
+      "selected": true
     },
     {
       "file": "HSCEconomics.json",
       "type": "course",
-      "subject": "HSIE"
+      "subject": "HSIE",
+      "selected": true
     },
     {
       "file": "HSCEnglishAdvanced.json",
       "type": "course",
-      "subject": "English"
+      "subject": "English",
+      "selected": true
     },
     {
       "file": "topics/software-engineering-secure-architecture-topic.json",
