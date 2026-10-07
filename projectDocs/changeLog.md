@@ -1,5 +1,21 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-07 (Analytics windows in hours, and stale seeded courses retired from saved libraries)
+
+- **Analytics windows.** Every class-analytics window now starts from one function,
+  `public.analytics_window_start(days)`, which counts hours. The old
+  `now() - make_interval(days => n)` moved by an hour whenever a DST change fell
+  inside the window, because a day is a calendar day in the session time zone.
+  The RLS suite probes that function under UTC and Australia/Sydney, and it fails
+  on calendar-day arithmetic. This was checked on a local Postgres 16 cluster.
+- **Library version 2.11.0.** A returning browser keeps the library it saved, so the
+  GitHub Pages build still showed the retired Biology and template courses, and the
+  five new courses never reached it. The migration removes four retired course ids,
+  and only those. It then adds each shipped course that the library does not have,
+  matched by id. Existing courses, including a teacher's edits to Software
+  Engineering or Enterprise Computing, are not overwritten. If a shipped file cannot
+  be read, the stored version is not advanced, so the next load retries.
+
 ## [Unreleased] - 2026-10-07 (Five new seeded courses, aligned to the NESA syllabuses)
 
 The shared library was seeded with HSC Biology, a Biology and Chemistry pair of

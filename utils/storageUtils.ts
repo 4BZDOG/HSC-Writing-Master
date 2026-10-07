@@ -42,7 +42,21 @@ import {
 // nothing to migrate. Note the number: `isOlderThan` below parses versions
 // numerically precisely so that this bump — the first two-digit minor — does
 // not re-run every migration from 2.2.0 on a returning install.
-export const DATA_VERSION = '2.10.0';
+export const DATA_VERSION = '2.11.0';
+
+/**
+ * Built-in courses retired from the shared library in 2.11.0: the Biology and
+ * Biology Advanced samples, the Chemistry Advanced sample and the template. A
+ * returning browser keeps the library it saved, so the seed never reaches it
+ * again on its own. The migration removes these ids, and only these, so a
+ * teacher's own courses are never touched.
+ */
+export const RETIRED_SEED_COURSE_IDS: readonly string[] = [
+  'course-3cb7f305-5233-428e-8255-566fa5c10560', // HSC Biology (manifest file)
+  'course-bio-advanced', // HSC Biology (Advanced), built-in sample
+  'course-chemistry-advanced', // HSC Chemistry (Advanced), built-in sample
+  'course-template-01', // template course
+];
 
 export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
@@ -687,6 +701,12 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   let migrated = [...courses];
 
   console.log(`Migrating data from version ${fromVersion} to ${DATA_VERSION}`);
+
+  // 2.11.0 retired the seeded courses listed above. Removing them is idempotent,
+  // so a browser that never saw them is unaffected.
+  if (isOlderThan(fromVersion, '2.11.0')) {
+    migrated = migrated.filter((course) => !RETIRED_SEED_COURSE_IDS.includes(course.id));
+  }
 
   // 2.6.0 added `year` to Topic and CourseOutcome and needs NO case here. The
   // field is optional and its ABSENCE means Year 12, which is what every topic

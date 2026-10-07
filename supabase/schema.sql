@@ -1110,6 +1110,16 @@ drop policy if exists response_events_insert on public.response_events;
 create policy response_events_insert on public.response_events for insert
   with check (user_id = auth.uid());
 
+-- The start of an analytics window of p_days days, as an absolute instant.
+-- Hours, not calendar days: `now() - make_interval(days => n)` moves by an hour
+-- when a DST change falls inside the window, because a day is a calendar day in
+-- the session TimeZone. Every analytics function takes its window from here so
+-- the arithmetic is written once, and the RLS suite tests this function itself.
+create or replace function public.analytics_window_start(p_days integer)
+returns timestamptz language sql stable as $$
+  select now() - make_interval(hours => p_days * 24);
+$$;
+
 -- Class analytics for teachers/admins ---------------------------------------
 -- Aggregates persisted responses (§4) over the last p_days days along two
 -- dimensions — the prompt's command verb and its owning topic (module) — so a
@@ -1130,7 +1140,7 @@ declare
   -- default) it happens to be a no-op; set TimeZone to Australia/Sydney -- a
   -- plausible thing to do for an NSW product -- and every window silently
   -- widens by the offset. now() is already an absolute instant.
-  v_since   timestamptz := now() - make_interval(days => v_days);
+  v_since   timestamptz := public.analytics_window_start(v_days);
   v_byverb  jsonb;
   v_bytopic jsonb;
   v_totals  jsonb;
@@ -1201,7 +1211,7 @@ create or replace function public.get_student_progress(p_username text, p_days i
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := now() - make_interval(days => v_days);
+  v_since  timestamptz := public.analytics_window_start(v_days);
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
@@ -1272,7 +1282,7 @@ create or replace function public.get_response_students(p_days integer default 3
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := now() - make_interval(days => v_days);
+  v_since  timestamptz := public.analytics_window_start(v_days);
   v_result jsonb;
 begin
   if not public.is_reviewer() then
@@ -2125,7 +2135,7 @@ create or replace function public.get_class_analytics(p_days integer default 30)
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since   timestamptz := now() - make_interval(days => v_days);
+  v_since   timestamptz := public.analytics_window_start(v_days);
   v_byverb  jsonb;
   v_bytopic jsonb;
   v_totals  jsonb;
@@ -2198,7 +2208,7 @@ create or replace function public.get_student_progress(p_username text, p_days i
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := now() - make_interval(days => v_days);
+  v_since  timestamptz := public.analytics_window_start(v_days);
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
@@ -2579,7 +2589,7 @@ create or replace function public.get_class_analytics(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since   timestamptz := now() - make_interval(days => v_days);
+  v_since   timestamptz := public.analytics_window_start(v_days);
   v_all     boolean;
   v_ids     uuid[];
   v_byverb  jsonb;
@@ -2665,7 +2675,7 @@ create or replace function public.get_student_progress(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := now() - make_interval(days => v_days);
+  v_since  timestamptz := public.analytics_window_start(v_days);
   v_user   uuid;
   v_byverb jsonb;
   v_totals jsonb;
@@ -2747,7 +2757,7 @@ create or replace function public.get_response_students(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days   integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since  timestamptz := now() - make_interval(days => v_days);
+  v_since  timestamptz := public.analytics_window_start(v_days);
   v_all    boolean;
   v_ids    uuid[];
   v_result jsonb;
@@ -2824,7 +2834,7 @@ create or replace function public.get_class_cohort(
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
   v_days      integer := least(greatest(coalesce(p_days, 30), 1), 365);
-  v_since     timestamptz := now() - make_interval(days => v_days);
+  v_since     timestamptz := public.analytics_window_start(v_days);
   v_all       boolean;
   v_ids       uuid[];
   v_bystudent jsonb;
