@@ -1,31 +1,47 @@
 # HSC AI Evaluator - Change Log
 
-## [Unreleased] - 2026-10-07 (Five new seeded courses, and the Biology and template seeds removed)
+## [Unreleased] - 2026-10-07 (Five new seeded courses, aligned to the NESA syllabuses)
 
 The shared library was seeded with HSC Biology, a Biology and Chemistry pair of
 built-in samples, and a template course. Software Engineering and Enterprise
 Computing were the only courses worth keeping. The seed now holds those two
-plus five new courses chosen as the most popular HSC courses that suit a
-written, verb-marked coach: Modern History, Legal Studies, Business Studies,
-Economics and English Advanced.
+plus five courses chosen as the most popular HSC courses that suit a written,
+verb-marked coach: Modern History, Legal Studies, Business Studies, Economics
+and English Advanced.
 
 - **Removed.** `HSCBiology.json`, its Heredity topic file, `templateCourseData.json`,
   and the two built-in samples in `data/seedData.ts`. `preseededCourses` is now
   an empty list, so a first-time user starts with an empty library and imports
   what they want from the manifest.
-- **Added.** Five course files under `public/courseData/`, each with four topics,
-  eight sub-topics, sixteen dot points and 32 to 33 questions (162 in all), every
-  question carrying a full, middle and bottom sample answer. The files were
-  authored to `docs/dataset-generation-prompt.md`, assembled with deterministic
-  ids, and canonicalised; `npm run content:check` reports nothing.
+- **Added.** Five course files under `public/courseData/`, 547 questions in all,
+  each with a full, middle and bottom sample answer (1,641 samples). Topics,
+  sub-topics, dot points and outcome codes are taken verbatim from the NESA
+  syllabus documents, not written from memory:
+
+  | Course | Syllabus | Topics | Sub-topics | Dot points | Outcomes |
+  | --- | --- | --- | --- | --- | --- |
+  | Modern History | 2024 | 4 | 16 | 48 | MH-12-01 to 07 |
+  | Legal Studies | 2025 | 7 | 36 | 157 | LST-12-01 to 08 |
+  | Business Studies | Stage 6, 2010 | 4 | 25 | 174 | H1 to H10 |
+  | Economics | 2025 | 3 | 17 | 131 | ECO-12-01 to 10 |
+  | English Advanced | 2024 | 4 | 8 | 37 | EAV-12-01 to 06 |
+
+  Every question was checked against the app's command-term mark ranges,
+  marking ladders and keyword counts, and each full-mark exemplar uses the key
+  terms from its dot point. English Advanced composition tasks use CONSTRUCT,
+  because COMPOSE is not one of the app's command terms. The files were
+  canonicalised, `npm run content:check` reports nothing, and the unit suite,
+  type-check and lint pass.
 - **Manifest.** Lists the five courses under HSIE and English, alongside
   Software Engineering and Enterprise Computing.
-
-The outcome codes, outcome wording and dot points in the new courses were
-written to the structure of each NSW syllabus, not copied from the current
-NESA documents, and need checking against those documents before students rely
-on them. Live Supabase databases keep the Biology rows until they are removed
-there: `supabase/seed.mjs` upserts and does not delete.
+- **Syllabus timing.** Modern History (2024), Legal Studies (2025) and Economics
+  (2025) are new syllabuses that are not yet examined. English Advanced (2024)
+  is the current syllabus. Business Studies (2010) is the latest published Stage 6
+  syllabus for that subject.
+- **Not yet checked.** The questions are written to the standard of each
+  syllabus. They have not been compared item by item with past HSC papers.
+  Live Supabase databases keep the Biology rows until they are removed there:
+  `supabase/seed.mjs` upserts and does not delete.
 
 ## [Unreleased] - 2026-09-11 (The Evaluate button was off the screen on a phone)
 
