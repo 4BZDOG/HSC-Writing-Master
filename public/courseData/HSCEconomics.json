@@ -1,0 +1,1954 @@
+[
+  {
+    "id": "course-hsc-economics",
+    "name": "HSC Economics",
+    "outcomes": [
+      {
+        "code": "EC12-1",
+        "description": "explains the interdependence of economies and the forces of globalisation in the global economy"
+      },
+      {
+        "code": "EC12-2",
+        "description": "analyses the role of trade, exchange rates and capital flows in Australia's economic relationships"
+      },
+      {
+        "code": "EC12-3",
+        "description": "analyses the causes and effects of unemployment, inflation and economic growth"
+      },
+      {
+        "code": "EC12-4",
+        "description": "evaluates the distribution of income and the policies used to address economic equity"
+      },
+      {
+        "code": "EC12-5",
+        "description": "explains how fiscal and monetary policy are used to manage the economy"
+      },
+      {
+        "code": "EC12-6",
+        "description": "evaluates supply-side and demand-side policies in achieving economic objectives"
+      },
+      {
+        "code": "EC12-7",
+        "description": "interprets economic data and communicates a reasoned economic argument"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-econ-1",
+        "name": "The Global Economy",
+        "subTopics": [
+          {
+            "id": "subtopic-econ-1-1",
+            "name": "Globalisation and multinational corporations",
+            "dotPoints": [
+              {
+                "id": "dp-econ-1-1-1",
+                "description": "explain the causes and effects of globalisation on national economies, including trade, foreign investment and technology",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-1-1-1-1",
+                    "question": "Describe the main features of globalisation in the world economy.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC12-1"
+                    ],
+                    "markerNotes": [
+                      "Reward the description of interdependence, where economies depend on each other for trade, investment and technology",
+                      "Accurate reference to the reduction of trade barriers and the mobility of capital shows the economic content behind each feature"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing globalisation only as the spread of culture or communication, without its economic features",
+                      "Listing features without describing how they connect economies"
+                    ],
+                    "keywords": [
+                      "globalisation",
+                      "foreign investment",
+                      "technology",
+                      "world economy",
+                      "interdependence",
+                      "capital flows",
+                      "free trade"
+                    ],
+                    "markingCriteria": "4 marks: Describes several main features of globalisation, including increased trade, foreign investment, capital flows and technology transfer, with accurate economic terms and some explanation\n3 marks: Describes two features of globalisation with some accuracy\n2 marks: Identifies a feature of globalisation\n1 mark: Makes a general statement about the world economy",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-1-1-1-1",
+                        "mark": 4,
+                        "answer": "Globalisation in the world economy is characterised by growing interdependence between national economies. Trade has expanded as tariffs and other barriers have fallen, so countries increasingly import and export goods and services. Foreign investment and capital flows have increased, with financial capital moving rapidly across borders in search of higher returns. Technology has accelerated these changes, through faster communication, transport and information systems, which allow firms to organise production across several countries. Together these features mean that economic events in one country increasingly affect others.",
+                        "source": "AI",
+                        "feedback": "Full marks: several features are described with accurate economic content, including the falling barriers to trade and the mobility of capital, and the answer makes the link between them through interdependence. The final sentence explains why the features matter.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-1-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Trade between countries has grown because tariffs have come down. Foreign investment has also increased, with companies investing in other countries.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes two features of globalisation with some accuracy. A third feature, such as technology transfer, and a link between them would move it into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-1-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Globalisation means the world is becoming more connected.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and names no economic feature. It needs at least one specific feature, such as trade or foreign investment.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-1-1-1-2",
+                    "question": "Explain how the growth of foreign investment has affected the Australian economy.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-1"
+                    ],
+                    "markerNotes": [
+                      "Explanation should identify the mechanism, for example that foreign capital finances projects that domestic savings alone would not fund",
+                      "Strong answers note a cost as well as a benefit, such as the outflow of profits and the effect on the current account"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that foreign investment always benefits the economy without considering its costs",
+                      "Describing the types of investment without explaining their effects"
+                    ],
+                    "keywords": [
+                      "foreign investment",
+                      "multinational",
+                      "employment",
+                      "capital inflows",
+                      "economic growth",
+                      "technology transfer",
+                      "balance of payments"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how foreign investment has affected the Australian economy, including its effects on economic growth, employment, technology transfer and the balance of payments, with accurate economic reasoning\n5 marks: Explains at least two effects of foreign investment on the Australian economy with accurate reasoning\n4 marks: Explains one effect of foreign investment on the economy with accurate detail and a link to economic outcomes\n3 marks: Describes foreign investment and one of its effects with some accuracy\n2 marks: Identifies a form of foreign investment or an effect\n1 mark: Makes a general statement about investment",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-1-1-2-1",
+                        "mark": 6,
+                        "answer": "Foreign investment has increased Australian economic growth by supplementing domestic savings. Foreign capital finances mining, infrastructure and manufacturing projects that would otherwise be delayed or not undertaken, which raises the economy's productive capacity. These projects create employment, both directly and through the demand they generate for local suppliers. Multinational corporations often bring new technology and management methods, which can raise productivity across industries through technology transfer. However, foreign investment also has costs. Profits earned by foreign-owned firms are sent overseas, which adds to the income outflows recorded in the current account and can contribute to the balance of payments deficit. Foreign ownership of key assets may also limit economic sovereignty. The overall effect is positive for growth, but the benefits depend on how much of the return is retained in Australia.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation identifies the mechanism through which foreign capital adds to growth, traces the effect on employment and technology, and weighs the income outflows against these benefits. The conclusion that the benefit depends on the share of return retained is the economic reasoning the top band requires.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-1-1-1-2-2",
+                        "mark": 4,
+                        "answer": "Foreign investment brings money into Australia for projects such as mines, which creates jobs and helps the economy grow. Foreign companies also bring new technology that Australian firms can learn from.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains two effects with some detail but does not analyse the mechanism. Explaining why foreign capital is needed, or the cost of profit repatriation, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-1-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Foreign investment is when people from other countries put money into Australian businesses.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes foreign investment without explaining any effect on the economy. It needs at least one effect and an explanation of how it occurs.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-1-1-2",
+                "description": "analyse the role of multinational corporations in the global economy, including their effects on host countries",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-1-1-2-1",
+                    "question": "Analyse the role of multinational corporations in the global economy.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-1",
+                      "EC12-2"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show that multinationals move production to where costs are lowest, which links investment to trade in intermediate goods",
+                      "Reward recognition of the tension between the benefits to host countries and the market power and transfer pricing of large firms"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing multinational corporations as simply large companies without explaining their role in investment and trade",
+                      "Stating that multinationals always harm the economies they operate in"
+                    ],
+                    "keywords": [
+                      "multinational corporations",
+                      "foreign direct investment",
+                      "transfer pricing",
+                      "technology transfer",
+                      "market power",
+                      "host country",
+                      "global supply chains"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the role of multinational corporations in the global economy, explaining their contribution to investment, trade and technology transfer and their market power, with precise economic evidence\n5-6 marks: Analyses at least two roles of multinational corporations with accurate economic reasoning\n3-4 marks: Describes the activities of multinational corporations with some accuracy and a link to the global economy\n1-2 marks: Makes a basic or general statement about multinational corporations",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-1-2-1-1",
+                        "mark": 8,
+                        "answer": "Multinational corporations play a central role in the global economy because they organise production across national borders. They undertake foreign direct investment, building factories and facilities in host countries, which transfers capital and creates jobs. By locating different stages of production in different countries, they create global supply chains, so that a large share of world trade consists of intermediate goods moving between their affiliates. Their global reach also allows the transfer of technology and management practices to host economies, which can raise productivity. However, their market power can be significant. A large firm may influence prices and the terms on which local suppliers operate, and transfer pricing, where prices charged between affiliates shift profits to low-tax jurisdictions, reduces the tax revenue that host governments collect. The role of multinational corporations is therefore both productive and contestable, and the net effect depends on how host countries regulate them.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis identifies foreign direct investment, global supply chains and technology transfer as roles, and then weighs market power and transfer pricing against them. The conclusion that the net effect depends on regulation is the economic judgement the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-1-1-2-1-2",
+                        "mark": 5,
+                        "answer": "Multinational corporations invest in other countries by building factories, which creates jobs. They also trade a lot of goods between their own branches in different countries. Because they are so large, they can have a lot of power in local markets, which may be a concern for host governments.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses two roles of multinationals with some economic reasoning. It would reach the top band by explaining the mechanism of technology transfer and transfer pricing with precise terms.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-1-1-2-1-3",
+                        "mark": 2,
+                        "answer": "Multinational corporations are very big companies that operate in many countries.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes multinationals in general terms without analysing their role in the global economy. It needs at least one role, such as investment or trade, and its economic effect.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-1-1-2-2",
+                    "question": "Outline two ways in which multinational corporations can influence the economy of a host country.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "EC12-1",
+                      "EC12-2"
+                    ],
+                    "markerNotes": [
+                      "Two distinct ways are needed, such as employment creation and transfer pricing, rather than two versions of the same effect",
+                      "The outline should show how each influence operates, not only name it"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming an influence without showing how it operates",
+                      "Offering two ways that are really the same effect, such as two effects on jobs"
+                    ],
+                    "keywords": [
+                      "multinational corporations",
+                      "host country",
+                      "influence",
+                      "employment",
+                      "transfer pricing",
+                      "tax revenue",
+                      "technology transfer"
+                    ],
+                    "markingCriteria": "3 marks: Outlines two distinct ways in which multinational corporations influence a host country's economy, with accurate detail on how each operates\n2 marks: Outlines two ways with limited detail\n1 mark: Identifies one way in which multinational corporations influence a host country",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-1-2-2-1",
+                        "mark": 3,
+                        "answer": "First, multinational corporations influence a host country's economy by creating employment when they establish factories and offices, which raises incomes and spending in the local area. Second, they can influence tax revenue through transfer pricing, where prices charged between the firm's own affiliates shift profits to lower-tax jurisdictions, reducing the tax collected by the host government.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct influences are outlined, employment and tax revenue, and each is explained in terms of how it operates. The explanation of transfer pricing shows the mechanism rather than just naming it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-1-1-2-2-2",
+                        "mark": 2,
+                        "answer": "Multinational corporations create jobs in the host country. They also bring new technology.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response outlines two influences with limited detail. Explaining how each operates, for example how technology transfer raises productivity, would earn the full 3 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-1-1-2-2-3",
+                        "mark": 1,
+                        "answer": "Multinational corporations can have an impact on the economies they operate in.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and identifies no specific influence. It needs two distinct influences, each outlined.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-econ-1-2",
+            "name": "Exchange rates and capital flows",
+            "dotPoints": [
+              {
+                "id": "dp-econ-1-2-1",
+                "description": "explain how exchange rates are determined and how changes in exchange rates affect trade and investment",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-1-2-1-1",
+                    "question": "Explain how a fall in the Australian dollar affects exports and imports.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "The explanation should show the mechanism: a lower dollar lowers the foreign price of Australian goods and raises the Australian-dollar price of imports",
+                      "Reward the recognition that the trade balance may take time to respond, because contracts and supply chains adjust slowly"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that a fall in the dollar makes both exports and imports cheaper",
+                      "Describing the effect on exports without the matching effect on imports"
+                    ],
+                    "keywords": [
+                      "exports",
+                      "imports",
+                      "Australian dollar",
+                      "exchange rate",
+                      "depreciation",
+                      "competitiveness",
+                      "inflation"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how a depreciation of the Australian dollar makes exports cheaper and imports dearer, the effect on competitiveness and the balance of trade, and the possible limits of the adjustment, with accurate economic reasoning\n5 marks: Explains the effect of depreciation on exports and imports with accurate reasoning and a link to competitiveness\n4 marks: Explains the effect on exports or imports with accurate detail and some economic reasoning\n3 marks: Describes the effect of a fall in the exchange rate on one of exports or imports with some accuracy\n2 marks: Identifies an effect of a fall in the exchange rate\n1 mark: Makes a general statement about currencies",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-2-1-1-1",
+                        "mark": 6,
+                        "answer": "A fall in the Australian dollar, or depreciation of the exchange rate, makes Australian exports cheaper for foreign buyers. An iron ore cargo priced in US dollars becomes less expensive in US dollar terms when the Australian dollar falls, so overseas demand may increase and exporters can sell more. At the same time, imports become more expensive in Australian dollar terms, because each foreign good costs more Australian dollars, which may reduce domestic demand for imports. Together these effects improve the trade balance and make domestic producers more competitive against imports. However, the adjustment may take time, because contracts are fixed and supply chains take time to respond. Higher import prices can also raise inflation, so the effect on the economy depends on how strongly the change in prices feeds through.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation shows the effect on exports and imports and the resulting improvement in competitiveness, identifies the time lag of adjustment, and notes the inflationary risk. The mechanism is reasoned through each step rather than asserted.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-1-2-1-1-2",
+                        "mark": 4,
+                        "answer": "When the Australian dollar falls, Australian exports are cheaper for people overseas, so they may buy more of them. Imports cost more in Australian dollars, which may make people buy fewer imports and more local goods.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the effect on both exports and imports with accurate reasoning. Adding the time lag, or the inflationary risk from more expensive imports, would extend it into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-1-2-1-1-3",
+                        "mark": 2,
+                        "answer": "If the Australian dollar falls, the value of money in Australia changes.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement about money and does not explain an effect on exports or imports. It needs to name the effect on at least one of them.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-1-2-1-2",
+                    "question": "Apply the exchange rate to advise an Australian wine exporter on the effect of a sharp rise in the Australian dollar on its sales.",
+                    "totalMarks": 5,
+                    "verb": "APPLY",
+                    "scenario": "A South Australian winery exports most of its wine to the United States. Over six months the Australian dollar rises sharply against the US dollar, and the winery's US distributor complains that prices have become uncompetitive.",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "Application should show that a rising dollar raises the US-dollar price of the wine, so the winery must lower its Australian-dollar price, accept lower margins or lose volume",
+                      "A sound recommendation is conditional, for example that the winery could hedge its currency exposure or diversify markets"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that a rising dollar makes the winery's exports cheaper",
+                      "Advising the winery without considering the effect on its margins or sales volume"
+                    ],
+                    "keywords": [
+                      "exchange rate",
+                      "Australian dollar",
+                      "US dollar",
+                      "appreciation",
+                      "export prices",
+                      "foreign demand",
+                      "competitiveness"
+                    ],
+                    "markingCriteria": "5 marks: Applies the effect of an appreciation of the Australian dollar to the winery's exports, explaining the higher foreign-currency price, the likely fall in demand and the options open to the business, with reasoning\n4 marks: Applies the effect of appreciation to the winery's export prices and sales, with accurate reasoning and one option for the business\n3 marks: Identifies the effect of appreciation on export prices and applies it to the scenario with some accuracy\n2 marks: Identifies a relevant effect of an appreciation with limited application\n1 mark: Makes a general statement about the exchange rate",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-2-1-2-1",
+                        "mark": 5,
+                        "answer": "A sharp rise in the Australian dollar, and so in the exchange rate, makes the winery's wine more expensive for American buyers. If the winery keeps its Australian-dollar price unchanged, its US dollar price rises, so the distributor's complaint is justified and demand is likely to fall. The winery has three options. It can cut its Australian-dollar price to restore its US dollar price, which protects volume but reduces its margin on each bottle. It can keep its price and accept lower sales, if its wine has a strong brand that customers will pay for. Or it can hedge its currency exposure with forward contracts and diversify into markets where the dollar has not risen so sharply. The best option depends on how price-sensitive its US customers are, and the winery should test this before deciding.",
+                        "source": "AI",
+                        "feedback": "Full marks: the application traces the effect of appreciation on the US-dollar price and demand, identifies the trade-off between margin and volume, and gives options that follow from it. The recommendation depends on price sensitivity, which the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-1-2-1-2-2",
+                        "mark": 3,
+                        "answer": "The rising dollar means the winery's wine costs more in US dollars. The distributor is right that the wine has become less competitive, so the winery may sell fewer bottles in America.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response applies the effect of appreciation to the winery's export price with some accuracy. Adding options for the business and a recommendation would move it into the 4-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-1-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Exchange rates change all the time and can affect businesses.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not apply the appreciation to the winery's prices or sales. It needs to show the effect on the US-dollar price.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-1-2-2",
+                "description": "evaluate the impact of international financial flows on the Australian economy, including foreign debt and interest rates",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-1-2-2-1",
+                    "question": "Evaluate the impact of international financial flows on the Australian economy.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-5"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as whether the flows are sustainable and whether they fund productive investment, against which the impact is judged",
+                      "Strong answers distinguish between debt-financed flows that raise future income and flows that only finance consumption"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the types of financial flows without evaluating their impact on the economy",
+                      "Concluding that foreign debt is always harmful without considering what it finances"
+                    ],
+                    "keywords": [
+                      "international financial flows",
+                      "foreign debt",
+                      "interest rates",
+                      "foreign capital",
+                      "current account deficit",
+                      "economic sovereignty",
+                      "investment"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the impact of international financial flows on the Australian economy, weighing the benefits of foreign capital for growth against the costs of foreign debt, income outflows and the exposure of interest rates, and reaching a reasoned conclusion\n7-8 marks: Evaluates several impacts of international financial flows with precise economic evidence and a clear overall position\n6 marks: Evaluates at least one impact of international financial flows and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes international financial flows and their effects with some relevant detail\n2-3 marks: Identifies effects of international financial flows with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-2-2-1-1",
+                        "mark": 10,
+                        "answer": "International financial flows have a mixed impact on the Australian economy. Their benefit is that they supply capital beyond what domestic savings can fund, which supports investment in mining, infrastructure and industry, and helps growth. Judged by whether the flows raise future productive capacity, they are beneficial where they finance productive investment. However, Australia has run persistent current account deficits, financed by foreign borrowing and rising foreign debt, and its net foreign liabilities are large relative to the size of the economy. The servicing of this debt requires income outflows, which reduce national income available to Australians, and it makes the economy vulnerable if foreign lenders become less willing to lend. Large capital inflows can also push up the exchange rate, which harms export and import-competing industries, and foreign investors' decisions can affect domestic interest rates. The evaluation suggests that the impact depends on what the borrowing finances: flows that build capacity strengthen the economy, while flows that fund consumption leave it more exposed.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets productive investment as the criterion, weighs the benefits of capital against the costs of debt servicing, exchange rate effects and interest rate exposure, and distinguishes flows that build capacity from those that fund consumption. The conclusion follows from the criterion.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-econ-1-2-2-1-2",
+                        "mark": 6,
+                        "answer": "International financial flows provide funds for investment in Australia, which supports growth. However, Australia relies on foreign borrowing, so it must pay interest and income to foreign lenders. A large inflow can also raise the exchange rate, which makes exports less competitive. Overall the flows have both benefits and costs for the economy.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the benefit and cost of flows and attempts a judgement, though the reasoning is brief. Stating a criterion, such as whether the borrowing funds productive investment, would make the judgement more precise.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-1-2-2-1-3",
+                        "mark": 3,
+                        "answer": "Foreign investors put money into Australia, and Australian banks borrow money from overseas. This is called international financial flows.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies the flows without describing their effects or evaluating them. It needs at least one impact and a judgement about its significance.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-1-2-2-2",
+                    "question": "Identify two types of international financial flow into Australia.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "Two distinct types are needed, such as foreign direct investment and bank borrowing from overseas",
+                      "Foreign direct investment involves control of an enterprise, while portfolio investment is passive ownership of shares or bonds, which a strong answer may note"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming exports or imports as types of financial flow",
+                      "Naming the same type twice under different names"
+                    ],
+                    "keywords": [
+                      "international financial flows",
+                      "types",
+                      "foreign direct investment",
+                      "portfolio investment",
+                      "bank lending",
+                      "capital inflows"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct and accurate types of international financial flow into Australia, such as foreign direct investment and portfolio investment\n1 mark: Identifies one accurate type of international financial flow into Australia",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-1-2-2-2-1",
+                        "mark": 2,
+                        "answer": "International financial flows into Australia take several forms. Two types are foreign direct investment, where an overseas firm acquires or builds productive assets and controls them, and portfolio investment, where foreign investors buy Australian shares or bonds without controlling the businesses. Banks borrowing from overseas lenders is a further type.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct types are identified, and the distinction between control and passive ownership is drawn briefly. The additional type is not required but does not detract from the answer.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-econ-1-2-2-2-2",
+                        "mark": 1,
+                        "answer": "One type of international financial flow is foreign direct investment.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate type. A second, distinct type, such as portfolio investment, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-econ-2",
+        "name": "Australia's Place in the Global Economy",
+        "subTopics": [
+          {
+            "id": "subtopic-econ-2-1",
+            "name": "Trade, terms of trade and the current account",
+            "dotPoints": [
+              {
+                "id": "dp-econ-2-1-1",
+                "description": "analyse Australia's terms of trade and the causes of its current account deficit",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-2-1-1-1",
+                    "question": "Describe Australia's terms of trade and the factors that determine them.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "The definition is a ratio of an index of export prices to an index of import prices, and a rise means each unit of exports buys more imports",
+                      "Reward recognition that Australia's terms of trade are dominated by commodity prices such as iron ore and coal"
+                    ],
+                    "commonStudentErrors": [
+                      "Defining the terms of trade as the volume of exports and imports rather than their prices",
+                      "Stating that a rise in the terms of trade reduces national income"
+                    ],
+                    "keywords": [
+                      "terms of trade",
+                      "current account deficit",
+                      "export prices",
+                      "import prices",
+                      "commodity prices",
+                      "national income"
+                    ],
+                    "markingCriteria": "4 marks: Describes the terms of trade accurately as the ratio of export prices to import prices, identifies the commodity and import price factors that determine them, and notes their effect on national income\n3 marks: Describes the terms of trade with accurate definition and one determining factor\n2 marks: Identifies the terms of trade with limited description\n1 mark: Makes a general statement about trade",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-1-1-1-1",
+                        "mark": 4,
+                        "answer": "The terms of trade measure the ratio of an index of export prices to an index of import prices. When export prices rise faster than import prices, the terms of trade improve, so each unit of Australian exports buys more imports. Australia's terms of trade are determined largely by commodity prices, since iron ore, coal and gas make up a large share of exports, while manufactured goods make up most imports. A rise in commodity prices improves the terms of trade and raises national income, because Australians receive more income for the same quantity of exports, which can narrow the current account deficit.",
+                        "source": "AI",
+                        "feedback": "Full marks: the definition is accurate as a ratio of price indexes, the determining factor is identified and explained with reference to Australia's exports and imports, and the effect on national income is stated. The description goes beyond the definition to show how the measure works.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-2-1-1-1-2",
+                        "mark": 3,
+                        "answer": "The terms of trade are the ratio of export prices to import prices. They improve when export prices rise, which happens when commodity prices go up.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response defines the terms of trade accurately and identifies one determining factor. Explaining the effect on national income would move it into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-2-1-1-1-3",
+                        "mark": 1,
+                        "answer": "The terms of trade are about how Australia trades with other countries.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not define the terms of trade. It needs the ratio of export prices to import prices.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-2-1-1-2",
+                    "question": "Analyse the causes of Australia's current account deficit.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-3"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the components: the current account is the trade balance plus net income and transfers, so a net income deficit can persist even with a trade surplus",
+                      "Reward recognition that the savings-investment gap is financed by foreign capital inflows, which is the link to the financial account"
+                    ],
+                    "commonStudentErrors": [
+                      "Attributing the current account deficit to the trade balance alone, without considering net income",
+                      "Confusing the current account with the balance of trade"
+                    ],
+                    "keywords": [
+                      "current account deficit",
+                      "net income deficit",
+                      "savings-investment gap",
+                      "foreign borrowing",
+                      "trade balance",
+                      "investment income",
+                      "balance of payments"
+                    ],
+                    "markingCriteria": "6 marks: Analyses the causes of Australia's current account deficit, including the net income deficit from foreign ownership and foreign debt and the savings-investment gap, explaining how each contributes to the deficit\n5 marks: Analyses at least two causes of the current account deficit with accurate reasoning\n4 marks: Explains one cause of the current account deficit with accurate detail and a link to the balance of payments\n3 marks: Describes the current account and one cause with some accuracy\n2 marks: Identifies the current account deficit or a cause of it\n1 mark: Makes a general statement about the balance of payments",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-1-1-2-1",
+                        "mark": 6,
+                        "answer": "Australia's current account deficit arises from several causes. The current account is the balance of trade plus net income and transfers, and the most persistent source of deficit is the net income deficit, because profits and interest paid to foreign owners and lenders exceed the income Australians earn overseas. Foreign ownership of many Australian businesses and a large stock of foreign debt mean that these payments are substantial. A second cause is the savings-investment gap: domestic saving has been insufficient to fund all the investment the economy needs, so the shortfall must be financed by foreign capital inflows. These inflows appear as a surplus in the financial account, which matches the current account deficit. Although Australia has at times run a trade surplus, the income outflows keep the current account in deficit.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains the composition of the current account, identifies the net income deficit as the persistent cause, and links the savings-investment gap to foreign capital inflows through the financial account. The point that a trade surplus can coexist with a current account deficit shows the precision required.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-2-1-1-2-2",
+                        "mark": 4,
+                        "answer": "Australia's current account deficit is caused partly by income paid to foreign owners of Australian businesses. This income outflow is larger than the income Australians earn overseas, so the current account is in deficit.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one cause with accurate detail and a link to the current account. A second cause, such as the savings-investment gap, would extend it into the 5-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-2-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Australia has a current account deficit because it imports more than it exports.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a cause but describes it as a trade balance issue alone. The current account includes net income, and an answer that omits it does not analyse the deficit fully.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-2-1-1-3",
+                    "question": "Analyse the effect of a rise in Australia's terms of trade on national income and inflation.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-3",
+                      "EC12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show that a rise in the terms of trade raises real national income, which can increase spending and push up inflation",
+                      "The exchange rate channel, where higher export prices tend to appreciate the dollar, is a strong point of analysis"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that a rise in the terms of trade always lowers inflation",
+                      "Describing the effect on export prices without following it through to national income"
+                    ],
+                    "keywords": [
+                      "terms of trade",
+                      "national income",
+                      "inflation",
+                      "real income",
+                      "aggregate demand",
+                      "exchange rate",
+                      "export income"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the effect of a rise in the terms of trade on national income and inflation, explaining the increase in real income, the effect on aggregate demand and the exchange rate, and the policy implications\n5-6 marks: Analyses the effect on national income and inflation with accurate reasoning and at least one transmission channel\n3-4 marks: Describes the effect of a rise in the terms of trade on national income with some accuracy\n1-2 marks: Makes a basic or general statement about the terms of trade",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-1-1-3-1",
+                        "mark": 8,
+                        "answer": "A rise in the terms of trade increases national income, because Australians receive more income from a given volume of exports while paying the same for imports. This raises real national income even if output does not change. The extra income can increase household consumption and business investment, which raises aggregate demand. If the economy is near full capacity, this increase in demand may generate inflationary pressure, as firms find it harder to meet demand and raise prices. The exchange rate also responds: higher export prices tend to attract foreign currency and appreciate the dollar, which makes imports cheaper and can moderate inflation, but harms export and import-competing industries. The Reserve Bank must weigh these effects when setting interest rates, since a rise in income may call for higher rates to contain inflation. The overall effect is an improvement in living standards, but one that is managed through the exchange rate and monetary policy.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis traces the rise in terms of trade through real income, aggregate demand and inflation, identifies the exchange rate as a moderating channel, and draws the policy implication. The reasoning links each step to the next, which the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-2-1-1-3-2",
+                        "mark": 5,
+                        "answer": "When the terms of trade rise, Australians earn more for their exports, so national income rises. This extra income can increase spending, which may push up prices and cause inflation. The exchange rate may also rise, which affects exporters.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses the effect on national income and inflation with reasoning. The top band requires a clearer account of the transmission channels and the policy response.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-2-1-1-3-3",
+                        "mark": 2,
+                        "answer": "The terms of trade are important for Australia's economy because they affect how much it earns.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response is a general statement that does not analyse the effect on national income or inflation. It needs a transmission channel and an explanation of the outcome.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-2-1-2",
+                "description": "evaluate the costs and benefits of trade liberalisation for Australia's industries and consumers",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-2-1-2-1",
+                    "question": "Evaluate the costs and benefits of trade liberalisation for Australia.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as the net gain to the economy over time, against which the costs and benefits are weighed",
+                      "Strong answers recognise that the adjustment costs are concentrated on particular industries and regions, while the benefits are spread widely"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing the benefits and costs without weighing them against each other",
+                      "Treating trade liberalisation as entirely beneficial or entirely harmful without a criterion"
+                    ],
+                    "keywords": [
+                      "trade liberalisation",
+                      "tariffs",
+                      "structural adjustment",
+                      "consumer prices",
+                      "productivity",
+                      "competition",
+                      "manufacturing"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the costs and benefits of trade liberalisation for Australia, weighing the gains in efficiency, consumer choice and export growth against the adjustment costs for industries and workers, and reaching a reasoned conclusion\n7-8 marks: Evaluates several costs and benefits with precise economic evidence and a clear overall position\n6 marks: Evaluates at least one cost or benefit of trade liberalisation and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes the costs and benefits of trade liberalisation with some relevant detail\n2-3 marks: Identifies costs or benefits with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-1-2-1-1",
+                        "mark": 10,
+                        "answer": "Trade liberalisation, the reduction of tariffs and other barriers to trade, has produced net gains for Australia, but the costs have been concentrated on particular industries. Measured by efficiency and consumer welfare, the benefits are substantial: lower tariffs reduced prices for consumers, increased competition forced domestic firms to improve productivity, and resources moved towards industries where Australia has a comparative advantage, such as agriculture and resources. Export growth followed as firms gained access to larger markets. However, the adjustment costs were real. Industries such as passenger motor vehicles and textiles contracted sharply, and the workers and communities that depended on them faced job losses and retraining needs that the market did not automatically resolve. The gains are spread widely across consumers, while the losses fall on a smaller group, which makes the policy politically difficult. The evaluation therefore favours liberalisation on the criterion of net national gain, but supports measures to manage the structural adjustment of affected workers and regions.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets net national gain as the criterion, weighs the efficiency and consumer benefits against the concentrated adjustment costs, and reaches a conclusion that includes the policy response to those costs. The distinction between diffuse benefits and concentrated costs is the economic judgement the top band requires.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-econ-2-1-2-1-2",
+                        "mark": 6,
+                        "answer": "Trade liberalisation lowered tariffs, which reduced prices for consumers and increased competition. Some industries, such as car manufacturing, shrank because they could not compete with cheaper imports, and workers lost their jobs. Overall the policy has been beneficial, but its costs were significant for some industries.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates one benefit and one cost and reaches a judgement, though the reasoning is brief. Stating the criterion of net gain and explaining why the costs are concentrated would strengthen the evaluation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-2-1-2-1-3",
+                        "mark": 3,
+                        "answer": "Trade liberalisation means reducing tariffs. This lowers prices for consumers, but some businesses lose out.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies a benefit and a cost with limited explanation and no evaluation. It needs an account of how each occurs and a judgement about the net effect.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-2-1-2-2",
+                    "question": "Explain the concept of comparative advantage and how it underpins the gains from trade.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC12-1",
+                      "EC12-2"
+                    ],
+                    "markerNotes": [
+                      "Comparative advantage depends on relative opportunity cost, not on absolute efficiency, which is the central point of the concept",
+                      "An example with numbers or a clear illustration strengthens the explanation"
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing comparative advantage with absolute advantage",
+                      "Stating that a country with an absolute advantage in everything gains nothing from trade"
+                    ],
+                    "keywords": [
+                      "comparative advantage",
+                      "gains from trade",
+                      "opportunity cost",
+                      "specialisation",
+                      "trading partners",
+                      "efficiency",
+                      "absolute advantage"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly the concept of comparative advantage, based on opportunity cost, and how specialisation and trade allow countries to gain from trade, with accurate economic reasoning and an example\n5 marks: Explains comparative advantage through opportunity cost and the gains from specialisation, with accurate reasoning\n4 marks: Explains comparative advantage and one gain from trade with accurate detail\n3 marks: Describes comparative advantage with some accuracy and a link to trade\n2 marks: Identifies comparative advantage or a gain from trade\n1 mark: Makes a general statement about trade between countries",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-1-2-2-1",
+                        "mark": 6,
+                        "answer": "Comparative advantage exists when a country can produce a good at a lower opportunity cost than another country, meaning it gives up less of other goods to produce it. Opportunity cost is measured in terms of the alternative output forgone. Suppose Australia gives up two tonnes of wheat for each tonne of steel it could make, while its trading partner gives up four tonnes of wheat for the same steel. Australia has a comparative advantage in wheat even if the partner is more efficient at both goods. When each country specialises in the good for which it has the lower opportunity cost and trades, total output rises and both countries can consume more than they could without trade. These are the gains from trade. The principle explains why countries benefit from trade even when one is more productive across the board.",
+                        "source": "AI",
+                        "feedback": "Full marks: comparative advantage is explained in terms of relative opportunity cost, illustrated with a clear example, and linked to specialisation and the gain from trade. The point that a more efficient partner can still benefit from trade shows the depth the top band requires.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-2-1-2-2-2",
+                        "mark": 4,
+                        "answer": "Comparative advantage means a country can make something at a lower opportunity cost than another country. If each country specialises in what it does best and trades, both can be better off.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains comparative advantage and the gain from trade with accurate detail. An example, or the reference to opportunity cost in numbers, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-2-1-2-2-3",
+                        "mark": 2,
+                        "answer": "Comparative advantage is something countries have that helps them trade.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the concept in general terms without defining it through opportunity cost. It needs an accurate definition and an explanation of the gain from trade.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-econ-2-2",
+            "name": "Foreign debt, ownership and free trade agreements",
+            "dotPoints": [
+              {
+                "id": "dp-econ-2-2-1",
+                "description": "explain Australia's foreign debt and the effect of foreign ownership on economic sovereignty",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-2-2-1-1",
+                    "question": "Explain why foreign ownership of Australian assets may affect economic sovereignty.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-1"
+                    ],
+                    "markerNotes": [
+                      "Economic sovereignty concerns the capacity to make decisions in the national interest, so the explanation should show how ownership affects where decisions are made",
+                      "Reward recognition that the Foreign Investment Review Board screens proposals against the national interest, which is a response to the concern"
+                    ],
+                    "commonStudentErrors": [
+                      "Equating foreign ownership with a loss of sovereignty without explaining the mechanism",
+                      "Confusing economic sovereignty with national security alone"
+                    ],
+                    "keywords": [
+                      "foreign ownership",
+                      "economic sovereignty",
+                      "Australian assets",
+                      "profit repatriation",
+                      "national interest",
+                      "Foreign Investment Review Board",
+                      "decision-making"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly why foreign ownership of Australian assets may affect economic sovereignty, including the location of decision-making, the outflow of profits and the national interest, and the screening role of the Foreign Investment Review Board, with accurate reasoning\n5 marks: Explains at least two ways in which foreign ownership affects sovereignty, with accurate reasoning\n4 marks: Explains one way in which foreign ownership affects sovereignty with accurate detail\n3 marks: Describes foreign ownership and its link to sovereignty with some accuracy\n2 marks: Identifies foreign ownership or sovereignty with limited explanation\n1 mark: Makes a general statement about foreign investment",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-2-1-1-1",
+                        "mark": 6,
+                        "answer": "Foreign ownership of Australian assets may affect economic sovereignty because the owners, not Australians, decide where investment and employment occur. When a major company is foreign-owned, strategic decisions about production, expansion and closure may be made overseas in the interests of the parent company's shareholders. Profits earned in Australia are also remitted abroad, which reduces the income retained in the domestic economy. Economic sovereignty concerns the capacity to pursue the national interest, so these outflows and decisions can constrain policy choices. The Foreign Investment Review Board screens significant proposals against the national interest, which allows the government to impose conditions or refuse approval. Whether the loss of sovereignty is significant depends on the sector and the size of the investment.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation shows the mechanism through decision-making location and profit repatriation, connects both to the national interest, and identifies the Foreign Investment Review Board as the response. The qualification that the significance depends on the sector shows the analytical depth required.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-2-2-1-1-2",
+                        "mark": 4,
+                        "answer": "When a foreign company owns an Australian business, decisions about the business may be made overseas. This means Australia has less control over its own economy, which is what economic sovereignty means.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one way foreign ownership affects sovereignty with accurate reasoning. A second mechanism, such as profit repatriation, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-2-2-1-1-3",
+                        "mark": 2,
+                        "answer": "Foreign owners of Australian businesses sometimes make decisions that affect Australia.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response is a general statement that does not explain the link to economic sovereignty. It needs a mechanism and an explanation of why it matters.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-2-2-1-2",
+                    "question": "Describe the difference between Australia's gross foreign debt and its net foreign liabilities.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "The distinction is that net foreign liabilities subtract Australia's foreign assets, so they show the net position, while gross debt shows only the borrowing side",
+                      "Reward accuracy about what counts as debt, which includes borrowing by banks and governments as well as by firms"
+                    ],
+                    "commonStudentErrors": [
+                      "Treating foreign debt and net foreign liabilities as identical measures",
+                      "Stating that net foreign liabilities are always larger than gross foreign debt"
+                    ],
+                    "keywords": [
+                      "foreign debt",
+                      "net foreign liabilities",
+                      "gross foreign debt",
+                      "foreign assets",
+                      "net international investment position",
+                      "borrowing",
+                      "Australian dollar"
+                    ],
+                    "markingCriteria": "4 marks: Describes the difference between gross foreign debt, the total borrowing from overseas, and net foreign liabilities, which net off Australia's foreign assets, with accurate detail on each\n3 marks: Describes both measures with accurate detail on one difference\n2 marks: Identifies gross foreign debt or net foreign liabilities with limited detail\n1 mark: Makes a general statement about foreign debt",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-2-1-2-1",
+                        "mark": 4,
+                        "answer": "Gross foreign debt is the total amount that Australian governments, banks and firms owe to overseas lenders, including bonds and loans, measured at a point in time. Net foreign liabilities are calculated by subtracting Australia's foreign assets, such as overseas investments held by Australians, from the total of foreign liabilities. The difference matters because a country with large foreign assets may have a smaller net position than its gross debt suggests. Net foreign liabilities therefore give a fuller picture of Australia's external position, while gross debt shows the borrowing that must be serviced.",
+                        "source": "AI",
+                        "feedback": "Full marks: both measures are described accurately, the difference is explained by the offset of foreign assets, and the implication for interpreting the external position is stated. The point that gross debt shows what must be serviced is the distinction the top band requires.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-2-2-1-2-2",
+                        "mark": 3,
+                        "answer": "Gross foreign debt is the total money Australia owes overseas. Net foreign liabilities take away the foreign assets that Australians own, so the figure is smaller.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes both measures with accurate detail on the main difference. Explaining why the net measure gives a fuller picture would earn the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-2-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Australia has a lot of foreign debt, which is a problem for the economy.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement about foreign debt and does not describe either measure. It needs an accurate account of gross debt or net liabilities.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-2-2-2",
+                "description": "assess the role of free trade agreements in Australia's trade with its partners",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-2-2-2-1",
+                    "question": "Assess the role of free trade agreements in Australia's trade.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "An assessment should distinguish trade creation, where new trade arises, from trade diversion, where trade shifts from a more efficient partner",
+                      "Credit specific agreements, such as the Australia-United States Free Trade Agreement or the Regional Comprehensive Economic Partnership, used accurately"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that free trade agreements always increase trade with every partner",
+                      "Describing the agreements without assessing their effect on Australia's trade"
+                    ],
+                    "keywords": [
+                      "free trade agreements",
+                      "Australia's trade",
+                      "market access",
+                      "tariffs",
+                      "trade diversion",
+                      "trade creation",
+                      "rules of origin"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the role of free trade agreements in Australia's trade, weighing market access and tariff reductions against trade diversion and the uneven benefits across sectors, and reaching a reasoned conclusion\n6 marks: Assesses the role of free trade agreements with several accurate points and attempts a judgement\n5 marks: Assesses at least one role of free trade agreements with accurate evidence and suggests a conclusion\n3-4 marks: Describes free trade agreements and their effects on trade with some relevant detail\n2 marks: Identifies a free trade agreement or one effect with limited explanation\n1 mark: Makes a basic or general statement about trade agreements",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Free trade agreements have played an important role in Australia's trade by improving market access for exporters through the reduction of tariffs and the removal of other barriers. Agreements such as the Australia-United States Free Trade Agreement and the Regional Comprehensive Economic Partnership have given Australian exporters preferential access to large markets, which supports export growth and the diversification of trading partners. Lower tariffs on imports also reduce input costs for Australian producers. However, the benefits are uneven. Trade diversion can occur when an agreement shifts trade from a more efficient non-member toward a member, which may reduce overall efficiency. The gains are concentrated in sectors that export to the partner, while import-competing industries may face greater competition. Rules of origin can also add compliance costs for businesses. The assessment suggests that free trade agreements are valuable for market access, but their net role depends on the balance of trade creation and diversion and on how well the benefits are spread across sectors.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment weighs market access and tariff reductions against trade diversion and uneven sectoral benefits, identifies the rules of origin as a further cost, and reaches a conclusion that depends on the balance of trade creation and diversion. The reference to specific agreements is accurate and used precisely.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-econ-2-2-2-1-2",
+                        "mark": 5,
+                        "answer": "Free trade agreements reduce tariffs between member countries, which gives Australian exporters better access to their markets. This can increase exports and create jobs. However, trade may be diverted from countries that are outside the agreement, so the overall benefit is not always clear.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses one role with accurate evidence and suggests a conclusion. The top band would require the uneven benefits across sectors and a clearer judgement on the net effect.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-2-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Australia has signed free trade agreements with several countries.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies that agreements exist without describing an effect on trade. It needs at least one effect and an assessment of it.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-2-2-2-2",
+                    "question": "Identify two types of trade barrier that free trade agreements seek to reduce.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "EC12-2",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "Two distinct barriers are needed, such as tariffs and quotas, not two forms of the same tariff",
+                      "A strong answer may note non-tariff barriers, such as standards, as a further category"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming an economic objective, such as exchange rate stability, as a trade barrier",
+                      "Naming a subsidy as a barrier to trade, when subsidies are often a distortion rather than a barrier"
+                    ],
+                    "keywords": [
+                      "free trade agreements",
+                      "trade barriers",
+                      "tariffs",
+                      "quotas",
+                      "non-tariff barriers",
+                      "import duties",
+                      "subsidies"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct types of trade barrier that free trade agreements seek to reduce, such as tariffs and quotas\n1 mark: Identifies one type of trade barrier that free trade agreements seek to reduce",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-2-2-2-2-1",
+                        "mark": 2,
+                        "answer": "Two types of trade barrier that free trade agreements seek to reduce are tariffs, which are taxes on imported goods, and quotas, which are limits on the quantity of goods that can be imported. Agreements also address non-tariff barriers, such as differing product standards.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct barriers are identified and briefly defined, with a further category noted. The definitions are accurate and the answer does not exceed what the identify command requires.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-econ-2-2-2-2-2",
+                        "mark": 1,
+                        "answer": "A tariff is a tax on imports that free trade agreements may reduce.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate barrier. A second, distinct barrier, such as quotas, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-econ-3",
+        "name": "Economic Issues",
+        "subTopics": [
+          {
+            "id": "subtopic-econ-3-1",
+            "name": "Unemployment and inflation",
+            "dotPoints": [
+              {
+                "id": "dp-econ-3-1-1",
+                "description": "analyse the causes, types and effects of unemployment, including cyclical and structural unemployment",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-3-1-1-1",
+                    "question": "Describe the types of unemployment, including structural unemployment and cyclical unemployment.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC12-3",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "Each type needs a cause: cyclical unemployment from insufficient aggregate demand, structural from a mismatch of skills or industries",
+                      "Frictional unemployment, from time spent between jobs, is a useful third type for the top band"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing cyclical and structural unemployment as the same thing",
+                      "Naming types without giving the cause of each"
+                    ],
+                    "keywords": [
+                      "structural unemployment",
+                      "cyclical unemployment",
+                      "types",
+                      "frictional unemployment",
+                      "seasonal unemployment",
+                      "unemployment rate",
+                      "labour force"
+                    ],
+                    "markingCriteria": "4 marks: Describes at least three types of unemployment accurately, including structural and cyclical unemployment, with the cause of each and an example\n3 marks: Describes two types of unemployment with accurate causes\n2 marks: Identifies a type of unemployment with limited description\n1 mark: Makes a general statement about unemployment",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-1-1-1-1",
+                        "mark": 4,
+                        "answer": "There are several types of unemployment. Structural unemployment arises when there is a mismatch between the skills workers have and the skills employers need, often because of technological change or the decline of an industry, such as manufacturing workers who lose jobs when factories close. Cyclical unemployment is caused by insufficient aggregate demand during the phase of the business cycle known as a recession, so firms cut back on hiring and workers are laid off. Frictional unemployment occurs when people are between jobs, searching for work or changing employment, and is a normal feature of a dynamic labour market. Seasonal unemployment affects industries such as tourism or agriculture where demand varies over the year.",
+                        "source": "AI",
+                        "feedback": "Full marks: four types are described, with a cause for each and an example for the main types. The distinction between structural unemployment, caused by a skills mismatch, and cyclical unemployment, caused by demand, is drawn accurately.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-3-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Structural unemployment happens when workers' skills no longer match the jobs available, for example when an industry closes. Cyclical unemployment happens during a recession when there is not enough demand for workers.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes two types accurately with their causes. A third type, such as frictional unemployment, with its cause would earn the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-3-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Unemployment is when people do not have jobs.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response defines unemployment in general terms and identifies no type. It needs at least one named type and its cause.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-3-1-1-2",
+                    "question": "Analyse the effects of cyclical unemployment on the economy.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-3",
+                      "EC12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the feedback loop: lower income reduces spending, which reduces demand for more workers",
+                      "Reward the link between higher unemployment and a larger budget deficit through lower tax receipts and higher welfare payments"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the effects of unemployment on individuals without analysing the effects on the economy",
+                      "Stating that cyclical unemployment has no effect on government finances"
+                    ],
+                    "keywords": [
+                      "cyclical unemployment",
+                      "aggregate demand",
+                      "recession",
+                      "government budget deficit",
+                      "household income",
+                      "living standards",
+                      "multiplier"
+                    ],
+                    "markingCriteria": "6 marks: Analyses the effects of cyclical unemployment on the economy, explaining the reduction in aggregate demand and income, the effect on the government budget and the social and living standard consequences, with accurate economic reasoning\n5 marks: Analyses at least two effects of cyclical unemployment with accurate reasoning\n4 marks: Explains one effect of cyclical unemployment with accurate detail and a link to the economy\n3 marks: Describes cyclical unemployment and one effect with some accuracy\n2 marks: Identifies cyclical unemployment or an effect\n1 mark: Makes a general statement about unemployment",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-1-1-2-1",
+                        "mark": 6,
+                        "answer": "Cyclical unemployment reduces aggregate demand, because workers who lose their jobs have less income to spend, and firms that see lower sales cut production and employment further. This creates a feedback loop in which falling spending deepens the downturn. The government budget is affected in two ways: tax receipts fall as incomes decline, and welfare payments such as unemployment benefits rise, so the budget moves towards deficit. At the household level, the loss of income reduces living standards and may lead to hardship, which imposes social costs beyond the loss of output. Governments may respond with expansionary fiscal policy to restore demand, but the length of the downturn determines how severe these effects become.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis traces the feedback loop from lower income to lower spending and employment, identifies the effect on the budget through tax receipts and welfare, and considers the household consequences. The link to fiscal policy shows the economic reasoning the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-3-1-1-2-2",
+                        "mark": 4,
+                        "answer": "When cyclical unemployment rises, people have less income, so they spend less and firms sell fewer goods. This reduces aggregate demand and makes the economy weaker. Governments also collect less tax while paying more in benefits.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the effect on aggregate demand and the budget with accurate reasoning. Adding the social or living standards consequence, or the feedback loop, would extend the analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-3-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Cyclical unemployment is when people lose their jobs in a recession.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies cyclical unemployment accurately but describes no effect on the economy. It needs at least one effect and an explanation of how it occurs.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-3-1-2",
+                "description": "explain the causes and effects of inflation and its measurement using the Consumer Price Index",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-3-1-2-1",
+                    "question": "Explain how the Consumer Price Index is used to measure inflation.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC12-3",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "Explanation should show that inflation is the percentage change in the index over a period, not the level of prices",
+                      "Reward recognition that the weights reflect household spending, so a rise in the price of a heavily weighted item matters more"
+                    ],
+                    "commonStudentErrors": [
+                      "Defining inflation as high prices rather than a sustained rise in the general price level",
+                      "Stating that the index measures the price of a single basket item"
+                    ],
+                    "keywords": [
+                      "Consumer Price Index",
+                      "inflation",
+                      "basket of goods",
+                      "price level",
+                      "weights",
+                      "Australian Bureau of Statistics",
+                      "percentage change"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how the Consumer Price Index measures inflation, including the basket of goods and services, the weighting of items, the periodic price survey and the change in the index over time, with accurate reasoning and an example\n5 marks: Explains the Consumer Price Index and how the change in the index measures inflation, with accurate detail on two features\n4 marks: Explains how the index measures inflation with accurate detail on one feature\n3 marks: Describes the Consumer Price Index with some accuracy\n2 marks: Identifies the Consumer Price Index or a feature of it\n1 mark: Makes a general statement about prices",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-1-2-1-1",
+                        "mark": 6,
+                        "answer": "The Consumer Price Index measures inflation by tracking the average price of a fixed basket of goods and services that a typical household buys, such as food, housing, transport and health care. The Australian Bureau of Statistics collects prices for each item in the basket each quarter. Items are weighted according to their share of household spending, so a rise in the price of a heavily weighted item, such as housing, affects the index more than a rise in a small item. The index is set against a base period, and inflation is the percentage change in the index over a year, which is the figure the Reserve Bank monitors against its target. Because the index measures the change in prices rather than their level, a constant price level would produce zero inflation.",
+                        "source": "AI",
+                        "feedback": "Full marks: the index is explained through its basket, its weights, the collection of prices, and the calculation of inflation as the percentage change. The point that inflation is the change rather than the level shows the economic precision the top band requires.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-3-1-2-1-2",
+                        "mark": 4,
+                        "answer": "The Consumer Price Index uses a basket of goods that households buy. The prices of these goods are collected over time, and if the index rises, inflation has occurred.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the index and how it measures inflation with accurate detail on one feature. The weights, or the percentage change calculation, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-3-1-2-1-3",
+                        "mark": 2,
+                        "answer": "The Consumer Price Index is a number that shows how prices have changed.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the index in general terms without explaining the basket or the calculation of inflation. It needs at least one feature of the index and how it measures inflation.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-3-1-2-2",
+                    "question": "Analyse the causes of demand-pull and cost-push inflation in the Australian economy.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-3",
+                      "EC12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis should distinguish the source of the pressure: demand-pull begins with spending exceeding capacity, cost-push with rising costs of production",
+                      "Credit an Australian example, such as the rise in fuel prices following a global supply shock, used precisely"
+                    ],
+                    "commonStudentErrors": [
+                      "Attributing all inflation to rising wages without considering demand conditions",
+                      "Describing the two types of inflation without analysing their causes"
+                    ],
+                    "keywords": [
+                      "cost-push inflation",
+                      "inflation",
+                      "demand-pull inflation",
+                      "aggregate demand",
+                      "wages",
+                      "input costs",
+                      "supply shocks"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the causes of demand-pull and cost-push inflation in the Australian economy, explaining how excess aggregate demand and rising input and wage costs each raise the price level, and weighing their relative importance in the Australian context\n5-6 marks: Analyses the causes of both types of inflation with accurate reasoning and at least one Australian example\n3-4 marks: Describes demand-pull or cost-push inflation with some accuracy and a link to the Australian economy\n1-2 marks: Makes a basic or general statement about inflation",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-1-2-2-1",
+                        "mark": 8,
+                        "answer": "Demand-pull inflation occurs when aggregate demand grows faster than the economy's productive capacity, so firms raise prices because they cannot meet demand at existing prices. This is most likely when the economy is near full employment and households and businesses are spending strongly, for example during a resources boom when incomes and investment rise together. Cost-push inflation begins on the supply side, when the costs of production rise, such as through higher wages, higher input costs or supply shocks. A rise in global fuel prices, which increases transport and energy costs for Australian firms, is a clear example, and firms may pass these costs on to consumers. The two causes can interact: cost increases may be passed on in wages, which sustain demand and reinforce price rises. In the Australian context, the relative importance of each depends on the phase of the business cycle and the source of the shock, so the Reserve Bank must identify the cause before choosing its response.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis distinguishes the two causes by where the pressure originates, gives an Australian example, and recognises how they interact. The conclusion that the source determines the policy response is the economic judgement the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-3-1-2-2-2",
+                        "mark": 5,
+                        "answer": "Demand-pull inflation happens when spending grows faster than the economy can produce goods, so prices rise. Cost-push inflation happens when the costs of making goods rise, such as wages or fuel, and firms pass these costs on. Both can raise inflation in Australia.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses the causes of both types with accurate reasoning. An Australian example and an account of how the two interact would move it into the top band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-3-1-2-2-3",
+                        "mark": 2,
+                        "answer": "Inflation is when prices go up across the economy for a long time.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes inflation in general terms without analysing either cause. It needs demand-pull or cost-push explained with a cause.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-econ-3-2",
+            "name": "Growth, sustainability and equity",
+            "dotPoints": [
+              {
+                "id": "dp-econ-3-2-1",
+                "description": "evaluate economic growth as a measure of living standards, including the limits of gross domestic product",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-3-2-1-1",
+                    "question": "Evaluate gross domestic product as a measure of living standards.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EC12-3",
+                      "EC12-4"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as whether the measure reflects the wellbeing of the population, against which GDP is judged",
+                      "Strong answers recognise that GDP is a useful measure of market output and growth, but a poor proxy for welfare on its own"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that GDP measures living standards directly, without considering what it omits",
+                      "Listing the limits of GDP without weighing them against its usefulness"
+                    ],
+                    "keywords": [
+                      "gross domestic product",
+                      "living standards",
+                      "economic growth",
+                      "non-market activity",
+                      "environmental degradation",
+                      "income distribution",
+                      "wellbeing"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of gross domestic product as a measure of living standards, weighing its usefulness for comparing output over time against its omission of non-market activity, environmental costs and the distribution of income, and reaching a reasoned conclusion\n7-8 marks: Evaluates several limits of gross domestic product with precise evidence and a clear overall position\n6 marks: Evaluates at least one limit of gross domestic product and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes gross domestic product and its uses with some relevant detail\n2-3 marks: Identifies features of gross domestic product with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-2-1-1-1",
+                        "mark": 10,
+                        "answer": "Gross domestic product is a useful measure of the market output of an economy, but it is an imperfect measure of living standards. Its usefulness lies in comparing output over time and between countries, and in showing whether economic growth is occurring or the economy is contracting. Judged against the criterion of wellbeing, however, GDP has significant limits. It omits non-market activity such as unpaid care and household work, which contributes to wellbeing but is not counted. It does not record environmental degradation: a mine that produces income but depletes resources adds to GDP while reducing the future capacity of the economy, so the measure can overstate progress. It also says nothing about the distribution of income, so rising GDP may coexist with widening inequality and falling living standards for many households. These limits mean GDP is best used alongside other indicators such as life expectancy, income distribution and environmental measures. The evaluation therefore supports GDP as a measure of economic activity, but not as a complete measure of living standards.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets wellbeing as the criterion, weighs GDP's usefulness for comparing output against its omissions of non-market activity, environmental costs and income distribution, and reaches a conclusion about the appropriate use of the measure. The reasoning is critical rather than descriptive.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-econ-3-2-1-1-2",
+                        "mark": 6,
+                        "answer": "GDP measures the value of goods and services produced in an economy, so it shows whether output is growing. However, it does not include unpaid housework or the environmental costs of production, so it may overstate how well people are living. It is therefore useful but incomplete as a measure of living standards.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates two limits of GDP and reaches a judgement. Stating the criterion of wellbeing and explaining how income distribution affects the picture would strengthen the evaluation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-3-2-1-1-3",
+                        "mark": 3,
+                        "answer": "Gross domestic product is the total value of what is produced in a country. It is used to measure how big the economy is.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes GDP accurately but does not evaluate it as a measure of living standards. It needs at least one limit and a judgement about its usefulness.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-3-2-1-2",
+                    "question": "Define economic growth and explain how it is measured.",
+                    "totalMarks": 3,
+                    "verb": "DEFINE",
+                    "linkedOutcomes": [
+                      "EC12-3",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "Growth must be measured in real terms, so the effect of inflation is removed from the change in output",
+                      "The top band distinguishes growth from development and from living standards, which is a precise point"
+                    ],
+                    "commonStudentErrors": [
+                      "Measuring growth in nominal terms, which includes the effect of inflation",
+                      "Defining growth as an increase in the population or in employment alone"
+                    ],
+                    "keywords": [
+                      "economic growth",
+                      "gross domestic product",
+                      "real GDP",
+                      "percentage change",
+                      "output",
+                      "inflation"
+                    ],
+                    "markingCriteria": "3 marks: Defines economic growth accurately as a sustained increase in real output, and explains that it is measured by the percentage change in real gross domestic product over a period\n2 marks: Defines economic growth with limited accuracy, or explains the measurement without the definition\n1 mark: Identifies economic growth in general terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-2-1-2-1",
+                        "mark": 3,
+                        "answer": "Economic growth is a sustained increase in the real output of an economy over time. It is measured by the percentage change in real gross domestic product between two periods, where real means that the effect of inflation has been removed from the figures.",
+                        "source": "AI",
+                        "feedback": "Full marks: the definition is accurate and sustained, and the measurement is stated in real terms with the percentage change, which shows precision. The removal of inflation is the detail that separates the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-3-2-1-2-2",
+                        "mark": 2,
+                        "answer": "Economic growth is when the economy gets bigger. It is measured using GDP.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response defines growth in general terms and names GDP without explaining how the change is measured. Adding real terms and the percentage change would earn the full 3 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-3-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Economic growth is something governments care about.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies growth in general terms without defining it. It needs an accurate definition in terms of real output.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-3-2-2",
+                "description": "assess the causes of income inequality and the policies used by governments to address it",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-3-2-2-1",
+                    "question": "Assess the policies governments use to address income inequality.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EC12-4",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "An assessment should weigh the equity gains of redistribution against possible effects on work incentives",
+                      "Strong answers recognise that policies targeting skills and education address the causes of inequality, not only its symptoms"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that progressive taxation always reduces economic growth, without evidence",
+                      "Describing the policies without assessing their effect on inequality"
+                    ],
+                    "keywords": [
+                      "income inequality",
+                      "progressive taxation",
+                      "transfer payments",
+                      "minimum wage",
+                      "Gini coefficient",
+                      "incentives",
+                      "social security"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the policies governments use to address income inequality, weighing progressive taxation, transfer payments and minimum wage regulation against their effects on incentives and their limits, and reaching a reasoned conclusion\n6 marks: Assesses the policies with several accurate points and attempts a judgement\n5 marks: Assesses at least one policy with accurate evidence and suggests a conclusion\n3-4 marks: Describes policies to address income inequality with some relevant detail\n2 marks: Identifies a policy with limited explanation\n1 mark: Makes a basic or general statement about inequality",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Governments address income inequality through progressive taxation, transfer payments, minimum wage regulation and investment in education and skills. Progressive taxation takes a larger share of income from high earners, which reduces the gap between incomes after tax. Transfer payments such as the Age Pension and income support provide a floor for households who cannot earn enough, and they have a substantial effect on the Gini coefficient. Minimum wage regulation through the Fair Work Commission raises the earnings of the lowest-paid workers. Each policy has limits. High marginal tax rates may weaken incentives for some workers, and welfare can create dependency if it is poorly designed. Minimum wages set too high may reduce employment for the least skilled. The most durable response is investment in education and training, which addresses the causes of inequality by raising the earning capacity of workers. The assessment suggests that the policy mix works best when redistribution is combined with measures that improve skills.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment weighs each policy's equity gain against its effect on incentives and employment, and concludes that skills investment addresses the causes rather than the symptoms. The reference to the Gini coefficient shows precise economic evidence.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-econ-3-2-2-1-2",
+                        "mark": 5,
+                        "answer": "Progressive taxation reduces inequality by taking a larger share of high incomes, and transfer payments support households on low incomes. These policies can reduce the gap between rich and poor. However, high taxes may reduce incentives to work for some people, so the policies have costs as well as benefits.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses two policies with accurate evidence and notes a cost. It would reach the top band by weighing the policies against each other and reaching a conclusion about the best mix.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-3-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Governments can tax rich people more to help poor people.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies progressive taxation in general terms without explaining how it works or assessing it. It needs an explanation of the policy and its effect.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-3-2-2-2",
+                    "question": "Identify two causes of income inequality.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "EC12-4",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct causes are needed, such as skills differences and unequal wealth, not two aspects of the same cause",
+                      "A strong answer may note that unemployment concentrates income loss among the least skilled"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a policy, such as progressive taxation, as a cause of inequality",
+                      "Naming an effect of inequality, such as poverty, as a cause"
+                    ],
+                    "keywords": [
+                      "income inequality",
+                      "skills",
+                      "wealth",
+                      "education",
+                      "labour market",
+                      "unemployment",
+                      "wages"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct causes of income inequality, such as differences in skills and education or unequal ownership of wealth\n1 mark: Identifies one cause of income inequality",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-3-2-2-2-1",
+                        "mark": 2,
+                        "answer": "Two causes of income inequality are differences in skills and education, which affect the wages workers can command, and unequal ownership of wealth, since those who own assets such as property and shares receive returns that others do not. Unemployment also concentrates income loss among less skilled workers.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct causes are identified, each in terms of the mechanism through which it creates inequality. The additional point about unemployment adds precision without affecting the mark.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-econ-3-2-2-2-2",
+                        "mark": 1,
+                        "answer": "One cause of income inequality is differences in education between people.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate cause. A second, distinct cause, such as unequal wealth, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-econ-4",
+        "name": "Economic Policies and Management",
+        "subTopics": [
+          {
+            "id": "subtopic-econ-4-1",
+            "name": "Fiscal and monetary policy",
+            "dotPoints": [
+              {
+                "id": "dp-econ-4-1-1",
+                "description": "explain the use of fiscal policy, including the budget balance and government spending, to influence the level of economic activity",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-4-1-1-1",
+                    "question": "Describe the types of fiscal policy and the role of the budget balance in them.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC12-5",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "The budget balance is the difference between government revenue and spending: expansionary policy tends to move the budget towards deficit, contractionary towards surplus",
+                      "Reward recognition that the budget balance also changes automatically with the business cycle, which is a point of depth"
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing expansionary policy with monetary policy, which uses the cash rate rather than the budget",
+                      "Stating that a budget deficit is always bad for the economy, without describing the policy purpose"
+                    ],
+                    "keywords": [
+                      "fiscal policy",
+                      "budget balance",
+                      "government spending",
+                      "expansionary fiscal policy",
+                      "contractionary fiscal policy",
+                      "taxation",
+                      "budget deficit"
+                    ],
+                    "markingCriteria": "4 marks: Describes expansionary and contractionary fiscal policy accurately, explaining how government spending and taxation change the budget balance in each case, with an example\n3 marks: Describes both types of fiscal policy with accurate detail on the budget balance\n2 marks: Identifies a type of fiscal policy with limited description\n1 mark: Makes a general statement about government spending",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-1-1-1-1",
+                        "mark": 4,
+                        "answer": "Fiscal policy uses government spending and taxation to influence aggregate demand. Expansionary fiscal policy increases government spending or cuts taxes, which raises demand and tends to move the budget balance towards deficit. Contractionary fiscal policy reduces spending or raises taxes to slow demand, which tends to move the budget towards surplus. For example, a government facing a recession may increase infrastructure spending, accepting a deficit, while one facing high inflation may hold spending and build a surplus. The budget balance is therefore both a tool of policy and a consequence of it.",
+                        "source": "AI",
+                        "feedback": "Full marks: both types of fiscal policy are described with their effect on the budget balance, an example is given, and the point that the balance is both a tool and a consequence shows the depth the top band requires.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-4-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Expansionary fiscal policy means the government spends more or cuts taxes, which creates a budget deficit. Contractionary fiscal policy means the government spends less or raises taxes to get a surplus.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes both types with accurate detail on the budget balance. An example, or the purpose of each policy in the cycle, would earn the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-4-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Fiscal policy is something the government does with money.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not describe either type of fiscal policy or the budget balance. It needs the two types and their effect on the budget.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-4-1-1-2",
+                    "question": "Explain how expansionary fiscal policy can be used to address a recession.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC12-5",
+                      "EC12-3"
+                    ],
+                    "markerNotes": [
+                      "The mechanism is the multiplier: an initial injection of spending generates further rounds of spending, so the effect exceeds the original amount",
+                      "Reward recognition of the limits, such as time lags and the rise in public debt, which a strong answer may note briefly"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing expansionary fiscal policy without linking it to aggregate demand",
+                      "Stating that the multiplier always makes the effect equal to the spending increase"
+                    ],
+                    "keywords": [
+                      "expansionary fiscal policy",
+                      "recession",
+                      "government spending",
+                      "aggregate demand",
+                      "budget deficit",
+                      "tax cuts",
+                      "multiplier"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how expansionary fiscal policy raises aggregate demand during a recession, through government spending and tax cuts, including the multiplier effect, the budget deficit it creates and the limits of the policy, with accurate reasoning\n5 marks: Explains the mechanism of expansionary fiscal policy during a recession and at least one effect or limit, with accurate reasoning\n4 marks: Explains how expansionary fiscal policy addresses a recession with accurate detail on one mechanism\n3 marks: Describes expansionary fiscal policy with some link to a recession\n2 marks: Identifies expansionary fiscal policy or one of its measures\n1 mark: Makes a general statement about the economy in recession",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-1-1-2-1",
+                        "mark": 6,
+                        "answer": "In a recession, aggregate demand is weak, so unemployment rises and firms hold back investment. Expansionary fiscal policy addresses this by raising government spending, for example on infrastructure, or by cutting taxes, which leaves households with more income to spend. The initial injection of spending creates income for the firms and workers who supply the government, who in turn spend part of it, so the effect is multiplied through the economy. This raises aggregate demand, encourages firms to hire, and reduces unemployment. However, the policy creates a budget deficit, which adds to public debt and must eventually be financed. The timing of spending also matters: projects that take years to complete may arrive after the recovery has begun, which limits their effectiveness.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation traces the mechanism from spending to aggregate demand through the multiplier, and notes the budget deficit and the timing limit. The reasoning is economic rather than descriptive.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-4-1-1-2-2",
+                        "mark": 4,
+                        "answer": "In a recession, the government can increase its spending on projects such as roads, which creates jobs. The people who get these jobs then spend their wages, which raises demand in the economy and helps it recover.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the mechanism of expansionary spending with accurate detail. Explaining the budget deficit, or a limit of the policy, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-4-1-1-2-3",
+                        "mark": 2,
+                        "answer": "When the economy is in recession, the government can spend more money.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies expansionary spending but does not explain how it addresses the recession. It needs the link to aggregate demand and unemployment.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-4-1-2",
+                "description": "evaluate monetary policy and the role of the Reserve Bank of Australia in managing inflation",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-4-1-2-1",
+                    "question": "Evaluate the effectiveness of monetary policy in controlling inflation.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EC12-5",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as keeping inflation within the target band, against which monetary policy is judged",
+                      "Strong answers recognise that cost-push inflation from supply shocks is less responsive to interest rates than demand-driven inflation"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Reserve Bank's role without evaluating how effectively the cash rate controls inflation",
+                      "Asserting that monetary policy always controls inflation, without considering lags and supply shocks"
+                    ],
+                    "keywords": [
+                      "monetary policy",
+                      "inflation",
+                      "Reserve Bank of Australia",
+                      "cash rate",
+                      "transmission mechanism",
+                      "time lags",
+                      "inflation target"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the effectiveness of monetary policy in controlling inflation, weighing the Reserve Bank's influence over the cash rate and its transmission against lags, supply-side shocks and effects on other economic objectives, and reaching a reasoned conclusion\n7-8 marks: Evaluates several features of monetary policy with precise evidence and a clear overall position\n6 marks: Evaluates at least one feature of monetary policy and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes monetary policy and the role of the Reserve Bank with some relevant detail\n2-3 marks: Identifies features of monetary policy with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-1-2-1-1",
+                        "mark": 10,
+                        "answer": "Monetary policy is effective in controlling demand-driven inflation, but its reach over inflation caused by supply shocks is limited. Measured against the inflation target of 2 to 3 per cent over the cycle that the Reserve Bank of Australia applies, the Bank has a strong instrument in the cash rate. An increase in the cash rate raises variable mortgage and business lending rates, which reduces household spending and business investment, lowers aggregate demand and eases the pressure on prices. The transmission operates also through the exchange rate and asset prices. However, the effect is not immediate: lags of a year or more mean the Bank must forecast inflation ahead of time, and a misjudgement can leave inflation too high or cause unnecessary unemployment. Where inflation is driven by supply shocks, such as a rise in global fuel prices, higher interest rates reduce demand without addressing the cost pressure, so the policy imposes costs on employment to achieve a limited effect on prices. The evaluation therefore supports monetary policy as the main tool for demand-driven inflation, while recognising that it works more slowly and less cleanly against supply-driven price rises.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets the inflation target as the criterion, weighs the strength of the cash rate's transmission against lags and the limits posed by supply shocks, and reaches a conclusion that distinguishes demand-driven from supply-driven inflation. The judgement is precise and economically grounded.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-econ-4-1-2-1-2",
+                        "mark": 6,
+                        "answer": "The Reserve Bank controls inflation by setting the cash rate. When it raises the cash rate, borrowing becomes more expensive, so spending falls and inflation eases. However, the effect takes time to work, and the Bank cannot control prices that rise because of global supply shocks. Overall monetary policy is effective but not complete.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the mechanism and the lags and reaches a judgement. Stating the criterion of the inflation target and explaining why supply shocks limit the policy would strengthen the evaluation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-4-1-2-1-3",
+                        "mark": 3,
+                        "answer": "The Reserve Bank of Australia sets the cash rate. This is an interest rate that banks use, and changing it affects how much people borrow.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the cash rate and the Reserve Bank's role with limited explanation and no evaluation. It needs a judgement about how well the policy controls inflation.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-4-1-2-2",
+                    "question": "Analyse how changes in the cash rate are transmitted to the economy.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-5",
+                      "EC12-3"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show a sequence: the cash rate changes bank funding costs, which change lending rates, which change spending",
+                      "Reward recognition that the exchange rate channel works quickly, while the interest rate channel works through household budgets over longer periods"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that the cash rate directly sets the prices of goods in the economy",
+                      "Describing only the effect on mortgages without other channels"
+                    ],
+                    "keywords": [
+                      "cash rate",
+                      "transmission mechanism",
+                      "interest rates",
+                      "household spending",
+                      "business investment",
+                      "exchange rate",
+                      "asset prices"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of how changes in the cash rate are transmitted to the economy, explaining the effects on lending rates, household and business spending, the exchange rate and asset prices, with precise economic reasoning\n5-6 marks: Analyses at least two transmission channels with accurate reasoning\n3-4 marks: Describes the effect of the cash rate on interest rates and spending with some accuracy\n1-2 marks: Makes a basic or general statement about interest rates",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-1-2-2-1",
+                        "mark": 8,
+                        "answer": "A change in the cash rate is transmitted to the economy through several channels. The first is the interest rate channel: when the Reserve Bank raises the cash rate, banks pass on higher funding costs through variable lending rates on mortgages and business loans. Households with variable loans face higher repayments, which reduces their spending, while businesses may defer investment. The second is the exchange rate channel: higher domestic interest rates attract foreign capital, which appreciates the dollar, making imports cheaper and reducing the price of imported inflation. The third is the asset price channel: higher rates tend to reduce the prices of shares and property, which reduces household wealth and encourages saving. Finally, expectations matter, because a credible increase in the cash rate can lead businesses and households to expect lower inflation and adjust their wage and price decisions. The combined effect reduces aggregate demand and eases inflationary pressure, though the channels operate with different speeds.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis identifies the interest rate, exchange rate, asset price and expectations channels, traces the reasoning through each, and notes the different speeds at which they operate. The sequence from the cash rate to lending rates to spending is shown precisely.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-4-1-2-2-2",
+                        "mark": 5,
+                        "answer": "When the cash rate rises, banks increase the interest rates on loans, so households and businesses pay more to borrow. This reduces spending, which lowers demand. A higher interest rate can also attract foreign money, which raises the exchange rate.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses two transmission channels with accurate reasoning. Adding the asset price channel or the role of expectations would extend the analysis into the top band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-4-1-2-2-3",
+                        "mark": 2,
+                        "answer": "The cash rate is an interest rate that the Reserve Bank sets.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response defines the cash rate without analysing how changes in it are transmitted to the economy. It needs at least one channel and its effect.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-econ-4-2",
+            "name": "Supply-side policy and macroeconomic management",
+            "dotPoints": [
+              {
+                "id": "dp-econ-4-2-1",
+                "description": "analyse supply-side policies, including deregulation, privatisation and industry assistance, and their effect on productivity",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-4-2-1-1",
+                    "question": "Analyse the effects of deregulation on the efficiency of Australian industries.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EC12-6",
+                      "EC12-2"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the mechanism: removing barriers to entry increases competition, which forces firms to lower costs and improve productivity",
+                      "Reward recognition of adjustment costs, such as job losses in protected industries, which a strong answer may note"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that deregulation always lowers prices for consumers, without considering the market structure",
+                      "Confusing deregulation with privatisation, which is a change of ownership"
+                    ],
+                    "keywords": [
+                      "deregulation",
+                      "efficiency",
+                      "productivity",
+                      "supply-side policies",
+                      "competition",
+                      "barriers to entry",
+                      "consumer welfare"
+                    ],
+                    "markingCriteria": "6 marks: Analyses the effects of deregulation on the efficiency of Australian industries, explaining how increased competition, lower entry barriers and price pressure raise productivity, and identifying a limit or adjustment cost\n5 marks: Analyses at least two effects of deregulation on efficiency with accurate reasoning\n4 marks: Explains one effect of deregulation on efficiency with accurate detail and a link to supply-side policy\n3 marks: Describes deregulation with some accuracy and a link to efficiency\n2 marks: Identifies deregulation or an effect on efficiency\n1 mark: Makes a general statement about government regulation",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-2-1-1-1",
+                        "mark": 6,
+                        "answer": "Deregulation, one of the supply-side policies, improves the efficiency of Australian industries by reducing barriers to entry and removing rules that restrict competition. When new firms can enter a market, incumbents face pressure to lower costs and improve service, which raises productivity across the industry. The deregulation of sectors such as aviation and telecommunications showed this effect: greater competition led to lower prices and more choice, and firms had to adopt more efficient practices. Consumers benefit from these changes through lower prices. However, deregulation can also impose adjustment costs, since firms that were protected may fail, and workers in those firms may need to move to new jobs. The efficiency gains therefore depend on the market structure and on the support available for affected workers.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains the mechanism through competition and lower entry barriers, gives examples of sectors, and identifies the adjustment cost as a limit. The conclusion that the efficiency gains depend on market structure shows the economic judgement the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-4-2-1-1-2",
+                        "mark": 4,
+                        "answer": "Deregulation removes rules that stop new firms from entering a market. This means existing firms face more competition, so they have to work harder to keep customers, which can improve efficiency.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one effect of deregulation on efficiency with accurate reasoning. A second effect, such as lower prices, or an adjustment cost, would extend it into the 5-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-econ-4-2-1-1-3",
+                        "mark": 2,
+                        "answer": "Deregulation means the government has taken away some rules about business.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes deregulation in general terms without analysing its effect on efficiency. It needs the mechanism of competition and its effect on productivity.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-4-2-1-2",
+                    "question": "Describe two supply-side policies that governments use to increase productivity.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC12-6",
+                      "EC12-5"
+                    ],
+                    "markerNotes": [
+                      "Describing each policy includes how it raises the economy's productive capacity, not only what it is",
+                      "The top band recognises that supply-side policies work over a longer period than demand-side measures"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a demand-side policy, such as a tax cut, as a supply-side policy",
+                      "Describing industry assistance as a means of raising productivity without noting that it may protect inefficient firms"
+                    ],
+                    "keywords": [
+                      "supply-side policies",
+                      "privatisation",
+                      "productivity",
+                      "industry assistance",
+                      "deregulation",
+                      "education and training",
+                      "infrastructure investment"
+                    ],
+                    "markingCriteria": "4 marks: Describes two supply-side policies accurately, such as privatisation and investment in education and training, with an explanation of how each raises productivity\n3 marks: Describes two supply-side policies with accurate detail on one of them\n2 marks: Identifies two supply-side policies with limited description\n1 mark: Identifies one supply-side policy",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-2-1-2-1",
+                        "mark": 4,
+                        "answer": "Supply-side policies aim to raise productivity. Privatisation transfers government-owned enterprises to private ownership, on the argument that private firms face stronger incentives to control costs and innovate, which raises productivity. Investment in education and training improves the skills of the workforce, so workers can use new technology and produce more output per hour. Both policies work on the supply side by increasing the economy's productive capacity, rather than by raising demand, and their effects accumulate over time. Industry assistance and deregulation are other supply-side policies, each with its own trade-offs.",
+                        "source": "AI",
+                        "feedback": "Full marks: two supply-side policies are described with an explanation of how each raises productivity, and the point about longer-term accumulation shows the distinction from demand-side measures.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-4-2-1-2-2",
+                        "mark": 3,
+                        "answer": "Privatisation means selling government businesses to private companies, which can make them more efficient. Governments can also invest in education so that workers are more skilled.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes two policies with accurate detail on one of them. The mechanism for education, through productivity per worker, would earn the full 4 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-econ-4-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Governments can help businesses by making the economy better.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response does not identify a specific supply-side policy. It needs at least one named policy and its effect on productivity.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-econ-4-2-2",
+                "description": "assess the effectiveness of macroeconomic policy in managing the business cycle",
+                "prompts": [
+                  {
+                    "id": "prompt-econ-4-2-2-1",
+                    "question": "Assess the effectiveness of macroeconomic policy in managing the business cycle.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EC12-5",
+                      "EC12-6"
+                    ],
+                    "markerNotes": [
+                      "An assessment needs a criterion, such as stabilising output and inflation over the cycle, against which the policies are judged",
+                      "Strong answers recognise that the policies can conflict, such as expansionary fiscal policy during a period when the Reserve Bank is tightening"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the policies in turn without assessing how well they manage the cycle",
+                      "Asserting that governments can eliminate the business cycle entirely"
+                    ],
+                    "keywords": [
+                      "macroeconomic policy",
+                      "business cycle",
+                      "fiscal policy",
+                      "monetary policy",
+                      "recession",
+                      "stabilisation",
+                      "time lags"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the effectiveness of macroeconomic policy in managing the business cycle, weighing fiscal, monetary and supply-side policy against the lags, political constraints and external shocks that limit them, and reaching a reasoned conclusion\n6 marks: Assesses the effectiveness of macroeconomic policy with several accurate points and attempts a judgement\n5 marks: Assesses at least one policy in managing the business cycle with accurate evidence and suggests a conclusion\n3-4 marks: Describes macroeconomic policy and its role in the business cycle with some relevant detail\n2 marks: Identifies a macroeconomic policy with limited explanation\n1 mark: Makes a basic or general statement about the business cycle",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Macroeconomic policy can moderate the business cycle, but it cannot eliminate it, and its effectiveness depends on timing and coordination. Its success can be judged by whether output and employment stabilise around trend while inflation remains within the target. Fiscal policy has a direct effect on demand, and the automatic stabilisers, such as progressive taxation and welfare payments, cushion downturns without any new decision. Monetary policy acts through the cash rate and is typically faster to adjust, though its effects take time. Supply-side policy, by raising productive capacity, can reduce the inflationary pressure that arises in booms. However, the policies face constraints. Lags mean that a stimulus introduced in a recession may arrive during the recovery, while political pressures may delay the withdrawal of stimulus. External shocks, such as falls in commodity prices, can dominate domestic policy. The evaluation suggests that macroeconomic policy has been effective in moderating the cycle when the instruments are coordinated and used early, but it cannot offset large shocks.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment uses stabilisation of output and inflation as the criterion, weighs each instrument against its lags and constraints, and reaches a conclusion that depends on timing and coordination. The reference to automatic stabilisers shows precise economic knowledge.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-econ-4-2-2-1-2",
+                        "mark": 6,
+                        "answer": "Governments use fiscal policy and the Reserve Bank uses monetary policy to manage the business cycle. Fiscal policy can raise demand in a recession, and monetary policy can lower interest rates to encourage borrowing. Both can be effective, but they both take time to work, and external shocks can make their effects less predictable.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response assesses the effectiveness of two policies and reaches a judgement. Stating the criterion of stabilisation and explaining how the policies can conflict would strengthen the assessment.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-econ-4-2-2-1-3",
+                        "mark": 3,
+                        "answer": "Fiscal policy means the government spending money or changing taxes. Monetary policy means changing interest rates. Both are used to manage the economy.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the two policies with limited explanation and no assessment of their effectiveness. It needs a criterion and a judgement about how well they manage the cycle.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-econ-4-2-2-2",
+                    "question": "Identify two automatic stabilisers in the Australian economy.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "EC12-5",
+                      "EC12-7"
+                    ],
+                    "markerNotes": [
+                      "An automatic stabiliser changes the budget balance without a new government decision, which distinguishes it from discretionary policy",
+                      "Two distinct stabilisers are needed, such as progressive tax and welfare payments"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a discretionary measure, such as a stimulus package, as an automatic stabiliser",
+                      "Naming the Reserve Bank's cash rate, which is monetary policy, rather than a fiscal stabiliser"
+                    ],
+                    "keywords": [
+                      "automatic stabilisers",
+                      "economy",
+                      "business cycle",
+                      "progressive income tax",
+                      "unemployment benefits",
+                      "welfare payments",
+                      "budget"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct automatic stabilisers in the Australian economy, such as progressive income tax and unemployment benefits\n1 mark: Identifies one automatic stabiliser in the Australian economy",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-econ-4-2-2-2-1",
+                        "mark": 2,
+                        "answer": "Two automatic stabilisers in the Australian economy are progressive income tax, under which tax receipts fall automatically as incomes fall in a downturn, and unemployment benefits, which rise automatically as more people lose their jobs. Both change the budget balance without a new government decision. Both help to moderate the business cycle by cushioning the budget in a downturn.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct automatic stabilisers are identified, and the answer explains that each operates without a new decision, which is what defines the category.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-econ-4-2-2-2-2",
+                        "mark": 1,
+                        "answer": "One automatic stabiliser is the progressive income tax system.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate stabiliser. A second, distinct stabiliser, such as unemployment benefits, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,5 +1,32 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-07 (Five new seeded courses, and the Biology and template seeds removed)
+
+The shared library was seeded with HSC Biology, a Biology and Chemistry pair of
+built-in samples, and a template course. Software Engineering and Enterprise
+Computing were the only courses worth keeping. The seed now holds those two
+plus five new courses chosen as the most popular HSC courses that suit a
+written, verb-marked coach: Modern History, Legal Studies, Business Studies,
+Economics and English Advanced.
+
+- **Removed.** `HSCBiology.json`, its Heredity topic file, `templateCourseData.json`,
+  and the two built-in samples in `data/seedData.ts`. `preseededCourses` is now
+  an empty list, so a first-time user starts with an empty library and imports
+  what they want from the manifest.
+- **Added.** Five course files under `public/courseData/`, each with four topics,
+  eight sub-topics, sixteen dot points and 32 to 33 questions (162 in all), every
+  question carrying a full, middle and bottom sample answer. The files were
+  authored to `docs/dataset-generation-prompt.md`, assembled with deterministic
+  ids, and canonicalised; `npm run content:check` reports nothing.
+- **Manifest.** Lists the five courses under HSIE and English, alongside
+  Software Engineering and Enterprise Computing.
+
+The outcome codes, outcome wording and dot points in the new courses were
+written to the structure of each NSW syllabus, not copied from the current
+NESA documents, and need checking against those documents before students rely
+on them. Live Supabase databases keep the Biology rows until they are removed
+there: `supabase/seed.mjs` upserts and does not delete.
+
 ## [Unreleased] - 2026-09-11 (The Evaluate button was off the screen on a phone)
 
 At 390px — an iPhone 12 — a student who had written an answer could not see the

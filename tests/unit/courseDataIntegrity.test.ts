@@ -110,12 +110,16 @@ describe('shipped course data survives the app’s own import', () => {
     expect(withQuestions).toEqual(
       expect.arrayContaining([
         'HSC Software Engineering',
-        'HSC Biology',
         'HSC Enterprise Computing',
+        'HSC Modern History',
+        'HSC Legal Studies',
+        'HSC Business Studies',
+        'HSC Economics',
+        'HSC English Advanced',
       ])
     );
-    // Both per-topic files import into a course that is already listed, so the
-    // count exceeds the three named above; it must never fall below them.
+    // The per-topic file imports into a course that is already listed, so the
+    // count exceeds the courses named above; it must never fall below them.
     expect(courses.flatMap(questionsOf).length).toBeGreaterThan(400);
   });
 

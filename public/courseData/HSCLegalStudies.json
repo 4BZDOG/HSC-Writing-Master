@@ -1,0 +1,1897 @@
+[
+  {
+    "id": "course-hsc-legal-studies",
+    "name": "HSC Legal Studies",
+    "outcomes": [
+      {
+        "code": "LS12-1",
+        "description": "explains the nature and sources of law and the institutions that make, interpret and enforce it"
+      },
+      {
+        "code": "LS12-2",
+        "description": "analyses the operation of the criminal justice system and the purposes of sentencing"
+      },
+      {
+        "code": "LS12-3",
+        "description": "evaluates the effectiveness of law and legal institutions in protecting human rights"
+      },
+      {
+        "code": "LS12-4",
+        "description": "analyses the legal rights and responsibilities of consumers and the role of consumer protection law"
+      },
+      {
+        "code": "LS12-5",
+        "description": "analyses the legal rights and responsibilities of employers and employees under workplace law"
+      },
+      {
+        "code": "LS12-6",
+        "description": "evaluates the extent to which the law achieves justice and reform in response to social change"
+      },
+      {
+        "code": "LS12-7",
+        "description": "researches legal issues and communicates a reasoned legal argument in extended written responses"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-lg-1",
+        "name": "Core Part I: Crime",
+        "subTopics": [
+          {
+            "id": "subtopic-lg-1-1",
+            "name": "The criminal justice process",
+            "dotPoints": [
+              {
+                "id": "dp-lg-1-1-1",
+                "description": "explain the stages of the criminal justice process, including arrest, bail, committal and trial, and the roles of police, prosecutors and courts",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-1-1-1-1",
+                    "question": "Describe the stages of the criminal justice process from arrest to sentencing.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "The stages should be described in order, which shows the student understands how a matter moves from investigation to sentence",
+                      "Reward accurate reference to the court in which a matter is heard, such as the Local Court for less serious offences"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing stages out of sequence, such as placing sentencing before trial",
+                      "Describing the courts' structure without describing the process"
+                    ],
+                    "keywords": [
+                      "arrest",
+                      "bail",
+                      "committal",
+                      "trial",
+                      "sentencing",
+                      "criminal justice process",
+                      "police"
+                    ],
+                    "markingCriteria": "4 marks: Describes the stages of the criminal justice process in sequence, including arrest, bail, committal and trial, with accurate reference to the roles of the police and the courts\n3 marks: Describes several stages of the process with some accuracy and sequence\n2 marks: Identifies two stages of the criminal justice process\n1 mark: Makes a general statement about the criminal justice system",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-1-1-1-1",
+                        "mark": 4,
+                        "answer": "The criminal justice process begins when police investigate an alleged offence and arrest a suspect. The accused is then charged and may be granted bail, which allows them to be released in the community before trial, usually subject to conditions. For serious offences, the matter proceeds to a committal hearing, where a magistrate decides whether there is enough evidence for the case to go to a higher court for trial. At trial, the prosecution presents its case, the accused may respond, and a verdict is reached. Where the accused is found guilty, the matter proceeds to sentencing, when the court decides the appropriate penalty. Police, prosecutors and the courts each play a distinct role at these stages.",
+                        "source": "AI",
+                        "feedback": "Full marks: the stages are described in sequence, from arrest to sentencing, with accurate reference to bail, committal and trial. The description of the roles of police and courts shows understanding of who acts at each stage.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-1-1-1-1-2",
+                        "mark": 3,
+                        "answer": "First the police arrest the person and charge them. Then the accused may apply for bail to be released before the trial. After that there is a trial, and if the person is guilty they are sentenced by the court.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the stages in a correct sequence with some accuracy. It would reach the top band by identifying the committal hearing and the roles of the prosecutor and the courts.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-1-1-1-1-3",
+                        "mark": 1,
+                        "answer": "When someone commits a crime the court deals with it.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and describes no stage of the process. It needs to identify at least one stage, such as arrest or bail, and describe what happens.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-1-1-1-2",
+                    "question": "Explain how the presumption of innocence and the standard of proof protect an accused person in a criminal trial.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-1",
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "Reward the point that the burden rests on the prosecution, so the accused does not have to prove innocence",
+                      "Explanation should connect each principle to how the trial operates, not only define it"
+                    ],
+                    "commonStudentErrors": [
+                      "Defining the presumption of innocence without explaining how it protects the accused",
+                      "Confusing the standard of proof with the burden of proof, or describing the standard as proof beyond all doubt"
+                    ],
+                    "keywords": [
+                      "presumption of innocence",
+                      "standard of proof",
+                      "accused",
+                      "criminal trial",
+                      "beyond reasonable doubt",
+                      "burden of proof",
+                      "prosecution"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how the presumption of innocence and the standard of proof beyond reasonable doubt protect the accused, including the burden on the prosecution, and shows how these principles operate in a trial\n5 marks: Explains both principles and how each protects the accused, with accurate detail\n4 marks: Explains the presumption of innocence and the standard of proof, with some link to protection of the accused\n3 marks: Describes one of the principles with some accuracy\n2 marks: Identifies a principle that protects the accused\n1 mark: Makes a general statement about criminal trials",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-1-1-2-1",
+                        "mark": 6,
+                        "answer": "The presumption of innocence means that an accused person is considered innocent until the prosecution proves guilt. This protects the accused because the burden of proof rests on the prosecution, so the accused does not have to prove their innocence. The standard of proof in a criminal trial is beyond reasonable doubt, which is a high threshold. If the evidence leaves the jury with a reasonable doubt about guilt, the jury must find the accused not guilty. These principles operate together during a trial: the prosecution must present admissible evidence, and the defence can challenge it, so that a conviction is reached only when guilt has been established to the required standard. The result is that the risk of wrongful conviction is reduced, which reflects a value of fairness in the criminal justice system.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer explains both principles, shows how the burden on the prosecution protects the accused, and describes how they operate together in a trial. The link to the risk of wrongful conviction explains the purpose behind the protection.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-1-1-1-2-2",
+                        "mark": 4,
+                        "answer": "The presumption of innocence means the accused is treated as innocent until proven guilty. The prosecution has to prove the case beyond reasonable doubt, which is a high standard, so the accused is protected from being convicted on weak evidence.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains both principles and links them to protection of the accused. It would reach the top band by explaining how the burden of proof operates and what happens if reasonable doubt remains.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-1-1-1-2-3",
+                        "mark": 2,
+                        "answer": "The presumption of innocence is an important principle in criminal law because it helps people who are accused of crimes.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the principle but does not explain how it protects the accused. It needs an explanation of the burden of proof or the standard of proof.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-1-1-2",
+                "description": "analyse the roles of the prosecution, the defence and the jury in a criminal trial, and the means by which a fair trial is secured",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-1-1-2-1",
+                    "question": "Analyse the role of the jury in ensuring a fair criminal trial.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "LS12-1",
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show how the jury's function is limited by the judge's directions on the law, which is part of how fairness is secured",
+                      "Strong answers link the jury to the wider principle that trial by peers reflects community standards"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing how a jury is selected without analysing its role in ensuring fairness",
+                      "Stating that the jury decides the sentence, which is the judge's role"
+                    ],
+                    "keywords": [
+                      "jury",
+                      "fair trial",
+                      "verdict",
+                      "impartial",
+                      "beyond reasonable doubt",
+                      "judge",
+                      "directions"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the jury's role in ensuring a fair trial, explaining how its independence, its assessment of evidence and its verdict work with the judge's directions to protect the accused and the community\n5-6 marks: Analyses at least two aspects of the jury's role in securing a fair trial, with accurate evidence\n3-4 marks: Describes the jury's role with some accuracy and makes some link to fairness\n1-2 marks: Makes a basic or general statement about juries",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-1-2-1-1",
+                        "mark": 8,
+                        "answer": "The jury helps to ensure a fair trial by acting as an impartial body of citizens who decide the facts. Jurors are drawn from the community, so the verdict reflects community standards rather than the view of a single official. They assess the evidence presented by the prosecution and the defence and decide whether guilt has been proved beyond reasonable doubt. The judge controls the law: the judge directs the jury on the legal elements of the offence and on how to treat evidence, which keeps the jury's decision within the rules. The jury's verdict is a safeguard because the accused is judged by peers rather than by the state alone. However, the jury's fairness depends on its impartiality, so jurors who have a connection to the case may be excluded during selection. Overall the jury's role protects the accused and gives the community a direct part in the justice process.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains how the jury's role of deciding facts is balanced by the judge's control of the law, and it links impartiality and community standards to fairness. The reference to jury selection shows how impartiality is protected in practice.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-1-1-2-1-2",
+                        "mark": 5,
+                        "answer": "A jury is made up of ordinary citizens who listen to the evidence and decide whether the accused is guilty. The judge tells the jury what the law is. This means the jury is not making decisions alone, which helps the trial to be fair to the accused.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses two aspects of the jury's role with accurate evidence. It would reach the top band by explaining how the jury's impartiality is protected and why its verdict matters for the accused.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-1-1-2-1-3",
+                        "mark": 2,
+                        "answer": "A jury is a group of people who sit in a courtroom during a trial.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes the jury physically but does not link it to fairness. The answer needs to explain what the jury decides and why that protects the accused.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-1-1-2-2",
+                    "question": "Discuss the importance of legal representation to an accused person's right to a fair trial.",
+                    "totalMarks": 6,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LS12-2",
+                      "LS12-3"
+                    ],
+                    "markerNotes": [
+                      "Discussion should consider both the benefit to the accused and the constraints, such as the cost of representation and the availability of legal aid",
+                      "Credit the link between representation and the principle of equality between prosecution and defence"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the role of a barrister without discussing its importance to a fair trial",
+                      "Stating that all accused persons receive full legal representation without qualification"
+                    ],
+                    "keywords": [
+                      "legal representation",
+                      "fair trial",
+                      "accused",
+                      "defence",
+                      "prosecution",
+                      "Legal Aid",
+                      "access to justice"
+                    ],
+                    "markingCriteria": "6 marks: Discusses the importance of legal representation to a fair trial, weighing its benefits for the accused against the limits of access to representation, and reaches a reasoned conclusion\n5 marks: Discusses the importance of legal representation with accurate evidence and identifies a limit or a further consideration\n4 marks: Discusses how legal representation contributes to a fair trial with some accurate detail\n3 marks: Describes legal representation and its role with limited discussion\n2 marks: Identifies a feature of legal representation\n1 mark: Makes a general statement about trials",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-1-2-2-1",
+                        "mark": 6,
+                        "answer": "Legal representation is important to a fair trial because it allows the accused to be defended by someone who understands the law and procedure. The prosecution is usually represented by trained lawyers, so an unrepresented accused would face an unequal contest. A lawyer can test the prosecution's evidence, identify weaknesses, and present the defence case and the accused's version of events. This supports the principle of equality of arms between the parties. However, representation is not always available. Legal Aid and community legal centres provide assistance, but their resources are limited and many people do not qualify, which means some accused persons must defend themselves. The importance of representation is therefore clear, but its availability affects the fairness of the trial in practice, so access to justice is a continuing concern.",
+                        "source": "AI",
+                        "feedback": "Full marks: the discussion weighs the benefit of representation for a fair trial against the limits on access, and reaches a conclusion that identifies the continuing concern. The principle of equality of arms gives the discussion a clear basis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-lg-1-1-2-2-2",
+                        "mark": 4,
+                        "answer": "Legal representation helps the accused to understand the charges and the procedures in court. A lawyer can challenge the evidence that the prosecution presents, which makes the trial fairer. Without a lawyer, an accused person may not know how to defend themselves.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response discusses how representation contributes to fairness with accurate detail. A limit on access, such as the availability of legal aid, would extend the discussion into the 5-mark band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-1-1-2-2-3",
+                        "mark": 2,
+                        "answer": "Accused people can have a lawyer to help them in court.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a feature of representation without discussing its importance to a fair trial. It needs to explain why representation matters.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-lg-1-2",
+            "name": "Sentencing and the purposes of punishment",
+            "dotPoints": [
+              {
+                "id": "dp-lg-1-2-1",
+                "description": "explain the purposes of sentencing and the factors courts consider when imposing a sentence on an offender",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-1-2-1-1",
+                    "question": "Outline three purposes of sentencing.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "Three distinct purposes are needed, such as deterrence, rehabilitation and community protection, not three versions of one purpose",
+                      "A brief explanation of each purpose is what separates an outline from a list"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming the purposes without any explanation of what each one aims to achieve",
+                      "Offering two purposes that overlap, such as punishment and retribution, as separate purposes"
+                    ],
+                    "keywords": [
+                      "purposes of sentencing",
+                      "retribution",
+                      "deterrence",
+                      "rehabilitation",
+                      "denunciation",
+                      "community protection"
+                    ],
+                    "markingCriteria": "3 marks: Outlines three distinct purposes of sentencing, with a brief explanation of what each aims to achieve\n2 marks: Outlines two distinct purposes of sentencing with limited explanation\n1 mark: Identifies a purpose of sentencing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-2-1-1-1",
+                        "mark": 3,
+                        "answer": "Three purposes of sentencing can be identified. The first is deterrence, which aims to discourage the offender and others from committing similar offences. A second is rehabilitation, which seeks to address the causes of the offending, such as addiction, so that the offender does not reoffend. A third is community protection, which removes or supervises dangerous offenders to keep the public safe.",
+                        "source": "AI",
+                        "feedback": "Full marks: three distinct purposes are outlined, each with a brief explanation of its aim. The answer is concise and does not stray into discussion of the purposes' effectiveness, which the command does not ask for.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-1-2-1-1-2",
+                        "mark": 2,
+                        "answer": "Deterrence is a purpose of sentencing because it stops people from committing crimes. Rehabilitation is another purpose because it helps offenders change.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response outlines two distinct purposes with limited explanation. A third purpose with a brief explanation would earn the full 3 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-1-2-1-1-3",
+                        "mark": 1,
+                        "answer": "One purpose of sentencing is to punish offenders.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies a purpose but does not outline three. The answer needs two further distinct purposes, each with a brief explanation.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-1-2-1-2",
+                    "question": "Explain how mitigating and aggravating factors may affect the sentence an offender receives.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-2",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Reward explanation of the court's discretion within statutory limits, rather than a list of factors without effect",
+                      "Accurate examples, such as a guilty plea reducing the sentence, show how the factors operate in practice"
+                    ],
+                    "commonStudentErrors": [
+                      "Defining mitigating and aggravating factors without explaining how they change a sentence",
+                      "Stating that a guilty plea always results in a lighter sentence, without noting that the court weighs it with other factors"
+                    ],
+                    "keywords": [
+                      "aggravating factors",
+                      "mitigating factors",
+                      "guilty plea",
+                      "remorse",
+                      "prior convictions",
+                      "sentencing discretion",
+                      "Crimes (Sentencing Procedure) Act 1999"
+                    ],
+                    "markingCriteria": "5 marks: Explains clearly how mitigating and aggravating factors affect the sentence, with accurate examples of each and an account of how the court weighs them in exercising its discretion\n4 marks: Explains how both kinds of factor affect sentencing, with accurate detail\n3 marks: Explains one kind of factor and its effect on the sentence\n2 marks: Identifies a mitigating or aggravating factor\n1 mark: Makes a general statement about sentencing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-2-1-2-1",
+                        "mark": 5,
+                        "answer": "Mitigating and aggravating factors allow the court to tailor the sentence to the circumstances of the offence and the offender. A mitigating factor reduces the seriousness of the offence or the offender's culpability, such as a guilty plea, genuine remorse or a lack of prior convictions. An early guilty plea can reduce the sentence, because it saves court time and shows acceptance of responsibility. An aggravating factor increases the seriousness of the offence, such as the use of violence or the offence being committed against a vulnerable victim, and may lead to a more severe penalty. Prior convictions can also aggravate a sentence where they show a pattern of offending. The court exercises its discretion within the limits set by legislation, weighing these factors to reach a sentence that is proportionate to the offence and the offender.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer explains both kinds of factor, gives accurate examples of each, and describes the court's discretion as a weighing exercise within legislative limits. The link to proportionality shows understanding of how the factors operate together.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-1-2-1-2-2",
+                        "mark": 3,
+                        "answer": "A guilty plea is a mitigating factor, so the court may give a lighter sentence to someone who pleads guilty early. Aggravating factors such as violence make the sentence heavier.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response explains one kind of factor with an example, and it notes the effect of the other kind briefly. A fuller explanation of how the court weighs the factors would move the response into the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-1-2-1-2-3",
+                        "mark": 2,
+                        "answer": "Mitigating factors are things that make a sentence lighter, such as remorse.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a mitigating factor and its effect but does not address aggravating factors or the court's discretion. The answer needs to explain both kinds of factor.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-1-2-2",
+                "description": "evaluate the effectiveness of imprisonment and of non-custodial sentencing options in achieving the purposes of sentencing",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-1-2-2-1",
+                    "question": "Evaluate the effectiveness of imprisonment in achieving the purposes of sentencing.",
+                    "totalMarks": 8,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LS12-2",
+                      "LS12-6"
+                    ],
+                    "markerNotes": [
+                      "An evaluation must measure imprisonment against the purposes of sentencing, and the strongest answers note that different purposes point to different conclusions",
+                      "Recidivism data and evidence of prison programs strengthen the judgement when they are used precisely"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the prison system without measuring it against any purpose of sentencing",
+                      "Asserting that imprisonment is always effective or always ineffective without a criterion"
+                    ],
+                    "keywords": [
+                      "imprisonment",
+                      "purposes of sentencing",
+                      "recidivism",
+                      "rehabilitation",
+                      "deterrence",
+                      "community protection",
+                      "prison overcrowding"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based evaluation of imprisonment's effectiveness against the purposes of sentencing, weighing its success in protecting the community against its limited deterrent and rehabilitative effects, and reaching a reasoned conclusion\n6 marks: Evaluates imprisonment against at least two purposes of sentencing and attempts a judgement, with the reasoning partly developed\n5 marks: Evaluates imprisonment with accurate evidence against one purpose and suggests a conclusion\n3-4 marks: Describes the function of imprisonment and its link to the purposes of sentencing with some detail\n2 marks: Identifies a purpose of imprisonment or a feature of its operation\n1 mark: Makes a basic or general statement about imprisonment",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Imprisonment is effective in achieving some purposes of sentencing but weak in others. Its strongest contribution is community protection, because an offender who is in custody cannot commit offences against the public for the period of the sentence. Imprisonment also expresses denunciation of serious crime, which reflects community standards. Its effectiveness in deterrence is more limited: the threat of prison may deter some people, but many offenders do not expect to be caught, and the deterrent effect of severity is weak. Rehabilitation is the most difficult purpose to achieve in custody. High rates of reoffending suggest that prisons often fail to address the causes of offending, and overcrowding can limit access to education and treatment. Judged against the purposes as a whole, imprisonment is most effective where the offender poses a danger to the community, and less effective as a means of rehabilitation. The conclusion is that imprisonment should be reserved for cases where its protective function is needed.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation measures imprisonment against each purpose in turn, gives a differentiated judgement that depends on the purpose, and concludes with a recommendation that follows from the analysis. The reference to overcrowding shows the practical constraints on rehabilitation.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lg-1-2-2-1-2",
+                        "mark": 5,
+                        "answer": "Imprisonment protects the community while an offender is in custody. It also deters some people from committing crime. However, many offenders reoffend after release, which suggests that prison does not rehabilitate them well.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response evaluates imprisonment against two purposes with accurate evidence and suggests a conclusion. It would reach the top band by explaining why the deterrent effect is limited and how the judgement changes depending on the purpose.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-1-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Imprisonment is when a person is locked up in a prison as a punishment.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes imprisonment but does not evaluate it or relate it to the purposes of sentencing. The answer needs at least one purpose and a judgement about how well imprisonment achieves it.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-1-2-2-2",
+                    "question": "Identify two non-custodial sentencing options available to a court.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "Two distinct options are needed, such as a fine and a good behaviour bond, not two versions of the same order",
+                      "The command is to identify, so no explanation is required, though a brief description may clarify the option"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming imprisonment or a sentence of custody as a non-custodial option",
+                      "Naming a sentencing purpose, such as deterrence, rather than an option"
+                    ],
+                    "keywords": [
+                      "non-custodial",
+                      "sentencing options",
+                      "court",
+                      "fine",
+                      "good behaviour bond",
+                      "offender",
+                      "community service"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct and accurate non-custodial sentencing options available to a court\n1 mark: Identifies one accurate non-custodial sentencing option available to a court",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-1-2-2-2-1",
+                        "mark": 2,
+                        "answer": "Two non-custodial sentencing options are available to a court. It may impose a fine, which requires the offender to pay a sum of money. It may also make a good behaviour bond, which releases the offender into the community on conditions of good conduct for a set period.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct non-custodial options are identified, and each is described briefly enough to show what it involves. The answer does not need more than the identification the command asks for.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-lg-1-2-2-2-2",
+                        "mark": 1,
+                        "answer": "A court can give an offender a fine instead of sending them to prison.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate option. A second, distinct option, such as a good behaviour bond, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-lg-2",
+        "name": "Core Part II: Human rights",
+        "subTopics": [
+          {
+            "id": "subtopic-lg-2-1",
+            "name": "Human rights in international law",
+            "dotPoints": [
+              {
+                "id": "dp-lg-2-1-1",
+                "description": "explain the origins and content of the Universal Declaration of Human Rights and the international covenants that give it legal effect",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-2-1-1-1",
+                    "question": "Explain the origins and significance of the Universal Declaration of Human Rights.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Reward the link between the Declaration and the atrocities of the Second World War, which explains why the rights were framed as universal",
+                      "A precise point that the Declaration is not itself legally binding, while the covenants give it legal effect, shows the top band's understanding"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Declaration as a binding treaty, which it was not",
+                      "Listing the articles without explaining why the Declaration was significant"
+                    ],
+                    "keywords": [
+                      "Universal Declaration of Human Rights",
+                      "international covenants",
+                      "United Nations",
+                      "1948",
+                      "human dignity",
+                      "legally binding",
+                      "Holocaust"
+                    ],
+                    "markingCriteria": "5 marks: Explains clearly how the Universal Declaration of Human Rights arose from the Second World War, what it sets out, and why it is significant despite not being legally binding, with accurate detail\n4 marks: Explains the origins and content of the Declaration, with some account of its significance\n3 marks: Explains one aspect of the Declaration's origins or content with some accuracy\n2 marks: Identifies a feature of the Declaration\n1 mark: Makes a general statement about human rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-1-1-1-1",
+                        "mark": 5,
+                        "answer": "The Universal Declaration of Human Rights was adopted by the United Nations General Assembly in 1948, after the atrocities of the Second World War and the Holocaust had shown the consequences of denying basic rights. It set out a common standard of human dignity, including rights to life, liberty and freedom from torture, and protections such as the right to a fair trial and freedom of expression. Its significance is that it established, for the first time, a universal list of rights agreed by many states. The Declaration is not legally binding in itself, but the international covenants adopted later gave many of its rights legal effect in treaty form. Its influence on national constitutions and human rights law has been considerable, which is why it is regarded as the foundation of modern human rights.",
+                        "source": "AI",
+                        "feedback": "Full marks: the origins are explained through the Second World War, the content is described accurately, and the answer recognises that the Declaration's legal force comes from the covenants. The point about influence on national law shows its significance.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-2-1-1-1-2",
+                        "mark": 3,
+                        "answer": "The Declaration was made in 1948 after the Second World War. It lists rights that everyone should have, such as the right to life and freedom of expression.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response explains the origins and gives accurate content, but the significance is not developed. A comment on its status or influence would extend the answer.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-2-1-1-1-3",
+                        "mark": 1,
+                        "answer": "The Universal Declaration is a document about human rights.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement about the document without explaining its origins, content or significance.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-2-1-1-2",
+                    "question": "Describe the main rights protected by the International Covenant on Civil and Political Rights.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Describe the content of the rights, not only their names, to show the student understands what each protects",
+                      "Reward accurate reference to the Covenant's monitoring body, the Human Rights Committee"
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the Covenant on Civil and Political Rights with the Covenant on Economic, Social and Cultural Rights",
+                      "Naming rights without describing what they protect"
+                    ],
+                    "keywords": [
+                      "International Covenant on Civil and Political Rights",
+                      "right to life",
+                      "freedom from torture",
+                      "freedom of expression",
+                      "fair trial",
+                      "Human Rights Committee",
+                      "Optional Protocol"
+                    ],
+                    "markingCriteria": "4 marks: Describes several main rights protected by the Covenant accurately, including the right to life, freedom from torture and freedom of expression, with some explanation of their content\n3 marks: Describes at least two rights protected by the Covenant with some accuracy\n2 marks: Identifies a right protected by the Covenant\n1 mark: Makes a general statement about the Covenant",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-1-1-2-1",
+                        "mark": 4,
+                        "answer": "The International Covenant on Civil and Political Rights protects the right to life, which means no one may be arbitrarily deprived of life. It prohibits torture and cruel, inhuman or degrading treatment, so that no person may be subjected to such punishment. It protects freedom of expression, including the freedom to seek and receive information, and it guarantees the right to a fair trial, including the presumption of innocence. The Covenant is monitored by the Human Rights Committee, which reviews states' reports on compliance.",
+                        "source": "AI",
+                        "feedback": "Full marks: several main rights are described with an account of their content, and the answer identifies the monitoring body. The description shows what each right protects rather than only naming it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-2-1-1-2-2",
+                        "mark": 3,
+                        "answer": "The Covenant protects the right to life and freedom from torture. It also protects freedom of expression, which lets people say what they think.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes three rights with some accuracy, though the explanation of each is brief. Adding more detail on what each right protects would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-2-1-1-2-3",
+                        "mark": 1,
+                        "answer": "The Covenant protects human rights for people all over the world.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not identify or describe any protected right. It needs at least one specific right and its content.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-2-1-2",
+                "description": "evaluate the effectiveness of international human rights law in protecting individuals, including the role of the Human Rights Committee and the limits of enforcement",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-2-1-2-1",
+                    "question": "Evaluate the effectiveness of international human rights law in protecting individuals from abuse.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-6"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as whether individuals can obtain a remedy, against which the law is judged",
+                      "The strongest answers note that international law has strong standard-setting but weak enforcement, and that this shapes the judgement"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the rights in international law without evaluating how effectively they are protected",
+                      "Concluding that international law is either fully effective or useless without a criterion"
+                    ],
+                    "keywords": [
+                      "international human rights law",
+                      "enforcement",
+                      "Human Rights Committee",
+                      "sovereignty",
+                      "Optional Protocol",
+                      "individual complaints",
+                      "state compliance"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of international human rights law's effectiveness in protecting individuals, weighing the standard-setting achievements and the Human Rights Committee's role against the limits of enforcement and state sovereignty, and reaching a reasoned conclusion\n7-8 marks: Evaluates several mechanisms of international human rights law with precise evidence and a clear overall position\n6 marks: Evaluates at least one mechanism and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes international human rights mechanisms with some relevant detail\n2-3 marks: Identifies mechanisms with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-1-2-1-1",
+                        "mark": 10,
+                        "answer": "International human rights law has been effective in setting standards and influencing national behaviour, but its enforcement is limited by state sovereignty. Its effectiveness can be measured by whether individuals can obtain a remedy when their rights are breached, and whether states change their conduct in response. The major treaties have established common standards that governments must report on, and the Human Rights Committee reviews states' compliance and issues findings. The Optional Protocol allows individuals in states that have ratified it to bring complaints to the Committee, which gives victims a route to scrutiny that did not previously exist. However, the Committee's views are not legally binding, and states may ignore them without facing sanctions. Enforcement depends on political pressure, diplomatic reputation and the willingness of states to comply, which means powerful states can avoid scrutiny while smaller states may be pressured. The law is therefore more effective at defining rights than at protecting individuals who are abused by their own governments, and this is the central limit of the system.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets a clear criterion of remedy and compliance, tests the mechanisms against it, and reaches a judgement that distinguishes standard-setting from enforcement. The point that the Committee's views are not binding is the precise limit the top band requires.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lg-2-1-2-1-2",
+                        "mark": 6,
+                        "answer": "International human rights law sets clear standards, and the Human Rights Committee reviews how states comply with them. Individuals can complain under the Optional Protocol. However, the Committee cannot force states to act, so some countries continue to abuse rights despite having signed the treaties.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the mechanisms and reaches a judgement about enforcement, though the reasoning is brief. Developing the criterion of effectiveness and weighing the benefit of individual complaints would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-2-1-2-1-3",
+                        "mark": 3,
+                        "answer": "There are international treaties about human rights and a committee that looks at them. Countries sign the treaties and are supposed to follow them.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies mechanisms with limited explanation and no evaluation. It needs an example of how a mechanism works and a judgement about whether it protects individuals.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-2-1-2-2",
+                    "question": "Analyse the role of the Optional Protocol in allowing individuals to complain about breaches of human rights.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the conditions a complaint must meet, such as the state having ratified the Protocol and domestic remedies having been exhausted",
+                      "The significance of the Committee's views being non-binding should appear in the analysis, as a limit of the process"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Optional Protocol as a court that issues binding judgments",
+                      "Describing the complaint process without analysing its conditions or its effect"
+                    ],
+                    "keywords": [
+                      "Optional Protocol",
+                      "Human Rights Committee",
+                      "breaches",
+                      "individual complaints",
+                      "state party",
+                      "exhaustion of domestic remedies",
+                      "views"
+                    ],
+                    "markingCriteria": "6 marks: Analyses how the Optional Protocol gives individuals a route to complain to the Human Rights Committee, explaining the conditions for complaints and the significance and limits of the process\n5 marks: Analyses the Optional Protocol's complaint process and its significance with accurate detail\n4 marks: Explains how the Optional Protocol allows individual complaints, with some analysis of its operation\n3 marks: Describes the complaint process with some accuracy\n2 marks: Identifies a feature of the Optional Protocol\n1 mark: Makes a general statement about human rights complaints",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-1-2-2-1",
+                        "mark": 6,
+                        "answer": "The Optional Protocol to the Covenant on Civil and Political Rights allows individuals in states that have ratified it to submit complaints to the Human Rights Committee, alleging that breaches of their rights under the Covenant have occurred. The complaint must meet conditions: the state must be a party to the Protocol, the individual must be a victim of the breach, and generally domestic remedies must have been exhausted first. This gives individuals a route to international scrutiny when national systems have failed them. The Committee examines the complaint and issues its views, which identify whether a breach occurred and recommend remedies. The process is significant because it gives individuals a voice on the international stage. Its limitation is that the views are not legally binding, so the effectiveness of the process depends on the willingness of the state to act on them.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis sets out the conditions for a complaint, explains the function of the Committee's views, and identifies both the significance and the limit of the process. The reasoning moves from how the process works to what it achieves.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-2-1-2-2-2",
+                        "mark": 4,
+                        "answer": "The Optional Protocol allows individuals to make complaints to the Human Rights Committee if their rights under the Covenant have been breached. It only applies to states that have agreed to it. The Committee then considers the complaint and gives its views.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains how individual complaints operate with some analysis. Adding the requirement to exhaust domestic remedies and the non-binding status of the views would extend it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-2-1-2-2-3",
+                        "mark": 2,
+                        "answer": "The Optional Protocol is a document that people can use to complain about human rights.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the Protocol in general terms without explaining how the complaint process operates. It needs a description of the complaint and the Committee's role.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-lg-2-2",
+            "name": "Protecting human rights in Australia",
+            "dotPoints": [
+              {
+                "id": "dp-lg-2-2-1",
+                "description": "analyse the protection of human rights in Australian law, including the Constitution, federal legislation and the role of the Australian Human Rights Commission",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-2-2-1-1",
+                    "question": "Identify two rights that are expressly protected by the Australian Constitution.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Two distinct rights are needed, and the answer should identify rights expressly stated in the Constitution rather than rights implied by the High Court",
+                      "The reference to the section numbers is precise evidence but not required for the mark"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming rights that are not in the Constitution, such as freedom of speech as an express right",
+                      "Identifying the Australian Constitution as a bill of rights"
+                    ],
+                    "keywords": [
+                      "Australian Constitution",
+                      "expressly protected",
+                      "trial by jury",
+                      "freedom of religion",
+                      "section 80",
+                      "section 116",
+                      "just terms"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct rights expressly protected by the Australian Constitution, such as trial by jury for Commonwealth indictable offences and freedom of religion\n1 mark: Identifies one right expressly protected by the Australian Constitution",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-2-1-1-1",
+                        "mark": 2,
+                        "answer": "Two rights are expressly protected by the Australian Constitution. Section 80 protects the right to trial by jury for Commonwealth indictable offences. Section 116 protects freedom of religion, preventing the Commonwealth from making a law that establishes a religion or prohibits its free exercise. These are the two most cited express rights in the Constitution.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct rights expressly protected by the Constitution are identified, with the relevant sections given as precise evidence. The answer correctly limits itself to express rights rather than implied ones.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-lg-2-2-1-1-2",
+                        "mark": 1,
+                        "answer": "The Australian Constitution protects freedom of religion.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate express right. A second, distinct right, such as trial by jury, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-2-2-1-2",
+                    "question": "Explain why Australia does not have a federal bill of rights, and the effect this has on human rights protection.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "The explanation should connect parliamentary sovereignty to the reason a bill of rights is absent, rather than only listing the absence",
+                      "Reward recognition that statutory protection, such as the Racial Discrimination Act, can be amended by Parliament, which is an effect on protection"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that Australia has no human rights protection at all, rather than limited and statutory protection",
+                      "Confusing a statement of compatibility with a binding legal guarantee"
+                    ],
+                    "keywords": [
+                      "bill of rights",
+                      "human rights protection",
+                      "Constitution",
+                      "parliamentary sovereignty",
+                      "Human Rights (Parliamentary Scrutiny) Act 2011",
+                      "statements of compatibility",
+                      "Racial Discrimination Act 1975"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly why Australia lacks a federal bill of rights, including parliamentary sovereignty and the Constitution's limited rights, and assesses the effect of this on human rights protection with accurate examples\n5 marks: Explains the reasons for the absence of a bill of rights and at least one effect on human rights protection, with accurate detail\n4 marks: Explains one reason for the absence of a bill of rights and an effect on protection\n3 marks: Describes features of Australia's human rights protection with some accuracy\n2 marks: Identifies a reason or an effect\n1 mark: Makes a general statement about human rights in Australia",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-2-1-2-1",
+                        "mark": 6,
+                        "answer": "Australia does not have a federal bill of rights because the Constitution was drafted with limited rights, and the principle of parliamentary sovereignty means that Parliament can make or change any law. A bill of rights would limit that sovereignty by allowing courts to strike down laws that conflict with protected rights, and political leaders have been reluctant to accept such a limit. As a result, human rights protection in Australia depends largely on statute and the common law. The Racial Discrimination Act 1975 gives strong protection against racial discrimination, but Parliament can amend or repeal it. The Human Rights (Parliamentary Scrutiny) Act 2011 requires statements of compatibility with human rights when bills are introduced, but these are not enforceable in the courts. The effect is that protection is uneven and can be removed by a simple majority in Parliament.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation connects parliamentary sovereignty to the absence of a bill of rights and assesses its effect on protection, with the Racial Discrimination Act and the scrutiny Act as precise examples. The point about statements of compatibility being unenforceable is the qualification the top band requires.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-2-2-1-2-2",
+                        "mark": 4,
+                        "answer": "Australia has no bill of rights because Parliament wants to keep its power to make laws. Instead, human rights are protected by individual laws such as the Racial Discrimination Act. Because these laws can be changed by Parliament, the protection is not as strong as a bill of rights would be.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one reason and an effect on protection. Adding the limited rights in the Constitution, or the statements of compatibility, would strengthen the explanation.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-2-2-1-2-3",
+                        "mark": 2,
+                        "answer": "Australia does not have a bill of rights and so human rights are not protected as well as they could be.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the absence of a bill of rights and a general effect but does not explain why it is absent. The answer needs the principle of parliamentary sovereignty and a precise example.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-2-2-2",
+                "description": "evaluate the extent to which Indigenous rights and the rights of minority groups are protected in Australian law",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-2-2-2-1",
+                    "question": "Assess the extent to which Indigenous rights are protected in Australian law.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-6",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "An assessment needs a measure of protection, such as whether rights are enforceable or only declared, against which the examples are weighed",
+                      "Strong answers note that the Mabo decision protected native title only as far as it had not been extinguished, which limits the protection"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing Indigenous rights laws without assessing how far they protect Indigenous people",
+                      "Stating that native title gives Indigenous Australians full land ownership in all cases"
+                    ],
+                    "keywords": [
+                      "Indigenous rights",
+                      "minority groups",
+                      "native title",
+                      "Mabo",
+                      "Racial Discrimination Act 1975",
+                      "Native Title Act 1993",
+                      "Bringing Them Home"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the extent to which Indigenous rights are protected in Australian law, weighing the protection of native title, anti-discrimination legislation and the Stolen Generations' redress against the limits of statutory protection, and reaching a reasoned conclusion\n6 marks: Assesses the protection of Indigenous rights with several precise examples and attempts a judgement\n5 marks: Assesses at least one area of legal protection for Indigenous rights with accurate evidence and suggests a conclusion\n3-4 marks: Describes areas of legal protection for Indigenous rights with some relevant detail\n2 marks: Identifies a law or case relevant to Indigenous rights\n1 mark: Makes a basic or general statement about Indigenous rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Indigenous rights are protected in Australian law to a meaningful but limited extent. The High Court's decision in Mabo v Queensland (No 2) in 1992 recognised native title, overturning the doctrine of terra nullius. The Native Title Act 1993 then established a process for claims, but native title can be extinguished by valid government action, and it does not give a right to freehold ownership. The Racial Discrimination Act 1975 gives protection against discrimination on the grounds of race, and it has been used to challenge discriminatory laws. However, the Act can be overridden by Parliament, and the Northern Territory Intervention of 2007 suspended the operation of the Racial Discrimination Act for its measures, which showed the vulnerability of statutory protection. The Bringing Them Home report of 1997 documented the removal of Aboriginal children, and the response, including formal apologies, recognised the wrongs but did not provide a comprehensive legal remedy. The protection of Indigenous rights is therefore real, but depends on the willingness of Parliament to maintain it. The extent of protection is greatest where the rights are enforced by the courts, and least where they depend on political choice. The position of other minority groups is similar, depending on anti-discrimination statutes rather than on entrenched rights.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment weighs the protections for native title and against discrimination against their limits, uses precise legal evidence, and reaches a conclusion that identifies the factor determining the extent of protection. The example of the Northern Territory Intervention shows the vulnerability of statutory protection.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-lg-2-2-2-1-2",
+                        "mark": 5,
+                        "answer": "Native title was recognised by the High Court in Mabo in 1992, and the Native Title Act 1993 set up a system for claims. The Racial Discrimination Act also protects against racial discrimination. These laws give Indigenous Australians some protection, but they can be limited by Parliament and by the requirement to prove a continuing connection to land.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses at least one area with accurate evidence and suggests a limit. It would reach the top band by weighing the protections against each other and reaching a conclusion about the extent of protection.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-2-2-2-1-3",
+                        "mark": 2,
+                        "answer": "The Mabo case was an important decision about Indigenous land rights in Australia.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a case relevant to Indigenous rights without explaining what it decided or how far it protects those rights. The answer needs an explanation of the protection given.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-2-2-2-2",
+                    "question": "Compare the protection of human rights in the Australian Constitution with the protection in the Victorian Charter of Human Rights and Responsibilities.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "LS12-3",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "The comparison must use the same criteria for both, such as enforceability, the number of rights, or the courts' powers",
+                      "A key difference is that the Charter's courts may issue a declaration of inconsistent interpretation but cannot strike down laws, which shapes the comparison"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Constitution and the Charter in separate paragraphs without comparing them",
+                      "Stating that the Charter binds the courts to strike down laws that breach rights"
+                    ],
+                    "keywords": [
+                      "Victorian Charter of Human Rights and Responsibilities",
+                      "Australian Constitution",
+                      "statutory",
+                      "interpretation",
+                      "declaration of inconsistent interpretation",
+                      "parliamentary sovereignty",
+                      "express rights"
+                    ],
+                    "markingCriteria": "6 marks: Compares the protection of human rights under the Constitution and the Victorian Charter, identifying similarities and differences with precise evidence and a clear basis for comparison\n5 marks: Compares the two forms of protection with accurate detail and identifies at least one clear similarity and one difference\n4 marks: Compares the two forms of protection with some accurate detail, though the comparison is partly descriptive\n3 marks: Describes each form of protection with limited comparison\n2 marks: Identifies a feature of the Constitution or the Charter\n1 mark: Makes a basic statement about human rights protection in Australia",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-2-2-2-2-1",
+                        "mark": 6,
+                        "answer": "The Australian Constitution and the Victorian Charter of Human Rights and Responsibilities both protect human rights, but they differ in their source and their enforceability. Both protect a limited range of rights: the Constitution expressly protects a few, such as trial by jury and freedom of religion, while the Charter protects a wider list of civil and political rights, including freedom of expression and the right to a fair hearing. Both are subject to parliamentary action in practice, since the Constitution can be amended only by referendum but the Charter can be overridden by an Act of Parliament. The key difference is the courts' power. Under the Charter, courts must interpret legislation consistently with rights where possible and can issue a declaration of inconsistent interpretation, but they cannot strike down laws. The Constitution, by contrast, can invalidate a law that is inconsistent with an express provision, which gives it a stronger effect on the rights it protects.",
+                        "source": "AI",
+                        "feedback": "Full marks: the comparison uses shared criteria of range, enforceability and the courts' powers, identifies both a similarity and a difference, and grounds each in the legislation. The distinction between interpreting and striking down laws is the precise point the comparison turns on.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-2-2-2-2-2",
+                        "mark": 4,
+                        "answer": "The Constitution protects some rights, such as trial by jury. The Victorian Charter protects more rights, like freedom of expression. Both protect human rights in Victoria, but the Charter is a statute while the Constitution is part of the founding document of the Commonwealth.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response compares the two with some accurate detail and identifies a difference in source. The comparison is partly descriptive, and a point about the courts' powers would complete it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-2-2-2-2-3",
+                        "mark": 2,
+                        "answer": "The Victorian Charter is a law about human rights in Victoria, and the Constitution is Australia's founding document.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the two sources of protection without comparing the rights they protect or how they operate. The answer needs a basis for comparison and a difference.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-lg-3",
+        "name": "Option: Consumers",
+        "subTopics": [
+          {
+            "id": "subtopic-lg-3-1",
+            "name": "Consumer guarantees and remedies",
+            "dotPoints": [
+              {
+                "id": "dp-lg-3-1-1",
+                "description": "explain the consumer guarantees and rights under the Australian Consumer Law, including the rights to repair, replacement and refund",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-3-1-1-1",
+                    "question": "Describe the consumer guarantees that apply when a consumer buys goods from a retailer.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "LS12-4"
+                    ],
+                    "markerNotes": [
+                      "Reward the point that the guarantees apply automatically and cannot be excluded by the retailer's terms",
+                      "Describing the guarantee and its content, not only its name, is what the top band requires"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the guarantees as a product warranty offered only by the manufacturer",
+                      "Stating that a retailer can exclude consumer guarantees through a sign at the till"
+                    ],
+                    "keywords": [
+                      "consumer guarantees",
+                      "retailer",
+                      "Australian Consumer Law",
+                      "replacement",
+                      "refund",
+                      "acceptable quality",
+                      "fit for purpose"
+                    ],
+                    "markingCriteria": "4 marks: Describes several consumer guarantees that apply to goods bought from a retailer, including acceptable quality and fitness for purpose, with accurate reference to the Australian Consumer Law\n3 marks: Describes two consumer guarantees with some accuracy\n2 marks: Identifies a consumer guarantee that applies to goods\n1 mark: Makes a general statement about consumer rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-1-1-1-1",
+                        "mark": 4,
+                        "answer": "Under the Australian Consumer Law, the consumer guarantees require that goods sold by a retailer be of acceptable quality, which means they must be fit for all the purposes for which goods of that kind are commonly supplied, and be free of defects, safe and durable. The goods must also be fit for any particular purpose the consumer made known to the retailer, and they must match the description given. The guarantees apply automatically and cannot be excluded by a notice or by the retailer's terms. If the goods do not meet a guarantee, the consumer may be entitled to a refund, a replacement, or repair, depending on whether the failure is major or minor.",
+                        "source": "AI",
+                        "feedback": "Full marks: several consumer guarantees are described with accurate content, and the answer notes that they apply automatically and cannot be excluded. The reference to the choice of remedy depending on the seriousness of the failure shows an understanding of how the guarantees operate.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-3-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Goods must be of acceptable quality, which means they should work properly and last a reasonable time. Goods must also be fit for the purpose the consumer buys them for.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes two guarantees with some accuracy. Adding the guarantee to match the description, or the remedies available, would extend the answer into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-3-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Consumers have rights when they buy things from shops.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and names no guarantee. It needs at least one specific guarantee, such as acceptable quality, and its content.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-3-1-1-2",
+                    "question": "Apply the Australian Consumer Law to advise a customer whose laptop fails within three weeks of purchase.",
+                    "totalMarks": 5,
+                    "verb": "APPLY",
+                    "scenario": "Mia bought a laptop from an electronics store in Sydney for $1,200. Three weeks later the screen stopped working. The store refuses to refund her and says that the manufacturer's warranty has expired.",
+                    "linkedOutcomes": [
+                      "LS12-4",
+                      "LS12-7"
+                    ],
+                    "markerNotes": [
+                      "Application means relating the law to the facts: the warranty does not limit the store's statutory obligations to the customer",
+                      "The answer should explain why the failure is major, for example because the laptop would not have been bought had the defect been known"
+                    ],
+                    "commonStudentErrors": [
+                      "Accepting the store's claim that the manufacturer's warranty has expired without considering the statutory guarantees",
+                      "Advising the customer to take a repair only, without considering the remedy for a major failure"
+                    ],
+                    "keywords": [
+                      "Australian Consumer Law",
+                      "customer",
+                      "consumer guarantees",
+                      "refund",
+                      "replacement",
+                      "major failure",
+                      "acceptable quality"
+                    ],
+                    "markingCriteria": "5 marks: Applies the Australian Consumer Law to the scenario, advising that the store cannot rely on the expired manufacturer's warranty, identifying the failure as a major failure and explaining the remedies of refund or replacement with accurate reasoning\n4 marks: Applies the law to the scenario with accurate reasoning, identifying the consumer guarantee breached and a suitable remedy\n3 marks: Identifies a relevant consumer guarantee and applies it to the scenario with some accuracy\n2 marks: Identifies a relevant right of the consumer, with limited application to the facts\n1 mark: Makes a general statement about consumer rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-1-1-2-1",
+                        "mark": 5,
+                        "answer": "As the customer, Mia's rights are not limited by the expiry of the manufacturer's warranty, because the consumer guarantees apply in addition to any warranty. Under the Australian Consumer Law, the store that sold the laptop is responsible for ensuring that goods are of acceptable quality, and this guarantee applies independently of any warranty. A screen that stops working after three weeks suggests the laptop is not of acceptable quality, since it should be durable for a reasonable time. The failure is likely to be a major failure, because a reasonable consumer would not have bought the laptop had they known of the defect, and it is not easily repaired. Mia is therefore entitled to choose between a refund and a replacement. She should write to the store, explain the defect and state her choice of remedy, and the store must comply without charging her for the return. If the store refuses, she may seek assistance from the NSW Fair Trading agency or the Australian Competition and Consumer Commission.",
+                        "source": "AI",
+                        "feedback": "Full marks: the advice applies the consumer guarantee to the facts, rejects the store's reliance on the warranty, identifies the failure as major and explains the remedy Mia may choose. The practical steps show the law applied to a real customer.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-3-1-1-2-2",
+                        "mark": 3,
+                        "answer": "The laptop should be of acceptable quality under the Australian Consumer Law. Because the screen failed after three weeks, it is probably not of acceptable quality, so Mia can ask the store for a remedy.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies the relevant guarantee and applies it to the facts with some accuracy. It does not identify the remedy or explain why the failure is major, and those would move it into the 4-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-3-1-1-2-3",
+                        "mark": 1,
+                        "answer": "Consumers have rights when products are faulty, so Mia should know her rights.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement about rights without identifying the law or applying it to the facts. The answer needs to identify the guarantee and apply it to the laptop.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-3-1-1-3",
+                    "question": "Identify two remedies available to a consumer when goods fail a consumer guarantee.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "LS12-4"
+                    ],
+                    "markerNotes": [
+                      "Two distinct remedies are needed, and the stronger answer notes that the choice depends on whether the failure is major or minor",
+                      "The command is to identify, so a brief statement of when each remedy applies is enough"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a remedy that is not available under the Australian Consumer Law, such as a fine payable by the consumer",
+                      "Offering two versions of the same remedy, such as a refund and a refund of the purchase price"
+                    ],
+                    "keywords": [
+                      "remedies",
+                      "consumer guarantee",
+                      "refund",
+                      "replacement",
+                      "repair",
+                      "consumer",
+                      "major failure"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct remedies available to a consumer when goods fail a consumer guarantee, such as a refund and a replacement\n1 mark: Identifies one remedy available to a consumer when goods fail a consumer guarantee",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-1-1-3-1",
+                        "mark": 2,
+                        "answer": "Two remedies available to a consumer when goods fail a consumer guarantee are a refund and a replacement. These are available where the failure is major, and the consumer may choose which of them to accept. A repair or compensation may be offered for minor failures.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct remedies are identified, and the answer correctly ties them to a major failure and notes the consumer’s choice. The minor-failure remark shows awareness of the wider remedy structure.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-lg-3-1-1-3-2",
+                        "mark": 1,
+                        "answer": "A consumer may ask for a refund when goods are faulty.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate remedy. A second distinct remedy, such as a replacement, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-3-1-2",
+                "description": "analyse the role of the ACCC and state fair trading agencies in enforcing consumer protection law against businesses",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-3-1-2-1",
+                    "question": "Explain the role of the Australian Competition and Consumer Commission in protecting consumers.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-4",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Reward the distinction between the ACCC's national role and the state agencies' local role",
+                      "Accurate reference to the ACCC's power to take action in the Federal Court shows understanding of how enforcement works"
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the ACCC with a court, which cannot itself impose penalties",
+                      "Describing consumer education without linking it to enforcement"
+                    ],
+                    "keywords": [
+                      "ACCC",
+                      "Australian Competition and Consumer Commission",
+                      "consumer protection",
+                      "misleading conduct",
+                      "enforcement",
+                      "penalties",
+                      "education"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly the role of the Australian Competition and Consumer Commission in protecting consumers, including enforcement against misleading conduct, the ability to seek penalties and the education of consumers and businesses, with accurate detail\n5 marks: Explains at least two functions of the ACCC in protecting consumers with accurate detail\n4 marks: Explains one function of the ACCC and its effect on consumer protection\n3 marks: Describes the ACCC's role with some accuracy\n2 marks: Identifies a function of the ACCC\n1 mark: Makes a general statement about consumer protection",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-1-2-1-1",
+                        "mark": 6,
+                        "answer": "The Australian Competition and Consumer Commission is the national regulator that enforces the Australian Consumer Law. Its main role in consumer protection is to investigate and take action against businesses that engage in misleading or deceptive conduct, and against unfair practices. It can seek penalties and orders in the Federal Court, which gives its enforcement real deterrent effect. The ACCC can also issue infringement notices and accept court-enforceable undertakings from businesses. Beyond enforcement, it educates consumers and businesses about their rights and obligations, which helps prevent breaches before they occur. Because the ACCC acts nationally, it can address conduct that crosses state borders, while state fair trading agencies deal with local matters, so the two work in complement.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer identifies the ACCC's enforcement role, its power to seek penalties, and its education role, and it explains the relationship with state agencies. The distinction between national and local enforcement shows a precise understanding of the system.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-3-1-2-1-2",
+                        "mark": 4,
+                        "answer": "The ACCC enforces the Australian Consumer Law against businesses that mislead consumers. If a business breaks the law, the ACCC can take it to the Federal Court to seek a penalty. This helps to stop businesses from acting unfairly.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one function of the ACCC and its effect. A second function, such as consumer education or the national reach of the Commission, would move it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-3-1-2-1-3",
+                        "mark": 2,
+                        "answer": "The ACCC is a government body that helps consumers.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the ACCC without describing a function. It needs to identify enforcement or another function and explain how it protects consumers.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-3-1-2-2",
+                    "question": "Analyse how the law responds to misleading or deceptive conduct by businesses.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "LS12-4",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show that the test is objective: whether the conduct is likely to mislead a reasonable consumer, not whether anyone was actually deceived",
+                      "Credit the range of responses, including injunctions and corrective advertising orders, as well as penalties"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that a business must have intended to deceive, which is not required under the law",
+                      "Listing remedies without analysing how the law responds to the conduct"
+                    ],
+                    "keywords": [
+                      "misleading or deceptive conduct",
+                      "businesses",
+                      "Australian Consumer Law",
+                      "penalties",
+                      "injunction",
+                      "corrective advertising",
+                      "reasonable consumer"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of how the law responds to misleading or deceptive conduct by businesses, explaining the prohibition, the remedies and penalties available, and how enforcement operates in practice\n5-6 marks: Analyses at least two elements of the legal response to misleading or deceptive conduct with accurate evidence\n3-4 marks: Describes the legal response to misleading conduct with some accuracy and makes some link to its operation\n1-2 marks: Makes a basic or general statement about misleading conduct",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-1-2-2-1",
+                        "mark": 8,
+                        "answer": "The Australian Consumer Law prohibits businesses from engaging in misleading or deceptive conduct, and the test is objective. Whether conduct is misleading is judged by its likely effect on a reasonable consumer, so the business does not need to intend to deceive, and it is no defence that a particular consumer was not in fact misled. This makes the prohibition wide in scope and easier to enforce. The law responds through a range of remedies. Courts may award damages to consumers who suffer loss, and the ACCC may seek injunctions to stop the conduct continuing. Courts may also order corrective advertising, which requires the business to publish a correction, and they may impose civil penalties on businesses that breach the prohibition. The effect of these responses depends on enforcement: the ACCC must choose which cases to pursue, and penalties must be large enough to deter. The analysis suggests that the law is strong in principle, but its effect depends on the resources and willingness of the regulator to act.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains the objective test and why it makes the prohibition effective, sets out the range of remedies and their purposes, and considers how enforcement shapes the law's effect. The final judgement connects the legal response to its practical operation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-3-1-2-2-2",
+                        "mark": 5,
+                        "answer": "The law prohibits misleading or deceptive conduct by businesses. The test is whether a reasonable consumer would be misled, so a business does not have to intend to deceive. The courts can order a business to stop the conduct and can impose penalties, and the ACCC can take action to enforce the prohibition.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses two elements of the legal response with accurate evidence. The analysis would reach the top band by explaining why the objective test matters for enforcement and by weighing the effectiveness of the remedies.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-3-1-2-2-3",
+                        "mark": 2,
+                        "answer": "Businesses must not mislead consumers, and if they do the law can punish them.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the prohibition in general terms without naming a remedy or explaining the test. It needs the objective test and at least one specific remedy or penalty.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-lg-3-2",
+            "name": "Unfair practices and product safety",
+            "dotPoints": [
+              {
+                "id": "dp-lg-3-2-1",
+                "description": "evaluate the effectiveness of consumer protection law in addressing unfair contract terms and unsafe products",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-3-2-1-1",
+                    "question": "Evaluate the effectiveness of consumer protection law in addressing unfair contract terms.",
+                    "totalMarks": 8,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LS12-4",
+                      "LS12-6"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as whether consumers are protected from terms they could not negotiate, against which the law is judged",
+                      "Strong answers recognise that civil penalties apply only where the regulator takes action, which limits the effect of the law on everyday contracts"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing what an unfair contract term is without evaluating how the law responds to it",
+                      "Concluding that consumer protection law either fully protects consumers or does nothing, without a criterion"
+                    ],
+                    "keywords": [
+                      "unfair contract terms",
+                      "consumer protection law",
+                      "standard form contracts",
+                      "bargaining power",
+                      "penalties",
+                      "enforcement",
+                      "small print"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based evaluation of the effectiveness of consumer protection law in addressing unfair contract terms, weighing the protection given by the unfair terms provisions and their penalties against the limits of enforcement and the imbalance in bargaining power, and reaching a reasoned conclusion\n6 marks: Evaluates the effectiveness of the law on unfair contract terms and attempts a judgement, with the reasoning partly developed\n5 marks: Evaluates at least one aspect of the law on unfair contract terms with accurate evidence and suggests a conclusion\n3-4 marks: Describes the law on unfair contract terms with some relevant detail and limited evaluation\n2 marks: Identifies an unfair contract term or a feature of the law\n1 mark: Makes a basic or general statement about contracts",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-2-1-1-1",
+                        "mark": 8,
+                        "answer": "Consumer protection law is effective in principle at addressing unfair contract terms, but its practical reach is limited. Standard form contracts, such as mobile phone plans and gym memberships, are offered on a take-it-or-leave-it basis, so consumers have little bargaining power to negotiate their terms. The Australian Consumer Law allows a court to declare a term in a consumer contract void if it is unfair, which protects consumers from clauses that cause significant imbalance and are not reasonably necessary. Since November 2023, using or relying on an unfair term in a standard form contract can attract civil penalties, which gives businesses a strong incentive to draft fairly. However, the law depends on enforcement, and most consumers are unaware that particular terms are unfair, so the effect on everyday contracts is limited to cases that are brought. The regulator cannot pursue every contract, and individual consumers may not have the resources to challenge a term in court. The law is therefore effective as a deterrent but less effective as a means of protecting consumers in each individual transaction.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets a criterion of protection in ordinary transactions, measures the law against it, and reaches a judgement that separates deterrence from individual protection. The reference to the imbalance in bargaining power explains why the law's reach is limited.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lg-3-2-1-1-2",
+                        "mark": 5,
+                        "answer": "The law allows a court to declare an unfair contract term void, which protects consumers from unfair clauses. Standard form contracts are common, and consumers often do not read them. Since 2023 businesses that use unfair terms can face penalties, which should discourage this practice.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response evaluates one aspect of the law with accurate evidence and suggests a conclusion. The evaluation would reach the top band by weighing the penalties against the limits of enforcement and the bargaining imbalance.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-3-2-1-1-3",
+                        "mark": 2,
+                        "answer": "A contract can have an unfair term, and the law can stop that from being enforced.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies an unfair term and a general effect of the law without naming the law or evaluating it. The answer needs the relevant provision and an evaluation of its effectiveness.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-3-2-1-2",
+                    "question": "Outline two features of the product safety regime that protect consumers from unsafe products.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "LS12-4",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Two distinct features are needed, such as mandatory safety standards and the power to order recalls, rather than two versions of one feature",
+                      "The outline should show how each feature operates, for example that a recall can be ordered to remove a product from the market"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a feature without outlining how it operates",
+                      "Describing the consequences of an unsafe product rather than a feature of the regime"
+                    ],
+                    "keywords": [
+                      "product safety",
+                      "consumers",
+                      "unsafe products",
+                      "mandatory standards",
+                      "product recalls",
+                      "ACCC",
+                      "safety warnings"
+                    ],
+                    "markingCriteria": "3 marks: Outlines two distinct features of the product safety regime that protect consumers, with accurate detail on how each operates\n2 marks: Outlines two features with limited detail\n1 mark: Identifies a feature of the product safety regime",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-2-1-2-1",
+                        "mark": 3,
+                        "answer": "Two features of the product safety regime protect consumers from unsafe products. Mandatory safety standards set minimum requirements for certain products, such as children's toys and electrical goods, and suppliers must comply before they sell the goods. The regime also gives the ACCC and the responsible minister the power to order product recalls, requiring suppliers to remove unsafe goods from consumers and the market, and to warn consumers about the risk.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct features are outlined, each with accurate detail about how it operates. The mention of warnings to consumers adds precision to the recall power.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-3-2-1-2-2",
+                        "mark": 2,
+                        "answer": "There are mandatory safety standards for some products. The ACCC can also order recalls of unsafe goods.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response outlines two features with limited detail. Adding how each operates, such as what suppliers must do to comply, would earn the full 3 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-3-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Product safety laws protect consumers from dangerous goods.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response describes the purpose of product safety law but identifies no feature of the regime. It needs two specific features and an outline of how each operates.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-3-2-2",
+                "description": "discuss the protection of consumers who shop online, including the position of overseas retailers and the limits of enforcement",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-3-2-2-1",
+                    "question": "Discuss whether consumers who shop online are adequately protected by Australian consumer law.",
+                    "totalMarks": 6,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LS12-4",
+                      "LS12-6"
+                    ],
+                    "markerNotes": [
+                      "Discussion should present both views: the law applies to overseas suppliers who target Australian consumers, but the practical difficulty of recovery is real",
+                      "A reasoned conclusion, for example that protection exists in law but is harder to obtain in practice, lifts the answer into the top band"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that consumers have no protection when buying from overseas retailers",
+                      "Discussing online shopping without addressing whether the law reaches overseas suppliers"
+                    ],
+                    "keywords": [
+                      "overseas retailers",
+                      "enforcement",
+                      "online shopping",
+                      "consumer protection",
+                      "consumer guarantees",
+                      "jurisdiction",
+                      "ACCC"
+                    ],
+                    "markingCriteria": "6 marks: Discusses whether online shoppers are adequately protected, weighing the application of the Australian Consumer Law to overseas retailers against the practical difficulties of enforcement and reaching a reasoned conclusion\n5 marks: Discusses the protection of online shoppers with accurate evidence and identifies a limit or a further consideration\n4 marks: Discusses how the law applies to online shopping with some accurate detail\n3 marks: Describes the protection of online shoppers with limited discussion\n2 marks: Identifies a feature of online consumer protection\n1 mark: Makes a general statement about online shopping",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-3-2-2-1-1",
+                        "mark": 6,
+                        "answer": "Consumers who shop online are protected in law, but the practical protection depends on where the seller is based. The Australian Consumer Law applies to businesses that supply goods or services to Australian consumers, including many overseas retailers who target the Australian market, so consumer guarantees generally apply to online purchases. However, enforcement is more difficult where the seller is outside Australia. A consumer may find it expensive or impossible to bring a claim in a foreign jurisdiction, and the ACCC has limited means of compelling an overseas business to comply. Domestic online sellers are more readily held to account. The protection is therefore adequate in principle, but a consumer's real protection is weaker when buying from an overseas retailer, which suggests that awareness and choice of seller matter. On balance, the law provides a sound basis for protection but not a complete one.",
+                        "source": "AI",
+                        "feedback": "Full marks: the discussion presents the application of the law to overseas retailers, weighs it against the practical difficulty of enforcement, and reaches a reasoned conclusion. The distinction between protection in principle and in practice is the point the top band requires.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-lg-3-2-2-1-2",
+                        "mark": 4,
+                        "answer": "Online shoppers are protected by the Australian Consumer Law, which applies to businesses selling to Australian consumers. This means consumer guarantees can apply to purchases from many overseas websites. The protection can be harder to enforce where the business is outside Australia.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response discusses the application of the law with accurate detail. A judgement about whether the protection is adequate, and why enforcement is difficult, would extend it into the 5-mark band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-3-2-2-1-3",
+                        "mark": 2,
+                        "answer": "People can shop online and they have rights when they buy things on the internet.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement about online rights without identifying the law or the question of overseas sellers. It needs to name the Australian Consumer Law and discuss its application.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-lg-4",
+        "name": "Option: Workplace",
+        "subTopics": [
+          {
+            "id": "subtopic-lg-4-1",
+            "name": "Employment rights and the Fair Work system",
+            "dotPoints": [
+              {
+                "id": "dp-lg-4-1-1",
+                "description": "explain the minimum entitlements under the National Employment Standards and the roles of the Fair Work Commission and modern awards",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-4-1-1-1",
+                    "question": "Describe the minimum entitlements that employees receive under the National Employment Standards.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "LS12-5"
+                    ],
+                    "markerNotes": [
+                      "Reward the point that the National Employment Standards apply to all national system employees and cannot be reduced by agreement",
+                      "Describing the content of each entitlement, such as the length of unpaid parental leave, shows precision"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing entitlements that are found in awards or contracts but are not part of the National Employment Standards",
+                      "Describing the entitlements as optional benefits an employer may choose to offer"
+                    ],
+                    "keywords": [
+                      "National Employment Standards",
+                      "maximum weekly hours",
+                      "annual leave",
+                      "personal leave",
+                      "parental leave",
+                      "notice of termination",
+                      "Fair Work Act 2009"
+                    ],
+                    "markingCriteria": "4 marks: Describes several minimum entitlements under the National Employment Standards accurately, such as maximum weekly hours, annual leave and parental leave, with some explanation of their content\n3 marks: Describes two entitlements under the National Employment Standards with some accuracy\n2 marks: Identifies an entitlement under the National Employment Standards\n1 mark: Makes a general statement about employee rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-1-1-1-1",
+                        "mark": 4,
+                        "answer": "The National Employment Standards set out minimum entitlements for employees covered by the national workplace relations system. Employees are entitled to a maximum of 38 ordinary hours a week, plus reasonable additional hours. They receive four weeks of paid annual leave each year, and ten days of paid personal and carer's leave. Eligible employees are entitled to up to 12 months of unpaid parental leave, and an employee must be given notice of termination or payment in lieu. These standards cannot be reduced by an award, a contract or an agreement, which makes them the floor of employment conditions.",
+                        "source": "AI",
+                        "feedback": "Full marks: several entitlements are described accurately with their content, and the answer notes that the standards form a legal floor that cannot be reduced. The precision of the leave entitlements shows the top-band command of the detail.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-4-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Employees get four weeks of paid annual leave every year. They also get paid personal leave when they are sick, and they can take unpaid parental leave when they have a baby.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes three entitlements with some accuracy. Adding the maximum weekly hours, or the fact that the entitlements cannot be reduced, would strengthen the description.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-4-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Employees have rights at work, such as getting time off.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement about rights without naming a National Employment Standard. It needs at least one specific entitlement and its content.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-4-1-1-2",
+                    "question": "Explain the role of modern awards and the Fair Work Commission in setting pay and conditions for employees.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-5",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "The explanation should show that modern awards set industry minimum conditions and that the Commission reviews and varies them, rather than setting pay for individual workplaces",
+                      "Reward the distinction between an award, which applies by default, and an enterprise agreement, which is negotiated at a workplace"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Fair Work Commission as a court that hears every employment dispute",
+                      "Confusing modern awards with enterprise agreements, which are made by the parties at a workplace"
+                    ],
+                    "keywords": [
+                      "modern awards",
+                      "Fair Work Commission",
+                      "National Employment Standards",
+                      "minimum wage",
+                      "penalty rates",
+                      "enterprise agreements",
+                      "classification"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how modern awards and the Fair Work Commission set pay and conditions, including the national minimum wage, penalty rates and the Commission's role in making and varying awards, with accurate detail\n5 marks: Explains the role of modern awards and the Commission, with at least two accurate features of how pay and conditions are set\n4 marks: Explains the role of modern awards in setting pay and conditions with some accurate detail\n3 marks: Describes features of modern awards or the Commission with some accuracy\n2 marks: Identifies modern awards or the Commission with limited explanation\n1 mark: Makes a general statement about employment pay",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-1-1-2-1",
+                        "mark": 6,
+                        "answer": "Modern awards are legal instruments that set minimum pay and conditions for particular industries or occupations. They specify matters such as classifications, minimum wages, penalty rates for weekends and public holidays, and overtime. The Fair Work Commission is responsible for making and reviewing awards, and it sets the national minimum wage each year, which applies to employees whatever their award. The Commission also decides applications to vary awards and approves enterprise agreements, which allow employers and employees at a workplace to agree on conditions above the award minimum. Because awards cannot be undercut, an employer may pay more than the award but not less. The system therefore ensures that every employee covered by an award has a floor of pay and conditions, while leaving room for workplace agreements. Awards operate alongside the National Employment Standards, which apply to all national system employees and set the floor beneath them.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation distinguishes the award floor, the Commission's role in making and reviewing awards and the national minimum wage, and the place of enterprise agreements above the floor. The statement that awards cannot be undercut shows how the system works in practice.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-4-1-1-2-2",
+                        "mark": 4,
+                        "answer": "Modern awards set minimum wages and conditions for workers in particular industries, such as penalty rates for working on weekends. The Fair Work Commission makes these awards and can change them. Employers must pay at least the award rate.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the role of awards with accurate detail. Explaining the national minimum wage or the place of enterprise agreements would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-4-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Modern awards are a type of document that employees have at work. The Fair Work Commission is a government body.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the two institutions without explaining how they set pay and conditions. It needs at least one function of each.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-4-1-2",
+                "description": "analyse the protection against unfair dismissal and adverse action available to employees under the Fair Work Act 2009",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-4-1-2-1",
+                    "question": "Analyse the protection against unfair dismissal available to employees under the Fair Work Act 2009.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "LS12-5",
+                      "LS12-2"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the two-stage structure: eligibility, then whether the dismissal was harsh, unjust or unreasonable, and the Commission's consideration of a valid reason and procedural fairness",
+                      "Credit the recognition that the protection depends on minimum employment periods, which limits its reach"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that any dismissal without notice is unfair, without applying the test",
+                      "Omitting the eligibility requirement, such as the minimum period of employment"
+                    ],
+                    "keywords": [
+                      "unfair dismissal",
+                      "Fair Work Act 2009",
+                      "harsh, unjust or unreasonable",
+                      "Fair Work Commission",
+                      "small business",
+                      "valid reason",
+                      "procedural fairness"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the protection against unfair dismissal under the Fair Work Act 2009, explaining the eligibility requirements, the test of harsh, unjust or unreasonable dismissal and the remedies, and weighing the protection's practical reach\n5-6 marks: Analyses at least two elements of the unfair dismissal protection with accurate evidence on eligibility or the test applied\n3-4 marks: Describes the unfair dismissal protection with some accuracy and makes some link to its operation\n1-2 marks: Makes a basic or general statement about dismissal",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-1-2-1-1",
+                        "mark": 8,
+                        "answer": "The Fair Work Act 2009 protects employees against unfair dismissal in two stages. First, the employee must be eligible: generally they must have completed a minimum employment period, which is six months for most employees and twelve months where the employer is a small business. Second, the Fair Work Commission must be satisfied that the dismissal was harsh, unjust or unreasonable. In deciding this, the Commission considers whether there was a valid reason for the dismissal related to the employee's capacity or conduct, whether the employee was notified of the reason, whether they had an opportunity to respond, and whether the dismissal was a proportionate response. Where a dismissal is found unfair, the Commission may order reinstatement or compensation. The protection is significant because it limits arbitrary dismissal. Its reach is limited, however, because employees with short periods of service have no access to it, and the process requires the employee to bring a claim within a short time frame.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains the two-stage structure, the factors the Commission considers, and the remedies, and it weighs the protection against its eligibility limits. The reference to the time limit for claims shows the practical reach of the protection.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-4-1-2-1-2",
+                        "mark": 5,
+                        "answer": "An employee can make an unfair dismissal claim under the Fair Work Act if they have worked for the employer long enough. The Fair Work Commission then decides whether the dismissal was harsh, unjust or unreasonable. Factors such as whether there was a valid reason and whether the employee had a chance to respond are considered.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses the eligibility requirement and the test applied with accurate evidence. The analysis would reach the top band by naming the minimum employment periods and explaining how the Commission weighs the factors.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-4-1-2-1-3",
+                        "mark": 2,
+                        "answer": "Employees who are sacked unfairly can complain to the Fair Work Commission.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a remedy route without explaining the test or the eligibility requirements. It needs at least one element of the protection analysed.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-4-1-2-2",
+                    "question": "Identify two grounds on which an employee may be protected from adverse action by an employer.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "LS12-5"
+                    ],
+                    "markerNotes": [
+                      "Two distinct grounds are needed, such as exercising a workplace right and being a union member, not two examples of one ground",
+                      "The grounds include the protected attributes listed in the Act, such as race, sex and pregnancy"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a ground that does not protect the employee, such as performance below expectations",
+                      "Confusing adverse action with unfair dismissal, which is a separate protection"
+                    ],
+                    "keywords": [
+                      "adverse action",
+                      "grounds",
+                      "workplace rights",
+                      "union membership",
+                      "pregnancy",
+                      "political opinion",
+                      "protected attribute"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct and accurate grounds on which an employee is protected from adverse action, such as exercising a workplace right and union membership\n1 mark: Identifies one accurate ground on which an employee is protected from adverse action",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-1-2-2-1",
+                        "mark": 2,
+                        "answer": "Two grounds on which an employee is protected from adverse action are, first, that they have exercised a workplace right, such as making a complaint about pay or seeking to enforce an entitlement. A second ground is union membership, so an employer cannot dismiss or disadvantage them for being a member of a union.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct grounds are identified, each correctly stated as a protected ground under the adverse action provisions. The answer does not need further explanation for an identify command.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-lg-4-1-2-2-2",
+                        "mark": 1,
+                        "answer": "An employee is protected from adverse action when they exercise a workplace right.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate ground. A second, distinct ground, such as pregnancy or union membership, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-lg-4-2",
+            "name": "Health, safety and discrimination at work",
+            "dotPoints": [
+              {
+                "id": "dp-lg-4-2-1",
+                "description": "explain the duties that the Work Health and Safety Act 2011 (NSW) places on employers, including the primary duty of care and the duty to report incidents",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-4-2-1-1",
+                    "question": "Explain the duties that the Work Health and Safety Act 2011 (NSW) places on employers.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LS12-5",
+                      "LS12-1"
+                    ],
+                    "markerNotes": [
+                      "Reward the point that the duty is framed around what is reasonably practicable, which requires weighing the cost of a control against the risk",
+                      "The duty extends to the employer's business or undertaking, not only to the employer's own employees"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that the employer must guarantee a safe workplace with no risk at all",
+                      "Describing the duties of employees and employers without distinguishing them"
+                    ],
+                    "keywords": [
+                      "Work Health and Safety Act 2011",
+                      "employers",
+                      "primary duty of care",
+                      "so far as reasonably practicable",
+                      "risk management",
+                      "notifiable incident",
+                      "officers"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly the primary duty of care owed by employers, the requirement to eliminate or minimise risks so far as reasonably practicable, and the duty to notify regulators of notifiable incidents, with accurate detail\n5 marks: Explains at least two of the employer's duties under the Act with accurate detail\n4 marks: Explains one duty of the employer under the Act and its operation\n3 marks: Describes features of the employer's duties with some accuracy\n2 marks: Identifies a duty of the employer or the Act\n1 mark: Makes a general statement about workplace safety",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-2-1-1-1",
+                        "mark": 6,
+                        "answer": "The Work Health and Safety Act 2011 (NSW) places a primary duty of care on the person conducting a business or undertaking, which includes most employers. This duty requires the employer to ensure, so far as is reasonably practicable, the health and safety of workers and others affected by the work. The phrase so far as is reasonably practicable means the employer must weigh the likelihood and severity of a risk against the cost and availability of controls, so the duty is not one of absolute guarantee. Employers must identify hazards, assess the risks, and eliminate or minimise them, using a hierarchy of controls. They must also notify SafeWork NSW immediately of a notifiable incident, such as a death or a serious injury, and preserve the site for inspection. Employers who fail these duties may be prosecuted, and penalties increase where the failure is reckless. The Act therefore makes safety a continuing legal responsibility rather than a matter of goodwill.",
+                        "source": "AI",
+                        "feedback": "Full marks: the primary duty of care is explained, the phrase so far as reasonably practicable is defined in terms of the balancing of risk and cost, and the duty to notify is set out accurately. The conclusion that safety is a continuing responsibility shows the purpose behind the duties.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-4-2-1-1-2",
+                        "mark": 4,
+                        "answer": "Employers have a primary duty of care under the Work Health and Safety Act to keep workers safe. They must do this so far as reasonably practicable, which means they must manage risks. If something serious happens at work, the employer must report it to the regulator.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the primary duty and one further duty with accurate detail. Explaining the balancing involved in reasonably practicable, or the hierarchy of controls, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lg-4-2-1-1-3",
+                        "mark": 2,
+                        "answer": "The Work Health and Safety Act is a law about keeping workers safe at their jobs.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes the Act in general terms and identifies no duty of the employer. It needs a specific duty and an explanation of what it requires.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-4-2-1-2",
+                    "question": "Apply the Work Health and Safety Act 2011 (NSW) to advise an employer after a worker is injured by faulty equipment.",
+                    "totalMarks": 5,
+                    "verb": "APPLY",
+                    "scenario": "Jordan works in the kitchen of a busy café in Newcastle. A faulty coffee grinder causes a serious burn to Jordan's arm. The owner has not tested the equipment since it was installed and did not report the injury to SafeWork NSW.",
+                    "linkedOutcomes": [
+                      "LS12-5",
+                      "LS12-7"
+                    ],
+                    "markerNotes": [
+                      "Application should identify that the employer's duty was breached by failing to test the equipment, which is a failure to manage a known or foreseeable risk",
+                      "The duty to notify is separate from the duty of care, and failing to report is itself an offence"
+                    ],
+                    "commonStudentErrors": [
+                      "Advising that the employer is not liable because the equipment was bought from a supplier",
+                      "Failing to mention the duty to notify SafeWork NSW of a serious injury"
+                    ],
+                    "keywords": [
+                      "Work Health and Safety Act 2011",
+                      "employer",
+                      "primary duty of care",
+                      "SafeWork NSW",
+                      "notifiable incident",
+                      "so far as reasonably practicable",
+                      "risk assessment"
+                    ],
+                    "markingCriteria": "5 marks: Applies the Work Health and Safety Act 2011 (NSW) to the scenario, identifying the primary duty of care, the failure to test and maintain the equipment, and the duty to notify SafeWork NSW, with accurate advice on the employer's obligations\n4 marks: Applies the Act to the scenario with accurate reasoning on the duty of care and one further obligation\n3 marks: Identifies the relevant duty and applies it to the facts with some accuracy\n2 marks: Identifies a relevant duty with limited application to the facts\n1 mark: Makes a general statement about workplace safety",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-2-1-2-1",
+                        "mark": 5,
+                        "answer": "The owner is likely to be in breach of the primary duty of care under the Work Health and Safety Act 2011 (NSW). As the person conducting the café, the employer must ensure, so far as is reasonably practicable, that workers are not exposed to risks to their health and safety. Testing and maintaining equipment is a basic control, and the failure to test the grinder since installation is likely to be a failure to manage a foreseeable risk. The owner must also notify SafeWork NSW immediately of the serious burn, which is a notifiable incident, and must preserve the grinder and the site for inspection. The owner should therefore carry out a risk assessment of all equipment, test the grinder, notify the regulator and take steps to prevent a recurrence. Failure to notify is itself an offence, so the advice to report should be given urgently.",
+                        "source": "AI",
+                        "feedback": "Full marks: the advice applies the primary duty to the facts, identifies the failure to test as the breach, and identifies the separate duty to notify. The practical steps show the law applied to the employer's situation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-4-2-1-2-2",
+                        "mark": 3,
+                        "answer": "The employer has a primary duty of care to keep workers safe. Because the grinder was not tested after it was installed, the employer may have failed in this duty, so the employer may be in trouble.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies the relevant duty and applies it to the facts with some accuracy. The advice would be complete with the duty to notify SafeWork NSW and the steps the employer should take.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lg-4-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Workplaces must be safe and employers should look after their staff.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement about safety and does not identify the Act or apply a duty to the scenario. The answer needs to name the primary duty and apply it to the faulty grinder.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-lg-4-2-2",
+                "description": "evaluate the effectiveness of anti-discrimination law in protecting employees from discrimination and sexual harassment at work",
+                "prompts": [
+                  {
+                    "id": "prompt-lg-4-2-2-1",
+                    "question": "Evaluate the effectiveness of anti-discrimination law in protecting employees from discrimination.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "LS12-5",
+                      "LS12-6"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as whether an employee can obtain a remedy without undue cost or delay, against which the law is judged",
+                      "Strong answers recognise that the law prohibits discrimination in principle, while the complaint process places the burden of enforcement on the individual"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the grounds of discrimination without evaluating how effectively the law protects employees",
+                      "Concluding that anti-discrimination law is either fully effective or ineffective without a criterion"
+                    ],
+                    "keywords": [
+                      "anti-discrimination law",
+                      "employees",
+                      "Sex Discrimination Act 1984",
+                      "Anti-Discrimination Act 1977",
+                      "complaint process",
+                      "Australian Human Rights Commission",
+                      "enforcement"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the effectiveness of anti-discrimination law in protecting employees, weighing its prohibition of discrimination and its complaint mechanisms against the barriers to enforcement faced by individual employees, and reaching a reasoned conclusion\n7-8 marks: Evaluates several features of anti-discrimination law with precise evidence and a clear overall position\n6 marks: Evaluates at least one feature of the law and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes features of anti-discrimination law with some relevant detail\n2-3 marks: Identifies features with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-2-2-1-1",
+                        "mark": 10,
+                        "answer": "Anti-discrimination law is effective in setting clear prohibitions, but its protection of individual employees is limited by the burden of enforcement. Its effectiveness can be measured by whether employees who are discriminated against can obtain a remedy in a reasonable time and at reasonable cost. Federal law, through the Sex Discrimination Act 1984 and other statutes, prohibits discrimination on protected grounds, and state law, such as the Anti-Discrimination Act 1977 (NSW), covers further grounds. Employees can complain to the Australian Human Rights Commission or to the state agency, which attempts conciliation, and this avoids the cost of litigation. However, the complaint process relies on the employee to bring the claim, which many employees are unwilling or unable to do because of the risk of retaliation or the loss of their job. Conciliation is also non-binding unless the matter proceeds to a tribunal or court, and damages awards have often been modest. The law is therefore effective as a statement of standards and as a means of resolving complaints, but less effective in deterring discrimination in practice, because the burden falls on the individual who has been harmed.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets a criterion of obtainable remedy, measures the complaint mechanisms against it, and reaches a judgement that separates the clarity of the standards from the burden of enforcement. The reference to retaliation as a barrier shows understanding of why the process is less effective in practice.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lg-4-2-2-1-2",
+                        "mark": 6,
+                        "answer": "Anti-discrimination law prohibits discrimination against employees on protected grounds, and employees can complain to the Australian Human Rights Commission. This gives employees a route to resolve complaints. However, many employees do not complain, and the outcomes of complaints are sometimes modest, so the law is less effective in practice than it appears.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the complaint mechanism and attempts a judgement, though the reasoning is brief. Developing the criterion of effectiveness and naming a specific barrier to enforcement would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-4-2-2-1-3",
+                        "mark": 3,
+                        "answer": "There are laws that stop employers discriminating against workers because of their sex or race. Employees can make complaints if they are treated unfairly.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies the law and the complaint route with limited explanation and no evaluation. It needs a judgement about how well the law protects employees in practice.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-lg-4-2-2-2",
+                    "question": "Discuss the view that sexual harassment in the workplace is now adequately addressed by the law.",
+                    "totalMarks": 6,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LS12-5",
+                      "LS12-6"
+                    ],
+                    "markerNotes": [
+                      "Discussion should weigh the shift from complaint-based law to a positive duty against the continuing reliance on individuals to report",
+                      "A reasoned conclusion, for example that the law now places a duty on employers but enforcement still depends on reporting, lifts the answer into the top band"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the law on sexual harassment without discussing whether it is adequate",
+                      "Stating that employers are not liable for harassment by staff, which is not the position under the Act"
+                    ],
+                    "keywords": [
+                      "sexual harassment",
+                      "workplace",
+                      "Sex Discrimination Act 1984",
+                      "positive duty",
+                      "complaints",
+                      "Australian Human Rights Commission",
+                      "reporting"
+                    ],
+                    "markingCriteria": "6 marks: Discusses whether sexual harassment in the workplace is adequately addressed by the law, weighing the prohibition and the positive duty to prevent harassment against the limits of complaint-based enforcement, and reaches a reasoned conclusion\n5 marks: Discusses the law on sexual harassment with accurate evidence and identifies a limit or a further consideration\n4 marks: Discusses how the law addresses sexual harassment with some accurate detail\n3 marks: Describes the law on sexual harassment with limited discussion\n2 marks: Identifies a feature of the law on sexual harassment\n1 mark: Makes a general statement about workplace harassment",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lg-4-2-2-2-1",
+                        "mark": 6,
+                        "answer": "The law on sexual harassment in the workplace is stronger than it was, but it is not yet fully adequate. The Sex Discrimination Act 1984 makes sexual harassment unlawful, and since the Respect at Work amendments of 2022, employers have a positive duty to take reasonable and proportionate measures to prevent it. This shifts the responsibility from the individual who has been harassed to the employer, and it requires proactive steps such as training and policies. However, the law still depends in part on complaints, and many victims do not report harassment because they fear retaliation or lose trust in the process. The Australian Human Rights Commission can investigate and conciliate complaints, but it cannot always compel an employer to change its practices. The law is therefore adequate in principle and improving in practice, but the gap between the duty and its enforcement means that it is not yet adequate on its own.",
+                        "source": "AI",
+                        "feedback": "Full marks: the discussion weighs the positive duty against the continuing reliance on complaints, reaches a reasoned conclusion, and shows the shift in responsibility that the amendments introduced. The reference to the limits of conciliation reflects a balanced judgement.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-lg-4-2-2-2-2",
+                        "mark": 4,
+                        "answer": "The Sex Discrimination Act makes sexual harassment unlawful in the workplace. Employers now have a positive duty to prevent it, which means they must take steps before harassment happens. Victims can still complain to the Australian Human Rights Commission.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response discusses how the law addresses sexual harassment with accurate detail. A judgement about whether the law is adequate, and the limit created by reliance on reporting, would extend it into the 5-mark band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lg-4-2-2-2-3",
+                        "mark": 2,
+                        "answer": "Sexual harassment at work is against the law and people can complain about it.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies that the law prohibits harassment but does not discuss its adequacy or name the relevant provisions. It needs a discussion of the positive duty and the limits of enforcement.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1938 @@
+[
+  {
+    "id": "course-hsc-modern-history",
+    "name": "HSC Modern History",
+    "outcomes": [
+      {
+        "code": "MH12-1",
+        "description": "explains the nature and significance of change and continuity in the modern world"
+      },
+      {
+        "code": "MH12-2",
+        "description": "analyses the causes, course and consequences of significant events and developments"
+      },
+      {
+        "code": "MH12-3",
+        "description": "evaluates the role of individuals, groups and ideas in shaping the past"
+      },
+      {
+        "code": "MH12-4",
+        "description": "examines and interprets a range of sources as evidence"
+      },
+      {
+        "code": "MH12-5",
+        "description": "analyses and evaluates historical interpretations and perspectives"
+      },
+      {
+        "code": "MH12-6",
+        "description": "uses historical concepts, terms and conventions accurately"
+      },
+      {
+        "code": "MH12-7",
+        "description": "undertakes historical inquiry and research using primary and secondary sources"
+      },
+      {
+        "code": "MH12-8",
+        "description": "selects and organises evidence to construct a sustained, reasoned argument"
+      },
+      {
+        "code": "MH12-9",
+        "description": "communicates historical understanding in extended written responses and source-based tasks"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-mh-1",
+        "name": "Core study: Power and authority in the modern world, 1919–1946",
+        "subTopics": [
+          {
+            "id": "subtopic-mh-1-1",
+            "name": "The Weimar Republic and the rise of Nazi power",
+            "dotPoints": [
+              {
+                "id": "dp-mh-1-1-1",
+                "description": "explain the impact of the Treaty of Versailles and the Great Depression on the rise of the Nazi Party, including reparations, hyperinflation and mass unemployment",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-1-1-1-1",
+                    "question": "Explain how the Treaty of Versailles and the Great Depression contributed to the rise of the Nazi Party in Germany.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "Reward the link between each factor and the Nazi Party's electoral gains, not a list of causes that stops at the Treaty",
+                      "Accurate dates or figures (for example the 1923 hyperinflation or the 1932 unemployment peak) lift an answer into the top band"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Treaty of Versailles in detail without showing how it helped the Nazis",
+                      "Treating the Great Depression as the only cause and ignoring the weaknesses of the Weimar Republic"
+                    ],
+                    "keywords": [
+                      "Treaty of Versailles",
+                      "Great Depression",
+                      "Nazi Party",
+                      "Weimar Republic",
+                      "reparations",
+                      "hyperinflation",
+                      "war guilt",
+                      "proportional representation"
+                    ],
+                    "markingCriteria": "5 marks: Explains clearly how the Treaty of Versailles created grievance and instability and how the Great Depression intensified these conditions, linking both to the growing electoral support for the Nazi Party\n4 marks: Explains how the Treaty of Versailles and the Great Depression each contributed to the rise of the Nazi Party, with accurate supporting detail\n3 marks: Describes a feature of the Treaty of Versailles or the Great Depression and links it to the Nazi Party\n2 marks: Identifies a relevant factor, such as the Treaty of Versailles or the Great Depression\n1 mark: Makes a basic statement about Germany or the Nazi Party in the 1920s",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-1-1-1-1",
+                        "mark": 5,
+                        "answer": "The Treaty of Versailles created resentment that the Nazi Party was able to exploit. Its war guilt clause and the reparations demand, later set at 132 billion gold marks, were widely resented, and the loss of territory and the limits on the army made many Germans see the settlement as a humiliation. The Weimar Republic was blamed for signing it, which weakened public faith in democratic government from the start. Hyperinflation in 1923, when the mark collapsed after the Ruhr occupation, had already wiped out savings and deepened distrust of the Republic. The Great Depression then turned this grievance into electoral support. After the Wall Street Crash, American loans were withdrawn and unemployment in Germany rose to around six million by 1932. Voters who had lost their jobs and savings turned to parties that promised strong leadership and an end to the Treaty's terms. The Nazi share of the vote grew from 2.6 per cent in 1928 to 37.3 per cent in July 1932, making it the largest party in the Reichstag. Proportional representation allowed it to win seats on a national vote, while its paramilitary SA gained attention through street violence.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer links both factors to the Nazi Party's growth, uses precise evidence such as the reparations figure and the 1932 vote share, and explains the mechanism rather than listing causes. The final sentence on proportional representation shows the Weimar political system working in the Nazis' favour.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-1-1-1-1-2",
+                        "mark": 3,
+                        "answer": "The Treaty of Versailles made Germans angry because it blamed them for the war and made them pay reparations. The Great Depression made many people lose their jobs, so they were more willing to support the Nazis, who promised to fix the economy and make Germany strong again.",
+                        "source": "AI",
+                        "feedback": "A sound 3-mark response: both factors are described and the link to the Nazis is made, but the explanation stays general. It needs one precise detail, such as the reparations sum or the unemployment figure, to reach the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-1-1-1-1-3",
+                        "mark": 1,
+                        "answer": "The Nazis became popular in Germany after the war because Hitler was a good speaker and many people were unhappy.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response: it makes a general claim about the Nazis without naming the Treaty or the Depression, and it gives no mechanism. The answer would need to identify a specific factor and explain how it helped the party.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-1-1-1-2",
+                    "question": "Analyse the extent to which the weaknesses of the Weimar Republic enabled Hitler to become Chancellor in January 1933.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "The question asks for extent, so the strongest answers weigh the weaknesses against other factors such as the conservatives' decision to bring Hitler into government",
+                      "Credit precise institutional detail, such as the use of Article 48 emergency decrees"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing weaknesses without analysing how they enabled Hitler's appointment",
+                      "Writing about Hitler's consolidation of power after January 1933, which the question does not ask for"
+                    ],
+                    "keywords": [
+                      "Weimar Republic",
+                      "Chancellor",
+                      "Article 48",
+                      "proportional representation",
+                      "Hindenburg",
+                      "Reichstag",
+                      "coalition government",
+                      "political violence"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of how the structural weaknesses of the Weimar Republic, the political manoeuvring of conservative elites and the Depression combined to allow Hitler's appointment, weighing their relative importance\n5-6 marks: Analyses several weaknesses of the Weimar Republic and their effect on Hitler's rise, with accurate evidence\n3-4 marks: Describes weaknesses of the Weimar Republic and makes some link to Hitler's appointment\n1-2 marks: Makes a basic or general statement about the Weimar Republic or Hitler",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-1-1-2-1",
+                        "mark": 8,
+                        "answer": "The Weimar Republic had structural weaknesses that made it vulnerable. Proportional representation produced fragmented Reichstags in which no party could govern alone, so the chancellors of the early 1930s depended on presidential decrees under Article 48. By 1930 Heinrich Brüning governed largely by emergency decree, which weakened the parliamentary foundations of the state and taught voters that democracy was not delivering solutions. The Depression made these weaknesses fatal. Unemployment and fear drove support to the Nazis, who won 37.3 per cent in July 1932, and the Communists also gained ground, so the Reichstag became unworkable. Yet the decisive step was not a popular mandate. Hindenburg and a circle of conservative advisers, including Franz von Papen, believed they could control Hitler and gave him the chancellorship in January 1933. The weaknesses of the Republic therefore created the opening, but the conservative elite's miscalculation in appointing Hitler was the immediate cause. The extent of the Republic's responsibility is significant but not complete.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer analyses how the structural weaknesses created the opening, then weighs them against the conservative decision that closed it, reaching a judgement about extent. Specific institutional evidence, including Article 48 and the July 1932 result, sustains the analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-1-1-1-2-2",
+                        "mark": 5,
+                        "answer": "The Weimar Republic was weak because of its voting system and its use of emergency powers. Proportional representation meant that many small parties sat in the Reichstag, so governments were unstable. Brüning and later chancellors used Article 48 to govern, which made the Reichstag less important. The Depression then made people more angry, and the Nazis gained many seats in 1932, so Hindenburg had to deal with them.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response identifies relevant weaknesses and links them to the Nazi rise, but the analysis of Hindenburg's decision is brief. Explaining why the conservatives appointed Hitler, rather than simply noting that they had to deal with the Nazis, would move it into the 7-8 band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-1-1-1-2-3",
+                        "mark": 2,
+                        "answer": "The Weimar Republic had problems, such as the Depression, and Hitler wanted power, so he was made Chancellor.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response: it names a problem but does not identify the specific weaknesses of the Republic, and it explains Hitler's appointment as a matter of his ambition. The answer needs institutional detail and an explanation of the appointment.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-1-1-2",
+                "description": "evaluate the methods used by Hitler to establish a dictatorship in Germany by 1934, including political violence, the Enabling Act and the Night of the Long Knives",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-1-1-2-1",
+                    "question": "Evaluate the methods Hitler used to establish a dictatorship in Germany by 1934.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-3",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "An evaluation must reach a judgement, for example that legal manoeuvres mattered most because they gave terror a legal form",
+                      "Credit the distinction between methods that won support and methods that removed opposition"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the methods in chronological order without judging which was most effective",
+                      "Presenting the Night of the Long Knives as the first step, which ignores the Enabling Act of March 1933"
+                    ],
+                    "keywords": [
+                      "Enabling Act",
+                      "Night of the Long Knives",
+                      "Reichstag Fire",
+                      "Gleichschaltung",
+                      "SA",
+                      "Gestapo",
+                      "Hindenburg",
+                      "legal manoeuvres"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based judgement on how far legal manoeuvres, terror and the destruction of rivals each secured the dictatorship, reaching a reasoned conclusion about their relative importance\n7-8 marks: Evaluates several methods with precise evidence and a clear overall position\n6 marks: Evaluates at least one method and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes methods used to establish the dictatorship with some relevant detail\n2-3 marks: Identifies methods used by Hitler with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-1-2-1-1",
+                        "mark": 10,
+                        "answer": "Hitler's dictatorship rested on three methods: legal manoeuvres, state terror and the elimination of rivals. Judged by their effect, the legal manoeuvres were the most important. The Reichstag Fire of February 1933 allowed the emergency decree that suspended civil liberties, and the Enabling Act of March 1933 gave Hitler's cabinet power to make laws without the Reichstag for four years. Because the Act was passed under constitutional forms, many conservatives accepted it, and the Gleichschaltung process then brought the states, unions and civil service into line. Terror was essential but secondary in establishing the regime's legitimacy. The SA and the Gestapo removed communists and socialists, and concentration camps such as Dachau held political prisoners, which made dissent costly. The Night of the Long Knives in June 1934 was the decisive act of elimination. Hitler used the SS to murder Ernst Röhm and other SA leaders, which reassured the army and removed the rival that might have challenged the Reichswehr. When Hindenburg died in August 1934, the army swore an oath of personal loyalty to Hitler, completing the dictatorship. The evaluation therefore favours the legal manoeuvres, because they made terror and purges acceptable to the conservative elites whose cooperation the regime still needed.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer reaches an explicit, criteria-based judgement that legal manoeuvres were most important, and it supports that judgement by showing how they made the other methods work. The specific dates and institutions demonstrate control of the content.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-mh-1-1-2-1-2",
+                        "mark": 6,
+                        "answer": "Hitler used the Enabling Act to gain power to make laws. He also used the SA to frighten people and the Gestapo to arrest opponents. The Night of the Long Knives got rid of Röhm and the SA leadership, which helped Hitler win over the army. Overall the methods all helped him, though the Enabling Act was probably the most important because it was legal.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response attempts a judgement, and the closing reason is sound, but the criteria for the judgement are not developed. Explaining why the legal form mattered, for example that it made terror appear lawful, would lift the response into the 7-8 band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-1-1-2-1-3",
+                        "mark": 3,
+                        "answer": "Hitler used the SA, the Gestapo and the Enabling Act to become a dictator. He also killed some of his enemies in 1934.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies methods but does not evaluate them or give any sequence or detail. It needs to judge which method was most effective and explain why.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-1-1-2-2",
+                    "question": "Identify two methods Hitler's government used to remove political opposition in 1933.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "A 2-mark identification needs two distinct methods, not two examples of the same method",
+                      "Dates strengthen the answer, but the question asks only for identification"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming methods used after 1934, such as the purges of 1934 or the oath to Hitler",
+                      "Giving two arrests of the same kind as two separate methods"
+                    ],
+                    "keywords": [
+                      "Enabling Act",
+                      "political opposition",
+                      "Reichstag Fire",
+                      "communists",
+                      "Gestapo",
+                      "trade unions",
+                      "concentration camps"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two accurate methods used to remove political opposition, such as the Reichstag Fire decree, arrests of communists and the Enabling Act\n1 mark: Identifies one relevant method, or makes a general statement about political opposition in 1933",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-1-2-2-1",
+                        "mark": 2,
+                        "answer": "The Reichstag Fire decree of February 1933 suspended civil liberties and allowed the arrest of communist deputies, a sweeping step against political opposition. The Enabling Act of March 1933 then gave the cabinet power to make laws, so the Reichstag no longer checked the government.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct and accurate methods are identified, each with a short explanation of its effect. The dates place them within the period the question asks about.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-mh-1-1-2-2-2",
+                        "mark": 1,
+                        "answer": "Hitler arrested many communists after the Reichstag Fire.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate method but gives no second method. A second, distinct method would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-mh-1-2",
+            "name": "Authoritarian rule in the Soviet Union and Italy",
+            "dotPoints": [
+              {
+                "id": "dp-mh-1-2-1",
+                "description": "explain how Stalin consolidated personal power in the Soviet Union, including the five-year plans, collectivisation and the Great Purge",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-1-2-1-1",
+                    "question": "Describe the methods Stalin used to consolidate personal power in the Soviet Union by 1934.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "Credit the removal of rivals, such as the expulsion of Trotsky, as a method of consolidation",
+                      "Dates for the first five-year plan (1928) and the expulsion of Trotsky (1929) show the sequence of Stalin's rise"
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the five-year plans with collectivisation, or treating them as the same policy",
+                      "Describing Stalin's later purges as part of the consolidation completed by 1934"
+                    ],
+                    "keywords": [
+                      "Stalin",
+                      "five-year plans",
+                      "collectivisation",
+                      "General Secretary",
+                      "Trotsky",
+                      "Politburo",
+                      "Communist Party",
+                      "Kirov"
+                    ],
+                    "markingCriteria": "4 marks: Describes several methods Stalin used to consolidate personal power, with accurate detail and dates\n3 marks: Describes at least two methods Stalin used to consolidate power, with some relevant detail\n2 marks: Identifies a method Stalin used to consolidate power\n1 mark: Makes a basic statement about Stalin or the Soviet Union",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-2-1-1-1",
+                        "mark": 4,
+                        "answer": "After Lenin's death in 1924, Stalin built his power within the Communist Party. As General Secretary he placed loyal supporters in key party positions, which gave him control of appointments. He removed his rivals in turn: Trotsky was expelled in 1929 after the left opposition was defeated, and Bukharin's right faction was removed after the debate over the pace of industrialisation. He used the first of the five-year plans from 1928 to present rapid industrial growth as a victory for the regime. Collectivisation of agriculture from 1929 pushed peasants into collective farms, and the resulting famine showed the scale of his control over the state.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response describes several methods in sequence, uses accurate dates and names, and links the five-year plan and collectivisation to the consolidation of power. The reference to famine is accurate and shows awareness of the cost of the policies.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-1-2-1-1-2",
+                        "mark": 3,
+                        "answer": "Stalin got rid of Trotsky in 1929 and then introduced five-year plans to make the economy stronger. He also made the Communist Party follow him closely.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes two relevant methods with some accuracy. It would reach the top band with one more method and a date or detail that shows how the consolidation worked.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-1-2-1-1-3",
+                        "mark": 1,
+                        "answer": "Stalin was the leader of the Soviet Union after Lenin and he was quite powerful.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a basic statement with no method. The answer needs to name at least one specific method Stalin used to consolidate power.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-1-2-1-2",
+                    "question": "Explain the purpose and impact of the five-year plans on the Soviet Union in the 1930s.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "The purpose should be tied to Stalin's aim of rapid industrialisation to strengthen the Soviet state",
+                      "Reward an impact that is balanced, such as industrial growth alongside famine and forced labour"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing the targets of the plan without explaining why the state set them",
+                      "Presenting the plans as wholly successful and ignoring the human cost"
+                    ],
+                    "keywords": [
+                      "five-year plans",
+                      "collectivisation",
+                      "industrialisation",
+                      "heavy industry",
+                      "Gosplan",
+                      "Gulag",
+                      "Holodomor",
+                      "quotas"
+                    ],
+                    "markingCriteria": "6 marks: Explains the purpose of the five-year plans and assesses their impact on industry, agriculture and the population, using precise evidence\n5 marks: Explains the purpose and at least two impacts of the five-year plans, with accurate evidence\n4 marks: Explains the purpose of the plans and one impact with relevant detail\n3 marks: Describes features of the five-year plans with some accuracy\n2 marks: Identifies a feature of the plans or a basic impact\n1 mark: Makes a general statement about the Soviet economy",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-2-1-2-1",
+                        "mark": 6,
+                        "answer": "The five-year plans were designed by Gosplan to transform the Soviet Union into an industrial power quickly, so that it could defend itself and compete with the capitalist states. Heavy industry such as steel, coal and tractors was given priority, and output targets were set for every enterprise. The plans achieved considerable industrial growth, and new cities and factories were built. However, the impact on agriculture was devastating. Collectivisation forced peasants onto collective farms, and grain was requisitioned, which contributed to the famine of 1932–33 in which millions died. Workers were also driven by quotas and punished for failing to meet them, and forced labour in the Gulag supplied some of the labour. The plans therefore strengthened the state's industrial base while imposing severe costs on the population.",
+                        "source": "AI",
+                        "feedback": "Full marks: the purpose is explained as a strategic aim, and the impacts are assessed on both sides with precise evidence, including the famine and the Gulag. The answer demonstrates balance without losing focus on the question.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-1-2-1-2-2",
+                        "mark": 4,
+                        "answer": "The five-year plans aimed to industrialise the Soviet Union quickly. Heavy industry was given priority, and factories and steel mills were built in many places. This increased output, but it came at a high cost for workers who had to meet the targets.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the purpose and one impact, but the impact on agriculture and the population is not developed. Adding the link between collectivisation and famine would extend the explanation to the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-1-2-1-2-3",
+                        "mark": 2,
+                        "answer": "The five-year plans were a set of economic plans in the Soviet Union. They set targets for factories.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a basic feature of the plans but does not explain their purpose or any impact. It needs a reason for the policy and at least one consequence.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-1-2-2",
+                "description": "assess the effectiveness of Mussolini's regime in maintaining power and authority in Italy, including the role of the Fascist Party, the secret police and the Lateran Pacts",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-1-2-2-1",
+                    "question": "Compare the methods Mussolini and Stalin used to maintain authority in their states during the 1920s and 1930s.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-3"
+                    ],
+                    "markerNotes": [
+                      "A comparison must share the same criteria for both leaders, such as the use of secret police or propaganda, rather than describing each separately",
+                      "Reward recognition that the Church's role differed in Italy and the Soviet Union"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing Mussolini and Stalin in two separate paragraphs with no direct comparison",
+                      "Stating that both regimes were the same without identifying a difference"
+                    ],
+                    "keywords": [
+                      "Mussolini",
+                      "Stalin",
+                      "Fascist Party",
+                      "Lateran Pacts",
+                      "secret police",
+                      "OVRA",
+                      "personality cult",
+                      "propaganda"
+                    ],
+                    "markingCriteria": "6 marks: Compares the methods used by Mussolini and Stalin to maintain authority, identifying similarities and differences with precise evidence and a clear basis for comparison\n5 marks: Compares the methods of both leaders with accurate detail and identifies at least one clear similarity and one difference\n4 marks: Compares methods of both leaders with some accurate detail, though the comparison is partly descriptive\n3 marks: Describes methods used by each leader with limited comparison\n2 marks: Identifies a method used by one or both leaders\n1 mark: Makes a basic statement about authoritarian rule",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-2-2-1-1",
+                        "mark": 6,
+                        "answer": "Mussolini and Stalin both used the secret police, propaganda and the removal of opponents to maintain authority, but the Church played a different role in each state. Both regimes relied on a secret police: the Fascist Party's Mussolini-controlled OVRA monitored and intimidated opponents, while Stalin's NKVD carried out arrests and executions during the Great Purge. Both also built a personality cult around the leader, with posters and speeches presenting them as the embodiment of the nation. The difference lies in the relationship with the Church. The Lateran Pacts of 1929 recognised the Vatican and gave the Church a formal place in Italian life, which strengthened Mussolini's legitimacy with Catholic voters. Stalin, by contrast, attacked organised religion as part of the state's commitment to atheism. Mussolini therefore used the Church to consolidate authority, while Stalin sought to replace it.",
+                        "source": "AI",
+                        "feedback": "Full marks: the comparison uses the same criteria for both leaders, identifies a clear similarity and a clear difference, and grounds each point in evidence such as the OVRA, the NKVD and the Lateran Pacts. The final sentence states the conclusion of the comparison.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-1-2-2-1-2",
+                        "mark": 4,
+                        "answer": "Both Mussolini and Stalin used secret police to frighten their opponents. Mussolini had the OVRA and Stalin had the NKVD. Both leaders also had their pictures and speeches everywhere, so people saw them constantly.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response compares the methods with accurate detail and identifies a similarity. It is partly descriptive, and a difference, such as the role of the Church, would make the comparison complete.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-1-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Mussolini was a dictator in Italy and Stalin was a dictator in Russia. Both of them did bad things to people.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies that both were dictators but gives no method and no basis for comparison. The answer needs specific methods used by each leader.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-1-2-2-2",
+                    "question": "Assess the effectiveness of Mussolini's regime in maintaining power and authority in Italy between 1922 and 1940.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "Effectiveness is measured against the regime's aims, such as stability, national pride and control of dissent",
+                      "The strongest answers note where the regime's control was limited, such as the monarchy and the Church, rather than assuming total control"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the rise of Mussolini to 1922 at length when the question covers the regime's maintenance of power",
+                      "Asserting that the regime was totally effective without considering its limits"
+                    ],
+                    "keywords": [
+                      "Fascist Party",
+                      "Lateran Pacts",
+                      "OVRA",
+                      "corporate state",
+                      "March on Rome",
+                      "Matteotti",
+                      "Acerbo Law",
+                      "Abyssinia"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based judgement on the effectiveness of Mussolini's methods, weighing the Fascist Party, the secret police and the Lateran Pacts against the limits of the regime's control\n6 marks: Assesses the effectiveness of the regime's methods and reaches a judgement, with the reasoning partly developed\n5 marks: Assesses at least two methods of control with accurate evidence, and suggests a conclusion\n3-4 marks: Describes methods of Mussolini's regime with some relevant detail\n2 marks: Identifies a method of control with limited explanation\n1 mark: Makes a basic or general statement about Fascist Italy",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-1-2-2-2-1",
+                        "mark": 8,
+                        "answer": "Mussolini's regime was highly effective at maintaining power for most of the 1920s and 1930s, though its control had limits. The Acerbo Law of 1923 gave the party that won the most votes two-thirds of the seats, and after the murder of Matteotti in 1924 the regime suppressed opposition parties and press. The Fascist Party and the OVRA secret police then monitored and punished dissent, which made open opposition dangerous. The Lateran Pacts of 1929 secured the Church's support and gave Mussolini Catholic legitimacy. The corporate state gave the appearance of economic organisation while leaving the Fascist Party in charge. The invasion of Abyssinia in 1935 increased popular support for a time, though its later costs were serious. The regime's control was not total, because the monarchy retained its formal position and the Church preserved independent institutions, but these limits did not seriously threaten Mussolini's authority. Overall the regime was effective in its own terms.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer makes a reasoned judgement of effectiveness and weighs the methods against the regime's limits. The reference to the Acerbo Law, the Matteotti crisis and the Lateran Pacts is precise, and the qualification about the monarchy shows the depth of the assessment.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-1-2-2-2-2",
+                        "mark": 5,
+                        "answer": "Mussolini kept control through the Fascist Party and the OVRA. Opponents were arrested or silenced after Matteotti was killed. The Lateran Pacts helped by bringing the Church onto his side, so he was popular with many Catholics. These methods suggest the regime was effective.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses two methods and reaches a conclusion. The reasoning is brief, and the answer would benefit from noting a limit to the regime's control, which would give the judgement more weight.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-1-2-2-2-3",
+                        "mark": 2,
+                        "answer": "Mussolini used a secret police called the OVRA to watch people in Italy.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies one method of control with a correct name, but it does not assess effectiveness. The answer needs a judgement about how well the method worked.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-mh-2",
+        "name": "National study: Australia in the Great Depression, 1929–1939",
+        "subTopics": [
+          {
+            "id": "subtopic-mh-2-1",
+            "name": "The Depression and government responses",
+            "dotPoints": [
+              {
+                "id": "dp-mh-2-1-1",
+                "description": "analyse the causes and impact of the Great Depression on Australian society, including unemployment, poverty and political unrest",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-2-1-1-1",
+                    "question": "Describe the impact of the Great Depression on unemployment and poverty in Australia.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "Reward a specific figure for unemployment at its peak, stated accurately as around 30 per cent in 1932",
+                      "The question asks for impact, so living conditions and government support should be described as effects"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the causes of the Depression when the question asks for its impact",
+                      "Using vague terms such as 'a lot of people were poor' without any evidence"
+                    ],
+                    "keywords": [
+                      "Great Depression",
+                      "unemployment",
+                      "poverty",
+                      "sustenance payments",
+                      "relief work",
+                      "soup kitchens",
+                      "evictions"
+                    ],
+                    "markingCriteria": "4 marks: Describes the impact of the Great Depression on unemployment and poverty with accurate detail, such as peak unemployment and the living conditions of families\n3 marks: Describes the impact on unemployment and poverty with some relevant detail\n2 marks: Identifies an impact of the Great Depression on Australians\n1 mark: Makes a general statement about the Depression",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-1-1-1-1",
+                        "mark": 4,
+                        "answer": "The Great Depression caused unemployment in Australia to rise to around 30 per cent of the workforce at its peak in 1932. Families who lost their wages often had no income at all, so many went hungry and some were evicted when they could not pay rent. Governments provided sustenance payments and relief work, but these were limited, and many men were given work on roads that paid in rations and vouchers rather than cash. Soup kitchens run by charities and church groups fed families in the big cities, which showed how widespread the poverty had become.",
+                        "source": "AI",
+                        "feedback": "Full marks: the impact is described with a precise figure for unemployment and with specific effects on families, including evictions and charity provision. The mention of relief work in the form of rations and vouchers shows an understanding of how the support actually worked.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-2-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Many Australians lost their jobs during the Depression and some families could not pay their rent. Men were given relief work and families went to soup kitchens to get food.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the impact on unemployment and poverty with relevant detail. A figure for unemployment and a comment on the scale of the problem would extend it to the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-2-1-1-1-3",
+                        "mark": 1,
+                        "answer": "The Depression was a bad time in Australia and people were not happy.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement without describing any impact on unemployment or poverty. It needs at least one specific effect, such as eviction or relief work.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-2-1-1-2",
+                    "question": "Analyse the causes of the Great Depression in Australia between 1929 and 1932.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis requires showing the chain of cause and effect, such as falling export prices reducing income and so reducing spending and employment",
+                      "Credit the recognition that Australia depended on overseas borrowing and primary exports, which made it especially exposed"
+                    ],
+                    "commonStudentErrors": [
+                      "Attributing the Depression to a single cause, usually the Wall Street Crash, without explaining how it reached Australia",
+                      "Confusing the causes of the Depression with the government responses to it"
+                    ],
+                    "keywords": [
+                      "Great Depression",
+                      "unemployment",
+                      "Wall Street Crash",
+                      "export prices",
+                      "overseas borrowing",
+                      "wool and wheat",
+                      "tariffs"
+                    ],
+                    "markingCriteria": "6 marks: Analyses how falling export prices, the loss of overseas borrowing and the global collapse combined to produce the Depression in Australia, explaining the links between them\n5 marks: Analyses at least two causes of the Depression in Australia and explains how they were connected\n4 marks: Explains one cause of the Depression in Australia with accurate detail and a link to its effects\n3 marks: Describes causes of the Depression with some accuracy but limited explanation\n2 marks: Identifies a cause of the Depression in Australia\n1 mark: Makes a general statement about the economic crisis",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-1-1-2-1",
+                        "mark": 6,
+                        "answer": "The Great Depression in Australia was caused by the collapse of world trade after the Wall Street Crash of 1929. Australia depended on exports of wool and wheat, and when world demand fell, export prices dropped sharply, so the income of farmers and the government's revenue fell with them. Overseas lenders, who had financed much of Australia's public works and government spending, stopped lending once confidence collapsed, which meant the government could not maintain its previous level of spending. Falling incomes reduced demand for goods, so businesses cut production and workers were dismissed, which pushed unemployment up. The result was a cycle in which each cause intensified the others, so the crisis spread rapidly through the economy.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer explains how falling export prices and the loss of overseas borrowing connected to produce the crisis, and it traces the chain from trade collapse to unemployment. The reasoning is analytical rather than a list of causes.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-2-1-1-2-2",
+                        "mark": 3,
+                        "answer": "The Wall Street Crash in 1929 caused the Depression. Australia sold wool and wheat overseas, and when the price of these fell, the country had less money and people lost their jobs.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes two causes accurately, but it does not explain the mechanism in full. Adding the role of overseas borrowing and the effect on spending would move the response into the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-2-1-1-2-3",
+                        "mark": 1,
+                        "answer": "There was an economic crisis in Australia because of problems around the world.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement without naming a cause. It needs to identify at least one specific cause, such as falling export prices.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-2-1-2",
+                "description": "evaluate the effectiveness of government responses to the Depression, including the Premiers' Plan and the policies of the Lyons government",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-2-1-2-1",
+                    "question": "Evaluate the success of the Premiers' Plan in restoring economic stability in Australia.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "An evaluation must measure success against a criterion, such as the restoration of government finances, and then consider the social cost",
+                      "Reward recognition that economic recovery after 1932 was also driven by rising export prices, which complicates the credit given to the Plan"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the measures of the Premiers' Plan without assessing whether they worked",
+                      "Treating the Plan as either wholly successful or wholly harmful without a reasoned criterion"
+                    ],
+                    "keywords": [
+                      "Premiers' Plan",
+                      "economic stability",
+                      "deflation",
+                      "wage cuts",
+                      "public spending",
+                      "pensions",
+                      "interest rates"
+                    ],
+                    "markingCriteria": "6 marks: Evaluates the success of the Premiers' Plan in restoring economic stability, weighing its effects on government finances against its social costs and reaching a reasoned judgement\n5 marks: Evaluates the Premiers' Plan with accurate evidence on its economic and social effects, and suggests a conclusion\n4 marks: Explains what the Premiers' Plan did and assesses one of its effects\n3 marks: Describes the measures of the Premiers' Plan with some accuracy\n2 marks: Identifies a measure taken under the Premiers' Plan\n1 mark: Makes a general statement about government responses to the Depression",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-1-2-1-1",
+                        "mark": 6,
+                        "answer": "The Premiers' Plan of 1931 succeeded in restoring government finances and economic stability, but it did so at a heavy social cost. Its measures cut public spending, reduced wages and pensions, and lowered interest rates on government debt, so the budget deficit shrank and government borrowing became more manageable. Judged by the criterion of financial stability, the Plan worked. However, the cuts deepened hardship for the unemployed and for pensioners, and they intensified the deflation that had already reduced prices and incomes. Recovery after 1932 owed much to rising export prices and to changes in exchange rates, so the Plan was not the only reason the economy improved. The Premiers' Plan was therefore partly successful, because it stabilised the government's position, but it did little to relieve the people most affected by the crisis.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer sets an explicit criterion of financial stability, measures the Plan against it, and weighs the social cost against that success. Recognising that recovery had other causes shows the reasoning behind the judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-mh-2-1-2-1-2",
+                        "mark": 3,
+                        "answer": "The Premiers' Plan cut government spending and reduced wages and pensions. It was meant to get the government's budget back into balance during the Depression.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the measures accurately but does not evaluate them. Adding a judgement about whether the budget was restored, and what it cost, would be needed for the evaluation.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-2-1-2-1-3",
+                        "mark": 1,
+                        "answer": "The government tried to fix the economy during the Depression.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response is a general statement about government action and does not name the Premiers' Plan. It needs a specific measure and some assessment of its effect.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-2-1-2-2",
+                    "question": "Justify the view that the Lyons government did more to restore economic confidence than to relieve the suffering of the unemployed.",
+                    "totalMarks": 8,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-5",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "A justification must engage with the view and reach a position on it, not simply describe both sides",
+                      "Strong answers recognise that the government's priority on confidence was itself a welfare decision, because recovery was the only lasting relief for the unemployed"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing policies without deciding whether the view is supported",
+                      "Confusing the Lyons government with the Scullin government that preceded it"
+                    ],
+                    "keywords": [
+                      "Lyons government",
+                      "economic confidence",
+                      "unemployed",
+                      "Premiers' Plan",
+                      "relief work",
+                      "sustenance payments",
+                      "devaluation"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, reasoned justification of the view, weighing the government's economic measures against its welfare provision and reaching a clear and defended position on the balance between them\n6 marks: Justifies the view with several accurate points, but the weighing of the two sides is limited\n5 marks: Justifies the view with at least two accurate points and states a position\n3-4 marks: Describes the Lyons government's economic or welfare measures with some relevant detail and limited justification\n2 marks: Identifies a policy of the Lyons government with limited explanation\n1 mark: Makes a basic or general statement about the Lyons government",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-1-2-2-1",
+                        "mark": 8,
+                        "answer": "The view is largely supported, because the Lyons government's priority was to restore economic confidence, and its welfare measures were limited and often punitive. Lyons took office in 1932 and continued the Premiers' Plan, which had already reduced government spending, wages and pensions. The government's economic measures, including support for the banks and the exchange rate, were directed at restoring the conditions for business confidence and investment. Welfare was provided mainly through sustenance payments and relief work, which were often paid in rations, kept below the level of wages, and tied to work requirements. The unemployed were blamed for their own condition in much public debate. However, the view is not entirely correct, because recovery from 1933 eventually created jobs, which was the most effective relief the government could offer. The government therefore concentrated on the cause of unemployment rather than its symptoms, and that choice shaped its legacy.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer justifies the view with specific policies, then tests it against the strongest counter-argument, and concludes with a defended position. The point that recovery was itself the most effective relief is the kind of qualification that separates the top band.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-2-1-2-2-2",
+                        "mark": 5,
+                        "answer": "The Lyons government focused on the economy. It continued the Premiers' Plan, which cut spending and pensions, and it worked to keep business confidence high. Relief for the unemployed was limited to sustenance payments and relief work, so it did not do much to help people who had no jobs. This suggests the view is correct.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response justifies the view with two accurate points and reaches a position. The weighing of the counter-argument is missing, so adding one qualification about recovery would strengthen the justification.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-2-1-2-2-3",
+                        "mark": 2,
+                        "answer": "The Lyons government was in power during the Depression and had policies to help the economy.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the government without naming a policy or justifying the view. It needs at least one specific measure and a link to the claim about confidence and relief.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-mh-2-2",
+            "name": "Protest, relief and the Depression's legacy",
+            "dotPoints": [
+              {
+                "id": "dp-mh-2-2-1",
+                "description": "explain the ways in which unemployed Australians and their communities responded to the Depression, including the Unemployed Workers' Movement and charity",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-2-2-1-1",
+                    "question": "Explain why the Unemployed Workers' Movement grew in size during the Depression.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "Reward an explanation that connects the movement's growth to the failure of official relief, such as work for rations rather than wages",
+                      "The Communist Party's role in organising the movement is relevant, but the answer should explain why people joined, not only who led it"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the marches and protests without explaining why unemployed people joined",
+                      "Presenting the Unemployed Workers' Movement as purely a Communist organisation without considering its appeal"
+                    ],
+                    "keywords": [
+                      "Unemployed Workers' Movement",
+                      "protest",
+                      "unemployment",
+                      "sustenance",
+                      "relief work",
+                      "evictions",
+                      "Communist Party"
+                    ],
+                    "markingCriteria": "5 marks: Explains clearly why the Unemployed Workers' Movement attracted large numbers of supporters, linking unemployment, the inadequacy of relief and the movement's organising role to its growth\n4 marks: Explains two reasons for the movement's growth with accurate detail\n3 marks: Explains one reason for the growth, with some relevant detail\n2 marks: Identifies a feature of the Unemployed Workers' Movement or a reason for its growth\n1 mark: Makes a general statement about unemployed Australians",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-2-1-1-1",
+                        "mark": 5,
+                        "answer": "The Unemployed Workers' Movement grew because unemployment was so widespread that many families needed help and the official relief was inadequate. Sustenance payments were low, and relief work was often paid in rations and vouchers rather than wages, which made people feel that the government was not treating them fairly. The movement organised unemployed men into groups that could collectively demand better conditions, and it offered a sense of solidarity to people who had lost their place in society. It also campaigned against evictions, which gave members a tangible reason to join. Because the movement combined practical support with political protest, it attracted large numbers of supporters in the cities during the early 1930s.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer explains the growth through the inadequacy of relief, the collective organisation and the practical support against evictions, and it treats these as connected reasons. The explanation is analytical and sustained.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-2-2-1-1-2",
+                        "mark": 3,
+                        "answer": "Many men were unemployed and the sustenance payments were not enough to live on. The Unemployed Workers' Movement organised protests about this, so more men joined it.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response explains one reason for the growth with some relevant detail. A second reason, such as the campaign against evictions, would move it into the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-2-2-1-1-3",
+                        "mark": 1,
+                        "answer": "Lots of people were out of work during the Depression and some of them joined groups.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement without naming the movement or explaining why it grew. It needs a specific reason for its growth.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-2-2-1-2",
+                    "question": "Outline two forms of protest used by unemployed Australians in the 1930s.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct forms are needed, such as marches and blocking evictions, rather than two examples of marches",
+                      "Specific detail, such as where a demonstration took place, gives the outline its precision"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a form of protest without outlining how it was carried out",
+                      "Offering two examples of the same kind of protest, such as two marches"
+                    ],
+                    "keywords": [
+                      "protest",
+                      "unemployed",
+                      "marches",
+                      "demonstrations",
+                      "rallies",
+                      "evictions",
+                      "Sydney"
+                    ],
+                    "markingCriteria": "3 marks: Outlines two distinct forms of protest used by unemployed Australians, with accurate detail about how each was carried out\n2 marks: Outlines two forms of protest with limited detail\n1 mark: Identifies one form of protest used by unemployed Australians",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-2-1-2-1",
+                        "mark": 3,
+                        "answer": "Unemployed men marched through the streets of Sydney and other cities, often to demand work or better sustenance payments. Groups also organised to stop evictions, gathering outside houses to prevent bailiffs from removing families who could not pay their rent. Both forms of protest gave the unemployed a public voice that the government could not easily ignore.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct forms of protest are outlined, and each is described in terms of how it was carried out. The closing sentence is not required for the outline, but it briefly shows the purpose of the protests.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-2-2-1-2-2",
+                        "mark": 2,
+                        "answer": "Unemployed people held marches to ask the government for work. They also protested against evictions.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response outlines two forms of protest but gives limited detail about how each was carried out. Adding a location or method for each would move it to the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-2-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Unemployed people protested in the 1930s.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies protest in general without naming a form. It needs two specific forms, each outlined.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-2-2-2",
+                "description": "assess the long-term legacy of the Depression for Australia's economic management, welfare policy and political life",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-2-2-2-1",
+                    "question": "Assess the long-term legacy of the Great Depression for Australian society and government.",
+                    "totalMarks": 10,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-3",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "A criteria-based assessment needs an explicit measure of legacy, such as lasting change in government responsibility for employment",
+                      "Credit the recognition that some legacies were shaped by the Second World War as well as by the Depression itself"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing effects of the Depression without judging how lasting or significant they were",
+                      "Attributing every post-war welfare or economic change to the Depression alone"
+                    ],
+                    "keywords": [
+                      "Great Depression",
+                      "long-term legacy",
+                      "Keynesian economics",
+                      "welfare state",
+                      "Commonwealth Bank",
+                      "political realignment",
+                      "Labor Party"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based assessment of the Depression's long-term legacy for government and society, weighing its lasting effects on economic management and welfare against the limits of those changes, and reaching a reasoned conclusion\n7-8 marks: Assesses several long-term legacies with precise evidence and a clear overall position\n6 marks: Assesses at least one legacy and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes legacies of the Depression with some relevant detail\n2-3 marks: Identifies legacies with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-2-2-1-1",
+                        "mark": 10,
+                        "answer": "The Great Depression left a long-term legacy for Australian government, though its importance must be weighed against other influences. Its most durable effect was the shift in attitudes towards the government's role in managing the economy. Keynesian ideas, which argued that governments should spend to maintain employment, gained ground during the 1930s and were adopted in the post-war period, when full employment became an explicit goal. The Depression also changed welfare, because the experience of mass unemployment made the case for a national system of unemployment and social security stronger. The Commonwealth's power over the economy expanded, and the political landscape shifted, with the Labor Party reassessing its approach and new conservative groups emerging. However, the legacy has limits. Many of the reforms were implemented during and after the Second World War, and the Depression's social effects, such as the stigma attached to unemployment, were not fully addressed. Overall the Depression's most lasting legacy was intellectual, because it changed what governments believed they were responsible for, even if the policies of the 1940s went further than the Depression itself would have produced.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment uses a clear measure of lasting change, weighs the legacies against their limits, and reaches a reasoned conclusion about the most durable effect. The acknowledgement of the Second World War's role is the qualification that marks out the top band.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-2-2-2-1-2",
+                        "mark": 6,
+                        "answer": "The Depression changed how Australians thought about government. After it, governments accepted more responsibility for employment and welfare, and ideas about managing the economy changed. Some of these changes were only completed after the war, so the Depression was not the only cause.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response assesses the legacy and attempts a judgement about its limits. The reasoning would be stronger with a specific measure of lasting change, and with at least one precise example of the changes described.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-2-2-2-1-3",
+                        "mark": 2,
+                        "answer": "The Depression led to some changes in welfare and in how governments dealt with unemployment.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies legacies in general terms without naming any or assessing how lasting they were. It needs specific legacies and an explanation of their significance.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-2-2-2-2",
+                    "question": "Distinguish between the short-term and long-term effects of the Great Depression on Australian families.",
+                    "totalMarks": 4,
+                    "verb": "DISTINGUISH",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "A distinction must show what separates the two kinds of effect, such as immediate hardship against changes that lasted beyond the 1930s",
+                      "Accurate examples, such as lost savings and deferred marriage, show understanding of how the Depression changed family life"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing effects without assigning them to either category",
+                      "Describing family hardship in the 1930s as a long-term effect without explaining why it was lasting"
+                    ],
+                    "keywords": [
+                      "long-term effects",
+                      "Australian families",
+                      "short-term effects",
+                      "malnutrition",
+                      "lost savings",
+                      "emigration",
+                      "delayed marriage"
+                    ],
+                    "markingCriteria": "4 marks: Distinguishes clearly between short-term and long-term effects on Australian families, with accurate examples for each and an explanation of the difference\n3 marks: Distinguishes between the two kinds of effect with some relevant examples\n2 marks: Identifies a short-term and a long-term effect without distinguishing between them\n1 mark: Makes a general statement about the effects of the Depression on families",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-2-2-2-2-1",
+                        "mark": 4,
+                        "answer": "The short-term effects on Australian families were immediate and physical. Many families lost their savings when banks and businesses failed, and some went hungry or suffered malnutrition because the sustenance payments were too low. The long-term effects were more gradual. Many young people delayed marriage and having children because they could not find secure work, and some families emigrated overseas in search of employment. These changes shaped family life for years after the recovery began, which is what distinguishes them from the immediate hardship of the early 1930s.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer distinguishes the two kinds of effect by their timing and their duration, with accurate examples for each. The explanation of why the long-term effects lasted is the element that secures the full mark.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-2-2-2-2-2",
+                        "mark": 3,
+                        "answer": "In the short term, families lost money and some went hungry. In the long term, young people put off getting married because of the Depression.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response distinguishes the two effects with relevant examples. An explanation of why the long-term effects lasted would make the distinction clearer.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-2-2-2-2-3",
+                        "mark": 2,
+                        "answer": "Families were hungry during the Depression and some people moved away to find work.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies effects but does not place them in short-term or long-term categories. The answer needs to show the difference between the two.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-mh-3",
+        "name": "Peace and conflict: the Cold War and decolonisation, 1945–1975",
+        "subTopics": [
+          {
+            "id": "subtopic-mh-3-1",
+            "name": "Origins and escalation of the Cold War",
+            "dotPoints": [
+              {
+                "id": "dp-mh-3-1-1",
+                "description": "explain the origins of the Cold War, including ideological differences, the Yalta and Potsdam conferences and the division of Germany",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-3-1-1-1",
+                    "question": "Explain the origins of the Cold War, with reference to ideological differences and the Yalta and Potsdam conferences.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "Reward the explanation that the wartime alliance was one of convenience, so the post-war settlement exposed rival aims",
+                      "The strongest answers show how each conference's decisions were disputed, such as the status of Poland or the handling of Germany"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the conferences without explaining how their decisions created mistrust",
+                      "Attributing the Cold War to a single cause, such as the atomic bomb, without weighing the other factors"
+                    ],
+                    "keywords": [
+                      "Cold War",
+                      "ideological differences",
+                      "Yalta",
+                      "Potsdam",
+                      "spheres of influence",
+                      "containment",
+                      "Truman Doctrine"
+                    ],
+                    "markingCriteria": "6 marks: Explains the origins of the Cold War, showing how ideological differences and the decisions at Yalta and Potsdam produced mistrust and rival spheres of influence, using precise evidence\n5 marks: Explains the origins with reference to ideological differences and at least one of the conferences, with accurate detail\n4 marks: Explains the origins of the Cold War with some accurate detail and a link to ideology or the conferences\n3 marks: Describes features of the Cold War's origins with some accuracy\n2 marks: Identifies a cause of the Cold War\n1 mark: Makes a general statement about relations between the wartime allies",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-1-1-1-1",
+                        "mark": 6,
+                        "answer": "The Cold War grew out of ideological differences between the capitalist United States and the communist Soviet Union, which had cooperated only because of their shared enemy. At Yalta in February 1945, Stalin and Roosevelt disagreed over the future of Poland and the other Eastern European states, and the Soviet Union was left in control of much of the region. At Potsdam in the summer of 1945, the new American president Truman was suspicious of Stalin's intentions, and the atomic bomb tested that summer changed the balance of power. Each side saw the other's actions as a threat: the Soviets read Western hostility as an attempt to encircle them, while the Americans saw Soviet control of Eastern Europe as the start of expansion. Truman's doctrine of containment in 1947 and the Soviet creation of satellite states entrenched rival spheres of influence. The result was a confrontation in which mistrust, rather than any single decision, made the division permanent.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation shows how ideological differences and the two conferences combined to produce mistrust and rival spheres, and it uses precise evidence for each stage. The account of mutual perceptions explains the mechanism rather than listing events.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-3-1-1-1-2",
+                        "mark": 4,
+                        "answer": "The Cold War began because the United States and the Soviet Union had different ideas about how the world should be organised. At Yalta and Potsdam they argued about Eastern Europe, and the Soviet Union kept control of the countries it had liberated. This made the Americans suspicious and led to the policy of containment.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the origins with accurate detail and links ideology to the conferences. The reference to containment is relevant, but a sharper explanation of why each side saw the other as a threat would extend it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-3-1-1-1-3",
+                        "mark": 2,
+                        "answer": "The Soviet Union and the United States did not trust each other after the Second World War.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the mistrust in general terms. It needs a specific cause, such as the disputes over Eastern Europe at Yalta, and an explanation of how it developed.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-3-1-1-2",
+                    "question": "Discuss how the division of Germany became a central source of Cold War tension.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "A discussion should present more than one view, for example that Germany's division was a consequence of Cold War tension as well as a cause of it",
+                      "Credit the link between the 1948 currency reform and the Berlin blockade, which turned an economic dispute into a confrontation"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the Berlin Wall in 1961 without showing how the division had created tension earlier",
+                      "Failing to discuss the significance of the division for the Cold War as a whole"
+                    ],
+                    "keywords": [
+                      "division of Germany",
+                      "Cold War",
+                      "Berlin",
+                      "currency reform",
+                      "Federal Republic of Germany",
+                      "German Democratic Republic",
+                      "Berlin Wall"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained discussion of how the division of Germany, through currency reform, the Berlin crisis and the creation of two German states, became the focal point of Cold War tension, weighing its significance against other sources of conflict\n5-6 marks: Discusses several aspects of the division of Germany and their significance for Cold War tension, with accurate evidence\n4 marks: Discusses the division of Germany with some accurate detail and a link to the Cold War\n2-3 marks: Describes events relating to Germany's division with limited discussion\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-1-1-2-1",
+                        "mark": 8,
+                        "answer": "The division of Germany became the focal point of Cold War tension because it embodied the rival systems of the two superpowers. The Allies had divided Germany into occupation zones at Potsdam, and the western zones were merged under a market-based economy. In June 1948 the Western powers introduced a new currency in their zones, which the Soviets saw as a threat to their interests and answered with the Berlin blockade. The blockade turned an economic dispute into a direct confrontation, and the Western airlift that sustained West Berlin showed the determination of both sides. The creation of the Federal Republic of Germany in 1949 and the German Democratic Republic later that year made the division permanent, and Berlin remained a symbol of rivalry until the Berlin Wall was built in 1961. Some historians argue that the division was a consequence of tension that already existed, rather than its cause, but its persistence made Germany the most dangerous place for the superpowers to meet. The division was therefore both a product and a driver of the Cold War.",
+                        "source": "AI",
+                        "feedback": "Full marks: the discussion presents the division as both a consequence and a driver of tension, and it links the currency reform and the blockade to the Cold War as a whole. The reference to historiographical debate shows a sustained, balanced discussion.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-3-1-1-2-2",
+                        "mark": 5,
+                        "answer": "Germany was divided into zones after the war, and the Western zones and the Soviet zone developed in different ways. The Berlin blockade in 1948 showed how tense the situation was, because the Soviets stopped road and rail access to West Berlin. Two German states were created in 1949, which kept the division going.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response discusses several aspects of the division with accurate evidence. The response does not weigh the division's significance for the Cold War as a whole, and a judgement about why Germany mattered so much would move it higher.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-3-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Germany was split into two countries after the Second World War, and Berlin was also divided.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes the division without discussing its significance for Cold War tension. It needs at least one event and an explanation of why it mattered.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-3-1-2",
+                "description": "analyse the impact of the Korean War and the Berlin crisis on superpower relations and the escalation of the Cold War",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-3-1-2-1",
+                    "question": "Analyse the impact of the Korean War on superpower relations and the escalation of the Cold War.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show how the war changed the nature of containment, from political to military, rather than only describing the fighting",
+                      "Accurate reference to the Chinese intervention and the armistice of 1953 strengthens the analysis"
+                    ],
+                    "commonStudentErrors": [
+                      "Narrating the course of the war without analysing its effect on superpower relations",
+                      "Treating the Korean War as a purely Asian conflict with no link to the Cold War"
+                    ],
+                    "keywords": [
+                      "Korean War",
+                      "superpower relations",
+                      "Cold War",
+                      "38th parallel",
+                      "containment",
+                      "NATO",
+                      "United Nations"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of how the Korean War changed superpower relations and escalated the Cold War, including the militarisation of containment and the role of the United Nations, supported by precise evidence\n5-6 marks: Analyses at least two effects of the Korean War on superpower relations, with accurate evidence\n3-4 marks: Describes events of the Korean War and makes some link to superpower relations\n1-2 marks: Makes a basic or general statement about the Korean War",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-1-2-1-1",
+                        "mark": 8,
+                        "answer": "The Korean War transformed superpower relations by militarising containment. When North Korea invaded the South in June 1950, the United Nations Security Council authorised a force led by the United States, because the Soviet Union was boycotting the Council and could not use its veto. The American commitment confirmed that containment would be enforced by arms rather than only by political pressure. The war also brought China into the conflict after its intervention in October 1950, which increased the risk of a wider war and made the superpowers more cautious. The United States responded by strengthening NATO and expanding its military presence in Asia and Europe. The 1953 armistice restored the border near the 38th parallel but did not produce a peace treaty, so the division of Korea became another permanent feature of the Cold War. The war showed that the superpowers would fight proxy conflicts over strategic areas, which shaped their relationship for decades.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis identifies the militarisation of containment as the key change and supports it with the Security Council authorisation, NATO's expansion and the 1953 armistice. The role of the United Nations is integrated into the analysis rather than added as a separate point.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-3-1-2-1-2",
+                        "mark": 5,
+                        "answer": "The Korean War made the Cold War more dangerous because the United States sent troops to defend South Korea. China then joined the war, and the fighting went back and forth across the 38th parallel. The armistice in 1953 ended the fighting, but the two Koreas remained divided.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response describes events with some linkage to superpower relations. The analysis would improve by explaining the change in containment, rather than stating that the war made the Cold War more dangerous.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-3-1-2-1-3",
+                        "mark": 2,
+                        "answer": "The Korean War was fought between North and South Korea in the early 1950s.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the war accurately but makes no link to superpower relations. The answer needs at least one effect on the Cold War and an explanation.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-3-1-2-2",
+                    "question": "Describe the events of the Berlin blockade of 1948–1949 and their significance for the Berlin crisis.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "Accurate sequence matters: the currency reform of June 1948 led to the blockade, which ended in May 1949 after the airlift",
+                      "Significance could include the Western commitment to West Berlin and the creation of two German states in 1949"
+                    ],
+                    "commonStudentErrors": [
+                      "Getting the cause of the blockade wrong, such as attributing it to the Berlin Wall",
+                      "Describing the airlift without explaining why it mattered for the Western powers"
+                    ],
+                    "keywords": [
+                      "Berlin blockade",
+                      "Berlin crisis",
+                      "Berlin airlift",
+                      "currency reform",
+                      "Western allies",
+                      "Soviet Union",
+                      "West Berlin"
+                    ],
+                    "markingCriteria": "4 marks: Describes the events of the Berlin blockade accurately, including the cause, the airlift and the end of the blockade, and explains their significance for the Berlin crisis\n3 marks: Describes the events of the blockade with accurate detail, with limited comment on significance\n2 marks: Identifies two features of the blockade or the airlift\n1 mark: Makes a general statement about the Berlin crisis",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-1-2-2-1",
+                        "mark": 4,
+                        "answer": "The Berlin blockade began in June 1948, when the Soviet Union stopped road, rail and canal traffic into West Berlin, in response to the Western powers' currency reform in their zones. The Western Allies responded with the Berlin airlift, which flew food and fuel into the city for almost a year until the blockade was lifted in May 1949. The airlift showed that the West would not abandon West Berlin, and the crisis contributed to the creation of the Federal Republic of Germany that same year. Its significance was that the Berlin crisis made the division of Germany a direct confrontation between the superpowers.",
+                        "source": "AI",
+                        "feedback": "Full marks: the events are described in accurate sequence, from the currency reform to the blockade, the airlift and its end, and the significance is explained through the Western commitment and the creation of the Federal Republic.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-3-1-2-2-2",
+                        "mark": 3,
+                        "answer": "The Soviets blocked the roads into West Berlin in 1948 and the Americans and British flew in supplies. The blockade ended in 1949 when the Soviets gave up.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the events accurately but offers little comment on significance. Explaining what the airlift showed about Western commitment would move it to the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-3-1-2-2-3",
+                        "mark": 2,
+                        "answer": "The Berlin blockade was an important event in the Cold War. The Western powers flew supplies into the city.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the airlift but does not describe the blockade or its cause. The answer needs to state what the Soviet Union did and why.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-mh-3-2",
+            "name": "Decolonisation, conflict and the United Nations",
+            "dotPoints": [
+              {
+                "id": "dp-mh-3-2-1",
+                "description": "analyse the causes and consequences of the Vietnam War, including the role of the United States and the Geneva Accords",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-3-2-1-1",
+                    "question": "Analyse the role of the United States in the escalation of the Vietnam War.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show escalation as a sequence of decisions, such as advisers, the Tonkin resolution and bombing, rather than a single moment",
+                      "Credit the recognition that American goals in South Vietnam were shaped by the Cold War assumption that a communist victory would spread"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the war from the American perspective only, without considering the Vietnamese nationalist movement",
+                      "Stating that the United States escalated the war without explaining the decisions that did so"
+                    ],
+                    "keywords": [
+                      "escalation",
+                      "Vietnam War",
+                      "United States",
+                      "domino theory",
+                      "Gulf of Tonkin",
+                      "Rolling Thunder",
+                      "South Vietnam"
+                    ],
+                    "markingCriteria": "6 marks: Analyses how American policy, including support for South Vietnam, the domino theory and the Gulf of Tonkin incident, drove the escalation of the Vietnam War, explaining how each step led to the next\n5 marks: Analyses at least two aspects of American involvement and their effect on the escalation of the war, with accurate detail\n4 marks: Explains one aspect of American involvement and its link to escalation, with relevant detail\n3 marks: Describes aspects of American involvement with some accuracy\n2 marks: Identifies a feature of American involvement in Vietnam\n1 mark: Makes a general statement about the Vietnam War",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-2-1-1-1",
+                        "mark": 6,
+                        "answer": "The escalation of American involvement in the Vietnam War followed a sequence of decisions, each of which committed the United States further. Washington backed the South Vietnamese government from the 1950s, and its advisers grew in number under the belief, expressed in the domino theory, that a communist victory in one country would topple its neighbours. The Gulf of Tonkin incident in August 1964 gave Congress grounds to authorise the president to use force, and that authority allowed the government to begin bombing North Vietnam under Operation Rolling Thunder in 1965. Each step was taken because the previous one had failed to produce a stable South Vietnam, so limited commitments became large ones. By 1965 the United States was conducting a major ground war, which shows how the logic of containment carried the country into a conflict it had initially intended to limit.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis presents escalation as a chain of decisions, with each step following from the failure of the last, and it links the American policy logic to the domino theory. The Gulf of Tonkin and Rolling Thunder provide precise evidence of the escalation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-3-2-1-1-2",
+                        "mark": 4,
+                        "answer": "The United States supported the government of South Vietnam because it wanted to stop communism spreading. Under the domino theory it sent advisers and later after the Gulf of Tonkin incident, it bombed North Vietnam, which made the war much bigger.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains aspects of American involvement and links them to escalation with relevant detail. A clearer account of the sequence, and of why each step followed from the last, would lift it into the 5-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-3-2-1-1-3",
+                        "mark": 2,
+                        "answer": "The United States was involved in the Vietnam War and sent soldiers there.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies American involvement without any detail or analysis of escalation. It needs at least one specific decision and an explanation of its effect.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-3-2-1-2",
+                    "question": "Explain why the Geneva Accords of 1954 failed to bring lasting peace to Vietnam.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "The explanation should show that the Accords were a temporary settlement that left the key question unresolved, not that they were simply ignored",
+                      "Credit the reference to Diem's refusal to hold the 1956 elections as the central reason for renewed conflict"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the terms of the Accords without explaining why they failed",
+                      "Blaming a single side for the failure without acknowledging that both sides had different aims"
+                    ],
+                    "keywords": [
+                      "Geneva Accords",
+                      "lasting peace",
+                      "17th parallel",
+                      "1956 elections",
+                      "Ngo Dinh Diem",
+                      "South Vietnam",
+                      "Ho Chi Minh"
+                    ],
+                    "markingCriteria": "4 marks: Explains clearly why the Geneva Accords failed to bring lasting peace, linking the division at the 17th parallel, the cancelled elections and American support for South Vietnam to the renewed conflict\n3 marks: Explains two reasons for the failure of the Accords with some accurate detail\n2 marks: Identifies a feature of the Accords and a reason it failed to bring peace\n1 mark: Makes a basic statement about the Geneva Accords",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-2-1-2-1",
+                        "mark": 4,
+                        "answer": "The Geneva Accords of 1954 divided Vietnam at the 17th parallel and provided for nationwide elections in 1956 to reunify the country. These elections never took place, because Ngo Dinh Diem, the leader of South Vietnam with American backing, refused to hold them, fearing that Ho Chi Minh would win. The division therefore became permanent in practice, and the communist North, led by Ho Chi Minh, supported an insurgency in the South. The United States increased its support for South Vietnam, which meant the country was once again at war. The Accords did not bring lasting peace because they left the question of reunification unresolved and gave both sides reason to believe that the other would not accept the settlement.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation identifies the cancelled elections as the central failure and shows how each side's position made the settlement unsustainable. The link to the renewed insurgency and to American support explains why the Accords failed to hold.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-3-2-1-2-2",
+                        "mark": 3,
+                        "answer": "The Accords divided Vietnam at the 17th parallel. The elections that were supposed to reunify the country in 1956 were never held, so the North and South stayed divided and fought again.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response explains two accurate reasons for the failure. It would reach the top band by explaining why the elections were not held and what each side wanted from them.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-3-2-1-2-3",
+                        "mark": 2,
+                        "answer": "The Geneva Accords split Vietnam into two parts, and the country was not peaceful afterwards.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a feature of the Accords but gives no specific reason for the failure. It needs the cancelled elections or the position of South Vietnam to explain the failure.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-3-2-2",
+                "description": "evaluate the role of the United Nations in promoting peace during Cold War conflicts, including peacekeeping and the use of the Security Council",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-3-2-2-1",
+                    "question": "Evaluate the effectiveness of the United Nations in promoting peace during Cold War conflicts.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as the prevention of direct superpower war, against which the United Nations is judged",
+                      "Strong answers recognise that the veto limited the Council's action and that peacekeeping succeeded mainly where both superpowers accepted it"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the structure of the United Nations without evaluating how it acted during the Cold War",
+                      "Asserting that the United Nations was either entirely successful or entirely ineffective without a criterion"
+                    ],
+                    "keywords": [
+                      "United Nations",
+                      "Cold War",
+                      "Security Council",
+                      "peacekeeping",
+                      "veto",
+                      "Suez Crisis",
+                      "Korean War"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the United Nations' effectiveness in promoting peace during Cold War conflicts, weighing its successes in peacekeeping against the constraints imposed by superpower rivalry, and reaching a reasoned conclusion\n7-8 marks: Evaluates several examples of United Nations action with precise evidence and a clear overall position\n6 marks: Evaluates at least one example of United Nations action and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes United Nations actions in Cold War conflicts with some relevant detail\n2-3 marks: Identifies United Nations actions with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-2-2-1-1",
+                        "mark": 10,
+                        "answer": "The United Nations was effective in limited respects but was constrained by the superpower rivalry that defined the Cold War. Its effectiveness can be measured by whether it prevented direct conflict between the superpowers and whether it contained regional wars. In the Korean War the Security Council authorised a multinational force because the Soviet Union had boycotted the Council, but the Council could not prevent the war or resolve it. The Suez Crisis of 1956 produced the first United Nations peacekeeping force, UNEF, which helped to end the fighting and supervise a withdrawal, and that was a genuine achievement. However, the veto meant that the Security Council could act only where neither superpower objected, and in many conflicts, including Vietnam, the United Nations had no role at all. Peacekeeping worked best where both superpowers accepted it, which made the United Nations a useful instrument of crisis management rather than a decisive force for peace. On the criterion of preventing superpower war, the organisation succeeded, but on the criterion of resolving conflicts it was usually limited. The evaluation therefore rests on what is expected of the organisation: its role was real but bounded.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets explicit criteria, tests the United Nations against them with precise examples, and reaches a reasoned conclusion. The distinction between preventing superpower war and resolving conflicts shows the criteria-based judgement the top band requires.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-mh-3-2-2-1-2",
+                        "mark": 6,
+                        "answer": "The United Nations was effective in some situations. The Security Council authorised action in Korea, and UNEF was sent to Suez to keep the peace after 1956. However, the veto often stopped the Council from acting, so it could not do much in many conflicts during the Cold War.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the United Nations with examples and reaches a judgement, though the reasoning is uneven. A stated criterion for effectiveness would make the judgement stronger.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-3-2-2-1-3",
+                        "mark": 3,
+                        "answer": "The United Nations had a Security Council and sent peacekeepers to some places during the Cold War. It was not always able to do what it wanted.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies features of the United Nations with limited explanation and no concrete example. It needs at least one example of action and an explanation of its outcome.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-3-2-2-2",
+                    "question": "Identify two peacekeeping roles undertaken by the United Nations during the Cold War.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct roles are needed, for example supervising a withdrawal and monitoring a ceasefire, not two examples of the same role",
+                      "The strongest answers name the operation, such as UNEF after the Suez Crisis, as evidence for the role"
+                    ],
+                    "commonStudentErrors": [
+                      "Identifying the Security Council as a peacekeeping role rather than a body that authorised peacekeeping",
+                      "Describing the United Nations in general without a peacekeeping role"
+                    ],
+                    "keywords": [
+                      "United Nations",
+                      "peacekeeping",
+                      "Cold War",
+                      "UNEF",
+                      "observer missions",
+                      "ceasefire",
+                      "Suez Crisis"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct and accurate peacekeeping roles undertaken by the United Nations during the Cold War, such as supervising a ceasefire and providing observers\n1 mark: Identifies one accurate peacekeeping role of the United Nations during the Cold War",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-3-2-2-2-1",
+                        "mark": 2,
+                        "answer": "During the Cold War, one peacekeeping role was supervising the withdrawal of foreign forces, as UNEF did after the Suez Crisis of 1956. Another was monitoring ceasefires through observer missions, which allowed the United Nations to verify that the parties were keeping to an agreement.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct peacekeeping roles are identified, each illustrated by an accurate example. The answer does not need more than the identification the question asks for.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-mh-3-2-2-2-2",
+                        "mark": 1,
+                        "answer": "The United Nations sent peacekeepers to places where there was fighting.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies a peacekeeping role in general terms. A second, distinct role, such as monitoring a ceasefire, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-mh-4",
+        "name": "Change in the modern world: rights and freedoms, 1954–1975",
+        "subTopics": [
+          {
+            "id": "subtopic-mh-4-1",
+            "name": "Civil rights in the United States",
+            "dotPoints": [
+              {
+                "id": "dp-mh-4-1-1",
+                "description": "explain the strategies used by civil rights activists to challenge segregation in the United States, including boycotts, sit-ins and the Freedom Rides",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-4-1-1-1",
+                    "question": "Explain the strategies used by civil rights activists to challenge segregation in the United States.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-2"
+                    ],
+                    "markerNotes": [
+                      "Reward an explanation of why each strategy was effective, for example that sit-ins forced desegregation of public facilities through the publicity they generated",
+                      "A specific example, such as the Montgomery bus boycott beginning in December 1955, shows the strategy in practice"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing protest methods without explaining how each challenged segregation",
+                      "Describing the civil rights movement as entirely violent or entirely peaceful without evidence"
+                    ],
+                    "keywords": [
+                      "civil rights activists",
+                      "segregation",
+                      "boycott",
+                      "sit-ins",
+                      "Freedom Rides",
+                      "nonviolent protest",
+                      "Montgomery bus boycott"
+                    ],
+                    "markingCriteria": "5 marks: Explains clearly the range of strategies used by civil rights activists, including boycotts, sit-ins and the Freedom Rides, and shows how each challenged segregation in practice\n4 marks: Explains at least two strategies used to challenge segregation, with accurate detail\n3 marks: Explains one strategy used to challenge segregation with some relevant detail\n2 marks: Identifies a strategy used by civil rights activists\n1 mark: Makes a general statement about segregation in the United States",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-1-1-1-1",
+                        "mark": 5,
+                        "answer": "Civil rights activists used a range of strategies to challenge segregation, relying on nonviolent protest to expose its injustice. The Montgomery bus boycott, which began in December 1955 after Rosa Parks was arrested, showed how economic pressure could force change: Black residents refused to use the segregated buses for over a year, and the Supreme Court eventually ruled the practice unconstitutional. Sit-ins from 1960 targeted segregated lunch counters, and their participants accepted arrest, which drew national attention to the injustice. The Freedom Rides of 1961 tested the desegregation of interstate bus terminals by travelling together across the South, and they forced the federal government to enforce the Court's rulings. Each strategy challenged segregation in a different setting, and together they made it impossible for the country to ignore the injustice.",
+                        "source": "AI",
+                        "feedback": "Full marks: the answer explains a range of strategies, shows how each challenged segregation in a specific setting, and links the methods to their effect on public opinion. The Montgomery example is precise and shows the strategy in practice.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-4-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Activists used boycotts, such as the Montgomery bus boycott, to protest against segregated buses. Black people refused to ride the buses, which cost the bus company money.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response explains one strategy with relevant detail. A second strategy, such as the sit-ins or the Freedom Rides, with an explanation of its effect would move the response into the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-4-1-1-1-3",
+                        "mark": 2,
+                        "answer": "Civil rights activists held protests against segregation in the southern states of the United States.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies protest in general terms without naming a strategy. It needs one specific strategy, such as a boycott or a sit-in, and an indication of how it worked.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-4-1-1-2",
+                    "question": "Discuss the role of Martin Luther King Jr in shaping the civil rights movement.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "A discussion should weigh King's role against the contribution of others, such as the Student Nonviolent Coordinating Committee, rather than treating him as the sole leader",
+                      "Credit the recognition that King's strategy was shaped by the movement's grassroots activists, not only by his own vision"
+                    ],
+                    "commonStudentErrors": [
+                      "Writing a biography of King without discussing his role in the movement",
+                      "Presenting King as the sole leader of the civil rights movement without acknowledging other activists"
+                    ],
+                    "keywords": [
+                      "Martin Luther King Jr",
+                      "civil rights movement",
+                      "nonviolence",
+                      "Southern Christian Leadership Conference",
+                      "March on Washington",
+                      "Montgomery",
+                      "Malcolm X"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained discussion of King's role in shaping the civil rights movement, weighing his leadership, his commitment to nonviolence and his strategic choices against the contributions of other activists and organisations\n5-6 marks: Discusses several aspects of King's role, including his leadership and his methods, with accurate evidence\n4 marks: Discusses King's role with some accurate detail and a link to the movement\n2-3 marks: Describes King's activities with limited discussion of their significance\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-1-1-2-1",
+                        "mark": 8,
+                        "answer": "Martin Luther King Jr was a central figure in the civil rights movement, though his role must be weighed against the grassroots activists who made it possible. King emerged as a leader during the Montgomery bus boycott, and his commitment to nonviolence gave the movement a moral authority that made it difficult for opponents to justify violent resistance. As the head of the Southern Christian Leadership Conference, he organised campaigns that combined mass protest with appeals to federal law. His leadership culminated in the March on Washington in August 1963, where his speech helped to shape national opinion behind civil rights legislation. Other figures were equally important, however. The Student Nonviolent Coordinating Committee organised sit-ins and voter registration drives in the South, often with less publicity than King received, and Malcolm X offered a more confrontational critique that influenced later activists. King's influence was therefore real and decisive in shaping the movement's strategy and image, but it was shared with a broader network of activists.",
+                        "source": "AI",
+                        "feedback": "Full marks: the discussion assesses King's role through his leadership, his nonviolence and his strategy, then tests it against the contribution of others. Naming the SNCC and Malcolm X shows awareness of the movement's diversity, which is the balance the top band requires.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-4-1-1-2-2",
+                        "mark": 5,
+                        "answer": "Martin Luther King Jr led the Montgomery bus boycott and then the Southern Christian Leadership Conference. He believed in nonviolence and gave many speeches. His March on Washington in 1963 was very famous and helped the movement get more support across the country.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response discusses several aspects of King's role with accurate evidence. It would reach the top band by weighing his influence against that of other activists and explaining why his strategy was effective.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-4-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Martin Luther King Jr was a Baptist minister who gave speeches about rights for Black Americans.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes King's background without discussing his role in the civil rights movement. The answer needs to show his leadership or strategy and their significance.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-4-1-2",
+                "description": "assess the impact of civil rights legislation on the lives of African Americans in the 1960s, including the Civil Rights Act of 1964 and the Voting Rights Act of 1965",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-4-1-2-1",
+                    "question": "Assess the impact of the Civil Rights Act of 1964 on African Americans' lives.",
+                    "totalMarks": 6,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-3",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "An assessment needs a measure of impact, such as whether discrimination in public places and jobs was legally ended in practice",
+                      "Strong answers recognise that the Act's effect on voting was limited until the Voting Rights Act of 1965 gave it enforcement power"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the provisions of the Act without assessing its impact",
+                      "Claiming that the Act ended discrimination completely, without considering its limits"
+                    ],
+                    "keywords": [
+                      "Civil Rights Act of 1964",
+                      "African Americans",
+                      "public accommodations",
+                      "employment discrimination",
+                      "enforcement",
+                      "Jim Crow",
+                      "voter registration"
+                    ],
+                    "markingCriteria": "6 marks: Assesses the impact of the Civil Rights Act of 1964 on African Americans, weighing its effect on public accommodations and employment against the limits of its enforcement, and reaching a reasoned judgement\n5 marks: Assesses the Act's impact with accurate evidence on at least two areas and suggests a conclusion\n4 marks: Explains what the Act did and assesses one of its effects\n3 marks: Describes the provisions of the Act with some accuracy\n2 marks: Identifies a provision of the Act or an effect on African Americans\n1 mark: Makes a general statement about civil rights legislation",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-1-2-1-1",
+                        "mark": 6,
+                        "answer": "The Civil Rights Act of 1964 had a substantial impact on African Americans, though its limits must be weighed. It outlawed segregation in public accommodations such as restaurants, hotels and theatres, which removed the legal basis for Jim Crow in those places. Title VII banned discrimination in employment on the grounds of race, colour, religion, sex and national origin, which opened opportunities for many Black workers. However, the Act was weak on voter registration, where discrimination continued in many southern counties, and enforcement depended on the willingness of local officials and courts. The Act therefore changed the legal framework of daily life considerably, but its impact on political participation was limited until the Voting Rights Act of 1965 gave the federal government stronger powers. Overall the Act was a major step, but it did not in itself end discrimination.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment identifies the Act's impact in two areas with precise provisions, weighs these against its limits on voting and enforcement, and reaches a reasoned judgement. The link to the Voting Rights Act shows understanding of how the legislation fitted into a broader process.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-4-1-2-1-2",
+                        "mark": 4,
+                        "answer": "The Civil Rights Act made it illegal to segregate restaurants, hotels and other public places. It also banned discrimination in jobs. These changes helped African Americans, although some discrimination continued in practice.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains the provisions and assesses one effect, but the assessment is brief. A judgement about how far the changes were enforced in practice would move it into the 5-mark band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-4-1-2-1-3",
+                        "mark": 2,
+                        "answer": "The Civil Rights Act was passed in 1964 and it was about civil rights.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the Act but names no provision and no effect. It needs at least one specific provision and an effect on African Americans.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-4-1-2-2",
+                    "question": "Describe two outcomes of the Voting Rights Act of 1965.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct outcomes are needed, for example the suspension of literacy tests and the appointment of federal registrars",
+                      "Reward a precise outcome such as the rapid rise in Black voter registration in the southern states after 1965"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the events at Selma without explaining an outcome of the Act",
+                      "Giving two outcomes that are really the same point"
+                    ],
+                    "keywords": [
+                      "Voting Rights Act of 1965",
+                      "literacy tests",
+                      "federal registrars",
+                      "Black voter registration",
+                      "Selma",
+                      "Jim Crow",
+                      "Congress"
+                    ],
+                    "markingCriteria": "3 marks: Describes two accurate outcomes of the Voting Rights Act of 1965, with specific detail about how each changed voting for African Americans\n2 marks: Describes two outcomes of the Act with limited detail, or one outcome with detail\n1 mark: Identifies an outcome of the Voting Rights Act or makes a general statement about voting rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-1-2-2-1",
+                        "mark": 3,
+                        "answer": "The Voting Rights Act of 1965 suspended literacy tests and other devices that had been used to stop Black citizens from registering to vote in southern states. It also allowed federal registrars to be sent into counties where discrimination was found, so that Black citizens could register directly. As a result, Black voter registration in the South rose sharply in the years after 1965.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct outcomes are described with specific detail about how each changed voting, and the rise in registration shows the effect in practice. The answer does not need further explanation for the describe command.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-4-1-2-2-2",
+                        "mark": 2,
+                        "answer": "The Act stopped literacy tests for voters. It also helped more Black people register to vote.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes two outcomes but with limited detail. Naming the federal registrars, or giving the scale of the rise in registration, would earn the full mark.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-4-1-2-2-3",
+                        "mark": 1,
+                        "answer": "The Voting Rights Act was about voting and it was passed by Congress.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies the Act without describing any outcome. It needs at least one specific outcome for the voting rights of African Americans.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-mh-4-2",
+            "name": "Indigenous rights in Australia",
+            "dotPoints": [
+              {
+                "id": "dp-mh-4-2-1",
+                "description": "analyse the campaign for the 1967 referendum and its significance for Aboriginal and Torres Strait Islander Australians",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-4-2-1-1",
+                    "question": "Analyse the significance of the 1967 referendum for Aboriginal and Torres Strait Islander Australians.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "MH12-2",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "Analysis should distinguish between the symbolic significance of the vote and the practical effect of the change to Commonwealth power",
+                      "Reward recognition that the referendum did not itself grant land rights or equal legal rights, which were pursued later"
+                    ],
+                    "commonStudentErrors": [
+                      "Claiming that the 1967 referendum granted Aboriginal Australians citizenship, when they were already citizens",
+                      "Describing the campaign without analysing the referendum's significance"
+                    ],
+                    "keywords": [
+                      "1967 referendum",
+                      "Aboriginal and Torres Strait Islander Australians",
+                      "Commonwealth power",
+                      "census",
+                      "section 127",
+                      "section 51",
+                      "FCAATSI"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the significance of the 1967 referendum, explaining how the change to Commonwealth power and the census reshaped the legal position of Aboriginal and Torres Strait Islander Australians, and weighing the referendum's symbolic and practical effects\n5-6 marks: Analyses at least two effects of the referendum with accurate evidence on the legal and symbolic position of Aboriginal and Torres Strait Islander Australians\n3-4 marks: Describes the referendum's provisions or campaign with some accuracy and explains one effect\n1-2 marks: Identifies a feature of the referendum or makes a general statement about Indigenous rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-2-1-1-1",
+                        "mark": 8,
+                        "answer": "The 1967 referendum was significant because it changed the constitutional relationship between the Commonwealth and Aboriginal and Torres Strait Islander Australians. Almost 91 per cent of voters supported it, which gave it a symbolic force far beyond its legal effect. Its practical significance was twofold. The referendum removed the constitutional provision that excluded Aboriginal people from the census, so that they were counted as part of the population, and it gave the Commonwealth power to make laws for Aboriginal people, which had previously been a matter for the states. This allowed federal government to take responsibility for Indigenous affairs, though the referendum did not itself confer land rights or equal legal status. The campaign by the Federal Council for the Advancement of Aborigines and Torres Strait Islanders, which had worked for years, showed the power of organised advocacy. The significance of the referendum therefore lies as much in the recognition it expressed as in the legal change it made.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis separates the symbolic significance of the vote from the practical change to Commonwealth power and the census, and it qualifies the referendum's limits. The reference to the campaign shows how the change came about, which deepens the analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-mh-4-2-1-1-2",
+                        "mark": 5,
+                        "answer": "The 1967 referendum was important because most Australians voted yes. It changed the Constitution so the Commonwealth could make laws for Aboriginal people and Aboriginal people were counted in the census. These changes meant the federal government could take more responsibility for Indigenous affairs.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses two effects with accurate evidence. The analysis would move into the top band by distinguishing the symbolic effect of the vote from its legal effect, and by noting what the referendum did not achieve.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-4-2-1-1-3",
+                        "mark": 2,
+                        "answer": "The 1967 referendum was a vote held in Australia about Aboriginal people.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the referendum without describing its change or its significance. It needs at least one specific change and an explanation of why it mattered.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-4-2-1-2",
+                    "question": "Outline the main aims of the campaign for the 1967 referendum.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "MH12-1",
+                      "MH12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct aims are needed, such as counting Aboriginal people in the census and giving the Commonwealth power to legislate for them",
+                      "Reference to the organisations that ran the campaign strengthens the outline"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that the campaign aimed to win citizenship for Aboriginal Australians, when the aim was the removal of discriminatory constitutional provisions",
+                      "Describing the outcome of the referendum rather than the aims of the campaign"
+                    ],
+                    "keywords": [
+                      "1967 referendum",
+                      "campaign",
+                      "census",
+                      "Commonwealth power",
+                      "FCAATSI",
+                      "citizenship",
+                      "constitutional change"
+                    ],
+                    "markingCriteria": "3 marks: Outlines the main aims of the campaign for the 1967 referendum, with accurate detail on at least two aims and how the campaign pursued them\n2 marks: Outlines two aims of the campaign with limited detail\n1 mark: Identifies an aim of the campaign for the 1967 referendum",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-2-1-2-1",
+                        "mark": 3,
+                        "answer": "The main aim of the 1967 referendum campaign was to remove the constitutional provision that excluded Aboriginal people from the census, so that they would be counted in the population. A second aim was to give the Commonwealth power to make laws for Aboriginal people, rather than leaving the matter to the states. The campaign was run by organisations such as the Federal Council for the Advancement of Aborigines and Torres Strait Islanders, which built support across the country.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct aims are outlined with accurate detail, and the reference to the organisation shows how the campaign pursued them. The aims are stated as aims rather than as outcomes.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-4-2-1-2-2",
+                        "mark": 2,
+                        "answer": "One aim of the campaign was to be counted in the census. Another was to give the Commonwealth more power over Aboriginal affairs.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response outlines two aims with limited detail. Adding how the campaign pursued them, or the organisations involved, would earn the full mark.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-4-2-1-2-3",
+                        "mark": 1,
+                        "answer": "The campaign wanted Aboriginal people to have better rights.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies a general aim without specifying the constitutional change the campaign sought. It needs a specific aim such as the census or Commonwealth power.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-mh-4-2-2",
+                "description": "evaluate the extent to which change in Indigenous rights in Australia has been driven by activism rather than government policy",
+                "prompts": [
+                  {
+                    "id": "prompt-mh-4-2-2-1",
+                    "question": "Justify the view that activism, rather than government policy, has been the main driver of change in Indigenous rights in Australia since 1945.",
+                    "totalMarks": 10,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-5",
+                      "MH12-8"
+                    ],
+                    "markerNotes": [
+                      "A justification must reach a position on the view, and the strongest answers recognise that activism often forced government policy to change",
+                      "Credit the use of precise examples such as the Gurindji strike of 1966 and the Mabo decision of 1992, each showing a different relationship between activism and policy"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing examples of activism without weighing the role of government policy",
+                      "Treating activism and government policy as separate forces rather than as interacting causes"
+                    ],
+                    "keywords": [
+                      "activism",
+                      "government policy",
+                      "Indigenous rights",
+                      "Gurindji strike",
+                      "Racial Discrimination Act",
+                      "Mabo",
+                      "1967 referendum"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, reasoned justification of the view, testing it against the role of government policy and reaching a clear and defended position on the balance between activism and policy\n7-8 marks: Justifies the view with several precise examples of activism and weighs them against government policy\n6 marks: Justifies the view with at least one example and attempts to weigh the role of policy, though the reasoning is uneven\n4-5 marks: Describes examples of activism and government policy with some relevant detail and limited justification\n2-3 marks: Identifies examples of activism or policy with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-2-2-1-1",
+                        "mark": 10,
+                        "answer": "The view is largely supported, because activism repeatedly forced government policy to change in Indigenous rights, though policy also shaped the form that change took. The Gurindji strike at Wave Hill, which began in 1966 when Vincent Lingiari and other workers walked off the station, drew national attention to the conditions of Aboriginal workers and helped to build support for land rights. The 1967 referendum was the result of decades of advocacy by organisations that campaigned for constitutional change, and it removed discriminatory provisions that had been in place since Federation. The Racial Discrimination Act of 1975 was passed after pressure from activists and the anti-discrimination movement. However, policy was not simply a response. Government decisions about land and funding, and the courts' eventual recognition of native title in the Mabo decision of 1992, were important in defining what change meant in practice. Activism was the driver that made governments act, but policy determined the scope and durability of the changes. The view is therefore supported on the balance of evidence, but it understates the role the Commonwealth and the High Court played in turning activist demands into law.",
+                        "source": "AI",
+                        "feedback": "Full marks: the justification uses precise examples of activism and tests the view against the role of policy and the courts, then reaches a defended position. The point that policy shaped the scope of change is the qualification that secures the top band.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-mh-4-2-2-1-2",
+                        "mark": 6,
+                        "answer": "Activism was important because the 1967 referendum and the Gurindji strike both came from campaigns by Indigenous people and their supporters. Government policy also changed, for example through the Racial Discrimination Act, but activists pushed for these changes. Overall activism was probably the main driver, though policy also mattered.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response justifies the view with examples and makes a judgement, but the role of policy is only mentioned rather than weighed. Developing how the courts or the Mabo decision shaped the change would strengthen the judgement.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-4-2-2-1-3",
+                        "mark": 3,
+                        "answer": "Indigenous people in Australia campaigned for rights and the government sometimes made laws to help them.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies activism and policy in general terms without examples. It needs specific examples and a link to the view in the question.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-mh-4-2-2-2",
+                    "question": "Compare the strategies of the civil rights movement in the United States with those of Indigenous activists in Australia.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "MH12-3",
+                      "MH12-5"
+                    ],
+                    "markerNotes": [
+                      "The comparison must use the same criteria for both movements, such as nonviolence or the use of legislation, rather than describing each in turn",
+                      "Credit recognition that the 1965 Freedom Ride in New South Wales drew on the American model but targeted different forms of discrimination"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the two movements in separate paragraphs without a direct comparison",
+                      "Asserting that the movements were identical without identifying a difference"
+                    ],
+                    "keywords": [
+                      "civil rights movement",
+                      "Indigenous activists",
+                      "nonviolent protest",
+                      "Freedom Rides",
+                      "Gurindji strike",
+                      "legislation",
+                      "Aboriginal"
+                    ],
+                    "markingCriteria": "6 marks: Compares the strategies of the civil rights movement with those of Indigenous activists, identifying similarities and differences with precise evidence and a clear basis for comparison\n5 marks: Compares the strategies of both movements with accurate detail and identifies at least one clear similarity and one difference\n4 marks: Compares strategies of both movements with some accurate detail, though the comparison is partly descriptive\n3 marks: Describes strategies of each movement with limited comparison\n2 marks: Identifies a strategy used by one or both movements\n1 mark: Makes a basic statement about civil rights or Indigenous activism",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-mh-4-2-2-2-1",
+                        "mark": 6,
+                        "answer": "The civil rights movement and Indigenous activists in Australia both used nonviolent protest and public campaigns to challenge discrimination, but their targets and their relationship with government differed. Both movements used direct action: the Freedom Rides in the United States tested segregated bus terminals, and the 1965 Freedom Ride led by Charles Perkins through rural New South Wales exposed segregated facilities in country towns. Both also relied on legislation to make change permanent, through the Civil Rights Act and the 1967 referendum. The key difference lies in the nature of the demands. The American movement sought equal rights within an existing legal order, while the Australian movement also demanded recognition of land rights, which the Gurindji strike brought to national attention. Indigenous activists therefore faced questions of prior ownership that the civil rights movement did not have to address.",
+                        "source": "AI",
+                        "feedback": "Full marks: the comparison uses shared criteria, identifies a clear similarity in nonviolent direct action and a clear difference in the nature of the demands, and grounds both in precise examples. The conclusion about prior ownership is the distinction that the comparison turns on.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-mh-4-2-2-2-2",
+                        "mark": 4,
+                        "answer": "Both the civil rights movement and Indigenous activists used protest to challenge discrimination. The Freedom Rides were used in the United States, and a Freedom Ride also happened in New South Wales in 1965. Both movements won changes in the law.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response compares strategies with accurate detail and identifies a similarity. It is partly descriptive, and a difference, such as the land rights demands, would complete the comparison.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-mh-4-2-2-2-3",
+                        "mark": 2,
+                        "answer": "The civil rights movement was in the United States and Indigenous activism happened in Australia.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the two movements but names no strategy and makes no comparison. It needs a strategy used by each movement and a basis for comparing them.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

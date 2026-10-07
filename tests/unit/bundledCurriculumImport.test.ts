@@ -9,12 +9,12 @@ import { shippedCourses } from './support/shippedCourseData';
  * The bundled curriculum, imported the way a new user imports it.
  *
  * Every shipped topic file is a copy of a topic that is ALSO inside its
- * course file — `topics/biology-heredity-topic.json` is the Heredity topic
- * from `HSCBiology.json`, and the secure-architecture one is the Secure
- * software architecture topic from the Software Engineering course. All 72
- * question ids they hold already exist in the course file, with identical
- * text. That is fine and deliberate: a topic file lets someone take one topic
- * without the whole course. It is only fine because the import DEDUPES.
+ * course file — `topics/software-engineering-secure-architecture-topic.json`
+ * is the Secure software architecture topic from the Software Engineering
+ * course. All of the question ids it holds already exist in the course file,
+ * with identical text. That is fine and deliberate: a topic file lets someone
+ * take one topic without the whole course. It is only fine because the import
+ * DEDUPES.
  *
  * And the dedupe is not free. `handleImportFromLibrary` runs every topic
  * through `regenerateTopicIds`, which rewrites the id of the topic, every
@@ -22,14 +22,14 @@ import { shippedCourses } from './support/shippedCourseData';
  * `mergeOrAddTopic` runs, not one id matches the course already in the tree.
  * What saves it is the text fallback at each of the three levels below the
  * topic: sub-topic by name, dot point by description, prompt by question.
- * Take away just the dot-point one and Biology goes from 152 questions to
- * 183, Software Engineering from 183 to 224 — the whole topic is appended a
- * second time, and a student browsing Heredity meets every question twice
- * with no way to tell which is which.
+ * Take away just the dot-point one and Software Engineering goes from 183
+ * questions to 224 — the whole topic is appended a second time, and a student
+ * browsing Secure software architecture meets every question twice with no way
+ * to tell which is which.
  *
- * The Biology topic file is `"selected": true` in the manifest, so this is not
- * a path someone has to go looking for: it is what the first-run "import the
- * bundled curriculum" button does for every new user.
+ * The topic file is listed in the manifest beside its course, so this is not a
+ * path someone has to go looking for: the import list offers it to every new
+ * user who ticks it alongside the course.
  *
  * Verified by deleting the dot-point text fallback in
  * `mergeDotPointCollections` and watching both cases fail with exactly those

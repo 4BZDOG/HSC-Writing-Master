@@ -1,0 +1,1959 @@
+[
+  {
+    "id": "course-hsc-business-studies",
+    "name": "HSC Business Studies",
+    "outcomes": [
+      {
+        "code": "BS12-1",
+        "description": "analyses the internal and external influences on business operations and management decisions"
+      },
+      {
+        "code": "BS12-2",
+        "description": "evaluates the operations of a business, including production, quality and efficiency"
+      },
+      {
+        "code": "BS12-3",
+        "description": "evaluates marketing strategies used by businesses to meet the needs of consumers"
+      },
+      {
+        "code": "BS12-4",
+        "description": "analyses the financial information and decisions required to manage a business"
+      },
+      {
+        "code": "BS12-5",
+        "description": "evaluates human resource management practices and their effect on business performance"
+      },
+      {
+        "code": "BS12-6",
+        "description": "applies business terminology and data accurately in analysis"
+      },
+      {
+        "code": "BS12-7",
+        "description": "communicates a reasoned recommendation for a business in a business report format"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-bs-1",
+        "name": "Operations",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-1-1",
+            "name": "Production and operations management",
+            "dotPoints": [
+              {
+                "id": "dp-bs-1-1-1",
+                "description": "analyse the production processes a business uses and the factors that determine its operational efficiency, including capacity, inventory and technology",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-1-1-1-1",
+                    "question": "Describe the four types of production processes used by businesses.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BS12-2"
+                    ],
+                    "markerNotes": [
+                      "Describing each type includes the volume and the product variety that characterise it, not only its name",
+                      "An example, such as a custom-built yacht for job production, shows the description applied"
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing batch production with mass production by describing the same features for each",
+                      "Naming process types without describing their features"
+                    ],
+                    "keywords": [
+                      "production processes",
+                      "job production",
+                      "batch production",
+                      "mass production",
+                      "continuous production",
+                      "output"
+                    ],
+                    "markingCriteria": "4 marks: Describes four types of production processes accurately, including job, batch, mass and continuous production, with an example of each\n3 marks: Describes three types of production process with accurate detail\n2 marks: Identifies two types of production process\n1 mark: Makes a general statement about how businesses produce goods",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-1-1-1-1",
+                        "mark": 4,
+                        "answer": "Four production processes are used by businesses. Job production makes a single item to a customer's specifications, such as a custom-built yacht, so it is flexible but expensive per unit. Batch production makes a group of identical products in one run, such as a bakery producing loaves in batches, which allows some variety. Mass production makes large volumes of standardised products on a production line, such as car manufacturing, which lowers unit costs but reduces flexibility. Continuous production runs without interruption for long periods, often 24 hours a day, such as an oil refinery, and is used where the product is uniform and the process is highly automated.",
+                        "source": "AI",
+                        "feedback": "Full marks: the four production processes are described with their key features and an example each, and the answer notes the trade-off between flexibility and unit cost. The description covers the production processes the question asks about rather than only naming them.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-1-1-1-1-2",
+                        "mark": 3,
+                        "answer": "Job production makes one item for a customer. Batch production makes a few items at a time. Mass production makes lots of the same product on a line.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes three types accurately but briefly, with no examples. Adding an example for each and the trade-off between flexibility and cost would move it into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-1-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Businesses produce goods in different ways depending on what they make.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and names no type of production process. It needs at least one named process and its features.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-1-1-1-2",
+                    "question": "Analyse how Golden Crust Bakery's choice between batch and mass production affects its capacity utilisation and unit costs.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "scenario": "Golden Crust Bakery produces 2,000 loaves a day in batches of 200 for a range of local customers. Its owner is considering moving to a single high-volume line that makes one type of bread.",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the mechanism: higher volume spreads fixed costs, which lowers unit costs, but the bakery loses the ability to serve varied customer needs",
+                      "Reward recognition that capacity utilisation depends on whether a single line can run at high output without idle time"
+                    ],
+                    "commonStudentErrors": [
+                      "Assuming that mass production always reduces costs without considering the loss of flexibility",
+                      "Describing the two methods without relating them to the bakery's circumstances"
+                    ],
+                    "keywords": [
+                      "mass production",
+                      "capacity utilisation",
+                      "unit costs",
+                      "inventory",
+                      "batch production",
+                      "economies of scale",
+                      "flexibility"
+                    ],
+                    "markingCriteria": "6 marks: Analyses how a move from batch to mass production would affect capacity utilisation and unit costs, explaining the economies of scale and the loss of flexibility, and weighing these against the bakery's customers\n5 marks: Analyses the effect on capacity utilisation and unit costs with accurate reasoning and identifies a trade-off\n4 marks: Explains how the change would affect either capacity utilisation or unit costs with accurate reasoning\n3 marks: Describes the two production methods with some relevant comment on the effect on the bakery\n2 marks: Identifies a feature of batch or mass production\n1 mark: Makes a general statement about production",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-1-1-2-1",
+                        "mark": 6,
+                        "answer": "Moving to mass production would probably raise capacity utilisation and reduce unit costs, but at a cost to flexibility. A single high-volume line can run for long periods at close to its maximum output, so capacity utilisation rises and fixed costs such as equipment and labour are spread over more loaves. This produces economies of scale, so the cost of each loaf falls. However, the bakery currently serves a range of local customers with different products, and mass production would limit it to one type of bread. If customers want variety, sales could fall, and the higher volume would be wasted. The owner must weigh the lower unit cost against the risk of losing customers who value choice. The decision therefore depends on whether the bakery's market is large enough to absorb one product at volume. A single line would also simplify inventory control, because the bakery would buy fewer types of ingredients and packaging.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains the mechanism through which capacity utilisation and economies of scale lower unit costs, identifies the loss of flexibility as the trade-off, and weighs both against the bakery's customers. The conclusion depends on the market, which is what the scenario asks the student to assess.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-1-1-1-2-2",
+                        "mark": 3,
+                        "answer": "Batch production makes groups of different loaves, so the bakery can serve many customers. Mass production makes one product in large amounts on a line, which would be cheaper per loaf but less varied.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the two methods and makes a relevant comment on the bakery, but it does not analyse the effect on capacity utilisation or unit costs. Explaining why the unit cost would fall would move it into the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-1-1-1-2-3",
+                        "mark": 2,
+                        "answer": "Mass production is when a business makes lots of the same product on a production line.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a feature of mass production but does not relate it to the bakery or to capacity utilisation and unit costs.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-1-1-1-3",
+                    "question": "Distinguish between capacity utilisation and operational efficiency in a manufacturing business.",
+                    "totalMarks": 4,
+                    "verb": "DISTINGUISH",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "The distinction should turn on what each measure captures: capacity is about how much of the plant is used, efficiency is about how well inputs are turned into output",
+                      "A manufacturing business can have high capacity utilisation but low efficiency if waste is high, which is a useful example"
+                    ],
+                    "commonStudentErrors": [
+                      "Treating capacity utilisation and efficiency as the same measure",
+                      "Defining the two terms without showing how they differ"
+                    ],
+                    "keywords": [
+                      "capacity utilisation",
+                      "operational efficiency",
+                      "maximum output",
+                      "actual output",
+                      "productivity",
+                      "unit costs",
+                      "resources"
+                    ],
+                    "markingCriteria": "4 marks: Distinguishes clearly between capacity utilisation, as a measure of actual output against maximum output, and operational efficiency, as a measure of how well resources are converted into output, with accurate examples\n3 marks: Distinguishes between the two concepts with some accuracy and an example\n2 marks: Defines one of the two concepts with limited comparison\n1 mark: Makes a general statement about business operations",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-1-1-3-1",
+                        "mark": 4,
+                        "answer": "Capacity utilisation measures how much of a business's maximum possible output is actually being produced. A factory that can make 1,000 units a week but makes 800 has a capacity utilisation of 80 per cent. Operational efficiency, by contrast, measures how well the business converts its resources into output, so that it uses the least labour, material and time for each unit. A factory can have high capacity utilisation but low efficiency if it produces a large volume with a lot of waste, which increases unit costs. The two measures are therefore different: one describes how fully the plant is used, the other how well it is used.",
+                        "source": "AI",
+                        "feedback": "Full marks: the distinction is drawn clearly, with a precise calculation for capacity utilisation and a clear account of efficiency as the conversion of resources. The example of high utilisation with low efficiency shows why the two measures are not the same.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-1-1-1-3-2",
+                        "mark": 3,
+                        "answer": "Capacity utilisation is how much of the factory's maximum output is being used. Efficiency is about how well a business uses its resources, such as labour and materials, to make products.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response distinguishes the two concepts accurately but without an example. Adding an example where the two measures diverge would earn the top band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-1-1-1-3-3",
+                        "mark": 1,
+                        "answer": "Capacity and efficiency are both important in a factory.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not define either concept. It needs a definition of each and an account of how they differ.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-1-1-2",
+                "description": "evaluate quality management systems, including quality control and continuous improvement, in improving business performance",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-1-1-2-1",
+                    "question": "Evaluate the effectiveness of quality management systems in improving business performance.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as customer retention or cost of defects, against which the system's effect on performance is judged",
+                      "Strong answers note that quality systems have costs, and that their success depends on the commitment of staff rather than on certification alone"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing quality control inspections without evaluating their effect on performance",
+                      "Asserting that quality management always improves profitability, without evidence or a criterion"
+                    ],
+                    "keywords": [
+                      "quality management",
+                      "business performance",
+                      "quality control",
+                      "continuous improvement",
+                      "Kaizen",
+                      "ISO 9001",
+                      "customer satisfaction"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of quality management systems in improving business performance, weighing the benefits of quality control and continuous improvement against their costs and the conditions needed for them to succeed, and reaching a reasoned conclusion\n7-8 marks: Evaluates several aspects of quality management with precise evidence and a clear overall position\n6 marks: Evaluates at least one aspect of quality management and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes quality management systems with some relevant detail\n2-3 marks: Identifies features of quality management with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-1-2-1-1",
+                        "mark": 10,
+                        "answer": "Quality management systems improve business performance when they reduce defects and raise customer satisfaction, but their benefits depend on how they are implemented. Quality control, through inspection and testing, identifies defective products before they reach customers, which reduces the costs of returns and warranty claims. Continuous improvement, often called kaizen, encourages every employee to identify small changes that raise quality and reduce waste, which gradually lowers costs and improves reliability. Certification to a standard such as ISO 9001 can strengthen a business's credibility with customers and suppliers. However, these systems have costs: training, documentation and inspection require time and money, and a system imposed without staff commitment can become a paperwork exercise that does not change behaviour. The effectiveness of quality management is therefore measured by its impact on customer retention and the cost of defects, and it is greatest where it is embedded in the culture of the business.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets criteria of defect costs and customer retention, weighs the benefits of quality control and continuous improvement against their costs, and concludes that the effect depends on the culture of the business. The reference to paperwork without commitment shows the critical judgement the top band requires.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bs-1-1-2-1-2",
+                        "mark": 6,
+                        "answer": "Quality management systems can improve business performance by reducing defects through quality control and by encouraging continuous improvement among staff. Certification to ISO 9001 may also help a business win customers. However, these systems cost money, so their benefit depends on whether the business actually reduces defects and keeps its customers.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the systems and attempts a judgement, though the reasoning is brief. Stating a criterion, such as the cost of defects, and weighing the costs of the system against it would strengthen the evaluation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-1-1-2-1-3",
+                        "mark": 3,
+                        "answer": "A business can do quality control by inspecting its products. Quality management also includes continuous improvement, which means making the business better over time.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies features of quality management with limited explanation and no evaluation. It needs an account of how the features affect performance and a judgement about their effectiveness.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-1-1-2-2",
+                    "question": "Identify two methods a business can use to control the quality of its products.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct methods are needed, such as inspection and statistical sampling, rather than two forms of the same inspection",
+                      "The command is to identify, so a brief statement of what each method involves is sufficient"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a business function, such as marketing, as a quality control method",
+                      "Giving two inspections as two distinct methods"
+                    ],
+                    "keywords": [
+                      "quality",
+                      "product",
+                      "methods",
+                      "inspection",
+                      "sampling",
+                      "quality assurance",
+                      "defects"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct methods a business can use to control the quality of its products, such as inspection and quality assurance\n1 mark: Identifies one method a business can use to control the quality of its products",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-1-2-2-1",
+                        "mark": 2,
+                        "answer": "Two methods of quality control are inspection, where each product is checked before it leaves the factory, and sampling, where a small batch is tested to judge the quality of the whole run. Quality assurance is a further method, using documented processes to prevent defects in the first place.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct methods are identified, and each is described briefly enough to show what it involves. The mention of quality assurance as a preventive method adds precision.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bs-1-1-2-2-2",
+                        "mark": 1,
+                        "answer": "One method a business can use is inspecting its products before they are sold.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate method. A second, distinct method, such as sampling or quality assurance, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-1-2",
+            "name": "Operational decisions and technological change",
+            "dotPoints": [
+              {
+                "id": "dp-bs-1-2-1",
+                "description": "explain how just-in-time inventory, lean production and automation affect the costs and flexibility of a business",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-1-2-1-1",
+                    "question": "Explain how just-in-time inventory management can reduce costs for a business.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "Explanation should identify the mechanism: stock arrives when needed, so the business does not pay to store it",
+                      "The top band recognises the risk: a single supplier failure can halt production when there is no buffer stock"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that just-in-time eliminates all inventory, rather than minimising it",
+                      "Describing the method without explaining how it reduces costs"
+                    ],
+                    "keywords": [
+                      "just-in-time",
+                      "inventory",
+                      "lean production",
+                      "holding costs",
+                      "suppliers",
+                      "waste",
+                      "storage"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how just-in-time inventory reduces holding costs and waste, and the conditions under which it succeeds, including reliable suppliers and lean production, with accurate reasoning\n5 marks: Explains at least two ways in which just-in-time reduces costs, with accurate reasoning\n4 marks: Explains one way in which just-in-time reduces costs, with accurate detail\n3 marks: Describes just-in-time inventory with some accuracy and a link to costs\n2 marks: Identifies a feature of just-in-time inventory\n1 mark: Makes a general statement about inventory",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-2-1-1-1",
+                        "mark": 6,
+                        "answer": "Just-in-time inventory management reduces costs by holding stock only when it is needed for production. Because materials arrive shortly before they are used, the business spends less money tying up capital in stock and pays less for warehouse space, insurance and handling. This lowers holding costs. It also reduces waste, since products are not left in storage where they may become damaged or obsolete, and it fits with lean production, which seeks to eliminate waste from every stage of the process. However, the method depends on reliable suppliers who deliver on time and in the right quantities. If a supplier fails, production can stop, so the business gives up the safety of buffer stock in exchange for lower costs. The net saving therefore depends on the reliability of the supply chain.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation identifies the mechanism through which holding costs and waste fall, links it to lean production, and recognises the risk that makes the saving conditional on supplier reliability. The conclusion shows the trade-off the top band requires.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-1-2-1-1-2",
+                        "mark": 4,
+                        "answer": "Just-in-time means that a business orders materials only when they are needed. This means it does not have to pay to store large amounts of stock in a warehouse, so its holding costs are lower.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one way in which the method reduces costs with accurate detail. A second cost saving, such as less waste, or the condition of reliable suppliers, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-1-2-1-1-3",
+                        "mark": 2,
+                        "answer": "Just-in-time is a method of managing stock in a business.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the method in general terms without explaining how it reduces costs. It needs a mechanism, such as lower holding costs, and an explanation of it.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-1-2-1-2",
+                    "question": "Apply the trade-off between unit costs and flexibility to advise Riverside Furniture on whether to adopt automation.",
+                    "totalMarks": 5,
+                    "verb": "APPLY",
+                    "scenario": "Riverside Furniture employs 40 workers assembling chairs by hand. A supplier offers a robotic assembly line costing $2 million, which would reduce unit labour costs but could only produce one chair design at a time.",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-7"
+                    ],
+                    "markerNotes": [
+                      "Application should weigh the capital cost against the labour saving and show how the answer depends on the volume the business sells",
+                      "A recommendation should be conditional and justified, for example that the company should proceed only if demand for a single design is high"
+                    ],
+                    "commonStudentErrors": [
+                      "Recommending automation without considering the capital cost or the loss of design variety",
+                      "Assuming that automation is always cheaper in the long run without evidence"
+                    ],
+                    "keywords": [
+                      "automation",
+                      "labour costs",
+                      "flexibility",
+                      "unit costs",
+                      "capital costs",
+                      "economies of scale",
+                      "design variety"
+                    ],
+                    "markingCriteria": "5 marks: Applies the trade-off between unit costs and flexibility to Riverside Furniture's circumstances, advising on the automation decision with reasoning about the capital cost, the labour saving and the loss of design variety, and reaching a recommendation\n4 marks: Applies the effect of automation on unit costs and flexibility to the scenario with accurate reasoning and a recommendation\n3 marks: Identifies the effect of automation on labour costs and applies it to the scenario with some accuracy\n2 marks: Identifies a relevant cost or flexibility consideration with limited application\n1 mark: Makes a general statement about automation",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-2-1-2-1",
+                        "mark": 5,
+                        "answer": "Riverside Furniture should adopt automation only if it can sell enough of a single design to justify the investment. The robotic line costs $2 million, and its main benefit is lower labour costs, which reduce unit costs, since it can replace much of the work of the 40 hand assemblers. The saving is greatest where the line runs at high volume, because the fixed capital cost is then spread over many chairs. However, the line can produce only one design at a time, so the company loses the flexibility to respond to customers who want variety. If the market for a single design is strong, the lower unit cost gives a competitive advantage. If not, the business should keep its manual process, which allows it to serve varied demand. The recommendation is therefore conditional on sales volume and on the company's assessment of how much design variety its customers require.",
+                        "source": "AI",
+                        "feedback": "Full marks: the advice weighs the capital cost and labour saving against the loss of flexibility, makes the recommendation depend on sales volume, and states the condition clearly. The conditional recommendation is the reasoning the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-1-2-1-2-2",
+                        "mark": 3,
+                        "answer": "The robots would cost $2 million but could replace many workers, so unit labour costs would fall. However, the robots can only make one design, which means Riverside could lose customers who want other chairs.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response applies the effect of automation on labour costs and flexibility with some accuracy. A recommendation, and an explanation of how the volume of sales affects the decision, would move it into the 4-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-1-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Automation means using machines in a factory instead of people.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response defines automation but does not apply it to Riverside Furniture or advise on the decision. It needs to consider the cost and the flexibility trade-off.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-1-2-2",
+                "description": "assess the impact of technological change on the operations of a business, including its effect on inventory and customer ordering",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-1-2-2-1",
+                    "question": "Assess the impact of technological change on the operations of a small retail business.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "An assessment should weigh the benefits to efficiency and customer service against the cost of the systems and the skills needed to use them",
+                      "Strong answers recognise that a small retailer may gain the most from technology that levels the field with larger competitors"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing technologies without assessing their impact on operations",
+                      "Assuming that all technological change improves operations for every business"
+                    ],
+                    "keywords": [
+                      "technological change",
+                      "operations",
+                      "small retail business",
+                      "point-of-sale systems",
+                      "online ordering",
+                      "inventory management",
+                      "competitiveness"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the impact of technological change on a small retail business's operations, weighing gains in efficiency and inventory control against the costs and skills required, and reaching a reasoned conclusion on its competitiveness\n6 marks: Assesses the impact of technological change with several accurate points and attempts a judgement\n5 marks: Assesses at least one effect of technological change on operations with accurate evidence and suggests a conclusion\n3-4 marks: Describes the effects of technological change on operations with some relevant detail\n2 marks: Identifies a technology and an effect with limited explanation\n1 mark: Makes a basic or general statement about technology",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Technological change has had a substantial impact on the operations of small retail businesses, though its benefits depend on cost and on the skills of the owner and staff. Point-of-sale systems record each sale and update stock levels automatically, which improves inventory management and reduces the risk of running out of popular lines. Online ordering allows customers to buy outside opening hours and gives the business access to a wider market, which can improve competitiveness against larger rivals. Data from these systems can inform purchasing decisions, so the retailer can order more accurately. However, the systems require upfront investment, subscription fees and training, and a small business may struggle to bear these costs. Systems also fail, and a retailer that relies heavily on technology may be disrupted when they do. The overall impact is positive for those that can implement technology effectively, but the gains are less certain for businesses with limited capital and skills.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment weighs the effects on inventory control and customer access against the costs, the skills and the risks of disruption, and reaches a conclusion that depends on the business's capacity to implement the technology. The point about competitiveness against larger rivals is the reasoned judgement the top band requires.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-bs-1-2-2-1-2",
+                        "mark": 5,
+                        "answer": "Point-of-sale systems help a small retailer manage stock because they update inventory each time a sale is made. Online ordering lets customers buy at any time, which can increase sales. However, these systems can be expensive for a small business to set up and maintain.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses two technologies with accurate evidence and notes a cost. It would reach the top band by weighing the gains against the skills and risks of disruption and reaching a conclusion about competitiveness.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-1-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Retailers can use computers to sell goods and keep track of what they have.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a technology in general terms and gives an effect without assessing it. It needs a specific technology, its effect on operations and an evaluation of the impact.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-1-2-2-2",
+                    "question": "Explain how online ordering systems can change the way a business manages its inventory.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BS12-2",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Explanation should identify how real-time data changes the timing and quantity of orders, not only that stock is recorded",
+                      "Reward the link between better forecasting and fewer stockouts or excess stock"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing online ordering as a sales channel without explaining its effect on inventory",
+                      "Stating that online ordering eliminates stockouts entirely"
+                    ],
+                    "keywords": [
+                      "online ordering",
+                      "inventory management",
+                      "stock levels",
+                      "real-time data",
+                      "forecasting",
+                      "suppliers",
+                      "stockouts"
+                    ],
+                    "markingCriteria": "4 marks: Explains clearly how online ordering systems change inventory management, including real-time stock data, forecasting and supplier ordering, with accurate reasoning\n3 marks: Explains one change to inventory management with accurate detail\n2 marks: Identifies a feature of online ordering and a link to inventory\n1 mark: Makes a general statement about online ordering",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-1-2-2-2-1",
+                        "mark": 4,
+                        "answer": "Online ordering systems give a business real-time data on stock levels, so it knows exactly what has sold and what remains. This allows the business to reorder when stock falls to a set level rather than on a fixed schedule. Sales records from online orders also support forecasting, so the business can anticipate demand and buy the right quantities from suppliers. As a result, the business is less likely to run out of popular products (stockouts) or to hold excess stock that ties up cash.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation shows how real-time data changes the timing and quantity of orders, links it to forecasting, and identifies two outcomes, fewer stockouts and less excess stock. The mechanism is explained, not only described.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-1-2-2-2-2",
+                        "mark": 3,
+                        "answer": "Online ordering records each sale as it happens, so the business can see its stock levels at any time. This means it can reorder products before they run out.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response explains one change to inventory management with accurate detail. A second change, such as forecasting demand, would move it into the top band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-1-2-2-2-3",
+                        "mark": 1,
+                        "answer": "Customers can order things online from a business.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response describes online ordering in general terms without any link to inventory management. It needs to explain how the system affects stock.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bs-2",
+        "name": "Marketing",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-2-1",
+            "name": "Market research and the marketing mix",
+            "dotPoints": [
+              {
+                "id": "dp-bs-2-1-1",
+                "description": "analyse the role of market research in identifying target markets and consumer needs",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-2-1-1-1",
+                    "question": "Analyse the role of market research in identifying a target market for a new product.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show the chain from research to decision: research identifies a segment, the segment's needs shape the product",
+                      "Reward a limit such as the cost of research or the risk that stated intentions do not match purchasing"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing market research methods without linking them to the identification of a target market",
+                      "Treating a target market as the whole population rather than a defined group of customers"
+                    ],
+                    "keywords": [
+                      "market research",
+                      "target market",
+                      "consumer needs",
+                      "market segmentation",
+                      "primary research",
+                      "secondary research",
+                      "survey"
+                    ],
+                    "markingCriteria": "6 marks: Analyses how market research identifies a target market and consumer needs for a new product, explaining how segmentation and research findings shape the product decision, and weighing the limits of research\n5 marks: Analyses the role of market research in identifying the target market with accurate reasoning, and identifies a limit or a further consideration\n4 marks: Explains how market research identifies the target market or consumer needs with accurate detail\n3 marks: Describes market research methods with some link to the target market\n2 marks: Identifies a market research method\n1 mark: Makes a general statement about marketing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-1-1-1-1",
+                        "mark": 6,
+                        "answer": "Market research helps a business identify a target market by gathering information about who is likely to buy the product and what they need. Primary research, such as surveys and focus groups, can reveal the age, income and preferences of potential customers, and it can show which features they value most. Secondary research, such as industry reports and population statistics, can show the size of each segment and whether it is growing. Using these findings, the business can segment the market by demographic or lifestyle characteristics and choose the segment whose consumer needs its product meets best. However, research has limits. Survey answers may not match what people actually buy, and research is costly, so a small business may rely on less reliable data. The value of market research therefore lies in reducing the risk of choosing the wrong market, though it cannot remove uncertainty entirely.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis follows the chain from research to target market to product decision, distinguishes primary and secondary research, and identifies a limit. The point that stated intentions may not match purchasing shows the critical judgement the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-2-1-1-1-2",
+                        "mark": 4,
+                        "answer": "Market research can identify a target market by surveying potential customers about what they want. The results show which group is most interested in the product, so the business knows who to aim its marketing at.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains how research identifies the target market with accurate detail. Adding segmentation, or the secondary sources that show the size of the segment, would extend the analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-2-1-1-1-3",
+                        "mark": 2,
+                        "answer": "A business can run a survey to find out what customers think about its products.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a research method but does not link it to the target market or to consumer needs. It needs to explain what the results tell the business about its market.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-2-1-1-2",
+                    "question": "Describe the difference between primary and secondary market research.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "The difference is that primary research is collected first-hand for the business's purpose, while secondary research uses data that already exists",
+                      "An example of each, such as a survey and census data, shows precise understanding"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing primary research as cheaper than secondary research, which is generally not the case",
+                      "Naming the two types without describing how they differ"
+                    ],
+                    "keywords": [
+                      "market research",
+                      "primary research",
+                      "secondary research",
+                      "surveys",
+                      "existing data",
+                      "government statistics",
+                      "focus groups"
+                    ],
+                    "markingCriteria": "3 marks: Describes the difference between primary and secondary market research accurately, with an example of each\n2 marks: Describes both types of research, with limited detail on the difference\n1 mark: Identifies one type of market research",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-1-1-2-1",
+                        "mark": 3,
+                        "answer": "Primary market research is collected first-hand by the business for its own purpose, such as a survey of customers or a focus group. Secondary market research uses data that already exists, such as Australian Bureau of Statistics census data or an industry report. Primary research is more specific to the business's question but usually costs more, while secondary research is quicker but may not answer the question exactly.",
+                        "source": "AI",
+                        "feedback": "Full marks: the difference is described accurately in terms of who collects the data and why, with an example of each and a note on the trade-off. The statement about cost and specificity explains the difference rather than only defining it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-2-1-1-2-2",
+                        "mark": 2,
+                        "answer": "Primary research is when a business does its own survey. Secondary research is when a business looks at existing statistics.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes both types with limited detail on the difference. Adding an example of each, or the trade-off between them, would earn the full 3 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-2-1-1-2-3",
+                        "mark": 1,
+                        "answer": "A survey is one type of market research.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one type of research without describing the difference. It needs both types and an account of how they differ.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-2-1-2",
+                "description": "explain how the marketing mix of product, price, place and promotion is used to meet consumer needs",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-2-1-2-1",
+                    "question": "Explain how a new café could use the marketing mix to meet the needs of its target customers.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "scenario": "Bean and Leaf is a new café in a university precinct. It sells organic coffee, vegan food and reusable cups, and plans to target students and staff who want sustainable options.",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-7"
+                    ],
+                    "markerNotes": [
+                      "Each element should be linked to the target customers' needs, so the explanation is about meeting needs rather than describing the café",
+                      "Reward recognition that the elements must be consistent with one another, such as premium organic products supported by a premium price"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing the four elements without linking any of them to the target customers",
+                      "Describing the café's features without explaining how they meet the customers' needs"
+                    ],
+                    "keywords": [
+                      "marketing mix",
+                      "target customers",
+                      "product",
+                      "price",
+                      "place",
+                      "promotion",
+                      "consumer needs"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how each element of the marketing mix, product, price, place and promotion, can be used to meet the needs of the café's target customers, with reasoning that links each element to the scenario\n5 marks: Explains at least three elements of the marketing mix in relation to the target customers, with accurate reasoning\n4 marks: Explains two elements of the marketing mix in relation to the target customers with accurate detail\n3 marks: Describes the marketing mix with some relevant link to the target customers\n2 marks: Identifies an element of the marketing mix\n1 mark: Makes a general statement about marketing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-1-2-1-1",
+                        "mark": 6,
+                        "answer": "Bean and Leaf can use the marketing mix to meet the needs of students and staff who want sustainable options. The product element meets these needs by offering organic coffee, vegan food and a reusable cup scheme, which matches the values of the target customers. The price should be set at a level students can afford, perhaps with a loyalty discount, so that sustainable products are accessible rather than premium. The place element matters because the café is in the university precinct, which puts it where the target customers study and work, and a convenient location reduces the effort of buying. Promotion can reach the target customers through campus social media, noticeboards and a student ambassador programme. Together, the four elements respond to the consumer needs of convenience, value and sustainability, and they are consistent with one another, which strengthens the café's position.",
+                        "source": "AI",
+                        "feedback": "Full marks: each of the four elements is linked to the target customers' needs, and the answer explains why they are consistent with one another. The reference to price accessibility shows that the marketing mix is being used as a coherent whole rather than a list.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-2-1-2-1-2",
+                        "mark": 3,
+                        "answer": "The café sells organic coffee and vegan food, which the target customers want. It is in the university precinct, so it is close to the students. It can advertise on campus social media to reach them.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the marketing mix with some link to the target customers. Explaining why the price matters to students would extend the response to the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-2-1-2-1-3",
+                        "mark": 2,
+                        "answer": "The café could use promotion, such as advertising, to tell students about its products.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies one element of the marketing mix without linking it to the café's target customers in detail. It needs at least one further element and a link to consumer needs.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-2-1-2-2",
+                    "question": "Identify two of the four Ps of the marketing mix.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct elements are needed, not two aspects of the same element",
+                      "The command is to identify, so no extended explanation is required"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a marketing objective, such as increasing sales, as an element of the marketing mix",
+                      "Identifying the same element twice under different names"
+                    ],
+                    "keywords": [
+                      "marketing mix",
+                      "four Ps",
+                      "pricing decision",
+                      "distribution channel",
+                      "promotional campaign",
+                      "product design"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct elements of the marketing mix, such as price and place, from the four Ps\n1 mark: Identifies one element of the marketing mix",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-1-2-2-1",
+                        "mark": 2,
+                        "answer": "Two of the four Ps of the marketing mix are price, which is the pricing decision the business makes for its product, and place, which concerns the distribution channel through which the product reaches customers. Both are part of the marketing mix's four elements.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct elements of the marketing mix are identified and placed within the framework of the four Ps. The reference to the distribution channel makes the place element precise.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bs-2-1-2-2-2",
+                        "mark": 1,
+                        "answer": "One of the four Ps is promotion, which includes the promotional campaign a business runs.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one element accurately. A second, distinct element, such as product design or the pricing decision, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-2-2",
+            "name": "Marketing strategy and evaluation",
+            "dotPoints": [
+              {
+                "id": "dp-bs-2-2-1",
+                "description": "evaluate pricing strategies, including penetration pricing, skimming and competitive pricing",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-2-2-1-1",
+                    "question": "Evaluate the use of penetration pricing by a new business entering a competitive market.",
+                    "totalMarks": 8,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-2"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion such as sustained market share or profitability, against which penetration pricing is judged",
+                      "Strong answers recognise that penetration pricing suits a business whose profits depend on volume, and that it is harder to reverse once customers expect low prices"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing penetration pricing as a guaranteed way to win market share",
+                      "Confusing penetration pricing with skimming, which sets a high initial price"
+                    ],
+                    "keywords": [
+                      "penetration pricing",
+                      "pricing strategies",
+                      "skimming",
+                      "competitive pricing",
+                      "market share",
+                      "brand loyalty",
+                      "price elasticity"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based evaluation of penetration pricing for a new business in a competitive market, weighing the gain in market share against the risk of price wars and the difficulty of raising prices later, and reaching a reasoned conclusion\n6 marks: Evaluates penetration pricing against at least one criterion and attempts a judgement, with the reasoning partly developed\n5 marks: Evaluates penetration pricing with accurate evidence and suggests a conclusion\n3-4 marks: Describes penetration pricing and its effects with some relevant detail\n2 marks: Identifies penetration pricing or one of its features\n1 mark: Makes a basic or general statement about pricing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-2-1-1-1",
+                        "mark": 8,
+                        "answer": "Penetration pricing can help a new business win market share in a competitive market, but its success depends on the criterion used and on the business's ability to sustain low prices. A low initial price encourages customers to try the product and can attract them away from established brands, which is valuable where brand loyalty is weak. Judged by market share, the strategy can succeed, and it can also deter competitors who would not want to match a low price. However, the strategy carries risks. Established rivals may respond with price cuts of their own, leading to a price war in which the new business has the least financial reserve. Once customers have become used to a low price, it is also difficult to raise it without losing them, which limits profitability. The evaluation therefore depends on whether the business can keep costs low enough to remain profitable at the penetration price. Penetration pricing is most effective where the market is price-sensitive and the business can grow volume quickly. Among pricing strategies, skimming sets a high initial price and competitive pricing matches rivals, so penetration pricing is a distinct and riskier choice than either.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets market share and profitability as criteria, tests penetration pricing against both, and identifies the risks of a price war and the difficulty of raising prices. The reasoned conclusion depends on cost structure and price sensitivity, which is the basis the top band requires.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bs-2-2-1-1-2",
+                        "mark": 4,
+                        "answer": "Penetration pricing sets a low price to attract customers from competitors and win market share quickly. It can work well in a competitive market where customers are price-sensitive. However, competitors may lower their prices too, which could reduce the profits of the new business.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response describes penetration pricing and one of its effects with some relevant detail. Evaluating it against a criterion, and explaining why it is hard to raise prices later, would move it into the 5-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-2-2-1-1-3",
+                        "mark": 2,
+                        "answer": "Penetration pricing is when a business sets its price low at first.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies penetration pricing accurately but does not describe its effects or evaluate it. It needs an account of the benefit and the risk.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-2-2-1-2",
+                    "question": "Describe skimming pricing as a strategy for a new product.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Describe the sequence: a high price first, then reductions as competitors enter and the early market is saturated",
+                      "An example, such as a new technology product, shows the strategy in practice"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing skimming as a low-price strategy, which is penetration pricing",
+                      "Describing the price reductions without explaining the early high price"
+                    ],
+                    "keywords": [
+                      "skimming",
+                      "skimming pricing",
+                      "new product",
+                      "early adopters",
+                      "premium price",
+                      "product life cycle",
+                      "price reductions"
+                    ],
+                    "markingCriteria": "4 marks: Describes skimming pricing accurately, including the high initial price, the target of early adopters and the reduction of price over the product life cycle, with an example\n3 marks: Describes skimming pricing with accurate detail on two of these features\n2 marks: Identifies skimming pricing and one feature of it\n1 mark: Makes a general statement about pricing a new product",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-2-1-2-1",
+                        "mark": 4,
+                        "answer": "Skimming pricing sets a high premium price for a new product, to take advantage of customers who are willing to pay more for something new, usually called early adopters. Once this segment has bought the product, the business gradually lowers the price, which allows it to reach more price-sensitive customers. The strategy is often used for new technology products, where early buyers pay a premium before competitors enter the market and the price falls over the product life cycle. It allows the business to recover its development costs quickly.",
+                        "source": "AI",
+                        "feedback": "Full marks: the description covers the high initial price, the early adopters, the gradual reduction across the product life cycle, and an example. The reason the strategy recovers development costs shows understanding of its purpose.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-2-2-1-2-2",
+                        "mark": 3,
+                        "answer": "Skimming pricing means the business sets a high price for a new product to start with. Later it lowers the price so that more customers can afford it.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the high initial price and the later reduction accurately. Naming the early adopters, or giving an example, would bring the response into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-2-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Skimming pricing is a way of setting prices for products.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not describe the features of skimming. It needs the high initial price and the reduction over time.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-2-2-2",
+                "description": "assess the effectiveness of promotion strategies, including advertising and social media, in achieving marketing objectives",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-2-2-2-1",
+                    "question": "Assess the effectiveness of social media advertising in achieving a business's marketing objectives.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-7"
+                    ],
+                    "markerNotes": [
+                      "An assessment needs a marketing objective as its criterion, such as brand awareness or sales, and the answer should say which objective the advertising serves",
+                      "Strong answers note that social media reach is measurable through engagement data, while the cost of negative feedback is harder to control"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that social media advertising always increases sales without evidence",
+                      "Describing the platforms available without assessing their effectiveness against an objective"
+                    ],
+                    "keywords": [
+                      "social media advertising",
+                      "marketing objectives",
+                      "promotion strategies",
+                      "advertising",
+                      "target audience",
+                      "engagement",
+                      "cost-effectiveness"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the effectiveness of social media advertising in achieving marketing objectives, weighing its targeting, cost and measurability against the risks of negative feedback and limited reach, and reaching a reasoned conclusion\n6 marks: Assesses the effectiveness of social media advertising with several accurate points and attempts a judgement\n5 marks: Assesses at least one aspect of social media advertising against a marketing objective with accurate evidence and suggests a conclusion\n3-4 marks: Describes social media advertising and promotion strategies with some relevant detail and a link to a marketing objective\n2 marks: Identifies social media advertising with limited explanation\n1 mark: Makes a basic or general statement about advertising",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Within the promotion strategies a business can choose, social media advertising can be highly effective in achieving marketing objectives such as brand awareness and customer engagement, though its effect on sales is harder to isolate. Its key strength is targeting: platforms allow a business to reach a defined target audience by age, location and interests, which makes spending more efficient than broad advertising. Engagement data such as views, shares and clicks allow the business to measure results and adjust campaigns quickly, which supports cost-effectiveness. However, social media advertising has limits. Reach depends on algorithms the business does not control, and a campaign that attracts criticism can spread quickly and damage the brand. Small businesses may also lack the skills to produce content that engages audiences consistently. The advertising is therefore most effective where the objective is awareness or engagement with a defined audience, and where the business can respond to feedback.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment measures social media advertising against the objectives of awareness and engagement, weighs targeting and measurability against the risks of negative feedback and algorithm dependence, and reaches a conclusion tied to the objective. The point that sales are harder to isolate shows critical judgement.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-bs-2-2-2-1-2",
+                        "mark": 5,
+                        "answer": "Social media advertising allows a business to target a specific audience, which can make it effective for raising awareness. Businesses can see how many people viewed or shared an advert, so they can measure the result. However, a negative comment can spread quickly and harm the brand, so the advertising is not always effective.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses the effectiveness against awareness with accurate evidence and suggests a conclusion. It would reach the top band by explicitly relating the assessment to a stated marketing objective and weighing the cost of the advertising.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-2-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Businesses can advertise on social media platforms such as Instagram and Facebook.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies social media advertising without assessing its effectiveness against any objective. It needs a judgement and a link to a marketing objective.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-2-2-2-2",
+                    "question": "Compare the promotional strategies of a large retailer with those of a small local business.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "BS12-3",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "The comparison must use the same criteria for both businesses, such as budget or reach, rather than describing each in turn",
+                      "A strong answer shows that a small business relies more on personal selling and publicity, which cost less than mass advertising"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the two businesses' promotions separately without a direct comparison",
+                      "Stating that the large retailer always has the more effective promotion without a criterion"
+                    ],
+                    "keywords": [
+                      "promotional strategies",
+                      "advertising",
+                      "sales promotion",
+                      "publicity",
+                      "personal selling",
+                      "budget",
+                      "target audience"
+                    ],
+                    "markingCriteria": "6 marks: Compares the promotional strategies of a large retailer and a small local business, identifying similarities and differences in their use of advertising, sales promotion and publicity with precise evidence and a clear basis for comparison\n5 marks: Compares the two sets of strategies with accurate detail and identifies at least one clear similarity and one difference\n4 marks: Compares the strategies with some accurate detail, though the comparison is partly descriptive\n3 marks: Describes the strategies of each business with limited comparison\n2 marks: Identifies a promotional strategy used by one or both businesses\n1 mark: Makes a basic statement about promotion",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-2-2-2-2-1",
+                        "mark": 6,
+                        "answer": "Large retailers and small local businesses both use promotional strategies to attract customers, but their budgets and methods differ. Both rely on advertising, but the large retailer can afford national television and digital campaigns that reach a broad target audience, while the small business is more likely to use local newspapers, flyers or community sponsorship. Both use sales promotion such as discounts and competitions, though the retailer can fund larger campaigns across its stores. The key difference is the role of personal selling and publicity. A small business often relies on personal selling, because staff can build relationships with local customers, and on publicity from local media, which costs less than advertising. The large retailer depends more on mass advertising and planned promotional calendars. The comparison therefore shows that the scale of the budget shapes the choice of strategy.",
+                        "source": "AI",
+                        "feedback": "Full marks: the comparison uses budget and reach as shared criteria, identifies both a similarity in sales promotion and a difference in the balance between advertising and personal selling, and grounds each point in an example. The conclusion that budget shapes strategy is the comparison's basis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-2-2-2-2-2",
+                        "mark": 4,
+                        "answer": "Both businesses use advertising to attract customers. The large retailer advertises on national television, while the small business uses local newspapers. Both also run discounts to encourage sales, but the retailer can afford larger ones.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response compares the strategies with accurate detail and identifies a similarity and a difference. It is partly descriptive, and a point about personal selling or publicity would complete the comparison.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-2-2-2-2-3",
+                        "mark": 2,
+                        "answer": "A large retailer may advertise on television, and a small business may advertise in a local paper.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a promotional strategy for each business without comparing them. It needs a similarity or difference and a basis for the comparison.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bs-3",
+        "name": "Finance",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-3-1",
+            "name": "Sources of finance and financial statements",
+            "dotPoints": [
+              {
+                "id": "dp-bs-3-1-1",
+                "description": "explain the sources of finance available to a business, including equity, debt, retained profits and government assistance",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-3-1-1-1",
+                    "question": "Describe the sources of finance available to a small business.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Reward the distinction between internal sources, such as retained profits, and external sources, such as loans and equity",
+                      "Describing what each source involves, such as the owner giving up a share of the business for equity, shows understanding"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing sources of finance without explaining what each involves",
+                      "Treating retained profits as an external source of finance"
+                    ],
+                    "keywords": [
+                      "sources of finance",
+                      "equity",
+                      "debt",
+                      "retained profits",
+                      "government assistance",
+                      "small business",
+                      "overdraft"
+                    ],
+                    "markingCriteria": "4 marks: Describes several sources of finance available to a small business accurately, including equity, debt, retained profits and government assistance, with some explanation of each\n3 marks: Describes two or three sources of finance with some accuracy\n2 marks: Identifies a source of finance available to a small business\n1 mark: Makes a general statement about business funding",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-1-1-1-1",
+                        "mark": 4,
+                        "answer": "A small business can draw on several sources of finance. Equity finance comes from the owner's own capital or from new investors, who receive a share of the business in return. Debt finance includes bank loans and overdrafts, which must be repaid with interest regardless of how the business performs. Retained profits are an internal source, because they are profits kept in the business rather than paid out to owners, and they require no repayment. Government assistance, such as grants or concessional loans, can also help a small business, often for specific purposes like research or export development.",
+                        "source": "AI",
+                        "feedback": "Full marks: several sources of finance are described with an account of what each involves, including the distinction between internal retained profits and external sources. The point that debt must be repaid regardless of performance shows the practical consequence of each source.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-3-1-1-1-2",
+                        "mark": 3,
+                        "answer": "A small business can use the owner's money, which is equity. It can also borrow from a bank, which is debt. Some businesses keep their profits to fund growth.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes three sources accurately but briefly. Explaining what each involves, such as the share given to investors, or the repayment obligation of debt, would extend it into the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-3-1-1-1-3",
+                        "mark": 1,
+                        "answer": "Businesses need money to start and grow.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and names no source of finance. It needs at least one source and an account of how it works.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-3-1-1-2",
+                    "question": "Explain the advantages and disadvantages of debt finance for a growing bakery considering a $150,000 bank loan.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "scenario": "Crumb and Co, a growing bakery, is considering a $150,000 bank loan to buy a second oven and expand into wholesale supply. The owner wants to keep full control of the business.",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-7"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers link the owner's wish for control to the advantage of debt, which does not dilute ownership",
+                      "Reward recognition that the loan's repayments must be affordable from the expanded wholesale income, which is a cash flow test"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing advantages and disadvantages without applying them to the bakery's goal of keeping control",
+                      "Stating that debt finance is always cheaper than equity without considering the repayments"
+                    ],
+                    "keywords": [
+                      "debt finance",
+                      "control",
+                      "interest repayments",
+                      "cash flow",
+                      "collateral",
+                      "borrowing capacity",
+                      "gearing"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly the advantages and disadvantages of debt finance for Crumb and Co, linking each to the owner's goal of control, the repayment obligations and the cash flow effect of the loan, with accurate reasoning\n5 marks: Explains at least two advantages or disadvantages of debt finance in the context of the scenario, with accurate reasoning\n4 marks: Explains one advantage and one disadvantage of debt finance with accurate detail\n3 marks: Describes features of debt finance with some relevant link to the scenario\n2 marks: Identifies an advantage or disadvantage of debt finance\n1 mark: Makes a general statement about borrowing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-1-1-2-1",
+                        "mark": 6,
+                        "answer": "For Crumb and Co, the main advantage of debt finance is that it allows the owner to keep full control of the business. A bank loan does not give the lender any ownership, so the owner can expand into wholesale supply without sharing decisions. The loan also provides the funds for the second oven without using the owner's savings or the profits that are needed for day-to-day operations. However, the loan creates fixed repayments with interest, which must be paid whatever the level of sales. If wholesale orders are slower than expected, the repayments could strain cash flow and leave the bakery unable to meet its obligations. The bank may also require collateral, such as the bakery's property or equipment, which puts assets at risk. The owner should therefore check that the expanded income can cover the repayments before accepting the loan.",
+                        "source": "AI",
+                        "feedback": "Full marks: the advantages and disadvantages are explained and applied to the bakery's goal of control and its cash flow position, with the collateral requirement shown as a further risk. The conclusion that repayments must be covered by the expanded income applies the analysis to the decision.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-3-1-1-2-2",
+                        "mark": 4,
+                        "answer": "A bank loan means the owner keeps control of the business, because the bank does not get a share of it. However, the bakery must make repayments with interest every month, which could be a problem if sales are low.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one advantage and one disadvantage with accurate detail. Adding a second disadvantage, such as collateral, or a link to cash flow, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-3-1-1-2-3",
+                        "mark": 2,
+                        "answer": "A bank loan is a type of debt finance that businesses can use to borrow money.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes debt finance in general terms without an advantage or disadvantage for the bakery. It needs to apply at least one feature to the scenario.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-3-1-2",
+                "description": "analyse financial statements, including the income statement and balance sheet, to assess business performance",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-3-1-2-1",
+                    "question": "Analyse the income statement of a business to assess its profitability.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Analysis should move from revenue to gross profit to net profit, showing where costs erode the profit",
+                      "A ratio such as net profit margin, used precisely, strengthens the analysis of profitability"
+                    ],
+                    "commonStudentErrors": [
+                      "Listing the items of the income statement without analysing how they relate to profitability",
+                      "Confusing gross profit with net profit"
+                    ],
+                    "keywords": [
+                      "income statement",
+                      "profitability",
+                      "gross profit",
+                      "net profit",
+                      "revenue",
+                      "operating expenses",
+                      "profit margin"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the income statement to assess the business's profitability, explaining the relationship between gross profit, operating expenses and net profit, and using ratios with precise evidence to reach a reasoned conclusion\n5-6 marks: Analyses at least two elements of the income statement and their effect on profitability, with accurate evidence\n3-4 marks: Describes the income statement and its elements with some accuracy and makes some link to profitability\n1-2 marks: Makes a basic or general statement about financial statements",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-1-2-1-1",
+                        "mark": 8,
+                        "answer": "The income statement shows profitability by tracing revenue through the costs that reduce it. Revenue less the cost of goods sold gives gross profit, which measures how efficiently the business turns sales into margin before overheads. Gross profit then pays for operating expenses such as rent, wages and marketing, and what remains is the net profit. Using these figures, the net profit margin, net profit divided by revenue, shows how much of each sales dollar is kept as profit. If gross profit is healthy but net profit is low, the analysis points to high operating expenses rather than weak pricing or production costs. Comparing the margins over several years shows whether profitability is improving. The income statement therefore supports a judgement about where the business should act to improve its profit, rather than simply reporting that it is profitable or not.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis traces revenue through gross profit to net profit, uses the net profit margin as a precise measure, and draws a diagnostic conclusion about where the problem lies. The comparison over time shows the depth the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-3-1-2-1-2",
+                        "mark": 5,
+                        "answer": "The income statement starts with revenue and subtracts costs to find the profit. Gross profit is revenue minus the cost of goods sold, and net profit is what is left after operating expenses. If net profit is low, the business may have high expenses, which reduces its profitability.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response analyses two elements and their effect on profitability with accurate evidence. The analysis would reach the top band by using a ratio and drawing a diagnostic conclusion about where to act.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-3-1-2-1-3",
+                        "mark": 2,
+                        "answer": "An income statement is a financial report that shows how much money a business made.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response describes the income statement in general terms without analysing its elements or their effect on profitability.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-3-1-2-2",
+                    "question": "Identify two components of a balance sheet.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Two distinct components are needed, such as current assets and liabilities, rather than two types of the same asset",
+                      "The balance sheet reports position at a point in time, which a strong answer may note briefly"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming the income statement or cash flow statement as a component of the balance sheet",
+                      "Naming a ratio rather than a component"
+                    ],
+                    "keywords": [
+                      "balance sheet",
+                      "components",
+                      "assets",
+                      "liabilities",
+                      "equity",
+                      "current assets",
+                      "non-current liabilities"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct and accurate components of a balance sheet, such as assets and liabilities\n1 mark: Identifies one accurate component of a balance sheet",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-1-2-2-1",
+                        "mark": 2,
+                        "answer": "Two components of a balance sheet are assets, which are the resources the business owns, such as equipment and cash, and liabilities, which are the amounts the business owes to others, such as bank loans and creditors. Equity, the owner's share of the business, is a third component.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct components are identified, with a brief account of each, and the balance sheet's basic relationship is implied by the reference to equity. The answer identifies components without over-explaining.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bs-3-1-2-2-2",
+                        "mark": 1,
+                        "answer": "A balance sheet includes assets, which are things the business owns.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one accurate component. A second, distinct component, such as liabilities or equity, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-3-2",
+            "name": "Financial planning and decision-making",
+            "dotPoints": [
+              {
+                "id": "dp-bs-3-2-1",
+                "description": "calculate the break-even point and the profit or loss of a business using cost and revenue data",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-3-2-1-1",
+                    "question": "Calculate the break-even point in units for a business with fixed costs of $60,000, a selling price of $40 per unit and variable costs of $15 per unit.",
+                    "totalMarks": 4,
+                    "verb": "CALCULATE",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "The method is fixed costs divided by the contribution per unit, where the contribution is the selling price less the variable cost per unit",
+                      "Showing the working is part of the mark; a correct answer with no working still earns credit as the method is demonstrated by the result"
+                    ],
+                    "commonStudentErrors": [
+                      "Dividing fixed costs by the selling price rather than the contribution per unit",
+                      "Forgetting to subtract the variable cost before dividing"
+                    ],
+                    "keywords": [
+                      "break-even point",
+                      "fixed costs",
+                      "variable costs",
+                      "selling price",
+                      "units",
+                      "contribution per unit",
+                      "formula"
+                    ],
+                    "markingCriteria": "4 marks: Calculates the break-even point correctly as 2,400 units, showing the contribution per unit of $25 and the formula used, with correct units\n3 marks: Calculates the break-even point with the correct method and one arithmetic error, or states the correct answer without the method\n2 marks: Shows the correct method, such as fixed costs divided by contribution per unit, with an incorrect result\n1 mark: Identifies the contribution per unit or another relevant step",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-2-1-1-1",
+                        "mark": 4,
+                        "answer": "Contribution per unit = selling price minus variable costs per unit = $40 minus $15 = $25. Break-even point (units) = fixed costs divided by contribution per unit = $60,000 divided by $25 = 2,400 units. At 2,400 units the business's total revenue of $96,000 exactly covers its total costs of $96,000, so it makes neither a profit nor a loss.",
+                        "source": "AI",
+                        "feedback": "Full marks: the contribution per unit is found first, the formula is applied to the fixed costs, the result is correct in units, and the check that revenue equals total cost confirms the answer. The working is shown clearly.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bs-3-2-1-1-2",
+                        "mark": 2,
+                        "answer": "Contribution per unit = $40 minus $15 = $25. Break-even point = $60,000 divided by $25 = 2,500 units.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response uses the correct method, but the division is wrong: $60,000 divided by $25 is 2,400 units, not 2,500. The contribution per unit is correct, so the method earns credit.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bs-3-2-1-1-3",
+                        "mark": 1,
+                        "answer": "The contribution per unit is $25.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response finds the correct contribution per unit but does not carry the calculation to the break-even point. The next step is to divide the fixed costs by this figure.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-3-2-1-2",
+                    "question": "Explain how a business can use break-even analysis to make pricing decisions.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "Explain the trade-off: a higher price lowers the break-even volume but may reduce the volume customers will buy",
+                      "The margin of safety, the amount by which sales exceed break-even, is a strong indicator of how much a price can fall"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that a higher price always improves the business's position without considering the effect on demand",
+                      "Describing the break-even point without linking it to a pricing decision"
+                    ],
+                    "keywords": [
+                      "break-even analysis",
+                      "break-even point",
+                      "pricing decisions",
+                      "margin of safety",
+                      "contribution",
+                      "profit target",
+                      "sensitivity"
+                    ],
+                    "markingCriteria": "5 marks: Explains clearly how break-even analysis informs pricing decisions, including the effect of price on the break-even point and on the margin of safety, with accurate reasoning about the trade-off between price and volume\n4 marks: Explains how break-even analysis informs pricing decisions with accurate detail on one of these effects\n3 marks: Describes the break-even point and its link to pricing with some accuracy\n2 marks: Identifies the break-even point or a use of break-even analysis\n1 mark: Makes a general statement about pricing",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-2-1-2-1",
+                        "mark": 5,
+                        "answer": "Break-even analysis shows the volume a business must sell at a given price to cover its costs. A business can test different prices to see how each changes the break-even point. A higher price increases the contribution per unit, so fewer units are needed to break even, which lowers the risk of loss. However, a higher price may reduce the number of units customers are willing to buy, so the business must judge whether it can sell enough at the new price. The margin of safety, the difference between expected sales and break-even sales, shows how far sales can fall before a loss is made, which helps the business decide how much it can afford to cut prices. The analysis therefore informs pricing decisions by showing the trade-off between price and volume, rather than deciding the price on its own.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation shows how price changes the contribution and the break-even point, identifies the trade-off with volume, and uses the margin of safety to inform the decision. The conclusion that the analysis informs rather than decides the price is the qualification the top band requires.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-3-2-1-2-2",
+                        "mark": 3,
+                        "answer": "Break-even analysis shows how many units a business needs to sell to cover its costs. If the price goes up, the business needs to sell fewer units to break even, so it can use this to decide its prices.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes the break-even point and its link to pricing with some accuracy. Adding the trade-off with demand, or the margin of safety, would extend it into the 4-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-3-2-1-2-3",
+                        "mark": 2,
+                        "answer": "Break-even analysis is a way of finding out when a business stops losing money.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies break-even analysis without linking it to pricing decisions. It needs to explain how a price change affects the break-even point.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-3-2-2",
+                "description": "evaluate the role of cash flow management in maintaining the solvency of a business",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-3-2-2-1",
+                    "question": "Evaluate the role of cash flow management in maintaining the solvency of a business.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as the ability to pay debts as they fall due, against which the management tools are judged",
+                      "Strong answers recognise that a profitable business can still become insolvent through poor cash management, which is the central point of the question"
+                    ],
+                    "commonStudentErrors": [
+                      "Equating solvency with profit, rather than with the ability to meet obligations as they fall due",
+                      "Describing cash flow forecasts without evaluating how they prevent a shortage"
+                    ],
+                    "keywords": [
+                      "cash flow management",
+                      "solvency",
+                      "cash flow forecast",
+                      "working capital",
+                      "overtrading",
+                      "debtors",
+                      "creditors"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the role of cash flow management in maintaining solvency, weighing the use of cash flow forecasts and working capital controls against the causes of cash shortage such as overtrading, and reaching a reasoned conclusion\n7-8 marks: Evaluates several cash flow management tools with precise evidence and a clear overall position\n6 marks: Evaluates at least one cash flow management tool and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes cash flow management with some relevant detail\n2-3 marks: Identifies features of cash flow management with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-2-2-1-1",
+                        "mark": 10,
+                        "answer": "Cash flow management is central to solvency, because a business can be profitable on paper and still fail if it cannot pay its debts as they fall due. Its effectiveness can be judged by whether the business can meet its obligations on time without relying on emergency borrowing. A cash flow forecast allows the business to anticipate shortages by showing expected receipts and payments month by month, so that it can arrange finance in advance. Managing working capital, through the speed of debtor collection and the timing of payments to creditors, shortens the period during which cash is tied up. Overtrading is a particular risk: a business that grows quickly can need cash for stock and wages before its customers have paid, and the forecast reveals this pressure early. However, cash flow management has limits. Forecasts depend on assumptions about sales that may prove wrong, and tight control of creditors can damage supplier relationships. Cash flow management therefore supports solvency most effectively when it is combined with realistic sales planning and a willingness to adjust the forecast as conditions change.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets solvency as the criterion, weighs the forecast and working capital tools against the risk of overtrading, and identifies the limits of forecasts and supplier relations. The distinction between profit and solvency, made at the outset, frames the whole judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bs-3-2-2-1-2",
+                        "mark": 6,
+                        "answer": "Cash flow management helps a business stay solvent by making sure it has enough cash to pay its bills. A cash flow forecast shows when money will come in and go out, so the business can plan. Managing debtors and creditors also affects how much cash the business has at any time. However, a forecast can be wrong if sales are less than expected.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates the tools and attempts a judgement, though the reasoning is brief. Naming overtrading and explaining why a profitable business can become insolvent would strengthen the evaluation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-3-2-2-1-3",
+                        "mark": 3,
+                        "answer": "A business needs cash to pay its bills. Cash flow forecasts are a tool that businesses use to plan their cash.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies features of cash flow management with limited explanation and no evaluation. It needs to explain how the tools maintain solvency and judge how well they do so.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-3-2-2-2",
+                    "question": "Distinguish between profit and cash flow in the financial position of a business.",
+                    "totalMarks": 4,
+                    "verb": "DISTINGUISH",
+                    "linkedOutcomes": [
+                      "BS12-4",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "The distinction is between a measure of performance over a period, which includes accrued sales and costs, and the actual movement of cash",
+                      "Depreciation reduces profit without any cash leaving the business, which is a clear example"
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that profit and cash flow are the same thing measured differently",
+                      "Treating a credit sale as cash received when the sale is made"
+                    ],
+                    "keywords": [
+                      "profit",
+                      "cash flow",
+                      "accrual accounting",
+                      "credit sales",
+                      "depreciation",
+                      "timing",
+                      "non-cash expenses"
+                    ],
+                    "markingCriteria": "4 marks: Distinguishes clearly between profit and cash flow, explaining how timing, credit sales and non-cash items such as depreciation separate them, with an example\n3 marks: Distinguishes between the two with accurate reasoning on at least one difference\n2 marks: Defines profit and cash flow with limited distinction\n1 mark: Makes a general statement about business finances",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-3-2-2-2-1",
+                        "mark": 4,
+                        "answer": "Profit is the difference between revenue and expenses over a period, measured on an accrual basis, so a sale is recorded when it is made rather than when the money arrives. Cash flow records the actual money coming in and going out. The two can differ widely: a business that sells goods on credit records profit when the sale is made, but it has no cash until the customer pays. Depreciation reduces profit, because the equipment's cost is spread over its life, but no cash leaves the business when the depreciation is recorded. A business can therefore be profitable and still run out of cash, which is why both measures matter.",
+                        "source": "AI",
+                        "feedback": "Full marks: the distinction is drawn on timing and on non-cash items, with credit sales and depreciation as precise examples. The conclusion that a profitable business can still run out of cash shows how the distinction matters for decisions.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-3-2-2-2-2",
+                        "mark": 3,
+                        "answer": "Profit is revenue minus expenses, but cash flow is the money that actually comes in and goes out. A business that sells on credit may have a profit but not enough cash, because its customers have not paid yet.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response distinguishes the two with accurate reasoning on one difference, the timing of credit sales. Adding depreciation as a non-cash item would earn the full 4 marks.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-3-2-2-2-3",
+                        "mark": 2,
+                        "answer": "Profit is money a business makes and cash flow is money a business has.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response defines the two terms with limited distinction and no reasoning about why they differ. It needs an explanation of a difference, such as timing.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bs-4",
+        "name": "Human Resources",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-4-1",
+            "name": "Recruitment, training and motivation",
+            "dotPoints": [
+              {
+                "id": "dp-bs-4-1-1",
+                "description": "explain the recruitment and selection process and the role of training and development in building a skilled workforce",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-4-1-1-1",
+                    "question": "Describe the stages of the recruitment and selection process.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Describe the stages in sequence and state what each stage is for, such as the job description setting the criteria for selection",
+                      "Reward the distinction between recruitment, which attracts applicants, and selection, which chooses between them"
+                    ],
+                    "commonStudentErrors": [
+                      "Using recruitment and selection as if they were the same stage",
+                      "Listing stages without describing what happens at each"
+                    ],
+                    "keywords": [
+                      "recruitment",
+                      "selection",
+                      "job description",
+                      "job advertisement",
+                      "shortlisting",
+                      "interview",
+                      "induction"
+                    ],
+                    "markingCriteria": "4 marks: Describes the stages of the recruitment and selection process in sequence, including the job description, advertising, shortlisting and interviews, with accurate detail on each\n3 marks: Describes three stages of the process with some accuracy\n2 marks: Identifies two stages of the recruitment and selection process\n1 mark: Makes a general statement about hiring staff",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-1-1-1-1",
+                        "mark": 4,
+                        "answer": "The recruitment and selection process begins with a job analysis, which produces a job description and a person specification setting out the duties and the skills required. The business then advertises the position to attract applicants, which is the recruitment stage. Selection begins when applications are received and the business shortlists candidates who meet the criteria. Shortlisted candidates are interviewed, and the successful applicant is offered the position and inducted into the business, so that they understand its culture and their role.",
+                        "source": "AI",
+                        "feedback": "Full marks: the stages are described in sequence, from the job description to induction, with the distinction between recruitment and selection made clearly. The link between the job description and the selection criteria shows understanding of why the stages follow each other.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-4-1-1-1-2",
+                        "mark": 3,
+                        "answer": "A business writes a job description and advertises the job. It then interviews the applicants who look suitable and chooses one of them.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response describes three stages with some accuracy. Adding the shortlisting stage and the induction of the successful applicant would earn the top band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-4-1-1-1-3",
+                        "mark": 1,
+                        "answer": "A business has to find people to work for it.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and names no stage. It needs at least one stage of the process and what it involves.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-4-1-1-2",
+                    "question": "Explain how training and development can improve the productivity of a small manufacturing business with a skilled workforce.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "scenario": "Tallow Tools employs 25 staff who machine and assemble precision parts. Several workers have been there for years, and the owner is concerned that new machinery is not being used to its potential.",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-7"
+                    ],
+                    "markerNotes": [
+                      "The explanation should link the training to the machinery the owner is concerned about, so the answer is applied to the scenario",
+                      "Reward recognition that training also raises staff retention, which avoids the cost of replacing skilled workers"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing types of training without explaining how they raise productivity",
+                      "Assuming that buying new machinery alone raises productivity without training"
+                    ],
+                    "keywords": [
+                      "training and development",
+                      "productivity",
+                      "skilled workforce",
+                      "on-the-job training",
+                      "off-the-job training",
+                      "staff retention",
+                      "output"
+                    ],
+                    "markingCriteria": "6 marks: Explains clearly how training and development improve productivity in Tallow Tools, linking on-the-job and off-the-job training to the use of new machinery, staff retention and output, with accurate reasoning\n5 marks: Explains at least two ways in which training and development improve productivity, with accurate reasoning related to the scenario\n4 marks: Explains one way in which training and development improve productivity with accurate detail\n3 marks: Describes training and development with some relevant link to productivity\n2 marks: Identifies a type of training or development\n1 mark: Makes a general statement about staff skills",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-1-1-2-1",
+                        "mark": 6,
+                        "answer": "Training and development can improve productivity at Tallow Tools because the new machinery is not being used to its potential. Off-the-job training, such as a manufacturer's course on the new equipment, teaches staff how to set up and operate it efficiently, so that machine downtime falls and output rises. On-the-job training, where a skilled operator coaches a colleague at the machine, builds practical skill and passes on the knowledge of long-serving workers, which keeps the workforce productive. Development can also prepare staff to take on supervisory tasks, so that the business uses its skilled workforce more effectively. Training also supports staff retention, because workers who feel they are developing are less likely to leave, and this avoids the cost and lost output of replacing experienced machinists. The productivity gain therefore comes from the combination of skill, use of machinery and retention.",
+                        "source": "AI",
+                        "feedback": "Full marks: the explanation links both on-the-job and off-the-job training to the use of the new machinery, explains the effect on downtime and output, and adds retention as a further effect on productivity. The answer is applied to Tallow Tools throughout.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-4-1-1-2-2",
+                        "mark": 4,
+                        "answer": "Training staff to use the new machines properly would reduce the time the machines are broken or idle. If workers know how to set up the machines correctly, output should increase, so productivity improves.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one way in which training improves productivity with accurate detail. A second way, such as on-the-job coaching or retention, would extend it into the 5-mark band.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-4-1-1-2-3",
+                        "mark": 2,
+                        "answer": "The business could send staff to training courses on how to use machines.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies a type of training but does not explain how it affects productivity. It needs an explanation of the effect on output or downtime.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-4-1-2",
+                "description": "evaluate motivation strategies, including Herzberg's two-factor theory and performance appraisal, in improving productivity",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-4-1-2-1",
+                    "question": "Evaluate the effectiveness of financial incentives in motivating employees to improve productivity.",
+                    "totalMarks": 10,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "An evaluation needs a criterion, such as sustained productivity rather than a one-off increase, against which the incentives are judged",
+                      "Herzberg's theory allows a sharp judgement: pay prevents dissatisfaction but may not produce lasting motivation on its own"
+                    ],
+                    "commonStudentErrors": [
+                      "Asserting that money is always the strongest motivator without evidence or a criterion",
+                      "Describing Herzberg's theory without applying it to the question of financial incentives"
+                    ],
+                    "keywords": [
+                      "financial incentives",
+                      "productivity",
+                      "Herzberg's two-factor theory",
+                      "performance appraisal",
+                      "hygiene factors",
+                      "motivators",
+                      "job satisfaction"
+                    ],
+                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of financial incentives in motivating employees to improve productivity, weighing them against Herzberg's two-factor theory and the role of performance appraisal, and reaching a reasoned conclusion\n7-8 marks: Evaluates financial incentives and at least one other motivation strategy with precise evidence and a clear overall position\n6 marks: Evaluates financial incentives against a criterion and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes financial incentives and other motivation strategies with some relevant detail\n2-3 marks: Identifies motivation strategies with limited explanation\n1 mark: Minimal relevant response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-1-2-1-1",
+                        "mark": 10,
+                        "answer": "Financial incentives can raise productivity in the short term, but their effectiveness is limited when judged over the long run. Measured by sustained productivity and retention, they work best where output is easy to measure and the reward is clearly linked to effort. Herzberg's two-factor theory helps explain the limits. Financial incentives belong among the hygiene factors, such as salary and working conditions, which prevent dissatisfaction but do not in themselves create job satisfaction. A bonus that is not regularly reviewed quickly becomes an expected part of pay, and its motivating effect fades. Performance appraisal can strengthen the link between effort and reward by setting clear targets and giving feedback, which can make incentives fairer and more effective. However, appraisal can also demotivate staff if it feels arbitrary or is not followed by development. The evaluation therefore suggests that financial incentives are necessary but not sufficient, and that productivity gains are most durable when incentives are combined with motivators such as recognition and responsibility.",
+                        "source": "AI",
+                        "feedback": "Full marks: the evaluation sets sustained productivity as the criterion, applies Herzberg's distinction between hygiene factors and motivators to test financial incentives, and considers the role of performance appraisal. The conclusion that incentives are necessary but not sufficient is the judgement the top band requires.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bs-4-1-2-1-2",
+                        "mark": 6,
+                        "answer": "Financial incentives, such as bonuses for meeting targets, can increase productivity because staff are paid more for higher output. However, Herzberg suggested that pay is a hygiene factor rather than a motivator, so it may not produce lasting job satisfaction. Performance appraisal can help by linking rewards to performance, but the overall effect depends on the business.",
+                        "source": "AI",
+                        "feedback": "A 6-mark response evaluates financial incentives against Herzberg's theory and attempts a judgement, though the reasoning is brief. Stating a criterion, such as sustained productivity, and explaining why the effect fades would strengthen the evaluation.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-4-1-2-1-3",
+                        "mark": 3,
+                        "answer": "A business can pay workers bonuses to make them work harder. Performance appraisal is when managers check how well each worker is doing.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies two motivation strategies with limited explanation and no evaluation. It needs a judgement about how well financial incentives motivate staff.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-4-1-2-2",
+                    "question": "Distinguish between hygiene factors and motivators in Herzberg's two-factor theory.",
+                    "totalMarks": 4,
+                    "verb": "DISTINGUISH",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "The distinction is that hygiene factors remove dissatisfaction, while motivators produce satisfaction, so they are not opposite ends of one scale",
+                      "Examples should be accurate: salary and job security are hygiene factors, while recognition and achievement are motivators"
+                    ],
+                    "commonStudentErrors": [
+                      "Treating pay as a motivator, which is the central point of the theory it belongs to hygiene",
+                      "Describing the two factors as opposite ends of the same scale"
+                    ],
+                    "keywords": [
+                      "hygiene factors",
+                      "motivators",
+                      "Herzberg's two-factor theory",
+                      "job satisfaction",
+                      "job dissatisfaction",
+                      "recognition",
+                      "salary"
+                    ],
+                    "markingCriteria": "4 marks: Distinguishes clearly between hygiene factors, which prevent dissatisfaction, and motivators, which create satisfaction, with accurate examples of each in the context of Herzberg's two-factor theory\n3 marks: Distinguishes between the two kinds of factor with accurate reasoning on at least one difference and an example\n2 marks: Identifies a hygiene factor or a motivator with limited distinction\n1 mark: Makes a general statement about employee motivation",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-1-2-2-1",
+                        "mark": 4,
+                        "answer": "In Herzberg's two-factor theory, hygiene factors are conditions such as salary, job security and working conditions. If these are poor, employees become dissatisfied, but improving them only removes dissatisfaction rather than creating satisfaction. Motivators are factors such as recognition, achievement and responsibility, which create job satisfaction and encourage effort when they are present. The two sets are not opposite ends of one scale: a worker may be free of dissatisfaction because their pay is fair, yet still lack motivation until they receive recognition or responsibility.",
+                        "source": "AI",
+                        "feedback": "Full marks: the distinction is drawn by what each set of factors does, with accurate examples of each, and the point that they are not opposite ends of one scale shows the precise understanding the theory requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-4-1-2-2-2",
+                        "mark": 3,
+                        "answer": "Hygiene factors, like salary, stop people being unhappy at work. Motivators, like recognition, make people happy and want to work harder.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response distinguishes the two sets of factors accurately with examples. Explaining why they are not opposite ends of one scale would earn the top band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-4-1-2-2-3",
+                        "mark": 2,
+                        "answer": "Salary is a hygiene factor and recognition is a motivator in Herzberg's theory.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies one example of each factor without explaining what each does. It needs to distinguish the two by their effect on employees.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-4-2",
+            "name": "Industrial relations and workplace change",
+            "dotPoints": [
+              {
+                "id": "dp-bs-4-2-1",
+                "description": "analyse the influence of industrial relations laws and employee representation on the management of human resources",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-4-2-1-1",
+                    "question": "Analyse how enterprise bargaining affects the management of human resources.",
+                    "totalMarks": 6,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "Analysis should show that bargaining moves some decisions on pay and conditions from management alone to a negotiated agreement",
+                      "Reward recognition that an agreement must pass the better off overall test, which limits what can be agreed"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing enterprise bargaining as a process that gives management complete control of pay",
+                      "Confusing enterprise agreements with modern awards"
+                    ],
+                    "keywords": [
+                      "enterprise bargaining",
+                      "human resources",
+                      "industrial relations",
+                      "employee representation",
+                      "collective agreements",
+                      "Fair Work Act 2009",
+                      "unions"
+                    ],
+                    "markingCriteria": "6 marks: Analyses how enterprise bargaining shapes the management of human resources, explaining its effect on pay and conditions, the role of employee representation and the constraints it places on management decisions\n5 marks: Analyses at least two effects of enterprise bargaining on human resource management with accurate reasoning\n4 marks: Explains one effect of enterprise bargaining on human resource management with accurate detail\n3 marks: Describes enterprise bargaining and its link to human resources with some accuracy\n2 marks: Identifies enterprise bargaining or a feature of it\n1 mark: Makes a general statement about industrial relations",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-2-1-1-1",
+                        "mark": 6,
+                        "answer": "Enterprise bargaining affects human resource management and industrial relations by making pay and conditions the subject of negotiation between the employer and employees, usually through their unions. The resulting enterprise agreement sets terms for the workplace, so management cannot change those terms unilaterally during the agreement's life. This requires human resource managers to plan negotiations, to communicate with employee representatives and to keep records of commitments. The agreement must pass the better off overall test under the Fair Work Act 2009, so it cannot leave employees worse off than the relevant award, which limits what management can trade away. Bargaining can also improve the workplace relationship, because employee representation gives staff a voice in the terms of their work, which may make them more engaged. The effect on human resources is therefore a shift from unilateral decision-making to negotiated conditions, with real constraints on management.",
+                        "source": "AI",
+                        "feedback": "Full marks: the analysis explains the effect of enterprise bargaining on pay and conditions, the role of employee representation, and the constraints placed on management, including the better off overall test. The shift from unilateral to negotiated decisions is the analytical point the top band requires.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-4-2-1-1-2",
+                        "mark": 4,
+                        "answer": "Enterprise bargaining means that pay and conditions are negotiated between the business and its employees. Once an agreement is made, management must follow it, so it cannot change pay or hours without agreement.",
+                        "source": "AI",
+                        "feedback": "A 4-mark response explains one effect of enterprise bargaining on human resources with accurate detail. A second effect, such as the constraint of the better off overall test, or the role of unions, would extend it into the 5-mark band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-4-2-1-1-3",
+                        "mark": 2,
+                        "answer": "Enterprise bargaining is a process where businesses and workers talk about their pay.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies the process in general terms without analysing its effect on human resource management. It needs at least one effect and an explanation of it.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-4-2-1-2",
+                    "question": "Apply industrial relations principles to advise a business manager on changing staff rosters under an enterprise agreement.",
+                    "totalMarks": 5,
+                    "verb": "APPLY",
+                    "scenario": "Harbour Print employs 60 staff under an enterprise agreement. Management plans to change shift rosters, which the union says breaches the agreement's consultation clause.",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-7"
+                    ],
+                    "markerNotes": [
+                      "The advice should recognise that the agreement binds the employer, and that consultation about changes to rosters is required by law as well as by the clause",
+                      "A practical recommendation, such as consulting the union before implementing the change or using the agreement's dispute procedure, shows application"
+                    ],
+                    "commonStudentErrors": [
+                      "Advising that management can change rosters at will because it has the right to manage",
+                      "Ignoring the union's role and the dispute resolution options available"
+                    ],
+                    "keywords": [
+                      "industrial relations",
+                      "enterprise agreement",
+                      "consultation",
+                      "union",
+                      "rosters",
+                      "dispute resolution",
+                      "Fair Work Commission"
+                    ],
+                    "markingCriteria": "5 marks: Applies industrial relations principles to the scenario, advising that the enterprise agreement's consultation clause and the duty to consult about changes to rosters must be followed, identifying the union's role and the dispute resolution options, with reasoning\n4 marks: Applies the enterprise agreement and consultation obligations to the scenario with accurate reasoning and one further consideration\n3 marks: Identifies the consultation obligation and applies it to the scenario with some accuracy\n2 marks: Identifies a relevant industrial relations consideration with limited application\n1 mark: Makes a general statement about workplace relations",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-2-1-2-1",
+                        "mark": 5,
+                        "answer": "In industrial relations terms, the manager should not proceed with the roster change until the consultation requirements in the enterprise agreement are met. The agreement binds Harbour Print, and the union's claim that the change breaches its consultation clause must be taken seriously. Under the Fair Work Act, an employer must consult affected employees about changes to regular rosters, so the business has a legal as well as a contractual duty. The manager should give written notice of the proposed change, consult the union and affected staff, and consider their views in good faith before deciding. If the parties disagree, the agreement's dispute resolution procedure should be used, and the Fair Work Commission can help resolve the matter. Proceeding without consultation could expose the business to a claim and damage its working relationship with employees, so the advice is to consult first.",
+                        "source": "AI",
+                        "feedback": "Full marks: the advice applies the enterprise agreement and the statutory duty to consult to the scenario, identifies the union's role and the dispute options, and gives a practical recommendation with reasons. The point that the duty is legal as well as contractual shows application beyond the clause alone.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-4-2-1-2-2",
+                        "mark": 3,
+                        "answer": "The enterprise agreement has a consultation clause, so the business must consult staff before changing the rosters. The union says the business has not done this, so the manager should talk to the union.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response identifies the consultation obligation and applies it to the scenario with some accuracy. Adding the statutory duty and the dispute procedure would earn the top band.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-4-2-1-2-3",
+                        "mark": 1,
+                        "answer": "Businesses have to look after their workers when they change things.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not identify the enterprise agreement or the consultation obligation. It needs to apply those to the rostering decision.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-bs-4-2-2",
+                "description": "assess how management responds to changing technology and competition in managing its workforce",
+                "prompts": [
+                  {
+                    "id": "prompt-bs-4-2-2-1",
+                    "question": "Assess how a business's management responds to changing technology and competition in managing its workforce.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "BS12-5",
+                      "BS12-1"
+                    ],
+                    "markerNotes": [
+                      "An assessment needs a criterion, such as retaining skills while keeping costs competitive, against which the responses are judged",
+                      "Strong answers recognise that cutting staff can reduce costs in the short term while damaging the skills the business needs to compete"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing redundancies as the only response to technological change",
+                      "Asserting that reskilling always succeeds without considering its cost"
+                    ],
+                    "keywords": [
+                      "changing technology",
+                      "competition",
+                      "workforce",
+                      "reskilling",
+                      "redundancy",
+                      "flexibility",
+                      "management response"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained assessment of how management responds to changing technology and competition in managing the workforce, weighing reskilling and flexibility against redundancy and cost, and reaching a reasoned conclusion on the effectiveness of these responses\n6 marks: Assesses management's responses with several accurate points and attempts a judgement\n5 marks: Assesses at least one management response with accurate evidence and suggests a conclusion\n3-4 marks: Describes management responses to technology and competition with some relevant detail\n2 marks: Identifies a management response with limited explanation\n1 mark: Makes a basic or general statement about workforce management",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-2-2-1-1",
+                        "mark": 8,
+                        "answer": "Management responds to changing technology and competition through a mix of reskilling, redesigning roles and, where necessary, reducing staff numbers. Its effectiveness can be judged by whether the business keeps the skills it needs while remaining cost-competitive. Reskilling allows experienced staff to use new systems, which retains their knowledge and avoids the cost of recruiting and training replacements. Flexible rostering and multi-skilled roles can help the business respond quickly to competitors. However, these responses have costs: training takes time and money, and not every employee can learn new technology. Redundancy can reduce labour costs quickly, but it can damage morale, lose skills and make it harder to respond when competition shifts again. The most effective management response is therefore one that plans workforce change early, combines reskilling with selective restructuring, and communicates with staff about the reasons for change.",
+                        "source": "AI",
+                        "feedback": "Full marks: the assessment sets retained skills and cost competitiveness as criteria, weighs reskilling and flexibility against redundancy, and concludes that early planning and communication are what make the responses effective. The point that redundancy can lose the skills needed to compete again is the judgement the top band requires.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-bs-4-2-2-1-2",
+                        "mark": 5,
+                        "answer": "When technology changes, a business may retrain its staff so they can use new systems. This keeps experienced workers and avoids hiring new people. However, training takes time and not every worker will adapt, so management may need to reduce staff numbers if competition forces costs down.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response assesses reskilling with accurate evidence and notes a limit. It would reach the top band by weighing redundancy against reskilling and reaching a conclusion about which response is more effective.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bs-4-2-2-1-3",
+                        "mark": 2,
+                        "answer": "Businesses sometimes make workers redundant when competition gets stronger.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response identifies one management response with limited explanation and no assessment. It needs to explain the response and judge how effective it is.",
+                        "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bs-4-2-2-2",
+                    "question": "Identify two internal influences that affect a business's management of its workforce.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "BS12-1",
+                      "BS12-6"
+                    ],
+                    "markerNotes": [
+                      "Internal influences are those within the business's control, such as culture and resources, rather than external factors such as competition",
+                      "Two distinct influences are needed, not two aspects of the same culture"
+                    ],
+                    "commonStudentErrors": [
+                      "Naming an external influence, such as government regulation, as an internal one",
+                      "Naming a human resource process, such as recruitment, as an influence rather than a response"
+                    ],
+                    "keywords": [
+                      "internal influences",
+                      "workforce",
+                      "resources",
+                      "organisational culture",
+                      "management style",
+                      "workforce planning",
+                      "business goals"
+                    ],
+                    "markingCriteria": "2 marks: Identifies two distinct internal influences that affect a business's management of its workforce, such as organisational culture and management style\n1 mark: Identifies one internal influence that affects a business's management of its workforce",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-4-2-2-2-1",
+                        "mark": 2,
+                        "answer": "Two internal influences on the management of a workforce are the organisational culture, which shapes how staff are expected to behave and what they value, and the management style, which determines how decisions are made and how employees are involved. Business goals and available resources are also internal influences.",
+                        "source": "AI",
+                        "feedback": "Full marks: two distinct internal influences are identified, each with a brief account of how it affects the workforce. Both are within the business's control, which is what distinguishes them from external influences.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bs-4-2-2-2-2",
+                        "mark": 1,
+                        "answer": "An internal influence on a workforce is the culture of the business.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response identifies one internal influence. A second, distinct influence, such as management style or available resources, would earn the full 2 marks.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

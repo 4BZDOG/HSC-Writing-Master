@@ -11,21 +11,29 @@
       "subject": "TAS"
     },
     {
-      "file": "HSCBiology.json",
+      "file": "HSCModernHistory.json",
       "type": "course",
-      "subject": "Science"
+      "subject": "HSIE"
     },
     {
-      "file": "templateCourseData.json",
+      "file": "HSCLegalStudies.json",
       "type": "course",
-      "subject": "Other"
+      "subject": "HSIE"
     },
     {
-      "file": "topics/biology-heredity-topic.json",
-      "type": "topic",
-      "subject": "Science",
-      "targetCourseName": "HSC Biology",
-      "selected": true
+      "file": "HSCBusinessStudies.json",
+      "type": "course",
+      "subject": "HSIE"
+    },
+    {
+      "file": "HSCEconomics.json",
+      "type": "course",
+      "subject": "HSIE"
+    },
+    {
+      "file": "HSCEnglishAdvanced.json",
+      "type": "course",
+      "subject": "English"
     },
     {
       "file": "topics/software-engineering-secure-architecture-topic.json",
