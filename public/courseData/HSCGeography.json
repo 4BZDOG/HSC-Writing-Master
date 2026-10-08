@@ -5,39 +5,48 @@
     "outcomes": [
       {
         "code": "GE-11-01",
-        "description": "examines places, environments and natural and human phenomena, for their characteristics, spatial patterns, interactions and changes over time"
+        "description": "examines places, environments and natural and human phenomena, for their characteristics, spatial patterns, interactions and changes over time",
+        "year": "year11"
       },
       {
         "code": "GE-11-02",
-        "description": "explains geographical processes and influences, at a range of scales, that form and transform places and environments"
+        "description": "explains geographical processes and influences, at a range of scales, that form and transform places and environments",
+        "year": "year11"
       },
       {
         "code": "GE-11-03",
-        "description": "explains geographical opportunities and challenges, and varying perspectives and responses"
+        "description": "explains geographical opportunities and challenges, and varying perspectives and responses",
+        "year": "year11"
       },
       {
         "code": "GE-11-04",
-        "description": "assesses responses and management strategies, at a range of scales, for sustainability"
+        "description": "assesses responses and management strategies, at a range of scales, for sustainability",
+        "year": "year11"
       },
       {
         "code": "GE-11-05",
-        "description": "analyses and synthesises relevant geographical information from a variety of sources"
+        "description": "analyses and synthesises relevant geographical information from a variety of sources",
+        "year": "year11"
       },
       {
         "code": "GE-11-06",
-        "description": "identifies geographical methods used in geographical inquiry and their relevance in the contemporary world"
+        "description": "identifies geographical methods used in geographical inquiry and their relevance in the contemporary world",
+        "year": "year11"
       },
       {
         "code": "GE-11-07",
-        "description": "applies geographical inquiry skills and tools, including spatial technologies, fieldwork, and ethical practices, to investigate places and environments"
+        "description": "applies geographical inquiry skills and tools, including spatial technologies, fieldwork, and ethical practices, to investigate places and environments",
+        "year": "year11"
       },
       {
         "code": "GE-11-08",
-        "description": "applies mathematical ideas and techniques to analyse geographical data"
+        "description": "applies mathematical ideas and techniques to analyse geographical data",
+        "year": "year11"
       },
       {
         "code": "GE-11-09",
-        "description": "communicates and applies geographical understanding, using geographical knowledge, concepts, terms and tools, in appropriate forms"
+        "description": "communicates and applies geographical understanding, using geographical knowledge, concepts, terms and tools, in appropriate forms",
+        "year": "year11"
       },
       {
         "code": "GE-12-01",

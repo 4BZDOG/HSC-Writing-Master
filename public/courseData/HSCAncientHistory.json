@@ -5,35 +5,43 @@
     "outcomes": [
       {
         "code": "AH-11-01",
-        "description": "explains continuity and change in the ancient world"
+        "description": "explains continuity and change in the ancient world",
+        "year": "year11"
       },
       {
         "code": "AH-11-02",
-        "description": "proposes ideas about the varying causes and effects of events and developments"
+        "description": "proposes ideas about the varying causes and effects of events and developments",
+        "year": "year11"
       },
       {
         "code": "AH-11-03",
-        "description": "explains the role and significance of forces, features, events, individuals and groups in shaping the past"
+        "description": "explains the role and significance of forces, features, events, individuals and groups in shaping the past",
+        "year": "year11"
       },
       {
         "code": "AH-11-04",
-        "description": "accounts for the different perspectives of individuals and groups in their historical context"
+        "description": "accounts for the different perspectives of individuals and groups in their historical context",
+        "year": "year11"
       },
       {
         "code": "AH-11-05",
-        "description": "analyses different types of sources for evidence to support a historical account or argument"
+        "description": "analyses different types of sources for evidence to support a historical account or argument",
+        "year": "year11"
       },
       {
         "code": "AH-11-06",
-        "description": "explains differing interpretations and representations of the past"
+        "description": "explains differing interpretations and representations of the past",
+        "year": "year11"
       },
       {
         "code": "AH-11-07",
-        "description": "communicates historical understanding, applying historical knowledge, terms and concepts"
+        "description": "communicates historical understanding, applying historical knowledge, terms and concepts",
+        "year": "year11"
       },
       {
         "code": "AH-11-08",
-        "description": "plans and conducts historical investigations and presents conclusions, using evidence from a range of sources"
+        "description": "plans and conducts historical investigations and presents conclusions, using evidence from a range of sources",
+        "year": "year11"
       },
       {
         "code": "AH-12-01",

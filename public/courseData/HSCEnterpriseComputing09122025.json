@@ -4,31 +4,477 @@
     "name": "HSC Enterprise Computing",
     "outcomes": [
       {
-        "code": "EC-01",
-        "description": "A student evaluates the role of enterprise systems in processing data and enabling business functions."
+        "code": "EC-11-01",
+        "description": "describes how systems are used in a range of enterprises",
+        "year": "year11"
       },
       {
-        "code": "EC-02",
-        "description": "A student analyses the impact of data scale, quality, and management on enterprise systems."
+        "code": "EC-11-02",
+        "description": "describes the function of data and information within enterprise computing systems",
+        "year": "year11"
       },
       {
-        "code": "EC-03",
-        "description": "A student applies computational thinking and software tools to process, present, and query data in an enterprise context."
+        "code": "EC-11-03",
+        "description": "describes how data is safely and securely collected, stored and manipulated when developing enterprise computing systems",
+        "year": "year11"
       },
       {
-        "code": "EC-04",
-        "description": "A student assesses the legal, social, and ethical responsibilities associated with the use and management of enterprise data."
+        "code": "EC-11-04",
+        "description": "describes how data is used in enterprise computing systems",
+        "year": "year11"
       },
       {
-        "code": "EC-05",
-        "description": "A student investigates and explains the function and operation of intelligent systems in various enterprise contexts."
+        "code": "EC-11-05",
+        "description": "applies tools and resources to analyse datasets",
+        "year": "year11"
       },
       {
-        "code": "EC-06",
-        "description": "A student applies project management principles and development methodologies to the design and implementation of an enterprise system."
+        "code": "EC-11-06",
+        "description": "explains how innovative technologies have influenced enterprise computing systems",
+        "year": "year11"
+      },
+      {
+        "code": "EC-11-07",
+        "description": "explores the social, ethical and legal implications of the application of enterprise computing systems on the individual, society and the environment",
+        "year": "year11"
+      },
+      {
+        "code": "EC-11-08",
+        "description": "selects and uses tools and resources to design and develop an enterprise computing system",
+        "year": "year11"
+      },
+      {
+        "code": "EC-11-09",
+        "description": "documents the management and evaluates the development of an enterprise solution",
+        "year": "year11"
+      },
+      {
+        "code": "EC-11-10",
+        "description": "investigates the effectiveness of an enterprise computing system",
+        "year": "year11"
+      },
+      {
+        "code": "EC-11-11",
+        "description": "communicates an enterprise computing solution to an intended audience",
+        "year": "year11"
+      },
+      {
+        "code": "EC-12-01",
+        "description": "explains how systems meet the needs of a range of enterprises"
+      },
+      {
+        "code": "EC-12-02",
+        "description": "explains the function of data and information within enterprise computing systems"
+      },
+      {
+        "code": "EC-12-03",
+        "description": "explains and evaluates how data is safely and securely collected, stored and manipulated when developing enterprise computing systems"
+      },
+      {
+        "code": "EC-12-04",
+        "description": "explains how data is used in enterprise computing systems"
+      },
+      {
+        "code": "EC-12-05",
+        "description": "applies tools and resources to analyse complex datasets"
+      },
+      {
+        "code": "EC-12-06",
+        "description": "analyses how innovative technologies have influenced enterprise computing systems"
+      },
+      {
+        "code": "EC-12-07",
+        "description": "explains the social, ethical and legal implications of the application of enterprise computing systems on the individual, society and the environment"
+      },
+      {
+        "code": "EC-12-08",
+        "description": "justifies the selection and use of tools and resources to design and develop an enterprise computing system"
+      },
+      {
+        "code": "EC-12-09",
+        "description": "selects and applies methods to record the management and evaluate the development of an enterprise computing system"
+      },
+      {
+        "code": "EC-12-10",
+        "description": "evaluates the effectiveness of an enterprise computing system"
+      },
+      {
+        "code": "EC-12-11",
+        "description": "communicates an enterprise computing solution to a specific audience"
       }
     ],
     "topics": [
+      {
+        "id": "topic-ec-11-interactive-media-and-the-user-experience",
+        "name": "Interactive media and the user experience",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subTopic-ec-11-ubiquity-of-interactive-media",
+            "name": "Ubiquity of interactive media",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-01",
+                "description": "Investigate how interactive media and the user experience (UX) is used to communicate information to an audience",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-02",
+                "description": "Investigate social, ethical and legal issues when developing and implementing interactive media systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-03",
+                "description": "Research the evolution of interactive media (prevalence of blogs, online video and digital radio; privacy issues and the use of intellectual property, including Indigenous Cultural and Intellectual Property (ICIP))",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-04",
+                "description": "Describe the contribution of interactive media systems to a range of enterprises (how simulation, gamification and augmented reality (AR) support online training and learning; how streaming services, gaming and virtual reality (VR) improve access to entertainment; how specialist apps support delivery tracking, advertising and communication)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-05",
+                "description": "Evaluate the performance requirements of hardware for specific interactive media projects",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-06",
+                "description": "Explain how interactive media systems can support creative processes (sandbox gaming; social media; digital creative commons)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-07",
+                "description": "Examine how human behaviour may be influenced by interactive media, including opportunities for people with disability to explore and participate in their environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-08",
+                "description": "Investigate how digital marketing techniques influence consumer behaviour (guided choice (nudging); default settings, including cookies; autofill; pop-ups promoting online shopping)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-09",
+                "description": "Evaluate social media applications that encourage human connections (crowdsourcing through a social media app; learning via massive online open courses (MOOCs); gaming platforms that encourage massive multiplayer online games (MMOGs))",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-uim-stg11-10",
+                "description": "Explore how interactive media platforms support the creation of digital identities (personal e-profiles; identifier versus identity; profiling and auto-profiling; privacy settings)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-capture-store-and-integrate-data",
+            "name": "Capture, store and integrate data",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-imu-csi-stg11-01",
+                "description": "Select and use appropriate file formats for a defined purpose",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-csi-stg11-02",
+                "description": "Use software to develop elements of interactive media in a project",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-csi-stg11-03",
+                "description": "Use hardware and software to digitise assets for use in interactive media systems, including lossy and lossless data compression",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-csi-stg11-04",
+                "description": "Explain how the user interface (UI) impacts on the user experience (UX)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-csi-stg11-05",
+                "description": "Apply design tools and techniques to develop an engaging UI",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-create-interactive-media-systems",
+            "name": "Create interactive media systems",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-imu-cim-stg11-01",
+                "description": "Apply design thinking to develop a front-end, web-based interactive media system incorporating UX and UI principles",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-cim-stg11-02",
+                "description": "Develop and publish an interactive work of data journalism",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-cim-stg11-03",
+                "description": "Select an appropriate project management approach to develop an interactive media-based solution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-imu-cim-stg11-04",
+                "description": "Apply features of user interaction and UX within web-based systems (communication processes via social media; search, sort and selection processes via online retail services; online gaming platforms)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ec-11-principles-of-cybersecurity",
+        "name": "Principles of cybersecurity",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subTopic-ec-11-understanding-privacy-and-security",
+            "name": "Understanding privacy and security",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-pcs-ups-stg11-01",
+                "description": "Explain privacy, trust and freedom of information with respect to people, systems and data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-ups-stg11-02",
+                "description": "Describe privacy and security principles associated with access, storage and permissions used by enterprises to collect and interpret data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-ups-stg11-03",
+                "description": "Investigate how an individual can contribute to maintaining the privacy of their own data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-ups-stg11-04",
+                "description": "Explore security vulnerabilities of social networking to both an individual and an enterprise (account access; account behaviour; hosting platform security; identity theft; phishing; evil twins)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-ups-stg11-05",
+                "description": "Describe the attributes of a cybersecurity breach (confidentiality of information; integrity of information; availability of information; privacy implications)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-ups-stg11-06",
+                "description": "Investigate vulnerabilities exploited by the threat actor involved in a breach, such as the impact on various elements (data; people; processes; technology)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-security-awareness",
+            "name": "Security awareness",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-pcs-saw-stg11-01",
+                "description": "Investigate cybercrime threats to an enterprise (hacking; phishing, including smishing; scamming; bots and botnets; employee action causing a vulnerability)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-saw-stg11-02",
+                "description": "Research hardware and software strategies used to protect data (isolation; physical security; biometrics; password protection, encryption and permissions; multi-factor authentication; back up and disaster recovery; firewalls; antivirus and anti-malware)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-saw-stg11-03",
+                "description": "Investigate cyber risk management (implementing a cybersecurity strategy with ongoing training; identifying and managing vulnerabilities; assessing the impact of a breach; controlling damage and loss)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-saw-stg11-04",
+                "description": "Assess cyber risk by implementing risk-management strategies using a risk matrix (internal and external vulnerabilities; threat landscape; impact of exposure; likelihood of exploitation)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-cyber-law-and-ethics",
+            "name": "Cyber law and ethics",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-pcs-cle-stg11-01",
+                "description": "Explain impacts of cybersecurity breaches on the individual, organisation and society (financial loss; reputational damage; operational disruptions; legal and regulatory ramifications)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-cle-stg11-02",
+                "description": "Identify laws and legislation associated with cybersecurity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-pcs-cle-stg11-03",
+                "description": "Explore current and emerging cybercrime threats to an enterprise",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ec-11-networking-systems-and-social-computing",
+        "name": "Networking systems and social computing",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subTopic-ec-11-introduction-to-human-centric-computing",
+            "name": "Introduction to human-centric computing",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-nsc-ihc-stg11-01",
+                "description": "Investigate the effects of disruptive technology on everyday computing (effects on the individual; innovations in infrastructure, hardware and software; trends and technology buzzwords)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-ihc-stg11-02",
+                "description": "Investigate the application of graph and network theory in the design of social networks",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-ihc-stg11-03",
+                "description": "Describe how web applications and dedicated apps for mobile devices influence the success of social networking",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-ihc-stg11-04",
+                "description": "Investigate how the development of hardware and software has influenced the adoption of the Internet of Things (IoT) and the Internet of Me (IoMe) (impact on the individual; impact on enterprise, including edge computing; hardware infrastructure; software protocols; data backup; regulation, compliance and cybersecurity)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-ihc-stg11-05",
+                "description": "Outline the business and individual cultural characteristics that contribute to the success of start-ups",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-storage-and-workflow-in-enterprise-networks",
+            "name": "Storage and workflow in enterprise networks",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-nsc-swe-stg11-01",
+                "description": "Investigate how the developments in network connectivity and speed have influenced work practices within an enterprise (remote working opportunities; file sharing; task delegation and monitoring)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-swe-stg11-02",
+                "description": "Examine the benefits and limitations of digital workflows operating in an enterprise",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-swe-stg11-03",
+                "description": "Investigate data storage requirements for an enterprise (capacity; accessibility; location; security)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-swe-stg11-04",
+                "description": "Explore cloud computing services (Infrastructure as a Service (IaaS); Software as a Service (SaaS); Platform as a Service (PaaS))",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-swe-stg11-05",
+                "description": "Compare different types of cloud-based data storage in terms of access and services (public cloud; private cloud; hybrid cloud; non-cloud on premises)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-network-architecture-and-infrastructure",
+            "name": "Network architecture and infrastructure",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-01",
+                "description": "Describe key components of an organisation’s information technology infrastructure (networking, including servers, storage and end-point devices; on-premises computing; cloud computing)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-02",
+                "description": "Describe how transmission media is used in networks",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-03",
+                "description": "Explain factors that interfere with the transmission of data across a computer and social network (distance; topography; physical barriers; environmental barriers)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-04",
+                "description": "Investigate ways to improve data flow within a system, considering proximity and modes of connectivity (size, location and power of antennae when using satellite and microwave; traffic filtering; flow scheduling and traffic monitoring on telecommunications, including wireless broadband for mobile devices (3G→), Bluetooth and wi-fi)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-05",
+                "description": "Investigate the application of graph theory and network theory in the design of optimised computer networks (adjacency; centrality; connectedness; weighted graphs)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-06",
+                "description": "Explore device interoperability within an Internet of Things (IoT) based enterprise network, including supervisory control and data acquisition (SCADA)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-07",
+                "description": "Investigate communication protocols between devices in an Internet of Things (IoT) network",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-08",
+                "description": "Explore the benefits of interfacing machine learning (ML) with IoT (data-driven optimisation to enable predictive maintenance and logistics in manufacturing; data acquired from medical imaging to improve accuracy of diagnosis; improving traffic control through ML and sensors; automating soil moisture data collection to manage farm irrigation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-09",
+                "description": "Investigate security measures used to control access to networks (password systems; biometric measures; CAPTCHA; trusted Platform Module (TPM); automatic software updates)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-nai-stg11-10",
+                "description": "Examine data security for an intelligent home network (access levels, including universal plug and play (UPnP); passwords and firewalls; port management on routers and switches; wi-fi device positioning; virtual private networks (VPNs) and hidden networks; backup and disaster recovery)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subTopic-ec-11-creating-a-network",
+            "name": "Creating a network",
+            "dotPoints": [
+              {
+                "id": "dp-ent-11-12-cp-nsc-cne-stg11-01",
+                "description": "Design and model a network of interconnected devices for a specific purpose",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-cne-stg11-02",
+                "description": "Apply appropriate project management tools to develop a project",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-cne-stg11-03",
+                "description": "Configure devices within a network (naming the device; updating the device; configuring security protocols; connecting to the internet)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-cne-stg11-04",
+                "description": "Implement procedures and security protocols considering cybersecurity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-cne-stg11-05",
+                "description": "Explore opportunities for optimising network performance (improving bandwidth; updating drivers and firmware)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-nsc-cne-stg11-06",
+                "description": "Evaluate the role of hardware and software related to the transmission of data (unsecured data; encrypted data; infrastructure)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
       {
         "id": "topic-dv-main",
         "name": "Data visualisation",
@@ -39,7 +485,7 @@
             "dotPoints": [
               {
                 "id": "dp-dv-01",
-                "description": "Explain the purposes of data visualisation, including simplifying understanding, telling a story, and highlighting significant results.",
+                "description": "Explain the purposes of data visualisation (simplifying understanding; telling a story; highlighting significant results)",
                 "prompts": [
                   {
                     "id": "prompt-dv-01-2m",
@@ -48,7 +494,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a business analyst at a retail company must present a quarter's sales figures to the executive team, who will have only a few minutes to grasp the results. The analyst has several thousand transaction records and must decide how to show the key results.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -98,7 +544,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: an environmental scientist has recorded sea-level measurements from a coastal monitoring station over 20 years, producing several thousand rows of readings. The scientist must brief a council's policy team on the rising trend and is deciding whether to present a chart or the raw table.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -154,7 +600,7 @@
               },
               {
                 "id": "dp-dv-02",
-                "description": "Describe how features of software contribute to a better understanding of datasets through data visualisation, including spreadsheets, creative design applications and combining applications to track trends and forecast.",
+                "description": "Describe how features of software contribute to a better understanding of datasets through data visualisation, including spreadsheets, creative design applications and combining applications to track trends and forecast",
                 "prompts": [
                   {
                     "id": "prompt-dv-02-2m",
@@ -163,7 +609,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a Year 11 student has a table of weekly sales from a school cafe in a spreadsheet and needs to turn it into a chart for a class presentation.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -213,7 +659,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: a marketing team at a small clothing retailer wants an infographic summarising the age groups and locations of its online customers for a board presentation. The customer records are in a spreadsheet, and the team has a creative design application available.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -269,7 +715,7 @@
               },
               {
                 "id": "dp-dv-03",
-                "description": "Identify patterns in data by interpreting and comparing datasets for an enterprise, social or ethical issue to highlight trends and for predictive data analytics.",
+                "description": "Identify patterns in data by interpreting and comparing datasets for an enterprise, social or ethical issue to highlight trends and for predictive data analytics",
                 "prompts": [
                   {
                     "id": "prompt-dv-03-2m",
@@ -277,7 +723,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: an analyst at a regional bakery is reviewing five years of monthly sales records to decide how many staff to roster in each season.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -327,7 +773,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a city council is comparing five years of monthly public transport patronage figures with air quality readings from monitoring stations in the same city. The council wants to know whether the data can support forecasts to inform its environmental policy.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -383,7 +829,7 @@
               },
               {
                 "id": "dp-dv-04",
-                "description": "Investigate the impact of the evolution of hardware and software on the field of data analytics.",
+                "description": "Investigate the impact of the evolution of hardware and software on the field of data analytics (processing power; storage/memory; communication media)",
                 "prompts": [
                   {
                     "id": "prompt-dv-04-2m",
@@ -392,7 +838,7 @@
                     "verb": "OUTLINE",
                     "scenario": "Hypothetical: a data analytics team is writing a short history section for an internal report on how its analysis tools have changed over the past twenty years.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -442,7 +888,7 @@
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a regional logistics company stores several years of delivery and vehicle sensor data in a cloud service such as Google BigQuery or Amazon S3. Its analysts work from several offices and query the same data each week.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -499,7 +945,7 @@
               },
               {
                 "id": "dp-dv-05",
-                "description": "Describe online analytical processing (OLAP).",
+                "description": "Describe online analytical processing (OLAP)",
                 "prompts": [
                   {
                     "id": "prompt-dv-05-2m",
@@ -507,7 +953,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: a retail chain's business manager wants to explore three years of sales data by product, region and month, changing the view on screen without waiting for a new report.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -557,7 +1003,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: a national retail chain's regional manager needs to understand sales performance in detail. The sales data is organised by product, time and store location, and the manager wants answers without writing database queries.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -614,7 +1060,7 @@
               },
               {
                 "id": "dp-dv-06",
-                "description": "Assess data integrity in the development of a data visualisation, including ownership, source, validation, and risk.",
+                "description": "Assess data integrity in the development of a data visualisation (ownership; source; validation; risk)",
                 "prompts": [
                   {
                     "id": "prompt-dv-06-2m",
@@ -622,7 +1068,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: a small team is preparing a dataset of school attendance figures, supplied as a spreadsheet by a school, for a public dashboard. Before the dashboard goes live, the team must confirm that the data can be trusted.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -674,7 +1120,7 @@
                     "verb": "ASSESS",
                     "scenario": "Hypothetical: a consumer goods company downloads a dataset from an unfamiliar website showing rapid growth in its product category, and places a chart based on it on its public website and in marketing materials. Nobody on the team has checked who produced the dataset or how it was collected.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -730,7 +1176,7 @@
               },
               {
                 "id": "dp-dv-07",
-                "description": "Explain the impact of enterprise data warehousing on data visualisation, including analysis of historical data and correlation with current data.",
+                "description": "Explain the impact of enterprise data warehousing on data visualisation (analysis and use of historical data trends and patterns; correlation with current data; data refinement/optimisation)",
                 "prompts": [
                   {
                     "id": "prompt-dv-07-2m",
@@ -739,7 +1185,7 @@
                     "verb": "OUTLINE",
                     "scenario": "Hypothetical: a mid-sized enterprise wants one dashboard showing data from its sales, marketing and human resources systems. The three systems store their records separately and in different formats.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -790,7 +1236,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a retail company wants a dashboard that compares this month's sales with the same month in each of the previous ten years, so managers can tell whether a recent rise is unusual. Its transaction records are held in an operational system designed for day-to-day processing.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -846,7 +1292,7 @@
               },
               {
                 "id": "dp-dv-08",
-                "description": "Explain how big data affects the design and development of data visualisation, including the scope of visible information and types of insight.",
+                "description": "Explain how big data affects the design and development of data visualisation (scope of visible information; types and depth of insight provided by the data)",
                 "prompts": [
                   {
                     "id": "prompt-dv-08-2m",
@@ -855,7 +1301,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a designer is building a map of national bus journeys from a transport dataset that records billions of GPS points over a year. The designer must decide what the chart will show and how it will load.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -906,7 +1352,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a national retailer can visualise either a survey of 200 customers or every transaction its stores recorded over three years. Managers want to know which visualisation would reveal more about their customers.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -962,7 +1408,7 @@
               },
               {
                 "id": "dp-dv-09",
-                "description": "Evaluate bias in data collection, storage and analysis when developing visualisations, including accuracy, audience, data source, and unconscious bias.",
+                "description": "Evaluate bias in data collection, storage and analysis when developing visualisations (accuracy; audience; data source; unconscious bias)",
                 "prompts": [
                   {
                     "id": "prompt-dv-09-2m",
@@ -971,7 +1417,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: a news website publishes a bar chart of how residents feel about a proposed development. The chart is based on an online poll that only visitors to the website could take, and readers bring their own views to the chart.",
                     "linkedOutcomes": [
-                      "EC-04"
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1022,8 +1468,8 @@
                     "verb": "EVALUATE",
                     "scenario": "Hypothetical: a technology company wants to publish a chart showing that its hiring process is fair. The chart uses responses from an opt-in survey sent only to current employees, and the analysts who designed it already expect a favourable result.",
                     "linkedOutcomes": [
-                      "EC-04",
-                      "EC-02"
+                      "EC-12-02",
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1085,7 +1531,7 @@
             "dotPoints": [
               {
                 "id": "dp-dv-10",
-                "description": "Evaluate the effectiveness of software tools used to develop data visualisations, including spreadsheets, presentation software, business analytics services, and custom software solutions.",
+                "description": "Evaluate the effectiveness of software tools used to develop data visualisations (spreadsheets used to develop dashboards; presentation software used to present data analysis; business analytics services, including ‘as a service’ products; custom software solutions)",
                 "prompts": [
                   {
                     "id": "prompt-dv-10-2m",
@@ -1094,7 +1540,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a small bakery owner wants a simple sales dashboard built from the sales records already kept in a spreadsheet. The owner has no budget for specialist software.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1145,8 +1591,8 @@
                     "verb": "EVALUATE",
                     "scenario": "Hypothetical: a large bank must give its financial analysts secure, complex visualisations of trading and risk data. It is choosing between subscribing to a business analytics service, such as Power BI or Tableau, and commissioning a custom software solution built for its own systems.",
                     "linkedOutcomes": [
-                      "EC-01",
-                      "EC-03"
+                      "EC-12-01",
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1202,7 +1648,7 @@
               },
               {
                 "id": "dp-dv-11",
-                "description": "Interrogate data from a data visualisation, including interpreting what you see, aggregation, filtering, the effect of outliers, and reasoning.",
+                "description": "Interrogate data from a data visualisation (interpreting what you see; aggregation; filtering; the effect of outliers; reasoning)",
                 "prompts": [
                   {
                     "id": "prompt-dv-11-2m",
@@ -1210,7 +1656,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: a regional sales manager is using an interactive dashboard that shows monthly sales for every store in the company. She wants the total for each region, and then wants to look only at one product line.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1261,7 +1707,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a viewer is looking at a bar chart of average monthly rainfall for a coastal region, to understand its typical climate before planning a holiday. One month's bar is far taller than the rest because of an exceptional storm, and the viewer has not yet noticed it.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1322,8 +1768,13 @@
             "name": "Designing for user experience",
             "dotPoints": [
               {
+                "id": "dp-ent-11-12-cp-dvi-due-stg12-01",
+                "description": "Use graphic design tools to assist in the graphic development of a data visualisation",
+                "prompts": []
+              },
+              {
                 "id": "dp-dv-12",
-                "description": "Explain how user experience (UX) influences the development of effective data visualisations, including relevance to the audience, customisation and live analysis.",
+                "description": "Explain how user experience (UX) influences the development of effective data visualisations (relevance to the audience; audience interpretation; customisation; live analysis)",
                 "prompts": [
                   {
                     "id": "prompt-dv-12-2m",
@@ -1331,7 +1782,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: a company is designing one dashboard of sales data for two users: its chief executive, who needs a quick view of company performance, and a data scientist who needs detailed data to test a forecasting model.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1383,7 +1834,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a company is developing an interactive sales dashboard for its field team, who work across several regions and check results on laptops and phones. Team members need current figures, and each focuses on the metrics for their own territory.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1439,7 +1890,7 @@
               },
               {
                 "id": "dp-dv-13",
-                "description": "Develop and implement criteria for evaluating the effectiveness of user experiences.",
+                "description": "Develop and implement criteria for evaluating the effectiveness of user experiences",
                 "prompts": [
                   {
                     "id": "prompt-dv-13-2m",
@@ -1448,7 +1899,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a design team has built a new dashboard for a hospital's ward managers and wants to check that it works for them before launch. The team needs criteria it can measure in a usability test.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1499,7 +1950,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: a manufacturer has built a dashboard showing machine downtime and output for its factory floor managers, who make shift decisions during production. Before rollout, the design team wants to test whether the managers can use it efficiently and interpret its charts as intended.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1555,7 +2006,7 @@
               },
               {
                 "id": "dp-dv-14",
-                "description": "Investigate the impact of emerging hardware and software technologies on user interface (UI) and UX design and development.",
+                "description": "Investigate the impact of emerging hardware and software technologies on user interface (UI) and UX design and development",
                 "prompts": [
                   {
                     "id": "prompt-dv-14-2m",
@@ -1564,7 +2015,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a software company that builds business dashboards is planning its interface for the next five years and is considering which new hardware its users might use to view and interact with data.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1614,7 +2065,7 @@
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a data analytics platform used by business analysts is planning to add AI features to its dashboards and query tools. Its users range from non-technical managers to experienced analysts, and the product team wants to know how these features would change the experience.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1676,8 +2127,13 @@
             "name": "Creating data visualisations",
             "dotPoints": [
               {
+                "id": "dp-ent-11-12-cp-dvi-cdv-stg12-01",
+                "description": "Research, source, organise and store data appropriate for a data visualisation",
+                "prompts": []
+              },
+              {
                 "id": "dp-dv-15",
-                "description": "Design and develop a data visualisation for a specific scenario to represent trends, patterns and relationships, and illustrate predictive analysis incorporating big data.",
+                "description": "Design and develop a data visualisation for a specific scenario to represent trends, patterns and relationships, and illustrate predictive analysis incorporating big data",
                 "prompts": [
                   {
                     "id": "prompt-dv-15-2m",
@@ -1685,7 +2141,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: an analyst at a retail company wants to know whether weekly advertising spend is related to weekly sales revenue across its stores, and is choosing a chart to show the relationship.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1736,8 +2192,8 @@
                     "totalMarks": 5,
                     "scenario": "Hypothetical: an energy company wants an interactive dashboard for city planners and grid operators, showing how electricity use varies across the city and forecasting demand for the next day. The company has half-hourly readings from smart meters in every suburb, as well as weather forecasts.",
                     "linkedOutcomes": [
-                      "EC-03",
-                      "EC-05"
+                      "EC-12-05",
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1796,7 +2252,7 @@
               },
               {
                 "id": "dp-dv-16",
-                "description": "Investigate and implement methods to maintain data security, including cybersecurity and data backup.",
+                "description": "Investigate and implement methods to maintain data security (cybersecurity; data backup)",
                 "prompts": [
                   {
                     "id": "prompt-dv-16-2m",
@@ -1805,7 +2261,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: a small health services organisation is writing a data security plan for its customer records, which are held on a central server and used for management reports.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1856,7 +2312,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a company stores sensitive customer records in a central data warehouse, which supplies the dashboards its managers use for pricing and staffing decisions. The company has no plan for what would happen if the warehouse were attacked or failed.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1924,7 +2380,7 @@
             "dotPoints": [
               {
                 "id": "dp-ec-01",
-                "description": "Explore the difference between quantitative and qualitative data and determine which data types are used to represent them.",
+                "description": "Explore the difference between quantitative and qualitative data",
                 "prompts": [
                   {
                     "id": "prompt-ec-01-2m",
@@ -1933,7 +2389,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a cafe chain collects customer feedback through a short app survey that asks for a rating out of five and a written comment about the visit.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -1984,7 +2440,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a streaming service records how many hours each subscriber watches per month and also stores written reviews that subscribers post about shows. The analytics team wants to store both in the same database.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2039,8 +2495,13 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-02",
+                "description": "Determine which data types are used to represent quantitative and qualitative data",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-02",
-                "description": "Explore nominal, ordinal, interval and ratio levels of measurement applied to data.",
+                "description": "Explore nominal, ordinal, interval and ratio levels of measurement applied to data",
                 "prompts": [
                   {
                     "id": "prompt-ec-02-2m",
@@ -2049,7 +2510,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: a survey company records each respondent's favourite fruit and their rating of a juice from poor to excellent, and must decide how each answer can be ordered or compared.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2100,7 +2561,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a hotel is analysing data from its guests, including the city each guest travelled from, the room number they were allocated, and a satisfaction rating from one to five stars, to improve its services.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2156,7 +2617,7 @@
               },
               {
                 "id": "dp-ec-03",
-                "description": "Investigate data sampling, including manual and computerised methods of active and passive data collection.",
+                "description": "Investigate data sampling, including manual and computerised methods of active and passive data collection",
                 "prompts": [
                   {
                     "id": "prompt-ec-03-2m",
@@ -2165,7 +2626,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: a mobile fitness app collects two kinds of data from its users: meals they choose to log themselves, and steps that the phone records in the background.",
                     "linkedOutcomes": [
-                      "EC-04"
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2216,7 +2677,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a fitness company sells a wearable device and companion app. Users log their meals in the app, the device records their heart rate throughout the day, and the company wants to use both to understand user health.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2272,7 +2733,7 @@
               },
               {
                 "id": "dp-ec-04",
-                "description": "Assess the relevance, accuracy, validity and reliability of primary and secondary data.",
+                "description": "Assess the relevance, accuracy, validity and reliability of primary and secondary data",
                 "prompts": [
                   {
                     "id": "prompt-ec-04-2m",
@@ -2281,7 +2742,7 @@
                     "verb": "OUTLINE",
                     "scenario": "Hypothetical: a researcher is writing a report on local bicycle use and must decide whether to run her own survey or reuse existing council traffic counts and published studies.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2332,7 +2793,7 @@
                     "verb": "ASSESS",
                     "scenario": "Hypothetical: a footwear company is planning a new range and is relying on a five-year-old industry publication for its market trends, alongside surveys it ran itself last month.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2387,8 +2848,33 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-06",
+                "description": "Investigate how informatics supports the development of a deeper understanding of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-07",
+                "description": "Interpret and present data using graphs, infographics, dashboards, reports, network diagrams and maps",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-08",
+                "description": "Investigate structured and unstructured datasets",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-09",
+                "description": "Explore the use of likes, emoticons and memes as forms of alternative data as sources of feedback",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-10",
+                "description": "Examine the impact of errors, uncertainty and limitations in data (data sources; raw data versus processed data; data bias)",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-05",
-                "description": "Explain how blockchain technology is used to manage and verify data.",
+                "description": "Explain how blockchain technology is used to manage and verify data (online voting; online identities; tracking items of value; recordkeeping)",
                 "prompts": [
                   {
                     "id": "prompt-ec-05-2m",
@@ -2397,7 +2883,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: a regional agency needs a system for recording and verifying the transfer of records, where no single organisation should be able to alter past entries.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2448,7 +2934,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a luxury handbag brand wants a tracking system that lets customers and retailers verify each item's movement from the factory to the store, to reduce counterfeit products.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2503,8 +2989,13 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-12",
+                "description": "Examine software features that affect the privacy and security of data (autofill; public or private connections; checkbox; terms of agreement)",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-06",
-                "description": "Explore the use of big data and data warehousing, considering volume, variety and velocity.",
+                "description": "Explore the use of big data and data warehousing, considering volume, variety and velocity",
                 "prompts": [
                   {
                     "id": "prompt-ec-06-2m",
@@ -2513,7 +3004,7 @@
                     "verb": "OUTLINE",
                     "scenario": "Hypothetical: A regional energy retailer receives smart-meter readings from several hundred thousand households every half hour. The same data platform also stores live customer-service chat logs, so the retailer has to manage both the sheer size and the speed of incoming data.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2563,7 +3054,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A national retail company runs point-of-sale systems in its stores, a social media monitoring tool and web analytics logs from its online shop. Its analysts want to compare weekly sales with customer sentiment and website behaviour, but the data sits in separate systems in different formats.",
                     "linkedOutcomes": [
-                      "EC-02"
+                      "EC-12-02"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2617,6 +3108,21 @@
                     "isPastHSC": false
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-14",
+                "description": "Explore the risks and benefits of data mining",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-15",
+                "description": "Analyse the impact of data scale (volume of raw data; storage; real-time and continuous streaming; opportunities for machine learning (ML); changes in human behaviour; ethical implications, including digital footprints)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-csa-stg12-16",
+                "description": "Evaluate the effectiveness of different methods for data storage (local storage; cloud storage; portable storage media; data warehouses)",
+                "prompts": []
               }
             ]
           },
@@ -2625,8 +3131,13 @@
             "name": "Data quality",
             "dotPoints": [
               {
+                "id": "dp-ent-11-12-cp-dsc-dqu-stg12-01",
+                "description": "Investigate the ethical use of data for social or enterprise research purposes",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-07",
-                "description": "Explore social, ethical and legal issues associated with using data, including bias, accuracy, intellectual property and privacy.",
+                "description": "Explore social, ethical and legal issues associated with using data (bias; accuracy of the collected data; metadata; copyright and acknowledgement of source data; intellectual property and respect for ownership, including Indigenous Cultural and Intellectual Property (ICIP); permissions, rights and privacy of individuals, including cultural responsibility; security)",
                 "prompts": [
                   {
                     "id": "prompt-ec-07-2m",
@@ -2635,7 +3146,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: An online clothing retailer asks customers to create accounts, collecting names, email addresses, delivery addresses and purchase histories. The retailer also wants to use this information to send targeted marketing emails.",
                     "linkedOutcomes": [
-                      "EC-04"
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2685,7 +3196,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A mid-sized professional services firm uses an automated tool to shortlist applicants for graduate roles. The tool was trained on ten years of the firm's hiring decisions, and its shortlists now include far fewer women than the applicant pool.",
                     "linkedOutcomes": [
-                      "EC-04"
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2738,6 +3249,16 @@
                     "isPastHSC": false
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-dqu-stg12-03",
+                "description": "Investigate the legal issues surrounding data collection and handling (legislation; authorities responsible for data protection; data sovereignty of Aboriginal and Torres Strait Islander Peoples)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-dqu-stg12-04",
+                "description": "Investigate the influence of curated and communicated data on social behaviour (data literacy; timeframes; signals impacting on behaviour; data swamps; educating users)",
+                "prompts": []
               }
             ]
           },
@@ -2746,8 +3267,33 @@
             "name": "Processing and presenting data",
             "dotPoints": [
               {
+                "id": "dp-ent-11-12-cp-dsc-ppd-stg12-01",
+                "description": "Summarise data using a spreadsheet",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-ppd-stg12-02",
+                "description": "Collate information using spreadsheet analysis features, including charts, statistical analysis and what-if modelling",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-ppd-stg12-03",
+                "description": "Filter, group and sort data in a spreadsheet to process and display information (linking multiple sheets to extract data and create summaries; applying conditional formatting; making data comparisons; designing forms and reports)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-ppd-stg12-04",
+                "description": "Apply spreadsheet analysis features to develop a data dashboard (graphs; pivot tables and slicers)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-ppd-stg12-06",
+                "description": "Develop a flat-file database",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-08",
-                "description": "Apply computational thinking to design a relational database with appropriate user views, including linking tables via key fields and using SQL.",
+                "description": "Apply computational thinking to design a relational database with appropriate user views (develop a data dictionary; linking tables via key fields; sort and search data, including using structured query language (SQL); using forms and reports)",
                 "prompts": [
                   {
                     "id": "prompt-ec-08-2m",
@@ -2755,7 +3301,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: A community library is redesigning a database that currently stores loans, members and books in one large spreadsheet. The designer wants separate linked tables, so that each loan can be traced to one member and one book.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2806,7 +3352,7 @@
                     "verb": "OUTLINE",
                     "scenario": "Hypothetical: A local sports club stores its players and teams in a relational database. The club secretary needs a quick list of every player on the Sharks team for the season roster.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2860,6 +3406,11 @@
                     "isPastHSC": false
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-dsc-ppd-stg12-08",
+                "description": "Explore how machine learning and statistical modelling are used in data analytics to analyse big data, and as a prediction tool",
+                "prompts": []
               }
             ]
           }
@@ -2875,7 +3426,7 @@
             "dotPoints": [
               {
                 "id": "dp-is-01",
-                "description": "Investigate applications of decision support systems.",
+                "description": "Investigate applications of decision support systems",
                 "prompts": [
                   {
                     "id": "prompt-is-01-2m",
@@ -2884,7 +3435,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A national retail chain is looking for ways to use technology to improve its buying and financial decisions. Its managers currently rely on spreadsheets and past experience.",
                     "linkedOutcomes": [
-                      "EC-01"
+                      "EC-12-01"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2934,7 +3485,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A regional courier company operates about 60 vans and wants to reduce fuel costs and late deliveries. Its dispatch manager plans routes each morning from delivery addresses, vehicle capacities, live traffic and the weather forecast.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -2990,7 +3541,7 @@
               },
               {
                 "id": "dp-is-02",
-                "description": "Describe categories of decision-making within decision support systems, including unstructured, semi-structured, and structured.",
+                "description": "Describe categories of decision-making within decision support systems (an infinite set of instructions where judgement may be required (unstructured); use of a specified set of finite instructions (semi-structured); automated decisions (structured))",
                 "prompts": [
                   {
                     "id": "prompt-is-02-3m",
@@ -2999,7 +3550,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: A regional operations manager at a manufacturing firm sorts the problems she faces into different types. Some are routine stock decisions, some are pricing choices with clear trade-offs, and some are new product ideas with no precedent.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3057,8 +3608,8 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A mid-sized enterprise uses decision support tools across its operations. Its managers face routine approvals, pricing choices and major strategic questions, and the systems must support each level of decision in a different way.",
                     "linkedOutcomes": [
-                      "EC-01",
-                      "EC-05"
+                      "EC-12-01",
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3113,8 +3664,13 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-03",
+                "description": "Investigate common applications of expert systems (diagnosis; monitoring; process control; scheduling and planning)",
+                "prompts": []
+              },
+              {
                 "id": "dp-is-03",
-                "description": "Describe key features of an expert system, including knowledge base, inference engine, and user interface.",
+                "description": "Describe key features of an expert system (knowledge base; inference engine, including forward chaining and backward chaining; user interface (UI))",
                 "prompts": [
                   {
                     "id": "prompt-is-03-3m",
@@ -3123,7 +3679,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: A small engineering consultancy is building an expert system so that junior staff can diagnose faults in industrial pumps. The system must ask the user questions and recommend a course of action, drawing on the knowledge of its most experienced engineer.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3182,7 +3738,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A mechanic is using a vehicle diagnostic expert system to find out why a car will not start. The system asks questions about the symptoms and works through its rules to suggest the most likely fault.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3237,8 +3793,48 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-05",
+                "description": "Research factors that have allowed expert systems to advance from rule-based systems to integrate probability (processing power; data availability and access; hardware costs; neural networks; webometrics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-06",
+                "description": "Describe how people’s changing needs have shaped the proliferation of expert systems (the Internet of Things (IoT); Internet of Me (IoMe); Industry 4.0)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-07",
+                "description": "Describe the operation of simplistic and complex intelligent agents used by search engines, including predictive search strings and the use of voice assistants to initiate interaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-08",
+                "description": "Compare techniques used by different inference engines (truth maintenance; hypothetical reasoning; heuristic knowledge and fuzzy logic; ontology classification)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-09",
+                "description": "Investigate the hardware used in an intelligent system (biometrics; haptics; touch and gesture; virtual and augmented reality (VR/AR); voice and sound; microcontrollers; sensors, actuators and motors)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-10",
+                "description": "Explore how computational thinking can be integrated into the design and development of an intelligent system (decomposition; pattern recognition; abstraction; algorithms)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-11",
+                "description": "Communicate the logical processes performed by an intelligent system by using flowcharts, data flow diagrams and infographics",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-12",
+                "description": "Investigate the disruptive effects of intelligent systems (multitasking versus digital distraction; working differently to complete the same task; automation of enterprise and manufacturing processes; impact of artificial intelligence (AI) on employment)",
+                "prompts": []
+              },
+              {
                 "id": "dp-is-04",
-                "description": "Investigate social and ethical issues to be considered when developing, implementing and using intelligent systems.",
+                "description": "Investigate social and ethical issues to be considered when developing, implementing and using intelligent systems",
                 "prompts": [
                   {
                     "id": "prompt-is-04-2m",
@@ -3247,7 +3843,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A state government is preparing a public consultation on the growing use of intelligent systems in workplaces and public services. Officials want to understand the social and ethical concerns that residents may raise.",
                     "linkedOutcomes": [
-                      "EC-04"
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3297,7 +3893,7 @@
                     "totalMarks": 5,
                     "scenario": "Hypothetical: A magistrates court is trialling a risk-prediction system that estimates how likely a defendant is to reoffend. The estimate is one of the factors a magistrate considers at bail hearings, and the system was built from historical court and arrest records.",
                     "linkedOutcomes": [
-                      "EC-04"
+                      "EC-12-07"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3351,6 +3947,16 @@
                     "verb": "INVESTIGATE"
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-14",
+                "description": "Investigate current and emerging technologies associated with intelligent systems, including AI",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-sta-stg12-15",
+                "description": "Explain how intelligent systems combine innovative techniques and technologies to meet the needs of enterprise",
+                "prompts": []
               }
             ]
           },
@@ -3360,7 +3966,7 @@
             "dotPoints": [
               {
                 "id": "dp-is-05",
-                "description": "Investigate the infrastructure requirements for an intelligent network in an enterprise with devices linked through an Internet of Things (IoT).",
+                "description": "Investigate the infrastructure requirements for an intelligent network in an enterprise with devices linked through an Internet of Things (IoT) (networks with servers, local and cloud storage, and end-point devices; communication links that enable the efficient control and flow of data)",
                 "prompts": [
                   {
                     "id": "prompt-is-05-2m",
@@ -3369,7 +3975,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A food-processing factory plans to fit several thousand sensors to its production machinery. Managers want to monitor temperature, vibration and output in real time, and to store the readings for maintenance planning.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3420,7 +4026,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A smart factory has more than 2,000 sensors on its assembly line, and some signals must trigger a machine stop within milliseconds to prevent a fault from spreading. The factory also keeps years of maintenance records that engineers use to spot long-term trends.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3475,8 +4081,18 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-isy-dis-stg12-02",
+                "description": "Explore collection, type, storage, processing, application and transmission of relevant and surplus data in an intelligent IoT network",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-dis-stg12-03",
+                "description": "Investigate the application of simulation, data modelling and the automation of systems in a range of enterprises (education and training; business analytics; high-risk applications)",
+                "prompts": []
+              },
+              {
                 "id": "dp-is-06",
-                "description": "Explain the role of intelligent systems in surveillance, including CCTV, biometric scanning, and fraud prevention.",
+                "description": "Explain the role of intelligent systems in surveillance (closed circuit television (CCTV); biometric scanning; customer loyalty schemes; fraud prevention; sniffing; trolling)",
                 "prompts": [
                   {
                     "id": "prompt-is-06-2m",
@@ -3485,7 +4101,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A shopping centre is upgrading its security camera system so that staff can respond to incidents faster. The centre's control room currently has one operator watching many screens at the same time.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3536,7 +4152,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A cardholder who usually spends in her local area makes an unusually large online purchase from an overseas retailer. The bank's intelligent system flags the transaction and sends a verification message to her phone.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3589,6 +4205,11 @@
                     "isPastHSC": false
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-dis-stg12-05",
+                "description": "Explain how AI supports efficiency in an IoT network",
+                "prompts": []
               }
             ]
           },
@@ -3598,7 +4219,7 @@
             "dotPoints": [
               {
                 "id": "dp-is-07",
-                "description": "Develop a set of rules and facts that could be used within an expert system to draw conclusions.",
+                "description": "Develop a set of rules and facts that could be used within an expert system to draw conclusions",
                 "prompts": [
                   {
                     "id": "prompt-is-07-2m",
@@ -3606,7 +4227,7 @@
                     "totalMarks": 2,
                     "scenario": "Hypothetical: A pet adoption service is building a 'Perfect Pet Finder' expert system. The system asks customers about their home and lifestyle, and its knowledge base must contain the facts and rules that turn those answers into a recommendation.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3656,7 +4277,7 @@
                     "totalMarks": 4,
                     "scenario": "Hypothetical: An internet service provider wants an online troubleshooting tool for customers whose home Wi-Fi is not working. The tool asks yes-or-no questions about the modem and router, then suggests the next step, escalating to a technician only when simple checks fail.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3712,8 +4333,23 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-isy-cis-stg12-02",
+                "description": "Apply certainty factors to construct a decision tree for a proposed expert system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-cis-stg12-03",
+                "description": "Verify the sources of data used in a decision support system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-cis-stg12-04",
+                "description": "Use a flowchart to develop a knowledge base of IF-THEN rules to be used by an expert system",
+                "prompts": []
+              },
+              {
                 "id": "dp-is-08",
-                "description": "Design and model an automated smart system using a range of inputs and outputs.",
+                "description": "Design and model an automated smart system using a range of inputs and outputs",
                 "prompts": [
                   {
                     "id": "prompt-is-08-2m",
@@ -3722,7 +4358,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A homeowner wants a porch light that switches on automatically when someone approaches the front door after dark. The light should turn off after a few minutes, without the homeowner needing to switch it on by hand.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3772,7 +4408,7 @@
                     "totalMarks": 5,
                     "scenario": "Hypothetical: A homeowner works from a home office that receives strong afternoon sun. She wants the window blinds to open and close automatically to manage light, glare and room temperature without her needing to adjust them.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3829,8 +4465,18 @@
                 ]
               },
               {
+                "id": "dp-ent-11-12-cp-isy-cis-stg12-06",
+                "description": "Implement automated processing using software",
+                "prompts": []
+              },
+              {
+                "id": "dp-ent-11-12-cp-isy-cis-stg12-07",
+                "description": "Assess the output produced by a decision support system, including graphing to detail the success of decisions, and comparing the proposed versus the actual outputs",
+                "prompts": []
+              },
+              {
                 "id": "dp-is-09",
-                "description": "Explain how expert systems contribute to the efficiency of intelligent systems, including autonomous vehicles and streaming services.",
+                "description": "Explain how expert systems contribute to the efficiency of intelligent systems (supercomputers; digital assistants; autonomous vehicles; streaming services)",
                 "prompts": [
                   {
                     "id": "prompt-is-09-2m",
@@ -3839,7 +4485,7 @@
                     "verb": "OUTLINE",
                     "scenario": "Hypothetical: A streaming service has millions of subscribers, and each viewer wants to find something to watch quickly. The service's recommendations are rule-based, using what each viewer has watched and the features of each title.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3890,7 +4536,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: An autonomous vehicle is navigating a busy city street with traffic lights, pedestrians and other cars nearby. Its sensors feed several expert systems that must interpret the environment and decide how to drive safely.",
                     "linkedOutcomes": [
-                      "EC-05"
+                      "EC-12-06"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -3958,7 +4604,7 @@
             "dotPoints": [
               {
                 "id": "dp-ep-01",
-                "description": "Describe the tools and processes used to manage and document the development of an enterprise system, including problem definition, time and resource management, an iterative approach, and testing and evaluation.",
+                "description": "Describe the tools and processes used to manage and document the development of an enterprise system (problem definition; time and resource management, including Gantt charts; an iterative approach; production process and technical skills; testing and evaluation)",
                 "prompts": [
                   {
                     "id": "prompt-ep-01-2m",
@@ -3967,7 +4613,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A project manager at a software company is beginning to plan a new customer records system. The project has a fixed launch date, and the team must agree on how it will manage its time and build the system.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4017,7 +4663,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: A software development team is building a customer relationship management (CRM) system for a large company. The company wants the system delivered in stages, so the team must plan its time and track progress against a fixed timeline.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4073,7 +4719,7 @@
               },
               {
                 "id": "dp-ep-02",
-                "description": "Explain the effect of the changing nature of enterprise on the development of projects, including offshore development, working remotely, freelance work, and the growth of start-ups.",
+                "description": "Explain the effect of the changing nature of enterprise on the development of projects (offshore development; working remotely; freelance work; enabling the growth of start-ups)",
                 "prompts": [
                   {
                     "id": "prompt-ep-02-2m",
@@ -4082,7 +4728,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: An Australian company is considering hiring a software development team in another country to build its customer portal. Managers want to know the main advantage and the main difficulty before they sign a contract.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4133,7 +4779,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A technology start-up needs a small team to build a new mobile application on a limited budget. It is deciding whether to hire remote staff and freelancers, rather than full-time employees, for each part of the project.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4195,7 +4841,7 @@
             "dotPoints": [
               {
                 "id": "dp-ep-03",
-                "description": "Investigate tools that support the design and development of an enterprise system, including online collaboration, budget, system flowcharts, and data flow diagrams.",
+                "description": "Investigate tools that support the design and development of an enterprise system (online collaboration; time/task action plans; process diary, including ongoing evaluation; budget; system flowcharts; data flow diagrams; decision trees)",
                 "prompts": [
                   {
                     "id": "prompt-ep-03-2m",
@@ -4204,7 +4850,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: A systems analyst at a small training college is documenting how a proposed online enrolment system will work. The analyst needs to show the sequence of steps for students and the movement of enrolment data between the system's parts.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4254,7 +4900,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: A small software company is in the early stages of planning a new client invoicing system. Its developers work from two offices and from home, and the project must be costed before the client signs off.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4309,7 +4955,7 @@
               },
               {
                 "id": "dp-ep-04",
-                "description": "Describe how computational, design and systems thinking skills are used in the design and development of an enterprise system.",
+                "description": "Describe how computational, design and systems thinking skills are used in the design and development of an enterprise system",
                 "prompts": [
                   {
                     "id": "prompt-ep-04-3m",
@@ -4318,7 +4964,7 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: A project leader is explaining to a new team the mindsets needed to build a successful enterprise system. The team includes developers, business analysts and designers, who each approach problems differently.",
                     "linkedOutcomes": [
-                      "EC-03"
+                      "EC-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4377,8 +5023,8 @@
                     "verb": "DESCRIBE",
                     "scenario": "Hypothetical: A regional bank is creating a new mobile app that lets customers check balances, transfer funds and manage their cards. The app must be easy to use, work reliably and connect securely to the bank's existing systems.",
                     "linkedOutcomes": [
-                      "EC-06",
-                      "EC-03"
+                      "EC-12-05",
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4431,6 +5077,11 @@
                     "isPastHSC": false
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-enp-rap-stg12-03",
+                "description": "Select key collaborating and managing criteria appropriate to the development of an enterprise project (designing for ease of operation and maintenance; clarifying each of the relevant informatics within the new system; outlining the role of the participants, data and components used in the system; negotiating user/client needs and wants; working collaboratively)",
+                "prompts": []
               }
             ]
           },
@@ -4440,7 +5091,7 @@
             "dotPoints": [
               {
                 "id": "dp-ep-05",
-                "description": "Apply tools to inform the requirements and limitations of an enterprise system, including interviews, surveys, analytical reports, and prototypes.",
+                "description": "Apply tools to inform the requirements and limitations of an enterprise system (interviews; surveys; analytical reports; prototypes; presentations of research results)",
                 "prompts": [
                   {
                     "id": "prompt-ep-05-2m",
@@ -4449,7 +5100,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: A business analyst at a regional insurance firm needs to understand what staff want from a new claims-tracking system. She must choose between talking to a few senior claims assessors and asking the wider team.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4500,7 +5151,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A software team is defining the scope of a new enterprise payroll-tracking system for a mid-sized company. It must confirm what users need, and what the existing servers and budget can support, before it writes the requirements.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4556,7 +5207,7 @@
               },
               {
                 "id": "dp-ep-06",
-                "description": "Explore and apply the most suitable development approach to develop, modify and implement an enterprise system, including waterfall, agile, prototyping, and outsourcing.",
+                "description": "Explore and apply the most suitable development approach to develop, modify and implement an enterprise system (waterfall (structured); agile; prototyping; end-user; outsourcing)",
                 "prompts": [
                   {
                     "id": "prompt-ep-06-2m",
@@ -4565,7 +5216,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: A project manager at a software company must choose a development methodology for a new internal reporting tool. The team has used a fixed-phase process before and is considering a more flexible method.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4616,7 +5267,7 @@
                     "verb": "EVALUATE",
                     "scenario": "Hypothetical: Two organisations are choosing development methodologies for very different projects. A start-up is building an innovative mobile app with unclear requirements, and a government agency is building a payroll system governed by fixed legal rules.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4670,6 +5321,11 @@
                     "isPastHSC": false
                   }
                 ]
+              },
+              {
+                "id": "dp-ent-11-12-cp-enp-pai-stg12-03",
+                "description": "Develop an implementation plan and test its feasibility for an enterprise computing system (design thinking; thinking and design tools, including storyboards, Gantt chart, decision tree; risk analysis; hardware and software integration; training; preferred system implementation method; methodology for testing the system)",
+                "prompts": []
               }
             ]
           },
@@ -4679,7 +5335,7 @@
             "dotPoints": [
               {
                 "id": "dp-ep-07",
-                "description": "Verify and validate an enterprise computing system, including evaluating test data, trialling documentation, and reviewing the impact of system implementation.",
+                "description": "Verify and validate an enterprise computing system (evaluating test data; trialling the operation and maintenance documentation; reviewing the impact of system implementation within relevant environments; modifying designs to improve functionality; testing, evaluating and maintaining the developed enterprise computing system)",
                 "prompts": [
                   {
                     "id": "prompt-ep-07-2m",
@@ -4688,7 +5344,7 @@
                     "verb": "DISTINGUISH",
                     "scenario": "Hypothetical: A quality assurance engineer is testing a new stock-control program before it is released to a wholesale company. The engineer must check both the program's build and its usefulness to the warehouse staff.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4739,7 +5395,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A new accounting system for a small manufacturer is in its final phase of testing before launch. Testers are checking that calculations are correct, and the operations team must be able to run the system from the documentation alone.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4790,13 +5446,7 @@
                       }
                     ],
                     "isPastHSC": false
-                  }
-                ]
-              },
-              {
-                "id": "dp-ep-08",
-                "description": "testing, evaluating and maintaining the developed enterprise computing system",
-                "prompts": [
+                  },
                   {
                     "id": "prompt-ep-08-2m",
                     "question": "Identify and briefly describe two types of software maintenance.",
@@ -4804,7 +5454,7 @@
                     "verb": "IDENTIFY",
                     "scenario": "Hypothetical: A small online ticketing system has been operating for one year. The company is planning updates in response to user feedback, a new payment provider and bugs found since release.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -4854,7 +5504,7 @@
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A large online retailer launched its e-commerce website two years ago and still manages it actively. Customer expectations, web browsers and security threats have all changed since launch.",
                     "linkedOutcomes": [
-                      "EC-06"
+                      "EC-12-09"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
