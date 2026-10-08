@@ -1,5 +1,21 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Reference depth for four courses, and two new courses)
+
+- **Upgraded.** Modern History (100 questions) and English Advanced (74) now carry
+  two or more questions per dot point. Every full-mark exemplar is about 40 words
+  per mark, against about 30 in the HSC Software Engineering reference, and most
+  questions have a scenario.
+- **New.** English Standard (139 questions over all seven focus areas, no options)
+  and Ancient History (149 questions). Ancient History covers the Year 11 focus
+  areas and the Year 12 core study, Cities of Vesuvius. Its 52 Year 12 depth-study
+  options are not included yet.
+- **Not yet source-checked.** Historical, legal and literary claims in these
+  courses were written from memory. A specialist should check them before students
+  rely on them.
+- **Still one question per dot point.** Legal Studies, Business Studies and
+  Economics are the next to be upgraded.
+
 ## [Unreleased] - 2026-10-07 (Analytics windows in hours, and stale seeded courses retired from saved libraries)
 
 - **Analytics windows.** Every class-analytics window now starts from one function,

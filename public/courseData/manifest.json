@@ -43,6 +43,18 @@
       "selected": true
     },
     {
+      "file": "HSCEnglishStandard.json",
+      "type": "course",
+      "subject": "English",
+      "selected": true
+    },
+    {
+      "file": "HSCAncientHistory.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": true
+    },
+    {
       "file": "topics/software-engineering-secure-architecture-topic.json",
       "type": "topic",
       "subject": "TAS",
