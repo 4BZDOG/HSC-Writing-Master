@@ -1,5 +1,15 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (The navigator shows only the latest version of each course)
+
+- **Changed.** The syllabus navigator now lists only the most recent version of each
+  course. Backups of earlier versions made by the shipped-course sync ("… (before
+  refresh)") are hidden there for every role. They stay in the library and Data Vault,
+  so their content can still be recovered or deleted.
+- **Added.** `Course.supersededBy` marks a backup with the id of the course that
+  replaced it. Backups made before this field existed are recognised by their
+  `-before-refresh` id, so no data migration is needed.
+
 ## [Unreleased] - 2026-10-08 (Reference depth for Business Studies and Economics; gaps closed in Enterprise Computing and Software Engineering)
 
 - **Upgraded.** Business Studies now has 348 questions, two per dot point, and

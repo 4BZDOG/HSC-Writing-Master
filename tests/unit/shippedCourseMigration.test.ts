@@ -115,6 +115,7 @@ describe('the 2.11.0 library migration', () => {
     );
     const backup = result.courses.find((c) => c.id === `${SOFTWARE_ENGINEERING}-before-refresh`);
     expect(backup?.name).toBe('HSC Software Engineering (edited) (before refresh)');
+    expect(backup?.supersededBy).toBe(SOFTWARE_ENGINEERING);
   });
 
   it('reports incomplete and changes nothing when the manifest cannot be read', async () => {

@@ -160,6 +160,7 @@ export const syncShippedCourses = async (
             ...course,
             id: `${course.id}-before-refresh`,
             name: `${course.name} (before refresh)`,
+            supersededBy: course.id,
           });
         }
         courses.push(stamped);
