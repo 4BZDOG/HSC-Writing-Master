@@ -124,17 +124,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-2-1",
-                        "mark": 2,
-                        "answer": "The brochure opens with the imperative 'Discover', which directs visitors to act and makes the text feel welcoming to readers who do not yet know the region. The second of the language features is the use of plain, concrete nouns such as 'beach' and 'train' in place of local place names. This choice shapes meaning for an unfamiliar audience, because readers can still build a clear picture of the journey without knowing where it goes. Together, these features show that the brochure's language is built for visitors, so the texts it addresses do not assume any prior knowledge of the place.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The imperative 'Discover' invites an unfamiliar audience to act. Plain nouns like 'beach' and 'train', instead of place names, let readers build meaning without local knowledge. Both language features show that texts like this one are built for visitors.",
                         "feedback": "Full marks: two different features (imperative verb, concrete nouns) are each named, and each has a clear effect on meaning for an unfamiliar audience. The closing sentence draws the two choices together into a single account of how the language is built for visitors, which is the step the top band rewards.",
                         "band": 1
                       },
                       {
                         "id": "sa-ea-2-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The brochure uses the word 'Discover' and simple words like beach.",
-                        "source": "AI",
                         "feedback": "One mark: two words are named, but neither is explained. The answer identifies features without stating their effect on meaning.",
                         "band": 1
                       }
@@ -341,17 +341,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-6-1",
-                        "mark": 2,
-                        "answer": "An aesthetic quality is a feature of a text, such as rhythm, imagery or sound, that appeals to the senses and the imagination. In a poem, for example, a writer can create the quality through sensory imagery, such as the sound of rain on metal, so that the language itself becomes the experience. Writers use aesthetic qualities across many texts to make a personal idea feel immediate to a reader. Recognising these qualities helps a reader see how language creates effect rather than only conveying information.",
                         "source": "AI",
-                        "feedback": "Full marks: the definition names the senses and the imagination as the source of the appeal, and the example is a specific sensory image from a text. The final sentence shows how language creates the quality, which is a fuller understanding than the two-mark definition alone needs.",
+                        "mark": 2,
+                        "answer": "Aesthetic qualities are features of texts, such as rhythm, which appeal to the senses and imagination. In a poem, sensory imagery such as 'the sound of rain on metal' creates the quality, so the language becomes the experience.",
+                        "feedback": "Full marks: the definition names the senses and the imagination as the source of the appeal, and the example is a specific sensory image from a text. The closing clause shows how language turns the quality into experience, which goes beyond the two-mark definition.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-6-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "An aesthetic quality is something that looks or sounds nice in a text.",
-                        "source": "AI",
                         "feedback": "One mark: the definition is vague ('nice'), and no example is given from a text. It is partial in the way the one-mark band describes.",
                         "band": 1
                       }
@@ -617,7 +617,7 @@
                       "close textual analysis",
                       "texts"
                     ],
-                    "markingCriteria": "7-8 marks: Justifies a sustained, creative and informed interpretation with close textual analysis of language, form and structure, and answers counter-readings with reasoned evidence\n6 marks: Justifies an informed interpretation with clear close textual analysis and some engagement with other readings\n5 marks: Justifies an interpretation with relevant evidence, but with limited analysis and no counter-reading\n3-4 marks: States an interpretation with some evidence and little justification\n2 marks: Makes a claim about the text with minimal evidence\n1 mark: Restates the poem's content without interpretation",
+                    "markingCriteria": "7-8 marks: Justifies a sustained, creative and informed interpretation with close textual analysis of language, form and structure, and answers counter-readings with reasoned evidence\n5-6 marks: Justifies an informed interpretation with relevant evidence and clear close textual analysis, though the analysis may be limited and counter-readings only briefly acknowledged\n4 marks: States an interpretation with some evidence and little justification, and does not show how the language or form supports the reading\n2-3 marks: Makes a claim about the text with minimal evidence and no analysis of language, form or structure\n1 mark: Restates the poem's content without interpretation",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-11-1",
@@ -734,25 +734,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-13-1",
-                        "mark": 8,
-                        "answer": "Composed text: 'The Mill Was Never Ours'\n\nEvery council meeting in Harrow Vale begins with the same word: progress. We are told that the new estate on the old mill flats will bring families, jobs and a future. I have walked those flats since I was six. I know where the river used to run, and I know which of the families who sold up never got the chance to return. Progress, in this town, has always been a story told by people who did not have to live with its cost.\n\nThe values we call community belong to the ones who stayed. Their trades, their hands and their stubborn gardens made Harrow Vale, and the new brochure does not mention them. A plan that reads only as profit forgets whose labour built the place. So when the planners say the estate is for everyone, I ask: for whom, and at what price? Let us stop calling it a future until we can say who it is for.\n\nRationale: The column challenges the perspective that progress is a single good, a view that appears across the council documents and the local texts studied in class. It also challenges the perspectives of council members who treat every change as an improvement, and it does so without naming any one speaker. I chose a first-person opinion voice so the reader meets the argument as a witness rather than a policy claim. The word progress opens and closes the piece, framing it as something contested. The river image is a creative choice that carries the critical point: it asks the reader to picture what was lost, which facts alone would not do. The short paragraphs and rhetorical questions create a critical register that asks the reader to weigh the values on both sides before deciding. A reader who reaches the final question is left to decide which values matter most, which is the critical purpose of the piece.",
                         "source": "AI",
+                        "mark": 8,
+                        "answer": "Composed text: 'The Mill Was Never Ours'\n\nEvery council meeting in Harrow Vale begins with the same word: progress. We are told that the new estate on the old mill flats will bring families, jobs and a future. I have walked those flats since I was six. I know where the river used to run, and I know which of the families who sold up never got the chance to return. Progress, in this town, has always been a story told by people who did not have to live with its cost.\n\nThe values we call community belong to the ones who stayed. Their trades, their hands and their stubborn gardens made Harrow Vale, and the new brochure does not mention them. A plan that reads only as profit forgets whose labour built the place. So when the planners say the estate is for everyone, I ask: for whom, and at what price? Let us stop calling it a future until we can say who it is for.\n\nRationale: The column sets out to challenge the perspective that progress is a single good, a view that appears across the council documents and the local texts studied in class. It also challenges the perspectives of council members who treat every change as an improvement, and it does so without naming any one speaker. I chose a first-person opinion voice so the reader meets the argument as a witness rather than a policy claim. The word progress opens and closes the piece, framing it as something contested. The river image is a creative choice that carries the critical point: it asks the reader to picture what was lost, which facts alone would not do. The short paragraphs and rhetorical questions create a critical register that asks the reader to weigh the values on both sides before deciding. A reader who reaches the final question is left to decide which values matter most, which is the critical purpose of the piece.",
                         "feedback": "Full marks: the composed column challenges one perspective (progress as a single good) with a controlled first-person voice and a deliberate frame of repeated words. The rationale explains specific choices (the river image, the opening and closing word, the rhetorical questions) and links them to the texts studied and to the reader's weighing of values, which is the precision the top band asks for.",
                         "band": 4
                       },
                       {
                         "id": "sa-ea-13-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "Composed text: 'Progress for Who?'\n\nThe council says the estate is progress. I think it costs too much. The old mill workers would have wanted to stay and see their town kept. Progress should include everyone, not only the new families who are moving in.\n\nRationale: I wanted to challenge the idea of progress and show a different perspective on the town. I used a short first-person voice because it sounds like a local person.",
-                        "source": "AI",
                         "feedback": "Five marks: the piece challenges a perspective clearly enough and the voice is controlled, but the text is thin and the rationale explains the intention rather than the choices. The link to the texts studied is absent, which places it in the 5-6 band.",
                         "band": 3
                       },
                       {
                         "id": "sa-ea-13-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Composed text: a short note that the mill should not be a new estate.\n\nRationale: I wanted to be creative.",
-                        "source": "AI",
                         "feedback": "Two marks: the text is short with limited control and the rationale does not explain any choice. The answer produces a text but does not construct a challenge to a perspective.",
                         "band": 1
                       }
@@ -787,25 +787,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-14-1",
-                        "mark": 4,
-                        "answer": "A text can affirm one value while challenging another, and the balance between the values is shaped by its language. In the invented radio feature 'Night Shift at Ferris Cannery', the narrator affirms the value of patient, shared labour through the repeated phrase 'we keep showing up', which presents work as a commitment held in common. The same feature challenges the value of quick results by describing a government grant as 'a promise written in pencil'. This contrast between affirming and challenging creates a perspective more complicated than either value alone, because the listener is invited to hold the two judgements together. The language gives the perspectives on the community their force, since each phrase carries a judgement the listener must weigh against the others. The effect is that the listener does not simply agree or disagree, but weighs each judgement against the other value at every step. Readers of texts like this one learn to notice that balance, not just the verdict.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "A text can affirm one value and challenge another, and its language shapes the perspectives that result. In the invented radio feature 'Night Shift at Ferris Cannery', the repeated phrase 'we keep showing up' affirms patient, shared labour, presenting work as a commitment held in common. The metaphor of a government grant as 'a promise written in pencil' challenges the value of quick results. Together these choices create a perspective more complicated than either of the values alone, because the listener must weigh both judgements rather than simply agree or disagree. Readers of texts like this learn to notice that balance, not just the verdict.",
                         "feedback": "Full marks: the explanation shows one affirming choice (the repeated 'we keep showing up') and one challenging choice (the 'promise written in pencil' metaphor), and it explains how the two produce a perspective more complicated than either value alone. The language is traced to the judgements it carries, which is what the top band asks for.",
                         "band": 3
                       },
                       {
                         "id": "sa-ea-14-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The text says we keep showing up, which affirms volunteer work. It also says the grant is written in pencil, which challenges quick results.",
-                        "source": "AI",
                         "feedback": "Two marks: one affirmed and one challenged value are identified with brief comment. The answer does not explain how the balance between them shapes a perspective.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-14-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The text has good and bad ideas about the community.",
-                        "source": "AI",
                         "feedback": "One mark: a general comment is made about values without naming a language feature or a specific value.",
                         "band": 1
                       }
@@ -1023,17 +1023,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-18-1",
-                        "mark": 2,
-                        "answer": "A reader's context changes meaning in two ways. First, a reader's own experience, such as having lost a family member, makes the text's emotional details feel more immediate, so the reader supplies meaning the author may not have stated. This links to the author's intention, which relies on the reader to complete the feeling. Second, a reader's cultural background shapes which values the reader notices, so the same text can be read as affirming or critical depending on the reader's context. The author's intention is only one part of the meaning, because the reader's context joins it to make the final reading of the text.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Personal experience, such as grief, adds meaning to a text, so the reader completes the feeling the author intended. Cultural background shapes which values the reader notices, so context joins the intention of the author rather than replacing it.",
                         "feedback": "Full marks: two distinct ways are identified (personal experience and cultural background), and each is linked to the author's intention. The answer also states that the reader's context joins the author's intention rather than replacing it, which is the relationship the question asks for.",
                         "band": 1
                       },
                       {
                         "id": "sa-ea-18-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "A reader who has lost someone might read the text differently.",
-                        "source": "AI",
                         "feedback": "One mark: one way a reader's context changes meaning is identified, with no second way and no link to the author's intention.",
                         "band": 1
                       }
@@ -1237,25 +1237,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-22-1",
-                        "mark": 3,
-                        "answer": "Context influences the perspectives in a text by shaping what its creator can see and say. In a diary written in a drought-affected town, the economic pressure of debt and dwindling water produces a perspective fixed on survival, which limits the ideas the narrator can express about the future. The values of the narrator, such as loyalty and self-reliance, add a second layer of influence, so the ideas in the text are both shaped by circumstance and filtered through belief. Readers of texts like this one must therefore reconstruct both the context and the values before they can judge the perspectives fairly. This is the core of the influence the question asks about, and it is what a concise summary of the diary needs to capture.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Context influences the perspectives in a text by limiting what its creator can see and say. In a diary written in a drought-affected town, debt and dwindling water produce a perspective fixed on survival, which narrows the ideas the narrator can express about the future. Loyalty and self-reliance, the narrator's values, add a second influence, filtering those ideas through belief. Readers of texts must reconstruct both the context and the values before judging the perspectives fairly.",
                         "feedback": "Full marks: the summary is concise and accurate. It names the context (drought, debt), its effect on perspective (survival and the future), and the role of values (loyalty and self-reliance), and it states the final effect on readers. Each part is brief, which is what the verb asks for.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-22-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The context of a drought affects what the narrator writes. Her values also affect the perspectives in the text.",
-                        "source": "AI",
                         "feedback": "Two marks: the context and values are both named with a brief link to perspectives. The summary does not explain how the context shapes the ideas, so it sits in the lower band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-22-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The diary is about a drought.",
-                        "source": "AI",
                         "feedback": "One mark: the answer makes a general statement about the context without summarising its influence on the perspectives.",
                         "band": 1
                       }
@@ -1349,25 +1349,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-24-1",
-                        "mark": 3,
-                        "answer": "Aesthetic elements clarify the responses readers bring to a text by creating mood before any argument is made. In 'The Fence at Halloran Creek', the sensory detail of rotten timber and wet wire establishes a mood of quiet labour, so readers approach the theme of inheritance with patience rather than suspicion. The genre of the personal essay also invites a particular response, because readers expect honesty from a first-person voice. Together, the aesthetic elements and the genre influence how readers judge the narrator, so the same passage can move one reader to sympathy and another to scepticism. The effect is most visible when a reader compares their own reaction to the same moment in the essay, which is the way different responses become clear.",
                         "source": "AI",
-                        "feedback": "Full marks: the mechanism is explained (the mood set by sensory detail prepares the reader for the theme), the role of genre is shown (the expectation of honesty), and two readers are shown responding differently to the same passage. The final sentence clarifies why different responses become visible.",
+                        "mark": 3,
+                        "answer": "Aesthetic elements shape the responses readers bring to a text by creating mood before argument begins. In 'The Fence at Halloran Creek', sensory detail of rotten timber and wet wire establishes a mood of quiet labour, so readers approach the theme of inheritance patiently. The genre of the personal essay invites a particular response, because readers expect honesty from the narrator. Together, these elements influence how readers judge the narrator, so one reader feels sympathy while another feels scepticism.",
+                        "feedback": "Full marks: the mechanism is explained (the mood set by sensory detail prepares the reader for the theme), the role of genre is shown (the expectation of honesty), and two readers are shown responding differently to the same narrator. Each step is tied to a specific response, which is what clarify requires.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-24-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Aesthetic elements such as the rotten fence make readers feel sad. The genre of personal essay makes readers trust the narrator.",
-                        "source": "AI",
                         "feedback": "Two marks: two elements are identified and their effect is briefly stated. The answer does not explain how the influence works or why readers might respond differently.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-24-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The essay has a fence in it.",
-                        "source": "AI",
                         "feedback": "One mark: a general statement about the text without clarifying how it influences readers.",
                         "band": 1
                       }
@@ -1572,25 +1572,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-28-1",
-                        "mark": 3,
-                        "answer": "A comparative study changes the reader's appreciation of each text because the second text shows what the first leaves unsaid. Reading the essay alone, a reader may focus on the physical labour of the fence; reading it alongside the story reveals a quieter understanding of waiting that the essay does not state. This new understanding flows back into each text, so the story's fog seems more personal and the essay's repeated tasks seem more deliberate. A reader who has read the essay first may find the fence less central once the ferry keeper's waiting is in view, and that shift in emphasis is the appreciation the comparison creates. The comparative method therefore gives each text a second life in the reader's mind.",
                         "source": "AI",
-                        "feedback": "Full marks: the mechanism is explained (the second text reveals what the first leaves unsaid), and the change flows in both directions, which shows appreciation of each text being altered. The comparative method is named, and the result is traced to a specific reading.",
+                        "mark": 3,
+                        "answer": "A comparative study changes the appreciation of each text because the second text shows what the first leaves unsaid. Read alone, the essay may draw attention to the fence's physical labour; alongside the story, a reader sees a quieter understanding of waiting the essay does not state. This understanding flows back into each text, so the story's fog seems more personal and the essay's repeated tasks seem more deliberate. The comparison gives each text a second life.",
+                        "feedback": "Full marks: the mechanism is explained (the second text reveals what the first leaves unsaid), and the change flows in both directions, which shows appreciation of each text being altered. The comparative method is named, and the change is traced to specific details in both texts (the fog and the repeated tasks).",
                         "band": 3
                       },
                       {
                         "id": "sa-ea-28-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Comparing two texts helps the reader see things they missed. Each text is better understood.",
-                        "source": "AI",
                         "feedback": "Two marks: a general benefit is stated with a brief reason. The answer does not explain what is seen or how it changes the reading of either text.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-28-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Two texts can be compared.",
-                        "source": "AI",
                         "feedback": "One mark: a general statement about comparison without any explanation of a change in appreciation.",
                         "band": 1
                       }
@@ -2318,7 +2318,7 @@
                       "valued",
                       "narration"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained, explicit assessment of how the text is valued across aesthetic qualities, text structures, language features and stylistic elements, weighing which features do the most work, with precise evidence\n6 marks: Assesses the value of the text across several features, with a clear conclusion and relevant evidence that is not fully developed\n5 marks: Identifies features that give the text value and makes a partial assessment, with limited evidence\n3-4 marks: Describes features of the text and makes a brief, unsupported comment on their value\n2 marks: Lists features with general statements about value\n1 mark: Makes a relevant but unsupported comment",
+                    "markingCriteria": "7-8 marks: Makes a sustained, explicit assessment of how the text is valued across aesthetic qualities, text structures, language features and stylistic elements, weighing which features do the most work, with precise evidence\n5-6 marks: Assesses the value of the text across several features, with a clear conclusion and relevant evidence that is not fully developed\n4 marks: Identifies features that give the text value and makes a partial assessment, with limited evidence\n2-3 marks: Describes or lists features of the text with general statements about their value and little assessment\n1 mark: Makes a relevant but unsupported comment",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-41-1",
@@ -2375,25 +2375,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-42-1",
-                        "mark": 3,
-                        "answer": "The first text structure is the fragmented chapter arrangement. Short chapters alternate between a diary and third-person narration, so the reader must reconstruct the sequence of events from separated pieces. The second of these text structures is the shifting point of view that the diary creates. Its first-person entries sometimes contradict the narration, and this gap produces language features such as irony and ambiguity that the reader has to interpret for themselves. The diary entries are dated, but the dates are not always in order, so the reader must check each entry against the narration. Together these structures make the novel feel like a collection of testimonies rather than a single account, and that effect is central to how the narration works.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Two text structures distinguish the narration. The first is the fragmented chapter arrangement, in which short chapters alternate between a diary and third-person narration, so the reader must reconstruct events from separated pieces. The second is the shifting point of view the diary creates, whose first-person entries sometimes contradict the narration. This gap produces language features such as irony and ambiguity, and the dated entries, not always in order, require the reader to check each one against the narration.",
                         "feedback": "Two distinct structures are described, and each is explained in terms of its effect on the narration. The specific detail about the dates adds precision, so the answer earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-42-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The novel has fragmented chapters that switch between a diary and narration. The reader has to work out the order of events.",
-                        "source": "AI",
                         "feedback": "Two structures are named, but the explanation of effect is brief and does not refer to the narration in detail. This is the 2-mark standard.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-42-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The novel uses a diary.",
-                        "source": "AI",
                         "feedback": "One feature is named with no description. This is the 1-mark standard.",
                         "band": 1
                       }
@@ -2487,17 +2487,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-44-1",
-                        "mark": 2,
-                        "answer": "In the language of critical expression, an interpretation is a reasoned claim about what a text means and how its techniques create that meaning, supported by textual evidence. It is a considered position rather than a summary, and it can be tested against other readings. A good interpretation refines an argument by moving beyond what happens in the text to why the writer chose to present it in that way.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "In the language of critical expression, an interpretation is a reasoned claim about what a text means and how its techniques create that meaning, supported by textual evidence. It refines an argument by moving beyond what happens in the text.",
                         "feedback": "The definition is precise: it names the reasoned claim, the evidence and the function of the term in refining an argument. This earns both marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-44-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "An interpretation is what you think the text means.",
-                        "source": "AI",
                         "feedback": "A general definition that treats the term as a personal opinion and does not refer to evidence. This is the 1-mark standard.",
                         "band": 1
                       }
@@ -2592,17 +2592,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-46-1",
-                        "mark": 2,
-                        "answer": "Mode is the broad category of communication, such as written, spoken or visual, and it determines the kinds of responses a reader or viewer can have to a text. Medium is the specific material or technology that carries the text, such as print or a stage, and it shapes how the form of the text is experienced. A reader of a printed novel and a viewer of a stage play may both receive a written or spoken mode, but the medium changes what they perceive.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Mode is the broad channel of communication, such as written or spoken, and it shapes the responses a reader has to a text. Medium is the specific material that carries the text, and it changes how the form is experienced.",
                         "feedback": "Two accurate differences are identified, and each is linked to the response of the audience and the form of the text. This earns both marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ea-46-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Mode is how a text communicates, while medium is what carries it.",
-                        "source": "AI",
                         "feedback": "One accurate difference with no link to response. This is the 1-mark standard.",
                         "band": 1
                       }
@@ -3321,7 +3321,7 @@
                       "pattern",
                       "evidence"
                     ],
-                    "markingCriteria": "7-8 marks: Justifies the critical interpretation through a sustained argument across the whole essay, with precise textual analysis of a recurring pattern and an account of how the pattern changes\n6 marks: Justifies the interpretation with a clear argument and relevant analysis of the pattern, not fully sustained\n5 marks: Presents the interpretation with an argument and some textual analysis, with limited sustained development\n3-4 marks: Asserts the interpretation with a brief reference to the text and an uneven argument\n2 marks: States an interpretation with little justification\n1 mark: Makes a relevant but unsupported comment",
+                    "markingCriteria": "7-8 marks: Justifies the critical interpretation through a sustained argument across the whole essay, with precise textual analysis of a recurring pattern and an account of how the pattern changes\n5-6 marks: Justifies the interpretation with a clear argument and relevant analysis of the pattern, though the argument is not fully sustained and the change in the pattern is noted rather than developed\n4 marks: Asserts the interpretation with a brief reference to the text and an uneven argument\n2-3 marks: States an interpretation with little justification and few textual references\n1 mark: Makes a relevant but unsupported comment",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-59-1",
@@ -3378,25 +3378,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-60-1",
-                        "mark": 3,
-                        "answer": "A plot summary tells the reader what happens in a text, in order, while a critical interpretation argues what the events mean and how the text makes that meaning. For example, saying that the widow closes the guesthouse in the final chapter is a plot summary; arguing that the closure reveals her refusal to be known, supported by the blank pages of her notebook, is a critical interpretation. The interpretation must be a sustained argument, developed across the essay through textual analysis, rather than a single observation. A summary can be correct without being critical, but an interpretation earns its place only when it explains why the text is written the way it is. That difference is the reason an examiner rewards argument and not retelling.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "A plot summary tells what happens in a text, in order, while a critical interpretation argues what the events mean. For example, saying that the widow closes the guesthouse in the final chapter is a plot summary; arguing that the closure reveals her refusal to be known, supported by the blank pages of her notebook, is a critical interpretation. The interpretation must be a sustained argument developed through textual analysis, not a single observation.",
                         "feedback": "The distinction is stated precisely, one example is used in both forms so the contrast is visible, and the interpretation is linked to sustained argument and textual analysis. This earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-60-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "A plot summary says what happens in the novel. A critical interpretation says what it means, for example the widow's refusal to be known.",
-                        "source": "AI",
                         "feedback": "The distinction is correct and an example is given, but the interpretation is not linked to argument or analysis. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-60-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "A plot summary is the story and an interpretation is your opinion.",
-                        "source": "AI",
                         "feedback": "A relevant comment that treats interpretation as opinion, with no example. This is the 1-mark standard.",
                         "band": 1
                       }
@@ -3847,17 +3847,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-68-1",
-                        "mark": 2,
-                        "answer": "Two terms from the language of critical and creative expression that help a writer build an argument are qualification, which tempers a claim so that it can be defended, and juxtaposition, which places two images or ideas side by side so that their contrast carries the argument. Each term works through effect: qualification makes a claim credible, and juxtaposition makes the reader feel the force of an opposing idea before it is refuted. Terms such as imagery can also support argument when they make an abstract point concrete.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two terms from the language of critical and creative expression that build an argument are qualification and juxtaposition. Qualification tempers a claim to make it defensible, and juxtaposition sets ideas side by side so their contrast carries the argument.",
                         "feedback": "Two accurate terms are identified, and each is linked to its effect on an argument. This earns both marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ea-68-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Qualification and juxtaposition are terms in the language of critical expression.",
-                        "source": "AI",
                         "feedback": "Two accurate terms are named with no link to argument or effect. This is the 1-mark standard.",
                         "band": 1
                       }
@@ -4011,7 +4011,7 @@
                       "drafts",
                       "tense"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the writer's own process of writing and the writing of others with sustained metalanguage, tracing changes across drafts and judging their effect\n6 marks: Assesses both processes using metalanguage, with a clear judgement and relevant examples that are not fully developed\n5 marks: Assesses the process of drafting with some metalanguage and a partial comment on the writing of others\n3-4 marks: Describes drafts and makes a brief comment on the writing of others, with limited metalanguage\n2 marks: Makes general statements about writing with little assessment\n1 mark: Makes a relevant but unsupported comment",
+                    "markingCriteria": "7-8 marks: Assesses the writer's own process of writing and the writing of others with sustained metalanguage, tracing changes across drafts and judging their effect\n5-6 marks: Assesses both processes using metalanguage, with a clear judgement and relevant examples that are not fully developed, and a partial comment on the writing of others\n4 marks: Describes drafts and makes a brief comment on the writing of others, with limited metalanguage\n2-3 marks: Describes drafts or makes general statements about writing, with little assessment of their effect\n1 mark: Makes a relevant but unsupported comment",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-71-1",
@@ -4068,17 +4068,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-72-1",
-                        "mark": 2,
-                        "answer": "Two items of metalanguage a writer can use to reflect on changes between drafts are tense, which shows whether events feel immediate or distant, and point of view, which shows whose perception controls what the reader knows. Using these terms, a writer can identify how a revision altered the reader's relationship to the story rather than only noting that the draft is better. Both terms let the writer move from a general sense that a draft is better to a specific account of what changed.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Tense and point of view are two items of metalanguage a writer can use to reflect on changes between drafts. Tense shows whether a revision makes events feel immediate, and point of view shows whose perception the reader follows.",
                         "feedback": "Two accurate items of metalanguage are identified, and each is linked to a specific change between drafts and its effect. This earns both marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ea-72-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Tense and point of view are both metalanguage that writers use.",
-                        "source": "AI",
                         "feedback": "Two accurate items named with no explanation of how they reflect on drafts. This is the 1-mark standard.",
                         "band": 1
                       }
@@ -4174,25 +4174,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-74-1",
-                        "mark": 3,
-                        "answer": "A writer first drafts the text to find its central idea, working without concern for the audience. The writer then revises the draft for the new audience, changing the register, length and emphasis so the text meets their expectations. Finally the writer presents the revised text in a form that suits its readers, checking layout and detail before release. Each stage can return the writer to an earlier one, because a presentation decision may reveal a problem with the draft that must be revised again. The stages are linked: each one prepares the next, and the writer's awareness of the new audience should shape every stage rather than being added at the end.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Writers move through three linked stages. First, they draft the text to find its central idea, without concern for the audience. Second, they revise the draft for the new audience, changing register, length and emphasis. Finally, they present the revised text in a form that suits its readers, checking layout and detail before release. Each stage prepares the next, and the writer may return to an earlier stage if presentation reveals a problem.",
                         "feedback": "The three stages are given in order, each with its purpose, and revision is shaped by the new audience. This earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-74-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The writer drafts the text and then changes it for the new audience. After that the writer presents it.",
-                        "source": "AI",
                         "feedback": "Two stages are outlined in order with limited detail on purpose. This is the 2-mark standard.",
                         "band": 2
                       },
                       {
                         "id": "sa-ea-74-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The writer writes something and then shows it to people.",
-                        "source": "AI",
                         "feedback": "A stage is named without outlining the process. This is the 1-mark standard.",
                         "band": 1
                       }
