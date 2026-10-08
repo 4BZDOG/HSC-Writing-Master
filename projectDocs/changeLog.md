@@ -1,5 +1,21 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Seed data review corrections)
+
+- **Corrected.** Modern History scenario now says Australia had no independent
+  Washington legation until 1940. English Advanced's invented tram-depot text is set
+  in 1960, because Sydney's electric trams ended in February 1961. Geography
+  scenarios for Tarrin Hollow and Lark Creek are labelled hypothetical, and the
+  Kestrel Gorge map is now described. "sulfur" is now "sulphur".
+- **Fixed.** Ancient History questions no longer refer to sources they do not
+  supply: one drops "drawing on the sources", and the Pliny question now carries a
+  paraphrase of Natural History 12.84.
+- **Known gaps, not changed here.** Business Studies and Economics have one question
+  per dot point, no scenarios and about 17 words per mark. Enterprise Computing has
+  one sample answer on 81 of 82 questions and no marker notes. Software Engineering
+  lacks marker notes on 72 questions. Ancient History omits the 52 Year 12 depth
+  studies.
+
 ## [Unreleased] - 2026-10-08 (Reference depth for four courses, and two new courses)
 
 - **Upgraded.** Modern History (100 questions) and English Advanced (74) now carry

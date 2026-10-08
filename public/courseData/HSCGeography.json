@@ -119,7 +119,7 @@
                       {
                         "id": "sa-geo-1-1",
                         "mark": 2,
-                        "answer": "Two natural processes that change Earth's natural systems without any human input are volcanic eruption, which releases sulfur dioxide that forms reflective particles and can temporarily cool the atmosphere, and orbital variation, the slow change in Earth's orbit and tilt that alters how much solar energy reaches the surface over thousands of years. Both are natural change because neither needs human activity to start, which separates them from human-induced change in the same systems. Their timing and scale differ from human influences, which is why geographers treat them as separate categories when explaining change.",
+                        "answer": "Two natural processes that change Earth's natural systems without any human input are volcanic eruption, which releases sulphur dioxide that forms reflective particles and can temporarily cool the atmosphere, and orbital variation, the slow change in Earth's orbit and tilt that alters how much solar energy reaches the surface over thousands of years. Both are natural change because neither needs human activity to start, which separates them from human-induced change in the same systems. Their timing and scale differ from human influences, which is why geographers treat them as separate categories when explaining change.",
                         "source": "AI",
                         "feedback": "Names two distinct natural processes, explains each in a clause, and uses the 'natural change' idea to set up the contrast with human-induced change. Full marks for identification plus explanation.",
                         "band": 1
@@ -3649,7 +3649,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "The Lark Creek investigation found that nitrate levels rose after heavy rain near a golf course. Residents of the nearby suburb (hypothetical) and the local council both have a role in managing the runoff."
+                    "scenario": "Hypothetical: the Lark Creek investigation found that nitrate levels rose after heavy rain near a golf course. Residents of the nearby suburb (hypothetical) and the local council both have a role in managing the runoff."
                   },
                   {
                     "id": "prompt-geo-65",
@@ -7268,7 +7268,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The autumn harvest festival in Tarrin Hollow brings former residents back to the village and includes the communal repair of the terraces."
+                    "scenario": "Hypothetical: the autumn harvest festival in Tarrin Hollow brings former residents back to the village and includes the communal repair of the terraces."
                   }
                 ]
               },
@@ -8713,7 +8713,8 @@
                         "feedback": "One feature is stated accurately, but there is no second feature, so the answer earns 1 mark.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "Hypothetical: the Kestrel Gorge map shows a steep-sided gorge with a stream running along its floor. Where the contour lines cross the stream, they bend into sharp V shapes with the points of the V directed up the slope."
                   }
                 ]
               },

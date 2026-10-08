@@ -2451,7 +2451,7 @@
                   },
                   {
                     "id": "prompt-ah-42",
-                    "question": "State two ways in which Athenian law limited the status of women, drawing on the sources.",
+                    "question": "State two ways in which Athenian law limited the status of women.",
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
@@ -2478,7 +2478,7 @@
                       {
                         "id": "sa-ah-42-1",
                         "mark": 2,
-                        "answer": "The sources show that Athenian law limited the status of women in two main ways. First, a woman had to be under the authority of a male guardian, the kyrios, who arranged her marriage and could transfer her to another household, so she could not act independently in legal matters. Second, the law of 451/0 BCE restricted citizenship to those with two citizen parents, so a woman's role in producing legitimate sons determined whether they could hold citizenship, which tied her status to the male citizen body.",
+                        "answer": "Athenian law limited the status of women in two main ways. First, a woman had to be under the authority of a male guardian, the kyrios, who arranged her marriage and could transfer her to another household, so she could not act independently in legal matters. Second, the law of 451/0 BCE restricted citizenship to those with two citizen parents, so a woman's role in producing legitimate sons determined whether they could hold citizenship, which tied her status to the male citizen body.",
                         "source": "AI",
                         "feedback": "States two distinct legal limitations (the kyrios system and the 451/0 BCE citizenship law) with reference to the law. Both are accurate and distinct, which earns full marks.",
                         "band": 1
@@ -6515,7 +6515,8 @@
                         "feedback": "One limitation with no development, which earns the 1-mark band.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "Pliny the Elder, writing in the first century CE, complained that India, China and Arabia drained about 100 million sesterces a year from the Empire in exchange for luxury goods such as pepper, pearls and silk. (Paraphrase of Natural History 12.84.)"
                   }
                 ]
               },
