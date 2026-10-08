@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
 
 /**
  * The daily AI allowance, as a student meets it.
@@ -102,7 +102,7 @@ const writingSurface = (page: Page) => page.locator('textarea').first();
 const evaluate = async (page: Page, answer: string) => {
   await writingSurface(page).fill(answer);
   const sent = page.waitForRequest((r) => r.url().includes('/api/gemini'), { timeout: 30_000 });
-  await page.getByRole('button', { name: /^Evaluate/ }).click();
+  await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
   await sent;
 };
 
@@ -211,7 +211,7 @@ test.describe('daily AI allowance', () => {
     proxy.exhaust({ used: 50, limit: 50 });
 
     await writingSurface(page).fill(FIRST);
-    await page.getByRole('button', { name: /^Evaluate/ }).click();
+    await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
 
     // The server's own wording reaches the student, rather than a bare
     // "something went wrong" — it is the only place the reset time is said.
