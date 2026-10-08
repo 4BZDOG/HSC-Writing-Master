@@ -1,5 +1,22 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (NESA fact-check fixes)
+
+- **Fixed.** Checked every shipped course against NESA's published syllabus text. Business Studies,
+  Legal Studies, Modern History, Economics, Geography and the English courses match NESA's dot
+  points and outcomes; the fixes below are the confirmed differences.
+- **Fixed.** 14 command-term definitions now use NESA's Glossary of key words wording (for example
+  Calculate, Explain, Contrast, Demonstrate, Apply, Critically analyse/evaluate). Statement and
+  Differentiate are not in NESA's glossary and are unchanged.
+- **Fixed.** Software Engineering: the Waterfall dot point no longer also names Agile (which has its
+  own); the back-end engineering dot point is under Research and planning as in the syllabus; three
+  dot points use NESA's wording. Business Studies: "last-in-first-out" typo.
+- **Fixed.** Year 11 topics in Ancient History, Geography and English Standard are now tagged Year 11
+  so they no longer appear as Year 12 content. Data version 2.15.0 brings existing browsers up to date.
+- **Known gaps (not changed).** Software Engineering lacks 8 NESA dot points; Enterprise Computing
+  differs from NESA more widely; Economics, Legal Studies, Modern History and Ancient History follow
+  the 2024/2025 syllabuses, which Year 12 does not study until Term 4 2027.
+
 ## [Unreleased] - 2026-10-08 (Marking guides in HSC marking-guideline style)
 
 - **Fixed.** Marking guides now read like an HSC marking guideline: a ladder with the highest

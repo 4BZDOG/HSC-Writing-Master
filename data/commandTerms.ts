@@ -151,8 +151,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CALCULATE',
-    definition:
-      'Determine a numerical answer using given data, formulas, or mathematical processes.',
+    definition: 'Ascertain/determine from given facts, figures or information.',
     tip: 'Write the formula, substitute, solve — in that order.\nNo working shown = no marks, even if the answer is right.',
     tier: 1,
     markRange: [1, 3],
@@ -229,7 +228,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DESCRIBE',
-    definition: 'Provide the characteristics and features of something in detail.',
+    definition: 'Provide characteristics and features.',
     tip: 'Use adjectives and specifics to paint a picture.\nAsk yourself: "What does this look like? What are its parts? How does it work?"',
     tier: 2,
     markRange: [2, 4],
@@ -248,7 +247,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'SUMMARISE',
-    definition: 'Express the most important ideas or facts in a brief, concise form.',
+    definition: 'Express, concisely, the relevant details.',
     tip: 'Cut ruthlessly — no examples, no elaboration, no fluff.\nIf you can say it in fewer words, do.',
     tier: 2,
     markRange: [2, 4],
@@ -307,7 +306,8 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   // --- Tier 3: Explain & Compare ---
   {
     term: 'EXPLAIN',
-    definition: 'Relate cause and effect; make the relationship between things clear.',
+    definition:
+      'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
     tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
     tier: 3,
     markRange: [3, 6],
@@ -327,7 +327,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'COMPARE',
-    definition: 'Show how things are similar and how they are different.',
+    definition: 'Show how things are similar or different.',
     tip: 'Use a balanced structure:\n"Both X and Y... However, X... whereas Y..."\nDiscuss the significance of each point, don\'t just list.',
     tier: 3,
     markRange: [3, 6],
@@ -347,7 +347,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'CONTRAST',
-    definition: 'Show only the differences between two or more things.',
+    definition: 'Show how things are different or opposite.',
     tip: 'Ignore similarities entirely.\nUse unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.',
     tier: 3,
     markRange: [3, 5],
@@ -366,8 +366,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'DEMONSTRATE',
-    definition:
-      'Show how something works or prove a point through examples or practical application.',
+    definition: 'Show by example.',
     tip: 'State the concept first, then show it in action with a concrete case.\nReal-world or syllabus examples score highest.',
     tier: 3,
     markRange: [3, 6],
@@ -448,7 +447,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'APPLY',
-    definition: 'Use knowledge and understanding of a concept in a new or different context.',
+    definition: 'Use in a different, new or unfamiliar situation.',
     tip: 'Start with the concept, then say "In this case..."\nThe marker wants to see transfer — prove you can use the idea outside the textbook.',
     tier: 4,
     markRange: [4, 8],
@@ -468,7 +467,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXAMINE',
-    definition: 'Inquire into in detail; investigate thoroughly.',
+    definition: 'Inquire into.',
     tip: "Pick 2-3 key aspects and go deep on each with evidence.\nQuality of depth beats quantity of points — don't skim the surface.",
     tier: 4,
     markRange: [4, 8],
@@ -526,8 +525,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'EXTRAPOLATE',
-    definition:
-      'Infer from what is known to project into the unknown; extend a trend beyond the given data.',
+    definition: 'Infer from what is known.',
     tip: 'Look at the pattern and project forward.\nUse "If this trend continues..." or "This suggests that..."\nAlways anchor your inference in the data.',
     tier: 4,
     markRange: [3, 6],
@@ -666,8 +664,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'APPRECIATE',
-    definition:
-      'Make a judgement about the value of something, recognising its positive qualities and significance.',
+    definition: 'Make a judgement about the value of.',
     tip: "Don't just say it's good.\nSay who it helps, what makes it significant, and why it matters in the bigger picture.",
     tier: 5,
     markRange: [4, 8],
@@ -710,7 +707,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'CRITICALLY ANALYSE',
     definition:
-      'Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.',
+      'Use interpretation and reasoning to assess a range of evidence and make judgements based on detailed analysis.',
     tip: "This is Band 6 territory — think about the thinking.\nSpot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.",
     tier: 6,
     markRange: [8, 15],
@@ -731,7 +728,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   {
     term: 'CRITICALLY EVALUATE',
     definition:
-      'Evaluate with additional depth, logic, and reflection, thoroughly weighing strengths and weaknesses.',
+      'Add a degree or level of accuracy, knowledge and understanding, logic, questioning, reflection and quality to evaluate.',
     tip: 'Apply every criterion rigorously, then interrogate your own judgement.\nWhat are the limitations of your evaluation? Where might your criteria be biased?',
     tier: 6,
     markRange: [8, 15],
@@ -751,8 +748,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
   },
   {
     term: 'SYNTHESISE',
-    definition:
-      'Combine different ideas, components, or sources to create a new, integrated whole.',
+    definition: 'Put together various elements to make a whole.',
     tip: 'Don\'t just summarise each source — show how they combine into something bigger.\nUse "Together, these suggest..." to signal the new insight.',
     tier: 6,
     markRange: [8, 15],
@@ -857,7 +853,8 @@ export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
 
 const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
-  definition: 'Relate cause and effect; make the relationship between things clear.',
+  definition:
+    'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
   tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
   tier: 3,
   markRange: [1, 20] as [number, number],
