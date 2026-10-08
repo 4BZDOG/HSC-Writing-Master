@@ -51,7 +51,12 @@ afterEach(() => {
 describe('the 2.11.0 library migration', () => {
   it('retires the Biology and template ids, and only those', () => {
     expect(RETIRED_SEED_COURSE_IDS).toEqual(
-      expect.arrayContaining([BIOLOGY, TEMPLATE, 'course-bio-advanced', 'course-chemistry-advanced'])
+      expect.arrayContaining([
+        BIOLOGY,
+        TEMPLATE,
+        'course-bio-advanced',
+        'course-chemistry-advanced',
+      ])
     );
     expect(RETIRED_SEED_COURSE_IDS).not.toContain(SOFTWARE_ENGINEERING);
     expect(RETIRED_SEED_COURSE_IDS).not.toContain(ENTERPRISE_COMPUTING);
@@ -116,5 +121,18 @@ describe('the 2.11.0 library migration', () => {
     const result = await addMissingShippedCourses(saved);
 
     expect(result.complete).toBe(false);
+  });
+
+  it('adds Geography, English Standard and Ancient History to a library that lacks them', async () => {
+    serveShipped();
+    const saved = [course(SOFTWARE_ENGINEERING, 'HSC Software Engineering')];
+
+    const result = await addMissingShippedCourses(saved);
+
+    expect(result.complete).toBe(true);
+    const ids = result.courses.map((c) => c.id);
+    expect(ids).toContain('course-hsc-geography');
+    expect(ids).toContain('course-hsc-english-standard');
+    expect(ids).toContain('course-hsc-ancient-history');
   });
 });

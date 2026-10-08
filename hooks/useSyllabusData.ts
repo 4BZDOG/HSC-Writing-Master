@@ -269,11 +269,12 @@ export const useSyllabusData = ({
 
         if (savedVersion !== DATA_VERSION) {
           dataToLoad = runMigrations(dataToLoad, savedVersion);
-          // 2.11.0 replaced the built-in library. A returning browser never runs
-          // discovery again, so shipped courses it is missing are added here. The
-          // version only advances once that has worked, so a failed fetch is retried.
+          // 2.11.0 replaced the built-in library and 2.12.0 added courses to it. A
+          // returning browser never runs discovery again, so shipped courses it is
+          // missing are added here. The version only advances once that has worked,
+          // so a failed fetch is retried.
           let libraryReady = true;
-          if (isOlderThan(savedVersion, '2.11.0')) {
+          if (isOlderThan(savedVersion, '2.12.0')) {
             const shipped = await addMissingShippedCourses(dataToLoad);
             dataToLoad = shipped.courses;
             libraryReady = shipped.complete;
