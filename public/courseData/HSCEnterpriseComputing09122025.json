@@ -11397,7 +11397,7 @@
                         "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-04-n0-s1",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Data literacy is the ability to read, understand, question and use data to make decisions. A data swamp is a large store of poorly documented, unmanaged data that is hard to find and use. In this hospital organisation, staff who cannot interpret the wait-time dashboard lack data literacy, while copies of the data in unmanaged folders form a data swamp.",
+                        "answer": "Data literacy is the ability to read, understand, question and use data to make decisions. A data swamp is a large store of poorly documented, unmanaged data that is hard to find and use, which lowers data quality. In this hospital organisation, staff who cannot interpret the wait-time dashboard lack data literacy, while copies of the data in unmanaged folders form a data swamp.",
                         "feedback": "Full marks: both terms are defined by their essential features and each has an example from the hospital organisation. The examples show the concepts in use rather than repeating the definitions.",
                         "band": 2
                       },
@@ -14112,7 +14112,7 @@
                         "id": "sa-is-05-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two key infrastructure components for an enterprise IoT network are the end-point devices themselves (the sensors and actuators that collect and act on data) and robust communication links (like Wi-Fi, 5G, or LoRaWAN) to transmit the data from these devices.",
+                        "answer": "Two infrastructure components of an enterprise IoT network are end-point devices (sensors and actuators that collect and act on data) and communication links (Wi-Fi, 5G or LoRaWAN) that carry the data to cloud storage.",
                         "feedback": "Full marks: two distinct infrastructure components are named, with the function of each in the IoT network. The answer is concise and suits a two-mark question.",
                         "band": 1
                       },

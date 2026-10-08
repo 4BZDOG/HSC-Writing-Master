@@ -10025,7 +10025,7 @@
                         "id": "sa-71ee6cb5-b5c5-4203-89e7-15339d35ea7f",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two technologies used to secure data transmission are HTTPS (Hypertext Transfer Protocol Secure) and TLS (Transport Layer Security).",
+                        "answer": "Two technologies used to secure data transmission are HTTPS (Hypertext Transfer Protocol Secure), which applies encryption to web traffic, and TLS (Transport Layer Security), the successor to SSL.",
                         "feedback": "Identifies two relevant technologies with brief functions, which meets the full-mark standard. For a stronger answer, choose options at different layers, such as a protocol and a certificate.",
                         "band": 1
                       },
@@ -14883,7 +14883,7 @@
                         "id": "sa-gantt-1-1",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "A Gantt chart is a visual project management tool used to schedule tasks and track progress over time. Its purpose is to give a clear overview of the project timeline, what needs to be done and who is responsible. Its key components are:\n1.  **Task list:** the work to be done, listed vertically.\n2.  **Timeline:** a horizontal axis showing the project's duration in days or weeks.\n3.  **Task bars:** horizontal bars whose length and position show each task's start date and duration.\n4.  **Task dependency:** lines or arrows linking tasks, such as one task finishing before the next can begin.\n5.  **Milestones:** markers for significant events or deadlines, such as 'Project kick-off'.",
+                        "answer": "A Gantt chart is a visual project management tool used for scheduling tasks and track progress over time. Its purpose is to give a clear overview of the project timeline, what needs to be done and who is responsible. Its key components are:\n1.  **Task list:** the work to be done, listed vertically.\n2.  **Timeline:** a horizontal axis showing the project's duration in days or weeks.\n3.  **Task bars:** horizontal bars whose length and position show each task's start date and duration.\n4.  **Task dependency:** lines or arrows linking tasks, such as one task finishing before the next can begin.\n5.  **Milestones:** markers for significant events or deadlines, such as 'Project kick-off'.",
                         "feedback": "Full marks: the purpose of scheduling and tracking is described, along with the task list, timeline, task bars, dependencies and milestones, and the answer links these components to the student team's planning.",
                         "band": 2
                       },
