@@ -5917,7 +5917,7 @@
               },
               {
                 "id": "dp-client-storage-04",
-                "description": "Explore and explain the influence of a web browser on web development (client-side storage)",
+                "description": "Explore and explain the influence of a web browser on web development, including the use of developer (dev) tools",
                 "prompts": [
                   {
                     "id": "prompt-storage-cookies-local-001",
@@ -8554,7 +8554,7 @@
               },
               {
                 "id": "dp-project-agile-vs-waterfall-01",
-                "description": "Research and use the Agile and Waterfall software development approaches",
+                "description": "Research and use the Waterfall software development approach",
                 "prompts": [
                   {
                     "id": "prompt-agile-waterfall-001",
@@ -8916,13 +8916,7 @@
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "id": "subTopic-1763034567890-f7g8h9j",
-            "name": "Producing and implementing",
-            "dotPoints": [
+              },
               {
                 "id": "dp-1763034567890-dfgh456",
                 "description": "Explain the contribution of back-end engineering to the success and ease of software development",
@@ -9045,7 +9039,13 @@
                     ]
                   }
                 ]
-              },
+              }
+            ]
+          },
+          {
+            "id": "subTopic-1763034567890-f7g8h9j",
+            "name": "Producing and implementing",
+            "dotPoints": [
               {
                 "id": "dp-1763170000009-prjdev01",
                 "description": "Demonstrate the use of programmed data backup",
@@ -11739,7 +11739,7 @@
             "dotPoints": [
               {
                 "id": "dp-automation-impact",
-                "description": "Assess the impact of automation on the individual, society and the environment including safety, disability, skills, efficiency, waste, and wealth distribution",
+                "description": "Assess the impact of automation on the individual, society and the environment including safety of workers, people with disability, the nature and skills required for employment, production efficiency, waste and the environment, and the economy and distribution of wealth",
                 "prompts": [
                   {
                     "id": "prompt-skills-shift",
@@ -12027,7 +12027,7 @@
               },
               {
                 "id": "dp-human-behaviour-influence",
-                "description": "Explore by implementation how patterns in human behaviour influence ML and AI software development including psychological responses, acute stress response, cultural protocols and belief systems",
+                "description": "Explore by implementation how patterns in human behaviour influence ML and AI software development including psychological responses, patterns related to acute stress response, cultural protocols and belief systems",
                 "prompts": [
                   {
                     "id": "prompt-stress-response",

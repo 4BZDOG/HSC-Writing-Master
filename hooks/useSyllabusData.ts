@@ -304,7 +304,7 @@ export const useSyllabusData = ({
           // missing are added here, and unedited copies are brought up to date. The
           // version only advances once that has worked, so a failed fetch is retried.
           let libraryReady = true;
-          if (isOlderThan(savedVersion, '2.14.0')) {
+          if (isOlderThan(savedVersion, '2.15.0')) {
             const synced = await syncShippedCourses(dataToLoad);
             dataToLoad = synced.courses;
             libraryReady = synced.complete;

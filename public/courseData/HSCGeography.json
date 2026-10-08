@@ -80,6 +80,7 @@
       {
         "id": "topic-geo-1",
         "name": "Human–environment interactions",
+        "year": "year11",
         "subTopics": [
           {
             "id": "subtopic-geo-1-1",
@@ -2558,6 +2559,7 @@
       {
         "id": "topic-geo-2",
         "name": "Geographical investigation",
+        "year": "year11",
         "subTopics": [
           {
             "id": "subtopic-geo-2-1",
@@ -3828,6 +3830,7 @@
       {
         "id": "topic-geo-3",
         "name": "Earth’s natural systems",
+        "year": "year11",
         "subTopics": [
           {
             "id": "subtopic-geo-3-1",
@@ -4734,6 +4737,7 @@
       {
         "id": "topic-geo-4",
         "name": "People, patterns and processes",
+        "year": "year11",
         "subTopics": [
           {
             "id": "subtopic-geo-4-1",

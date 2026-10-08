@@ -3626,7 +3626,7 @@
               },
               {
                 "id": "dp-bs-1-6-6",
-                "description": "inventory management – advantages and disadvantages of holding stock, LIFO (lastinfirst-out), FIFO (first-in-first-out), JIT (just-in-time)",
+                "description": "inventory management – advantages and disadvantages of holding stock, LIFO (last-in-first-out), FIFO (first-in-first-out), JIT (just-in-time)",
                 "prompts": [
                   {
                     "id": "prompt-bs-32",

@@ -1605,6 +1605,7 @@
       {
         "id": "topic-ah-2",
         "name": "Historical investigation",
+        "year": "year11",
         "subTopics": [
           {
             "id": "subtopic-ah-2-1",
@@ -2271,6 +2272,7 @@
       {
         "id": "topic-ah-3",
         "name": "Features of ancient societies",
+        "year": "year11",
         "subTopics": [
           {
             "id": "subtopic-ah-3-1",
