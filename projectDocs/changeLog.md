@@ -1,5 +1,30 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Verb ribbon becomes the hero)
+
+- **Changed.** The command verb ribbon is now the one loud surface in the workspace, where the
+  previous change had made it match the panels around it. It explains the fact that sets a student's
+  ceiling — the command verb caps the band — and now shows it: the verb is set at poster scale
+  (Inter 900 italic, up to 96px, sized to the word), lit in its tier's colour, with a ceiling
+  staircase beside it.
+- **New.** The staircase replaces the flat spectrum bar and its dot row. Six columns rise from tier
+  1 to tier 6; the ones the verb lets a student reach stand in their tier colours, and the ones
+  above the ceiling are hatched and dashed. A dashed line marks the ceiling and the Deep Learning
+  Threshold stays as the gate between tiers 3 and 4. Each column is a button for that tier, a much
+  larger target than the old dots. When the verb changes, the verb's rule and the ceiling draw in,
+  the column flares once, and the light re-tints; nothing loops.
+- **Changed.** The stage is dark in both themes, so in the light theme the ribbon reads as a lit
+  slab above a white drawer of tier cards, and in the dark theme as a spotlit stage. The stats are a
+  scoreboard under the staircase, and all four now show on a phone (the old tray hid "Terms").
+- **Changed.** Shut, the header is a dark bar with the tier's tile, a miniature staircase lit to the
+  tier, and the selected verb. The strategy brief is set a step larger on the stage.
+- **Fixed.** The end-to-end tests located the Evaluate button with a loose pattern that the
+  "Evaluate, Synthesise & Create" tier card also matched once its emoji became an icon. They now use
+  one shared pattern that matches only the button.
+- **Held by tests.** Everything painted on the stage is named `RIBBON_INK_*` and checked: no
+  light/dark variant, no theme token, nothing dimmed with opacity, no text tone the dark ground
+  cannot carry. The design spec has a section on the hero.
+
 ## [Unreleased] - 2026-10-08 (Verb ribbon joins the panel family)
 
 - **Changed.** The command verb ribbon now looks like the other reference panels in the workspace.

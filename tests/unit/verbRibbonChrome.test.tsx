@@ -3,29 +3,38 @@ import React from 'react';
 import { readFileSync } from 'node:fs';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
-import { getCommandTermInfo, TIER_GROUPS } from '../../data/commandTerms';
-import {
-  PANEL_HEADER_CLOSED,
-  PANEL_HEADER_OPEN,
-  PANEL_ROW_MIN_H,
-  PANEL_SURFACE,
-} from '../../utils/panelStyles';
+import StrategyBrief from '../../components/StrategyBrief';
+import { commandTerms, getCommandTermInfo, TIER_GROUPS } from '../../data/commandTerms';
+import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import { PromptVerb } from '../../types';
 import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
-import { BAND_HEX } from '../../utils/renderUtils';
+import { BAND_HEX, getBandRgb } from '../../utils/renderUtils';
 import tailwindConfig from '../../tailwind.config.js';
 import {
-  RIBBON_BODY,
-  RIBBON_DETAIL_CARD,
-  RIBBON_DETAIL_RULE,
-  RIBBON_DETAIL_TERM,
-  RIBBON_HEADER_BAR,
-  RIBBON_HEADER_TILE,
-  RIBBON_HEADER_TITLE,
+  RIBBON_DRAWER,
+  RIBBON_INK_AURA,
+  RIBBON_INK_CEILING,
+  RIBBON_INK_HEADER_BAR,
+  RIBBON_INK_HEADER_TILE,
+  RIBBON_INK_HEADER_TITLE,
+  RIBBON_INK_HERO,
+  RIBBON_INK_MINI_STAIR,
+  RIBBON_INK_SCALE_RAIL,
+  RIBBON_INK_SCALE_SPAN,
+  RIBBON_INK_SCOREBOARD,
+  RIBBON_INK_STAIR,
+  RIBBON_INK_STAIR_COLUMN,
+  RIBBON_INK_STAIR_IGNITION,
+  RIBBON_INK_STAIR_NUMERAL,
+  RIBBON_INK_STAIR_STEP,
+  RIBBON_INK_STAT_VALUE,
+  RIBBON_INK_STEP_LABEL,
+  RIBBON_INK_STEP_LABEL_IDLE,
+  RIBBON_INK_THRESHOLD_CHIP,
+  RIBBON_INK_THRESHOLD_RULE,
+  RIBBON_INK_VERB,
+  RIBBON_INK_VERB_RULE,
   RIBBON_ROOT,
-  RIBBON_SPECTRUM_BOUNDARY,
-  RIBBON_STAT_TRAY,
-  RIBBON_STAT_VALUE,
   RIBBON_STRIP,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_RECEDED,
@@ -38,19 +47,15 @@ import {
   RIBBON_TIER_HEADER_LABEL_IDLE,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE_IDLE,
-  RIBBON_SPECTRUM_SCALE_RAIL,
-  RIBBON_SPECTRUM_SCALE_SPAN,
-  RIBBON_TIMELINE_STEP_LABEL,
-  RIBBON_TIMELINE_STEP_LABEL_IDLE,
-  RIBBON_TIMELINE_THRESHOLD_CHIP,
   RIBBON_VERB_CHIP,
+  ribbonVerbSize,
 } from '../../utils/verbRibbonChrome';
 
 /**
- * The ribbon is about to be redesigned in `utils/verbRibbonChrome.ts`, one
- * constant at a time. That only works if the constants are the thing the ribbon
- * actually wears — a class string left behind in the JSX would silently stop
- * tracking the redesign, and nothing else in the suite looks at this
+ * The ribbon is the workspace's hero, and `utils/verbRibbonChrome.ts` is where
+ * that is written down. That only works if the constants are the thing the
+ * ribbon actually wears — a class string left behind in the JSX would silently
+ * stop tracking the design, and nothing else in the suite looks at this
  * component's chrome. `tests/unit/commandVerbHierarchy.test.tsx` is the
  * behavioural contract and asserts nothing about colour or theme.
  *
@@ -67,27 +72,37 @@ afterEach(cleanup);
 
 const getToggle = () => screen.getByRole('button', { name: /command verb hierarchy reference/i });
 
+/** The stage's root: the ribbon's outermost box. */
+const rootOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+
+/** `#rrggbb` as the `rgb(r, g, b)` string jsdom reports a colour back as. */
+const asRgb = (hex: string): string => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+};
+
 describe('the ribbon wears the shared vocabulary', () => {
   it('dresses its root and its header bar from verbRibbonChrome', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    expect((container.firstElementChild as HTMLElement).className).toContain(RIBBON_ROOT);
-    expect(getToggle().className).toContain(RIBBON_HEADER_BAR);
+    expect(rootOf(container).className).toContain(RIBBON_ROOT);
+    expect(getToggle().className).toContain(RIBBON_INK_HEADER_BAR);
+    // Still on the accordions' row height: a 61px row among 61px rows is what
+    // keeps the page's rhythm, hero or not.
+    expect(getToggle().className).toContain(PANEL_ROW_MIN_H);
   });
 
-  it('dresses the detail card, its heading and its stat tray', () => {
-    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+  it('dresses the verb, the hero and the scoreboard', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
     const term = screen.getAllByText('DESCRIBE').find((el) => el.tagName === 'H4') as HTMLElement;
-    expect(term.className).toContain(RIBBON_DETAIL_TERM);
-    // The whole constant, walking up: its first token is `relative`, which half
-    // the page's ancestors also carry, so a prefix match here proves nothing.
-    let card: HTMLElement | null = term.parentElement;
-    while (card && !card.className.includes(RIBBON_DETAIL_CARD)) card = card.parentElement;
-    expect(card, 'the verb heading is not inside RIBBON_DETAIL_CARD').toBeTruthy();
+    expect(term.className).toContain(RIBBON_INK_VERB);
+    expect(term.closest(`[class="${RIBBON_INK_HERO}"]`)).toBeTruthy();
+    // The cell's parent is the scoreboard, which is what holds the hairlines.
     expect(screen.getByText('Band Cap').closest('div')?.parentElement?.className).toContain(
-      RIBBON_STAT_TRAY
+      RIBBON_INK_SCOREBOARD
     );
+    expect(container.querySelectorAll(`[class="${RIBBON_INK_SCOREBOARD}"]`)).toHaveLength(1);
   });
 
   it('dresses the strip, its tier cards and their headers', () => {
@@ -106,6 +121,17 @@ describe('the ribbon wears the shared vocabulary', () => {
     expect(header.className).toContain(RIBBON_TIER_HEADER);
   });
 
+  it('puts the strip in the drawer, under the stage and not inside it', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const drawer = container.querySelector(`[class="${RIBBON_DRAWER}"]`) as HTMLElement;
+    expect(drawer).toBeTruthy();
+    expect(drawer.querySelector(`[class="${RIBBON_STRIP}"]`)).toBeTruthy();
+    const hero = container.querySelector(`[class="${RIBBON_INK_HERO}"]`) as HTMLElement;
+    expect(hero.contains(drawer)).toBe(false);
+    expect(drawer.contains(hero)).toBe(false);
+  });
+
   it('dresses every one of the thirty-eight verb chips', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
@@ -118,120 +144,175 @@ describe('the ribbon wears the shared vocabulary', () => {
 });
 
 /**
- * The ribbon is a panel like the accordions under the writing area, and it has
- * to be one in the way that can be checked: the same surface constant, the same
- * header row height and tones, the same title voice. It used to be the one
- * reference panel that was drawn separately — a glass bar of its own, two
- * gradient hairlines, a chevron in a circle, a sentence-case title — and
- * "looks out of place" was the whole bug report.
+ * The ribbon is a hero, and a hero stands out by being a different object from
+ * what is around it. This one is a stage — dark in BOTH themes, lit in the
+ * tier's own colour — standing on an ordinary themed drawer.
  *
- * Its colours on a theme surface still need a light value and a `dark:`
- * partner, which the sweep at the bottom of this block holds for every
- * constant in the file.
+ * "Dark in both themes" is a claim that has to be held, because the failure
+ * mode is silent. The theme tokens flip under the light theme: `--color-text-
+ * muted` resolves to slate-600, and the tier's `text` class swaps to its `-900`
+ * step, which is dark ink on a dark ground. Nothing throws; the light theme is
+ * simply unreadable on the stage. So everything painted on it is pinned to name
+ * its colours outright, and to carry no partner for a ground that has only one.
  */
-describe('the ribbon is a panel in the accordions’ family', () => {
-  it('wears the shared panel surface, which carries the border in both themes', () => {
+describe('the stage is dark in both themes, and says so', () => {
+  const inkExports = Object.entries(verbRibbonChrome).filter(
+    ([name, value]) => name.startsWith('RIBBON_INK_') && typeof value === 'string'
+  ) as [string, string][];
+
+  it('has constants to hold to it', () => {
+    // A guard on the guard: a rename that drops the prefix would leave the two
+    // sweeps below passing over an empty list.
+    expect(inkExports.length).toBeGreaterThanOrEqual(25);
+  });
+
+  it('carries no light: or dark: partner on anything painted on it', () => {
+    for (const [name, value] of inkExports) {
+      expect(value, `${name} has a theme variant on a ground with one theme`).not.toMatch(
+        /(^|\s)[^\s]*(light|dark):/
+      );
+    }
+    // The root is the ground itself, so the same applies to it.
+    expect(RIBBON_ROOT).not.toMatch(/(^|\s)[^\s]*(light|dark):/);
+  });
+
+  it('reads no theme token', () => {
+    for (const [name, value] of [...inkExports, ['RIBBON_ROOT', RIBBON_ROOT]]) {
+      expect(value, `${name} reads a theme colour token`).not.toContain('--color-');
+    }
+  });
+
+  it('names no tone the ground cannot carry, and dims nothing with opacity', () => {
+    for (const [name, value] of inkExports) {
+      // The one exemption, and it is not a dim: the flare's `opacity-0` is its
+      // RESTING state. It fires after a delay, `tier-ignite` fills forwards only,
+      // and without a resting opacity the overlay would sit at full strength in
+      // the tier's hex for the length of that delay. It carries no text.
+      if (name === 'RIBBON_INK_STAIR_IGNITION') continue;
+      // `slate-500` is 4.1:1 on this ground, measured; 600 and darker are worse.
+      expect(value, `${name} sets text in a tone too dark for the ground`).not.toMatch(
+        /text-slate-[5-9]00/
+      );
+      // DesignSpec §2 rule 3: de-emphasis is a colour, never an opacity.
+      expect(value, `${name} dims with opacity`).not.toMatch(/(^|\s)opacity-/);
+    }
+  });
+
+  it('puts no theme variant in anything the stage renders', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const root = container.firstElementChild as HTMLElement;
 
-    expect(root.className).toContain(PANEL_SURFACE);
-    // The box is closed by the panel's own 1px border, as a pair — the part the
-    // old glass bar had to be given back after it shipped without one.
-    expect(PANEL_SURFACE).toContain('border-slate-300');
-    expect(PANEL_SURFACE).toContain('dark:border-white/20');
+    const drawer = container.querySelector(`[class="${RIBBON_DRAWER}"]`) as HTMLElement;
+    const themed = /(^|\s)[^\s]*(light|dark):|--color-/;
+    const offenders = Array.from(container.querySelectorAll('*'))
+      .filter((el) => !drawer.contains(el) && el !== drawer)
+      .filter((el) => themed.test(el.getAttribute('class') ?? ''))
+      // Two exemptions, each with its reason. The icon tile wears the tier
+      // config's `solidBg` and `solidText` — a solid fill and the text paired to
+      // it, which is `getBandConfig`'s own contrast pairing and reads the same
+      // on either ground. And the mesh is a decorative, text-free overlay whose
+      // shared component bakes a `light:` opacity a call site cannot override
+      // (recorded on MeshOverlay itself): it cannot touch legibility.
+      .filter((el) => !el.className.toString().includes(RIBBON_INK_HEADER_TILE))
+      .filter((el) => !(el.className.toString().includes('mix-blend-overlay') && !el.textContent))
+      .map((el) => `${el.tagName}.${el.getAttribute('class')}`);
+    expect(offenders, `theme variants on the stage:\n${offenders.join('\n')}`).toEqual([]);
   });
 
-  it('stands its header on the accordions’ row, in their open and closed tones', () => {
-    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+  it('sets the brief in colours it names, and the surface tone still uses the tokens', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    expect(getToggle().className).toContain(PANEL_ROW_MIN_H);
-    expect(getToggle().className).toContain(PANEL_HEADER_OPEN);
-    expect(getToggle().className).not.toContain(PANEL_HEADER_CLOSED);
+    // The checks on the verb's method — the stage's smallest, palest text.
+    const check = document.querySelector(
+      'div.border-l-2 p.font-serif.leading-relaxed'
+    ) as HTMLElement;
+    expect(check).toBeTruthy();
+    expect(check.className).toContain('text-slate-300');
+    expect(check.className).not.toContain('--color-text');
+    cleanup();
 
-    fireEvent.click(getToggle());
-    expect(getToggle().className).toContain(PANEL_HEADER_CLOSED);
-    expect(getToggle().className).not.toContain(PANEL_HEADER_OPEN);
+    // …and the default is untouched: the same brief on a themed surface reads
+    // the muted token, which `light:text-slate-500` once overrode into a
+    // lighter tone than the light theme had asked for (4.15:1 on a tier wash).
+    const { container } = render(<StrategyBrief verb={'DESCRIBE' as PromptVerb} />);
+    const surfaceCheck = container.querySelector(
+      'div.border-l-2 p.font-serif.leading-relaxed'
+    ) as HTMLElement;
+    expect(surfaceCheck.className).toContain('text-[rgb(var(--color-text-muted))]');
+    expect(surfaceCheck.className).not.toContain('light:text-slate-500');
   });
 
-  it('names itself in the section voice, as every accordion does', () => {
-    expect(RIBBON_HEADER_TITLE).toMatch(/(^|\s)t-section(\s|$)/);
+  it('is lit from one custom property, drawn from the one band palette', () => {
+    for (const [verb, tier] of [
+      ['IDENTIFY', 1],
+      ['EXPLAIN', 3],
+      ['EVALUATE', 6],
+    ] as const) {
+      const { container, unmount } = render(
+        <CommandVerbHierarchy currentVerb={verb as PromptVerb} />
+      );
+      expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(tier));
+      // The glow beneath it is drawn from the same property, not from a literal.
+      expect(rootOf(container).style.boxShadow).toContain('var(--band-rgb)');
+      unmount();
+    }
+  });
+
+  it('keeps a neutral light, and no glow, when no verb is chosen', () => {
+    const { container } = render(<CommandVerbHierarchy />);
+
+    // A cool slate — nobody's tier. Red would say "Band 1" to a student who has
+    // chosen nothing.
+    expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe('100 116 139');
+    expect(rootOf(container).style.boxShadow).toBe('');
+  });
+
+  // The aura is the one gradient on the stage, and `tests/e2e/support/
+  // contrast.ts` returns `unassessable` for any text whose background chain
+  // meets a gradient. So it is a SIBLING of the content: with it beside the
+  // text rather than behind it in the tree, every text node's nearest
+  // background is the flat ground and the light-theme audit can measure it.
+  it('is a sibling of the content, never an ancestor of any text', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const aura = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`) as HTMLElement;
+    expect(aura).toBeTruthy();
+    expect(aura.getAttribute('aria-hidden')).toBe('true');
+    expect(aura.textContent).toBe('');
+    expect(aura.children).toHaveLength(0);
+    expect(aura.parentElement).toBe(rootOf(container));
+    // …and nothing with text in it has the aura as an ancestor.
+    expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"] *`)).toBeNull();
+  });
+
+  it('re-lights on a change of tier, and stays put on a change within one', () => {
+    const { container, rerender } = render(
+      <CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />
+    );
+    const first = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`);
+
+    // Same tier: the same light.
+    fireEvent.click(screen.getByRole('button', { name: 'RECALL' }));
+    expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"]`)).toBe(first);
+
+    // A verb of another tier: a new element, which is what replays the fade.
+    rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+    expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"]`)).not.toBe(first);
+  });
+});
+
+describe('the header carries the tier while the ribbon is shut', () => {
+  it('names itself in the section voice, and refuses to wrap', () => {
+    expect(RIBBON_INK_HEADER_TITLE).toMatch(/(^|\s)t-section(\s|$)/);
 
     render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
     const title = screen.getByText('HSC Command Verb Hierarchy');
-    expect(title.className).toContain(RIBBON_HEADER_TITLE);
-    // The accordions' own pair: quiet while shut, full ink while open.
-    expect(title.className).toContain('text-slate-900 dark:text-white');
-    fireEvent.click(getToggle());
-    expect(title.className).toContain('text-slate-500 dark:text-slate-400');
-  });
-
-  it('is bounded by its own border, not by hairlines above and below', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    // The two gradient rules that used to mark where the reference began and
-    // ended. With a surface of its own they are a second boundary beside the
-    // first, and the one place in the workspace that drew a boundary twice.
-    expect(container.querySelector('.h-px.bg-gradient-to-r')).toBeNull();
-    expect((container.firstElementChild as HTMLElement).firstElementChild).toBe(getToggle());
-    expect((container.firstElementChild as HTMLElement).lastElementChild).not.toBe(getToggle());
-  });
-
-  it('opens onto the accordions’ body, with the one rhythm between its three blocks', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    const body = container.querySelector(`[class="${RIBBON_BODY}"]`) as HTMLElement;
-    expect(body).toBeTruthy();
-    expect(RIBBON_BODY).toContain('border-t border-slate-300 dark:border-white/10');
-    expect(RIBBON_BODY).toContain('space-y-5');
-    // The brief, the ladder and the footer, and nothing outside it.
-    expect(body.children).toHaveLength(3);
-    expect(body.closest(`[id="${getToggle().getAttribute('aria-controls')}"]`)).toBeTruthy();
-  });
-
-  it('no longer hangs a full-bleed gradient across the whole bar', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    expect(container.querySelector('button > .absolute.inset-0.bg-gradient-to-r')).toBeNull();
-    expect(getToggle().className).not.toContain('bg-gradient-to-r');
-    // …or a 2px underline restating the tier a third time: the tile and the
-    // chip carry it while the panel is shut, and the brief's rule once it is open.
-    expect(getToggle().querySelector('.absolute')).toBeNull();
-  });
-
-  it('states the tier once on the brief, as a rule down its edge, and only when there is one', () => {
-    const { container, unmount } = render(
-      <CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />
-    );
-
-    const rule = container.querySelector(`[class*="${RIBBON_DETAIL_RULE}"]`) as HTMLElement;
-    expect(rule).toBeTruthy();
-    expect(rule.getAttribute('aria-hidden')).toBe('true');
-    // Tier 3's gradient, from the config rather than from a literal here.
-    expect(rule.className).toContain('from-yellow-500');
-    unmount();
-
-    // With no verb there is no tier to state, so there is no brief and no rule.
-    const { container: neutral } = render(<CommandVerbHierarchy />);
-    expect(neutral.querySelector(`[class*="${RIBBON_DETAIL_RULE}"]`)).toBeNull();
-  });
-
-  it('paints the brief on a neutral surface, not on a wash of the tier', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-
-    const card = container.querySelector(`[class*="${RIBBON_DETAIL_CARD}"]`) as HTMLElement;
-    expect(card).toBeTruthy();
-    // Tier 2's wash, in both themes. It was the loudest object on a page whose
-    // other cards are white.
-    expect(card.className).not.toContain('bg-orange-500/10');
-    expect(card.className).not.toContain('light:bg-orange-100');
-    expect(card.className).not.toMatch(/border-orange/);
-    expect(RIBBON_DETAIL_CARD).toContain('bg-slate-50');
-    expect(RIBBON_DETAIL_CARD).toContain('dark:bg-white/[0.03]');
+    expect(title.className).toContain(RIBBON_INK_HEADER_TITLE);
+    expect(title.className).toContain('truncate');
   });
 
   it('carries the tier on the icon tile, paired the way getBandConfig intends', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const tile = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
+    const tile = container.querySelector(`[class*="${RIBBON_INK_HEADER_TILE}"]`) as HTMLElement;
 
     // Tier 3's solid fill is yellow; `text-white` on it is 1.92:1, which is why
     // the tile wears the config's own `solidText`. `-950`, not `-900`: see the
@@ -241,28 +322,621 @@ describe('the ribbon is a panel in the accordions’ family', () => {
     expect(tile.className).not.toContain('text-white');
   });
 
-  it('gives every colour on a theme surface a light value and a dark partner', () => {
-    /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */
-    const colourProperty = (token: string): string | null => {
-      const utility = token.split(':').pop() as string;
-      const match = utility.match(/^(text|bg|border|from|via|to|shadow|ring|divide)-(.+)$/);
-      if (!match) return null;
-      const [, property, value] = match;
-      // Theme-neutral keywords need no partner; sizes and gradient directions
-      // are not colours at all.
-      if (/^(transparent|current|inherit|none)$/.test(value)) return null;
-      // The alpha may be an arbitrary value — `white/[0.03]` is a real tier-card
-      // fill here, and the header's classifier never had to read one.
-      const alpha = '(\\/(\\[[^\\]]+\\]|[\\d.]+))?';
-      const isColour =
-        new RegExp(`^(white|black)${alpha}$`).test(value) ||
-        new RegExp(`^[a-z]+-\\d{2,3}${alpha}$`).test(value) ||
-        value.startsWith('[rgb(');
-      return isColour ? property : null;
-    };
+  // Open, the verb is set at poster scale a few inches below, and a chip
+  // repeating it in the bar is the same fact twice on one screen. It stays in
+  // the document — the height lock and the tests both depend on it — and only
+  // its display changes, which is a class and so is pinned here.
+  it('shows the selected chip only while the ribbon is shut, and only from sm', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
+    const chip = screen.getAllByText('EXPLAIN').find((el) => el.tagName === 'DIV') as HTMLElement;
+    const wrapper = chip.parentElement as HTMLElement;
+    expect(wrapper.className).toMatch(/(^|\s)hidden(\s|$)/);
+    expect(wrapper.className).toContain('sm:group-aria-[expanded=false]/header:flex');
+    expect(getToggle().className).toContain('group/header');
+  });
+
+  it('draws the ceiling in miniature: six bars, lit to the tier, from sm', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const mini = container.querySelector(`[class="${RIBBON_INK_MINI_STAIR}"]`) as HTMLElement;
+    expect(mini).toBeTruthy();
+    expect(mini.getAttribute('aria-hidden')).toBe('true');
+    expect(RIBBON_INK_MINI_STAIR).toMatch(/(^|\s)hidden sm:flex/);
+
+    const bars = Array.from(mini.children) as HTMLElement[];
+    expect(bars).toHaveLength(6);
+    // Tier 3: three lit in their own hues, three unlit.
+    bars.forEach((bar, index) => {
+      expect(bar.style.backgroundColor).toBe(
+        index < 3
+          ? `rgb(${getBandRgb(index + 1)
+              .split(' ')
+              .join(', ')})`
+          : 'rgba(255, 255, 255, 0.2)'
+      );
+    });
+    // Rising, not flat.
+    const heights = bars.map((bar) => parseFloat(bar.style.height));
+    expect([...heights].sort((a, b) => a - b)).toEqual(heights);
+    expect(new Set(heights).size).toBe(6);
+  });
+
+  it('draws no miniature when there is no tier to light it to', () => {
+    const { container } = render(<CommandVerbHierarchy />);
+    expect(container.querySelector(`[class="${RIBBON_INK_MINI_STAIR}"]`)).toBeNull();
+  });
+});
+
+/**
+ * The verb is the hero element: Inter 900 italic caps at up to 96px. That only
+ * holds if every one of the thirty-eight fits where it is put, and the longest of
+ * them — DIFFERENTIATE, and the two-word CRITICALLY ANALYSE and CRITICALLY
+ * EVALUATE — do not fit where IDENTIFY does. `tests/e2e` cannot run this at six
+ * widths in a unit suite, so the rule that chooses the size is pinned here and
+ * the geometry is measured in the browser.
+ */
+describe('the verb is set at poster scale, sized to the word', () => {
+  /** The largest size a verb can reach, which only the short ones may. */
+  const LARGEST = 'min-[1440px]:text-8xl';
+
+  it('wears the display voice, lit from behind by the tier', () => {
+    expect(RIBBON_INK_VERB).toMatch(/(^|\s)t-display(\s|$)/);
+    expect(RIBBON_INK_VERB).toContain('uppercase');
+    expect(RIBBON_INK_VERB).toContain('italic');
+    // The glow is drawn from the stage's one hue, not from a copy of it.
+    expect(RIBBON_INK_VERB).toContain('rgb(var(--band-rgb)/0.55)');
+    expect(RIBBON_INK_VERB).not.toMatch(/text-\[#/);
+  });
+
+  it('gives only the short single-word verbs the largest size', () => {
+    expect(ribbonVerbSize('IDENTIFY')).toContain(LARGEST);
+    expect(ribbonVerbSize('DESCRIBE')).toContain(LARGEST);
+
+    for (const long of [
+      'DIFFERENTIATE',
+      'DEMONSTRATE',
+      'CRITICALLY ANALYSE',
+      'CRITICALLY EVALUATE',
+    ]) {
+      expect(ribbonVerbSize(long), `${long} would not fit at the largest size`).not.toContain(
+        LARGEST
+      );
+    }
+  });
+
+  it('never sets a two-word verb above the smallest steps, because it wraps', () => {
+    const two = ribbonVerbSize('CRITICALLY EVALUATE');
+    expect(two).toBe(ribbonVerbSize('DIFFERENTIATE'));
+    expect(two).toContain('text-3xl');
+  });
+
+  it('steps down as the word gets longer, and never up', () => {
+    const rank = (term: string): number =>
+      ribbonVerbSize(term).includes('text-5xl')
+        ? 3
+        : ribbonVerbSize(term).includes('text-4xl')
+          ? 2
+          : 1;
+    const byLength = Array.from(commandTerms.keys())
+      .map((term) => String(term))
+      .sort((a, b) => a.length - b.length);
+
+    let previous = Infinity;
+    for (const term of byLength.filter((t) => !t.includes(' '))) {
+      expect(rank(term), `${term} is larger than a shorter verb`).toBeLessThanOrEqual(previous);
+      previous = rank(term);
+    }
+  });
+
+  it('sizes every one of the thirty-eight to one of exactly three steps', () => {
+    const sizes = new Set(
+      Array.from(commandTerms.keys()).map((term) => ribbonVerbSize(String(term)))
+    );
+    expect(sizes.size).toBe(3);
+  });
+
+  it('wears its size on the heading, beside the voice', () => {
+    render(<CommandVerbHierarchy currentVerb={'DIFFERENTIATE' as PromptVerb} />);
+
+    const term = screen
+      .getAllByText('DIFFERENTIATE')
+      .find((el) => el.tagName === 'H4') as HTMLElement;
+    expect(term.className).toContain(RIBBON_INK_VERB);
+    expect(term.className).toContain(ribbonVerbSize('DIFFERENTIATE'));
+  });
+
+  // It is drawn from the left on a change of verb, in the same gesture as the
+  // dotted underline the question card puts under the verb in the prompt.
+  it('underlines the verb with a rule that draws itself in, and replays on a new verb', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const rule = container.querySelector(`[class="${RIBBON_INK_VERB_RULE}"]`) as HTMLElement;
+    expect(rule).toBeTruthy();
+    expect(rule.getAttribute('aria-hidden')).toBe('true');
+    expect(RIBBON_INK_VERB_RULE).toContain('animate-rule-draw');
+    expect(RIBBON_INK_VERB_RULE).toContain('origin-left');
+
+    // The block is keyed on the verb, so choosing another remounts the heading
+    // and its rule — which is what replays the one-shot.
+    const heading = screen.getAllByText('DESCRIBE').find((el) => el.tagName === 'H4');
+    fireEvent.click(screen.getByRole('button', { name: 'CLARIFY' }));
+    expect(screen.getAllByText('CLARIFY').find((el) => el.tagName === 'H4')).toBeTruthy();
+    expect(heading!.isConnected).toBe(false);
+  });
+
+  it('says what is missing, and what closes the gap, when no verb is chosen', () => {
+    const { container } = render(<CommandVerbHierarchy />);
+
+    expect(screen.getByRole('heading', { name: 'Choose a verb' })).toBeTruthy();
+    expect(screen.getByText(/Pick one below to see what it asks for/)).toBeTruthy();
+    // It claims nothing about any tier, and draws nothing that depends on one.
+    expect(container.querySelector(`[class="${RIBBON_INK_VERB_RULE}"]`)).toBeNull();
+    expect(container.querySelector(`[class="${RIBBON_INK_SCOREBOARD}"]`)).toBeNull();
+    expect(screen.queryByText(/questions cap a response/)).toBeNull();
+  });
+});
+
+describe('the scoreboard states what the verb is worth, in telemetry', () => {
+  // DesignSpec §4: JetBrains Mono is for "marks, token counts, and system
+  // logs". Marks are the first example in that sentence, and the scoreboard's
+  // four numbers — the mark range, the band cap, the time range and the
+  // syllabus term count — are the app's clearest case of it.
+  it('sets the figures in the telemetry face, tabular, and refuses to wrap', () => {
+    expect(RIBBON_INK_STAT_VALUE).toContain('font-mono');
+    // A two-digit range must not shove its neighbours along as the verb
+    // changes.
+    expect(RIBBON_INK_STAT_VALUE).toContain('tabular-nums');
+    // "4–7 min" was wider than its cell at four across, and wrapped.
+    expect(RIBBON_INK_STAT_VALUE).toContain('whitespace-nowrap');
+  });
+
+  it('shows all four stats, including on a phone where the old tray hid one', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const info = getCommandTermInfo('DESCRIBE' as PromptVerb);
+    for (const label of ['Marks', 'Band Cap', 'Time', 'Terms']) {
+      const cell = screen.getByText(label).closest('div') as HTMLElement;
+      expect(cell.className).not.toMatch(/(^|\s)hidden(\s|$)/);
+      expect(cell.className).not.toContain('sm:flex');
+    }
+    expect(screen.getByText(info.markRange.join('–'))).toBeTruthy();
+    expect(screen.getByText(info.syllabusTerms.join('–'))).toBeTruthy();
+    // Two columns on a phone so all four fit; four from `sm`.
+    expect(RIBBON_INK_SCOREBOARD).toContain('grid-cols-2');
+    expect(RIBBON_INK_SCOREBOARD).toContain('sm:grid-cols-4');
+  });
+
+  it('keeps the unit a size down, so the figure holds the scoreboard’s scale', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const info = getCommandTermInfo('DESCRIBE' as PromptVerb);
+    const unit = screen.getByText('min');
+    expect(unit.className).toContain('text-sm');
+    expect((unit.parentElement as HTMLElement).textContent).toBe(`${info.timeRange.join('–')}min`);
+  });
+
+  it('draws its hairlines from a one-pixel gap over a lighter ground', () => {
+    expect(RIBBON_INK_SCOREBOARD).toContain('gap-px');
+    expect(RIBBON_INK_SCOREBOARD).toMatch(/bg-white\/10/);
+  });
+});
+
+/**
+ * The staircase, and the four things about the old bar that were not design
+ * decisions but arithmetic.
+ *
+ * The fill ran to `tier / 6` while the dots were laid out by `justify-between` —
+ * so the two halves of the same diagram were on different scales, and below
+ * `sm`, where five of the six labels are `hidden`, the dots moved depending on
+ * which tier was current. The four "measurement ticks" sat at 16/38.7/61.3/84%
+ * and marked none of the five boundaries. The fill was one tier's own gradient
+ * stretched across the lit portion, so the bar was monochrome. And the current
+ * dot carried `animate-ping`, which is `1s infinite`, on a strip that is mounted
+ * for the whole session.
+ *
+ * The staircase keeps every one of those guarantees in its new shape, and they
+ * are decidable from the DOM, which is why they are pinned here rather than left
+ * to a screenshot this project has no baseline for.
+ */
+describe('the staircase lights one geometry from one palette', () => {
+  const steps = (): HTMLElement[] =>
+    [1, 2, 3, 4, 5, 6].map((tier) =>
+      screen.getByRole('button', { name: new RegExp(`Show tier ${tier} verbs`, 'i') })
+    );
+
+  const columnOf = (step: HTMLElement): HTMLElement =>
+    step.querySelector(`[class*="${RIBBON_INK_STAIR_COLUMN}"]`) as HTMLElement;
+
+  it('is a control, six wide: each step is the column, its numeral and its name', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const stair = container.querySelector(`[class="${RIBBON_INK_STAIR}"]`) as HTMLElement;
+    expect(stair).toBeTruthy();
+    for (const step of steps()) {
+      expect(step.parentElement).toBe(stair);
+      expect(step.className).toContain(RIBBON_INK_STAIR_STEP);
+      expect(columnOf(step)).toBeTruthy();
+    }
+  });
+
+  it('names each step by tier, from the one derived label', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const labels = steps().map((step) => step.getAttribute('aria-label'));
+    expect(labels[1]).toMatch(/Define/i);
+    // "Argue" was a hand-written fourth copy of this label, and named nothing
+    // else in the ladder, so the drift was invisible.
+    expect(labels[4]).toMatch(/Discuss/i);
+    expect(labels.join(' ')).not.toMatch(/Argue/i);
+  });
+
+  it('puts each step at the centre of its own band', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    // Band 1 owns [0, 16.667]; its centre is 8.333. Band 6 owns
+    // [83.333, 100]; its centre is 91.667. Under `justify-between` the first
+    // dot sat at 0 and the last at 100 — neither inside the band it names.
+    const [first, , , , , last] = steps();
+    expect(first.style.left).toBe('8.333%');
+    expect(last.style.left).toBe('91.667%');
+    // Every step is one sixth wide less a gutter, so neighbours never touch.
+    for (const step of steps()) expect(step.style.width).toBe('calc(16.667% - 0.5rem)');
+  });
+
+  it('lights exactly the tiers the verb’s ceiling lets through, and hatches the rest', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    steps().forEach((step, index) => {
+      const column = columnOf(step);
+      if (index < 3) {
+        // Tier 1–3: a fill in the tier's own hue.
+        expect(column.style.backgroundImage, `column ${index + 1}`).toMatch(/^linear-gradient/);
+        expect(column.style.backgroundImage).toContain('var(--tier-rgb)');
+        expect(column.style.border).toBe('');
+      } else {
+        // Tier 4–6: present and out of reach — hatched, with a dashed edge.
+        expect(column.style.backgroundImage, `column ${index + 1}`).toMatch(
+          /^repeating-linear-gradient/
+        );
+        expect(column.style.border).toContain('dashed');
+      }
+    });
+  });
+
+  it('lights nothing when no verb is chosen — every column is out of reach', () => {
+    render(<CommandVerbHierarchy />);
+
+    for (const step of steps()) {
+      expect(columnOf(step).style.backgroundImage).toMatch(/^repeating-linear-gradient/);
+    }
+  });
+
+  it('stands the columns in even steps from a first rung that can be hit', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const fractions = steps().map((step) =>
+      parseFloat(columnOf(step).style.height.replace('calc(var(--plot) * ', ''))
+    );
+    // Tier 1 is 28%, not a sixth: a sliver cannot carry its numeral or be hit
+    // with a thumb.
+    expect(fractions[0]).toBeCloseTo(0.28, 5);
+    expect(fractions[5]).toBeCloseTo(1, 5);
+    for (let i = 1; i < fractions.length; i += 1) {
+      expect(fractions[i]).toBeGreaterThan(fractions[i - 1]);
+    }
+    const gaps = fractions.slice(1).map((f, i) => f - fractions[i]);
+    for (const gap of gaps) expect(gap).toBeCloseTo(gaps[0], 5);
+  });
+
+  // The drift guard. `components/CognitiveSpectrum.tsx` — deleted with an earlier
+  // redesign — held a hard-coded fourth copy of these six values in a `switch`,
+  // which is the class of mistake `bandColors.test.ts` exists to prevent. The
+  // staircase has to be readable as "the band palette, as six steps".
+  it('paints every step from the band palette, never from a literal', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    steps().forEach((step, index) => {
+      expect(step.style.getPropertyValue('--tier-rgb')).toBe(getBandRgb(index + 1));
+    });
+
+    // The one flare is the tier's own hex, which `BAND_HEX` stays the only copy of.
+    const flare = document.querySelector(`[class*="${RIBBON_INK_STAIR_IGNITION}"]`) as HTMLElement;
+    expect(flare.style.backgroundColor).toBe(asRgb(BAND_HEX[3]));
+  });
+
+  it('draws the ceiling once, at the verb’s own tier, in that tier’s colour', () => {
+    const { container, rerender } = render(
+      <CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />
+    );
+
+    const ceilings = container.querySelectorAll(`[class="${RIBBON_INK_CEILING}"]`);
+    expect(ceilings).toHaveLength(1);
+    const line = ceilings[0] as HTMLElement;
+    expect(line.getAttribute('aria-hidden')).toBe('true');
+    // At the height of tier 3's column: its fraction of the plot, above the
+    // row of names.
+    expect(line.style.bottom).toBe('calc(var(--label) + var(--plot) * 0.568)');
+    expect(line.style.borderColor).toBe(`rgb(${getBandRgb(3).split(' ').join(', ')})`);
+
+    // A verb of another tier moves it, and remounts it, which is what replays
+    // the draw-in.
+    rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+    const moved = container.querySelector(`[class="${RIBBON_INK_CEILING}"]`) as HTMLElement;
+    expect(moved).not.toBe(line);
+    expect(moved.style.bottom).toBe('calc(var(--label) + var(--plot) * 1)');
+  });
+
+  it('draws no ceiling when there is nothing to cap', () => {
+    const { container } = render(<CommandVerbHierarchy />);
+    expect(container.querySelector(`[class="${RIBBON_INK_CEILING}"]`)).toBeNull();
+  });
+
+  it('flares only the column the reader has just reached', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const flares = container.querySelectorAll(`[class*="${RIBBON_INK_STAIR_IGNITION}"]`);
+    expect(flares).toHaveLength(1);
+    expect(steps()[2].contains(flares[0])).toBe(true);
+    expect(flares[0].getAttribute('aria-hidden')).toBe('true');
+  });
+
+  // The one orchestrated moment this surface has is the staircase building
+  // itself, a beat per column from the left, and it is written down as a delay
+  // per column — so the stagger is a fact about the column's position, and
+  // moving the first column moves nothing else.
+  it('builds itself from the left, each column a beat after the one before', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    expect(RIBBON_INK_STAIR_COLUMN).toContain('animate-stair-rise');
+    // Growing from the foot, not the middle.
+    expect(RIBBON_INK_STAIR_COLUMN).toContain('origin-bottom');
+
+    const delays = steps().map((step) => parseFloat(columnOf(step).style.animationDelay));
+    expect(delays[0]).toBe(0);
+    for (let i = 1; i < delays.length; i += 1) {
+      expect(delays[i], `column ${i + 1} does not wait for column ${i}`).toBeGreaterThan(
+        delays[i - 1]
+      );
+    }
+    const gaps = delays.slice(1).map((delay, i) => delay - delays[i]);
+    for (const gap of gaps) expect(gap).toBe(gaps[0]);
+  });
+
+  it('flares after its own column has finished rising, and not before', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const flare = document.querySelector(`[class*="${RIBBON_INK_STAIR_IGNITION}"]`) as HTMLElement;
+    const own = parseFloat(columnOf(steps()[2]).style.animationDelay);
+    expect(parseFloat(flare.style.animationDelay)).toBeGreaterThan(own);
+    // Hidden until its turn: `tier-ignite` fills forwards only, so the overlay
+    // would otherwise be a solid block of the tier's hex for the whole delay.
+    expect(RIBBON_INK_STAIR_IGNITION).toContain('opacity-0');
+  });
+
+  // The reveal belongs to the moment the reader can SEE it. It used to be keyed
+  // on the verb alone, which fires it when a question loads — and beneath the
+  // breadcrumb the ribbon is shut at that moment, so every one-shot finished
+  // unseen and the reader opened a page that was already at rest.
+  describe('replays its reveal when the ribbon is opened', () => {
+    const ceilingOf = (container: HTMLElement) =>
+      container.querySelector(`[class="${RIBBON_INK_CEILING}"]`) as HTMLElement;
+    const headingOf = (verb: string) =>
+      screen.getAllByText(verb).find((el) => el.tagName === 'H4') as HTMLElement;
+
+    it('remounts the staircase, the ceiling and the verb on opening', () => {
+      const { container } = render(
+        <CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} defaultOpen={false} />
+      );
+      const stairBefore = container.querySelector(`[class="${RIBBON_INK_STAIR}"]`);
+      const ceilingBefore = ceilingOf(container);
+      const headingBefore = headingOf('EXPLAIN');
+
+      fireEvent.click(getToggle());
+
+      expect(container.querySelector(`[class="${RIBBON_INK_STAIR}"]`)).not.toBe(stairBefore);
+      expect(ceilingOf(container)).not.toBe(ceilingBefore);
+      expect(headingBefore.isConnected).toBe(false);
+    });
+
+    it('does not replay on closing — content fading in while the panel folds away', () => {
+      const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+      const stairBefore = container.querySelector(`[class="${RIBBON_INK_STAIR}"]`);
+      const ceilingBefore = ceilingOf(container);
+
+      fireEvent.click(getToggle());
+      expect(getToggle().getAttribute('aria-expanded')).toBe('false');
+
+      expect(container.querySelector(`[class="${RIBBON_INK_STAIR}"]`)).toBe(stairBefore);
+      expect(ceilingOf(container)).toBe(ceilingBefore);
+    });
+
+    it('does not replay at mount when it starts open, and replays on each later opening', () => {
+      const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+      const first = container.querySelector(`[class="${RIBBON_INK_STAIR}"]`);
+      // Nothing has changed, so a second look at the DOM is the same node.
+      expect(container.querySelector(`[class="${RIBBON_INK_STAIR}"]`)).toBe(first);
+
+      fireEvent.click(getToggle());
+      fireEvent.click(getToggle());
+      const second = container.querySelector(`[class="${RIBBON_INK_STAIR}"]`);
+      expect(second).not.toBe(first);
+
+      fireEvent.click(getToggle());
+      fireEvent.click(getToggle());
+      expect(container.querySelector(`[class="${RIBBON_INK_STAIR}"]`)).not.toBe(second);
+    });
+  });
+
+  // `animate-ping` is `1s … infinite` and this component is never unmounted: it
+  // ran behind every student for as long as they wrote. The staircase is a
+  // one-shot flare and a one-shot line, both replayed by `key`.
+  it('runs nothing forever in a surface that is always mounted', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    expect(container.innerHTML).not.toContain('animate-ping');
+    expect(container.innerHTML).not.toContain('animate-pulse');
+    expect(container.innerHTML).toContain('animate-tier-ignite');
+    expect(container.innerHTML).toContain('animate-rule-draw');
+  });
+
+  // Not `aria-hidden`: `contrast.ts` skips everything inside an `aria-hidden`
+  // subtree, and hiding a new block of text from the audit is the blind spot that
+  // let this component's first three contrast defects ship. The step's
+  // `aria-label` is the name a screen reader gets, so the numeral costs it
+  // nothing — but the audit can still see it.
+  it('leaves its numerals and names inside the contrast audit', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const numerals = Array.from(
+      container.querySelectorAll(`[class*="${RIBBON_INK_STAIR_NUMERAL}"]`)
+    );
+    expect(numerals.map((n) => n.textContent)).toEqual(['1', '2', '3', '4', '5', '6']);
+    for (const numeral of numerals) {
+      expect(numeral.closest('[aria-hidden="true"]')).toBeNull();
+      expect(numeral.className).toMatch(/text-(white|slate-300)/);
+    }
+    for (const label of Array.from(
+      container.querySelectorAll(`[class*="${RIBBON_INK_STEP_LABEL}"]`)
+    )) {
+      expect(label.closest('[aria-hidden="true"]')).toBeNull();
+    }
+    // The idle names lift on hover by COLOUR — the rule this component spent
+    // three fixes learning — and are never dimmed.
+    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('text-slate-300');
+    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('group-hover/step:text-white');
+    expect(RIBBON_INK_STEP_LABEL_IDLE).not.toContain('opacity-');
+    expect(RIBBON_INK_STEP_LABEL).not.toContain('opacity-');
+  });
+
+  it('keeps the scale rail inside the contrast audit, and undimmed', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    expect(RIBBON_INK_SCALE_RAIL).not.toContain('opacity-');
+    expect(RIBBON_INK_SCALE_SPAN).not.toContain('opacity-');
+    expect(RIBBON_INK_SCALE_SPAN).toContain('text-slate-300');
+
+    const rail = container.querySelector(`[class="${RIBBON_INK_SCALE_RAIL}"]`) as HTMLElement;
+    expect(rail).toBeTruthy();
+    expect(rail.getAttribute('aria-hidden')).toBeNull();
+    expect(rail.closest('[aria-hidden="true"]')).toBeNull();
+  });
+
+  // The rail's chip, the dashed rule and (above the ceiling) the gate between
+  // tier 3 and tier 4 are one object, and they have to agree.
+  it('puts the threshold rule and its chip on the same 50%', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const rule = container.querySelector(`[class="${RIBBON_INK_THRESHOLD_RULE}"]`) as HTMLElement;
+    expect(rule).toBeTruthy();
+    expect(rule.style.left).toBe('50%');
+    expect(RIBBON_INK_THRESHOLD_RULE).toContain('border-dashed');
+    // The chip is positioned, but inside the rail and at the same 50%.
+    expect(RIBBON_INK_THRESHOLD_CHIP).toContain('left-1/2');
+    // Under the columns, so it is a gate between them and not a line through one.
+    expect(RIBBON_INK_THRESHOLD_RULE).toContain('z-0');
+    expect(RIBBON_INK_STAIR_STEP).toContain('z-10');
+  });
+
+  it('sits the stair on custom properties that a phone can step down', () => {
+    expect(RIBBON_INK_STAIR).toContain('[--plot:6.5rem]');
+    expect(RIBBON_INK_STAIR).toContain('sm:[--plot:8.5rem]');
+    expect(RIBBON_INK_STAIR).toContain('[--label:2.25rem]');
+    // Its height is a sum of those, never a number of its own.
+    expect(RIBBON_INK_STAIR).toContain('h-[calc(var(--plot)+1.5rem+var(--label))]');
+  });
+
+  // `index.css` neutralises animation under `prefers-reduced-motion` with
+  // `animation-duration: 0.01ms` and `animation-iteration-count: 1`, which does
+  // not skip the animation — it runs it once, instantly, and LANDS ON ITS FINAL
+  // FRAME. A flare whose last frame were `opacity: 0.85` would burn a permanent
+  // bloom into the stage for exactly the readers who asked for no motion; a line
+  // that ended at `scaleX(0)` would be missing for them altogether.
+  it('ends every one-shot at rest, so reduced motion leaves nothing burned in or missing', () => {
+    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
+      string,
+      Record<string, Record<string, string>>
+    >;
+
+    expect(keyframes.tierIgnite).toBeTruthy();
+    expect(keyframes.tierIgnite['100%'].opacity).toBe('0');
+    expect(keyframes.tierIgnite['100%'].transform).toBe('scaleX(1) scaleY(1)');
+
+    expect(keyframes.ruleDraw).toBeTruthy();
+    expect(keyframes.ruleDraw['100%'].transform).toBe('scaleX(1)');
+    expect(keyframes.ruleDraw['0%'].transform).toBe('scaleX(0)');
+
+    // …and the staircase's rise ends full height, for the same reason.
+    expect(keyframes.stairRise).toBeTruthy();
+    expect(keyframes.stairRise['0%'].transform).toBe('scaleY(0)');
+    expect(keyframes.stairRise['100%'].transform).toBe('scaleY(1)');
+
+    // Transform and opacity only, so they stay on the compositor — the rule the
+    // comment above `keyframes` in tailwind.config.js states for all of them.
+    for (const name of ['tierIgnite', 'ruleDraw', 'stairRise']) {
+      for (const frame of Object.values(keyframes[name])) {
+        for (const property of Object.keys(frame)) {
+          expect(['opacity', 'transform']).toContain(property);
+        }
+      }
+    }
+  });
+
+  // The global reduced-motion rule shortens every animation's DURATION and leaves
+  // its DELAY alone. The staircase staggers by delay, with `both` fill, so each
+  // column holds at its first frame until its turn — left as it was, a reader who
+  // asked for no motion would still wait a third of a second for the last column
+  // to appear. No motion should also mean no waiting.
+  it('lets a reader who asked for no motion see the whole staircase at once', () => {
+    const css = readFileSync('index.css', 'utf8');
+    const block = css.match(
+      /@media \(prefers-reduced-motion: reduce\)\s*\{[^@]*?animation-duration: 0\.01ms !important;[\s\S]*?\n\}\n/
+    );
+    expect(block, 'the global reduced-motion block is not where it was').toBeTruthy();
+    expect(block![0]).toMatch(/\.animate-stair-rise\s*\{\s*animation-delay: 0ms !important;/);
+  });
+
+  // The dot is gone, and so is its halo. A keyframe nothing uses is a keyframe
+  // the next person has to read to find that out.
+  it('no longer carries the dot bloom it replaced', () => {
+    const keyframes = tailwindConfig.theme.extend.keyframes as Record<string, unknown>;
+    const animation = tailwindConfig.theme.extend.animation as Record<string, unknown>;
+    expect(keyframes.dotBloom).toBeUndefined();
+    expect(animation['dot-bloom']).toBeUndefined();
+  });
+});
+
+/**
+ * The drawer is an ordinary themed surface, so every colour on it needs a light
+ * value and a `dark:` partner — DesignSpec §2's question, "what is it painted
+ * on?", answered by what is NOT the stage. The stage constants are held to the
+ * opposite rule above, and are skipped here on purpose: a partner on a ground
+ * with one theme is a second guess at it.
+ */
+describe('the drawer carries both themes', () => {
+  /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */
+  const colourProperty = (token: string): string | null => {
+    const utility = token.split(':').pop() as string;
+    const match = utility.match(/^(text|bg|border|from|via|to|shadow|ring|divide)-(.+)$/);
+    if (!match) return null;
+    const [, property, value] = match;
+    // Theme-neutral keywords need no partner; sizes and gradient directions
+    // are not colours at all.
+    if (/^(transparent|current|inherit|none)$/.test(value)) return null;
+    // The alpha may be an arbitrary value — `white/[0.03]` is a real tier-card
+    // fill here, and the header's classifier never had to read one.
+    const alpha = '(\\/(\\[[^\\]]+\\]|[\\d.]+))?';
+    const isColour =
+      new RegExp(`^(white|black)${alpha}$`).test(value) ||
+      new RegExp(`^[a-z]+-\\d{2,3}${alpha}$`).test(value) ||
+      value.startsWith('[rgb(');
+    return isColour ? property : null;
+  };
+
+  it('gives every colour on a theme surface a light value and a dark partner', () => {
     for (const [name, value] of Object.entries(verbRibbonChrome)) {
       if (typeof value !== 'string') continue;
+      if (name.startsWith('RIBBON_INK_') || name === 'RIBBON_ROOT') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -438,17 +1112,6 @@ describe('the tier strip is legible and reachable', () => {
     expect(RIBBON_TIER_SUBTITLE_IDLE).toContain('text-slate-600');
     expect(RIBBON_TIER_SUBTITLE_IDLE).not.toContain('text-slate-500');
   });
-
-  // DesignSpec §4: JetBrains Mono is for "marks, token counts, and system
-  // logs". Marks are the first example in that sentence, and the tray's four
-  // numbers — the mark range, the band cap, the time range and the syllabus
-  // term count — were all set in the body face.
-  it('sets the tray numbers in the telemetry face', () => {
-    expect(RIBBON_STAT_VALUE).toContain('font-mono');
-    // The tray is fixed-width, so a two-digit range must not shove its
-    // neighbours along as the verb changes.
-    expect(RIBBON_STAT_VALUE).toContain('tabular-nums');
-  });
 });
 
 /**
@@ -457,50 +1120,10 @@ describe('the tier strip is legible and reachable', () => {
  * text nodes on a plain background fell below the 4.5 floor, and every one of
  * them was an opacity laid over a colour that was fine without it.
  *
- * The numbers below are measured in Chromium at 1400×900 with animations
- * frozen, the way `tests/e2e/support/contrast.ts` measures them: ancestor
- * opacity composited into the reading, not multiplied against the ratio.
+ * The cards in the drawer are where that history lives, and these pins hold it.
+ * The stage's own version of the same rule is in the first block of this file.
  */
-describe('nothing in the ribbon is dimmed below the floor', () => {
-  // 2.66:1 as `slate-500` under `opacity-70`; 7.24:1 now. Both halves had to
-  // move — `slate-500` at full strength is 4.66:1 here, and `slate-600` through
-  // `opacity-70` is about 3.4:1, because opacity pulls text towards its
-  // background instead of scaling the ratio.
-  it('leaves the timeline step labels their contrast', () => {
-    expect(RIBBON_TIMELINE_STEP_LABEL_IDLE).toContain('text-slate-600');
-    expect(RIBBON_TIMELINE_STEP_LABEL_IDLE).not.toContain('text-slate-500');
-    expect(RIBBON_TIMELINE_STEP_LABEL_IDLE).not.toContain('opacity-');
-    expect(RIBBON_TIMELINE_STEP_LABEL).not.toContain('opacity-');
-  });
-
-  // 2.56:1 — `slate-400`, a dark-theme tone, on a white pill.
-  it('gives the threshold marker a light-theme tone', () => {
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('text-slate-600');
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('dark:text-slate-400');
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/(^|\s)text-slate-400/);
-  });
-
-  // The rail is a new block of text on the page background, and the cheap way
-  // to make new text stop failing a contrast audit is to `aria-hidden` it:
-  // `tests/e2e/support/contrast.ts` skips every node inside an
-  // `[aria-hidden="true"]` subtree. That blind spot is exactly what let three
-  // contrast defects ship in this component, so the rail is pinned as visible
-  // to the audit — and as undimmed, since the other half of every one of those
-  // three defects was an `opacity-` laid over a colour that was fine without
-  // it.
-  it('keeps the scale rail inside the contrast audit', () => {
-    expect(RIBBON_SPECTRUM_SCALE_RAIL).not.toContain('opacity-');
-    expect(RIBBON_SPECTRUM_SCALE_SPAN).not.toContain('opacity-');
-    expect(RIBBON_SPECTRUM_SCALE_SPAN).toContain('text-slate-600');
-    expect(RIBBON_SPECTRUM_SCALE_SPAN).toContain('dark:text-slate-400');
-
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const rail = container.querySelector(`[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`) as HTMLElement;
-    expect(rail).toBeTruthy();
-    expect(rail.getAttribute('aria-hidden')).toBeNull();
-    expect(rail.closest('[aria-hidden="true"]')).toBeNull();
-  });
-
+describe('nothing in the drawer is dimmed below the floor', () => {
   /**
    * The ceiling IS dimmed now — it is an annotation under the tier's name, not
    * a second heading — and the whole point is that it is dimmed the way the
@@ -568,30 +1191,6 @@ describe('nothing in the ribbon is dimmed below the floor', () => {
     }
   });
 
-  /**
-   * The measurement this test was written for: 4.15:1 on the tier-2 wash the
-   * ribbon paints behind the tip, because a `light:text-slate-500` override
-   * was making the light theme lighter than the theme had asked for —
-   * `--color-text-muted` already resolves to slate-600 under
-   * `[data-theme="light"]`.
-   *
-   * The component it guarded (`StrategyTip`) is gone; the ribbon now renders
-   * `StrategyBrief`, the same brief the writing page and the strategy row use.
-   * The measurement still binds whatever is painted here, so the assertion
-   * follows the content rather than retiring with the component.
-   */
-  it('lets the muted token be the muted colour in the strategy brief', () => {
-    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-
-    // The checks on the verb's method — the ribbon's smallest, palest text.
-    const check = document.querySelector(
-      'div.border-l-2 p.font-serif.leading-relaxed'
-    ) as HTMLElement;
-    expect(check).toBeTruthy();
-    expect(check.className).toContain('text-[rgb(var(--color-text-muted))]');
-    expect(check.className).not.toContain('light:text-slate-500');
-  });
-
   // Headless on this surface: the term is already a heading beside its tier
   // chip and the definition is the line above, so the brief must not say
   // either of them a second time.
@@ -649,25 +1248,6 @@ describe('the tier strip says what it is and where it ends', () => {
     );
   });
 
-  /**
-   * The same rule, for the five gaps cut into the spectrum. They are the surface
-   * the track sits on showing through, so they are that surface's TOKENS — a
-   * literal here is a gap that stops matching the thing it is cut through.
-   *
-   * Two tokens, because the surface is two things: in the light theme the panel
-   * is the paper (`--color-bg-surface`, which is white), and in the dark one it
-   * is a 30% wash of the surface over the page, for which the page is the
-   * nearest solid. Plain `bg-base` was right while the ribbon sat on the page;
-   * on a white panel it would be five grey slots down the middle of the bar.
-   */
-  it('cuts its spectrum gaps in the panel’s own surface tokens, not a copy of their values', () => {
-    expect(RIBBON_SPECTRUM_BOUNDARY).toMatch(/(^|\s)bg-surface(\s|$)/);
-    expect(RIBBON_SPECTRUM_BOUNDARY).toMatch(/(^|\s)dark:bg-base(\s|$)/);
-    expect(RIBBON_SPECTRUM_BOUNDARY).not.toMatch(/bg-(slate|white|gray|zinc)-?\d*/);
-    // The light value really is the panel's: both are the surface token.
-    expect(PANEL_SURFACE).toContain('bg-white');
-  });
-
   it('snaps proximately, because three things scroll this strip', () => {
     expect(RIBBON_STRIP).toContain('snap-proximity');
     expect(RIBBON_STRIP).not.toContain('snap-mandatory');
@@ -679,182 +1259,6 @@ describe('the tier strip says what it is and where it ends', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const strip = screen.getByRole('group', { name: /tier ladder/i });
     expect(strip.getAttribute('tabindex')).toBeNull();
-  });
-});
-
-/**
- * The cognitive spectrum, and the four things about the old bar that were not
- * design decisions but arithmetic.
- *
- * The fill ran to `tier / 6` while the dots were laid out by `justify-between`
- * — so the two halves of the same diagram were on different scales, and below
- * `sm`, where five of the six labels are `hidden`, the dots moved depending on
- * which tier was current. The four "measurement ticks" sat at 16/38.7/61.3/84%
- * and marked none of the five boundaries. The fill was one tier's own gradient
- * stretched across the lit portion, so the bar was monochrome. And the current
- * dot carried `animate-ping`, which is `1s infinite`, on a strip that is
- * mounted for the whole session.
- *
- * All four are decidable from the DOM, which is why they are pinned here rather
- * than left to a screenshot this project has no baseline for.
- */
-describe('the cognitive spectrum lights one geometry from one palette', () => {
-  /** The two gradient layers, found the way they are drawn: the only inline
-   *  `linear-gradient` in the component. `MeshOverlay`'s inline background is a
-   *  `url(...)`, so it does not answer here. */
-  const spectrumLayers = (container: HTMLElement): HTMLElement[] =>
-    Array.from(container.querySelectorAll('div')).filter((el) =>
-      el.style.backgroundImage.startsWith('linear-gradient')
-    );
-
-  const dormantLayer = (container: HTMLElement): HTMLElement =>
-    spectrumLayers(container).filter((el) => !el.style.clipPath)[0];
-
-  const litLayer = (container: HTMLElement): HTMLElement =>
-    spectrumLayers(container).filter((el) => el.style.clipPath)[0];
-
-  // The drift guard. `components/CognitiveSpectrum.tsx` — deleted with this
-  // redesign — held a hard-coded fourth copy of these six values in a `switch`,
-  // which is the class of mistake `bandColors.test.ts` exists to prevent. The
-  // spectrum has to be readable as "the band palette, laid end to end".
-  it('paints the spectrum from BAND_HEX rather than from literals', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const wash = dormantLayer(container).style.backgroundImage;
-
-    let cursor = -1;
-    for (const tier of [1, 2, 3, 4, 5, 6]) {
-      const at = wash.indexOf(BAND_HEX[tier], cursor + 1);
-      expect(
-        at,
-        `BAND_HEX[${tier}] (${BAND_HEX[tier]}) is missing or out of tier order`
-      ).toBeGreaterThan(cursor);
-      cursor = at;
-    }
-  });
-
-  it('lights the spectrum to the tier’s share of six', () => {
-    const { container: first } = render(
-      <CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />
-    );
-    // Tier 1: one sixth lit, five sixths clipped away from the right.
-    expect(litLayer(first).style.clipPath).toBe('inset(0 83.333% 0 0)');
-
-    cleanup();
-    const { container: last } = render(
-      <CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />
-    );
-    expect(litLayer(last).style.clipPath).toBe('inset(0 0% 0 0)');
-  });
-
-  // `width: 50%` on a gradient element does not reveal half a gradient — it
-  // rescales the whole gradient into half the width, so at tier 3 all six
-  // colours are crushed into the lit portion and every colour moves as the tier
-  // changes. `inset()` clips a full-width gradient and nothing moves.
-  it('clips the lit layer rather than resizing it', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const lit = litLayer(container);
-
-    expect(lit.style.width).toBe('');
-    expect(lit.getAttribute('style')).not.toMatch(/(^|;)\s*width\s*:/);
-    expect(lit.className).toContain('inset-0');
-  });
-
-  // `animate-ping` is `1s … infinite` and this component is never unmounted:
-  // it ran behind every student for as long as they wrote. The replacement is
-  // a 900ms one-shot that replays by `key`, so the net budget is one infinite
-  // animation removed and one one-shot added.
-  it('runs nothing forever in a strip that is always mounted', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    expect(container.innerHTML).not.toContain('animate-ping');
-    expect(container.innerHTML).not.toContain('animate-pulse');
-    // And the one-shot is actually there, keyed so it can replay.
-    expect(container.innerHTML).toContain('animate-tier-ignite');
-  });
-
-  it('puts each dot at the centre of its own band', () => {
-    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    // Band 1 owns [0, 16.667]; its centre is 8.333. Band 6 owns
-    // [83.333, 100]; its centre is 91.667. Under `justify-between` the first
-    // dot sat at 0 and the last at 100 — neither inside the band it names.
-    expect(screen.getByRole('button', { name: /Show tier 1 verbs/i }).style.left).toBe('8.333%');
-    expect(screen.getByRole('button', { name: /Show tier 6 verbs/i }).style.left).toBe('91.667%');
-  });
-
-  // Four hairlines and one slot. The spectrum runs continuously through four
-  // boundaries and is CUT at the fifth, which is the only language a bar has
-  // for "a step up in kind, not degree" — and the boundary it is cut at is the
-  // one `getTierTargetBand` stops returning 3 across. Keyed off the inline
-  // `left` rather than off array order, so this holds whatever order the
-  // notches are emitted in.
-  it('cuts the deep-learning boundary wider than the four ordinary ones', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    const notches = Array.from(
-      container.querySelectorAll(`[class*="${RIBBON_SPECTRUM_BOUNDARY}"]`)
-    ) as HTMLElement[];
-    expect(notches).toHaveLength(5);
-
-    const threshold = notches.filter((el) => el.style.left === '50%');
-    expect(threshold).toHaveLength(1);
-    expect(threshold[0].className).toContain('w-2');
-
-    for (const other of notches.filter((el) => el.style.left !== '50%')) {
-      expect(other.className).toContain('w-0.5');
-      expect(other.className).not.toContain('w-2');
-    }
-  });
-
-  // `index.css` neutralises animation under `prefers-reduced-motion` with
-  // `animation-duration: 0.01ms` and `animation-iteration-count: 1`, which does
-  // not skip the animation — it runs it once, instantly, and LANDS ON ITS FINAL
-  // FRAME. A flare whose last frame were `opacity: 0.85` would burn a permanent
-  // bloom into the bar for exactly the readers who asked for no motion.
-  it('ends its ignition keyframe at rest, so reduced motion leaves nothing burned in', () => {
-    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
-      string,
-      Record<string, Record<string, string>>
-    >;
-
-    expect(keyframes.tierIgnite).toBeTruthy();
-    expect(keyframes.tierIgnite['100%'].opacity).toBe('0');
-    expect(keyframes.tierIgnite['100%'].transform).toBe('scaleX(1) scaleY(1)');
-    // Transform and opacity only, so it stays on the compositor — the rule the
-    // comment above `keyframes` in tailwind.config.js states for all of them.
-    for (const frame of Object.values(keyframes.tierIgnite)) {
-      expect(Object.keys(frame).sort()).toEqual(['opacity', 'transform']);
-    }
-
-    // The dot's bloom is a second keyframe and the same rule binds it.
-    expect(keyframes.dotBloom).toBeTruthy();
-    expect(keyframes.dotBloom['100%'].opacity).toBe('0');
-    for (const frame of Object.values(keyframes.dotBloom)) {
-      expect(Object.keys(frame).sort()).toEqual(['opacity', 'transform']);
-    }
-  });
-
-  // `tierIgnite` is shaped for a bar segment: `scaleY(2.4)` with no matching
-  // `scaleX`. On a `rounded-full` child that is not a halo, it is a vertical
-  // teardrop, held for 900ms every time the question changes. The dot's own
-  // bloom scales uniformly, so a circle stays a circle.
-  it('blooms the current dot as a circle, not with the bar’s flare', () => {
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-
-    const halo = container.querySelector('.animate-dot-bloom') as HTMLElement;
-    expect(halo).toBeTruthy();
-    expect(halo.className).toContain('rounded-full');
-    expect(halo.className).not.toContain('animate-tier-ignite');
-
-    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
-      string,
-      Record<string, Record<string, string>>
-    >;
-    // Uniform `scale(n)` — never `scaleX`/`scaleY`, which is what made the
-    // teardrop.
-    for (const frame of Object.values(keyframes.dotBloom)) {
-      expect(frame.transform).toMatch(/^scale\([\d.]+\)$/);
-    }
   });
 });
 

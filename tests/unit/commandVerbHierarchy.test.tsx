@@ -6,9 +6,9 @@ import { PromptVerb } from '../../types';
 import { TIER_GROUPS } from '../../data/commandTerms';
 import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import {
-  RIBBON_SPECTRUM_SCALE_RAIL,
+  RIBBON_INK_SCALE_RAIL,
   RIBBON_TIER_SUBTITLE,
-  RIBBON_TIMELINE_THRESHOLD_CHIP,
+  RIBBON_INK_THRESHOLD_CHIP,
 } from '../../utils/verbRibbonChrome';
 
 /**
@@ -29,10 +29,8 @@ const getToggle = () => screen.getByRole('button', { name: /command verb hierarc
 /** The scale rail, matched by its exact class so a stray utility appended at
  *  the call site fails here rather than quietly widening what these assert. */
 const rail = (container: HTMLElement): HTMLElement => {
-  const found = container.querySelector(
-    `[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`
-  ) as HTMLElement | null;
-  expect(found, 'the scale rail is not wearing RIBBON_SPECTRUM_SCALE_RAIL').toBeTruthy();
+  const found = container.querySelector(`[class="${RIBBON_INK_SCALE_RAIL}"]`) as HTMLElement | null;
+  expect(found, 'the scale rail is not wearing RIBBON_INK_SCALE_RAIL').toBeTruthy();
   return found as HTMLElement;
 };
 
@@ -455,7 +453,7 @@ describe('the spectrum says its level in words', () => {
     render(<CommandVerbHierarchy />);
 
     const cue = screen.getByRole('status');
-    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.textContent).toBe('Choose a command verb to see what it caps.');
     expect(cue.textContent).not.toMatch(/Tier \d/);
     expect(cue.textContent).not.toMatch(/Band/);
   });
@@ -508,7 +506,7 @@ describe('the spectrum says its level in words', () => {
     const { container } = render(<CommandVerbHierarchy />);
 
     const cue = screen.getByRole('status');
-    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.textContent).toBe('Choose a command verb to see what it caps.');
     // The rail still names the gate and its two sides — those describe the
     // ladder, which exists before anything is picked. What must not appear is
     // a claim about where the reader stands on it, which is exactly what the
@@ -534,12 +532,15 @@ describe('the spectrum says its level in words', () => {
     expect(cue.className).toContain('sr-only');
     expect(cue.className).not.toMatch(/min-h-\[/);
 
-    // And the dot row no longer depends on which labels render: five of the six
+    // And the staircase no longer depends on which names render: five of the six
     // are `hidden` below `sm`, so a row sized by its content was a different
-    // height — and put its dots in different places — at every tier.
+    // height — and put its columns in different places — at every tier. Its
+    // height is a sum of two custom properties instead, so it is the same for
+    // every verb at every width.
     const row = screen.getByRole('button', { name: /Show tier 1 verbs/i })
       .parentElement as HTMLElement;
-    expect(row.className).toMatch(/(^|\s)h-\d+/);
+    expect(row.className).toContain('h-[calc(var(--plot)+1.5rem+var(--label))]');
+    expect(row.className).not.toMatch(/(^|\s)h-\d+(\s|$)/);
   });
 });
 /**
@@ -634,12 +635,12 @@ describe('the scale rail restores the arc, derived', () => {
 
     expect(rail(container).className).not.toContain('absolute');
     expect(rail(container).className).not.toMatch(/-top-/);
-    expect(RIBBON_SPECTRUM_SCALE_RAIL).not.toMatch(/-top-/);
+    expect(RIBBON_INK_SCALE_RAIL).not.toMatch(/-top-/);
     // The chip is positioned, but inside the rail and at the same 50% the
     // spectrum's threshold notch and the dashed rule both take from
     // DEEP_LEARNING_TIER — so the three cannot drift apart.
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('absolute');
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('left-1/2');
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/-top-/);
+    expect(RIBBON_INK_THRESHOLD_CHIP).toContain('absolute');
+    expect(RIBBON_INK_THRESHOLD_CHIP).toContain('left-1/2');
+    expect(RIBBON_INK_THRESHOLD_CHIP).not.toMatch(/-top-/);
   });
 });

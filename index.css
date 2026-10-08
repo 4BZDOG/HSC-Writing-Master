@@ -443,6 +443,15 @@ body.ai-busy .aurora {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* The duration rule above makes an animation instant, but it leaves its DELAY
+     alone — and the verb ribbon's staircase staggers its columns by delay, with
+     `both` fill so each waits at its first frame. Left in, a reader who asked for
+     no motion would still wait up to a third of a second for the last column to
+     appear. No motion should also mean no waiting. */
+  .animate-stair-rise {
+    animation-delay: 0ms !important;
+  }
 }
 
 /* Suppress the default outline for pointer interaction only. Keyboard

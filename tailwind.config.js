@@ -214,13 +214,17 @@ export default {
         // `fadeIn` end at opacity 1 and stay there. It replays by `key`, not
         // by iteration count, so it costs nothing between question changes.
         'tier-ignite': 'tierIgnite 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        // The same event on the current step's DOT. It cannot share
-        // `tier-ignite`: that flare is shaped for a bar — it stretches 2.4x
-        // vertically and not at all horizontally, which on a `rounded-full`
-        // child draws a teardrop rather than a halo, and holds it for 900ms.
-        // A circle needs a uniform scale. Same duration and same curve, so the
-        // dot and its band still read as one ignition.
-        'dot-bloom': 'dotBloom 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        // A line drawing itself in from its left end: the verb's rule under the
+        // ribbon's poster-scale heading, and the ceiling across its staircase.
+        // Keyed on the verb or the tier at the call site, so it replays when the
+        // question changes and not otherwise.
+        'rule-draw': 'ruleDraw 600ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        // A staircase building itself, one column after another from the left.
+        // The delay is per column and inline, so the stagger is a property of
+        // the column's position and not of a class; `both` so a column waiting
+        // for its turn holds at the first frame instead of showing at full height
+        // and then collapsing to start.
+        'stair-rise': 'stairRise 650ms cubic-bezier(0.16, 1, 0.3, 1) both',
       },
       keyframes: {
         // All keyframes animate only transform/opacity so they stay on the
@@ -278,30 +282,21 @@ export default {
           '30%': { opacity: '0.85', transform: 'scaleX(1) scaleY(2.4)' },
           '100%': { opacity: '0', transform: 'scaleX(1) scaleY(1)' },
         },
-        // The dot's halo. Uniform `scale`, so a circle stays a circle:
-        // `tierIgnite` is `scaleY(2.4)` with no matching `scaleX`, which is a
-        // bar segment lighting up and a vertical teardrop on anything
-        // `rounded-full`.
-        //
-        // Three frames, the same shape as `tierIgnite`, for a reason that is
-        // easy to lose: the shared curve is an easeOutExpo, so a two-frame
-        // `0.7 → 0` fade is all but over by 120ms. Measured in the browser at
-        // that instant, a two-frame halo sat at opacity 0.28 while the bar's
-        // flare beside it was still at 0.81 — one event, read as a flicker
-        // and a bloom. Rising to a peak at 30% puts the two on one rhythm.
-        //
-        // The scales look large and are not. The halo is `inset-0` inside a
-        // `w-4 h-4 border-2` dot, so its box is the dot's PADDING box — 12px
-        // inside a 16px dot — and nothing shows at all until it passes 16/12.
-        // Measured: 23.2px dot, 38.2px halo at the peak, both inside the
-        // `ring-4` the current dot already wears.
-        //
-        // The same rule as `tierIgnite` binds the last frame and for the same
-        // reason — it is the resting state, `opacity: 0`.
-        dotBloom: {
-          '0%': { opacity: '0', transform: 'scale(1)' },
-          '30%': { opacity: '0.65', transform: 'scale(2.2)' },
-          '100%': { opacity: '0', transform: 'scale(3)' },
+        // The final frame IS the resting state, for the reason `tierIgnite`'s
+        // comment gives: the reduced-motion block runs an animation once,
+        // instantly, and leaves it on its last frame. A line that ended at
+        // `scaleX(0)` would be invisible for exactly the readers who asked for
+        // no motion; this one ends full length. `both` fills backwards too, so
+        // the delay-free start frame holds before the first paint.
+        ruleDraw: {
+          '0%': { transform: 'scaleX(0)' },
+          '100%': { transform: 'scaleX(1)' },
+        },
+        // Same rule for the last frame: the resting state, full height. Growing
+        // from the foot of the column (`origin-bottom` at the call site).
+        stairRise: {
+          '0%': { transform: 'scaleY(0)' },
+          '100%': { transform: 'scaleY(1)' },
         },
       },
     },
