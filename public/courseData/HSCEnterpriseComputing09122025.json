@@ -76,8 +76,8 @@
                         "id": "sa-dv-01-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two main purposes of data visualisation are to simplify complex datasets, making them easier to understand at a glance, and to tell a story by guiding the audience through the data to a specific conclusion or insight.",
-                        "feedback": "Both purposes are correct and distinct: simplifying understanding and telling a story. Two different purposes, each named clearly, earn both marks.",
+                        "answer": "Two main purposes of data visualisation are simplifying understanding, making complex datasets easy to grasp at a glance, and telling a story by highlighting significant results that lead the audience to a clear conclusion.",
+                        "feedback": "Both purposes are correct and distinct: simplifying understanding, and telling a story by highlighting significant results. Each is named clearly, so both marks are earned.",
                         "band": 1
                       },
                       {
@@ -127,8 +127,8 @@
                         "id": "sa-dv-01-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "A data visualisation is more effective because it uses visual cues to draw the audience's attention to what is important. For example, a line chart can use a steeply rising line and a contrasting colour like red to immediately highlight a dramatic increase in sea levels. This creates an instant visual impact that a table of numbers cannot.\n\nFurthermore, visualisations leverage pre-attentive attributes that our brains process very quickly. An audience can spot a trend or an outlier in a graph in seconds, whereas finding the same significant result in a large table of raw data would require careful and time-consuming reading and comparison, making the message less impactful and harder to grasp.",
-                        "feedback": "Full marks: specific visual cues are named, a concrete sea-level example is given and the chart is contrasted with a table. The second paragraph links pre-attentive processing to the outcome, which is what separates explanation from description.",
+                        "answer": "A well-designed data visualisation is more effective at highlighting significant results because it uses visual contrast to direct attention to what matters. In a sea-level chart, a steeply rising line drawn in a contrasting colour makes the long-term increase visible at a glance. A raw table of several thousand readings forces the reader to search and compare numbers before any trend can be seen. The visualisation therefore does the work of simplifying understanding, while the table leaves that work to the audience. Pre-attentive features such as slope and colour let the reader spot trends and outliers in seconds, so the key message reaches the policy team quickly.",
+                        "feedback": "Full marks: specific visual features are named (a steeply rising line, a contrasting colour), the sea-level example grounds the point, and the chart is contrasted with the raw table. The explanation of how visual contrast lets the reader spot trends and outliers in seconds is what separates explanation from description.",
                         "band": 3
                       },
                       {
@@ -242,7 +242,7 @@
                         "id": "sa-dv-02-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "An analyst would first use the spreadsheet application to process and analyse the raw customer data. They could use pivot tables to summarise the data and create basic charts, like a bar chart showing the age distribution, to understand the key trends. This step is for analysis and finding the story in the data.\n\nNext, they would export these key charts and figures into a creative design application like Adobe Illustrator or Canva. In this application, they would not be limited by the spreadsheet's formatting. They could integrate the charts into a custom layout, use brand colours, add illustrative icons, and write compelling text to build a narrative, resulting in a professional and highly engaging infographic that tells a clear story.",
+                        "answer": "An analyst would first use the spreadsheet application to process the raw customer records. A pivot table summarises customer demographics such as age group and location, and basic charts reveal the key patterns in the data. The analyst would then export those charts and figures into a creative design application such as Adobe Illustrator or Canva. There, the data visualisation is no longer limited by the spreadsheet's formatting: charts are placed into a custom layout, brand colours and icons are applied, and short text supports the storytelling. The result is a polished infographic that presents a clear story to the board.",
                         "feedback": "Full marks: the answer sets out the sequence from spreadsheet analysis to design layout and explains what each tool contributes. It stays with the marketing scenario, so the workflow is one the team could follow.",
                         "band": 2
                       },
@@ -304,8 +304,8 @@
                         "id": "sa-dv-03-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A trend is the long-term direction in which data is moving, for example, a company's sales consistently increasing year over year. A pattern is a repeating, cyclical regularity in the data, such as a retail store's sales always peaking in December each year (a seasonal pattern).",
-                        "feedback": "Both terms are defined correctly and the difference is stated: a trend is the long-term direction and a pattern is a repeating regularity. The seasonal example confirms the definition, so both marks are earned.",
+                        "answer": "A trend is the long-term direction data moves in, such as a bakery's sales rising steadily each year. A pattern is a recurring regularity, such as a December sales peak. Both feed predictive data analytics using historical data.",
+                        "feedback": "Both terms are defined correctly and the difference is stated: a trend is the long-term direction and a pattern is a recurring regularity. The bakery sales examples confirm each definition, so both marks are earned.",
                         "band": 4
                       },
                       {
@@ -471,8 +471,8 @@
                         "id": "sa-dv-04-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Advances in storage and memory have made large-scale cloud analytics economically feasible. Cheap, high-capacity cloud object storage, together with solid-state drives in data centres, allows enterprises to keep petabytes of historical data on hand, and increased RAM lets analytics engines hold large working datasets in memory for rapid querying.\n\nAdvances in communication media have made it practical to use these remote resources. High-bandwidth fibre optic networks allow the logistics company's sensor and delivery data to be transferred to the cloud and queried by analysts in several offices in a time frame that makes analysis useful. Without this bandwidth, the benefits of cheap storage would be negated by slow transfer times, so the two advances work together.",
-                        "feedback": "Full marks: both areas are investigated with specific advances, and the answer explains how they work together. The scenario is used to show the consequence for analysts working across several offices.",
+                        "answer": "Advances in storage and memory have made cloud-based data analytics economically feasible. Cheap, high-capacity cloud storage, together with solid-state drives in data centres, lets enterprises keep big data sets and historical records on hand, while larger RAM allows analytics engines to hold working datasets in memory for rapid querying. Advances in communication media have made these remote resources practical to use. High-bandwidth fibre networks allow the logistics company's sensor and delivery data to reach a data warehouse in the cloud and be queried by analysts in several offices. Without this bandwidth, cheap storage would be negated by slow transfers, so the two advances work together.",
+                        "feedback": "Full marks: both areas are investigated with specific advances, and the answer explains how they work together. The scenario is used to show the consequence for analysts across several offices, and the cloud-based analytics link is explicit.",
                         "band": 6
                       },
                       {
@@ -534,8 +534,8 @@
                         "id": "sa-dv-05-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The primary function of an Online Analytical Processing (OLAP) system is to allow users to perform fast and complex analysis on large volumes of data, typically from a data warehouse. It enables users to view and query the data from multiple dimensions or perspectives.",
-                        "feedback": "The function is stated accurately with its key elements: fast, complex analysis of large volumes of data, viewed from multiple dimensions. The multidimensional element is what earns full marks.",
+                        "answer": "The primary function of OLAP, or online analytical processing, is to allow fast, interactive, multidimensional analysis of large sales data, such as viewing sales by product, region and month, typically held in a data warehouse.",
+                        "feedback": "The function is stated accurately with its key elements: fast, interactive, multidimensional analysis of large volumes of data, typically held in a data warehouse. The multidimensional element is what earns full marks.",
                         "band": 1
                       },
                       {
@@ -651,7 +651,7 @@
                         "id": "sa-dv-06-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The data source refers to the origin of the data—where it was collected or who created it. Data validation is the process performed after obtaining the data to check for its accuracy, completeness, and correctness, ensuring it is fit for use.",
+                        "answer": "A data source is where the data comes from, including its ownership. Data validation is the process of checking the accuracy and completeness of the data before a data visualisation is built, protecting data integrity.",
                         "feedback": "The source is defined as origin and validation as a checking process, with the difference stated clearly. Both are linked to integrity through accuracy and completeness, which is what the question tests.",
                         "band": 4
                       },
@@ -703,8 +703,8 @@
                         "id": "sa-dv-06-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The risk to the enterprise is extremely high. By using an unverified source, the data's integrity is unknown, and it may be inaccurate, biased, or outdated. If the enterprise publishes a visualisation based on this flawed data, it risks misleading its audience. This can lead to significant reputational damage and a loss of trust from customers and stakeholders. Furthermore, making strategic business decisions based on this visualisation would be dangerous, potentially leading to financial losses. There is also a legal risk if the third-party data was protected by copyright, leading to infringement claims.",
-                        "feedback": "The answer assesses rather than lists: it links the unknown integrity to reputational and decision-making consequences and judges how serious the risk is. The copyright point is hedged with 'if', which suits an unverified dataset.",
+                        "answer": "The overall risk to the enterprise is high. Because the third-party source is unverified, the data integrity of the data visualisation is unknown, and the figures may be inaccurate, biased or outdated. Without data validation, no one can show that the chart is accurate, and the unknown ownership of the dataset means its copyright status is also unclear. Publishing the chart risks misleading customers, causing reputational damage and a loss of trust. Decisions based on it could also lead to financial losses. The risk is high because a published error spreads quickly and cannot be recalled from every audience.",
+                        "feedback": "The answer assesses rather than lists: it links the unknown integrity to reputational and decision-making consequences, and judges the risk as high with a reason. The copyright point is hedged, which suits an unverified dataset.",
                         "band": 5
                       },
                       {
@@ -768,8 +768,8 @@
                         "id": "sa-dv-07-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A major benefit of a data warehouse is that it provides a 'single source of truth'. It integrates and cleans data from multiple disparate sources across the enterprise, providing a consistent and reliable dataset that can be used to create comprehensive and accurate data visualisations.",
-                        "feedback": "One major benefit is named and explained in terms of its effect on the visualisation: data from several systems is integrated and cleaned, so the dashboard is consistent. Both marks are earned.",
+                        "answer": "Enterprise data warehousing integrates sales, marketing and HR records into one consistent data warehouse, including historical data. This single source of truth lets a dashboard give data visualisation that agrees across all three systems.",
+                        "feedback": "One major benefit is named and explained in terms of its effect on the visualisation: records from several systems are integrated into one consistent warehouse, so the dashboard shows data that agrees. Both marks are earned.",
                         "band": 2
                       },
                       {
@@ -819,8 +819,8 @@
                         "id": "sa-dv-07-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "A data warehouse integrates data from operational systems, such as the company's sales transaction system, and keeps it over long periods with a time dimension, so the historical record is preserved. Unlike an operational database, which is designed to process current transactions and can overwrite records, the warehouse keeps regular snapshots of past sales.\n\nThis allows a visualisation tool to query the warehouse for the same month across the previous ten years and, as the current month's figures are loaded, plot them against that historical range. The dashboard then shows whether this month's sales sit within the normal seasonal range or outside it, so managers can judge whether a rise is a genuine change or a recurring cycle.",
-                        "feedback": "Full marks: the warehouse's integrated, time-stamped storage is explained, the contrast with the operational system is drawn, and the comparison is tied to a managerial judgement about whether a rise is unusual.",
+                        "answer": "Enterprise data warehousing stores integrated, time-stamped records separately from the operational system. A data warehouse therefore keeps historical data over many years, so one query can cover ten years of sales alongside the current month. The operational system is designed for current transactions and may overwrite records, whereas the warehouse preserves snapshots of past sales.\n\nA data visualisation tool can query the warehouse for the same month in each previous year and plot current data against those trends. The dashboard shows the correlation between this month's sales and the historical range, letting managers see whether a rise sits within the normal seasonal pattern or outside it, and whether it is a genuine change or a recurring cycle.",
+                        "feedback": "Full marks: the warehouse's integrated, time-stamped storage is explained, the contrast with the operational system is drawn, and the correlation of current data with historical trends is tied to a managerial judgement about whether a rise is unusual.",
                         "band": 3
                       },
                       {
@@ -884,8 +884,8 @@
                         "id": "sa-dv-08-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two design challenges created by big data are managing visual clutter, where plotting millions of data points on a single chart makes it unreadable, and ensuring performance, as visualisations can become slow and unresponsive when trying to process and render massive datasets.",
-                        "feedback": "Two distinct challenges are named: visual clutter, which is a design problem, and performance, which is technical. Each is linked to a consequence, so both marks are earned.",
+                        "answer": "Two design challenges big data creates for data visualisation are visual clutter, where millions of data points hide patterns and limit the scope of visible information, and rendering performance, as large datasets load slowly.",
+                        "feedback": "Two distinct challenges are named: visual clutter from millions of data points, which is a design problem, and rendering performance, which is technical. Each is linked to a consequence, so both marks are earned.",
                         "band": 1
                       },
                       {
@@ -935,8 +935,8 @@
                         "id": "sa-dv-08-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Visualising big data can reveal complex, large-scale patterns that are impossible to detect in a small dataset. While a small sample might show an average trend, a big data visualisation can show the variation and outliers with much higher confidence. \n\nFor example, visualising a survey of 100 customers might suggest that 'Product A' is popular. However, visualising big data from millions of transactions might reveal a deeper insight: 'Product A' is extremely popular, but only with customers aged 18-24 in metropolitan areas, and its sales have a strong correlation with social media marketing campaigns. This type of granular, multi-faceted insight is only possible with the scope and depth provided by big data.",
-                        "feedback": "The answer goes beyond 'more data is better' by naming a different type of insight, segment-level patterns tied to a second variable, and comparing it directly with the small survey. The example is specific enough to show what scale adds.",
+                        "answer": "Visualising big data can reveal different types of insight that are impossible to detect in a small dataset. While a small sample might show only an average trend, a big data visualisation exposes variation and outliers with much higher confidence.\n\nFor example, visualising a survey of 200 customers might suggest that 'Product A' is popular. Visualising every transaction recorded over three years, however, can reveal a deeper insight: 'Product A' is extremely popular, but only with customers aged 18-24 in metropolitan areas. This segment-level pattern is visible only because the big data set contains enough cases in each segment.",
+                        "feedback": "The answer goes beyond 'more data is better' by naming a different type of insight, a segment-level pattern that a survey of 200 customers cannot show, and comparing it directly with the small dataset. The example is specific enough to show what scale adds.",
                         "band": 3
                       },
                       {
@@ -1000,8 +1000,8 @@
                         "id": "sa-dv-09-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Bias from a data source is a flaw in the data itself. For example, if a poll only surveyed people in one wealthy suburb, its results would not represent the whole town. Audience bias is a flaw in how the viewer interprets a visualisation, for example confirmation bias, where a reader accepts a chart that agrees with their existing opinion and questions one that does not.",
-                        "feedback": "Each bias is located correctly: the data source bias is a flaw in the data, and the audience bias is a flaw in interpretation, with an example of each. Both marks are earned.",
+                        "answer": "Bias from a data source is a flaw in the data itself, such as an online-only poll missing some residents, which undermines accuracy. Audience bias is a flaw in how viewers interpret a data visualisation, such as confirmation bias.",
+                        "feedback": "Each bias is located correctly: the data source bias sits in the data, and the audience bias sits in interpretation, with an example of each. Both marks are earned.",
                         "band": 4
                       },
                       {
@@ -1052,8 +1052,8 @@
                         "id": "sa-dv-09-6m",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "The data source is fundamentally biased. Because the survey was sent only to current employees, it excludes the perspectives of applicants who were rejected, which is a severe form of selection bias: the people who may have experienced unfairness are not represented at all. The opt-in design adds a second distortion, since employees who are content with the process are more likely to respond, so the sample is skewed towards positive views before any analysis begins.\n\nUnconscious bias compounds this. Analysts who expect the process to be fair may not intend to mislead, but they can choose metrics that look favourable, such as diversity figures for one department, while leaving out less flattering measures such as the ratio of applicants to hires for each demographic group. Each choice seems reasonable in isolation, yet together they shape what the audience sees.\n\nUltimately, the visualisation would be highly misleading. It presents a precise-looking picture of fairness built on an unrepresentative dataset and a selective set of metrics. It cannot support the claim that the hiring process is fair, and publishing it would damage the company's credibility once the gaps are discovered.",
-                        "feedback": "Full marks: both biases are evaluated with specific links to the scenario, and their combined effect is explained. The conclusion reaches a reasoned judgement that the chart cannot support the fairness claim.",
+                        "answer": "The data source is fundamentally biased. Because the opt-in survey was sent only to current employees, it excludes the perspectives of applicants who were rejected, which is a severe form of selection bias: the people who may have experienced unfairness are not represented at all. The opt-in survey design adds a second distortion, since employees who are content with the process are more likely to respond, so the sample is skewed towards positive views before any analysis begins.\n\nUnconscious bias compounds this. Analysts who expect the process to be fair may not intend to mislead, but they can choose metrics that look favourable, such as diversity figures for one department, while leaving out less flattering measures such as the ratio of applicants to hires for each demographic group. Each choice seems reasonable in isolation, yet together they shape what the audience sees and reduce the accuracy of the chart.\n\nUltimately, this misleading visualisation presents a precise-looking picture of fairness built on an unrepresentative dataset and a selective set of metrics. Its accuracy cannot support the claim that the hiring process is fair, and publishing it would damage the company's credibility once the gaps are discovered.",
+                        "feedback": "Full marks: both biases are evaluated with specific links to the scenario, and the opt-in survey and selection bias are shown to combine with unconscious bias. The conclusion is a reasoned judgement that the misleading visualisation cannot support the fairness claim.",
                         "band": 6
                       },
                       {
@@ -1123,8 +1123,8 @@
                         "id": "sa-3a78bf6b-d22e-47d1-9c15-0ef335ac26a9",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "An advantage of utilising spreadsheet software for data visualisation dashboard development is its widespread availability and user familiarity, which can significantly lower initial training costs and simplify data analysis for basic dashboards. Conversely, a disadvantage is that spreadsheets often have performance limitations and reduced interactivity when handling large datasets, thereby impeding sophisticated data analysis and limiting the dynamic capabilities often required for advanced data visualisation dashboards.",
-                        "feedback": "One advantage and one disadvantage are identified, each with a reason tied to dashboards, so both marks are earned. The disadvantage correctly names large datasets and interactivity as the real limits of spreadsheets.",
+                        "answer": "Spreadsheet software is an advantage for a data visualisation dashboard because it is low-cost and familiar to a small business owner. Its disadvantage is limited interactivity, and performance slows noticeably with large datasets.",
+                        "feedback": "One advantage and one disadvantage are identified, each with a reason tied to the owner's dashboard, so both marks are earned. The disadvantage correctly names interactivity and large datasets as the real limits of spreadsheets.",
                         "band": 1
                       },
                       {
@@ -1175,8 +1175,8 @@
                         "id": "sa-dv-10-5m",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "A business analytics service like Tableau is highly effective for rapid deployment. It offers a powerful suite of tools out-of-the-box, allowing the enterprise to quickly build and share sophisticated dashboards with lower upfront costs compared to custom development. However, it may not be able to meet every unique business process or stringent security protocol the bank has.\n\nA custom software solution is less effective in terms of speed and initial cost, as it would require a significant investment in development time and resources. However, its primary strength is its effectiveness in being tailored to the bank's exact needs. The visualisations can be perfectly integrated with proprietary systems, enforce specific data governance rules, and offer unique features not available in off-the-shelf products.\n\nFor a large bank with complex and specific requirements, a custom solution, while more expensive, would ultimately be more effective as it can provide a secure and perfectly aligned tool for its analysts.",
-                        "feedback": "Both options are evaluated against the bank's needs, with strengths and limitations for each and a reasoned judgement that the custom solution is more effective here despite its cost. The judgement is supported by the bank's security and specialisation requirements.",
+                        "answer": "Business analytics services such as Power BI or Tableau are highly effective for rapid deployment. Their out-of-the-box dashboards let the bank build and share visualisations quickly at a lower upfront cost. However, they offer limited customisation and may not meet every stringent data security protocol the bank requires.\n\nCustom software solutions are less effective on speed and initial cost, because they need significant investment in development time and resources. Their primary strength is customisation: the visualisations can be integrated with proprietary trading and risk systems, can enforce the bank's own data governance rules, and can provide data security controls that an off-the-shelf product cannot.\n\nFor a large bank with complex and specific requirements, the custom solution is more effective overall, despite its higher cost, because it gives analysts a secure and precisely aligned tool. Its effectiveness rests on that fit rather than on speed.",
+                        "feedback": "Both options are evaluated against the bank's needs: the service is fast and cheaper but limited in customisation and data security, while the custom solution is slower and costlier but fits the bank's requirements. The reasoned judgement that it is more effective for this bank is supported by those criteria.",
                         "band": 6
                       },
                       {
@@ -1238,8 +1238,8 @@
                         "id": "sa-dv-11-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Aggregation involves summarising multiple data points into a single value, for example, calculating the total sales for a month from all the individual daily sales data. Filtering involves selectively showing a subset of the data, for example, showing the sales data for only one specific product and hiding all the others.",
-                        "feedback": "Each term is defined by its effect, aggregation combines values and filtering selects records, and each is illustrated with a sales example. Both marks are earned.",
+                        "answer": "Aggregation combines many values into one summary, such as a regional total. Filtering selects a subset of records, leaving each value unchanged. Both let users interrogate data in an interactive dashboard, a form of data visualisation.",
+                        "feedback": "Each term is defined by its effect: aggregation combines many values into one summary, and filtering selects a subset of records while leaving each value unchanged. Both marks are earned, with a regional total as the example.",
                         "band": 4
                       },
                       {
@@ -1290,8 +1290,8 @@
                         "id": "sa-dv-11-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The effect of the extreme outlier on the bar chart would be to dramatically skew the visual scale. The bar representing the outlier month will be so tall that the y-axis will have to stretch to accommodate it. As a result, the bars for all the other months will appear comparatively small and flattened, making it very difficult for the viewer to discern the more subtle variations between them.\n\nThis impacts the viewer's reasoning. A superficial look might lead to the incorrect conclusion that the region experiences extremely high rainfall. An effective interrogation of the data would require the viewer to reason that this outlier is an exceptional event (perhaps a cyclone) and not representative of a typical month. To truly understand the normal pattern, the viewer might need to mentally (or with filtering tools) exclude the outlier.",
-                        "feedback": "Both effects are explained: the scale is stretched so the other bars look flat, and the viewer could conclude the region is very wet unless they reason that the outlier is exceptional. The answer shows the viewer's reasoning steps, which the question asks for.",
+                        "answer": "The extreme outlier distorts the scale of the bar chart. The bar for that month is so tall that the axis stretches to accommodate it, flattening the other bars and making subtle differences between months hard to see. This affects the viewer's reasoning. A superficial look might lead to the incorrect conclusion that the region is extremely wet. Interpreting data carefully requires the viewer to reason that the spike is an exceptional storm, not a typical value, and to check the axis or mentally set the month aside, or use filtering tools to exclude it, before judging the typical rainfall.",
+                        "feedback": "Both effects are explained: the stretched scale flattens the other bars, and the viewer could conclude the region is very wet unless they reason that the outlier is exceptional. The answer sets out the viewer's reasoning steps, which the question asks for.",
                         "band": 3
                       },
                       {
@@ -1360,8 +1360,8 @@
                         "id": "sa-dv-12-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A visualisation must be relevant to its audience because different users have different needs, goals, and levels of technical expertise. A high-level summary dashboard that is effective for a CEO would be useless for a data scientist who needs a detailed, granular view of the data for deep analysis.",
-                        "feedback": "The answer explains that audiences differ in needs, goals and expertise, and gives the CEO and data scientist as an example of how one visualisation would fail one of them. Both marks are earned.",
+                        "answer": "Relevance matters because a data visualisation must suit its audience, whose expertise and needs differ. A CEO needs a summary dashboard, while a data scientist needs detail, so one design harms the user experience for one of them.",
+                        "feedback": "The answer explains that audiences differ in expertise and needs, and gives the CEO and data scientist as an example of how one design fails one of them. Both marks are earned.",
                         "band": 3
                       },
                       {
@@ -1412,8 +1412,8 @@
                         "id": "sa-dv-12-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Allowing customisation significantly improves UX by giving users control. A salesperson might customise their dashboard to show only the metrics relevant to their own region and targets, filtering out the noise. This makes the tool more efficient and personally relevant, which increases user engagement.\n\nIncorporating live analysis, where the data updates in real-time, enhances the UX by making the dashboard a vital tool for immediate decision-making. Seeing live sales data as it comes in allows the team to react quickly to opportunities or problems. This provides a much better experience than working with a static report that is already outdated by the time it is read.",
-                        "feedback": "Both features are explained by their effect on UX: customisation removes irrelevant information, and live analysis supports immediate decisions. Each is linked to the sales team's needs, which earns full marks.",
+                        "answer": "Customisation improves the user experience of an interactive dashboard by giving each user control. A salesperson can filter the view to the metrics for their own territory, removing noise, so the dashboard is more efficient to use. Live analysis adds real-time data, so the team can act on current figures rather than a report that is already outdated. This supports faster decision-making in the field, where staff on phones and laptops need immediate answers. Together, the two features keep the dashboard's relevance high at the moment of use, so each user gets a better experience.",
+                        "feedback": "Both features are explained by their effect on the user experience: customisation removes irrelevant information, and live analysis supports immediate decisions. Each is linked to the field team's needs, and the closing point explains why the two work together, which earns full marks.",
                         "band": 3
                       },
                       {
@@ -1477,8 +1477,8 @@
                         "id": "sa-dv-13-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two criteria for evaluating the UX of a data visualisation are clarity (how quickly and easily can a user understand the information being presented?) and efficiency (how quickly can a user find the specific information they need or complete their intended task?).",
-                        "feedback": "Two distinct, relevant criteria, clarity and efficiency, are named, and each could be measured with users. Both marks are earned.",
+                        "answer": "Two evaluation criteria for the user experience (UX) of a data visualisation are clarity, how easily users understand the information, and efficiency, how quickly they find what they need.",
+                        "feedback": "Two distinct, relevant criteria, clarity and efficiency, are named and each is explained by what it measures for the audience, so both marks are earned.",
                         "band": 1
                       },
                       {
@@ -1528,8 +1528,8 @@
                         "id": "sa-dv-13-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "To evaluate 'efficiency', I would conduct user testing with the factory floor managers. I would give them specific tasks, such as 'Find out which production line had the most downtime yesterday', and time how long it takes them to find the answer using the dashboard. A lower time would indicate a more efficient design.\n\nTo evaluate 'audience interpretation', I would use qualitative methods. I would show a manager a specific chart or a key performance indicator on the dashboard and ask them open-ended questions like, 'What does this tell you?' or 'What action would you take based on this information?'. This would reveal if the managers are correctly and consistently interpreting the visualisations as intended by the designers.",
-                        "feedback": "Each criterion has a method: timed tasks for efficiency and open questions about the charts for audience interpretation. Each method says what is measured and what would show the dashboard is effective, and both are tied to factory managers' tasks.",
+                        "answer": "In usability testing with factory floor managers, I would evaluate efficiency by giving timed tasks on the dashboard, such as finding which line had the most downtime yesterday, and recording the task completion time. Any errors or abandoned tasks would also be recorded, since an abandoned task is evidence that the dashboard is not efficient for a shift manager. To evaluate audience interpretation, I would show a manager a chart and ask open-ended questions, such as what it shows and what action they would take, checking that they read it as the designers intended. These results would indicate whether the dashboard's user experience supports shift decisions.",
+                        "feedback": "Each criterion has a method: timed tasks with a measure for efficiency, and open questions about a chart for audience interpretation. Both methods say what is measured and are tied to the managers' shift decisions, which earns full marks.",
                         "band": 2
                       },
                       {
@@ -1593,8 +1593,8 @@
                         "id": "sa-dv-14-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "An emerging hardware technology is Augmented Reality (AR) glasses. This could change UI design for data visualisation by moving beyond 2D screens and allowing interactive charts and data to be overlaid onto the real world, creating immersive, contextual data experiences.",
-                        "feedback": "A specific emerging technology is named, and its UI effect is explained: charts and data move out of a flat screen into the user's space. Both marks are earned.",
+                        "answer": "Augmented reality glasses are an emerging hardware technology. For data visualisation, they change UI design by placing immersive charts in the user's space, with gesture interaction moving beyond the flat user interface.",
+                        "feedback": "A specific emerging technology is named, and its effect on UI design is explained: charts move out of the flat screen into the user's space, with gesture interaction. Both marks are earned.",
                         "band": 1
                       },
                       {
@@ -1714,8 +1714,8 @@
                         "id": "sa-dv-15-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A scatter plot is the most appropriate chart type. Each point represents one week of data, with weekly advertising spend on the horizontal axis and sales revenue on the vertical axis. The overall pattern of the points shows whether the relationship is positive, negative or absent, and how tightly the points cluster around a trend line shows its strength.",
-                        "feedback": "A scatter plot is identified, each point is explained as one observation, and the axes are assigned to the two variables. The pattern of points shows the relationship, so both marks are earned.",
+                        "answer": "The best chart type for this data visualisation is a scatter plot. Each point is one observation, plotting two continuous numerical variables such as advertising spend and sales revenue, so the pattern shows the relationship, its direction and strength.",
+                        "feedback": "A scatter plot is identified, each point is explained as one observation of two variables, and the pattern is said to show the direction and strength of the relationship. Both marks are earned.",
                         "band": 1
                       },
                       {
@@ -1768,8 +1768,8 @@
                         "id": "sa-dv-15-5m",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "My design concept is an interactive dashboard for city planners and grid operators. Its main feature is a heat map of the city, with each suburb coloured from green (low demand) to red (high demand) using near-real-time smart meter readings, so users can see where electricity use is concentrated. Alongside it, a line chart shows the typical 24-hour demand cycle for the selected suburb.\n\nTo reveal patterns, users can filter the data by 'Weekday', 'Weekend' or 'Hot Day' and watch how the cycle changes. To illustrate predictive analysis, the 24-hour chart includes a dotted line extending into the future, showing forecast demand for the next 24 hours. The forecast is generated from historical smart meter data combined with the weather forecast, and a shaded band around it shows the uncertainty in the prediction.",
-                        "feedback": "The design is interactive, with filters and a city heat map, and shows patterns across suburbs and time. It includes a predictive element built from historical data, with the forecast clearly separated from actual readings and its basis explained.",
+                        "answer": "My design concept is an interactive data visualisation for city planners and grid operators, built on big data from smart meters. Its main feature is a heat map of the city, with each suburb coloured from green (low demand) to red (high demand) using near-real-time readings, so users can see where electricity usage is concentrated. Alongside it, a line chart shows the typical 24-hour demand cycle for the selected suburb.\n\nTo reveal patterns, users can filter the data by weekday, weekend or hot day and watch how the cycle changes. To illustrate predictive analysis, the 24-hour chart includes a dotted line extending into the future, showing the forecast demand for the next 24 hours. The forecast is generated from historical smart meter data combined with the weather forecast, and a shaded band around it shows the uncertainty in the prediction.",
+                        "feedback": "The design is interactive, with filters and a city heat map, and shows patterns across suburbs and time. It includes a predictive element built from historical data and the weather forecast, with the forecast clearly separated from actual readings and its basis explained.",
                         "band": 4
                       },
                       {
@@ -1834,8 +1834,8 @@
                         "id": "sa-dv-16-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Cybersecurity measures, like firewalls and access controls, are proactive methods designed to prevent data from being breached or compromised by unauthorised users. Data backup is a reactive method focused on data recovery; it involves creating copies of data so that it can be restored in the event of data loss due to hardware failure, cyberattack, or accidental deletion.",
-                        "feedback": "The answer distinguishes the two by purpose: cybersecurity is preventive, backup is reactive, and each has examples. Both marks are earned.",
+                        "answer": "Cybersecurity measures, such as firewalls, encryption and access controls, are preventive: they stop unauthorised access and protect data security. Data backup is reactive, creating copies that allow data recovery after data loss.",
+                        "feedback": "The answer distinguishes the two by purpose: cybersecurity is preventive, stopping unauthorised access, while backup is reactive, allowing data recovery after data loss. Both marks are earned.",
                         "band": 4
                       },
                       {
@@ -1885,7 +1885,7 @@
                         "id": "sa-dv-16-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Strong cybersecurity is essential to protect the confidentiality of the sensitive customer data. Measures like encryption of data at rest and in transit, and strict role-based access controls, are needed to prevent unauthorised access and data breaches, which could lead to massive fines and reputational damage.\n\nHowever, cybersecurity alone is not enough. A robust backup strategy is also essential for business continuity. If the data warehouse is compromised by a ransomware attack that encrypts all the data, or a critical hardware failure occurs, cybersecurity measures cannot help. Only a recent, secure backup can be used to restore the data warehouse, ensuring that the business intelligence visualisations can be brought back online quickly with minimal data loss.",
+                        "answer": "Strong cybersecurity is essential to protect the confidentiality of the sensitive customer data. Measures like encryption of data at rest and in transit, and strict role-based access controls, are needed to prevent unauthorised access and data breaches, which could lead to massive fines and reputational damage.\n\nHowever, cybersecurity alone is not enough. A robust data backup strategy is also essential for business continuity. If the data warehouse is compromised by a ransomware attack that encrypts all the data, or a critical hardware failure occurs, cybersecurity measures cannot help. Only a recent, secure backup can support data recovery, restoring the data warehouse so that the business intelligence visualisations come back online quickly with minimal data loss.",
                         "feedback": "Both reasons are explained with specific measures and consequences, and the answer shows why cybersecurity alone is not enough. That second point is what the 'BOTH' in the stem requires.",
                         "band": 3
                       },
@@ -2013,8 +2013,8 @@
                         "id": "sa-ec-01-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Quantitative data is numerical information that can be measured, counted and used in calculations, such as averages. The 'hours a user watches' is quantitative data because it is a measured number. It would be stored as an Integer if hours are recorded in whole numbers, or as a Float if fractions of an hour are recorded, because a Float can store decimal values.\n\nQualitative data is descriptive, non-numerical information that captures opinion or context and cannot be measured directly. The 'written reviews' are qualitative data because they express a user's opinion in their own words. They would be stored as a String or Text data type, which holds sequences of characters rather than numbers, and any analysis would need text-processing methods.",
-                        "feedback": "The difference is explained through measurability, and each data type is justified: integer or float for hours depending on whether fractions are recorded, and string or text for reviews.",
+                        "answer": "Quantitative data is numerical information that can be measured, counted and used in calculations, such as averages. Viewing hours are quantitative data because they are a measured number, so they need a numeric data type: an integer if hours are recorded in whole numbers, or a float if fractions of an hour are recorded. Hours can be summed and averaged directly.\n\nQualitative data is descriptive, non-numerical information that captures opinion and cannot be measured directly. Written reviews are qualitative data because they express a user's opinion in their own words, so they need a string data type, which holds sequences of characters rather than numbers. Drawing meaning from reviews requires text analysis.",
+                        "feedback": "The difference is explained through measurability, and each data type is justified: an integer or float for hours depending on whether fractions are recorded, and a string for reviews. The link to how each would be used is what earns full marks.",
                         "band": 3
                       },
                       {
@@ -2078,8 +2078,8 @@
                         "id": "sa-ec-02-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Nominal data involves categories that do not have a natural order or ranking, such as eye colour or brand names. Ordinal data consists of categories that have a meaningful order or rank, but the differences between the ranks are not necessarily equal, such as clothing sizes (Small, Medium, Large).",
-                        "feedback": "Nominal data (no natural order) and ordinal data (meaningful order, unequal gaps) are distinguished, with an example of each. Both marks are earned.",
+                        "answer": "Nominal data are categories with no natural order, such as fruit type. Ordinal data are categories with a meaningful order or ranking, though gaps between ranks may be unequal, such as juice ratings. Both are levels of measurement.",
+                        "feedback": "Nominal data (no natural order) and ordinal data (a meaningful order with unequal gaps) are distinguished, with an example of each. Both marks are earned.",
                         "band": 4
                       },
                       {
@@ -2129,8 +2129,8 @@
                         "id": "sa-ec-02-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The 'city of origin' is at the nominal level of measurement. The cities are distinct categories, but there is no intrinsic order or ranking between them. \n\nThe 'room number' is also nominal. While it is a number, it acts as a label to identify a room and performing mathematical operations like finding an average room number would be meaningless. \n\nThe 'satisfaction rating' is at the ordinal level. The star ratings have a clear order (5 stars is better than 4), but the difference in satisfaction between 1 and 2 stars is not necessarily the same as between 4 and 5 stars.",
-                        "feedback": "All three levels are correct, and each is described with a reason: the room number is a label, the city is a category, and the rating is ordered with unequal gaps. The reasoning for each item earns full marks.",
+                        "answer": "The city of origin is at the nominal level of measurement. Cities are distinct categories with no intrinsic order, so the guest data cannot be ranked by city.\n\nThe room number is also nominal. Although it is a number, it acts as a label, and calculating an average room number would be meaningless.\n\nThe satisfaction rating is at the ordinal level. Stars have a clear order, with five stars better than four, but the gap between one and two stars is not necessarily the same as between four and five. It is not interval or ratio data, because a one-to-five scale has no true zero and equal intervals cannot be assumed.",
+                        "feedback": "All three levels are correct, and each is described with a reason: the room number is a label, the city is a category, and the rating is ordered with unequal gaps. The answer also explains why the rating is not interval or ratio data, which earns full marks.",
                         "band": 1
                       },
                       {
@@ -2194,8 +2194,8 @@
                         "id": "sa-ec-03-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Active data collection requires the user to consciously provide information, such as filling out a form or answering a survey. Passive data collection gathers information in the background without direct user engagement, such as an app collecting location data or website analytics tracking clicks.",
-                        "feedback": "Both methods are defined by the user's involvement, and each has an example, so both marks are earned.",
+                        "answer": "Active data collection requires deliberate user input, such as a meal log. Passive data collection gathers data automatically, such as steps tracked by a mobile app. Both are computerised methods of data collection that can support data sampling.",
+                        "feedback": "Both methods are defined by the user's involvement, with an example from the app for each, so both marks are earned.",
                         "band": 4
                       },
                       {
@@ -2245,7 +2245,7 @@
                         "id": "sa-ec-03-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The company uses both methods to get a complete picture of a user's health. Active data collection, like logging meals, is necessary to gather subjective information that a device cannot know on its own. Passive collection, like tracking heart rate, provides continuous, objective data without requiring effort from the user. \n\nA key benefit of using computerised methods for this is efficiency and scale. The device can automatically and continuously sample heart rate data from thousands of users simultaneously, a task that would be impossible to perform manually. This allows for large-scale data analysis and the identification of broad health trends.",
+                        "answer": "The company uses both methods to get a complete picture of a user's health. Active data collection, such as logging meals, gathers subjective information that a wearable device cannot detect on its own. Passive data collection, such as tracking heart rate, provides continuous, objective data without requiring effort from the user.\n\nA key benefit of computerised methods is efficiency and scale. The device can automatically and continuously sample heart rate from thousands of users at once, a task that would be impossible to perform manually. Automated collection also reduces transcription errors, which allows large-scale analysis and the identification of broad health trends.",
                         "feedback": "Each method is explained by the kind of data it gives, and the benefit of computerised collection is specific: automatic, continuous sampling at scale across many users.",
                         "band": 3
                       },
@@ -2310,8 +2310,8 @@
                         "id": "sa-ec-04-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Primary data is original data collected directly by a researcher for a specific purpose, for example, through surveys or interviews they conduct themselves. Secondary data is data that was collected by someone else for a different purpose, which the researcher then reuses, such as census data or information from a published study.",
-                        "feedback": "Primary and secondary data are contrasted by who collected them and why, with an example of each. Full marks.",
+                        "answer": "Primary data is original data collected first-hand by the researcher for the current purpose, such as their own survey. Secondary data was collected by someone else for another purpose and is reused, so its relevance, validity and reliability need checking.",
+                        "feedback": "Primary and secondary data are contrasted by who collected them and why, with an example of each, and the answer adds that secondary data needs its relevance, validity and reliability checked. Full marks.",
                         "band": 2
                       },
                       {
@@ -2361,7 +2361,7 @@
                         "id": "sa-ec-04-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The five-year-old industry publication raises serious issues. Its relevance is low, because consumer behaviour and competition can change substantially in five years, so its trend findings may no longer describe the market the new product will enter. Its validity is also doubtful. The report may have measured the right things for the market five years ago, but it does not measure what the launch decision needs today. The company also cannot confirm the report's methods, so its reliability is uncertain.\n\nOn balance, the report should not be the main basis for the launch decision. It may still be useful as historical context, but the company should give more weight to its own recent customer surveys, which are current and tailored to its product, and treat the report's conclusions as a starting hypothesis to test.",
+                        "answer": "The five-year-old industry publication raises serious issues. This secondary data has low relevance, because consumer behaviour and competition can change in five years, so its trends may no longer describe the market the new product will enter. Its validity is also doubtful: the report may have measured the right things five years ago, but not what today's launch decision needs. The company also cannot confirm the report's methods, so its reliability is uncertain.\n\nOn balance, the report should not be the main basis for the decision. It may still help as market research context, but the company should give more weight to its own recent primary data, the customer surveys that are current and tailored to its product.",
                         "feedback": "Full marks: relevance and validity are assessed separately, reliability is noted as unconfirmed, and the answer reaches a judgement that the report should not be the main basis for the decision, with the company's own surveys given more weight.",
                         "band": 5
                       },
@@ -2426,7 +2426,7 @@
                         "id": "sa-ec-05-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two key features of blockchain that make it suitable for verifying data are immutability and decentralisation. Immutability means that once a record is added to the chain, it cannot be altered or deleted without the change being detected, because each block is linked to the one before by a cryptographic hash. Decentralisation means the ledger is copied and spread across many computers, so there is no single point of failure and records can be verified by consensus.",
+                        "answer": "Two blockchain features that suit verification are immutability and decentralisation. Immutability protects data integrity: each block is hashed to the one before, so tampering is detected. Decentralisation spreads a distributed ledger across many computers that reach consensus.",
                         "feedback": "Both features are named and explained by mechanism: immutability through linked, hashed blocks, and decentralisation through copies held across many computers. Full marks.",
                         "band": 1
                       },
@@ -2477,7 +2477,7 @@
                         "id": "sa-ec-05-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Blockchain can create a shared digital ledger for each luxury item. When the manufacturer creates the item, it records a block with a unique identifier. Each later handover, from the manufacturer to the shipper and then to the retailer, adds a timestamped and location-stamped block linked to the one before by a cryptographic hash.\n\nBecause each block is linked to the previous one, any attempt to alter an earlier record would break the chain, which other parties can detect. Because the ledger is decentralised, the manufacturer, shipper, retailer and customer can each check the same history rather than trusting one company's database, giving customers a verifiable provenance record. The limitation is that the ledger only proves what was recorded: the physical item must be tagged or serialised so it is linked to its digital record, or a counterfeit could be registered as genuine.",
+                        "answer": "Blockchain can give each item of luxury goods a shared digital record through the supply chain. The manufacturer creates the first block with a unique identifier, and each later handover adds a timestamped block linked to the previous one by a cryptographic hash. Immutability means any attempt to alter an earlier record breaks the chain, so tracking stays reliable. Decentralisation lets the manufacturer, shipper, retailer and customer each check the same history, which helps keep counterfeit products out of the chain. The limitation is that the ledger proves only what was recorded, so the physical item must be tagged or serialised to link it to its digital record.",
                         "feedback": "Full marks: the process of recording each handover is explained, the features are linked to preventing counterfeits, and the limitation of linking the physical item to its digital record is noted.",
                         "band": 3
                       },
@@ -2541,7 +2541,7 @@
                         "id": "sa-ec-06-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "In the context of big data, 'volume' refers to the enormous scale or quantity of data being generated and stored, often in terabytes or petabytes. 'Velocity' refers to the high speed at which this data is created, processed, and analysed, such as in real-time streaming from social media or financial markets.",
+                        "answer": "Volume is the enormous scale of big data generated and stored, such as smart meter readings. Velocity is the high speed at which data arrives and must be processed, such as live chat logs. Variety means mixed formats.",
                         "feedback": "Full marks: volume is linked to the scale of storage and velocity to the speed of creation and processing, with a relevant example for each. An outline needs only one or two sentences per characteristic, so keep any extra detail brief.",
                         "band": 2
                       },
@@ -2593,7 +2593,7 @@
                         "id": "sa-ec-06-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The company faces high 'volume' from thousands of stores, which creates massive sales datasets that need large, optimised storage. It also has high 'variety': sales records are structured, social media comments are unstructured and web logs are semi-structured, so they cannot be combined directly. Finally, the data has high 'velocity', because traffic logs arrive continuously and must be processed quickly.\n\nA data warehouse is designed to solve these challenges. It is a large, centralised repository for analysis, and its extract, transform and load (ETL) processes clean the varied data and convert it into a consistent structure, such as turning comments into sentiment scores. This allows sales and customer data to be queried together, giving managers business intelligence from all their sources in one place.",
+                        "answer": "The company faces three challenges from big data. Its high volume comes from thousands of stores, creating massive sales datasets that need large, optimised storage. Its high variety is shown by structured data from sales records, unstructured data from social media comments and semi-structured web logs, which cannot be combined directly. Its high velocity comes from traffic logs that arrive continuously and must be processed quickly.\n\nA data warehouse solves these challenges. It is a large, centralised repository for analysis, and its extract, transform and load (ETL) processes clean the varied data and convert it into a consistent structure, such as turning comments into sentiment scores. Sales and customer data can then be queried together.",
                         "feedback": "Full marks: each characteristic is linked to a specific challenge in the scenario, and the warehouse is explained as a solution through transformation into a consistent structure. To go further, mention that raw unstructured data is usually held in a data lake, which shows awareness of the warehouse's limits.",
                         "band": 3
                       },
@@ -2663,7 +2663,7 @@
                         "id": "sa-ec-07-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "An ethical issue is respecting customers' privacy expectations, for example collecting only the data needed and being transparent about how it will be used. A legal issue is complying with the Privacy Act 1988 (Cth), which requires organisations to collect personal information lawfully, tell customers why it is collected and keep it secure.",
+                        "answer": "An ethical issue is respecting privacy by collecting only the customer data needed. A legal issue is complying with the Privacy Act 1988 (Cth), which requires organisations to collect personal information lawfully and keep it secure.",
                         "feedback": "Full marks: both issues are named and explained in the context of customer data, and the legal reference is specific. Keep each explanation to one or two sentences so that both parts are clear.",
                         "band": 1
                       },
@@ -2714,7 +2714,7 @@
                         "id": "sa-ec-07-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The ethical issue here is data bias. Because the algorithm was trained on historical data that reflects a bias towards hiring men, it has 'learned' to associate male characteristics with successful applications. This creates a discriminatory system where the algorithm unfairly penalises female applicants, perpetuating past inequalities and producing inaccurate and unethical hiring recommendations.\n\nTo mitigate this, the company could audit its training dataset to identify and remove sources of bias. They could ensure the data is more representative of the desired workforce demographics or use specialised techniques during the algorithm's training to enforce fairness and ensure it does not use gender-related proxies in its decision-making.",
+                        "answer": "The ethical issue here is data bias. Because the algorithm was trained on historical data that reflects a bias towards hiring men, it learns to associate male characteristics with successful applications. This creates a discriminatory system that unfairly penalises female applicants, perpetuating past inequalities and producing hiring recommendations that lack accuracy and are unethical.\n\nA mitigation would be to audit the training data to identify and remove sources of bias. The company could ensure the data is more representative of the desired workforce, use techniques that enforce fairness during training, and remove gender-related proxies from its decision-making.",
                         "feedback": "Full marks: the answer explains how biased historical data teaches the algorithm to penalise women, and the mitigation (auditing the dataset, removing gender proxies, fairness checks) is specific and tied to that cause. The ethical concern of unfair discrimination is stated, which the top band requires.",
                         "band": 3
                       },
@@ -2783,7 +2783,7 @@
                         "id": "sa-ec-08-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A primary key is a field that uniquely identifies each record in a database table, ensuring no two rows are the same. A foreign key is a field in one table that refers to the primary key in another table, creating a link or relationship between the two tables.",
+                        "answer": "A primary key is the key field that uniquely identifies each record in a table. A foreign key is a field in one table that refers to the primary key of another, linking tables in a relational database.",
                         "feedback": "Full marks: each key is defined by its essential feature, uniqueness for the primary key and a reference to another table's primary key for the foreign key. Keep definitions this precise in the exam.",
                         "band": 2
                       },
@@ -2836,7 +2836,7 @@
                         "id": "sa-ec-08-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The tables are related through the TeamID field. In the Teams table, TeamID is the primary key, uniquely identifying each team. In the Players table, TeamID is a foreign key, so each player record stores the identifier of the one team they belong to. This link lets a query match players with their team's name without repeating the team name in every player record.\n\nThe query uses an INNER JOIN on TeamID to combine the two tables, and a WHERE clause to keep only the Sharks team:\n\n```sql\nSELECT Players.PlayerName\nFROM Players\nINNER JOIN Teams ON Players.TeamID = Teams.TeamID\nWHERE Teams.TeamName = 'Sharks';\n```",
+                        "answer": "The tables are related through key fields in this relational database. In the Teams table, TeamID is the primary key, uniquely identifying each team. In the Players table, TeamID is a foreign key, so each player record stores the identifier of the one team they belong to. Linking tables this way lets a query match players with their team name without repeating it in every player record.\n\nThe SQL query uses an INNER JOIN on TeamID to combine the two tables, and a WHERE clause to keep only the Sharks team:\n\n```sql\nSELECT Players.PlayerName\nFROM Players\nINNER JOIN Teams ON Players.TeamID = Teams.TeamID\nWHERE Teams.TeamName = 'Sharks';\n```",
                         "feedback": "Full marks: the keys are named by their role (primary in Teams, foreign in Players), and the query joins the tables and filters on the team name in the right table. The explanation of why the link avoids repeating team names is what lifts the outline above a list of facts.",
                         "band": 2
                       },
@@ -2963,7 +2963,7 @@
                         "id": "sa-is-01-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "A decision support system for a logistics manager would integrate and analyse data from multiple sources. It would take into account the list of delivery addresses, real-time traffic information, weather conditions, and the capacity of each delivery vehicle. The system would process this information using algorithms to model various potential routes.\n\nInstead of providing a single 'best' route, the DSS would present a few optimised options to the manager. For example, it might show one route that is the shortest distance but has potential traffic delays, and another that is slightly longer but avoids congestion. This allows the manager to use their human expertise and judgement to assess the trade-offs and make the final, well-informed decision.",
+                        "answer": "A decision support system (DSS) for a logistics manager would integrate and analyse data from several sources, including the list of delivery addresses, live traffic, weather and the capacity of each van. It would use data modelling to test many possible delivery routes, applying algorithms that aim for optimisation of distance, time and fuel.\n\nRather than giving a single best route, the DSS would present a few options to the manager. For example, one route may be the shortest distance but face traffic delays, while another is slightly longer but avoids congestion. This lets the manager use human judgement to weigh the trade-offs and make the final, well-informed decision.",
                         "feedback": "Full marks: the answer explains the data the DSS integrates, how it models alternative routes, and why presenting options keeps the manager's judgement central. Each point is tied to the logistics context, which is what the top band requires.",
                         "band": 3
                       },
@@ -3027,7 +3027,7 @@
                         "id": "sa-is-02-3m",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Structured decisions are repetitive and routine, and can be fully automated because they are based on a clear, finite set of rules (e.g., reordering stock when it falls below a set level). Unstructured decisions are complex, non-routine problems where the rules are not known and human intuition and judgement are critical (e.g., designing a new marketing campaign). Semi-structured decisions are in the middle, where a DSS can provide analysis and data, but the final choice still requires human judgement.",
+                        "answer": "A DSS supports three categories of decision-making, which differ in how many rules are known. Structured decisions are routine and can be automated, such as reordering stock at a set level. Semi-structured decisions combine some rules with analysis from a DSS, but the final choice still needs human judgement. Unstructured decisions are complex and new, with no known rules, such as designing a new marketing campaign, where a DSS offers data but human intuition and judgement are critical.",
                         "feedback": "Full marks: each category has a defining feature (rules, judgement, or a mix of both) and the DSS's role is clear in each. Each part is kept brief, which suits a three-mark description.",
                         "band": 2
                       },
@@ -3087,7 +3087,7 @@
                         "id": "sa-is-02-6m",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "**Structured:** A bank decides whether to approve a personal loan application. The decision follows a finite set of rules set by the bank's lending policy, such as minimum credit score and income requirements. The DSS applies these rules automatically, so the approval or decline is made without human intervention.\n\n**Semi-structured:** A retail manager decides how to price a new product. The DSS analyses historical sales data, competitor pricing and production costs to suggest a sensible price range. The manager must still weigh factors the system cannot model, such as brand positioning and the marketing strategy, and makes the final decision.\n\n**Unstructured:** A board of directors decides whether to launch a new product line in an emerging market. There is no precedent for the decision, and the rules are unknown. The DSS can only provide data exploration tools and financial models to simulate possible outcomes, so the final decision relies on the board's experience, judgement and strategic vision.",
+                        "answer": "**Structured:** In an enterprise such as a bank, a decision support system approves personal loans. This structured decision follows a finite set of rules set by the bank's lending policy, such as minimum credit score and income requirements. The DSS applies these rules automatically, so the approval or decline is made without human intervention.\n\n**Semi-structured:** A retail manager decides how to price a new product. This semi-structured decision is supported by a DSS that analyses historical sales data, competitor pricing and production costs to suggest a sensible price range. The manager must still weigh factors the system cannot model, such as brand positioning, and makes the final decision.\n\n**Unstructured:** A board of directors decides whether to launch a new product line in an emerging market. This unstructured decision has no precedent and no known rules, so the DSS can only provide data exploration tools and financial models to simulate possible outcomes. The final choice relies on the board's experience and human judgement, not on the system.",
                         "feedback": "Full marks: each category has a specific enterprise example, and the DSS's role differs in a way that tracks the rules: automated for structured, analysis for semi-structured, and exploration only for unstructured. The explicit statement that the board decides in the unstructured case is what separates the top band from a description of tools.",
                         "band": 3
                       },
@@ -3152,7 +3152,7 @@
                         "id": "sa-is-03-3m",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "The knowledge base is the component that stores the facts and rules about a specific domain, captured from human experts. The inference engine is the reasoning component or 'brain' of the system; it applies logical rules to the knowledge base to draw conclusions and solve problems. The user interface (UI) is the layer that allows a non-expert user to query the system and receive advice or answers.",
+                        "answer": "In this expert system, the knowledge base stores facts and rules about a specific domain, captured from a domain expert. The inference engine is the reasoning component, applying logical rules to the knowledge base to draw conclusions. The user interface is the layer that lets a non-expert user enter information and receive advice. The components are linked, as the user interface passes answers to the inference engine, which draws on the knowledge base.",
                         "feedback": "Full marks: each component is described by what it does and how it connects to the others, and the inference engine is explained as applying rules to the knowledge base. Keep each description to one or two sentences, as three marks ask for.",
                         "band": 2
                       },
@@ -3326,7 +3326,7 @@
                         "id": "sa-is-04-5m",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "The ethical issue of bias is critical here. If the historical arrest and conviction data used to train the system reflects past institutional bias against certain racial or socio-economic groups, the system will learn and perpetuate that bias. It may predict a higher reoffending risk for people from those groups even when their individual circumstances suggest otherwise, leading to discriminatory bail decisions.\n\nAccountability is equally serious. If the system makes a wrong prediction that leads to a person being unfairly denied bail, it is unclear who is responsible: the developers who wrote the algorithm, the data scientists who trained it, or the magistrate who relied on it. This 'black box' problem, where the reasoning cannot be explained, makes decisions hard to challenge or correct.\n\nGiven these risks, such a tool should inform a decision that remains with a human judge, never replace it, and should be independently audited for bias before it is used.",
+                        "answer": "The ethical issues of bias and accountability are both serious for an intelligent system used at bail. Bias arises when the historical data used to train the system reflects past institutional bias against certain racial or socio-economic groups. The system then learns and perpetuates that bias, predicting a higher reoffending risk for people from those groups even when individual circumstances suggest otherwise, which leads to discriminatory bail decisions.\n\nAccountability is equally serious. If the system makes a wrong prediction that leads to a person being unfairly denied bail, it is unclear who is responsible: the developers who wrote the algorithm, or the magistrate who relied on it. This black box problem, where the reasoning cannot be explained, makes decisions hard to challenge or correct.\n\nGiven these risks, such a tool should inform, never replace, a human judge, and should be independently audited for bias first.",
                         "feedback": "Full marks: bias is traced to historical data and its consequence for defendants is explained, accountability is examined through the possible responsible parties, and the answer concludes on whether the tool should be used. Give each issue its own paragraph so the investigation is easy to follow.",
                         "band": 6
                       },
@@ -3449,7 +3449,7 @@
                         "id": "sa-is-05-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "In a smart factory, local servers used for edge computing play a critical role in immediate processing. Data from a sensor that detects a critical failure on the assembly line needs to be acted upon in milliseconds. An edge server on the factory floor can process this data within the required time and trigger an actuator to shut down the machine, avoiding the delay (latency) of sending the data to the cloud and back.\n\nCloud storage serves a different purpose. It acts as a central repository for all the data collected over time from all sensors. This aggregated historical data is then used for large-scale analysis, such as identifying long-term maintenance trends, optimising overall factory performance, and training the machine learning models that are then deployed to the edge servers.",
+                        "answer": "The role of local servers in edge computing is immediate processing within the factory's infrastructure. Sensor data showing a critical failure must be acted on in milliseconds, so an edge server on the factory floor can trigger an actuator to shut down the machine, avoiding the delay (latency) of sending data to the cloud and back. Real-time processing at the edge is what protects the smart factory from a fault spreading across the IoT network.\n\nCloud storage serves a different purpose. It acts as a central repository for data collected over time from all sensors, used for large-scale analysis such as long-term maintenance trends and for training the machine learning models later deployed to the edge servers.",
                         "feedback": "Full marks: edge servers are explained as handling real-time decisions with low latency, cloud storage as aggregating history for analysis, and the answer gives a reason for using both. Keeping the link to the factory's fault response shows application rather than recall.",
                         "band": 3
                       },
@@ -3514,7 +3514,7 @@
                         "id": "sa-is-06-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "An intelligent system can enhance traditional CCTV by adding automated facial recognition to identify persons of interest in a crowd, and by using anomaly detection to automatically alert security staff to unusual behaviour, such as a person running or an abandoned package.",
+                        "answer": "An intelligent system can enhance CCTV surveillance by adding facial recognition to identify people of interest, and by using anomaly detection to send automated alerts to staff about unusual behaviour, such as an abandoned package.",
                         "feedback": "Full marks: two distinct enhancements are named, and each is linked to what the system does with the footage, such as matching a face or alerting staff to unusual behaviour. Keep each description to one clause, as this is a two-mark question.",
                         "band": 1
                       },
@@ -3565,7 +3565,7 @@
                         "id": "sa-is-06-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "A bank's intelligent fraud prevention system continuously analyses a customer's transaction data to build a sophisticated model of their typical spending behaviour. This includes factors like the usual time of day for purchases, common locations, average transaction amounts, and types of merchants.\n\nWhen the customer attempts a new transaction, the intelligent system assesses it in real-time against this established profile. A transaction that deviates significantly from the norm—such as a large purchase from a new overseas website—is flagged as an anomaly. The system then automatically assigns a risk score, and if it exceeds a certain threshold, it can instantly decline the transaction and trigger a security alert to the customer for verification, preventing the fraud before it is completed.",
+                        "answer": "A bank's intelligent system for fraud prevention builds a spending profile for each customer from past transactions, covering usual amounts, locations, merchants and times of purchase. This profile is the baseline for transaction monitoring of the customer's credit card.\n\nWhen the customer attempts a new transaction, the system assesses it in real time against that profile. A large purchase from a new overseas website deviates sharply from the norm, so anomaly detection flags it. The system then assigns a risk score, and if the score passes a set threshold, it can decline the transaction and send a verification alert to the customer's phone, stopping the fraud before it completes.",
                         "feedback": "Full marks: the answer explains both stages, the profile of normal behaviour and the real-time comparison, and links the deviation to the overseas purchase and the automated response. Naming the factors compared keeps it an explanation rather than a description.",
                         "band": 3
                       },
@@ -3634,7 +3634,7 @@
                         "id": "sa-is-07-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "**Fact:** A Labrador retriever needs at least one hour of exercise every day.\n**Rule:** IF home_type = 'apartment' AND daily_exercise_minutes < 60 THEN do NOT recommend a Labrador retriever.",
+                        "answer": "This expert system holds rules and facts in its knowledge base:\n**Fact:** Labradors need at least one hour of exercise every day.\n**IF-THEN rule:** IF home_type = 'apartment' AND daily_exercise_minutes < 60 THEN do NOT recommend a Labrador.",
                         "feedback": "Full marks: the fact is accurate and the rule has two testable conditions that use it, so the knowledge base can draw a conclusion. The answer is precise without being long, which suits a two-mark question.",
                         "band": 1
                       },
@@ -3685,7 +3685,7 @@
                         "id": "sa-is-07-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "**Facts:** The router's power light is either on or off. The internet light is either on or off. A restart clears temporary connection faults, and the provider's line status can be checked remotely.\n\n**Rule 1:** IF router_power_light = 'off' THEN suggest 'Plug the router into a working power outlet and switch it on.'\n**Rule 2:** IF router_power_light = 'on' AND internet_light = 'off' AND restart_done = 'no' THEN suggest 'Unplug the router for 30 seconds, plug it back in and wait two minutes.'\n**Rule 3:** IF internet_light = 'off' AND restart_done = 'yes' AND line_status = 'fault' THEN suggest 'Report a line fault to the provider.'\n**Rule 4:** IF internet_light = 'on' AND devices_connect = 'no' THEN suggest 'Check the Wi-Fi password and restart the device.'",
+                        "answer": "This expert system holds facts and IF-THEN rules in its knowledge base, and its inference engine applies them when troubleshooting a home Wi-Fi network.\n\n**Facts:** Each light is on or off. A restart clears temporary faults, and line status can be checked remotely.\n\n**Rule 1:** IF power_light = 'off' THEN suggest 'Plug the router into a power outlet.'\n**Rule 2:** IF power_light = 'on' AND internet_light = 'off' AND restarted = 'no' THEN suggest 'Unplug the router for 30 seconds.'\n**Rule 3:** IF internet_light = 'off' AND restarted = 'yes' AND line_status = 'fault' THEN suggest 'Report a line fault to the provider.'\n**Rule 4:** IF internet_light = 'on' AND devices_connect = 'no' THEN suggest 'Check the Wi-Fi password.'",
                         "feedback": "Full marks: the rules form a diagnostic sequence, supported by stated facts and conditions the user can answer. Each rule ends in a specific action, and escalation depends on checked conditions (restart done, line status), which is what makes the set coherent.",
                         "band": 4
                       },
@@ -3751,7 +3751,7 @@
                         "id": "sa-is-08-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The input sensor would be a passive infrared (PIR) motion sensor, which detects body heat moving within its field of view. The output actuator would be a relay that switches the security light's power on or off when the controller receives a signal from the sensor.",
+                        "answer": "The input sensor is a PIR sensor, which performs motion detection by sensing body heat. The output actuator is a relay that gives automated control of the security light when the smart system receives a signal from the sensor.",
                         "feedback": "Full marks: a specific input sensor and an output actuator are named, and each is matched to its function in the smart light. Brief descriptions like these are the right length for a two-mark question.",
                         "band": 1
                       },
@@ -3802,7 +3802,7 @@
                         "id": "sa-is-08-5m",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "This automated blind system would have three inputs and one output, with rules in the microcontroller that connect them.\n\n**Inputs:**\n1. A light sensor (photodiode) to measure the brightness of the sunlight outside the window.\n2. A real-time clock to know the time of day.\n3. An indoor temperature sensor to measure the heat in the room.\n\n**Outputs:**\n1. A geared DC motor, driven by a motor controller, that raises and lowers the blinds.\n\n**Processing logic:** The microcontroller would run these rules:\n*   IF time is between 7am and 9am AND light_reading > threshold_A, THEN open the blinds to admit morning light.\n*   IF time is after 9am AND light_reading > threshold_A AND room_temperature > 24°C, THEN close the blinds to reduce heat and glare.\n*   IF light_reading < threshold_B, THEN close the blinds for privacy once it becomes dark.\n\nThe thresholds would be set during testing, so the blinds respond to the actual room conditions.",
+                        "answer": "This automated smart system for blinds would have three inputs and one output, with rules in the microcontroller that connect them.\n\n**Inputs:**\n1. A light sensor (photodiode) to measure the brightness of the sunlight outside the window.\n2. A real-time clock to know the time of day.\n3. An indoor temperature sensor to measure the heat in the room.\n\n**Outputs:**\n1. An actuator: a geared DC motor, driven by a motor controller, that raises and lowers the blinds.\n\n**Processing logic:** The microcontroller would run these rules:\n*   IF time is between 7am and 9am AND light_reading > threshold_A, THEN open the blinds to admit morning light.\n*   IF time is after 9am AND light_reading > threshold_A AND room_temperature > 24°C, THEN close the blinds to reduce heat and glare.\n*   IF light_reading < threshold_B, THEN close the blinds for privacy once it becomes dark.\n\nThresholds are set during testing to suit the room.",
                         "feedback": "Full marks: the model has inputs with a stated purpose, an output that moves the blinds, and testable IF-THEN logic that connects them. Setting thresholds during testing makes the processing logic operational, and the answer does that.",
                         "band": 4
                       },
@@ -3868,8 +3868,8 @@
                         "id": "sa-is-09-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "An expert system in a streaming service acts as a rule-based recommendation component. Its knowledge base holds rules that link content features, such as genre, actors and release year, to each viewer's viewing history. The inference engine applies these rules to filter the catalogue, so the viewer is shown a short list of likely matches. This saves search time and keeps viewers engaged with the service.",
-                        "feedback": "Full marks: the expert system is outlined as a knowledge base of rules and an inference engine, and the efficiency gain is stated as less searching and more engagement. The answer stays focused on the expert system itself, which is what the question asks.",
+                        "answer": "An expert system in a streaming service works as a rule-based recommendation engine. Its knowledge base links viewing history and content features to rules, and its inference engine filters the catalogue, which improves efficiency by reducing search time.",
+                        "feedback": "Full marks: the expert system is outlined as a knowledge base of rules and an inference engine, and the efficiency gain is stated as less search time for viewers. The answer stays focused on the expert system itself, which is what the question asks.",
                         "band": 2
                       },
                       {
@@ -3919,7 +3919,7 @@
                         "id": "sa-is-09-6m",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "An autonomous vehicle is a complex intelligent system that relies on several specialised expert systems working together.\n\nOne critical component is the **perception system**. This expert system takes data from sensors such as cameras and LiDAR and uses a knowledge base of rules to identify and classify objects. For example, a simplified rule might be 'IF an object has a human shape AND is located on the footpath or at the kerb, THEN classify it as a pedestrian'. Real vehicles often use machine-learning classifiers for this task, but the rule shows the expert-system logic. This turns raw sensor data into meaningful facts.\n\nThese facts are passed to a second **path planning and decision-making system**. Its knowledge base contains the rules of the road, principles of defensive driving and the vehicle's physical limitations. Its inference engine uses the facts from the perception system (for example, 'there is a pedestrian ahead') to make efficient, safe decisions such as 'decrease speed' or 'change lanes'.\n\nThese systems work together in a continuous loop. The perception system constantly updates the facts about the environment, and the planning system constantly reassesses its decisions, which is what allows the vehicle to drive safely and efficiently in a dynamic environment.",
+                        "answer": "An autonomous vehicle is a complex intelligent system that relies on several specialised expert systems working together.\n\nOne critical component is the **perception system**. This expert system takes data from sensors such as cameras and LiDAR and uses a knowledge base of rules to identify and classify objects. For example, a simplified rule might be 'IF an object has a human shape AND is located on the footpath or at the kerb, THEN classify it as a pedestrian'. Real vehicles often use machine-learning classifiers for this task, but the rule shows the expert-system logic. This turns raw sensor data into meaningful facts.\n\nThese facts are passed to a second **path planning and decision-making system**. Its knowledge base contains the rules of the road, principles of defensive driving and the vehicle's physical limitations. Its inference engine uses the facts from the perception system (for example, 'there is a pedestrian ahead') to make efficient, safe decisions such as 'decrease speed' or 'change lanes'.\n\nThese systems work together in a continuous loop. The perception system constantly updates the facts about the environment, and the planning system constantly reassesses its decisions, which is what allows the vehicle to drive with both safety and efficiency in a dynamic environment.",
                         "feedback": "Full marks: two expert systems are explained with their knowledge bases, the facts that pass between them, and the inference that turns those facts into safe, efficient decisions. The concrete example rule shows the expert-system logic clearly, and the note on machine learning keeps it accurate.",
                         "band": 3
                       },
@@ -4111,7 +4111,7 @@
                         "id": "sa-ep-02-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A benefit of offshore development is often a significant reduction in labour costs. A challenge is managing communication and collaboration effectively across different time zones and cultural contexts.",
+                        "answer": "A benefit of offshore development for an enterprise is often a significant reduction in labour costs. A challenge is managing communication and collaboration effectively across different time zones and cultural contexts.",
                         "feedback": "Full marks: one benefit and one challenge are given, each with a reason. The answer is concise and specific to offshore development, which is what a two-mark identification question asks for.",
                         "band": 1
                       },
@@ -4162,7 +4162,7 @@
                         "id": "sa-ep-02-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The trend of 'working remotely' has meant that enterprise projects are no longer limited by geography when sourcing talent. However, it requires a heavy reliance on online collaboration tools like Slack, Zoom, and Jira for communication and task management. Project managers must adapt their style to manage a distributed team, focusing more on clear documentation and measurable outcomes.\n\nThe growth of 'freelance work' (the gig economy) has affected resourcing by allowing enterprises, especially start-ups, to access highly specialised skills for specific parts of a project without hiring a full-time employee. A project might hire a freelance UI designer for two months, for example. This is cost-effective but requires project managers to be skilled at breaking down the project into discrete tasks and managing contracts.",
+                        "answer": "Working remotely means enterprise projects are no longer limited by geography when sourcing talent. It requires heavy reliance on online collaboration tools such as Slack, Zoom and Jira, and project management must focus on clear documentation and measurable outcomes across a distributed team.\n\nFreelance work has changed resourcing by letting enterprises, especially start-ups, access highly specialised skills for specific parts of a project without hiring full-time staff. A project might hire a freelance UI designer for two months. This is cost-effective, but it requires managers to break the project into discrete tasks and manage contracts carefully.",
                         "feedback": "Full marks: both trends are explained, covering the effect on resourcing (a wider talent pool, specialised skills on demand) and on management (outcomes, coordination and contracts), all linked to the start-up. Naming the trade-offs is what moves the answer into the top band.",
                         "band": 3
                       },
@@ -4232,7 +4232,7 @@
                         "id": "sa-ep-03-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A system flowchart shows the sequence of operations and the flow of control in a system, including processing steps, decisions and inputs and outputs. A data flow diagram (DFD) focuses on the movement of data: it shows external entities, the processes that transform data, the data stores and the data flows between them. A DFD does not show decision logic, loops or the order in which steps happen.",
+                        "answer": "A system flowchart shows the sequence of steps, decisions and flow of control in a system. A data flow diagram (DFD) shows how data moves between sources, processes and stores, but not the order of steps.",
                         "feedback": "Full marks: the flowchart is defined by its control flow and decisions, and the DFD by its data movement, processes and stores. The explicit statement of what the DFD does not show makes the distinction sharp.",
                         "band": 4
                       },
@@ -4282,7 +4282,7 @@
                         "id": "sa-ep-03-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "During the planning phase, an online collaboration tool like Google Workspace is essential for team coordination. It allows the project team to work together on planning documents in real time, store design diagrams such as flowcharts in a central repository, and communicate through chat and video calls, so everyone is aligned on the project goals and plan.\n\nA budget is a fundamental planning tool that defines the financial constraints of the project. It involves estimating the costs of all necessary resources, including developer salaries, software licences, hardware infrastructure and training. The budget is used to secure funding and acts as a baseline throughout the project to monitor and control spending, keeping the project financially viable.",
+                        "answer": "During the planning phase of this enterprise system, an online collaboration tool such as Google Workspace is essential for team coordination. It lets the team work on planning documents together in real time, store design diagrams such as flowcharts in a central repository, and communicate through chat and video calls, so everyone shares the same goals and plan.\n\nA budget is a fundamental planning tool that sets the financial constraints of the project. It involves a cost estimate for all necessary resources, including developer salaries, software licences, hardware and training. The budget also guides resource allocation and acts as a baseline throughout the project to monitor and control spending.",
                         "feedback": "Full marks: each tool is described by its planning use, and the budget covers both the estimate of resource costs and its role as a baseline for monitoring. The link to a distributed team is specific to the scenario.",
                         "band": 2
                       },
@@ -4347,7 +4347,7 @@
                         "id": "sa-ep-04-3m",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Computational thinking is a problem-solving approach that involves breaking a complex problem down into smaller parts (decomposition) and developing a step-by-step solution (algorithm). Design thinking is a human-centred approach that focuses on empathy for the user to create solutions that are desirable and meet their needs. Systems thinking is a holistic approach that focuses on understanding how all the different parts of a system interact with each other to produce the overall result.",
+                        "answer": "Computational thinking is a problem-solving approach that breaks a complex problem into smaller parts (decomposition) and develops a step-by-step solution (algorithm). Design thinking is a human-centred approach that focuses on empathy for the user to create solutions that meet their needs. Systems thinking is a holistic approach that examines the interconnections between all parts of an enterprise system, and how they interact to produce the overall result.",
                         "feedback": "Full marks: each skill is described by its distinctive features (decomposition and algorithms, human-centred design, and interconnections), and the three are kept distinct. Brief descriptions like these are the right length for three marks.",
                         "band": 2
                       },
@@ -4407,7 +4407,7 @@
                         "id": "sa-ep-04-6m",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "**Design thinking** would be applied first to ensure the app meets user needs. The team would interview customers to understand their banking habits and pain points. They would then create user personas and journey maps, and develop interactive prototypes of the app's interface to test with users, ensuring it is intuitive and solves real problems for them.\n\n**Computational thinking** would be used by the software developers to build the app. They would use decomposition to break the complex application down into smaller, manageable modules like 'user authentication', 'view balance', and 'transfer funds'. For each module, they would develop precise, step-by-step algorithms to handle the logic and data processing.\n\n**Systems thinking** would be essential to understand the entire ecosystem. The developers must consider how the mobile app (one part of the system) interacts with all the other components. This includes ensuring secure communication with the bank's central database, integrating with third-party fraud detection systems, and connecting to payment networks, understanding that a change in one part of the system can have consequences for another.",
+                        "answer": "**Design thinking** would be applied first to ensure the online banking app meets user needs. Its user research would involve interviewing customers to understand their banking habits and pain points. The team would then create user personas and journey maps, and develop interactive prototypes of the app's interface to test with users, ensuring it is intuitive and solves real problems for them.\n\n**Computational thinking** would be used by the software developers to build the app. They would use decomposition to break the complex application down into smaller, manageable modules such as user authentication, viewing balances and transferring funds. For each module, they would develop precise, step-by-step algorithms to handle the logic and data processing.\n\n**Systems thinking** would be essential to understand the entire enterprise system. The developers must consider how the mobile app, one part of the system, interacts with all the other components. This includes secure communication with the bank's central database, integrating with third-party fraud detection systems, and connecting to payment networks. A change in one part of the system can have consequences for another, so the team must plan for those interdependencies.",
                         "feedback": "Full marks: each skill is applied to the banking app with a specific technique (user personas and prototypes, decomposition into modules, connections to the core and fraud systems), and the answer shows how they feed into each other. The systems thinking paragraph is the strongest because it explains the interdependencies.",
                         "band": 2
                       },
@@ -4478,7 +4478,7 @@
                         "id": "sa-ep-05-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Interviews are a qualitative tool used to gather in-depth information and understand the 'why' behind user needs from a small number of stakeholders. Surveys are a quantitative tool used to gather specific, structured data from a large group of users to identify broad trends and priorities.",
+                        "answer": "Interviews gather in-depth, qualitative requirements from a few stakeholders, exploring the reasons behind their needs. Surveys gather structured, quantitative requirements from many users, showing broad patterns and priorities.",
                         "feedback": "Full marks: the two tools are distinguished by depth and data type (qualitative against quantitative) and by the number of people involved. The reason given for each makes the distinction clear.",
                         "band": 4
                       },
@@ -4529,7 +4529,7 @@
                         "id": "sa-ep-05-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "A prototype is a preliminary, interactive model of the proposed system. The team would use it as a tool to inform requirements by showing it to end-users. By clicking through the prototype, users can provide specific, tangible feedback on the layout and features, helping the team to understand and clarify what the system needs to do. This is far more effective than just discussing abstract ideas.\n\nAn analytical report, such as a technical feasibility report, is used to inform the system's limitations. The team would research and document factors like the performance of existing servers, the budget allocated for new hardware, and the complexity of integrating with legacy databases. This report provides a clear, data-driven understanding of the technical and financial constraints that the new system must operate within.",
+                        "answer": "A prototype is a preliminary, interactive model of the proposed system. The team shows it to stakeholders and end-users, who give specific feedback on the layout and features. This clarifies the requirements, because users can click through the prototype and say what the system must do, which is far more useful than abstract discussion.\n\nAn analytical report, such as a feasibility study, defines the system's limitations. The team documents factors such as the performance of existing servers, the budget for new hardware and the complexity of integrating with legacy databases. This report gives a clear, data-driven view of the technical constraints the system must operate within.",
                         "feedback": "Full marks: the prototype is explained as a way of clarifying requirements through users' concrete feedback, and the analytical report as a way of defining technical and financial limitations, both linked to the scenario. Naming a specific constraint, such as legacy database integration, makes the explanation convincing.",
                         "band": 3
                       },
@@ -4594,8 +4594,8 @@
                         "id": "sa-ep-06-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The waterfall approach is a rigid, sequential development model where the project progresses through distinct phases (e.g., requirements, design, implementation, testing) in a linear order. The agile approach is an iterative model where the project is broken into small increments or 'sprints', with each sprint involving a full cycle of development and allowing for requirements to change and evolve.",
-                        "feedback": "Full marks: waterfall is described as sequential and fixed up front, agile as iterative and open to change, and the two are contrasted directly. The contrast is the key requirement for a distinguish question.",
+                        "answer": "Waterfall is a rigid, sequential development approach in which each phase (requirements, design, build, test) finishes before the next begins. Agile is an iterative development approach that delivers working increments in short cycles and accepts changing requirements.",
+                        "feedback": "Full marks: waterfall is described as sequential and rigid, agile as iterative and open to change, and the two are contrasted directly. The contrast is the key requirement for a distinguish question.",
                         "band": 4
                       },
                       {
@@ -4646,7 +4646,7 @@
                         "id": "sa-ep-06-6m",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "For the start-up developing an innovative mobile app, agile is the more suitable approach. The requirements are unknown and will change as users respond, and agile's iterative cycles let the team build a minimum viable product, test it with real users and adapt features in each sprint. Waterfall would be unsuitable, because its rigid sequence requires every requirement to be fixed before design begins. The trade-off is that agile produces less upfront documentation, which a start-up can accept in exchange for responsiveness.\n\nFor the government agency building a payroll system, waterfall is more suitable. The requirements are fixed by legislation, so detailed upfront design and documentation support the accountability and testing that government oversight requires. The linear structure also gives predictable budgets and milestones. Its limitation is rigidity: if the law changes mid-project, the sequential process makes change costly, so the agency would need strict change control.\n\nOverall, agile fits the start-up because its uncertainty rewards iteration, while waterfall fits the agency because its certainty rewards upfront planning.",
+                        "answer": "For the start-up developing an innovative mobile app, agile is the more suitable development approach. Its requirements are unknown and will change as users respond, so agile's iterative cycles let the team use prototyping to build a minimum viable product, test it with real users and adapt features in each sprint. Waterfall would be unsuitable, because its rigid sequence requires every requirement to be fixed before design begins. The trade-off is that agile produces less upfront documentation, which a start-up can accept in exchange for responsiveness.\n\nFor the government agency building a payroll system, waterfall is the more suitable development approach. The requirements are fixed by legislation, so detailed upfront design and documentation support the accountability and testing that government oversight requires. The linear structure also gives predictable budgets and milestones. Its limitation is rigidity: if the law changes mid-project, the sequential process makes change costly, so the agency would need strict change control.\n\nOverall, the suitability of each approach depends on certainty: agile fits the start-up because its uncertainty rewards iteration, while waterfall fits the agency because its certainty rewards upfront planning.",
                         "feedback": "Full marks: a clear judgement is made for each project, with reasons tied to its requirements and an explicit limitation for each approach. Weighing the trade-offs for both projects is what the top band requires for an evaluate question.",
                         "band": 6
                       },
@@ -4717,7 +4717,7 @@
                         "id": "sa-ep-07-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Verification is the process of checking that the system is built correctly according to its design and specifications. It answers the question, 'Are we building the product right?'. Validation is the process of checking that the system meets the actual needs and expectations of the user. It answers the question, 'Are we building the right product?'.",
+                        "answer": "Verification checks that the system is built correctly against its specifications, asking whether the product is built right. Validation checks it meets user needs, asking whether this is the right product. Both are testing methods in quality assurance.",
                         "feedback": "Full marks: verification is defined by the specifications and design, validation by user needs and expectations, and the two are contrasted directly. The contrast is what earns the marks.",
                         "band": 4
                       },
@@ -4883,7 +4883,7 @@
                         "id": "sa-ep-08-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Ongoing evaluation is essential because the business environment is not static. An enterprise system that was effective at launch may become less so as business goals evolve, new competitors emerge, and user expectations change. Continuous evaluation, through user feedback and performance monitoring, allows the enterprise to identify where the system is no longer meeting its needs, informing future updates.\n\nMaintenance is crucial for keeping the system operational and secure. Adaptive maintenance is required to make the system compatible with new technologies, like updated web browsers or operating systems. Corrective maintenance is vital for fixing bugs and, most importantly, patching security vulnerabilities that are discovered over time. Without ongoing maintenance, the system would become unstable, insecure, and eventually obsolete.",
+                        "answer": "Ongoing evaluation is essential for the long-term success of this enterprise computing system, because the business environment is not static. A system that was effective at launch may become less so as business goals evolve, new competitors emerge and user expectations change. Continuous evaluation, through user feedback and performance monitoring, shows where the system no longer meets its needs.\n\nMaintenance is crucial for keeping the system operational and secure. Adaptive maintenance makes the system compatible with new technologies, such as updated web browsers or operating systems. Corrective maintenance fixes bugs and, most importantly, patches security vulnerabilities discovered over time. Without ongoing maintenance, the system would become unstable, insecure and eventually obsolete.",
                         "feedback": "Full marks: ongoing evaluation is explained as necessary because business goals and expectations change, and maintenance is explained through adaptive and corrective work tied to the retailer's scenario. The link to the consequences of neglect is what makes the answer complete.",
                         "band": 3
                       },

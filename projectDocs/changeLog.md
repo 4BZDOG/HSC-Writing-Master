@@ -1,5 +1,26 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Marking guides, word bands and syllabus terms in the shipped courses)
+
+- **Fixed.** About 90 marking guides in Ancient History, English, Geography, Legal
+  Studies and Modern History used the wrong ladder for their verb's tier, and 34
+  Software Engineering guides were bullet lists with no mark rows. Every guide now
+  has the exact rows the app expects, top row first and descending.
+- **Fixed.** `docs/dataset-generation-prompt.md` listed verbs in tiers the app does not
+  use, which is where the wrong ladders came from. It is now printed from
+  `data/commandTerms.ts`, and `datasetPromptDocTiers.test.ts` keeps it in line.
+- **Fixed.** About 1,000 full-mark sample answers were shortened or lengthened to
+  sit inside the app's word band (no more than 15% over the maximum), and now use
+  every syllabus term the question names. Command verbs and unexplained
+  abbreviations were removed from keyword lists, and invented figures that the
+  scenarios did not supply were taken out.
+- **Fixed.** Thirteen Software Engineering questions had a lower-mark sample longer than
+  a higher-mark one, and 34 samples had no feedback.
+- **Still to do.** Many full-mark answers sit between the band maximum and 1.5 times it.
+  The band is shorter than the roughly 40 words per mark the earlier course changes
+  aimed for, so choose which one is right before trimming further. Legal Studies
+  statute points and Economics facts still need a specialist check.
+
 ## [Unreleased] - 2026-10-08 (Reference depth for Business Studies and Economics; gaps closed in Enterprise Computing and Software Engineering)
 
 - **Upgraded.** Business Studies now has 348 questions, two per dot point, and

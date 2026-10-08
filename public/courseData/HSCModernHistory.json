@@ -129,25 +129,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-2-1",
-                        "mark": 3,
-                        "answer": "The Paris Peace Conference imposed significant territorial losses on Germany. The Treaty of Versailles returned Alsace-Lorraine to France, gave the Polish Corridor to the newly independent Poland, and placed Germany's overseas colonies under League mandates. The Saar coalfield was administered by the League for fifteen years, and the Rhineland was demilitarised. The military terms restricted the German army to 100,000 men, abolished conscription and banned an air force, while the navy was limited to a small number of ships. Germans regarded the territorial losses and military limits as a dictated peace, which left the Weimar Republic with a legitimacy problem from its foundation. The terms were also designed to limit Germany's ability to wage war in future, and the army limit remained a major grievance until the rearmament of the 1930s.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The Paris Peace Conference imposed significant territorial losses on Germany. The Treaty of Versailles returned Alsace-Lorraine to France and gave the Polish Corridor to Poland, while Germany's overseas colonies were placed under League mandates and the Rhineland was demilitarised. The army was limited to 100,000 men, conscription was abolished and an air force was banned. Germans regarded these losses and limits as a dictated peace, which left the Weimar Republic with a legitimacy problem from its foundation.",
                         "feedback": "Full marks: the answer describes territorial and military terms with precise figures and links them to their effect on the Republic.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-2-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Treaty of Versailles took Alsace-Lorraine from Germany and limited the army to 100,000 men, which Germans felt was humiliating.",
-                        "source": "AI",
                         "feedback": "Two accurate terms are given, with a brief effect, which earns the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-2-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Germany lost land after the war.",
-                        "source": "AI",
                         "feedback": "A general statement with no named term or date earns one mark.",
                         "band": 1
                       }
@@ -416,25 +416,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-6-1",
-                        "mark": 4,
-                        "answer": "After Joseph Stalin had consolidated his control of the Communist Party, the Soviet Union's government introduced the First Five-Year Plan in 1928. This plan replaced market mechanisms with state planning, and the state took direct ownership of nearly all industry. It set ambitious production targets for coal, steel and electricity, and factory managers were pressed to meet quotas. Between 1929 and 1933 the government also pursued collectivisation, merging peasant holdings into large collective farms and requiring grain deliveries at fixed prices. Peasants who resisted, including those who slaughtered their livestock, faced punishment, and the result was famine in 1932 and 1933 while grain exports continued. Targets were set centrally by the state planning agency, and the drive for heavy industry, including the Magnitogorsk steelworks, absorbed resources that might otherwise have gone to consumer goods. Industrial output grew quickly on paper, but the cost in human lives and in the destruction of rural society was enormous. Historians estimate that the famine killed several million people.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "Under Joseph Stalin the Soviet Union introduced the First Five-Year Plan in 1928, which replaced market mechanisms with state planning and placed nearly all industry under direct state ownership. It set ambitious production targets for coal, steel and electricity, and factory managers were pressed to meet quotas, with heavy industry such as the Magnitogorsk steelworks given priority. From 1929 to 1933 the government also pursued collectivisation, merging peasant holdings into collective farms and requiring grain deliveries at fixed prices. Peasants who resisted, including those who slaughtered their livestock, were punished. The resulting famine of 1932 and 1933, which historians estimate killed several million people, occurred while grain exports continued.",
                         "feedback": "Full marks: the answer describes three accurate economic changes with dates and shows their effects, including the human cost of collectivisation.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-6-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "In 1928 the Soviet Union began a Five-Year Plan. Stalin also made peasants join collective farms, which caused problems.",
-                        "source": "AI",
                         "feedback": "Two changes are described, but with little detail, so the answer earns the lower end of the middle band.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-6-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Stalin changed the economy so that it was run by the government.",
-                        "source": "AI",
                         "feedback": "A general statement about government control with no dates or named changes earns one mark.",
                         "band": 1
                       }
@@ -537,25 +537,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-9-1",
-                        "mark": 3,
-                        "answer": "Hyperinflation is an extremely rapid and uncontrolled rise in prices in which money loses its value so quickly that savings and wages become almost worthless. In the Weimar Republic it was caused largely by the government's decision to fund passive resistance to the French and Belgian occupation of the Ruhr in 1923 by printing money, and by reparations that Germany could not pay in full. The problem challenged the Republic in several ways. Prices of basic goods rose faster than wages, workers were paid in cash that they spent within hours, and the middle class, whose savings and pensions were wiped out, lost faith in the government. Hyperinflation peaked in November 1923, when one US dollar was worth about 4.2 trillion marks, and it was ended by the introduction of the Rentenmark and later by the Dawes Plan. The episode showed how economic crisis could undermine support for democratic government, a lesson that was repeated after 1929.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Hyperinflation is an extremely rapid and uncontrolled rise in prices in which money loses its value so quickly that savings and wages become almost worthless. In 1923 the Weimar Republic printed money to fund passive resistance in the Ruhr, and by November one US dollar was worth about 4.2 trillion marks. The crisis challenged the Republic as workers were paid in cash they spent within hours and the middle class lost its savings and faith in the government.",
                         "feedback": "Full marks: the definition is precise, and the answer explains the challenge in 1923 with evidence, especially the effect on the middle class and public confidence.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-9-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Hyperinflation is when prices rise very quickly and money loses value. In 1923 the German government printed money to pay for passive resistance, which made prices rise even further.",
-                        "source": "AI",
                         "feedback": "A precise definition is given and one way the crisis affected Germany is described, so the answer earns two marks. It does not explain the challenge to the Republic's support.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-9-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Hyperinflation is when things get very expensive in Germany.",
-                        "source": "AI",
                         "feedback": "The definition is partly accurate but imprecise, and no 1923 evidence is given.",
                         "band": 1
                       }
@@ -596,7 +596,7 @@
                       "proportional representation",
                       "Papen"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses clearly the relative importance of the reasons for the collapse, weighing long-term institutional weaknesses against the short-term crisis of 1929 to 1933, reaching a supported judgement with precise evidence\n6 marks: Assesses the relative importance of at least two reasons with accurate evidence and a supported judgement\n5 marks: Assesses one or two reasons with accurate evidence but limited judgement on their relative importance\n3-4 marks: Describes reasons for the collapse with some accuracy and some link to the Republic's failure\n2 marks: Identifies a reason for the collapse without evidence\n1 mark: Makes a general statement about political instability",
+                    "markingCriteria": "7-8 marks: Assesses clearly the relative importance of the reasons for the collapse, weighing long-term institutional weaknesses against the short-term crisis of 1929 to 1933, reaching a supported judgement with precise evidence\n5-6 marks: Assesses at least two reasons for the collapse with accurate evidence and a judgement about their relative importance, which is supported at 6 marks and limited at 5\n4 marks: Describes reasons for the collapse with accurate evidence and some link to the Republic's failure, with little weighing of their importance\n2-3 marks: Describes reasons for the collapse with some accuracy and some link to the Republic's failure, with a reason only identified and not evidenced at 2 marks\n1 mark: Makes a general statement about political instability",
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-10-1",
@@ -653,25 +653,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-11-1",
-                        "mark": 5,
-                        "answer": "Long-term causes of the Weimar Republic's collapse were rooted in its foundations and political culture, while short-term causes arose in the crisis of 1929 to 1933. Long-term factors included the Republic's birth from defeat and the Treaty of Versailles, which left many Germans hostile to the new state, and a constitution in which proportional representation produced fragmented parliaments. Conservative elites in the army, the judiciary and the civil service had little commitment to democracy, and the political right blamed the Republic for the humiliation of 1918. Short-term factors were more immediate. The Wall Street Crash of October 1929 and the Great Depression that followed caused mass unemployment, which by early 1932 was close to six million, and this crisis gave the Nazi Party a dramatic rise in electoral support. Chancellor Heinrich Brüning's deflationary policies and his use of Article 48 emergency decrees from 1930 further undermined parliamentary government. The distinction matters because the long-term factors made the Republic vulnerable, while the short-term crisis determined when and how it fell. Without the Depression the Republic might have survived longer, but without its weak foundations the Depression might not have destroyed it so completely. The contrast is therefore one of vulnerability against trigger.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "Long-term causes of the collapse of the Weimar Republic were rooted in its foundations and political culture, while short-term causes arose in the crisis of 1929 to 1933. Long-term factors included the Republic's birth from defeat and the Treaty of Versailles, which left many Germans hostile to the new state, and a constitution in which proportional representation produced fragmented parliaments. Conservative elites in the army, the judiciary and the civil service had little commitment to democracy, and the political right blamed the Republic for the humiliation of 1918. Short-term factors were more immediate. The Wall Street Crash of October 1929 and the Great Depression caused mass unemployment, close to six million by early 1932, and this crisis gave the Nazi Party a dramatic rise in support. The distinction matters because long-term factors made the Weimar Republic vulnerable, while the short-term crisis determined when and how it fell.",
                         "feedback": "Full marks: the answer defines each kind of reason with accurate evidence and explains why the distinction matters, namely vulnerability versus timing.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-11-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Long-term reasons include the Treaty of Versailles and the weak constitution. Short-term reasons include the Great Depression and the policies of Chancellor Brüning. Both kinds of reason helped to bring down the Republic.",
-                        "source": "AI",
                         "feedback": "Both kinds of reason are described with some accuracy, but the answer does not explain the difference between them, so it earns three marks.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-11-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Republic had many problems that built up over time until it fell apart.",
-                        "source": "AI",
                         "feedback": "A general statement with no named long-term or short-term reason earns one mark.",
                         "band": 1
                       }
@@ -772,17 +772,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-13-1",
-                        "mark": 2,
-                        "answer": "On 2 May 1933 the Nazi government dissolved the trade unions and replaced them with the German Labour Front, which took control of workers' organisations. In July 1933 the Law against the Formation of New Parties made the Nazi Party the only legal party, which ended the existence of other political parties in Germany. The removal of the unions also stripped workers of the right to bargain collectively, while the one-party law removed any legal means of political opposition. Both measures removed the independence of organisations that had previously competed with the Nazi Party for loyalty.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "On 2 May 1933 the Nazi government dissolved the trade unions, which were replaced by the German Labour Front. In July 1933 the Law against the Formation of New Parties ended all parties except the Nazi Party.",
                         "feedback": "Full marks: two accurate measures of 1933, each with the organisation it removed. The dates are precise and the German Labour Front is correctly described as a replacement.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-13-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The trade unions were closed down by the Nazis.",
-                        "source": "AI",
                         "feedback": "One accurate measure is identified without a date, so the answer earns one mark.",
                         "band": 1
                       }
@@ -878,25 +878,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-15-1",
-                        "mark": 3,
-                        "answer": "Lebensraum, meaning living space, was the Nazi idea that the German people needed more territory, particularly in eastern Europe, to secure their food supply and their racial future. It was a central element of Nazi ideology, set out in Mein Kampf, where Hitler argued that the Slavic lands of the east should be settled by Germans while their existing populations were displaced or subjected. Lebensraum shaped foreign policy before 1939 by setting the long-term objective towards which Hitler's actions were directed. Its influence can be seen in the remilitarisation of the Rhineland in 1936, in the Anschluss of Austria in 1938, and in the demands on Czechoslovakia that led to the Munich Agreement. The pact with the Soviet Union in August 1939 was a tactical step that removed the risk of a two-front war, which allowed the attack on Poland, the first move towards the eastern expansion that Lebensraum demanded.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Lebensraum, meaning living space, was a central element of Nazi ideology, which called for German settlement of eastern Europe. It shaped foreign policy before 1939 as the long-term objective of Hitler's actions, seen in the remilitarisation of the Rhineland, the Anschluss and the demands on Czechoslovakia. The pact with the Soviet Union in August 1939 removed the risk of a two-front war and allowed the attack on Poland, the first step towards the eastern expansion that Lebensraum demanded.",
                         "feedback": "Full marks: Lebensraum is defined precisely as a goal focused on eastern Europe, and the answer explains its influence on foreign policy with specific evidence.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-15-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Lebensraum meant living space for Germans in eastern Europe. It was one reason Hitler wanted to take over Czechoslovakia.",
-                        "source": "AI",
                         "feedback": "The definition is accurate and one example is given, so the answer earns two marks. It does not explain the wider influence on foreign policy.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-15-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Lebensraum was a Nazi idea about land.",
-                        "source": "AI",
                         "feedback": "The definition is partly accurate but general, and no example of foreign policy is given.",
                         "band": 1
                       }
@@ -939,25 +939,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-16-1",
-                        "mark": 6,
-                        "answer": "Nazi ideology shaped the treatment of different groups in German society, but its impact varied considerably. The effect on Jewish people was the most direct and most severe. Racial doctrine defined Jewish people as the enemy of the Volksgemeinschaft, and the Civil Service Law of April 1933 removed Jewish officials from the public service. The Nuremberg Laws of 1935 stripped Jewish Germans of full citizenship and forbade marriage and sexual relations between Jews and Germans, and the pogrom of Kristallnacht in November 1938 marked a sharp escalation toward systematic persecution. The impact on other minorities was also severe, particularly the sterilisation of people judged hereditarily unfit under the law of July 1933. For women, ideology stressed motherhood and the ideal Aryan family. Policies such as marriage loans and the Mother's Cross encouraged childbearing, and women were pushed out of some professions and university places. However, the impact was contradictory: many German women were drawn into the workforce as rearmament expanded, and the regime's rhetoric did not reverse this trend. Youth was the most successful area of ideological control. Membership of the Hitler Youth became compulsory by law in December 1936, and young people were indoctrinated through camps and sport, although many resisted the regimented demands of the organisation. The effect on workers was shaped more by economic priorities than by ideology. Trade unions were replaced by the German Labour Front in May 1933, which controlled wages and conditions, and the Strength Through Joy programme offered leisure to win consent. These measures rewarded compliance and suppressed independent organisation, but they served recovery and rearmament as much as racial ideology. Overall, ideology had its greatest and most destructive impact on Jewish people, a substantial but more contradictory impact on women and minorities, and a more instrumental impact on workers. Its impact on youth was the most thorough in shaping attitudes, though not in every individual's life. Its impact on Jewish people, which was the most destructive of all the groups, is therefore the clearest test of how far ideology shaped policy.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Nazi ideology shaped the treatment of different groups, but its impact varied considerably. The effect on Jewish people was the most direct and severe. The Civil Service Law of April 1933 removed Jewish officials from the public service, the Nuremberg Laws of 1935 stripped Jewish Germans of full citizenship, and the pogrom of Kristallnacht in November 1938 marked a sharp escalation. Other minorities also suffered, particularly through the sterilisation of people judged hereditarily unfit under the law of July 1933. For women, ideology stressed motherhood through marriage loans and the Mother's Cross, yet many women were drawn into the workforce as rearmament expanded, so the impact was contradictory. Youth was the most successful area of ideological control, as Hitler Youth membership became compulsory by law in December 1936, though many young people resisted its regimented demands. The effect on workers was shaped more by economic priorities, as the German Labour Front, which replaced the trade unions in May 1933, controlled wages and conditions. Overall, ideology had its greatest and most destructive impact on Jewish people, a more contradictory impact on women and a more instrumental impact on workers, while its impact on youth was the most thorough in shaping attitudes.",
                         "feedback": "Full marks: the answer compares the impact across the groups and reaches a judgement about where ideology mattered most. Dated evidence (the Civil Service Law, the Nuremberg Laws, the 1936 Hitler Youth law) supports each point.",
                         "band": 5
                       },
                       {
                         "id": "sa-mh-16-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Nazi regime treated Jewish people harshly. The Nuremberg Laws of 1935 took away their citizenship and banned marriage between Jews and Germans. Women were encouraged to have children through marriage loans, and the Hitler Youth trained young people. Ideology affected these groups, but the answer does not weigh the impact on each group against the others.",
-                        "source": "AI",
                         "feedback": "A 4-mark response assesses the impact on two groups with accurate evidence, but it does not weigh the groups against each other or reach a judgement about where ideology had the greatest effect.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-16-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Nazis were unfair to many groups in Germany.",
-                        "source": "AI",
                         "feedback": "A general statement about the regime's treatment of minorities, with no evidence or named policy, earns one mark.",
                         "band": 1
                       }
@@ -1104,17 +1104,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-19-1",
-                        "mark": 2,
-                        "answer": "The Editors Law of 4 October 1933 required newspaper editors to be registered and gave the regime the power to dismiss anyone regarded as unreliable, which established state censorship of the press. The Reich Chamber of Culture law of 22 September 1933 required writers, artists, musicians and actors to join a chamber controlled by Joseph Goebbels, and anyone excluded could no longer practise their profession. Together these laws made propaganda and conformity a condition of working in journalism and the arts.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The Editors Law of 4 October 1933 established state censorship of the press. The Reich Chamber of Culture law of 22 September 1933 placed writers and artists under Joseph Goebbels's propaganda control, making conformity a condition of work.",
                         "feedback": "Full marks: two accurate 1933 laws, each with the restriction it imposed, and precise dates. The propaganda link is a useful addition.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-19-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Nazis passed a law about newspapers.",
-                        "source": "AI",
                         "feedback": "One law is named without a date or a restriction, so the answer earns one mark.",
                         "band": 1
                       }
@@ -1211,25 +1211,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-21-1",
-                        "mark": 3,
-                        "answer": "The Confessing Church was a movement of Protestant pastors and congregations that opposed the Nazi attempt to bring the German Protestant churches under state control. The Pastors' Emergency League, formed in 1933 under Martin Niemöller, first organised this resistance. In May 1934 the Barmen Declaration, drafted largely by the theologian Karl Barth, rejected the claim that the state could be the single source of truth and authority, and it affirmed church autonomy. Its opposition was limited to church independence rather than to the Nazi regime as a whole, and many members still supported Hitler. In July 1937 Niemöller was arrested and placed in concentration camps, where he remained until 1945, which showed the regime's willingness to suppress even the church's limited opposition.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The Confessing Church was a movement of Protestant pastors that opposed the attempt by the Nazi regime to bring the churches under state control. The Pastors' Emergency League, led by Martin Niemöller, organised this resistance. In May 1934 the Barmen Declaration rejected state claims to authority over the church and affirmed church autonomy. Its opposition was limited to church independence, not the regime as a whole. Niemöller was arrested in 1937 and remained in concentration camps until 1945.",
                         "feedback": "Full marks: the answer outlines the origins, the key action (the Barmen Declaration) and the limits of the Confessing Church's opposition, with accurate names and dates.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-21-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Confessing Church was a group of Protestant pastors who opposed Nazi control of the churches. In 1934 it issued the Barmen Declaration.",
-                        "source": "AI",
                         "feedback": "The origins and one main action are outlined with accurate detail, but the limits of the opposition are not given, so the answer earns two marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-21-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Some churches did not agree with the Nazis.",
-                        "source": "AI",
                         "feedback": "A general statement about church disagreement with no named body or date earns one mark.",
                         "band": 1
                       }
@@ -1280,7 +1280,7 @@
                       "New Guinea",
                       "racial equality"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses clearly the extent to which Australia achieved its aims at the Paris Peace Conference, weighing its successes against its limited influence over the wider settlement, reaching a supported judgement with precise evidence\n6 marks: Assesses Australia's aims and outcomes with accurate evidence and a supported judgement on at least two aims\n5 marks: Assesses Australia's aims and outcomes with accurate evidence but limited judgement\n3-4 marks: Describes Australia's role and at least one outcome with some accuracy\n2 marks: Identifies an Australian aim or outcome without evidence\n1 mark: Makes a general statement about the conference",
+                    "markingCriteria": "7-8 marks: Assesses clearly the extent to which Australia achieved its aims at the Paris Peace Conference, weighing its successes against its limited influence over the wider settlement, reaching a supported judgement with precise evidence\n5-6 marks: Assesses Australia's aims and outcomes with accurate evidence and a judgement on at least two aims, which is supported at 6 marks and limited at 5\n4 marks: Describes Australia's aims and outcomes with accurate evidence and some link to the wider settlement, but with little judgement of how far they were achieved\n2-3 marks: Describes Australia's role and at least one outcome with some accuracy, with an aim or outcome identified without evidence at 2 marks\n1 mark: Makes a general statement about the conference",
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-22-1",
@@ -1337,25 +1337,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-23-1",
-                        "mark": 3,
-                        "answer": "Australia's principal territorial gain at the Paris Peace Conference was the League of Nations mandate over German New Guinea, which Australia administered from 1921 and which gave the Commonwealth control of the northern part of the island. Australia also received a share, with Britain and New Zealand, of the mandate over Nauru, whose phosphate deposits were valuable. Through these arrangements the Paris Peace Conference transferred German colonial power in the Pacific to Australian and imperial control, which strengthened Australia's security in the region. The gains were significant because they removed a German presence on Australia's northern frontier, which Australian governments had feared since before the war. Australia's territorial outcomes were secured through the mandate system rather than through the outright annexation that Hughes had initially sought.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "At the Paris Peace Conference Australia gained the League of Nations mandate over German New Guinea, which it administered from 1921. It also received a share, with Britain and New Zealand, of the mandate over Nauru, whose phosphate deposits were valuable. These gains removed a German presence on Australia's northern frontier. They were secured through the mandate system rather than the outright annexation that Billy Hughes had initially sought.",
                         "feedback": "Full marks: the answer describes both mandates with dates and explains their significance for Australian security, and notes the compromise on annexation.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-23-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Australia gained the League of Nations mandate over German New Guinea, which it administered from 1921.",
-                        "source": "AI",
                         "feedback": "One accurate outcome is given with a date, which earns the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-23-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Australia gained some land at the conference.",
-                        "source": "AI",
                         "feedback": "A general statement with no named territory earns one mark.",
                         "band": 1
                       }
@@ -1457,25 +1457,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-25-1",
-                        "mark": 6,
-                        "answer": "The First World War produced profound social change in Australia, but its effects were uneven, and some of the changes it seemed to promise were reversed by the 1920s. The scale of the loss was enormous. About 60,000 Australians died and around 155,000 were wounded, which left many families bereaved and many men unable to work. The conscription referendums of 1916 and 1917 deepened divisions between supporters and opponents of the war, and these divisions shaped how returned soldiers were treated. Soldier settlement was the government's main response. The Commonwealth and the states offered returned soldiers blocks of land, often on marginal country, with loans for stock and equipment. The schemes were intended to reward men for their service and to build a rural population, but many settlers lacked capital, the land was poor and the prices of primary produce fell, so many blocks were abandoned and settlers fell into debt. The social cost of this failure was felt for years. The changing role of women was also significant. During the war women took jobs in munitions factories and clerical work, and some served as nurses overseas. Their wartime employment showed that women could perform work previously done by men, and it strengthened arguments for women's economic independence. However, the return of men from the war led to pressure on women to leave paid work, and many were dismissed or pushed back into domestic roles. The gains were therefore real but often temporary. The war also reinforced a national identity centred on sacrifice, through the Anzac legend and Anzac Day, which shaped how the community remembered the dead and treated the living. Yet the social impact was uneven. Those who were most damaged, including the families of the dead and those who returned with serious injuries, received limited support, and the war's legacy of division persisted long after 1918. Overall, the social impact of the First World War in Australia was profound, but it altered some social patterns more than others and left a legacy of unfulfilled promises.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The First World War produced profound social change in Australia, but its effects were uneven and some gains were reversed by the 1920s. About 60,000 Australians died and around 155,000 were wounded, leaving many families bereaved. The conscription referendums of 1916 and 1917 deepened divisions over the war, and these divisions shaped how returned soldiers were treated. Soldier settlement was the government's main response, offering blocks of land on often marginal country with loans for stock. Many settlers lacked capital and primary produce prices fell, so many blocks were abandoned and settlers fell into debt. The changing role of women was also significant, as wartime work in munitions factories strengthened arguments for economic independence. However, the return of men, who expected land and employment, led to pressure on women to leave paid work, so these gains were often temporary. The war also reinforced a national identity centred on sacrifice through the Anzac legend, yet the social impact was uneven. Settlement failure compounded the social cost of the losses, because the families of the dead and the seriously injured received limited support. Overall, the war altered some social patterns more than others and left a legacy of unfulfilled promises.",
                         "feedback": "Full marks: the answer analyses the relationships between the losses, soldier settlement and the changing role of women, and reaches a conclusion about the uneven and temporary nature of the change. Precise evidence supports each point.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-25-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Many Australians died in the war and their families were left without fathers or sons. Returned soldiers were offered blocks of land under soldier settlement schemes, but many farms failed because the land was poor and prices fell. Many of the women who had worked in factories during the war lost their jobs when the men came home. The war therefore had a significant social impact.",
-                        "source": "AI",
                         "feedback": "A 4-mark response describes three social effects with accurate evidence and links two of them to soldier settlement or women, but it does not analyse the relationships between them or reach a conclusion.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-25-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The war had a big effect on Australia.",
-                        "source": "AI",
                         "feedback": "A general statement with no social effect named and no evidence earns one mark.",
                         "band": 1
                       }
@@ -1509,17 +1509,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-26-1",
-                        "mark": 2,
-                        "answer": "After the First World War, soldier settlement schemes granted returned servicemen blocks of land, often on marginal country that the government selected. Settlers also received government loans to buy stock, equipment and buildings. Many of these loans became burdens when the prices of wool and wheat fell, so the schemes left many settlers in debt. Settlers who could not make their blocks productive faced financial ruin, and the schemes were criticised for placing men on land that was unsuited to farming.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "After the First World War, soldier settlement schemes gave returned servicemen blocks of land, often on marginal country. Settlers also received government loans for stock and equipment, which left many in debt when wool and wheat prices fell.",
                         "feedback": "Full marks: two accurate features (blocks of land and government loans), each with its purpose or effect. The debt outcome is a precise addition.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-26-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Soldiers were given farms after the war.",
-                        "source": "AI",
                         "feedback": "One accurate feature is stated with no purpose, effect or detail, so the answer earns one mark.",
                         "band": 1
                       }
@@ -1615,25 +1615,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-28-1",
-                        "mark": 3,
-                        "answer": "The motor car transformed Australian life between the wars. Ford established a car assembly plant at Geelong in 1925, and General Motors took control of the Adelaide coachbuilder Holden's Motor Body Builders in 1931, which made motor vehicles a major industry. Cars and trucks made suburban living possible by allowing workers to commute from new outer suburbs, and they connected country districts to rail heads and markets. Road transport gradually replaced some rail and coastal shipping for freight. Petrol stations, roadhouses and motor garages appeared along the main highways, which changed the commercial life of country towns. The car also made weekend travel to beaches and country towns possible, which created new patterns of leisure in the 1930s. Cars also changed leisure.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The motor car transformed Australian life between the wars. Ford established a car assembly plant at Geelong in 1925, and General Motors took control of Holden's Motor Body Builders in 1931. Cars and trucks made suburban living possible by allowing workers to commute from new outer suburbs, and they connected country districts to markets. Road transport gradually took freight from rail and coastal shipping, while petrol stations and roadhouses changed the commercial life of country towns.",
                         "feedback": "Full marks: the answer describes several changes to towns and country districts, with accurate dates and named examples.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-28-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Ford opened a plant at Geelong in 1925, and cars became more common in Australian cities.",
-                        "source": "AI",
                         "feedback": "One accurate example is given and one effect is described briefly, so the answer earns two marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-28-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Cars became popular in the 1920s.",
-                        "source": "AI",
                         "feedback": "A general statement with no example or effect earns one mark.",
                         "band": 1
                       }
@@ -2078,17 +2078,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-36-1",
-                        "mark": 2,
-                        "answer": "The opening of the Sydney Harbour Bridge in March 1932 gave Australians a major engineering symbol of national achievement, which was widely celebrated in the press. The Shrine of Remembrance in Melbourne, dedicated in 1934, gave the Anzac dead a national memorial and reinforced the military identity at the heart of Australian nationhood. Cricket also contributed. The Bodyline series of 1932 and 1933 turned Test cricket into a contest that many Australians saw as a defence of national pride against English tactics.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The opening of the Sydney Harbour Bridge in 1932 gave Australians a symbol of national achievement. The Shrine of Remembrance in Melbourne, dedicated in 1934, gave the Anzac dead a national memorial, reinforcing Australian nationhood.",
                         "feedback": "Full marks: two accurate events of the 1930s, each linked to a sense of Australian nationhood with a stated reason.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-36-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Sydney Harbour Bridge was opened in the 1930s.",
-                        "source": "AI",
                         "feedback": "One accurate event is named, but the link to nationhood is not explained, so the answer earns one mark.",
                         "band": 1
                       }
@@ -2183,17 +2183,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-38-1",
-                        "mark": 2,
-                        "answer": "The Australian Aborigines' League, formed in Melbourne in 1932 and led by William Cooper, campaigned for citizenship rights, land and representation for Aboriginal people. The Aborigines Progressive Association, formed in 1937 by Jack Patten and William Ferguson, organised the Day of Mourning in 1938 and called for an end to the exclusion of Aboriginal people from the rights of citizens. Both organisations show that Aboriginal activism grew in the 1930s. Both organisations drew on networks of Aboriginal activists who later shaped national campaigns.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The Australian Aborigines' League, formed in 1932 under William Cooper, campaigned for Aboriginal citizenship and land rights. The Aborigines Progressive Association organised the Day of Mourning in 1938 to protest exclusion from citizenship, showing the growth of Aboriginal activism.",
                         "feedback": "Full marks: two accurate Aboriginal organisations active in the 1930s, each with an aim or activity, and a link to the growth of activism.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-38-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Aborigines Progressive Association was an Aboriginal organisation.",
-                        "source": "AI",
                         "feedback": "One accurate organisation is named, but no aim or activity is given, so the answer earns one mark.",
                         "band": 1
                       }
@@ -2294,25 +2294,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-40-1",
-                        "mark": 3,
-                        "answer": "The Statute of Westminster was an Act of the British Parliament passed in 1931 that gave the self-governing dominions, including Australia, legal independence from the British Parliament. It meant that dominion parliaments could legislate with extraterritorial effect, and that the British Parliament could no longer legislate for the dominions without their consent. For Australian foreign policy the Statute was significant because it provided the legal basis for independent action in international affairs, although Australia did not adopt it until 1942 because of the constitutional concerns of the states. Once adopted, it allowed Australia to make its own decisions about the declaration of war and about its alliances, which became important after 1941 when the Curtin government looked to the United States rather than Britain for security.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The Statute of Westminster, a British Act of 1931, gave the self-governing dominions independence, so the British Parliament could no longer legislate for them without consent. For Australian foreign policy it provided the legal basis for independent action, although Australia did not adopt it until 1942 because federal and state governments disagreed over its application. Once adopted, it allowed Australia to make its own decisions on alliances, which mattered when the Curtin government turned to the United States.",
                         "feedback": "Full marks: the Statute is defined precisely, its significance for foreign policy is explained, and the date of Australian adoption is given.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-40-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Statute of Westminster was passed by Britain in 1931 and gave Australia more independence. Australia did not adopt it until 1942.",
-                        "source": "AI",
                         "feedback": "The Statute is defined accurately and the 1942 adoption is given, but the answer does not explain its significance for foreign policy, so it earns two marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-40-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Statute of Westminster was a law about Britain and its colonies.",
-                        "source": "AI",
                         "feedback": "The definition is general and partly inaccurate, since the Statute concerned the self-governing dominions rather than colonies.",
                         "band": 1
                       }
@@ -2352,7 +2352,7 @@
                       "Battle of the Coral Sea",
                       "ANZUS Treaty"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses clearly the significance of the Second World War for the relationship between Australia and the United States, weighing the shift from dependence on Britain against the limits of the American alliance, reaching a supported judgement with precise evidence\n6 marks: Assesses the significance of the war with accurate evidence of the change and its limits, with a supported judgement\n5 marks: Assesses the relationship with accurate evidence but limited judgement\n3-4 marks: Describes the relationship and some of the effects of the war with some accuracy\n2 marks: Identifies a feature of the relationship without evidence\n1 mark: Makes a general statement about Australia's alliances",
+                    "markingCriteria": "7-8 marks: Assesses clearly the significance of the Second World War for the relationship between Australia and the United States, weighing the shift from dependence on Britain against the limits of the American alliance, reaching a supported judgement with precise evidence\n5-6 marks: Assesses the significance of the war for the relationship with accurate evidence of the change and its limits, with a supported judgement at 6 marks and a limited one at 5\n4 marks: Describes the relationship and some effects of the war with accurate evidence, but with little assessment of how far the change was significant\n2-3 marks: Describes the relationship and some effects of the war with some accuracy, with a feature identified without evidence at 2 marks\n1 mark: Makes a general statement about Australia's alliances",
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-41-1",
@@ -2534,17 +2534,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-44-1",
-                        "mark": 2,
-                        "answer": "The secret protocol of the Nazi–Soviet Non-Aggression Pact assigned eastern Poland to the Soviet sphere of influence, which allowed the Soviet Union to occupy the eastern part of Poland after the German invasion in September 1939. It also placed Bessarabia, part of Romania, within the Soviet sphere, and the Soviet Union annexed Bessarabia in June 1940. The protocol also assigned Finland, Estonia and Latvia to the Soviet sphere, which Stalin later pursued through the Winter War and other agreements. The Soviet sphere therefore enabled the later extension of Soviet power into the Baltic states and eastern Europe.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The secret protocol of the Nazi–Soviet Non-Aggression Pact placed eastern Poland within the Soviet sphere of influence, occupied after September 1939. It also placed Bessarabia in that sphere, which the Soviet Union annexed in June 1940.",
                         "feedback": "Full marks: two accurate territories in the Soviet sphere, each with its later significance. The examples are precisely dated.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-44-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Poland was split between Germany and the Soviet Union.",
-                        "source": "AI",
                         "feedback": "The Soviet share of Poland is identified, but no second territory is given, so the answer earns one mark.",
                         "band": 1
                       }
@@ -2587,25 +2587,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-45-1",
-                        "mark": 6,
-                        "answer": "The failure of the League of Nations to preserve collective security in the 1930s resulted from structural weaknesses, the reluctance of its most powerful members to act and the aggression of states determined to overturn the Versailles order. Structurally, the League lacked an army of its own and relied on members to enforce its decisions, and the unanimity rule in the Council meant that any great power could block action. The United States had never joined, and Germany, Japan and Italy each left or defied the League in turn. Japan's seizure of Manchuria in 1931 was the first major test. The Lytton Commission criticised Japan in 1932, but the League's response was limited to a policy of non-recognition, and Japan withdrew from the League in March 1933 after the Assembly adopted the report. Disarmament was the second test. The Geneva Disarmament Conference, which met from 1932, failed to agree on limits, and Germany withdrew from both the conference and the League in October 1933, which removed any prospect of controlling German rearmament by agreement. The League's credibility was then damaged by Italy's invasion of Abyssinia in October 1935. Sanctions were imposed, but they excluded oil and did not close the Suez Canal, and the Hoare–Laval Pact, which proposed to give Italy much of Abyssinia, collapsed in public outrage in December 1935. Italy's conquest was completed in 1936, and Britain and France showed that they would not risk war to enforce collective security. The League's failure to respond to the remilitarisation of the Rhineland in 1936 and to the Spanish Civil War confirmed this pattern. Each episode taught aggressive states that the League would not act decisively, and the lesson was reinforced by the democracies' appeasement. The failure of collective security therefore reflected both the League's structural limits and the unwillingness of its powerful members to accept the costs of enforcing it. By 1939 the League had lost the authority to prevent war, and its failure contributed directly to the conditions in which the Second World War began.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The failure of the League of Nations to preserve collective security resulted from structural weaknesses, the reluctance of its most powerful members to act and the aggression of states determined to overturn the Versailles order. The United States had never joined, and Germany, Japan and Italy each left or defied the League in turn. The League had no army of its own, and its unanimity rule meant that any great power could block action. Japan's seizure of Manchuria in 1931 was the first major test. The Lytton Commission criticised Japan in 1932, but the League's response was limited to non-recognition, and Japan withdrew in 1933. Disarmament was the second test, as the Geneva Disarmament Conference failed to agree on limits and Germany left the League in October 1933. Italy's invasion of Abyssinia in 1935 then exposed the weakness of sanctions, which excluded oil, and the Hoare–Laval Pact collapsed under public outrage. The failure to respond to the remilitarisation of the Rhineland in 1936 and to the Spanish Civil War confirmed the pattern, as Britain and France were unwilling to risk war to enforce collective security. Each episode taught aggressive states that the League would not act decisively, so its failure contributed directly to the outbreak of the Second World War.",
                         "feedback": "Full marks: the answer analyses the League's failure through structural weaknesses, disarmament and the episodes of aggression, shows how they reinforced each other, and reaches a conclusion that connects the failure to the outbreak of war.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-45-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The League failed to stop Japan taking Manchuria in 1931 and could only criticise it, so Japan left the League in 1933. The Geneva Disarmament Conference also failed, and Germany left the League in October 1933. By then the League's inability to enforce collective security was clear.",
-                        "source": "AI",
                         "feedback": "A 4-mark response describes two episodes of failure with accurate evidence and links them to disarmament and collective security, but it does not analyse the causes or their relationship.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-45-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The League of Nations was not very strong.",
-                        "source": "AI",
                         "feedback": "A general statement about weakness with no episode or evidence earns one mark.",
                         "band": 1
                       }
@@ -2696,29 +2696,29 @@
                       "Munich Agreement",
                       "Czechoslovakia"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses clearly the policy of appeasement pursued by Britain and France, weighing the motives and constraints against the consequences, and reaching a supported judgement with precise evidence\n6 marks: Assesses the policy with accurate evidence of its motives and consequences and a supported judgement\n5 marks: Assesses the policy with accurate evidence but limited judgement\n3-4 marks: Describes the policy and some of its motives or consequences with some accuracy\n2 marks: Identifies an aspect of appeasement without evidence\n1 mark: Makes a general statement about the policy of appeasement",
+                    "markingCriteria": "7-8 marks: Assesses clearly the policy of appeasement pursued by Britain and France, weighing the motives and constraints against the consequences, and reaching a supported judgement with precise evidence\n5-6 marks: Assesses the policy with accurate evidence of its motives and consequences, with a supported judgement at 6 marks and a limited judgement at 5\n4 marks: Describes the policy and its motives or consequences with accurate evidence, but with little weighing of one against the other\n2-3 marks: Describes the policy and some of its motives or consequences with some accuracy, with an aspect identified without evidence at 2 marks\n1 mark: Makes a general statement about the policy of appeasement",
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-47-1",
-                        "mark": 8,
-                        "answer": "The policy of appeasement, pursued by Britain and France between 1936 and 1939, is best assessed as a rational response to real weaknesses that became a catastrophic error when applied to a regime bent on expansion. Its motives were varied. Many British leaders believed that the Versailles settlement had been harsh and that some German grievances were legitimate, and they hoped that concessions would satisfy Hitler's claims and prevent another war. Britain's armed forces were not ready for a major war until about 1939, the Empire was stretched, and public opinion, shaped by memories of the First World War, strongly opposed another conflict. France was politically divided, its army was defensive in outlook, and it relied on the Maginot Line and on British support. These constraints made concessions attractive. Yet the policy was flawed in both its assumptions and its execution. The Anglo-German Naval Agreement of June 1935 seemed to limit German naval expansion, but it legitimised a rearmament that Versailles had forbidden. Britain and France did not oppose the remilitarisation of the Rhineland in 1936, and they accepted the Anschluss in 1938 without decisive action. At the Munich Agreement in September 1938 Britain and France agreed to the transfer of the Sudetenland to Germany without consulting Czechoslovakia, which lost its frontier defences and much of its industry. Neville Chamberlain believed that Munich had secured peace for our time, but Hitler's occupation of the rest of Czechoslovakia in March 1939 showed that the concessions had only encouraged further demands. The guarantee to Poland in March 1939 was intended to deter Germany, but it came too late to alter Hitler's calculations, and the Nazi–Soviet Non-Aggression Pact in August removed the Soviet Union from any eastern deterrent. Britain and France declared war on 3 September 1939, two days after the invasion of Poland. The assessment must therefore conclude that appeasement failed to achieve its aim of avoiding war. It bought time for British rearmament, but it also strengthened Germany's military and economic position and weakened the states that might have resisted it. Its failure was less a product of naive idealism than of a miscalculation about the aims of a regime that did not accept the existing settlement as a limit.",
                         "source": "AI",
+                        "mark": 8,
+                        "answer": "The policy of appeasement, pursued by Britain and France between 1936 and 1939, is best assessed as a rational response to real weaknesses that became a catastrophic error when applied to a regime bent on expansion. Many British leaders thought the Versailles settlement harsh and hoped that concessions would satisfy Hitler's claims and prevent another war. Britain's armed forces were not ready for a major war until about 1939, the Empire was stretched, and public opinion, shaped by memories of the First World War, strongly opposed another conflict. France was politically divided, its army was defensive in outlook, and it relied on the Maginot Line and on British support. These constraints made concessions attractive. Yet the policy was flawed in both its assumptions and its execution. The Anglo-German Naval Agreement of June 1935 seemed to limit German naval expansion, but it legitimised a rearmament that Versailles had forbidden. Britain and France did not oppose the remilitarisation of the Rhineland in 1936 or the Anschluss in 1938. At the Munich Agreement in September 1938 Britain and France agreed to the transfer of the Sudetenland to Germany without consulting Czechoslovakia, which lost its frontier defences and much of its industry. Neville Chamberlain believed that Munich had secured peace for our time, but Hitler's occupation of the rest of Czechoslovakia in March 1939 showed that the concessions had only encouraged further demands. The guarantee to Poland came too late to alter Hitler's calculations, and the Nazi–Soviet Non-Aggression Pact in August removed the Soviet Union from any eastern deterrent. Britain and France declared war on 3 September 1939, two days after the invasion of Poland. Appeasement therefore failed to achieve its aim of avoiding war. It bought time for British rearmament, but it also strengthened Germany's military and economic position and weakened the states that might have resisted it. Its failure was less a product of naive idealism than of a miscalculation about the aims of a regime that did not accept the existing settlement as a limit.",
                         "feedback": "Full marks: the answer weighs the motives of appeasement against its consequences, reaches a supported judgement that it was rational in its motives but failed in its outcome, and uses precise evidence from Munich and the events of 1939.",
                         "band": 5
                       },
                       {
                         "id": "sa-mh-47-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "Britain and France followed appeasement because they wanted to avoid another war, and many people thought the Versailles settlement had been unfair. The Anglo-German Naval Agreement of 1935 and the Munich Agreement of 1938 gave Hitler what he wanted. Czechoslovakia was not consulted at Munich. Appeasement failed because Hitler took the rest of Czechoslovakia in 1939, but Britain and France did gain time for rearmament.",
-                        "source": "AI",
                         "feedback": "A 5-mark response assesses the motives and consequences of appeasement with accurate evidence, but the judgement is brief and the weighing of the policy is limited.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-47-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Britain and France wanted to avoid war with Germany, so they gave Hitler some of what he asked for.",
-                        "source": "AI",
                         "feedback": "An aspect of appeasement is identified without evidence of the agreements or their consequences, so the answer earns two marks.",
                         "band": 2
                       }
@@ -2752,17 +2752,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-48-1",
-                        "mark": 2,
-                        "answer": "The Anglo-German Naval Agreement of June 1935 allowed Germany to build a navy equal to 35 per cent of British naval tonnage. Britain accepted this as a way to limit German naval expansion, although it recognised rearmament that the Treaty of Versailles had forbidden. The Munich Agreement of September 1938, signed by Britain, France, Germany and Italy, allowed Germany to take the Sudetenland from Czechoslovakia, and Neville Chamberlain presented it as a step towards peace in the context of appeasement.",
                         "source": "AI",
-                        "feedback": "Full marks: two accurate agreements from 1935 and 1938, each with the concession it made to Germany, and a precise note on the parties to Munich.",
+                        "mark": 2,
+                        "answer": "The Anglo-German Naval Agreement of June 1935 allowed Germany a navy equal to 35 per cent of British tonnage, which Britain accepted as part of appeasement. The Munich Agreement of 1938 let Germany take the Sudetenland from Czechoslovakia.",
+                        "feedback": "Full marks: two accurate agreements from 1935 and 1938, each with the concession it made to Germany, with the Sudetenland named precisely.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-48-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Britain agreed to the Munich Agreement in 1938.",
-                        "source": "AI",
                         "feedback": "One accurate agreement is named, but the concession is not stated, so the answer earns one mark.",
                         "band": 1
                       }
@@ -2796,25 +2796,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-49-1",
-                        "mark": 3,
-                        "answer": "On 31 March 1939 Chamberlain announced in the House of Commons that Britain would support Poland's independence if it were threatened, and France later gave a similar assurance. The guarantee marked the end of appeasement as a policy towards Germany, and it followed the German occupation of Prague on 15 March 1939. It was a unilateral declaration at first, and the Anglo-Polish alliance was not signed until 25 August 1939. The guarantee was intended to deter Germany, but the Nazi–Soviet Non-Aggression Pact in August removed the Soviet deterrent that Britain and France had hoped to build in eastern Europe. Its significance lay in committing Britain to a military response, although the scale of that commitment was limited by the state of British rearmament.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "On 31 March 1939 Chamberlain announced in the House of Commons that Britain would support the independence of Poland if it were threatened, and France later gave a similar assurance. The guarantee followed the German occupation of Prague on 15 March 1939, marked the end of appeasement and was intended to deter further German expansion. It was a unilateral declaration at first, as the Anglo-Polish alliance was not signed until 25 August 1939.",
                         "feedback": "Full marks: the answer gives the date, the parties and purpose of the guarantee, and links it to the end of appeasement with accurate detail.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-49-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Britain guaranteed Poland's independence in March 1939 after Germany occupied Prague.",
-                        "source": "AI",
                         "feedback": "The guarantee and its date are described, but its purpose and wider features are not, so the middle band applies.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-49-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Britain promised to help Poland.",
-                        "source": "AI",
                         "feedback": "A general statement with no date or detail earns one mark.",
                         "band": 1
                       }
@@ -2971,25 +2971,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-52-1",
-                        "mark": 5,
-                        "answer": "Italy's entry into the war on 10 June 1940 transformed the strategic position of the Allies in the Mediterranean. Britain depended on its Mediterranean fleet and on the Suez Canal to link Britain with its Indian Ocean and Pacific possessions, and Italy's position in Libya, Eritrea and Ethiopia now threatened Egypt, the canal and the route to India. Malta, a British base between Sicily and North Africa, became exposed to Italian air and naval attack, and the Royal Navy had to divide its strength between the Atlantic and the Mediterranean. Italy's entry also opened the North African campaign, in which the Italian army in Libya advanced into Egypt in September 1940 and the British Western Desert Force responded with an offensive that drove the Italians back. The change therefore forced Britain to fight on several fronts, dispersing resources that were already limited, and it made the Mediterranean a central theatre of the war that Britain had hoped to keep secondary. The Axis gained an opportunity to threaten British imperial communications, while the Allies had to defend Egypt and Malta at the same time as they faced the German threat in the Atlantic. Britain's strategy in the Mediterranean therefore became one of crisis management rather than of planned containment.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "The entry of Italy into the war on 10 June 1940 transformed the strategic position of the Allies in the Mediterranean. Britain depended on the Suez Canal to link it with its Indian Ocean possessions, and Italy's forces in Libya and East Africa threatened Egypt, the canal and the route to India, giving the Axis an opportunity to threaten British imperial communications. Malta, a British base between Sicily and North Africa, became exposed to Italian air and naval attack. The Italian advance from Libya into Egypt in September 1940 opened the North African campaign and forced Britain to fight on several fronts with limited resources. The Allies therefore had to defend Egypt and Malta while facing the German threat in the Atlantic. The Mediterranean became a central theatre of the war that Britain had hoped to keep secondary, and its strategy became one of crisis management rather than planned containment.",
                         "feedback": "Full marks: the answer explains the chain of consequences from the threat to Egypt, the canal and Malta through to the dispersal of British forces, with precise dates and places.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-52-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Italy's entry into the war in June 1940 threatened British positions in the Mediterranean, including the Suez Canal and Malta. Britain then had to defend Egypt against the Italian army in Libya, which advanced in September 1940.",
-                        "source": "AI",
                         "feedback": "One effect is explained with accurate detail, which earns the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-52-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Italy joined the war in 1940, which made things harder for Britain.",
-                        "source": "AI",
                         "feedback": "A general statement with no specific effect or evidence earns one mark.",
                         "band": 1
                       }
@@ -3083,17 +3083,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-54-1",
-                        "mark": 2,
-                        "answer": "The campaign was the German invasion of the Low Countries and France, launched on 10 May 1940 under the plan known as Fall Gelb. German armoured divisions broke through the Ardennes and reached the Channel coast, and France surrendered in June 1940, which gave Germany control of western Europe. The Netherlands capitulated within days and Belgium surrendered later in May, which showed how effective Blitzkrieg tactics were against defenders that were slower to respond than the German attackers.",
                         "source": "AI",
-                        "feedback": "Names the campaign, dates it, and states its result, with the Ardennes breakthrough and the Blitzkrieg tactics as supporting detail.",
+                        "mark": 2,
+                        "answer": "The campaign was the German invasion of the Low Countries and France, known as Fall Gelb, launched on 10 May 1940. Its result was German control of western Europe after France surrendered in June 1940.",
+                        "feedback": "Names the campaign, dates it to May 1940 under the Fall Gelb plan, and states its result, German control of western Europe, which earns full marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-54-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The campaign was the German invasion of France in 1940.",
-                        "source": "AI",
                         "feedback": "Identifies the campaign but omits the Low Countries and the result, so only one mark is available.",
                         "band": 1
                       }
@@ -3299,17 +3299,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-58-1",
-                        "mark": 2,
-                        "answer": "The battle was the Second Battle of El Alamein, fought in October and November 1942 between Montgomery's Eighth Army and the Axis forces, which Rommel commanded after returning from sick leave on 25 October. The Allied victory ended the Axis advance into Egypt and began the retreat of the German and Italian armies westwards across Libya. The defeat was decisive because the Allies had built up tanks and supplies beforehand, and the Axis forces could not recover the reserves they had lost.",
                         "source": "AI",
-                        "feedback": "Names the battle and its dates, and states its result, the end of the Axis advance into Egypt, with the supporting reason.",
+                        "mark": 2,
+                        "answer": "The Second Battle of El Alamein, fought in October and November 1942, was won by Montgomery's Eighth Army against the Axis. Its result was the end of the Axis advance into Egypt and the start of the retreat across Libya.",
+                        "feedback": "Names the battle and its dates, and states its result, the end of the Axis advance into Egypt, with the retreat across Libya as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-58-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Battle of El Alamein was fought in Egypt in 1942.",
-                        "source": "AI",
                         "feedback": "Names the battle and place but not its result, which earns one mark.",
                         "band": 1
                       }
@@ -3466,7 +3466,7 @@
                       "total war",
                       "home front"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the impact of the war on civilians in each of the three countries, weighing the evidence and reaching a judgement about which civilians suffered most and why, with sustained and precise evidence\n6 marks: Assesses the impact on civilians in at least two countries with accurate evidence and a judgement\n5 marks: Analyses the impact on civilians in two countries with accurate evidence, but with limited judgement\n3-4 marks: Describes the impact on civilians in one or two countries with some accuracy\n2 marks: Identifies one wartime experience of civilians with a basic description\n1 mark: Makes a general statement about civilians in the war",
+                    "markingCriteria": "7-8 marks: Assesses the impact of the war on civilians in each of the three countries, weighing the evidence and reaching a judgement about which civilians suffered most and why, with sustained and precise evidence\n5-6 marks: Assesses the impact on civilians in at least two countries with accurate evidence, with a supported judgement at 6 marks and a limited judgement at 5\n4 marks: Describes the impact on civilians in one or two countries with accurate evidence, but with little assessment of which civilians suffered most\n2-3 marks: Describes wartime experiences of civilians with some accuracy, with a single experience identified with a basic description at 2 marks\n1 mark: Makes a general statement about civilians in the war",
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-61-1",
@@ -3635,17 +3635,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-64-1",
-                        "mark": 2,
-                        "answer": "The conference was the Wannsee Conference, held on the outskirts of Berlin on 20 January 1942. Chaired by Reinhard Heydrich, it brought senior officials together to coordinate the deportation of European Jews to extermination camps, which formalised the Final Solution as a state policy of mass murder. The meeting also set out how responsibility for the killings would be divided between the agencies involved. The conference matters historically because it moved the decision from local killing operations into a coordinated plan across the German administration.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The Wannsee Conference, held near Berlin on 20 January 1942 and chaired by Reinhard Heydrich, coordinated senior officials in planning the Final Solution, the deportation and murder of European Jews, across the German administration.",
                         "feedback": "Names the conference, its place and date, and its purpose of coordinating the Final Solution, with the chair as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-64-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Wannsee Conference was held in Berlin in 1942.",
-                        "source": "AI",
                         "feedback": "Names the conference and place but not its purpose, which earns one mark.",
                         "band": 1
                       }
@@ -3856,17 +3856,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-68-1",
-                        "mark": 2,
-                        "answer": "Operation Bagration destroyed German Army Group Centre, which was stationed in Belarus, between June and August 1944. The Red Army's victory was one of the largest German military defeats of the war, and it opened the way for Soviet advances into Poland and the Baltic states. The loss of the army group left a gap in the German front that could not be closed in time. The offensive is remembered for the speed of the advance and for its coordination with partisan movements behind German lines.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Operation Bagration, a Soviet offensive in the summer of 1944, destroyed German Army Group Centre, which was stationed in Belarus, between June and August. The loss opened the way for Soviet advances into Poland and the Baltic states.",
                         "feedback": "Names the army group, places it in Belarus and dates its destruction, with the consequence for the front as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-68-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The army group destroyed in 1944 was Army Group Centre.",
-                        "source": "AI",
                         "feedback": "Names the army group but not its location or the operation, so it earns one mark.",
                         "band": 1
                       }
@@ -4313,17 +4313,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-76-1",
-                        "mark": 2,
-                        "answer": "The Pan Africanist Congress was formed in 1959, and Robert Sobukwe led the breakaway from the African National Congress that created it. Sobukwe objected to the ANC's alliance with white and other non-African groups, and argued that Africans should lead the struggle against apartheid themselves. The PAC's first major campaign against the pass laws in March 1960 led directly to the Sharpeville Massacre. The split reflected a debate about the role of non-African allies that continued in the resistance movement for decades.",
                         "source": "AI",
-                        "feedback": "Identifies the year and the leader of the breakaway, with the reason for the split and the Sharpeville link as supporting detail.",
+                        "mark": 2,
+                        "answer": "The Pan Africanist Congress was formed in 1959 by Robert Sobukwe, who led a breakaway from the African National Congress over its alliance with non-African groups and argued that Africans should lead the struggle.",
+                        "feedback": "Identifies the year and the leader of the breakaway, with the reason for the split as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-76-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Pan Africanist Congress was formed by Robert Sobukwe.",
-                        "source": "AI",
                         "feedback": "Identifies the leader without the year, so it earns one mark.",
                         "band": 1
                       }
@@ -4640,17 +4640,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-82-1",
-                        "mark": 2,
-                        "answer": "At the Rivonia Trial the accused, including Nelson Mandela, were charged with sabotage, which was the charge most directly linked to the campaign of acts against government and military targets, and with conspiracy to overthrow the government by violence. The conspiracy charge reflected the state's view that Umkhonto we Sizwe was a planned revolutionary strategy, and it carried the possibility of the death penalty. The prosecution relied on documents seized in the raid at Liliesleaf Farm to prove the conspiracy.",
                         "source": "AI",
-                        "feedback": "Identifies both charges, sabotage and conspiracy to overthrow the government by violence, with the Umkhonto we Sizwe context and the seized documents as supporting detail.",
+                        "mark": 2,
+                        "answer": "At the Rivonia Trial, Nelson Mandela and his co-accused were charged with sabotage and with conspiring to overthrow the government by violence. The conspiracy charge carried the possibility of the death penalty, although the accused received life sentences.",
+                        "feedback": "Identifies both charges, sabotage and conspiracy to overthrow the government by violence, with the death penalty as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-82-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The accused were charged with sabotage.",
-                        "source": "AI",
                         "feedback": "Identifies one charge only, which earns one mark.",
                         "band": 1
                       }
@@ -5087,17 +5087,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-90-1",
-                        "mark": 2,
-                        "answer": "Transkei was granted nominal independence in 1976, becoming the first Bantustan to receive that status. The independence was recognised only by South Africa, and the Bantu Authorities Act framework through which the homeland had been created showed the government's policy of reducing Africans' citizenship by moving them into nominally independent homelands. The date is significant because it marked the first step in a policy that the government hoped would strip many Africans of South African citizenship.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Transkei was the first Bantustan granted nominal independence, in 1976, a status recognised only by South Africa. This was part of the apartheid government's policy to strip many Africans of South African citizenship.",
                         "feedback": "States 1976 and identifies Transkei as the first Bantustan to be granted nominal independence, with the recognition and the policy as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-90-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Transkei was granted independence in the 1970s.",
-                        "source": "AI",
                         "feedback": "States a decade without the year, which earns one mark.",
                         "band": 1
                       }
@@ -5366,7 +5366,7 @@
                       "apartheid",
                       "international sanctions"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the nature and impact of international responses to apartheid, weighing the mandatory measures, sanctions and divestment against each other and judging how far they contributed to its end, with sustained and precise evidence\n6 marks: Assesses the nature of at least two international responses with accurate evidence and a judgement about their impact\n5 marks: Analyses the nature and impact of international responses with accurate evidence but limited judgement\n3-4 marks: Describes international responses with some accuracy and a limited link to the end of apartheid\n2 marks: Identifies one international response with a basic description\n1 mark: Makes a general statement about international opinion on apartheid",
+                    "markingCriteria": "7-8 marks: Assesses the nature and impact of international responses to apartheid, weighing the mandatory measures, sanctions and divestment against each other and judging how far they contributed to its end, with sustained and precise evidence\n5-6 marks: Assesses the nature and impact of at least two international responses with accurate evidence, with a supported judgement at 6 marks and a limited one at 5\n4 marks: Describes international responses with accurate evidence and a link to the end of apartheid, but with little judgement of their impact\n2-3 marks: Describes international responses with some accuracy and a limited link to the end of apartheid, with one response identified with a basic description at 2 marks\n1 mark: Makes a general statement about international opinion on apartheid",
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-95-1",
@@ -5422,17 +5422,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-96-1",
-                        "mark": 2,
-                        "answer": "The United Nations Security Council imposed the mandatory arms embargo in November 1977 through Resolution 418, after the government's policies had produced a sustained international campaign against apartheid. The embargo prohibited member states from supplying weapons to South Africa, and it was one of the first major steps taken by the United Nations against the apartheid state. The measure was significant because it gave international legal force to the rejection of apartheid, even though its enforcement depended on the willingness of member states.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "In November 1977 the United Nations Security Council imposed a mandatory arms embargo on South Africa through Resolution 418, prohibiting member states from supplying weapons to the apartheid government. It gave international legal force to opposition to apartheid.",
                         "feedback": "Identifies 1977 and the Security Council's mandatory arms embargo, with the resolution and its significance as supporting detail.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-96-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The United Nations imposed an arms embargo on South Africa.",
-                        "source": "AI",
                         "feedback": "Identifies the embargo but not the year, which earns one mark.",
                         "band": 1
                       }

@@ -22,7 +22,7 @@ Why this prompt is shaped the way it is:
 - **`totalMarks` must sit inside the verb's typical range** — the app flags
   unusual pairings and derives time guides and band ceilings from marks.
 - **Dot points that end in `including a, b and c`** get those items parsed as
-  toggleable *focus areas* in the navigator and the question generator.
+  toggleable _focus areas_ in the navigator and the question generator.
 - **Marking criteria are line-based** (`N marks: …` / `N–M marks: …`), which
   the marking accordion parses; bullet points and paragraphs are not. Above 6
   marks the rows are fixed by the verb's tier — the table below is printed
@@ -38,7 +38,7 @@ and hand it to the model as the example.
 
 ---
 
-````text
+```text
 You are an expert NESA HSC content writer producing a syllabus dataset for an
 AI writing-coach app. Output a single JSON document and nothing else — no
 markdown fences, no commentary.
@@ -115,13 +115,13 @@ QUESTION RULES
   (who, what, why — 2-4 sentences) the answer has to use. Use "" otherwise.
 - "linkedOutcomes" must reference 1-3 codes that exist in the outcomes array.
 
-VERB LIST (verb — typical marks)
-- Tier 1 (recall): IDENTIFY 1-2, STATE 1-2, RECALL 1-2, DEFINE 1-3, EXTRACT 1-2, RECOUNT 2-4
-- Tier 2 (describe): OUTLINE 2-4, DESCRIBE 3-5, CLARIFY 2-4, SUMMARISE 3-5, CLASSIFY 2-4
-- Tier 3 (apply): CALCULATE 2-4, APPLY 3-6, DEMONSTRATE 3-6, CONSTRUCT 3-6
-- Tier 4 (analyse): EXPLAIN 3-6, COMPARE 4-8, CONTRAST 4-6, DISTINGUISH 3-5, INTERPRET 3-6, DEDUCE 3-5, EXTRAPOLATE 3-6, PREDICT 3-5, ANALYSE 5-8, EXAMINE 4-7, ACCOUNT 4-7, DIFFERENTIATE 3-5
-- Tier 5 (synthesise): DISCUSS 5-8, PROPOSE 4-7, INVESTIGATE 5-10, SYNTHESISE 6-10
-- Tier 6 (evaluate): ASSESS 6-10, EVALUATE 6-12, APPRECIATE 5-8, JUSTIFY 6-10, RECOMMEND 5-8, CRITICALLY ANALYSE 8-20, CRITICALLY EVALUATE 8-20
+VERB LIST (verb — typical marks; printed from the app's own table in data/commandTerms.ts, and checked against it by tests/unit/datasetPromptDocTiers.test.ts)
+- Tier 1 (remember): IDENTIFY 1-2, RECALL 1-2, RECOUNT 1-3, CALCULATE 1-3, EXTRACT 1-3, STATE 1-2
+- Tier 2 (define): DEFINE 1-3, OUTLINE 2-4, DESCRIBE 2-4, SUMMARISE 2-4, CLARIFY 2-4, CLASSIFY 2-4
+- Tier 3 (explain): EXPLAIN 3-6, COMPARE 3-6, CONTRAST 3-5, DEMONSTRATE 3-6, PREDICT 2-4, ACCOUNT 3-6
+- Tier 4 (analyse): ANALYSE 4-8, APPLY 4-8, EXAMINE 4-8, DISTINGUISH 4-8, INTERPRET 3-6, EXTRAPOLATE 3-6, CONSTRUCT 4-8, DIFFERENTIATE 4-8
+- Tier 5 (discuss): DISCUSS 5-10, ASSESS 6-10, JUSTIFY 6-10, DEDUCE 4-8, RECOMMEND 5-10, APPRECIATE 4-8
+- Tier 6 (evaluate): EVALUATE 8-15, CRITICALLY ANALYSE 8-15, CRITICALLY EVALUATE 8-15, SYNTHESISE 8-15, PROPOSE 8-15, INVESTIGATE 8-15
 
 MARKING CRITERIA RULES
 - One string, lines separated by \n. Every line starts with a mark value or
@@ -134,11 +134,24 @@ MARKING CRITERIA RULES
   the verb's full cognitive level; middle rows show sound knowledge a step
   below the verb (describes where it should analyse); the lowest is
   fragmentary.
-    Tier 4, 7 marks:  6-7 / 4-5 / 2-3 / 1
-    Tier 4, 8 marks:  7-8 / 5-6 / 3-4 / 1-2
-    Tier 5, 8 marks:  7-8 / 5-6 / 4 / 2-3 / 1
+    Tier 2, 7 marks: 4-7 / 1-3
+    Tier 2, 8 marks: 5-8 / 1-4
+    Tier 2, 10 marks: 6-10 / 1-5
+    Tier 2, 12 marks: 7-12 / 1-6
+    Tier 3, 7 marks: 5-7 / 3-4 / 1-2
+    Tier 3, 8 marks: 6-8 / 3-5 / 1-2
+    Tier 3, 10 marks: 7-10 / 4-6 / 1-3
+    Tier 3, 12 marks: 9-12 / 5-8 / 1-4
+    Tier 4, 7 marks: 6-7 / 4-5 / 2-3 / 1
+    Tier 4, 8 marks: 7-8 / 5-6 / 3-4 / 1-2
+    Tier 4, 10 marks: 8-10 / 6-7 / 3-5 / 1-2
+    Tier 4, 12 marks: 10-12 / 7-9 / 4-6 / 1-3
+    Tier 5, 7 marks: 6-7 / 5 / 3-4 / 2 / 1
+    Tier 5, 8 marks: 7-8 / 5-6 / 4 / 2-3 / 1
     Tier 5, 10 marks: 9-10 / 7-8 / 5-6 / 3-4 / 1-2
-    Tier 6, 8 marks:  7-8 / 6 / 5 / 3-4 / 2 / 1
+    Tier 5, 12 marks: 10-12 / 8-9 / 5-7 / 3-4 / 1-2
+    Tier 6, 7 marks: 6-7 / 5 / 4 / 3 / 2 / 1
+    Tier 6, 8 marks: 7-8 / 6 / 5 / 3-4 / 2 / 1
     Tier 6, 10 marks: 9-10 / 7-8 / 6 / 4-5 / 2-3 / 1
     Tier 6, 12 marks: 11-12 / 9-10 / 7-8 / 5-6 / 3-4 / 1-2
   (The downloaded template lists every tier and mark value.) Example for a
@@ -197,7 +210,7 @@ QUALITY BAR
 - Validate mentally before output: every verb is from the list, every
   totalMarks is inside its verb's range, every linkedOutcomes code exists,
   every markingCriteria line starts with "N marks:" or "N-M marks:".
-````
+```
 
 ---
 
@@ -207,7 +220,7 @@ QUALITY BAR
 
 1. Save each course as a JSON array of courses in `public/courseData/` and list
    it in `public/courseData/manifest.json` as `{ "file": …, "type": "course",
-   "subject": … }`. Give every item an `id` (the seed matches existing rows by
+"subject": … }`. Give every item an `id` (the seed matches existing rows by
    it, so a re-seed updates rather than duplicates); keep the ids of anything
    that already exists. A file straight from the model has no ids — import it
    through **Data Vault → Import** and export it again, and the export has them.
