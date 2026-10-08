@@ -201,7 +201,7 @@ SAMPLE ANSWER RULES
 - Full-mark exemplars must genuinely satisfy the verb: an ANALYSE exemplar
   draws out relationships and implications; an EVALUATE exemplar reaches an
   explicit judgement against named criteria.
-- Write answers at realistic student length: roughly 40-60 words per mark.
+- Brief is better: a full-mark answer meets the top row of the marking criteria in as few words as it can, and stays inside the app's word band for its mark value (2 marks: 15-40 words; 4 marks: 80-120; 6 marks: 140-220; 8 marks: 220-350; 10 marks: 320-450). A lower mark means less material.
 
 QUALITY BAR
 - Content must be factually accurate and syllabus-authentic for the subject.

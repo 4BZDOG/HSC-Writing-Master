@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { buildLlmSeedInstructions, buildSeedExportFile } from '../../utils/llmSeedBrief';
+import { getFullMarkWordRange } from '../../data/commandTerms';
 import { analyzeAndSanitizeImportData, getLLMImportTemplate } from '../../utils/dataManagerUtils';
 import { commandTermsList } from '../../data/commandTerms';
 import { guideLadderProblem } from '../../utils/markingGuideLadder';
@@ -122,5 +123,15 @@ describe('the authoring brief an export carries', () => {
         .join('\n');
       expect(guideLadderProblem(guide, marks, tier), key).toBeNull();
     }
+  });
+});
+
+describe('sample answer length rule', () => {
+  it('quotes the app word band and prefers brevity, so the brief cannot drift from the marker', () => {
+    const text = JSON.stringify(buildLlmSeedInstructions());
+    expect(text).toContain('Brief is better');
+    expect(text).toContain(`4 marks: ${getFullMarkWordRange(4).join('-')}`);
+    expect(text).toContain(`8 marks: ${getFullMarkWordRange(8).join('-')}`);
+    expect(text).not.toContain('40-60 words per mark');
   });
 });
