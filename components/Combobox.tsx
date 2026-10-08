@@ -527,7 +527,7 @@ const Combobox: React.FC<ComboboxProps> = ({
       {label && (
         <label
           id={labelId}
-          className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 ml-1"
+          className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-2 ml-1"
         >
           {label}
         </label>

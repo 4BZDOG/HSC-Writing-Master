@@ -194,8 +194,8 @@ const STATES: {
     name: 'the reference panels open',
     // Not the free tier, and not for a role reason this time. "What's Assessed"
     // renders only when the question links an outcome, and in the bundled
-    // Biology curriculum every such question is Tier 4+ — which the free plan
-    // locks. So the panel was unreachable as `user` in the most literal way:
+    // curriculum the questions that link outcomes are mostly Tier 4+ — which the
+    // free plan locks. So the panel was unreachable as `user` in the most literal way:
     // the questions that would have produced it cannot be selected.
     //
     // This state spent a long time asking for that panel, getting a silent

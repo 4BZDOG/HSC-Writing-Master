@@ -22,6 +22,7 @@ import {
   safeGetItem,
   safeSetItem,
   runMigrations,
+  isOlderThan,
   createBackup,
   loadCoursesFromDB,
   saveCoursesToDB,
@@ -108,6 +109,42 @@ const parseManifestEntries = (manifest: {
   return rawEntries
     .map((entry) => (typeof entry === 'string' ? { file: entry } : entry))
     .filter((entry): entry is ManifestDocEntry => Boolean(entry?.file));
+};
+
+/**
+ * The courses the app ships that a saved library does not have yet, matched by
+ * id. Existing courses are left exactly as they are. `complete` is false when
+ * any shipped file could not be read, so the caller knows to try again.
+ */
+export const addMissingShippedCourses = async (
+  saved: Course[]
+): Promise<{ courses: Course[]; complete: boolean }> => {
+  const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
+  try {
+    const manifestRes = await fetch(`${courseDataBase}/manifest.json`);
+    if (!manifestRes.ok) return { courses: saved, complete: false };
+    const entries = parseManifestEntries(await manifestRes.json()).filter(
+      (entry) => entry.type !== 'topic'
+    );
+    const shipped = await Promise.all(
+      entries.map(async (entry) => {
+        const res = await fetch(`${courseDataBase}/${entry.file}`);
+        if (!res.ok) throw new Error(`${entry.file}: HTTP ${res.status}`);
+        const analysis = analyzeAndSanitizeImportData(await res.json());
+        return analysis.type === 'courses' && analysis.data ? (analysis.data as Course[]) : [];
+      })
+    );
+    const have = new Set(saved.map((course) => course.id));
+    const added = shipped.flat().filter((course) => {
+      if (have.has(course.id)) return false;
+      have.add(course.id);
+      return true;
+    });
+    return { courses: added.length ? [...saved, ...added] : saved, complete: true };
+  } catch (err) {
+    console.warn('[Curriculum] Could not add shipped courses; will retry on next load.', err);
+    return { courses: saved, complete: false };
+  }
 };
 
 const resolveTopicTargetCourse = (
@@ -232,7 +269,16 @@ export const useSyllabusData = ({
 
         if (savedVersion !== DATA_VERSION) {
           dataToLoad = runMigrations(dataToLoad, savedVersion);
-          safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
+          // 2.11.0 replaced the built-in library. A returning browser never runs
+          // discovery again, so shipped courses it is missing are added here. The
+          // version only advances once that has worked, so a failed fetch is retried.
+          let libraryReady = true;
+          if (isOlderThan(savedVersion, '2.11.0')) {
+            const shipped = await addMissingShippedCourses(dataToLoad);
+            dataToLoad = shipped.courses;
+            libraryReady = shipped.complete;
+          }
+          if (libraryReady) safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
         }
         updateCourses(() => dataToLoad);
         setIsDiscoveryInProgress(false);

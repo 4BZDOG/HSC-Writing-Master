@@ -1102,28 +1102,29 @@ end $$;
 reset role;
 -- Analytics windows must not move with the database's TimeZone setting.
 --
--- The window start was `(now() at time zone 'utc') - make_interval(...)`, which
--- returns a timestamp WITHOUT time zone; assigning that to a timestamptz
--- re-interprets the UTC wall clock in the SESSION's TimeZone. On a UTC database
--- -- Supabase's default -- it is a no-op, which is why it never bit. Set
--- TimeZone to Australia/Sydney, a plausible thing to do for an NSW product, and
--- every "last 30 days" silently became 30 days + 10 hours.
+-- The window start used to be `now() - make_interval(days => n)`. A day there is
+-- a calendar day in the SESSION's TimeZone, so a window that crosses a DST change
+-- is 719 or 721 hours, not 720, and "last 30 days" silently changed by an hour.
+-- Every analytics function now takes its window from public.analytics_window_start,
+-- which counts hours. This probes that function itself, under UTC and under
+-- Australia/Sydney, against the absolute instant 720 hours back.
 set local timezone = 'Australia/Sydney';
 do $$
 declare
-  v_utc   timestamptz;
-  v_local timestamptz;
-  v_drift interval;
+  v_absolute timestamptz := now() - interval '720 hours';
+  v_utc      timestamptz;
+  v_local    timestamptz;
 begin
   set local timezone = 'UTC';
-  v_utc := now() - make_interval(days => 30);
+  v_utc := public.analytics_window_start(30);
   set local timezone = 'Australia/Sydney';
-  v_local := now() - make_interval(days => 30);
+  v_local := public.analytics_window_start(30);
 
-  v_drift := greatest(v_utc, v_local) - least(v_utc, v_local);
-  if v_drift > interval '1 second' then
+  if abs(extract(epoch from (v_utc - v_absolute))) > 1
+     or abs(extract(epoch from (v_local - v_absolute))) > 1 then
     raise exception
-      'TEST FAILED: the 30-day window start moved by % when the session TimeZone changed', v_drift;
+      'TEST FAILED: the 30-day window start is not 720 hours back (UTC %, Sydney %, expected %)',
+      v_utc, v_local, v_absolute;
   end if;
   raise notice 'PASS: analytics window starts are absolute instants, not session-local';
 end $$;

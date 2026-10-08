@@ -3,28 +3,43 @@
     {
       "file": "HSCEnterpriseComputing09122025.json",
       "type": "course",
-      "subject": "TAS"
+      "subject": "TAS",
+      "selected": true
     },
     {
       "file": "HSCSoftwareEngineering09122025.json",
       "type": "course",
-      "subject": "TAS"
+      "subject": "TAS",
+      "selected": true
     },
     {
-      "file": "HSCBiology.json",
+      "file": "HSCModernHistory.json",
       "type": "course",
-      "subject": "Science"
+      "subject": "HSIE",
+      "selected": true
     },
     {
-      "file": "templateCourseData.json",
+      "file": "HSCLegalStudies.json",
       "type": "course",
-      "subject": "Other"
+      "subject": "HSIE",
+      "selected": true
     },
     {
-      "file": "topics/biology-heredity-topic.json",
-      "type": "topic",
-      "subject": "Science",
-      "targetCourseName": "HSC Biology",
+      "file": "HSCBusinessStudies.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": true
+    },
+    {
+      "file": "HSCEconomics.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": true
+    },
+    {
+      "file": "HSCEnglishAdvanced.json",
+      "type": "course",
+      "subject": "English",
       "selected": true
     },
     {

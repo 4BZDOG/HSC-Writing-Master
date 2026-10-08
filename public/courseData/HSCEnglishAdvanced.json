@@ -1,0 +1,2258 @@
+[
+  {
+    "id": "course-hsc-english-advanced",
+    "name": "HSC English Advanced",
+    "outcomes": [
+      {
+        "code": "EAV-12-01",
+        "description": "critically analyses the ways an author’s choice of language, form and structure shapes meaning in complex texts of different modes and mediums"
+      },
+      {
+        "code": "EAV-12-02",
+        "description": "evaluates the relationships between texts through context, form and language"
+      },
+      {
+        "code": "EAV-12-03",
+        "description": "evaluates the ways context and values influence composition and audience response"
+      },
+      {
+        "code": "EAV-12-04",
+        "description": "composes texts using language forms and features in new and different contexts"
+      },
+      {
+        "code": "EAV-12-05",
+        "description": "composes critical and creative texts for a range of audiences and purposes"
+      },
+      {
+        "code": "EAV-12-06",
+        "description": "evaluates own compositional processes and the ways choice of language, form and structure can shape meaning"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-ea-1",
+        "name": "Texts and human experiences",
+        "subTopics": [
+          {
+            "id": "subtopic-ea-1-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-1-1-1",
+                "description": "The language, forms and features of texts that shape meaning for different audiences and purposes in familiar and unfamiliar texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-1",
+                    "question": "Analyse how the language, forms and features of a text you have studied shape meaning for different audiences and purposes.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "language",
+                      "forms",
+                      "features",
+                      "meaning",
+                      "audiences",
+                      "purposes"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that shows how the language, forms and features of a text shape meaning for different audiences and purposes, supported by apt textual evidence and insight into the writer's choices\n5-6 marks: Responds clearly and accurately, shows how the language, forms and features of a text shape meaning for different audiences and purposes, with relevant textual evidence\n3-4 marks: Addresses the task with limited evidence and only partial explanation\n1-2 marks: Makes a general or unsupported statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-1-1",
+                        "mark": 8,
+                        "answer": "The text shapes meaning through the interaction of its language, forms and features. The writer's use of short, clipped sentences creates urgency for a reader who wants immediate action, while the shift from first to third person in the final section widens the perspective for a broader public audience. The choice of a fragmented structure reflects the disorientation of the narrator, so that form and meaning reinforce each other. For a reader who approaches the text as a critic, the same features invite a reading of unreliability, whereas for a general reader the emotional immediacy is primary. The text therefore uses its features to create different meanings for different audiences and purposes, and the analysis shows how the writer anticipates these responses.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-1-2",
+                        "mark": 5,
+                        "answer": "Short sentences create urgency, which suits a reader who needs to act. The shift in perspective widens the view for a broader audience.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-1-3",
+                        "mark": 2,
+                        "answer": "The text uses short sentences and a first person narrator.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-1-1-2",
+                "description": "The language, forms and features of texts that shape a range of perspectives, personal and public worlds, and diverse human experiences",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-2",
+                    "question": "Examine how the language, forms and features of a text shape a range of perspectives on personal and public worlds and diverse human experiences.",
+                    "totalMarks": 6,
+                    "verb": "EXAMINE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "perspectives",
+                      "personal and public worlds",
+                      "human experiences",
+                      "features",
+                      "language",
+                      "forms"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that examines how language, forms and features shape a range of perspectives on personal and public worlds, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, examines how language, forms and features shape a range of perspectives on personal and public worlds, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-2-1",
+                        "mark": 6,
+                        "answer": "The text uses its language, forms and features to present a range of perspectives on personal and public worlds. Its first-person voice invites the reader into an intimate account of grief, so that personal experience becomes a lens on wider social realities. The shifting tenses and interrupted sentences make the narrator's uncertainty felt, giving the reader access to diverse human experiences that might otherwise remain distant. By placing private memory beside a public event, the writer shows how individual and collective worlds are connected. The features of the text thus allow it to hold several perspectives at once, and it encourages the reader to reconsider how a personal voice can speak to diverse human experiences.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-2-2",
+                        "mark": 3,
+                        "answer": "The narrator's voice invites the reader into a personal account, which connects to wider social realities.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-2-3",
+                        "mark": 1,
+                        "answer": "The text is about a personal experience.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-1-1-3",
+                "description": "The aesthetic qualities of texts and the power of language to express personal ideas and experiences",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-3",
+                    "question": "Explain how the aesthetic qualities of a text and the power of language express personal ideas and experiences.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "aesthetic qualities",
+                      "power of language",
+                      "personal ideas",
+                      "experiences",
+                      "imagery",
+                      "metaphor",
+                      "rhythm"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that explains how the aesthetic qualities of a text and the power of language express personal ideas and experiences, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, explains how the aesthetic qualities of a text and the power of language express personal ideas and experiences, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-3-1",
+                        "mark": 6,
+                        "answer": "The aesthetic qualities of the text, including its imagery and rhythm, give the personal ideas it explores a sensory immediacy. The power of language is evident in the writer's careful choice of concrete nouns, which lets the reader share an experience rather than merely observe it. Through metaphor, the narrator turns a private loss into an image that others can recognise, so the personal ideas become universal. The aesthetic qualities therefore carry the emotional weight of the experiences described, and the power of language allows the writer to express what might otherwise remain unspoken.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-3-2",
+                        "mark": 3,
+                        "answer": "The imagery gives the narrator's loss a sensory quality, so the reader feels it rather than being told about it.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-3-3",
+                        "mark": 1,
+                        "answer": "The writer uses beautiful language.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-1-1-4",
+                "description": "Language used for making connections, questioning, affirming, challenging and speculating about texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-4",
+                    "question": "Discuss how language is used to make connections, question, affirm, challenge and speculate about texts.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "connections",
+                      "questioning",
+                      "affirming",
+                      "challenging",
+                      "speculating"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that discusses how language makes connections and questions, affirms, challenges and speculates about texts, supported by apt textual evidence and insight\n5-6 marks: Responds clearly and accurately, discusses how language makes connections and questions, affirms, challenges and speculates about texts, with relevant textual evidence\n4 marks: Addresses the task with some accuracy and limited evidence\n2-3 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-4-1",
+                        "mark": 8,
+                        "answer": "Language makes connections between a reader and a text in several ways. Comparative references and rhetorical questions invite the reader into dialogue, so that connections are made between the text and the reader's own experience. Questioning language opens a space for doubt, while affirming language, such as confident declarative statements, builds trust in the writer's perspective. Challenging language, including ironic qualifiers and hedged claims, pushes the reader to test assumptions. Speculating language, marked by modal verbs such as might and could, asks the reader to imagine alternatives. Taken together, these choices show that language does not simply describe a text but actively shapes the connections a reader is able to make with it.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-4-2",
+                        "mark": 5,
+                        "answer": "Rhetorical questions invite the reader into dialogue with the text. Modal verbs leave room for alternatives.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-4-3",
+                        "mark": 2,
+                        "answer": "The text asks questions of the reader.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-1-1-5",
+                "description": "The evaluative language and metalanguage used to make informed judgements about texts and express personal perspectives",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-5",
+                    "question": "Evaluate how evaluative language and metalanguage help make informed judgements about a text and express personal perspectives.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "evaluative language",
+                      "metalanguage",
+                      "informed judgements",
+                      "personal perspectives",
+                      "tone",
+                      "motif"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that evaluates how evaluative language and metalanguage support informed judgements and personal perspectives, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, evaluates how evaluative language and metalanguage support informed judgements and personal perspectives, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-5-1",
+                        "mark": 6,
+                        "answer": "Evaluative language, such as strongly positive adjectives and qualifying adverbs, allows the reader to register a considered response rather than a vague impression. Metalanguage, including terms such as motif, juxtaposition and tone, gives the reader precise tools to explain the effect of a text and makes informed judgements visible and defensible. A reader who uses this vocabulary can move from saying that a text is powerful to showing how its structure produces that power. The combination of evaluative language and metalanguage therefore strengthens the critical argument, and it allows the reader to express personal perspectives with authority rather than assertion.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-ea-5-2",
+                        "mark": 3,
+                        "answer": "Metalanguage such as tone and motif lets the reader explain how the text works.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-5-3",
+                        "mark": 1,
+                        "answer": "The reader has an opinion about the text.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ea-1-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-1-2-1",
+                "description": "Develop creative, informed and sustained interpretations of texts, supported by close textual analysis",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-6",
+                    "question": "Interpret a text by developing creative, informed and sustained interpretations supported by close textual analysis.",
+                    "totalMarks": 6,
+                    "verb": "INTERPRET",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "creative",
+                      "informed",
+                      "sustained",
+                      "interpretations",
+                      "close textual analysis"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that interprets a text through creative, informed and sustained interpretations supported by close textual analysis, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, interprets a text through creative, informed and sustained interpretations supported by close textual analysis, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-6-1",
+                        "mark": 6,
+                        "answer": "A creative and informed reading of the text might begin with its ambiguous final image, which can be read as hope or as despair. A sustained interpretation follows this image through the text, showing how repeated motifs of water and silence shift in meaning. Close textual analysis of a single paragraph reveals that the grammar withdraws from the active voice at the moment of loss, which supports the reading of helplessness. These interpretations are therefore grounded in the words of the text rather than in assumption, and the reading remains open to more than one meaning.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-6-2",
+                        "mark": 3,
+                        "answer": "The final image could be read as hope, and a repeated motif supports this reading.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-6-3",
+                        "mark": 1,
+                        "answer": "The text has a meaning that can be found.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-1-2-2",
+                "description": "Compose creative and critical texts that affirm or challenge ideas, values and perspectives represented in a range of texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-7",
+                    "question": "Construct a creative or critical text that affirms or challenges an idea, value or perspective represented in a range of texts.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-05"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "creative",
+                      "critical",
+                      "affirm",
+                      "challenge",
+                      "ideas",
+                      "values",
+                      "perspectives"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that affirms or challenges ideas, values and perspectives represented in a range of texts, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that affirms or challenges ideas, values and perspectives represented in a range of texts, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-7-1",
+                        "mark": 8,
+                        "answer": "Excerpt: Every morning the kettle asks me the same question, and every morning I answer with silence. Commentary: This creative piece affirms the idea that attention is a form of care, one of the values the source texts hold dear. Yet it challenges the perspectives that treat attention as freely available, since the narrator can only attend when she is safe and rested. The critical edge sits in that limitation, so the composition affirms and challenges the ideas, values and perspectives it inherits.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-7-2",
+                        "mark": 5,
+                        "answer": "My piece affirms the value of attention but challenges who is able to attend.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-7-3",
+                        "mark": 2,
+                        "answer": "I wrote a poem about a kettle.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-1-2-3",
+                "description": "Compose texts using structures, language features and stylistic elements for specific audiences, to reinterpret ideas and perspectives",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-8",
+                    "question": "Construct a text that uses structures, language features and stylistic elements for a specific audience, reinterpreting an idea or perspective from a text you have studied.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "structures",
+                      "language features",
+                      "stylistic elements",
+                      "specific audience",
+                      "reinterpret",
+                      "perspectives"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that reinterprets ideas and perspectives using structures, language features and stylistic elements for a specific audience, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that reinterprets ideas and perspectives using structures, language features and stylistic elements for a specific audience, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-8-1",
+                        "mark": 8,
+                        "answer": "Excerpt from a letter: Dear reader, you have only seen me as the silent one in the corner of the room. Rationale: This composition uses the structures of a letter to reinterpret the perspectives of the silent character in the original text, written for a specific audience of younger readers. Language features such as direct address and rhetorical questions create intimacy, while stylistic elements including repetition and a shortened final line reinterpret the ideas of loss from the source. The letter form lets the absent character's perspectives be heard, and the stylistic choices are tuned to what a specific audience can feel.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-8-2",
+                        "mark": 5,
+                        "answer": "The letter form lets the absent character speak to a young reader.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-8-3",
+                        "mark": 2,
+                        "answer": "I wrote a letter.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ea-2",
+        "name": "Textual conversations",
+        "subTopics": [
+          {
+            "id": "subtopic-ea-2-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-2-1-1",
+                "description": "The relationship between reader, author, text and context",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-9",
+                    "question": "Explain the relationship between reader, author, text and context in a text you have studied.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "reader",
+                      "author",
+                      "text",
+                      "context",
+                      "relationship",
+                      "meaning",
+                      "values"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that explains the relationship between reader, author, text and context, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, explains the relationship between reader, author, text and context, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-9-1",
+                        "mark": 6,
+                        "answer": "The relationship between reader, author, text and context is dynamic. The author shapes the text within a particular context of time and place, but the text takes on new meanings when a reader brings a different context to it. A reader's own values can therefore alter the reading the author may have intended, and the text is read differently across generations. Understanding the relationship between these four elements allows a student to see that meaning is made in the interaction between text, context, author and reader rather than fixed in the words alone.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-9-2",
+                        "mark": 3,
+                        "answer": "The author writes within one context, but a reader from another context reads the text differently.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-9-3",
+                        "mark": 1,
+                        "answer": "Readers have different views.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-1-2",
+                "description": "Text structures, including mode, medium, form, language features and stylistic elements, and the ways they shape meaning",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-10",
+                    "question": "Analyse how text structures, including mode, medium, form, language features and stylistic elements, shape meaning in a text you have studied.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "text structures",
+                      "mode",
+                      "medium",
+                      "form",
+                      "language features",
+                      "stylistic elements",
+                      "shape meaning"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that analyses how text structures, including mode, medium and form, shape meaning, supported by apt textual evidence and insight into the writer's choices\n5-6 marks: Responds clearly and accurately, analyses how text structures, including mode, medium and form, shape meaning, with relevant textual evidence\n3-4 marks: Addresses the task with limited evidence and only partial explanation\n1-2 marks: Makes a general or unsupported statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-10-1",
+                        "mark": 8,
+                        "answer": "Text structures shape meaning in ways that can be traced through mode, medium and form. The written mode allows the reader to re-read a sentence and attend to its rhythm, while a spoken medium would deliver the same words with a different pace. The form of the text, a sequence of letters, makes the reader complicit in building the narrative, since gaps between letters must be filled. Language features such as the repeated closing phrase, together with stylistic elements including fragmentation, shape meaning by signalling the writer's growing isolation. Each structural choice therefore helps shape meaning, and the reader experiences the text's emotional arc through its architecture.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-10-2",
+                        "mark": 5,
+                        "answer": "The form of letters makes the reader fill gaps, which shapes the story's emotion.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-10-3",
+                        "mark": 2,
+                        "answer": "The text has short sentences.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-1-3",
+                "description": "The influence of context and values on the perspectives and ideas in texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-11",
+                    "question": "Discuss the influence of context and values on the perspectives and ideas in a text you have studied.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "context",
+                      "values",
+                      "perspectives",
+                      "ideas",
+                      "influence",
+                      "text",
+                      "writer"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that discusses how context and values influence the perspectives and ideas in a text, supported by apt textual evidence and insight\n5-6 marks: Responds clearly and accurately, discusses how context and values influence the perspectives and ideas in a text, with relevant textual evidence\n4 marks: Addresses the task with some accuracy and limited evidence\n2-3 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-11-1",
+                        "mark": 8,
+                        "answer": "Context and values shape the perspectives and ideas in a text in ways that a reader must weigh carefully. A text written during economic hardship may present ideas of thrift and community as virtues, reflecting the writer's values under pressure. The same text read decades later may prompt a reader to question those perspectives, because the reader's own context has changed. Values can be explicit, stated by a character, or implicit, embedded in the way events are framed. Discussing these influences shows that the ideas in a text are not neutral, and that understanding the writer's context helps a reader judge which perspectives are offered for admiration and which for critique.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-11-2",
+                        "mark": 5,
+                        "answer": "Values can be stated or implied, and they affect the ideas the text presents.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-11-3",
+                        "mark": 2,
+                        "answer": "The writer has values.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-1-4",
+                "description": "Theme, genre and aesthetic elements, and the ways they are used to represent personal and public worlds and influence responses",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-12",
+                    "question": "Explain how theme, genre and aesthetic elements represent personal and public worlds and influence responses.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "theme",
+                      "genre",
+                      "aesthetic elements",
+                      "personal and public worlds",
+                      "responses"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that explains how theme, genre and aesthetic elements represent personal and public worlds, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, explains how theme, genre and aesthetic elements represent personal and public worlds, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-12-1",
+                        "mark": 6,
+                        "answer": "Theme gives the text its central concern, and genre sets the expectations a reader brings to it. The aesthetic elements, such as a lyrical refrain, allow the writer to represent personal and public worlds at once, so that a private grief sits within a wider social order. A reader who recognises the conventions of a detective story may anticipate a resolution that the text then denies, which changes the emotional responses. By combining theme, genre and aesthetic elements, the writer influences how the reader feels about both personal and public worlds, and the responses are shaped by the text's design.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-12-2",
+                        "mark": 3,
+                        "answer": "Genre sets expectations, so the reader responds to the theme in a particular way.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-12-3",
+                        "mark": 1,
+                        "answer": "The genre is a type of story.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-1-5",
+                "description": "The influence of historical and cultural context across a pair of texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-13",
+                    "question": "Compare the influence of historical and cultural context across a pair of texts you have studied.",
+                    "totalMarks": 8,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "EAV-12-02"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "historical",
+                      "cultural context",
+                      "pair of texts",
+                      "context",
+                      "meaning",
+                      "allegory",
+                      "expression"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that compares the influence of historical and cultural context across a pair of texts, supported by apt textual evidence and insight into the writer's choices\n5-6 marks: Responds clearly and accurately, compares the influence of historical and cultural context across a pair of texts, with relevant textual evidence\n3-4 marks: Addresses the task with limited evidence and only partial explanation\n1-2 marks: Makes a general or unsupported statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-13-1",
+                        "mark": 8,
+                        "answer": "The two texts are shaped by different historical and cultural contexts, and comparing them shows how context changes meaning. The first text, written in a period of censorship, uses allegory to express dissent, so its historical context explains its indirect method. The second text, produced in a more open culture, states its critique directly, reflecting a different cultural context. Across this pair of texts, both writers respond to pressure, yet the historical and cultural contexts produce distinct forms of expression. Comparing them reveals that context does not only inform meaning but also determines how ideas are allowed to be voiced.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-13-2",
+                        "mark": 5,
+                        "answer": "Both texts respond to pressure, but the cultural context changes how they say it.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-13-3",
+                        "mark": 2,
+                        "answer": "The texts are from different times.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-1-6",
+                "description": "The ways a comparative study creates a new understanding and appreciation of each text",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-14",
+                    "question": "Assess the ways a comparative study creates new understanding and appreciation of each text in a pair.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EAV-12-02"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "comparative study",
+                      "new understanding",
+                      "appreciation",
+                      "each text",
+                      "theme",
+                      "craft"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, critical evaluation that assesses the ways a comparative study creates new understanding and appreciation of each text, with precise evidence and a reasoned judgement\n6 marks: Evaluates clearly, assesses the ways a comparative study creates new understanding and appreciation of each text, with relevant textual evidence\n5 marks: Responds accurately to the task with some evaluation\n3-4 marks: Addresses the task with limited evidence and little evaluation\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-14-1",
+                        "mark": 8,
+                        "answer": "A comparative study creates new understanding because each text illuminates features of the other that might otherwise go unnoticed. Placing two texts side by side reveals that a theme of exile, for example, is treated with restraint in one and with excess in the other, and this contrast deepens the reader's grasp of both. The comparative study also builds appreciation: a reader who sees the craft of each text in relation to the other recognises choices that a single reading would miss. Each text is therefore read more fully, since its strengths and limits are exposed through the pairing. The assessment shows that the comparative study is valuable not only for analysis but for appreciation of each text on its own terms.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-14-2",
+                        "mark": 5,
+                        "answer": "Placing the texts together shows that each has strengths the other lacks.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-14-3",
+                        "mark": 2,
+                        "answer": "Two texts are better than one.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ea-2-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-2-2-1",
+                "description": "Compose texts that explore text structures, language features and stylistic elements from different contexts to deepen understanding of how meaning is made",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-15",
+                    "question": "Construct a text that explores text structures, language features and stylistic elements from a different context to deepen understanding of how meaning is made.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "text structures",
+                      "language features",
+                      "stylistic elements",
+                      "different contexts",
+                      "how meaning is made"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that explores text structures, language features and stylistic elements from different contexts to deepen understanding of how meaning is made, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that explores text structures, language features and stylistic elements from different contexts to deepen understanding of how meaning is made, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-15-1",
+                        "mark": 8,
+                        "answer": "Excerpt from a recipe card: Grandmother's soup: two onions, one cup of patience, salt to taste. Rationale: This composition explores text structures drawn from a cookbook and places them in a grief narrative, so that form carries feeling. The language features are plain, and the stylistic elements, including lists and measurements, convey the restraint of the narrator. Writing from different contexts in this way deepens understanding of how meaning is made, because the reader must rebuild the emotion from the structure alone.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-15-2",
+                        "mark": 5,
+                        "answer": "A list of measurements shows the narrator's restraint and conveys grief.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-15-3",
+                        "mark": 2,
+                        "answer": "I wrote about a cookbook.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-2-2",
+                "description": "Compare and evaluate textual form and language features in a pair of texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-16",
+                    "question": "Compare and evaluate the textual form and language features in a pair of texts you have studied.",
+                    "totalMarks": 8,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "EAV-12-02"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "textual form",
+                      "language features",
+                      "pair of texts",
+                      "memory",
+                      "imagery",
+                      "poem"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that compares and evaluates the textual form and language features in a pair of texts, supported by apt textual evidence and insight into the writer's choices\n5-6 marks: Responds clearly and accurately, compares and evaluates the textual form and language features in a pair of texts, with relevant textual evidence\n3-4 marks: Addresses the task with limited evidence and only partial explanation\n1-2 marks: Makes a general or unsupported statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-16-1",
+                        "mark": 8,
+                        "answer": "The pair of texts shares a concern with memory but differs sharply in textual form. The first is a sequence of short prose sections, which fragments memory and mirrors the narrator's unreliability. The second is a single unbroken poem whose language features, including long lines and sustained imagery, create a sense of continuous recall. Comparing these language features shows that the first text invites the reader to assemble the past, while the second asks the reader to surrender to it. Evaluating the pair, the poem's form is the more effective vehicle for memory because its textual form matches the experience it describes, though the prose gives the reader more room to reflect.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-16-2",
+                        "mark": 5,
+                        "answer": "The poem's long lines create continuous recall, unlike the fragmented prose.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-16-3",
+                        "mark": 2,
+                        "answer": "One text is a poem and one is prose.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-2-3",
+                "description": "Compose sustained critical texts that affirm and challenge ideas, values and perspectives in a pair of texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-17",
+                    "question": "Construct a sustained critical text that affirms and challenges ideas, values and perspectives across a pair of texts you have studied.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-05"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "sustained",
+                      "critical",
+                      "affirm",
+                      "challenge",
+                      "ideas",
+                      "values",
+                      "perspectives",
+                      "pair of texts"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that affirms and challenges ideas, values and perspectives across a pair of texts in a sustained critical text, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that affirms and challenges ideas, values and perspectives across a pair of texts in a sustained critical text, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-17-1",
+                        "mark": 8,
+                        "answer": "Across this pair of texts, both writers affirm the value of resilience, a conviction that endurance gives dignity to suffering. Yet the second text challenges the perspectives that the first takes for granted: it asks whether resilience is demanded of those with no power to resist. The ideas of the first text are sustained by its consoling rhythm, while the second text's fractured syntax challenges that consolation. A sustained critical reading therefore affirms the moral intent of both texts while challenging the values that they leave unexamined.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-17-2",
+                        "mark": 5,
+                        "answer": "The composition affirms resilience but challenges the power relations it hides.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-17-3",
+                        "mark": 2,
+                        "answer": "Resilience is a good idea.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-2-4",
+                "description": "Use the language of critical and creative expression to refine arguments and craft sustained writing",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-18",
+                    "question": "Demonstrate how you use the language of critical and creative expression to refine arguments and craft sustained writing.",
+                    "totalMarks": 6,
+                    "verb": "DEMONSTRATE",
+                    "linkedOutcomes": [
+                      "EAV-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "critical and creative expression",
+                      "refine arguments",
+                      "sustained writing",
+                      "argument",
+                      "claim"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that demonstrates the use of critical and creative expression to refine arguments and craft sustained writing, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, demonstrates the use of critical and creative expression to refine arguments and craft sustained writing, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-18-1",
+                        "mark": 6,
+                        "answer": "In my response I use the language of critical and creative expression to refine arguments. A claim is tested against a counter-example, then revised so that its qualification is precise rather than vague. Sustained writing depends on this discipline: each paragraph returns to the central argument and extends it, so that the reasoning develops rather than repeats. Creative choices, such as a striking image placed at the close, serve the argument instead of decorating it. This process shows that critical and creative expression are not separate skills but work together to refine arguments and craft sustained writing.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-18-2",
+                        "mark": 3,
+                        "answer": "I test a claim and revise it so the qualification is precise.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-18-3",
+                        "mark": 1,
+                        "answer": "I use good writing.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-2-2-5",
+                "description": "Apply appropriate language and terminology used for making connections, interpreting texts and shaping meaning",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-19",
+                    "question": "Apply appropriate language and terminology for making connections, interpreting texts and shaping meaning in response to a text you have studied.",
+                    "totalMarks": 6,
+                    "verb": "APPLY",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "appropriate language and terminology",
+                      "making connections",
+                      "interpreting texts",
+                      "shaping meaning",
+                      "terminology",
+                      "juxtaposition",
+                      "tone"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that applies appropriate language and terminology for making connections, interpreting texts and shaping meaning, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, applies appropriate language and terminology for making connections, interpreting texts and shaping meaning, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-19-1",
+                        "mark": 6,
+                        "answer": "Appropriate language and terminology allow a student to make connections between the text's form and its meaning. Terms such as juxtaposition and tone help in making connections between moments that the text places side by side. Precise vocabulary is also essential for interpreting texts, since calling a passage elegiac rather than sad directs the reader to its structure and register. Used with care, this terminology supports shaping meaning in an argument, so that each term does work rather than decorating the response.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-19-2",
+                        "mark": 3,
+                        "answer": "Terms such as juxtaposition help me make connections between two moments.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-19-3",
+                        "mark": 1,
+                        "answer": "I use key terms.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ea-3",
+        "name": "Critical study of literature",
+        "subTopics": [
+          {
+            "id": "subtopic-ea-3-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-3-1-1",
+                "description": "The relationship between reader, author, text and context",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-20",
+                    "question": "Evaluate the relationship between reader, author, text and context in shaping your interpretation of a prescribed literary text.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "reader",
+                      "author",
+                      "text",
+                      "context",
+                      "interpretation",
+                      "prescribed"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that evaluates the relationship between reader, author, text and context in shaping interpretation of a prescribed text, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, evaluates the relationship between reader, author, text and context in shaping interpretation of a prescribed text, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-20-1",
+                        "mark": 6,
+                        "answer": "The reader, author, text and context each shape how a prescribed text is understood. The author's intention sets a starting point, but the text's own design can complicate it. My reading is also shaped by context, including the period in which I read, which makes some themes more visible than others. Evaluating this relationship, I find that the reader's context is the most influential element in my interpretation, because it selects what the text appears to say.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-ea-20-2",
+                        "mark": 3,
+                        "answer": "The reader's context shapes which themes stand out in the text.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-20-3",
+                        "mark": 1,
+                        "answer": "Readers read texts.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-2",
+                "description": "The ways a text can be valued for its aesthetic qualities, text structures, language features and stylistic elements",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-21",
+                    "question": "Assess the ways a text is valued for its aesthetic qualities, text structures, language features and stylistic elements.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "valued",
+                      "aesthetic qualities",
+                      "text structures",
+                      "language features",
+                      "stylistic elements"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, critical evaluation that assesses the ways a text is valued for its aesthetic qualities, text structures, language features and stylistic elements, with precise evidence and a reasoned judgement\n6 marks: Evaluates clearly, assesses the ways a text is valued for its aesthetic qualities, text structures, language features and stylistic elements, with relevant textual evidence\n5 marks: Responds accurately to the task with some evaluation\n3-4 marks: Addresses the task with limited evidence and little evaluation\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-21-1",
+                        "mark": 8,
+                        "answer": "A text can be valued for its aesthetic qualities, which include the sound and rhythm of its sentences that reward a second reading. Its text structures may also be valued when they create surprise, such as a late shift in narrative order that reframes what came before. Language features, including carefully placed sensory detail, add to this value because they make the reader attentive to how the text is built. Stylistic elements such as recurring symbols tie the parts together, and the reader comes to value the coherence they create. Assessing these qualities together shows that the value of a text lies in how its aesthetic and structural choices reward attention rather than in any single feature.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-21-2",
+                        "mark": 5,
+                        "answer": "The sound of the sentences is valued because it rewards rereading.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-21-3",
+                        "mark": 2,
+                        "answer": "The text is valued by readers.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-3",
+                "description": "The language of critical expression in refining arguments and interpreting texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-22",
+                    "question": "Explain how the language of critical expression refines arguments and interprets texts in a critical study.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "language of critical expression",
+                      "refining arguments",
+                      "interpreting texts",
+                      "evidence",
+                      "interpretation"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that explains how the language of critical expression refines arguments and interprets texts, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, explains how the language of critical expression refines arguments and interprets texts, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-22-1",
+                        "mark": 6,
+                        "answer": "The language of critical expression is precise and measured, so that each claim can be tested. It refines arguments by qualifying generalisations and naming the evidence that supports them, which makes a reader's position clearer. Refining arguments in this way is a form of honesty, because it marks where a reading is uncertain. The same language supports interpreting texts, since it lets a reader distinguish between what a passage states and what it implies. Careful critical expression therefore makes both the argument and the interpretation more persuasive.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-22-2",
+                        "mark": 3,
+                        "answer": "Qualifying a claim makes the argument more precise and honest.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-22-3",
+                        "mark": 1,
+                        "answer": "Critical language is good.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-4",
+                "description": "The ways mode, medium and form shape and inform responses to texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-23",
+                    "question": "Examine the ways mode, medium and form shape and inform responses to a text.",
+                    "totalMarks": 6,
+                    "verb": "EXAMINE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "mode",
+                      "medium",
+                      "form",
+                      "responses",
+                      "expectations",
+                      "reader",
+                      "content"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that examines the ways mode, medium and form shape and inform responses to texts, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, examines the ways mode, medium and form shape and inform responses to texts, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-23-1",
+                        "mark": 6,
+                        "answer": "Mode, medium and form shape responses before the reader reaches the first sentence. A text in written mode invites slow, rereading attention, while the same story told in spoken medium creates immediacy and reliance on voice. The form of the text sets expectations: a short story prepares readers for compression, a novel for accumulation. These elements inform responses by determining what the reader expects and how long they are willing to wait for meaning. Examining mode, medium and form therefore shows that responses are shaped as much by the vehicle of the text as by its content.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-23-2",
+                        "mark": 3,
+                        "answer": "A text in spoken medium creates immediacy that a written text does not.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-23-3",
+                        "mark": 1,
+                        "answer": "Mode and medium are types of text.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-5",
+                "description": "The ways language forms, features and structures are used to represent a range of perspectives",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-24",
+                    "question": "Explain how language forms, features and structures are used to represent a range of perspectives in a text.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "language forms",
+                      "features",
+                      "structures",
+                      "represent",
+                      "range of perspectives"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that explains how language forms, features and structures represent a range of perspectives, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, explains how language forms, features and structures represent a range of perspectives, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-24-1",
+                        "mark": 6,
+                        "answer": "Language forms, features and structures work together to represent a range of perspectives. A dialogue between two characters allows each voice its own rhythm, so that opposing views are presented without the writer's intervention. Free indirect speech moves between a character's inner thoughts and the narrator's commentary, which lets the reader hold two perspectives at once. Structural choices, such as alternating sections, give each perspective equal space, and the text can therefore represent a range of perspectives without endorsing any single one.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-24-2",
+                        "mark": 3,
+                        "answer": "Free indirect speech lets the reader hold two perspectives at once.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-24-3",
+                        "mark": 1,
+                        "answer": "The writer uses language to show views.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-6",
+                "description": "The ways texts can reflect, confirm and challenge expectations associated with particular genres and styles",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-25",
+                    "question": "Discuss the ways texts reflect, confirm and challenge expectations associated with particular genres and styles.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "reflect",
+                      "confirm",
+                      "challenge",
+                      "expectations",
+                      "genres",
+                      "styles"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that discusses how texts reflect, confirm and challenge expectations associated with genres and styles, supported by apt textual evidence and insight\n5-6 marks: Responds clearly and accurately, discusses how texts reflect, confirm and challenge expectations associated with genres and styles, with relevant textual evidence\n4 marks: Addresses the task with some accuracy and limited evidence\n2-3 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-25-1",
+                        "mark": 8,
+                        "answer": "Texts reflect expectations associated with particular genres and styles, and the reader's pleasure often depends on recognising them. A crime novel reflects the conventions of its genre by delivering a clear solution, which confirms the reader's expectation of order. A text may also challenge these expectations, withholding resolution or subverting a familiar figure, so that the reader's assumptions are unsettled. Styles carry their own expectations: a formal tone signals authority, and a playful one invites the reader to doubt it. Discussing these moves shows that texts can reflect and confirm genre conventions, or challenge them to produce new meaning.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-25-2",
+                        "mark": 5,
+                        "answer": "A crime novel confirms genre expectations, but a twist can challenge them.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-25-3",
+                        "mark": 2,
+                        "answer": "Texts follow genres.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-7",
+                "description": "The ways context can shape social, moral and ethical perspectives in texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-26",
+                    "question": "Discuss the ways context shapes social, moral and ethical perspectives in texts.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "context",
+                      "social",
+                      "moral",
+                      "ethical",
+                      "perspectives"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that discusses how context shapes social, moral and ethical perspectives in texts, supported by apt textual evidence and insight\n5-6 marks: Responds clearly and accurately, discusses how context shapes social, moral and ethical perspectives in texts, with relevant textual evidence\n4 marks: Addresses the task with some accuracy and limited evidence\n2-3 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-26-1",
+                        "mark": 8,
+                        "answer": "Context shapes the social, moral and ethical perspectives a text presents, because writers respond to the pressures of their time. A text written during a period of rapid industrial change may present community as a moral obligation, reflecting social anxieties about belonging. The same text read in a more individualist era may reveal ethical positions that the original context made invisible. Context also determines what counts as a moral failing, so a character's choice may be condemned in one period and excused in another. Discussing these shifts shows that context can shape the perspectives in texts, and that readers must test their own ethical assumptions against those of the writer.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-26-2",
+                        "mark": 5,
+                        "answer": "A text from an industrial era may present community as a moral duty.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-26-3",
+                        "mark": 2,
+                        "answer": "Context matters to texts.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-1-8",
+                "description": "The effect of theme and genre, and how these can influence a texts value",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-27",
+                    "question": "Evaluate the effect of theme and genre on a text's value.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "theme",
+                      "genre",
+                      "influence",
+                      "value",
+                      "valued",
+                      "universal"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that evaluates the effect of theme and genre on a text's value, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, evaluates the effect of theme and genre on a text's value, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-27-1",
+                        "mark": 6,
+                        "answer": "Theme and genre influence a text's value in complementary ways. A universal theme, such as the cost of ambition, gives the text lasting relevance, because readers across periods can recognise it. Genre shapes how that theme is delivered, and a text that uses a familiar genre may be valued for its skill within convention rather than for originality. When a text combines a striking theme with an unexpected genre, its value rises because the combination creates new meaning. Evaluating these effects, I judge that theme gives depth, genre gives form, and the text is most valued when both are used with purpose.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-ea-27-2",
+                        "mark": 3,
+                        "answer": "A universal theme gives a text lasting relevance across periods.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-27-3",
+                        "mark": 1,
+                        "answer": "Theme is what the text is about.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ea-3-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-3-2-1",
+                "description": "Compose critical texts that affirm or challenge the ideas, values and perspectives represented in a complex text",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-28",
+                    "question": "Construct a critical text that affirms or challenges the ideas, values and perspectives represented in a complex text you have studied.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-05"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "critical",
+                      "affirm",
+                      "challenge",
+                      "ideas",
+                      "values",
+                      "perspectives",
+                      "complex text"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that affirms or challenges the ideas, values and perspectives in a complex text, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that affirms or challenges the ideas, values and perspectives in a complex text, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-28-1",
+                        "mark": 8,
+                        "answer": "A critical response to the complex text begins by affirming its central ideas, that memory is unreliable but necessary. Yet its values deserve challenge: the text assumes that the past can be recovered through private grief, and it overlooks the collective forgetting that shapes public history. The perspectives it offers are generous, but they are also selective. A critical reading therefore affirms the text's humane ideas while challenging the values that keep its perspectives narrow.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-28-2",
+                        "mark": 5,
+                        "answer": "The piece affirms that memory matters but challenges whose memories are kept.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-28-3",
+                        "mark": 2,
+                        "answer": "Memory is important in texts.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-2-2",
+                "description": "Compose informed personal responses shaped by critical interpretations of texts and textual analysis",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-29",
+                    "question": "Construct an informed personal response shaped by critical interpretations of a text and textual analysis.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-05"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "informed",
+                      "personal response",
+                      "critical interpretations",
+                      "textual analysis",
+                      "reading",
+                      "ending",
+                      "personal insight"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that composes an informed personal response shaped by critical interpretations and textual analysis, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that composes an informed personal response shaped by critical interpretations and textual analysis, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-29-1",
+                        "mark": 8,
+                        "answer": "An informed personal response to the text begins with my own unease about its ending. Critical interpretations of the text suggest that the ending is deliberately unresolved, and my reading of it is shaped by those interpretations as well as by my own experience. Textual analysis of the final paragraph shows that the repeated verb creates a loop, which supports the view that the characters cannot escape. Yet my personal response remains that hope is present in a single word, which I had overlooked on first reading. The response therefore combines critical interpretations with textual analysis and personal insight.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-29-2",
+                        "mark": 5,
+                        "answer": "My response is personal, but it draws on critical interpretations to support it.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-29-3",
+                        "mark": 2,
+                        "answer": "I think the ending is sad.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-3-2-3",
+                "description": "Support critical interpretations of texts through sustained argument and relevant textual analysis",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-30",
+                    "question": "Justify your critical interpretation of a text through sustained argument and relevant textual analysis.",
+                    "totalMarks": 8,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "EAV-12-05"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "critical interpretation",
+                      "sustained argument",
+                      "relevant textual analysis",
+                      "evidence",
+                      "pattern"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, critical evaluation that justifies a critical interpretation through sustained argument and relevant textual analysis, with precise evidence and a reasoned judgement\n6 marks: Evaluates clearly, justifies a critical interpretation through sustained argument and relevant textual analysis, with relevant textual evidence\n5 marks: Responds accurately to the task with some evaluation\n3-4 marks: Addresses the task with limited evidence and little evaluation\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-30-1",
+                        "mark": 8,
+                        "answer": "My critical interpretation of the text is that its final scene reverses the hope of its opening. This view is supported through sustained argument: each section is shown to move the protagonist further from the goal, which builds a pattern rather than a single moment. Relevant textual analysis of the repeated image of the open door shows that its meaning changes with each use, moving from invitation to threat. A reader who attends only to the ending might miss this pattern, so I justify the interpretation by tracing the evidence across the whole text. The argument holds because each claim is tied to a specific word or structure.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-30-2",
+                        "mark": 5,
+                        "answer": "The repeated image of the open door supports my view that the ending reverses hope.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-30-3",
+                        "mark": 2,
+                        "answer": "The ending is sad.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ea-4",
+        "name": "The craft of writing",
+        "subTopics": [
+          {
+            "id": "subtopic-ea-4-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-4-1-1",
+                "description": "The aesthetic qualities of texts and the power of language to express ideas, perspectives and experiences",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-31",
+                    "question": "Explain how the aesthetic qualities of your own writing and the power of language express ideas, perspectives and experiences.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EAV-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "aesthetic qualities",
+                      "power of language",
+                      "ideas",
+                      "perspectives",
+                      "experiences"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that explains how the aesthetic qualities of my writing and the power of language express ideas and experiences, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, explains how the aesthetic qualities of my writing and the power of language express ideas and experiences, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-31-1",
+                        "mark": 6,
+                        "answer": "The aesthetic qualities of my writing come from its controlled rhythm, which slows the reader at moments of loss. The power of language is shown in the choice of a single plain word where a more decorative one was available, so that the emotion is felt rather than announced. Through these choices, the writing expresses ideas about time, perspectives on family, and the experiences of waiting. Each aesthetic choice is made to carry the experience, and the language itself becomes the subject of the piece.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-31-2",
+                        "mark": 3,
+                        "answer": "The plain word creates feeling without announcing it, which shows the power of language.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ea-31-3",
+                        "mark": 1,
+                        "answer": "I use nice words.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-4-1-2",
+                "description": "The forms, language features and stylistic choices that shape imaginative, discursive, persuasive and reflective texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-32",
+                    "question": "Analyse the forms, language features and stylistic choices that shape imaginative, discursive, persuasive and reflective texts.",
+                    "totalMarks": 8,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "forms",
+                      "language features",
+                      "stylistic choices",
+                      "imaginative",
+                      "discursive",
+                      "persuasive",
+                      "reflective"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that analyses the forms, language features and stylistic choices of imaginative, discursive, persuasive and reflective texts, supported by apt textual evidence and insight into the writer's choices\n5-6 marks: Responds clearly and accurately, analyses the forms, language features and stylistic choices of imaginative, discursive, persuasive and reflective texts, with relevant textual evidence\n3-4 marks: Addresses the task with limited evidence and only partial explanation\n1-2 marks: Makes a general or unsupported statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-32-1",
+                        "mark": 8,
+                        "answer": "Forms, language features and stylistic choices differ across the four kinds of text. An imaginative text uses figurative language and narrative structure to create a world the reader enters. A discursive text sets out ideas through balanced sentences and logical sequence, while a persuasive text uses direct address, emotive diction and rhetorical questions to move the reader. A reflective text relies on first-person voice and open syntax, so that the writer's thought appears to unfold on the page. Analysing these forms shows that each kind of text shapes meaning through its own combination of language features, and that stylistic choices are tied to the purpose the text serves.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-32-2",
+                        "mark": 5,
+                        "answer": "Persuasive texts use direct address and emotive diction to move the reader.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-32-3",
+                        "mark": 2,
+                        "answer": "Persuasive texts try to convince people.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ea-4-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-ea-4-2-1",
+                "description": "Compose personal, critical and creative texts that experiment with emerging forms, language features and literary devices including imagery, motif and allusion",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-33",
+                    "question": "Construct a personal, critical or creative text that experiments with emerging forms, language features and literary devices, including imagery, motif and allusion.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "experiment",
+                      "emerging forms",
+                      "literary devices",
+                      "imagery",
+                      "motif",
+                      "allusion"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that composes a personal, critical or creative text that experiments with emerging forms, language features and literary devices, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that composes a personal, critical or creative text that experiments with emerging forms, language features and literary devices, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-33-1",
+                        "mark": 8,
+                        "answer": "Rationale: This piece will experiment with emerging forms by blending diary entries with found notes, so that the reader assembles the story from fragments. Language features such as short declaratives and unfinished sentences carry the narrator's unease, while literary devices create connection across the entries. The imagery of salt water returns as a motif, growing heavier with each appearance. An allusion to a classic myth of return gives the reader a second story beneath the first, and the emerging form makes that allusion feel discovered rather than explained.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-33-2",
+                        "mark": 5,
+                        "answer": "The salt water motif returns and grows heavier, which builds the emotion.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-33-3",
+                        "mark": 2,
+                        "answer": "I used imagery in my piece.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-4-2-2",
+                "description": "Compose texts that use the language of critical and creative expression",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-34",
+                    "question": "Construct a text that uses the language of critical and creative expression for a chosen audience.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "language of critical and creative expression",
+                      "chosen audience",
+                      "argument",
+                      "anecdote",
+                      "film"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that composes a text using the language of critical and creative expression for a chosen audience, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that composes a text using the language of critical and creative expression for a chosen audience, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-34-1",
+                        "mark": 8,
+                        "answer": "Rationale: I compose this text for a chosen audience of senior students, using the language of critical and creative expression to explain a film in a way that invites argument. The opening uses a precise image to hook the reader, and the critical claims that follow are tested against evidence. Creative choices, such as a short anecdote, make the analysis accessible without weakening its argument. The language of critical and creative expression works here as a tool to persuade a chosen audience, rather than as ornament.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-34-2",
+                        "mark": 5,
+                        "answer": "The anecdote makes the analysis accessible without weakening the argument.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-34-3",
+                        "mark": 2,
+                        "answer": "I write for students.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-4-2-3",
+                "description": "Compose imaginative, discursive, persuasive and reflective texts that affirm or challenge ideas, values and perspectives represented in texts",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-35",
+                    "question": "Construct an imaginative, discursive, persuasive or reflective text that affirms or challenges ideas, values and perspectives represented in texts.",
+                    "totalMarks": 8,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-05"
+                    ],
+                    "markerNotes": [
+                      "Reward a clear rationale that links each choice to its intended effect on the audience",
+                      "Reward control of language and form that serves the purpose of the composition"
+                    ],
+                    "commonStudentErrors": [
+                      "Producing a piece without a rationale that links choices to purpose",
+                      "Writing a summary of a text rather than composing an original response"
+                    ],
+                    "keywords": [
+                      "imaginative",
+                      "discursive",
+                      "persuasive",
+                      "reflective",
+                      "affirm",
+                      "challenge",
+                      "ideas",
+                      "values",
+                      "perspectives"
+                    ],
+                    "markingCriteria": "7-8 marks: Produces a sustained, controlled composition that composes imaginative, discursive, persuasive or reflective texts that affirm or challenge ideas, values and perspectives, with apt language, form and a reasoned rationale\n5-6 marks: Produces a clear composition that composes imaginative, discursive, persuasive or reflective texts that affirm or challenge ideas, values and perspectives, with effective language and form\n3-4 marks: Produces a limited composition with some relevance to the task\n1-2 marks: Makes a general or unformed attempt at composition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-35-1",
+                        "mark": 8,
+                        "answer": "Rationale: This reflective text affirms the values of listening and challenges the ideas that treat it as enough. The imaginative opening places the reader inside a room where no one speaks. The discursive middle sets out ideas about attention, while a persuasive close asks the reader to act. Each form is chosen to shape the perspectives it presents, so the piece affirms and challenges the values and ideas of its sources together.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-35-2",
+                        "mark": 5,
+                        "answer": "The persuasive close asks the reader to act on the value of listening.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-35-3",
+                        "mark": 2,
+                        "answer": "I wrote a text about listening.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-4-2-4",
+                "description": "Use metalanguage to assess and reflect on their own process of writing and the writing of others",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-36",
+                    "question": "Assess your own process of writing and the writing of others, using metalanguage to reflect.",
+                    "totalMarks": 6,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EAV-12-06"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "metalanguage",
+                      "reflect",
+                      "process of writing",
+                      "writing of others",
+                      "drafts",
+                      "pattern",
+                      "tense"
+                    ],
+                    "markingCriteria": "6 marks: Makes a sustained, precise response that assesses and reflects on the writer's own process of writing and the writing of others using metalanguage, supported by apt textual evidence and insight\n5 marks: Responds clearly and accurately, assesses and reflects on the writer's own process of writing and the writing of others using metalanguage, with relevant evidence\n4 marks: Responds to the task with relevant evidence and some explanation\n3 marks: Addresses the task with some accuracy and limited evidence\n2 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-36-1",
+                        "mark": 6,
+                        "answer": "Metalanguage helps me assess my own process of writing precisely. In my drafts, I notice that I open with description and delay argument, a pattern I can name and correct. When I reflect on the writing of others, the same vocabulary lets me identify what works, such as a clear shift in tense that marks a turn in the narrative. This use of metalanguage improves my process of writing, because I can explain what I changed and why, and I can read the writing of others with the same care I apply to my own.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-36-2",
+                        "mark": 3,
+                        "answer": "I can name a pattern in my drafts and correct it using metalanguage.",
+                        "source": "AI",
+                        "feedback": "A 3-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-36-3",
+                        "mark": 1,
+                        "answer": "I can improve my writing.",
+                        "source": "AI",
+                        "feedback": "A 1-mark response makes a general statement and does not fully address the task.",
+                        "band": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "dp-ea-4-2-5",
+                "description": "Draft, reflect, edit, refine, revise and present texts for a range of audiences and purposes",
+                "prompts": [
+                  {
+                    "id": "prompt-ea-37",
+                    "question": "Discuss how you draft, reflect, edit, refine, revise and present a text for a range of audiences and purposes.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EAV-12-06"
+                    ],
+                    "markerNotes": [
+                      "Reward a precise link between the textual choice and its effect on meaning",
+                      "Reward evidence drawn from the text rather than general claims"
+                    ],
+                    "commonStudentErrors": [
+                      "Describing features without explaining their effect",
+                      "Restating the task rather than answering it"
+                    ],
+                    "keywords": [
+                      "draft",
+                      "reflect",
+                      "edit",
+                      "refine",
+                      "revise",
+                      "present",
+                      "range of audiences and purposes"
+                    ],
+                    "markingCriteria": "7-8 marks: Makes a sustained, precise response that discusses how a text is drafted, reflected on, edited, refined, revised and presented for a range of audiences and purposes, supported by apt textual evidence and insight\n5-6 marks: Responds clearly and accurately, discusses how a text is drafted, reflected on, edited, refined, revised and presented for a range of audiences and purposes, with relevant textual evidence\n4 marks: Addresses the task with some accuracy and limited evidence\n2-3 marks: Identifies a relevant idea without developing it\n1 mark: Makes a general statement about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-37-1",
+                        "mark": 8,
+                        "answer": "My process for each text moves through clear stages. I draft quickly to find the argument, then reflect on whether the structure serves the reader. I edit for precision, cutting repetition, and refine the language so that each sentence does work. To revise is the most demanding stage, since it may require a new opening or a different form. Presenting the text for a range of audiences and purposes means adjusting tone and length for each, so the final version can be read by a teacher assessing analysis, a peer seeking clarity, or a general reader seeking pleasure. Each stage is deliberate, and the result is writing that is controlled, purposeful and reflective.",
+                        "source": "AI",
+                        "feedback": "Full marks: the response addresses every part of the task with precise evidence and sustained analysis.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-37-2",
+                        "mark": 5,
+                        "answer": "I draft to find the argument, then edit for precision before presenting.",
+                        "source": "AI",
+                        "feedback": "A 5-mark response makes a valid point with limited development. Developing its effect would strengthen it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-37-3",
+                        "mark": 2,
+                        "answer": "I write drafts and then I finish.",
+                        "source": "AI",
+                        "feedback": "A 2-mark response makes a general statement and does not fully address the task.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

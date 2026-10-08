@@ -240,9 +240,9 @@ export const useMyFeature = () => {
 
 ### Add a new course data field to JSON
 
-1. Update `public/courseData/templateCourseData.json` so the manifest stays valid.
+1. Add the new field to the course files under `public/courseData/` (the template course was removed, so use an existing course file as the shape reference).
 2. Update the manifest at `public/courseData/manifest.json` if the new course file should be discoverable.
-3. Validate with the importer in `DataManagerModal` — run the import flow in the browser to confirm no validation errors.
+3. Run `npm run content:check` and validate with the importer in `DataManagerModal` — run the import flow in the browser to confirm no validation errors.
 
 ---
 

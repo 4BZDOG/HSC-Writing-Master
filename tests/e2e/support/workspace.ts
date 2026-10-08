@@ -361,7 +361,7 @@ export const openHeaderTool = async (page: Page, name: RegExp): Promise<void> =>
  * Walk on until the selected question links at least one syllabus outcome.
  *
  * `openFirstQuestion` takes the first option at every level, and in the
- * bundled Biology curriculum that lands on a question with no linked outcomes
+ * bundled curriculum that can land on a question with no linked outcomes
  * — so `ReferenceMaterials`' "What's Assessed" panel, which renders only when
  * `linkedOutcomes.length > 0`, is simply not in the DOM.
  *
