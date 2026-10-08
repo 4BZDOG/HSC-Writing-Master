@@ -783,7 +783,7 @@
                       {
                         "id": "sa-ah-13-1",
                         "mark": 6,
-                        "answer": "The significance of Marathon depends on the purposes for which it is assessed. In the immediate sense, the battle of 490 BCE was significant because the Athenians, with the Plataeans, defeated a Persian force sent by Darius, and this saved Athens from an immediate Persian assault in that campaign. Herodotus treats the outcome as a turning point, and his account shows that Athenians felt it had preserved their independence. Judged by its consequences, however, the battle was not decisive in the way later writers suggest: the Persian Wars continued for another decade, including the invasion of Xerxes, and the Greek victories at Salamis and Plataea mattered as much or more. Historical significance is therefore attributed differently by different audiences. For Athenians in the fifth century, Marathon was a source of civic pride and a justification for Athenian leadership. For later generations, particularly those seeking a symbol of national identity, it became a story of heroic defence against a larger enemy, which tells us as much about the later audience as about the battle itself. A historian asked to judge the significance of Marathon must therefore distinguish between its military consequences, its political meaning for Athens and its later use as a story. The judgement that the battle was significant for the survival of Athenian independence in 490 BCE is defensible, but the claim that it decided the outcome of the Persian Wars is not supported by the wider evidence.",
+                        "answer": "The significance of Marathon depends on the purposes for which it is assessed. In the immediate sense, the battle of 490 BCE was significant because the Athenians, with the Plataeans, defeated a Persian force sent by Darius, and this saved Athens from an immediate Persian assault in that campaign. Herodotus treats the outcome as a turning point, and his account shows that Athenians felt it had preserved their independence. Judged by its consequences, however, the battle was not decisive in the way later writers suggest: the Persian Wars continued for decades, including Xerxes' invasion of 480 BCE, and the Greek victories at Salamis and Plataea mattered as much or more. Historical significance is therefore attributed differently by different audiences. For Athenians in the fifth century, Marathon was a source of civic pride and a justification for Athenian leadership. For later generations, particularly those seeking a symbol of national identity, it became a story of heroic defence against a larger enemy, which tells us as much about the later audience as about the battle itself. A historian asked to judge the significance of Marathon must therefore distinguish between its military consequences, its political meaning for Athens and its later use as a story. The judgement that the battle was significant for the survival of Athenian independence in 490 BCE is defensible, but the claim that it decided the outcome of the Persian Wars is not supported by the wider evidence.",
                         "source": "AI",
                         "feedback": "Forms a judgement against explicit criteria (military consequence, political meaning, later use) and recognises that significance has been attributed for different purposes and audiences. It states which claim is defensible and which is not, which is the reasoning the top band requires.",
                         "band": 5
@@ -995,8 +995,7 @@
                     "totalMarks": 8,
                     "verb": "INVESTIGATE",
                     "linkedOutcomes": [
-                      "AH-11-08",
-                      "AH-12-07"
+                      "AH-11-08"
                     ],
                     "markerNotes": [
                       "Strong answers show how a broad topic is narrowed into a central question and subsidiary questions, and test each question against the available evidence.",
@@ -1157,7 +1156,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A student investigating daily life in a provincial town has collected three items: an inscription recording a local building project, a set of coins found in the town, and a literary passage describing provincial life written by an outside author. The student must show how each item can inform the investigation."
+                    "scenario": "A student investigating daily life in a provincial town has collected three hypothetical items, invented for this exercise: an inscription recording a local building project, a set of coins found in the town, and a literary passage describing provincial life written by an outside author. The student must show how each item can inform the investigation."
                   },
                   {
                     "id": "prompt-ah-20",
@@ -1559,7 +1558,7 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "AH-11-07"
+                      "AH-11-08"
                     ],
                     "markerNotes": [
                       "Accept referencing conventions such as footnotes or endnotes, and the use of quotation marks with a reference for direct quotations.",
@@ -1676,7 +1675,7 @@
                     "totalMarks": 2,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
-                      "AH-11-02"
+                      "AH-11-08"
                     ],
                     "markerNotes": [
                       "The key word is provisional. A hypothesis is set out before the evidence is examined and may be revised or rejected.",
@@ -1780,7 +1779,7 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "AH-11-04"
+                      "AH-11-05"
                     ],
                     "markerNotes": [
                       "Interpretation means explaining what the graffito suggests, not just repeating its words.",
@@ -1865,7 +1864,7 @@
                       {
                         "id": "sa-ah-31-1",
                         "mark": 7,
-                        "answer": "Historical interpretations of Athenian democracy under Pericles differ because each account was shaped by its evidence and by the period in which it was written. Thucydides' Funeral Oration, placed in his account of the first year of the war in 431 BCE, presents Athens as a community that combines freedom in public life with respect for the law, and it praises the Athenian way of life. Its interpretation is shaped by Thucydides' own purpose, because the speech is a reflection on what the city stood for, and it is a literary construction composed by an author who knew the city's later defeat. Aristophanes' comedies offer a very different interpretation. Written for the Athenian theatre, they mock the politicians of the day, portray the assembly as easily swayed, and treat public debate as a source of comedy rather than admiration. Their evidence is valuable for the atmosphere of political life, but comedy exaggerates for effect, so it cannot be read as a straightforward record of how decisions were taken. Modern scholarship has approached Athenian democracy through different evidence: the surviving records of the assembly, the law courts and the procedures by which officials were chosen. These sources allow historians to examine how the system actually worked, and they often show a more complex picture than either the praise of the Funeral Oration or the satire of the comedies suggests. Each interpretation is therefore a product of its period and its evidence. The panegyric reflects the confidence of the city at a moment of crisis, the comedy reflects the anxieties of public debate, and the modern account reflects the methods and questions of historians working with institutional records. Examining these interpretations together shows that the historical interpretations of Pericles' democracy are not simply right or wrong, but are shaped by the questions asked and the evidence that survives. A historian who understands this can use each interpretation critically rather than accepting the most famous one.",
+                        "answer": "Historical interpretations of Athenian democracy under Pericles differ because each account was shaped by its evidence and by the period in which it was written. Thucydides' Funeral Oration, placed at the end of the first year of the war, in the winter of 431/430 BCE, presents Athens as a community that combines freedom in public life with respect for the law, and it praises the Athenian way of life. Its interpretation is shaped by Thucydides' own purpose, because the speech is a reflection on what the city stood for, and it is a literary construction composed by an author who knew the city's later defeat. Aristophanes' comedies offer a very different interpretation. Written for the Athenian theatre, they mock the politicians of the day, portray the assembly as easily swayed, and treat public debate as a source of comedy rather than admiration. Their evidence is valuable for the atmosphere of political life, but comedy exaggerates for effect, so it cannot be read as a straightforward record of how decisions were taken. Modern scholarship has approached Athenian democracy through different evidence: the surviving records of the assembly, the law courts and the procedures by which officials were chosen. These sources allow historians to examine how the system actually worked, and they often show a more complex picture than either the praise of the Funeral Oration or the satire of the comedies suggests. Each interpretation is therefore a product of its period and its evidence. The panegyric reflects the confidence of the city at a moment of crisis, the comedy reflects the anxieties of public debate, and the modern account reflects the methods and questions of historians working with institutional records. Examining these interpretations together shows that the historical interpretations of Pericles' democracy are not simply right or wrong, but are shaped by the questions asked and the evidence that survives. A historian who understands this can use each interpretation critically rather than accepting the most famous one.",
                         "source": "AI",
                         "feedback": "Examines three interpretations and explains how the evidence (funeral speech, comedy, institutional records) and the period in which each was written shape its conclusions. It evaluates the use of each interpretation and avoids ranking them as simply right or wrong, which earns the top band.",
                         "band": 4
@@ -1945,7 +1944,7 @@
                     "verb": "SYNTHESISE",
                     "linkedOutcomes": [
                       "AH-11-05",
-                      "AH-12-02"
+                      "AH-12-03"
                     ],
                     "markerNotes": [
                       "Strong answers integrate the three types of evidence into one line of argument, rather than summarising each source in turn.",
@@ -2000,7 +1999,7 @@
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
                       "AH-11-05",
-                      "AH-12-02"
+                      "AH-12-05"
                     ],
                     "markerNotes": [
                       "Strong answers link date and origin to two things: the reliability of the detail and the independence of the claims being combined.",
@@ -2059,8 +2058,8 @@
                     "totalMarks": 3,
                     "verb": "APPLY",
                     "linkedOutcomes": [
-                      "AH-11-07",
-                      "AH-12-07"
+                      "AH-11-01",
+                      "AH-11-07"
                     ],
                     "markerNotes": [
                       "The strongest answers show that the sentence is partly right: Roman authority did introduce change, but local institutions and practices often continued.",
@@ -2456,7 +2455,7 @@
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
-                      "AH-11-04"
+                      "AH-11-03"
                     ],
                     "markerNotes": [
                       "Two distinct limitations are needed, such as the need for a male guardian and the restriction of citizenship.",
@@ -2760,7 +2759,7 @@
                       {
                         "id": "sa-ah-47-1",
                         "mark": 6,
-                        "answer": "The status and role of women in the religious life of classical Athens had several reasons. The first is that women were central to public ritual in ways that did not give them political authority. The weaving of the peplos for Athena, presented at the Panathenaic festival, was carried out by young girls, and the Arrephoria, in which girls served the goddess on the Acropolis, show that religious roles for women were specific and tightly managed. The second reason is that religious duties were closely tied to the household and to reproduction. The Thesmophoria, a festival of Demeter restricted to married women, allowed women to act collectively in a sphere the male citizens respected, but it reinforced the idea that women's religious life was connected to fertility and the home. A third reason is the separation of religious authority from political power: priestesses held prestigious offices, but these offices did not translate into a role in the assembly or the law courts. The sources give these reasons from the perspective of male citizens, who valued religion as a source of civic order and saw women's ritual as complementary to their own. A fourth reason is that women's religious participation could be used to express civic identity, since the city's festivals celebrated the community as a whole. Taken together, the reasons suggest that religious life gave women a recognised and sometimes prestigious role, but one that was defined by male expectations and kept separate from political life, so the religious sphere did not change the legal status of women.",
+                        "answer": "The status and role of women in the religious life of classical Athens had several reasons. The first is that women were central to public ritual in ways that did not give them political authority. The weaving of the peplos for Athena, presented at the Panathenaic festival, was carried out by the ergastinai, unmarried girls of marriageable age or married women, and the Arrephoria, in which girls served the goddess on the Acropolis, show that religious roles for women were specific and tightly managed. The second reason is that religious duties were closely tied to the household and to reproduction. The Thesmophoria, a festival of Demeter restricted to married women, allowed women to act collectively in a sphere the male citizens respected, but it reinforced the idea that women's religious life was connected to fertility and the home. A third reason is the separation of religious authority from political power: priestesses held prestigious offices, but these offices did not translate into a role in the assembly or the law courts. The sources give these reasons from the perspective of male citizens, who valued religion as a source of civic order and saw women's ritual as complementary to their own. A fourth reason is that women's religious participation could be used to express civic identity, since the city's festivals celebrated the community as a whole. Taken together, the reasons suggest that religious life gave women a recognised and sometimes prestigious role, but one that was defined by male expectations and kept separate from political life, so the religious sphere did not change the legal status of women.",
                         "source": "AI",
                         "feedback": "Gives four reasons (the civic role of ritual, the household and reproduction, separation from political power, and civic identity), each explained and linked to male expectations. The examples are specific, which earns the top band.",
                         "band": 3
@@ -3075,12 +3074,12 @@
                 "prompts": [
                   {
                     "id": "prompt-ah-54",
-                    "question": "Explain how the archaeological evidence from the Laurion silver mines supports the view that slavery was central to the Athenian economy.",
+                    "question": "Explain how the hypothetical archaeological evidence from the Laurion silver mines supports the view that slavery was central to the Athenian economy.",
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "AH-11-05",
-                      "AH-11-01"
+                      "AH-11-03",
+                      "AH-11-05"
                     ],
                     "markerNotes": [
                       "The strongest answers treat the excavated objects as evidence that has to be interpreted, not as proof in themselves.",
@@ -3135,8 +3134,7 @@
                     "totalMarks": 3,
                     "verb": "OUTLINE",
                     "linkedOutcomes": [
-                      "AH-11-05",
-                      "AH-11-01"
+                      "AH-11-05"
                     ],
                     "markerNotes": [
                       "Outline asks for a clear overview: name each type of evidence and state what it contributes, without developing a full argument.",
@@ -3196,8 +3194,8 @@
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "AH-11-05",
-                      "AH-11-01"
+                      "AH-11-03",
+                      "AH-11-05"
                     ],
                     "markerNotes": [
                       "Describe means setting out the features of the occupations clearly; the strongest answers show variety, including skilled and personal roles as well as domestic labour.",
@@ -3221,7 +3219,7 @@
                       {
                         "id": "sa-ah-56-1",
                         "mark": 3,
-                        "answer": "The legal and literary evidence shows that enslaved people in wealthy Roman households held a wide range of occupations. Many performed domestic labour such as cooking, cleaning and attending to the household's personal needs. Others held skilled or managerial roles: a steward, sometimes called a dispensator, might oversee the household's accounts and the work of other enslaved people, while a secretary or scribe handled correspondence for the master. Legal texts also show that a skilled slave, such as a physician or teacher, could be valued more highly than a manual labourer, which means occupation was closely tied to the status an enslaved person held within the household. This variety shows that the household was a hierarchy in which enslaved people were themselves ranked.",
+                        "answer": "The legal and literary evidence shows that enslaved people in wealthy Roman households held a wide range of occupations. Many performed domestic labour such as cooking, cleaning and attending to the household's personal needs. Others held skilled or managerial roles: a steward, sometimes called a dispensator, might oversee the household's accounts and the work of other enslaved people, while a secretary or scribe handled correspondence for the master. The sources record that the grammarian Daphnis fetched a record price at auction, which suggests that skill could raise an enslaved person's value, so occupation was closely tied to the status an enslaved person held within the household. This variety shows that the household was a hierarchy in which enslaved people were themselves ranked.",
                         "source": "AI",
                         "feedback": "Three distinct occupations are described, from domestic labour to managerial and skilled roles, and the answer links occupation to status using the legal and literary evidence. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
@@ -3312,7 +3310,6 @@
                     "totalMarks": 8,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "AH-11-01",
                       "AH-11-04",
                       "AH-11-05"
                     ],
@@ -3485,7 +3482,7 @@
                     "totalMarks": 6,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "AH-11-01",
+                      "AH-11-03",
                       "AH-11-04"
                     ],
                     "markerNotes": [
@@ -3546,7 +3543,7 @@
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "AH-11-01",
+                      "AH-11-02",
                       "AH-11-03"
                     ],
                     "markerNotes": [
@@ -3778,7 +3775,7 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "AH-11-01",
+                      "AH-11-03",
                       "AH-11-07"
                     ],
                     "markerNotes": [
@@ -3833,7 +3830,6 @@
                     "totalMarks": 6,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "AH-11-01",
                       "AH-11-03"
                     ],
                     "markerNotes": [
@@ -3949,8 +3945,8 @@
                     "totalMarks": 7,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "AH-12-01",
-                      "AH-11-06"
+                      "AH-11-06",
+                      "AH-12-04"
                     ],
                     "markerNotes": [
                       "An analysis of themes must move from what the art shows to what that shows about the society, and then to whose values the art expresses.",
@@ -4014,7 +4010,7 @@
                       "AH-11-06"
                     ],
                     "markerNotes": [
-                      "Explain requires the link to be drawn: the frieze shows the trade, and the inscription shows the status, so together they represent a non-elite identity.",
+                      "Explain requires the link to be drawn: the frieze shows the trade, and the inscription names the trade and the work of the deceased, so together they represent a non-elite identity.",
                       "The best answers note that non-elite monuments are rare, and that this tomb is valuable because it speaks for a group that rarely wrote about itself."
                     ],
                     "commonStudentErrors": [
@@ -4035,7 +4031,7 @@
                       {
                         "id": "sa-ah-70-1",
                         "mark": 4,
-                        "answer": "The tomb of the freedman baker Eurysaces, near Rome's Porta Maggiore and dated to the late first century BCE, represents a non-elite group in a way that elite monuments rarely do. Its frieze shows the stages of bread-making, from grinding grain to shaping loaves, which places the trade at the centre of the monument rather than hiding it behind symbols of rank. The inscription, which records the deceased's trade and freed status, presents his success as the product of his own work and his position as a freedman. This representation of trade and status gives a voice to a group that rarely wrote about itself. The tomb therefore shows how a non-elite group used monumental architecture and art to express its identity, and it complicates the view that all ancient monuments were commissioned by the elite. Its scale and the prominence given to the baking process suggest that the family wanted this identity to be seen by passers-by on a busy road.",
+                        "answer": "The tomb of the freedman baker Eurysaces, near Rome's Porta Maggiore and dated to the late first century BCE, represents a non-elite group in a way that elite monuments rarely do. Its frieze shows the stages of bread-making, from grinding grain to shaping loaves, which places the trade at the centre of the monument rather than hiding it behind symbols of rank. The inscription, which records the deceased's trade and his work as a contractor, presents his success as the product of his own labour, and the tomb gives his status a public form. This representation of trade and status gives a voice to a group that rarely wrote about itself. The tomb therefore shows how a non-elite group used monumental architecture and art to express its identity, and it complicates the view that all ancient monuments were commissioned by the elite. Its scale and the prominence given to the baking process suggest that the family wanted this identity to be seen by passers-by on a busy road.",
                         "source": "AI",
                         "feedback": "The answer uses both the frieze and the inscription to show how the tomb represents the trade and status of a freedman, and it considers what the monument reveals about non-elite identity. Every keyword is used in context. This earns the full 4 marks.",
                         "band": 3
@@ -4065,7 +4061,6 @@
                     "totalMarks": 8,
                     "verb": "JUSTIFY",
                     "linkedOutcomes": [
-                      "AH-12-02",
                       "AH-12-04",
                       "AH-12-06"
                     ],
@@ -4300,8 +4295,8 @@
                     "totalMarks": 5,
                     "verb": "COMPARE",
                     "linkedOutcomes": [
-                      "AH-11-02",
-                      "AH-11-04"
+                      "AH-11-01",
+                      "AH-11-02"
                     ],
                     "markerNotes": [
                       "A comparison needs both a similarity and a difference, and each should be supported by a specific place or building.",
@@ -4530,9 +4525,9 @@
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
+                      "AH-12-01",
                       "AH-12-02",
-                      "AH-12-03",
-                      "AH-12-04"
+                      "AH-12-03"
                     ],
                     "markerNotes": [
                       "Discuss requires a view on how much changes in weapons mattered compared with the recruitment systems and politics that determined who fought.",
@@ -4762,8 +4757,8 @@
                     "totalMarks": 4,
                     "verb": "DIFFERENTIATE",
                     "linkedOutcomes": [
-                      "AH-11-04",
-                      "AH-11-06"
+                      "AH-11-03",
+                      "AH-11-04"
                     ],
                     "markerNotes": [
                       "Differentiate requires a clear statement of what distinguishes the two roles, explained through citizenship, command or politics.",
@@ -4822,8 +4817,8 @@
                     "totalMarks": 7,
                     "verb": "EXAMINE",
                     "linkedOutcomes": [
-                      "AH-11-03",
-                      "AH-11-01"
+                      "AH-11-02",
+                      "AH-11-03"
                     ],
                     "markerNotes": [
                       "Examine requires a close look at how the parts of the plan worked together, not a narrative of the battle.",
@@ -4847,7 +4842,7 @@
                       {
                         "id": "sa-ah-84-1",
                         "mark": 7,
-                        "answer": "Hannibal's victory at Cannae in 216 BCE rested on a strategy that combined deception, a well-judged deployment of troops and the exploitation of Roman tactics. Hannibal placed his weaker Gallic and Iberian infantry at the centre of his line, where they were drawn forward by the Roman legions, while his African infantry were held back on the wings, so that the Romans pressed into a deep but narrow formation. The tactic that followed, the double envelopment, depended on Hannibal's cavalry, which had defeated the Roman cavalry on the flanks and then swung around to attack the legions from behind. This allowed the African infantry on the wings to close in on the Romans, and the legions were surrounded and destroyed. The Roman army at Cannae was large and had outnumbered Hannibal's forces, but its formation and its reliance on frontal pressure made it vulnerable to the manoeuvre. Polybius's account, written more than a century later, emphasises the skill of Hannibal's command, although its explanations of the battle are shaped by his own view of Roman failings. The battle's tactics therefore combined a flexible plan with the effective use of a mixed army, and they show how a commander could turn numerical superiority against the force that possessed it. The success of the plan also depended on the timing of the Roman advance, since the legions pressed forward before the wings had fully closed, so Hannibal's deployment turned the Roman momentum against them. Historians debate the exact positions of the units on the field, and the account given by Polybius is the most detailed surviving description. Taken together, the evidence shows a plan that was both carefully prepared and adapted to the movement of the battle.",
+                        "answer": "Hannibal's victory at Cannae in 216 BCE rested on a strategy that combined deception, a well-judged deployment of troops and the exploitation of Roman tactics. Hannibal placed his weaker Gallic and Iberian infantry at the centre of his line, where they were drawn forward by the Roman legions, while his African infantry were held back on the wings, so that the Romans pressed into a deep but narrow formation. The tactic that followed, the double envelopment, depended on Hannibal's cavalry, which had defeated the Roman cavalry on the flanks and then swung around to attack the legions from behind. This allowed the African infantry on the wings to close in on the Romans, and the legions were surrounded and destroyed. The Roman army at Cannae was large and had outnumbered Hannibal's forces, but its formation and its reliance on frontal pressure made it vulnerable to the manoeuvre. Polybius's account, written more than half a century later, emphasises the skill of Hannibal's command, although its explanations of the battle are shaped by his own view of Roman failings. The battle's tactics therefore combined a flexible plan with the effective use of a mixed army, and they show how a commander could turn numerical superiority against the force that possessed it. The success of the plan also depended on the timing of the Roman advance, since the legions pressed forward before the wings had fully closed, so Hannibal's deployment turned the Roman momentum against them. Historians debate the exact positions of the units on the field, and the account given by Polybius is the most detailed surviving description. Taken together, the evidence shows a plan that was both carefully prepared and adapted to the movement of the battle.",
                         "source": "AI",
                         "feedback": "The answer examines how the deployment of the centre and wings, the cavalry and the double envelopment combined to produce the victory, and it considers the Roman formation and the limits of Polybius's account. Every keyword is used in context. This earns the full 7 marks.",
                         "band": 4
@@ -4877,7 +4872,7 @@
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "AH-11-01",
+                      "AH-11-02",
                       "AH-11-05"
                     ],
                     "markerNotes": [
@@ -5108,8 +5103,7 @@
                     "totalMarks": 3,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
-                      "AH-11-07",
-                      "AH-11-01"
+                      "AH-11-07"
                     ],
                     "markerNotes": [
                       "Define requires precision: a definition must say what the term includes and what it excludes, not only give an example.",
@@ -5193,7 +5187,7 @@
                       {
                         "id": "sa-ah-90-1",
                         "mark": 5,
-                        "answer": "The funeral of an Athenian citizen in the classical period was structured by beliefs about the dead and the importance of family and community. The prothesis, or laying out, took place in the house, where the body was washed, dressed and displayed, and where female relatives led laments that expressed grief and honoured the dead. The ekphora, the procession to the tomb, carried the body through the city, which publicly confirmed the family's status. The burial itself was accompanied by offerings and by a grave marker, often a stele, which recorded the name of the deceased and sometimes their family. Laws attributed to Solon restricted the length of laments and the display of expensive grave goods, which shows that the rituals were also regulated by the state. The public dimension was marked by the state funeral for war dead, at which Pericles delivered the funeral oration reported by Thucydides in 431 BCE, which connected the death of citizens to the values of the democracy. These rituals therefore expressed beliefs about honour, family and the community that the citizen belonged to. Taken together, the rituals show that the funeral was a public statement about the citizen's family and about the democracy, not only a private act of grief.",
+                        "answer": "The funeral of an Athenian citizen in the classical period was structured by beliefs about the dead and the importance of family and community. The prothesis, or laying out, took place in the house, where the body was washed, dressed and displayed, and where female relatives led laments that expressed grief and honoured the dead. The ekphora, the procession to the tomb, carried the body through the city, which publicly confirmed the family's status. The burial itself was accompanied by offerings and by a grave marker, often a stele, which recorded the name of the deceased and sometimes their family. Laws attributed to Solon restricted the length of laments and the display of expensive grave goods, which shows that the rituals were also regulated by the state. The public dimension was marked by the state funeral for war dead, at which Pericles delivered the funeral oration reported by Thucydides in the winter of 431/430 BCE, which connected the death of citizens to the values of the democracy. These rituals therefore expressed beliefs about honour, family and the community that the citizen belonged to. Taken together, the rituals show that the funeral was a public statement about the citizen's family and about the democracy, not only a private act of grief.",
                         "source": "AI",
                         "feedback": "The answer describes the prothesis, the ekphora and the burial in order, and explains the beliefs and values behind each, with reference to the regulation of the rituals. Every keyword is used in context. This earns the full 5 marks.",
                         "band": 2
@@ -5456,8 +5450,8 @@
                     "totalMarks": 3,
                     "verb": "CLARIFY",
                     "linkedOutcomes": [
-                      "AH-11-01",
-                      "AH-11-06"
+                      "AH-11-06",
+                      "AH-11-07"
                     ],
                     "markerNotes": [
                       "Clarify means making a concept understandable: state what the afterlife was, what conditions applied to it, and how the example shows the idea.",
@@ -5517,7 +5511,7 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "AH-11-01",
+                      "AH-11-03",
                       "AH-11-07"
                     ],
                     "markerNotes": [
@@ -5633,7 +5627,7 @@
                     "totalMarks": 10,
                     "verb": "INVESTIGATE",
                     "linkedOutcomes": [
-                      "AH-12-01",
+                      "AH-12-03",
                       "AH-12-05",
                       "AH-12-06"
                     ],
@@ -5803,8 +5797,7 @@
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "AH-12-05",
-                      "AH-12-06",
-                      "AH-12-01"
+                      "AH-12-06"
                     ],
                     "markerNotes": [
                       "Evaluate requires a judgement on usefulness. Weigh the iconography against the context and against other sources, and state the overall verdict.",
@@ -6047,15 +6040,15 @@
                       {
                         "id": "sa-ah-105-1",
                         "mark": 5,
-                        "answer": "The reliefs at Kadesh show Ramesses II as a lone, heroic warrior who charges into the enemy chariotry while the Hittite army is shown collapsing into the river. In this image the king is divinely supported and far larger than the soldiers around him, which signals his superiority and the favour of the gods. The inscriptions and the Poem of Pentaur, however, describe a battle in which the Egyptian army was caught by surprise and the king had to rally his troops, and this contrast tells the historian something about the purpose of the image. The reliefs were designed to communicate a victory to every viewer who passed the temple, not to record the tactical details of the fighting. Their images of royal courage were therefore a form of propaganda: they reinforced the legitimacy of Ramesses II after a battle that ended without a decisive result, and years before the peace treaty with the Hittites. Read together, the images and the text show a king whose power was presented as triumphant and divinely sanctioned, even though the event itself was ambiguous.",
+                        "answer": "The reliefs at Kadesh show Ramesses II as a heroic warrior who charges into the enemy chariotry, so that the viewer sees the king's courage and divine favour rather than the confusion of the fighting. In this image the king is divinely supported and far larger than the soldiers around him, which signals his superiority and the favour of the gods. The inscriptions and the Poem of Pentaur, however, describe a battle in which the Egyptian army was caught by surprise and the king had to rally his troops, and this contrast tells the historian something about the purpose of the image. The reliefs were designed to communicate a victory to every viewer who passed the temple, not to record the tactical details of the fighting. Their images of royal courage were therefore a form of propaganda: they reinforced the legitimacy of Ramesses II after a battle that ended without a decisive result, and years before the peace treaty with the Hittites. Read together, the images and the text show a king whose power was presented as triumphant and divinely sanctioned, even though the event itself was ambiguous.",
                         "source": "AI",
-                        "feedback": "Full marks: interprets the image (scale, isolation of the king, the Hittites in the river), sets it against the Poem of Pentaur, and explains the purpose for Egyptian viewers, with the propaganda argument supported by evidence.",
+                        "feedback": "Full marks: interprets the image (the king's scale and heroic charge), sets it against the Poem of Pentaur, and explains the purpose for Egyptian viewers, with the propaganda argument supported by evidence.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-105-2",
                         "mark": 3,
-                        "answer": "The relief shows Ramesses II as a brave king charging alone against the Hittites, who are falling into the river. The image is propaganda because the king is much bigger than the soldiers, which makes him look more powerful and shows that he won.",
+                        "answer": "The relief shows Ramesses II as a brave king charging against the Hittites. The image is propaganda because the king is much bigger than the soldiers, which makes him look more powerful and shows that he won.",
                         "source": "AI",
                         "feedback": "Describes the image accurately and offers a partial purpose, but does not compare it with the text, and the claim that he won is not supported. It reaches the 3-mark band.",
                         "band": 3
@@ -6335,7 +6328,7 @@
                       {
                         "id": "sa-ah-110-1",
                         "mark": 6,
-                        "answer": "Qin Shi Huang was one of the most significant authority figures in ancient Chinese history, but his reputation has changed over time. As king of Qin he completed the unification of China between 230 and 221 BCE, and he proclaimed himself First Emperor, which established the model of a centralised empire ruled by a single figure. His reforms were far-reaching: he standardised weights, measures, currency and the writing script, built roads and canals, and imposed a legal system based on Legalist principles that punished offences harshly. His public works, including the Great Wall and the funerary complex at Mount Li that holds the Terracotta Army, show his ambition to fix his power for eternity. His reputation, however, was shaped by the criticisms of his successors and of Confucian scholars. Sima Qian's Shiji, written about a century after his death, presents him as a tyrant, and the burning of books in 213 BCE and the burying of scholars in 212 BCE were remembered as acts of cruelty. The Han dynasty that followed the Qin rejected the harshest Legalist methods, yet it kept the centralised administration in essence, which suggests that the institutions outlived the reputation. The historian must therefore weigh his lasting institutional achievements against the harsh image that later writers created.",
+                        "answer": "Qin Shi Huang was one of the most significant authority figures in ancient Chinese history, but his reputation has changed over time. As king of Qin he completed the unification of China between 230 and 221 BCE, and he proclaimed himself First Emperor, which established the model of a centralised empire ruled by a single figure. His reforms were far-reaching: he standardised weights, measures, currency and the writing script, built roads and canals, and imposed a legal system based on Legalist principles that punished offences harshly. His public works, including the Great Wall and the funerary complex at Mount Li that holds the Terracotta Army, show his ambition to fix his power for eternity. His reputation, however, was shaped by the criticisms of his successors and of Confucian scholars. Sima Qian's Shiji, written about a century after his death, presents him as a tyrant, and the burning of books in 213 BCE and the burying of scholars around 212 BCE were remembered as acts of cruelty. The Han dynasty that followed the Qin rejected the harshest Legalist methods, yet it kept the centralised administration in essence, which suggests that the institutions outlived the reputation. The historian must therefore weigh his lasting institutional achievements against the harsh image that later writers created.",
                         "source": "AI",
                         "feedback": "Full marks: assesses significance through institutional reforms and public works, weighs them against the reputation shaped by later writers, uses the date and purpose of the Shiji, and reaches a supported judgement.",
                         "band": 5
@@ -6537,7 +6530,7 @@
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
                       "AH-11-02",
-                      "AH-11-01"
+                      "AH-11-03"
                     ],
                     "markerNotes": [
                       "Separate the motivations into economic, social and political reasons, and explain each one. Naming silk alone is a description, not an explanation.",
@@ -6650,7 +6643,7 @@
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
                       "AH-11-02",
-                      "AH-11-01"
+                      "AH-11-03"
                     ],
                     "markerNotes": [
                       "Analyse needs relationships and consequences: for example, customs revenue leads to port employment, and the profits flow to a small group, which makes the benefits uneven.",
@@ -7028,7 +7021,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is using a museum panel about a shipwreck found off the southern coast of Turkey in 1982 by a sponge diver. The panel notes that the ship was carrying raw materials from several regions."
+                    "scenario": "A Year 11 student is using a hypothetical museum panel, invented for this exercise, about a shipwreck found off the southern coast of Turkey in 1982 by a sponge diver. The panel notes that the ship was carrying raw materials from several regions."
                   },
                   {
                     "id": "prompt-ah-123",
@@ -7335,8 +7328,7 @@
                     "totalMarks": 3,
                     "verb": "CLASSIFY",
                     "linkedOutcomes": [
-                      "AH-12-05",
-                      "AH-12-06"
+                      "AH-12-05"
                     ],
                     "markerNotes": [
                       "Classification depends on what the item is (its material, its purpose and the evidence it gives), not on how it looks.",
@@ -7919,7 +7911,7 @@
                       {
                         "id": "sa-ah-138-1",
                         "mark": 4,
-                        "answer": "In 59 CE a violent riot broke out at the amphitheatre of Pompeii during a gladiatorial show. According to Tacitus, the fighting began as a quarrel between Pompeians and people from the neighbouring town of Nuceria, and it escalated into the throwing of stones and then bloodshed, with many killed or injured. The Senate responded by banning gladiatorial shows at Pompeii for ten years, and the organiser of the games was punished, which shows how seriously the authorities took the disorder. Tacitus presents the affair as a case in which local pride and the excitement of the crowd combined to produce a disaster, and the ban shows how the state could control the public pleasures of provincial towns. The incident reveals how important entertainment was in the life of the town, and how rivalry between neighbouring communities could turn a show into a violent confrontation that the state had to address.",
+                        "answer": "In 59 CE a violent riot broke out at the amphitheatre of Pompeii during a gladiatorial show. According to Tacitus, the fighting began as a quarrel between Pompeians and people from the neighbouring town of Nuceria, and it escalated into the throwing of stones and then bloodshed, with many killed or injured. The Senate responded by banning such gatherings at Pompeii for ten years, and the organiser of the games was punished, which shows how seriously the authorities took the disorder. Tacitus presents the affair as a case in which local pride and the excitement of the crowd combined to produce a disaster, and the ban shows how the state could control the public pleasures of provincial towns. The incident reveals how important entertainment was in the life of the town, and how rivalry between neighbouring communities could turn a show into a violent confrontation that the state had to address.",
                         "source": "AI",
                         "feedback": "Full marks: describes the riot accurately (date, setting, parties, violence) and explains the consequences for entertainment and public order, including the ten-year ban.",
                         "band": 2
@@ -7927,7 +7919,7 @@
                       {
                         "id": "sa-ah-138-2",
                         "mark": 2,
-                        "answer": "There was a riot at the amphitheatre in Pompeii in 59 CE between Pompeians and people from Nuceria. The Senate stopped gladiator shows for a while.",
+                        "answer": "There was a riot at the amphitheatre in Pompeii in 59 CE between Pompeians and people from Nuceria. The Senate stopped such gatherings at Pompeii for a while.",
                         "source": "AI",
                         "feedback": "An accurate outline of the event and one consequence, with no detail of the violence and no account of what the ban meant for entertainment. It fits the 2-mark band.",
                         "band": 1
@@ -7950,7 +7942,7 @@
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
                       "AH-12-03",
-                      "AH-12-01"
+                      "AH-12-04"
                     ],
                     "markerNotes": [
                       "Analyse needs relationships: how the mix of users and the patronage of wealthy men connected leisure with status and community.",
@@ -8009,8 +8001,7 @@
                     "totalMarks": 5,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "AH-12-03",
-                      "AH-12-05"
+                      "AH-12-03"
                     ],
                     "markerNotes": [
                       "Explain needs the chain from system to health: clean water and drains reduced some diseases, while lead pipes and unequal access created new risks.",
@@ -8234,7 +8225,7 @@
                     "totalMarks": 5,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "AH-12-06",
+                      "AH-12-03",
                       "AH-12-02"
                     ],
                     "markerNotes": [
@@ -8288,7 +8279,6 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "AH-12-06",
                       "AH-12-02"
                     ],
                     "markerNotes": [

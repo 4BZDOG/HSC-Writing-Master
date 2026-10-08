@@ -94,7 +94,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing for a school literary journal about how one text works on its readers. The text is an invented personal essay, 'The Fence at Halloran Creek', in which the narrator repairs a boundary fence with her late father and occasionally inserts short third-person passages from a local history. The response must explain how the writer's choices affect readers who share the narrator's experience and readers who do not."
+                    "scenario": "A Year 12 student is writing for a school literary journal about how one text works on its readers. The text is an invented personal essay, 'The Fence at Halloran Creek', in which the narrator repairs a boundary fence with her late father and occasionally inserts short third-person passages from a local history. The essay opens with the lines 'The post was rotten through. I knew it before my hand touched it.' and occasionally addresses the reader directly. The response must explain how the writer's choices affect readers who share the narrator's experience and readers who do not."
                   },
                   {
                     "id": "prompt-ea-2",
@@ -139,7 +139,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A tourism student is studying an invented brochure for a regional train line, written in English for international visitors who may be unfamiliar with Australian place names. The brochure is one of several familiar and unfamiliar texts the student has compared for a class task."
+                    "scenario": "A tourism student is studying an invented brochure for a regional train line, written in English for international visitors who may be unfamiliar with Australian place names. The brochure opens with the imperative 'Discover' and uses plain nouns such as 'beach' and 'train' in place of local place names. The brochure is one of several familiar and unfamiliar texts the student has compared for a class task."
                   }
                 ]
               },
@@ -199,7 +199,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A community radio station is preparing a panel on memoirs of regional life. The student is studying an invented memoir, 'Salt Road Diary', told in short dated entries, and must argue how its choices shape a range of perspectives. The panel expects a sustained response rather than a list of features."
+                    "scenario": "A community radio station is preparing a panel on memoirs of regional life. The student is studying an invented memoir, 'Salt Road Diary', told in short dated entries, and must argue how its choices shape a range of perspectives. The memoir records a teenage son who avoids conversation and an elderly neighbour who speaks in fragments. The panel expects a sustained response rather than a list of features."
                   },
                   {
                     "id": "prompt-ea-4",
@@ -251,7 +251,8 @@
                         "feedback": "One mark: the answer names the narrator's form but does not describe its effect.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "A student is studying an invented memoir, written in the first person, in which a narrator describes her town and records the accounts of neighbours while admitting her own doubts."
                   }
                 ]
               },
@@ -311,7 +312,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A creative writing mentor is discussing an invented prose poem sequence, 'Rain on the Tin Roof', which renders grief through sensory images. The student must explain how the sequence's aesthetic choices carry the poet's personal ideas and experiences to a reader who has never met the poet."
+                    "scenario": "A creative writing mentor is discussing an invented prose poem sequence, 'Rain on the Tin Roof', which renders grief through sensory images. The sequence repeats the sound of rain on metal, its lines are short, it withholds the word 'mother' until its final section, and it describes a grey kitchen window and a coat of rough wool. The student must explain how the sequence's aesthetic choices carry the poet's personal ideas and experiences to a reader who has never met the poet."
                   },
                   {
                     "id": "prompt-ea-6",
@@ -414,7 +415,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A media studies student is reviewing an invented blog review of a bush-regeneration documentary, 'Seedlings of the Lower Creek'. The review moves between praise, doubt and imagined outcomes for the local community. The student must sort the reviewer's language by the purpose it serves for the reader."
+                    "scenario": "A media studies student is reviewing an invented blog review of a bush-regeneration documentary, 'Seedlings of the Lower Creek'. The review moves between praise, doubt and imagined outcomes for the local community. It opens 'You will recognise this creek, because it could be yours', asks 'Was the replanting enough?', calls the film honest about failure, says a council 'may never fund the next stage' and closes 'Imagine the creek in twenty years'. The student must sort the reviewer's language by the purpose it serves for the reader."
                   },
                   {
                     "id": "prompt-ea-8",
@@ -467,7 +468,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A reading group is discussing an invented short story, 'The Last Ferry from Mollin Cove', whose narrator often imagines events that have not happened. The group wants a considered answer on how the narrator's language draws the reader in."
+                    "scenario": "A reading group is discussing an invented short story, 'The Last Ferry from Mollin Cove', whose narrator often imagines events that have not happened. The narrator writes 'Perhaps the ferry waited an hour longer, and perhaps...' and addresses the reader directly: 'You have probably already decided whether she should have stayed.' The group wants a considered answer on how the narrator's language draws the reader in."
                   }
                 ]
               },
@@ -526,7 +527,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An editor is reviewing an invented book review of the novel 'The Glass Orchard', written for a school magazine. The student must assess whether the review's evaluative language and metalanguage support its judgements and express a clear personal perspective."
+                    "scenario": "An editor is reviewing an invented book review of the novel 'The Glass Orchard', written for a school magazine. The review's central judgement is that the novel's structure is 'overambitious but earned'; it calls a section of the second paragraph 'overlong' and says 'I found myself rereading the middle chapters'. The student must assess whether the review's evaluative language and metalanguage support its judgements and express a clear personal perspective."
                   },
                   {
                     "id": "prompt-ea-10",
@@ -597,7 +598,7 @@
                     "totalMarks": 8,
                     "verb": "JUSTIFY",
                     "linkedOutcomes": [
-                      "EAV-12-03",
+                      "EAV-12-01",
                       "EAV-12-06"
                     ],
                     "markerNotes": [
@@ -643,7 +644,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "An editor has asked a Year 12 student to defend a reading of an invented short poem, 'Low Tide at Marrow Point', which a reader might take as a love poem or as a poem about a father's illness. The student must justify one interpretation with the close textual analysis that would persuade a sceptical reader."
+                    "scenario": "An editor has asked a Year 12 student to defend a reading of an invented short poem, 'Low Tide at Marrow Point', which a reader might take as a love poem or as a poem about a father's illness. Its lines are short, plain and unrhymed; its first stanza compares the boats on the mud to 'tired hands'; the word 'slow' recurs in every stanza; and it ends with the question 'Who will walk the flat sand with him?' The student must justify one interpretation with the close textual analysis that would persuade a sceptical reader."
                   },
                   {
                     "id": "prompt-ea-12",
@@ -695,7 +696,8 @@
                         "feedback": "One mark: the ending is described, not interpreted.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "A student is interpreting the ending of an invented poem, 'Low Tide at Marrow Point', which uses images of waiting and a slow tide, and ends with the question 'Who will walk the flat sand with him?' on its own line after a pause."
                   }
                 ]
               },
@@ -763,8 +765,8 @@
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "EAV-12-02",
-                      "EAV-12-05"
+                      "EAV-12-01",
+                      "EAV-12-03"
                     ],
                     "markerNotes": [
                       "Explain the balance. The best answers show that a text can affirm one value and challenge another, and that the language shows which judgement the reader is invited to hold.",
@@ -808,7 +810,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A debate coach is preparing students to argue that a single text can hold two judgements at once. The student must explain this using the invented radio feature 'Night Shift at Ferris Cannery', which the class has studied."
+                    "scenario": "A debate coach is preparing students to argue that a single text can hold two judgements at once. The student must explain this using the invented radio feature 'Night Shift at Ferris Cannery', which the class has studied. The feature repeats the phrase 'we keep showing up' and describes a government grant as 'a promise written in pencil'."
                   }
                 ]
               },
@@ -991,7 +993,8 @@
                         "feedback": "One mark: the answer describes the basic roles of author and reader and does not address how they relate to the text or its context.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "A student is explaining the relationship between reader, author, text and context in the invented essay 'The Fence at Halloran Creek', in which a narrator repairs a fence with her late father and includes third-person passages from a local history."
                   },
                   {
                     "id": "prompt-ea-18",
@@ -1048,8 +1051,7 @@
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "EAV-12-01",
-                      "EAV-12-02"
+                      "EAV-12-01"
                     ],
                     "markerNotes": [
                       "Separate mode (spoken, written, visual), medium (podcast, print, screen) and form (documentary, poem, memoir) before combining them. Strong answers show how the three reinforce or complicate each other.",
@@ -1094,7 +1096,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A media student is studying an invented audio documentary, 'The Cannery Tapes', delivered as a podcast episode with a printed transcript. The episode is built from recorded interviews with former cannery workers, linked by short recordings of the factory floor. The student must explain how these choices shape the listener's understanding."
+                    "scenario": "A media student is studying an invented audio documentary, 'The Cannery Tapes', delivered as a podcast episode with a printed transcript. The episode is built from recorded interviews with former cannery workers, linked by short recordings of the factory floor, such as machines and a bell. The student must explain how these choices shape the listener's understanding."
                   },
                   {
                     "id": "prompt-ea-20",
@@ -1146,7 +1148,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An anthology editor has asked for a short note on the invented poem 'Low Tide at Marrow Point', which the class has studied, and wants the note to show how the poem's language and sound choices work together."
+                    "scenario": "An anthology editor has asked for a short note on the invented poem 'Low Tide at Marrow Point', which the class has studied, and wants the note to show how the poem's language and sound choices work together. The poem's lines are short and unrhymed, the word 'slow' recurs, and the tide going out is a recurring image."
                   }
                 ]
               },
@@ -1160,8 +1162,7 @@
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "EAV-12-03",
-                      "EAV-12-02"
+                      "EAV-12-03"
                     ],
                     "markerNotes": [
                       "Discuss means weigh the influence. Show where context and values reinforce each other, and where one limits what the text can say.",
@@ -1206,7 +1207,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A history teacher is building a lesson on how a text's time and place shape what it says. The student has studied the invented memoir 'Salt Road Diary', written by a farm worker's daughter in a drought-affected town. The student must discuss how the context and the narrator's values shape the perspectives and ideas in the diary."
+                    "scenario": "A history teacher is building a lesson on how a text's time and place shape what it says. The student has studied the invented memoir 'Salt Road Diary', written by a farm worker's daughter in a drought-affected town. The diary records debt, dwindling water and neighbours' anxiety, copies a council notice, values self-reliance and loyalty to family, and avoids writing about the narrator's own debts. The student must discuss how the context and the narrator's values shape the perspectives and ideas in the diary."
                   },
                   {
                     "id": "prompt-ea-22",
@@ -1258,7 +1259,8 @@
                         "feedback": "One mark: the answer makes a general statement about the context without summarising its influence on the perspectives.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "A student is summarising the invented memoir 'Salt Road Diary', written in a drought-affected town, in which the narrator records debt and dwindling water and holds values of self-reliance and loyalty."
                   }
                 ]
               },
@@ -1317,7 +1319,8 @@
                         "feedback": "Two marks: a theme and an image are named with minimal comment on how they represent a world or affect a reader.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenario": "A student is explaining how theme, genre and aesthetic elements work in the invented personal essay 'The Fence at Halloran Creek', in which a narrator repairs a fence with her late father, includes third-person passages from a local history, and describes rotten timber and wet wire."
                   },
                   {
                     "id": "prompt-ea-24",
@@ -1369,7 +1372,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A book club is discussing the invented essay 'The Fence at Halloran Creek', and members disagree about whether its narrator can be trusted. The student has been asked to clarify how the essay's aesthetic choices shape those different responses."
+                    "scenario": "A book club is discussing the invented essay 'The Fence at Halloran Creek', and members disagree about whether its narrator can be trusted. The essay describes rotten timber and wet wire. The student has been asked to clarify how the essay's aesthetic choices shape those different responses."
                   }
                 ]
               },
@@ -1428,7 +1431,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is comparing two invented rural texts for a Textual conversations assessment: the personal essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary'. The task asks for a comparison of how historical and cultural context shape each text and where the two differ."
+                    "scenario": "A Year 12 student is comparing two invented rural texts for a Textual conversations assessment: the personal essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary'. The diary records a drought in dated entries, and the essay quotes a local history of land clearing and boundary disputes. The task asks for a comparison of how historical and cultural context shape each text and where the two differ."
                   },
                   {
                     "id": "prompt-ea-26",
@@ -1480,7 +1483,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The student has studied the invented memoir 'Salt Road Diary', and the question asks for a clear separation of the two contexts, since they affect the narrator's voice in different ways."
+                    "scenario": "The student has studied the invented memoir 'Salt Road Diary', and the question asks for a clear separation of the two contexts, since they affect the narrator's voice in different ways. The diary compares the present drought with an earlier dry season, and its family prizes self-reliance and distrusts official notices."
                   }
                 ]
               },
@@ -1540,7 +1543,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 English class is running a paired seminar on loss and return. Students have studied the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove', and the task asks them to assess how putting the two together changes the understanding of each."
+                    "scenario": "A Year 12 English class is running a paired seminar on loss and return. Students have studied the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove', and the task asks them to assess how putting the two together changes the understanding of each. The essay's narrator performs repetitive repair tasks, and the story's ferry keeper waits on the jetty beside its fog and bell."
                   },
                   {
                     "id": "prompt-ea-28",
@@ -1592,7 +1595,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A seminar leader asks students to explain, in one short paragraph, what a second text adds to a first reading. The pair studied is the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove'."
+                    "scenario": "A seminar leader asks students to explain, in one short paragraph, what a second text adds to a first reading. The pair studied is the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove'. The essay describes repeated repair tasks, and the story's fog, bell and ferry keeper on the jetty create a mood of waiting."
                   }
                 ]
               }
@@ -1710,7 +1713,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A teacher asks a student to account for the choices in their piece 'Shift Notes', a short text set in a Sydney tram depot in 1962, which uses timestamps, fragments and sound images to explore how meaning is made."
+                    "scenario": "A teacher asks a student to account for the choices in their piece 'Shift Notes', a short text set in a Sydney tram depot in 1962, which uses timestamps, fragments and sound images to explore how meaning is made. The piece follows a tram driver named Harold, who counts the trams, and whose feelings the narrator never states."
                   }
                 ]
               },
@@ -1769,7 +1772,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 12 student is submitting an assessment on textual form for two invented rural texts: the personal essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary'. The student must judge how well each text's form and language features shape the response of a reader who studies both."
+                    "scenario": "A Year 12 student is submitting an assessment on textual form for two invented rural texts: the personal essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary'. The essay uses short, restrained sentences and mixes memory with third-person history; the diary is a dated record that moves between an informal voice and a copied council notice, and its narrator responds angrily to official notices. The student must judge how well each text's form and language features shape the response of a reader who studies both."
                   },
                   {
                     "id": "prompt-ea-32",
@@ -1821,7 +1824,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The student has studied the invented essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary', and must set the two texts' language features against each other in one focused paragraph."
+                    "scenario": "The student has studied the invented essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary', and must set the two texts' language features against each other in one focused paragraph. The essay opens 'The post was rotten through' and mixes memory with third-person history; the diary is a dated record whose warm descriptions of neighbours sit beside a copied council notice."
                   }
                 ]
               },
@@ -1880,7 +1883,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a two-paragraph critical response for a school literary review on the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove'. The response must affirm a value that both texts share and challenge the perspective that a loss is resolved by action or by waiting alone."
+                    "scenario": "A Year 12 student is writing a two-paragraph critical response for a school literary review on the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove'. The response must affirm a value that both texts share and challenge the perspective that a loss is resolved by action or by waiting alone. The essay is written in the present tense, and in the story the keeper refuses to leave the light and returns to the jetty each night."
                   },
                   {
                     "id": "prompt-ea-34",
@@ -1888,8 +1891,8 @@
                     "totalMarks": 4,
                     "verb": "DIFFERENTIATE",
                     "linkedOutcomes": [
-                      "EAV-12-03",
-                      "EAV-12-05"
+                      "EAV-12-02",
+                      "EAV-12-03"
                     ],
                     "markerNotes": [
                       "Differentiate means separate the two kinds of idea and show the line between them. Do not merge the affirmed and challenged ideas into one claim.",
@@ -1933,7 +1936,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A reading group must separate the ideas that the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove' affirm from the ideas each text puts in question."
+                    "scenario": "A reading group must separate the ideas that the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove' affirm from the ideas each text puts in question. The essay's inserted history offers a wider account than the narrator's memory, and the story honours those who wait."
                   }
                 ]
               },
@@ -1991,7 +1994,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a short reflection for the school's critical writing folio, explaining how they used the language of critical and creative expression while drafting a response to the invented essay 'The Fence at Halloran Creek'."
+                    "scenario": "A Year 12 student is writing a short reflection for the school's critical writing folio, explaining how they used the language of critical and creative expression while drafting a response to the invented essay 'The Fence at Halloran Creek'. The essay centres on a rotten post in the fence line."
                   },
                   {
                     "id": "prompt-ea-36",
@@ -2043,7 +2046,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A draft response on the invented short story 'The Last Ferry from Mollin Cove' opens with two paragraphs of plot summary and makes a thin argument about waiting. The student must recommend specific, justified revisions before the response is submitted."
+                    "scenario": "A draft response on the invented short story 'The Last Ferry from Mollin Cove' opens with two paragraphs of plot summary and makes a thin argument about waiting. The draft mentions the bell's silence and an image of the light. The student must recommend specific, justified revisions before the response is submitted."
                   }
                 ]
               },
@@ -2057,8 +2060,8 @@
                     "totalMarks": 6,
                     "verb": "APPLY",
                     "linkedOutcomes": [
-                      "EAV-12-06",
-                      "EAV-12-04"
+                      "EAV-12-01",
+                      "EAV-12-06"
                     ],
                     "markerNotes": [
                       "Apply means use the term on the paragraph, not beside it. Each term should point to a specific sentence and say what that sentence does.",
@@ -2103,7 +2106,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is annotating a paragraph of an invented literary review of the memoir 'Salt Road Diary' for a class task. The student must apply precise terminology to show how the paragraph makes connections, interprets the diary and shapes meaning for an informed reader."
+                    "scenario": "A Year 12 student is annotating a paragraph of an invented literary review of the memoir 'Salt Road Diary' for a class task. The paragraph refers to the diary's dated entries, the narrator's silences, and a council notice written in a bureaucratic register. The student must apply precise terminology to show how the paragraph makes connections, interprets the diary and shapes meaning for an informed reader."
                   },
                   {
                     "id": "prompt-ea-38",
@@ -2342,7 +2345,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A reading group must decide whether to recommend the invented novel in this scenario, a text written for this task. Its fragmented chapters alternate between a diary and third-person narration. Members must work out which features make the novel valued by critics and readers. Its prose is spare, with recurring images of weather and water, and its repetition is deliberate."
+                    "scenario": "A reading group must decide whether to recommend the invented novel in this scenario, a text written for this task. Its fragmented chapters alternate between a diary and third-person narration. Members must work out which features make the novel valued by critics and readers. Its prose is spare, with recurring images of weather and water, and its repetition is deliberate. Its diary sections use short declarative sentences, and its narration uses longer, looping ones."
                   },
                   {
                     "id": "prompt-ea-42",
@@ -2395,7 +2398,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A teacher asks students to read the invented novel in this scenario, which is written for this task. Its chapters are fragmented and alternate between a diary and third-person narration, and students must identify its distinctive structures in a short written response."
+                    "scenario": "A teacher asks students to read the invented novel in this scenario, which is written for this task. Its chapters are fragmented and alternate between a diary and third-person narration, and students must identify its distinctive structures in a short written response. Its diary entries are dated but not always in order, and sometimes contradict the narration."
                   }
                 ]
               },
@@ -2663,7 +2666,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A stylistics unit asks students to examine an invented novel, written for this task, whose narrator is a court clerk reporting the same trial through several documents. Students must explain how the novel's language and form give voice to a range of perspectives. The documents include court transcripts, letters from witnesses and the clerk's own narration."
+                    "scenario": "A stylistics unit asks students to examine an invented novel, written for this task, whose narrator is a court clerk reporting the same trial through several documents. Students must explain how the novel's language and form give voice to a range of perspectives. The documents include court transcripts, letters from witnesses and the clerk's own narration. The final chapter is a witness's letter that follows the clerk's confident conclusion."
                   },
                   {
                     "id": "prompt-ea-48",
@@ -2716,7 +2719,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented play, written for this task, presents the same night of a factory fire through four monologues, each delivered by a different character. Students are asked to interpret how the play's structure allows the audience to hold several perspectives at once. The speakers are a foreman, a young worker and an outside investigator, and the foreman speaks first."
+                    "scenario": "An invented play, written for this task, presents the same night of a factory fire through four monologues, each delivered by a different character. Students are asked to interpret how the play's structure allows the audience to hold several perspectives at once. The speakers are a foreman, a young worker, an outside investigator and a night guard, and the foreman speaks first."
                   }
                 ]
               },
@@ -2776,7 +2779,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A critical essay asks students to discuss how the invented detective novel in this scenario, written for this task, relates to the conventions of its genre. The novel follows a classic puzzle structure but uses a fragmented narrative voice more typical of a different style. The novel opens with a crime, a list of suspects and a narrator who is also a suspect, and it includes diary fragments."
+                    "scenario": "A critical essay asks students to discuss how the invented detective novel in this scenario, written for this task, relates to the conventions of its genre. The novel follows a classic puzzle structure but uses a fragmented narrative voice more typical of a different style. The novel opens with a crime, a list of suspects and a narrator who is also a suspect, and it includes diary fragments. Its sentences are clipped and observational, and the detective's rational account is undermined by the diary fragments."
                   },
                   {
                     "id": "prompt-ea-50",
@@ -2829,7 +2832,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A literature class has read two short texts written for this task: a detective story that keeps the genre's puzzle structure, and a romance that subverts the genre's happy ending. Students must contrast how each text confirms or challenges the reader's expectations of its genre."
+                    "scenario": "A literature class has read two short texts written for this task: a detective story that keeps the genre's puzzle structure, and a romance that subverts the genre's happy ending. The romance follows a meeting, a misunderstanding and a reconciliation that is refused. Students must contrast how each text confirms or challenges the reader's expectations of its genre."
                   }
                 ]
               },
@@ -2942,7 +2945,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A student is writing a short response on the same invented story, set in a fishing town during a drought. The response must demonstrate, using a specific episode, how one ethical perspective is shaped by economic pressure. The older fisherman refuses to sell his share of the catch, which the town's economy has made a matter of survival."
+                    "scenario": "A student is writing a short response on the same invented story, set in a fishing town during a drought. The response must demonstrate, using a specific episode, how one ethical perspective is shaped by economic pressure. The older fisherman refuses to sell his share of the catch, which the town's economy has made a matter of survival. When the boats cannot go out, the owners reduce wages."
                   }
                 ]
               },
@@ -3121,7 +3124,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A literary magazine invites students to contribute a critical review of the invented complex text in this scenario, a multi-layered novel about a family's inheritance, written for this task. Contributions must argue whether the novel's ideas about duty deserve affirmation or challenge. Its narrator keeps a ledger recording each family sacrifice, and insists that loyalty is the highest good."
+                    "scenario": "A literary magazine invites students to contribute a critical review of the invented complex text in this scenario, a multi-layered novel about a family's inheritance, written for this task. Contributions must argue whether the novel's ideas about duty deserve affirmation or challenge. Its narrator keeps a ledger recording each family sacrifice, and insists that loyalty is the highest good. Its younger characters' perspectives surface in small ways, and in its final chapters the ledger is revealed to be incomplete."
                   },
                   {
                     "id": "prompt-ea-56",
@@ -3174,7 +3177,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A tutor asks students to explain how a critical response can push back on the values of a complex text. The complex text is the invented family novel described in this scenario, written for this task, and students must use one technique as evidence. Its narrator keeps a ledger recording the family's sacrifices in precise detail."
+                    "scenario": "A tutor asks students to explain how a critical response can push back on the values of a complex text. The complex text is the invented family novel described in this scenario, written for this task, and students must use one technique as evidence. Its narrator keeps a ledger recording the family's sacrifices in precise detail. The ledger omits the costs borne by younger members."
                   }
                 ]
               },
@@ -3345,7 +3348,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A student has interpreted the invented novel in this scenario, written for this task, as a story about a recurring pattern of images that signal a family's silence. The teacher asks the student to justify this critical interpretation through an argument sustained across the whole essay. Closed doors recur in a locked study, a sealed letter and a kitchen where conversations stop, and at the climax one door opens onto a room kept shut for years."
+                    "scenario": "A student has interpreted the invented novel in this scenario, written for this task, as a story about a recurring pattern of images that signal a family's silence. The teacher asks the student to justify this critical interpretation through an argument sustained across the whole essay. Closed doors recur in a locked study, a sealed letter and a kitchen where conversations stop, and at the climax one door opens onto a room kept shut for years. In the opening chapter a mother shuts a bedroom door on a question, and the narration shifts from neutral description to a more urgent, fragmented voice."
                   },
                   {
                     "id": "prompt-ea-60",
@@ -3398,7 +3401,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A tutor is correcting essays in which students retell the invented novel in this scenario, written for this task, rather than interpreting it. The tutor wants a short note that clarifies the difference between a critical interpretation and a plot summary."
+                    "scenario": "A tutor is correcting essays in which students retell the invented novel in this scenario, written for this task, rather than interpreting it. The novel is about a widow who keeps a guesthouse by the sea, whose notebook entries stop before a blank final page, and who closes the guesthouse in the final chapter. The tutor wants a short note that clarifies the difference between a critical interpretation and a plot summary."
                   }
                 ]
               }
@@ -3822,7 +3825,7 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "EAV-12-04"
+                      "EAV-12-06"
                     ],
                     "markerNotes": [
                       "Two accurate terms are required, and each needs a brief statement of its effect on an argument.",
@@ -3922,7 +3925,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A community forum asks students to construct a text that affirms or challenges the values in an invented short story about a lighthouse town, written for this task. Students may choose an imaginative, discursive, persuasive or reflective form, and must explain the choice in a short rationale."
+                    "scenario": "A community forum asks students to construct a text that affirms or challenges the values in an invented short story about a lighthouse town, written for this task. In it, loyalty to the town is the central value and residents are told to keep quiet about a closure. Students may choose an imaginative, discursive, persuasive or reflective form, and must explain the choice in a short rationale."
                   },
                   {
                     "id": "prompt-ea-70",
@@ -3975,7 +3978,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A tutor compares an invented imaginative fable and an invented reflective diary, both written for this task, and both of which challenge a community's values. Students must describe how the choice of form can affirm or challenge those values."
+                    "scenario": "A tutor compares an invented imaginative fable and an invented reflective diary, both written for this task, and both of which challenge a community's values. The fable's animals represent the town. Students must describe how the choice of form can affirm or challenge those values."
                   }
                 ]
               },
@@ -4035,7 +4038,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A student has drafted a short invented story, written for this task, and has also written feedback on a classmate's piece. The teacher wants a reflective assessment of both processes, using metalanguage, including what changed between drafts and a pattern of tense shifts in the student's revisions."
+                    "scenario": "A student has drafted a short invented story, written for this task, and has also written feedback on a classmate's piece. The teacher wants a reflective assessment of both processes, using metalanguage, including what changed between drafts and a pattern of tense shifts in the student's revisions. The classmate's piece uses a mixed tense in its opening to suggest memory."
                   },
                   {
                     "id": "prompt-ea-72",
@@ -4141,7 +4144,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A student is preparing a portfolio of a short invented story, written for this task, which will be presented to two audiences: a school literary magazine and a family newsletter. The student must discuss how they draft, reflect, edit, refine, revise and present the text for each audience and purpose."
+                    "scenario": "A student is preparing a portfolio of a short invented story, written for this task, with a recurring lantern image, which will be presented to two audiences: a school literary magazine and a family newsletter. The student must discuss how they draft, reflect, edit, refine, revise and present the text for each audience and purpose."
                   },
                   {
                     "id": "prompt-ea-74",

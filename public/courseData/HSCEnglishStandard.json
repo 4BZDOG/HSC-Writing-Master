@@ -224,7 +224,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A school literacy program presents an invented 60-word story about a fishing village in two forms: as a printed page in the school newsletter and as an audio recording read aloud. Students must consider how each form affects what the audience takes from the story."
+                    "scenario": "A school literacy program presents an invented 60-word story about a fishing village in two forms: as a printed page in the school newsletter and as an audio recording read aloud. The story describes a fishing boat, its final sentence sits on a line of its own in print, and the recording adds the sounds of gulls and waves. Students must consider how each form affects what the audience takes from the story."
                   },
                   {
                     "id": "prompt-en-4",
@@ -279,7 +279,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A regional newspaper prints an invented 100-word report on a local flood, and the same words are later read aloud at a community meeting in a school hall. The report was written for this task, and students must consider how the context of reception changes the meaning for different audiences."
+                    "scenario": "A regional newspaper prints an invented 100-word report on a local flood, which has a headline and a timestamp, mentions damaged roads and says the floodwater has already receded, and the same words are later read aloud at a community meeting in a school hall. The report was written for this task, and students must consider how the context of reception changes the meaning for different audiences."
                   }
                 ]
               },
@@ -399,8 +399,7 @@
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
                       "EST-11-01",
-                      "EST-11-02",
-                      "EST-12-01"
+                      "EST-11-02"
                     ],
                     "markerNotes": [
                       "Discuss needs a view, not just a survey. The best answers say which reading a device supports, where close analysis is most reliable and where it can overreach.",
@@ -446,7 +445,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 11 student is comparing a familiar text they have studied closely with an invented 120-word extract about a lighthouse keeper, written for this task. The extract uses repeated sounds, a sudden shift from past to present tense and a run of very short sentences. The student must show how close analysis builds an interpretation in each case."
+                    "scenario": "A Year 11 student is comparing a familiar text they have studied closely with an invented 120-word extract about a lighthouse keeper, written for this task. The extract uses repeated foghorn sounds, a sudden shift from past to present tense and a run of very short sentences. The student must show how close analysis builds an interpretation in each case."
                   },
                   {
                     "id": "prompt-en-8",
@@ -499,7 +498,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A teacher gives students two texts for a reading task: a text the class has studied in detail and an invented extract that nobody has seen before. The teacher asks students to show how their reading method changes from one text to the other."
+                    "scenario": "A teacher gives students two texts for a reading task: a text the class has studied in detail and an invented extract, with repeated sounds, that nobody has seen before. The teacher asks students to show how their reading method changes from one text to the other."
                   }
                 ]
               },
@@ -612,7 +611,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A literature class is comparing two invented texts written from the same personal experience of a family holiday that went wrong: a 100-word memoir entry and a 300-word fictionalised short story. The teacher asks students to focus on how the two forms differ in what they are for, who they are written for and where they are published."
+                    "scenario": "A literature class is comparing two invented texts written from the same personal experience of a family holiday that went wrong: a 100-word memoir entry and a 300-word fictionalised short story. The memoir entry is kept in a private diary, and the story is entered in a literary competition. The teacher asks students to focus on how the two forms differ in what they are for, who they are written for and where they are published."
                   }
                 ]
               },
@@ -671,7 +670,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Two invented texts describe the same storm that closed a coastal road: a 120-word news report in a formal register, and a 90-word diary entry written by a teenager who was stuck at home. Both were written for this task and are not real documents."
+                    "scenario": "Two invented texts describe the same storm that closed a coastal road: a 120-word news report in a formal register, and a 90-word diary entry written by a teenager who was stuck at home. The report is written in the third person and puts its key fact in the opening sentence; the diary is written in the first person in short sentences and follows the teenager's hours at home. The report ends with a warning about further rain, and the diary ends with a single line admitting fear. Both were written for this task and are not real documents."
                   },
                   {
                     "id": "prompt-en-12",
@@ -724,7 +723,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is studying an invented 90-word diary entry in which the sentence structure becomes shorter and more fragmented as the writer's fear grows. The student has been asked to outline the structural pattern across the entry, not to evaluate its effect."
+                    "scenario": "A Year 11 student is studying an invented 90-word diary entry in which the sentence structure becomes shorter and more fragmented as the writer's fear grows. Its opening sentences are long and compound, and its final line is a fragment. The student has been asked to outline the structural pattern across the entry, not to evaluate its effect."
                   }
                 ]
               }
@@ -904,7 +903,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented 12-line poem titled 'Last Train' describes a station platform at dusk, where an old man waits for a train that no longer stops there. The poem was written for this task. Students must respond with their own imaginative text, linking it to the poem through shared theme and style."
+                    "scenario": "An invented 12-line poem titled 'Last Train' describes a station platform at dusk, where an old man waits for a train that no longer stops there. Its lines are short and measured, and it often ends on a quiet image. The poem was written for this task. Students must respond with their own imaginative text, linking it to the poem through shared theme and style."
                   },
                   {
                     "id": "prompt-en-16",
@@ -957,7 +956,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A class studying the invented poem 'Last Train', which was written for this task, is asked to explain how writers connect their texts to other texts. Students must separate connections made through what a text is about from connections made through how it is written."
+                    "scenario": "A class studying the invented poem 'Last Train', which was written for this task, is asked to explain how writers connect their texts to other texts. The poem's lines are short and measured, and it often ends on a quiet image. Students must separate connections made through what a text is about from connections made through how it is written."
                   }
                 ]
               },
@@ -1070,7 +1069,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A teacher asks students to annotate their newsletter paragraph on keeping the library open late. Students must name the value that sits under the paragraph's argument and show how their wording signals it to a reader who may disagree."
+                    "scenario": "A teacher asks students to annotate their newsletter paragraph on keeping the library open late. Students must name the value that sits under the paragraph's argument and show how their wording signals it to a reader who may disagree. The paragraph describes the library as 'an equaliser' and says that a late library is a safe place to study."
                   }
                 ]
               },
@@ -1183,7 +1182,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A teacher shows Year 10 students two versions of the Open Day information: one that is read silently from a printed page, and one that combines a spoken commentary with on-screen captions. Students are asked to explain the difference in how families engage with the information."
+                    "scenario": "A teacher shows Year 10 students two versions of the Open Day information: one that is read silently from a printed page, and one that combines a spoken commentary with on-screen captions. The information includes details such as free membership for Year 6 students. Students are asked to explain the difference in how families engage with the information."
                   }
                 ]
               },
@@ -1309,8 +1308,7 @@
                     "totalMarks": 8,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "EST-11-06",
-                      "EST-12-06"
+                      "EST-11-06"
                     ],
                     "markerNotes": [
                       "Assess asks for a judgement against a criterion. Here the criterion is a reader who knows little about the topic; decide whether the metalanguage serves that reader.",
@@ -1356,7 +1354,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 11 student has drafted a persuasive essay arguing that the school should adopt a later start on Mondays. The teacher has asked the student to include a reflection on the metalanguage used in the essay, such as 'anecdote', 'rhetorical question' and 'hyperbole'."
+                    "scenario": "A Year 11 student has drafted a persuasive essay arguing that the school should adopt a later start on Mondays. The essay opens with an anecdote about a student who missed the morning bus, includes the rhetorical question 'Who benefits from a 7 am start?', and calls sleep 'the most important thing in a school day'. The teacher has asked the student to include a reflection on the metalanguage used in the essay, such as 'anecdote', 'rhetorical question' and 'hyperbole'."
                   },
                   {
                     "id": "prompt-en-24",
@@ -1560,7 +1558,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing a critical review for a school competition and must submit one paragraph that is free of errors in spelling, punctuation and syntax. The paragraph should make a single critical claim about a text the student has studied and support it with evidence."
+                    "scenario": "A Year 11 student is preparing a critical review for a school competition and must submit one paragraph that is free of errors in spelling, punctuation and syntax. The paragraph should make a single critical claim about a text the student has studied and support it with evidence. The text is an invented short story supplied by the teacher: its final section moves from long sentences to one short sentence as the narrator stops waiting, and a phrase is repeated before the break."
                   }
                 ]
               }
@@ -1586,8 +1584,7 @@
                     "totalMarks": 8,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-12-01"
+                      "EST-11-01"
                     ],
                     "markerNotes": [
                       "Analyse asks for relationships. Strong answers show how a language feature, a structural choice and a stylistic choice combine to produce one effect on the reader.",
@@ -1632,7 +1629,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented interactive digital narrative is told through a sequence of short messages from a character's phone, a linked image gallery and a timed choice that the reader must make before the next message appears. The narrative was written for this task, and students must analyse how its form shapes the story."
+                    "scenario": "An invented interactive digital narrative is told through a sequence of time-stamped short messages from a character's phone who is hiding something, a linked image gallery whose photographs sometimes contradict the messages, and a timed choice that the reader must make before the next message appears. The narrative was written for this task, and students must analyse how its form shapes the story."
                   },
                   {
                     "id": "prompt-en-29",
@@ -1790,7 +1787,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 class is discussing an invented audio drama in which a door slams before any character speaks. The teacher asks students to name specific things that sound does in the drama which a printed panel cannot do."
+                    "scenario": "A Year 11 class is discussing an invented audio drama in which a door slams before any character speaks, and distant rain sets the mood across several scenes. The teacher asks students to name specific things that sound does in the drama which a printed panel cannot do."
                   }
                 ]
               },
@@ -1851,7 +1848,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented short-form video series retells a traditional fable about a fox who cheats a crow. Each episode lasts 60 seconds and uses current slang and a popular culture meme format, and it is aimed at teenagers on a video-sharing platform. The series was made for this task."
+                    "scenario": "An invented short-form video series retells a traditional fable about a fox who cheats a crow by flattering her. Each episode lasts 60 seconds and uses current slang and a reaction-image meme format, with the crow responding to the fox as a reaction-video host, and it is aimed at teenagers on a video-sharing platform. The series was made for this task."
                   },
                   {
                     "id": "prompt-en-33",
@@ -1904,7 +1901,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing a short oral presentation on adaptation and needs a summary of the main strategies a composer uses. The student will use the invented short-form video series that retells a traditional fable for teenagers as the example."
+                    "scenario": "A Year 11 student is preparing a short oral presentation on adaptation and needs a summary of the main strategies a composer uses. The student will use the invented short-form video series that retells a traditional fable for teenagers, using current slang and a meme format, as the example."
                   }
                 ]
               },
@@ -1964,7 +1961,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented 4-minute short film about a girl who keeps a notebook of wishes includes a deliberate reference to a well-known fairy tale, in which a stranger grants a wish in a forest. The film was written for this task, and students must account for how the reference changes what the film is for and who it is for."
+                    "scenario": "An invented 4-minute short film about a girl who keeps a notebook of wishes includes a deliberate reference to a well-known fairy tale, in which a stranger grants a wish in a forest. The girl must decide whether to make a wish, and the ending shows the cost of her choice. The film was written for this task, and students must account for how the reference changes what the film is for and who it is for."
                   },
                   {
                     "id": "prompt-en-35",
@@ -2023,8 +2020,7 @@
                     "totalMarks": 8,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "EST-11-03",
-                      "EST-12-03"
+                      "EST-11-03"
                     ],
                     "markerNotes": [
                       "Evaluate requires a judgement against a stated criterion. Decide whether the medium strengthens or limits the values, and say why.",
@@ -2300,7 +2296,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Two invented texts provide the ideas for this task. The first is a 150-word article arguing that old phones should be recycled in every school, and the second is a short poem about a phone that sits in a drawer, forgotten and full of photographs. Students must build an argument on whether schools should adopt a phone-recycling scheme."
+                    "scenario": "Two invented texts provide the ideas for this task. The first is a 150-word article arguing that old phones should be recycled in every school, because their materials cannot be replaced cheaply and recycling works only when people can see it working, and the second is a short poem about a phone that sits in a drawer, forgotten and full of photographs. Students must build an argument on whether schools should adopt a phone-recycling scheme."
                   },
                   {
                     "id": "prompt-en-41",
@@ -2481,8 +2477,7 @@
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "EST-11-06",
-                      "EST-12-06"
+                      "EST-11-06"
                     ],
                     "markerNotes": [
                       "A reflective text earns marks by naming a process and judging how it changed in the new medium. Describing what you did is not yet reflection.",
@@ -2684,7 +2679,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 11 student Priya is composing a five-minute podcast episode for her school's English magazine about the impact of a regional heatwave on local families. She uses several digital tools while she works, and her teacher wants a short account of how she used them."
+                    "scenario": "Year 11 student Priya is composing a five-minute podcast episode for her school's English magazine about the impact of a regional heatwave on local families. She uses several digital tools while she works. Her main tools are an online survey of residents and a shared cloud folder for her interview recordings, and her teacher wants a short account of how she used them."
                   },
                   {
                     "id": "prompt-en-48",
@@ -2692,7 +2687,6 @@
                     "totalMarks": 5,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "EST-12-06",
                       "EST-11-06"
                     ],
                     "markerNotes": [
@@ -2738,7 +2732,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 12 student Marcus is drafting an argumentative video essay for his digital English portfolio. He is deciding which tools to use at each stage, from first notes to the final edit."
+                    "scenario": "Year 11 student Marcus is drafting an argumentative video essay for his digital English portfolio. He is deciding which tools to use at each stage, from first notes to the final edit. He is considering a mind-mapping app, a shared digital storyboard and audio editing software, and his essay argues about school phone policies."
                   },
                   {
                     "id": "prompt-en-49",
@@ -2746,8 +2740,7 @@
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "EST-11-06",
-                      "EST-12-06"
+                      "EST-11-06"
                     ],
                     "markerNotes": [
                       "The strongest answers follow a composition from generating to presenting and say how the tool at each stage changed the form.",
@@ -2794,7 +2787,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 12 student is composing a multimodal feature for an online literary magazine about the ethics of social media algorithms. Her teacher asks the class to document the tools used at each stage of composition, and to reflect on how those tools shaped the final text."
+                    "scenario": "A Year 11 student is composing a multimodal feature for an online literary magazine about the ethics of social media algorithms. Her teacher asks the class to document the tools used at each stage of composition, and to reflect on how those tools shaped the final text."
                   }
                 ]
               }
@@ -2820,8 +2813,7 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-12-01"
+                      "EST-11-01"
                     ],
                     "markerNotes": [
                       "Two named choices, each with one stated effect, is the full answer. Keep it tight.",
@@ -2857,7 +2849,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 class is studying a short literary text in a unit on narrative techniques. The teacher asks students to name specific choices the author has made and to state what each one does."
+                    "scenario": "A Year 11 class is studying a short literary text in a unit on narrative techniques. The text is an invented short story told in the first person, with a flashback. The teacher asks students to name specific choices the author has made and to state what each one does."
                   },
                   {
                     "id": "prompt-en-51",
@@ -2909,7 +2901,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing a short written response for class on a literary text. She has noticed that the narrator's tone changes across the text, and she wants to explain how this shapes the reader's understanding."
+                    "scenario": "A Year 11 student is preparing a short written response for class on a literary text. The text is an invented short story whose narrator begins in a detached, formal tone, then becomes intimate and uncertain, with shorter sentences and repetition, as personal memories surface. She has noticed that the narrator's tone changes across the text, and she wants to explain how this shapes the reader's understanding."
                   }
                 ]
               },
@@ -2923,8 +2915,7 @@
                     "totalMarks": 8,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-12-01"
+                      "EST-11-01"
                     ],
                     "markerNotes": [
                       "Analyse asks for relationships. Each paragraph should show language affecting content, or content demanding a language choice.",
@@ -2968,7 +2959,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing an analytical response for an assessment task on a literary text she has studied. Her teacher has asked her to move beyond describing the language and to explain how the words and the content work together."
+                    "scenario": "A Year 11 student is preparing an analytical response for an assessment task on a literary text she has studied. The text is an invented short story about a family losing its home, in which an open door recurs. Her teacher has asked her to move beyond describing the language and to explain how the words and the content work together."
                   },
                   {
                     "id": "prompt-en-53",
@@ -2976,7 +2967,6 @@
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "EST-12-01",
                       "EST-11-01"
                     ],
                     "markerNotes": [
@@ -3021,7 +3011,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is preparing for a timed response on a literary text she has studied. She has been asked to consider how particular words and images connect to the story's central content, not only to its style."
+                    "scenario": "A Year 11 student is preparing for a timed response on a literary text she has studied. The text is an invented short story in which a recurring image of a cracked window is linked to a character's growing isolation. She has been asked to consider how particular words and images connect to the story's central content, not only to its style."
                   }
                 ]
               },
@@ -3035,8 +3025,7 @@
                     "totalMarks": 5,
                     "verb": "EXAMINE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-12-01"
+                      "EST-11-01"
                     ],
                     "markerNotes": [
                       "Examine means looking closely at evidence. Name the convention first, then test the text against it using structure and language.",
@@ -3080,7 +3069,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is writing an extended response on how a literary text relates to accepted conventions. The class has been asked to weigh the author's choices against what readers expect from the form."
+                    "scenario": "A Year 11 student is writing an extended response on how a literary text relates to accepted conventions. The text is an invented coming-of-age story that opens with a child's perspective, has a narrator who speaks in the present tense and addresses the reader directly, and ends by returning to its opening image. The class has been asked to weigh the author's choices against what readers expect from the form."
                   },
                   {
                     "id": "prompt-en-55",
@@ -3147,7 +3136,7 @@
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
                       "EST-11-01",
-                      "EST-11-02"
+                      "EST-11-03"
                     ],
                     "markerNotes": [
                       "Distinguish means identifying what separates the two readings. Name the feature each reader treats as significant, then say why their perspective leads there.",
@@ -3191,7 +3180,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 class has read the same literary text, and the teacher has collected two interpretations written by students who approached it from different positions. Students must show how each reading is shaped by the reader's perspective."
+                    "scenario": "A Year 11 class has read the same literary text, and the teacher has collected two interpretations written by students who approached it from different positions. The text is an invented story in which a central silence recurs, with a repeated empty chair and unanswered letters. One student has experienced a family separation and reads the silence as grief; the other has a legal background and reads it as a failure of accountability. Students must show how each reading is shaped by the reader's perspective."
                   },
                   {
                     "id": "prompt-en-57",
@@ -3264,8 +3253,7 @@
                     "totalMarks": 5,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-12-01"
+                      "EST-11-01"
                     ],
                     "markerNotes": [
                       "A personal interpretation must still be arguable. Commit to a reading and test it against the text, rather than offering a summary of events.",
@@ -3309,7 +3297,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student has been asked to write a personal interpretation of a literary text for her portfolio. Her teacher has told her that each claim must be supported by carefully chosen textual evidence."
+                    "scenario": "A Year 11 student has been asked to write a personal interpretation of a literary text for her portfolio. The text is an invented story in which the narrator's household routine is recorded in exact detail, an instruction to keep a lamp lit recurs, and the lamp is finally extinguished. Its final paragraph uses passive verbs. Her teacher has told her that each claim must be supported by carefully chosen textual evidence."
                   },
                   {
                     "id": "prompt-en-59",
@@ -3317,8 +3305,7 @@
                     "totalMarks": 3,
                     "verb": "DEMONSTRATE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-12-01"
+                      "EST-11-01"
                     ],
                     "markerNotes": [
                       "The question asks for the reasoning behind the choice. Say why this passage, and what it lets you claim, not only what the passage says.",
@@ -3362,7 +3349,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is practising for a timed task in which she must choose a passage to support her reading of a literary text. Her teacher wants her to show the reasons behind her choice, not only the passage itself."
+                    "scenario": "A Year 11 student is practising for a timed task in which she must choose a passage to support her reading of a literary text. The text is an invented story in which one character refuses to name a grievance during a conversation. Her teacher wants her to show the reasons behind her choice, not only the passage itself."
                   }
                 ]
               },
@@ -3422,7 +3409,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 11 student Tomas must compose a short opinion piece of about 250 words for his school's literacy blog. The piece responds to ideas raised by a literary text he has studied, and it must be followed by a brief rationale for his choices."
+                    "scenario": "Year 11 student Tomas must compose a short opinion piece of about 250 words for his school's literacy blog. The text is an invented novel in which the protagonist refuses to speak about her brother's disappearance and her father changes the subject whenever she tries to explain. In its final chapter her silence is answered by someone else. The piece responds to ideas raised by a literary text he has studied, and it must be followed by a brief rationale for his choices."
                   },
                   {
                     "id": "prompt-en-61",
@@ -3475,7 +3462,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is planning a response to a literary text for a timed writing task. Before drafting, she must show her teacher how the ideas she has generated will be arranged into an argument."
+                    "scenario": "A Year 11 student is planning a response to a literary text for a timed writing task. The text is an invented novel in which the protagonist refuses to speak about her brother's disappearance, and in its final scene her silence is answered by someone else. Before drafting, she must show her teacher how the ideas she has generated will be arranged into an argument."
                   }
                 ]
               },
@@ -3534,7 +3521,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 12 student Joel is building a short piece for a portfolio on the theme of public promises. His teacher asks him to show a perspective of his own, and to explain in a rationale how the piece reflects it."
+                    "scenario": "Year 11 student Joel is building a short piece for a portfolio on the theme of public promises. His teacher asks him to show a perspective of his own, and to explain in a rationale how the piece reflects it."
                   },
                   {
                     "id": "prompt-en-63",
@@ -3587,7 +3574,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 12 student Aisha is writing a short creative poem for her portfolio. Her teacher asks her to name the perspective the poem reflects, then to show how a single language feature expresses that perspective."
+                    "scenario": "Year 11 student Aisha is writing a short creative poem for her portfolio. Her teacher asks her to name the perspective the poem reflects, then to show how a single language feature expresses that perspective."
                   }
                 ]
               }
@@ -3613,8 +3600,7 @@
                     "totalMarks": 3,
                     "verb": "OUTLINE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-11-02"
+                      "EST-12-01"
                     ],
                     "markerNotes": [
                       "Outline means setting out the main points in order, briefly. Name the feature, then one link to the audience or purpose.",
@@ -3658,7 +3644,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is working with an unfamiliar newspaper column that combines a formal structure with a conversational tone. Her teacher asks her to set out the main choices the column makes to reach its readers."
+                    "scenario": "A Year 12 student is working with an invented, unfamiliar newspaper column that combines a formal structure with a conversational tone. The column has a short, direct headline, is written in the first person with rhetorical questions, and uses short paragraphs and a few bold statistics. Her teacher asks her to set out the main choices the column makes to reach its readers."
                   },
                   {
                     "id": "prompt-en-65",
@@ -3666,8 +3652,8 @@
                     "totalMarks": 5,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-12-02"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Explain the mechanism. Say what the feature does to the viewer and why that suits this audience.",
@@ -3711,7 +3697,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 12 student Mei is studying a short documentary script that is new to her class. She must explain how its language and forms are shaped for young viewers and for a purpose of raising awareness about water use."
+                    "scenario": "Year 12 student Mei is studying a short invented documentary script that is new to her class. Its narrator addresses the viewer as 'you', it uses quick scenes that each end with a question, and it closes by inviting viewers to check the household meter. She must explain how its language and forms are shaped for young viewers and for a purpose of raising awareness about water use."
                   }
                 ]
               },
@@ -3726,7 +3712,7 @@
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
                       "EST-12-01",
-                      "EST-12-02"
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Analyse asks for effects. For each choice, say what it does to a reader's perspective and why that matters across different experiences.",
@@ -3771,7 +3757,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing an analytical essay about a text that has been read by many different communities. Her teacher asks her to show how the language and forms reach readers from several perspectives and experiences."
+                    "scenario": "A Year 12 student is writing an analytical essay about a text that has been read by many different communities. The text is an invented memoir set in a small kitchen, which moves into a list of public facts about the local hospital and at one point addresses the reader as 'you'. Her teacher asks her to show how the language and forms reach readers from several perspectives and experiences."
                   },
                   {
                     "id": "prompt-en-67",
@@ -3838,7 +3824,6 @@
                     "totalMarks": 6,
                     "verb": "APPRECIATE",
                     "linkedOutcomes": [
-                      "EST-11-01",
                       "EST-12-01"
                     ],
                     "markerNotes": [
@@ -3883,7 +3868,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a reflective response to a poem for her English Standard portfolio. Her teacher asks her to appreciate what the poem's craft does for the reader, and to show how its language gives a personal experience a voice."
+                    "scenario": "A Year 12 student is writing a reflective response to a poem for her English Standard portfolio. The poem is an invented short lyric in which a speaker grieves through an unused cup beside a kettle. Its lines are short and balanced, and its sound includes a soft repetition of the letter s. Her teacher asks her to appreciate what the poem's craft does for the reader, and to show how its language gives a personal experience a voice."
                   },
                   {
                     "id": "prompt-en-69",
@@ -3891,7 +3876,6 @@
                     "totalMarks": 3,
                     "verb": "CLASSIFY",
                     "linkedOutcomes": [
-                      "EST-11-01",
                       "EST-12-01"
                     ],
                     "markerNotes": [
@@ -3936,7 +3920,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student has been asked to sort the techniques in a short poem into groups before she writes her response. Her teacher wants each feature placed under one clear heading, with an example."
+                    "scenario": "A Year 12 student has been asked to sort the techniques in a short poem into groups before she writes her response. The poem is invented: its short lines repeat consonants, and an unused coat on a hook carries the speaker's loss. Her teacher wants each feature placed under one clear heading, with an example."
                   }
                 ]
               },
@@ -3950,8 +3934,8 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-11-01"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Describe means giving the features and their effect clearly. Name the choice, quote or paraphrase it, then say what it does.",
@@ -3995,7 +3979,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is studying a newspaper opinion column about a council debate over a local school. She must describe the language choices the columnist makes to connect with readers, question their assumptions, challenge the council and speculate about what happens next."
+                    "scenario": "A Year 12 student is studying a newspaper opinion column about a council debate over a local school. The column is invented: it responds to a council proposal for a longer school day, refers to school gates and homework, uses phrases such as 'if this continues', and closes with 'we have been warned'. She must describe the language choices the columnist makes to connect with readers, question their assumptions, challenge the council and speculate about what happens next."
                   },
                   {
                     "id": "prompt-en-71",
@@ -4003,8 +3987,8 @@
                     "totalMarks": 3,
                     "verb": "DEDUCE",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-12-02"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Deduce means reasoning from evidence to a conclusion. Show the step: this wording suggests this, so the writer probably intends that.",
@@ -4048,7 +4032,7 @@
                         "band": 3
                       }
                     ],
-                    "scenario": "A Year 12 student is analysing a short opinion piece about public transport. She must make an inference, using only the wording of the piece, about whether the writer's aim is to challenge or affirm readers' views."
+                    "scenario": "A Year 12 student is analysing a short opinion piece about public transport. The piece is invented: it repeatedly uses 'we' and 'our', bluntly claims that the council has failed, and asks rhetorical questions. She must make an inference, using only the wording of the piece, about whether the writer's aim is to challenge or affirm readers' views."
                   }
                 ]
               },
@@ -4062,7 +4046,6 @@
                     "totalMarks": 8,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "EST-11-01",
                       "EST-12-01"
                     ],
                     "markerNotes": [
@@ -4107,7 +4090,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 12 student is writing an evaluative response to a critic's review of a novel she has studied. The critic uses evaluative language and metalanguage to make claims about the novel's quality, and the student must judge how well these choices achieve the critic's purpose."
+                    "scenario": "A Year 12 student is writing an evaluative response to a critic's review of a novel she has studied. The review is invented: it names three criteria (consistency of voice, economy of plot and the emotional honesty of the ending) and calls the middle section baggy, citing a subplot that does not advance the plot. The critic uses evaluative language and metalanguage to make claims about the novel's quality, and the student must judge how well these choices achieve the critic's purpose."
                   },
                   {
                     "id": "prompt-en-73",
@@ -4115,7 +4098,6 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "EST-11-01",
                       "EST-12-01"
                     ],
                     "markerNotes": [
@@ -4152,7 +4134,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is revising for an examination on critical reviews. Her teacher asks her to show that she can name the language a reviewer uses to make an informed judgement."
+                    "scenario": "A Year 12 student is revising for an examination on critical reviews. The review is invented and includes the phrases 'a quietly devastating ending' and 'the middle section drags'. Her teacher asks her to show that she can name the language a reviewer uses to make an informed judgement."
                   }
                 ]
               }
@@ -4172,8 +4154,7 @@
                     "totalMarks": 8,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-12-02"
+                      "EST-12-01"
                     ],
                     "markerNotes": [
                       "Assess asks for a judgement of quality against stated criteria. Name each criterion, test the interpretation against it, then weigh the results.",
@@ -4217,7 +4198,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 12 student has written an interpretation of a literary text for her examination. Her teacher asks the class to assess how well the interpretation is developed, using a sample of her close textual analysis."
+                    "scenario": "A Year 12 student has written an interpretation of a literary text for her examination. The text is invented: its closing scene can be read as a resolution or as a deliberate withholding, and its second section repeats short verbs that suggest the protagonist's withdrawal. Her teacher asks the class to assess how well the interpretation is developed, using a sample of her close textual analysis."
                   },
                   {
                     "id": "prompt-en-75",
@@ -4225,8 +4206,7 @@
                     "totalMarks": 4,
                     "verb": "APPLY",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-12-02"
+                      "EST-12-01"
                     ],
                     "markerNotes": [
                       "Apply means using the analytical method on a new passage. Show each step, from the language to the claim it supports.",
@@ -4284,8 +4264,8 @@
                     "totalMarks": 7,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "EST-11-05",
-                      "EST-11-03"
+                      "EST-12-05",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "A challenge needs a defensible counter-position. Show what the idea gets wrong or leaves out, then offer something in its place.",
@@ -4329,7 +4309,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Year 12 student Lina is composing a piece for a school anthology that responds to a range of texts studied in class. Her teacher asks her to affirm or challenge one idea those texts present, and to explain her choices in a short rationale."
+                    "scenario": "Year 12 student Lina is composing a piece for a school anthology that responds to a range of texts studied in class. The texts she has studied present leaving home as the only route to adventure and meaning. Her teacher asks her to affirm or challenge one idea those texts present, and to explain her choices in a short rationale."
                   },
                   {
                     "id": "prompt-en-77",
@@ -4337,7 +4317,6 @@
                     "totalMarks": 3,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "EST-11-03",
                       "EST-12-03"
                     ],
                     "markerNotes": [
@@ -4382,7 +4361,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 class is discussing how a short creative text in an anthology responds to the texts studied in the unit. Their teacher asks each student to explain one stylistic choice that either affirms or challenges a value."
+                    "scenario": "A Year 12 class is discussing how a short creative text in an anthology responds to the texts studied in the unit. The anthology text is invented: it repeats the word 'home' in every short line, and the texts studied in the unit treat home as a place one must escape. Their teacher asks each student to explain one stylistic choice that either affirms or challenges a value."
                   }
                 ]
               },
@@ -4441,7 +4420,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 12 student Dev is writing a short text for younger students in a school literacy program. The text must reinterpret one idea from a studied text, using a structure and stylistic elements that suit a young audience, and it must be followed by a rationale."
+                    "scenario": "Year 12 student Dev is writing a short text for younger students in a school literacy program. The studied text's protagonist keeps a lighthouse lamp burning rather than charging into a storm. The text must reinterpret one idea from a studied text, using a structure and stylistic elements that suit a young audience, and it must be followed by a rationale."
                   },
                   {
                     "id": "prompt-en-79",
@@ -4494,7 +4473,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 12 student Harriet is adapting a passage from a studied text for a Year 9 audience. Her teacher wants her to demonstrate how she changes one stylistic element when the idea is reinterpreted for a new audience."
+                    "scenario": "Year 12 student Harriet is adapting a passage from a studied text for a Year 9 audience. The passage describes a storm in one long, dense sentence of subordinate clauses. Her teacher wants her to demonstrate how she changes one stylistic element when the idea is reinterpreted for a new audience."
                   }
                 ]
               }
@@ -4520,7 +4499,6 @@
                     "totalMarks": 5,
                     "verb": "EXAMINE",
                     "linkedOutcomes": [
-                      "EST-11-03",
                       "EST-12-03"
                     ],
                     "markerNotes": [
@@ -4566,7 +4544,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing an examination response on a text whose meaning depends on the time and place in which it was written and read. Her teacher wants her to examine how context shapes the text's meaning for different readers."
+                    "scenario": "A Year 12 student is preparing an examination response on a text whose meaning depends on the time and place in which it was written and read. The text is an invented novel narrated by a woman grieving her father, in which a family struggles financially and a community values silence in mourning, and which was published during an economic recession. Her teacher wants her to examine how context shapes the text's meaning for different readers."
                   },
                   {
                     "id": "prompt-en-81",
@@ -4574,7 +4552,6 @@
                     "totalMarks": 3,
                     "verb": "CLARIFY",
                     "linkedOutcomes": [
-                      "EST-11-03",
                       "EST-12-03"
                     ],
                     "markerNotes": [
@@ -4619,7 +4596,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is writing a short glossary entry for her class on the terms used to describe context in texts. She must clarify the difference between a personal context and a cultural one, and show how each shapes meaning."
+                    "scenario": "A Year 12 student is writing a short glossary entry for her class on the terms used to describe context in texts. She must clarify the difference between a personal context and a cultural one, and show how each shapes meaning."
                   }
                 ]
               },
@@ -4633,8 +4610,8 @@
                     "totalMarks": 5,
                     "verb": "CONTRAST",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-11-03"
+                      "EST-12-02",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Contrast needs one point of comparison held steady. Compare the two texts on the same feature, such as voice or distance, so the difference is visible.",
@@ -4678,7 +4655,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is comparing two texts from a unit on language, identity and culture. She must contrast how each text uses language features and forms to shape the reader's view of other people and of different cultural perspectives."
+                    "scenario": "A Year 12 student is comparing two texts from a unit on language, identity and culture. The texts are invented: a first-person short story about a community of neighbours that ends with a warm invitation, and a formal third-person essay about the same community that ends with a policy recommendation. She must contrast how each text uses language features and forms to shape the reader's view of other people and of different cultural perspectives."
                   },
                   {
                     "id": "prompt-en-83",
@@ -4686,8 +4663,8 @@
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-11-02"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Interpret means explaining what the text means through its forms. Say how the form works on you, then what it asks you to think about the group.",
@@ -4731,7 +4708,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a short analytical paragraph for a class discussion on how texts shape a reader's view of a group of people. Her teacher wants her to interpret one text's forms and what they do to her own perceptions."
+                    "scenario": "A Year 12 student is writing a short analytical paragraph for a class discussion on how texts shape a reader's view of a group of people. The text is invented: it is structured as a series of interviews with members of a group, with commentary from the interviewer that summarises the group's habits. Her teacher wants her to interpret one text's forms and what they do to her own perceptions."
                   }
                 ]
               },
@@ -4745,7 +4722,6 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "EST-11-01",
                       "EST-12-01"
                     ],
                     "markerNotes": [
@@ -4790,7 +4766,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is comparing how a short podcast episode and a printed magazine article present the same story. Her teacher asks her to describe how the mode and medium of a text shape its meaning for an audience."
+                    "scenario": "A Year 12 student is comparing how a short podcast episode and a printed magazine article present the same story. Her teacher asks her to describe how the mode and medium of a text shape its meaning for an audience."
                   },
                   {
                     "id": "prompt-en-85",
@@ -4798,8 +4774,8 @@
                     "totalMarks": 3,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-11-02"
+                      "EST-12-01",
+                      "EST-12-02"
                     ],
                     "markerNotes": [
                       "Distinguish means identifying what separates the two. Pick one point of difference and show what each mode does with it.",
@@ -4843,7 +4819,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A Year 11 class is comparing a recorded interview with a transcript of the same interview. Students must distinguish how the spoken and written versions of the text shape meaning for their audience."
+                    "scenario": "A Year 12 class is comparing a recorded interview with a transcript of the same interview. Students must distinguish how the spoken and written versions of the text shape meaning for their audience."
                   }
                 ]
               },
@@ -4857,8 +4833,7 @@
                     "totalMarks": 10,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "EST-12-03",
-                      "EST-11-03"
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Assess asks for a judgement of extent. Weigh the author's influence against what the text does to challenge it, then state how far the context determines the ideas.",
@@ -4902,7 +4877,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing an evaluative essay for a critical reading task. She must assess how far the author's context and unstated cultural assumptions determine the perspectives and ideas presented in the text."
+                    "scenario": "A Year 12 student is writing an evaluative essay for a critical reading task. The text is an invented novel, written in a period of rapid social change, in which the narrator judges characters who move frequently as restless or unreliable, and later doubts the value of stability. She must assess how far the author's context and unstated cultural assumptions determine the perspectives and ideas presented in the text."
                   },
                   {
                     "id": "prompt-en-87",
@@ -4910,7 +4885,6 @@
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
-                      "EST-11-03",
                       "EST-12-03"
                     ],
                     "markerNotes": [
@@ -4947,7 +4921,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing a short quiz on how context shapes writing for her class. She must state two implicit assumptions an author might carry, and give an example of each."
+                    "scenario": "A Year 12 student is preparing a short quiz on how context shapes writing for her class. She must state two implicit assumptions an author might carry, and give an example of each."
                   }
                 ]
               },
@@ -4961,8 +4935,7 @@
                     "totalMarks": 6,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "EST-12-03",
-                      "EST-11-03"
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Evaluate asks for a judgement against criteria. Name the criteria first, test each position against them, then weigh the result.",
@@ -5006,7 +4979,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a critical evaluation of a short story for a class debate. She must judge how well the story's content establishes the social, moral and ethical positions it represents, and state the criteria she uses."
+                    "scenario": "A Year 12 student is writing a critical evaluation of a short story for a class debate. The story is invented: it centres on a factory closure, with an empty canteen and unpaid final wages, and its narrator condemns the manager's cruelty before accepting a favour from the same manager at the end. She must judge how well the story's content establishes the social, moral and ethical positions it represents, and state the criteria she uses."
                   },
                   {
                     "id": "prompt-en-89",
@@ -5014,8 +4987,7 @@
                     "totalMarks": 5,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "EST-12-03",
-                      "EST-11-03"
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Discuss means presenting more than one side. Show how the content makes the position persuasive, then how a reader can push back on it.",
@@ -5059,7 +5031,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is preparing for a discussion task on a short story whose content presents a moral position that some readers would contest. Her teacher asks her to discuss how the content presents that position, and how readers might question it."
+                    "scenario": "A Year 12 student is preparing for a discussion task on a short story whose content presents a moral position that some readers would contest. The story is invented: its narrator hides a colleague's mistake to protect her family, and the colleague is dismissed without a hearing. Her teacher asks her to discuss how the content presents that position, and how readers might question it."
                   }
                 ]
               }
@@ -5079,8 +5051,8 @@
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-11-03"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "A strong answer names each feature precisely, such as a rhetorical question or a short anecdote, and then says what it does to a reader rather than only what it is.",
@@ -5129,7 +5101,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading an invented 600-word opinion column, written for this question, that argues the regional council should keep its Riverside branch library open. It was printed in a local newspaper read mainly by ratepayers, and it opens with a short anecdote about a retired bus driver who learned to read at the library."
+                    "scenario": "Students are reading an invented 600-word opinion column, written for this question, that argues the regional council should keep its Riverside branch library open. It was printed in a local newspaper read mainly by ratepayers, and it opens with a short anecdote about a retired bus driver who learned to read at the library. Its middle paragraphs ask rhetorical questions, such as 'Who will teach the next child to read when the shelves are gone?', and it then moves to a list of costs and a single call to action."
                   },
                   {
                     "id": "prompt-en-91",
@@ -5137,8 +5109,8 @@
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
-                      "EST-11-01",
-                      "EST-11-03"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "The best answers treat the column as a chain: each section changes what the reader believes before the next section begins, and the analysis should follow that chain.",
@@ -5185,7 +5157,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The class is studying the invented 600-word opinion column, written for this question, that argues the council should keep the Riverside branch library open. It was published in a local newspaper a fortnight before a council vote, so its readers are ratepayers who have not yet decided what to think."
+                    "scenario": "The class is studying the invented 600-word opinion column, written for this question, that argues the council should keep the Riverside branch library open. It was published in a local newspaper a fortnight before a council vote, so its readers are ratepayers who have not yet decided what to think. Its final call to action asks readers to attend the council meeting."
                   },
                   {
                     "id": "prompt-en-92",
@@ -5242,7 +5214,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Students are writing a critical response for their folio on the invented 600-word opinion column, written for this question, which was published in a local newspaper before a council vote on the Riverside branch. The response must reach a judgement rather than simply retell the column's argument."
+                    "scenario": "Students are writing a critical response for their folio on the invented 600-word opinion column, written for this question, which was published in a local newspaper before a council vote on the Riverside branch. The column admits the council faces real budget pressure, repeats the phrase 'a library is a promise', and says closing the branch will cost more in the long run without showing the calculation. The response must reach a judgement rather than simply retell the column's argument."
                   }
                 ]
               },
@@ -5305,7 +5277,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a letter to the editor of a regional newspaper, read by parents and local business owners. The student's research folder holds three invented sources for this task: a council survey of 400 households, a state health report on drowning rates in rural areas, and an interview with a local swim coach."
+                    "scenario": "A Year 12 student is writing a letter to the editor of a regional newspaper, read by parents and local business owners. The student's research folder holds three invented sources for this task: a council survey of 400 households, a state health report on drowning rates in rural areas, and an interview with a local swim coach. The survey finds that many households travel more than forty minutes to swim, and the coach runs lessons from a borrowed hall with a waiting list."
                   },
                   {
                     "id": "prompt-en-94",
@@ -5374,8 +5346,8 @@
                     "totalMarks": 4,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
-                      "EST-11-03",
-                      "EST-11-02"
+                      "EST-12-02",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "To distinguish is to separate two things and show the line between them. The strongest answers use the writers' own words to show what each value looks like on the page.",
@@ -5431,8 +5403,8 @@
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
-                      "EST-11-02",
-                      "EST-11-03"
+                      "EST-12-02",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "The recall is simple, but the top band still needs specific terms. A perspective is a way of seeing the issue, not just a yes or no.",
@@ -5531,7 +5503,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are studying an invented 30-line free-verse poem, written for this question, about a grandchild's grief for a grandmother who stopped baking years before she died. The bread tin she left on the kitchen bench is the poem's central image, and the poem uses enjambment, a repeated image of the tin and a final stanza in which the speaker shifts from past tense to present tense."
+                    "scenario": "Students are studying an invented 30-line free-verse poem, written for this question, about a grandchild's grief for a grandmother who stopped baking years before she died. The bread tin she left on the kitchen bench is the poem's central image, the speaker keeps noticing that the tin's lid is always pressed down tightly, and the poem uses enjambment, a repeated image of the tin and a final stanza in which the speaker shifts from past tense to present tense."
                   },
                   {
                     "id": "prompt-en-98",
@@ -5587,7 +5559,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The class is studying the same invented 30-line free-verse poem about a grandchild's grief for a grandmother who stopped baking years before she died, written for this question. The bread tin appears in the first, middle and final stanzas, and students are asked to trace how the image changes rather than simply count its appearances."
+                    "scenario": "The class is studying the same invented 30-line free-verse poem about a grandchild's grief for a grandmother who stopped baking years before she died, written for this question. The bread tin appears in the first, middle and final stanzas, its lid is always pressed down, and students are asked to trace how the image changes rather than simply count its appearances."
                   },
                   {
                     "id": "prompt-en-99",
@@ -5706,7 +5678,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading an invented 1200-word short story, written for this question, in which sixteen-year-old Mira narrates the week after her family moves to a new city. The story is told in first person and uses frequent short sentences, and the adults in it never explain their decisions."
+                    "scenario": "Students are reading an invented 1200-word short story, written for this question, in which sixteen-year-old Mira narrates the week after her family moves to a new city. The story is told in first person and uses frequent short sentences, and the adults in it never explain their decisions. It includes Mira's description of an empty removal van."
                   },
                   {
                     "id": "prompt-en-101",
@@ -5760,7 +5732,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading the same invented 1200-word short story (written for this question), in which sixteen-year-old Mira narrates the week after her family moves to a new city. The adults in the story never explain their decisions, and the reader sees them only through Mira's observations."
+                    "scenario": "Students are reading the same invented 1200-word short story (written for this question), in which sixteen-year-old Mira narrates the week after her family moves to a new city. The adults in the story never explain their decisions, and the reader sees them only through Mira's observations. Her father falls silent at dinner, and her mother's late phone calls go unexplained."
                   }
                 ]
               },
@@ -5821,7 +5793,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading an invented sequence of seven diary entries, written for this question, by a sixteen-year-old boarder at a country school during a drought. Each entry is dated, the sentences are short, the entries repeatedly mention a dam level chalked on the classroom wall, and the final entry is written in the present tense after a day without rain."
+                    "scenario": "Students are reading an invented sequence of seven diary entries, written for this question, by a sixteen-year-old boarder at a country school during a drought. Each entry is dated, the sentences are short, the entries repeatedly mention a dam level chalked on the classroom wall, one entry reads 'Dam down again. Tank low.', and the final entry is written in the present tense after a day without rain."
                   },
                   {
                     "id": "prompt-en-103",
@@ -5980,7 +5952,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are comparing an invented 900-word feature article about night-shift nurses in a regional hospital (written for this question) with its invented 12-minute podcast adaptation. The podcast uses a nurse's recorded voice, background sounds of machines and footsteps, and a shorter script than the article."
+                    "scenario": "Students are comparing an invented 900-word feature article about night-shift nurses in a regional hospital (written for this question) with its invented 12-minute podcast adaptation. The podcast uses a nurse's recorded voice, background sounds of machines and footsteps, and a shorter script than the article. The article includes statistics about rostered hours and closes with a question for the reader, while the podcast closes on a sound that lingers."
                   },
                   {
                     "id": "prompt-en-106",
@@ -6096,7 +6068,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Students are studying an invented 800-word memoir extract, written for this question, in which a woman describes the flood that destroyed her family's farm when she was eleven. The memoir was published twenty years later in a collection of rural life writing, after a long drought had changed the local community."
+                    "scenario": "Students are studying an invented 800-word memoir extract, written for this question, in which a woman describes the flood that destroyed her family's farm when she was eleven. The memoir was published twenty years later in a collection of rural life writing, after a long drought had changed the local community. The memoir describes water rising over the fence line and the sound of water against the shed, and alternates between a child's sensory memory and an adult's explanation."
                   },
                   {
                     "id": "prompt-en-108",
@@ -6212,7 +6184,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Students are reading an invented 1500-word detective short story, written for this question, in which a retired school librarian investigates a missing ledger in a small town. The story keeps the usual sequence of crime, clues and reveal, but its narrator withholds the investigator's inner thoughts until the final page."
+                    "scenario": "Students are reading an invented 1500-word detective short story, written for this question, in which a retired school librarian investigates a missing ledger in a small town. The story keeps the usual sequence of crime, clues and reveal, but its narrator withholds the investigator's inner thoughts until the final page. Clues are planted in descriptions of the library, and at the end the ledger is returned without comment."
                   },
                   {
                     "id": "prompt-en-110",
@@ -6266,7 +6238,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading the invented detective short story (written for this question) about a retired school librarian who investigates a missing ledger in a small town. Its narrator withholds the investigator's inner thoughts until the final page, and the class is comparing the first and last scenes."
+                    "scenario": "Students are reading the invented detective short story (written for this question) about a retired school librarian who investigates a missing ledger in a small town. Its narrator withholds the investigator's inner thoughts until the final page, and the class is comparing the first and last scenes. In the opening paragraph the librarian discovers the missing ledger."
                   },
                   {
                     "id": "prompt-en-111",
@@ -6320,7 +6292,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading the invented detective short story (written for this question) about a retired school librarian who investigates a missing ledger in a small town. The story keeps the usual sequence of crime, clues and reveal, and the investigator is introduced in its early chapters."
+                    "scenario": "Students are reading the invented detective short story (written for this question) about a retired school librarian who investigates a missing ledger in a small town. The story keeps the usual sequence of crime, clues and reveal, and the investigator is introduced in its early chapters. Early clues include a torn page, a half-finished cup of tea and a borrowed key."
                   }
                 ]
               }
@@ -6557,7 +6529,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Students are reading an invented 24-line poem, written for this question, about a lighthouse keeper's final winter before the light is automated. Class discussion has produced three readings: a historical reading that sees the poem as a record of a vanishing occupation, an ecological reading that focuses on the sea and the birds, and a personal reading from a student whose family moved away from a coastal town."
+                    "scenario": "Students are reading an invented 24-line poem, written for this question, about a lighthouse keeper's final winter before the light is automated. The poem describes routine tasks such as trimming the wick and logging the weather, along with the sea and birds. Class discussion has produced three readings: a historical reading that sees the poem as a record of a vanishing occupation, an ecological reading that focuses on the sea and the birds, and a personal reading from a student whose family moved away from a coastal town."
                   },
                   {
                     "id": "prompt-en-116",
@@ -6786,7 +6758,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are preparing a paragraph for a class debate on whether isolation is the lighthouse poem's main concern. The class has generated ideas about the keeper's solitude, the automated light and the sea, and the composition will be submitted as part of a folio with a short rationale."
+                    "scenario": "Students are preparing a paragraph for a class debate on whether isolation is the lighthouse poem's main concern. The poem repeats images of stairs and glass, and its final line reads the light as turning for no one. The class has generated ideas about the keeper's solitude, the automated light and the sea, and the composition will be submitted as part of a folio with a short rationale."
                   },
                   {
                     "id": "prompt-en-120",
@@ -6913,7 +6885,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Students are reading an invented 500-word memoir extract, written for this question, in which a father describes learning to make his daughter's school lunch after his wife's death. The extract uses lists of kitchen objects, figurative language that treats the kitchen as a weather system, and a flat, factual tone in its final paragraph."
+                    "scenario": "Students are reading an invented 500-word memoir extract, written for this question, in which a father describes learning to make his daughter's school lunch after his wife's death. The extract uses lists of kitchen objects, including a wooden spoon, a lunch box with a broken clasp and a tin of biscuits his wife always bought, figurative language that treats the kitchen as a weather system, and a flat, factual tone in its final paragraph."
                   },
                   {
                     "id": "prompt-en-122",
@@ -6921,8 +6893,7 @@
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "EST-12-01",
-                      "EST-12-02"
+                      "EST-12-01"
                     ],
                     "markerNotes": [
                       "Describe asks for an accurate account of what each example is and how it is built. Name the figure, then say what it compares or implies.",
@@ -6966,7 +6937,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are reading the same invented 500-word memoir extract (written for this question), in which a father learns to make his daughter's school lunch after his wife's death. The kitchen is the setting for most of the extract, and the figurative language in it is central to how the father's grief is conveyed."
+                    "scenario": "Students are reading the same invented 500-word memoir extract (written for this question), in which a father learns to make his daughter's school lunch after his wife's death. The kitchen is treated as a weather system, and the house runs on his wife 'the way a clock runs on its spring'. The kitchen is the setting for most of the extract, and the figurative language in it is central to how the father's grief is conveyed."
                   },
                   {
                     "id": "prompt-en-123",
@@ -6974,7 +6945,7 @@
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
-                      "EST-12-02",
+                      "EST-12-01",
                       "EST-12-03"
                     ],
                     "markerNotes": [
@@ -7011,7 +6982,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students have read the invented 500-word memoir extract (written for this question) in which a father learns to make his daughter's school lunch after his wife's death. Class discussion has produced several readings, and students must decide which perspective on grief the extract expresses most strongly."
+                    "scenario": "Students have read the invented 500-word memoir extract (written for this question) in which a father learns to make his daughter's school lunch after his wife's death. Its final paragraph is flat and factual, recording the lunch he has made. Class discussion has produced several readings, and students must decide which perspective on grief the extract expresses most strongly."
                   }
                 ]
               },
@@ -7072,7 +7043,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student has written an invented 350-word persuasive speech, written for this question, for a school assembly arguing that the school should start an after-school reading club. The speech uses a question-and-answer structure, a list of three reasons and a repeated phrase in its closing lines."
+                    "scenario": "A Year 12 student has written an invented 350-word persuasive speech, written for this question, for a school assembly arguing that the school should start an after-school reading club. The speech uses a question-and-answer structure (including the question 'Who wants to be heard?'), a list of three reasons and a repeated phrase in its closing lines, 'a room with a book in it'."
                   },
                   {
                     "id": "prompt-en-125",
@@ -7080,8 +7051,7 @@
                     "totalMarks": 3,
                     "verb": "CLASSIFY",
                     "linkedOutcomes": [
-                      "EST-12-04",
-                      "EST-12-06"
+                      "EST-12-01"
                     ],
                     "markerNotes": [
                       "The four categories are about purpose as well as form. Ask what each passage is trying to do with the reader, then find the feature that shows it.",
@@ -7126,7 +7096,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are given four invented passages of about 60 words each, written for this question. Passage A opens a story set on a train platform; Passage B argues that school terms should be shorter and ends with a call to parents; Passage C is a diary entry written after a funeral; and Passage D is an essay on the history of tea that sets out facts and a general view."
+                    "scenario": "Students are given four invented passages of about 60 words each, written for this question. Passage A opens a story set on a train platform, with a dropped glove on the tracks; Passage B argues that school terms should be shorter and ends with a call to parents; Passage C is a diary entry written after a funeral; and Passage D is an essay on the history of tea that sets out facts and a general view."
                   }
                 ]
               }
@@ -7192,7 +7162,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student has written an invented feature article on the closure of a local swimming pool and has kept a planning log showing the processes used before drafting. The log records a brainstorm with a friend, interviews with two residents, a timeline of council decisions and a mind map that was reorganised into four sections."
+                    "scenario": "A Year 12 student has written an invented feature article on the closure of a local swimming pool and has kept a planning log showing the processes used before drafting. The log records a brainstorm with a friend, interviews with two residents, a timeline of council decisions and a mind map that was reorganised into four sections."
                   },
                   {
                     "id": "prompt-en-127",
@@ -7246,7 +7216,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A student's planning log for an invented feature article on the closure of a local pool records three drafts. The first draft was long and chronological, the second was reorganised around the community's experience, and the final version was edited for local readers and presented as a printed column in the community newspaper."
+                    "scenario": "A student's planning log for an invented feature article on the closure of a local pool records three drafts. The first draft was long and chronological, the second was reorganised around the community's experience, and the final version was edited for local readers and presented as a printed column in the community newspaper. Its log notes that passive sentences about council decisions were rewritten as direct statements and that the headline names the local pool."
                   }
                 ]
               },
@@ -7361,7 +7331,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students have two invented texts about the same local bike lane, both written for this question. One is a 300-word podcast script that uses a host's voice, sound cues and a guest interview. The other is a 300-word newspaper opinion column that uses a headline, a first-person argument and a call to action at the end."
+                    "scenario": "Students have two invented texts about the same local bike lane, both written for this question. One is a 300-word podcast script that uses a host's voice, sound cues such as a passing bus, and a guest interview. The other is a 300-word newspaper opinion column that uses a headline, a first-person argument and a call to action at the end."
                   }
                 ]
               },
@@ -7422,7 +7392,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The class has read an invented 300-word scene, written for this question, in which a Year 11 student runs for the last bus home and misses it. The bus driver saw her and drove on. The scene is narrated in close third person from the student's point of view and uses short sentences to show her panic."
+                    "scenario": "The class has read an invented 300-word scene, written for this question, in which a Year 12 student runs for the last bus home and misses it. She wears a grey hoodie, and her bag thumps against her hip as she runs. The bus driver saw her and drove on. The scene ends without saying whether she reaches home. The scene is narrated in close third person from the student's point of view and uses short sentences to show her panic."
                   },
                   {
                     "id": "prompt-en-131",
@@ -7430,8 +7400,8 @@
                     "totalMarks": 8,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "EST-12-03",
-                      "EST-12-06"
+                      "EST-12-01",
+                      "EST-12-03"
                     ],
                     "markerNotes": [
                       "Assess asks for a judgement on effectiveness. Test the retelling against each named criterion, then state the overall verdict.",
@@ -7477,7 +7447,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A classmate has written a 170-word retelling of the same bus scene from the bus driver's point of view, invented for this question. The retelling opens with the driver checking the rear-view mirror every few seconds, uses short present-tense sentences and ends with the driver deciding not to tell the school. The class is assessing whether the change in point of view is effective."
+                    "scenario": "A classmate has written a 170-word retelling of the same bus scene from the bus driver's point of view, invented for this question. The retelling opens with the driver checking the rear-view mirror and the timetable every few seconds, has the driver keep the doors shut, uses short present-tense sentences and ends with the driver deciding not to tell the school. The class is assessing whether the change in point of view is effective."
                   },
                   {
                     "id": "prompt-en-132",
@@ -7522,7 +7492,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The class has read the invented 300-word scene (written for this question) in which a Year 11 student runs for the last bus home and misses it. The scene is narrated in close third person from the student's point of view. A classmate's retelling of the same scene is narrated in the first person by the bus driver."
+                    "scenario": "The class has read the invented 300-word scene (written for this question) in which a Year 12 student runs for the last bus home and misses it. The scene is narrated in close third person from the student's point of view. A classmate's retelling of the same scene is narrated in the first person by the bus driver."
                   }
                 ]
               },
@@ -7583,7 +7553,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a reflective piece for the school's literary journal. The piece must connect thematically with the invented poem about a grandchild's grief and a bread tin, which the class studied in the close study unit, and it should show the student's own perspective on belonging."
+                    "scenario": "A Year 12 student is writing a reflective piece for the school's literary journal. The piece must connect thematically with the invented poem about a grandchild's grief and a bread tin, which the class studied in the close study unit. In the poem, the grandchild keeps a bread tin on a bench long after the grandmother stopped baking, and the final stanza shifts into the present tense, and it should show the student's own perspective on belonging."
                   },
                   {
                     "id": "prompt-en-134",
@@ -7696,7 +7666,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is writing a reflective commentary to accompany a short story in a folio. The teacher has asked for accurate metalanguage rather than general comments such as 'the writing is good'. The invented story's opening paragraph uses a metaphor that compares the town to a sleeping dog, its middle section uses a list of three short sentences, and its final paragraph ends with a rhetorical question."
+                    "scenario": "A Year 12 student is writing a reflective commentary to accompany a short story in a folio. The teacher has asked for accurate metalanguage rather than general comments such as 'the writing is good'. The invented story's opening paragraph uses a metaphor that compares the town to a sleeping dog, its middle section uses a list of three short sentences, and its final paragraph ends with a rhetorical question. The question asks where the town's children will go."
                   },
                   {
                     "id": "prompt-en-136",
@@ -7865,7 +7835,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A student is describing how an invented speech about plastic was produced for a Year 9 audience. The student drafted the speech, reflected on it with a peer, and then edited it for its purpose and audience before it was presented in assembly."
+                    "scenario": "A student is describing how an invented speech about plastic was produced for a Year 9 audience. The student drafted the speech, reflected on it with a peer, and then edited it for its purpose and audience before it was presented in assembly. The first draft was long and used technical terms, and editing turned its ending into a call to action."
                   },
                   {
                     "id": "prompt-en-139",
@@ -7919,7 +7889,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented student speech on reducing plastic at school went through several stages between its first draft and the final presented version. The student reflected on the first draft with a peer, edited the technical language and the ending, and then rehearsed the speech aloud before presenting it in assembly."
+                    "scenario": "An invented student speech on reducing plastic at school went through several stages between its first draft and the final presented version. The student reflected on the first draft with a peer, edited the technical language and the ending, and then rehearsed the speech aloud before presenting it in assembly. The first draft had a long introduction and used terms such as 'biodegradable polymer', and the introduction was later cut to two sentences."
                   }
                 ]
               }
