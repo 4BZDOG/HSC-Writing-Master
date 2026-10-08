@@ -51,6 +51,7 @@ import {
   regenerateTopicIds,
   recalculateSampleAnswerBands,
 } from '../utils/dataManagerUtils';
+import { hashCourse, isUnedited, stampShipped } from '../utils/shippedCourseStamp';
 
 type DiscoveredDocType = 'course' | 'topic';
 
@@ -112,11 +113,15 @@ const parseManifestEntries = (manifest: {
 };
 
 /**
- * The courses the app ships that a saved library does not have yet, matched by
- * id. Existing courses are left exactly as they are. `complete` is false when
- * any shipped file could not be read, so the caller knows to try again.
+ * Brings a saved library up to the shipped courses. A shipped course the library
+ * lacks is added. A saved copy the user has not edited is replaced by the newer
+ * shipped version. An edited copy is kept. A copy saved before fingerprints
+ * existed cannot be checked for edits, so if its content differs from the shipped
+ * version, it is kept as a backup course named "(before refresh)" and the shipped
+ * version replaces it. `complete` is false when any shipped file could not be
+ * read, so the caller knows to try again.
  */
-export const addMissingShippedCourses = async (
+export const syncShippedCourses = async (
   saved: Course[]
 ): Promise<{ courses: Course[]; complete: boolean }> => {
   const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
@@ -134,15 +139,40 @@ export const addMissingShippedCourses = async (
         return analysis.type === 'courses' && analysis.data ? (analysis.data as Course[]) : [];
       })
     );
-    const have = new Set(saved.map((course) => course.id));
-    const added = shipped.flat().filter((course) => {
-      if (have.has(course.id)) return false;
-      have.add(course.id);
-      return true;
-    });
-    return { courses: added.length ? [...saved, ...added] : saved, complete: true };
+    const pending = new Map<string, Course>();
+    for (const course of shipped.flat()) {
+      if (!pending.has(course.id)) pending.set(course.id, course);
+    }
+    const courses: Course[] = [];
+    const backups: Course[] = [];
+    for (const course of saved) {
+      const next = pending.get(course.id);
+      if (!next) {
+        courses.push(course);
+        continue;
+      }
+      pending.delete(course.id);
+      const stamped = stampShipped(next);
+      if (course.shippedHash === undefined) {
+        // Predates fingerprints. Identical content needs no backup.
+        if (hashCourse(course) !== stamped.shippedHash) {
+          backups.push({
+            ...course,
+            id: `${course.id}-before-refresh`,
+            name: `${course.name} (before refresh)`,
+          });
+        }
+        courses.push(stamped);
+      } else if (!isUnedited(course)) {
+        courses.push(course);
+      } else {
+        courses.push(course.shippedHash === stamped.shippedHash ? course : stamped);
+      }
+    }
+    for (const next of pending.values()) courses.push(stampShipped(next));
+    return { courses: [...courses, ...backups], complete: true };
   } catch (err) {
-    console.warn('[Curriculum] Could not add shipped courses; will retry on next load.', err);
+    console.warn('[Curriculum] Could not sync shipped courses; will retry on next load.', err);
     return { courses: saved, complete: false };
   }
 };
@@ -269,15 +299,14 @@ export const useSyllabusData = ({
 
         if (savedVersion !== DATA_VERSION) {
           dataToLoad = runMigrations(dataToLoad, savedVersion);
-          // 2.11.0 replaced the built-in library and 2.12.0 added courses to it. A
-          // returning browser never runs discovery again, so shipped courses it is
-          // missing are added here. The version only advances once that has worked,
-          // so a failed fetch is retried.
+          // A returning browser never runs discovery again, so shipped courses it is
+          // missing are added here, and unedited copies are brought up to date. The
+          // version only advances once that has worked, so a failed fetch is retried.
           let libraryReady = true;
-          if (isOlderThan(savedVersion, '2.12.0')) {
-            const shipped = await addMissingShippedCourses(dataToLoad);
-            dataToLoad = shipped.courses;
-            libraryReady = shipped.complete;
+          if (isOlderThan(savedVersion, '2.13.0')) {
+            const synced = await syncShippedCourses(dataToLoad);
+            dataToLoad = synced.courses;
+            libraryReady = synced.complete;
           }
           if (libraryReady) safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
         }
@@ -297,7 +326,7 @@ export const useSyllabusData = ({
               source: 'Built-in Samples',
               subject: detectSubjectArea(c.name),
               type: 'course',
-              data: c,
+              data: stampShipped(c),
               selected: true,
             });
           });
@@ -328,7 +357,7 @@ export const useSyllabusData = ({
                               source: entry.file,
                               subject: entry.subject || c.subject || detectSubjectArea(c.name),
                               type: 'course',
-                              data: c,
+                              data: stampShipped(c),
                               selected: entry.selected ?? false,
                             });
                           }

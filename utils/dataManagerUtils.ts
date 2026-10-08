@@ -689,6 +689,7 @@ export const CourseSchema = z
     outcomes: z.array(CourseOutcomeSchema).default([]),
     topics: z.array(TopicSchema).default([]),
     status: z.enum(['draft', 'published']).optional(),
+    shippedHash: z.string().optional(),
   })
   .passthrough();
 

@@ -20,6 +20,12 @@
 - **Returning browsers.** `DATA_VERSION` is now 2.12.0. The shipped-course sync in
   `useSyllabusData` runs for any library saved before 2.12.0, so a browser saved at
   2.11.0 receives Geography, English Standard and Ancient History.
+- **Refreshed copies.** `DATA_VERSION` is now 2.13.0. Copies of shipped courses carry
+  a `shippedHash` fingerprint. On the next load, an unedited copy is replaced by the
+  current shipped version, and an edited copy is kept. A copy saved before fingerprints
+  existed cannot be checked for edits. If its content differs from the shipped version,
+  it is kept as a backup named "(before refresh)" and the shipped version replaces it.
+  Delete the backups once you have checked them.
 
 ## [Unreleased] - 2026-10-07 (Analytics windows in hours, and stale seeded courses retired from saved libraries)
 
