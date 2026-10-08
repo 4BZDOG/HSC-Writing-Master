@@ -1,6 +1,8 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 import { Course, LibraryItem, User } from '../types';
 import { generateId } from './idUtils';
+import { normaliseGuideRows } from './markingGuideLadder';
+import { isUnedited } from './shippedCourseStamp';
 import {
   migrateAnalyseVerb,
   formatMarkingCriteria,
@@ -47,7 +49,15 @@ import {
 // up to date and edited copies are kept. A copy saved before this has no
 // fingerprint, so it is kept as a backup course and replaced by the shipped
 // version. `useSyllabusData` runs the sync for any library saved before 2.13.0.
-export const DATA_VERSION = '2.13.0';
+// 2.14.0: marking guides are written in HSC marking-guideline style, highest
+// mark first with a capitalised performance verb opening each row, and the
+// shipped courses changed under every browser that had already synced at
+// 2.13.0. The version bump is what makes those browsers sync again, and the
+// migration puts the guides of courses the user owns (their own, edited copies
+// and backups) in the same shape. An unedited copy of a shipped course is left
+// for the sync to replace, because rewriting it first would change its content
+// and make it look edited.
+export const DATA_VERSION = '2.14.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
@@ -702,6 +712,35 @@ export const isOlderThan = (fromVersion: string, target: string): boolean => {
 };
 
 // Migration system to handle version changes
+/**
+ * Every marking guide in the courses the user owns, in canonical row shape. A
+ * stamped copy of a shipped course that is still unedited is skipped: the
+ * shipped-course sync replaces it with the current version, and changing its
+ * content here would make it look edited and keep it forever.
+ */
+export const normaliseCourseGuides = (courses: Course[]): Course[] =>
+  courses.map((course) =>
+    isUnedited(course)
+      ? course
+      : {
+          ...course,
+          topics: course.topics.map((topic) => ({
+            ...topic,
+            subTopics: topic.subTopics.map((st) => ({
+              ...st,
+              dotPoints: st.dotPoints.map((dp) => ({
+                ...dp,
+                prompts: (dp.prompts || []).map((p) =>
+                  p.markingCriteria
+                    ? { ...p, markingCriteria: normaliseGuideRows(p.markingCriteria) }
+                    : p
+                ),
+              })),
+            })),
+          })),
+        }
+  );
+
 export const runMigrations = (courses: Course[], fromVersion: string): Course[] => {
   let migrated = [...courses];
 
@@ -859,6 +898,15 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   if (isOlderThan(fromVersion, '2.9.0')) {
     console.log('Applying v2.9.0 migration: normalising outcome links to codes...');
     migrated = normaliseCourseOutcomeLinks(migrated);
+  }
+
+  // Version 2.14.0 Migration
+  // Stored marking guides are put in HSC marking-guideline shape: descending,
+  // one row per line, a capital letter opening each criterion. Wording is never
+  // changed. See normaliseGuideRows.
+  if (isOlderThan(fromVersion, '2.14.0')) {
+    console.log('Applying v2.14.0 migration: HSC-style marking guides...');
+    migrated = normaliseCourseGuides(migrated);
   }
 
   return migrated;

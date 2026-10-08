@@ -6,6 +6,7 @@ import { createKeywordRegex } from '../../../utils/renderUtils';
 import { promptHasExemplarMismatch } from '../../../utils/exemplarAudit';
 import { dropNonSyllabusTerms } from '../../../services/geminiService';
 import { missingSyllabusTerms } from '../../../utils/syllabusTermGaps';
+import { guideStyleProblem } from '../../../utils/markingGuideLadder';
 
 /**
  * The audit tree's shared vocabulary — the node shape, the filter/action enums,
@@ -478,7 +479,11 @@ export const isNonStandardRubric = (criteria: string | undefined): boolean => {
   // Bands present, but not laid out as bands.
   if (bandsRunTogether) return true;
   // Laid out, but climbing rather than descending.
-  return bands.some((val, i) => i > 0 && val > bands[i - 1]);
+  if (bands.some((val, i) => i > 0 && val > bands[i - 1])) return true;
+  // Laid out and descending, but not written as HSC marking-guideline
+  // criteria ("Provides…", "Demonstrates…") — a lower-case fragment or a
+  // passive description such as "one factor is identified".
+  return guideStyleProblem(criteria) !== null;
 };
 
 /**

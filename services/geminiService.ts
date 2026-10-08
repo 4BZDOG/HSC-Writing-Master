@@ -86,6 +86,21 @@ const aiTarget = (role: 'basic' | 'reasoning') => resolveTarget(role);
  * guide" a teacher then had to fix by hand. `formatMarkingCriteria` repairs that
  * shape on the way in as well; this stops it being produced in the first place.
  */
+/**
+ * How a row is worded. An HSC marking guideline is a ladder of performance
+ * descriptors, each opening with a capitalised verb in the third person. Models
+ * drift to lower-case fragments, noun phrases ("A clear contrast of…") and
+ * passives ("one factor is identified"), and the guide checker rejects all
+ * three, so the instruction says it before the model has the chance.
+ */
+const GUIDE_WORDING_RULE =
+  `Word every row as a NESA marking-guideline performance descriptor: begin it with a ` +
+  `capitalised verb in the third person ("Provides…", "Demonstrates…", "Identifies…", ` +
+  `"Outlines…", "Describes…", "Explains…", "Analyses…", "Evaluates…", "Makes a judgement…"), ` +
+  `or with "Minimal…" on the lowest row. Use NESA qualifiers — sustained, sophisticated, ` +
+  `thorough, detailed, sound, relevant, accurate, limited, basic, general — and never begin ` +
+  `a row with a lower-case word, a noun phrase or a passive ("one factor is identified"). `;
+
 const ROW_SEPARATION_RULE =
   `Separate every row with a REAL line break (press Enter). Do NOT write the two ` +
   `characters backslash-n, do NOT run the rows together on one line, and do NOT ` +
@@ -125,6 +140,7 @@ const buildMarkingCriteriaInstruction = (
       `that mark with, and the band its exemplar answers demonstrate. ` +
       `NEVER skip a mark value, use ranges, or group marks together. ` +
       `NEVER use bullet points or paragraphs — only "N marks: description" lines. ` +
+      GUIDE_WORDING_RULE +
       ROW_SEPARATION_RULE
     );
   }
@@ -177,6 +193,7 @@ const buildMarkingCriteriaInstruction = (
     `low bands make basic or elementary statements — fragmented points, terms defined but not applied. ` +
     `Every row must be checkable by a marker: name WHAT content is required AND the quality of thinking that separates it from the band below. ` +
     `NEVER use bullet points or paragraphs — only "N marks: description" lines. ` +
+    GUIDE_WORDING_RULE +
     ROW_SEPARATION_RULE
   );
 };

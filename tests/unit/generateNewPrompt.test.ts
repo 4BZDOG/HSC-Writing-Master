@@ -250,7 +250,8 @@ describe('the marking guide a new question comes with', () => {
       keywords: ['x'],
       linkedOutcomes: [],
     });
-  const LADDER = '4 marks: a\n3 marks: b\n2 marks: c\n1 mark: d';
+  const LADDER =
+    '4 marks: Describes a\n3 marks: Describes b\n2 marks: Outlines c\n1 mark: Identifies d';
 
   beforeEach(() => {
     fetchMock = vi.fn();
@@ -261,7 +262,7 @@ describe('the marking guide a new question comes with', () => {
   it('keeps a guide that follows the ladder, with no extra call', async () => {
     fetchMock.mockResolvedValueOnce(question(LADDER));
     const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
-    expect(prompt.markingCriteria).toMatch(/^4 marks: a/);
+    expect(prompt.markingCriteria).toMatch(/^4 marks: Describes a/);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -270,7 +271,7 @@ describe('the marking guide a new question comes with', () => {
       .mockResolvedValueOnce(question('2 marks: a\n1 mark: b'))
       .mockResolvedValue(text(LADDER));
     const prompt = await generateNewPrompt('C', 'T', 'describe X', 4, verbs, outcomes);
-    expect(prompt.markingCriteria).toMatch(/^4 marks: a/);
+    expect(prompt.markingCriteria).toMatch(/^4 marks: Describes a/);
   });
 
   it('keeps the question with no guide rather than a wrong one', async () => {

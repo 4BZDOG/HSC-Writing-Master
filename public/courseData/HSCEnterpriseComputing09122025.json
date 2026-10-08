@@ -70,7 +70,7 @@
                       "highlighting significant results",
                       "quarterly sales figures"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct, correct purposes of data visualisation, such as simplifying understanding and telling a story, each stated clearly.\n1 mark: Identifies one correct purpose, or gives two purposes where one is vague or repeats the other.",
+                    "markingCriteria": "2 marks: Identifies two distinct, correct purposes of data visualisation, such as simplifying understanding and telling a story, each stated clearly\n1 mark: Identifies one correct purpose, or gives two purposes where one is vague or repeats the other",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-01-2m",
@@ -121,7 +121,7 @@
                       "trends and outliers",
                       "storytelling"
                     ],
-                    "markingCriteria": "4 marks: Clearly explains how specific visual features of a well-designed visualisation (such as position, length, colour or contrast) direct attention to significant results, and contrasts this with the effort needed to find the same result in a raw table, using an example from the sea-level data.\n3 marks: Explains how a well-designed visualisation highlights significant results using a relevant visual feature and a comparison with a raw table, but the explanation or example is underdeveloped.\n2 marks: States that a visualisation makes results easier to see than a table, with a general reason such as 'the trend is easier to see', but does not explain which visual features do this.\n1 mark: Makes a relevant but unsupported statement about visualisations, such as 'charts are more interesting than tables', with no link to highlighting significant results.",
+                    "markingCriteria": "4 marks: Clearly explains how specific visual features of a well-designed visualisation (such as position, length, colour or contrast) direct attention to significant results, and contrasts this with the effort needed to find the same result in a raw table, using an example from the sea-level data\n3 marks: Explains how a well-designed visualisation highlights significant results using a relevant visual feature and a comparison with a raw table, but the explanation or example is underdeveloped\n2 marks: States that a visualisation makes results easier to see than a table, with a general reason such as 'the trend is easier to see', but does not explain which visual features do this\n1 mark: Makes a relevant but unsupported statement about visualisations, such as 'charts are more interesting than tables', with no link to highlighting significant results",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-01-4m",
@@ -185,7 +185,7 @@
                       "pivot table",
                       "formulas"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct spreadsheet features that create or support visualisations, such as built-in charting tools and conditional formatting, each named clearly.\n1 mark: Identifies one correct spreadsheet feature that creates or supports visualisations, or names two features where one is not relevant to visualisation, such as saving files.",
+                    "markingCriteria": "2 marks: Identifies two distinct spreadsheet features that create or support visualisations, such as built-in charting tools and conditional formatting, each named clearly\n1 mark: Identifies one correct spreadsheet feature that creates or supports visualisations, or names two features where one is not relevant to visualisation, such as saving files",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-02-2m",
@@ -236,7 +236,7 @@
                       "customer demographics",
                       "storytelling"
                     ],
-                    "markingCriteria": "4 marks: Describes a clear, sequenced workflow in which the spreadsheet is used to clean, summarise and chart the customer data, the outputs are exported to a creative design application, and the design tool is used to build a layout, brand-consistent styling and a narrative. Explains why each tool suits its stage.\n3 marks: Describes both tools and a sensible sequence, with one stage underdeveloped or without an explanation of what the design application adds.\n2 marks: Describes the spreadsheet's role in some detail, or both tools' roles in general terms, without showing how the two combine.\n1 mark: Makes a relevant but general statement about the tools, such as 'the spreadsheet holds the data and the design tool makes it look good', with no description of how they are combined.",
+                    "markingCriteria": "4 marks: Describes a clear, sequenced workflow in which the spreadsheet is used to clean, summarise and chart the customer data, the outputs are exported to a creative design application, and the design tool is used to build a layout, brand-consistent styling and a narrative. Explains why each tool suits its stage\n3 marks: Describes both tools and a sensible sequence, with one stage underdeveloped or without an explanation of what the design application adds\n2 marks: Describes the spreadsheet's role in some detail, or both tools' roles in general terms, without showing how the two combine\n1 mark: Makes a relevant but general statement about the tools, such as 'the spreadsheet holds the data and the design tool makes it look good', with no description of how they are combined",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-02-4m",
@@ -298,7 +298,7 @@
                       "seasonality",
                       "predictive data analytics"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two terms correctly: a trend is the long-term direction of change in the data, while a pattern is a recurring regularity that repeats, such as a seasonal peak, with an example for at least one.\n1 mark: Gives one accurate definition, such as 'a trend is the general direction data moves over time', or defines both terms too vaguely to separate them.",
+                    "markingCriteria": "2 marks: Distinguishes the two terms correctly: a trend is the long-term direction of change in the data, while a pattern is a recurring regularity that repeats, such as a seasonal peak, with an example for at least one\n1 mark: Gives one accurate definition, such as 'a trend is the general direction data moves over time', or defines both terms too vaguely to separate them",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-03-2m",
@@ -350,7 +350,7 @@
                       "forecasting",
                       "datasets"
                     ],
-                    "markingCriteria": "4 marks: Explains how identifying a specific pattern or trend across the two datasets (such as a relationship between transport use and pollution, or a recurring seasonal cycle) provides a basis for predictive analytics, showing how historical relationships are used to build a model or forecast and how the council could act on it, with each step clearly linked.\n3 marks: Explains how an identified trend or pattern is used to forecast future values, with a relevant link to the transport and air quality data, but the mechanism or the link to policy is underdeveloped.\n2 marks: Identifies a pattern or trend in the data and states that it could be used to predict the future, without explaining how the prediction would be made.\n1 mark: Makes a general statement that data can predict the future, with no reference to the datasets or to a pattern identified in them.",
+                    "markingCriteria": "4 marks: Explains how identifying a specific pattern or trend across the two datasets (such as a relationship between transport use and pollution, or a recurring seasonal cycle) provides a basis for predictive analytics, showing how historical relationships are used to build a model or forecast and how the council could act on it, with each step clearly linked\n3 marks: Explains how an identified trend or pattern is used to forecast future values, with a relevant link to the transport and air quality data, but the mechanism or the link to policy is underdeveloped\n2 marks: Identifies a pattern or trend in the data and states that it could be used to predict the future, without explaining how the prediction would be made\n1 mark: Makes a general statement that data can predict the future, with no reference to the datasets or to a pattern identified in them",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-03-4m",
@@ -415,7 +415,7 @@
                       "big data",
                       "machine learning"
                     ],
-                    "markingCriteria": "2 marks: Outlines two distinct impacts of improved processing power on data analytics, such as faster processing and querying of large datasets with multi-core CPUs, and the practical use of computationally intensive machine learning, which GPUs support through parallel processing.\n1 mark: Outlines one correct impact of improved processing power on analytics, or names CPU and GPU developments without linking them to analytics.",
+                    "markingCriteria": "2 marks: Outlines two distinct impacts of improved processing power on data analytics, such as faster processing and querying of large datasets with multi-core CPUs, and the practical use of computationally intensive machine learning, which GPUs support through parallel processing\n1 mark: Outlines one correct impact of improved processing power on analytics, or names CPU and GPU developments without linking them to analytics",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-04-2m",
@@ -465,7 +465,7 @@
                       "big data",
                       "data warehouse"
                     ],
-                    "markingCriteria": "4 marks: Investigates how advances in storage and memory (such as cheap, high-capacity cloud storage, solid-state drives and larger RAM) and in communication media (such as high-bandwidth fibre networks) each enabled cloud analytics, and explains how they work together so large datasets can be stored, moved and processed, applied to the logistics scenario.\n3 marks: Explains how advances in both storage or memory and communication media enabled cloud analytics, with a clear link between them, but one area is developed in less depth or is not applied to the scenario.\n2 marks: Describes one advance, in storage or memory or in communication media, and how it enabled cloud analytics, with the other area only mentioned.\n1 mark: Makes a general statement that technology has improved analytics, with no specific advance in storage, memory or communication media named.",
+                    "markingCriteria": "4 marks: Investigates how advances in storage and memory (such as cheap, high-capacity cloud storage, solid-state drives and larger RAM) and in communication media (such as high-bandwidth fibre networks) each enabled cloud analytics, and explains how they work together so large datasets can be stored, moved and processed, applied to the logistics scenario\n3 marks: Explains how advances in both storage or memory and communication media enabled cloud analytics, with a clear link between them, but one area is developed in less depth or is not applied to the scenario\n2 marks: Describes one advance, in storage or memory or in communication media, and how it enabled cloud analytics, with the other area only mentioned\n1 mark: Makes a general statement that technology has improved analytics, with no specific advance in storage, memory or communication media named",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-04-4m",
@@ -528,7 +528,7 @@
                       "interactive analysis",
                       "sales data"
                     ],
-                    "markingCriteria": "2 marks: States the primary function of OLAP accurately: enabling fast, interactive, multidimensional analysis of large volumes of data, typically held in a data warehouse, such as viewing sales by product, time and location.\n1 mark: States a partial function, such as 'it analyses data', without the multidimensional or interactive element.",
+                    "markingCriteria": "2 marks: States the primary function of OLAP accurately: enabling fast, interactive, multidimensional analysis of large volumes of data, typically held in a data warehouse, such as viewing sales by product, time and location\n1 mark: States a partial function, such as 'it analyses data', without the multidimensional or interactive element",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-05-2m",
@@ -581,7 +581,7 @@
                       "dice",
                       "drill down"
                     ],
-                    "markingCriteria": "4 marks: Describes how the cube's Product, Time and Location dimensions let the manager navigate sales measures, explaining slice (one value of one dimension), dice (a sub-cube across two or more dimensions) and drill down (moving from a summary to finer detail on a dimension such as Time), each with a concrete example from the retail scenario.\n3 marks: Describes the cube's dimensions and at least two operations, such as slice and drill down, with an example of one, but one operation or example is underdeveloped or unclear.\n2 marks: Describes the cube as organising sales by Product, Time and Location, and gives one way the manager could analyse it, with limited detail.\n1 mark: States that an OLAP cube is a multidimensional structure or stores sales data, without showing how the manager would use the dimensions.",
+                    "markingCriteria": "4 marks: Describes how the cube's Product, Time and Location dimensions let the manager navigate sales measures, explaining slice (one value of one dimension), dice (a sub-cube across two or more dimensions) and drill down (moving from a summary to finer detail on a dimension such as Time), each with a concrete example from the retail scenario\n3 marks: Describes the cube's dimensions and at least two operations, such as slice and drill down, with an example of one, but one operation or example is underdeveloped or unclear\n2 marks: Describes the cube as organising sales by Product, Time and Location, and gives one way the manager could analyse it, with limited detail\n1 mark: States that an OLAP cube is a multidimensional structure or stores sales data, without showing how the manager would use the dimensions",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-05-4m",
@@ -645,7 +645,7 @@
                       "completeness",
                       "data visualisation"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two terms clearly: a data source is where the data came from, including who collected or owns it, while data validation is the process of checking the data's accuracy, completeness and consistency before it is used.\n1 mark: Defines one term correctly, or describes both in general terms that do not show how they differ.",
+                    "markingCriteria": "2 marks: Distinguishes the two terms clearly: a data source is where the data came from, including who collected or owns it, while data validation is the process of checking the data's accuracy, completeness and consistency before it is used\n1 mark: Defines one term correctly, or describes both in general terms that do not show how they differ",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-06-2m",
@@ -697,7 +697,7 @@
                       "data visualisation",
                       "ownership"
                     ],
-                    "markingCriteria": "4 marks: Assesses the risk with reasoned judgement: explains that the unverified source leaves the visualisation's accuracy unknown, that publishing it exposes the company to reputational damage and loss of trust, and that decisions or legal exposure could follow, then judges how serious the overall risk is.\n3 marks: Identifies and explains the main risks to integrity and to the company's reputation, with a judgement of their seriousness, but one risk or the judgement is underdeveloped.\n2 marks: Identifies one or two relevant risks, such as inaccurate data or reputational damage, with limited explanation and no clear judgement.\n1 mark: States a risk in general terms, such as 'the visualisation could be wrong', without explaining its consequences for the company.",
+                    "markingCriteria": "4 marks: Assesses the risk with reasoned judgement: explains that the unverified source leaves the visualisation's accuracy unknown, that publishing it exposes the company to reputational damage and loss of trust, and that decisions or legal exposure could follow, then judges how serious the overall risk is\n3 marks: Identifies and explains the main risks to integrity and to the company's reputation, with a judgement of their seriousness, but one risk or the judgement is underdeveloped\n2 marks: Identifies one or two relevant risks, such as inaccurate data or reputational damage, with limited explanation and no clear judgement\n1 mark: States a risk in general terms, such as 'the visualisation could be wrong', without explaining its consequences for the company",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-06-4m",
@@ -762,7 +762,7 @@
                       "dashboard",
                       "data visualisation"
                     ],
-                    "markingCriteria": "2 marks: Outlines one major benefit of a data warehouse for visualisation, such as a single integrated source of clean, consistent data from several systems, and briefly explains why this matters for the dashboard.\n1 mark: Names a benefit in general terms, such as 'it stores data', or names a benefit without explaining its effect on visualisation.",
+                    "markingCriteria": "2 marks: Outlines one major benefit of a data warehouse for visualisation, such as a single integrated source of clean, consistent data from several systems, and briefly explains why this matters for the dashboard\n1 mark: Names a benefit in general terms, such as 'it stores data', or names a benefit without explaining its effect on visualisation",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-07-2m",
@@ -813,7 +813,7 @@
                       "data visualisation",
                       "enterprise data warehousing"
                     ],
-                    "markingCriteria": "4 marks: Explains how a data warehouse, which stores integrated, time-stamped historical data separately from day-to-day operational systems, lets analysts query past and current data together, so that a visualisation can place current figures alongside long-term trends, and explains what this lets managers judge, such as whether this month is unusual or seasonal.\n3 marks: Explains that the warehouse holds historical data alongside current data and that a visualisation can compare them, with a clear example, but the reason the warehouse makes this possible is underdeveloped.\n2 marks: Identifies that a data warehouse stores historical data and that a visualisation can show it alongside current figures, without explaining how the comparison is made possible or what it shows.\n1 mark: States a general benefit of data warehouses, such as storing lots of data, with no link to historical trends or to current data in visualisations.",
+                    "markingCriteria": "4 marks: Explains how a data warehouse, which stores integrated, time-stamped historical data separately from day-to-day operational systems, lets analysts query past and current data together, so that a visualisation can place current figures alongside long-term trends, and explains what this lets managers judge, such as whether this month is unusual or seasonal\n3 marks: Explains that the warehouse holds historical data alongside current data and that a visualisation can compare them, with a clear example, but the reason the warehouse makes this possible is underdeveloped\n2 marks: Identifies that a data warehouse stores historical data and that a visualisation can show it alongside current figures, without explaining how the comparison is made possible or what it shows\n1 mark: States a general benefit of data warehouses, such as storing lots of data, with no link to historical trends or to current data in visualisations",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-07-4m",
@@ -878,7 +878,7 @@
                       "data points",
                       "scope of visible information"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct design challenges created by big data, such as visual clutter from very many data points and the performance demands of rendering large datasets, each named clearly.\n1 mark: Identifies one correct challenge, or names two points that describe the same problem in different words.",
+                    "markingCriteria": "2 marks: Identifies two distinct design challenges created by big data, such as visual clutter from very many data points and the performance demands of rendering large datasets, each named clearly\n1 mark: Identifies one correct challenge, or names two points that describe the same problem in different words",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-08-2m",
@@ -929,7 +929,7 @@
                       "granular analysis",
                       "data visualisation"
                     ],
-                    "markingCriteria": "4 marks: Explains that visualising big data reveals different kinds of insight, not just more precise versions of the same ones: granular, segment-level patterns and rare events that a small sample hides, using a specific example that compares the two datasets.\n3 marks: Explains that big data reveals more detailed or different patterns than a small dataset, with a relevant example, but the reason for the difference (scale, granularity or sampling) is underdeveloped.\n2 marks: States that big data gives deeper insight than a small dataset, with a general example, without explaining what kind of insight is gained.\n1 mark: Makes a general claim that more data is better, with no reference to the type of insight or to visualisation.",
+                    "markingCriteria": "4 marks: Explains that visualising big data reveals different kinds of insight, not just more precise versions of the same ones: granular, segment-level patterns and rare events that a small sample hides, using a specific example that compares the two datasets\n3 marks: Explains that big data reveals more detailed or different patterns than a small dataset, with a relevant example, but the reason for the difference (scale, granularity or sampling) is underdeveloped\n2 marks: States that big data gives deeper insight than a small dataset, with a general example, without explaining what kind of insight is gained\n1 mark: Makes a general claim that more data is better, with no reference to the type of insight or to visualisation",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-08-4m",
@@ -994,7 +994,7 @@
                       "data visualisation",
                       "interpretation"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two correctly: bias from a data source is a flaw in the data itself, in how it was collected or selected, whereas audience bias is a flaw in how the viewer interprets the visualisation, with an example for at least one.\n1 mark: Describes one type of bias correctly, or describes both as 'unfair' or 'wrong' without locating the bias in the data or in the viewer.",
+                    "markingCriteria": "2 marks: Distinguishes the two correctly: bias from a data source is a flaw in the data itself, in how it was collected or selected, whereas audience bias is a flaw in how the viewer interprets the visualisation, with an example for at least one\n1 mark: Describes one type of bias correctly, or describes both as 'unfair' or 'wrong' without locating the bias in the data or in the viewer",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-09-2m",
@@ -1046,7 +1046,7 @@
                       "misleading visualisation",
                       "bias"
                     ],
-                    "markingCriteria": "6 marks: Evaluates, with sustained judgement, how both biases compromise the visualisation: the opt-in survey sent only to current employees excludes rejected applicants and self-selects satisfied respondents, while unconscious bias in analysis shapes which metrics are shown. Concludes with a reasoned judgement on whether the visualisation can support the fairness claim, using specific evidence from the scenario.\n5 marks: Evaluates both sources of bias with specific links to the scenario and a judgement, but the evaluation of one bias or the judgement is less fully developed.\n4 marks: Explains both biases and how each could distort the visualisation, with links to the scenario, but without a clear evaluation of how serious the distortion is.\n3 marks: Explains one bias in relation to the scenario, or both biases with limited development, showing how the visualisation could mislead.\n2 marks: Identifies relevant biases, such as selection bias and unconscious bias, with little explanation of how they affect the visualisation.\n1 mark: Makes a general statement that bias can make a visualisation misleading, with no link to the scenario.",
+                    "markingCriteria": "6 marks: Evaluates with sustained judgement how both biases compromise the visualisation, since the opt-in survey sent only to current employees excludes rejected applicants and favours satisfied respondents, while unconscious bias shapes which metrics are shown, and reaches a reasoned judgement on whether the chart can support the fairness claim\n5 marks: Evaluates both sources of bias with specific links to the scenario and a judgement, but the evaluation of one bias or the judgement is less fully developed\n4 marks: Explains both biases and how each could distort the visualisation, with links to the scenario, but without a clear evaluation of how serious the distortion is\n3 marks: Explains one bias in relation to the scenario, or both biases with limited development, showing how the visualisation could mislead\n2 marks: Identifies relevant biases, such as selection bias and unconscious bias, with little explanation of how they affect the visualisation\n1 mark: Makes a general statement that bias can make a visualisation misleading, with no link to the scenario",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-09-6m",
@@ -1117,7 +1117,7 @@
                       "interactivity",
                       "large datasets"
                     ],
-                    "markingCriteria": "2 marks: Identifies one correct advantage of a spreadsheet for building a dashboard, such as low cost, familiarity or ease of setting up simple charts, and one correct disadvantage, such as limited interactivity or slow performance with large datasets, each clearly stated.\n1 mark: Identifies only one correct point, or gives two points of the same kind, both advantages or both disadvantages.",
+                    "markingCriteria": "2 marks: Identifies one correct advantage of a spreadsheet for building a dashboard, such as low cost, familiarity or ease of setting up simple charts, and one correct disadvantage, such as limited interactivity or slow performance with large datasets, each clearly stated\n1 mark: Identifies only one correct point, or gives two points of the same kind, both advantages or both disadvantages",
                     "sampleAnswers": [
                       {
                         "id": "sa-3a78bf6b-d22e-47d1-9c15-0ef335ac26a9",
@@ -1169,7 +1169,7 @@
                       "customisation",
                       "data security"
                     ],
-                    "markingCriteria": "5 marks: Evaluates both options against the bank's needs, weighing the speed, cost and feature range of the analytics service against the tailoring, security control and integration of the custom solution, and reaches a reasoned, scenario-specific judgement on which is more effective.\n4 marks: Evaluates both options with clear strengths and limitations linked to the bank's needs, with a judgement that is supported but not fully developed.\n3 marks: Explains the strengths and limitations of both options in relation to the scenario, without a direct comparison on a shared criterion or a judgement.\n2 marks: Describes one option's strengths or limitations with some relevance to the bank, without comparing it with the other.\n1 mark: Makes a general statement about analytics services or custom software, with no link to the bank's needs.",
+                    "markingCriteria": "5 marks: Evaluates both options against the bank's needs, weighing the speed, cost and feature range of the analytics service against the tailoring, security control and integration of the custom solution, and reaches a reasoned, scenario-specific judgement on which is more effective\n4 marks: Evaluates both options with clear strengths and limitations linked to the bank's needs, with a judgement that is supported but not fully developed\n3 marks: Explains the strengths and limitations of both options in relation to the scenario, without a direct comparison on a shared criterion or a judgement\n2 marks: Describes one option's strengths or limitations with some relevance to the bank, without comparing it with the other\n1 mark: Makes a general statement about analytics services or custom software, with no link to the bank's needs",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-10-5m",
@@ -1232,7 +1232,7 @@
                       "summary value",
                       "interrogate data"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two correctly: aggregation combines many data points into a summary value, such as a total or average, while filtering selects a subset of records to display and leaves each value unchanged, with an example for at least one.\n1 mark: Defines one of the two correctly, or describes both as 'changing the data' without showing how they differ.",
+                    "markingCriteria": "2 marks: Distinguishes the two correctly: aggregation combines many data points into a summary value, such as a total or average, while filtering selects a subset of records to display and leaves each value unchanged, with an example for at least one\n1 mark: Defines one of the two correctly, or describes both as 'changing the data' without showing how they differ",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-11-2m",
@@ -1284,7 +1284,7 @@
                       "filtering",
                       "typical value"
                     ],
-                    "markingCriteria": "4 marks: Explains both effects precisely: the outlier stretches the axis scale, compressing the other bars so differences between months are hard to see, and it can mislead the viewer's reasoning into concluding the region is generally very wet. Shows how the viewer should interrogate the chart, such as by checking the axis scale or excluding the month, to reach a sound view of the typical climate.\n3 marks: Explains the outlier's effect on the scale and on the readability of the other bars, with a reasoned account of how this could mislead the viewer, but the reasoning process is described in less depth.\n2 marks: States that the outlier makes the scale or the other bars harder to read, or that the viewer might misunderstand the climate, without explaining the link between the two.\n1 mark: Makes a general statement that outliers are unusual or can affect charts, with no reference to this chart or to the viewer's reasoning.",
+                    "markingCriteria": "4 marks: Explains both effects precisely: the outlier stretches the axis scale, compressing the other bars so differences between months are hard to see, and it can mislead the viewer's reasoning into concluding the region is generally very wet. Shows how the viewer should interrogate the chart, such as by checking the axis scale or excluding the month, to reach a sound view of the typical climate\n3 marks: Explains the outlier's effect on the scale and on the readability of the other bars, with a reasoned account of how this could mislead the viewer, but the reasoning process is described in less depth\n2 marks: States that the outlier makes the scale or the other bars harder to read, or that the viewer might misunderstand the climate, without explaining the link between the two\n1 mark: Makes a general statement that outliers are unusual or can affect charts, with no reference to this chart or to the viewer's reasoning",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-11-4m",
@@ -1354,7 +1354,7 @@
                       "granularity",
                       "technical expertise"
                     ],
-                    "markingCriteria": "2 marks: Explains why relevance matters: different audiences have different information needs, goals and levels of technical expertise, so a visualisation must show the detail and summary its audience can use to make decisions, with a relevant example of a mismatch.\n1 mark: States that a visualisation should be relevant or suited to its audience, without explaining why the audience's needs differ or what happens if they are not met.",
+                    "markingCriteria": "2 marks: Explains why relevance matters: different audiences have different information needs, goals and levels of technical expertise, so a visualisation must show the detail and summary its audience can use to make decisions, with a relevant example of a mismatch\n1 mark: States that a visualisation should be relevant or suited to its audience, without explaining why the audience's needs differ or what happens if they are not met",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-12-2m",
@@ -1406,7 +1406,7 @@
                       "real-time data",
                       "decision-making"
                     ],
-                    "markingCriteria": "4 marks: Explains how customisation (such as personalised metrics, filters and layouts) and live analysis (data that updates as new records arrive, with interactive exploration) each improve UX through efficiency, relevance and better decision-making, with a specific example for the sales team and a clear account of why the two work together.\n3 marks: Explains how both features improve UX with a relevant link to the sales team, but one feature is developed in less depth or the link between the features and UX is not clearly explained.\n2 marks: Describes one feature in some detail and its UX benefit, or both features in general terms, without showing how each improves the experience.\n1 mark: Makes a general statement that customisation or live data is good, with no explanation of how it improves UX.",
+                    "markingCriteria": "4 marks: Explains how customisation (such as personalised metrics, filters and layouts) and live analysis (data that updates as new records arrive, with interactive exploration) each improve UX through efficiency, relevance and better decision-making, with a specific example for the sales team and a clear account of why the two work together\n3 marks: Explains how both features improve UX with a relevant link to the sales team, but one feature is developed in less depth or the link between the features and UX is not clearly explained\n2 marks: Describes one feature in some detail and its UX benefit, or both features in general terms, without showing how each improves the experience\n1 mark: Makes a general statement that customisation or live data is good, with no explanation of how it improves UX",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-12-4m",
@@ -1471,7 +1471,7 @@
                       "audience interpretation",
                       "data visualisation"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct, relevant UX criteria for a data visualisation, such as clarity (how easily the audience understands the information), efficiency (how quickly users find what they need) or audience interpretation, each named clearly.\n1 mark: Identifies one relevant criterion, or names two criteria that are really the same, such as 'easy to use' and 'user friendly'.",
+                    "markingCriteria": "2 marks: Identifies two distinct, relevant UX criteria for a data visualisation, such as clarity (how easily the audience understands the information), efficiency (how quickly users find what they need) or audience interpretation, each named clearly\n1 mark: Identifies one relevant criterion, or names two criteria that are really the same, such as 'easy to use' and 'user friendly'",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-13-2m",
@@ -1522,7 +1522,7 @@
                       "dashboard",
                       "task completion"
                     ],
-                    "markingCriteria": "4 marks: Describes a practical method for each criterion, such as timed, task-based testing with managers for efficiency (with a measure such as time to find a figure) and open-ended questions or observation for audience interpretation (checking that managers read the charts as the designers intended), with the methods tied to the factory floor context.\n3 marks: Describes a suitable method for both criteria, with a measure or question for each, but one method is underdeveloped or not linked to the factory context.\n2 marks: Describes a method for one criterion in some detail, or outlines a general method for both criteria without specifying what would be measured or asked.\n1 mark: Makes a general statement that the dashboard could be tested with users, without describing how either criterion would be evaluated.",
+                    "markingCriteria": "4 marks: Describes a practical method for each criterion, such as timed, task-based testing with managers for efficiency (with a measure such as time to find a figure) and open-ended questions or observation for audience interpretation (checking that managers read the charts as the designers intended), with the methods tied to the factory floor context\n3 marks: Describes a suitable method for both criteria, with a measure or question for each, but one method is underdeveloped or not linked to the factory context\n2 marks: Describes a method for one criterion in some detail, or outlines a general method for both criteria without specifying what would be measured or asked\n1 mark: Makes a general statement that the dashboard could be tested with users, without describing how either criterion would be evaluated",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-13-4m",
@@ -1587,7 +1587,7 @@
                       "immersive",
                       "interaction"
                     ],
-                    "markingCriteria": "2 marks: Identifies one specific, genuinely emerging hardware technology, such as augmented reality glasses or gesture-controlled displays, and states clearly how it would change UI design for data visualisation, such as by placing interactive charts in the user's space.\n1 mark: Names an emerging hardware technology with no link to UI design, or describes a UI change without naming a hardware technology.",
+                    "markingCriteria": "2 marks: Identifies one specific, genuinely emerging hardware technology, such as augmented reality glasses or gesture-controlled displays, and states clearly how it would change UI design for data visualisation, such as by placing interactive charts in the user's space\n1 mark: Names an emerging hardware technology with no link to UI design, or describes a UI change without naming a hardware technology",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-14-2m",
@@ -1637,7 +1637,7 @@
                       "explainability",
                       "usability"
                     ],
-                    "markingCriteria": "4 marks: Investigates how specific AI features (such as natural language query or automated insight generation) would change UX, weighing benefits (wider access, speed, less manual effort) against risks (over-trust or misreading of automated results, and the need for explainability), and reaches a reasoned view on the net effect for the platform's users.\n3 marks: Investigates two AI-enabled changes to UX with clear benefits and identifies at least one risk or limitation, but the weighing of benefits against risks is less developed.\n2 marks: Describes one AI feature and its effect on UX, with a brief benefit, without considering any limitation or the wider effect on users.\n1 mark: Makes a general statement that AI will improve analytics tools, with no specific feature or effect on the user experience.",
+                    "markingCriteria": "4 marks: Investigates how specific AI features (such as natural language query or automated insight generation) would change UX, weighing benefits (wider access, speed, less manual effort) against risks (over-trust or misreading of automated results, and the need for explainability), and reaches a reasoned view on the net effect for the platform's users\n3 marks: Investigates two AI-enabled changes to UX with clear benefits and identifies at least one risk or limitation, but the weighing of benefits against risks is less developed\n2 marks: Describes one AI feature and its effect on UX, with a brief benefit, without considering any limitation or the wider effect on users\n1 mark: Makes a general statement that AI will improve analytics tools, with no specific feature or effect on the user experience",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-14-4m",
@@ -1708,7 +1708,7 @@
                       "relationship",
                       "advertising spend"
                     ],
-                    "markingCriteria": "2 marks: Identifies a scatter plot and states that each point plots one observation's two values, so the pattern of points shows the direction and strength of the relationship, with a trend line optionally added.\n1 mark: Names a scatter plot with no explanation of how it shows the relationship, or names a less suitable chart with a relevant reason.",
+                    "markingCriteria": "2 marks: Identifies a scatter plot and states that each point plots one observation's two values, so the pattern of points shows the direction and strength of the relationship, with a trend line optionally added\n1 mark: Names a scatter plot with no explanation of how it shows the relationship, or names a less suitable chart with a relevant reason",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-15-2m",
@@ -1762,7 +1762,7 @@
                       "forecast",
                       "heat map"
                     ],
-                    "markingCriteria": "5 marks: Constructs a coherent, interactive design that shows electricity usage patterns across the city from smart meter data (such as a suburb heat map with time filters), clearly integrates a predictive element (such as a forecast line with an uncertainty band, based on historical and weather data), and explains how the design lets city planners see patterns and anticipate demand.\n4 marks: Constructs an interactive design that shows usage patterns from smart meter data and includes a predictive element, but the explanation of how the forecast is derived or why the design suits its users is limited.\n3 marks: Describes a relevant visualisation of usage patterns, or a predictive element, with limited detail on the interactivity or on how the two are combined.\n2 marks: Identifies a suitable chart or interactive feature for the scenario with little development, without showing how it reveals patterns or prediction.\n1 mark: Makes a general statement about big data or dashboards, with no design element for the scenario.",
+                    "markingCriteria": "5 marks: Constructs a coherent, interactive design that shows electricity usage patterns across the city from smart meter data (such as a suburb heat map with time filters), clearly integrates a predictive element (such as a forecast line with an uncertainty band, based on historical and weather data), and explains how the design lets city planners see patterns and anticipate demand\n4 marks: Constructs an interactive design that shows usage patterns from smart meter data and includes a predictive element, but the explanation of how the forecast is derived or why the design suits its users is limited\n3 marks: Describes a relevant visualisation of usage patterns, or a predictive element, with limited detail on the interactivity or on how the two are combined\n2 marks: Identifies a suitable chart or interactive feature for the scenario with little development, without showing how it reveals patterns or prediction\n1 mark: Makes a general statement about big data or dashboards, with no design element for the scenario",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-15-5m",
@@ -1828,7 +1828,7 @@
                       "encryption",
                       "data loss"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two methods correctly: cybersecurity measures, such as firewalls, encryption and access controls, are preventive and aim to stop unauthorised access, while data backup is recovery-focused and creates copies that allow data to be restored after loss, with an example for at least one.\n1 mark: Describes one method correctly, or describes both as protecting data without distinguishing their purpose.",
+                    "markingCriteria": "2 marks: Distinguishes the two methods correctly: cybersecurity measures, such as firewalls, encryption and access controls, are preventive and aim to stop unauthorised access, while data backup is recovery-focused and creates copies that allow data to be restored after loss, with an example for at least one\n1 mark: Describes one method correctly, or describes both as protecting data without distinguishing their purpose",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-16-2m",
@@ -1879,7 +1879,7 @@
                       "business continuity",
                       "encryption"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly why both are essential, with specific measures and consequences: cybersecurity (such as encryption and role-based access) protects the confidentiality of sensitive customer data against breaches, fines and loss of trust, while backups (such as regular, tested, off-site copies) let the warehouse and its dashboards be restored after ransomware, hardware failure or deletion, and the answer shows why neither is enough alone.\n3 marks: Explains why both are needed for the warehouse, with a relevant measure or consequence for each, but the explanation of why one does not replace the other is limited.\n2 marks: Explains why cybersecurity or backup matters for the sensitive data, with one relevant consequence, while the other is only mentioned.\n1 mark: Makes a general statement that data must be protected or backed up, with no explanation of the specific risk or consequence.",
+                    "markingCriteria": "4 marks: Explains clearly why both are essential, with specific measures and consequences: cybersecurity (such as encryption and role-based access) protects the confidentiality of sensitive customer data against breaches, fines and loss of trust, while backups (such as regular, tested, off-site copies) let the warehouse and its dashboards be restored after ransomware, hardware failure or deletion, and the answer shows why neither is enough alone\n3 marks: Explains why both are needed for the warehouse, with a relevant measure or consequence for each, but the explanation of why one does not replace the other is limited\n2 marks: Explains why cybersecurity or backup matters for the sensitive data, with one relevant consequence, while the other is only mentioned\n1 mark: Makes a general statement that data must be protected or backed up, with no explanation of the specific risk or consequence",
                     "sampleAnswers": [
                       {
                         "id": "sa-dv-16-4m",
@@ -1956,7 +1956,7 @@
                       "descriptive data",
                       "string"
                     ],
-                    "markingCriteria": "2 marks: Names quantitative and qualitative data as the two main categories and gives an appropriate data type for each, such as integer or float for quantitative data and string or text for qualitative data.\n1 mark: Names both categories without suitable data types, or gives a correct data type for one category only.",
+                    "markingCriteria": "2 marks: Names quantitative and qualitative data as the two main categories and gives an appropriate data type for each, such as integer or float for quantitative data and string or text for qualitative data\n1 mark: Names both categories without suitable data types, or gives a correct data type for one category only",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-01-2m",
@@ -2007,7 +2007,7 @@
                       "integer",
                       "string"
                     ],
-                    "markingCriteria": "4 marks: Explains the difference clearly: viewing hours are measurable numerical data suited to counting and averaging, while written reviews are descriptive data that capture opinions and cannot be measured directly. Justifies an appropriate data type for each (such as integer or float for hours, and string or text for reviews) with a reason tied to how the data would be used.\n3 marks: Explains the difference between the two kinds of data and gives a correct data type for each, but the justification for one of the data types is limited.\n2 marks: Explains the difference in general terms, or gives correct data types for both without explaining the difference.\n1 mark: States that one item is numerical and one is written, without a clear explanation or a data type.",
+                    "markingCriteria": "4 marks: Explains the difference clearly: viewing hours are measurable numerical data suited to counting and averaging, while written reviews are descriptive data that capture opinions and cannot be measured directly. Justifies an appropriate data type for each (such as integer or float for hours, and string or text for reviews) with a reason tied to how the data would be used\n3 marks: Explains the difference between the two kinds of data and gives a correct data type for each, but the justification for one of the data types is limited\n2 marks: Explains the difference in general terms, or gives correct data types for both without explaining the difference\n1 mark: States that one item is numerical and one is written, without a clear explanation or a data type",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-01-4m",
@@ -2072,7 +2072,7 @@
                       "order",
                       "ratings"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two correctly: nominal data are categories with no meaningful order, such as eye colour, while ordinal data are categories with a meaningful order or rank, where the gaps between ranks are not necessarily equal, such as clothing sizes or satisfaction ratings, with an example for at least one.\n1 mark: Describes one level correctly, or describes both only as 'categories' without explaining the order that separates them.",
+                    "markingCriteria": "2 marks: Distinguishes the two correctly: nominal data are categories with no meaningful order, such as eye colour, while ordinal data are categories with a meaningful order or rank, where the gaps between ranks are not necessarily equal, such as clothing sizes or satisfaction ratings, with an example for at least one\n1 mark: Describes one level correctly, or describes both only as 'categories' without explaining the order that separates them",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-02-2m",
@@ -2123,7 +2123,7 @@
                       "guest data",
                       "categories"
                     ],
-                    "markingCriteria": "4 marks: Identifies the correct level for all three data items and describes each with a reason: city of origin is nominal (categories with no order), room number is nominal (a label, so averaging it is meaningless), and satisfaction rating is ordinal (ordered, but the gaps between stars are not necessarily equal).\n3 marks: Identifies all three levels correctly, but gives a reason for only two of them or gives a weakly explained reason for one.\n2 marks: Identifies two of the three levels correctly, with a brief reason for each, or identifies all three with no reasons.\n1 mark: Identifies one level correctly, or names levels without linking them to the data.",
+                    "markingCriteria": "4 marks: Identifies the correct level for all three data items and describes each with a reason: city of origin is nominal (categories with no order), room number is nominal (a label, so averaging it is meaningless), and satisfaction rating is ordinal (ordered, but the gaps between stars are not necessarily equal)\n3 marks: Identifies all three levels correctly, but gives a reason for only two of them or gives a weakly explained reason for one\n2 marks: Identifies two of the three levels correctly, with a brief reason for each, or identifies all three with no reasons\n1 mark: Identifies one level correctly, or names levels without linking them to the data",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-02-4m",
@@ -2188,7 +2188,7 @@
                       "user input",
                       "mobile app"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two correctly: active collection requires the user to deliberately provide data, such as a survey or a meal log, while passive collection gathers data automatically without the user's direct input, such as location or step tracking, with an example for at least one.\n1 mark: Describes one method correctly, or describes both as collecting data without showing how the user's involvement differs.",
+                    "markingCriteria": "2 marks: Distinguishes the two correctly: active collection requires the user to deliberately provide data, such as a survey or a meal log, while passive collection gathers data automatically without the user's direct input, such as location or step tracking, with an example for at least one\n1 mark: Describes one method correctly, or describes both as collecting data without showing how the user's involvement differs",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-03-2m",
@@ -2239,7 +2239,7 @@
                       "wearable device",
                       "efficiency"
                     ],
-                    "markingCriteria": "4 marks: Explains why both methods are used: active logging gives subjective information, such as what was eaten, that a device cannot observe, while passive tracking gives continuous, objective measurements without user effort. Describes one benefit of computerised collection specifically, such as automatic, continuous sampling across large numbers of users with fewer manual recording errors, linked to the fitness context.\n3 marks: Explains why both methods are used, with a relevant reason for each, but describes the benefit of computerised collection only briefly.\n2 marks: Gives a reason for one method, or says that the two methods give different kinds of data, and names a benefit of computerised collection without developing it.\n1 mark: States that both methods are used or that computers are useful for collecting data, with no reason or specific benefit.",
+                    "markingCriteria": "4 marks: Explains why both methods are used: active logging gives subjective information, such as what was eaten, that a device cannot observe, while passive tracking gives continuous, objective measurements without user effort. Describes one benefit of computerised collection specifically, such as automatic, continuous sampling across large numbers of users with fewer manual recording errors, linked to the fitness context\n3 marks: Explains why both methods are used, with a relevant reason for each, but describes the benefit of computerised collection only briefly\n2 marks: Gives a reason for one method, or says that the two methods give different kinds of data, and names a benefit of computerised collection without developing it\n1 mark: States that both methods are used or that computers are useful for collecting data, with no reason or specific benefit",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-03-4m",
@@ -2304,7 +2304,7 @@
                       "reliability",
                       "original data"
                     ],
-                    "markingCriteria": "2 marks: Outlines the difference clearly: primary data is collected first-hand by the researcher for the current purpose, such as their own survey, while secondary data was collected by someone else, usually for a different purpose, and is reused, such as census or published study data.\n1 mark: Describes one type correctly, or describes both in general terms that do not show who collected the data or why.",
+                    "markingCriteria": "2 marks: Outlines the difference clearly: primary data is collected first-hand by the researcher for the current purpose, such as their own survey, while secondary data was collected by someone else, usually for a different purpose, and is reused, such as census or published study data\n1 mark: Describes one type correctly, or describes both in general terms that do not show who collected the data or why",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-04-2m",
@@ -2355,7 +2355,7 @@
                       "data quality",
                       "reliability"
                     ],
-                    "markingCriteria": "4 marks: Assesses the issues with the secondary data with clear judgement: its relevance is low because five-year-old trends may not reflect current customers and competitors; its validity is doubtful because the report may not measure what the launch decision needs; its reliability cannot be confirmed without the methods; and the answer judges whether it should be relied on alone and suggests combining it with the current primary data.\n3 marks: Assesses the relevance and validity of the secondary data with a reason for each, but the judgement or the link to the launch decision is less developed.\n2 marks: Identifies one relevant issue, relevance or validity, and explains it briefly, without addressing both criteria.\n1 mark: Makes a general statement that old data may be wrong, with no link to relevance or validity.",
+                    "markingCriteria": "4 marks: Assesses the issues with the secondary data with clear judgement: its relevance is low because five-year-old trends may not reflect current customers and competitors; its validity is doubtful because the report may not measure what the launch decision needs; its reliability cannot be confirmed without the methods; and the answer judges whether it should be relied on alone and suggests combining it with the current primary data\n3 marks: Assesses the relevance and validity of the secondary data with a reason for each, but the judgement or the link to the launch decision is less developed\n2 marks: Identifies one relevant issue, relevance or validity, and explains it briefly, without addressing both criteria\n1 mark: Makes a general statement that old data may be wrong, with no link to relevance or validity",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-04-4m",
@@ -2420,7 +2420,7 @@
                       "verification",
                       "data integrity"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct features that make blockchain suitable for verification, such as immutability (records cannot be altered without detection, because each block is linked to the one before by a cryptographic hash) and decentralisation (copies of the ledger are held and checked across many computers), each explained briefly.\n1 mark: Identifies one correct feature, or names two features that are not distinct or not relevant to verifying data, such as 'it is popular' or 'it uses cryptocurrency'.",
+                    "markingCriteria": "2 marks: Identifies two distinct features that make blockchain suitable for verification, such as immutability (records cannot be altered without detection, because each block is linked to the one before by a cryptographic hash) and decentralisation (copies of the ledger are held and checked across many computers), each explained briefly\n1 mark: Identifies one correct feature, or names two features that are not distinct or not relevant to verifying data, such as 'it is popular' or 'it uses cryptocurrency'",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-05-2m",
@@ -2471,7 +2471,7 @@
                       "decentralisation",
                       "counterfeit products"
                     ],
-                    "markingCriteria": "4 marks: Explains how a blockchain-based system would work for the items: each handover is recorded as a timestamped block linked to the previous one, immutability prevents the history being altered to hide counterfeits, and decentralisation lets the manufacturer, shipper, retailer and buyer check the same record. Notes a limitation, such as the need to link the physical item to its digital record.\n3 marks: Explains how records are added and protected in a blockchain and how this supports tracking through the supply chain, with a relevant link to trust, but the explanation of why it is trustworthy or of a limitation is underdeveloped.\n2 marks: Describes blockchain as a way of recording the item's movements, with a brief link to trust or to preventing counterfeits, without explaining how the record is protected.\n1 mark: States that blockchain is secure or transparent, or could help track goods, with no description of how it would work for the items.",
+                    "markingCriteria": "4 marks: Explains how a blockchain-based system would work for the items: each handover is recorded as a timestamped block linked to the previous one, immutability prevents the history being altered to hide counterfeits, and decentralisation lets the manufacturer, shipper, retailer and buyer check the same record. Notes a limitation, such as the need to link the physical item to its digital record\n3 marks: Explains how records are added and protected in a blockchain and how this supports tracking through the supply chain, with a relevant link to trust, but the explanation of why it is trustworthy or of a limitation is underdeveloped\n2 marks: Describes blockchain as a way of recording the item's movements, with a brief link to trust or to preventing counterfeits, without explaining how the record is protected\n1 mark: States that blockchain is secure or transparent, or could help track goods, with no description of how it would work for the items",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-05-4m",
@@ -2535,7 +2535,7 @@
                       "data warehouse",
                       "real-time data"
                     ],
-                    "markingCriteria": "2 marks: Outlines both characteristics accurately: volume is the very large quantity of data generated and stored, and velocity is the high speed at which data is created, arrives and must be processed, with an example or precise detail for at least one.\n1 mark: Defines one characteristic accurately, or describes both only in general terms such as 'lots of data' and 'fast data'.",
+                    "markingCriteria": "2 marks: Outlines both characteristics accurately: volume is the very large quantity of data generated and stored, and velocity is the high speed at which data is created, arrives and must be processed, with an example or precise detail for at least one\n1 mark: Defines one characteristic accurately, or describes both only in general terms such as 'lots of data' and 'fast data'",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-06-2m",
@@ -2587,7 +2587,7 @@
                       "structured data",
                       "unstructured data"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly how each of volume, variety and velocity creates a specific challenge for storing or analysing this company's data, and how a data warehouse addresses these challenges, for example through a central, optimised repository and transformation into a consistent structure. Accurate and linked to the scenario throughout.\n3 marks: Explains all three challenges, with the warehouse solution developed for only some of them, or explains two characteristics clearly and mentions the third.\n2 marks: Identifies the characteristics and the general need for a data warehouse, with limited explanation of the challenges.\n1 mark: Names a characteristic or the data warehouse, with little or no explanation.",
+                    "markingCriteria": "4 marks: Explains clearly how each of volume, variety and velocity creates a specific challenge for storing or analysing this company's data, and how a data warehouse addresses these challenges, for example through a central, optimised repository and transformation into a consistent structure. Accurate and linked to the scenario throughout\n3 marks: Explains all three challenges, with the warehouse solution developed for only some of them, or explains two characteristics clearly and mentions the third\n2 marks: Identifies the characteristics and the general need for a data warehouse, with limited explanation of the challenges\n1 mark: Names a characteristic or the data warehouse, with little or no explanation",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-06-4m",
@@ -2657,7 +2657,7 @@
                       "customer data",
                       "Privacy Act 1988"
                     ],
-                    "markingCriteria": "2 marks: Identifies one clearly ethical issue (for example, respecting customers' privacy expectations or being transparent about data use) and one legal issue (for example, complying with the Privacy Act 1988 (Cth) on consent and secure storage), each explained in relation to customer data.\n1 mark: Identifies one ethical or legal issue with a brief reason, or names both issues without explaining why they matter.",
+                    "markingCriteria": "2 marks: Identifies one clearly ethical issue (for example, respecting customers' privacy expectations or being transparent about data use) and one legal issue (for example, complying with the Privacy Act 1988 (Cth) on consent and secure storage), each explained in relation to customer data\n1 mark: Identifies one ethical or legal issue with a brief reason, or names both issues without explaining why they matter",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-07-2m",
@@ -2708,7 +2708,7 @@
                       "accuracy",
                       "mitigation"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly that the algorithm learns from historical hiring data that reflects past unfair decisions, so it reproduces and may amplify that bias against female applicants, and explains the ethical concern (unfair discrimination and inaccurate screening). Suggests one specific, feasible mitigation (for example, auditing and rebalancing the training data, removing gender-correlated proxies or testing selection rates across groups) and links it to the cause.\n3 marks: Explains the bias and its unfair effect clearly, linked to the training data, with a mitigation that is general or not fully linked to the cause.\n2 marks: Identifies bias in the training data and its unfair effect with limited explanation, or gives a mitigation without linking it to bias.\n1 mark: Names bias or a mitigation strategy without explanation.",
+                    "markingCriteria": "4 marks: Explains clearly that the algorithm learns from historical hiring data that reflects past unfair decisions, so it reproduces and may amplify that bias against female applicants, and explains the ethical concern (unfair discrimination and inaccurate screening). Suggests one specific, feasible mitigation (for example, auditing and rebalancing the training data, removing gender-correlated proxies or testing selection rates across groups) and links it to the cause\n3 marks: Explains the bias and its unfair effect clearly, linked to the training data, with a mitigation that is general or not fully linked to the cause\n2 marks: Identifies bias in the training data and its unfair effect with limited explanation, or gives a mitigation without linking it to bias\n1 mark: Names bias or a mitigation strategy without explanation",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-07-4m",
@@ -2777,7 +2777,7 @@
                       "linking tables",
                       "unique identifier"
                     ],
-                    "markingCriteria": "2 marks: Defines both keys accurately: a primary key uniquely identifies each record in its own table, and a foreign key is a field in one table that refers to the primary key of another table to link related records.\n1 mark: Defines one key correctly, or describes both keys only in general terms (for example, 'a key that links tables') without the uniqueness or reference idea.",
+                    "markingCriteria": "2 marks: Defines both keys accurately: a primary key uniquely identifies each record in its own table, and a foreign key is a field in one table that refers to the primary key of another table to link related records\n1 mark: Defines one key correctly, or describes both keys only in general terms (for example, 'a key that links tables') without the uniqueness or reference idea",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-08-2m",
@@ -2830,7 +2830,7 @@
                       "INNER JOIN",
                       "key fields"
                     ],
-                    "markingCriteria": "4 marks: Outlines the relationship clearly: TeamID is the primary key of Teams, uniquely identifying each team, and a foreign key in Players that links each player to one team. Provides a correct SQL SELECT with an INNER JOIN on TeamID, a WHERE condition on TeamName = 'Sharks', and PlayerName as the output.\n3 marks: Outlines the relationship correctly and gives a join-based query with one minor error, such as a missing quotation mark or an extra column.\n2 marks: Identifies TeamID as the link between the tables with limited explanation of the keys, and/or gives an SQL query that selects from the tables but does not join or filter correctly.\n1 mark: Names TeamID as the link, or gives a SQL statement with a basic SELECT only.",
+                    "markingCriteria": "4 marks: Outlines the relationship clearly: TeamID is the primary key of Teams, uniquely identifying each team, and a foreign key in Players that links each player to one team. Provides a correct SQL SELECT with an INNER JOIN on TeamID, a WHERE condition on TeamName = 'Sharks', and PlayerName as the output\n3 marks: Outlines the relationship correctly and gives a join-based query with one minor error, such as a missing quotation mark or an extra column\n2 marks: Identifies TeamID as the link between the tables with limited explanation of the keys, and/or gives an SQL query that selects from the tables but does not join or filter correctly\n1 mark: Names TeamID as the link, or gives a SQL statement with a basic SELECT only",
                     "sampleAnswers": [
                       {
                         "id": "sa-ec-08-4m",
@@ -2906,7 +2906,7 @@
                       "inventory management",
                       "financial planning"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct, relevant enterprise applications of a DSS (for example, inventory management and financial planning), each briefly showing how the system analyses data to support a decision.\n1 mark: Identifies one relevant enterprise application of a DSS, or names two applications without showing how they support decisions.",
+                    "markingCriteria": "2 marks: Identifies two distinct, relevant enterprise applications of a DSS (for example, inventory management and financial planning), each briefly showing how the system analyses data to support a decision\n1 mark: Identifies one relevant enterprise application of a DSS, or names two applications without showing how they support decisions",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-01-2m",
@@ -2957,7 +2957,7 @@
                       "data modelling",
                       "judgement"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly how the DSS gathers and combines data (delivery addresses, vehicle capacity, traffic and weather), models or compares alternative routes, and presents options so the manager can make an informed decision. Explanation is linked to logistics and to the trade-offs involved.\n3 marks: Explains the data inputs and the route modelling clearly, with the manager's role less developed, or explains the manager's use of the output without clear detail on how the routes are produced.\n2 marks: Identifies that the DSS uses delivery and traffic data to suggest routes, with limited explanation of the process or the manager's decision.\n1 mark: Names a DSS feature or a general benefit, such as 'faster routes', without explaining how the system achieves it.",
+                    "markingCriteria": "4 marks: Explains clearly how the DSS gathers and combines data (delivery addresses, vehicle capacity, traffic and weather), models or compares alternative routes, and presents options so the manager can make an informed decision. Explanation is linked to logistics and to the trade-offs involved\n3 marks: Explains the data inputs and the route modelling clearly, with the manager's role less developed, or explains the manager's use of the output without clear detail on how the routes are produced\n2 marks: Identifies that the DSS uses delivery and traffic data to suggest routes, with limited explanation of the process or the manager's decision\n1 mark: Names a DSS feature or a general benefit, such as 'faster routes', without explaining how the system achieves it",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-01-4m",
@@ -3021,7 +3021,7 @@
                       "DSS",
                       "human judgement"
                     ],
-                    "markingCriteria": "3 marks: Describes all three categories accurately: structured decisions are routine, with clear rules and defined inputs; semi-structured decisions combine some rules with human judgement; unstructured decisions are novel and complex, with no fixed procedure, and need human judgement. The DSS's role in each is clear.\n2 marks: Describes two categories accurately, or describes all three briefly with limited detail on the DSS's role.\n1 mark: Names the categories, or describes one category accurately.",
+                    "markingCriteria": "3 marks: Describes all three categories accurately: structured decisions are routine, with clear rules and defined inputs; semi-structured decisions combine some rules with human judgement; unstructured decisions are novel and complex, with no fixed procedure, and need human judgement. The DSS's role in each is clear\n2 marks: Describes two categories accurately, or describes all three briefly with limited detail on the DSS's role\n1 mark: Names the categories, or describes one category accurately",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-02-3m",
@@ -3081,7 +3081,7 @@
                       "enterprise",
                       "human judgement"
                     ],
-                    "markingCriteria": "6 marks: Gives a specific, appropriate enterprise example for each category and explains clearly how a DSS is involved in each: automated decision-making for the structured example, analysis that supports the person's choice for the semi-structured example, and data exploration and modelling for the unstructured example. The three roles are clearly distinguished and justified by whether the rules are known.\n5 marks: Gives examples for all three categories and explains the DSS role in each, with one role less precisely developed or the distinctions less clearly drawn.\n4 marks: Gives examples for all three categories, with a clear DSS role for two and a general role for the third.\n3 marks: Gives examples for all three categories, with a basic DSS role for each but limited explanation.\n2 marks: Gives examples for two categories with the DSS role explained briefly, or describes the DSS role for all three without examples.\n1 mark: Gives one example, or describes the DSS's role in general without linking it to a category.",
+                    "markingCriteria": "6 marks: Gives a specific, appropriate enterprise example for each category and explains clearly how a DSS is involved in each: automated decision-making for the structured example, analysis that supports the person's choice for the semi-structured example, and data exploration and modelling for the unstructured example. The three roles are clearly distinguished and justified by whether the rules are known\n5 marks: Gives examples for all three categories and explains the DSS role in each, with one role less precisely developed or the distinctions less clearly drawn\n4 marks: Gives examples for all three categories, with a clear DSS role for two and a general role for the third\n3 marks: Gives examples for all three categories, with a basic DSS role for each but limited explanation\n2 marks: Gives examples for two categories with the DSS role explained briefly, or describes the DSS role for all three without examples\n1 mark: Gives one example, or describes the DSS's role in general without linking it to a category",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-02-6m",
@@ -3146,7 +3146,7 @@
                       "rules",
                       "domain expert"
                     ],
-                    "markingCriteria": "3 marks: Describes the function of all three components accurately: the knowledge base stores facts and rules captured from experts; the inference engine applies logical reasoning to those rules to reach conclusions; the user interface lets a non-expert enter information and receive advice. The components are clearly connected.\n2 marks: Describes two components accurately, or all three with limited detail on their function.\n1 mark: Describes one component accurately, or names the three components without describing their functions.",
+                    "markingCriteria": "3 marks: Describes the function of all three components accurately: the knowledge base stores facts and rules captured from experts; the inference engine applies logical reasoning to those rules to reach conclusions; the user interface lets a non-expert enter information and receive advice. The components are clearly connected\n2 marks: Describes two components accurately, or all three with limited detail on their function\n1 mark: Describes one component accurately, or names the three components without describing their functions",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-03-3m",
@@ -3205,7 +3205,7 @@
                       "expert system",
                       "rules"
                     ],
-                    "markingCriteria": "5 marks: Explains clearly the knowledge base (rules and facts from mechanics, such as 'IF the battery is flat THEN the car will not crank') and the inference engine (applying the rules to the mechanic's inputs to reach conclusions). Distinguishes forward chaining (data-driven, from symptoms to conclusions) from backward chaining (goal-driven, testing a hypothesis), and justifies which suits the diagnosis in the scenario.\n4 marks: Explains both components clearly and distinguishes forward and backward chaining, but the justification for the scenario is absent or brief.\n3 marks: Explains both components, and describes the chaining methods with a basic difference, without developing either.\n2 marks: Describes the knowledge base or the inference engine accurately, with only a general reference to chaining.\n1 mark: Names the knowledge base, the inference engine or a chaining method, with minimal explanation.",
+                    "markingCriteria": "5 marks: Explains clearly the knowledge base (rules and facts from mechanics, such as 'IF the battery is flat THEN the car will not crank') and the inference engine (applying the rules to the mechanic's inputs to reach conclusions). Distinguishes forward chaining (data-driven, from symptoms to conclusions) from backward chaining (goal-driven, testing a hypothesis), and justifies which suits the diagnosis in the scenario\n4 marks: Explains both components clearly and distinguishes forward and backward chaining, but the justification for the scenario is absent or brief\n3 marks: Explains both components, and describes the chaining methods with a basic difference, without developing either\n2 marks: Describes the knowledge base or the inference engine accurately, with only a general reference to chaining\n1 mark: Names the knowledge base, the inference engine or a chaining method, with minimal explanation",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-03-5m",
@@ -3270,7 +3270,7 @@
                       "accountability",
                       "automation"
                     ],
-                    "markingCriteria": "2 marks: Identifies one social issue (for example, job displacement or unequal access to technology) and one ethical issue (for example, algorithmic bias or lack of accountability), and briefly explains how each arises from the use of intelligent systems.\n1 mark: Identifies one social or ethical issue with little or no explanation, or names two issues of the same type.",
+                    "markingCriteria": "2 marks: Identifies one social issue (for example, job displacement or unequal access to technology) and one ethical issue (for example, algorithmic bias or lack of accountability), and briefly explains how each arises from the use of intelligent systems\n1 mark: Identifies one social or ethical issue with little or no explanation, or names two issues of the same type",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-04-2m",
@@ -3320,7 +3320,7 @@
                       "black box",
                       "bail decision"
                     ],
-                    "markingCriteria": "5 marks: Investigates both issues in depth: bias arising from historical data that reflects past inequities, with consequences for defendants, and accountability, identifying possible responsible parties (developers, data providers, the court) and why opaque reasoning makes responsibility hard to assign. Weighs the significance of these issues for life-altering decisions and reaches a clear, justified conclusion.\n4 marks: Investigates both issues with clear explanation, but the consequences or the conclusion are less developed.\n3 marks: Explains both issues with some link to the bail context, or investigates one issue in depth with the other only described.\n2 marks: Identifies bias or accountability with limited explanation of how it arises in this context.\n1 mark: Names bias or accountability, or makes a general statement about AI ethics.",
+                    "markingCriteria": "5 marks: Investigates both issues in depth: bias arising from historical data that reflects past inequities, with consequences for defendants, and accountability, identifying possible responsible parties (developers, data providers, the court) and why opaque reasoning makes responsibility hard to assign. Weighs the significance of these issues for life-altering decisions and reaches a clear, justified conclusion\n4 marks: Investigates both issues with clear explanation, but the consequences or the conclusion are less developed\n3 marks: Explains both issues with some link to the bail context, or investigates one issue in depth with the other only described\n2 marks: Identifies bias or accountability with limited explanation of how it arises in this context\n1 mark: Names bias or accountability, or makes a general statement about AI ethics",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-04-5m",
@@ -3392,7 +3392,7 @@
                       "cloud storage",
                       "edge computing"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct, appropriate infrastructure components (for example, end-point sensors and actuators, and a communication network such as Wi-Fi, 5G or LoRaWAN, or local and cloud servers) and briefly states the function of each in the IoT network.\n1 mark: Identifies one appropriate component, or names two without stating their function.",
+                    "markingCriteria": "2 marks: Identifies two distinct, appropriate infrastructure components (for example, end-point sensors and actuators, and a communication network such as Wi-Fi, 5G or LoRaWAN, or local and cloud servers) and briefly states the function of each in the IoT network\n1 mark: Identifies one appropriate component, or names two without stating their function",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-05-2m",
@@ -3443,7 +3443,7 @@
                       "smart factory",
                       "infrastructure"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly the distinct roles: local edge servers process sensor data in real time with low latency, so the factory can act (for example, stop a machine) quickly, while cloud storage holds aggregated historical data for large-scale analysis and model training. Justifies why the factory needs both, linked to the scenario.\n3 marks: Explains both roles accurately, with the contrast or the reason for using both developed less fully.\n2 marks: Explains the role of one of local servers or cloud storage in some detail, or describes both roles in general terms.\n1 mark: Names edge computing or cloud storage with a brief, general function.",
+                    "markingCriteria": "4 marks: Explains clearly the distinct roles: local edge servers process sensor data in real time with low latency, so the factory can act (for example, stop a machine) quickly, while cloud storage holds aggregated historical data for large-scale analysis and model training. Justifies why the factory needs both, linked to the scenario\n3 marks: Explains both roles accurately, with the contrast or the reason for using both developed less fully\n2 marks: Explains the role of one of local servers or cloud storage in some detail, or describes both roles in general terms\n1 mark: Names edge computing or cloud storage with a brief, general function",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-05-4m",
@@ -3508,7 +3508,7 @@
                       "automated alerts",
                       "video analytics"
                     ],
-                    "markingCriteria": "2 marks: Identifies two distinct enhancements (for example, automated facial recognition to flag people of interest, and anomaly detection to alert staff to unusual behaviour or objects), each with a brief statement of what the system does with the footage.\n1 mark: Identifies one enhancement with a brief explanation, or names two enhancements without explaining them.",
+                    "markingCriteria": "2 marks: Identifies two distinct enhancements (for example, automated facial recognition to flag people of interest, and anomaly detection to alert staff to unusual behaviour or objects), each with a brief statement of what the system does with the footage\n1 mark: Identifies one enhancement with a brief explanation, or names two enhancements without explaining them",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-06-2m",
@@ -3559,7 +3559,7 @@
                       "risk score",
                       "credit card"
                     ],
-                    "markingCriteria": "4 marks: Explains both stages clearly: the system builds a profile of the customer's normal spending (amounts, locations, merchants, timing) from past transactions, then assesses each new transaction in real time against that profile, flagging a deviation and triggering an automated response such as a block or verification alert. Links the explanation to the scenario.\n3 marks: Explains both stages, with the automated response or the scenario link less developed.\n2 marks: Explains one stage clearly, or describes both stages in general terms.\n1 mark: Names fraud detection or a feature, such as 'patterns', without explaining how it works.",
+                    "markingCriteria": "4 marks: Explains both stages clearly: the system builds a profile of the customer's normal spending (amounts, locations, merchants, timing) from past transactions, then assesses each new transaction in real time against that profile, flagging a deviation and triggering an automated response such as a block or verification alert. Links the explanation to the scenario\n3 marks: Explains both stages, with the automated response or the scenario link less developed\n2 marks: Explains one stage clearly, or describes both stages in general terms\n1 mark: Names fraud detection or a feature, such as 'patterns', without explaining how it works",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-06-4m",
@@ -3628,7 +3628,7 @@
                       "pet recommendation",
                       "rules and facts"
                     ],
-                    "markingCriteria": "2 marks: Provides one valid fact about a pet and one IF-THEN rule with a specific, testable condition that leads to a recommendation, with the rule linked to the fact.\n1 mark: Provides a valid fact or a valid IF-THEN rule, but not both, or a rule with no meaningful condition.",
+                    "markingCriteria": "2 marks: Provides one valid fact about a pet and one IF-THEN rule with a specific, testable condition that leads to a recommendation, with the rule linked to the fact\n1 mark: Provides a valid fact or a valid IF-THEN rule, but not both, or a rule with no meaningful condition",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-07-2m",
@@ -3679,7 +3679,7 @@
                       "troubleshooting",
                       "home Wi-Fi network"
                     ],
-                    "markingCriteria": "4 marks: Constructs a coherent set of at least three IF-THEN rules, supported by the facts they use, with testable conditions and a logical diagnostic sequence from simple checks to escalation. Each conclusion is a clear, actionable suggestion, and the set is internally consistent.\n3 marks: Constructs three valid rules with a reasonable diagnostic order, but one condition is vague or the facts are missing or unclear.\n2 marks: Constructs two valid IF-THEN rules, or three rules where most conditions cannot be tested, with little logical sequence.\n1 mark: Provides one valid IF-THEN rule, or facts without any rules.",
+                    "markingCriteria": "4 marks: Constructs a coherent set of at least three IF-THEN rules, supported by the facts they use, with testable conditions and a logical diagnostic sequence from simple checks to escalation. Each conclusion is a clear, actionable suggestion, and the set is internally consistent\n3 marks: Constructs three valid rules with a reasonable diagnostic order, but one condition is vague or the facts are missing or unclear\n2 marks: Constructs two valid IF-THEN rules, or three rules where most conditions cannot be tested, with little logical sequence\n1 mark: Provides one valid IF-THEN rule, or facts without any rules",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-07-4m",
@@ -3745,7 +3745,7 @@
                       "security light",
                       "motion detection"
                     ],
-                    "markingCriteria": "2 marks: Identifies one suitable input sensor (for example, a PIR motion sensor) and one suitable output actuator (for example, a relay that powers the light), each matched to the function it performs in the smart light system.\n1 mark: Identifies a suitable input sensor or output actuator, but not both, or names a device whose role is unclear.",
+                    "markingCriteria": "2 marks: Identifies one suitable input sensor (for example, a PIR motion sensor) and one suitable output actuator (for example, a relay that powers the light), each matched to the function it performs in the smart light system\n1 mark: Identifies a suitable input sensor or output actuator, but not both, or names a device whose role is unclear",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-08-2m",
@@ -3796,7 +3796,7 @@
                       "actuator",
                       "microcontroller"
                     ],
-                    "markingCriteria": "5 marks: Constructs a complete, coherent model: at least two relevant inputs (for example, a light sensor, a real-time clock and a temperature sensor) with their purpose; an output (a motor that opens and closes the blinds); and processing logic of IF-THEN rules that connect the inputs to the output in a testable, sensible way matched to the office's needs, such as heat and glare. The parts work together as one system.\n4 marks: Constructs a model with at least two inputs, an output and processing logic, with one part less complete or less clearly connected.\n3 marks: Identifies the inputs and output and gives some processing logic, but the logic is general or does not connect the inputs to the output clearly.\n2 marks: Identifies inputs or the output, with the processing logic absent or incomplete.\n1 mark: Names one input or the output, with no model or logic.",
+                    "markingCriteria": "5 marks: Constructs a complete, coherent model: at least two relevant inputs (for example, a light sensor, a real-time clock and a temperature sensor) with their purpose; an output (a motor that opens and closes the blinds); and processing logic of IF-THEN rules that connect the inputs to the output in a testable, sensible way matched to the office's needs, such as heat and glare. The parts work together as one system\n4 marks: Constructs a model with at least two inputs, an output and processing logic, with one part less complete or less clearly connected\n3 marks: Identifies the inputs and output and gives some processing logic, but the logic is general or does not connect the inputs to the output clearly\n2 marks: Identifies inputs or the output, with the processing logic absent or incomplete\n1 mark: Names one input or the output, with no model or logic",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-08-5m",
@@ -3862,7 +3862,7 @@
                       "rules",
                       "user engagement"
                     ],
-                    "markingCriteria": "2 marks: Outlines clearly how the expert system works (a knowledge base of rules linking viewing history and content features, applied by an inference engine) and states the efficiency gain, which is quicker discovery of relevant content and higher engagement.\n1 mark: Identifies a recommendation feature, or states an efficiency benefit, without explaining how the expert system achieves it.",
+                    "markingCriteria": "2 marks: Outlines clearly how the expert system works (a knowledge base of rules linking viewing history and content features, applied by an inference engine) and states the efficiency gain, which is quicker discovery of relevant content and higher engagement\n1 mark: Identifies a recommendation feature, or states an efficiency benefit, without explaining how the expert system achieves it",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-09-2m",
@@ -3913,7 +3913,7 @@
                       "knowledge base",
                       "efficiency"
                     ],
-                    "markingCriteria": "6 marks: Explains clearly two or more interacting expert systems, for example a perception system that turns sensor data into facts such as 'pedestrian ahead', and a path-planning system whose knowledge base holds road rules and vehicle limits. Explains how the output of one feeds the inference engine of the other in a continuous loop, and how this makes the vehicle both safe and efficient, with accurate, specific examples of rules.\n5 marks: Explains two expert systems and their interaction, with the link to safety and efficiency less fully developed, or one system briefly explained.\n4 marks: Explains two systems with a clear role each, but the interaction between them is not clearly developed.\n3 marks: Describes the role of one expert system in the vehicle, with a general reference to others.\n2 marks: Identifies sensors or planning in general terms, without explaining the expert system's rules and reasoning.\n1 mark: Names an expert system or a vehicle function with no explanation.",
+                    "markingCriteria": "6 marks: Explains clearly two or more interacting expert systems, for example a perception system that turns sensor data into facts such as 'pedestrian ahead', and a path-planning system whose knowledge base holds road rules and vehicle limits. Explains how the output of one feeds the inference engine of the other in a continuous loop, and how this makes the vehicle both safe and efficient, with accurate, specific examples of rules\n5 marks: Explains two expert systems and their interaction, with the link to safety and efficiency less fully developed, or one system briefly explained\n4 marks: Explains two systems with a clear role each, but the interaction between them is not clearly developed\n3 marks: Describes the role of one expert system in the vehicle, with a general reference to others\n2 marks: Identifies sensors or planning in general terms, without explaining the expert system's rules and reasoning\n1 mark: Names an expert system or a vehicle function with no explanation",
                     "sampleAnswers": [
                       {
                         "id": "sa-is-09-6m",
@@ -3989,7 +3989,7 @@
                       "agile",
                       "project management"
                     ],
-                    "markingCriteria": "2 marks: Identifies a suitable time management tool (for example, a Gantt chart showing tasks, durations and dependencies) and a suitable development process (for example, an iterative approach), with a brief statement of what each does.\n1 mark: Identifies one suitable tool or process only, or names two items from the same category.",
+                    "markingCriteria": "2 marks: Identifies a suitable time management tool (for example, a Gantt chart showing tasks, durations and dependencies) and a suitable development process (for example, an iterative approach), with a brief statement of what each does\n1 mark: Identifies one suitable tool or process only, or names two items from the same category",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-01-2m",
@@ -4040,7 +4040,7 @@
                       "milestone",
                       "enterprise system"
                     ],
-                    "markingCriteria": "5 marks: Describes both tools and how they work together: the iterative approach builds the system in repeated cycles of planning, design, building and testing, with feedback between cycles; the Gantt chart shows tasks, durations, dependencies and milestones, and is used to schedule and track each iteration against the overall timeline and resources. Uses the CRM scenario to link them accurately.\n4 marks: Describes both tools clearly, with the link between them less developed or the scenario link weak.\n3 marks: Describes one tool in detail and the other briefly, or describes both with general features only.\n2 marks: Describes the iterative approach or the Gantt chart accurately, with limited detail.\n1 mark: Names either tool with minimal description.",
+                    "markingCriteria": "5 marks: Describes both tools and how they work together: the iterative approach builds the system in repeated cycles of planning, design, building and testing, with feedback between cycles; the Gantt chart shows tasks, durations, dependencies and milestones, and is used to schedule and track each iteration against the overall timeline and resources. Uses the CRM scenario to link them accurately\n4 marks: Describes both tools clearly, with the link between them less developed or the scenario link weak\n3 marks: Describes one tool in detail and the other briefly, or describes both with general features only\n2 marks: Describes the iterative approach or the Gantt chart accurately, with limited detail\n1 mark: Names either tool with minimal description",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-01-5m",
@@ -4105,7 +4105,7 @@
                       "communication",
                       "enterprise"
                     ],
-                    "markingCriteria": "2 marks: Identifies one valid benefit (for example, lower labour costs or access to a wider talent pool) and one valid challenge (for example, time zone differences, communication barriers or quality control), each with a brief reason.\n1 mark: Identifies one valid benefit or one valid challenge only, or lists two benefits or two challenges.",
+                    "markingCriteria": "2 marks: Identifies one valid benefit (for example, lower labour costs or access to a wider talent pool) and one valid challenge (for example, time zone differences, communication barriers or quality control), each with a brief reason\n1 mark: Identifies one valid benefit or one valid challenge only, or lists two benefits or two challenges",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-02-2m",
@@ -4156,7 +4156,7 @@
                       "online collaboration",
                       "start-up"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly how remote working and freelance work have changed the resourcing and management of enterprise projects. Remote work widens the talent pool and needs online collaboration tools and outcome-focused management; freelance work gives access to specialised skills on a flexible, as-needed basis but requires clear tasks, contracts and coordination. Shows the trade-offs and links both to the start-up scenario.\n3 marks: Explains both trends accurately, with the management implications or trade-offs developed for only one.\n2 marks: Explains one trend in some detail, or describes both trends in general terms.\n1 mark: Names remote work or freelance work with a general effect.",
+                    "markingCriteria": "4 marks: Explains clearly how remote working and freelance work have changed the resourcing and management of enterprise projects. Remote work widens the talent pool and needs online collaboration tools and outcome-focused management; freelance work gives access to specialised skills on a flexible, as-needed basis but requires clear tasks, contracts and coordination. Shows the trade-offs and links both to the start-up scenario\n3 marks: Explains both trends accurately, with the management implications or trade-offs developed for only one\n2 marks: Explains one trend in some detail, or describes both trends in general terms\n1 mark: Names remote work or freelance work with a general effect",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-02-4m",
@@ -4226,7 +4226,7 @@
                       "data flow",
                       "design tools"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two tools clearly: a system flowchart shows the sequence of steps, decisions and control flow in a system, while a DFD shows how data moves between sources, processes and stores, without the decision logic or sequence.\n1 mark: Describes one tool accurately, or names both with a general difference that does not say what each shows.",
+                    "markingCriteria": "2 marks: Distinguishes the two tools clearly: a system flowchart shows the sequence of steps, decisions and control flow in a system, while a DFD shows how data moves between sources, processes and stores, without the decision logic or sequence\n1 mark: Describes one tool accurately, or names both with a general difference that does not say what each shows",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-03-2m",
@@ -4276,7 +4276,7 @@
                       "cost estimate",
                       "resource allocation"
                     ],
-                    "markingCriteria": "4 marks: Describes both tools in the planning phase with clear, specific uses: the online collaboration tool supports shared planning documents, diagrams, task allocation and communication for distributed staff; the budget estimates and allocates costs (for example hardware, licences and salaries) and serves as a baseline for monitoring spending. Links both to the scenario's need for planning across sites.\n3 marks: Describes both tools, with one use developed more fully than the other, or with the link to planning weakly developed.\n2 marks: Describes one tool or its purpose in some detail, or both tools in general terms.\n1 mark: Names one tool or the budget with a minimal function.",
+                    "markingCriteria": "4 marks: Describes both tools in the planning phase with clear, specific uses: the online collaboration tool supports shared planning documents, diagrams, task allocation and communication for distributed staff; the budget estimates and allocates costs (for example hardware, licences and salaries) and serves as a baseline for monitoring spending. Links both to the scenario's need for planning across sites\n3 marks: Describes both tools, with one use developed more fully than the other, or with the link to planning weakly developed\n2 marks: Describes one tool or its purpose in some detail, or both tools in general terms\n1 mark: Names one tool or the budget with a minimal function",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-03-4m",
@@ -4341,7 +4341,7 @@
                       "interconnections",
                       "enterprise system"
                     ],
-                    "markingCriteria": "3 marks: Describes all three ways of thinking accurately and distinctly: computational thinking as breaking problems into parts and building step-by-step solutions (algorithms); design thinking as a human-centred, iterative process of understanding user needs and testing solutions; systems thinking as understanding how parts interact to shape the behaviour of the whole system.\n2 marks: Describes two of the three accurately, or all three with limited detail.\n1 mark: Describes one of the three accurately, or names the three with a brief, generic description.",
+                    "markingCriteria": "3 marks: Describes all three ways of thinking accurately and distinctly: computational thinking as breaking problems into parts and building step-by-step solutions (algorithms); design thinking as a human-centred, iterative process of understanding user needs and testing solutions; systems thinking as understanding how parts interact to shape the behaviour of the whole system\n2 marks: Describes two of the three accurately, or all three with limited detail\n1 mark: Describes one of the three accurately, or names the three with a brief, generic description",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-04-3m",
@@ -4401,7 +4401,7 @@
                       "online banking",
                       "user research"
                     ],
-                    "markingCriteria": "6 marks: Describes how each thinking skill is applied to the banking app with specific, accurate detail: design thinking through user research, personas and prototypes tested with customers; computational thinking through decomposition into modules and algorithms for each function, such as authentication and transfers; systems thinking through the app's connections to core banking, fraud detection and payment networks, and the effect of a change in one part on the rest. Shows how the three work together across the project.\n5 marks: Describes all three applications with specific detail, but the integration or one application is less developed.\n4 marks: Describes all three applications, with clear detail for two and general detail for the third.\n3 marks: Describes two applications with clear detail, with the third only named.\n2 marks: Describes one application with some detail, or all three in general terms with a link to the app.\n1 mark: Describes one application, or names the three skills with a basic link to the app.",
+                    "markingCriteria": "6 marks: Describes how each thinking skill is applied to the banking app with specific, accurate detail: design thinking through user research, personas and prototypes tested with customers; computational thinking through decomposition into modules and algorithms for each function, such as authentication and transfers; systems thinking through the app's connections to core banking, fraud detection and payment networks, and the effect of a change in one part on the rest. Shows how the three work together across the project\n5 marks: Describes all three applications with specific detail, but the integration or one application is less developed\n4 marks: Describes all three applications, with clear detail for two and general detail for the third\n3 marks: Describes two applications with clear detail, with the third only named\n2 marks: Describes one application with some detail, or all three in general terms with a link to the app\n1 mark: Describes one application, or names the three skills with a basic link to the app",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-04-6m",
@@ -4472,7 +4472,7 @@
                       "stakeholders",
                       "data gathering"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two tools clearly: interviews gather in-depth, qualitative information from a small number of stakeholders and explore the reasons behind needs, whereas surveys gather structured, quantitative data from a large group to identify patterns and priorities.\n1 mark: Describes one tool accurately, or states a general difference without the depth or scale that each tool suits.",
+                    "markingCriteria": "2 marks: Distinguishes the two tools clearly: interviews gather in-depth, qualitative information from a small number of stakeholders and explore the reasons behind needs, whereas surveys gather structured, quantitative data from a large group to identify patterns and priorities\n1 mark: Describes one tool accurately, or states a general difference without the depth or scale that each tool suits",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-05-2m",
@@ -4523,7 +4523,7 @@
                       "stakeholders",
                       "technical constraints"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly how the prototype clarifies requirements through users' concrete feedback on the interface and functions, and how the analytical report (such as a feasibility study) identifies technical and financial limitations, such as server capacity, budget and integration with legacy systems. Shows how the two together define what the system must do and what it must work within, linked to the scenario.\n3 marks: Explains both tools with a clear role each, with the combined use or the scenario link less developed.\n2 marks: Explains one tool's role clearly, or describes both in general terms.\n1 mark: Names a prototype or an analytical report with a general description.",
+                    "markingCriteria": "4 marks: Explains clearly how the prototype clarifies requirements through users' concrete feedback on the interface and functions, and how the analytical report (such as a feasibility study) identifies technical and financial limitations, such as server capacity, budget and integration with legacy systems. Shows how the two together define what the system must do and what it must work within, linked to the scenario\n3 marks: Explains both tools with a clear role each, with the combined use or the scenario link less developed\n2 marks: Explains one tool's role clearly, or describes both in general terms\n1 mark: Names a prototype or an analytical report with a general description",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-05-4m",
@@ -4588,7 +4588,7 @@
                       "requirements",
                       "increment"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the approaches clearly: waterfall is a linear, sequential approach in which each phase (requirements, design, build, test) is completed before the next begins, with requirements fixed early; agile is iterative and incremental, delivering working increments in short cycles and accepting changing requirements through customer feedback.\n1 mark: Describes one approach accurately, or describes both with a general difference such as 'waterfall is old and agile is new'.",
+                    "markingCriteria": "2 marks: Distinguishes the approaches clearly: waterfall is a linear, sequential approach in which each phase (requirements, design, build, test) is completed before the next begins, with requirements fixed early; agile is iterative and incremental, delivering working increments in short cycles and accepting changing requirements through customer feedback\n1 mark: Describes one approach accurately, or describes both with a general difference such as 'waterfall is old and agile is new'",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-06-2m",
@@ -4640,7 +4640,7 @@
                       "development approach",
                       "iterative"
                     ],
-                    "markingCriteria": "6 marks: Evaluates the suitability of both approaches for both projects, reaching a clear, justified judgement for each: agile suits the start-up because unclear requirements need iterative feedback, prototypes and a minimum viable product; waterfall suits the government payroll system because fixed legal requirements benefit from detailed upfront planning, documentation and accountability. Weighs a limitation of each choice and reaches a considered conclusion.\n5 marks: Evaluates both projects with clear judgements and reasons, with the limitations of the chosen approach not fully weighed for one project.\n4 marks: Makes a clear, reasoned judgement for both projects, with the reasoning developed for one and brief for the other.\n3 marks: Makes a reasoned judgement for one project, and identifies the approach that suits the other without justification.\n2 marks: Describes features of agile or waterfall in relation to one project, with limited judgement.\n1 mark: Names agile or waterfall, with a general statement about the projects.",
+                    "markingCriteria": "6 marks: Evaluates the suitability of both approaches for both projects, reaching a clear, justified judgement for each: agile suits the start-up because unclear requirements need iterative feedback, prototypes and a minimum viable product; waterfall suits the government payroll system because fixed legal requirements benefit from detailed upfront planning, documentation and accountability. Weighs a limitation of each choice and reaches a considered conclusion\n5 marks: Evaluates both projects with clear judgements and reasons, with the limitations of the chosen approach not fully weighed for one project\n4 marks: Makes a clear, reasoned judgement for both projects, with the reasoning developed for one and brief for the other\n3 marks: Makes a reasoned judgement for one project, and identifies the approach that suits the other without justification\n2 marks: Describes features of agile or waterfall in relation to one project, with limited judgement\n1 mark: Names agile or waterfall, with a general statement about the projects",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-06-6m",
@@ -4711,7 +4711,7 @@
                       "quality assurance",
                       "right product"
                     ],
-                    "markingCriteria": "2 marks: Distinguishes the two processes clearly: verification checks that the system is built correctly against its specifications and design, while validation checks that the system meets users' actual needs and is the right product for its purpose.\n1 mark: Defines one process accurately, or describes both as 'testing' with a general difference.",
+                    "markingCriteria": "2 marks: Distinguishes the two processes clearly: verification checks that the system is built correctly against its specifications and design, while validation checks that the system meets users' actual needs and is the right product for its purpose\n1 mark: Defines one process accurately, or describes both as 'testing' with a general difference",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-07-2m",
@@ -4762,7 +4762,7 @@
                       "user manual",
                       "trialling"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly how evaluating test data supports verification (comparing actual with expected outputs for known inputs, confirming the logic and calculations match the specifications) and how trialling the operation and maintenance documentation with users supports validation (confirming users can follow it to complete tasks that meet their business needs). Makes the distinction explicit and links both to the accounting scenario.\n3 marks: Explains both activities, with the link to one process clear and the other less developed, or explains both without making the distinction explicit.\n2 marks: Explains one activity clearly, or describes both activities in general terms.\n1 mark: Names one activity with a general link to testing.",
+                    "markingCriteria": "4 marks: Explains clearly how evaluating test data supports verification (comparing actual with expected outputs for known inputs, confirming the logic and calculations match the specifications) and how trialling the operation and maintenance documentation with users supports validation (confirming users can follow it to complete tasks that meet their business needs). Makes the distinction explicit and links both to the accounting scenario\n3 marks: Explains both activities, with the link to one process clear and the other less developed, or explains both without making the distinction explicit\n2 marks: Explains one activity clearly, or describes both activities in general terms\n1 mark: Names one activity with a general link to testing",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-07-4m",
@@ -4826,7 +4826,7 @@
                       "bug fixes",
                       "system updates"
                     ],
-                    "markingCriteria": "2 marks: Identifies two different types of maintenance (for example corrective, adaptive or perfective) and briefly describes each, stating what triggers it and what it does to the system.\n1 mark: Identifies one type of maintenance and describes it briefly, or names two types without describing them.",
+                    "markingCriteria": "2 marks: Identifies two different types of maintenance (for example corrective, adaptive or perfective) and briefly describes each, stating what triggers it and what it does to the system\n1 mark: Identifies one type of maintenance and describes it briefly, or names two types without describing them",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-08-2m",
@@ -4877,7 +4877,7 @@
                       "enterprise computing system",
                       "security"
                     ],
-                    "markingCriteria": "4 marks: Explains clearly why ongoing evaluation and maintenance are both essential. Evaluation shows whether the system still meets changing business goals and user expectations, so its direction can be decided; maintenance keeps the system working through adaptive changes (new browsers and operating systems) and corrective fixes (bugs and security vulnerabilities). Links both to the long-term success of the retailer and the consequences of neglect.\n3 marks: Explains both with clear reasons, with one developed and one general, or explains the need for both without the consequences.\n2 marks: Explains either evaluation or maintenance in reasonable detail, or describes both in general terms.\n1 mark: Names evaluation or maintenance with a general statement about its importance.",
+                    "markingCriteria": "4 marks: Explains clearly why ongoing evaluation and maintenance are both essential. Evaluation shows whether the system still meets changing business goals and user expectations, so its direction can be decided; maintenance keeps the system working through adaptive changes (new browsers and operating systems) and corrective fixes (bugs and security vulnerabilities). Links both to the long-term success of the retailer and the consequences of neglect\n3 marks: Explains both with clear reasons, with one developed and one general, or explains the need for both without the consequences\n2 marks: Explains either evaluation or maintenance in reasonable detail, or describes both in general terms\n1 mark: Names evaluation or maintenance with a general statement about its importance",
                     "sampleAnswers": [
                       {
                         "id": "sa-ep-08-4m",

@@ -156,7 +156,15 @@ MARKING CRITERIA RULES
     Tier 6, 12 marks: 11-12 / 9-10 / 7-8 / 5-6 / 3-4 / 1-2
   (The downloaded template lists every tier and mark value.) Example for a
   Tier 6 verb at 8 marks:
-  "7-8 marks: Makes a sustained, criteria-based judgement …\n6 marks: …\n5 marks: …\n3-4 marks: Sound knowledge that describes rather than evaluates …\n2 marks: Basic statements with general terminology\n1 mark: Minimal relevant response"
+  "7-8 marks: Makes a sustained, criteria-based judgement …\n6 marks: Makes a judgement supported by most criteria …\n5 marks: Makes a judgement with limited use of criteria …\n3-4 marks: Demonstrates sound knowledge that describes rather than evaluates …\n2 marks: Makes basic statements with general terminology\n1 mark: Minimal relevant response"
+- Write every row as an HSC marking-guideline performance descriptor: a
+  capitalised verb in the third person ("Provides…", "Demonstrates…",
+  "Identifies…", "Outlines…", "Describes…", "Explains…", "Analyses…",
+  "Evaluates…") with NESA qualifiers (sustained, sophisticated, thorough,
+  detailed, sound, relevant, accurate, limited, basic, general). The lowest row
+  may read "Minimal relevant response". Never begin a row with a lower-case
+  word, a noun phrase ("A clear contrast of…") or a passive ("one factor is
+  identified"); the app rejects those.
 - Describe a whole answer at each mark, never components that add up
   ("Makes a judgement (1 mark) • Applies criterion A (2 marks)"). The app
   flags that layout as non-standard.
