@@ -1,5 +1,21 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Reference depth for Business Studies and Economics; gaps closed in Enterprise Computing and Software Engineering)
+
+- **Upgraded.** Business Studies now has 348 questions, two per dot point, and
+  Economics gains a second question on each dot point. Every question has a
+  scenario, and full-mark exemplars run at about 40 words per mark, against about
+  17 before. Invented businesses are labelled "Hypothetical:".
+- **Completed.** Enterprise Computing questions now have marker notes, common
+  student errors and a full, middle and bottom sample. Ten verb labels that did not
+  match their stems are corrected.
+- **Completed.** Software Engineering questions now have marker notes, common
+  errors and sample feedback, single-question dot points gain a second question,
+  the corrupted 12-mark guide is rewritten, and US spellings are corrected. Some
+  samples that shared a mark with another sample on the same question were removed.
+- **Not source-checked.** Economics and Business Studies facts were written from
+  memory and need a specialist check before students rely on them.
+
 ## [Unreleased] - 2026-10-08 (Seed data review corrections)
 
 - **Corrected.** Modern History scenario now says Australia had no independent
