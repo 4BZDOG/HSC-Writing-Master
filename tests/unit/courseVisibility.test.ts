@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isCourseVisible, visibleCourses } from '../../utils/courseVisibility';
+import { isCourseVisible, isSupersededCourse, visibleCourses } from '../../utils/courseVisibility';
 import type { Course, UserRole } from '../../types';
 
 const ROLES: UserRole[] = ['admin', 'teacher', 'user', 'guest'];
@@ -59,5 +59,29 @@ describe('visibleCourses', () => {
 
   it('returns an empty array when there are no courses', () => {
     expect(visibleCourses([], 'admin')).toEqual([]);
+  });
+});
+
+describe('superseded courses', () => {
+  const live = makeCourse('course-hsc-modern-history');
+  const backup: Course = {
+    ...makeCourse('course-hsc-modern-history-before-refresh'),
+    supersededBy: 'course-hsc-modern-history',
+  };
+  // Backups made before `supersededBy` existed carry only the id suffix.
+  const legacyBackup = makeCourse('course-hsc-legal-studies-before-refresh');
+
+  it('recognises a backup by its field or by the id the sync has always given it', () => {
+    expect(isSupersededCourse(live)).toBe(false);
+    expect(isSupersededCourse(backup)).toBe(true);
+    expect(isSupersededCourse(legacyBackup)).toBe(true);
+  });
+
+  ROLES.forEach((role) => {
+    it(`is hidden from ${role}, who sees only the most recent version`, () => {
+      expect(visibleCourses([live, backup, legacyBackup], role).map((c) => c.id)).toEqual([
+        'course-hsc-modern-history',
+      ]);
+    });
   });
 });
