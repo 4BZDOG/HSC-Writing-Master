@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Software Engineering and Enterprise Computing rebuilt from NESA)
+
+- **Added.** Year 11 content for Software Engineering (Programming fundamentals, The object-oriented
+  paradigm, Programming mechatronics) and Enterprise Computing (Interactive media and the user
+  experience, Principles of cybersecurity, Networking systems and social computing), tagged Year 11
+  so they appear under the Year 11 tab of the syllabus navigator, with the NESA Year 11 outcomes
+  (SE-11-01 to 09, EC-11-01 to 11). Each new dot point has two questions with HSC-style marking guides.
+- **Fixed.** Both courses' Year 12 topics now follow NESA's published Enterprise Computing and
+  Software Engineering 11-12 (2022) syllabuses statement by statement, including the "including"
+  sub-points. Enterprise Computing used invented outcome codes (EC-01 to 06) and held 41 of 82
+  statements; it now holds all 82 with NESA's EC-12-01 to 11 outcomes. Software Engineering gained
+  the 8 missing statements and merged duplicate dot points (their questions were kept).
+- **Fixed.** Year 11 outcomes in Geography, Ancient History and English Standard are tagged Year 11.
+  Data version 2.16.0 brings existing browsers up to date.
+
 ## [Unreleased] - 2026-10-08 (NESA fact-check fixes)
 
 - **Fixed.** Checked every shipped course against NESA's published syllabus text. Business Studies,

@@ -60,7 +60,9 @@ import {
 // 2.15.0: NESA fact-check fixes to the shipped courses (command-term definitions,
 // Software Engineering wording and placement, Year 11 topic tags, a Business
 // Studies typo). The bump makes browsers already at 2.14.0 sync again.
-export const DATA_VERSION = '2.15.0';
+// 2.16.0: Software Engineering and Enterprise Computing rebuilt from NESA's syllabus
+// (Year 11 and Year 12 as separate topics). Browsers already at 2.15.0 sync again.
+export const DATA_VERSION = '2.16.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
