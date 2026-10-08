@@ -3133,31 +3133,31 @@
                       "Resolution",
                       "Web server"
                     ],
-                    "markingCriteria": "3 marks: Describes DNS as the resolver that translates domain names into IP addresses, and describes the sequence in which a DNS query lets a browser locate and connect to a website.\n2 marks: Describes DNS as translating domain names into IP addresses, with limited reference to how this enables a user to access a website.\n1 mark: Identifies DNS as relating to websites or domain names, with a general or fragmentary description of its function.",
+                    "markingCriteria": "3 marks: Accurately describes DNS as the resolver that translates domain names into IP addresses, and describes in sequence how a DNS query lets a browser locate and connect to a website.\n2 marks: Describes DNS as translating domain names into IP addresses, with limited reference to how this enables a user to access a website.\n1 mark: Identifies DNS as relating to websites or domain names, with a general or fragmentary description of its function.",
                     "sampleAnswers": [
                       {
                         "id": "sa-d83370b6-de52-4fbf-a6c5-cc9672e2a489",
                         "source": "AI",
-                        "band": 2,
                         "answer": "The Domain Name System (DNS) protocol works like the internet's phonebook. Its primary function is resolution: translating human-readable domain names into the numerical IP addresses that computers use to identify each other. When a user types a website's domain name into a browser, the browser sends a DNS query to a DNS server, which returns the matching IP address. The browser then uses that address to connect to the web server hosting the site.",
                         "mark": 3,
-                        "feedback": "Full marks: the answer accurately describes DNS as the resolver that translates domain names into IP addresses, and links this to the browser connecting to a website. It is focused and within the expected length, so no further marks are available."
+                        "feedback": "Full marks: the answer accurately describes DNS as the resolver that translates domain names into IP addresses, and links this to the browser connecting to a website. It is focused and within the expected length, so no further marks are available.",
+                        "band": 2
                       },
                       {
                         "id": "sa-47b5185e-8284-4470-b2df-474583f5b23a",
                         "source": "AI",
-                        "band": 1,
                         "answer": "DNS is for websites. It's the name of the website that you type in to find it on the internet.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark for associating DNS with websites, but it describes DNS as the name a user types, which is inaccurate, and it does not explain translation into an IP address. To lift it, state that DNS converts domain names into IP addresses."
+                        "feedback": "Earns 1 mark for associating DNS with websites, but it describes DNS as the name a user types, which is inaccurate, and it does not explain translation into an IP address. To lift it, state that DNS converts domain names into IP addresses.",
+                        "band": 1
                       },
                       {
                         "id": "sa-deac8437-6fee-4765-abbf-9d9decfb71e5",
                         "source": "AI",
-                        "band": 2,
                         "answer": "The Domain Name System (DNS) is a protocol that changes a website's name into its IP address. When you type a name like google.com, DNS finds the right numbers so your computer can connect to the server.",
                         "mark": 2,
-                        "feedback": "Earns 2 marks: it states that DNS translates a name into an IP address and links this to a user connecting to a site. It does not describe the sequence of a DNS query, so it stops short of the 3-mark standard."
+                        "feedback": "Earns 2 marks: it states that DNS translates a name into an IP address and links this to a user connecting to a site. It does not describe the sequence of a DNS query, so it stops short of the 3-mark standard.",
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -3251,26 +3251,26 @@
                       {
                         "id": "sa-ep-1-1",
                         "source": "AI",
-                        "band": 4,
                         "answer": "SMTP (Simple Mail Transfer Protocol) is the standard protocol for sending email from a client to a mail server. In contrast, POP3 (Post Office Protocol 3) and IMAP (Internet Message Access Protocol) are used for retrieving email. The key distinction is how they handle messages. POP3 connects to the server, downloads new mail to the local device and typically deletes it from the server, which suits single-device access. IMAP synchronises the client with the server. Messages remain on the server, and changes such as reading, deleting or moving a message are reflected on every device that accesses the account. This makes IMAP ideal for users with several devices, such as a phone, laptop and tablet.",
                         "mark": 4,
-                        "feedback": "Full marks: distinguishes SMTP's sending role from the receiving roles of POP3 and IMAP, and explains the download model against synchronisation with the server, including the effect on users with several devices. Nothing further is needed for the band."
+                        "feedback": "Full marks: distinguishes SMTP's sending role from the receiving roles of POP3 and IMAP, and explains the download model against synchronisation with the server, including the effect on users with several devices. Nothing further is needed for the band.",
+                        "band": 4
                       },
                       {
                         "id": "sa-ep-1-2",
                         "source": "AI",
-                        "band": 3,
                         "answer": "SMTP is for sending mail. POP3 and IMAP are for getting mail. The difference is that POP3 downloads the email to your computer, while IMAP leaves it on the server so you can see the same emails on your phone and computer.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: SMTP is correctly placed as the sending protocol, and the download and synchronisation models are contrasted with a brief example of several devices. The answer does not explain that POP3 typically removes mail from the server or develop the implications for users, which the 4-mark answer does."
+                        "feedback": "Earns 3 marks: SMTP is correctly placed as the sending protocol, and the download and synchronisation models are contrasted with a brief example of several devices. The answer does not explain that POP3 typically removes mail from the server or develop the implications for users, which the 4-mark answer does.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ep-1-3",
                         "source": "AI",
-                        "band": 1,
                         "answer": "They are all protocols for email.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark for identifying the protocols as email protocols, but it does not distinguish their roles or describe any difference. A 2-mark answer would name SMTP for sending and POP3 and IMAP for receiving."
+                        "feedback": "Earns 1 mark for identifying the protocols as email protocols, but it does not distinguish their roles or describe any difference. A 2-mark answer would name SMTP for sending and POP3 and IMAP for receiving.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -3422,26 +3422,26 @@
                       {
                         "id": "sa-84c0eac2-ac81-4fa6-aa75-4735c9b93abb",
                         "source": "AI",
-                        "band": 3,
                         "answer": "Hashing and digital signatures are cryptographic processes that help secure data on the web.\n\nHashing passes data through a one-way function to produce a fixed-size value called a hash or digest. Before sending a file or message, the sender calculates its hash, and the recipient calculates the hash of what they receive. If the two match, the data has not been altered in transit, which provides data integrity. Any change to the data, however small, produces a different hash.\n\nA digital signature applies this process with keys. The sender hashes the data and encrypts the hash with their private key, and the result is attached to the data. The recipient decrypts the signature with the sender's public key, hashes the received data, and compares the two. A match proves authenticity, because only the holder of the private key could have produced the signature, and it supports non-repudiation, because the sender cannot deny sending it.",
                         "mark": 5,
-                        "feedback": "Full marks: explains hashing and digital signatures in sequence, showing how the hash supports data integrity and how the private and public keys establish authenticity and non-repudiation. The explanation is accurate and well organised, so no further marks are available."
+                        "feedback": "Full marks: explains hashing and digital signatures in sequence, showing how the hash supports data integrity and how the private and public keys establish authenticity and non-repudiation. The explanation is accurate and well organised, so no further marks are available.",
+                        "band": 3
                       },
                       {
                         "id": "sa-99302eb0-ec25-4c0c-b5a7-587ee6ee1cf2",
                         "source": "AI",
-                        "band": 1,
                         "answer": "Hashing is for passwords. It makes them secret. A digital signature is like signing your name on the computer to prove it's you. Both are used for security.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark for identifying both techniques as security measures, but it treats hashing as mainly a way to hide passwords rather than as a check on data integrity, and it describes no process. A 2-mark answer would describe what each process does."
+                        "feedback": "Earns 1 mark for identifying both techniques as security measures, but it treats hashing as mainly a way to hide passwords rather than as a check on data integrity, and it describes no process. A 2-mark answer would describe what each process does.",
+                        "band": 1
                       },
                       {
                         "id": "sa-06ef57e5-6c2e-4c27-a7c5-21ca2ab147f5",
                         "source": "AI",
-                        "band": 2,
                         "answer": "Hashing is used to check if a file has changed. You run an algorithm on the file to get a hash value. If someone changes the file, the hash value will be different, so you know it's not the same. This gives it data integrity. A digital signature is used to prove who sent a message. The sender uses their private key to sign the message's hash. Then other people can use their public key to check the signature. This proves it really came from them.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: it explains hashing as a check on data integrity, and links the private and public keys to the signature's sender. The signing process is brief and non-repudiation is not explained, which the 4-mark answer would add."
+                        "feedback": "Earns 3 marks: it explains hashing as a check on data integrity, and links the private and public keys to the signature's sender. The signing process is brief and non-repudiation is not explained, which the 4-mark answer would add.",
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -3651,26 +3651,26 @@
                       {
                         "id": "sa-153c98cc-d407-4919-89f3-b8dea46e3bab",
                         "source": "AI",
-                        "band": 6,
                         "answer": "The challenges web developers face when designing recommendation-driven streaming services are significant, spanning both complex architectural problems and profound ethical dilemmas. My evaluation is that the ethical challenges are ultimately more difficult to solve than the technical ones.\n\nThe primary architectural challenge stems from the sheer volume and velocity of Big Data. A streaming service must process terabytes of real-time user interaction data (what you watch, pause, rewind, search for) for millions of users. This necessitates a highly scalable and distributed architecture, often using microservices for different components (e.g., streaming, user profiles, recommendations) and specialised data processing pipelines (e.g., using technologies like Apache Spark) to train the machine learning models that power the recommendation engine. Ensuring low latency, so that recommendations feel instantaneous, is a major engineering feat.\n\nThe ethical challenges are equally, if not more, complex. The goal of a recommendation engine is to maximise user engagement, which can lead to the creation of 'filter bubbles' or 'echo chambers', where users are only shown content that reinforces their existing views, limiting their exposure to diverse perspectives. Furthermore, the system can be designed to exploit psychological principles to promote addictive or binge-watching behaviour, raising ethical questions about user well-being. Finally, the data mining of such detailed behavioural data raises significant privacy concerns, as it can reveal sensitive information about a user's habits, interests, and even mood.\n\nIn conclusion, while the architectural challenges of building these systems are immense, they are ultimately solvable with current technology. The ethical challenges, however, require a continuous process of judgement and balancing business goals against user welfare, making them a far more complex and ongoing problem to evaluate and manage.",
                         "mark": 8,
-                        "feedback": "Full marks: evaluates both the architectural challenges (scalable, distributed processing of Big Data) and the ethical challenges (filter bubbles, addiction and privacy) with specific evidence. The judgement that the ethical challenges are harder to solve is reasoned and sustained, so the top band is met."
+                        "feedback": "Full marks: evaluates both the architectural challenges (scalable, distributed processing of Big Data) and the ethical challenges (filter bubbles, addiction and privacy) with specific evidence. The judgement that the ethical challenges are harder to solve is reasoned and sustained, so the top band is met.",
+                        "band": 6
                       },
                       {
                         "id": "sa-54d57c18-d95b-4206-8200-df2e1f13419c",
                         "source": "AI",
-                        "band": 3,
                         "answer": "When building a streaming service, there are technical and ethical challenges. The technical challenge is that there is a lot of data, so you need a very powerful and scalable architecture to process it all quickly. The ethical challenge is that the recommendation algorithm might only show you one type of video, creating a 'filter bubble'. It can also be addictive. Also, collecting all that data about what people watch is a privacy problem. It is a very hard problem to solve.",
                         "mark": 4,
-                        "feedback": "Earns 4 marks: it identifies architectural and ethical challenges with some explanation, including the filter bubble and privacy points, but the evaluation is a general statement with limited evidence and no reasoned judgement."
+                        "feedback": "Earns 4 marks: it identifies architectural and ethical challenges with some explanation, including the filter bubble and privacy points, but the evaluation is a general statement with limited evidence and no reasoned judgement.",
+                        "band": 3
                       },
                       {
                         "id": "sa-2a5fad05-62a4-40a2-ab47-17bffe39bd91",
                         "source": "AI",
-                        "band": 1,
                         "answer": "Streaming services use AI to recommend videos. This is hard to build.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark: it gives a general statement about streaming services and recommendations, with no specific challenge explained and no evaluation. Naming and explaining one architectural or ethical challenge would lift it."
+                        "feedback": "Earns 1 mark: it gives a general statement about streaming services and recommendations, with no specific challenge explained and no evaluation. Naming and explaining one architectural or ethical challenge would lift it.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -3883,26 +3883,26 @@
                       {
                         "id": "sa-dp-1-1",
                         "source": "AI",
-                        "band": 3,
                         "answer": "When a client requests a website, the process begins with a DNS lookup to translate the human-readable domain name (e.g., www.example.com) into the server's numerical IP address (e.g., 93.184.216.34). Once the client has the server's IPv4 address, it establishes a TCP connection. The request data is then broken down into smaller pieces called data packets. Each packet has a header and a payload. The payload contains a piece of the actual data, while the header contains crucial metadata, including the source IP address (the client) and the destination IP address (the server). These packets are routed across the internet, where routers inspect the destination IP address in the header to forward them along the most efficient path towards the server. The server receives the packets, reassembles them in the correct order, processes the request, and sends a response back to the client's IP address using the same packet-based process.",
                         "mark": 5,
-                        "feedback": "Full marks: explains the journey in sequence, from the DNS lookup and IP address through packet creation with headers and payloads to routing across the internet. The explanation is accurate and specific, so no further marks are available."
+                        "feedback": "Full marks: explains the journey in sequence, from the DNS lookup and IP address through packet creation with headers and payloads to routing across the internet. The explanation is accurate and specific, so no further marks are available.",
+                        "band": 3
                       },
                       {
                         "id": "sa-dp-1-2",
                         "source": "AI",
-                        "band": 2,
                         "answer": "First, your computer asks a DNS server for the website's IP address. Then your computer sends data packets to that IP address. Each packet has the server's address and your address on it. Routers on the internet look at the address and send the packet in the right direction. This is how the request gets to the server.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: it explains the DNS lookup, sends packets to the server's IP address, and describes routers forwarding them. It describes the packet addresses only briefly and does not explain the header and payload structure or the TCP connection, which the 4-mark standard requires."
+                        "feedback": "Earns 3 marks: it explains the DNS lookup, sends packets to the server's IP address, and describes routers forwarding them. It describes the packet addresses only briefly and does not explain the header and payload structure or the TCP connection, which the 4-mark standard requires.",
+                        "band": 2
                       },
                       {
                         "id": "sa-dp-1-3",
                         "source": "AI",
-                        "band": 1,
                         "answer": "You type a website name and the computer sends a message to the server to get the page.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark: it gives a general description of a request reaching a server, but it does not mention DNS, IP addresses or packets. Explaining the DNS lookup and the packets would lift it."
+                        "feedback": "Earns 1 mark: it gives a general description of a request reaching a server, but it does not mention DNS, IP addresses or packets. Explaining the DNS lookup and the packets would lift it.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -4184,26 +4184,26 @@
                       {
                         "id": "sa-4b12c47d-562b-463b-9473-f1ecb1f109da",
                         "source": "AI",
-                        "band": 2,
                         "answer": "Client-side and server-side programming each have distinct roles in web development. Client-side programming, also called front-end development, runs in the user's browser. It creates the User Interface (UI) by rendering HTML, applying CSS and handling interactions with JavaScript, such as validating a form before it is submitted, which saves a round trip to the server. Server-side programming, also called back-end development, runs on the web server. It manages business logic, processes requests, stores and retrieves data in a database, and enforces security. The two sides interact when the browser sends a request, the server processes it and returns a response that the browser displays.",
                         "mark": 4,
-                        "feedback": "Full marks: states where each side runs, gives specific characteristics and examples for both, and explains how the front-end and back-end interact in a request. The terms are used accurately, so no further marks are available."
+                        "feedback": "Full marks: states where each side runs, gives specific characteristics and examples for both, and explains how the front-end and back-end interact in a request. The terms are used accurately, so no further marks are available.",
+                        "band": 2
                       },
                       {
                         "id": "sa-23e33614-3eff-41b9-b6bb-e0545c4d94c7",
                         "source": "AI",
-                        "band": 1,
                         "answer": "Client-side is what you see on the website. Server-side is the stuff on the server computer. They both use code to make the website work.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark: it gives a vague description of each side and says both use code, with no purpose or characteristics. Stating that client-side code runs in the user's browser and handles the user interface would lift it to 2 marks."
+                        "feedback": "Earns 1 mark: it gives a vague description of each side and says both use code, with no purpose or characteristics. Stating that client-side code runs in the user's browser and handles the user interface would lift it to 2 marks.",
+                        "band": 1
                       },
                       {
                         "id": "sa-474e74af-214c-46e1-8490-89db0d800393",
                         "source": "AI",
-                        "band": 1,
                         "answer": "Client-side programming runs in the browser. It's for making the website look good and for when you click buttons. Server-side programming runs on the server. It's for things like saving your information in a database after you log in.",
                         "mark": 2,
-                        "feedback": "Earns 2 marks: it states where each side runs and gives a general purpose for each, which meets the 2-mark standard. It lacks detail on the user interface and business logic and is informal in places, so it does not reach 3 marks."
+                        "feedback": "Earns 2 marks: it states where each side runs and gives a general purpose for each, which meets the 2-mark standard. It lacks detail on the user interface and business logic and is informal in places, so it does not reach 3 marks.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -4244,26 +4244,26 @@
                       {
                         "id": "sa-a9446be6-cb5e-4b8e-b8ad-3d84c6a33d4f",
                         "source": "AI",
-                        "band": 4,
                         "answer": "SQL and NoSQL databases differ in their data model and their scalability. SQL databases, such as MySQL or PostgreSQL, are relational and use a highly structured data model with a predefined schema, where data is organised into tables with fixed columns and rows. This suits complex transactional data. NoSQL databases, such as MongoDB, are non-relational and use a flexible schema, storing data in formats such as JSON-like documents. This difference in data model affects scalability. SQL databases typically scale vertically, by adding power to a single server. NoSQL databases are designed to scale horizontally, distributing data across many commodity servers, which suits the massive, unstructured data of a social media application.",
                         "mark": 4,
-                        "feedback": "Full marks: distinguishes the two databases in data model (predefined schema against flexible documents) and in scalability (vertical against horizontal), and links both to the social media scenario. The explanation is accurate and focused, so no further marks are available."
+                        "feedback": "Full marks: distinguishes the two databases in data model (predefined schema against flexible documents) and in scalability (vertical against horizontal), and links both to the social media scenario. The explanation is accurate and focused, so no further marks are available.",
+                        "band": 4
                       },
                       {
                         "id": "sa-9e209f1e-d22c-485a-a874-9447a43b7646",
                         "source": "AI",
-                        "band": 3,
                         "answer": "The difference is how they store data. SQL databases use tables with rows and columns, and you have to set up the columns first. NoSQL databases are more flexible, like you can just store a JSON document. Another difference is that SQL databases usually run on one big server, while NoSQL databases can run on lots of smaller servers connected together.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: it distinguishes the databases by how they store data and by how they are run across servers, with accurate but brief explanation. It does not explain the predefined schema or why horizontal scaling suits the scenario, which the 4-mark answer does."
+                        "feedback": "Earns 3 marks: it distinguishes the databases by how they store data and by how they are run across servers, with accurate but brief explanation. It does not explain the predefined schema or why horizontal scaling suits the scenario, which the 4-mark answer does.",
+                        "band": 3
                       },
                       {
                         "id": "sa-8addfb4f-0e15-48d5-8a5b-6aaddad560ab",
                         "source": "AI",
-                        "band": 1,
                         "answer": "SQL uses SQL language and NoSQL does not.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it names the query language but does not distinguish the data models or the scaling approaches. Describing the fixed tables of SQL against the flexible format of NoSQL would be the starting point."
+                        "feedback": "Earns no marks: it names the query language but does not distinguish the data models or the scaling approaches. Describing the fixed tables of SQL against the flexible format of NoSQL would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -4370,26 +4370,26 @@
                       {
                         "id": "sa-aa5e865c-7d75-4673-b54f-802f70efa682",
                         "source": "AI",
-                        "band": 5,
                         "answer": "The use of a version control system (VCS) such as Git is justified in any collaborative web application project for several reasons. Firstly, a central repository acts as a single source of truth, which prevents team members from working on outdated or different versions of files. Secondly, Git's branching and merging let developers work on new features or bug fixes in isolated branches and merge them once tested, which supports parallel development and reduces conflicts. Finally, a VCS keeps a complete history of every change, including who made it and why. This allows the team to trace when a bug was introduced and to revert to a stable state if a change causes problems.",
                         "mark": 4,
-                        "feedback": "Full marks: justifies Git through three linked features (a central repository, branching and merging, and a complete history), each tied to a benefit for a collaborative web application team. The justification is detailed and specific, so no further marks are available."
+                        "feedback": "Full marks: justifies Git through three linked features (a central repository, branching and merging, and a complete history), each tied to a benefit for a collaborative web application team. The justification is detailed and specific, so no further marks are available.",
+                        "band": 5
                       },
                       {
                         "id": "sa-a6ac38d3-030c-45c8-869a-4fc02bbe5db8",
                         "source": "AI",
-                        "band": 2,
                         "answer": "You use Git to save your code. It's a backup so you don't lose it. It's good for teams.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark for a basic purpose, but it describes Git as a backup, which is not what version control does, and it gives no link to collaboration. Explaining how branches let a team work on the same project would lift it."
+                        "feedback": "Earns 1 mark for a basic purpose, but it describes Git as a backup, which is not what version control does, and it gives no link to collaboration. Explaining how branches let a team work on the same project would lift it.",
+                        "band": 2
                       },
                       {
                         "id": "sa-55bcb1bc-c4be-4902-b1cf-7a387f8a857b",
                         "source": "AI",
-                        "band": 3,
                         "answer": "Using a version control system like Git is justified because it helps manage changes in a project. Multiple developers can work on the same project without overwriting each other's work. Git lets you create branches, so a developer can work on a new feature on their own branch. This is important for teamwork.",
                         "mark": 2,
-                        "feedback": "Earns 2 marks: it gives a reason for version control and links branching to teamwork, but the benefit is stated only briefly and the link to collaboration is limited. Explaining how branching avoids overwritten work in a team would lift it to 3 marks."
+                        "feedback": "Earns 2 marks: it gives a reason for version control and links branching to teamwork, but the benefit is stated only briefly and the link to collaboration is limited. Explaining how branching avoids overwritten work in a team would lift it to 3 marks.",
+                        "band": 3
                       }
                     ],
                     "isPastHSC": false
@@ -4430,26 +4430,26 @@
                       {
                         "id": "sa-f87cf6b3-f573-43f6-81d4-c989551de4c2",
                         "source": "AI",
-                        "band": 4,
                         "answer": "A detailed version control history is far more than a simple log. It is a tool for analysing and improving both code quality and security, because it records the relationships between commits, authors and code changes over time.\n\nFor code quality, the history gives essential context for debugging. A tool such as 'git bisect' can search the commit history to pinpoint the change that introduced a fault, which significantly reduces debugging time. A code review of a complex file's history also shows the reasoning behind earlier changes, which helps prevent old bugs from returning and keeps new code consistent with the original design.\n\nFor security, the history acts as a security audit trail. After a vulnerability is found, it shows when and by whom the flawed code was introduced, which helps identify the root cause and prevent similar mistakes. It also records 'code provenance', giving a traceable account of how each line of code reached the application.\n\nIn conclusion, a well-maintained history turns the codebase from a static entity into a record that supports systematic improvement of both quality and security.",
                         "mark": 6,
-                        "feedback": "Full marks: analyses how the history supports debugging for code quality and provides a security audit trail, using specific tools and evidence, and concludes on its value. The analysis is sustained and linked to the post-mortem context, so no further marks are available."
+                        "feedback": "Full marks: analyses how the history supports debugging for code quality and provides a security audit trail, using specific tools and evidence, and concludes on its value. The analysis is sustained and linked to the post-mortem context, so no further marks are available.",
+                        "band": 4
                       },
                       {
                         "id": "sa-cc87f483-2e49-4cec-afae-10d9c01f792f",
                         "source": "AI",
-                        "band": 2,
                         "answer": "The git log shows you all the old saves. If there is a bug, you can look at the log to see who broke the code. This helps with quality. For security, if there is a hack, you can see where the bad code came from.",
                         "mark": 2,
-                        "feedback": "Earns 2 marks: it says the log records past changes and gives a brief use for quality and for security, but it reads as a simple description of who made a change. It needs to analyse how the history supports debugging and auditing to reach 4 marks."
+                        "feedback": "Earns 2 marks: it says the log records past changes and gives a brief use for quality and for security, but it reads as a simple description of who made a change. It needs to analyse how the history supports debugging and auditing to reach 4 marks.",
+                        "band": 2
                       },
                       {
                         "id": "sa-1ff40578-c85d-4d82-a710-749458f20f66",
                         "source": "AI",
-                        "band": 1,
                         "answer": "The log shows who saved the files. It's for the history of the project.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it describes the log as a record of who saved files, without linking it to code quality or security. Explaining how the history helps find the change that introduced a bug would be the starting point."
+                        "feedback": "Earns no marks: it describes the log as a record of who saved files, without linking it to code quality or security. Explaining how the history helps find the change that introduced a bug would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -4613,26 +4613,26 @@
                       {
                         "id": "sa-1219aa7f-52f3-4feb-ac1d-f395f00a884e",
                         "source": "AI",
-                        "band": 4,
                         "answer": "The W3C's role in promoting a standardised web is fundamental to modern web development. By creating and publishing official standards for core web technologies like HTML, CSS, and XML, the W3C provides a common, stable target for both browser vendors and web developers. An analysis of this role reveals its primary goal is to ensure interoperability—the principle that a website should look and function the same regardless of which browser or device a user has. Without these standards, each browser vendor might implement technologies in their own proprietary way, leading to a fragmented web where developers would have to build different versions of their site for each browser. The implication for developers is twofold: on one hand, it simplifies development by providing a predictable set of rules to follow. On the other hand, it imposes a professional responsibility to write standards-compliant code to ensure their applications are accessible and functional for all users. The conclusion is that the W3C acts as a crucial governing body that prevents the web from splintering into incompatible 'walled gardens', thereby ensuring it remains an open and universal platform.",
                         "mark": 6,
-                        "feedback": "Full marks: analyses the W3C's role in creating standards for interoperability, weighs the benefits and responsibilities for developers, and concludes on how it prevents a fragmented web. The argument is sustained and precise, so no further marks are available."
+                        "feedback": "Full marks: analyses the W3C's role in creating standards for interoperability, weighs the benefits and responsibilities for developers, and concludes on how it prevents a fragmented web. The argument is sustained and precise, so no further marks are available.",
+                        "band": 4
                       },
                       {
                         "id": "sa-7ab0484b-a3b9-4d04-b0f1-92fac8c0e72e",
                         "source": "AI",
-                        "band": 2,
                         "answer": "The W3C makes the rules for the web, like the rules for HTML and CSS. This is important so that websites work the same in Chrome, Firefox, and Safari. The implication for developers is that they have to follow these rules when they build websites. This stops the web from being a mess where nothing works properly everywhere.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: it identifies the W3C's role in making rules for HTML and CSS and gives one implication for developers. The link between standards and interoperability is stated rather than analysed, and the developer implications are brief, which is what would lift it to 4 marks."
+                        "feedback": "Earns 3 marks: it identifies the W3C's role in making rules for HTML and CSS and gives one implication for developers. The link between standards and interoperability is stated rather than analysed, and the developer implications are brief, which is what would lift it to 4 marks.",
+                        "band": 2
                       },
                       {
                         "id": "sa-241405fb-cd84-4ff8-8461-cf239c0f1c7e",
                         "source": "AI",
-                        "band": 1,
                         "answer": "The W3C makes HTML.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it names the W3C with one standard, but does not describe its role in creating standards, interoperability or the implications for developers. Explaining why standards stop browsers splintering the web would be the starting point."
+                        "feedback": "Earns no marks: it names the W3C with one standard, but does not describe its role in creating standards, interoperability or the implications for developers. Explaining why standards stop browsers splintering the web would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -4795,26 +4795,26 @@
                       {
                         "id": "sa-683c8280-b303-4edb-9e77-168432f83673",
                         "source": "AI",
-                        "band": 3,
                         "answer": "A developer uses the Network tab in the browser's developer tools to diagnose a slow-loading page by examining every network request the browser makes to render it. The waterfall chart is the key diagnostic view, as it shows how long each asset takes to download. The developer first looks for assets with a large asset size, such as uncompressed images or large JavaScript libraries, and for requests with a long Time to First Byte, which can indicate a slow back-end or API response. Once the problem assets are identified, the developer takes targeted optimisation steps to improve performance. A large image can be compressed or served in a modern format such as WebP, and a large CSS or JavaScript file can be minified to reduce its size. This diagnose-then-optimise workflow is fundamental to web performance tuning.",
                         "mark": 5,
-                        "feedback": "Full marks: explains how the Network tab and waterfall chart reveal large or slow assets, and links each finding to a specific optimisation such as compressing images or minifying code. The workflow is accurate and specific, so no further marks are available."
+                        "feedback": "Full marks: explains how the Network tab and waterfall chart reveal large or slow assets, and links each finding to a specific optimisation such as compressing images or minifying code. The workflow is accurate and specific, so no further marks are available.",
+                        "band": 3
                       },
                       {
                         "id": "sa-09ec0d74-eb51-4618-8b3a-fa4a2e11817e",
                         "source": "AI",
-                        "band": 2,
                         "answer": "The Network tab shows all the files a webpage has to download. If a page is slow, a developer can look in this tab to see if any files are really big, like a huge image. They can also see how long each file takes to load. If they find a big image, they can make it smaller to optimise the page and make it load faster.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: it explains that the Network tab shows the files a page downloads and identifies a large file as a cause of slowness, with a general fix. It does not use the waterfall chart or name causes beyond a large image, which the 4-mark answer would add."
+                        "feedback": "Earns 3 marks: it explains that the Network tab shows the files a page downloads and identifies a large file as a cause of slowness, with a general fix. It does not use the waterfall chart or name causes beyond a large image, which the 4-mark answer would add.",
+                        "band": 2
                       },
                       {
                         "id": "sa-fa9fda0a-6bb2-4e9b-9884-67356e34ebf4",
                         "source": "AI",
-                        "band": 1,
                         "answer": "The Network tab shows the internet. If it is slow you can fix it.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it describes the Network tab as showing the internet and does not explain how it is used to diagnose a slow page. Explaining that it lists each request and how long it takes would be the starting point."
+                        "feedback": "Earns no marks: it describes the Network tab as showing the internet and does not explain how it is used to diagnose a slow page. Explaining that it lists each request and how long it takes would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -4848,31 +4848,31 @@
                       "Breakpoints",
                       "JavaScript"
                     ],
-                    "markingCriteria": "2 marks: Outlines two distinct, valid ways the browser's developer tools can be used to debug the front-end of a web application, such as viewing console errors and setting breakpoints.\n1 mark: Outlines one valid use of the developer tools for debugging, or two uses that are not distinct.",
+                    "markingCriteria": "2 marks: Accurately outlines two distinct, valid ways the browser's developer tools can be used to debug the front-end of a web application, such as viewing console errors and setting breakpoints.\n1 mark: Outlines one valid use of the developer tools for debugging, or two uses that are not distinct.",
                     "sampleAnswers": [
                       {
                         "id": "sa-5df82efa-78cc-43b8-95e1-1446cc682f27",
                         "source": "AI",
-                        "band": 2,
                         "answer": "1. The Console in browser developer tools shows error messages and logs variable values, which helps with debugging.\n2. Breakpoints, set in the Sources tab, pause JavaScript at a chosen line so the developer can inspect its state.",
                         "mark": 2,
-                        "feedback": "Full marks: outlines two distinct developer tools features, the Console for errors and variable values and breakpoints in the Sources tab, each with a valid debugging use. The answer is concise, as an outline requires, so no further marks are available."
+                        "feedback": "Full marks: outlines two distinct developer tools features, the Console for errors and variable values and breakpoints in the Sources tab, each with a valid debugging use. The answer is concise, as an outline requires, so no further marks are available.",
+                        "band": 2
                       },
                       {
                         "id": "sa-b708b31a-a018-4d3e-a892-7e44631e6313",
                         "source": "AI",
-                        "band": 1,
                         "answer": "You can use the console to see errors and you can also use it to see what's in a variable.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark: it gives a valid use of the Console, seeing errors, but the second use, seeing a variable, is also a Console feature, so the two uses are not distinct. Using a different tool, such as breakpoints in the Sources tab, would earn the second mark."
+                        "feedback": "Earns 1 mark: it gives a valid use of the Console, seeing errors, but the second use, seeing a variable, is also a Console feature, so the two uses are not distinct. Using a different tool, such as breakpoints in the Sources tab, would earn the second mark.",
+                        "band": 1
                       },
                       {
                         "id": "sa-734caf03-4a5d-43fa-b8d2-a439850d3609",
                         "source": "AI",
-                        "band": 1,
                         "answer": "It helps you find bugs.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it says the tools help find bugs, which is too vague to outline any specific use. Naming a feature such as the Console or breakpoints would be needed for any mark."
+                        "feedback": "Earns no marks: it says the tools help find bugs, which is too vague to outline any specific use. Naming a feature such as the Console or breakpoints would be needed for any mark.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -5037,26 +5037,26 @@
                       {
                         "id": "sa-a99f0906-5069-46a2-a5e0-5f042b41c264",
                         "source": "AI",
-                        "band": 6,
                         "answer": "The choice between a large front-end framework like Angular and a library-based approach like React represents a fundamental architectural trade-off. For a long-term, enterprise-scale project, my evaluation is that while a framework offers initial consistency, a library-based approach often provides superior long-term flexibility, though with higher initial complexity.\n\nA large framework like Angular is 'opinionated'; it provides a comprehensive, all-in-one solution for state management, routing, and data fetching, and it dictates how the application should be structured. The effectiveness of this approach is in consistency and developer onboarding. A new developer joining the team will find a familiar structure and a clear set of established patterns, making the codebase easier to navigate. This can be highly valuable for long-term maintainability in a large team.\n\nA library-based approach with React is more flexible. React itself is just a UI library, requiring the team to choose and integrate other independent libraries for routing, state management, etc. This requires more architectural decisions upfront but provides the flexibility to swap out a single part of the stack (e.g., the state management library) as better technologies emerge, without needing to rewrite the entire application. This adaptability can be crucial over the long lifespan of an enterprise project.\n\nIn conclusion, the evaluation depends on the enterprise's priorities. If the goal is maximum consistency and faster onboarding for a large, rotating team, the opinionated framework is highly effective. If the goal is maximum long-term flexibility and the ability to adopt best-in-class tools as they evolve, the library-based approach is superior, provided the team has the architectural expertise to manage it.",
                         "mark": 8,
-                        "feedback": "Full marks: evaluates both approaches against onboarding, maintainability and flexibility, contrasts the opinionated framework with the composable library, and reaches a nuanced judgement that depends on the enterprise's priorities. The argument is sustained and specific to a long-term project, so no further marks are available."
+                        "feedback": "Full marks: evaluates both approaches against onboarding, maintainability and flexibility, contrasts the opinionated framework with the composable library, and reaches a nuanced judgement that depends on the enterprise's priorities. The argument is sustained and specific to a long-term project, so no further marks are available.",
+                        "band": 6
                       },
                       {
                         "id": "sa-5a984840-023f-411f-a7ff-821e81d7ed4a",
                         "source": "AI",
-                        "band": 3,
                         "answer": "For a big project, a framework like Angular is good because it includes everything you need. This makes it easier for new programmers to learn because all the projects look the same. A library like React is just for the UI, so you have to pick other libraries for other things. This is more flexible because you can change parts later, but it can be more confusing. I think the framework is a better evaluation for a big company because it is more organised.",
                         "mark": 4,
-                        "feedback": "Earns 4 marks: it describes both approaches and compares them in general terms, with a judgement that the framework suits a big company. The evaluation rests on general statements and does not weigh the long-term trade-offs, which is what would lift it."
+                        "feedback": "Earns 4 marks: it describes both approaches and compares them in general terms, with a judgement that the framework suits a big company. The evaluation rests on general statements and does not weigh the long-term trade-offs, which is what would lift it.",
+                        "band": 3
                       },
                       {
                         "id": "sa-5ed7c5ea-ffd2-4ded-b04b-8cb0875d1d87",
                         "source": "AI",
-                        "band": 1,
                         "answer": "React is better than Angular because more people use it.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it states a preference for React because more people use it, without any technical evaluation or reference to the enterprise project. Describing what a framework and a library each provide would be the starting point."
+                        "feedback": "Earns no marks: it states a preference for React because more people use it, without any technical evaluation or reference to the enterprise project. Describing what a framework and a library each provide would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -5096,26 +5096,26 @@
                       {
                         "id": "sa-205ccb8b-ea1c-4abf-a781-85cf2d23b412",
                         "source": "AI",
-                        "band": 4,
                         "answer": "The key distinction between a framework and a library is Inversion of Control. With a library, such as React, the developer's code calls the library's functions when needed, for example to format a date, so the developer controls the flow of the application. With a framework, such as Angular, the framework calls the developer's code. It sets the overall structure and lifecycle, and the developer fills in the specific logic.",
                         "mark": 3,
-                        "feedback": "Full marks: explains the distinction through Inversion of Control, with the developer calling a library and the framework calling the developer's code, and illustrates it with React and Angular. The explanation is accurate and focused, so no further marks are available."
+                        "feedback": "Full marks: explains the distinction through Inversion of Control, with the developer calling a library and the framework calling the developer's code, and illustrates it with React and Angular. The explanation is accurate and focused, so no further marks are available.",
+                        "band": 4
                       },
                       {
                         "id": "sa-956d8516-78f3-45be-ac15-63b367447200",
                         "source": "AI",
-                        "band": 2,
                         "answer": "A library is a set of tools you can use. A framework is a whole system that tells you how to build your app. A framework is bigger and has more rules than a library.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark: it describes a library and a framework separately and makes a general comparison of size, but it does not explain who controls the code or the flow. Explaining that the framework calls the developer's code would be the key addition."
+                        "feedback": "Earns 1 mark: it describes a library and a framework separately and makes a general comparison of size, but it does not explain who controls the code or the flow. Explaining that the framework calls the developer's code would be the key addition.",
+                        "band": 2
                       },
                       {
                         "id": "sa-f5081acb-f7d8-480b-9829-7e12a6ab15a6",
                         "source": "AI",
-                        "band": 1,
                         "answer": "They are both code that someone else wrote.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it says both are code that someone else wrote, which applies to every library and framework and does not distinguish the two. Explaining who calls whose code would be the starting point."
+                        "feedback": "Earns no marks: it says both are code that someone else wrote, which applies to every library and framework and does not distinguish the two. Explaining who calls whose code would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -5222,26 +5222,26 @@
                       {
                         "id": "sa-df92bc18-0f86-4d17-9efd-694137c7abf0",
                         "source": "AI",
-                        "band": 4,
                         "answer": "A Content Delivery Network (CDN) improves the load times of a global web application by addressing two bottlenecks: network latency and origin server load. A CDN is a geographically distributed network of proxy servers that cache static content, such as images, CSS and JavaScript files.\n\nFirst, a CDN reduces latency. When a user in Europe requests a page, its static assets are served from a local edge server rather than the origin server, which is much further away. The round-trip time falls because the data travels a much shorter distance.\n\nSecond, a CDN reduces the load on the origin server. Most requests for static assets are answered from the cache, so the origin server can focus on generating dynamic content and handling API requests. This prevents it becoming a bottleneck during high traffic.\n\nIn conclusion, a CDN improves performance in two ways: by reducing latency and by offloading traffic from the origin server.",
                         "mark": 5,
-                        "feedback": "Full marks: analyses both mechanisms, with a closer edge server reducing latency and caching reducing origin server load, and applies them to the European users in the scenario. The analysis is precise and well concluded, so no further marks are available."
+                        "feedback": "Full marks: analyses both mechanisms, with a closer edge server reducing latency and caching reducing origin server load, and applies them to the European users in the scenario. The analysis is precise and well concluded, so no further marks are available.",
+                        "band": 4
                       },
                       {
                         "id": "sa-7b85119c-c7a1-4cd1-b2c2-02febf49f2fa",
                         "source": "AI",
-                        "band": 3,
                         "answer": "A CDN is a bunch of servers around the world. It copies your website's images and files onto all of them. When a user visits your site, they get the files from the server closest to them. This makes the website load faster because the data doesn't have to travel as far. It also means your main server doesn't have to do as much work.",
                         "mark": 3,
-                        "feedback": "Earns 3 marks: it explains that a CDN serves content from the nearest location, linking this to faster loading, and briefly notes the reduced load on the main server. The mechanisms are not developed in detail, which the 4-mark answer does."
+                        "feedback": "Earns 3 marks: it explains that a CDN serves content from the nearest location, linking this to faster loading, and briefly notes the reduced load on the main server. The mechanisms are not developed in detail, which the 4-mark answer does.",
+                        "band": 3
                       },
                       {
                         "id": "sa-a94a9ea8-982b-45bb-8b49-e27747495d65",
                         "source": "AI",
-                        "band": 1,
                         "answer": "A CDN is a network that makes websites fast.",
                         "mark": 0,
-                        "feedback": "Earns no marks: it describes a CDN as a network that makes websites fast, which is too general and does not explain how it reduces latency or origin load. Naming caching and the nearest server would be the starting point."
+                        "feedback": "Earns no marks: it describes a CDN as a network that makes websites fast, which is too general and does not explain how it reduces latency or origin load. Naming caching and the nearest server would be the starting point.",
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -6158,26 +6158,26 @@
                       {
                         "id": "sa-2ee5e711-338f-4dc7-9a52-82dcf22d11af",
                         "source": "AI",
-                        "band": 5,
                         "answer": "The contribution of back-end web development is paramount to the success of a modern e-commerce web application. It is the engine that drives critical functionality, security and performance, while the front-end provides the user interface.\n\nFirstly, the back-end manages business logic and data processing, including inventory management, payments, shipping costs and user accounts. Without a robust back-end, product information would be static and transactions could not be processed securely, rendering the site useless.\n\nSecondly, the back-end is the foundation of security. It handles authentication and authorisation, and protects sensitive customer data, such as payment details, in the database. A breach caused by a poorly implemented back-end can lead to financial loss, legal penalties and lost customer trust.\n\nFinally, the back-end dictates performance and scalability. An optimised database and well-designed APIs keep pages fast and allow the site to handle high traffic during a sale. A site that cannot scale loses customers at peak demand, and a slow back-end leads to cart abandonment and lost sales.\n\nIn assessment, the back-end's contribution is foundational. While a good front-end engages users, it is the back-end that makes a successful e-commerce business possible.",
                         "mark": 6,
-                        "feedback": "Full marks: makes a clear judgement that the back-end is foundational and supports it with linked points on business logic, security, performance and scalability for an e-commerce site. The argument is well organised and specific, so no further marks are available."
+                        "feedback": "Full marks: makes a clear judgement that the back-end is foundational and supports it with linked points on business logic, security, performance and scalability for an e-commerce site. The argument is well organised and specific, so no further marks are available.",
+                        "band": 5
                       },
                       {
                         "id": "sa-a2a47476-b178-4ccf-91c5-3c9d8dea8186",
                         "source": "AI",
-                        "band": 1,
                         "answer": "The back-end is important for a website. It does the coding on the server. If the back-end is bad the website won't work and the business will fail.",
                         "mark": 1,
-                        "feedback": "Earns 1 mark: it makes a general judgement that the back-end is important and gives a vague description of coding on the server. Naming specific functions such as payments or user logins would lift it."
+                        "feedback": "Earns 1 mark: it makes a general judgement that the back-end is important and gives a vague description of coding on the server. Naming specific functions such as payments or user logins would lift it.",
+                        "band": 1
                       },
                       {
                         "id": "sa-7acecea6-1469-4f4a-bac3-8c391e93560e",
                         "source": "AI",
-                        "band": 4,
                         "answer": "The back-end is very important for an e-commerce website to succeed. It is responsible for handling the database, which stores all the product information and customer details. The back-end also processes payments when a customer buys something, which is a key part of the site. It also handles user logins to make sure they are secure. So, if the back-end doesn't work well, people can't buy things and their data might not be safe, which means the site would not be successful.",
                         "mark": 4,
-                        "feedback": "Earns 4 marks: it makes a judgement and identifies database management, payments and login security, linking them to success, but each function is only briefly developed. Explaining how performance or scalability contributes would lift it."
+                        "feedback": "Earns 4 marks: it makes a judgement and identifies database management, payments and login security, linking them to success, but each function is only briefly developed. Explaining how performance or scalability contributes would lift it.",
+                        "band": 4
                       }
                     ],
                     "isPastHSC": false
