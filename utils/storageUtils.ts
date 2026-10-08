@@ -42,11 +42,12 @@ import {
 // nothing to migrate. Note the number: `isOlderThan` below parses versions
 // numerically precisely so that this bump — the first two-digit minor — does
 // not re-run every migration from 2.2.0 on a returning install.
-// 2.12.0: Geography is a new shipped course, and English Standard and Ancient
-// History may be missing from a library saved at 2.11.0. The shipped-course sync
-// in `useSyllabusData` therefore runs for any library saved before 2.12.0. No
-// stored data changes shape.
-export const DATA_VERSION = '2.12.0';
+// 2.13.0: copies of shipped courses carry `shippedHash`, so the shipped-course
+// sync can tell an unedited copy from an edited one. Unedited copies are brought
+// up to date and edited copies are kept. A copy saved before this has no
+// fingerprint, so it is kept as a backup course and replaced by the shipped
+// version. `useSyllabusData` runs the sync for any library saved before 2.13.0.
+export const DATA_VERSION = '2.13.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

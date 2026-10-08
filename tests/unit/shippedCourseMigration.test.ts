@@ -1,15 +1,17 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { addMissingShippedCourses } from '../../hooks/useSyllabusData';
+import { syncShippedCourses } from '../../hooks/useSyllabusData';
 import { runMigrations, DATA_VERSION, RETIRED_SEED_COURSE_IDS } from '../../utils/storageUtils';
+import { hashCourse, isUnedited, stampShipped } from '../../utils/shippedCourseStamp';
+import { analyzeAndSanitizeImportData } from '../../utils/dataManagerUtils';
 import type { Course } from '../../types';
 
 /**
  * A returning browser keeps the library it saved. Before 2.11.0 that library
  * still held the retired Biology and template courses, and it never re-ran
  * discovery, so the new shipped courses would never have reached it. These
- * tests run the migration against the shipped files themselves.
+ * tests run the migration and the sync against the shipped files themselves.
  */
 
 const SHIPPED = join(process.cwd(), 'public/courseData');
@@ -24,9 +26,21 @@ const SOFTWARE_ENGINEERING = 'course-a48c3436-2379-4b87-b51e-0f4b029d6c98';
 const ENTERPRISE_COMPUTING = 'course-ec-01';
 const BIOLOGY = 'course-3cb7f305-5233-428e-8255-566fa5c10560';
 const TEMPLATE = 'course-template-01';
+const MODERN_HISTORY = 'course-hsc-modern-history';
 
 const course = (id: string, name: string): Course =>
   ({ id, name, outcomes: [], topics: [] }) as Course;
+
+/**
+ * The course a shipped file contains, sanitised the way the sync and discovery
+ * sanitise it before storing it. Fingerprints are taken of this form.
+ */
+const shippedCourse = (file: string): Course => {
+  const analysis = analyzeAndSanitizeImportData(
+    JSON.parse(readFileSync(join(SHIPPED, file), 'utf8'))
+  );
+  return (analysis.data as Course[])[0];
+};
 
 /** Every shipped file, served by name, as the browser would fetch them. */
 const serveShipped = (omit: string[] = []) => {
@@ -78,7 +92,7 @@ describe('the 2.11.0 library migration', () => {
     expect(runMigrations(saved, DATA_VERSION).map((c) => c.id)).toEqual([BIOLOGY]);
   });
 
-  it('adds the five shipped courses, drops Biology, and keeps existing courses as they are', async () => {
+  it('adds the five shipped courses, drops Biology, and backs up a legacy copy it replaces', async () => {
     serveShipped();
     const saved = [
       course(SOFTWARE_ENGINEERING, 'HSC Software Engineering (edited)'),
@@ -88,7 +102,7 @@ describe('the 2.11.0 library migration', () => {
     ];
 
     const migrated = runMigrations(saved, '2.10.0');
-    const result = await addMissingShippedCourses(migrated);
+    const result = await syncShippedCourses(migrated);
 
     expect(result.complete).toBe(true);
     const ids = result.courses.map((c) => c.id);
@@ -97,18 +111,17 @@ describe('the 2.11.0 library migration', () => {
     expect(ids).not.toContain(TEMPLATE);
     expect(ids.filter((id) => id === SOFTWARE_ENGINEERING)).toHaveLength(1);
     expect(result.courses.find((c) => c.id === SOFTWARE_ENGINEERING)?.name).toBe(
-      'HSC Software Engineering (edited)'
+      shippedCourse('HSCSoftwareEngineering09122025.json').name
     );
-    expect(result.courses.find((c) => c.id === ENTERPRISE_COMPUTING)?.name).toBe(
-      'HSC Enterprise Computing (edited)'
-    );
+    const backup = result.courses.find((c) => c.id === `${SOFTWARE_ENGINEERING}-before-refresh`);
+    expect(backup?.name).toBe('HSC Software Engineering (edited) (before refresh)');
   });
 
   it('reports incomplete and changes nothing when the manifest cannot be read', async () => {
     serveShipped(['manifest.json']);
     const saved = [course(SOFTWARE_ENGINEERING, 'HSC Software Engineering')];
 
-    const result = await addMissingShippedCourses(saved);
+    const result = await syncShippedCourses(saved);
 
     expect(result.complete).toBe(false);
     expect(result.courses).toBe(saved);
@@ -118,7 +131,7 @@ describe('the 2.11.0 library migration', () => {
     serveShipped(['HSCModernHistory.json']);
     const saved = [course(SOFTWARE_ENGINEERING, 'HSC Software Engineering')];
 
-    const result = await addMissingShippedCourses(saved);
+    const result = await syncShippedCourses(saved);
 
     expect(result.complete).toBe(false);
   });
@@ -127,12 +140,82 @@ describe('the 2.11.0 library migration', () => {
     serveShipped();
     const saved = [course(SOFTWARE_ENGINEERING, 'HSC Software Engineering')];
 
-    const result = await addMissingShippedCourses(saved);
+    const result = await syncShippedCourses(saved);
 
     expect(result.complete).toBe(true);
     const ids = result.courses.map((c) => c.id);
     expect(ids).toContain('course-hsc-geography');
     expect(ids).toContain('course-hsc-english-standard');
     expect(ids).toContain('course-hsc-ancient-history');
+  });
+});
+
+describe('the shipped-course fingerprint', () => {
+  it('ignores its own stamp, and changes when the content changes', () => {
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    expect(hashCourse({ ...modernHistory, shippedHash: 'anything' })).toBe(
+      hashCourse(modernHistory)
+    );
+    expect(hashCourse({ ...modernHistory, name: `${modernHistory.name}!` })).not.toBe(
+      hashCourse(modernHistory)
+    );
+  });
+
+  it('treats a stamped copy as unedited only until its content changes', () => {
+    const stamped = stampShipped(shippedCourse('HSCModernHistory.json'));
+    expect(isUnedited(stamped)).toBe(true);
+    expect(isUnedited({ ...stamped, name: 'Edited' })).toBe(false);
+    expect(isUnedited(shippedCourse('HSCModernHistory.json'))).toBe(false);
+  });
+});
+
+describe('refreshing copies already in the library', () => {
+  it('replaces an unedited copy with the newer shipped version', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const saved = [stampShipped({ ...modernHistory, name: 'HSC Modern History (older)' })];
+
+    const result = await syncShippedCourses(saved);
+
+    const refreshed = result.courses.find((c) => c.id === MODERN_HISTORY);
+    expect(refreshed?.name).toBe(modernHistory.name);
+    expect(refreshed?.shippedHash).toBe(hashCourse(modernHistory));
+    expect(result.courses.map((c) => c.id)).not.toContain(`${MODERN_HISTORY}-before-refresh`);
+  });
+
+  it('keeps a stamped copy the user has edited', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const saved = [{ ...stampShipped(modernHistory), name: 'My Modern History' }];
+
+    const result = await syncShippedCourses(saved);
+
+    expect(result.courses.find((c) => c.id === MODERN_HISTORY)?.name).toBe('My Modern History');
+  });
+
+  it('stamps a legacy copy that already matches the shipped content, without a backup', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const saved = [modernHistory];
+
+    const result = await syncShippedCourses(saved);
+
+    expect(result.courses.find((c) => c.id === MODERN_HISTORY)?.shippedHash).toBe(
+      hashCourse(modernHistory)
+    );
+    expect(result.courses.map((c) => c.id)).not.toContain(`${MODERN_HISTORY}-before-refresh`);
+  });
+
+  it('keeps a backup of a legacy copy that differs from the shipped content', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const saved = [{ ...modernHistory, name: 'Mine' }];
+
+    const result = await syncShippedCourses(saved);
+
+    expect(result.courses.find((c) => c.id === MODERN_HISTORY)?.name).toBe(modernHistory.name);
+    const backup = result.courses.find((c) => c.id === `${MODERN_HISTORY}-before-refresh`);
+    expect(backup?.name).toBe('Mine (before refresh)');
+    expect(backup?.shippedHash).toBeUndefined();
   });
 });

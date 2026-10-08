@@ -227,6 +227,12 @@ export interface Course {
    * services/curriculumService.ts.
    */
   status?: 'draft' | 'published';
+  /**
+   * Fingerprint of the content this copy was saved with, set only on a copy
+   * taken from the shipped files. Absent on every other course. See
+   * utils/shippedCourseStamp.ts for how it tells an unedited copy from an edited one.
+   */
+  shippedHash?: string;
   outcomes: CourseOutcome[];
   topics: Topic[];
 }
