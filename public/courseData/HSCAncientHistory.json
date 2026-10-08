@@ -161,17 +161,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-2-1",
-                        "mark": 2,
-                        "answer": "A historian could use two types of sources here. First, funerary inscriptions are useful because they were set up by freedmen and their families, so they show how freed people chose to present their own names, trades and relationships with former masters. Second, legal documents such as manumission records are useful because they provide evidence of the formal process by which a slave was freed, which shows the legal status freedmen actually held.",
                         "source": "AI",
-                        "feedback": "Names two different types of source (inscriptions and legal documents) and gives a specific reason for each. Both reasons are tied to freedmen, so this earns both marks.",
+                        "mark": 2,
+                        "answer": "Two types of sources are useful to a historian of freedmen. Funerary inscriptions show how freed people presented their own names and trades, since freedmen and their families set them up. Manumission records document the legal status freedmen held.",
+                        "feedback": "Names two different types of source (funerary inscriptions and manumission records) and gives a specific reason for each, tied to freedmen. Both reasons are specific, which earns both marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-2-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "An inscription is useful because it was made by freedmen.",
-                        "source": "AI",
                         "feedback": "Names one valid type with a reason, but gives no second type. This is the 1-mark band.",
                         "band": 1
                       }
@@ -269,25 +269,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-4-1",
-                        "mark": 3,
-                        "answer": "An author's perspective is the viewpoint shaped by his or her social position, purpose and audience, and the historical context is the wider social, political and economic setting in which a source was produced. For example, the senator's letter reflects a perspective of fear about the crowds, which makes sense in a historical context where elite landowners were anxious about public order during a grain shortage. Sources therefore need to be read with both in mind, because the historical context explains why the perspective takes the form it does. This matters for the historical context, because a source written by an elite author and a source written by someone within the community can describe the same events in very different terms, and a historian must recognise that difference rather than assume one account is complete.",
                         "source": "AI",
-                        "feedback": "Describes both terms accurately and gives an example that shows how the historical context shapes the senator's perspective. The example is used to explain the link, which earns the full 3 marks.",
+                        "mark": 3,
+                        "answer": "An author's perspective is the viewpoint shaped by a writer's position and purpose, while historical context is the wider setting in which a source was produced. For example, the senator's letter shows fear of the crowds, which makes sense in a context of grain shortage and elite anxiety about public order. Sources must therefore be read with both in mind, because historical context explains why a perspective takes its form.",
+                        "feedback": "Describes both terms accurately and uses one example from the letter to show how the historical context shapes the senator's perspective. The link is explained, which earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-4-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "An author's perspective is the viewpoint a writer holds, and historical context is the setting in which the source was written. For example, the senator is worried about the crowds.",
-                        "source": "AI",
                         "feedback": "Describes both terms accurately, but the example only states what the senator thinks and does not connect it to the context. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-4-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The senator's letter is about the grain shortage in Rome.",
-                        "source": "AI",
                         "feedback": "Makes a relevant but general statement that does not define either term or use the example to show how context shapes perspective, so it earns 1 mark.",
                         "band": 1
                       }
@@ -501,17 +501,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-8-1",
-                        "mark": 2,
-                        "answer": "The surviving evidence about a provincial town is incomplete for two main reasons. First, survival is selective: materials such as papyrus, wood and cloth usually decay, while stone inscriptions and well-built structures last, so the sources that survive are not a random sample of what existed. Second, the sources that were preserved were often chosen by elite families, officials or later collectors, so the evidence reflects their interests rather than the whole population of the town.",
                         "source": "AI",
-                        "feedback": "States two distinct reasons, one about the physical survival of materials and one about the selection of what was preserved. Both are relevant to a provincial town, which earns both marks.",
+                        "mark": 2,
+                        "answer": "Two reasons make the evidence about a provincial town incomplete. First, survival is selective, since papyrus and wood decay while stone inscriptions last. Second, elite families chose which sources were kept, so the record reflects a narrow group.",
+                        "feedback": "States two distinct reasons, one about the physical survival of materials and one about which sources elites chose to keep. Both are tied to the incompleteness of evidence for a provincial town, which earns both marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-8-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Some things were lost over time, and some were kept by rich people.",
-                        "source": "AI",
                         "feedback": "States two reasons, but they are not developed and the second is only loosely connected to the evidence. This is the 1-mark band.",
                         "band": 1
                       }
@@ -729,17 +729,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-12-1",
-                        "mark": 2,
-                        "answer": "The battle of Actium in 31 BCE ended the civil war between Octavian and Mark Antony, leaving Octavian as the sole ruler of the Roman state. A second effect was the annexation of Egypt in 30 BCE, which removed the last major Hellenistic kingdom and brought its wealth directly under Octavian's control. Both effects show how the battle changed the Roman state from a contested political system into one dominated by a single leader.",
                         "source": "AI",
-                        "feedback": "Gives two distinct, accurate effects on the Roman state (end of the civil war and Octavian's sole rule, and the annexation of Egypt in 30 BCE). Both are dated correctly, which earns both marks.",
+                        "mark": 2,
+                        "answer": "Two effects of Actium on the Roman state were the end of the civil war, which left Octavian as sole ruler, and the annexation of Egypt in 30 BCE. Both concentrated power in one leader.",
+                        "feedback": "Gives two distinct, accurate effects on the Roman state: the end of the civil war with Octavian as sole ruler, and the annexation of Egypt in 30 BCE. Both are dated correctly, which earns both marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-12-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Octavian became the only ruler after Actium.",
-                        "source": "AI",
                         "feedback": "Identifies one effect without detail. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1014,30 +1014,30 @@
                       "investigation",
                       "evidence"
                     ],
-                    "markingCriteria": "7-8 marks: investigates how guiding questions are framed to be answerable from evidence, and how a coherent research plan links each question to evidence, identifies gaps and sets a method for review\n5-6 marks: explains how questions and a research plan are developed, with some linking of questions to evidence\n4 marks: describes the steps of a research plan with limited framing of questions\n2-3 marks: identifies a question or a step in planning with limited explanation\n1 mark: makes a general statement about research",
+                    "markingCriteria": "7-8 marks: investigates with sustained, precise judgement how guiding questions are framed to be answerable from evidence, and how a coherent research plan links each question to evidence, identifies gaps and sets a review point\n6 marks: explains how guiding questions and a research plan are developed, with each question clearly linked to the evidence that will answer it\n5 marks: explains how questions and a research plan are developed, with some linking of questions to evidence but little testing of whether they can be answered\n3-4 marks: describes the steps of a research plan, with limited framing of questions and only a general link to evidence\n2 marks: identifies a guiding question or a step in planning, with limited explanation of how it supports the investigation\n1 mark: makes a general statement about research",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-17-1",
+                        "source": "AI",
                         "mark": 8,
                         "answer": "A student investigating daily life in a Roman provincial town should begin by narrowing the broad topic into guiding questions, because an unfocused subject produces an unfocused investigation. A strong question is specific enough to be answered with evidence: for example, 'How did the economic life of a provincial town depend on the army and on local elites?' is more useful than 'What was life like in the provinces?'. The student should frame several questions that work together, with one main question that organises the historical inquiry and two or three subsidiary questions that address particular aspects, such as work, religion and the household. Each question should be tested against the available material: if no kind of evidence could answer it, it needs to be reworded. The next step is to develop a research plan that is coherent, in which each question is linked to a particular type of evidence, such as inscriptions, archaeology, coins or literary references, and in which the order of work is explained. The plan should also identify the likely gaps in the evidence, because a historian who knows where the record is thin can frame claims more cautiously. Finally, the student should set a schedule for the investigation, reviewing the questions as evidence is gathered, since a historical inquiry normally changes direction when new material appears. The student should also record the source of each piece of evidence as it is gathered, so that the investigation can be checked and the argument traced back to its origin. A brief test is useful too: the student can ask whether a classmate reading the plan would understand what evidence each question requires. A coherent plan therefore does more than list tasks: it shows how the questions, the evidence and the expected limits of the evidence fit together into a single investigation.",
-                        "source": "AI",
                         "feedback": "Investigates the framing of questions (narrowing, testing for answerability) and the structure of a coherent research plan (linking questions to evidence, identifying gaps, reviewing as the inquiry proceeds). It gives a concrete example of a good and a poor question, which is what the top band requires.",
                         "band": 6
                       },
                       {
                         "id": "sa-ah-17-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "The student should write a main question and some smaller questions about daily life, such as work and religion. Each question should be linked to some evidence, such as inscriptions or archaeology, so that the research plan has a clear structure. The student should also note where evidence is limited and set out the steps for the investigation.",
-                        "source": "AI",
-                        "feedback": "Explains how questions and a research plan are developed and links questions to evidence. The framing of questions is not tested for answerability, and the review point is missing, so it sits in the 5-6 band.",
+                        "feedback": "Explains how questions and a research plan are developed and links questions to evidence. The framing of questions is not tested for answerability and the review point is missing, so it earns 5 marks rather than the upper rows.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-17-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The student should research daily life in the town and look at inscriptions and coins.",
-                        "source": "AI",
-                        "feedback": "Identifies a step in planning with limited explanation and no framing of questions. This is the 2-3 mark band.",
+                        "feedback": "Identifies a step in planning with limited explanation and no framing of questions. This is the 2-mark row.",
                         "band": 2
                       }
                     ],
@@ -1072,25 +1072,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-18-1",
-                        "mark": 3,
-                        "answer": "A coherent research plan for a historical investigation has three main features. First, it begins with clear questions that are answerable from the evidence, with one central question and a few subsidiary questions. Second, it links each question to particular types of evidence, such as inscriptions, archaeology or literary references, and explains how each will be used. Third, it identifies the likely gaps in the evidence and the order in which the work will proceed, so that the investigation can be reviewed as material is found. A plan with these features can be checked by a teacher, since each question, each link to evidence and each review point is visible on the page. Each feature ties the plan together, so the historical investigation has a clear direction from start to finish.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "A coherent research plan for a historical investigation has three features. First, it begins with clear questions that the evidence can answer, one central question with subsidiary questions. Second, it links each question to particular evidence, such as inscriptions or archaeology. Third, it identifies likely gaps and an order of work, with a review point as material is found. Together these features give the investigation a clear direction from start to finish.",
                         "feedback": "Outlines three distinct features (answerable questions, links to evidence, and gaps with an order of work and review). Each is briefly explained and linked back to coherence, which earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-18-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "A research plan should have clear questions and identify the evidence needed to answer each. It should also show the order of the work.",
-                        "source": "AI",
                         "feedback": "Outlines two features with brief explanation, but does not give a third. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-18-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "It should include questions.",
-                        "source": "AI",
                         "feedback": "Names one feature without explanation. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1187,25 +1187,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-20-1",
-                        "mark": 3,
-                        "answer": "The main steps are as follows. First, the student identifies the range of sources available, including inscriptions, coins, archaeology and literary texts, and notes what each can contribute. Second, the student gathers evidence from each source, recording its origin and date so that the claims can be checked. Third, the student compares the evidence across sources to find where it agrees and disagrees, and uses that comparison to shape the historical argument. Finally, the research is reviewed, so that the historical investigation stays focused on its questions. Each step builds on the one before, so the student's conclusions can be traced back to the sources that produced them, and the steps are repeated as the investigation develops, because new evidence may raise new questions.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "First, the student identifies the range of sources available and notes what each can contribute. Second, the student gathers evidence from each source, recording its origin so claims can be checked. Third, the student compares the evidence across sources to find where it agrees and disagrees. Finally, the research is reviewed, so the historical investigation stays focused on its questions. Each step builds on the one before, and the steps repeat as new evidence arrives.",
                         "feedback": "Summarises four clear steps in logical order (identify the range of sources, gather and record evidence, compare across sources, review the research). The summary is brief and specific, which meets the 3-mark criterion.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-20-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The student should look at several sources and compare the evidence before writing.",
-                        "source": "AI",
                         "feedback": "Gives two steps in general terms without the detail of how the evidence is gathered or recorded. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-20-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The student should use some evidence.",
-                        "source": "AI",
                         "feedback": "Makes a general statement about using evidence and gives no steps. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1245,17 +1245,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-21-1",
-                        "mark": 2,
-                        "answer": "When a historian must acknowledge a source, the two elements are the author or creator of the source, and the title or details of the work, so that the reader can locate it. For ancient sources this means naming the ancient author, the work and the book or chapter cited, for example Tacitus' Annals with its book and chapter number. In a written investigation, both elements must be given each time a source is used, not only in the bibliography.",
                         "source": "AI",
-                        "feedback": "Names two required elements of acknowledgement (the author and the work) and gives the ancient-source form, which shows the detail expected in a written investigation. Both elements are correct, so this earns full marks.",
+                        "mark": 2,
+                        "answer": "A historian must acknowledge sources by giving the author or creator and the title or details of the work. For ancient sources, the book or chapter is needed, and both elements apply in a written investigation.",
+                        "feedback": "Names the two required elements of acknowledgement (the author or creator, and the title or details of the work) and notes that ancient sources also need the book or chapter. Both elements are correct, so this earns full marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-21-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The author of the book.",
-                        "source": "AI",
                         "feedback": "Names one element of acknowledgement but not a second. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1412,25 +1412,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-24-1",
-                        "mark": 4,
-                        "answer": "A historical account of Pompeii's final days can use the painted notice and Pliny's letters together to support a sentence such as: the town was going about ordinary business until the eruption of AD 79 interrupted it. The painted notice is contemporary evidence of everyday commercial and civic life, so it supports the claim that the community was active before the disaster. Pliny's account, written by a witness at Misenum who later described his uncle's death, is valuable evidence of the eruption itself, but it was written decades after the event and must be used with care for its details. The notice therefore supports the sentence on daily life, while Pliny supports the sentence on the timing and character of the disaster, and neither source can carry the other's claim. A student should therefore cite the notice as evidence of life before the eruption and Pliny as evidence of what happened, and should acknowledge that the two sources answer different questions.",
                         "source": "AI",
-                        "feedback": "Applies both sources to a specific claim, explains what each shows (the notice for life before the eruption, Pliny for the eruption), and notes the limits (Pliny's distance in time and place). This meets the top band.",
+                        "mark": 4,
+                        "answer": "In a historical account, the painted notice can support a sentence such as: Pompeii was going about ordinary business until the eruption of AD 79 interrupted it. As contemporary evidence of everyday commercial life, the notice shows the community was active before the disaster. Pliny's letters are valuable evidence of the eruption itself, but they were written by a witness at Misenum decades later, so their details must be used with care. The notice supports the sentence on daily life, while Pliny supports the sentence on the timing and character of the disaster, so neither source can carry the other's claim.",
+                        "feedback": "Applies both sources to a specific claim, explains what each shows (the notice for life before the eruption, Pliny for the eruption itself), and notes the limits of each, including Pliny's distance in time and place. This meets the top band.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-24-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The notice shows that Pompeii was still active before the eruption. Pliny describes the eruption, so both sources can be used together.",
-                        "source": "AI",
                         "feedback": "Uses both sources but does not explain how each supports the claim or note the limits of either. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-24-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Pliny wrote about the eruption.",
-                        "source": "AI",
                         "feedback": "Makes a claim with no application of the evidence to a sentence of the account. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1580,17 +1580,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-51-1",
-                        "mark": 2,
-                        "answer": "Two conventions are particularly useful. A historian uses footnotes or endnotes in a historical account to show the source of each piece of evidence, so the reader can check each claim against its origin. A second convention is the use of direct quotations or paraphrase with a reference, which separates the historian's own argument from the evidence drawn from a source, so the reader can see which part of the claim is supported by the evidence.",
                         "source": "AI",
-                        "feedback": "Identifies two distinct conventions (footnotes or endnotes, and referenced quotation or paraphrase) and explains how each shows the evidence behind a claim. Both are linked to the reader's ability to check the claim, which earns full marks.",
+                        "mark": 2,
+                        "answer": "Two conventions a historian uses in a historical account show the evidence behind each claim. Footnotes or endnotes name the source of each item of evidence, and referenced quotation or paraphrase separates a source's words from the historian's argument.",
+                        "feedback": "Identifies two distinct conventions (footnotes or endnotes, and referenced quotation or paraphrase) and explains how each shows the evidence behind a claim. Both are tied to the evidence, which earns full marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-51-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "A historian uses footnotes in a historical account.",
-                        "source": "AI",
                         "feedback": "Identifies one convention without explaining how it shows the evidence behind a claim. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1696,17 +1696,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-28-1",
-                        "mark": 2,
-                        "answer": "A hypothesis in a historical investigation is a provisional explanation or proposition that the historian sets out in advance and that is tested against the evidence. It differs from a conclusion because a conclusion is reached only after the evidence has been examined, and a hypothesis may be revised or rejected if the evidence does not support it. The hypothesis therefore guides the investigation, while the conclusion records what the evidence has shown.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "In a historical investigation, a hypothesis is a provisional explanation set out in advance and tested against evidence. A conclusion is reached only after the evidence has been examined, whereas a hypothesis may be revised or rejected.",
                         "feedback": "Defines a hypothesis as a provisional explanation tested against evidence, and distinguishes it from a conclusion reached after examining the evidence. Both parts are answered, which earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-28-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "A hypothesis is a guess that is made before research.",
-                        "source": "AI",
                         "feedback": "Gives a partial definition with no reference to testing or to the difference from a conclusion. This is the 1-mark band.",
                         "band": 1
                       }
@@ -1915,17 +1915,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-32-1",
-                        "mark": 2,
-                        "answer": "A historical fact is an event or detail that the surviving evidence establishes with reasonable confidence, such as the date of the battle of Actium. A historical interpretation is the explanation a historian gives of why or how something happened, and it can be argued about. The difference matters because interpretations are built on the sources and the evidence, and a reader must be able to see which claims are established and which are argued.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "A historical fact is a detail that evidence establishes, such as the date of Actium. A historical interpretation is an argued explanation of why or how something happened. The difference matters because readers must know which claims are established.",
                         "feedback": "Distinguishes a fact (established by evidence) from an interpretation (an argued explanation) with examples, and gives the reason the distinction matters. Both parts are answered, which earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-32-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "A fact is true and an interpretation is an opinion.",
-                        "source": "AI",
                         "feedback": "Gives a partial distinction without linking facts to evidence or explaining why the difference matters. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2081,25 +2081,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-35-1",
-                        "mark": 3,
-                        "answer": "The student uses the concept of change correctly to mark the arrival of Roman control, but the sentence overstates the case. The historical term 'entirely new' is too absolute: the council may have been reorganised on Roman lines while retaining local magistrates, names and traditions, so continuity should be recognised alongside change. Phrases such as entirely new are a common error in student essays, because they treat a change as a total break and ignore the evidence of local practice. Using historical terms with care, a more precise sentence would say that Roman authority introduced a new form of town council, while many local practices continued. Using the concepts of continuity and change in this way makes the historical argument more accurate and defensible.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The student applies the concept of change correctly to the arrival of Roman control, but the sentence overstates the case. The phrase entirely new is too absolute: the town council may have been reorganised on Roman lines while retaining local magistrates and traditions, so continuity should be recognised alongside change. Using historical terms with care, the student could say that Roman authority introduced a new form of council while many local practices continued.",
                         "feedback": "Applies change and continuity to the sentence, identifies the overstatement, and proposes a more precise term. The historical terms are used with care, which earns the full 3 marks.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-35-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The sentence says the council was entirely new, which is too absolute. Continuity should also be recognised.",
-                        "source": "AI",
                         "feedback": "Identifies the overstatement and applies continuity, but does not propose a more precise term. This is the 2-mark band.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-35-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Entirely new is a change.",
-                        "source": "AI",
                         "feedback": "Makes a general comment about the sentence without applying the concepts to test it. This is the 1-mark band.",
                         "band": 2
                       }
@@ -2134,17 +2134,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-36-1",
-                        "mark": 2,
-                        "answer": "Two historical terms a student should define before using them in an essay on a Roman provincial town are romanisation and continuity. Romanisation describes the spread of Roman institutions, language and material culture, but it can imply a one-way process, so the student should define how far local communities adopted, adapted or resisted these changes. Continuity describes the survival of earlier practices, which is essential for an accurate account of a provincial town. Defining these historical terms and concepts at the outset makes the essay's argument clearer.",
                         "source": "AI",
-                        "feedback": "Identifies two appropriate historical terms and gives a reason each needs defining (romanisation can imply a one-way process; continuity needs careful use for provincial towns). Both reasons are specific, which earns full marks.",
+                        "mark": 2,
+                        "answer": "Romanisation and continuity are two historical terms a student should define in a provincial town essay. Romanisation implies a one-way process, while continuity describes the survival of earlier practices, so both concepts need careful definition.",
+                        "feedback": "Identifies two appropriate historical terms and gives a reason each needs defining: romanisation can imply a one-way process, and continuity describes the survival of earlier practices. Both reasons are specific, which earns full marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-36-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Romanisation is one historical term.",
-                        "source": "AI",
                         "feedback": "Identifies one appropriate term without a reason for defining it. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2234,29 +2234,29 @@
                       "reader",
                       "evidence"
                     ],
-                    "markingCriteria": "4 marks: outlines four distinct features, each briefly explained and linked to the reader's ability to judge the conclusions\n3 marks: outlines three features with brief explanation\n2 marks: outlines two features\n1 mark: names one feature without explanation",
+                    "markingCriteria": "4 marks: outlines four distinct features of the presentation, each briefly explained and linked to the reader's ability to judge the conclusions\n3 marks: outlines three features with brief explanation, with limited linking to the reader's ability to judge the conclusions\n2 marks: outlines two features of the presentation, each with brief explanation of why it helps the reader\n1 mark: names one feature of the presentation without explanation",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-38-1",
-                        "mark": 4,
-                        "answer": "A presentation of a historical investigation's findings should include four features. First, it should state the research question clearly, so the reader knows what the investigation set out to answer. Second, it should set out the evidence used, with the type and origin of each source, so that the reader can check the basis for each claim. Third, it should show how the evidence was interpreted, distinguishing established facts from arguable interpretations and noting any competing views. Fourth, it should give conclusions that match the evidence and state the limits of the investigation, so that the reader can judge how far the conclusions can be trusted. A clear structure helps the reader follow the argument from question to conclusion, while a list of unsupported claims makes the findings difficult to assess. Each feature supports the others, because a clear question makes the evidence easier to select and a stated limit helps the reader trust the conclusion.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "A presentation of the findings should include four features. First, it should state the research question clearly, so the reader knows what the historical investigation set out to answer. Second, it should set out the evidence used, with the type and origin of each source, so the reader can check each claim. Third, it should distinguish established facts from arguable interpretations and note competing views. Fourth, it should give conclusions that match the evidence and state the limits of the investigation, so the reader can judge how far the conclusions can be trusted. A clear structure helps the reader follow the argument from question to conclusion, and each feature supports the others.",
                         "feedback": "Outlines four distinct features (question, evidence, interpretation, conclusions and limits), each linked to the reader's ability to judge the conclusions. The explanation of how the features support one another earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-38-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The presentation should state the question and set out the evidence used. It should also give conclusions the reader can check.",
-                        "source": "AI",
                         "feedback": "Outlines two features without elaboration. This is the 2-mark band.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-38-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "It should include a conclusion.",
-                        "source": "AI",
                         "feedback": "Names one feature with no explanation. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2363,25 +2363,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-40-1",
-                        "mark": 3,
-                        "answer": "Athenian comedy is limited as a source about women because it is written to entertain a civic audience and exaggerates for comic effect. Aristophanes' plays present female characters who take control of public affairs, which is a comic reversal rather than a description of what women did. A historian can account for this limitation by reading the comedy alongside other sources, such as legal speeches and funerary monuments, and by asking what the exaggeration reveals about male anxieties rather than treating the scene as a record of ordinary life. The comedy's value is therefore not in what it says about the women of Athens directly, but in what it reveals about the audience's assumptions and the social concerns of the period in which it was performed.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Athenian comedy is limited as a source about women because it exaggerates for comic effect. Aristophanes' plays show women taking control of public affairs, which is a comic reversal rather than a record of what women did. A historian can account for this limitation by reading the comedy alongside other sources, such as legal speeches, and by asking what the exaggeration reveals about male anxieties. The comedy's value lies in what it reveals about its audience.",
                         "feedback": "Describes one clear limitation (comic exaggeration and reversal) and explains how a historian would account for it by reading the comedy against other sources and asking what the exaggeration reveals. The explanation is complete, so it earns full marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-40-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Comedy exaggerates, so it is not a true record of women. A historian should compare it with other sources.",
-                        "source": "AI",
                         "feedback": "Describes a limitation and says the historian should compare it, but does not explain how the comparison accounts for the limitation. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-40-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Comedy is funny, so it is not accurate.",
-                        "source": "AI",
                         "feedback": "Makes a general comment about comedy without describing a specific limitation as a source about women. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2477,17 +2477,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-42-1",
-                        "mark": 2,
-                        "answer": "Athenian law limited the status of women in two main ways. First, a woman had to be under the authority of a male guardian, the kyrios, who arranged her marriage and could transfer her to another household, so she could not act independently in legal matters. Second, the law of 451/0 BCE restricted citizenship to those with two citizen parents, so a woman's role in producing legitimate sons determined whether they could hold citizenship, which tied her status to the male citizen body.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "The sources show Athenian law limited women's status in two ways. First, women needed a male guardian, the kyrios, to act for them legally. Second, a law of 451/0 BCE restricted citizenship to those with two citizen parents.",
                         "feedback": "States two distinct legal limitations (the kyrios system and the 451/0 BCE citizenship law) with reference to the law. Both are accurate and distinct, which earns full marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-42-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Women needed a male guardian to act legally.",
-                        "source": "AI",
                         "feedback": "States one legal limitation with no second. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2525,29 +2525,29 @@
                       "gender",
                       "purposes"
                     ],
-                    "markingCriteria": "6-7 marks: compares depictions of masculinity and femininity in two sources, explains how the purposes of each source shape the depictions, and reaches a reasoned conclusion about gender\n4-5 marks: compares depictions in two sources, with some explanation of how purpose shapes them\n2-3 marks: describes depictions in each source with limited comparison\n1 mark: makes a general statement about gender in Athens",
+                    "markingCriteria": "5-7 marks: compares depictions of masculinity and femininity in both sources, explains how the purpose of each source shapes those depictions, and reaches a reasoned conclusion about gender\n3-4 marks: compares depictions of gender in two sources, with some explanation of how the purpose of each source shapes them\n1-2 marks: describes depictions of men and women in each source, with limited comparison and little reference to purpose",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-43-1",
-                        "mark": 7,
-                        "answer": "The depictions of masculinity and femininity in Athenian vase painting and comedy both reflect gender ideals, but they differ because each source has a different purpose. In the historical record, vase painting is the more widespread visual source: men are shown as citizens at the symposium, in the gymnasium and in battle, while women are commonly shown at the household fountain, spinning or receiving gifts from men. These images present masculinity as public, active and athletic, and femininity as domestic, modest and centred on the house. The purpose of the vases was largely decorative and often commercial, made for a market that wanted images of an idealised social order, so the depictions tend to repeat the conventions of their genre rather than record individual experience. Comedy presents gender in a very different way. In Aristophanes' Lysistrata of 411 BCE, the women seize the Acropolis to end the war, and the men are shown as lustful, cowardly and dependent on the women they mock, which inverts the expected roles for comic effect. The purpose of comedy is to entertain and to provoke laughter by exaggeration, so its depictions of masculinity and femininity are less a model of ideal behaviour than a commentary on anxieties about it. The comparison therefore shows that both sources share a basic gender ideal, in which men belong to the public sphere and women to the household, but that the purposes of each source shape how that ideal is shown. The vases reinforce the ideal through repetition, while the comedy tests it through reversal. A historian who compares the two must conclude that gender was constructed in these sources, and that the differences between them tell us about the audiences for whom each was produced.",
                         "source": "AI",
+                        "mark": 7,
+                        "answer": "The depictions of masculinity and femininity in Athenian vase painting and comedy both reflect gender ideals, but they differ because each source has a different purpose. In the historical record, vase painting is the more widespread visual source: men are shown as citizens at the symposium, in the gymnasium and in battle, while women are commonly shown at the household fountain or receiving gifts. These images present masculinity as public and active, and femininity as domestic and modest. The vases were made largely as decorative and commercial objects for a market that wanted images of an idealised social order, so they repeat the conventions of their genre rather than record individual experience. Comedy presents gender very differently. In Aristophanes' Lysistrata of 411 BCE, the women seize the Acropolis to end the war, and the men are shown as lustful, cowardly and dependent, which inverts the expected roles for comic effect. Comedy aims to entertain through exaggeration, so its depictions are less a model of ideal behaviour than a commentary on anxieties about it. Both sources share a basic ideal, in which men belong to the public sphere and women to the household, but the purposes of each source shape how that ideal is shown. The vases reinforce the ideal through repetition, while the comedy tests it through reversal. A historian comparing the two must conclude that gender was constructed in these sources, and that their differences reveal the audiences for whom each was produced.",
                         "feedback": "Compares depictions of masculinity and femininity across the two sources, explains how the purpose of each (decorative and commercial for vases, comic for comedy) shapes the depiction, and reaches a conclusion about gender as constructed. This is the reasoning the top band requires.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-43-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Vase paintings show men as active citizens at the symposium and women at the household fountain. Comedy reverses these roles, as in Lysistrata, where the women take control and the men are shown as dependent. The vases repeat conventions, while the comedy exaggerates for laughter, so the purposes of the sources differ.",
-                        "source": "AI",
-                        "feedback": "Compares the depictions in two sources and notes that their purposes differ. The explanation of how the purposes shape the depictions is brief, so it sits in the 4-5 band.",
+                        "feedback": "Compares the depictions in two sources and notes that their purposes differ. The explanation of how the purposes shape the depictions is brief, so it sits in the 3-4 mark row.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-43-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Men are shown in vases and women in comedy.",
-                        "source": "AI",
                         "feedback": "Makes an inaccurate and general statement that does not compare the depictions of gender. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2697,25 +2697,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-46-1",
-                        "mark": 3,
-                        "answer": "Legal status refers to the rights and restrictions that the law placed on women, such as the need for a male guardian and the exclusion from citizenship and voting. Economic role describes the work women actually did in the household and the market, which could be substantial even where the law restricted their independence. In classical Athens, women could manage large household stores and some traded goods in the market, so their economic role was real even though their legal status was dependent. A historian must distinguish between the two because the sources often describe one while implying the other: a law code may say little about women's work, and a comedy may show women trading without explaining what the law permitted. Keeping the categories separate prevents a historian from assuming that legal dependence meant economic passivity.",
                         "source": "AI",
-                        "feedback": "Clarifies legal status and economic role as distinct, with an example of each, and explains why the historian must separate them: the sources describe one while implying the other. This meets the full 3-mark criterion.",
+                        "mark": 3,
+                        "answer": "Legal status refers to the rights and restrictions the law placed on women, such as the need for a male guardian. Economic role describes the work women actually did, which could be substantial even where the law restricted them. In classical Athens, women managed household stores and some traded goods, so their economic role was real despite their dependent legal status. A historian must distinguish the two, since a law code may say little about women's work.",
+                        "feedback": "Clarifies legal status (the need for a male guardian) and economic role (managing household stores and trading goods) as distinct, and explains why a historian must separate them: a law code may say little about women's work. This meets the full 3-mark criterion.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-46-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Legal status is what the law allowed women to do. Economic role is the work they actually did.",
-                        "source": "AI",
                         "feedback": "Clarifies the two terms but does not explain why a historian must distinguish them. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-46-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Women had a legal status in Athens.",
-                        "source": "AI",
                         "feedback": "Makes a general statement about women in Athens with no clarification of either term. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2811,25 +2811,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-48-1",
-                        "mark": 3,
-                        "answer": "Women's political roles in classical Athens were limited because citizenship and the vote belonged to adult male citizens, and women acted through male guardians in legal and public matters. The reasons include the assumption that women's place was in the household and the law's restriction of citizenship to those with citizen parents, which made women's reproduction a civic matter but excluded them from civic decisions. By contrast, religious roles for women were more visible: they included priestesses, festival participants and the weavers of Athena's peplos. These religious roles were valued, but they did not give women the political authority that the assembly and law courts conferred on men, so the limited political role and the prominent religious role existed side by side in Athens.",
                         "source": "AI",
-                        "feedback": "Summarises the reasons for limited political roles (citizenship, guardianship, the household ideal, the 451/0 BCE law) and contrasts them with the religious roles, clearly and concisely. This meets the 3-mark criterion.",
+                        "mark": 3,
+                        "answer": "Women's political roles in classical Athens were limited because citizenship and the vote belonged to adult male citizens, and women acted through male guardians. Reasons include the assumption that women's place was in the household and the law's restriction of citizenship to those with citizen parents. By contrast, religious roles were more visible, including priestesses and the weavers of Athena's peplos. These roles were valued, but they did not give women the political authority conferred on men.",
+                        "feedback": "Summarises the reasons for limited political roles (citizenship and the vote, male guardians, the household ideal, and the law restricting citizenship to citizen parents) and contrasts them with the religious roles, clearly and concisely. This meets the 3-mark criterion.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-48-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Women could not vote and needed guardians, while religious roles were more open to them.",
-                        "source": "AI",
                         "feedback": "Summarises the limited political role and contrasts it with religious roles, but without the reasons. This is the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-48-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Women had few political roles.",
-                        "source": "AI",
                         "feedback": "Makes a general comment that does not summarise reasons or the religious contrast. This is the 1-mark band.",
                         "band": 1
                       }
@@ -2868,29 +2868,29 @@
                       "Augustus",
                       "sources"
                     ],
-                    "markingCriteria": "7-8 marks: assesses Livia's role and significance against explicit criteria, weighing the testimony of the sources against the absence of formal power, and reaches a reasoned judgement\n6 marks: assesses her role and significance, with some weighing of the sources and a judgement\n5 marks: explains Livia's influence with some assessment of the sources but limited judgement\n3-4 marks: describes Livia's influence and honours with limited assessment\n2 marks: identifies Livia and one aspect of her influence\n1 mark: makes a general statement about Livia",
+                    "markingCriteria": "7-8 marks: assesses Livia's role and significance against explicit criteria, weighing the testimony of the sources against the absence of formal power, and reaches a reasoned judgement\n5-6 marks: explains Livia's role and significance, with some weighing of the sources and a clear but underdeveloped judgement\n4 marks: explains Livia's influence and honours, with some reference to the sources but no real judgement\n2-3 marks: describes Livia's influence and honours, with limited reference to the sources and no clear judgement\n1 mark: makes a general statement about Livia",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-49-1",
+                        "source": "AI",
                         "mark": 8,
                         "answer": "Livia's role and significance are assessed most reliably when the sources are weighed against their purposes. Livia married Augustus in 38 BCE, after her previous marriage was dissolved, and she remained his wife until his death in 14 CE. Her influence within the household and the imperial family is well attested in the sources, but the picture is shaped by writers who had their own views of her. Cassius Dio and Tacitus both present her as a skilled and ambitious figure whose influence reached into politics, and Tacitus suggests that she helped secure the succession of Tiberius, while other writers are more cautious. Her significance is also shown in the honours she received. After Augustus' death her position was recognised when, under his will, she took the name Julia Augusta, and when Claudius later deified her. These honours indicate that she was seen as a public figure, but they were granted by men, which tells us about the expectations of the imperial elite as much as about Livia herself. Her role in the Augustan regime was therefore one of informal influence rather than formal office, since she held no magistracy, yet her presence shaped the image of the imperial household and the transmission of power. A historian assessing her significance must balance the claim that she was highly influential, which rests on the testimony of hostile or interested writers, against the absence of formal power, which is clear in the institutions of the regime. The most defensible judgement is that Livia was one of the most influential women of the early Roman Empire, with a significance that lay in her position within the imperial family and in the way later writers chose to remember her, rather than in any office she held.",
-                        "source": "AI",
                         "feedback": "Weighs the testimony of Tacitus and Cassius Dio against the institutional evidence that Livia held no office, assesses her honours, and reaches a qualified judgement about her significance. The explicit weighing of the sources and the qualified judgement meet the top band.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-49-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "Livia was the wife of Augustus and had influence within the imperial household. Tacitus suggests she helped Tiberius succeed, although this claim comes from a later writer. She received the name Julia Augusta under Augustus' will and was deified by Claudius, which shows she was an important figure. However, she held no formal office, so her significance was mainly informal.",
-                        "source": "AI",
-                        "feedback": "Explains Livia's influence and honours and notes the limits of Tacitus as a later writer, with a basic judgement. The assessment is limited and the judgement is not developed, so it sits in the 5-band.",
+                        "feedback": "Explains Livia's influence and honours and notes the limits of Tacitus as a later writer, with a basic judgement. The assessment is limited and the judgement is not developed, so it sits in the 5-6 mark row.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-49-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Livia was the wife of Augustus and was influential.",
-                        "source": "AI",
                         "feedback": "Identifies Livia and one aspect of her influence with no assessment. This is the 2-mark band.",
                         "band": 2
                       }
@@ -2994,17 +2994,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-52-1",
-                        "mark": 2,
-                        "answer": "The first limitation is that most literary sources on Athens were written by elite, free male citizens, so enslaved people appear only as their authors chose to present them. Their accounts therefore reveal the interests and assumptions of the writers rather than the experience of the enslaved. The second limitation is rhetoric. Oratory and comedy were written to persuade or entertain an audience, so a litigant or playwright might exaggerate a slave's cunning or cruelty for effect. Both limitations weaken the reliability of these texts as evidence about enslaved people.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two limitations of literary sources on Athens are elite authorship, which shows enslaved people only as writers chose to present them, and rhetoric, since oratory and comedy exaggerate to persuade or entertain, weakening their reliability.",
                         "feedback": "Two distinct limitations are named, elite authorship and the rhetorical purpose of the texts, and each is explained in terms of its effect on the reliability of evidence about enslaved people. This earns the full 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-52-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Literary sources were written by elite men, so they may be biased.",
-                        "source": "AI",
                         "feedback": "One limitation is identified, but it is not explained or linked to evidence about enslaved people. The word 'biased' is generic, so this earns 1 mark.",
                         "band": 1
                       }
@@ -3157,25 +3157,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-55-1",
-                        "mark": 3,
-                        "answer": "Historians studying the origins and extent of slavery in Greek society draw on three main kinds of evidence. Written sources, including Homer, Herodotus and Athenian oratory, mention enslaved people as a category, although these texts were written by elites and are often indirect about how slavery began. Material evidence, such as inscriptions recording sales and manumission, can show where and at what scale enslaved labour was used. Archaeological evidence from houses, workshops and mines helps to show how far slavery extended into everyday life across different Greek communities. The combination of these kinds of evidence matters, since each has limitations that the others can partly correct. Each of these sources has to be read with its own limitations in mind, so that the picture of slavery's origins is built from several kinds of evidence rather than from one.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Historians studying the origins and extent of slavery in Greek society use three kinds of evidence. Written sources such as Homer and Herodotus mention enslaved people as a category, but are written by elites and are indirect about origins. Material evidence, such as inscriptions recording sales and manumission, shows where and at what scale enslaved labour was used. Archaeological evidence from houses, workshops and mines shows how far slavery reached into everyday life.",
                         "feedback": "Three kinds of evidence are outlined and each is linked to what it shows about origins and extent, with the limitations of the written sources noted. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-55-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Historians use written sources such as Homer and Herodotus, and material evidence such as inscriptions and archaeology.",
-                        "source": "AI",
                         "feedback": "Two kinds of evidence are named, but the answer does not say what each shows about the origins or extent of slavery. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-55-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Historians use written evidence about slavery.",
-                        "source": "AI",
                         "feedback": "One kind of evidence is identified without being outlined or linked to origins and extent. This earns 1 mark.",
                         "band": 1
                       }
@@ -3218,25 +3218,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-56-1",
-                        "mark": 3,
-                        "answer": "The legal and literary evidence shows that enslaved people in wealthy Roman households held a wide range of occupations. Many performed domestic labour such as cooking, cleaning and attending to the household's personal needs. Others held skilled or managerial roles: a steward, sometimes called a dispensator, might oversee the household's accounts and the work of other enslaved people, while a secretary or scribe handled correspondence for the master. The sources record that the grammarian Daphnis fetched a record price at auction, which suggests that skill could raise an enslaved person's value, so occupation was closely tied to the status an enslaved person held within the household. This variety shows that the household was a hierarchy in which enslaved people were themselves ranked.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The legal and literary evidence shows that enslaved people in wealthy Roman households held a range of occupations. Many performed domestic labour such as cooking and cleaning. Others held skilled or managerial roles: a steward might oversee accounts and other enslaved workers, while a secretary handled the master's correspondence. Occupation was tied to status, since skill could raise an enslaved person's value within the household. The household was a hierarchy in which enslaved people were ranked.",
                         "feedback": "Three distinct occupations are described, from domestic labour to managerial and skilled roles, and the answer links occupation to status using the legal and literary evidence. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-56-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Enslaved people in Roman households did domestic work like cooking and cleaning. Some were secretaries who handled letters for their masters.",
-                        "source": "AI",
                         "feedback": "Two occupations are described with some reference to the evidence, but the answer does not show the range of roles or connect them to status. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-56-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Enslaved people had jobs in the house.",
-                        "source": "AI",
                         "feedback": "The answer makes a general statement about household labour without describing any specific occupation. This earns 1 mark.",
                         "band": 1
                       }
@@ -3567,25 +3567,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-62-1",
-                        "mark": 3,
-                        "answer": "The First Servile War broke out in Sicily in 135 BCE, when enslaved workers on the large estates rose against their owners. The causes lay in harsh treatment, the large number of enslaved people held on Sicilian estates, and the leadership of Eunus, a Syrian enslaved man who claimed to have prophetic powers and drew followers together. The revolt spread across the island, and the rebels defeated several Roman forces. Their resistance lasted for three years until the consul Publius Rupilius crushed it in 132 BCE. The war therefore demonstrates both the causes and the consequences of a slave revolt that threatened Roman control of a key province. The sources describe the revolt as a serious military threat, although the accounts of its early stages are shaped by the agendas of the writers who recorded it.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The First Servile War broke out in Sicily in 135 BCE, when enslaved people on the large estates rose in revolt against their owners. Its causes lay in harsh treatment, the large number of enslaved people on Sicilian estates, and the leadership of Eunus, a Syrian who claimed prophetic powers. The rebels defeated several Roman forces, and their resistance lasted until the consul Publius Rupilius crushed it in 132 BCE.",
                         "feedback": "The answer describes the course of the revolt from its outbreak to its suppression, sets out its causes, and names Eunus, the estates and the Roman response. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-62-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Enslaved people in Sicily rose up against their owners in 135 BCE. The leader was Eunus, who was a Syrian enslaved man.",
-                        "source": "AI",
                         "feedback": "The answer describes the start of the revolt and names its leader, but gives no causes and no account of how the revolt ended. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-62-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "There was a revolt in Sicily.",
-                        "source": "AI",
                         "feedback": "The answer identifies the revolt and its location without describing its course or causes. This earns 1 mark.",
                         "band": 1
                       }
@@ -3691,17 +3691,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-64-1",
-                        "mark": 2,
-                        "answer": "The first limitation is survival: most Greek and Roman sculpture has been lost, and what remains is often fragmentary or weathered, so the surviving pieces are a selection rather than a representative sample. The second limitation is context. Many statues have been removed from the places where they were displayed, such as temples, tombs and public squares, so historians cannot always reconstruct how the original audience viewed them. Both limitations make the evidence of sculpture harder to interpret, and they reduce its reliability as a witness to ancient society.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two limitations of Greek and Roman sculpture as evidence are survival, which leaves only a selection, and loss of context, since statues were moved from their original settings. Both make it harder to judge how societies represented themselves.",
                         "feedback": "Two distinct limitations, survival and loss of context, are named, and each is explained in terms of its effect on the evidence. Every keyword is used in context. This earns the full 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-64-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Statues may have been destroyed over time.",
-                        "source": "AI",
                         "feedback": "One limitation is identified, but its effect on the evidence is not explained. This earns 1 mark.",
                         "band": 1
                       }
@@ -4081,7 +4081,7 @@
                       "representation",
                       "architecture"
                     ],
-                    "markingCriteria": "7-8 marks: Justifies the claim with a clear argument supported by specific examples of elite and non-elite use of art and architecture, weighs the evidence and its limits, and reaches a reasoned conclusion.\n6 marks: Justifies the claim with reasoned argument and examples, with some weighing of the evidence.\n5 marks: Presents evidence for elite and non-elite use of art, with some justification of the claim.\n3-4 marks: Describes uses of art and architecture by elites or non-elites with limited justification.\n2 marks: Identifies one use of art without justifying the claim.\n1 mark: Makes a general statement about art and architecture.",
+                    "markingCriteria": "7-8 marks: justifies the claim with a clear argument supported by specific examples of elite and non-elite use of art and architecture, weighs the evidence and its limits, and reaches a reasoned conclusion\n5-6 marks: justifies the claim with reasoned examples from elite and non-elite use, with some weighing of the evidence and its limits\n4 marks: presents evidence for elite and non-elite use of art and architecture, with some justification of the claim\n2-3 marks: describes uses of art and architecture by elites or non-elites, with limited justification of the claim\n1 mark: makes a general statement about art and architecture",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-71-1",
@@ -4144,29 +4144,29 @@
                       "Pericles",
                       "propaganda"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the significance of the Parthenon as an example of Athenian art and architecture, weighing its architectural, religious and political dimensions with reference to evidence, and reaches a reasoned judgement.\n6 marks: Assesses the significance of the Parthenon through at least two dimensions, with some judgement.\n5 marks: Describes the Parthenon and its context with some assessment of significance.\n3-4 marks: Describes features of the Parthenon with limited assessment of significance.\n2 marks: Identifies the Parthenon or one feature without assessing significance.\n1 mark: Makes a general statement about Athenian art.",
+                    "markingCriteria": "7-8 marks: assesses the significance of the Parthenon as an example of Athenian art and architecture, weighing its architectural, religious and political dimensions with reference to evidence, and reaches a reasoned judgement\n5-6 marks: explains the significance of the Parthenon through at least two dimensions, with some reference to evidence and a partial judgement\n4 marks: explains features of the Parthenon and its context, with some reference to why it was significant but limited judgement\n2-3 marks: describes features of the Parthenon and its context, with limited assessment of its significance\n1 mark: makes a general statement about Athenian art",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-72-1",
+                        "source": "AI",
                         "mark": 8,
                         "answer": "The Parthenon is significant as an example of Athenian art and architecture because it combined technical achievement with a political message. Built between 447 and 432 BCE under the building programme associated with Pericles, it used marble from Mount Pentelicus and a system of optical refinements that made the temple appear more regular than it was. Its architecture was designed to house a cult statue of Athena, and the chryselephantine statue inside made it a showcase for the city's wealth and piety. The sculpture, which included metopes, a continuous frieze and pedimental figures, is widely attributed to Phidias and his workshop, and it presented the city's myths and its festivals in a form that linked civic identity to its patron goddess. The significance of the Parthenon is also political. Funds drawn from the Delian League were used for the building, and Plutarch reports that critics complained about this, so the monument can be read as propaganda for Athenian power as well as a religious offering. Its role in the wider art of the period is equally important, since it set a standard for Doric architecture and for the balance between idealised figures and architectural order that influenced later Greek and Roman monuments. However, the sources for its construction are limited, and the interpretation of its frieze remains contested among scholars. The Parthenon's significance therefore lies in its combination of architectural innovation, religious function and political purpose, which made it a central example of the way Athenian art shaped the identity of the city in the fifth century BCE. Its message could be read by visitors from across the Greek world, which made it a statement about Athens as much as about Athena. Its significance also changed over time, since later visitors, including the second-century CE traveller Pausanias, read the building as a symbol of the city's past greatness. Its meaning was therefore shaped as much by later audiences as by the Athenians who commissioned it.",
-                        "source": "AI",
                         "feedback": "The answer weighs the architectural, religious and political dimensions of the Parthenon, reaches a judgement on how they combined, and notes the limits of the sources. Every keyword is used in context. This earns the full 8 marks.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-72-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "The Parthenon was built in the fifth century BCE under Pericles. It was a temple to Athena and had sculptures on it. It shows how powerful Athens was, and some of the money came from the Delian League, which people criticised.",
-                        "source": "AI",
-                        "feedback": "The answer describes the temple and its context and notes a political point, but it does not weigh the dimensions of significance against each other or reach a judgement. This earns 5 marks.",
+                        "feedback": "The answer describes the temple and its context and notes a political point, but it does not weigh the dimensions of significance against each other or reach a full judgement. This earns 5 marks.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-72-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Parthenon is a famous Athenian temple. It was built to honour Athena.",
-                        "source": "AI",
                         "feedback": "The answer identifies the Parthenon and one feature without assessing its significance. This earns 2 marks.",
                         "band": 2
                       }
@@ -4264,25 +4264,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-74-1",
-                        "mark": 3,
-                        "answer": "The Greek architectural orders spread from the Greek mainland and the Aegean across the Mediterranean through colonisation and trade. The Doric order reached Italy through the Greek colonies of Magna Graecia, where temples at Paestum, built in the late sixth and fifth centuries BCE, show its features in the western Greek world. The Ionic order, with its scrolled capitals, spread more widely in the eastern Greek world and later influenced Roman builders, who adapted the orders for their own monuments. Roman builders then combined the orders with arches and concrete, which shows how a form that began in Greece could be transformed as it travelled. Each new setting adapted the orders to local materials and tastes. Clarifying the spread shows that architectural forms travelled with the people who built them and with the cultural exchanges that followed.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The Greek architectural orders spread from the Greek mainland and the Aegean across the Mediterranean through colonisation and trade. The Doric order reached Italy through Greek colonies, where temples at Paestum show its features in the western Greek world. The Ionic order spread more widely in the east and later influenced Roman builders, who adapted the orders for their own monuments. Each new setting adapted the orders to local materials and tastes.",
                         "feedback": "The answer clarifies two routes, colonisation and trade, names the Doric and Ionic orders with specific places, and explains how the forms were adapted as they spread. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-74-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Doric order spread to Italy from Greece through colonies. The Ionic order had scrolls on the capitals.",
-                        "source": "AI",
                         "feedback": "A route of spread is named and the two orders are identified, but the answer does not explain the process of spread or how the forms changed. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-74-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Greek architecture spread around the Mediterranean.",
-                        "source": "AI",
                         "feedback": "The answer identifies the spread of Greek architecture without clarifying how it happened. This earns 1 mark.",
                         "band": 1
                       }
@@ -4386,17 +4386,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-76-1",
-                        "mark": 2,
-                        "answer": "The first limitation is that literary accounts of battles were written by authors who were often writing at a distance in time from the events they describe, and who shaped their narratives to explain outcomes or to flatter a patron. Herodotus, Thucydides and later writers such as Polybius wrote with their own purposes, so their descriptions of weapons and tactics may reflect literary convention rather than precise military knowledge. The second limitation is that these accounts describe the battle rather than the equipment, so the evidence of the weapons themselves must be drawn from archaeological finds, which survive unevenly and are often found out of their original context. Both limitations mean that the evidence for weapons and tactics must be combined with other sources before conclusions are drawn about warfare.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two limitations of literary accounts of battles are distance in time and literary purpose, which may distort descriptions of weapons and tactics in warfare. They focus on battles rather than equipment, so evidence of weapons must come from archaeology.",
                         "feedback": "Two distinct limitations are identified, the author's purpose and distance in time and the focus on battles rather than equipment, and each is explained in terms of its effect on the evidence. Every keyword is used in context. This earns the full 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-76-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Literary accounts were written by people who had their own purposes.",
-                        "source": "AI",
                         "feedback": "One limitation is identified but its effect on the evidence for weapons and tactics is not explained. This earns 1 mark.",
                         "band": 1
                       }
@@ -4550,25 +4550,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-79-1",
-                        "mark": 8,
-                        "answer": "Changes in weapons and military tactics altered the structure and role of armies in the ancient Mediterranean, although the effects were uneven and depended on the political and social systems that produced the armies. The Greek hoplite phalanx of the archaic and classical periods was built on citizen spearmen who bought their own armour, and its tactics relied on the cohesion of a close-packed line. The phalanx tied military service to political rights, because men who fought in the line were often the same men who voted in the assembly, so changes in weapons that made the phalanx less dominant had political consequences. Macedonian armies under Philip II and Alexander developed a longer pike, the sarissa, and combined the phalanx with heavy cavalry, which allowed a more flexible use of different arms and changed the role of the infantry in battle. In Rome, the reforms associated with Marius created a standard legionary equipment of the gladius and pilum, and recruited men without property, so the army's structure shifted from a citizen levy towards a professional force whose loyalty depended on generals who could reward them. This change had a lasting effect on the role of armies in politics, since soldiers came to expect land and pay from their commanders. Carthaginian armies under Hannibal show a different pattern, since mixed forces of Iberian, Gallic and African troops, with a strong cavalry, made tactics such as the double envelopment at Cannae possible. Historians debate how far these changes were caused by weapons and how far by social and political pressures. The evidence suggests that technology mattered, but it mattered most when combined with the recruitment systems and political conditions that determined who fought and why. On balance, changes in weapons and tactics transformed the structure of armies, and through them the role of the military in society, but these changes depended on the wider social settings in which armies were raised. Such changes show that technology and social structure were closely linked.",
                         "source": "AI",
+                        "mark": 8,
+                        "answer": "Changes in weapons and military tactics altered the structure and role of armies in the ancient Mediterranean, although the effects were uneven and depended on the political and social systems that produced the armies. The Greek hoplite phalanx of the archaic and classical periods was built on citizen spearmen who bought their own armour, and its tactics relied on the cohesion of a close-packed line. The phalanx tied military service to political rights, because men who fought in the line were often the same men who voted in the assembly, so changes in weapons that made the phalanx less dominant had political consequences. Macedonian armies under Philip II and Alexander developed a longer pike, the sarissa, and combined the phalanx with heavy cavalry, which allowed a more flexible use of different arms and changed the role of the infantry in battle. In Rome, the reforms associated with Marius gave every legion a standard equipment of gladius and pilum, and recruited men without property, so the army's structure shifted from a citizen levy towards a professional force whose loyalty depended on generals who could reward them. This change had a lasting effect on the role of armies in politics, since soldiers came to expect land and pay from their commanders. Carthaginian armies under Hannibal show a different pattern, since mixed forces of Iberian, Gallic and African troops, with a strong cavalry, made tactics such as the double envelopment at Cannae possible. Historians debate how far these changes were caused by weapons and how far by social and political pressures. The evidence suggests that technology mattered, but it mattered most when combined with the recruitment systems and political conditions that determined who fought and why. On balance, changes in weapons and tactics transformed the structure of armies, and through them the role of the military in society, but these changes depended on the wider social settings in which armies were raised. Such changes show that technology and social structure were closely linked.",
                         "feedback": "The answer discusses several armies in turn, weighs the role of technology against recruitment and politics, and reaches a reasoned position. Every keyword is used in context. This earns the full 8 marks.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-79-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "The hoplite phalanx was made of citizen spearmen who bought their own armour. Philip II's army had longer pikes. In Rome, Marius changed the army so that it recruited men without property, which made soldiers loyal to their generals. Hannibal used different troops at Cannae. These changes affected how armies were structured.",
-                        "source": "AI",
                         "feedback": "The answer names several changes in weapons and tactics and their effect on the army, but it does not weigh the evidence or reason about why the changes mattered. This earns 5 marks.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-79-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Armies changed when new weapons came in. The Romans had swords called gladii.",
-                        "source": "AI",
                         "feedback": "The answer describes a change and a weapon without discussing the effect on the structure or role of armies. This earns 2 marks.",
                         "band": 2
                       }
@@ -4610,25 +4610,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-80-1",
-                        "mark": 3,
-                        "answer": "Vegetius, writing in the late Roman period, describes in his military manual training that aimed to make legionaries physically strong and disciplined. Recruits were drilled repeatedly in marching, formation and the use of weapons, including practice with wooden stakes that stood in for live weapons, so that the soldier became skilled before facing real battle. Vegetius presents this training as the foundation of discipline, since well-drilled legionaries were more likely to hold their formation and obey their officers under pressure, and the manual therefore shows how the training of legionaries was linked to the army's effectiveness. This source is later than the Republic, so it must be used with care. Its author was not a serving soldier, so its advice reflects a theorist's view of an ideal army as much as the practice of the day.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Vegetius, writing in the late Roman period, describes training that aimed to make legionaries disciplined. Recruits were drilled repeatedly in marching, formation and the use of weapons, including practice with wooden stakes, so that soldiers became skilled before battle. Vegetius presents drill as the foundation of discipline, since well-drilled legionaries held their formation under pressure. His military manual was written by a theorist, so its ideal army must be used with care.",
                         "feedback": "The answer explains the purpose of the drill and discipline, links them to the army's effectiveness, and notes that Vegetius is a late and theoretical source. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-80-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Vegetius describes training for Roman soldiers. Soldiers practised drill with wooden stakes.",
-                        "source": "AI",
                         "feedback": "Training practices are described from the source, but their purpose and their effect on discipline are not explained. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-80-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Roman soldiers had training.",
-                        "source": "AI",
                         "feedback": "The answer makes a general statement about Roman soldiers without describing the training. This earns 1 mark.",
                         "band": 1
                       }
@@ -4780,25 +4780,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-83-1",
-                        "mark": 4,
-                        "answer": "The military played different roles in Athenian democracy and the Roman Republic. In Athens, service in the military was closely tied to citizenship: the hoplites and the navy's rowers were citizens who voted in the assembly, so the military reinforced the political rights of the citizen body. Military command was also subject to the democratic process, since generals were elected by citizens and could be held to account. In the Roman Republic, the military served the state, but generals could gain personal followings through conquest and the rewards they gave to their soldiers, and this allowed the army to become a source of power that could challenge the Senate. The Athenian military reinforced citizen equality, while the Roman military could become a route to personal power. The difference lies in how citizenship, command and loyalty connected to politics in each system. The contrast therefore lies less in the existence of a military than in the source of its loyalty: citizens in Athens, and personal clients in Rome.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "The military played a different role in Athenian democracy and the Roman Republic. In Athens, service was closely tied to citizenship: hoplites and rowers were citizens who voted in the assembly, and generals were elected and held to account by the citizens. In the Roman Republic, generals could gain personal followings through conquest and the rewards they gave soldiers, so the army could become a source of power that challenged the Senate. Athenian military service reinforced citizen equality, while Roman command could become a route to personal power. The difference lies in how citizenship, command and loyalty connected to politics in each system.",
                         "feedback": "The answer differentiates the roles by explaining how citizenship, command and politics connected in each system. Every keyword is used in context. This earns the full 4 marks.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-83-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "In Athens soldiers were citizens. In Rome generals rewarded soldiers, which made them loyal.",
-                        "source": "AI",
                         "feedback": "A difference is identified, but the answer does not explain the link between the military, citizenship and politics in each system. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-83-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Athens and Rome both had armies.",
-                        "source": "AI",
                         "feedback": "The answer makes a general statement about the militaries without identifying any difference. This earns 1 mark.",
                         "band": 1
                       }
@@ -4954,29 +4954,29 @@
                       "conquered",
                       "conquerors"
                     ],
-                    "markingCriteria": "9-10 marks: Assesses the impact of the conquest of Carthage on both the conquerors and the conquered, weighing political, economic, social and military consequences, reaching an explicit judgement on how far the impact was decisive, and evaluating the reliability of the literary sources.\n7-8 marks: Assesses the impact on both Rome and Carthage with clear judgement and evidence, addressing at least two dimensions.\n6 marks: Discusses the impact of the conquest on Rome and Carthage with some judgement and limited evaluation.\n4-5 marks: Describes the consequences of the conquest for one or both peoples with limited judgement.\n2-3 marks: Identifies the destruction of Carthage or a consequence without assessing its impact.\n1 mark: Makes a general statement about Roman warfare.",
+                    "markingCriteria": "9-10 marks: assesses the impact of the conquest of Carthage on both the conquerors and the conquered, weighing political, economic, social and military consequences, reaching an explicit judgement on how far the impact was decisive, and evaluating the reliability of the literary sources\n7-8 marks: assesses the impact on both Rome and Carthage with clear judgement and evidence, addressing at least two dimensions\n5-6 marks: discusses the impact of the conquest on Rome and Carthage with some judgement and limited evaluation\n3-4 marks: describes the consequences of the conquest for one or both peoples with limited judgement\n1-2 marks: identifies the destruction of Carthage or a consequence without assessing its impact",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-86-1",
+                        "source": "AI",
                         "mark": 10,
                         "answer": "The Roman conquest of Carthage in 146 BCE had a profound impact on both Rome and Carthage, although its effects on the conquerors and the conquered differed in kind and in degree. For Rome, the destruction of its great rival removed the most serious external threat to the Mediterranean dominance it had been building since the Punic Wars, and the territory of north Africa was organised as the province of Africa, which brought revenue and grain to the Roman state. The conquest also enriched Roman elites and the state treasury, since the spoils of war and the sale of captives flowed into Rome, and this wealth shaped the politics of the late Republic. For the conquered, the impact was severe. Carthage was destroyed by fire and its population was reduced, and those who survived lost their city, their political institutions and much of their territory, which was incorporated into the new province. Carthage's commercial networks, which had linked the western Mediterranean with north Africa and Spain, were disrupted, so the city's economic role passed to others. The impact on the conquerors was also social and moral. Polybius, who witnessed the events, suggests that the destruction of Carthage had consequences for Roman politics and for the moral character of the aristocracy, since the wealth and power gained through conquest encouraged competition among the elite. The effects on Rome were also visible in the army, because the long wars that led to Carthage's fall increased the number of soldiers who had served far from home. Historians debate the scale of these effects. Some stress the destruction of Carthage as a turning point in Roman imperialism, while others argue that the process of expansion had begun earlier and that Carthage's fall confirmed existing patterns rather than creating new ones. The sources for the destruction are themselves limited, since they are literary accounts written by people with their own political interests. Weighing these considerations, the conquest of Carthage was decisive for Roman power in the western Mediterranean and devastating for the Carthaginians, but its impact on Rome was shaped by the structures of the Republic, while its impact on the conquered depended on how much of Carthage's identity survived the destruction. The conquest therefore had a significance that extended beyond the battlefield, shaping how Romans thought about their own power and how the conquered understood their place in a Roman world. Its effects were uneven, and their full extent is still debated.",
-                        "source": "AI",
                         "feedback": "The answer weighs the political, economic, social and military impact on both the conquerors and the conquered, reaches an explicit judgement on how far the conquest was decisive, and evaluates the literary sources. Every keyword is used in context. This earns the full 10 marks.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-86-2",
+                        "source": "AI",
                         "mark": 6,
                         "answer": "Rome destroyed Carthage in 146 BCE, which removed its main rival in the western Mediterranean. The province of Africa was created, and Roman elites became richer from the spoils. The Carthaginians lost their city and were defeated. Polybius was present and wrote about how the destruction affected Rome.",
-                        "source": "AI",
-                        "feedback": "The answer discusses the impact on Rome and Carthage with some judgement, and covers the political and economic consequences. It does not weigh the impact on the conquered or evaluate the sources, so it earns the 6-mark band. Fewer keywords are used than in the full answer.",
+                        "feedback": "The answer discusses the impact on Rome and Carthage with some judgement, and covers the political and economic consequences. It does not weigh the impact on the conquered or evaluate the sources, so it sits in the 5-6 mark row. Fewer keywords are used than in the full answer.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-86-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Rome destroyed Carthage. Carthage was a big rival of Rome.",
-                        "source": "AI",
                         "feedback": "The answer identifies the destruction of Carthage and a rivalry without assessing the impact on either people. This earns 2 marks.",
                         "band": 1
                       }
@@ -5080,17 +5080,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-88-1",
-                        "mark": 2,
-                        "answer": "The first limitation is survival: grave goods survive unevenly, and many tombs were robbed or disturbed in antiquity or later, so the objects that remain are not a representative sample of what was buried. The second limitation is interpretation. Grave goods show what was placed with the dead rather than the beliefs that motivated the placement, so historians must infer the meaning of rituals from objects whose original intention may be unclear. Both limitations mean that grave goods are useful evidence for beliefs about the dead only when they are interpreted with care.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two limitations of grave goods as evidence are survival, as robbed tombs leave an unrepresentative sample, and interpretation, since objects show what was placed with the dead rather than the beliefs or rituals behind it.",
                         "feedback": "Two distinct limitations, survival and interpretation, are identified, and each is explained in terms of its effect on conclusions about beliefs and rituals. Every keyword is used in context. This earns the full 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-88-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Grave goods can be looted, so they are not complete evidence.",
-                        "source": "AI",
                         "feedback": "One limitation is identified, but its effect on conclusions about beliefs or rituals is not explained. This earns 1 mark.",
                         "band": 1
                       }
@@ -5125,25 +5125,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-89-1",
-                        "mark": 3,
-                        "answer": "A funerary practice is any action or ritual that a community performs in relation to the dead, including the preparation of the body, the choice of burial and the ceremonies that mark the death. In the ancient Mediterranean, two main forms of burial were used: inhumation, in which the body was buried whole, and cremation, in which the body was burned and the remains placed in a container or pit. The choice between them varied by region and period, and it often reflected beliefs about the body and the afterlife, which makes burial a useful key to ancient belief. The definition matters because it determines which evidence historians count as part of the practice, such as the tomb, the grave goods and the ceremony that accompanied them. Tomb architecture and inscriptions should also be considered.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "A funerary practice is any action or ritual a community performs in relation to the dead, including the preparation of the body and the choice of burial. In the ancient Mediterranean, two main forms of burial were used: inhumation, in which the body was buried whole, and cremation, in which the body was burned. The choice between them reflected beliefs about the body and the afterlife, which makes burial a useful key to ancient belief.",
                         "feedback": "The answer defines funerary practice precisely, identifies inhumation and cremation as two forms of burial, and explains how the choice of form reflected belief. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-89-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "A funerary practice is how people bury their dead. Inhumation and cremation were two types of burial.",
-                        "source": "AI",
                         "feedback": "The answer gives a definition and identifies two forms of burial, but the definition is imprecise and it does not explain how the choice of form reflected belief. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-89-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Burial was a practice in the ancient world.",
-                        "source": "AI",
                         "feedback": "The answer gives a general description of burial without defining the term. This earns 1 mark.",
                         "band": 1
                       }
@@ -5354,7 +5354,7 @@
                       "community",
                       "exclusion"
                     ],
-                    "markingCriteria": "7-8 marks: Justifies the claim that funerary beliefs and rituals were a major source of social cohesion, with a clear argument supported by specific examples from more than one society, and weighs the evidence and the exclusions that limited cohesion.\n6 marks: Justifies the claim with reasoned argument and examples from at least one society, with some weighing of the evidence.\n5 marks: Presents examples of cohesion from funerary ritual, with some justification of the claim.\n3-4 marks: Describes funerary rituals and their communal aspects with limited justification.\n2 marks: Identifies one funerary ritual without justifying the claim.\n1 mark: Makes a general statement about death and society.",
+                    "markingCriteria": "7-8 marks: justifies the claim that funerary beliefs and rituals were a major source of social cohesion, with a clear argument supported by specific examples from more than one society, and weighs the evidence and the exclusions that limited cohesion\n5-6 marks: justifies the claim with reasoned examples from at least one society, with some weighing of the evidence\n4 marks: presents examples of cohesion from funerary ritual, with some justification of the claim\n2-3 marks: describes funerary rituals and their communal aspects, with limited justification of the claim\n1 mark: makes a general statement about death and society",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-93-1",
@@ -5474,25 +5474,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-95-1",
-                        "mark": 3,
-                        "answer": "The concept of an afterlife in ancient Egypt was based on the idea that the dead could continue to exist if their bodies and names were preserved and if they passed a judgement. The Book of the Dead, a collection of spells that developed in the New Kingdom, provides an example of this concept: its spells helped the deceased to navigate the afterlife, and one of its most famous images shows the heart of the dead being weighed against the feather of Ma'at, which represented truth and order. The example clarifies that the afterlife was conditional on moral conduct as well as on correct ritual, so that belief in the afterlife shaped the attitudes to death and to the tomb. Its spells were also written for individual owners, which shows how personal the concept of an afterlife had become.",
                         "source": "AI",
-                        "feedback": "The answer clarifies the concept of an afterlife and its conditions, uses the judgement scene and the individual spells to show how belief shaped attitudes to death, and includes the Egyptian terms. Every keyword is used in context. This earns the full 3 marks.",
+                        "mark": 3,
+                        "answer": "The concept of an afterlife in ancient Egypt held that the dead could continue to exist if their bodies and names were preserved and they passed judgement. The Book of the Dead, a collection of spells, provides an example: its famous scene shows the heart of the dead weighed against the feather of Ma'at. The example shows that the afterlife was conditional on moral conduct as well as correct ritual, so belief shaped attitudes to death.",
+                        "feedback": "The answer clarifies the concept of an afterlife and its conditions, uses the judgement scene to show that moral conduct as well as ritual mattered, and links belief to attitudes to death. Every keyword is used in context. This earns the full 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-95-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Book of the Dead had spells for the afterlife. Egyptians believed the heart was judged.",
-                        "source": "AI",
                         "feedback": "The answer identifies the example and a feature of the judgement, but it does not explain the concept of the afterlife or how the example shows it. This earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-95-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Egyptians believed in an afterlife.",
-                        "source": "AI",
                         "feedback": "The answer makes a general statement about Egyptian belief without clarifying the concept or using the example. This earns 1 mark.",
                         "band": 1
                       }
@@ -5648,7 +5648,7 @@
                       "attribution",
                       "evidence"
                     ],
-                    "markingCriteria": "9-10 marks: Investigates the significance of Tomb II as a site and source for death and funerary practice in Macedon, weighing the physical evidence, the competing attributions and the limits of the record, and reaching an explicit conclusion on what the tomb reveals.\n7-8 marks: Investigates the significance of the tomb with clear use of evidence and some weighing of the attribution debate.\n5-6 marks: Describes the tomb and its contents with some investigation of their meaning and the attribution debate.\n3-4 marks: Describes the tomb or its contents with limited investigation.\n1-2 marks: Identifies the tomb or a find without investigating its significance.",
+                    "markingCriteria": "9-10 marks: investigates the significance of Tomb II as a site and source for death and funerary practice in Macedon, weighing the physical evidence, the competing attributions and the limits of the record, and reaching an explicit conclusion on what the tomb reveals\n7-8 marks: investigates the significance of the tomb with clear use of evidence and some weighing of the attribution debate\n6 marks: investigates the tomb and its contents with some explanation of their meaning and of the attribution debate\n4-5 marks: describes the tomb and its contents with some investigation of their meaning and the attribution debate\n2-3 marks: describes the tomb or its contents, with a little explanation of their meaning but limited investigation\n1 mark: identifies the tomb or a find without investigating its significance",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-98-1",
@@ -5773,17 +5773,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-100-1",
-                        "mark": 2,
-                        "answer": "The first limitation is idealisation: portrait statues of authority figures often present an idealised image rather than a true likeness, so the surviving portraits show how the ruler wished to be seen rather than what he looked like. The second limitation is survival and display: many statues have been lost, moved or reused, so the portraits that remain are a selection whose original context is uncertain. Both limitations mean that portrait statues are strong evidence for the image of authority, but weak evidence for the physical appearance of their subjects.",
                         "source": "AI",
-                        "feedback": "Two distinct limitations, idealisation and survival and display, are identified, and each is explained in terms of its effect on conclusions about image. Every keyword is used in context. This earns the full 2 marks.",
+                        "mark": 2,
+                        "answer": "Two limitations of portrait statues as evidence for authority figures are idealisation, which shows how a ruler wished to be seen, and survival, since many statues have been lost or moved. Both limit how far they show appearance.",
+                        "feedback": "Two distinct limitations, idealisation and survival, are identified, and each is explained in terms of its effect on conclusions about how rulers were seen. Every keyword is used in context. This earns the full 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-100-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Statues may not look like the real person.",
-                        "source": "AI",
                         "feedback": "One limitation is identified, but its effect on conclusions about image is not explained. This earns 1 mark.",
                         "band": 1
                       }
@@ -5880,17 +5880,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-102-1",
-                        "mark": 2,
-                        "answer": "Two authority figures were central to the Athenian democracy in the 430s BCE. The first is the strategos. Athens elected ten generals each year by a show of hands in the Assembly, and they commanded the army and navy. Pericles was re-elected to this office almost every year from 443 BCE until his death in 429 BCE, which gave him great influence over foreign policy. The second is the archon, one of nine chief magistrates chosen by lot, whose duties were mainly judicial and religious. The democracy used these offices to balance elected leadership with office holding by chance.",
                         "source": "AI",
-                        "feedback": "Full marks: names two distinct offices, gives an accurate feature of each (election of strategoi, selection of archons by lot, and their duties), and uses the terms precisely.",
+                        "mark": 2,
+                        "answer": "Two kinds of authority figure in the Athenian democracy in the 430s BCE were the strategos and the archon. Strategoi were ten generals elected yearly to command the army and navy, while archons were nine magistrates chosen by lot.",
+                        "feedback": "Full marks: names two distinct offices, gives an accurate feature of each (election of strategoi to command the army and navy, and selection of archons by lot), and uses the terms precisely.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-102-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Pericles was an important leader who was the most powerful man in Athens.",
-                        "source": "AI",
                         "feedback": "Names a person rather than an office and gives no accurate feature of an office, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -5985,25 +5985,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-104-1",
-                        "mark": 3,
-                        "answer": "The Augustus of Prima Porta statue presents the emperor as a victorious general and a man of divine favour. He stands with his right arm raised in a pose of address, and his cuirass is decorated with a scene in which a figure in Parthian dress hands back a Roman military standard. That scene recalls the diplomatic settlement of 20 BCE that recovered the standards lost by Crassus, so it presents Augustus as the ruler who restored Roman honour. At his feet a small Cupid rides a dolphin, a reference to the family's claim of descent from Venus through Aeneas, which tied Augustus to the gods. Taken together, these details show how the images of the emperor combined military success, peace and divine ancestry in one carefully controlled public display.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The Augustus of Prima Porta statue presents the emperor as a victorious general and a man of divine favour. His right arm is raised in a pose of address, and his cuirass shows a Parthian returning a Roman standard, recalling the 20 BCE settlement that recovered the standards lost by Crassus. At his feet, a small Cupid rides a dolphin, linking Augustus to Venus. Together these images combine military success and divine ancestry.",
                         "feedback": "Full marks: describes three specific features (cuirass scene, raised arm, Cupid) accurately and explains how each presents Augustus as legitimate, with historical context for the standards.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-104-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The statue shows Augustus in armour with his arm raised. The breastplate has a scene of a Parthian returning a Roman standard, and a Cupid by his foot shows his link to Venus.",
-                        "source": "AI",
                         "feedback": "Two features are described accurately, but neither is explained as a claim about legitimacy, so it stays at the descriptive 2-mark level.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-104-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "It is a statue of Augustus in a military pose.",
-                        "source": "AI",
                         "feedback": "A general description with no specific visual feature, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -6327,25 +6327,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-110-1",
-                        "mark": 6,
-                        "answer": "Qin Shi Huang was one of the most significant authority figures in ancient Chinese history, but his reputation has changed over time. As king of Qin he completed the unification of China between 230 and 221 BCE, and he proclaimed himself First Emperor, which established the model of a centralised empire ruled by a single figure. His reforms were far-reaching: he standardised weights, measures, currency and the writing script, built roads and canals, and imposed a legal system based on Legalist principles that punished offences harshly. His public works, including the Great Wall and the funerary complex at Mount Li that holds the Terracotta Army, show his ambition to fix his power for eternity. His reputation, however, was shaped by the criticisms of his successors and of Confucian scholars. Sima Qian's Shiji, written about a century after his death, presents him as a tyrant, and the burning of books in 213 BCE and the burying of scholars around 212 BCE were remembered as acts of cruelty. The Han dynasty that followed the Qin rejected the harshest Legalist methods, yet it kept the centralised administration in essence, which suggests that the institutions outlived the reputation. The historian must therefore weigh his lasting institutional achievements against the harsh image that later writers created.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Qin Shi Huang was an authority figure of great significance in ancient Chinese history, but his reputation has changed over time. As king of Qin he completed the unification of China between 230 and 221 BCE, and he proclaimed himself First Emperor, which established the model of a centralised empire ruled by a single figure. His reforms were far-reaching: he standardised weights, measures, currency and the writing script, built roads and canals, and imposed a legal system based on Legalist principles that punished offences harshly. His public works, including the Great Wall and the funerary complex at Mount Li that holds the Terracotta Army, show his ambition to fix his power for eternity. His reputation, however, was shaped by the criticisms of his successors and of Confucian scholars. Sima Qian's Shiji, written about a century after his death, presents him as a tyrant, and the burning of books in 213 BCE and the burying of scholars around 212 BCE were remembered as acts of cruelty. The Han dynasty that followed the Qin rejected the harshest Legalist methods, yet it kept the centralised administration in essence, which suggests that the institutions outlived the reputation. The historian must therefore weigh his lasting institutional achievements against the harsh image that later writers created.",
                         "feedback": "Full marks: assesses significance through institutional reforms and public works, weighs them against the reputation shaped by later writers, uses the date and purpose of the Shiji, and reaches a supported judgement.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-110-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Qin Shi Huang unified China in 221 BCE and became the First Emperor. He standardised writing, weights and measures and built the Great Wall. However, Confucian historians disliked him and Sima Qian portrayed him as cruel, so his reputation is negative. He was significant because he created the first imperial state.",
-                        "source": "AI",
                         "feedback": "Relevant evidence and a reputational point, but significance is asserted rather than weighed, and the source is not evaluated. It sits in the 4-mark band.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-110-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Qin Shi Huang was the first emperor of China.",
-                        "source": "AI",
                         "feedback": "A factual claim with no assessment or reputational point, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -6501,17 +6501,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-113-1",
-                        "mark": 2,
-                        "answer": "Two limitations stand out. One is bias: Pliny the Elder wrote as a critic of Roman extravagance, so his comments on luxury goods reflect a moral argument as much as an economic record, and the passage must be read as rhetoric rather than as a neutral account of trade. A second limitation is that his figures for the cost of these goods are approximate and cannot be checked against Roman accounts, so the sources for trade need to be tested against other evidence such as coins and amphorae.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two limitations of Pliny the Elder's comments on luxury goods as sources for trade are bias, since Pliny wrote as a critic of extravagance, and approximate figures that cannot be checked against Roman accounts.",
                         "feedback": "Full marks: two distinct limitations (bias and moral purpose; approximate and unverifiable figures), each explained, with a link to the wider use of sources for trade.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-113-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Pliny was a Roman writer, so he may be biased.",
-                        "source": "AI",
                         "feedback": "One limitation with no development, which earns the 1-mark band.",
                         "band": 1
                       }
@@ -6833,17 +6833,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-119-1",
-                        "mark": 2,
-                        "answer": "A barbarian, in the usage of Greek writers, was a non-Greek whose language sounded to Greek ears like unintelligible babbling, which is the root of the Greek word barbaros. Herodotus used the term for the Persians and other peoples, so the word reflected Greek attitudes of cultural superiority rather than an objective description of other peoples. The term therefore marked a difference in language and customs, although it could carry a judgement about the worth of the people concerned. Its meaning was not fixed, and it was not always pejorative.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "A barbarian, in the usage of Greek writers, was a non-Greek whose language sounded like unintelligible babbling. Herodotus applied the term to the Persians, so it reflected Greek attitudes of cultural superiority rather than an objective description.",
                         "feedback": "Full marks: defines the term as a non-Greek with a language dimension, links it to Greek attitudes, and gives an accurate example (the Persians in Herodotus).",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-119-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "A barbarian was someone who was not Greek.",
-                        "source": "AI",
                         "feedback": "A basic definition with no language or attitude dimension and no example, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -6881,30 +6881,30 @@
                       "Gandhara",
                       "Greek"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the extent of Greek cultural influence after Alexander, weighing transformation (Gandharan art, Kushan coinage) against limits (elite confinement, local continuity), and reaches a supported judgement.\n6 marks: Assesses the nature and impact of contact with supported examples, reaching a judgement that is partly qualified.\n5 marks: Explains the impact of cultural contact with relevant examples but limited assessment.\n3-4 marks: Describes examples of Greek influence with some explanation.\n2 marks: Identifies an example of cultural contact with limited explanation.\n1 mark: Makes a general statement about cultural contact.",
+                    "markingCriteria": "7-8 marks: assesses the extent of Greek cultural influence after Alexander, weighing transformation (Gandharan art, Kushan coinage) against limits (elite confinement, local continuity), and reaches a supported judgement\n5-6 marks: explains the impact of cultural contact with relevant examples and a partly qualified judgement\n4 marks: describes the impact of cultural contact with relevant examples and some explanation\n2-3 marks: identifies examples of Greek influence after Alexander, with limited explanation of how they changed local societies\n1 mark: makes a general statement about cultural contact",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-120-1",
-                        "mark": 8,
-                        "answer": "Greek cultural influence after Alexander's conquests had a significant but uneven impact on the ancient societies it reached. This cultural contact was not a single event but a series of encounters between Greek settlers and local peoples. The Greek settlement of Bactria and the Indo-Greek kingdoms of the 2nd and 1st centuries BCE created a new cultural environment, in which Greek language, coinage and artistic conventions existed alongside local traditions. The most visible result is Gandharan art in the region of modern Pakistan and Afghanistan, where sculptors used Hellenistic techniques of drapery, naturalistic portraiture and the depiction of the human body to create images of the Buddha. This art shows a genuine transformation of local religious imagery, because Buddhist devotion was given a Greek visual language. Yet the impact should not be overstated. Many Central Asian and Indian societies retained their own languages, religious practices and social structures, and the Greek influence was largely confined to elites, cities and royal courts. The coinage of the Kushan rulers, who controlled much of the region from the 1st century CE, drew on Greek script and design, but also incorporated Indian and Iranian deities, showing that contact produced hybrid forms rather than simple replacement. The impact of cultural contact was therefore a process of selection and adaptation, in which Greek elements were absorbed into local purposes. Gandharan sculptors worked for Buddhist patrons who wanted images of the Buddha, so Greek techniques were put to religious purposes that the Greek settlers would not have recognised. Coins and inscriptions show that Greek language remained in use for some official purposes for a long time, but this use did not spread to the wider population, which suggests that Greek elements served the interests of rulers more than the culture of the majority. On balance, the transformation of art and religious imagery is the strongest evidence of impact, while the spread of Greek identity and language was limited and short-lived in many areas.",
                         "source": "AI",
+                        "mark": 8,
+                        "answer": "Greek cultural influence after Alexander's conquests had a significant but uneven impact on the ancient societies it reached. This cultural contact was not a single event but a series of encounters between Greek settlers and local peoples. The Greek settlement of Bactria and the Indo-Greek kingdoms of the 2nd and 1st centuries BCE created a new cultural environment, in which Greek language, coinage and artistic conventions existed alongside local traditions. The most visible result is the art of Gandhara in the region of modern Pakistan and Afghanistan, where sculptors used Hellenistic techniques of drapery, naturalistic portraiture and the depiction of the human body to create images of the Buddha. This art shows a genuine transformation of local religious imagery, because Buddhist devotion was given a Greek visual language. Yet the impact should not be overstated. Many Central Asian and Indian societies retained their own languages, religious practices and social structures, and the Greek influence was largely confined to elites, cities and royal courts. The coinage of the Kushan rulers, who controlled much of the region from the 1st century CE, drew on Greek script and design, but also incorporated Indian and Iranian deities, showing that contact produced hybrid forms rather than simple replacement. The impact of cultural contact was therefore a process of selection and adaptation, in which Greek elements were absorbed into local purposes. Gandharan sculptors worked for Buddhist patrons who wanted images of the Buddha, so Greek techniques were put to religious purposes that the Greek settlers would not have recognised. Coins and inscriptions show that Greek language remained in use for some official purposes for a long time, but this use did not spread to the wider population, which suggests that Greek elements served the interests of rulers more than the culture of the majority. On balance, the transformation of art and religious imagery is the strongest evidence of impact, while the spread of Greek identity and language was limited and short-lived in many areas.",
                         "feedback": "Full marks: assesses the extent of influence by weighing the transformation of Gandharan art and Kushan coinage against the limits of elite confinement and local continuity, with specific evidence and a supported judgement.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-120-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "Greek influence reached Central Asia after Alexander conquered the Persian Empire. Greek kings ruled Bactria and later parts of India, and they used Greek coins. Gandharan art shows Buddha statues with Greek features such as draped clothing, so the art changed. However, the Greeks were a small minority and most people kept their own customs, so the impact was limited. Overall, the contact was important for art but not for everyday life.",
-                        "source": "AI",
-                        "feedback": "Relevant evidence and a qualified conclusion, but the assessment is brief and the claim about everyday life is not supported. It sits in the 5-mark band.",
+                        "feedback": "Relevant evidence and a qualified conclusion, but the assessment is brief and the claim about everyday life is not supported. It sits in the 5-6 mark row.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-120-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Alexander's conquests spread Greek culture to Central Asia. Gandharan art is one example of this influence.",
-                        "source": "AI",
-                        "feedback": "Identifies an example but offers no explanation or assessment, so it sits in the 2-mark band.",
+                        "feedback": "Identifies an example but offers no explanation or assessment, so it sits in the 2-3 mark row.",
                         "band": 2
                       }
                     ],
@@ -7125,17 +7125,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-124-1",
-                        "mark": 2,
-                        "answer": "Two natural features shaped the settlement of Pompeii and Herculaneum. The first is Mount Vesuvius, the volcano that rises above the plain of Campania and whose eruptions produced the deposits that later buried both cities. The second is the fertile volcanic soil of Campania, which made the plain highly productive for vines, olives and grain and supported the agricultural wealth of the region's towns. Both features are central to the geographical setting of the two cities, which lay at the foot of a volcano yet benefited from its soils and from the coastline of the Bay of Naples.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two natural features of Campania shaped Pompeii and Herculaneum: Mount Vesuvius, whose eruptions later buried the cities, and the fertile volcanic soil that supported farming. Both are central to their geographical setting.",
                         "feedback": "Full marks: two distinct features (Vesuvius and the volcanic soils), each linked to the cities through settlement, agriculture and burial, and placed within the geographical setting.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-124-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Mount Vesuvius is a volcano near the cities.",
-                        "source": "AI",
                         "feedback": "One feature with only a location given, and no link to how it shaped the settlement, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -7351,25 +7351,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-128-1",
-                        "mark": 3,
-                        "answer": "The carbonised loaf found in a Herculaneum house is one of the organic remains that survived because the eruption carbonised them, so it belongs to organic remains: it is biological material preserved by heat and ash. The wall painting of a fish market is a work of art, because its purpose is decorative and it shows the tastes of the household or the market it depicts. The painted election notice from Pompeii belongs to writing, because it conveys a message to the public in the form of text on a wall, and its content is its evidential value. The floor plan of a house with a peristyle garden is evidence from buildings, since it records the architecture and layout of a domestic space. Each classification helps the historian decide what kind of information the item can provide about life in the cities.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The carbonised loaf from a Herculaneum house is organic remains, preserved by heat and ash. The wall painting of a fish market is art, since its purpose is decorative. The painted election notice from Pompeii is writing, because it conveys a public message. The floor plan of a house with a peristyle garden is evidence from buildings, recording the layout of a domestic space. Each classification shows what the item can reveal about life in the cities.",
                         "feedback": "Full marks: classifies all four items correctly, with a reason for each, linking the classification to the kind of information each item gives.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-128-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The loaf is organic remains and the fish market painting is art. The house plan is buildings. The election notice is art because it is painted on a wall.",
-                        "source": "AI",
                         "feedback": "Three of the four items are classified correctly. The election notice is misclassified because the medium was used instead of the purpose of the item. It fits the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-128-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The loaf is organic remains.",
-                        "source": "AI",
                         "feedback": "One item classified correctly with no reasons, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -7579,17 +7579,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-132-1",
-                        "mark": 2,
-                        "answer": "The two chief magistrates of Pompeii were the duoviri iure dicundo, who presided over the courts and held the highest executive power in the town for one year. Other magistrates included the aediles, who were responsible for public buildings, markets and the upkeep of streets. The magistrates were chosen in annual elections, which were publicised by painted notices on the walls of the town, so the offices were filled through a public process.",
                         "source": "AI",
-                        "feedback": "Full marks: gives the correct title with its meaning, a specific duty (presiding over the courts), and accurate context on the aediles and elections.",
+                        "mark": 2,
+                        "answer": "The two chief magistrates of Pompeii were the duoviri iure dicundo, who presided over the courts. They were chosen in annual elections and held the highest executive power in the town.",
+                        "feedback": "Full marks: gives the correct title, a specific duty (presiding over the courts), and accurate context on annual elections and executive power.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-132-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The chief magistrates were called duoviri.",
-                        "source": "AI",
                         "feedback": "States the title with no duty, so it earns the 1-mark band.",
                         "band": 1
                       }
@@ -7684,25 +7684,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-134-1",
-                        "mark": 5,
-                        "answer": "The economic activities indicated by Pompeii's workshops and shops suggest a diverse local economy based on manufacturing, food production and commerce. The fullers' workshops, with their large basins and treading areas, show that cloth was cleaned and finished on a commercial scale, and fulling required a steady supply of water and urine, so it was an established industry rather than a household task. The bakeries, with their mills and ovens, indicate that much of the population relied on bread produced for sale, and that bakeries were numerous enough to form a significant part of the town's trade. The garum shops and the amphorae that stored fish sauce and wine point to a substantial trade in processed food and drink, some of which was exported beyond the region. The occupations shown by this evidence were concentrated among artisans and small traders, and many were run by freed people who had turned skills or capital into businesses. Taken together, the activities indicate that commerce and small-scale industries such as fulling formed the core of the local economy, supplemented by agriculture in the surrounding countryside.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "The economic activities indicated by the workshops and shops of Pompeii point to a diverse local economy based on manufacturing, food production and commerce. The fullers' basins and treading areas show that cloth was finished on a commercial scale, since fulling required a steady supply of water and urine, so it was an established industry rather than a household task. The bakeries, with their mills and ovens, show that much of the population relied on bread produced for sale. The garum shops and amphorae point to a substantial trade in processed food and drink, some exported beyond the region. The occupations shown by this evidence were concentrated among artisans and small traders, many of them freed people. Taken together, the evidence shows that commerce and small-scale industries formed the core of the local economy, supplemented by agriculture in the surrounding countryside.",
                         "feedback": "Full marks: deduces several activities from specific evidence (fullery basins, bakery mills and ovens, garum and amphorae), explains what each implies about scale and organisation, and concludes about the balance of commerce and industry.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-134-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Pompeii had many shops and workshops. There was a fullery, which cleaned clothes, and bakeries that made bread. There was also trade in wine and fish sauce, which was sold in amphorae. So the town had a lot of business.",
-                        "source": "AI",
                         "feedback": "Identifies the activities from the evidence, but the deduction stops at general business activity and does not reason about scale or organisation. It fits the 3-mark band.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-134-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Pompeii had shops.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence or deduction, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -7798,25 +7798,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-136-1",
-                        "mark": 6,
-                        "answer": "The features of Pompeii's houses reflected the different functions that a household had to serve. The entrance (fauces) led into the atrium, an open-roofed room with a central pool (impluvium) that collected rainwater, and whose layout let visitors be received and seen by the household, so the atrium functioned as a space of public display and social status. Behind it, the peristyle, a colonnaded garden, gave private space for family life, for dining and for leisure, and the rooms around it show the division between public and private activity. Many houses had shops (tabernae) opening onto the street, which generated income and linked the household to commerce, so the front of a house could be both home and business. Wall paintings and mosaics in reception rooms and dining rooms displayed the owner's taste and wealth, while a lararium, or household shrine, expressed religious devotion within the house. Together these features show that Pompeian houses were designed to serve domestic, economic and social purposes at once, and that their functions shaped the way their spaces were arranged. The layout therefore reveals how the owners balanced privacy and display in a crowded town, and it shows that the same building could hold a family, a workshop and a visible claim to status.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The features of houses in Pompeii reflected the different functions that a household had to serve. The entrance (fauces) led into the atrium, an open-roofed room with a central pool (impluvium) that collected rainwater, and whose layout let visitors be received and seen by the household, so the atrium functioned as a space of public display and social status. Behind it, the peristyle, a colonnaded garden, gave private space for family life, for dining and for leisure, and the rooms around it show the division between public and private activity. Many houses had shops (tabernae) opening onto the street, which generated income and linked the household to commerce, so the front of a house could be both home and business. Wall paintings and mosaics in reception rooms and dining rooms displayed the owner's taste and wealth, while a lararium, or household shrine, expressed religious devotion within the house. Together these features show that Pompeian houses were designed to serve domestic, economic and social purposes at once, and that their functions shaped the way their spaces were arranged. The layout therefore reveals how the owners balanced privacy and display in a crowded town, and it shows that the same building could hold a family, a workshop and a visible claim to status.",
                         "feedback": "Full marks: links specific features (atrium, peristyle, tabernae, decoration, lararium) to domestic, economic and social functions, and explains how the layout balanced privacy and display.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-136-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "A Pompeian house had an atrium, which was a central room with a pool, and a peristyle garden at the back. The atrium was for guests and the peristyle was for the family. Some houses had shops at the front that were rented out to make money. The paintings showed the owner's wealth.",
-                        "source": "AI",
                         "feedback": "Describes several features and some of their uses, but does not explain how the features together reflected household life, business and display. It fits the 4-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-136-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Pompeian houses had gardens and rooms.",
-                        "source": "AI",
                         "feedback": "A general statement with no feature explained and no function, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -7851,25 +7851,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-137-1",
-                        "mark": 3,
-                        "answer": "The tabernae were shops that opened onto the street from the front of many houses in Pompeii. They often connected to the living rooms behind them through an internal door, so the household and the shop shared the same building, and the family could live above or beside its trade. This relationship shows that the features of a house, including its shops, served the functions of both domestic life and income, and that the household's economic position was built into its architecture. The shop also gave the household a public face on the street, which linked its reputation to its trade. Shop and house were therefore part of one building, so repairs, rents and the household's public reputation all bound the family to its street-front trade.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The tabernae were shops opening onto the street from the front of many houses in Pompeii. They often connected to the rooms behind through an internal door, so the household and the shop shared one building. This shows that the features of a house, including its shops, served the functions of both domestic life and income. The street-front shop also gave the household a public face, linking its reputation to its trade.",
                         "feedback": "Full marks: clarifies the physical link (internal door, shared building) and the economic link (income, household trade), with the street frontage as a public face.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-137-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The tabernae were shops at the front of houses. They made money for the owners.",
-                        "source": "AI",
                         "feedback": "Accurate on location and income, but with no link to the household itself. It fits the 2-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-137-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Shops were built in Pompeii.",
-                        "source": "AI",
                         "feedback": "A general statement that does not address the relationship with the household, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -8024,25 +8024,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-140-1",
-                        "mark": 5,
-                        "answer": "Pompeii's water supply came from the Aqua Augusta, an aqueduct built under Augustus that brought water from springs near Serino to a distribution tank (castellum) at the edge of the town. From the castellum, water flowed through lead pipes to public fountains and to some private houses, which meant that the supply was not universal, and most residents depended on public fountains for drinking and washing. The water system also made possible flushing latrines and drains, which carried waste away from the centre of the town, so that sanitation was better than in many ancient cities. However, the lead pipes posed a health risk, since lead could accumulate in the body over time, and the water was not always clean. The diet of residents, based on bread, legumes, olives and fish sauce, supported a reasonable level of nutrition, but disease and contaminated water still posed risks. The water supply and sanitation therefore improved the health of many residents, while leaving some dangers unresolved. Households far from the main pipes depended on public fountains, so the benefits of the system were unevenly spread across the town. Households also collected rainwater in cisterns beneath the impluvium, so the quality of water varied with its source.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "The water supply of Pompeii came from the Aqua Augusta, an aqueduct that brought water from springs near Serino to a distribution tank (castellum) at the edge of the town. Lead pipes carried water from there to public fountains and some private houses, so most residents depended on fountains. The water system also made flushing latrines and drains possible, which carried waste away from the centre, so sanitation was better than in many ancient cities. However, lead pipes posed a health risk, since lead could accumulate in the body. The water supply and sanitation therefore improved the health of many residents while leaving real dangers unresolved. Benefits were also unevenly spread, since households far from the main pipes relied on public fountains. Households also collected rainwater in cisterns, so the quality of water varied with its source.",
                         "feedback": "Full marks: explains how the aqueduct, castellum and lead pipes delivered water, how drains supported sanitation, and assesses the health effects, including the risk of lead and unequal access.",
                         "band": 3
                       },
                       {
                         "id": "sa-ah-140-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Pompeii had an aqueduct that brought water from the hills. Water went to fountains and some houses through pipes. There were also drains and latrines, which helped with sanitation.",
-                        "source": "AI",
                         "feedback": "Describes the system accurately, but does not explain how it affected health. It sits in the 3-mark band.",
                         "band": 2
                       },
                       {
                         "id": "sa-ah-140-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Pompeii had running water.",
-                        "source": "AI",
                         "feedback": "A general statement with no system and no health link, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -8078,17 +8078,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-141-1",
-                        "mark": 2,
-                        "answer": "The first food is bread: carbonised loaves recovered from Herculaneum are evidence of organic remains, and they show that a staple of the diet was baked for daily consumption. The second is figs, whose charred remains from the sites show that fruit was part of the diet as well. Such organic remains are rare in the archaeological record, so they are especially valuable for reconstructing the diet and health of the population.",
                         "source": "AI",
+                        "mark": 2,
+                        "answer": "Two foods in the diet at Herculaneum are bread and figs, each shown by organic remains: carbonised loaves and charred figs. This evidence of food shows what the diet was and supports conclusions about health.",
                         "feedback": "Full marks: identifies two foods, each with a correct type of evidence (carbonised bread and charred figs as organic remains), and notes what the evidence shows about diet and health.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-141-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Bread was eaten in Herculaneum.",
-                        "source": "AI",
                         "feedback": "One food with no type of evidence, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -8302,17 +8302,17 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-145-1",
-                        "mark": 2,
-                        "answer": "Two challenges stand out. The first is weathering: rain, heat and humidity damage exposed frescoes, mortar and mosaics, so conservators must protect surfaces and manage drainage to slow deterioration. The second is visitor pressure, since large numbers of tourists increase wear on floors, walls and thresholds, and conservation at both Pompeii and Herculaneum must therefore balance public access with the protection of fragile structures. Tourism brings necessary funding, which makes that balance difficult to achieve.",
                         "source": "AI",
-                        "feedback": "Full marks: two distinct challenges (weathering and visitor pressure), each with a cause and a conservation consequence, and an observation about the tension with tourism funding.",
+                        "mark": 2,
+                        "answer": "Two conservation challenges at Herculaneum and Pompeii are weathering, which damages exposed frescoes and mortar, and visitor pressure, which wears floors and walls. Both require conservators to balance protection with public access.",
+                        "feedback": "Full marks: two distinct challenges (weathering and visitor pressure), each explained with its effect on the sites, and a point about balancing protection with public access.",
                         "band": 1
                       },
                       {
                         "id": "sa-ah-145-2",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Weather is a problem for the sites.",
-                        "source": "AI",
                         "feedback": "One challenge with no development, so only the 1-mark band applies.",
                         "band": 1
                       }
@@ -8404,30 +8404,30 @@
                       "Herculaneum",
                       "questions"
                     ],
-                    "markingCriteria": "7-8 marks: Assesses the relative importance of archaeological method and historians' questions in changing interpretations, using specific examples, and reaches a supported judgement.\n6 marks: Assesses the extent of change with relevant examples and a partly developed judgement.\n5 marks: Explains changes in interpretation and their causes with some evaluation.\n3-4 marks: Describes changes in interpretation with limited explanation.\n2 marks: Identifies a change or technique with minimal explanation.\n1 mark: Makes a general statement about the sites.",
+                    "markingCriteria": "7-8 marks: assesses the relative importance of archaeological method and historians' questions in changing interpretations, using specific examples, and reaches a supported judgement\n5-6 marks: explains changes in interpretation and their causes, with relevant examples and a partly developed judgement\n4 marks: describes changes in interpretation and some of their causes, with little evaluation of method or questions\n2-3 marks: describes changes in interpretation or in archaeological technique, with limited explanation of their causes\n1 mark: makes a general statement about the sites",
                     "sampleAnswers": [
                       {
                         "id": "sa-ah-147-1",
+                        "source": "AI",
                         "mark": 8,
                         "answer": "Changing interpretations of Pompeii and Herculaneum since their rediscovery in the eighteenth century reflect both changes in archaeological method and changes in the questions that historians ask, and the balance between these two has shifted over time. Early excavation was driven by the search for art and luxury objects, and the 19th-century work of Giuseppe Fiorelli, who introduced the technique of pouring plaster into voids left by victims' bodies, changed interpretations by making the human figures visible. Those methods were concerned with the spectacular rather than the ordinary, so the early picture of the cities emphasised wealth and display. Changes in method have been important: stratigraphic recording, scientific analysis of organic remains and remote sensing have made it possible to reconstruct daily life, diet and urban infrastructure. These developments have produced new evidence for ordinary people, including the enslaved and freed, which would have been missed by earlier excavators. Yet the questions have changed as well. Modern historians ask about gender, social inequality and the experience of enslaved people, and they use methods that are designed to answer these questions. The evidence has been reinterpreted in the light of these questions, so a shift in method alone cannot explain every change. Therefore the changing interpretations of the sites reflect a combination of new technology and new historical questions, with the second often driving the choice of method. A useful test is to ask whether a given interpretation would have been possible with earlier methods, or whether it became visible only once a new question was asked, and many changes fall into the second category. The most persuasive cases combine both, as when imaging techniques were applied to material that scholars had begun to study for new social questions. On balance, the change in questions is at least as significant as the change in method, although each has been essential to the reinterpretation of the cities.",
-                        "source": "AI",
                         "feedback": "Full marks: weighs archaeological method (Fiorelli's casts, stratigraphy, scientific analysis) against the shift in historians' questions, uses specific examples of each, and reaches a supported judgement that the questions were at least as significant.",
                         "band": 5
                       },
                       {
                         "id": "sa-ah-147-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "Interpretations of Pompeii changed because archaeologists found new evidence. Early digs looked for art and treasure, but later excavators recorded everyday objects. Fiorelli's plaster casts made the victims visible. Modern science has also helped, with techniques for organic remains. But historians now ask different questions about women and slaves, so they read the evidence differently. Both method and questions have changed.",
-                        "source": "AI",
-                        "feedback": "Identifies changes in method and in questions with relevant examples, but does not weigh their relative importance or support the verdict. It sits in the 5-mark band.",
+                        "feedback": "Identifies changes in method and in questions with relevant examples, but does not weigh their relative importance or support the verdict. It sits in the 5-6 mark row.",
                         "band": 4
                       },
                       {
                         "id": "sa-ah-147-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Archaeologists at Pompeii now use technology, and historians ask new questions.",
-                        "source": "AI",
-                        "feedback": "Two general points with no examples or assessment, so it fits the 2-mark band.",
+                        "feedback": "Two general points with no examples or assessment, so it fits the 2-3 mark row.",
                         "band": 2
                       }
                     ],
