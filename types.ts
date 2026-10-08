@@ -233,6 +233,15 @@ export interface Course {
    * utils/shippedCourseStamp.ts for how it tells an unedited copy from an edited one.
    */
   shippedHash?: string;
+  /**
+   * Set on a backup of an earlier version of a shipped course: the id of the
+   * course that replaced it. The syllabus navigator lists only the most recent
+   * version of each course, so a superseded copy is hidden there for every role.
+   * It stays in the library and Data Vault so its content can be recovered or
+   * deleted. Backups made before this field existed are recognised by their
+   * `-before-refresh` id (see utils/courseVisibility.ts).
+   */
+  supersededBy?: string;
   outcomes: CourseOutcome[];
   topics: Topic[];
 }

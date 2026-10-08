@@ -9,6 +9,16 @@
   quote the band for each mark value from `getFullMarkWordRange`. The band is expected
   to be tuned from testing, and the exported brief follows it.
 
+## [Unreleased] - 2026-10-08 (The navigator shows only the latest version of each course)
+
+- **Changed.** The syllabus navigator now lists only the most recent version of each
+  course. Backups of earlier versions made by the shipped-course sync ("… (before
+  refresh)") are hidden there for every role. They stay in the library and Data Vault,
+  so their content can still be recovered or deleted.
+- **Added.** `Course.supersededBy` marks a backup with the id of the course that
+  replaced it. Backups made before this field existed are recognised by their
+  `-before-refresh` id, so no data migration is needed.
+
 ## [Unreleased] - 2026-10-08 (Marking guides, word bands and syllabus terms in the shipped courses)
 
 - **Fixed.** About 90 marking guides in Ancient History, English, Geography, Legal
