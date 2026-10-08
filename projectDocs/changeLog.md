@@ -1,5 +1,14 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Brief is better: authoring rules follow the word band)
+
+- **Changed.** The authoring brief, the prose prompt and the Gold Standard said sample
+  answers should run about 35-60 words per mark. That was longer than the app's own word
+  band for a full-mark answer, so courses written from it ran over. All three now say
+  that a brief answer which meets the top row of the marking criteria is preferred, and
+  quote the band for each mark value from `getFullMarkWordRange`. The band is expected
+  to be tuned from testing, and the exported brief follows it.
+
 ## [Unreleased] - 2026-10-08 (Reference depth for Business Studies and Economics; gaps closed in Enterprise Computing and Software Engineering)
 
 - **Upgraded.** Business Studies now has 348 questions, two per dot point, and

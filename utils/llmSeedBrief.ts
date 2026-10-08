@@ -1,5 +1,10 @@
 import type { Course } from '../types';
-import { bandMarkRanges, commandTermsList, TIER_GROUPS } from '../data/commandTerms';
+import {
+  bandMarkRanges,
+  commandTermsList,
+  getFullMarkWordRange,
+  TIER_GROUPS,
+} from '../data/commandTerms';
 
 /**
  * The authoring rules an external LLM needs to write course data this app can
@@ -106,8 +111,13 @@ export const buildLlmSeedInstructions = () => ({
     MARK: '"mark" is a whole number from 0 to totalMarks — never a half mark (the database stores an integer and rejects 1.5). Do not write "band": the app works it out from the mark and the verb.',
     TERMS:
       "The full-mark exemplar must use EVERY must-use term from that question's keywords, each doing real work in a sentence rather than listed. A lower-mark answer uses proportionally fewer, taking must-use terms before supporting ones and falling back on general language for the rest — the terms it leaves out are part of why it earns less. Never bolt terms onto an answer that has not earned them.",
-    LENGTH:
-      'Realistic student length under exam pressure: roughly 40-60 words per mark. A lower mark means LESS material, not a full-length answer worded badly.',
+    LENGTH: `Brief is better. A full-mark answer meets the top row of the marking criteria in as few words as it can, and must stay inside the app's word band for its mark value (${[
+      2, 4, 6, 8, 10,
+    ]
+      .map((m) => `${m} marks: ${getFullMarkWordRange(m).join('-')}`)
+      .join(
+        '; '
+      )} words). A lower mark means LESS material, not a full-length answer worded badly.`,
     FEEDBACK:
       '"source" is always "AI". "feedback" explains, in marker language, exactly why the answer earns its mark and what would lift it.',
   },

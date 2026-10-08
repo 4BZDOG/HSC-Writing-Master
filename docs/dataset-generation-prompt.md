@@ -22,7 +22,7 @@ Why this prompt is shaped the way it is:
 - **`totalMarks` must sit inside the verb's typical range** — the app flags
   unusual pairings and derives time guides and band ceilings from marks.
 - **Dot points that end in `including a, b and c`** get those items parsed as
-  toggleable *focus areas* in the navigator and the question generator.
+  toggleable _focus areas_ in the navigator and the question generator.
 - **Marking criteria are line-based** (`N marks: …` / `N–M marks: …`), which
   the marking accordion parses; bullet points and paragraphs are not. Above 6
   marks the rows are fixed by the verb's tier — the table below is printed
@@ -38,7 +38,7 @@ and hand it to the model as the example.
 
 ---
 
-````text
+```text
 You are an expert NESA HSC content writer producing a syllabus dataset for an
 AI writing-coach app. Output a single JSON document and nothing else — no
 markdown fences, no commentary.
@@ -188,7 +188,7 @@ SAMPLE ANSWER RULES
 - Full-mark exemplars must genuinely satisfy the verb: an ANALYSE exemplar
   draws out relationships and implications; an EVALUATE exemplar reaches an
   explicit judgement against named criteria.
-- Write answers at realistic student length: roughly 40-60 words per mark.
+- Brief is better: a full-mark answer meets the top row of the marking criteria in as few words as it can, and stays inside the app's word band for its mark value (2 marks: 15-40 words; 4 marks: 80-120; 6 marks: 140-220; 8 marks: 220-350; 10 marks: 320-450). A lower mark means less material.
 
 QUALITY BAR
 - Content must be factually accurate and syllabus-authentic for the subject.
@@ -197,7 +197,7 @@ QUALITY BAR
 - Validate mentally before output: every verb is from the list, every
   totalMarks is inside its verb's range, every linkedOutcomes code exists,
   every markingCriteria line starts with "N marks:" or "N-M marks:".
-````
+```
 
 ---
 
@@ -207,7 +207,7 @@ QUALITY BAR
 
 1. Save each course as a JSON array of courses in `public/courseData/` and list
    it in `public/courseData/manifest.json` as `{ "file": …, "type": "course",
-   "subject": … }`. Give every item an `id` (the seed matches existing rows by
+"subject": … }`. Give every item an `id` (the seed matches existing rows by
    it, so a re-seed updates rather than duplicates); keep the ids of anything
    that already exists. A file straight from the model has no ids — import it
    through **Data Vault → Import** and export it again, and the export has them.
