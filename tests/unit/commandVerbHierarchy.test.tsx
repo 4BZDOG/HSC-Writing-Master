@@ -4,6 +4,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
 import { TIER_GROUPS } from '../../data/commandTerms';
+import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import {
   RIBBON_SPECTRUM_SCALE_RAIL,
   RIBBON_TIER_SUBTITLE,
@@ -351,9 +352,13 @@ describe('CommandVerbHierarchy', () => {
       expect(screen.getByText('HSC Command Verb Hierarchy').className).toContain('truncate');
     });
 
+    // The floor is the accordions' own row height, not a number of its own: the
+    // ribbon's header stands on the same whole pixel as the panels it sits above,
+    // and a 60px bar among 61px rows was the exact break `panelStyles` records.
     it('carries a floor height that no verb can shrink', () => {
       render(<CommandVerbHierarchy currentVerb={'STATE' as PromptVerb} />);
-      expect(header().className).toMatch(/min-h-\[\d+px\]/);
+      expect(header().className).toContain(PANEL_ROW_MIN_H);
+      expect(PANEL_ROW_MIN_H).toMatch(/^min-h-\[[\d.]+rem\]$/);
     });
 
     /**
@@ -379,7 +384,7 @@ describe('CommandVerbHierarchy', () => {
 
       render(<CommandVerbHierarchy currentVerb={'DIFFERENTIATE' as PromptVerb} />);
       expect(geometry(header().className)).toBe(shortest);
-      expect(shortest).toContain('min-h-[60px]');
+      expect(shortest).toContain(PANEL_ROW_MIN_H);
     });
   });
 });

@@ -1,34 +1,43 @@
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
-import { getCommandTermInfo } from '../../data/commandTerms';
+import { getCommandTermInfo, TIER_GROUPS } from '../../data/commandTerms';
+import {
+  PANEL_HEADER_CLOSED,
+  PANEL_HEADER_OPEN,
+  PANEL_ROW_MIN_H,
+  PANEL_SURFACE,
+} from '../../utils/panelStyles';
 import { PromptVerb } from '../../types';
 import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
 import { BAND_HEX } from '../../utils/renderUtils';
 import tailwindConfig from '../../tailwind.config.js';
 import {
+  RIBBON_BODY,
   RIBBON_DETAIL_CARD,
+  RIBBON_DETAIL_RULE,
   RIBBON_DETAIL_TERM,
   RIBBON_HEADER_BAR,
   RIBBON_HEADER_TILE,
+  RIBBON_HEADER_TITLE,
   RIBBON_ROOT,
   RIBBON_SPECTRUM_BOUNDARY,
   RIBBON_STAT_TRAY,
   RIBBON_STAT_VALUE,
   RIBBON_STRIP,
-  RIBBON_STRIP_FADE_LEFT,
-  RIBBON_STRIP_FADE_RIGHT,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_RECEDED,
   RIBBON_TIER_CARD_CURRENT,
   RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HEADER,
+  RIBBON_TIER_HEADER_IDLE,
+  RIBBON_TIER_ICON,
   RIBBON_TIER_HEADER_LABEL,
   RIBBON_TIER_HEADER_LABEL_IDLE,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE_IDLE,
-  RIBBON_TIER_UNDERLINE,
   RIBBON_SPECTRUM_SCALE_RAIL,
   RIBBON_SPECTRUM_SCALE_SPAN,
   RIBBON_TIMELINE_STEP_LABEL,
@@ -71,7 +80,11 @@ describe('the ribbon wears the shared vocabulary', () => {
 
     const term = screen.getAllByText('DESCRIBE').find((el) => el.tagName === 'H4') as HTMLElement;
     expect(term.className).toContain(RIBBON_DETAIL_TERM);
-    expect(term.closest(`[class*="${RIBBON_DETAIL_CARD.split(' ')[0]}"]`)).toBeTruthy();
+    // The whole constant, walking up: its first token is `relative`, which half
+    // the page's ancestors also carry, so a prefix match here proves nothing.
+    let card: HTMLElement | null = term.parentElement;
+    while (card && !card.className.includes(RIBBON_DETAIL_CARD)) card = card.parentElement;
+    expect(card, 'the verb heading is not inside RIBBON_DETAIL_CARD').toBeTruthy();
     expect(screen.getByText('Band Cap').closest('div')?.parentElement?.className).toContain(
       RIBBON_STAT_TRAY
     );
@@ -105,38 +118,74 @@ describe('the ribbon wears the shared vocabulary', () => {
 });
 
 /**
- * The bar stopped being a full-bleed tier gradient and became glass, which is
- * the moment every white-alpha value on it changed meaning. DesignSpec §2 asks
- * "what is it painted on?", and the honest answer for anything on the bar is
- * now "a theme colour" — so it needs a light value and a `dark:` partner. The
- * tier survives on a 36px tile and a 2px underline, both of which are solid
- * tier fills and take their colours from the tier config at the call site.
+ * The ribbon is a panel like the accordions under the writing area, and it has
+ * to be one in the way that can be checked: the same surface constant, the same
+ * header row height and tones, the same title voice. It used to be the one
+ * reference panel that was drawn separately — a glass bar of its own, two
+ * gradient hairlines, a chevron in a circle, a sentence-case title — and
+ * "looks out of place" was the whole bug report.
+ *
+ * Its colours on a theme surface still need a light value and a `dark:`
+ * partner, which the sweep at the bottom of this block holds for every
+ * constant in the file.
  */
-describe('the bar carries both themes', () => {
-  it('paints its own background in light and in dark', () => {
-    expect(RIBBON_HEADER_BAR).toContain('bg-white/80');
-    expect(RIBBON_HEADER_BAR).toContain('dark:bg-[rgb(var(--color-bg-surface))]/40');
-    expect(RIBBON_HEADER_BAR).toContain('backdrop-blur-xl');
-    expect(RIBBON_HEADER_BAR).toContain('text-slate-900 dark:text-white');
+describe('the ribbon is a panel in the accordions’ family', () => {
+  it('wears the shared panel surface, which carries the border in both themes', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const root = container.firstElementChild as HTMLElement;
+
+    expect(root.className).toContain(PANEL_SURFACE);
+    // The box is closed by the panel's own 1px border, as a pair — the part the
+    // old glass bar had to be given back after it shipped without one.
+    expect(PANEL_SURFACE).toContain('border-slate-300');
+    expect(PANEL_SURFACE).toContain('dark:border-white/20');
   });
 
-  /**
-   * The bar is a BOX, and it has to look like one in both themes.
-   *
-   * It shipped with a fill and no border, which works on near-black — glass at
-   * `bg-surface/40` over the dark page is a step the eye reads as a pane. Over
-   * the light page it was `bg-white/60` on rgb(248, 250, 252): 1.03:1, no
-   * border, so the ribbon's only stated boundaries were the two hairlines above
-   * and below it, and those were a slate-300 alpha measuring 1.28:1. Three
-   * boundaries, none of them visible, which is what "the border of the command
-   * verb hierarchy is not clear" was describing.
-   *
-   * So the border is pinned as a pair, not left to the fill.
-   */
-  it('closes its own box with a border in both themes', () => {
-    expect(RIBBON_HEADER_BAR).toMatch(/(^|\s)border(\s|$)/);
-    expect(RIBBON_HEADER_BAR).toContain('border-slate-300');
-    expect(RIBBON_HEADER_BAR).toContain('dark:border-white/10');
+  it('stands its header on the accordions’ row, in their open and closed tones', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    expect(getToggle().className).toContain(PANEL_ROW_MIN_H);
+    expect(getToggle().className).toContain(PANEL_HEADER_OPEN);
+    expect(getToggle().className).not.toContain(PANEL_HEADER_CLOSED);
+
+    fireEvent.click(getToggle());
+    expect(getToggle().className).toContain(PANEL_HEADER_CLOSED);
+    expect(getToggle().className).not.toContain(PANEL_HEADER_OPEN);
+  });
+
+  it('names itself in the section voice, as every accordion does', () => {
+    expect(RIBBON_HEADER_TITLE).toMatch(/(^|\s)t-section(\s|$)/);
+
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const title = screen.getByText('HSC Command Verb Hierarchy');
+    expect(title.className).toContain(RIBBON_HEADER_TITLE);
+    // The accordions' own pair: quiet while shut, full ink while open.
+    expect(title.className).toContain('text-slate-900 dark:text-white');
+    fireEvent.click(getToggle());
+    expect(title.className).toContain('text-slate-500 dark:text-slate-400');
+  });
+
+  it('is bounded by its own border, not by hairlines above and below', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    // The two gradient rules that used to mark where the reference began and
+    // ended. With a surface of its own they are a second boundary beside the
+    // first, and the one place in the workspace that drew a boundary twice.
+    expect(container.querySelector('.h-px.bg-gradient-to-r')).toBeNull();
+    expect((container.firstElementChild as HTMLElement).firstElementChild).toBe(getToggle());
+    expect((container.firstElementChild as HTMLElement).lastElementChild).not.toBe(getToggle());
+  });
+
+  it('opens onto the accordions’ body, with the one rhythm between its three blocks', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const body = container.querySelector(`[class="${RIBBON_BODY}"]`) as HTMLElement;
+    expect(body).toBeTruthy();
+    expect(RIBBON_BODY).toContain('border-t border-slate-300 dark:border-white/10');
+    expect(RIBBON_BODY).toContain('space-y-5');
+    // The brief, the ladder and the footer, and nothing outside it.
+    expect(body.children).toHaveLength(3);
+    expect(body.closest(`[id="${getToggle().getAttribute('aria-controls')}"]`)).toBeTruthy();
   });
 
   it('no longer hangs a full-bleed gradient across the whole bar', () => {
@@ -144,23 +193,40 @@ describe('the bar carries both themes', () => {
 
     expect(container.querySelector('button > .absolute.inset-0.bg-gradient-to-r')).toBeNull();
     expect(getToggle().className).not.toContain('bg-gradient-to-r');
+    // …or a 2px underline restating the tier a third time: the tile and the
+    // chip carry it while the panel is shut, and the brief's rule once it is open.
+    expect(getToggle().querySelector('.absolute')).toBeNull();
   });
 
-  it('states the tier on a 2px underline instead, and only when there is one', () => {
+  it('states the tier once on the brief, as a rule down its edge, and only when there is one', () => {
     const { container, unmount } = render(
       <CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />
     );
 
-    const underline = container.querySelector(`[class*="${RIBBON_TIER_UNDERLINE}"]`) as HTMLElement;
-    expect(underline).toBeTruthy();
-    expect(underline.getAttribute('aria-hidden')).toBe('true');
+    const rule = container.querySelector(`[class*="${RIBBON_DETAIL_RULE}"]`) as HTMLElement;
+    expect(rule).toBeTruthy();
+    expect(rule.getAttribute('aria-hidden')).toBe('true');
     // Tier 3's gradient, from the config rather than from a literal here.
-    expect(underline.className).toContain('from-yellow-500');
+    expect(rule.className).toContain('from-yellow-500');
     unmount();
 
-    // With no verb there is no tier to state, so there is no underline.
+    // With no verb there is no tier to state, so there is no brief and no rule.
     const { container: neutral } = render(<CommandVerbHierarchy />);
-    expect(neutral.querySelector(`[class*="${RIBBON_TIER_UNDERLINE}"]`)).toBeNull();
+    expect(neutral.querySelector(`[class*="${RIBBON_DETAIL_RULE}"]`)).toBeNull();
+  });
+
+  it('paints the brief on a neutral surface, not on a wash of the tier', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const card = container.querySelector(`[class*="${RIBBON_DETAIL_CARD}"]`) as HTMLElement;
+    expect(card).toBeTruthy();
+    // Tier 2's wash, in both themes. It was the loudest object on a page whose
+    // other cards are white.
+    expect(card.className).not.toContain('bg-orange-500/10');
+    expect(card.className).not.toContain('light:bg-orange-100');
+    expect(card.className).not.toMatch(/border-orange/);
+    expect(RIBBON_DETAIL_CARD).toContain('bg-slate-50');
+    expect(RIBBON_DETAIL_CARD).toContain('dark:bg-white/[0.03]');
   });
 
   it('carries the tier on the icon tile, paired the way getBandConfig intends', () => {
@@ -232,6 +298,55 @@ describe('the bar carries both themes', () => {
  * sit on gradients it returns `unassessable` for.
  */
 describe('the tier strip is legible and reachable', () => {
+  // The system emoji was the one thing in the workspace's chrome drawn by the
+  // operating system, not by the app: a different picture on a Chromebook, a
+  // Mac and a Windows laptop, in colours that belong to none of the six tiers.
+  // TIER_GROUPS keeps its emoji — the generator modal uses it — so the ribbon
+  // is pinned not to read it.
+  it('draws each tier’s icon from the app, not from the operating system', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    for (const group of TIER_GROUPS) {
+      expect(container.textContent, `tier ${group.tier} still shows ${group.emoji}`).not.toContain(
+        group.emoji
+      );
+    }
+
+    const tiles = Array.from(container.querySelectorAll(`[class*="${RIBBON_TIER_ICON}"]`));
+    expect(tiles).toHaveLength(6);
+    for (const tile of tiles) {
+      expect(tile.querySelector('svg')).toBeTruthy();
+      expect(tile.getAttribute('aria-hidden')).toBe('true');
+    }
+    // Six tiers, six different glyphs.
+    expect(new Set(tiles.map((t) => t.querySelector('svg')!.getAttribute('class'))).size).toBe(6);
+  });
+
+  // Six `-100` pastels side by side read as a sweet shop beside a page of white
+  // panels. The hue stays on every card — in the tint, the title, the chips and
+  // the border — and the saturated fill is left to the one card being read.
+  it('tints the five idle headers rather than filling them, and saturates only the selected', () => {
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+
+    const idle = screen.getByRole('button', { name: /Analyse & Apply Up to Band 4/i });
+    expect(idle.className).toContain(RIBBON_TIER_HEADER_IDLE);
+    expect(RIBBON_TIER_HEADER_IDLE).toContain('band-wash');
+    // Tier 4's own config fill, in either theme.
+    expect(idle.className).not.toContain('bg-green-500/10');
+    expect(idle.className).not.toContain('light:bg-green-100');
+
+    const current = screen.getByRole('button', { name: /Define & Describe Up to Band 2/i });
+    expect(current.className).toContain('bg-gradient-to-r');
+    expect(current.className).not.toContain('band-wash');
+
+    // The tint is a property of the card's own `--band-rgb`, so it comes off the
+    // one band palette and cannot be a second copy of it.
+    const css = readFileSync('index.css', 'utf8');
+    expect(css).toMatch(
+      /\.band-wash\s*\{\s*background-color:\s*rgb\(var\(--band-rgb\) \/ [\d.]+\);/
+    );
+  });
+
   it('pairs every solid tier fill with the config’s own solidText', () => {
     render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
@@ -505,39 +620,52 @@ describe('the tier strip says what it is and where it ends', () => {
     expect(strip.getAttribute('aria-label')).toMatch(/tier 1 to tier 6/i);
   });
 
-  it('shows both edges, without a scroll listener to keep them honest', () => {
+  // The edge fades are a MASK on the strip, not two overlays that end in a
+  // colour. An overlay has to end in whatever is behind it — it ended in the
+  // page's own `from-base` while the strip sat on the page, and once the strip
+  // sat on a white panel in the light theme that was a grey smear at each end.
+  // A mask fades the cards themselves, so there is no colour to get wrong, and
+  // no scroll listener to keep it honest.
+  it('fades both edges with a mask, so there is no colour to get wrong', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    for (const fade of [RIBBON_STRIP_FADE_LEFT, RIBBON_STRIP_FADE_RIGHT]) {
-      const el = container.querySelector(`[class="${fade}"]`) as HTMLElement;
-      expect(el).toBeTruthy();
-      expect(el.getAttribute('aria-hidden')).toBe('true');
-      expect(el.className).toContain('pointer-events-none');
-    }
+    expect(RIBBON_STRIP).toContain('strip-edge-mask');
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    expect(strip.className).toContain('strip-edge-mask');
 
-    // A fade ends in the page's own background — NAMED, never measured and
-    // copied. It used to be the pair `from-slate-50
-    // dark:from-[rgb(var(--color-bg-base))]`, with a comment recording that
-    // slate-50 was `--color-bg-base`'s light value "measured at
-    // rgb(248, 250, 252)". It was, on the day it was written. When the light
-    // theme's page moved off near-white, that literal stayed behind and the
-    // fade would have painted a pale slot at each end of a strip whose page is
-    // no longer anywhere near it. `from-base` is theme-aware on its own, so
-    // there is no second copy left to drift.
-    for (const fade of [RIBBON_STRIP_FADE_LEFT, RIBBON_STRIP_FADE_RIGHT]) {
-      expect(fade).toContain('from-base');
-      expect(fade).not.toMatch(/from-(slate|white|gray|zinc)-?\d*/);
-    }
+    // …and nothing is laid over the strip any more, in the page's colour or
+    // anyone else's.
+    expect(container.querySelector('[class*="from-base"]')).toBeNull();
+    expect(container.querySelector('.pointer-events-none.bg-gradient-to-l')).toBeNull();
+
+    const css = readFileSync('index.css', 'utf8');
+    const rule = css.match(/\.strip-edge-mask\s*\{([^}]*)\}/);
+    expect(rule, '.strip-edge-mask is not defined in index.css').toBeTruthy();
+    expect(rule![1]).toContain('mask-image: linear-gradient(');
+    expect(rule![1]).toContain('-webkit-mask-image');
+    // Transparent at both ends and opaque between them: a fade in, a fade out.
+    expect(rule![1]).toMatch(
+      /transparent,\s*#000 [\d.]+rem,\s*#000 calc\(100% - [\d.]+rem\),\s*transparent/
+    );
   });
 
   /**
-   * The same rule, for the five gaps cut into the spectrum. They are the page
-   * showing through, so they are the page's token — a literal here is a gap
-   * that stops matching the thing it is supposed to be a gap in.
+   * The same rule, for the five gaps cut into the spectrum. They are the surface
+   * the track sits on showing through, so they are that surface's TOKENS — a
+   * literal here is a gap that stops matching the thing it is cut through.
+   *
+   * Two tokens, because the surface is two things: in the light theme the panel
+   * is the paper (`--color-bg-surface`, which is white), and in the dark one it
+   * is a 30% wash of the surface over the page, for which the page is the
+   * nearest solid. Plain `bg-base` was right while the ribbon sat on the page;
+   * on a white panel it would be five grey slots down the middle of the bar.
    */
-  it('cuts its spectrum gaps in the page’s own token, not a copy of its value', () => {
-    expect(RIBBON_SPECTRUM_BOUNDARY).toContain('bg-base');
+  it('cuts its spectrum gaps in the panel’s own surface tokens, not a copy of their values', () => {
+    expect(RIBBON_SPECTRUM_BOUNDARY).toMatch(/(^|\s)bg-surface(\s|$)/);
+    expect(RIBBON_SPECTRUM_BOUNDARY).toMatch(/(^|\s)dark:bg-base(\s|$)/);
     expect(RIBBON_SPECTRUM_BOUNDARY).not.toMatch(/bg-(slate|white|gray|zinc)-?\d*/);
+    // The light value really is the panel's: both are the surface token.
+    expect(PANEL_SURFACE).toContain('bg-white');
   });
 
   it('snaps proximately, because three things scroll this strip', () => {
@@ -733,11 +861,17 @@ describe('the cognitive spectrum lights one geometry from one palette', () => {
 describe('the six tiers at laptop width', () => {
   // The strip scrolled at every width, so on a 1280px laptop the top of the
   // ladder — Evaluate — was off-screen and Discuss was cut in half.
-  it('lays the six tiers side by side from xl, with no fades over edges that do not scroll', () => {
+  it('lays the six tiers side by side from xl, with no fade over edges that do not scroll', () => {
     expect(RIBBON_STRIP).toContain('xl:grid');
     expect(RIBBON_STRIP).toContain('xl:grid-cols-6');
     expect(RIBBON_STRIP).toContain('xl:overflow-visible');
-    expect(RIBBON_STRIP_FADE_LEFT).toContain('xl:hidden');
-    expect(RIBBON_STRIP_FADE_RIGHT).toContain('xl:hidden');
+
+    // The mask is switched off at the same width the grid takes over. Tailwind's
+    // `xl` is 1280px and this config does not override the screens.
+    expect((tailwindConfig.theme as { screens?: unknown }).screens).toBeUndefined();
+    const css = readFileSync('index.css', 'utf8');
+    const off = css.match(/@media \(min-width: 1280px\)\s*\{\s*\.strip-edge-mask\s*\{([^}]*)\}/);
+    expect(off, 'the mask is never switched off at xl').toBeTruthy();
+    expect(off![1]).toContain('mask-image: none');
   });
 });

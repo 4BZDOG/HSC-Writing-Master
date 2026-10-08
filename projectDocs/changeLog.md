@@ -1,5 +1,31 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Verb ribbon joins the panel family)
+
+- **Changed.** The command verb ribbon now looks like the other reference panels in the workspace.
+  It was the one panel drawn separately: its own glass bar, gradient hairlines above and below it,
+  a sentence-case title, a chevron in a circle, and an open state with no surface behind it. It now
+  wears the shared panel surface and the accordions' header row — the same height, icon tile, title
+  voice and chevron — and opens onto a body with the same padding and rule.
+- **Changed.** The selected verb's brief is a quiet card with the tier shown once, by a rule down
+  its left edge (the same device as the breadcrumb bar), instead of a full-width wash of the tier
+  colour with a blurred blob, a mesh and a large icon tile. The stat tray is a recessed well, one
+  radius tighter than the card around it.
+- **Changed.** The six tier cards keep their colour but lose the candy: idle headers take a faint
+  tint of the tier instead of a solid pastel fill, so the saturated header belongs to the one tier
+  being read. The system emoji are replaced by line icons in tiles, so the ladder looks the same on
+  a Chromebook, a Mac and a Windows laptop. Idle cards no longer paint a mesh and a gradient nobody
+  could see.
+- **Fixed.** The strip's edge fades ended in the page colour, which would have been a grey smear on
+  a white panel in the light theme. They are now a mask on the strip itself, 1rem wide, with 1rem of
+  side padding so the selected card is never faded at rest and its ring is no longer clipped.
+- **Fixed.** The spectrum's five boundary gaps are cut in the panel's own surface rather than the
+  page colour. The strip is now explicitly positioned, so the selected tier is centred correctly in
+  every browser.
+- **Phones and tablets.** The header title keeps its whole name at 390px (and at 360px) by easing
+  its tracking, with the header height lock unchanged. Below 1024px the stat tray sits under the
+  verb's text rather than squeezing beside it, so "Terms" no longer wraps onto a row of its own.
+
 ## [Unreleased] - 2026-10-08 (NESA fact-check fixes)
 
 - **Fixed.** Checked every shipped course against NESA's published syllabus text. Business Studies,

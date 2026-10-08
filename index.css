@@ -781,6 +781,61 @@ a:focus-visible,
 }
 
 /*
+ * A band-coloured TINT, for a header that has to say which tier it belongs to
+ * without becoming a wall of that colour.
+ *
+ * The verb ribbon's five idle tier headers took the tier config's `bg`: a solid
+ * `-100` pastel in the light theme. Six of those in a row — plus a saturated
+ * selected card among them — read as a sweet shop next to the white panels
+ * around it, which was most of why the ladder looked like it came from another
+ * product. A tint at the same per-card `--band-rgb` the border already uses
+ * keeps the hue on every card and leaves the saturation to the one that is
+ * selected. One alpha serves both themes for the reason `.band-edge` gives: a
+ * 10% wash of a hue reads as a soft tint on near-black and on white alike.
+ */
+.band-wash {
+  background-color: rgb(var(--band-rgb) / 0.1);
+}
+
+/*
+ * The verb ribbon's strip, faded into whatever is behind it at both ends.
+ *
+ * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade
+ * is what replaced it. It is a MASK rather than a pair of gradient overlays
+ * because an overlay has to end in the colour behind it — the page, then the
+ * panel, then whichever theme is on — and a mask has no colour to get wrong.
+ * The two ends are 1rem of ramp; everything between them is untouched. The
+ * strip carries 1rem of side padding to match (`RIBBON_STRIP`), so at rest the
+ * first and last cards sit just clear of their ramp and only a card that is
+ * being scrolled past an edge is faded — never the selected one, flush at an end.
+ *
+ * From `xl` the six tiers sit side by side and nothing scrolls, so there is no
+ * edge to fade toward.
+ */
+.strip-edge-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 2rem,
+    #000 calc(100% - 2rem),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 2rem,
+    #000 calc(100% - 2rem),
+    transparent
+  );
+}
+@media (min-width: 1280px) {
+  .strip-edge-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+/*
  * The brand tiles' edge, and what it replaces.
  *
  * Six gradient icon tiles across the app wore `border border-white/20` (or
