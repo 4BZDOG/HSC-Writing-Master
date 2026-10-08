@@ -182,25 +182,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-7-1",
-                        "mark": 5,
-                        "answer": "Germans resented the war guilt clause and reparations because they turned a military defeat into a moral and financial judgement against the nation. Article 231 of the Treaty of Versailles placed sole responsibility for the war on Germany. German delegates protested that several powers had caused the war, but the clause was written into the treaty and became the legal basis for reparations. This gave nationalists an argument that the Republic had accepted a false verdict. Reparations were fixed at 132 billion gold marks in 1921, a sum that Germans believed was beyond their capacity to pay and that seemed to mortgage their economy for decades. Resentment deepened when Germany fell behind on deliveries and France occupied the Ruhr in 1923, because the occupation appeared to confirm that the settlement was a means of economic punishment. The combination of legal blame and financial burden encouraged the belief that the army had been betrayed rather than defeated, which fed the stab-in-the-back myth. That myth allowed nationalist and conservative politicians to present the Republic as the product of defeat and foreign dictation. The resentment was therefore a driving force in the nationalism that later supported extremist parties. The sense of injustice therefore became part of the Republic's political culture from its foundation, and it was never fully resolved by the diplomacy of the 1920s.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "Germans resented the war guilt clause and reparations because they turned military defeat into a moral and financial judgement against the nation. Article 231 of the Treaty of Versailles placed sole responsibility for the war on Germany, and the clause became the legal basis for reparations fixed at 132 billion gold marks in 1921. Nationalists used this legal blame to argue that the Republic had accepted a false verdict, while the financial burden seemed to mortgage the economy for decades. Resentment deepened when France occupied the Ruhr in 1923, which appeared to confirm that the settlement was a means of economic punishment. Together, legal blame, financial burden and national humiliation fed the stab-in-the-back myth, which allowed conservative politicians to present the Republic as the product of defeat and foreign dictation. This sense of injustice was never fully resolved by the diplomacy of the 1920s.",
                         "feedback": "Full marks: the answer links the legal blame and the financial burden to national humiliation, uses precise evidence, and shows how the resentment shaped the politics of the Republic.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-7-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Germans resented the war guilt clause because it blamed Germany for the war. Reparations were also resented because they were very large, and the French occupation of the Ruhr in 1923 made the anger worse.",
-                        "source": "AI",
                         "feedback": "Two reasons are given, but with limited explanation of how they produced resentment, so the answer sits in the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-7-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Germans did not like the war guilt clause.",
-                        "source": "AI",
                         "feedback": "A general statement with no explanation earns one mark.",
                         "band": 1
                       }
@@ -249,25 +249,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-3-1",
-                        "mark": 6,
-                        "answer": "The rise of dictators in the interwar period depended on a combination of conditions that weakened democratic government and made authoritarian alternatives appear attractive. The most immediate was economic crisis. The hyperinflation that struck Germany in 1923 and the Great Depression after 1929 destroyed savings, produced mass unemployment and persuaded many voters that parliamentary government could not protect their livelihoods. Dictators such as Mussolini and Hitler exploited this insecurity by promising order, jobs and national renewal. A second condition was the weakness of democratic institutions themselves. Many new or fragile democracies used proportional representation, which produced fragmented parliaments and short-lived coalitions, and emergency powers allowed leaders to bypass parliament. Third, fear of communism, sharpened by the Russian Revolution and by the strikes and uprisings in Italy and Germany after 1918, led conservative elites, industrialists and military leaders to accept or support dictators as a bulwark against the left. Finally, nationalist grievances over the Paris settlement and the failure of the League of Nations gave dictators a language of revenge and restoration. These conditions interacted. Economic collapse made democracy seem failed, political fragmentation made it seem ineffective, and the threat from the left made authoritarian rule seem necessary. Together they explain why dictators could gain power through legal manoeuvres and the acquiescence of conservative elites, not only through revolution. Each condition also reinforced the others, so that a crisis that might have been survived by a stable democracy became a crisis that a dictator could exploit.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer analyses several conditions, explains how they interacted, and supports each with precise evidence. The final sentence draws the analysis together and answers the 'how' of the question.",
+                        "mark": 6,
+                        "answer": "The rise of dictators in the interwar period depended on conditions that weakened democratic government and made authoritarian alternatives appear attractive. Economic crisis was the most immediate. Hyperinflation in 1923 and the Great Depression after 1929 destroyed savings, produced mass unemployment and persuaded voters that parliament could not protect their livelihoods, and Mussolini and Hitler exploited this insecurity by promising order and jobs. Weak democratic institutions compounded the problem. Proportional representation produced fragmented parliaments and short-lived coalitions, and emergency powers allowed leaders to bypass parliament. Fear of communism, sharpened by the Russian Revolution and the strikes and uprisings in Italy and Germany after 1918, led conservative elites, industrialists and military leaders to accept dictators as a bulwark against the left. Nationalist grievance over the Paris settlement gave dictators a language of revenge and restoration. These conditions interacted: economic collapse made democracy seem failed, political fragmentation made it seem ineffective, and the threat from the left made authoritarian rule seem necessary. Together they explain why dictators gained power through legal manoeuvres and the acquiescence of conservative elites, not only through revolution.",
+                        "feedback": "Full marks: the answer analyses several conditions, explains how they interacted, and supports each with precise evidence. The sentences on interaction answer the 'how' of the question and draw the analysis together.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-3-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The main condition that enabled dictators to rise was economic crisis. In Germany, hyperinflation in 1923 wiped out savings, and after 1929 the Great Depression caused unemployment to rise to about six million by 1932. Many people lost faith in the government and turned to leaders who promised jobs and order. This made it easier for dictators to gain support.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one condition with accurate evidence. It does not analyse the other conditions or show how they interacted, so it stays in the middle band.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-3-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Many countries had problems after the war and people were unhappy, so dictators could take over.",
-                        "source": "AI",
                         "feedback": "A 1-mark response makes a general statement about instability with no specific condition or evidence.",
                         "band": 1
                       }
@@ -302,25 +302,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-4-1",
-                        "mark": 4,
-                        "answer": "Two economic conditions helped dictators gain power in the interwar period. The first was hyperinflation, which in Germany reached its worst point in 1923 when the mark collapsed after France and Belgium occupied the Ruhr. Savings were wiped out, the middle classes lost confidence in the Republic, and many Germans looked to radical parties promising stability. The second was the Great Depression after 1929, which pushed unemployment in Germany to about six million by early 1932 and led voters to abandon moderate parties for the Nazis and the Communists. In Italy, postwar inflation and the factory occupations of 1920 frightened property owners and made them receptive to a strong leader. Both conditions created a crisis of confidence in parliamentary government, which dictators could then exploit by promising order and recovery. Historians have debated how far economic pressure alone explains the success of dictators, but the sequence in Germany, where the Depression pushed voters toward the Nazis and the Communists after 1929, shows how closely economic collapse and political radicalisation were linked.",
                         "source": "AI",
-                        "feedback": "Full marks: two economic conditions are outlined with accurate dates, and each is linked to a loss of support for democratic government. The Italian example extends the answer beyond Germany.",
+                        "mark": 4,
+                        "answer": "Two economic conditions helped dictators gain power in the interwar period. The first was hyperinflation, which reached its worst point in Germany in 1923 when the mark collapsed. Savings were wiped out, the middle classes lost confidence in the Republic, and many Germans turned to radical parties promising stability. The second was the Great Depression after 1929, which pushed unemployment in Germany to about six million by early 1932 and led voters to abandon moderate parties for the Nazis and the Communists. Both conditions created a crisis of confidence in parliamentary government, which dictators could then exploit.",
+                        "feedback": "Full marks: two economic conditions are outlined with accurate dates, and each is explained in terms of its effect on support for democratic government.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-4-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Hyperinflation in Germany in 1923 meant that the money lost its value, and people's savings were wiped out.",
-                        "source": "AI",
                         "feedback": "One economic condition is outlined with accurate detail. A second condition is missing, so the answer earns two marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-4-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "There were economic problems in the 1920s and 1930s that made people unhappy.",
-                        "source": "AI",
                         "feedback": "A general statement with no named condition or evidence earns one mark.",
                         "band": 1
                       }
@@ -484,25 +484,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-8-1",
-                        "mark": 6,
-                        "answer": "The Weimar Republic faced challenges in every area of public life from its foundation in 1919 to its collapse in 1933. Politically, it was born of defeat and revolution. The Spartacist uprising in Berlin in January 1919 and the Kapp Putsch of March 1920 showed that both the far left and the far right were willing to use force against the new state, while the assassinations of leading republicans, including Matthias Erzberger in 1921 and Walther Rathenau in 1922, revealed how deep political violence ran. Proportional representation produced fragmented parliaments in which no party held a majority, so governments were coalitions that frequently collapsed. Economically, the Republic was burdened by reparations, which were fixed at 132 billion gold marks in 1921. When Germany defaulted on deliveries, France and Belgium occupied the Ruhr in January 1923, and the government's policy of passive resistance was funded by printing money. The result was hyperinflation, which peaked in November 1923 and destroyed the savings of the middle class. Stabilisation under Gustav Stresemann, supported by the Dawes Plan of 1924 and American loans, brought recovery for a few years, but the Great Depression after 1929 caused unemployment to rise to about six million by early 1932. Socially, the Republic faced deep divisions between Catholic and Protestant, urban and rural, and worker and middle-class Germans. Many veterans and members of the middle class felt that the Republic had failed to protect them, and paramilitary organisations such as the Freikorps and the SA gave a home to that resentment. The challenges were therefore connected: political fragmentation made it hard to tackle the economic crisis, and the economic crisis deepened social resentment against parliamentary government.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The Weimar Republic faced challenges in every area of public life from its foundation in 1919 to its collapse in 1933. Politically, the Spartacist uprising of January 1919 and the Kapp Putsch of March 1920 showed that both the far left and the far right were willing to use force, while proportional representation produced fragmented parliaments in which coalitions frequently collapsed. Economically, the Republic was burdened by reparations fixed at 132 billion gold marks in 1921. When Germany defaulted on deliveries, France and Belgium occupied the Ruhr in 1923, and printing money to fund passive resistance produced hyperinflation that destroyed middle-class savings. Stresemann's stabilisation brought a few years of recovery, but the Great Depression after 1929 pushed unemployment to about six million by early 1932. Socially, many veterans and members of the middle class felt the Republic had failed to protect them, and paramilitary organisations such as the Freikorps and the SA gave that resentment a home. The challenges were connected: political fragmentation made it hard to tackle the economic crisis, and the economic crisis deepened social resentment against parliamentary government.",
                         "feedback": "Full marks: the answer explains political, economic and social challenges with precise dates and evidence, and then shows how they interacted. The closing sentence makes the link explicit.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-8-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Weimar Republic's economic problems were among its greatest challenges. Germany had to pay reparations, and when it fell behind on deliveries France and Belgium occupied the Ruhr in 1923. The government responded by printing money to fund passive resistance, and this caused hyperinflation. By November 1923 the currency was almost worthless, and many middle-class Germans who had saved for their future lost everything. This made many of them doubt whether the Republic could protect them.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one challenge, economic crisis, with accurate evidence. It does not treat the political or social challenges, so it stays in the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-8-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "After 1918 Germany had many problems and the government found it hard to deal with them.",
-                        "source": "AI",
                         "feedback": "A general statement about difficulties after the war, with no named challenge or evidence, earns one mark.",
                         "band": 1
                       }
@@ -720,25 +720,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-12-1",
-                        "mark": 6,
-                        "answer": "Hitler's government consolidated its power in 1933 and 1934 through a sequence of legal and extra-legal measures that removed the constraints on the Nazi Party. The Reichstag Fire of 27 February 1933 gave the government a pretext to issue the Decree for the Protection of the People and State, which suspended civil liberties and allowed the arrest of Communist deputies and other opponents. The Enabling Act of 23 March 1933 then gave the cabinet power to make laws without the Reichstag for four years, and it passed because the Centre Party and other conservative parties supported it. The Nazi Party used this legal authority to carry out Gleichschaltung, the coordination of institutions with Nazi ideology. Trade unions were dissolved in May 1933, the state governments were brought under central control, and by July 1933 political parties other than the Nazi Party had been banned. Power within the movement itself was secured in the Night of the Long Knives from 30 June to 2 July 1934, when the SA leadership under Ernst Röhm and several conservative critics were murdered by the SS and the Gestapo. When President Hindenburg died on 2 August 1934, Hitler combined the offices of president and chancellor, and the army swore a personal oath of loyalty to him. These steps show that the Nazi power was built partly on the legal form of the constitution and partly on violence, which removed any institutional check on Hitler's authority.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Hitler's government consolidated its power in 1933 and 1934 through legal and extra-legal measures that removed the constraints on the Nazi Party. The Reichstag Fire of 27 February 1933 gave the government a pretext to suspend civil liberties and arrest Communist deputies. The Enabling Act of 23 March 1933 then allowed the cabinet to make laws without the Reichstag for four years, and it passed because the Centre Party and other conservative parties supported it. Gleichschaltung brought trade unions, state governments and other institutions under central control, with the unions dissolved in May 1933 and rival parties banned by July. Power within the movement was secured in the Night of the Long Knives, from 30 June to 2 July 1934, when the SA leadership under Ernst Röhm and several conservative critics were murdered. When President Hindenburg died on 2 August 1934, Hitler combined the offices of president and chancellor, and the army swore a personal oath of loyalty to him. Nazi power was therefore built partly on the legal form of the constitution and partly on violence, which removed any institutional check on Hitler's authority.",
                         "feedback": "Full marks: the answer covers both legal and extra-legal means, in correct sequence, with precise dates. It explains why each measure mattered for Hitler's power and draws the two strands together.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-12-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Enabling Act of 23 March 1933 was the key step in Hitler's consolidation of power. It gave the cabinet the right to pass laws without the Reichstag for four years. Because the Centre Party supported it, the Act passed with the required two-thirds majority. This meant that Hitler could rule by decree and no longer depended on parliament to make laws.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one measure, the Enabling Act, in detail with accurate evidence. It does not treat the extra-legal measures, so it stays in the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-12-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Nazis took over Germany gradually in 1933 and 1934 and used force against their enemies.",
-                        "source": "AI",
                         "feedback": "A general statement about the Nazi takeover with no named measure earns one mark.",
                         "band": 1
                       }
@@ -991,25 +991,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-17-1",
-                        "mark": 4,
-                        "answer": "Nazi policy towards women emphasised motherhood and the ideal of the Aryan family, and it was designed to increase the birth rate. Marriage loans introduced in 1933 offered newly married couples a loan that was partly written off for each child born, provided the wife left paid work. This linked the policy to women's exclusion from the labour market. In 1938 the Mother's Cross was introduced to reward women who had large numbers of children, with bronze, silver and gold classes for mothers with four, six and eight or more children. Women were also limited in some professions and at universities, and the regime's public message was that a woman's proper place was in the home. In practice, however, rearmament created demand for labour and many women returned to work during the later 1930s, so the gap between rhetoric and reality was wide. The contradiction was never fully resolved, and the regime continued to celebrate motherhood while relying on women's labour as rearmament intensified.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "Nazi policy towards women emphasised motherhood and the Aryan family, and it aimed to increase the birth rate. Marriage loans introduced in 1933 were partly written off for each child born, provided the wife left paid work, which linked the policy to women's exclusion from the labour market. The Mother's Cross, introduced in 1938, rewarded women who had large numbers of children. Yet rearmament created demand for labour, and many women returned to work during the later 1930s. The regime's rhetoric about motherhood therefore contradicted the reality of women's employment.",
                         "feedback": "Full marks: the answer clarifies the aims and effects of named policies with accurate detail, and identifies the gap between the regime's rhetoric about motherhood and women's actual employment.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-17-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Nazis wanted women to have children and stay at home. Marriage loans were given to couples if the wife left her job.",
-                        "source": "AI",
                         "feedback": "One policy is described with accurate detail, but the answer does not clarify its effects or the contradictions in practice, so it earns two marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-17-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Women had fewer rights under the Nazis.",
-                        "source": "AI",
                         "feedback": "A general statement with no named policy earns one mark.",
                         "band": 1
                       }
@@ -1052,25 +1052,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-18-1",
-                        "mark": 7,
-                        "answer": "The Nazi regime used a combination of methods of control that operated through law, information, surveillance and terror. Legislation provided the formal basis. The Decree for the Protection of the People and State of February 1933 suspended civil liberties, and the Editors Law and the Reich Chamber of Culture gave the regime control over the press, publishing, art and music. Censorship was enforced by the Ministry of Propaganda under Joseph Goebbels, which controlled the news and used radio, films and mass rallies to promote the cult of the Führer. Propaganda was also reinforced through the Hitler Youth and the school curriculum, so the message reached children early. The cheap Volksempfänger radio, introduced in 1933, carried the regime's messages into German homes. Repression was carried out by the Gestapo, established in 1933, and by the SS, whose police powers grew steadily. Surveillance depended on block wardens, informers and the denunciation of neighbours, which made private life uncertain. Opponents were detained without trial in concentration camps such as Dachau, which opened in March 1933, and the People's Court, created in 1934, tried political offences. Terror worked alongside consent. The regime offered welfare, employment and leisure through the German Labour Front and Strength Through Joy, which encouraged many Germans to accept the system. Some historians have argued that ordinary Germans supplied most denunciations, which suggests that control depended on participation as well as coercion. Historians debate how far fear or consent explained the regime's stability, but the methods of control were clearly interlocking. Laws gave legitimacy, censorship and propaganda shaped belief, and terror punished deviation. Together they explain why organised opposition was so difficult to sustain between 1933 and 1939. Each method reinforced the others, so no single instrument explains the regime's control.",
                         "source": "AI",
+                        "mark": 7,
+                        "answer": "The Nazi regime used several methods of control that worked together: law, censorship, propaganda and terror. Legislation provided the formal basis. The Decree for the Protection of the People and State of February 1933 suspended civil liberties, and the Editors Law and the Reich Chamber of Culture gave the regime control over the press, publishing, art and music. Censorship was enforced by the Ministry of Propaganda under Joseph Goebbels, which controlled the news and used radio, films and mass rallies to promote the cult of the Führer. Propaganda reached children through the Hitler Youth and the school curriculum, and the cheap Volksempfänger radio carried the regime's messages into German homes. Repression was carried out by the Gestapo, established in 1933, and by the SS. Opponents were detained without trial in concentration camps such as Dachau, which opened in March 1933, and the People's Court, created in 1934, tried political offences. Terror worked alongside consent. The German Labour Front and Strength Through Joy offered welfare, employment and leisure, which encouraged many Germans to accept the system. Historians debate how far fear or consent explained the regime's stability, but the methods were clearly interlocking: laws gave legitimacy, censorship and propaganda shaped belief, and terror punished deviation. Each method reinforced the others, which is why organised opposition was so difficult to sustain.",
                         "feedback": "Full marks: the answer examines several methods in depth, with precise institutions and dates, and explains how they worked together. It also addresses consent, which is part of how control operated.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-18-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Nazis controlled the press through the Editors Law and used propaganda from Joseph Goebbels's ministry to spread their message. They also used the Gestapo to arrest opponents, and some people were sent to Dachau in 1933. These methods made it hard for people to oppose the regime, because they were afraid of arrest.",
-                        "source": "AI",
                         "feedback": "A 4-mark response examines several methods with accurate evidence, but it explains their combined effect only briefly and does not discuss consent or the interaction between methods in depth.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-18-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Nazis used force to make people obey them.",
-                        "source": "AI",
                         "feedback": "A general statement about force with no named method earns one mark.",
                         "band": 1
                       }
@@ -1157,25 +1157,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-20-1",
-                        "mark": 6,
-                        "answer": "Opposition to the Nazi regime took several forms between 1933 and 1939, but it achieved limited success because the regime combined terror with popular consent. Political opposition was driven underground after the Communist Party and the Social Democratic Party were suppressed in 1933. Communists distributed leaflets and maintained cells in factories, and many Social Democrats continued to organise from exile, especially in Prague. Trade unionists sometimes maintained clandestine networks, but the German Labour Front's control of the workplace made organised resistance dangerous. Religious opposition was more visible. The Confessing Church, formed in opposition to the attempt to bring Protestant churches under state control, issued the Barmen Declaration in 1934, and Pastor Martin Niemöller was arrested in 1937. The Catholic Church's encyclical Mit brennender Sorge, issued in March 1937, criticised Nazi violations of the concordat. Youth groups such as the Edelweiss Pirates in western German cities defied the Hitler Youth, and their resistance was often spontaneous rather than organised. Yet the limits of opposition were clear. Terror through the Gestapo, the SS and the concentration camps deterred most people from acting, and informers made clandestine groups easy to penetrate. Many Germans were also won over by economic recovery, the end of unemployment and the foreign policy success of the Rhineland remilitarisation in 1936, which weakened the case for resistance. The opposition was also divided, with Communists and Social Democrats distrustful of each other. These factors meant that opposition was courageous and persistent, but it rarely threatened the regime's control before the war.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer analyses political, religious and youth opposition, and explains how terror, consent and division each limited it. The conclusion links these reasons back to the question.",
+                        "mark": 6,
+                        "answer": "Opposition to the Nazi regime took several forms between 1933 and 1939, but it achieved limited success because terror and popular consent combined to contain it. Political opposition was driven underground after the Communist Party and the Social Democratic Party were suppressed in 1933, and many Social Democrats continued to organise from exile in Prague. Religious opposition was more visible. The Confessing Church, formed against attempts to bring Protestant churches under state control, issued the Barmen Declaration in 1934, and Pastor Martin Niemöller was arrested in 1937. Youth groups such as the Edelweiss Pirates defied the Hitler Youth, but their resistance was often spontaneous rather than organised. The limits were clear. Terror through the Gestapo, the SS and the concentration camps deterred most people from acting, and informers made clandestine groups easy to penetrate. Economic recovery and the foreign policy success of the Rhineland remilitarisation in 1936 won many Germans over and weakened the case for resistance. Division also weakened opposition, with Communists and Social Democrats distrustful of each other. Opposition was courageous and persistent, but it rarely threatened the regime's control.",
+                        "feedback": "Full marks: the answer analyses political, religious and youth opposition, and explains how terror, consent and division each limited it. The closing sentence weighs the opposition's courage against its limited success.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-20-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Confessing Church was a major form of opposition, formed by Protestant pastors who objected to state control of their churches. It issued the Barmen Declaration in 1934, and Martin Niemöller was arrested in 1937. The regime was able to arrest opponents such as Niemöller, which showed that opposition could be punished.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one form of opposition with accurate evidence and gives one reason for its limited success. It does not analyse the other forms or the wider reasons.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-20-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Some Germans did not like the Nazis and tried to resist them.",
-                        "source": "AI",
                         "feedback": "A general statement about resistance with no named form or evidence earns one mark.",
                         "band": 1
                       }
@@ -1390,25 +1390,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-24-1",
-                        "mark": 5,
-                        "answer": "At the Paris Peace Conference, Billy Hughes opposed the Japanese proposal for a racial equality clause because he believed it threatened the White Australia policy and Australia's control over immigration. Japan asked that the League of Nations covenant affirm the equality of nations and races, a principle that Hughes feared could be used to challenge the restrictions on Asian immigration that Australia had maintained since federation. For Hughes the matter was one of domestic jurisdiction: Australia must be free to decide who could settle within its borders without international interference. His opposition also reflected Australia's concern for Pacific security. Japan was a rising naval power in the region, and Hughes did not want a League clause that might give Japan leverage over Australian policy. Britain also wished to avoid offending the Dominions, so the British delegation did not press the proposal. The clause was defeated in April 1919 when the chairman ruled that it required unanimity, which the opposition of Australia and others prevented. The outcome protected the White Australia policy from international scrutiny, and it showed how Hughes's domestic priorities shaped Australia's approach to the conference. Hughes's stance also explains why Australia's influence at the conference was narrow, since its objections were defensive rather than constructive.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "At the Paris Peace Conference, Billy Hughes opposed Japan's proposal for a racial equality clause because he believed it threatened the White Australia policy and Australia's control over immigration. Japan asked that the League of Nations covenant affirm the equality of nations and races, a principle Hughes feared could be used to challenge restrictions on Asian immigration. For Hughes the matter was one of domestic jurisdiction: Australia must decide who could settle within its borders without international interference. His opposition also reflected concern for Pacific security, since Japan was a rising naval power and Hughes did not want a League clause that might give Japan leverage over Australian policy. The clause was defeated in April 1919 when the chairman ruled that it required unanimity, which the opposition of Australia and others prevented. The outcome protected the White Australia policy from international scrutiny.",
                         "feedback": "Full marks: the answer explains the opposition through the White Australia policy, domestic jurisdiction and Pacific security, and uses the outcome as precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-24-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Billy Hughes opposed the racial equality clause because it could threaten the White Australia policy. Japan had proposed the clause, and it was defeated at the conference in April 1919.",
-                        "source": "AI",
                         "feedback": "One reason is explained with accurate detail, which earns the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-24-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Hughes did not want Japan to win at the conference.",
-                        "source": "AI",
                         "feedback": "A general statement with no reason or evidence earns one mark.",
                         "band": 1
                       }
@@ -1676,25 +1676,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-29-1",
-                        "mark": 6,
-                        "answer": "The experiences of Aboriginal and/or Torres Strait Islander Peoples after the First World War were shaped by continuing state protection systems, operated through protection boards, which denied them the rights and benefits enjoyed by other returned servicemen. Some Aboriginal men had enlisted in the Australian Imperial Force, although official policy on their eligibility was inconsistent, and returned to find that their service did not bring recognition. Many were excluded from soldier settlement schemes designed for returned servicemen, and they were often treated as wards of the state rather than as veterans. In New South Wales the Aborigines Protection Board controlled the lives of many Aboriginal people through its control of reserves, employment and family life. In Western Australia, the Chief Protector, A. O. Neville, pursued a policy of absorption that aimed to remove Aboriginal children of mixed descent from their families and assimilate them into the white population. In the Northern Territory and Queensland, Aboriginal workers were often employed on pastoral stations for low wages or no wages, and protection laws restricted their movement and their control over their earnings. Torres Strait Islander Peoples faced their own forms of control, with the Queensland administration of the islands restricting their movement, customs and employment. Despite these restrictions, communities maintained languages, kinship networks and cultural practices, and some Aboriginal people began to organise politically in the 1920s and 1930s. The experiences of these Peoples after 1918 were therefore marked by the contrast between their service and the continuing denial of their rights.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer explains several experiences across different states and territories, links them to the protection systems, and draws out the contrast between service and treatment with precise evidence.",
+                        "mark": 6,
+                        "answer": "The experiences of Aboriginal and/or Torres Strait Islander Peoples after the First World War were shaped by protection systems, operated through protection boards, which denied them the rights and benefits enjoyed by other returned servicemen. Some Aboriginal men had enlisted in the Australian Imperial Force, although official policy on their eligibility was inconsistent, but their service did not bring recognition when they returned. Many were excluded from soldier settlement schemes designed for returned servicemen, and they were treated as wards of the state rather than as veterans. In New South Wales the Aborigines Protection Board controlled reserves, employment and family life. In Western Australia, the Chief Protector, A. O. Neville, pursued a policy of absorption that aimed to remove children of mixed descent from their families. Torres Strait Islander Peoples faced their own controls, with the Queensland administration restricting their movement, customs and employment. Despite these restrictions, communities maintained languages, kinship networks and cultural practices. The experiences of these Peoples after 1918 were therefore marked by the contrast between their service and the continuing denial of their rights.",
+                        "feedback": "Full marks: the answer explains several experiences across different states, links them to the protection systems, and draws out the contrast between service and treatment with precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-29-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Aboriginal men who had served in the war were often refused soldier settlement blocks, which were reserved for returned servicemen. Their wartime service did not bring them the rights that other returned soldiers received, and many were still controlled by protection boards. Their experience showed that the government did not treat them as equal veterans.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one experience, exclusion from soldier settlement, with accurate evidence. It does not explain the wider experiences or the variation between states.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-29-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Aboriginal people had a hard time after the war.",
-                        "source": "AI",
                         "feedback": "A general statement about hardship with no named experience or evidence earns one mark.",
                         "band": 1
                       }
@@ -1730,25 +1730,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-30-1",
-                        "mark": 4,
-                        "answer": "Restrictions on Aboriginal and/or Torres Strait Islander Peoples in the 1920s can be classified into political, economic and social categories, each of which reinforced the others. Politically, voting rights varied from state to state, and Aboriginal people were largely excluded from the electoral process, so they had no formal means to challenge the protection boards that governed their lives. Economically, many Aboriginal workers were employed on pastoral stations for low wages or no wages, and protection laws controlled how much they could keep of their earnings. Socially, the state controlled reserves, family life and movement, and in some states the removal of children of mixed descent was carried out under the policy of absorption. These categories overlapped, because the lack of political rights made it harder to resist economic exploitation, and the social controls kept families dependent on the state. Taken together, the restrictions show how the protection system shaped every part of Aboriginal and Torres Strait Islander life in the period.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "Restrictions on Aboriginal and/or Torres Strait Islander Peoples in the 1920s fell into political, economic and social categories. Political restrictions meant that voting rights varied between states and Aboriginal people were largely excluded from the electoral process, so they could not easily challenge the protection boards that governed them. Economically, Aboriginal workers on pastoral stations were paid low wages or nothing, and protection laws controlled their earnings. Social restrictions controlled reserves, family life and movement. The categories reinforced one another: the lack of political rights made economic exploitation harder to resist, and the social controls kept families dependent on the state.",
                         "feedback": "Full marks: the restrictions are classified into political, economic and social categories with accurate evidence, and the answer explains how the categories reinforced each other.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-30-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Politically, Aboriginal people had limited voting rights and could not easily challenge the protection boards. Economically, many Aboriginal workers on pastoral stations were paid very little. These restrictions show how government policy controlled Aboriginal people's lives.",
-                        "source": "AI",
                         "feedback": "Two categories are used with accurate evidence, but the social category is missing, so the answer earns three marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-30-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Aboriginal people were treated badly by the government in the 1920s.",
-                        "source": "AI",
                         "feedback": "A general statement about mistreatment with no restriction or category earns one mark.",
                         "band": 1
                       }
@@ -1798,25 +1798,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-31-1",
-                        "mark": 6,
-                        "answer": "The Great Depression affected Australian society unevenly, but it was most severe for those with no safety net, including unemployed urban men, women workers, rural families and Aboriginal people. Contemporary estimates put unemployment close to 30 per cent of the workforce at its peak in 1932, and the crisis fell hardest on urban working-class men, who lost jobs in manufacturing, construction and the docks. Many were forced onto relief schemes such as the New South Wales sustenance system, which provided work at a rate below the basic wage and made men dependent on the state. Their families were pushed into poverty, losing homes through mortgage default and relying on charity. The impact on women was often hidden. Married women were dismissed from some public service jobs, and those who remained in work often faced lower wages, while many took in sewing or domestic work to make ends meet. Rural families suffered from the collapse in the prices of wool and wheat, which left many farmers in debt, and small farmers lost their land. The rural communities that had been promised stability through soldier settlement were among those most damaged. Aboriginal people faced the Depression on the margins of society, where relief was often denied and workers on pastoral stations and reserves were often the first to lose work. Their position was made worse by the protection systems that controlled wages and movement. By contrast, wealthier Australians, particularly those with investments in government bonds and property, were less affected, and some benefited from falling prices. The Depression therefore revealed existing inequalities, and the groups with the least power absorbed the greatest costs. Overall, the impact was severe across the community, but it was most damaging for unemployed men, families and Aboriginal people, because they had the fewest resources to recover. The Depression's effects were sharpest where the state offered least protection, so the judgement rests on relative vulnerability as much as on the overall unemployment figure.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The impact of the Great Depression on Australian society was uneven, and it was most severe for groups with no safety net. Unemployment was close to 30 per cent of the workforce at its peak in 1932. Urban working-class men, who lost jobs in manufacturing, construction and the docks, were forced onto relief schemes such as the New South Wales sustenance system, which paid below the basic wage, and their families lost homes through mortgage default. The impact on women was often hidden: married women were dismissed from some public service jobs, and those who remained in work often faced lower wages. Rural communities suffered from the collapse in the prices of wool and wheat, which left many farmers in debt, and small farmers lost their land. Aboriginal people faced the Depression on the margins of society, where relief was often denied and protection systems controlled wages and movement. The Depression therefore revealed existing inequalities, and the groups with the least power bore the greatest costs. Aboriginal people and unemployed families had the fewest resources to recover, so the judgement rests on their relative vulnerability rather than on the overall unemployment figure.",
                         "feedback": "Full marks: the answer assesses the impact on several groups, weighs their relative vulnerability, and reaches a supported judgement about who bore the greatest costs. Precise evidence (the sustenance system, the marriage dismissals, the protection systems) supports each point.",
                         "band": 5
                       },
                       {
                         "id": "sa-mh-31-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Unemployed men in the cities suffered most, because many lost their jobs and had to take sustenance work in New South Wales, where their families lost their homes and relied on charity. Farmers were also badly affected when the prices of wool and wheat fell, and many lost their land. Both groups suffered, but the answer does not weigh their vulnerability against each other.",
-                        "source": "AI",
                         "feedback": "A 4-mark response assesses the impact on two groups with accurate evidence, but the comparison between them is not developed and no overall judgement is reached.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-31-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Depression hurt many people in Australia.",
-                        "source": "AI",
                         "feedback": "A general statement about hardship with no named group or evidence earns one mark.",
                         "band": 1
                       }
@@ -1850,25 +1850,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-32-1",
-                        "mark": 4,
-                        "answer": "During the Great Depression unemployed men in Sydney and Melbourne depended on state relief schemes that paid them in return for work. In New South Wales the sustenance system, introduced in 1930, provided men with work on public projects such as road and drainage work in exchange for a small payment that was below the basic wage. Men were rotated through the work, often for only a few days each fortnight, so families survived on the reduced income and on charity from churches and benevolent societies. In Melbourne the Victorian authorities ran relief work of their own, employing men on public projects for wages that were also well below the normal rate. Many families lost their homes through mortgage default, and some men left their families to look for work in the country or interstate. The effect on children was severe, as schooling was interrupted when families moved in search of work, and poor nutrition damaged health. These schemes prevented starvation for many but did not restore dignity or independence, which is why unemployed men's organisations protested against them.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "During the Great Depression, unemployed men in Sydney and Melbourne depended on state relief schemes. In New South Wales the sustenance system, introduced in 1930, put men to work on public projects for a small payment below the basic wage. Men were rotated through the work, often for only a few days each fortnight, so families survived on reduced income and charity. In Melbourne the Victorian authorities ran their own relief work, paying wages well below the normal rate. Children's schooling was interrupted when families moved in search of work. The schemes prevented starvation but did not restore dignity, which is why unemployed men's organisations protested against them.",
                         "feedback": "Full marks: the answer describes the terms of the schemes, their effect on families and the protests against them, with accurate detail.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-32-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "In New South Wales unemployed men were given sustenance work on public projects for a small payment.",
-                        "source": "AI",
                         "feedback": "One relief scheme is described with some accuracy, but its effect on families is not given, so the answer earns two marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-32-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The government helped unemployed people during the Depression.",
-                        "source": "AI",
                         "feedback": "A general statement about government help with no named scheme or effect earns one mark.",
                         "band": 1
                       }
@@ -1965,25 +1965,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-34-1",
-                        "mark": 5,
-                        "answer": "Jack Lang's government in New South Wales was dismissed in May 1932 because its response to the Depression defied the financial authority of the Commonwealth and the British lenders on whom Australia depended. In 1931 the Lang Government's default on interest payments on part of the state's debt to British bondholders was justified as a way to fund relief, but it broke the agreement reached in the Premiers' Plan and threatened Australia's credit in London. Lang refused to comply with the requests of the Loan Council and continued to press his own plan. The Governor, Sir Philip Game, believed that the government was acting unconstitutionally and that the state's finances were being run in defiance of the Commonwealth's authority. On 13 May 1932 Game carried out Lang's dismissal. The episode showed that a state government could not easily resist the financial framework of the federation during the crisis, and it strengthened the case for the Premiers' Plan. Lang's supporters saw the dismissal as an attack on working people, which kept him popular in Sydney's working-class suburbs even after he had lost office. The episode therefore shows how the federal structure limited state action during the Depression, and how the Governor's constitutional powers were used to enforce the financial agreements that the Commonwealth and the states had made.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "Jack Lang's New South Wales government was dismissed in May 1932 because its default defied the financial authority of the Commonwealth and the British lenders on whom Australia depended. The Lang Government defaulted on interest payments on part of the state's debt to British bondholders, a default justified as a way to fund relief. It broke the arrangements of the Premiers' Plan and threatened Australia's credit in London. Lang refused to comply with the requests of the Loan Council and continued to press the Lang Plan. The Governor, Sir Philip Game, believed the government was acting unconstitutionally and that the state's finances were being run in defiance of the Commonwealth's authority. On 13 May 1932 Game carried out Lang's dismissal, which showed that a state government could not easily resist the financial framework of the federation.",
                         "feedback": "Full marks: the answer explains the sequence from the default to the dismissal, identifies the conflict with the Loan Council and the Commonwealth, and gives the Governor's constitutional reasons with accurate evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-34-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "In 1931 the New South Wales government stopped paying interest on some of its debt. Lang refused to change his plan, and in 1932 the Governor dismissed him.",
-                        "source": "AI",
                         "feedback": "The default and the dismissal are described with accuracy, but the answer does not explain why the default led to the dismissal, so it earns three marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-34-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Lang had arguments with other governments during the Depression.",
-                        "source": "AI",
                         "feedback": "A general statement about conflict with no specific default or dismissal earns one mark.",
                         "band": 1
                       }
@@ -2026,25 +2026,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-35-1",
-                        "mark": 6,
-                        "answer": "The Anzac legend shaped Australian nationalism in the 1930s by offering a national story of sacrifice and mateship that did not depend on Britain alone. The legend, built on the landing at Gallipoli in 1915, identified courage and endurance as distinctively Australian virtues, and it gave the nation a founding myth through which Australians could define themselves. Its influence was visible in the spread of Anzac Day commemorations and in memorials such as the Shrine of Remembrance in Melbourne, dedicated in 1934, which made military sacrifice a central public ritual. This military identity reinforced ideas of masculinity and national duty, and it linked the nation to the experience of war in a way that shaped how Australians understood their independence. Industrial achievement also contributed. The Sydney Harbour Bridge, opened in 1932, and the expansion of motor manufacturing gave Australians symbols of modern national achievement, which strengthened the sense that the country could build its own future. Sport gave nationalism a more popular expression. Don Bradman's performances in Test cricket made him a national hero, and the Bodyline series of 1932 and 1933 allowed Australians to present the Test contest as a matter of national pride against English tactics. However, the nationalism of the 1930s was not a rejection of Empire. Australians continued to celebrate the monarchy, and the Anzac legend was itself tied to imperial service. The idea of the nation also excluded many people: Aboriginal Australians were largely absent from the national story, and the legend ignored their own service and their claims. Overall, the Anzac legend gave Australian nationalism its emotional core, but the nationalism of the period combined loyalty to the Empire with a growing sense of independent identity, and it was defined in ways that excluded many Australians.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The Anzac legend shaped Australian nationalism in the 1930s by offering a national story of sacrifice and mateship that did not depend on Britain alone. Built on the landing at Gallipoli in 1915, it identified courage and endurance as distinctively Australian virtues. Its influence was visible in the spread of Anzac Day commemorations and in the Shrine of Remembrance in Melbourne, dedicated in 1934, which made military sacrifice a central public ritual. This military identity reinforced ideas of masculinity and national duty. Industrial achievement added to the sense of nationhood: the Sydney Harbour Bridge, opened in 1932, gave Australians a symbol of modern national achievement. Sport gave nationalism a more popular expression, as Don Bradman's performances in Test cricket made him a national hero and the Bodyline series of 1932 and 1933 let Australians present the contest as a matter of national pride. Yet the nationalism of the period was not a rejection of Empire, since the Anzac legend was itself tied to imperial service. It also excluded many people, because Aboriginal Australians were largely absent from the national story and their own service was ignored.",
                         "feedback": "Full marks: the answer analyses the relationships between the Anzac legend, military identity, industrial symbols and sport, and explains the limits of the nationalism, including its exclusion of Aboriginal Australians.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-35-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Anzac legend gave Australians a national story based on the landing at Gallipoli in 1915. It made courage and mateship seem like Australian virtues, and Anzac Day became an important commemoration in the 1930s. The legend therefore helped people feel that Australia had its own identity, separate from Britain.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one way the legend shaped nationalism with accurate evidence. It does not analyse the other forms of nationalism or its limits.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-35-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Australians in the 1930s were patriotic about their country.",
-                        "source": "AI",
                         "feedback": "A general statement about patriotism with no link to the Anzac legend earns one mark.",
                         "band": 1
                       }
@@ -2131,25 +2131,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-37-1",
-                        "mark": 6,
-                        "answer": "The Day of Mourning was held in Sydney on 26 January 1938, the sesquicentenary of the British settlement, and its aims were to protest against the dispossession and treatment of Aboriginal people and to demand equal rights. Organised by the Aborigines Progressive Association, which had been formed in 1937 by Jack Patten and William Ferguson, the gathering called for citizenship, land rights and an end to the control exercised by the Aborigines Protection Board. Its timing was deliberate: while the nation celebrated 150 years of European settlement, Aboriginal speakers argued that the day marked the loss of their land, their families and their rights, and they called it a day of mourning. The significance of the event lies in the fact that it was one of the first occasions on which Aboriginal people organised a national protest in their own name, and in the way it challenged the official story of settlement. It drew public attention to demands that later campaigns would continue, and it showed that Aboriginal activism in the 1930s was not passive. The Day of Mourning therefore combined a clear set of aims with a symbolic challenge to the celebrations of the sesquicentenary, and it marked a turning point in the political organisation of Aboriginal people. Its demands for citizenship and land were not met in the 1930s, so its significance lay in opening a continuing campaign rather than in immediate reform. Its significance also lay in the fact that Aboriginal people spoke for themselves, which challenged the assumption that they could not organise political protest.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The Day of Mourning, held in Sydney on 26 January 1938, was a protest against the dispossession and treatment of Aboriginal people, and its aim was to demand equal rights. Timed to coincide with the sesquicentenary of the British settlement, it was organised by the Aborigines Progressive Association, formed in 1937 by Jack Patten and William Ferguson. Its demands were citizenship, land rights and an end to the control exercised by the Aborigines Protection Board. Speakers argued that the celebration of 150 years of settlement marked the loss of Aboriginal land, families and rights, and they called the day a day of mourning. Its significance lies in its place in Aboriginal activism in the 1930s: it was one of the first occasions on which Aboriginal people organised a national protest in their own name, and it challenged the official story of settlement. Its demands were not met in the 1930s, so its importance lay in opening a continuing campaign rather than in immediate reform.",
                         "feedback": "Full marks: the answer explains the aims (citizenship, land rights, an end to the Board's control) and the significance (a challenge to the sesquicentenary and an Aboriginal-led national protest), with precise dates and names.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-37-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Day of Mourning was held in Sydney in January 1938 during the 150th anniversary of the settlement. Aboriginal people protested against the way they had been treated and asked for citizenship and land rights. The protest was organised by the Aborigines Progressive Association.",
-                        "source": "AI",
                         "feedback": "The aims are explained with accurate evidence, but the significance of the protest is not discussed, so the answer earns four marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-37-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Aboriginal people held a protest in 1938.",
-                        "source": "AI",
                         "feedback": "A general statement about a protest in 1938 with no aims or significance earns one mark.",
                         "band": 1
                       }
@@ -2242,25 +2242,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-39-1",
-                        "mark": 6,
-                        "answer": "Australia's foreign policy changed from a position of almost complete dependence on Britain to one in which Australian governments began to act in their own interest, although the change was gradual and uneven. Between 1918 and 1939 Australia's foreign policy was largely an extension of Britain's. Australia signed the Treaty of Versailles in its own right and joined the League of Nations as a separate member, but it followed British leadership on questions of security, disarmament and the defence of the Empire. Menzies declared war on Germany on 3 September 1939 as soon as Britain did, and Australia sent troops to the Middle East and Malaya. The Statute of Westminster of 1931 gave the dominions legal independence, but Australia did not adopt it until 1942, which shows the reluctance to break formally with Britain. The fall of Singapore in February 1942 and Japan's advance in the Pacific forced a decisive change. John Curtin's Labor government, in office from October 1941, announced on 27 December 1941 that Australia looked to America, and in February 1942 it recalled Australian divisions from the Middle East to defend Australia itself. The Statute of Westminster was then adopted, with retrospective effect from September 1939. After the war, Herbert Evatt's advocacy of the United Nations, and Australia's role as a founding member of the United Nations in 1945, showed a government willing to pursue an independent role in international affairs. Australia's policy under Evatt was active, but it still relied on the United States for security and on Britain for trade. By 1949 Australia had become an active middle power with its own foreign policy, although its dependence on great power alliances remained strong.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Australia's foreign policy moved from almost complete dependence on Britain to a more independent approach. Between the wars Australia signed the Treaty of Versailles in its own right and joined the League of Nations, but it followed British leadership on security and defence. Menzies declared war on Germany on 3 September 1939 as soon as Britain did, and Australia sent troops to the Middle East and Malaya. The Statute of Westminster of 1931 gave the dominions legal independence, but Australia adopted it only in 1942, with retrospective effect from September 1939. The fall of Singapore in February 1942 forced a decisive change. John Curtin's government announced on 27 December 1941 that Australia looked to America, and in February 1942 it recalled Australian divisions from the Middle East to defend Australia. After the war, Herbert Evatt's advocacy of the United Nations, and Australia's founding membership of it in 1945, showed a government willing to pursue an independent role. Even so, Australia still relied on the United States for security and on Britain for trade, so by 1949 its foreign policy was its own but still dependent on great power alliances.",
                         "feedback": "Full marks: the answer explains a sequence of stages (the Versailles and League period, the crisis of 1941 to 1942, the postwar role at the United Nations), links them, and uses precise evidence such as the 27 December 1941 announcement and the 1942 Statute adoption.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-39-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Before 1939 Australia's foreign policy followed Britain's lead. Menzies declared war on Germany on 3 September 1939 as soon as Britain did, and Australian troops were sent to the Middle East to support British forces. This showed how dependent Australia was on Britain, although the policy began to change after 1941 when Curtin's government looked more to the United States.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains one stage, dependence on Britain before 1941, with accurate evidence. It does not analyse the postwar stage or the link between stages.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-39-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Australia's foreign policy changed a lot between 1918 and 1949.",
-                        "source": "AI",
                         "feedback": "A general statement about change with no stage, evidence or explanation earns one mark.",
                         "band": 1
                       }
@@ -2408,25 +2408,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-42-1",
-                        "mark": 4,
-                        "answer": "Before 1941 Australia's relationship with Britain was close and formal, rooted in shared history, the Empire and defence arrangements, and Australian governments expected British protection in the event of war. Australia had joined the League of Nations as a separate member but relied on British naval power for security in the Pacific, and its trade was tied to British markets through the preferences agreed at Ottawa in 1932. By contrast, the relationship with the United States was distant and underdeveloped. Australia had no independent diplomatic presence in Washington until 1940, and the United States followed a policy of isolationism during the 1930s that limited its involvement in the security of the Pacific. American naval power was important in the Pacific, but Australian governments rarely expected direct American assistance. The difference was that Britain was a partner in a shared imperial system, while the United States was a foreign power whose interests were not yet closely tied to Australia's. The difference in representation mattered, because Australia's defence arrangements depended on the Empire rather than on a bilateral relationship with Washington.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "As a dominion, Australia's relationship with Britain before 1941 was close and formal, rooted in the Empire and shared defence arrangements. Australia relied on British naval power for security in the Pacific, and its trade was tied to British markets through the preferences agreed at Ottawa in 1932. By contrast, the relationship with the United States was distant and underdeveloped. Australia had no independent diplomatic presence in Washington until 1940, and the United States followed a policy of isolationism during the 1930s that limited its involvement in Pacific security. Britain was a partner in a shared imperial system, whereas the United States was a foreign power.",
                         "feedback": "Full marks: the two relationships are contrasted with accurate evidence on diplomacy, defence and trade, and the reason for the difference is explained.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-42-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Australia's relationship with Britain was close because of the Empire. Its relationship with the United States was weak before 1941.",
-                        "source": "AI",
                         "feedback": "Both relationships are described, but the contrast is brief and not supported with evidence, so the answer earns two marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-42-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Britain was more important to Australia than America.",
-                        "source": "AI",
                         "feedback": "A general statement without evidence or a developed contrast earns one mark.",
                         "band": 1
                       }
@@ -2482,25 +2482,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-43-1",
-                        "mark": 6,
-                        "answer": "German foreign policy to September 1939 moved steadily from the revision of the Versailles settlement to open aggression, and the Nazi–Soviet Non-Aggression Pact was the final step that made war in Europe possible. Hitler's early moves were justified as the correction of Versailles. Germany reintroduced conscription in 1935, remilitarised the Rhineland in March 1936, annexed Austria in the Anschluss of March 1938, and used claims on behalf of ethnic Germans to secure the Sudetenland at the Munich Agreement of September 1938. Each step was met with weak responses from Britain and France, which encouraged further demands. In March 1939 Germany occupied the rest of Czechoslovakia, which showed that the justification of ethnic claims was a pretext for conquest. Hitler's next target was Poland, and he demanded the return of Danzig and a route across the Polish Corridor. The problem for Germany was the prospect of a two-front war, since Britain and France had guaranteed Poland's independence. The Nazi–Soviet Non-Aggression Pact, signed on 23 August 1939, removed this risk by securing Soviet neutrality. Its secret protocol divided Eastern Europe between the two states, assigning western Poland and Lithuania to Germany and eastern Poland, Latvia, Estonia, Finland and Bessarabia to the Soviet sphere. The pact allowed Germany to invade Poland on 1 September 1939, and it ended any prospect that the Western powers could deter German aggression through an eastern alliance. German foreign policy had therefore moved from the grievance of Versailles to aggressive expansion, with the pact as the decisive step to war.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "German foreign policy moved steadily from the revision of the Versailles settlement to open aggression, and the Nazi–Soviet Non-Aggression Pact was the final step that made war in Europe possible. Hitler's early moves were justified as the correction of Versailles. Germany reintroduced conscription in 1935, remilitarised the Rhineland in March 1936, annexed Austria in March 1938, and secured the Sudetenland at the Munich Agreement of September 1938. Each step met weak responses from Britain and France, which encouraged further demands. In March 1939 Germany occupied the rest of Czechoslovakia, which showed that ethnic claims were a pretext for conquest. The problem for Germany was the prospect of a two-front war, since Britain and France had guaranteed Poland's independence. The Nazi–Soviet Non-Aggression Pact, signed on 23 August 1939, removed this risk by securing Soviet neutrality. Its secret protocol divided Eastern Europe between the two states, and the pact allowed Germany to invade Poland on 1 September 1939, so German foreign policy had moved from the grievance of Versailles to aggressive expansion.",
                         "feedback": "Full marks: the answer explains the sequence of stages with accurate dates, shows why the pact removed the risk of a two-front war, and uses the secret protocol as precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-43-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Germany moved from revising the Treaty of Versailles to aggressive expansion. It remilitarised the Rhineland in 1936 and annexed Austria in 1938. At Munich in 1938 it secured the Sudetenland. In August 1939 Germany signed the Nazi–Soviet Non-Aggression Pact, which removed the risk of a war on two fronts and allowed the invasion of Poland to go ahead.",
-                        "source": "AI",
                         "feedback": "A 4-mark response explains the pact's strategic purpose and gives the stages with accurate dates, but the stages are listed rather than explained in detail, so it stays in the middle band.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-43-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Germany was aggressive in the 1930s and wanted more land.",
-                        "source": "AI",
                         "feedback": "A general statement about aggression with no stage, date or explanation earns one mark.",
                         "band": 1
                       }
@@ -2639,25 +2639,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-46-1",
-                        "mark": 4,
-                        "answer": "The Geneva Disarmament Conference, which met from 1932, failed because the powers could not agree on how to reduce armaments while guaranteeing their own security. France insisted that Germany's armed forces be limited and that it have a guarantee of security before it reduced its own army, while Germany demanded equality of armaments, which the other powers were unwilling to concede. Britain sought to balance these claims, but it was unwilling to commit itself to collective security against aggression. The conference also lacked any mechanism to verify compliance, so states had little confidence that others would keep their promises. When the proposals were rejected, Hitler withdrew Germany from the conference and from the League in October 1933, and rearmament followed. Each power also feared that disarmament would leave it more vulnerable to its neighbours, and the Japanese seizure of Manchuria in 1931 had already shown the dangers of trusting collective promises. Disarmament failed because the principle of equal security could not be reconciled with fear and mistrust among the powers.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "The Geneva Disarmament Conference, which met from 1932, failed because the powers could not agree on how to reduce armaments while guaranteeing their own security. France insisted on a guarantee of security before it reduced its army, while Germany demanded equality of armaments, which the other powers were unwilling to concede. It also lacked any mechanism to verify compliance, so states had little confidence in each other's promises. When the proposals were rejected, Hitler withdrew Germany from the conference and the League in October 1933, and rearmament followed. Disarmament failed because the principle of equal security could not be reconciled with fear and mistrust among the powers.",
                         "feedback": "Full marks: the answer explains the central conflict between French security demands and German equality, the lack of verification, and the consequence of Germany's withdrawal, with accurate evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-46-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The conference failed because France wanted security before disarming, and Germany wanted equal armaments.",
-                        "source": "AI",
                         "feedback": "One reason, the conflict over security and equality, is explained with accurate detail, so the answer earns two marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-46-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The powers could not agree to disarm.",
-                        "source": "AI",
                         "feedback": "A general statement with no reason or evidence earns one mark.",
                         "band": 1
                       }
@@ -2864,25 +2864,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-50-1",
-                        "mark": 8,
-                        "answer": "The Allied and Axis powers entered the Second World War with aims that were fundamentally different, and their strategies reflected those aims. The Axis powers sought to overturn the international order established at Versailles and to create new empires. Germany's aim was Lebensraum, the conquest of living space in eastern Europe, and its strategy was Blitzkrieg, the rapid combination of armour, air power and mobile infantry that defeated Poland in September 1939 and France in June 1940. Hitler's ambitions were ideological as well as territorial, and they included the destruction of the Soviet state and the subjugation of the Slavic peoples. Italy under Mussolini aimed to create a Mediterranean and African empire, and its strategy was opportunistic, depending on German success, as its invasion of Greece in October 1940 showed. Japan's aim was the establishment of a Greater East Asia Co-Prosperity Sphere, which required control of China and southeast Asia and their resources, and its strategy relied on naval strikes and rapid advances, such as the attack on Pearl Harbor in December 1941. The Allied powers had more varied aims. Britain and France at the outbreak of war sought to defeat German aggression and restore the balance of power in Europe, but their strategy was initially defensive, relying on blockade and the Maginot Line, and they lacked an offensive plan until the crisis of 1940. The Soviet Union, which had signed the Nazi–Soviet Non-Aggression Pact, initially pursued its own territorial interests in eastern Europe, and its aims changed after Germany invaded in June 1941. The United States, while neutral, provided Lend-Lease aid from 1941 and later committed to a Germany first strategy. Allied strategy eventually centred on unconditional surrender, which was agreed at Casablanca in January 1943. The key difference was that Axis aims required conquest and the destruction of rival states, while Allied aims required the defeat of aggression, which made the coalition more diverse and more dependent on cooperation. The Axis strategies were initially more effective because they were offensive and coordinated in a limited way, but the Allies' resources were far greater. By 1942 the Allied strategy was better aligned with the aims of the coalition, which made Axis defeat likely.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer discusses the aims and strategies of both sets of powers, compares them, and concludes how the differences shaped the course of the war, with precise evidence (Blitzkrieg, the Greek campaign, Pearl Harbor, Lend-Lease, Casablanca).",
+                        "mark": 8,
+                        "answer": "The Allied and Axis powers entered the Second World War with aims that were fundamentally different, and their strategies reflected those aims. The Axis powers sought to overturn the international order established at Versailles and to create new empires. Germany's aim was Lebensraum, the conquest of living space in eastern Europe, and its strategy was Blitzkrieg, the rapid combination of armour and air power that defeated Poland in September 1939 and France in June 1940. Italy under Mussolini aimed to create a Mediterranean and African empire, and its strategy was opportunistic, depending on German success. Japan aimed to establish a Greater East Asia Co-Prosperity Sphere, and its strategy relied on naval strikes and rapid advances, such as the attack on Pearl Harbor in December 1941. The Allied powers had more varied aims. Britain and France sought to defeat German aggression and restore the balance of power in Europe, but their strategy was initially defensive, relying on blockade and the Maginot Line. The Soviet Union initially pursued its own territorial interests in eastern Europe, and its aims changed after Germany invaded in June 1941. The United States, while neutral, provided Lend-Lease aid from 1941 and later committed to a Germany first strategy. Allied strategy eventually centred on unconditional surrender, agreed at Casablanca in January 1943. The key difference was that Axis aims required conquest and the destruction of rival states, while Allied aims required the defeat of aggression, which made the coalition more diverse and more dependent on cooperation. Axis strategies were initially more effective because they were offensive, but the Allies' resources were far greater, and by 1942 Allied strategy was better aligned with the coalition's aims, which made Axis defeat likely.",
+                        "feedback": "Full marks: the answer discusses the aims and strategies of both sets of powers, compares them, and concludes how the differences shaped the course of the war, with precise evidence (Blitzkrieg, Pearl Harbor, Lend-Lease, Casablanca).",
                         "band": 5
                       },
                       {
                         "id": "sa-mh-50-2",
+                        "source": "AI",
                         "mark": 5,
                         "answer": "Germany wanted Lebensraum in eastern Europe and used Blitzkrieg to defeat Poland and France quickly. Italy wanted an empire in the Mediterranean and Africa. Japan wanted to dominate East Asia. Britain and France initially fought a defensive war, relying on the Maginot Line and a blockade of Germany. The Soviet Union signed a pact with Germany and was attacked in 1941, after which it joined the Allies.",
-                        "source": "AI",
                         "feedback": "A 5-mark response discusses the aims and some strategies of both sets of powers with accurate evidence, but the comparison and the conclusion about the war's course are limited.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-50-3",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Germany wanted more territory, and Britain wanted to stop it.",
-                        "source": "AI",
                         "feedback": "The aims of two powers are identified with some accuracy, but no strategies or evidence are given, so the answer earns two marks.",
                         "band": 2
                       }
@@ -2917,25 +2917,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-51-1",
-                        "mark": 4,
-                        "answer": "At the outbreak of war in September 1939 the strategic aims of Germany and Britain were fundamentally different. Germany's aim was to conquer territory in eastern Europe and to destroy the Polish state, and its strategy was a rapid campaign that would deny the Allies time to intervene, using armour and air power to achieve a quick victory. Its long-term aims included Lebensraum in the east, which implied the subjugation of Slavic peoples. Britain's aim was to defend Poland's independence, to restore the balance of power in Europe, and ultimately to defeat Nazi Germany, but its strategic response was initially more cautious. Britain relied on economic warfare, including a naval blockade of Germany, and it expected the Maginot Line to hold on the Western Front while its armed forces expanded. Britain's aims were therefore defensive and political, while Germany's were offensive and territorial. The contrast meant that Britain had to fight a longer war to achieve its aims, while Germany had to win quickly to avoid a long conflict.",
                         "source": "AI",
-                        "feedback": "Full marks: the strategic aims of both powers are contrasted with accurate evidence on methods (Blitzkrieg-style speed against the blockade and the Maginot Line), and the contrast is linked to the course of the war.",
+                        "mark": 4,
+                        "answer": "In September 1939 the strategic aims of Germany and Britain were fundamentally different. Germany aimed to conquer territory in eastern Europe and destroy the Polish state, using a rapid campaign of armour and air power to deny the Allies time to intervene. Its long-term aims included Lebensraum in the east. Britain aimed to defend Poland's independence and restore the balance of power in Europe, but its response was more cautious, relying on economic warfare and a naval blockade while its forces expanded. Germany's aims were offensive and territorial, Britain's defensive and political, so Britain faced a longer war while Germany had to win quickly.",
+                        "feedback": "Full marks: the strategic aims of both powers are contrasted with accurate evidence on methods (a rapid campaign against economic warfare and blockade), and the contrast is linked to the course of the war.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-51-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Germany wanted territory in eastern Europe, while Britain wanted to defend Poland.",
-                        "source": "AI",
                         "feedback": "Both sets of aims are given with accurate detail, but the contrast is brief and the strategies are not discussed, so the answer earns two marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-51-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Germany and Britain had different aims.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence of either power's aims earns one mark.",
                         "band": 1
                       }
@@ -3031,25 +3031,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-53-1",
-                        "mark": 6,
-                        "answer": "Between 1939 and 1941 German advances transformed Germany from a state confined to central Europe into the dominant power on the continent. The invasion of Poland in September 1939 was the first demonstration of Blitzkrieg, in which armoured divisions and air power broke through enemy lines before reserves could respond. Poland was defeated within a month and divided, with the Soviet Union occupying the eastern provinces under the Nazi–Soviet Non-Aggression Pact, so the first campaign secured German control of the east while removing a potential rival for the moment. The invasion of the Low Countries in May 1940 then outflanked the Maginot Line: German panzers crossed the Ardennes, which French planners had regarded as a difficult barrier to armour, and reached the Channel coast. France capitulated in June 1940, which gave Germany control of the Atlantic coast and left Britain isolated. Each conquest added industrial capacity and manpower to the German war economy, particularly the factories of Czechoslovakia and France, so the advances strengthened the means for the next campaign as well as the position in Europe. These victories freed Hitler to choose his next target, and Operation Barbarossa in June 1941 launched the invasion of the Soviet Union. The speed of the early campaigns showed that German military power could overwhelm its opponents in months, but the vast distances and the resistance of the Soviet Union stretched German resources in ways that would shape the war that followed.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Between 1939 and 1941 German advances transformed Germany from a state confined to central Europe into the dominant power on the continent. The invasion of Poland in September 1939 was the first demonstration of Blitzkrieg, in which armoured divisions and air power broke through enemy lines. Poland was defeated within a month and divided with the Soviet Union under the Nazi–Soviet Non-Aggression Pact, which secured German control of the east for the moment. The invasion of the Low Countries in May 1940 then outflanked the Maginot Line: German panzers crossed the Ardennes, which French planners had regarded as a difficult barrier to armour. France capitulated in June 1940, which gave Germany control of the Atlantic coast and left Britain isolated. Each conquest added industrial capacity and manpower to the German war economy, so the advances strengthened the means for the next campaign. Operation Barbarossa in June 1941 then launched the invasion of the Soviet Union, extending German conquest eastwards.",
                         "feedback": "Full marks: each advance is explained as a step that enlarged German control, the answer links the campaigns into a sequence, and it draws out the strategic consequence for Britain and the Soviet Union with accurate detail.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-53-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "German forces overran Poland in September 1939 in a Blitzkrieg campaign, and the Soviet Union took the east of the country under the pact between the two states. In May 1940 Germany invaded the Low Countries and France, and France surrendered in June, which gave Germany control of western Europe. These victories prepared the way for the invasion of the Soviet Union in June 1941.",
-                        "source": "AI",
                         "feedback": "Accurate and sequenced, but the effect on Germany's position is asserted rather than explained, so it earns 4 rather than 5 or 6.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-53-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Germany won many battles in Europe between 1939 and 1941.",
-                        "source": "AI",
                         "feedback": "A general statement with no specific advance and no explained effect on Germany's position.",
                         "band": 1
                       }
@@ -3134,25 +3134,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-55-1",
-                        "mark": 5,
-                        "answer": "The air war in Europe began with the Battle of Britain, in which the Luftwaffe attempted to gain air superiority over southern England as a precursor to a German invasion. Between July and October 1940 German bombers and fighters attacked radar stations, airfields and aircraft factories, but the Royal Air Force defended Britain by using radar and fighter squadrons effectively, and the Luftwaffe failed to achieve air superiority. Hitler then switched to the Blitz, bombing London and other British cities from September 1940 in an attempt to break civilian morale. The bombing caused heavy civilian casualties and destruction, yet it did not force Britain to surrender. From 1942 the Royal Air Force Bomber Command began a sustained offensive against German cities, targeting industrial and residential areas; the raid on Hamburg in July 1943 caused a firestorm that killed tens of thousands. The air war therefore showed how air power could be used to defend a nation, to attack civilian morale and to destroy an enemy's industrial base, although the German bombing of Britain did not produce the collapse that its planners had expected.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "The air war began with the Battle of Britain, in which the Luftwaffe attempted to gain air superiority over southern England as a precursor to invasion. Between July and October 1940 German bombers and fighters attacked radar stations and airfields, but the Royal Air Force defended Britain with radar and fighter squadrons, and the Luftwaffe failed to achieve air superiority. Hitler then switched to the Blitz, bombing London and other British cities from September 1940 in an attempt to break civilian morale, but it did not force Britain to surrender. From 1942 the Royal Air Force Bomber Command began a sustained offensive against German cities; the raid on Hamburg in July 1943 caused a firestorm that killed tens of thousands.",
                         "feedback": "Full marks: the answer describes each phase with dates, names the Luftwaffe and Royal Air Force aims, and includes the Bomber Command offensive with a precise example.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-55-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "The Luftwaffe attacked Britain in the Battle of Britain in 1940, trying to win control of the air. The Blitz on London began in September and caused heavy damage, but Britain did not surrender.",
-                        "source": "AI",
                         "feedback": "Two elements are described accurately, but the Bomber Command offensive and the Royal Air Force defence are missing, so it earns 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-55-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Bombing caused great destruction during the Second World War.",
-                        "source": "AI",
                         "feedback": "A general statement about bombing with no named campaign, date or place.",
                         "band": 1
                       }
@@ -3247,25 +3247,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-57-1",
-                        "mark": 4,
-                        "answer": "The North African campaign began in September 1940, when Italian forces advanced from Libya into Egypt. British Commonwealth forces counter-attacked in December 1940 and drove the Italians back into Cyrenaica. In February 1941 Germany sent the Afrika Korps under Rommel to support its ally, and the desert war then swung back and forth across Libya as each side received reinforcements and fuel. The Axis took Tobruk in June 1942, but Montgomery's victory at the Second Battle of El Alamein in October and November 1942 ended the Axis advance into Egypt. Operation Torch, the Allied landings in Algeria and Morocco in November 1942, placed Allied armies on Rommel's western flank, and the Axis forces in Tunisia surrendered in May 1943. The campaign's outcome gave the Allies control of the Mediterranean and opened the way for the invasion of Sicily and Italy.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer outlines every phase in order with accurate dates, names the Afrika Korps, El Alamein, Operation Torch and the Tunisian surrender, and ends with the outcome.",
+                        "mark": 4,
+                        "answer": "The North African campaign began in September 1940, when Italian forces advanced from Libya into Egypt. British Commonwealth forces counter-attacked in December 1940 and drove the Italians back into Cyrenaica. In February 1941 Germany sent the Afrika Korps under Rommel to support its ally, and the desert war swung back and forth across Libya. Montgomery's victory at the Second Battle of El Alamein in October and November 1942 ended the Axis advance into Egypt. Operation Torch, the Allied landings in Algeria and Morocco that November, trapped the Axis forces in Tunisia, which surrendered in May 1943.",
+                        "feedback": "Full marks: the answer outlines every phase in order with accurate dates, and names the Afrika Korps, El Alamein, Operation Torch and the Tunisian surrender.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-57-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The campaign began when Italy invaded Egypt in 1940. Germany then sent Rommel, and the fighting went back and forth until the Allies won at El Alamein in 1942.",
-                        "source": "AI",
                         "feedback": "Two phases are given with dates, but Operation Torch and the Tunisian surrender are omitted, so it earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-57-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The campaign was fought in the desert of North Africa between the Allies and the Axis.",
-                        "source": "AI",
                         "feedback": "A general statement with no phases, dates or outcome.",
                         "band": 1
                       }
@@ -3405,25 +3405,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-60-1",
-                        "mark": 3,
-                        "answer": "The Sixth Army was trapped at Stalingrad because the Soviet Union launched Operation Uranus on 19 November 1942, which attacked the weakly defended Romanian armies on the flanks of the city and closed a ring of encirclement around it. Hitler refused permission for the Sixth Army to break out, so the army was held in place rather than withdrawn while there was still time. The Luftwaffe was then expected to supply the trapped troops by air, but it could not deliver enough fuel and food in the winter conditions, which left the encirclement to end in surrender in February 1943, after the army had been reduced by cold, hunger and disease.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "The Sixth Army was trapped at Stalingrad because the Soviet Union launched Operation Uranus on 19 November 1942, attacking the weakly defended Romanian armies on the flanks of the city and closing a ring of encirclement. Hitler refused permission for the army to break out or withdraw. The Luftwaffe's attempt to supply the trapped troops by air then failed, because it could not deliver enough fuel and food in winter conditions.",
                         "feedback": "Full marks: three causes are clarified in sequence, the Soviet encirclement through Operation Uranus, Hitler's refusal to allow a breakout and the failed Luftwaffe airlift, with accurate dates and detail.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-60-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Sixth Army was surrounded because a Soviet counter-attack, Operation Uranus, cut off the city. Hitler would not let the army withdraw.",
-                        "source": "AI",
                         "feedback": "Gives two causes accurately, but neither is developed with detail, so it earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-60-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Sixth Army was trapped by the Soviet army in 1942.",
-                        "source": "AI",
                         "feedback": "A general statement with one cause and no detail.",
                         "band": 1
                       }
@@ -3523,25 +3523,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-62-1",
-                        "mark": 4,
-                        "answer": "British and Soviet civilians both lived through the war as part of a mobilised nation, but their experiences diverged sharply. In Britain civilians faced the Blitz on cities such as London and endured rationing, with food and clothing distributed on a fixed basis, and the evacuation of children to the countryside separated many families for years. The country was not invaded, and its civilians were spared occupation and the direct violence that followed it. In the Soviet Union the siege of Leningrad caused mass starvation between 1941 and 1944, and in the western regions civilians lived under German occupation, with many deported for forced labour or killed in reprisals. Both societies were organised for total war, with women drawn into industry and factories relocated eastwards to safety, but the Soviet civilian suffering was far greater because the war was fought across Soviet territory, and the scale of loss reflected that difference.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "British and Soviet civilians both lived in a mobilised nation, but their experiences diverged sharply. In Britain civilians faced the Blitz on cities such as London, endured rationing and saw many children evacuated to the countryside. Britain was not invaded, so its civilians were spared occupation. In the Soviet Union the siege of Leningrad caused mass starvation between 1941 and 1944, and in the western regions civilians lived under German occupation, with many deported for forced labour or killed in reprisals. Both societies were organised for total war, but Soviet civilian suffering was far greater because the war was fought across Soviet territory.",
                         "feedback": "Full marks: the answer identifies a similarity, total mobilisation, and a clear difference, occupation, with accurate evidence of rationing, the Blitz, the siege of Leningrad and the occupation.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-62-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "In Britain civilians faced rationing and the Blitz. In the Soviet Union civilians lived under siege and occupation.",
-                        "source": "AI",
                         "feedback": "Describes the experience in both countries without making a comparison, which earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-62-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Civilians suffered in both Britain and the Soviet Union during the war.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence.",
                         "band": 1
                       }
@@ -3582,25 +3582,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-63-1",
-                        "mark": 6,
-                        "answer": "Nazi policy towards Jewish people moved from exclusion and confinement to systematic mass murder, and its impact varied between Germany and the occupied territories. In Germany Jewish people were excluded from public life through the Nuremberg Laws of 1935 and the violence of Kristallnacht in November 1938, and many had emigrated before the war began. After the invasion of Poland the SS confined Jewish communities to ghettos, such as the Warsaw ghetto, where disease and starvation killed large numbers. The invasion of the Soviet Union in 1941 marked a more lethal stage. The Einsatzgruppen followed the army and shot Jewish civilians in large numbers, and the killings extended across the occupied territories with the assistance of local collaborators. The Wannsee Conference in January 1942 coordinated the deportation of Jewish people from across Europe to extermination camps, which formalised the Holocaust as a state policy of murder. The impact was therefore cumulative: the ghettos and deportations reduced Jewish communities through hunger and disease, while the mobile killings and the extermination camps destroyed them entirely. Germany's own Jewish population was far smaller than those of Poland and the Soviet Union, so the policy's greatest impact fell on the occupied territories, where most of the victims lived. The sequence therefore reveals a deliberate escalation, in which each stage of exclusion prepared the ground for the next, and the Wannsee Conference transformed local persecution into a coordinated programme across Europe.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Nazi policy towards Jewish people moved from exclusion and confinement to systematic mass murder, and its impact varied between Germany and the occupied territories. In Germany Jewish people were excluded from public life through the Nuremberg Laws of 1935 and the violence of Kristallnacht in November 1938. After the invasion of Poland the SS confined Jewish communities to ghettos, such as the Warsaw ghetto, where disease and starvation killed large numbers. The invasion of the Soviet Union in 1941 marked a more lethal stage: the Einsatzgruppen followed the army and shot Jewish civilians in large numbers. The Wannsee Conference in January 1942 coordinated the deportation of Jewish people from across Europe to extermination camps, which formalised the Holocaust as a state policy of murder. The impact was therefore cumulative. The ghettos reduced Jewish communities through hunger and disease, while the mobile killings and the extermination camps destroyed them entirely, and most victims lived in the occupied territories. Each stage of exclusion prepared the ground for the next, and the Wannsee Conference transformed local persecution into a coordinated programme across Europe.",
                         "feedback": "Full marks: the answer explains the progression from exclusion to ghettos, mobile killings and extermination camps, uses the Einsatzgruppen, ghettos and Wannsee Conference with precise evidence, and identifies where the impact fell.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-63-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Nazi policy in Germany excluded Jewish people through laws such as the Nuremberg Laws of 1935 and the violence of Kristallnacht in 1938. After Poland was invaded, Jewish people were moved into ghettos where many died from hunger and disease. The Einsatzgruppen then killed Jewish people in the Soviet Union.",
-                        "source": "AI",
                         "feedback": "Accurate and explains the progression in brief, but it stops short of the Wannsee Conference and the extermination camps, and it does not assess where the impact fell, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-63-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Nazis persecuted Jewish people in Germany and in the occupied territories.",
-                        "source": "AI",
                         "feedback": "A general statement with no measure, place or date.",
                         "band": 1
                       }
@@ -3692,25 +3692,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-65-1",
-                        "mark": 5,
-                        "answer": "Operation Overlord was the Allied plan to invade north-western Europe across the English Channel, and its landing phase was known as D-Day. Under the supreme command of Eisenhower, Allied forces landed on 6 June 1944 on five beaches along the Normandy coast, codenamed Utah, Omaha, Gold, Juno and Sword. American forces at Omaha met the heaviest resistance, while British and Canadian troops secured their beaches more quickly, and within weeks the Allies had linked the beachheads and built up a large army in Normandy. The advance was slowed by the hedgerows and the German defence, but Cherbourg was captured in late June and the Allies broke out of the Normandy bocage in late July, after which the Allied armies advanced rapidly across northern France. The liberation of France continued through August, with the Allied advance encircling German forces in the Falaise pocket. Paris was freed on 25 August 1944 by French and Allied forces, and the liberation of the capital marked the end of German control of most of France. The landings also depended on the artificial Mulberry harbours built off the beaches, which allowed men and supplies to be unloaded faster than the damaged French ports could handle.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "Operation Overlord was the Allied plan to invade north-western Europe across the English Channel, and its landing phase was known as D-Day. Under the supreme command of Eisenhower, Allied forces landed on 6 June 1944 on five Normandy beaches, codenamed Utah, Omaha, Gold, Juno and Sword. American forces at Omaha met the heaviest resistance, and within weeks the Allies had linked the beachheads. Cherbourg was captured in late June, and after the breakout from the Normandy bocage in late July the Allied armies advanced rapidly across northern France. The liberation of France continued through August, with German forces encircled in the Falaise pocket. Paris was freed on 25 August 1944, marking the end of German control of most of France.",
                         "feedback": "Full marks: the answer describes Overlord and D-Day with named beaches and commander, then the Normandy breakout and the liberation of Paris, with dates throughout.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-65-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "Operation Overlord was the Allied invasion of Normandy. On D-Day, 6 June 1944, Allied troops landed on beaches in France, and Paris was liberated later that summer.",
-                        "source": "AI",
                         "feedback": "Describes the landings and the liberation of Paris accurately, but names no beaches, commander or breakout, so it earns 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-65-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Allies invaded France in 1944 to defeat Germany.",
-                        "source": "AI",
                         "feedback": "A general statement with no element of the invasion described.",
                         "band": 1
                       }
@@ -3745,25 +3745,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-66-1",
-                        "mark": 3,
-                        "answer": "On D-Day, 6 June 1944, the Allies landed on five Normandy beaches, and the first days were marked by fierce fighting at Omaha Beach before the beachheads were linked up. The Allies captured Cherbourg in late June and took Caen after a prolonged battle in July, which drew German armour away from the American sector. Operation Cobra broke through the German lines in late July 1944, and the Allied armies then advanced rapidly, encircling the German forces in the Falaise pocket in August. Paris was liberated on 25 August 1944, completing the sequence from the landings to the capital, and the Allied advance had covered most of northern France within the summer.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "On D-Day, 6 June 1944, the Allies landed on five Normandy beaches, and after fierce fighting at Omaha Beach the beachheads were linked. Cherbourg was captured in late June and Caen after a prolonged battle in July. Operation Cobra broke through the German lines in late July, and the Allied armies then advanced rapidly, encircling German forces in the Falaise pocket in August. Paris was liberated on 25 August 1944.",
                         "feedback": "Full marks: the events are recounted in order with dates, and the stages from the landings through Cherbourg, Caen and Operation Cobra to the liberation of Paris are all present.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-66-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Allies landed in Normandy on D-Day in June 1944. They later took Cherbourg and then liberated Paris in August.",
-                        "source": "AI",
                         "feedback": "Gives the landings and the liberation of Paris in order but omits Caen and Operation Cobra, so it earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-66-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Allies landed in France and then liberated Paris.",
-                        "source": "AI",
                         "feedback": "States the outline without dates or intermediate events.",
                         "band": 1
                       }
@@ -3804,25 +3804,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-67-1",
-                        "mark": 6,
-                        "answer": "Operation Bagration was significant because it destroyed German Army Group Centre and transformed the strategic position on the Eastern Front in the summer of 1944. Launched on 22 June, the Russian counter-offensive coincided with the Allied landings in Normandy, and it struck the weakest part of the German line in Belarus, where the army group had been stripped of troops to reinforce the west and the south. The Red Army used massed artillery and support from partisans behind German lines to break through, and its armoured and infantry forces advanced several hundred kilometres within about two months. The destruction of the army group was one of the largest German military defeats of the war, with the loss of most of its divisions and the collapse of the front in central Europe. The offensive also changed the political landscape, because the Red Army reached the outskirts of Warsaw in July 1944, and the Warsaw Uprising that began in August was undertaken by Polish forces as the Soviet advance paused on the Vistula. Its significance therefore lies in the scale of the German defeat, the collapse of its defences in the east and the Soviet advance into Eastern Europe that followed. The Russian counter-offensive showed that the German army could no longer hold a stable front, and it prepared the way for the Red Army's advance into Poland, the Baltic states and the Balkans in the months that followed.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Operation Bagration was significant because it destroyed German Army Group Centre and transformed the strategic position on the Eastern Front in the summer of 1944. Launched on 22 June, the Russian counter-offensive coincided with the Allied landings in Normandy and struck the weakest part of the German line in Belarus, where the army group had been stripped of troops to reinforce the west and the south. The Red Army used massed artillery and partisan support behind German lines to advance several hundred kilometres in about two months. The destruction of the army group was one of the largest German military defeats of the war, and the collapse of the front opened central Europe to Soviet advance. The offensive also reached the outskirts of Warsaw in July 1944, and the Warsaw Uprising that began in August was undertaken as the Soviet advance paused on the Vistula. The Russian counter-offensive showed that the German army could no longer hold a stable front in the east.",
                         "feedback": "Full marks: the answer explains the scale of the German defeat, its effect on the front and on Warsaw, and the wider Soviet advance, using Army Group Centre, Belarus, the Red Army and Warsaw with precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-67-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Operation Bagration was a Soviet offensive in June 1944 that destroyed German Army Group Centre in Belarus. It advanced several hundred kilometres and reached Warsaw, which made it important for the Eastern Front.",
-                        "source": "AI",
                         "feedback": "Accurate and explains the scale of the offensive in brief, but the effect on Warsaw and the wider front is asserted rather than explained, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-67-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Operation Bagration was a Russian attack in 1944.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence or significance.",
                         "band": 1
                       }
@@ -3960,25 +3960,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-70-1",
-                        "mark": 4,
-                        "answer": "The military and economic reasons for Allied victory are distinct, though they were closely linked. The military reasons lay in the campaigns that destroyed German forces, above all the Red Army's victories from Stalingrad to Berlin, which defeated the bulk of the German army in the field. The economic reasons lay in production and resources: Lend-Lease supplied the Soviet Union and Britain with aircraft, vehicles and food, and American industrial production far exceeded that of Germany, which allowed the Allies to replace losses faster than they were sustained. Strategic bombing sits between the two categories, because it damaged German industry and fuel supplies, yet its effects on the war effort were both economic and military. The military reasons show how the Allies won battles, while the economic reasons explain how they could keep fighting, so the distinction matters for understanding the Allied victory as a whole.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer distinguishes the two kinds of reason with accurate evidence for each, and it explains why the distinction matters, with strategic bombing as a case that sits between them.",
+                        "mark": 4,
+                        "answer": "The military and economic reasons for Allied victory were distinct, though closely linked. The military reasons lay in the campaigns that destroyed German forces, above all the Red Army's victories from Stalingrad to Berlin, which defeated the bulk of the German army in the field. The economic reasons lay in production and resources: Lend-Lease supplied the Soviet Union and Britain with aircraft, vehicles and food, and American industrial production far exceeded that of Germany. Military success showed how the Allies won battles, while economic strength explained how they could keep fighting.",
+                        "feedback": "Full marks: the answer distinguishes the two kinds of reason with accurate evidence for each, and explains how the military and economic categories work together to explain the Allied victory.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-70-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Red Army defeated the German army in battle, and the Allies received Lend-Lease supplies and had strong industrial production.",
-                        "source": "AI",
                         "feedback": "Names a military and an economic reason but does not distinguish between them or explain how they differ, so it earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-70-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Allies had better weapons than Germany.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence or distinction.",
                         "band": 1
                       }
@@ -4031,25 +4031,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-71-1",
-                        "mark": 6,
-                        "answer": "Apartheid was an ideology, a policy and a practice, and it is best understood as all three at once. As an ideology it held that South Africa's peoples were fundamentally different and should live, work and be governed apart, a belief rooted in Afrikaner nationalism and the principle of white political supremacy. The National Party, which won the 1948 election, made this ideology the basis of government and gave it a programme of separate development. As policy, apartheid was written into law: the Population Registration Act of 1950 classified every South African by race, and the Group Areas Act of 1950 assigned residential and business districts to racial groups, so that communities could be moved and separated. Pass laws controlled the movement of Africans into towns and cities, and they tied the right to remain in urban areas to employment. In practice, the state enforced these laws through the police and the courts, and it denied the majority of the population political rights, property rights in many areas and access to the best education and jobs. The three dimensions reinforced one another: the ideology justified the policy, and the policy produced the daily practice of exclusion, so apartheid was a system rather than a single law. The system was therefore not a set of isolated laws, but a framework in which classification determined the rights of every person, and its effects were felt in homes, workplaces and courts alike.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "Apartheid was an ideology, a policy and a practice, and it is best understood as all three at once. As an ideology it held that South Africa's peoples were fundamentally different and should live, work and be governed apart, a belief rooted in Afrikaner nationalism and white political supremacy. The National Party, which won the 1948 election, made this ideology the basis of government. As policy, apartheid was written into law: the Population Registration Act of 1950 classified every South African by race, and the Group Areas Act of 1950 assigned residential and business districts to racial groups. Pass laws controlled the movement of Africans into towns and cities and tied the right to remain in urban areas to employment. In practice, the state enforced these laws through the police and the courts, denying the majority of the population political rights and access to the best education and jobs. The ideology justified the policy, and the policy produced the daily practice of exclusion, so apartheid was a system rather than a single law.",
                         "feedback": "Full marks: the answer explains the ideology, then the policies and practice, and shows how each reinforced the others, with precise evidence of the Population Registration Act, Group Areas Act and pass laws.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-71-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "Apartheid was an ideology of racial separation held by the National Party, which came to power in 1948. Its policies included the Population Registration Act, which classified people by race, and the Group Areas Act, which separated residential areas.",
-                        "source": "AI",
                         "feedback": "Explains the ideology and two policies with some accuracy, but practice and the link between ideology and policy are not developed, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-71-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Apartheid was a system of racial separation in South Africa.",
-                        "source": "AI",
                         "feedback": "A general statement about racial segregation with no evidence.",
                         "band": 1
                       }
@@ -4083,25 +4083,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-72-1",
-                        "mark": 3,
-                        "answer": "Apartheid is defined as the system of institutionalised racial segregation and white minority rule established by the National Party after its election victory in 1948. Its laws rested on racial classification, the principle that every South African belonged to a racial group, whether white, Coloured, Indian or African, and that rights and place of residence depended on that group. The Population Registration Act of 1950 put this principle into effect by requiring a classification for each person. The classification therefore determined where people could live, which schools they could attend and which jobs were open to them. Historians distinguish this from the segregation that existed before 1948, because apartheid applied racial classification in law across the whole state.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "Apartheid was a system of institutionalised racial segregation and white minority rule established by the National Party after its election victory in 1948. Its laws rested on racial classification, the principle that every South African belonged to a racial group and that rights and residence depended on that group. The Population Registration Act of 1950 put this principle into effect by requiring a classification for each person.",
                         "feedback": "Full marks: the definition covers the system and its political basis, identifies racial classification as the principle, and gives the Population Registration Act as evidence.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-72-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Apartheid was a system of racial segregation in South Africa. It was based on classifying people by race.",
-                        "source": "AI",
                         "feedback": "Defines apartheid and identifies racial classification without naming the law that applied it, so it earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-72-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Apartheid was a policy in South Africa that separated people.",
-                        "source": "AI",
                         "feedback": "A general statement with no basis or evidence.",
                         "band": 1
                       }
@@ -4195,25 +4195,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-74-1",
-                        "mark": 4,
-                        "answer": "The impacts of apartheid by 1960 can be classified into four categories, although the categories overlap in practice. Political impacts included the removal of Coloured voters from the common roll in 1956, which excluded them from the parliamentary franchise and showed that the state would restrict the vote to the white minority. Economic impacts included the colour bar and job reservation, which kept African workers in unskilled and low-paid work and so protected white employment. Social impacts included the Group Areas Act of 1950, which forced the separation of residential communities and led to the removal of families from their homes. Demographic impacts included the migrant labour system and the pass laws, which split African families and controlled movement into cities, and so shaped where and how the African population lived. The categories overlap because each impact reinforced the others, but the classification makes clear which part of the system each law or practice belonged to.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "The impacts of apartheid by 1960 can be classified into four categories, although they overlap in practice. Political impacts included the removal of Coloured voters from the common roll in 1956, which excluded them from the parliamentary franchise. Economic impacts included the colour bar and job reservation, which kept African workers in unskilled and low-paid work. Social impacts included the Group Areas Act of 1950, which forced the separation of residential communities. Demographic impacts included the migrant labour system and the pass laws, which split African families and controlled movement into cities. The categories overlap because each impact reinforced the others.",
                         "feedback": "Full marks: each of the four categories is filled with an accurate example and the answer notes that the categories overlap, which shows understanding of the classification task.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-74-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Political impacts included the removal of Coloured voters from the common roll in 1956. Economic impacts included the colour bar, which kept African workers in low-paid jobs.",
-                        "source": "AI",
                         "feedback": "Classifies two impacts correctly with examples but gives no social or demographic impact, so it earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-74-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Apartheid had many effects on South African society by 1960.",
-                        "source": "AI",
                         "feedback": "States an impact without classifying it, which earns 1 mark.",
                         "band": 1
                       }
@@ -4261,25 +4261,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-75-1",
-                        "mark": 6,
-                        "answer": "The African National Congress and the Pan Africanist Congress were the two principal organisations of African resistance to apartheid, and they differed in their nature, their growth and their impact. The ANC, founded in 1912 to campaign for African rights, had by the 1950s built a multiracial alliance with Indian, Coloured and white democrats, and it used mass campaigns such as the 1952 Defiance Campaign, which drew thousands of volunteers into peaceful acts of defiance against unjust laws. Its growth in the 1950s brought it to the centre of resistance, and its alliance produced the Freedom Charter of 1955. The PAC emerged in 1959 under Robert Sobukwe, who objected to the ANC's multiracial alliance and argued that Africans should lead their own struggle. Its growth was rapid in the early 1960s, when it launched a campaign against the pass laws in March 1960 that led to the Sharpeville shootings. The impact of the two organisations differed: the ANC's campaigns drew on broad alliances and gained international attention, while the PAC's campaign demonstrated the costs of direct confrontation with the state, because both organisations were banned in April 1960 and moved into exile and underground activity. The combined effect was to make resistance a national movement that the government could only suppress through repression, although the division between the two organisations weakened the early struggle.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The African National Congress and the Pan Africanist Congress were the two principal organisations of African resistance to apartheid, and they differed in their nature, growth and impact. The African National Congress, founded in 1912, had by the 1950s built a multiracial alliance with Indian, Coloured and white democrats, and it used mass campaigns such as the 1952 Defiance Campaign, which drew thousands of volunteers into acts of peaceful defiance. Its alliance produced the Freedom Charter of 1955. The Pan Africanist Congress emerged in 1959 under Robert Sobukwe, who objected to the multiracial alliance and argued that Africans should lead their own struggle. It launched a campaign against the pass laws in March 1960 that led to the Sharpeville shootings. The division between the two organisations weakened the early struggle, and both were banned in April 1960, which pushed them into exile and underground activity. The combined effect was to make resistance a national movement that the government could only suppress through repression.",
                         "feedback": "Full marks: the answer explains the nature and growth of both organisations, analyses the impact of their campaigns and of the division between them, and uses the Defiance Campaign, Robert Sobukwe and the pass laws as precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-75-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The ANC was founded in 1912 and campaigned for African rights. In the 1950s it ran the Defiance Campaign against apartheid laws. The PAC was formed in 1959 by Robert Sobukwe after a split from the ANC, and it launched a campaign against pass laws in 1960.",
-                        "source": "AI",
                         "feedback": "Explains the nature and growth of both organisations with accurate evidence, but does not analyse their impact on the resistance, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-75-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The ANC and the PAC both opposed apartheid.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence about either organisation.",
                         "band": 1
                       }
@@ -4417,25 +4417,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-78-1",
-                        "mark": 4,
-                        "answer": "The Congress of the People was a mass gathering organised by the Congress Alliance to collect demands for a democratic South Africa. It was held at Kliptown, south-west of Johannesburg, in June 1955, and several thousand delegates attended, drawn from across the country and from the different racial communities that made up the Alliance. The delegates heard the demands that had been gathered in local meetings, and the Freedom Charter was adopted by the assembly as the movement's programme. Police surrounded the meeting and later raided it, seizing documents and detaining people, which showed that the government regarded the gathering as subversive. The Charter that emerged from Kliptown became the foundation of the non-racial democratic movement in the decades that followed. The gathering took place over two days in late June, and the crowd heard the clauses of the Charter read aloud, which gave the meeting its character as a mass endorsement of the demands.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer gives the organiser, the place and date, the delegates and the adoption of the Freedom Charter, with accurate detail about the police response.",
+                        "mark": 4,
+                        "answer": "The Congress of the People was a mass gathering organised by the Congress Alliance to collect demands for a democratic South Africa. It was held at Kliptown, south-west of Johannesburg, in June 1955, and several thousand delegates attended, drawn from across the country and from the different racial communities of the Alliance. The delegates heard the demands gathered in local meetings, and the assembly adopted the Freedom Charter as the movement's programme. The Charter that emerged from Kliptown became the foundation of the non-racial democratic movement in the decades that followed.",
+                        "feedback": "Full marks: the answer gives the organiser, the place and date, the delegates and the adoption of the Freedom Charter, with accurate detail.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-78-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Congress of the People was held at Kliptown in 1955. The Freedom Charter was adopted there.",
-                        "source": "AI",
                         "feedback": "Describes two features accurately with basic detail, which earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-78-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Congress of the People was a meeting in South Africa.",
-                        "source": "AI",
                         "feedback": "A general statement with no place, date or outcome.",
                         "band": 1
                       }
@@ -4477,25 +4477,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-79-1",
-                        "mark": 6,
-                        "answer": "The Sharpeville Massacre of 21 March 1960 was a turning point in the resistance to apartheid, because it showed that peaceful protest could be met with lethal force and that the state was prepared to ban the organisations that led it. The PAC had called a campaign against the pass laws, and a large crowd gathered outside the police station at Sharpeville, where police opened fire and killed dozens of people, and many were reportedly shot as they fled. The government's response was swift. A state of emergency was declared, the ANC and the PAC were banned in April 1960, and thousands of people were detained. Many activists concluded that the peaceful methods of the 1950s had failed, and the armed resistance that followed was a direct consequence. In 1961 the ANC and the South African Communist Party formed Umkhonto we Sizwe, which carried out acts of sabotage against government and military targets, and the PAC formed its own armed wing. The massacre therefore changed the nature of the struggle: where the movement had relied on mass campaigns and civil disobedience, it now turned to a combination of exile, underground organisation and armed action. The armed resistance was a response to the state's repression, but it also took the struggle beyond the peaceful protest that had defined the movement until 1960.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The Sharpeville Massacre of 21 March 1960 was a turning point in resistance to apartheid, because it showed that peaceful protest could be met with lethal force. The PAC had called a campaign against the pass laws, and a large crowd gathered outside the police station at Sharpeville, where police opened fire and killed dozens of people. The government's response was swift: a state of emergency was declared, the ANC and the PAC were banned in April 1960, and thousands of people were detained. Many activists concluded that the peaceful methods of the 1950s had failed, and the armed resistance that followed was a direct consequence. In 1961 the ANC and the South African Communist Party formed Umkhonto we Sizwe, which carried out acts of sabotage against government and military targets, and the PAC formed its own armed wing. The massacre therefore changed the nature of the struggle, which turned from mass campaigns and civil disobedience to exile, underground organisation and armed action.",
                         "feedback": "Full marks: the answer explains the shootings, the state of emergency and the bans as a sequence leading to armed resistance, with the founding of Umkhonto we Sizwe and the change in tactics as precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-79-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Sharpeville Massacre happened in March 1960, when police fired on a crowd protesting against the pass laws, and many people were killed. The ANC and the PAC were banned after that, so the government had closed off the peaceful options that protesters had used.",
-                        "source": "AI",
                         "feedback": "Explains the massacre and one consequence, the banning, with accurate evidence, but the link to armed resistance is asserted rather than explained, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-79-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Sharpeville Massacre was a violent event in South Africa in 1960.",
-                        "source": "AI",
                         "feedback": "A general statement with a date but no evidence or explanation.",
                         "band": 1
                       }
@@ -4529,25 +4529,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-80-1",
-                        "mark": 3,
-                        "answer": "On 21 March 1960 the Pan Africanist Congress had called on Africans to leave their passbooks at police stations and invite arrest. At Sharpeville, south of Johannesburg, a large crowd gathered at the police station, and in the afternoon police opened fire on it, killing dozens of people. A similar confrontation took place at Langa in Uitenhage the same day. In the aftermath the government declared a state of emergency on 30 March and banned the ANC and the Pan Africanist Congress in April, which led to the detention of large numbers of people. The events were widely reported internationally, and the killings became a symbol of the apartheid government's use of force.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "On 21 March 1960 the Pan Africanist Congress had called on Africans to leave their passbooks at police stations and invite arrest. At Sharpeville, police opened fire on a large crowd gathered at the police station, killing dozens of people. A similar confrontation took place at Langa the same day. The government declared a state of emergency on 30 March and banned the ANC and the Pan Africanist Congress in April.",
                         "feedback": "Full marks: the events are recounted in order from the protest through the shootings at Sharpeville and Langa to the aftermath, with dates for the state of emergency and the bans.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-80-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The PAC called people to leave their passes at police stations on 21 March 1960. Police fired on the crowd at Sharpeville.",
-                        "source": "AI",
                         "feedback": "Recounts the protest and the shooting in order but omits the aftermath, which earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-80-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Police shot people at Sharpeville in 1960.",
-                        "source": "AI",
                         "feedback": "A general statement with one event and no sequence.",
                         "band": 1
                       }
@@ -4588,25 +4588,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-81-1",
-                        "mark": 5,
-                        "answer": "The Rivonia Trial began after police raided Liliesleaf Farm at Rivonia, north of Johannesburg, in July 1963 and arrested the leadership of Umkhonto we Sizwe and the South African Communist Party. The accused, including Nelson Mandela, were charged with sabotage and with conspiring to overthrow the government by violence, and the trial took place in Pretoria between October 1963 and June 1964. Mandela used his statement from the dock to explain that the armed struggle had been adopted only after peaceful protest had been met with repression, and he said he was prepared to die for the cause of a democratic and free society. The court sentenced him and most of his co-accused to life imprisonment in June 1964, and he was taken to Robben Island, where he worked in a lime quarry under harsh conditions. He remained there until 1982, when he was moved to Pollsmoor Prison on the mainland. The trial and the long imprisonment that followed made Mandela a symbol of the struggle, and his continued presence on Robben Island became a rallying point for the international campaign against apartheid.",
                         "source": "AI",
+                        "mark": 5,
+                        "answer": "The Rivonia Trial began after police raided Liliesleaf Farm at Rivonia, north of Johannesburg, in July 1963 and arrested the leadership of Umkhonto we Sizwe. The accused, including Nelson Mandela, were charged with sabotage and with conspiring to overthrow the government by violence, and the trial took place in Pretoria between October 1963 and June 1964. Mandela used his statement from the dock to explain that armed struggle had been adopted only after peaceful protest had been met with repression, and he said he was prepared to die for a democratic and free society. In June 1964 the court sentenced him and most of his co-accused to life imprisonment. He was taken to Robben Island, where he worked in a lime quarry, and he remained there until 1982.",
                         "feedback": "Full marks: the answer describes the raid, the charges, the trial dates, the sentence and the years on Robben Island in sequence, with precise dates and detail.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-81-2",
+                        "source": "AI",
                         "mark": 3,
                         "answer": "The police raided Liliesleaf Farm at Rivonia in 1963 and arrested members of Umkhonto we Sizwe. Mandela was sentenced to life imprisonment and taken to Robben Island, where he spent many years.",
-                        "source": "AI",
                         "feedback": "Describes two elements, the raid and the sentence, with some accuracy, but omits the charges and the detail of the imprisonment, so it earns 3 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-81-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Nelson Mandela was imprisoned for many years.",
-                        "source": "AI",
                         "feedback": "A general statement with no trial, date or place.",
                         "band": 1
                       }
@@ -4745,25 +4745,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-84-1",
-                        "mark": 6,
-                        "answer": "The Soweto Uprising began because a long-standing grievance about the quality and language of Black education was turned into a direct challenge by a government decision in 1976. Under the Bantu Education system, African schools were underfunded and designed to prepare students for subordinate roles, and students resented the poor conditions and the limited prospects that followed. The immediate trigger was the government's requirement that half of certain subjects be taught in Afrikaans, a language that many students associated with the oppressor. Students in Soweto organised protests, and on 16 June 1976 a march of thousands of students was met by police, whose gunfire killed young people and provoked anger across the township. The state responded with force: police used live ammunition and dogs, and the unrest spread to other townships, where protesters attacked government buildings and beer halls. The government blamed agitators and tightened control, deploying the army and detaining large numbers of students and activists. The response was also a failure, because repression did not end the protests but spread them, and by the end of 1976 the uprising had changed the nature of resistance by bringing the youth of the townships into the struggle on a national scale. The uprising therefore began from a combination of educational grievance and political resentment, and the state's response of gunfire and detention turned a local protest into a national crisis.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The Soweto Uprising began because a long-standing grievance about Black education was turned into a direct challenge by a government decision in 1976. Under the Bantu Education system, African schools were underfunded and designed to prepare students for subordinate roles, and students resented the poor conditions and limited prospects that followed. The immediate trigger was the government's requirement that half of certain subjects be taught in Afrikaans, a language that many students associated with the oppressor. Students in Soweto organised protests, and on 16 June 1976 a march of students was met by police gunfire that killed young people and provoked anger across the township. The state responded with force, and the unrest spread to other townships, where protesters attacked government buildings and beer halls. The government blamed agitators and tightened control, deploying the army and detaining large numbers of students and activists. Repression did not end the protests but spread them, so the uprising brought the youth of the townships into the struggle on a national scale.",
                         "feedback": "Full marks: the answer explains the underlying grievance over Bantu Education, the Afrikaans trigger and the state's response of force and detention, and it shows how the response spread the protest.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-84-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "The Soweto Uprising began when students protested against Afrikaans being used in schools. Police opened fire on the marchers, and the protests spread to other townships.",
-                        "source": "AI",
                         "feedback": "Explains the trigger and the state's response with accurate evidence, but does not explain the underlying grievance over Bantu Education, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-84-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Soweto Uprising was a student protest in 1976.",
-                        "source": "AI",
                         "feedback": "A general statement with no cause or response.",
                         "band": 1
                       }
@@ -4811,25 +4811,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-85-1",
-                        "mark": 6,
-                        "answer": "The tactics of repression and oppression used by the South African government after Sharpeville were designed to destroy the organised opposition and to make resistance too costly for ordinary people, and their impact was severe. Legally, the government relied on laws that gave it sweeping powers: the Suppression of Communism Act of 1950 allowed the Minister to ban individuals and organisations, and the Terrorism Act of 1967 defined terrorism so broadly that it could be applied to almost any political activity. Banning orders restricted the movement, association and speech of activists, who could be confined to their districts or barred from meetings, so that their ability to organise was broken. The state of emergency that followed Sharpeville allowed police to detain people, and the ninety-day detention law of 1963 allowed them to be held for long periods without trial, where many were interrogated and some were tortured. The impact was profound: the ANC and the PAC were forced into exile and underground work, and many of the leaders of the early 1960s were imprisoned or driven abroad. The combination of legal repression and everyday policing also created a climate of fear in which many people refused to join the opposition, which was the intended effect. Yet the repression did not destroy resistance entirely, because the movement reorganised in exile and in the Black Consciousness movement that emerged in the late 1960s. The tactics achieved their immediate aim of silencing the organised opposition, but they could not prevent the rise of new forms of resistance.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "The tactics of repression and oppression used by the South African government after Sharpeville were designed to destroy organised opposition, and their impact was severe. Legally, the government relied on sweeping laws: the Suppression of Communism Act of 1950 allowed the Minister to ban individuals and organisations, and the Terrorism Act of 1967 defined terrorism so broadly that it could be applied to almost any political activity. Banning orders restricted the movement, association and speech of activists, who could be confined to their districts or barred from meetings. The state of emergency that followed Sharpeville gave police wide powers, and the ninety-day detention law of 1963 allowed detention without trial for long periods, where many were interrogated. The impact was profound: the ANC and the PAC were forced into exile and underground work, and many early leaders were imprisoned or driven abroad. The combination of legal repression and policing also created a climate of fear that deterred many people from joining the opposition. Yet repression did not destroy resistance entirely, because the movement reorganised in exile and in the Black Consciousness movement of the late 1960s.",
                         "feedback": "Full marks: the answer explains the legal and police tactics, the banning orders and detention, and their impact on the organisations and on the climate of fear, with precise evidence of the Suppression of Communism Act, Terrorism Act and state of emergency.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-85-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "After Sharpeville the government banned the ANC and the PAC and declared a state of emergency. Under the Terrorism Act and the ninety-day detention law, opponents could be held without trial. Many leaders went into exile.",
-                        "source": "AI",
                         "feedback": "Explains the legal tactics and one impact accurately, but the climate of fear and the limits of repression are not developed, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-85-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The government used repression against its opponents.",
-                        "source": "AI",
                         "feedback": "A general statement with no tactic or impact.",
                         "band": 1
                       }
@@ -4863,25 +4863,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-86-1",
-                        "mark": 3,
-                        "answer": "A banning order was an administrative restriction issued by the government against an individual, most often under the Suppression of Communism Act of 1950, which allowed the Minister of Justice to ban people he deemed communist without a court hearing. A banned person could be confined to a magisterial district, prohibited from attending gatherings, and forbidden from being quoted in print, so that their public role was effectively ended. For opponents of apartheid, banning orders were a means of breaking up organisations, because a banned leader could no longer address meetings or organise campaigns, and the order could be renewed. The system showed how the state used legal forms to silence opposition without the need for a conviction.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "A banning order was an administrative restriction issued against an individual, most often under the Suppression of Communism Act of 1950, which allowed the Minister of Justice to ban people he deemed communist. A banned person could be confined to a magisterial district, prohibited from attending gatherings and barred from being quoted in print. For opponents of apartheid, these banning orders broke up organisations, because activists could no longer address meetings.",
                         "feedback": "Full marks: the answer defines the banning order and its legal basis, names the restrictions, and explains how they broke up organisations, with the Suppression of Communism Act as evidence.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-86-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "A banning order stopped people from attending meetings. It was used against anti-apartheid activists.",
-                        "source": "AI",
                         "feedback": "Clarifies what a banning order did with one accurate restriction, which earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-86-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Banning orders were a form of government control.",
-                        "source": "AI",
                         "feedback": "A general statement with no restriction or detail.",
                         "band": 1
                       }
@@ -4975,25 +4975,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-88-1",
-                        "mark": 3,
-                        "answer": "The Security Branch was the political police of the apartheid state, and its role in detention began with surveillance, as it built files on anti-apartheid activists and identified those to be arrested. Under the security laws, including the ninety-day detention provision, detainees could be held for long periods without trial, and the Security Branch conducted interrogations in isolation, with access to lawyers and families restricted. Deaths in detention, such as that of Steve Biko in 1977, showed how the system could turn detention into lethal violence, and the Security Branch's methods made detention a tool of intimidation as well as of investigation across the whole movement.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer describes the stages from surveillance to arrest, detention and interrogation, with the ninety-day provision and the death of Steve Biko as accurate detail.",
+                        "mark": 3,
+                        "answer": "The Security Branch was the political police of the apartheid state. It built files on anti-apartheid activists, identified those to be arrested and held them in detention for long periods, during which interrogations were conducted with access to lawyers and families restricted. Deaths in detention, such as that of Steve Biko in 1977, showed how the system could turn detention into lethal violence.",
+                        "feedback": "Full marks: the answer describes the stages from surveillance to arrest, detention and interrogation, with the death of Steve Biko in detention as accurate detail.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-88-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "The Security Branch arrested people and held them in detention. It also questioned them.",
-                        "source": "AI",
                         "feedback": "Describes two aspects with some accuracy but without detail, which earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-88-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The Security Branch was part of the police.",
-                        "source": "AI",
                         "feedback": "A general statement with no role described.",
                         "band": 1
                       }
@@ -5138,25 +5138,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-91-1",
-                        "mark": 6,
-                        "answer": "South Africa's relations with its neighbours between 1975 and 1984 were shaped by the apartheid government's determination to protect its regional security and to contain the ANC, and they took the form of military intervention, support for insurgent groups and eventually diplomatic agreements. In Angola the decolonisation of 1975 produced a civil war in which the MPLA government was supported by Cuban troops and Soviet aid, and South Africa intervened in Operation Savannah, sending forces north from Namibia and backing the UNITA movement. The intervention failed to prevent the MPLA from taking power, but it showed that South Africa was prepared to project military power beyond its borders. In Mozambique, the government of Samora Machel supported the ANC and gave it bases, and South Africa responded by backing the RENAMO insurgency, which caused severe damage to the country's economy and infrastructure. In Zimbabwe, South Africa had long supported the white Rhodesian government, and its backing ended only when the independence election of 1980 brought Robert Mugabe to power. The most significant diplomatic outcome was the Nkomati Accord of 1984, in which Mozambique agreed to restrict ANC activity on its territory in exchange for South African withdrawal of support for RENAMO. The accord showed the limits of South African coercion, because the agreement was not fully honoured, but it also showed how the government sought to use regional pressure to contain the liberation movement.",
                         "source": "AI",
+                        "mark": 6,
+                        "answer": "South Africa's relations with its neighbours between 1975 and 1984 were shaped by the apartheid government's determination to contain the ANC and protect its regional security, and they took the form of military intervention, support for insurgents and eventually diplomacy. In Angola, the decolonisation of 1975 produced a civil war in which the MPLA government was backed by Cuban troops and Soviet aid, and South Africa intervened in Operation Savannah, sending forces north from Namibia and backing UNITA. The intervention failed to prevent the MPLA from taking power, but it showed that South Africa would project military power beyond its borders. In Mozambique, the government of Samora Machel gave the ANC bases, and South Africa responded by backing the RENAMO insurgency, which severely damaged the country's economy and infrastructure. In Zimbabwe, South Africa had long supported the white Rhodesian government until the independence election of 1980 brought Robert Mugabe to power. The most significant diplomatic outcome was the Nkomati Accord of 1984, in which Mozambique agreed to restrict ANC activity in exchange for South Africa ending its support for RENAMO. The accord showed the limits of South African coercion, because it was not fully honoured.",
                         "feedback": "Full marks: the answer explains the military, political and diplomatic relations with all three countries, the purpose of each action and the limits of the Nkomati Accord, with precise evidence.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-91-2",
+                        "source": "AI",
                         "mark": 4,
                         "answer": "South Africa sent troops into Angola in Operation Savannah to back UNITA. It also backed RENAMO in Mozambique, which damaged that country. The Nkomati Accord in 1984 was signed between South Africa and Mozambique.",
-                        "source": "AI",
                         "feedback": "Accurate and identifies three relations, but the reasons for South Africa's actions and their consequences are not developed, so it earns 4 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-91-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "South Africa had conflicts with its neighbours in the 1970s and 1980s.",
-                        "source": "AI",
                         "feedback": "A general statement with no country, action or date.",
                         "band": 1
                       }
@@ -5191,25 +5191,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-92-1",
-                        "mark": 3,
-                        "answer": "South Africa's support for RENAMO in Mozambique had grown from 1980, and it was accompanied by pressure on the government of Samora Machel to end the ANC's presence in its territory. Machel's government allowed ANC members to operate from Mozambique, and South Africa responded with economic pressure and continued support for the insurgents, which caused severe disruption to Mozambique's economy and transport. In the course of 1983 and early 1984 the two governments negotiated a settlement, and on 16 March 1984 they signed the Nkomati Accord near the border. Under its terms Mozambique agreed to restrict the ANC's activities and South Africa agreed to end its support for RENAMO, although the arrangement was not fully honoured.",
                         "source": "AI",
+                        "mark": 3,
+                        "answer": "By the early 1980s South Africa was supporting RENAMO in Mozambique, while the government of Samora Machel allowed ANC members to operate from its territory. South Africa applied economic and military pressure, which disrupted Mozambique's economy and transport. In March 1984 the two governments signed the Nkomati Accord near the border, under which Mozambique agreed to restrict the ANC's activities and South Africa agreed to end its support for RENAMO.",
                         "feedback": "Full marks: the events are recounted in order, from RENAMO support and ANC activity through South African pressure to the signing and terms of the accord, with accurate dates.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-92-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "South Africa supported RENAMO in Mozambique and pressed Samora Machel to stop the ANC. The two countries signed the Nkomati Accord in 1984.",
-                        "source": "AI",
                         "feedback": "Recounts the pressure and the signing, but omits the negotiation and the terms, which earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-92-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "South Africa and Mozambique signed an accord in 1984.",
-                        "source": "AI",
                         "feedback": "A general statement with one event and no sequence.",
                         "band": 1
                       }
@@ -5310,25 +5310,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-94-1",
-                        "mark": 4,
-                        "answer": "Umkhonto we Sizwe and the United Democratic Front represented two different forms of resistance, and they differed in method, organisation and aim. Umkhonto we Sizwe, founded in 1961 by leaders of the ANC and the South African Communist Party, used armed resistance, in the form of sabotage against government and economic targets, and it was organised in small clandestine cells that operated largely from exile. Its aim was to make the cost of apartheid rise and to force the state to negotiate, although its effects were limited. The United Democratic Front, founded in 1983, brought together hundreds of civic, religious and student organisations, and its strength lay in mass mobilisation, including boycotts, stay-aways and protests that were largely public. Its aim was to challenge the new constitution and the apartheid system from within, by making the country ungovernable. The difference is therefore one of method: one used clandestine force, the other open mass action.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "Umkhonto we Sizwe and the United Democratic Front represented two different forms of resistance, differing in method, organisation and aim. Umkhonto we Sizwe, founded in 1961, used armed resistance in the form of sabotage against government and economic targets, operating through small clandestine cells. Its aim was to raise the cost of apartheid until the state would negotiate. The United Democratic Front, founded in 1983, brought together hundreds of affiliated groups and relied on mass mobilisation, including public boycotts and stay-aways. Its aim was to challenge the new constitution and the apartheid system from within. The difference is one of method: clandestine force against open mass action.",
                         "feedback": "Full marks: the answer differentiates the two forms in method, organisation and aim, with accurate evidence for each, and it identifies the clandestine and public natures that separate them.",
                         "band": 4
                       },
                       {
                         "id": "sa-mh-94-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Umkhonto we Sizwe used armed resistance and sabotage. The United Democratic Front used mass mobilisation and boycotts.",
-                        "source": "AI",
                         "feedback": "Describes both forms without distinguishing their aims or organisation, which earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-94-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "Both groups opposed apartheid in the 1980s.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence of either form.",
                         "band": 1
                       }
@@ -5527,25 +5527,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-98-1",
-                        "mark": 4,
-                        "answer": "Economic pressure was significant because it raised the cost of maintaining apartheid at the moment when the state was also facing unrest. The South African economy slowed during the 1980s, and the government's spending on security and the homelands increased the strain on public finances. In 1985 foreign banks, including Chase Manhattan, refused to roll over their loans, which forced the government to reschedule its debt and caused the rand to fall sharply. Sanctions and disinvestment from Western companies added to this pressure by reducing investment and raising the cost of borrowing. The effect was to make the government's position unsustainable without a change of policy, because economic stagnation limited its ability to fund the security forces and social programmes that had supported the system. The economic pressure therefore worked alongside the internal resistance, rather than replacing it, and it was one of the factors that persuaded the government to seek a negotiated settlement.",
                         "source": "AI",
+                        "mark": 4,
+                        "answer": "Economic pressure was significant because it raised the cost of maintaining apartheid at the moment the state faced unrest. The economy slowed during the 1980s, and in 1985 foreign banks, including Chase Manhattan, refused to roll over their loans. This forced the government to reschedule its debt, and the rand fell sharply as confidence in the government declined. Sanctions and disinvestment added to the pressure. The government's position became unsustainable without a change of policy, because economic stagnation limited its ability to fund the security forces that had supported the system. Economic pressure therefore worked alongside internal resistance, persuading the government to seek a negotiated settlement.",
                         "feedback": "Full marks: the answer explains the mechanism by which economic pressure raised the cost of apartheid, with accurate evidence of the bank loans, debt rescheduling and the rand, and it assesses the effect on the government's position.",
                         "band": 3
                       },
                       {
                         "id": "sa-mh-98-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "Foreign banks refused to renew loans in 1985, and the government had to reschedule its debts. Sanctions also reduced investment in South Africa.",
-                        "source": "AI",
                         "feedback": "Describes two economic factors with some accuracy, but their effect on the collapse of apartheid is not explained, which earns 2 marks.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-98-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "The economy got worse, which was a problem for the government.",
-                        "source": "AI",
                         "feedback": "A general statement with no evidence or mechanism.",
                         "band": 1
                       }
@@ -5639,25 +5639,25 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-mh-100-1",
-                        "mark": 4,
-                        "answer": "CODESA, the Convention for a Democratic South Africa, was the main forum in which the National Party government and the ANC negotiated the transition to democracy in the early 1990s. It was launched in December 1991 and brought together the government, the ANC and most other political parties and homeland governments to debate the principles of a new constitution. The forum produced agreement on some matters, but the parties disagreed sharply over the powers of the central government and the protection of minority interests, and progress stalled. The second round of talks in May 1992 ended in deadlock, and after the Boipatong massacre in June 1992 the ANC suspended its participation and mass action resumed. Talks were later revived, and the negotiations that followed produced the interim constitution of 1993 and set the framework for the elections of April 1994. Its significance lay in bringing the main parties into a single negotiating process, which made the later agreements possible despite the setbacks.",
                         "source": "AI",
-                        "feedback": "Full marks: the answer gives the launch, the participants, the purpose, the deadlock after Boipatong and the outcome in the interim constitution and the 1994 elections, with accurate dates.",
+                        "mark": 4,
+                        "answer": "CODESA, the Convention for a Democratic South Africa, was the main forum where the National Party government and the ANC negotiated the transition to democracy. Launched in December 1991, it brought together the government, the ANC and most other parties and homeland governments to debate a new constitution. The parties disagreed over central powers and minority protection, and the second round of talks in May 1992 ended in deadlock. After the Boipatong massacre in June 1992 the ANC suspended its participation. The negotiations resumed and produced the interim constitution of 1993 and set the framework for the elections of April 1994.",
+                        "feedback": "Full marks: the answer gives the launch, the participants, the purpose, the deadlock, the suspension after Boipatong and the outcome in the interim constitution and the 1994 elections, with accurate dates.",
                         "band": 2
                       },
                       {
                         "id": "sa-mh-100-2",
+                        "source": "AI",
                         "mark": 2,
                         "answer": "CODESA was a negotiating forum that began in 1991, and the National Party and the ANC both took part. The talks reached deadlock in 1992.",
-                        "source": "AI",
                         "feedback": "Describes two features of CODESA with basic accuracy, which earns 2 marks.",
                         "band": 1
                       },
                       {
                         "id": "sa-mh-100-3",
+                        "source": "AI",
                         "mark": 1,
                         "answer": "CODESA was a set of talks in South Africa.",
-                        "source": "AI",
                         "feedback": "A general statement with no date, participant or outcome.",
                         "band": 1
                       }

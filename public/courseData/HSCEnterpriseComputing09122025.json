@@ -191,7 +191,7 @@
                         "id": "sa-dv-02-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two features of spreadsheet software used for data visualisation are its built-in charting tools, which can create various graphs like bar, line, and pie charts, and conditional formatting, which automatically changes the appearance of cells (e.g., their colour) based on the data they contain.",
+                        "answer": "Spreadsheet software offers two features for data visualisation: built-in charting tools, which turn selected cells into bar, line or pie charts, and conditional formatting, which colours cells according to their values.",
                         "feedback": "Two distinct visualisation features, charting tools and conditional formatting, are named and briefly described. Both marks are earned because each is a feature used to present data visually.",
                         "band": 1
                       },
@@ -356,8 +356,8 @@
                         "id": "sa-dv-03-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Overlaying the two datasets on one chart, the council could identify a trend: over the five years, months with higher public transport patronage tend to coincide with lower average readings of pollutants such as nitrogen dioxide. The council might also find a recurring pattern, such as pollution falling on weekends, when commuter traffic is lower.\n\nThis relationship is the basis for predictive data analytics. Using the historical records, the council could build a model that estimates how air quality would respond to a change in transport use, such as a new bus route. The model assumes that past relationships will continue, so its forecasts are only as reliable as the data behind them. If the relationship holds, the council has a data-driven basis for policy, although a correlation alone would not prove that transport use causes the change.",
-                        "feedback": "Full marks: a specific trend and a recurring pattern are identified in the two datasets, the forecasting step is explained and the assumption behind the model is stated. The answer also notes that correlation does not prove causation.",
+                        "answer": "Overlaying the two datasets, the council could identify a pattern: over five years, months with higher public transport patronage tend to coincide with lower pollution readings. This trend is the basis for predictive data analytics. Using the historical records, the council could build a model that forecasts how air quality would respond to a new bus route. The model assumes past relationships will continue, so its forecasts are only as reliable as the data behind them. Because correlation does not prove causation, the council should test the forecasts before using them to guide environmental policy.",
+                        "feedback": "Full marks: a specific pattern and trend across the two datasets are identified, the forecasting step is explained, and the assumption behind the model is stated. The answer also notes that correlation does not prove causation and links the forecasts to policy.",
                         "band": 3
                       },
                       {
@@ -421,7 +421,7 @@
                         "id": "sa-dv-04-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The evolution of processing power, particularly with multi-core CPUs and powerful GPUs, has massively impacted data analytics. It has enabled analysts to process and query huge datasets (big data) much faster and to run computationally intensive machine learning algorithms that would have been impractical on older hardware.",
+                        "answer": "Greater processing power from multi-core CPUs and GPUs has improved data analytics by letting analysts query large datasets faster. It also makes computationally intensive machine learning practical, because GPUs run many calculations in parallel.",
                         "feedback": "Two distinct impacts are outlined: faster processing and querying of large datasets, and practical machine learning. Each is linked to what analysts can now do, which is what an outline must show.",
                         "band": 2
                       },
@@ -1643,7 +1643,7 @@
                         "id": "sa-dv-14-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "AI-powered software is likely to change the user experience of data analytics tools in two main ways. The first is natural language query. Instead of learning a complex interface or query language, a non-technical manager could type a question such as 'Show me the top five products in NSW last quarter' and receive a suitable chart, which widens access to analysis.\n\nThe second is automated insight generation. An AI model could scan a dataset and flag correlations, trends or anomalies that a busy user might miss, which saves time. However, if the system misreads an unusual but genuine pattern, or cannot explain why it highlighted a result, users may over-trust it. On balance, the experience improves for less technical users, provided the features make their reasoning transparent.",
+                        "answer": "AI-powered software would change the user experience of data analytics tools in two main ways. Natural language query lets a non-technical manager ask a question in plain English and receive a suitable chart, which widens access to analysis. Automated insight generation flags correlations, trends or anomalies that a busy user might miss, which saves time. However, if the system misreads an unusual but genuine pattern, or cannot explain why it highlighted a result, users may over-trust it. On balance, the experience improves for less technical users, provided the features make their reasoning transparent.",
                         "feedback": "Two AI features are investigated for their UX effect, with a benefit for each and a risk for the automated insight. The reasoned conclusion weighs the gain for less technical users against the need for transparency.",
                         "band": 6
                       },
@@ -2912,7 +2912,7 @@
                         "id": "sa-is-01-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Two applications of decision support systems in an enterprise are inventory management, where a DSS analyses sales trends and supplier lead times to recommend when and how much stock to reorder, and capital investment appraisal, where a DSS models cash flows and risks under different scenarios to help managers choose between projects.",
+                        "answer": "Two enterprise applications of a decision support system (DSS) are inventory management, where it analyses sales trends to recommend reorder timing, and investment appraisal, where it models cash flows under different scenarios.",
                         "feedback": "Full marks: two distinct enterprise applications are given, each with a clear description of what the DSS analyses to support a decision. In a two-mark question, one clause per application is enough.",
                         "band": 1
                       },
@@ -3276,7 +3276,7 @@
                         "id": "sa-is-04-2m",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A major social issue is the potential for large-scale job displacement as intelligent systems automate tasks previously done by humans. A key ethical issue is algorithmic bias, where an AI system makes unfair or discriminatory decisions because it was trained on biased historical data.",
+                        "answer": "A social issue is job displacement, as intelligent systems automate routine clerical work. An ethical issue is algorithmic bias, where a system trained on biased historical data makes unfair decisions.",
                         "feedback": "Full marks: one social issue and one ethical issue are named, and each is linked to how intelligent systems are used. Keep each to one sentence of explanation, as the question asks for identification.",
                         "band": 1
                       },
