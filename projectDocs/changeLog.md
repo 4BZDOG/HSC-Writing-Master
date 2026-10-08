@@ -1,5 +1,30 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Marking guides in HSC marking-guideline style)
+
+- **Fixed.** Marking guides now read like an HSC marking guideline: a ladder with the highest
+  mark first, each row a performance descriptor that opens with a capitalised verb in the third
+  person ("Provides…", "Demonstrates…", "Identifies…", "Analyses…") and NESA qualifiers, with no
+  closing full stop. About 1,300 Geography and Ancient History rows were lower-case fragments,
+  and 99 guides had rows written as noun phrases or passives ("one factor is identified"); the
+  rows were rewritten, and the stale Software Engineering backup in `projectDocs` (242 additive
+  bullet lists) was converted to the same ladder.
+- **Fixed.** The generic marking guide for each command verb (shown in the verb guide and given
+  to the marker when a question has no guide) ran lowest mark first, with noun-phrase rows. All
+  38 now run highest mark first in the same wording.
+- **Enforced.** `guideLadderProblem` now also checks the wording of each row, so generation
+  retries, question generators and the content audit all reject a guide that is not in HSC style,
+  and the retry message names the offending row. `isNonStandardRubric` flags the same guides in the
+  Content Audit Studio, so Reformat Guides and Write Marking Guides appear for them. The AI and
+  authoring briefs (`llmSeedBrief`, `docs/dataset-generation-prompt.md`) say how rows are worded.
+- **Repaired on the way in.** `formatMarkingCriteria` now puts a guide that is purely rows in
+  canonical shape (descending, capitalised, no bullets, no closing full stop), and the guides
+  loaded from the shared database and saved by contributions go through the same step.
+- **Data version 2.14.0.** Browsers that already synced at 2.13.0 missed the course changes made
+  since, because the sync only runs when the version changes. It now runs again. The migration
+  puts the guides in courses the user owns (their own, edited copies and backups) in canonical
+  shape. Unedited copies of shipped courses are left for the sync to replace.
+
 ## [Unreleased] - 2026-10-08 (Briefer full-mark answers, held to the word band)
 
 - **Changed.** About 780 full-mark sample answers that ran over the app's word band for their

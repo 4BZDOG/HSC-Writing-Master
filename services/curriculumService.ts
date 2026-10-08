@@ -22,6 +22,7 @@ import {
   PerformanceBandDescriptor,
   SyllabusYear,
 } from '../types';
+import { normaliseGuideRows } from '../utils/markingGuideLadder';
 
 // --- Raw row shapes (snake_case, as stored in Postgres) ----------------------
 
@@ -171,7 +172,8 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   verb: (row.verb || 'EXPLAIN') as PromptVerb,
   totalMarks: row.total_marks ?? 0,
   scenario: row.scenario ?? undefined,
-  markingCriteria: row.marking_criteria ?? undefined,
+  // A guide stored before the HSC-style rules arrived is shown in canonical shape.
+  markingCriteria: row.marking_criteria ? normaliseGuideRows(row.marking_criteria) : undefined,
   linkedOutcomes: row.linked_outcomes ?? [],
   relatedTopics: row.related_topics ?? [],
   prerequisiteKnowledge: row.prerequisite_knowledge ?? [],

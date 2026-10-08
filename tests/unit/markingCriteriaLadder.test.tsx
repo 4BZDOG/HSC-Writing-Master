@@ -53,7 +53,7 @@ describe('formatMarkingCriteria recovers the descending ladder', () => {
 
     expect(out).not.toContain('\\n');
     expect(out.split('\n')).toHaveLength(3);
-    expect(out.split('\n')[1]).toBe('6-7 marks: Thorough analysis.');
+    expect(out.split('\n')[1]).toBe('6-7 marks: Thorough analysis');
   });
 
   it('leaves an escape sequence alone in a rubric that already has real rows', () => {
@@ -71,8 +71,8 @@ describe('formatMarkingCriteria recovers the descending ladder', () => {
     const lines = formatMarkingCriteria(raw).split('\n');
 
     expect(lines).toHaveLength(4);
-    expect(lines[0]).toBe('8 marks: Comprehensive analysis of caching.');
-    expect(lines[3]).toBe('1-2 marks: Elementary statements.');
+    expect(lines[0]).toBe('8 marks: Comprehensive analysis of caching');
+    expect(lines[3]).toBe('1-2 marks: Elementary statements');
   });
 
   it('leaves a mark value quoted mid-sentence alone', () => {
@@ -98,14 +98,14 @@ describe('formatMarkingCriteria recovers the descending ladder', () => {
     const raw = 'Band 6 (7-8 marks): Comprehensive, sustained analysis.';
 
     expect(formatMarkingCriteria(raw)).toBe(
-      '7-8 marks: (Band 6) Comprehensive, sustained analysis.'
+      '7-8 marks: (Band 6) Comprehensive, sustained analysis'
     );
   });
 
   it('strips a code fence the model wrapped the rubric in', () => {
     const raw = '```\n2 marks: Two features.\n1 mark: One feature.\n```';
 
-    expect(formatMarkingCriteria(raw)).toBe('2 marks: Two features.\n1 mark: One feature.');
+    expect(formatMarkingCriteria(raw)).toBe('2 marks: Two features\n1 mark: One feature');
   });
 });
 

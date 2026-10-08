@@ -41,7 +41,7 @@
                 "Confidentiality",
                 "developing secure software"
               ],
-              "markingCriteria": "3 marks: Outlines three distinct, accurately described benefits of secure software, such as data protection, fewer cyber attacks and fewer vulnerabilities, each with a brief supporting feature.\n2 marks: Outlines two correct benefits of secure software, with a brief description of each.\n1 mark: Identifies one correct benefit of secure software with a brief description.",
+              "markingCriteria": "3 marks: Outlines three distinct, accurately described benefits of secure software, such as data protection, fewer cyber attacks and fewer vulnerabilities, each with a brief supporting feature\n2 marks: Outlines two correct benefits of secure software, with a brief description of each\n1 mark: Identifies one correct benefit of secure software with a brief description",
               "sampleAnswers": [
                 {
                   "id": "sa-1a2e3a02-17b1-4586-8e0d-58d75db5973f",
@@ -103,7 +103,7 @@
                 "Customer trust",
                 "secure software"
               ],
-              "markingCriteria": "5 marks: Justifies investing in secure software practices for the startup with a sustained, logical argument that weighs the long-term consequences of neglect, supported by precise evidence on remediation cost, reputational damage and customer trust.\n4 marks: Justifies the investment with a clear link between secure practices and mitigating long-term risks, supported by a relevant explanation of the high cost of fixing post-release vulnerabilities.\n3 marks: Gives a relevant reason for investing in security and discusses the impact of a breach on the startup's reputation or customer trust, with limited development of the argument.\n2 marks: Makes a brief, partly developed point about the cost of security neglect, with little link to the investment decision.\n1 mark: Makes a basic statement that a startup needs security, without justifying the investment or its long-term consequences.",
+              "markingCriteria": "5 marks: Justifies investing in secure software practices for the startup with a sustained, logical argument that weighs the long-term consequences of neglect, supported by precise evidence on remediation cost, reputational damage and customer trust\n4 marks: Justifies the investment with a clear link between secure practices and mitigating long-term risks, supported by a relevant explanation of the high cost of fixing post-release vulnerabilities\n3 marks: Gives a relevant reason for investing in security and discusses the impact of a breach on the startup's reputation or customer trust, with limited development of the argument\n2 marks: Makes a brief, partly developed point about the cost of security neglect, with little link to the investment decision\n1 mark: Makes a basic statement that a startup needs security, without justifying the investment or its long-term consequences",
               "sampleAnswers": [
                 {
                   "id": "sa-17810d3e-6118-4e53-aef7-7ce69c329c0b",
@@ -163,7 +163,7 @@
                 "Risk management",
                 "Security strategy"
               ],
-              "markingCriteria": "6-7 marks: Makes a sustained, well-reasoned evaluative judgement on whether data protection or vulnerability prevention is more effective, weighing both against each other and the budget constraint with precise examples.\n5 marks: Evaluates both focus areas with relevant reasoning and a clear overall position, but the weighing of their limitations is only partly developed.\n4 marks: Discusses both focus areas with some relevant reasoning, but the evaluation is mostly descriptive and the judgement is limited.\n3 marks: Describes data protection and vulnerability prevention with limited link to effectiveness, and any judgement is largely unsupported.\n2 marks: Makes brief, mostly unsupported statements about one or both approaches with little evaluation.\n1 mark: Makes one relevant but undeveloped point about security priorities.",
+              "markingCriteria": "6-7 marks: Makes a sustained, well-reasoned evaluative judgement on whether data protection or vulnerability prevention is more effective, weighing both against each other and the budget constraint with precise examples\n5 marks: Evaluates both focus areas with relevant reasoning and a clear overall position, but the weighing of their limitations is only partly developed\n4 marks: Discusses both focus areas with some relevant reasoning, but the evaluation is mostly descriptive and the judgement is limited\n3 marks: Describes data protection and vulnerability prevention with limited link to effectiveness, and any judgement is largely unsupported\n2 marks: Makes brief, mostly unsupported statements about one or both approaches with little evaluation\n1 mark: Makes one relevant but undeveloped point about security priorities",
               "sampleAnswers": [
                 {
                   "id": "sa-b45ad2a2-343b-4679-aa73-b957baadc449",
@@ -238,7 +238,7 @@
                 "Threat modelling",
                 "Secure coding practices"
               ],
-              "markingCriteria": "11-12 marks: Critically evaluates the extent of benefits in data protection, cyber attack minimisation and vulnerability reduction across the FinTech context, weighing limitations and trade-offs with precise evidence to reach a sustained, justified and nuanced judgement.\n9-10 marks: Evaluates the benefits in all three areas with well-linked evidence and a clear judgement, but the critical weighing of limitations is less complete.\n7-8 marks: Explains and assesses the benefits with relevant examples drawn from the FinTech scenario and reaches a judgement, with limited critical examination of where secure development falls short.\n5-6 marks: Describes benefits in the three areas and links some of them to the FinTech context, but evaluation is mostly descriptive and the judgement is underdeveloped.\n3-4 marks: Identifies general benefits of secure software with limited reference to the context and minimal or unsupported evaluative comment.\n1-2 marks: Makes brief, general statements about secure software without evaluation or reference to the context.",
+              "markingCriteria": "11-12 marks: Critically evaluates the extent of benefits in data protection, cyber attack minimisation and vulnerability reduction across the FinTech context, weighing limitations and trade-offs with precise evidence to reach a sustained, justified and nuanced judgement\n9-10 marks: Evaluates the benefits in all three areas with well-linked evidence and a clear judgement, but the critical weighing of limitations is less complete\n7-8 marks: Explains and assesses the benefits with relevant examples drawn from the FinTech scenario and reaches a judgement, with limited critical examination of where secure development falls short\n5-6 marks: Describes benefits in the three areas and links some of them to the FinTech context, but evaluation is mostly descriptive and the judgement is underdeveloped\n3-4 marks: Identifies general benefits of secure software with limited reference to the context and minimal or unsupported evaluative comment\n1-2 marks: Makes brief, general statements about secure software without evaluation or reference to the context",
               "sampleAnswers": [
                 {
                   "id": "prompt-489efc0f-c59b-46b0-b82f-a6b82acad463-s1",
@@ -307,7 +307,7 @@
                 "software development",
                 "secure code"
               ],
-              "markingCriteria": "5 marks: Explains how design and testing build security into the SDLC, with clear links to secure code, well-chosen examples and an explanation of why each phase is fundamental.\n4 marks: Explains the roles of design and testing in developing secure code with relevant examples, but the links to security outcomes are less fully developed.\n3 marks: Describes security-related design or testing activities with a relevant example, but the explanation of why they are fundamental is limited.\n2 marks: Identifies a security-related activity in design or testing with limited explanation or example.\n1 mark: Makes a basic, general statement about design or testing without linking it to secure code.",
+              "markingCriteria": "5 marks: Explains how design and testing build security into the SDLC, with clear links to secure code, well-chosen examples and an explanation of why each phase is fundamental\n4 marks: Explains the roles of design and testing in developing secure code with relevant examples, but the links to security outcomes are less fully developed\n3 marks: Describes security-related design or testing activities with a relevant example, but the explanation of why they are fundamental is limited\n2 marks: Identifies a security-related activity in design or testing with limited explanation or example\n1 mark: Makes a basic, general statement about design or testing without linking it to secure code",
               "sampleAnswers": [
                 {
                   "id": "sa-3e574c04-91d7-4c56-8041-62d4d272e29e",
@@ -377,7 +377,7 @@
                 "Security posture",
                 "software development"
               ],
-              "markingCriteria": "4 marks: Analyses how maintenance preserves the application's security over time, linking patching and continuous monitoring to changing threats, supported by a specific, relevant example, and identifies the key purpose of the maintenance phase.\n3 marks: Analyses the importance of proactive maintenance activities, such as patching and monitoring, for ongoing security, but the example or the purpose is only partly developed.\n2 marks: Identifies the key purpose of the maintenance phase in relation to ongoing security, with limited analysis and no developed example.\n1 mark: Makes a basic statement that maintenance involves fixing problems after release, without explaining its role in preserving security.",
+              "markingCriteria": "4 marks: Analyses how maintenance preserves the application's security over time, linking patching and continuous monitoring to changing threats, supported by a specific, relevant example, and identifies the key purpose of the maintenance phase\n3 marks: Analyses the importance of proactive maintenance activities, such as patching and monitoring, for ongoing security, but the example or the purpose is only partly developed\n2 marks: Identifies the key purpose of the maintenance phase in relation to ongoing security, with limited analysis and no developed example\n1 mark: Makes a basic statement that maintenance involves fixing problems after release, without explaining its role in preserving security",
               "sampleAnswers": [
                 {
                   "id": "sa-d65f6568-6150-4dc9-969c-956ab723612d",
@@ -436,7 +436,7 @@
                 "Compliance",
                 "Threat modelling"
               ],
-              "markingCriteria": "3 marks: Describes how security is incorporated into requirements definition, explaining characteristics of security requirements gathering and specific types of security requirements, such as data privacy or access control, supported by a clear example.\n2 marks: Describes one characteristic of security requirements gathering or one specific type of security requirement, with limited detail or no example.\n1 mark: Makes a brief statement that security should be captured during requirements definition, without describing how this is done.",
+              "markingCriteria": "3 marks: Describes how security is incorporated into requirements definition, explaining characteristics of security requirements gathering and specific types of security requirements, such as data privacy or access control, supported by a clear example\n2 marks: Describes one characteristic of security requirements gathering or one specific type of security requirement, with limited detail or no example\n1 mark: Makes a brief statement that security should be captured during requirements definition, without describing how this is done",
               "sampleAnswers": [
                 {
                   "id": "sa-0814b7c2-6df9-4d91-b1bc-6dfae2626fab",
@@ -503,7 +503,7 @@
                 "end users influence",
                 "secure design"
               ],
-              "markingCriteria": "3 marks: Describes how the capabilities and experience of end users shape secure design features, with a specific example and a clear link to design decisions such as authentication or the simplicity of security prompts.\n2 marks: Describes one way that user capability or experience affects secure design, with a relevant example or detail.\n1 mark: Identifies a basic influence of end users on software security without describing its effect on design.",
+              "markingCriteria": "3 marks: Describes how the capabilities and experience of end users shape secure design features, with a specific example and a clear link to design decisions such as authentication or the simplicity of security prompts\n2 marks: Describes one way that user capability or experience affects secure design, with a relevant example or detail\n1 mark: Identifies a basic influence of end users on software security without describing its effect on design",
               "sampleAnswers": [
                 {
                   "id": "sa-57970f8b-d5cc-48ed-8498-49201d11ad34",
@@ -563,7 +563,7 @@
                 "Simple design",
                 "Secure design"
               ],
-              "markingCriteria": "4 marks: Proposes two specific secure design features suited to senior users' capabilities and justifies each choice with clear reference to the user group's needs and the risks they face.\n3 marks: Proposes two relevant secure design features and justifies one of them in terms of the user group's needs, with the other justification only partly developed.\n2 marks: Proposes one or two relevant secure design features, with a brief or general justification linked to the users' needs.\n1 mark: Makes a general or partly relevant suggestion for the portal, such as a usability feature, without a clear secure design justification.",
+              "markingCriteria": "4 marks: Proposes two specific secure design features suited to senior users' capabilities and justifies each choice with clear reference to the user group's needs and the risks they face\n3 marks: Proposes two relevant secure design features and justifies one of them in terms of the user group's needs, with the other justification only partly developed\n2 marks: Proposes one or two relevant secure design features, with a brief or general justification linked to the users' needs\n1 mark: Makes a general or partly relevant suggestion for the portal, such as a usability feature, without a clear secure design justification",
               "sampleAnswers": [
                 {
                   "id": "sa-6b16246c-8f32-4904-bdb6-e1fe21fafbe6",
@@ -623,7 +623,7 @@
                 "Human factor",
                 "end users"
               ],
-              "markingCriteria": "6-7 marks: Discusses the statement with a sustained, well-reasoned judgement, weighing the tension between security and usability for different groups of end users with precise evidence and a nuanced conclusion.\n5 marks: Discusses both sides of the tension, with relevant reasoning about friction and workarounds, and reaches a clear position, though the weighing of different end users is only partly developed.\n3-4 marks: Describes the tension between strong security controls and usability with relevant examples, and makes a limited judgement about the statement that is not fully supported.\n2 marks: Makes a brief point about security or usability with limited explanation of how the two are related.\n1 mark: Makes a general or unsupported statement about security or usability without discussing the statement.",
+              "markingCriteria": "6-7 marks: Discusses the statement with a sustained, well-reasoned judgement, weighing the tension between security and usability for different groups of end users with precise evidence and a nuanced conclusion\n5 marks: Discusses both sides of the tension, with relevant reasoning about friction and workarounds, and reaches a clear position, though the weighing of different end users is only partly developed\n3-4 marks: Describes the tension between strong security controls and usability with relevant examples, and makes a limited judgement about the statement that is not fully supported\n2 marks: Makes a brief point about security or usability with limited explanation of how the two are related\n1 mark: Makes a general or unsupported statement about security or usability without discussing the statement",
               "sampleAnswers": [
                 {
                   "id": "sa-6fa6df29-5b5b-4586-9889-9f2bed5c87e6",
@@ -696,7 +696,7 @@
                 "Privileges",
                 "Security mechanisms"
               ],
-              "markingCriteria": "5 marks: Compares and contrasts authentication and authorisation with precise definitions, clear points of difference and similarity, and relevant examples showing how each operates in the ERP system.\n4 marks: Compares and contrasts both concepts with accurate descriptions and at least one relevant example, but the contrast is less fully developed.\n3 marks: Describes both concepts with some attempt to contrast them, supported by a basic example.\n2 marks: Describes one or both concepts with limited accuracy and no clear contrast.\n1 mark: Makes a basic, general statement about one concept, such as a password requirement, without comparison.",
+              "markingCriteria": "5 marks: Compares and contrasts authentication and authorisation with precise definitions, clear points of difference and similarity, and relevant examples showing how each operates in the ERP system\n4 marks: Compares and contrasts both concepts with accurate descriptions and at least one relevant example, but the contrast is less fully developed\n3 marks: Describes both concepts with some attempt to contrast them, supported by a basic example\n2 marks: Describes one or both concepts with limited accuracy and no clear contrast\n1 mark: Makes a basic, general statement about one concept, such as a password requirement, without comparison",
               "sampleAnswers": [
                 {
                   "id": "sa-03386d6e-f116-41b4-9271-077868e19d43",
@@ -774,7 +774,7 @@
                 "Hashing",
                 "Redundancy"
               ],
-              "markingCriteria": "6 marks: Explains how each CIA Triad principle is applied in the voting system's design, with sustained, precise and well-linked mechanisms, showing clearly how the design protects a free and fair election.\n5 marks: Explains how confidentiality, integrity and availability are each applied in the voting system, with accurate and specific examples, though the link to a free and fair election is less fully developed.\n4 marks: Explains the application of all three principles to the voting system with a relevant example for most of them, but the explanation of how each mechanism achieves its outcome is partly developed.\n3 marks: Explains how two of the principles are applied in the voting system with a relevant example, but the third principle is only described briefly.\n2 marks: Describes one principle in the context of the voting system with a brief example or detail, but the explanation of how it is applied is limited.\n1 mark: Makes a basic statement about one principle, such as keeping votes secret, without explaining how the design applies it.",
+              "markingCriteria": "6 marks: Explains how each CIA Triad principle is applied in the voting system's design, with sustained, precise and well-linked mechanisms, showing clearly how the design protects a free and fair election\n5 marks: Explains how confidentiality, integrity and availability are each applied in the voting system, with accurate and specific examples, though the link to a free and fair election is less fully developed\n4 marks: Explains the application of all three principles to the voting system with a relevant example for most of them, but the explanation of how each mechanism achieves its outcome is partly developed\n3 marks: Explains how two of the principles are applied in the voting system with a relevant example, but the third principle is only described briefly\n2 marks: Describes one principle in the context of the voting system with a brief example or detail, but the explanation of how it is applied is limited\n1 mark: Makes a basic statement about one principle, such as keeping votes secret, without explaining how the design applies it",
               "sampleAnswers": [
                 {
                   "id": "sa-726ea2d7-e5aa-4074-af92-d814ebd9bb16",
@@ -834,7 +834,7 @@
                 "Security concepts",
                 "software design"
               ],
-              "markingCriteria": "4 marks: Explains accountability as the traceability of actions to a specific entity and its importance in secure software design, linking audit trails to forensic analysis and deterrence, with a specific example applied to the scenario.\n3 marks: Explains accountability and its importance for security with a relevant example, but the link to audit trails, forensic analysis or deterrence is only partly developed.\n2 marks: Describes accountability as the ability to identify who performed an action, with limited explanation of its importance or a brief example.\n1 mark: Makes a basic statement about accountability, such as being responsible for an account, without explaining how software design supports it.",
+              "markingCriteria": "4 marks: Explains accountability as the traceability of actions to a specific entity and its importance in secure software design, linking audit trails to forensic analysis and deterrence, with a specific example applied to the scenario\n3 marks: Explains accountability and its importance for security with a relevant example, but the link to audit trails, forensic analysis or deterrence is only partly developed\n2 marks: Describes accountability as the ability to identify who performed an action, with limited explanation of its importance or a brief example\n1 mark: Makes a basic statement about accountability, such as being responsible for an account, without explaining how software design supports it",
               "sampleAnswers": [
                 {
                   "id": "sa-258e3eb4-7521-44b3-a02a-dce7eb6ccd32",
@@ -894,7 +894,7 @@
                 "Denial of Service",
                 "Trade-offs"
               ],
-              "markingCriteria": "6-7 marks: Discusses the tension between availability and strong security controls with a sustained, well-reasoned judgement, weighing risks on both sides with precise examples and a nuanced conclusion about managing the trade-off.\n5 marks: Discusses both sides of the tension, with relevant examples such as strict firewalls and denial of service attacks, and reaches a clear position, though the weighing of the trade-off is only partly developed.\n3-4 marks: Describes how stronger security controls can affect availability and how weak security can cause outages, with relevant examples, and makes a limited judgement that is not fully supported.\n2 marks: Makes a brief point about availability or security controls with limited explanation of how the two conflict.\n1 mark: Makes a general or unsupported statement about availability or security without discussing the tension between them.",
+              "markingCriteria": "6-7 marks: Discusses the tension between availability and strong security controls with a sustained, well-reasoned judgement, weighing risks on both sides with precise examples and a nuanced conclusion about managing the trade-off\n5 marks: Discusses both sides of the tension, with relevant examples such as strict firewalls and denial of service attacks, and reaches a clear position, though the weighing of the trade-off is only partly developed\n3-4 marks: Describes how stronger security controls can affect availability and how weak security can cause outages, with relevant examples, and makes a limited judgement that is not fully supported\n2 marks: Makes a brief point about availability or security controls with limited explanation of how the two conflict\n1 mark: Makes a general or unsupported statement about availability or security without discussing the tension between them",
               "sampleAnswers": [
                 {
                   "id": "sa-c8b91a1e-467d-485f-876d-e6628b8b0cb6",
@@ -950,7 +950,7 @@
                 "CIA Triad",
                 "Security concepts"
               ],
-              "markingCriteria": "2 marks: Gives accurate, precise definitions of both confidentiality and integrity using correct security terminology.\n1 mark: Gives a correct definition of one principle, or partial or imprecise definitions of both.",
+              "markingCriteria": "2 marks: Gives accurate, precise definitions of both confidentiality and integrity using correct security terminology\n1 mark: Gives a correct definition of one principle, or partial or imprecise definitions of both",
               "sampleAnswers": [
                 {
                   "id": "sa-66205fc3-b035-40f2-a08f-2ef31501fc25",
@@ -1018,7 +1018,7 @@
                 "Regulatory compliance",
                 "Data privacy"
               ],
-              "markingCriteria": "7-8 marks: Evaluates Zero Trust against the perimeter model for this FinTech application with a sustained judgement, weighing the effectiveness, limitations and compliance implications of each, supported by specific security features for the sensitive data.\n6 marks: Evaluates both models with relevant reasoning and examples and reaches a supported judgement, though the weighing of limitations is less complete.\n5 marks: Compares Zero Trust with the perimeter model and identifies relevant strengths, but the evaluation is largely descriptive and the judgement is limited.\n3-4 marks: Describes Zero Trust and perimeter security with limited reference to the application's data and compliance needs, and offers little evaluation.\n2 marks: Makes brief statements about one approach with minimal evaluation or context.\n1 mark: Makes one general, undeveloped point about security for the application.",
+              "markingCriteria": "7-8 marks: Evaluates Zero Trust against the perimeter model for this FinTech application with a sustained judgement, weighing the effectiveness, limitations and compliance implications of each, supported by specific security features for the sensitive data\n6 marks: Evaluates both models with relevant reasoning and examples and reaches a supported judgement, though the weighing of limitations is less complete\n5 marks: Compares Zero Trust with the perimeter model and identifies relevant strengths, but the evaluation is largely descriptive and the judgement is limited\n3-4 marks: Describes Zero Trust and perimeter security with limited reference to the application's data and compliance needs, and offers little evaluation\n2 marks: Makes brief statements about one approach with minimal evaluation or context\n1 mark: Makes one general, undeveloped point about security for the application",
               "sampleAnswers": [
                 {
                   "id": "sa-851adadf-cd8e-4a9b-97e8-754cb86cc6e8",
@@ -1101,7 +1101,7 @@
                 "Privacy",
                 "Confidentiality"
               ],
-              "markingCriteria": "5 marks: Analyses how encryption protects data and supports regulatory compliance, explaining the link between confidentiality, legal obligations such as the GDPR and the company's privacy audit, with sustained and precise reasoning.\n4 marks: Analyses the relationship between encryption and data protection and explains how it helps meet legal requirements, with a clear link to confidentiality but limited development of compliance obligations.\n3 marks: Examines how encryption supports data protection or regulatory compliance, with a relevant explanation of one of these roles and limited analysis of the other.\n2 marks: Identifies encryption and data protection as relevant to compliance, with a brief description of how encryption protects data.\n1 mark: Makes a basic statement that encryption helps keep data secret or helps the company follow the rules, without analysing the link.",
+              "markingCriteria": "5 marks: Analyses how encryption protects data and supports regulatory compliance, explaining the link between confidentiality, legal obligations such as the GDPR and the company's privacy audit, with sustained and precise reasoning\n4 marks: Analyses the relationship between encryption and data protection and explains how it helps meet legal requirements, with a clear link to confidentiality but limited development of compliance obligations\n3 marks: Examines how encryption supports data protection or regulatory compliance, with a relevant explanation of one of these roles and limited analysis of the other\n2 marks: Identifies encryption and data protection as relevant to compliance, with a brief description of how encryption protects data\n1 mark: Makes a basic statement that encryption helps keep data secret or helps the company follow the rules, without analysing the link",
               "sampleAnswers": [
                 {
                   "id": "sa-94bca71e-edf6-42ac-882d-99324de91228",
@@ -1171,7 +1171,7 @@
                 "Vulnerability management",
                 "design approach"
               ],
-              "markingCriteria": "5 marks: Explains how cryptography and sandboxing each contribute to security by design, with accurate examples and clear links to proactive design choices in the financial application.\n4 marks: Explains both contributions with relevant examples, but the link to security by design is less fully developed for one of them.\n3 marks: Describes cryptography and sandboxing with a relevant example, but the explanation of their contribution to security by design is limited.\n2 marks: Identifies one of the techniques with a brief example and limited explanation of its contribution.\n1 mark: Makes a basic statement about cryptography or sandboxing without explaining how it contributes to security.",
+              "markingCriteria": "5 marks: Explains how cryptography and sandboxing each contribute to security by design, with accurate examples and clear links to proactive design choices in the financial application\n4 marks: Explains both contributions with relevant examples, but the link to security by design is less fully developed for one of them\n3 marks: Describes cryptography and sandboxing with a relevant example, but the explanation of their contribution to security by design is limited\n2 marks: Identifies one of the techniques with a brief example and limited explanation of its contribution\n1 mark: Makes a basic statement about cryptography or sandboxing without explaining how it contributes to security",
               "sampleAnswers": [
                 {
                   "id": "sa-da3e2328-733a-4167-a74f-7fd82dd42c33",
@@ -1239,7 +1239,7 @@
                 "Zero-day exploit",
                 "Defence in depth"
               ],
-              "markingCriteria": "6 marks: Assesses sandboxing's effectiveness as a mitigation strategy, weighing containment benefits against limitations such as sandbox escapes and incomplete protection, with a supported overall judgement.\n5 marks: Assesses benefits and limitations with relevant reasoning, though the overall judgement is less fully supported.\n4 marks: Discusses sandboxing's benefits and at least one limitation with relevant reasoning and an example, but the assessment is mostly descriptive.\n3 marks: Describes what sandboxing does and gives a benefit or limitation with a basic example, with little assessment of effectiveness.\n2 marks: Makes brief, general claims about sandboxing without assessing effectiveness.\n1 mark: Makes a single basic statement about sandboxing with no assessment.",
+              "markingCriteria": "6 marks: Assesses sandboxing's effectiveness as a mitigation strategy, weighing containment benefits against limitations such as sandbox escapes and incomplete protection, with a supported overall judgement\n5 marks: Assesses benefits and limitations with relevant reasoning, though the overall judgement is less fully supported\n4 marks: Discusses sandboxing's benefits and at least one limitation with relevant reasoning and an example, but the assessment is mostly descriptive\n3 marks: Describes what sandboxing does and gives a benefit or limitation with a basic example, with little assessment of effectiveness\n2 marks: Makes brief, general claims about sandboxing without assessing effectiveness\n1 mark: Makes a single basic statement about sandboxing with no assessment",
               "sampleAnswers": [
                 {
                   "id": "sa-cb79fc93-a660-4062-8dc4-a257186eb528",
@@ -1307,7 +1307,7 @@
                 "design approach",
                 "software solutions"
               ],
-              "markingCriteria": "5 marks: Explains privacy by design as a proactive approach, referring to embedding privacy into design and to respect for user privacy, with a precise example of its application to the fitness app.\n4 marks: Explains the proactive nature and respect for user privacy with a relevant example, though one element of the approach is less fully developed.\n3 marks: Describes privacy by design and one of its features with a relevant example, but does not fully explain its proactive nature or respect for user privacy.\n2 marks: Identifies a feature of privacy by design with limited explanation.\n1 mark: Makes a basic statement that software should be private, without explaining the approach.",
+              "markingCriteria": "5 marks: Explains privacy by design as a proactive approach, referring to embedding privacy into design and to respect for user privacy, with a precise example of its application to the fitness app\n4 marks: Explains the proactive nature and respect for user privacy with a relevant example, though one element of the approach is less fully developed\n3 marks: Describes privacy by design and one of its features with a relevant example, but does not fully explain its proactive nature or respect for user privacy\n2 marks: Identifies a feature of privacy by design with limited explanation\n1 mark: Makes a basic statement that software should be private, without explaining the approach",
               "sampleAnswers": [
                 {
                   "id": "sa-4e6c9e5a-fa2d-45dd-9934-9f10d09e7afe",
@@ -1350,7 +1350,7 @@
               "verb": "ANALYSE",
               "totalMarks": 6,
               "scenario": "Hypothetical: A school district is building a wellbeing app in which students record mood check-ins and attendance. The product owner wants the privacy protections designed in before the first release, not added after complaints from parents.",
-              "markingCriteria": "6 marks: Analyses how default privacy settings and proactive design protect students, breaking the principle into its components and contrasting it with after-release controls, with precise examples throughout.\n5 marks: Analyses the protection gained from privacy as the default, linking it to the wellbeing app and the contrast with after-release controls, with some supporting detail.\n4 marks: Explains privacy as the default and how it protects students, with a relevant example and a basic contrast with adding controls later.\n3 marks: Describes the default privacy principle with a relevant example, but does not explain how it protects students or compare it with later additions.\n2 marks: Identifies a privacy-related design feature with limited explanation or link to the app.\n1 mark: Makes a general statement that privacy should be protected, without reference to the principle.",
+              "markingCriteria": "6 marks: Analyses how default privacy settings and proactive design protect students, breaking the principle into its components and contrasting it with after-release controls, with precise examples throughout\n5 marks: Analyses the protection gained from privacy as the default, linking it to the wellbeing app and the contrast with after-release controls, with some supporting detail\n4 marks: Explains privacy as the default and how it protects students, with a relevant example and a basic contrast with adding controls later\n3 marks: Describes the default privacy principle with a relevant example, but does not explain how it protects students or compare it with later additions\n2 marks: Identifies a privacy-related design feature with limited explanation or link to the app\n1 mark: Makes a general statement that privacy should be protected, without reference to the principle",
               "keywords": [
                 "privacy by design",
                 "privacy as the default",
@@ -1441,7 +1441,7 @@
                 "Data availability",
                 "Redundancy"
               ],
-              "markingCriteria": "7-8 marks: Evaluates a hot site against a cold site for this banking platform with a sustained, justified recommendation, weighing recovery time, cost and business continuity risk with specific reference to the scenario.\n6 marks: Evaluates both site types with relevant reasoning and a supported recommendation, though the weighing of cost or recovery time is less developed.\n5 marks: Compares hot and cold sites with some relevant reasoning and a recommendation, but the evaluation is mostly descriptive.\n3-4 marks: Describes hot and cold sites with limited reference to the banking scenario and little evaluation.\n2 marks: Makes brief statements about one site type with minimal evaluation or context.\n1 mark: Makes one general, undeveloped point about disaster recovery.",
+              "markingCriteria": "7-8 marks: Evaluates a hot site against a cold site for this banking platform with a sustained, justified recommendation, weighing recovery time, cost and business continuity risk with specific reference to the scenario\n6 marks: Evaluates both site types with relevant reasoning and a supported recommendation, though the weighing of cost or recovery time is less developed\n5 marks: Compares hot and cold sites with some relevant reasoning and a recommendation, but the evaluation is mostly descriptive\n3-4 marks: Describes hot and cold sites with limited reference to the banking scenario and little evaluation\n2 marks: Makes brief statements about one site type with minimal evaluation or context\n1 mark: Makes one general, undeveloped point about disaster recovery",
               "sampleAnswers": [
                 {
                   "id": "sa-c1ba145c-fb6c-4faa-9d8c-3cda8cef55ea",
@@ -1517,7 +1517,7 @@
                 "Cost-benefit analysis",
                 "Risk assessment"
               ],
-              "markingCriteria": "6 marks: Recommends a cold site with regular off-site backups for the gallery and justifies it with sustained reasoning about cost, RTO and RPO and the low impact of downtime on a marketing website, supported by precise and well-linked evidence.\n5 marks: Recommends a suitable site type and justifies it clearly with reference to cost, RTO and RPO for the gallery's context, though the consideration of risk or the trade-off is only partly developed.\n4 marks: Recommends a site type and gives reasons linking it to cost or the gallery's needs, with some reference to RTO or RPO, but the justification is not fully developed.\n3 marks: Recommends a site type with a reason based on cost or the business's size, with limited reference to RTO, RPO or the scenario.\n2 marks: Makes a brief recommendation with a general reason that is not linked to the gallery's context.\n1 mark: Makes a basic statement about backups or disaster recovery without recommending a site type or justifying it.",
+              "markingCriteria": "6 marks: Recommends a cold site with regular off-site backups for the gallery and justifies it with sustained reasoning about cost, RTO and RPO and the low impact of downtime on a marketing website, supported by precise and well-linked evidence\n5 marks: Recommends a suitable site type and justifies it clearly with reference to cost, RTO and RPO for the gallery's context, though the consideration of risk or the trade-off is only partly developed\n4 marks: Recommends a site type and gives reasons linking it to cost or the gallery's needs, with some reference to RTO or RPO, but the justification is not fully developed\n3 marks: Recommends a site type with a reason based on cost or the business's size, with limited reference to RTO, RPO or the scenario\n2 marks: Makes a brief recommendation with a general reason that is not linked to the gallery's context\n1 mark: Makes a basic statement about backups or disaster recovery without recommending a site type or justifying it",
               "sampleAnswers": [
                 {
                   "id": "sa-fade8f6b-f831-44bf-8bb7-04510002b9d9",
@@ -1577,7 +1577,7 @@
                 "Recovery",
                 "Communication"
               ],
-              "markingCriteria": "6 marks: Proposes a clear, sequenced incident response plan with distinct phases for containment, eradication, recovery and communication, each specific to the business and justified by the need to limit damage first.\n5 marks: Proposes a clear, specific plan with distinct phases including containment, eradication and recovery, and a communication step for affected users and authorities, with limited justification of the sequence.\n4 marks: Proposes a logical plan with several phases, including containment and communication, with a specific action for each, but one phase is only partly developed.\n3 marks: Proposes a plan with a containment step and at least one further step, such as eradication or recovery, but the steps are general and not clearly justified.\n2 marks: Proposes a basic plan with one or two actions, such as stopping the breach or informing customers, without a clear sequence.\n1 mark: Makes a general or unsupported suggestion about responding to the breach, such as calling someone, without a plan of action.",
+              "markingCriteria": "6 marks: Proposes a clear, sequenced incident response plan with distinct phases for containment, eradication, recovery and communication, each specific to the business and justified by the need to limit damage first\n5 marks: Proposes a clear, specific plan with distinct phases including containment, eradication and recovery, and a communication step for affected users and authorities, with limited justification of the sequence\n4 marks: Proposes a logical plan with several phases, including containment and communication, with a specific action for each, but one phase is only partly developed\n3 marks: Proposes a plan with a containment step and at least one further step, such as eradication or recovery, but the steps are general and not clearly justified\n2 marks: Proposes a basic plan with one or two actions, such as stopping the breach or informing customers, without a clear sequence\n1 mark: Makes a general or unsupported suggestion about responding to the breach, such as calling someone, without a plan of action",
               "sampleAnswers": [
                 {
                   "id": "sa-801cc11a-da13-4a3b-bc4b-bcb46724914a",
@@ -1645,7 +1645,7 @@
                 "Data Confidentiality",
                 "Data Integrity"
               ],
-              "markingCriteria": "7-8 marks: Evaluates the combined testing strategy against the e-commerce scenario with a sustained judgement, weighing what each method finds and its limits, and ranking the relative importance of each in the SDLC.\n6 marks: Evaluates the combination with relevant reasoning and a supported judgement, though the relative importance of the methods is less fully weighed.\n5 marks: Explains the value of SAST, DAST and penetration testing with some evaluation, but the judgement on relative importance is limited.\n3-4 marks: Describes the three testing methods with limited reference to the platform and little evaluation.\n2 marks: Makes brief statements about one or more testing methods with minimal evaluation.\n1 mark: Makes one general, undeveloped point about testing for security.",
+              "markingCriteria": "7-8 marks: Evaluates the combined testing strategy against the e-commerce scenario with a sustained judgement, weighing what each method finds and its limits, and ranking the relative importance of each in the SDLC\n6 marks: Evaluates the combination with relevant reasoning and a supported judgement, though the relative importance of the methods is less fully weighed\n5 marks: Explains the value of SAST, DAST and penetration testing with some evaluation, but the judgement on relative importance is limited\n3-4 marks: Describes the three testing methods with limited reference to the platform and little evaluation\n2 marks: Makes brief statements about one or more testing methods with minimal evaluation\n1 mark: Makes one general, undeveloped point about testing for security",
               "sampleAnswers": [
                 {
                   "id": "sa-9f95d709-853f-4f7d-9fa9-6b9925a91ac1",
@@ -1720,7 +1720,7 @@
                 "Pull request",
                 "Continuous integration"
               ],
-              "markingCriteria": "6 marks: Proposes a specific, lightweight security code review process, such as mandatory peer review of pull requests with automated SAST checks, and justifies it with sustained reasoning about how it fits Agile sprints and improves security.\n5 marks: Proposes a clear, specific review process using pull requests and peer review, and justifies how it integrates with Agile workflows, though the security benefits are only partly developed.\n4 marks: Proposes a review process with a clear step, such as peer review before merging, and explains how it suits an Agile team, with limited detail on how it improves security.\n3 marks: Proposes a code review practice with a brief justification for Agile, such as frequent reviews, but the process is general and the security benefit is limited.\n2 marks: Proposes a basic review step without a clear process or a justification linked to Agile workflows.\n1 mark: Makes a general suggestion that code should be checked for security, without proposing a process or justifying it.",
+              "markingCriteria": "6 marks: Proposes a specific, lightweight security code review process, such as mandatory peer review of pull requests with automated SAST checks, and justifies it with sustained reasoning about how it fits Agile sprints and improves security\n5 marks: Proposes a clear, specific review process using pull requests and peer review, and justifies how it integrates with Agile workflows, though the security benefits are only partly developed\n4 marks: Proposes a review process with a clear step, such as peer review before merging, and explains how it suits an Agile team, with limited detail on how it improves security\n3 marks: Proposes a code review practice with a brief justification for Agile, such as frequent reviews, but the process is general and the security benefit is limited\n2 marks: Proposes a basic review step without a clear process or a justification linked to Agile workflows\n1 mark: Makes a general suggestion that code should be checked for security, without proposing a process or justifying it",
               "sampleAnswers": [
                 {
                   "id": "sa-5b741504-94db-4aae-86b9-3d959a2c9419",
@@ -1788,7 +1788,7 @@
                 "User input",
                 "defensive data input handling"
               ],
-              "markingCriteria": "4 marks: Compares input validation and input sanitisation with accurate distinctions of purpose and method, and a relevant banking example for each.\n3 marks: Explains both practices with a clear distinction and an example, though the comparison is less developed.\n2 marks: Describes one or both practices with limited accuracy, and any comparison is implied rather than explicit.\n1 mark: Makes a basic, general statement about input handling without comparison.",
+              "markingCriteria": "4 marks: Compares input validation and input sanitisation with accurate distinctions of purpose and method, and a relevant banking example for each\n3 marks: Explains both practices with a clear distinction and an example, though the comparison is less developed\n2 marks: Describes one or both practices with limited accuracy, and any comparison is implied rather than explicit\n1 mark: Makes a basic, general statement about input handling without comparison",
               "sampleAnswers": [
                 {
                   "id": "sa-e9f4ecbe-72a8-4a76-98c5-f2676be507f4",
@@ -1831,7 +1831,7 @@
               "verb": "EXPLAIN",
               "totalMarks": 4,
               "scenario": "Hypothetical: A council is building an online form in which residents submit their name, address and date of birth to apply for a parking permit. During testing, a rejected submission displays a full database error message that reveals table names and the query structure.",
-              "markingCriteria": "4 marks: Explains how error handling for rejected input, with generic user-facing messages and internal logging, prevents information disclosure while keeping the form defensive, with a specific example from the permit form.\n3 marks: Explains how errors from rejected input are handled safely with a relevant example, but the link to preventing disclosure or to defensive design is less developed.\n2 marks: Describes an error-handling step, such as showing a message, with limited explanation of its security effect.\n1 mark: Makes a basic statement that errors should be handled, without explaining how this supports defensive input handling.",
+              "markingCriteria": "4 marks: Explains how error handling for rejected input, with generic user-facing messages and internal logging, prevents information disclosure while keeping the form defensive, with a specific example from the permit form\n3 marks: Explains how errors from rejected input are handled safely with a relevant example, but the link to preventing disclosure or to defensive design is less developed\n2 marks: Describes an error-handling step, such as showing a message, with limited explanation of its security effect\n1 mark: Makes a basic statement that errors should be handled, without explaining how this supports defensive input handling",
               "keywords": [
                 "error handling",
                 "defensive data input handling",
@@ -1924,7 +1924,7 @@
                 "Secure coding practices",
                 "safe application programming interface"
               ],
-              "markingCriteria": "4 marks: Explains how input validation and rate limiting each reduce API vulnerabilities, linking both to a safe API design with a specific example for the e-commerce API.\n3 marks: Explains both mechanisms with a relevant example, but the link between them and API safety is less fully developed.\n2 marks: Describes one mechanism with an example, or both with limited explanation of how they contribute to safety.\n1 mark: Makes a basic statement about API security without explaining how the mechanisms work.",
+              "markingCriteria": "4 marks: Explains how input validation and rate limiting each reduce API vulnerabilities, linking both to a safe API design with a specific example for the e-commerce API\n3 marks: Explains both mechanisms with a relevant example, but the link between them and API safety is less fully developed\n2 marks: Describes one mechanism with an example, or both with limited explanation of how they contribute to safety\n1 mark: Makes a basic statement about API security without explaining how the mechanisms work",
               "sampleAnswers": [
                 {
                   "id": "sa-604fddf0-3a27-41d2-be66-86480999623f",
@@ -1967,7 +1967,7 @@
               "verb": "DESCRIBE",
               "totalMarks": 3,
               "scenario": "Hypothetical: A retail company's mobile app calls an API endpoint that returns a customer's order history, including delivery addresses and partial payment details. A security review finds that the endpoint returns every field stored for each order, whether or not the app displays it.",
-              "markingCriteria": "3 marks: Describes a specific API design feature that limits returned data, such as field filtering or an ownership check, and explains how it protects the order-history endpoint and customer data.\n2 marks: Describes a design feature that limits the data returned to the client, with limited link to the order-history endpoint.\n1 mark: Identifies a general API security feature without describing how it limits the data returned.",
+              "markingCriteria": "3 marks: Describes a specific API design feature that limits returned data, such as field filtering or an ownership check, and explains how it protects the order-history endpoint and customer data\n2 marks: Describes a design feature that limits the data returned to the client, with limited link to the order-history endpoint\n1 mark: Identifies a general API security feature without describing how it limits the data returned",
               "keywords": [
                 "API",
                 "authorisation",
@@ -2059,7 +2059,7 @@
                 "Performance",
                 "efficient execution"
               ],
-              "markingCriteria": "4 marks: Compares session management and exception management with accurate roles for efficient execution, clear points of similarity and difference, and examples for the user.\n3 marks: Describes the roles of session and exception management and makes some comparison, with a relevant example for each.\n2 marks: Describes one or both processes with limited accuracy and little explicit comparison.\n1 mark: Makes a basic statement about session or exception management without comparison.",
+              "markingCriteria": "4 marks: Compares session management and exception management with accurate roles for efficient execution, clear points of similarity and difference, and examples for the user\n3 marks: Describes the roles of session and exception management and makes some comparison, with a relevant example for each\n2 marks: Describes one or both processes with limited accuracy and little explicit comparison\n1 mark: Makes a basic statement about session or exception management without comparison",
               "sampleAnswers": [
                 {
                   "id": "sa-be15eeaa-d0a3-4da3-b73e-0446ed2be671",
@@ -2128,7 +2128,7 @@
                 "Scalability",
                 "Statefulness"
               ],
-              "markingCriteria": "6-7 marks: Analyses the trade-offs between server-side and client-side session management in a sustained, well-reasoned way, linking the control and security of stateful sessions with the scalability benefits of stateless JWTs, and reaches a supported recommendation for a distributed deployment.\n4-5 marks: Analyses the main trade-offs, explaining the stateful nature and control of server-side sessions and the scalability and token-theft risks of JWTs, with a clear comparison but limited judgement about the architecture.\n2-3 marks: Describes server-side and client-side session management with one relevant advantage or disadvantage of each, but the trade-offs are not analysed in relation to scalability.\n1 mark: Identifies server-side or client-side session management with a basic statement, without analysing any trade-off.",
+              "markingCriteria": "6-7 marks: Analyses the trade-offs between server-side and client-side session management in a sustained, well-reasoned way, linking the control and security of stateful sessions with the scalability benefits of stateless JWTs, and reaches a supported recommendation for a distributed deployment\n4-5 marks: Analyses the main trade-offs, explaining the stateful nature and control of server-side sessions and the scalability and token-theft risks of JWTs, with a clear comparison but limited judgement about the architecture\n2-3 marks: Describes server-side and client-side session management with one relevant advantage or disadvantage of each, but the trade-offs are not analysed in relation to scalability\n1 mark: Identifies server-side or client-side session management with a basic statement, without analysing any trade-off",
               "sampleAnswers": [
                 {
                   "id": "sa-320060d4-304b-45bf-9791-128f2aebb462",
@@ -2184,7 +2184,7 @@
                 "Robustness",
                 "try-catch"
               ],
-              "markingCriteria": "3 marks: Outlines the purpose of exception management in building robust software, covering the prevention of crashes, graceful recovery and logging for debugging, with a clear link to robustness.\n2 marks: Outlines two purposes of exception management, such as preventing crashes and allowing graceful failure, with limited explanation of how each supports robustness.\n1 mark: Outlines one purpose of exception management, such as stopping the program from crashing, without explaining its wider value.",
+              "markingCriteria": "3 marks: Outlines the purpose of exception management in building robust software, covering the prevention of crashes, graceful recovery and logging for debugging, with a clear link to robustness\n2 marks: Outlines two purposes of exception management, such as preventing crashes and allowing graceful failure, with limited explanation of how each supports robustness\n1 mark: Outlines one purpose of exception management, such as stopping the program from crashing, without explaining its wider value",
               "sampleAnswers": [
                 {
                   "id": "sa-aea52549-1ba4-4c2c-9c6f-1e65cfdb738e",
@@ -2253,7 +2253,7 @@
                 "Threat mitigation",
                 "vulnerabilities"
               ],
-              "markingCriteria": "4 marks: Explains how XSS and CSRF each compromise a web application and gives a specific, correct coding mitigation for each.\n3 marks: Explains both vulnerabilities and gives a mitigation for each, though one mitigation is general or one explanation is brief.\n2 marks: Explains one vulnerability in some detail, or both briefly, with limited or general mitigation.\n1 mark: Makes a basic statement that these vulnerabilities let attackers steal information, without explanation or mitigation.",
+              "markingCriteria": "4 marks: Explains how XSS and CSRF each compromise a web application and gives a specific, correct coding mitigation for each\n3 marks: Explains both vulnerabilities and gives a mitigation for each, though one mitigation is general or one explanation is brief\n2 marks: Explains one vulnerability in some detail, or both briefly, with limited or general mitigation\n1 mark: Makes a basic statement that these vulnerabilities let attackers steal information, without explanation or mitigation",
               "sampleAnswers": [
                 {
                   "id": "sa-c811a639-655f-47ac-82d6-0b7da134118d",
@@ -2319,7 +2319,7 @@
                 "Time-of-check to time-of-use",
                 "Vulnerability"
               ],
-              "markingCriteria": "4 marks: Explains how a race condition arises from concurrent access to shared state in a web application, how an attacker could exploit the timing gap, and gives a specific example.\n3 marks: Explains the race condition and how it can be exploited with an example, but the exploitation or the mechanism is less fully developed.\n2 marks: Describes a race condition in general terms with a brief example, but does not explain how it is exploited.\n1 mark: Makes a basic statement that two things happen at once and break the program, without explaining the exploit.",
+              "markingCriteria": "4 marks: Explains how a race condition arises from concurrent access to shared state in a web application, how an attacker could exploit the timing gap, and gives a specific example\n3 marks: Explains the race condition and how it can be exploited with an example, but the exploitation or the mechanism is less fully developed\n2 marks: Describes a race condition in general terms with a brief example, but does not explain how it is exploited\n1 mark: Makes a basic statement that two things happen at once and break the program, without explaining the exploit",
               "sampleAnswers": [
                 {
                   "id": "sa-84b90446-edf8-4a50-b9ae-309de53fe4fb",
@@ -2373,7 +2373,7 @@
                 "Credentials",
                 "Session management"
               ],
-              "markingCriteria": "2 marks: Defines broken authentication as a vulnerability in authentication or session management and gives an example of how an attacker could impersonate a user.\n1 mark: Makes a basic statement that broken authentication is a login fault, without identifying the vulnerability or what it allows an attacker to do.",
+              "markingCriteria": "2 marks: Defines broken authentication as a vulnerability in authentication or session management and gives an example of how an attacker could impersonate a user\n1 mark: Makes a basic statement that broken authentication is a login fault, without identifying the vulnerability or what it allows an attacker to do",
               "sampleAnswers": [
                 {
                   "id": "sa-3719bd47-7751-4e03-83b9-52af7140b60c",
@@ -2425,7 +2425,7 @@
                 "Session hijacking",
                 "User impersonation"
               ],
-              "markingCriteria": "6 marks: Compares XSS and CSRF in mechanism and impact with precise, accurate distinctions, a clear evaluation of their different consequences, and examples linked to the analyst's scenarios.\n5 marks: Compares mechanism and impact accurately with relevant examples, though one comparison point is less fully developed.\n4 marks: Explains the mechanism of each vulnerability and its impact, with some explicit comparison and a relevant example.\n3 marks: Describes the mechanism of both vulnerabilities with limited comparison of impact.\n2 marks: Describes one vulnerability accurately, or both briefly, with no explicit comparison.\n1 mark: Makes one basic, general statement about web attacks without comparison.",
+              "markingCriteria": "6 marks: Compares XSS and CSRF in mechanism and impact with precise, accurate distinctions, a clear evaluation of their different consequences, and examples linked to the analyst's scenarios\n5 marks: Compares mechanism and impact accurately with relevant examples, though one comparison point is less fully developed\n4 marks: Explains the mechanism of each vulnerability and its impact, with some explicit comparison and a relevant example\n3 marks: Describes the mechanism of both vulnerabilities with limited comparison of impact\n2 marks: Describes one vulnerability accurately, or both briefly, with no explicit comparison\n1 mark: Makes one basic, general statement about web attacks without comparison",
               "sampleAnswers": [
                 {
                   "id": "sa-14e695c0-33e9-45a9-9684-49725e1c048f",
@@ -2493,7 +2493,7 @@
                 "Constant-time operations",
                 "Vulnerability mitigation"
               ],
-              "markingCriteria": "4 marks: Explains how secure coding practices mitigate both file attacks and side-channel attacks, with a specific, accurate example for each attack type.\n3 marks: Explains practices for both attack types with an example, but one explanation is less developed or the example is general.\n2 marks: Describes a secure coding practice for one attack type with an example, or both briefly without explanation.\n1 mark: Makes a basic statement about secure coding and attacks without naming a practice or example.",
+              "markingCriteria": "4 marks: Explains how secure coding practices mitigate both file attacks and side-channel attacks, with a specific, accurate example for each attack type\n3 marks: Explains practices for both attack types with an example, but one explanation is less developed or the example is general\n2 marks: Describes a secure coding practice for one attack type with an example, or both briefly without explanation\n1 mark: Makes a basic statement about secure coding and attacks without naming a practice or example",
               "sampleAnswers": [
                 {
                   "id": "sa-70acc2e1-28d0-4173-a306-5a5a2f743ba2",
@@ -2558,7 +2558,7 @@
                 "Cryptography",
                 "Constant-time"
               ],
-              "markingCriteria": "3 marks: Describes a timing attack as a side-channel attack that infers secret information from how long an operation takes, explaining how measured response times reveal information and why the leak comes from the implementation.\n2 marks: Describes a timing attack as a side-channel attack, or explains that response times reveal information, with limited description of the mechanism.\n1 mark: Makes a basic statement about timing attacks without identifying them as side-channel attacks or describing how timing reveals information.",
+              "markingCriteria": "3 marks: Describes a timing attack as a side-channel attack that infers secret information from how long an operation takes, explaining how measured response times reveal information and why the leak comes from the implementation\n2 marks: Describes a timing attack as a side-channel attack, or explains that response times reveal information, with limited description of the mechanism\n1 mark: Makes a basic statement about timing attacks without identifying them as side-channel attacks or describing how timing reveals information",
               "sampleAnswers": [
                 {
                   "id": "sa-1d99e355-f75e-49a4-8dd4-caac82832d6f",
@@ -2633,7 +2633,7 @@
                 "teamwork",
                 "software engineering practices"
               ],
-              "markingCriteria": "4 marks: Explains how collaboration enhances safe and secure software, referring to delegation of tasks by expertise and to solution quality, with specific examples such as expert allocation and peer review.\n3 marks: Explains collaboration's contribution to security with a relevant example, though delegation or solution quality is less fully developed.\n2 marks: Describes collaboration in general terms with one relevant point, such as peer review, and limited explanation.\n1 mark: Makes a basic statement that teamwork helps software without explaining the security contribution.",
+              "markingCriteria": "4 marks: Explains how collaboration enhances safe and secure software, referring to delegation of tasks by expertise and to solution quality, with specific examples such as expert allocation and peer review\n3 marks: Explains collaboration's contribution to security with a relevant example, though delegation or solution quality is less fully developed\n2 marks: Describes collaboration in general terms with one relevant point, such as peer review, and limited explanation\n1 mark: Makes a basic statement that teamwork helps software without explaining the security contribution",
               "sampleAnswers": [
                 {
                   "id": "sa-a15023c2-4cd7-4e59-9bb3-bde9ea46726a",
@@ -2668,7 +2668,7 @@
               "verb": "PROPOSE",
               "totalMarks": 4,
               "scenario": "Hypothetical: A five-person team is building a payments module for a regional online bank. The team has two back-end developers, a front-end developer, a tester and a junior developer who has had little security training.",
-              "markingCriteria": "4 marks: Proposes a specific allocation of security tasks, such as threat modelling to a senior developer and code review to a specialist, with reasons linking each task to expertise and to the quality of the module.\n3 marks: Proposes a reasonable allocation of security tasks with a basic reason for each, but the link to expertise or solution quality is limited.\n2 marks: Identifies one security task that could be delegated, with limited reasoning about who should do it.\n1 mark: Makes a general statement that the team should share security work, without a proposal.",
+              "markingCriteria": "4 marks: Proposes a specific allocation of security tasks, such as threat modelling to a senior developer and code review to a specialist, with reasons linking each task to expertise and to the quality of the module\n3 marks: Proposes a reasonable allocation of security tasks with a basic reason for each, but the link to expertise or solution quality is limited\n2 marks: Identifies one security task that could be delegated, with limited reasoning about who should do it\n1 mark: Makes a general statement that the team should share security work, without a proposal",
               "keywords": [
                 "delegation",
                 "expertise",
@@ -2758,7 +2758,7 @@
                 "software engineering",
                 "software development"
               ],
-              "markingCriteria": "5 marks: Explains how safe and secure development benefits an enterprise's products, productivity and business interactions, with specific reasoning and a clear link between each benefit and the enterprise's outcomes.\n4 marks: Explains benefits to products and productivity with relevant reasoning, with limited explanation of business interactions.\n3 marks: Describes one or two benefits of secure development with a basic reason or example.\n2 marks: Identifies a benefit of secure development with limited explanation.\n1 mark: Makes a basic statement that secure development is good for business, without explanation.",
+              "markingCriteria": "5 marks: Explains how safe and secure development benefits an enterprise's products, productivity and business interactions, with specific reasoning and a clear link between each benefit and the enterprise's outcomes\n4 marks: Explains benefits to products and productivity with relevant reasoning, with limited explanation of business interactions\n3 marks: Describes one or two benefits of secure development with a basic reason or example\n2 marks: Identifies a benefit of secure development with limited explanation\n1 mark: Makes a basic statement that secure development is good for business, without explanation",
               "sampleAnswers": [
                 {
                   "id": "sa-bd9605c5-ba3c-4427-a4af-dede5295ceb6",
@@ -2793,7 +2793,7 @@
               "verb": "ASSESS",
               "totalMarks": 6,
               "scenario": "Hypothetical: TicketWave, a mid-sized online ticketing company, suffered a data breach last year that exposed customer payment details. Its board is now deciding whether to invest in secure development practices, such as code review and automated security testing, before the next product release.",
-              "markingCriteria": "6 marks: Assesses the extent of benefits to the enterprise, weighing reputation and customer trust, avoided breach costs and regulatory risk against the costs of secure practices, and reaches a justified judgement about the investment.\n5 marks: Assesses several benefits to the enterprise with relevant reasoning and a supported view, though the weighing of costs or limits is less developed.\n4 marks: Explains the benefits of secure development for the enterprise after a breach, with some assessment of extent and limited consideration of costs.\n3 marks: Describes a benefit of secure development for the enterprise with a basic link to the breach, but little assessment of extent.\n2 marks: Identifies a benefit of secure practices with limited explanation or link to the scenario.\n1 mark: Makes a general statement that security is good for business, without assessment.",
+              "markingCriteria": "6 marks: Assesses the extent of benefits to the enterprise, weighing reputation and customer trust, avoided breach costs and regulatory risk against the costs of secure practices, and reaches a justified judgement about the investment\n5 marks: Assesses several benefits to the enterprise with relevant reasoning and a supported view, though the weighing of costs or limits is less developed\n4 marks: Explains the benefits of secure development for the enterprise after a breach, with some assessment of extent and limited consideration of costs\n3 marks: Describes a benefit of secure development for the enterprise with a basic link to the breach, but little assessment of extent\n2 marks: Identifies a benefit of secure practices with limited explanation or link to the scenario\n1 mark: Makes a general statement that security is good for business, without assessment",
               "keywords": [
                 "secure development practices",
                 "data breach",
@@ -2884,7 +2884,7 @@
                 "Workforce displacement",
                 "Algorithmic bias"
               ],
-              "markingCriteria": "7-8 marks: Evaluates the extent of digital disruption's social and ethical ramifications for people and enterprises with sustained judgement, weighing employment and data security effects and reaching a supported conclusion.\n6 marks: Evaluates the ramifications for people and enterprises with relevant reasoning and examples, though the judgement on extent is less fully developed.\n5 marks: Discusses social and ethical ramifications for people and enterprises with some evaluation, and refers to employment or data security with limited judgement.\n3-4 marks: Describes social or ethical issues arising from secure software with limited reference to disruption, people or enterprises, and little evaluation.\n2 marks: Makes brief statements about one issue, such as jobs or privacy, with minimal evaluation.\n1 mark: Makes one general, undeveloped point about computers or hackers.",
+              "markingCriteria": "7-8 marks: Evaluates the extent of digital disruption's social and ethical ramifications for people and enterprises with sustained judgement, weighing employment and data security effects and reaching a supported conclusion\n6 marks: Evaluates the ramifications for people and enterprises with relevant reasoning and examples, though the judgement on extent is less fully developed\n5 marks: Discusses social and ethical ramifications for people and enterprises with some evaluation, and refers to employment or data security with limited judgement\n3-4 marks: Describes social or ethical issues arising from secure software with limited reference to disruption, people or enterprises, and little evaluation\n2 marks: Makes brief statements about one issue, such as jobs or privacy, with minimal evaluation\n1 mark: Makes one general, undeveloped point about computers or hackers",
               "sampleAnswers": [
                 {
                   "id": "sa-5aaaa509-3d5a-4e00-92c1-1535747559b4",
@@ -2944,7 +2944,7 @@
                 "secure software development",
                 "software engineering"
               ],
-              "markingCriteria": "3 marks: Outlines one social issue and one ethical issue about data privacy, each accurately described and linked to the enterprise's development of secure software.\n2 marks: Outlines one social or ethical issue accurately, with a brief description and limited link to data privacy.\n1 mark: Identifies a relevant social or ethical issue without describing it.",
+              "markingCriteria": "3 marks: Outlines one social issue and one ethical issue about data privacy, each accurately described and linked to the enterprise's development of secure software\n2 marks: Outlines one social or ethical issue accurately, with a brief description and limited link to data privacy\n1 mark: Identifies a relevant social or ethical issue without describing it",
               "sampleAnswers": [
                 {
                   "id": "sa-87e9b34c-3a20-4d32-9fd5-7b99ccbede8d",
@@ -3004,7 +3004,7 @@
                 "Surveillance capitalism",
                 "Secure software"
               ],
-              "markingCriteria": "7-8 marks: Discusses the ethical tension between business objectives and the right to privacy with sustained, well-reasoned judgement, weighing the enterprise and individual perspectives with precise evidence and a nuanced conclusion about the role of secure software.\n5-6 marks: Discusses both the business and privacy perspectives with relevant reasoning about data collection and surveillance, and reaches a clear position, though the weighing of the two perspectives is only partly developed.\n4 marks: Describes the tension between business objectives and privacy with relevant examples, and makes a limited judgement that is not fully supported.\n2-3 marks: Makes a brief point about data collection, privacy or secure software, with limited explanation of the ethical tension.\n1 mark: Makes a general or unsupported statement about ethics, privacy or security without discussing the tension.",
+              "markingCriteria": "7-8 marks: Discusses the ethical tension between business objectives and the right to privacy with sustained, well-reasoned judgement, weighing the enterprise and individual perspectives with precise evidence and a nuanced conclusion about the role of secure software\n5-6 marks: Discusses both the business and privacy perspectives with relevant reasoning about data collection and surveillance, and reaches a clear position, though the weighing of the two perspectives is only partly developed\n4 marks: Describes the tension between business objectives and privacy with relevant examples, and makes a limited judgement that is not fully supported\n2-3 marks: Makes a brief point about data collection, privacy or secure software, with limited explanation of the ethical tension\n1 mark: Makes a general or unsupported statement about ethics, privacy or security without discussing the tension",
               "sampleAnswers": [
                 {
                   "id": "sa-2c469616-ab2c-4726-bbc3-75714af63664",

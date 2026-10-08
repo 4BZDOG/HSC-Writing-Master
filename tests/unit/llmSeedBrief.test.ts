@@ -119,7 +119,7 @@ describe('the authoring brief an export carries', () => {
       const [, tier, marks] = key.match(/tier (\d), (\d+) marks/)!.map(Number);
       const guide = line
         .split(' / ')
-        .map((row) => `${row} descriptor`)
+        .map((row) => `${row} Provides a descriptor`)
         .join('\n');
       expect(guideLadderProblem(guide, marks, tier), key).toBeNull();
     }

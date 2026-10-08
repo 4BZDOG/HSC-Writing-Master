@@ -21,6 +21,7 @@ import {
 } from '../data/commandTerms';
 import { generateId } from './idUtils';
 import { buildLlmSeedInstructions } from './llmSeedBrief';
+import { normaliseGuideRows } from './markingGuideLadder';
 
 // Deep clone via structuredClone, falling back to a JSON round-trip only if the
 // value is not structured-cloneable. (Previously this recursed into itself,
@@ -344,7 +345,9 @@ export const formatMarkingCriteria = (criteria: unknown): string => {
   // sparse and inflate the stored text; collapse runs of them.
   text = text.replace(/\n{3,}/g, '\n\n');
 
-  return text.trim();
+  // A guide that is purely rows leaves in HSC marking-guideline shape: highest
+  // mark first, a capital opening each criterion. Anything else is left alone.
+  return normaliseGuideRows(text.trim());
 };
 
 const normalizeVerb = (val: unknown): PromptVerb | undefined => {

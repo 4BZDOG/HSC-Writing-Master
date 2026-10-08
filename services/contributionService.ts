@@ -30,6 +30,7 @@ import {
   ScenarioImageRef,
 } from '../types';
 import { syncScenarioImageUp } from './scenarioImageSyncService';
+import { normaliseGuideRows } from '../utils/markingGuideLadder';
 
 // Same origin unless the app is served from somewhere the API isn't — see the
 // VITE_API_BASE_URL note in services/aiCore.ts.
@@ -141,7 +142,7 @@ export const promptToRow = (
   total_marks: prompt.totalMarks ?? 0,
   verb: prompt.verb ?? null,
   scenario: prompt.scenario ?? null,
-  marking_criteria: prompt.markingCriteria ?? null,
+  marking_criteria: prompt.markingCriteria ? normaliseGuideRows(prompt.markingCriteria) : null,
   linked_outcomes: prompt.linkedOutcomes ?? [],
   related_topics: prompt.relatedTopics ?? [],
   prerequisite_knowledge: prompt.prerequisiteKnowledge ?? [],

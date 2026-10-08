@@ -91,6 +91,8 @@ export const buildLlmSeedInstructions = () => ({
     OVER_6_MARKS:
       "Exactly the rows in OVER_6_MARKS_ROWS for the verb's tier and the question's marks — one per band the question can award, with that band's mark range, top first. Discriminate them by QUALITY OF THINKING rather than length: the top row demands the verb's full cognitive level; middle rows show sound knowledge a step below it; the lowest is fragmentary.",
     OVER_6_MARKS_ROWS: guideRowsOver6(),
+    WORDING:
+      'Write each row as an HSC marking-guideline performance descriptor: a capitalised verb in the third person ("Provides…", "Demonstrates…", "Identifies…", "Outlines…", "Describes…", "Explains…", "Analyses…", "Evaluates…") and NESA qualifiers (sustained, sophisticated, thorough, detailed, sound, relevant, accurate, limited, basic, general). The lowest row may read "Minimal relevant response". Never begin a row with a lower-case word, a noun phrase ("A clear contrast of…") or a passive ("one factor is identified").',
     NOT_ADDITIVE:
       'Describe a whole answer at each mark, not separate components that add up ("Makes a judgement (1 mark) • Applies criterion A (2 marks)…"). The app checks guides against the rows above and flags any other layout as non-standard.',
   },
