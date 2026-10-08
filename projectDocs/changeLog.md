@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-08 (Briefer full-mark answers, held to the word band)
+
+- **Changed.** About 780 full-mark sample answers that ran over the app's word band for their
+  mark value were shortened to sit inside it, mostly at 65-90% of the maximum. Each still
+  meets the top row of its marking criteria and uses the syllabus terms its question names.
+  A brief answer that meets the criteria is preferred. Invented details that a scenario did
+  not supply were taken out along the way, and two factual slips were corrected (long service
+  leave is state law, not part of the National Employment Standards; the Koowarta case name).
+- **Added.** `seedAnswerBandAndGuides.test.ts` fails if a shipped full-mark answer exceeds
+  `getFullMarkWordRange`, if a lower-mark sample is longer than a higher one, or if a marking
+  guide differs from the ladder the app expects. The band is read from the code, so tuning it
+  after testing moves the test with it, and `LENGTH_TOLERANCE` gives a grace margin if needed.
+
 ## [Unreleased] - 2026-10-08 (Marking guides, word bands and syllabus terms in the shipped courses)
 
 - **Fixed.** About 90 marking guides in Ancient History, English, Geography, Legal
