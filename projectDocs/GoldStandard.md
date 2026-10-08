@@ -57,5 +57,5 @@ The system generates rubrics using the **Descending Quality Descriptor** pattern
 Sample answers are generated using `gemini-3.1-pro-preview` (the confirmed successor to `gemini-3-pro-preview`, which Google shut down 2026-03-09 — see `services/aiModels.ts`) with a specific `thinkingBudget`. The engine is admin-selectable at runtime (`resolveTarget`); this is the default for the `reasoning` role, not a hardcoded model.
 
 - **Structure**: PEEL (Point, Evidence, Explanation, Link) is enforced for 4+ mark questions.
-- **Length**: Tuned to approx. 35-45 words per mark.
+- **Length**: Brief is better. The answer meets the top row of the marking criteria in as few words as it can and stays inside the word band for its mark value (`getFullMarkWordRange` in `data/commandTerms.ts`). The band is tuned from testing.
 - **Differentiation**: The "Generate Sample Answer" tool can explicitly create a "Band 4" response (containing common errors) versus a "Band 6" response (exemplar) to help students see the gap.
