@@ -15,6 +15,11 @@
   rely on them.
 - **Still one question per dot point.** Legal Studies, Business Studies and
   Economics are the next to be upgraded.
+- **New.** Geography covers all 162 dot points of the 2022 syllabus, with 333
+  questions and two or three per dot point.
+- **Returning browsers.** `DATA_VERSION` is now 2.12.0. The shipped-course sync in
+  `useSyllabusData` runs for any library saved before 2.12.0, so a browser saved at
+  2.11.0 receives Geography, English Standard and Ancient History.
 
 ## [Unreleased] - 2026-10-07 (Analytics windows in hours, and stale seeded courses retired from saved libraries)
 
