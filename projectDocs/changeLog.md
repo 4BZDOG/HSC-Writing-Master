@@ -13,8 +13,15 @@
 - **Not yet source-checked.** Historical, legal and literary claims in these
   courses were written from memory. A specialist should check them before students
   rely on them.
-- **Still one question per dot point.** Legal Studies, Business Studies and
-  Economics are the next to be upgraded.
+- **Upgraded.** Legal Studies now has 327 questions over all 157 dot points, two or
+  more per dot point. Its NSW statute points were not checked against the consolidated
+  Acts, and its outcome links are our own mapping. Check both before students rely on
+  them.
+- **Corrected.** Reviewer corrections to Ancient History (dates and unsupported claims,
+  invented scenarios labelled hypothetical), English scenario years aligned with topic
+  years, and Modern History sample-answer bands re-derived from marks.
+- **Still one question per dot point.** Business Studies and Economics are the next to
+  be upgraded.
 - **New.** Geography covers all 162 dot points of the 2022 syllabus, with 333
   questions and two or three per dot point.
 - **Returning browsers.** `DATA_VERSION` is now 2.12.0. The shipped-course sync in
@@ -61,13 +68,13 @@ and English Advanced.
   sub-topics, dot points and outcome codes are taken verbatim from the NESA
   syllabus documents, not written from memory:
 
-  | Course | Syllabus | Topics | Sub-topics | Dot points | Outcomes |
-  | --- | --- | --- | --- | --- | --- |
-  | Modern History | 2024 | 4 | 16 | 48 | MH-12-01 to 07 |
-  | Legal Studies | 2025 | 7 | 36 | 157 | LST-12-01 to 08 |
-  | Business Studies | Stage 6, 2010 | 4 | 25 | 174 | H1 to H10 |
-  | Economics | 2025 | 3 | 17 | 131 | ECO-12-01 to 10 |
-  | English Advanced | 2024 | 4 | 8 | 37 | EAV-12-01 to 06 |
+  | Course           | Syllabus      | Topics | Sub-topics | Dot points | Outcomes        |
+  | ---------------- | ------------- | ------ | ---------- | ---------- | --------------- |
+  | Modern History   | 2024          | 4      | 16         | 48         | MH-12-01 to 07  |
+  | Legal Studies    | 2025          | 7      | 36         | 157        | LST-12-01 to 08 |
+  | Business Studies | Stage 6, 2010 | 4      | 25         | 174        | H1 to H10       |
+  | Economics        | 2025          | 3      | 17         | 131        | ECO-12-01 to 10 |
+  | English Advanced | 2024          | 4      | 8          | 37         | EAV-12-01 to 06 |
 
   Every question was checked against the app's command-term mark ranges,
   marking ladders and keyword counts, and each full-mark exemplar uses the key
@@ -75,6 +82,7 @@ and English Advanced.
   because COMPOSE is not one of the app's command terms. The files were
   canonicalised, `npm run content:check` reports nothing, and the unit suite,
   type-check and lint pass.
+
 - **Manifest.** Lists the five courses under HSIE and English, alongside
   Software Engineering and Enterprise Computing.
 - **Syllabus timing.** Modern History (2024), Legal Studies (2025) and Economics
