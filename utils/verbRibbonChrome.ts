@@ -72,7 +72,7 @@
  *  second tap within ~300ms of the first was read as a zoom gesture: the page
  *  lurched instead of the selection moving. Panning and pinching are untouched. */
 export const RIBBON_ROOT =
-  'relative isolate overflow-hidden rounded-surface border border-white/15 bg-[#070b14] text-white touch-manipulation animate-fade-in';
+  'relative isolate overflow-hidden rounded-surface border border-slate-300 dark:border-white/15 bg-[#070b14] text-white touch-manipulation animate-fade-in';
 
 /** The light that falls on the stage, in the tier's own hue. Painted on the
  *  stage's ground; its gradient is inline at the call site and is built from
@@ -138,11 +138,24 @@ export const RIBBON_INK_GLOW_LEAVING =
  *  overflow of its own, so the glow can paint outside the stage's clip. */
 export const RIBBON_FRAME = 'relative';
 
-/** The header row, which is also the disclosure toggle. Painted on the stage.
+/** The banner: the header row, which is also the disclosure toggle. THEMED —
+ *  light in the light theme, dark in the dark one — and so it is not a
+ *  `RIBBON_INK_*` constant, which are held to one ground and no theme variants.
+ *  Painted on the page when the ribbon is shut, and on the top of the stage when
+ *  it is open.
+ *
+ *  It used to be dark in both themes, because it was part of the stage. In the
+ *  light theme that read as a dark slab among white panels — every accordion
+ *  beside it has a light header — which is the one defect a contrast audit cannot
+ *  see: the text is perfectly legible and the bar is still wrong. The hero is the
+ *  stage below the bar, so that is what stays dark. The bar is opaque in the light
+ *  theme (`bg-white`), which also hides the part of the aura and mesh that would
+ *  otherwise tint it; in the dark theme it is transparent and the stage's light
+ *  falls through it, as before.
  *
  *  It takes `PANEL_ROW_MIN_H` at the call site, so it stands on the same whole
- *  pixel as every accordion's row — the ribbon is no longer one of them, but a
- *  61px row among 61px rows is still what keeps the page's rhythm.
+ *  pixel as every accordion's row: a 61px row among 61px rows is what keeps the
+ *  page's rhythm.
  *
  *  The height is LOCKED, and it takes both halves: `min-h` against shrinking, and
  *  `whitespace-nowrap` / `truncate` on the pieces below against growing.
@@ -151,26 +164,33 @@ export const RIBBON_FRAME = 'relative';
  *  title and take it to a second line; nothing in the ribbon's chrome should move
  *  when the question changes.
  *
- *  The focus ring is a white inset ring, which is the only one that reads on a
- *  dark ground and is not clipped by the root's `overflow-hidden`. */
-export const RIBBON_INK_HEADER_BAR =
-  'relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left ' +
-  'transition-colors duration-300 group/header can-hover:hover:bg-white/[0.04] active:bg-white/[0.07] ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70';
+ *  The hover is `can-hover:` and the press is `active:`, as everywhere on the
+ *  ribbon. The focus ring is inset, in a pair, because the root's `overflow-hidden`
+ *  would clip an outside one: slate on the white bar, white on the dark one. */
+export const RIBBON_HEADER_BAR =
+  'relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left group/header ' +
+  'bg-white dark:bg-white/0 transition-colors duration-300 ' +
+  'can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/[0.04] active:bg-slate-200 dark:active:bg-white/[0.07] ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/70';
 
 /** The 32px icon tile at the head of the bar, where the tier colour lives while
  *  the ribbon is shut. Its fill is interpolated at the call site: the tier's
  *  `solidBg` and `solidText` when a verb is selected — the pairing
  *  `getBandConfig` exists to provide, and the reason it is not `text-white`,
- *  which tier 3's yellow reads at 1.9:1 — and a quiet white-alpha well when none
- *  is. Painted on the stage. */
-export const RIBBON_INK_HEADER_TILE =
+ *  which tier 3's yellow reads at 1.9:1 — and `RIBBON_HEADER_TILE_NEUTRAL` when
+ *  none is. Painted on the bar. */
+export const RIBBON_HEADER_TILE =
   'w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border shadow-sm transition-colors duration-500';
+
+/** The tile with no verb chosen: the accordions' neutral well in the light theme,
+ *  a quiet white-alpha one in the dark. Painted on the bar. */
+export const RIBBON_HEADER_TILE_NEUTRAL =
+  'bg-slate-100 text-slate-600 border-slate-300 dark:bg-white/10 dark:text-slate-300 dark:border-white/15';
 
 /** "HSC Command Verb Hierarchy" — the panel's NAME, in the section voice every
  *  title in the workspace takes. Truncates rather than wraps: an ellipsis on a
  *  title the reader already knows costs nothing, a second line costs the height
- *  lock. Painted on the stage.
+ *  lock. Painted on the bar.
  *
  *  The tracking comes in below `sm`. At the section voice's 0.16em the title is
  *  about 50px wider than at 0.06em, and on a 390px phone — a 32px tile, a
@@ -181,37 +201,50 @@ export const RIBBON_INK_HEADER_TILE =
  *  is the common case — it comes in a second step, to 0.02em, which is what a
  *  218px title box needs; a 320px screen still ellipsises, and is the one width
  *  this does not try to save. */
-export const RIBBON_INK_HEADER_TITLE =
-  't-section block truncate text-white max-sm:!tracking-[0.06em] max-[379px]:!tracking-[0.02em]';
+export const RIBBON_HEADER_TITLE =
+  't-section block truncate text-slate-900 dark:text-white max-sm:!tracking-[0.06em] max-[379px]:!tracking-[0.02em]';
 
-/** "Reference · 6 cognitive tiers", under the title. `slate-300`, not
- *  `slate-500`: 13.3:1 against 4.1:1 on this ground, measured. Painted on the
- *  stage. */
-export const RIBBON_INK_HEADER_SUBLABEL = 't-label block truncate text-slate-300';
+/** "Reference · 6 cognitive tiers", under the title. `slate-600` on white is
+ *  7.6:1 and `slate-300` on the dark ground is 13.3:1 — `slate-500` would be
+ *  4.1:1 on the dark one and fails. Painted on the bar. */
+export const RIBBON_HEADER_SUBLABEL = 't-label block truncate text-slate-600 dark:text-slate-300';
 
 /** The word "Selected:" before the chip. `whitespace-nowrap` is half of the
- *  height lock. Painted on the stage. */
-export const RIBBON_INK_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-300';
+ *  height lock. Painted on the bar. */
+export const RIBBON_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-600 dark:text-slate-300';
 
 /** The chip carrying the selected verb. `whitespace-nowrap` is the other half
- *  of the height lock — DIFFERENTIATE is thirteen characters. White text on a
- *  wash of the tier, so it reads the same on all six hues, including the yellow
- *  that white-on-fill fails. Painted on the stage. */
-export const RIBBON_INK_SELECTED_CHIP =
-  't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border text-white ' +
-  'bg-[rgb(var(--band-rgb)/0.22)] border-[rgb(var(--band-rgb)/0.65)]';
+ *  of the height lock — DIFFERENTIATE is thirteen characters. Dark ink on a light
+ *  wash of the tier in the light theme, white on a deeper one in the dark, so it
+ *  reads the same on all six hues, including the yellow that white-on-fill
+ *  fails. Painted on the bar. */
+export const RIBBON_SELECTED_CHIP =
+  't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border ' +
+  'text-slate-900 dark:text-white ' +
+  'bg-[rgb(var(--band-rgb)/0.14)] dark:bg-[rgb(var(--band-rgb)/0.22)] ' +
+  'border-[rgb(var(--band-rgb)/0.55)] dark:border-[rgb(var(--band-rgb)/0.65)]';
 
 /** The ceiling in miniature, in the header: six ascending bars, lit to the
  *  tier. It is what the staircase below says, small enough to say it while the
- *  ribbon is shut — which is when most students see this surface. The bars are
- *  drawn at the call site. Decorative, so `aria-hidden` there; the chip beside it
- *  and the live region say the same thing in words. Painted on the stage.
+ *  ribbon is shut — which is when most students see this surface. The lit bars
+ *  are drawn at the call site, from the tier palette; the unlit ones wear
+ *  `RIBBON_MINI_BAR_UNLIT`. Decorative, so `aria-hidden` there; the chip beside
+ *  it and the live region say the same thing in words. Painted on the bar.
  *
  *  Not below `sm`. On a 390px phone the bars cost the title about 30px, which is
  *  the difference between the whole name and "HSC COMMAND VERB HIER…" — and the
  *  tile beside the title is already the tier's colour there, which is the part
  *  of this glyph a phone has room for. */
-export const RIBBON_INK_MINI_STAIR = 'hidden sm:flex items-end gap-[3px] h-4 shrink-0';
+export const RIBBON_MINI_STAIR = 'hidden sm:flex items-end gap-[3px] h-4 shrink-0';
+
+/** A mini-staircase bar the verb's tier does not reach. A class rather than an
+ *  inline colour, because it has to be a different colour in each theme: the
+ *  white alpha that reads on the dark bar is invisible on the white one. */
+export const RIBBON_MINI_BAR_UNLIT = 'bg-slate-300 dark:bg-white/20';
+
+/** The disclosure chevron, by state. Painted on the bar. */
+export const RIBBON_HEADER_CHEVRON_OPEN = 'text-slate-900 dark:text-white';
+export const RIBBON_HEADER_CHEVRON_SHUT = 'text-slate-500 dark:text-slate-300';
 
 /** The stage's body: the verb and its brief on the left, the staircase on the
  *  right, the scoreboard across the foot. Painted on the stage.

@@ -27,17 +27,10 @@ import {
   RIBBON_INK_CAPTION,
   RIBBON_INK_CEILING,
   RIBBON_INK_DEFINITION,
-  RIBBON_INK_HEADER_BAR,
-  RIBBON_INK_HEADER_SUBLABEL,
-  RIBBON_INK_HEADER_TILE,
-  RIBBON_INK_HEADER_TITLE,
   RIBBON_INK_HERO,
-  RIBBON_INK_MINI_STAIR,
   RIBBON_INK_SCALE_RAIL,
   RIBBON_INK_SCALE_SPAN,
   RIBBON_INK_SCOREBOARD,
-  RIBBON_INK_SELECTED_CHIP,
-  RIBBON_INK_SELECTED_LABEL,
   RIBBON_INK_STAIR,
   RIBBON_INK_STAIR_COLUMN,
   RIBBON_INK_STAIR_IGNITION,
@@ -56,8 +49,19 @@ import {
   RIBBON_INK_VERB_RULE,
   RIBBON_INK_VERB_STAGE,
   RIBBON_FRAME,
+  RIBBON_HEADER_BAR,
+  RIBBON_HEADER_CHEVRON_OPEN,
+  RIBBON_HEADER_CHEVRON_SHUT,
+  RIBBON_HEADER_SUBLABEL,
+  RIBBON_HEADER_TILE,
+  RIBBON_HEADER_TILE_NEUTRAL,
+  RIBBON_HEADER_TITLE,
+  RIBBON_MINI_BAR_UNLIT,
+  RIBBON_MINI_STAIR,
   RIBBON_PANEL,
   RIBBON_ROOT,
+  RIBBON_SELECTED_CHIP,
+  RIBBON_SELECTED_LABEL,
   RIBBON_STRIP,
   RIBBON_STRIP_FADE_END,
   RIBBON_STRIP_FADE_START,
@@ -457,7 +461,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   // branch is a white-alpha well on the stage's own ground.
   const headerTileClass = activeConfig
     ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/20`
-    : 'bg-white/10 text-slate-300 border-white/15';
+    : RIBBON_HEADER_TILE_NEUTRAL;
 
   return (
     // The hero. A dark stage in both themes with a tier-lit edge and a glow
@@ -530,22 +534,22 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
           aria-expanded={isOpen}
           aria-controls={panelId}
           aria-label={`${isOpen ? 'Collapse' : 'Expand'} the HSC command verb hierarchy reference`}
-          className={`${RIBBON_INK_HEADER_BAR} ${PANEL_ROW_MIN_H}`}
+          className={`${RIBBON_HEADER_BAR} ${PANEL_ROW_MIN_H}`}
         >
           <div className="flex items-center gap-4 min-w-0">
-            <div className={`${RIBBON_INK_HEADER_TILE} ${headerTileClass}`}>
+            <div className={`${RIBBON_HEADER_TILE} ${headerTileClass}`}>
               <Layers className="w-4 h-4" />
             </div>
             <div className="text-left min-w-0">
               {/* Truncates rather than wraps: an ellipsis on a title the reader
                 already knows costs nothing, a second line costs the lock. */}
-              <h3 className={RIBBON_INK_HEADER_TITLE}>HSC Command Verb Hierarchy</h3>
+              <h3 className={RIBBON_HEADER_TITLE}>HSC Command Verb Hierarchy</h3>
               {/* "Bands" counted TIER_GROUPS and called them bands. The two are
                 1:1 — every tier's maxBand is its own number, and
                 bandColors.test.ts pins that — so it was not false, only the
                 conflation `tierShortLabel`'s doc comment exists to warn
                 about. What is being counted here is tiers. */}
-              <span className={RIBBON_INK_HEADER_SUBLABEL}>
+              <span className={RIBBON_HEADER_SUBLABEL}>
                 Reference · {sortedVerbsByGroup.length} cognitive tiers
               </span>
             </div>
@@ -559,25 +563,27 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   bar is the same fact twice on one screen. It stays in the
                   document either way: only its display changes. */}
                 <div className="hidden sm:group-aria-[expanded=false]/header:flex items-center gap-2.5 animate-fade-in">
-                  <span className={RIBBON_INK_SELECTED_LABEL}>Selected:</span>
-                  <div className={RIBBON_INK_SELECTED_CHIP}>{activeTermInfo.term}</div>
+                  <span className={RIBBON_SELECTED_LABEL}>Selected:</span>
+                  <div className={RIBBON_SELECTED_CHIP}>{activeTermInfo.term}</div>
                 </div>
                 {/* The ceiling in miniature: six bars, lit to the tier. What the
                   staircase says, small enough to say it while the ribbon is
                   shut, which is when most students see it. Decorative, so
                   hidden from assistive tech — the chip and the live region say
                   the same in words. */}
-                <span className={RIBBON_INK_MINI_STAIR} aria-hidden="true">
+                <span className={RIBBON_MINI_STAIR} aria-hidden="true">
                   {TIER_STEPS.map((step) => (
                     <span
                       key={step}
-                      className="w-1 rounded-full"
+                      // The lit bars are the tier's own colour in both themes;
+                      // the unlit ones are a class, because white alpha reads
+                      // on the dark bar and is invisible on the white one.
+                      className={`w-1 rounded-full ${step <= activeTermInfo.tier ? '' : RIBBON_MINI_BAR_UNLIT}`}
                       style={{
                         height: `${5 + (step - 1) * 2.2}px`,
-                        backgroundColor:
-                          step <= activeTermInfo.tier
-                            ? `rgb(${getBandRgb(step)})`
-                            : 'rgb(255 255 255 / 0.2)',
+                        ...(step <= activeTermInfo.tier
+                          ? { backgroundColor: `rgb(${getBandRgb(step)})` }
+                          : {}),
                       }}
                     />
                   ))}
@@ -585,7 +591,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
               </>
             )}
             <ChevronDown
-              className={`w-4 h-4 transition-transform duration-[420ms] ease-[cubic-bezier(0.32,0.72,0,1)] ${isOpen ? 'rotate-180 text-white' : 'text-slate-300'}`}
+              className={`w-4 h-4 transition-transform duration-[420ms] ease-[cubic-bezier(0.32,0.72,0,1)] ${isOpen ? `rotate-180 ${RIBBON_HEADER_CHEVRON_OPEN}` : RIBBON_HEADER_CHEVRON_SHUT}`}
             />
           </div>
         </button>

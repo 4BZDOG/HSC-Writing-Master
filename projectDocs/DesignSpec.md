@@ -118,8 +118,9 @@ the wrong tool — most white-alpha classes in this codebase are already correct
 
   This example has moved three times. It used to read "the ribbon header", and
   that surface is gone — the verb ribbon's header was a full-bleed tier gradient,
-  then a glass rail, then the same row every accordion wears, and is now the top
-  of a dark stage (see "The hero" in §3) with its tier colour on a 32px tile. It
+  then a glass rail, then the same row every accordion wears, and is now a themed
+  banner — light in the light theme, dark in the dark — over a dark stage (see
+  "The hero" in §3), with its tier colour on a 32px tile. It
   later named the ribbon's detail-card icon, which went when that card stopped
   being a wash of the tier. The rule is unchanged; only the illustration moved.
   Check what a class is painted on, not what this list happened to name when it
@@ -300,11 +301,31 @@ What makes it a different object, and not a bigger panel:
 | Decision | The hero                                                                         | Why                                                                                                  |
 | -------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Rank     | `rounded-surface` (32px), the workspace cards' radius                            | Panels are 20px. The radius says this is a card, not reference material                              |
-| Ground   | A **stage, dark in both themes** (`bg-[#070b14]`), on an ordinary themed drawer  | A lit slab on a pale desk in the light theme; a spotlit stage in the dark one                        |
+| Ground   | A **stage, dark in both themes** (`bg-[#070b14]`), under a themed banner         | A lit slab on a pale desk in the light theme; a spotlit stage in the dark one                        |
+| Banner   | The header bar is **themed**: white in the light theme, the stage itself in dark | A dark bar among white panels is the one defect a contrast audit cannot see (see below)              |
 | Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
 | Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                 | The display voice that already names the product, at the one place it is the subject                 |
 | Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above       | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
 | Motion   | One orchestrated moment on a change of verb, and responses to input              | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
+
+**The banner is the one part of the hero that follows the theme.** The header bar
+(`RIBBON_HEADER_*`) used to be part of the stage, so in the light theme the
+ribbon opened with a dark slab above a page of white panels whose headers are all
+light. Its text was perfectly legible, so no contrast check could object — which
+is the defect `tests/e2e/light-theme.spec.ts` warns about by name. It is an
+ordinary themed bar now: opaque white with dark ink in the light theme (which also
+hides the part of the aura that would tint it), see-through with white ink in the
+dark theme, where the stage's light falling through it is the look. The tier is
+still on the 32px tile, the selected-verb chip and the miniature staircase, each
+with a pair for the unlit bars, the neutral tile and the chevron. What stays one
+ground is everything from the banner's lower edge down to the drawer. The
+distinction is in the names: `RIBBON_INK_*` is the stage and is held to one ground
+with no theme variants; `RIBBON_HEADER_*`, `RIBBON_SELECTED_*` and `RIBBON_MINI_*`
+are the banner and are held to the opposite rule — every colour has a `dark:`
+partner. The root's neutral edge is a pair too (`border-slate-300
+dark:border-white/15`), because a shut ribbon sits on the page, where white at 15%
+is invisible. `tests/e2e/verb-ribbon.spec.ts` reads the computed colours of the
+banner and the stage in both themes.
 
 **The stage is dark in both themes, and that is a claim the tests hold.** The
 theme tokens flip: `--color-text-muted` resolves to slate-600 under the light
@@ -314,9 +335,9 @@ So everything painted on it is named `RIBBON_INK_*` in `utils/verbRibbonChrome.t
 and held to three rules by `tests/unit/verbRibbonChrome.test.tsx`:
 
 1. **No `light:` or `dark:` partner.** It has one ground, so a partner is a second
-   guess at it. (One documented exemption: the header tile wears
-   `getBandConfig`'s `solidBg`/`solidText` pair, which is independent of the
-   ground. The mesh overlay no longer needs one: the stage uses its `plain` mode.)
+   guess at it. (The banner is not the stage and takes the opposite rule; the
+   root's neutral edge is the one themed class on it. The mesh overlay needs no
+   exemption: the stage uses its `plain` mode.)
 2. **No theme token.** No `--color-*`. A component that sits on both a themed
    surface and the stage takes a `tone` (`StrategyBrief tone="ink"`), which names
    its colours outright instead of reading tokens.

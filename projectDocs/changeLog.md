@@ -18,6 +18,12 @@
     gradient behind the word.
   - **A `box-shadow` on the stage** and an aura sized to it, both re-painted on every frame of the
     open and close. The glow is a small sibling layer and the aura and mesh are a fixed size.
+- **Fixed.** The ribbon's banner was a dark slab in the light theme, the same as in the dark one,
+  above a page of white panels with light headers. The header bar is now themed: white with dark ink
+  in the light theme, and unchanged in the dark theme. Its tier tile, selected-verb chip, miniature
+  staircase and chevron each have a light and a dark form. The stage below it is still dark in both
+  themes, because that is the hero. The ribbon's neutral edge is a themed pair so that a shut ribbon
+  has a visible edge on a white page.
 - **Fixed.** On a phone a tap left `:hover` stuck: cards stayed enlarged and staircase columns
   stayed bright until the next tap elsewhere. Hover styles now only exist where a pointer can hover
   (a new `can-hover:` variant).
