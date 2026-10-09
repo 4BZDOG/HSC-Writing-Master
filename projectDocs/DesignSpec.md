@@ -314,9 +314,9 @@ So everything painted on it is named `RIBBON_INK_*` in `utils/verbRibbonChrome.t
 and held to three rules by `tests/unit/verbRibbonChrome.test.tsx`:
 
 1. **No `light:` or `dark:` partner.** It has one ground, so a partner is a second
-   guess at it. (Two documented exemptions: the header tile wears
+   guess at it. (One documented exemption: the header tile wears
    `getBandConfig`'s `solidBg`/`solidText` pair, which is independent of the
-   ground, and the shared mesh overlay, a text-free decoration.)
+   ground. The mesh overlay no longer needs one: the stage uses its `plain` mode.)
 2. **No theme token.** No `--color-*`. A component that sits on both a themed
    surface and the stage takes a `tone` (`StrategyBrief tone="ink"`), which names
    its colours outright instead of reading tokens.
@@ -342,6 +342,40 @@ numeral or be hit with a thumb.
 and for the two-word ones, which wrap. All thirty-eight were measured against
 their column at 1920, 1440, 1280, 1024, 820, 390 and 360px, and none overflows;
 if a verb is added or a breakpoint moves, that measurement is the thing to repeat.
+
+**Motion on a phone.** The hero is the one surface that animates a lot, and
+iOS Safari is where that is felt first, so it is built to a stricter rule than
+the rest of the app. `tests/unit/verbRibbonChrome.test.tsx` and
+`tests/e2e/verb-ribbon-touch.spec.ts` (which runs on the phone projects, real
+WebKit included) hold it:
+
+- **Animate `transform` and `opacity`, and nothing else.** A selection is marked
+  by a halo overlay that fades (`RIBBON_TIER_HALO`), not by a transition on the
+  card's border width, shadow and fill. Name the properties a transition covers;
+  `transition-all` and overshoot curves (`cubic-bezier(0.34, 1.56, …)`) are out.
+- **No `mask-image` on anything that scrolls or moves**, and no `clip-stable` on
+  the stage or its cards (a permanent layer plus an opaque mask). A scroller's
+  edge fade is two overlays in the container's own colour, ending in the SAME
+  colour at zero alpha rather than `transparent`, which Safari takes through grey.
+- **No `mix-blend-mode`.** It renders everything beneath it offscreen and blends it
+  back, every frame anything beneath it changes. The shared `MeshOverlay` takes
+  `plain` for surfaces that animate.
+- **No big blur on something that is re-created.** A glow behind a word, or under
+  the stage, is a radial gradient in a sibling, not a `text-shadow` or a
+  `box-shadow`. A shadow is painted from the box it belongs to, so one on a box
+  that is resizing is re-rastered every frame.
+- **A layer that must survive a resize has a fixed size.** The aura and mesh are
+  top-anchored and 80rem tall, and the stage clips them; `inset-0` on a box that
+  changes height repaints the layer on every frame of the change.
+- **Hover is `can-hover:`**, a variant wrapping `@media (hover: hover)`. On a
+  touch screen a tap leaves `:hover` on the element, so a bare `hover:` is a state
+  the control is left in. Press feedback is `active:` on `transform`.
+- **Touch targets are `touch-manipulation`** (no double-tap zoom) and `select-none`.
+- **A cross-fade is two layers.** Re-keying an element takes the old one away on
+  the same frame the new one starts from nothing, which dips to the ground. The
+  outgoing layer stays for the length of the fade (`RIBBON_INK_AURA_LEAVING`).
+- **Do not move what the reader is touching.** The strip is placed instantly when
+  the ribbon opens, and is not re-centred under a tap on a card already in view.
 
 ## 4. Typography
 

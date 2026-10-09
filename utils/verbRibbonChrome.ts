@@ -57,9 +57,22 @@
  *  are inline at the call site, because they come from `--band-rgb`.
  *
  *  `isolate` so the aura and the mesh, which sit behind the content at `z-0`,
- *  cannot be reordered against anything outside the ribbon. */
+ *  cannot be reordered against anything outside the ribbon.
+ *
+ *  NOT `clip-stable`, which it used to be. That class is a permanent compositing
+ *  layer plus an opaque `-webkit-mask-image`, and on the root of a panel that
+ *  fades in, grows and shrinks its height, and re-lights itself, it asked iOS
+ *  Safari to re-mask the entire stage on every frame of every one of those.
+ *  `isolate` + `overflow-hidden` + the radius is what clips the corners, and the
+ *  two full-bleed children that could otherwise show a square corner for a frame
+ *  (the aura and the mesh) round themselves with `rounded-[inherit]`.
+ *
+ *  `touch-manipulation` turns off double-tap-to-zoom across the ribbon. Verb
+ *  chips and staircase steps are tapped in quick succession, and on iOS Safari a
+ *  second tap within ~300ms of the first was read as a zoom gesture: the page
+ *  lurched instead of the selection moving. Panning and pinching are untouched. */
 export const RIBBON_ROOT =
-  'clip-stable relative isolate overflow-hidden rounded-surface border border-white/15 bg-[#070b14] text-white animate-fade-in';
+  'relative isolate overflow-hidden rounded-surface border border-white/15 bg-[#070b14] text-white touch-manipulation animate-fade-in';
 
 /** The light that falls on the stage, in the tier's own hue. Painted on the
  *  stage's ground; its gradient is inline at the call site and is built from
@@ -78,7 +91,52 @@ export const RIBBON_ROOT =
  *  blind spot that let this component's first three contrast defects ship. With
  *  the aura beside the content, every text node's nearest background is the
  *  flat ground. */
-export const RIBBON_INK_AURA = 'absolute inset-0 z-0 pointer-events-none animate-fade-in';
+export const RIBBON_INK_AURA =
+  'absolute inset-x-0 top-0 h-[80rem] z-0 rounded-[inherit] pointer-events-none animate-fade-in';
+
+/** The light the stage is leaving. When the tier changes the call site keeps the
+ *  previous aura mounted for the length of the cross-fade and fades it out while
+ *  the new one fades in; this is that layer. Before it, the aura was simply
+ *  re-keyed — the old light vanished on the first frame and the new one rose
+ *  from nothing, so every tier change dipped the stage to bare black for a beat
+ *  and read as a flicker. The two share a duration and a curve, so their
+ *  opacities sum to one across the whole fade. Same sibling-never-ancestor rule
+ *  as the aura itself, and it is removed once it has finished. */
+export const RIBBON_INK_AURA_LEAVING =
+  'absolute inset-x-0 top-0 h-[80rem] z-0 rounded-[inherit] pointer-events-none animate-fade-out';
+
+/** Where the mesh sits on the stage: the aura's own box. See `RIBBON_INK_AURA`
+ *  for why it is a fixed height and not `inset-0`. */
+export const RIBBON_INK_MESH_BOX = 'inset-x-0 top-0 h-[80rem]';
+
+/** The tier's glow beneath the stage, and what replaces a `box-shadow` on the
+ *  root. A soft ellipse, centred a little below the stage's bottom edge, so half
+ *  of it is behind the (opaque) stage and half shows under it as a pool of the
+ *  tier's light.
+ *
+ *  The root used to carry `0 28px 70px -32px` as an inline shadow. A shadow is
+ *  painted from the box it belongs to, and the root's box changes height on
+ *  every frame of the panel's open and close — so a 70px blur over the whole
+ *  stage was re-rastered once per frame, which measured as the single largest
+ *  paint in the move. This is a small element at a fixed size that is only moved
+ *  (its position follows the stage's bottom edge) and never repainted by a
+ *  resize; the gradient falls off to the SAME colour at zero alpha, because
+ *  `transparent` is rgba(0,0,0,0) and Safari interpolates through grey. It is a
+ *  sibling BEFORE the stage, so the stage paints over it, and it fades in with
+ *  the stage. */
+export const RIBBON_INK_GLOW =
+  'absolute inset-x-8 -bottom-7 h-20 pointer-events-none animate-fade-in ' +
+  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/0.5),rgb(var(--band-rgb)/0))]';
+
+/** The glow the stage is leaving: the same layer, fading out while the new one
+ *  fades in, for the reason `RIBBON_INK_AURA_LEAVING` gives. */
+export const RIBBON_INK_GLOW_LEAVING =
+  'absolute inset-x-8 -bottom-7 h-20 pointer-events-none animate-fade-out ' +
+  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/0.5),rgb(var(--band-rgb)/0))]';
+
+/** The positioning context for the glow: the stage's wrapper, which has no
+ *  overflow of its own, so the glow can paint outside the stage's clip. */
+export const RIBBON_FRAME = 'relative';
 
 /** The header row, which is also the disclosure toggle. Painted on the stage.
  *
@@ -97,7 +155,7 @@ export const RIBBON_INK_AURA = 'absolute inset-0 z-0 pointer-events-none animate
  *  dark ground and is not clipped by the root's `overflow-hidden`. */
 export const RIBBON_INK_HEADER_BAR =
   'relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left ' +
-  'transition-colors duration-300 group/header hover:bg-white/[0.04] ' +
+  'transition-colors duration-300 group/header can-hover:hover:bg-white/[0.04] active:bg-white/[0.07] ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70';
 
 /** The 32px icon tile at the head of the bar, where the tier colour lives while
@@ -181,11 +239,28 @@ export const RIBBON_INK_TIER_CHIP =
  *  chooses it, and `tests/e2e/verb-ribbon.spec.ts` measures all thirty-eight
  *  against the column at six widths.
  *
- *  `text-shadow` is the glow, and it is drawn from `--band-rgb`, so it is the
- *  tier's colour at 55% and not a second copy of anything. Painted on the stage. */
+ *  The glow is NOT a `text-shadow`, which it was: a 48px blur on a 96px glyph is
+ *  a Gaussian pass over a bitmap about 1000px wide at 3x, redone from scratch
+ *  every time the word is re-created — which is every time a chip is tapped — and
+ *  on iOS that was the hitch at the start of each swap. It is a radial gradient
+ *  in a sibling behind the word (`RIBBON_INK_VERB_GLOW`), which the compositor
+ *  can fade and move for nothing. `relative` so the word stays above it.
+ *  Painted on the stage. */
 export const RIBBON_INK_VERB =
-  't-display uppercase italic leading-[0.92] tracking-tighter text-white break-words ' +
-  '[text-shadow:0_0_48px_rgb(var(--band-rgb)/0.55)]';
+  't-display relative uppercase italic leading-[0.92] tracking-tighter text-white break-words';
+
+/** The box the verb and its glow share, which is what `RIBBON_INK_VERB_GLOW` is
+ *  positioned against. It carries the verb's top margin. */
+export const RIBBON_INK_VERB_STAGE = 'relative mt-4';
+
+/** The tier's light, behind the verb: a soft ellipse in `--band-rgb` that fades
+ *  to the SAME colour at zero alpha (`transparent` is rgba(0,0,0,0), which Safari
+ *  interpolates through grey). A sibling of the word and never its ancestor, for
+ *  the reason the aura gives. It reaches past the column's edges and above and
+ *  below the line so the light has somewhere to fall off. */
+export const RIBBON_INK_VERB_GLOW =
+  'absolute -inset-x-8 -inset-y-5 rounded-[inherit] pointer-events-none ' +
+  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/0.32),rgb(var(--band-rgb)/0))]';
 
 /** The type size for a verb, by what the verb is.
  *
@@ -292,6 +367,11 @@ export const RIBBON_INK_STAIR =
  *  rounded top. Painted on the stage. */
 export const RIBBON_INK_STAIR_STEP =
   'absolute inset-y-0 z-10 -translate-x-1/2 flex flex-col justify-end cursor-pointer rounded-t-lg group/step ' +
+  // The press. A step answers the finger the moment it lands rather than when
+  // the selection has re-rendered: it sinks 4% toward its foot, on `transform`
+  // only, and comes back on release. `touch-manipulation` and `select-none` so a
+  // quick second tap is not a zoom and a long press is not a text selection.
+  'origin-bottom touch-manipulation select-none transition-transform duration-150 ease-out active:scale-[0.96] ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]';
 
 /** A column's band numeral, above it: mono, because it is a figure, and
@@ -307,7 +387,9 @@ export const RIBBON_INK_STAIR_NUMERAL =
 /** The column. Fill, glow and hatch are inline at the call site, because they
  *  come from the tier's `--tier-rgb` and from whether the column is reachable;
  *  this is the shape and the response. `brightness` on hover is a filter and so
- *  paints on the compositor; nothing here is `opacity` over text. Painted on the
+ *  paints on the compositor; nothing here is `opacity` over text. The hover is
+ *  `can-hover:` — gated to devices that can hover, because on a phone a tap
+ *  leaves it stuck at 125% until the next tap elsewhere. Painted on the
  *  stage.
  *
  *  It RISES from its foot when the ribbon is opened, each column a beat after
@@ -318,7 +400,7 @@ export const RIBBON_INK_STAIR_NUMERAL =
  *  frame is full height, so a reader who has asked for no motion is left with the
  *  whole staircase (and no wait: `index.css` zeroes this one delay for them). */
 export const RIBBON_INK_STAIR_COLUMN =
-  'relative block w-full rounded-t-lg origin-bottom animate-stair-rise transition-[filter] duration-300 group-hover/step:brightness-125';
+  'relative block w-full rounded-t-lg origin-bottom animate-stair-rise transition-[filter] duration-300 can-hover:group-hover/step:brightness-125';
 
 /** The one-shot flare up the column the reader has just reached, keyed on the
  *  tier at the call site so it replays when the question changes. It is the
@@ -385,7 +467,7 @@ export const RIBBON_INK_STEP_LABEL =
  *  lift is colour, not opacity — the rule this component spent three fixes
  *  learning. */
 export const RIBBON_INK_STEP_LABEL_IDLE =
-  'hidden sm:flex text-slate-300 group-hover/step:text-white';
+  'hidden sm:flex text-slate-300 can-hover:group-hover/step:text-white';
 
 /** The drawer: the six tier cards. A themed surface under the stage — paper in
  *  the light theme, the surface token in the dark one — so the hero is a slab
@@ -424,25 +506,33 @@ export const RIBBON_STRIP =
   // climbing toward. At 1216px of content, six columns are 189px each, which
   // holds the longest verb chip (DIFFERENTIATE) with room to spare.
   'xl:grid xl:grid-cols-6 xl:overflow-visible xl:gap-3 xl:px-0 ' +
-  // The edge fades, as a mask on the strip itself (`index.css`). `scrollbar-hide`
-  // takes away the only signal that there is more to the right, and nothing
-  // replaced it. This used to be two gradient overlays that ended in the PAGE's
-  // colour — correct while the strip sat on the page, and a grey smear at each
-  // end once it sat on a white panel in the light theme. A mask fades the cards
-  // themselves into whatever is behind them, so it has no colour to get wrong in
-  // either theme.
+  // `px-4` is the 1rem of padding the edge fades (`RIBBON_STRIP_FADE_*`) ramp
+  // over, so at rest the first card sits just past the left ramp at scroll 0
+  // and the last just before the right one at the far end: the selected tier is
+  // never faded out by the very device that is there to say "there is more". It
+  // is also what gives the selected card's halo somewhere to be drawn — an
+  // `overflow-x-auto` box clips at its padding edge, and at zero padding the
+  // 4px ring was cut off along the card's left side.
   //
-  // `px-4` is the 1rem the mask ramps over, so at rest the first card sits just
-  // past the left ramp at scroll 0 and the last just before the right one at the
-  // far end: the selected tier is never faded out by the very device that is
-  // there to say "there is more". It is also what gives the selected card's 4px
-  // ring somewhere to be drawn — an `overflow-x-auto` box clips at its padding
-  // edge, and at zero padding the ring was cut off along the card's left side.
+  // The fades are sibling overlays and NOT a mask on this box. A `mask-image` on
+  // a scroller makes Safari render the scrolling content through a mask layer
+  // every frame, which is what a swipe felt like on an iPhone: a stutter under
+  // the thumb. See `.strip-fade` in `index.css`.
   //
-  // Unconditional rather than tracking `scrollLeft`, which is more machinery than
-  // 1rem of gradient is worth on a strip that is also scrolled programmatically;
-  // and switched off from `xl`, where nothing scrolls.
-  'strip-edge-mask';
+  // `overscroll-x-contain` so a flick that reaches either end bounces here and
+  // stops, instead of chaining to the page (or, at the screen edge in Safari,
+  // starting the browser's swipe-back gesture).
+  'overscroll-x-contain';
+
+/** The strip's frame: the positioning context the two edge fades are placed
+ *  against. It is the strip's parent and nothing else, so the fades stay put
+ *  while the cards scroll under them. */
+export const RIBBON_STRIP_FRAME = 'relative';
+
+/** The two edge fades. Sibling overlays of the strip, drawn in the drawer's own
+ *  colour (`index.css`); `aria-hidden` and empty at the call site. */
+export const RIBBON_STRIP_FADE_START = 'strip-fade strip-fade-start';
+export const RIBBON_STRIP_FADE_END = 'strip-fade strip-fade-end';
 
 /** One tier card. Its border and fill come from the two constants below plus
  *  the tier config. Painted on the strip, which is painted on the drawer.
@@ -451,7 +541,43 @@ export const RIBBON_STRIP =
  *  sliced by the card edge. The strip is a flex row, so leaving the height to
  *  the content makes every card as tall as the tallest for free. */
 export const RIBBON_TIER_CARD =
-  'clip-stable flex-shrink-0 w-[260px] xl:w-auto xl:min-w-0 min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card';
+  'flex-1 min-w-0 min-h-[256px] relative isolate overflow-hidden rounded-2xl border flex flex-col group/card';
+
+/** The cell a tier card sits in: the strip's flex item, which owns the width,
+ *  the snap point and the position the auto-scroll measures, and which holds the
+ *  card and its halo side by side. Splitting them is what lets the card clip its
+ *  own corners (`overflow-hidden`) while the halo — a ring and a glow that paint
+ *  OUTSIDE the box — is not clipped with it.
+ *
+ *  `flex` so the card fills the cell's height (every card is as tall as the
+ *  tallest, for free). From `xl` the strip is a six-column grid and the cell is
+ *  the grid item. */
+export const RIBBON_TIER_SLOT =
+  'relative flex flex-shrink-0 w-[260px] xl:w-auto xl:min-w-0 snap-center';
+
+/** The selected tier's halo: a 2px tier-hued border, a 4px ring and the glow
+ *  beneath, all drawn on an overlay that sits over the card and is faded in and
+ *  out with `opacity`.
+ *
+ *  This replaces `transition-all duration-700` on the card, with an overshoot
+ *  curve, whose job was to animate the same three things. It did so by
+ *  re-painting the card, its masked layer and everything inside it on every
+ *  frame — border width, a blurred box-shadow and the fill together — and the
+ *  overshoot (`cubic-bezier(0.34, 1.56, 0.64, 1)`) pushed the width and the
+ *  shadow past their end values and back, which on a phone read as the card
+ *  stuttering to a stop. The halo is rastered once and then only its opacity
+ *  changes, which is compositor work: 300ms, ease-out, no overshoot, and it
+ *  cannot reflow a neighbour or the card's own contents.
+ *
+ *  `--band-rgb` is set on the cell, so both alphas come off the one band
+ *  palette. The 2px border is drawn here, over the card's own 1px edge, rather
+ *  than by widening the card's border: the card is the same box in every state,
+ *  so selecting a tier moves nothing inside any card. `z-20` so the glow lies
+ *  over the neighbouring cells. No text, and `pointer-events-none`. */
+export const RIBBON_TIER_HALO =
+  'absolute inset-0 z-20 rounded-2xl border-2 border-[rgb(var(--band-rgb)/0.85)] pointer-events-none ' +
+  'shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.18),0_24px_48px_-16px_rgb(var(--band-rgb)/0.4)] ' +
+  'transition-opacity duration-300 ease-out';
 
 /** A tier card with no verb selected anywhere, or one that is not the selected
  *  verb's tier. Painted on the drawer.
@@ -474,62 +600,34 @@ export const RIBBON_TIER_CARD =
  *  removing the pair from here does not leave a colour with no partner. */
 export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] dark:shadow-none';
 
-/** Added to the card whose tier the selected verb belongs to. Lifts it out of
- *  the strip; the tier's own border and wash arrive from the tier config, and
- *  its ring and glow arrive as one inline `box-shadow` in the tier's hex at
- *  the call site — the same way the staircase's lit column takes its glow, so
- *  the band palette stays the single source of the colour.
+/** Added to the card whose tier the selected verb belongs to. All it states is
+ *  the stacking order, `z-10`, above the receded cards at `z-0`: what marks the
+ *  card as selected is its halo (`RIBBON_TIER_HALO`), its fill and its header
+ *  gradient, which arrive from the tier config at the call site.
  *
- *  `tier-lift-current` and not a `scale-*` utility: `transform` is one property
- *  and `.clip-stable` on this card already claims it, so the utility would
- *  silently lose. The class holds the composed transform — and, since the
- *  measurement below, holds it at scale 1: a 5% lift overhung 6.5px each side
- *  and took the selected card's adjacent gaps to 9.5px against the row's 16px.
- *  See `index.css` for that, and for why the class stays rather than being
- *  deleted.
- *
- *  `border-2` here, 1px on the cards that are not current. That is the reverse
- *  of what shipped: `border-2` used to live on the five OTHER cards, so the
- *  selected card was the thin one and its header sat 1px higher than every
- *  other header in the row. Weight now marks the selection instead of
- *  contradicting it.
- *
- *  With the scale gone, the ring and the glow are the whole of the emphasis,
- *  which is what makes them worth drawing as a `box-shadow`: it paints outside
- *  the border box without displacing a single neighbour, so the row stays on
- *  one line.
- *
- *  It no longer carries `ring-4 ring-slate-900/10 dark:ring-white/5` or a 40px
- *  black drop shadow. The ring said "selected" without saying which tier — on
- *  a strip whose entire subject is six colour-coded tiers — and stacking a
- *  heavy black shadow under a coloured glow is two depth cues competing for
- *  one card. One tier-hued shadow lifts it and names it at the same time. */
-export const RIBBON_TIER_CARD_CURRENT = 'tier-lift-current border-2 z-20';
+ *  It no longer carries a border width, a transform or a shadow. `border-2` here
+ *  and 1px on the others meant selecting a tier re-laid out the card's contents
+ *  by a pixel, mid-transition; the halo draws the heavier edge over a card that
+ *  is the same box in every state. And the selected card does not scale, for the
+ *  reason measured earlier: a 5% scale on a 260px card overhangs 6.5px each side
+ *  and takes the adjacent gaps to 9.5px against the row's 16px. */
+export const RIBBON_TIER_CARD_CURRENT = 'z-10';
 
 /** Added to a card that is NOT the selected verb's tier, and to all six when
  *  no verb is selected. These cards hold 32 of the ribbon's 38 verb buttons,
  *  so everything on them stays clickable and stays in the tab order — and a
  *  control a keyboard user can reach has to be legible.
  *
- *  Nothing here dims any more, which is why it is no longer called DIMMED.
- *  The history is worth keeping because it took three passes to land:
- *  `opacity-50 light:opacity-70` took the card subtitle to a measured 2.72:1;
- *  `opacity-90` cost about 5% and left it AT the floor rather than above it,
- *  and the comment that shipped it said the real de-emphasis was carried by
- *  `scale-90` and the tier border. Half of that was untrue — `scale-90` never
- *  applied (see `.tier-lift` in `index.css`) — so `opacity-90` was in practice
- *  the only de-emphasis, doing it in the one currency this component has spent
- *  three fixes learning not to spend.
+ *  Nothing here dims. The history is worth keeping because it took three passes
+ *  to land: `opacity-50 light:opacity-70` took the card subtitle to a measured
+ *  2.72:1; `opacity-90` left it AT the floor rather than above it. De-emphasis
+ *  is now carried entirely by colour and weight — the current card takes the
+ *  tier's halo and these do not — so every reading inside them is at its own
+ *  full contrast.
  *
- *  It is now carried entirely by colour and weight: the current card takes the
- *  tier's ring, glow and 2px border, and these take 1px and no shadow. Every
- *  reading inside them is at its own full contrast, so the e2e sweep no longer
- *  composites an ancestor opacity into 32 buttons' worth of text.
- *
- *  `tier-lift` gives them the hover the old `hover:scale-95` was written to
- *  give and, being the one scale utility that actually fired, delivered
- *  backwards: with idle cards at 1 rather than 0.9 it shrank a hovered card
- *  and dropped its top 7.88px. */
+ *  `tier-lift` is the hover the old `hover:scale-95` was written to give. It is
+ *  gated to devices that can hover (`index.css`), so a tap on a phone does not
+ *  leave the card enlarged. */
 export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
 
 /** A tier card's header, which is the "select this tier" control. The card
@@ -547,7 +645,7 @@ export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
  *  tier card that holds this header is `overflow-hidden` — it would be clipped
  *  away on three sides. Inset is the shape this particular button can wear. */
 export const RIBBON_TIER_HEADER =
-  'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] hover:brightness-110 ' +
+  'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] can-hover:hover:brightness-110 active:brightness-95 touch-manipulation select-none ' +
   // From `xl`, where the six cards share the row at about 189px each, the
   // emoji stands above the name instead of beside it. Side by side, the name
   // had 90px — less than "REMEMBER" set in the display face — and a word that
@@ -581,7 +679,7 @@ export const RIBBON_TIER_HEADER_IDLE = 'band-wash border-slate-200 dark:border-w
  *  which are theme surfaces; both arrive at the call site. */
 export const RIBBON_TIER_ICON =
   'w-9 h-9 xl:w-8 xl:h-8 shrink-0 rounded-xl border flex items-center justify-center ' +
-  'transition-transform duration-500 group-hover/card:scale-110';
+  'transition-transform duration-300 ease-out can-hover:group-hover/card:scale-110';
 
 /** "Band 3 ceiling", UNDER the tier's title.
  *
@@ -696,4 +794,25 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
-export const RIBBON_VERB_CHIP = 't-label px-3 py-1.5 rounded-xl border transition-all duration-300';
+export const RIBBON_VERB_CHIP =
+  't-label px-3 py-1.5 rounded-xl border touch-manipulation select-none ' +
+  'transition-[transform,background-color,border-color,color] duration-200 ease-out active:scale-95';
+
+/** The collapsible panel's motion, as a transition and not a state: the row track
+ *  and the fade, on their own clocks. The open/closed values (`grid-rows-[1fr]`
+ *  and `opacity-100`, or `0fr` and `opacity-0`) are applied at the call site.
+ *
+ *  Two properties named, where it was `transition-all duration-500 ease-in-out`.
+ *  `all` is whatever changes, and on a panel holding the whole stage that is a
+ *  larger claim than it looks; naming the two means nothing else can ever be
+ *  swept into the animation by a later edit.
+ *
+ *  The curve is the iOS sheet curve, `cubic-bezier(0.32, 0.72, 0, 1)`: it leaves
+ *  fast, so the panel answers the tap on the first frame, and settles slowly, so
+ *  it arrives instead of stopping. `ease-in-out` did the opposite — a slow start
+ *  after a tap, which reads as lag, and a hard stop. The fade is shorter than the
+ *  height (320ms against 420ms), so by the time the panel has finished moving the
+ *  content has finished arriving.
+ */
+export const RIBBON_PANEL =
+  'relative z-10 grid [transition:grid-template-rows_420ms_cubic-bezier(0.32,0.72,0,1),opacity_320ms_ease-out]';

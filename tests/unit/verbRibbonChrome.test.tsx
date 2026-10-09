@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import React from 'react';
 import { readFileSync } from 'node:fs';
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent, act, within } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import StrategyBrief from '../../components/StrategyBrief';
 import { commandTerms, getCommandTermInfo, TIER_GROUPS } from '../../data/commandTerms';
@@ -12,8 +12,12 @@ import { BAND_HEX, getBandRgb } from '../../utils/renderUtils';
 import tailwindConfig from '../../tailwind.config.js';
 import {
   RIBBON_DRAWER,
+  RIBBON_FRAME,
   RIBBON_INK_AURA,
+  RIBBON_INK_AURA_LEAVING,
   RIBBON_INK_CEILING,
+  RIBBON_INK_GLOW,
+  RIBBON_INK_GLOW_LEAVING,
   RIBBON_INK_HEADER_BAR,
   RIBBON_INK_HEADER_TILE,
   RIBBON_INK_HEADER_TITLE,
@@ -33,13 +37,21 @@ import {
   RIBBON_INK_THRESHOLD_CHIP,
   RIBBON_INK_THRESHOLD_RULE,
   RIBBON_INK_VERB,
+  RIBBON_INK_VERB_GLOW,
   RIBBON_INK_VERB_RULE,
+  RIBBON_INK_VERB_STAGE,
+  RIBBON_PANEL,
   RIBBON_ROOT,
   RIBBON_STRIP,
+  RIBBON_STRIP_FADE_END,
+  RIBBON_STRIP_FADE_START,
+  RIBBON_STRIP_FRAME,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_RECEDED,
   RIBBON_TIER_CARD_CURRENT,
   RIBBON_TIER_CARD_IDLE,
+  RIBBON_TIER_HALO,
+  RIBBON_TIER_SLOT,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_IDLE,
   RIBBON_TIER_ICON,
@@ -72,8 +84,12 @@ afterEach(cleanup);
 
 const getToggle = () => screen.getByRole('button', { name: /command verb hierarchy reference/i });
 
-/** The stage's root: the ribbon's outermost box. */
-const rootOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+/** The ribbon's outermost box: the wrapper the stage and its glow sit in. */
+const frameOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+
+/** The stage itself: the frame's last child, after the glow siblings. */
+const rootOf = (container: HTMLElement): HTMLElement =>
+  frameOf(container).lastElementChild as HTMLElement;
 
 /** `#rrggbb` as the `rgb(r, g, b)` string jsdom reports a colour back as. */
 const asRgb = (hex: string): string => {
@@ -85,6 +101,7 @@ describe('the ribbon wears the shared vocabulary', () => {
   it('dresses its root and its header bar from verbRibbonChrome', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
+    expect(frameOf(container).className).toBe(RIBBON_FRAME);
     expect(rootOf(container).className).toContain(RIBBON_ROOT);
     expect(getToggle().className).toContain(RIBBON_INK_HEADER_BAR);
     // Still on the accordions' row height: a 61px row among 61px rows is what
@@ -111,8 +128,13 @@ describe('the ribbon wears the shared vocabulary', () => {
     const strip = container.querySelector(`[class="${RIBBON_STRIP}"]`) as HTMLElement;
     expect(strip).toBeTruthy();
     expect(strip.children).toHaveLength(6);
-    for (const card of Array.from(strip.children)) {
-      expect(card.className).toContain(RIBBON_TIER_CARD);
+    // Six cells, each holding a card and the halo that marks it. The cell owns
+    // the width and the snap point; the card owns the clip and the content.
+    for (const slot of Array.from(strip.children)) {
+      expect(slot.className).toBe(RIBBON_TIER_SLOT);
+      expect(slot.children).toHaveLength(2);
+      expect((slot.children[0] as HTMLElement).className).toContain(RIBBON_TIER_CARD);
+      expect((slot.children[1] as HTMLElement).className).toContain(RIBBON_TIER_HALO);
     }
 
     // Name-then-ceiling: the header reads its tier's NAME first and the band
@@ -251,8 +273,14 @@ describe('the stage is dark in both themes, and says so', () => {
         <CommandVerbHierarchy currentVerb={verb as PromptVerb} />
       );
       expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(tier));
-      // The glow beneath it is drawn from the same property, not from a literal.
-      expect(rootOf(container).style.boxShadow).toContain('var(--band-rgb)');
+      // The edge is drawn from the same property, not from a literal…
+      expect(rootOf(container).style.borderColor).toContain('var(--band-rgb)');
+      // …and so is the glow beneath it, which is a sibling layer in the frame
+      // and not a shadow on the stage (see `RIBBON_INK_GLOW`).
+      const glow = container.querySelector(`[class="${RIBBON_INK_GLOW}"]`) as HTMLElement;
+      expect(glow, 'no glow under a tier-lit stage').toBeTruthy();
+      expect(glow.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(tier));
+      expect(rootOf(container).style.boxShadow).toBe('');
       unmount();
     }
   });
@@ -263,7 +291,8 @@ describe('the stage is dark in both themes, and says so', () => {
     // A cool slate — nobody's tier. Red would say "Band 1" to a student who has
     // chosen nothing.
     expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe('100 116 139');
-    expect(rootOf(container).style.boxShadow).toBe('');
+    expect(rootOf(container).style.borderColor).toBe('');
+    expect(container.querySelector(`[class="${RIBBON_INK_GLOW}"]`)).toBeNull();
   });
 
   // The aura is the one gradient on the stage, and `tests/e2e/support/
@@ -290,13 +319,70 @@ describe('the stage is dark in both themes, and says so', () => {
     );
     const first = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`);
 
-    // Same tier: the same light.
+    // Same tier: the same light, and nothing leaving.
     fireEvent.click(screen.getByRole('button', { name: 'RECALL' }));
     expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"]`)).toBe(first);
+    expect(container.querySelector(`[class*="${RIBBON_INK_AURA_LEAVING}"]`)).toBeNull();
 
     // A verb of another tier: a new element, which is what replays the fade.
     rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
     expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"]`)).not.toBe(first);
+  });
+
+  // The aura used to be re-keyed and nothing more, which takes the old light
+  // away on the same frame the new one starts from nothing: every change of tier
+  // dipped the stage to bare black and came back up. It is a cross-fade now — the
+  // light the stage is leaving stays under the new one, fading out as it fades in,
+  // and is removed once it is gone.
+  describe('cross-fades the light between tiers instead of dipping to black', () => {
+    it('keeps the outgoing light, in the outgoing tier’s colour, until the fade is done', () => {
+      vi.useFakeTimers();
+      try {
+        const { container, rerender } = render(
+          <CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />
+        );
+        expect(container.querySelector(`[class*="${RIBBON_INK_AURA_LEAVING}"]`)).toBeNull();
+        expect(container.querySelector(`[class="${RIBBON_INK_GLOW_LEAVING}"]`)).toBeNull();
+
+        rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+
+        const leaving = container.querySelector(
+          `[class*="${RIBBON_INK_AURA_LEAVING}"]`
+        ) as HTMLElement;
+        expect(leaving, 'the outgoing light was removed on the same frame').toBeTruthy();
+        expect(leaving.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(1));
+        // …under the incoming one, which is the stage's own colour.
+        const incoming = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`) as HTMLElement;
+        expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(6));
+        expect(incoming).not.toBe(leaving);
+        // Nothing with text in it, and a sibling of the stage's content like the aura.
+        expect(leaving.textContent).toBe('');
+        expect(leaving.getAttribute('aria-hidden')).toBe('true');
+        expect(leaving.parentElement).toBe(rootOf(container));
+        // The glow under the stage hands over the same way.
+        expect(container.querySelector(`[class="${RIBBON_INK_GLOW_LEAVING}"]`)).toBeTruthy();
+
+        act(() => {
+          vi.advanceTimersByTime(1000);
+        });
+        expect(container.querySelector(`[class*="${RIBBON_INK_AURA_LEAVING}"]`)).toBeNull();
+        expect(container.querySelector(`[class="${RIBBON_INK_GLOW_LEAVING}"]`)).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('fades the two layers on one duration and one curve, so they sum to one', () => {
+      const { animation } = tailwindConfig.theme.extend as {
+        animation: Record<string, string>;
+      };
+      const timing = (value: string) => value.split(' ').slice(1, 3).join(' ');
+      expect(timing(animation['fade-out'])).toBe(timing(animation['fade-in']));
+      // The outgoing layer ends at nothing; it is unmounted, never left behind.
+      expect(animation['fade-out']).toContain('forwards');
+      expect(RIBBON_INK_AURA_LEAVING).toContain('animate-fade-out');
+      expect(RIBBON_INK_AURA).toContain('animate-fade-in');
+    });
   });
 });
 
@@ -384,9 +470,32 @@ describe('the verb is set at poster scale, sized to the word', () => {
     expect(RIBBON_INK_VERB).toMatch(/(^|\s)t-display(\s|$)/);
     expect(RIBBON_INK_VERB).toContain('uppercase');
     expect(RIBBON_INK_VERB).toContain('italic');
-    // The glow is drawn from the stage's one hue, not from a copy of it.
-    expect(RIBBON_INK_VERB).toContain('rgb(var(--band-rgb)/0.55)');
     expect(RIBBON_INK_VERB).not.toMatch(/text-\[#/);
+  });
+
+  // A 48px `text-shadow` on a 96px glyph is a Gaussian pass over a bitmap about a
+  // thousand pixels wide at 3x, redone from scratch every time the word is
+  // re-created — which is every chip tap — and on iOS it was the hitch at the
+  // start of each swap. The glow is a radial gradient in a sibling instead.
+  it('lights the verb from a gradient behind it, not from a blurred text-shadow', () => {
+    expect(RIBBON_INK_VERB).not.toContain('text-shadow');
+    // Drawn from the stage's one hue, falling to the same colour at zero alpha
+    // (`transparent` is rgba(0,0,0,0), which Safari interpolates through grey).
+    expect(RIBBON_INK_VERB_GLOW).toContain('radial-gradient(');
+    expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/0.32)');
+    expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/0))');
+    expect(RIBBON_INK_VERB_GLOW).not.toContain('transparent');
+
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const term = screen.getAllByText('DESCRIBE').find((el) => el.tagName === 'H4') as HTMLElement;
+    const stage = term.parentElement as HTMLElement;
+    expect(stage.className).toBe(RIBBON_INK_VERB_STAGE);
+    const glow = stage.querySelector(`[class="${RIBBON_INK_VERB_GLOW}"]`) as HTMLElement;
+    expect(glow).toBeTruthy();
+    // A sibling behind the word and never an ancestor of any text, like the aura.
+    expect(glow.textContent).toBe('');
+    expect(glow.getAttribute('aria-hidden')).toBe('true');
+    expect(glow.compareDocumentPosition(term) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it('gives only the short single-word verbs the largest size', () => {
@@ -693,7 +802,10 @@ describe('the staircase lights one geometry from one palette', () => {
     expect(RIBBON_INK_STAIR_COLUMN).toContain('origin-bottom');
 
     const delays = steps().map((step) => parseFloat(columnOf(step).style.animationDelay));
-    expect(delays[0]).toBe(0);
+    // The first column waits for the panel to be mostly open (see
+    // STAIR_OPEN_OFFSET_MS): started on the frame the panel begins to unfold it
+    // is two-thirds up before anyone can see it.
+    expect(delays[0]).toBeGreaterThan(0);
     for (let i = 1; i < delays.length; i += 1) {
       expect(delays[i], `column ${i + 1} does not wait for column ${i}`).toBeGreaterThan(
         delays[i - 1]
@@ -937,6 +1049,11 @@ describe('the drawer carries both themes', () => {
     for (const [name, value] of Object.entries(verbRibbonChrome)) {
       if (typeof value !== 'string') continue;
       if (name.startsWith('RIBBON_INK_') || name === 'RIBBON_ROOT') continue;
+      // The halo is painted in the tier's own hue from `--band-rgb`, which is one
+      // colour in both themes — the same argument `.band-edge` makes in index.css
+      // — on an overlay that has no fill of its own. There is no ground for it to
+      // get wrong, so a `dark:` partner would only be a second guess at the hue.
+      if (name === 'RIBBON_TIER_HALO') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -1085,16 +1202,18 @@ describe('the tier strip is legible and reachable', () => {
   it('de-emphasises the receded cards without spending contrast', () => {
     expect(RIBBON_TIER_CARD_RECEDED).not.toMatch(/(^|\s)opacity-/);
     expect(RIBBON_TIER_CARD_RECEDED).not.toContain('light:');
-    // The lift is a composed transform in `index.css`, not a `scale-*`
-    // utility, because `.clip-stable` on the same element would silently win.
-    // A `scale-*` here would be the dead class this replaced.
+    // The lift is a class in `index.css`, not a `scale-*` utility, so it can be
+    // gated to devices that can hover. A `scale-*` here would be the dead class
+    // this replaced.
     expect(RIBBON_TIER_CARD_RECEDED).toContain('tier-lift');
     expect(RIBBON_TIER_CARD_RECEDED).not.toMatch(/(^|\s)(hover:)?scale-/);
     expect(RIBBON_TIER_CARD_CURRENT).not.toMatch(/(^|\s)(hover:)?scale-/);
-    // Weight marks the selection rather than contradicting it: the current
-    // card is the thick one. It used to be the only 1px card in the row.
-    expect(RIBBON_TIER_CARD_CURRENT).toContain('border-2');
+    // Weight marks the selection — but it is drawn on the halo overlay now, not
+    // by widening the card's own border, so the card is the same box in every
+    // state and selecting a tier re-lays out nothing inside it.
+    expect(RIBBON_TIER_CARD_CURRENT).not.toContain('border-2');
     expect(RIBBON_TIER_CARD_RECEDED).not.toContain('border-2');
+    expect(RIBBON_TIER_HALO).toContain('border-2');
     // The neutral border that outranked the tier's in the dark theme is gone,
     // so all six cards can show their own tier at rest.
     expect(RIBBON_TIER_CARD_IDLE).not.toMatch(/(^|\s)(dark:)?border-/);
@@ -1219,33 +1338,67 @@ describe('the tier strip says what it is and where it ends', () => {
     expect(strip.getAttribute('aria-label')).toMatch(/tier 1 to tier 6/i);
   });
 
-  // The edge fades are a MASK on the strip, not two overlays that end in a
-  // colour. An overlay has to end in whatever is behind it — it ended in the
-  // page's own `from-base` while the strip sat on the page, and once the strip
-  // sat on a white panel in the light theme that was a grey smear at each end.
-  // A mask fades the cards themselves, so there is no colour to get wrong, and
-  // no scroll listener to keep it honest.
-  it('fades both edges with a mask, so there is no colour to get wrong', () => {
+  // The edge fades are two small overlays that end in the DRAWER's own colour,
+  // and NOT a mask on the strip. A `mask-image` on a scroller makes Safari render
+  // the whole scrolling content through a mask layer, which is what a swipe felt
+  // like on an iPhone: a stutter under the thumb. They are safe where the old
+  // overlays were not because the drawer is opaque in both themes and its fill is
+  // the surface token, so there is no page colour to get wrong.
+  it('fades both edges with overlays in the drawer’s colour, not a mask on the scroller', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    expect(RIBBON_STRIP).toContain('strip-edge-mask');
+    expect(RIBBON_STRIP).not.toContain('strip-edge-mask');
     const strip = screen.getByRole('group', { name: /tier ladder/i });
-    expect(strip.className).toContain('strip-edge-mask');
+    expect(strip.className).not.toContain('strip-edge-mask');
 
-    // …and nothing is laid over the strip any more, in the page's colour or
-    // anyone else's.
+    // The strip's parent is the frame the fades are positioned against, and the
+    // fades are siblings of the strip — never children, never inside the scroll.
+    const frame = strip.parentElement as HTMLElement;
+    expect(frame.className).toBe(RIBBON_STRIP_FRAME);
+    const start = frame.querySelector(`[class="${RIBBON_STRIP_FADE_START}"]`) as HTMLElement;
+    const end = frame.querySelector(`[class="${RIBBON_STRIP_FADE_END}"]`) as HTMLElement;
+    for (const fade of [start, end]) {
+      expect(fade).toBeTruthy();
+      expect(fade.parentElement).toBe(frame);
+      expect(fade.getAttribute('aria-hidden')).toBe('true');
+      expect(fade.textContent).toBe('');
+    }
+
     expect(container.querySelector('[class*="from-base"]')).toBeNull();
-    expect(container.querySelector('.pointer-events-none.bg-gradient-to-l')).toBeNull();
 
     const css = readFileSync('index.css', 'utf8');
-    const rule = css.match(/\.strip-edge-mask\s*\{([^}]*)\}/);
-    expect(rule, '.strip-edge-mask is not defined in index.css').toBeTruthy();
-    expect(rule![1]).toContain('mask-image: linear-gradient(');
-    expect(rule![1]).toContain('-webkit-mask-image');
-    // Transparent at both ends and opaque between them: a fade in, a fade out.
-    expect(rule![1]).toMatch(
-      /transparent,\s*#000 [\d.]+rem,\s*#000 calc\(100% - [\d.]+rem\),\s*transparent/
-    );
+    expect(css, 'a mask-image on the strip is back').not.toMatch(/\.strip-edge-mask/);
+    const rule = (name: string) => {
+      const match = css.match(new RegExp(`\\.${name}\\s*\\{([^}]*)\\}`));
+      expect(match, `.${name} is not defined in index.css`).toBeTruthy();
+      return match![1];
+    };
+    // Opaque at the edge and gone at the far end, in the surface token — and the
+    // far stop is the SAME colour at zero alpha, because `transparent` is
+    // rgba(0,0,0,0) and Safari interpolates through grey.
+    for (const [name, direction] of [
+      ['strip-fade-start', 'to right'],
+      ['strip-fade-end', 'to left'],
+    ]) {
+      const body = rule(name);
+      expect(body).toContain(`linear-gradient(`);
+      expect(body).toContain(direction);
+      expect(body).toContain('rgb(var(--color-bg-surface))');
+      expect(body).toContain('rgb(var(--color-bg-surface) / 0)');
+      expect(body).not.toContain('transparent');
+      expect(body).not.toContain('mask');
+    }
+    // Pinned to the strip's two ends, above the cards, and inert.
+    const base = rule('strip-fade');
+    expect(base).toContain('position: absolute');
+    expect(base).toContain('pointer-events: none');
+  });
+
+  // `overscroll-x-contain`: a flick that reaches either end bounces here and
+  // stops, rather than chaining to the page or, at the screen edge in Safari,
+  // starting the browser's swipe-back.
+  it('keeps a flick at the end of the strip from chaining to the page', () => {
+    expect(RIBBON_STRIP).toContain('overscroll-x-contain');
   });
 
   it('snaps proximately, because three things scroll this strip', () => {
@@ -1270,12 +1423,194 @@ describe('the six tiers at laptop width', () => {
     expect(RIBBON_STRIP).toContain('xl:grid-cols-6');
     expect(RIBBON_STRIP).toContain('xl:overflow-visible');
 
-    // The mask is switched off at the same width the grid takes over. Tailwind's
+    // The fades are switched off at the same width the grid takes over. Tailwind's
     // `xl` is 1280px and this config does not override the screens.
     expect((tailwindConfig.theme as { screens?: unknown }).screens).toBeUndefined();
     const css = readFileSync('index.css', 'utf8');
-    const off = css.match(/@media \(min-width: 1280px\)\s*\{\s*\.strip-edge-mask\s*\{([^}]*)\}/);
-    expect(off, 'the mask is never switched off at xl').toBeTruthy();
-    expect(off![1]).toContain('mask-image: none');
+    const off = css.match(/@media \(min-width: 1280px\)\s*\{\s*\.strip-fade\s*\{([^}]*)\}/);
+    expect(off, 'the fades are never switched off at xl').toBeTruthy();
+    expect(off![1]).toContain('display: none');
+  });
+});
+
+/**
+ * Smoothness on a phone.
+ *
+ * The ribbon was reported glitchy on an iPhone 15 in Safari, and none of it
+ * could be seen from a desktop browser. These pin what was changed, because every
+ * item here is a thing that looks harmless in a class string and costs frames in
+ * WebKit: a blend mode, a mask on a scroller, `transition-all` with an overshoot,
+ * a `:hover` that a tap leaves stuck on. They are about what the ribbon is
+ * allowed to ask the browser to do, not about how it looks.
+ */
+describe('the ribbon asks nothing of a phone that it cannot afford', () => {
+  /** Every string the chrome module exports that the ribbon wears. */
+  const chromeStrings = Object.entries(verbRibbonChrome).filter(
+    ([, value]) => typeof value === 'string'
+  ) as [string, string][];
+
+  it('lets no :hover through on a device that cannot hover', () => {
+    // On a touch screen a tap leaves `:hover` on the element until the next tap
+    // elsewhere, so a hover style is a state the control is left in. iOS kept
+    // cards enlarged and columns at 125% brightness after a tap, and animated them
+    // back when the selection moved. `can-hover:` wraps the rule in
+    // `@media (hover: hover)`, which an iPhone reports false.
+    for (const [name, value] of chromeStrings) {
+      for (const token of value.split(/\s+/)) {
+        if (!/(^|:)(group-)?hover([/:]|$)/.test(token)) continue;
+        expect(token, `${name} has an ungated hover: ${token}`).toMatch(/^can-hover:/);
+      }
+    }
+  });
+
+  it('defines can-hover as a media query, and gates the card lift the same way', () => {
+    const variants: Record<string, string> = {};
+    const plugin = (tailwindConfig.plugins as Array<(api: unknown) => void>)[0];
+    plugin({ addVariant: (name: string, query: string) => (variants[name] = query) });
+    expect(variants['can-hover']).toBe('@media (hover: hover)');
+
+    // The card lift is a CSS class, so it is gated in the stylesheet.
+    const css = readFileSync('index.css', 'utf8');
+    const lifts = css.match(/[^{}]*\.tier-lift:hover[^{]*\{[^}]*\}/g) ?? [];
+    expect(lifts).toHaveLength(1);
+    expect(css).toMatch(/@media \(hover: hover\)\s*\{\s*\.tier-lift:hover\s*\{/);
+  });
+
+  it('answers the finger on the first frame, and does not mistake two taps for a zoom', () => {
+    // `touch-manipulation` removes double-tap-to-zoom. Chips and steps are tapped
+    // in quick succession, and a second tap inside ~300ms was read as a zoom
+    // gesture: the page lurched instead of the selection moving.
+    for (const [name, value] of [
+      ['RIBBON_ROOT', RIBBON_ROOT],
+      ['RIBBON_VERB_CHIP', RIBBON_VERB_CHIP],
+      ['RIBBON_INK_STAIR_STEP', RIBBON_INK_STAIR_STEP],
+      ['RIBBON_TIER_HEADER', RIBBON_TIER_HEADER],
+    ]) {
+      expect(value, `${name} can be double-tap-zoomed`).toContain('touch-manipulation');
+    }
+    // A long press on a control selects its label and shows the callout.
+    for (const value of [RIBBON_VERB_CHIP, RIBBON_INK_STAIR_STEP, RIBBON_TIER_HEADER]) {
+      expect(value).toContain('select-none');
+    }
+    // A press that sinks, on `transform` only, which the compositor owns.
+    expect(RIBBON_VERB_CHIP).toContain('active:scale-95');
+    expect(RIBBON_INK_STAIR_STEP).toContain('active:scale-[0.96]');
+    expect(RIBBON_INK_STAIR_STEP).toContain('transition-transform');
+    expect(RIBBON_INK_HEADER_BAR).toContain('active:bg-white/[0.07]');
+  });
+
+  it('transitions only the properties it names, on curves that do not overshoot', () => {
+    for (const [name, value] of chromeStrings) {
+      expect(value, `${name} transitions \`all\``).not.toMatch(/(^|\s)transition-all(\s|$)/);
+      // `cubic-bezier(0.34, 1.56, 0.64, 1)` pushes the end value past its end
+      // and back; on a card's border width and shadow that read as a stutter.
+      expect(value, `${name} overshoots`).not.toMatch(/cubic-bezier\(0\.34,\s*1\.56/);
+    }
+    expect(RIBBON_VERB_CHIP).toContain(
+      'transition-[transform,background-color,border-color,color]'
+    );
+  });
+
+  it('opens and closes on two named properties, on the iOS sheet curve', () => {
+    expect(RIBBON_PANEL).toContain('grid-template-rows_420ms_cubic-bezier(0.32,0.72,0,1)');
+    expect(RIBBON_PANEL).toMatch(/opacity_320ms_ease-out/);
+    expect(RIBBON_PANEL).not.toContain('transition-all');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const panel = document.getElementById(
+      getToggle().getAttribute('aria-controls')!
+    ) as HTMLElement;
+    expect(panel.className).toContain(RIBBON_PANEL);
+    expect(panel.className).toContain('grid-rows-[1fr]');
+    fireEvent.click(getToggle());
+    expect(panel.className).toContain('grid-rows-[0fr]');
+    expect(panel.className).toContain('opacity-0');
+    expect(container).toBeTruthy();
+  });
+
+  it('paints no mask, no blend and no permanent layer on the stage or the cards', () => {
+    // `.clip-stable` is a permanent compositing layer plus an opaque
+    // `-webkit-mask-image`. On the root of a panel that fades, resizes and
+    // re-lights itself, and on six cards running a 700ms transition, it asked
+    // Safari to re-mask the stage on every frame.
+    expect(RIBBON_ROOT).not.toContain('clip-stable');
+    expect(RIBBON_TIER_CARD).not.toContain('clip-stable');
+    expect(RIBBON_ROOT).toContain('isolate');
+    expect(RIBBON_ROOT).toContain('overflow-hidden');
+    expect(RIBBON_TIER_CARD).toContain('overflow-hidden');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    // `mix-blend-mode` renders everything under it offscreen and blends it back,
+    // every frame anything under it changes. The ribbon's mesh is plain.
+    expect(container.querySelectorAll('[class*="mix-blend"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[class*="clip-stable"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[class*="backdrop-"]')).toHaveLength(0);
+    // The two full-bleed children that could show a square corner for a frame
+    // now that the root is not masked round themselves.
+    const aura = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`) as HTMLElement;
+    expect(aura.className).toContain('rounded-[inherit]');
+    const mesh = container.querySelector('[class*="opacity-[0.035]"]') as HTMLElement;
+    expect(mesh, 'the stage has no mesh').toBeTruthy();
+    expect(mesh.className).toContain('rounded-[inherit]');
+  });
+
+  it('sizes the aura and the mesh to a fixed box, not to a stage that is resizing', () => {
+    // A layer that tracks a resizing box is re-painted on every frame of the
+    // resize. The stage changes height on every frame of the panel's open and
+    // close; the aura and the mesh are fixed-height and top-anchored, so the
+    // stage clips them and they are painted once.
+    for (const value of [RIBBON_INK_AURA, RIBBON_INK_AURA_LEAVING]) {
+      expect(value).toContain('h-[80rem]');
+      expect(value).toContain('top-0');
+      expect(value).not.toMatch(/(^|\s)inset-0(\s|$)/);
+    }
+    expect(verbRibbonChrome.RIBBON_INK_MESH_BOX).toContain('h-[80rem]');
+    // Nor a shadow on the stage: a 70px blur re-rastered per frame was the
+    // largest single paint in the move.
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    expect(rootOf(container).style.boxShadow).toBe('');
+  });
+
+  it('marks the selected tier with a halo that fades, and moves it on selection', () => {
+    // The ring, the 2px edge and the glow are one overlay faded with `opacity`
+    // — compositor work — where they were a `transition-all` on the card that
+    // re-painted its border width, a blurred shadow and its fill together.
+    expect(RIBBON_TIER_HALO).toContain('transition-opacity');
+    expect(RIBBON_TIER_HALO).toContain('pointer-events-none');
+    expect(RIBBON_TIER_HALO).toContain('border-2');
+    expect(RIBBON_TIER_HALO).toContain('shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.18)');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    const haloOf = (index: number) => strip.children[index].lastElementChild as HTMLElement;
+    const lit = () =>
+      Array.from(strip.children)
+        .map((_, i) => i)
+        .filter((i) => haloOf(i).className.includes('opacity-100'));
+
+    // DESCRIBE is tier 2: exactly its halo is up.
+    expect(lit()).toEqual([1]);
+    for (let i = 0; i < 6; i += 1) {
+      expect(haloOf(i).getAttribute('aria-hidden')).toBe('true');
+      expect(haloOf(i).textContent).toBe('');
+    }
+    fireEvent.click(within(container).getByRole('button', { name: 'SYNTHESISE' }));
+    expect(lit()).toEqual([5]);
+  });
+
+  it('draws the card from one box in every state', () => {
+    // `border-2` used to be added to the selected card, so selecting a tier
+    // re-laid out the card's contents by a pixel while it was transitioning.
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    const cards = Array.from(strip.children).map((slot) => slot.firstElementChild as HTMLElement);
+    for (const card of cards) {
+      expect(card.className).toContain('border');
+      expect(card.className).not.toContain('border-2');
+      expect(card.className).toContain('band-edge');
+      expect(card.className).not.toContain('band-edge-strong');
+      expect(card.style.boxShadow).toBe('');
+    }
+    expect(container).toBeTruthy();
   });
 });

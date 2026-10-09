@@ -690,64 +690,36 @@ a:focus-visible,
 }
 
 /*
- * The tier cards' lift, and why it is a class here rather than `scale-*` at
- * the call site.
+ * The tier cards' hover lift, and why it is a class here rather than `scale-*`
+ * at the call site.
  *
- * `transform` is ONE property. `.clip-stable` above sets it to
- * `translateZ(0)` to force the compositing layer up front, and it is declared
- * after `@tailwind utilities` at equal specificity (0,1,0) — so on any element
- * carrying both, it beats every `scale-*` utility. `RIBBON_TIER_CARD` begins
- * with `clip-stable`, and that is why the strip's `scale-110` on the current
- * card and `scale-90` on the other five had never applied. Probed in
- * Chromium:
+ * It used to be a pair of classes that existed to out-rank `.clip-stable`, whose
+ * `transform: translateZ(0)` beat every `scale-*` utility at equal specificity
+ * (so `scale-90` had never applied, and the one scale that did fire was
+ * `hover:scale-95`, which shrank a hovered card). The cards no longer carry
+ * `.clip-stable`: that class is a permanent compositing layer plus an opaque
+ * `-webkit-mask-image`, and on six cards that were also running a 700ms
+ * `transition-all` with an overshoot curve it was the heaviest thing on the
+ * ribbon in Safari. With it gone nothing else claims `transform` on a card, so
+ * this is the only rule that does.
  *
- *     scale-90 alone         -> matrix(0.9, 0, 0, 0.9, 0, 0)
- *     clip-stable scale-90   -> matrix(1, 0, 0, 1, 0, 0)
+ * THE LIFT ONLY EXISTS WHERE A POINTER CAN HOVER. On a touch screen a tap leaves
+ * `:hover` stuck on the card until the next tap elsewhere, so the card the
+ * reader had just tapped sat at 1.02 and then animated back when the selection
+ * moved away. Inside `@media (hover: hover)` an iPhone never sees it.
  *
- * All six cards computed the identity matrix, all six tops sat on the same y,
- * and every gap was exactly the strip's own 16px. The one scale that DID fire
- * was `hover:scale-95` at (0,2,0), which shrank a hovered card by 5% and
- * dropped its top 7.88px — the inverse of what it was written to do, back
- * when idle cards were meant to sit at 90 and grow toward the reader.
- *
- * `.clip-stable` itself is not the thing to change: it is on ~50 cards across
- * the app and carries a mask that `tests/unit/cornerStroke.test.ts` pins. So
- * these classes compose the promotion hint and the scale into a single
- * declaration and sit AFTER it, where equal specificity resolves on source
- * order alone — no `!important`, and no other `clip-stable` surface moves.
- *
- * Two classes rather than one with a modifier, because a hovered CURRENT card
- * must not pick up the idle hover: `.tier-lift:hover` at (0,2,0) would beat
- * `.tier-lift-current` at (0,1,0). Only one of the two is ever on a card.
- *
- * THE CURRENT CARD DOES NOT SCALE, and that is the point of it having a class
- * of its own now. It was `scale(1.05)` for exactly one release, and measuring
- * the result is what settled it: a 5% scale on a 260px card overhangs 6.5px
- * each side, so the selected card's two adjacent gaps read 9.5px against the
- * row's 16px and its top sat 7.84px above its neighbours. That is the same
- * ragged-row artefact the strip was being fixed for — smaller, and deliberate,
- * but the same shape — and it cannot be tuned away: any horizontal scale eats
- * the gap it grows into, and reserving the space in layout would shift the
- * whole row every time the selection moved.
- *
- * So the emphasis is carried by things that cost no geometry: a 2px tier
- * border against the others' 1px, and the tier-hued ring and glow drawn as a
- * `box-shadow`, which paints outside the box without displacing anything. All
- * six cards now sit on one y with 16px between every pair, selected or not.
- *
- * The hover keeps its 1.02. It is transient, self-explanatory while the cursor
- * is on the card, and 2.6px a side is under the eye's threshold for a row this
- * wide — where the selected card's offset was permanent and had to be read
- * against five neighbours at once.
+ * The selected card is not lifted at all — it is marked by its halo (see
+ * `RIBBON_TIER_HALO`), which costs no geometry — so only the receded cards carry
+ * the class. 1.02 is 2.6px a side on a 260px card, which is under the eye's
+ * threshold for a row this wide; it is a hover, so it is gone with the cursor.
  */
 .tier-lift {
-  transform: translateZ(0) scale(1);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.tier-lift:hover {
-  transform: translateZ(0) scale(1.02);
-}
-.tier-lift-current {
-  transform: translateZ(0) scale(1);
+@media (hover: hover) {
+  .tier-lift:hover {
+    transform: scale(1.02);
+  }
 }
 
 /*
@@ -807,40 +779,55 @@ a:focus-visible,
 }
 
 /*
- * The verb ribbon's strip, faded into whatever is behind it at both ends.
+ * The verb ribbon's strip, faded into the drawer at both ends.
  *
  * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade
- * is what replaced it. It is a MASK rather than a pair of gradient overlays
- * because an overlay has to end in the colour behind it — the page, then the
- * panel, then whichever theme is on — and a mask has no colour to get wrong.
- * The two ends are 1rem of ramp; everything between them is untouched. The
- * strip carries 1rem of side padding to match (`RIBBON_STRIP`), so at rest the
- * first and last cards sit just clear of their ramp and only a card that is
- * being scrolled past an edge is faded — never the selected one, flush at an end.
+ * is what replaced it. It is two small gradient overlays rather than a
+ * `mask-image` on the scroller, which it used to be, and the reason is Safari:
+ * a mask on a scrolling box makes the browser render the whole scroller through
+ * a mask layer, and on iOS that is what turns a flick into a stutter — every
+ * frame of the swipe re-masks the cards under the reader's thumb. Two static
+ * gradients sit still while the cards slide under them.
  *
- * From `xl` the six tiers sit side by side and nothing scrolls, so there is no
+ * They end in the DRAWER's own colour, which is why they are safe here when the
+ * old overlays were not: the drawer is opaque in both themes and its fill is
+ * the surface token (white in the light theme, which the token resolves to), so
+ * there is no page colour to get wrong. The far stop is the same colour at zero
+ * alpha rather than `transparent`, which Safari interpolates through grey.
+ *
+ * Two rems of ramp. The strip carries 1rem of side padding (`RIBBON_STRIP`), so
+ * at rest the first and last cards sit just clear of their ramp and only a card
+ * being scrolled past an edge is faded — never the selected one, flush at an
+ * end. From `xl` the six tiers sit side by side, nothing scrolls, and there is no
  * edge to fade toward.
  */
-.strip-edge-mask {
-  -webkit-mask-image: linear-gradient(
+.strip-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 30;
+  width: 2rem;
+  pointer-events: none;
+}
+.strip-fade-start {
+  left: 0;
+  background-image: linear-gradient(
     to right,
-    transparent,
-    #000 2rem,
-    #000 calc(100% - 2rem),
-    transparent
+    rgb(var(--color-bg-surface)),
+    rgb(var(--color-bg-surface) / 0)
   );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 2rem,
-    #000 calc(100% - 2rem),
-    transparent
+}
+.strip-fade-end {
+  right: 0;
+  background-image: linear-gradient(
+    to left,
+    rgb(var(--color-bg-surface)),
+    rgb(var(--color-bg-surface) / 0)
   );
 }
 @media (min-width: 1280px) {
-  .strip-edge-mask {
-    -webkit-mask-image: none;
-    mask-image: none;
+  .strip-fade {
+    display: none;
   }
 }
 
