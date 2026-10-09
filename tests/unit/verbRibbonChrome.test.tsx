@@ -1,24 +1,37 @@
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import React from 'react';
 import { readFileSync } from 'node:fs';
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent, act, within } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import StrategyBrief from '../../components/StrategyBrief';
 import { commandTerms, getCommandTermInfo, TIER_GROUPS } from '../../data/commandTerms';
 import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import { PromptVerb } from '../../types';
 import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
-import { BAND_HEX, getBandRgb } from '../../utils/renderUtils';
+import {
+  BAND_HEX,
+  BAND_HEX_INK,
+  getBandInkRgb,
+  getBandRgb,
+  getTierScaleConfig,
+} from '../../utils/renderUtils';
 import tailwindConfig from '../../tailwind.config.js';
 import {
   RIBBON_DRAWER,
+  RIBBON_FRAME,
+  RIBBON_HEADER_BAR,
+  RIBBON_HEADER_CHEVRON_OPEN,
+  RIBBON_HEADER_CHEVRON_SHUT,
+  RIBBON_HEADER_SUBLABEL,
+  RIBBON_HEADER_TILE,
+  RIBBON_HEADER_TILE_NEUTRAL,
+  RIBBON_HEADER_TITLE,
   RIBBON_INK_AURA,
+  RIBBON_INK_AURA_LEAVING,
   RIBBON_INK_CEILING,
-  RIBBON_INK_HEADER_BAR,
-  RIBBON_INK_HEADER_TILE,
-  RIBBON_INK_HEADER_TITLE,
+  RIBBON_INK_GLOW,
+  RIBBON_INK_GLOW_LEAVING,
   RIBBON_INK_HERO,
-  RIBBON_INK_MINI_STAIR,
   RIBBON_INK_SCALE_RAIL,
   RIBBON_INK_SCALE_SPAN,
   RIBBON_INK_SCOREBOARD,
@@ -33,13 +46,25 @@ import {
   RIBBON_INK_THRESHOLD_CHIP,
   RIBBON_INK_THRESHOLD_RULE,
   RIBBON_INK_VERB,
+  RIBBON_INK_VERB_GLOW,
   RIBBON_INK_VERB_RULE,
+  RIBBON_INK_VERB_STAGE,
+  RIBBON_MINI_BAR_UNLIT,
+  RIBBON_MINI_STAIR,
+  RIBBON_PANEL,
   RIBBON_ROOT,
+  RIBBON_SELECTED_CHIP,
+  RIBBON_SELECTED_LABEL,
   RIBBON_STRIP,
+  RIBBON_STRIP_FADE_END,
+  RIBBON_STRIP_FADE_START,
+  RIBBON_STRIP_FRAME,
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_RECEDED,
   RIBBON_TIER_CARD_CURRENT,
   RIBBON_TIER_CARD_IDLE,
+  RIBBON_TIER_HALO,
+  RIBBON_TIER_SLOT,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_IDLE,
   RIBBON_TIER_ICON,
@@ -72,8 +97,12 @@ afterEach(cleanup);
 
 const getToggle = () => screen.getByRole('button', { name: /command verb hierarchy reference/i });
 
-/** The stage's root: the ribbon's outermost box. */
-const rootOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+/** The ribbon's outermost box: the wrapper the stage and its glow sit in. */
+const frameOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+
+/** The stage itself: the frame's last child, after the glow siblings. */
+const rootOf = (container: HTMLElement): HTMLElement =>
+  frameOf(container).lastElementChild as HTMLElement;
 
 /** `#rrggbb` as the `rgb(r, g, b)` string jsdom reports a colour back as. */
 const asRgb = (hex: string): string => {
@@ -85,8 +114,9 @@ describe('the ribbon wears the shared vocabulary', () => {
   it('dresses its root and its header bar from verbRibbonChrome', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
+    expect(frameOf(container).className).toBe(RIBBON_FRAME);
     expect(rootOf(container).className).toContain(RIBBON_ROOT);
-    expect(getToggle().className).toContain(RIBBON_INK_HEADER_BAR);
+    expect(getToggle().className).toContain(RIBBON_HEADER_BAR);
     // Still on the accordions' row height: a 61px row among 61px rows is what
     // keeps the page's rhythm, hero or not.
     expect(getToggle().className).toContain(PANEL_ROW_MIN_H);
@@ -111,8 +141,13 @@ describe('the ribbon wears the shared vocabulary', () => {
     const strip = container.querySelector(`[class="${RIBBON_STRIP}"]`) as HTMLElement;
     expect(strip).toBeTruthy();
     expect(strip.children).toHaveLength(6);
-    for (const card of Array.from(strip.children)) {
-      expect(card.className).toContain(RIBBON_TIER_CARD);
+    // Six cells, each holding a card and the halo that marks it. The cell owns
+    // the width and the snap point; the card owns the clip and the content.
+    for (const slot of Array.from(strip.children)) {
+      expect(slot.className).toBe(RIBBON_TIER_SLOT);
+      expect(slot.children).toHaveLength(2);
+      expect((slot.children[0] as HTMLElement).className).toContain(RIBBON_TIER_CARD);
+      expect((slot.children[1] as HTMLElement).className).toContain(RIBBON_TIER_HALO);
     }
 
     // Name-then-ceiling: the header reads its tier's NAME first and the band
@@ -145,17 +180,25 @@ describe('the ribbon wears the shared vocabulary', () => {
 
 /**
  * The ribbon is a hero, and a hero stands out by being a different object from
- * what is around it. This one is a stage — dark in BOTH themes, lit in the
- * tier's own colour — standing on an ordinary themed drawer.
+ * what is around it. The stage is the part of it under the banner: the verb at
+ * poster scale, the staircase and the scoreboard, standing on an ordinary themed
+ * drawer.
  *
- * "Dark in both themes" is a claim that has to be held, because the failure
- * mode is silent. The theme tokens flip under the light theme: `--color-text-
- * muted` resolves to slate-600, and the tier's `text` class swaps to its `-900`
- * step, which is dark ink on a dark ground. Nothing throws; the light theme is
- * simply unreadable on the stage. So everything painted on it is pinned to name
- * its colours outright, and to carry no partner for a ground that has only one.
+ * It used to be a near-black slab in BOTH themes, which in the light theme was a
+ * 440px block of the page's darkest colour between a white banner and a white
+ * drawer, and read as abrasive. It now has a palette for each theme — a soft light
+ * ground with dark ink in the light theme, the near-black stage unchanged in the
+ * dark — and every colour on it is drawn from that palette, so the two cannot
+ * drift apart. The palette is a table of custom properties in `index.css`
+ * (`.ribbon-stage`), the class strings in `utils/verbRibbonChrome.ts` name no
+ * colour of their own, and the block below reads the table back and measures it.
+ *
+ * Why not simply lighten the dark ground: the tier hues are the `-500` steps and
+ * stop clearing 4.5:1 beyond about #0f172a, so the stage could only ever have been
+ * a shade less black. Why not leave the ink as it was: white on a light ground is
+ * nothing. Both are held below.
  */
-describe('the stage is dark in both themes, and says so', () => {
+describe('the stage draws every colour from one palette, for both themes', () => {
   const inkExports = Object.entries(verbRibbonChrome).filter(
     ([name, value]) => name.startsWith('RIBBON_INK_') && typeof value === 'string'
   ) as [string, string][];
@@ -167,18 +210,41 @@ describe('the stage is dark in both themes, and says so', () => {
   });
 
   it('carries no light: or dark: partner on anything painted on it', () => {
+    // The theme lives in the palette, in one place, and not in the class strings:
+    // a variant here would be a second place to decide what the light stage is.
     for (const [name, value] of inkExports) {
-      expect(value, `${name} has a theme variant on a ground with one theme`).not.toMatch(
+      expect(value, `${name} has a theme variant; the palette switches the theme`).not.toMatch(
         /(^|\s)[^\s]*(light|dark):/
       );
     }
-    // The root is the ground itself, so the same applies to it.
-    expect(RIBBON_ROOT).not.toMatch(/(^|\s)[^\s]*(light|dark):/);
+    // The root is the ground itself, so the same applies to it — with ONE
+    // exception, and it is not about the ground. When the ribbon is shut, or no
+    // verb is chosen, the root's edge is on the PAGE: white/15 is invisible on a
+    // white page, so its neutral border is a themed pair. Everything else on the
+    // root is the stage's own.
+    const rootThemed = RIBBON_ROOT.split(/\s+/).filter((t) => /^(light|dark):/.test(t));
+    expect(rootThemed).toEqual(['dark:border-white/15']);
   });
 
   it('reads no theme token', () => {
     for (const [name, value] of [...inkExports, ['RIBBON_ROOT', RIBBON_ROOT]]) {
       expect(value, `${name} reads a theme colour token`).not.toContain('--color-');
+    }
+    // The ground and the ink are the palette's, not a colour named here.
+    expect(RIBBON_ROOT).toContain('bg-[rgb(var(--stage-ground))]');
+    expect(RIBBON_ROOT).toContain('text-[rgb(var(--stage-ink))]');
+    expect(RIBBON_ROOT).not.toMatch(/#[0-9a-f]{3,8}/i);
+  });
+
+  it('names no ground, ink or hairline colour of its own', () => {
+    // A literal `text-white` or `bg-[#0b1322]` here would be correct in one theme
+    // and invisible in the other, and no test of a class string would know.
+    for (const [name, value] of inkExports) {
+      if (name === 'RIBBON_INK_STAIR_IGNITION') continue;
+      expect(value, `${name} names a hex colour`).not.toMatch(/#[0-9a-f]{3,8}/i);
+      expect(value, `${name} names a ground, ink or hairline colour`).not.toMatch(
+        /(^|[\s:])(text|bg|border|ring|ring-offset)-(white|black|slate-\d+)(\/[\d.[\]]+)?(\s|$)/
+      );
     }
   });
 
@@ -202,19 +268,23 @@ describe('the stage is dark in both themes, and says so', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
     const drawer = container.querySelector(`[class="${RIBBON_DRAWER}"]`) as HTMLElement;
+    // The banner is NOT the stage: it is a themed bar (see RIBBON_HEADER_BAR),
+    // held to the opposite rule by the block below. So it is skipped here, as the
+    // drawer is — the stage is what is between them.
+    const banner = getToggle();
     const themed = /(^|\s)[^\s]*(light|dark):|--color-/;
     const offenders = Array.from(container.querySelectorAll('*'))
       .filter((el) => !drawer.contains(el) && el !== drawer)
-      .filter((el) => themed.test(el.getAttribute('class') ?? ''))
-      // Two exemptions, each with its reason. The icon tile wears the tier
-      // config's `solidBg` and `solidText` — a solid fill and the text paired to
-      // it, which is `getBandConfig`'s own contrast pairing and reads the same
-      // on either ground. And the mesh is a decorative, text-free overlay whose
-      // shared component bakes a `light:` opacity a call site cannot override
-      // (recorded on MeshOverlay itself): it cannot touch legibility.
-      .filter((el) => !el.className.toString().includes(RIBBON_INK_HEADER_TILE))
-      .filter((el) => !(el.className.toString().includes('mix-blend-overlay') && !el.textContent))
-      .map((el) => `${el.tagName}.${el.getAttribute('class')}`);
+      .filter((el) => !banner.contains(el) && el !== banner)
+      // The root's neutral edge is a themed pair, because on a shut ribbon it
+      // sits on the page rather than on the stage — pinned above.
+      .filter((el) => el !== rootOf(container))
+      // The mesh's strokes are white, which paint nothing on the light stage, so
+      // it is switched off there (`darkOnly`) and not left as an invisible layer.
+      // A text-free decoration, with no colour of its own to get wrong.
+      .filter((el) => !(el.className.toString().includes('dark:block') && !el.textContent))
+      .map((el) => `${el.tagName}.${el.getAttribute('class')}`)
+      .filter((described) => themed.test(described.slice(described.indexOf('.') + 1)));
     expect(offenders, `theme variants on the stage:\n${offenders.join('\n')}`).toEqual([]);
   });
 
@@ -226,7 +296,9 @@ describe('the stage is dark in both themes, and says so', () => {
       'div.border-l-2 p.font-serif.leading-relaxed'
     ) as HTMLElement;
     expect(check).toBeTruthy();
-    expect(check.className).toContain('text-slate-300');
+    // The stage's own secondary ink, from the palette: slate-300 on the dark
+    // stage and slate-600 on the light one.
+    expect(check.className).toContain('text-[rgb(var(--stage-ink-3))]');
     expect(check.className).not.toContain('--color-text');
     cleanup();
 
@@ -251,8 +323,14 @@ describe('the stage is dark in both themes, and says so', () => {
         <CommandVerbHierarchy currentVerb={verb as PromptVerb} />
       );
       expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(tier));
-      // The glow beneath it is drawn from the same property, not from a literal.
-      expect(rootOf(container).style.boxShadow).toContain('var(--band-rgb)');
+      // The edge is drawn from the same property, not from a literal…
+      expect(rootOf(container).style.borderColor).toContain('var(--band-rgb)');
+      // …and so is the glow beneath it, which is a sibling layer in the frame
+      // and not a shadow on the stage (see `RIBBON_INK_GLOW`).
+      const glow = container.querySelector(`[class="${RIBBON_INK_GLOW}"]`) as HTMLElement;
+      expect(glow, 'no glow under a tier-lit stage').toBeTruthy();
+      expect(glow.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(tier));
+      expect(rootOf(container).style.boxShadow).toBe('');
       unmount();
     }
   });
@@ -263,7 +341,8 @@ describe('the stage is dark in both themes, and says so', () => {
     // A cool slate — nobody's tier. Red would say "Band 1" to a student who has
     // chosen nothing.
     expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe('100 116 139');
-    expect(rootOf(container).style.boxShadow).toBe('');
+    expect(rootOf(container).style.borderColor).toBe('');
+    expect(container.querySelector(`[class="${RIBBON_INK_GLOW}"]`)).toBeNull();
   });
 
   // The aura is the one gradient on the stage, and `tests/e2e/support/
@@ -290,29 +369,86 @@ describe('the stage is dark in both themes, and says so', () => {
     );
     const first = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`);
 
-    // Same tier: the same light.
+    // Same tier: the same light, and nothing leaving.
     fireEvent.click(screen.getByRole('button', { name: 'RECALL' }));
     expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"]`)).toBe(first);
+    expect(container.querySelector(`[class*="${RIBBON_INK_AURA_LEAVING}"]`)).toBeNull();
 
     // A verb of another tier: a new element, which is what replays the fade.
     rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
     expect(container.querySelector(`[class*="${RIBBON_INK_AURA}"]`)).not.toBe(first);
   });
+
+  // The aura used to be re-keyed and nothing more, which takes the old light
+  // away on the same frame the new one starts from nothing: every change of tier
+  // dipped the stage to bare black and came back up. It is a cross-fade now — the
+  // light the stage is leaving stays under the new one, fading out as it fades in,
+  // and is removed once it is gone.
+  describe('cross-fades the light between tiers instead of dipping to black', () => {
+    it('keeps the outgoing light, in the outgoing tier’s colour, until the fade is done', () => {
+      vi.useFakeTimers();
+      try {
+        const { container, rerender } = render(
+          <CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />
+        );
+        expect(container.querySelector(`[class*="${RIBBON_INK_AURA_LEAVING}"]`)).toBeNull();
+        expect(container.querySelector(`[class="${RIBBON_INK_GLOW_LEAVING}"]`)).toBeNull();
+
+        rerender(<CommandVerbHierarchy currentVerb={'EVALUATE' as PromptVerb} />);
+
+        const leaving = container.querySelector(
+          `[class*="${RIBBON_INK_AURA_LEAVING}"]`
+        ) as HTMLElement;
+        expect(leaving, 'the outgoing light was removed on the same frame').toBeTruthy();
+        expect(leaving.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(1));
+        // …under the incoming one, which is the stage's own colour.
+        const incoming = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`) as HTMLElement;
+        expect(rootOf(container).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(6));
+        expect(incoming).not.toBe(leaving);
+        // Nothing with text in it, and a sibling of the stage's content like the aura.
+        expect(leaving.textContent).toBe('');
+        expect(leaving.getAttribute('aria-hidden')).toBe('true');
+        expect(leaving.parentElement).toBe(rootOf(container));
+        // The glow under the stage hands over the same way.
+        expect(container.querySelector(`[class="${RIBBON_INK_GLOW_LEAVING}"]`)).toBeTruthy();
+
+        act(() => {
+          vi.advanceTimersByTime(1000);
+        });
+        expect(container.querySelector(`[class*="${RIBBON_INK_AURA_LEAVING}"]`)).toBeNull();
+        expect(container.querySelector(`[class="${RIBBON_INK_GLOW_LEAVING}"]`)).toBeNull();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('fades the two layers on one duration and one curve, so they sum to one', () => {
+      const { animation } = tailwindConfig.theme.extend as {
+        animation: Record<string, string>;
+      };
+      const timing = (value: string) => value.split(' ').slice(1, 3).join(' ');
+      expect(timing(animation['fade-out'])).toBe(timing(animation['fade-in']));
+      // The outgoing layer ends at nothing; it is unmounted, never left behind.
+      expect(animation['fade-out']).toContain('forwards');
+      expect(RIBBON_INK_AURA_LEAVING).toContain('animate-fade-out');
+      expect(RIBBON_INK_AURA).toContain('animate-fade-in');
+    });
+  });
 });
 
 describe('the header carries the tier while the ribbon is shut', () => {
   it('names itself in the section voice, and refuses to wrap', () => {
-    expect(RIBBON_INK_HEADER_TITLE).toMatch(/(^|\s)t-section(\s|$)/);
+    expect(RIBBON_HEADER_TITLE).toMatch(/(^|\s)t-section(\s|$)/);
 
     render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
     const title = screen.getByText('HSC Command Verb Hierarchy');
-    expect(title.className).toContain(RIBBON_INK_HEADER_TITLE);
+    expect(title.className).toContain(RIBBON_HEADER_TITLE);
     expect(title.className).toContain('truncate');
   });
 
   it('carries the tier on the icon tile, paired the way getBandConfig intends', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
-    const tile = container.querySelector(`[class*="${RIBBON_INK_HEADER_TILE}"]`) as HTMLElement;
+    const tile = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
 
     // Tier 3's solid fill is yellow; `text-white` on it is 1.92:1, which is why
     // the tile wears the config's own `solidText`. `-950`, not `-900`: see the
@@ -339,22 +475,28 @@ describe('the header carries the tier while the ribbon is shut', () => {
   it('draws the ceiling in miniature: six bars, lit to the tier, from sm', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
-    const mini = container.querySelector(`[class="${RIBBON_INK_MINI_STAIR}"]`) as HTMLElement;
+    const mini = container.querySelector(`[class="${RIBBON_MINI_STAIR}"]`) as HTMLElement;
     expect(mini).toBeTruthy();
     expect(mini.getAttribute('aria-hidden')).toBe('true');
-    expect(RIBBON_INK_MINI_STAIR).toMatch(/(^|\s)hidden sm:flex/);
+    expect(RIBBON_MINI_STAIR).toMatch(/(^|\s)hidden sm:flex/);
 
     const bars = Array.from(mini.children) as HTMLElement[];
     expect(bars).toHaveLength(6);
-    // Tier 3: three lit in their own hues, three unlit.
+    // Tier 3: three lit in their own hues, three unlit. The unlit ones are a
+    // CLASS, because the colour that reads on the dark bar (white alpha) is
+    // invisible on the white one.
     bars.forEach((bar, index) => {
-      expect(bar.style.backgroundColor).toBe(
-        index < 3
-          ? `rgb(${getBandRgb(index + 1)
-              .split(' ')
-              .join(', ')})`
-          : 'rgba(255, 255, 255, 0.2)'
-      );
+      if (index < 3) {
+        expect(bar.style.backgroundColor).toBe(
+          `rgb(${getBandRgb(index + 1)
+            .split(' ')
+            .join(', ')})`
+        );
+        expect(bar.className).not.toContain(RIBBON_MINI_BAR_UNLIT);
+      } else {
+        expect(bar.style.backgroundColor).toBe('');
+        expect(bar.className).toContain(RIBBON_MINI_BAR_UNLIT);
+      }
     });
     // Rising, not flat.
     const heights = bars.map((bar) => parseFloat(bar.style.height));
@@ -364,7 +506,7 @@ describe('the header carries the tier while the ribbon is shut', () => {
 
   it('draws no miniature when there is no tier to light it to', () => {
     const { container } = render(<CommandVerbHierarchy />);
-    expect(container.querySelector(`[class="${RIBBON_INK_MINI_STAIR}"]`)).toBeNull();
+    expect(container.querySelector(`[class="${RIBBON_MINI_STAIR}"]`)).toBeNull();
   });
 });
 
@@ -384,9 +526,32 @@ describe('the verb is set at poster scale, sized to the word', () => {
     expect(RIBBON_INK_VERB).toMatch(/(^|\s)t-display(\s|$)/);
     expect(RIBBON_INK_VERB).toContain('uppercase');
     expect(RIBBON_INK_VERB).toContain('italic');
-    // The glow is drawn from the stage's one hue, not from a copy of it.
-    expect(RIBBON_INK_VERB).toContain('rgb(var(--band-rgb)/0.55)');
     expect(RIBBON_INK_VERB).not.toMatch(/text-\[#/);
+  });
+
+  // A 48px `text-shadow` on a 96px glyph is a Gaussian pass over a bitmap about a
+  // thousand pixels wide at 3x, redone from scratch every time the word is
+  // re-created — which is every chip tap — and on iOS it was the hitch at the
+  // start of each swap. The glow is a radial gradient in a sibling instead.
+  it('lights the verb from a gradient behind it, not from a blurred text-shadow', () => {
+    expect(RIBBON_INK_VERB).not.toContain('text-shadow');
+    // Drawn from the stage's one hue, falling to the same colour at zero alpha
+    // (`transparent` is rgba(0,0,0,0), which Safari interpolates through grey).
+    expect(RIBBON_INK_VERB_GLOW).toContain('radial-gradient(');
+    expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/var(--verb-glow))');
+    expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/0))');
+    expect(RIBBON_INK_VERB_GLOW).not.toContain('transparent');
+
+    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const term = screen.getAllByText('DESCRIBE').find((el) => el.tagName === 'H4') as HTMLElement;
+    const stage = term.parentElement as HTMLElement;
+    expect(stage.className).toBe(RIBBON_INK_VERB_STAGE);
+    const glow = stage.querySelector(`[class="${RIBBON_INK_VERB_GLOW}"]`) as HTMLElement;
+    expect(glow).toBeTruthy();
+    // A sibling behind the word and never an ancestor of any text, like the aura.
+    expect(glow.textContent).toBe('');
+    expect(glow.getAttribute('aria-hidden')).toBe('true');
+    expect(glow.compareDocumentPosition(term) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it('gives only the short single-word verbs the largest size', () => {
@@ -518,7 +683,7 @@ describe('the scoreboard states what the verb is worth, in telemetry', () => {
 
   it('draws its hairlines from a one-pixel gap over a lighter ground', () => {
     expect(RIBBON_INK_SCOREBOARD).toContain('gap-px');
-    expect(RIBBON_INK_SCOREBOARD).toMatch(/bg-white\/10/);
+    expect(RIBBON_INK_SCOREBOARD).toContain('bg-[rgb(var(--stage-line)/0.1)]');
   });
 });
 
@@ -657,7 +822,9 @@ describe('the staircase lights one geometry from one palette', () => {
     // At the height of tier 3's column: its fraction of the plot, above the
     // row of names.
     expect(line.style.bottom).toBe('calc(var(--label) + var(--plot) * 0.568)');
-    expect(line.style.borderColor).toBe(`rgb(${getBandRgb(3).split(' ').join(', ')})`);
+    // The tier's hue AS TEXT-GRADE LINE: the bright `-500` on the dark stage and
+    // the `-700` on the light one, which `--band-text` resolves per theme.
+    expect(line.style.borderColor).toBe('rgb(var(--band-text))');
 
     // A verb of another tier moves it, and remounts it, which is what replays
     // the draw-in.
@@ -693,7 +860,10 @@ describe('the staircase lights one geometry from one palette', () => {
     expect(RIBBON_INK_STAIR_COLUMN).toContain('origin-bottom');
 
     const delays = steps().map((step) => parseFloat(columnOf(step).style.animationDelay));
-    expect(delays[0]).toBe(0);
+    // The first column waits for the panel to be mostly open (see
+    // STAIR_OPEN_OFFSET_MS): started on the frame the panel begins to unfold it
+    // is two-thirds up before anyone can see it.
+    expect(delays[0]).toBeGreaterThan(0);
     for (let i = 1; i < delays.length; i += 1) {
       expect(delays[i], `column ${i + 1} does not wait for column ${i}`).toBeGreaterThan(
         delays[i - 1]
@@ -794,7 +964,7 @@ describe('the staircase lights one geometry from one palette', () => {
     expect(numerals.map((n) => n.textContent)).toEqual(['1', '2', '3', '4', '5', '6']);
     for (const numeral of numerals) {
       expect(numeral.closest('[aria-hidden="true"]')).toBeNull();
-      expect(numeral.className).toMatch(/text-(white|slate-300)/);
+      expect(numeral.className).toMatch(/text-\[rgb\(var\(--stage-ink(-3)?\)\)\]/);
     }
     for (const label of Array.from(
       container.querySelectorAll(`[class*="${RIBBON_INK_STEP_LABEL}"]`)
@@ -803,8 +973,8 @@ describe('the staircase lights one geometry from one palette', () => {
     }
     // The idle names lift on hover by COLOUR — the rule this component spent
     // three fixes learning — and are never dimmed.
-    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('text-slate-300');
-    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('group-hover/step:text-white');
+    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('text-[rgb(var(--stage-ink-3))]');
+    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('group-hover/step:text-[rgb(var(--stage-ink))]');
     expect(RIBBON_INK_STEP_LABEL_IDLE).not.toContain('opacity-');
     expect(RIBBON_INK_STEP_LABEL).not.toContain('opacity-');
   });
@@ -814,7 +984,7 @@ describe('the staircase lights one geometry from one palette', () => {
 
     expect(RIBBON_INK_SCALE_RAIL).not.toContain('opacity-');
     expect(RIBBON_INK_SCALE_SPAN).not.toContain('opacity-');
-    expect(RIBBON_INK_SCALE_SPAN).toContain('text-slate-300');
+    expect(RIBBON_INK_SCALE_SPAN).toContain('text-[rgb(var(--stage-ink-3))]');
 
     const rail = container.querySelector(`[class="${RIBBON_INK_SCALE_RAIL}"]`) as HTMLElement;
     expect(rail).toBeTruthy();
@@ -937,6 +1107,11 @@ describe('the drawer carries both themes', () => {
     for (const [name, value] of Object.entries(verbRibbonChrome)) {
       if (typeof value !== 'string') continue;
       if (name.startsWith('RIBBON_INK_') || name === 'RIBBON_ROOT') continue;
+      // The halo is painted in the tier's own hue from `--band-rgb`, which is one
+      // colour in both themes — the same argument `.band-edge` makes in index.css
+      // — on an overlay that has no fill of its own. There is no ground for it to
+      // get wrong, so a `dark:` partner would only be a second guess at the hue.
+      if (name === 'RIBBON_TIER_HALO') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -1085,16 +1260,18 @@ describe('the tier strip is legible and reachable', () => {
   it('de-emphasises the receded cards without spending contrast', () => {
     expect(RIBBON_TIER_CARD_RECEDED).not.toMatch(/(^|\s)opacity-/);
     expect(RIBBON_TIER_CARD_RECEDED).not.toContain('light:');
-    // The lift is a composed transform in `index.css`, not a `scale-*`
-    // utility, because `.clip-stable` on the same element would silently win.
-    // A `scale-*` here would be the dead class this replaced.
+    // The lift is a class in `index.css`, not a `scale-*` utility, so it can be
+    // gated to devices that can hover. A `scale-*` here would be the dead class
+    // this replaced.
     expect(RIBBON_TIER_CARD_RECEDED).toContain('tier-lift');
     expect(RIBBON_TIER_CARD_RECEDED).not.toMatch(/(^|\s)(hover:)?scale-/);
     expect(RIBBON_TIER_CARD_CURRENT).not.toMatch(/(^|\s)(hover:)?scale-/);
-    // Weight marks the selection rather than contradicting it: the current
-    // card is the thick one. It used to be the only 1px card in the row.
-    expect(RIBBON_TIER_CARD_CURRENT).toContain('border-2');
+    // Weight marks the selection — but it is drawn on the halo overlay now, not
+    // by widening the card's own border, so the card is the same box in every
+    // state and selecting a tier re-lays out nothing inside it.
+    expect(RIBBON_TIER_CARD_CURRENT).not.toContain('border-2');
     expect(RIBBON_TIER_CARD_RECEDED).not.toContain('border-2');
+    expect(RIBBON_TIER_HALO).toContain('border-2');
     // The neutral border that outranked the tier's in the dark theme is gone,
     // so all six cards can show their own tier at rest.
     expect(RIBBON_TIER_CARD_IDLE).not.toMatch(/(^|\s)(dark:)?border-/);
@@ -1219,33 +1396,67 @@ describe('the tier strip says what it is and where it ends', () => {
     expect(strip.getAttribute('aria-label')).toMatch(/tier 1 to tier 6/i);
   });
 
-  // The edge fades are a MASK on the strip, not two overlays that end in a
-  // colour. An overlay has to end in whatever is behind it — it ended in the
-  // page's own `from-base` while the strip sat on the page, and once the strip
-  // sat on a white panel in the light theme that was a grey smear at each end.
-  // A mask fades the cards themselves, so there is no colour to get wrong, and
-  // no scroll listener to keep it honest.
-  it('fades both edges with a mask, so there is no colour to get wrong', () => {
+  // The edge fades are two small overlays that end in the DRAWER's own colour,
+  // and NOT a mask on the strip. A `mask-image` on a scroller makes Safari render
+  // the whole scrolling content through a mask layer, which is what a swipe felt
+  // like on an iPhone: a stutter under the thumb. They are safe where the old
+  // overlays were not because the drawer is opaque in both themes and its fill is
+  // the surface token, so there is no page colour to get wrong.
+  it('fades both edges with overlays in the drawer’s colour, not a mask on the scroller', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
-    expect(RIBBON_STRIP).toContain('strip-edge-mask');
+    expect(RIBBON_STRIP).not.toContain('strip-edge-mask');
     const strip = screen.getByRole('group', { name: /tier ladder/i });
-    expect(strip.className).toContain('strip-edge-mask');
+    expect(strip.className).not.toContain('strip-edge-mask');
 
-    // …and nothing is laid over the strip any more, in the page's colour or
-    // anyone else's.
+    // The strip's parent is the frame the fades are positioned against, and the
+    // fades are siblings of the strip — never children, never inside the scroll.
+    const frame = strip.parentElement as HTMLElement;
+    expect(frame.className).toBe(RIBBON_STRIP_FRAME);
+    const start = frame.querySelector(`[class="${RIBBON_STRIP_FADE_START}"]`) as HTMLElement;
+    const end = frame.querySelector(`[class="${RIBBON_STRIP_FADE_END}"]`) as HTMLElement;
+    for (const fade of [start, end]) {
+      expect(fade).toBeTruthy();
+      expect(fade.parentElement).toBe(frame);
+      expect(fade.getAttribute('aria-hidden')).toBe('true');
+      expect(fade.textContent).toBe('');
+    }
+
     expect(container.querySelector('[class*="from-base"]')).toBeNull();
-    expect(container.querySelector('.pointer-events-none.bg-gradient-to-l')).toBeNull();
 
     const css = readFileSync('index.css', 'utf8');
-    const rule = css.match(/\.strip-edge-mask\s*\{([^}]*)\}/);
-    expect(rule, '.strip-edge-mask is not defined in index.css').toBeTruthy();
-    expect(rule![1]).toContain('mask-image: linear-gradient(');
-    expect(rule![1]).toContain('-webkit-mask-image');
-    // Transparent at both ends and opaque between them: a fade in, a fade out.
-    expect(rule![1]).toMatch(
-      /transparent,\s*#000 [\d.]+rem,\s*#000 calc\(100% - [\d.]+rem\),\s*transparent/
-    );
+    expect(css, 'a mask-image on the strip is back').not.toMatch(/\.strip-edge-mask/);
+    const rule = (name: string) => {
+      const match = css.match(new RegExp(`\\.${name}\\s*\\{([^}]*)\\}`));
+      expect(match, `.${name} is not defined in index.css`).toBeTruthy();
+      return match![1];
+    };
+    // Opaque at the edge and gone at the far end, in the surface token — and the
+    // far stop is the SAME colour at zero alpha, because `transparent` is
+    // rgba(0,0,0,0) and Safari interpolates through grey.
+    for (const [name, direction] of [
+      ['strip-fade-start', 'to right'],
+      ['strip-fade-end', 'to left'],
+    ]) {
+      const body = rule(name);
+      expect(body).toContain(`linear-gradient(`);
+      expect(body).toContain(direction);
+      expect(body).toContain('rgb(var(--color-bg-surface))');
+      expect(body).toContain('rgb(var(--color-bg-surface) / 0)');
+      expect(body).not.toContain('transparent');
+      expect(body).not.toContain('mask');
+    }
+    // Pinned to the strip's two ends, above the cards, and inert.
+    const base = rule('strip-fade');
+    expect(base).toContain('position: absolute');
+    expect(base).toContain('pointer-events: none');
+  });
+
+  // `overscroll-x-contain`: a flick that reaches either end bounces here and
+  // stops, rather than chaining to the page or, at the screen edge in Safari,
+  // starting the browser's swipe-back.
+  it('keeps a flick at the end of the strip from chaining to the page', () => {
+    expect(RIBBON_STRIP).toContain('overscroll-x-contain');
   });
 
   it('snaps proximately, because three things scroll this strip', () => {
@@ -1270,12 +1481,522 @@ describe('the six tiers at laptop width', () => {
     expect(RIBBON_STRIP).toContain('xl:grid-cols-6');
     expect(RIBBON_STRIP).toContain('xl:overflow-visible');
 
-    // The mask is switched off at the same width the grid takes over. Tailwind's
+    // The fades are switched off at the same width the grid takes over. Tailwind's
     // `xl` is 1280px and this config does not override the screens.
     expect((tailwindConfig.theme as { screens?: unknown }).screens).toBeUndefined();
     const css = readFileSync('index.css', 'utf8');
-    const off = css.match(/@media \(min-width: 1280px\)\s*\{\s*\.strip-edge-mask\s*\{([^}]*)\}/);
-    expect(off, 'the mask is never switched off at xl').toBeTruthy();
-    expect(off![1]).toContain('mask-image: none');
+    const off = css.match(/@media \(min-width: 1280px\)\s*\{\s*\.strip-fade\s*\{([^}]*)\}/);
+    expect(off, 'the fades are never switched off at xl').toBeTruthy();
+    expect(off![1]).toContain('display: none');
   });
 });
+
+/**
+ * Smoothness on a phone.
+ *
+ * The ribbon was reported glitchy on an iPhone 15 in Safari, and none of it
+ * could be seen from a desktop browser. These pin what was changed, because every
+ * item here is a thing that looks harmless in a class string and costs frames in
+ * WebKit: a blend mode, a mask on a scroller, `transition-all` with an overshoot,
+ * a `:hover` that a tap leaves stuck on. They are about what the ribbon is
+ * allowed to ask the browser to do, not about how it looks.
+ */
+describe('the ribbon asks nothing of a phone that it cannot afford', () => {
+  /** Every string the chrome module exports that the ribbon wears. */
+  const chromeStrings = Object.entries(verbRibbonChrome).filter(
+    ([, value]) => typeof value === 'string'
+  ) as [string, string][];
+
+  it('lets no :hover through on a device that cannot hover', () => {
+    // On a touch screen a tap leaves `:hover` on the element until the next tap
+    // elsewhere, so a hover style is a state the control is left in. iOS kept
+    // cards enlarged and columns at 125% brightness after a tap, and animated them
+    // back when the selection moved. `can-hover:` wraps the rule in
+    // `@media (hover: hover)`, which an iPhone reports false.
+    for (const [name, value] of chromeStrings) {
+      for (const token of value.split(/\s+/)) {
+        if (!/(^|:)(group-)?hover([/:]|$)/.test(token)) continue;
+        // `can-hover:` may sit behind a theme variant — `dark:can-hover:hover:*`.
+        expect(token, `${name} has an ungated hover: ${token}`).toMatch(/(^|:)can-hover:/);
+      }
+    }
+  });
+
+  it('defines can-hover as a media query, and gates the card lift the same way', () => {
+    const variants: Record<string, string> = {};
+    const plugin = (tailwindConfig.plugins as Array<(api: unknown) => void>)[0];
+    plugin({ addVariant: (name: string, query: string) => (variants[name] = query) });
+    expect(variants['can-hover']).toBe('@media (hover: hover)');
+
+    // The card lift is a CSS class, so it is gated in the stylesheet.
+    const css = readFileSync('index.css', 'utf8');
+    const lifts = css.match(/[^{}]*\.tier-lift:hover[^{]*\{[^}]*\}/g) ?? [];
+    expect(lifts).toHaveLength(1);
+    expect(css).toMatch(/@media \(hover: hover\)\s*\{\s*\.tier-lift:hover\s*\{/);
+  });
+
+  it('answers the finger on the first frame, and does not mistake two taps for a zoom', () => {
+    // `touch-manipulation` removes double-tap-to-zoom. Chips and steps are tapped
+    // in quick succession, and a second tap inside ~300ms was read as a zoom
+    // gesture: the page lurched instead of the selection moving.
+    for (const [name, value] of [
+      ['RIBBON_ROOT', RIBBON_ROOT],
+      ['RIBBON_VERB_CHIP', RIBBON_VERB_CHIP],
+      ['RIBBON_INK_STAIR_STEP', RIBBON_INK_STAIR_STEP],
+      ['RIBBON_TIER_HEADER', RIBBON_TIER_HEADER],
+    ]) {
+      expect(value, `${name} can be double-tap-zoomed`).toContain('touch-manipulation');
+    }
+    // A long press on a control selects its label and shows the callout.
+    for (const value of [RIBBON_VERB_CHIP, RIBBON_INK_STAIR_STEP, RIBBON_TIER_HEADER]) {
+      expect(value).toContain('select-none');
+    }
+    // A press that sinks, on `transform` only, which the compositor owns.
+    expect(RIBBON_VERB_CHIP).toContain('active:scale-95');
+    expect(RIBBON_INK_STAIR_STEP).toContain('active:scale-[0.96]');
+    expect(RIBBON_INK_STAIR_STEP).toContain('transition-transform');
+    expect(RIBBON_HEADER_BAR).toContain('active:bg-slate-200');
+    expect(RIBBON_HEADER_BAR).toContain('dark:active:bg-white/[0.07]');
+  });
+
+  it('transitions only the properties it names, on curves that do not overshoot', () => {
+    for (const [name, value] of chromeStrings) {
+      expect(value, `${name} transitions \`all\``).not.toMatch(/(^|\s)transition-all(\s|$)/);
+      // `cubic-bezier(0.34, 1.56, 0.64, 1)` pushes the end value past its end
+      // and back; on a card's border width and shadow that read as a stutter.
+      expect(value, `${name} overshoots`).not.toMatch(/cubic-bezier\(0\.34,\s*1\.56/);
+    }
+    expect(RIBBON_VERB_CHIP).toContain(
+      'transition-[transform,background-color,border-color,color]'
+    );
+  });
+
+  it('opens and closes on two named properties, on the iOS sheet curve', () => {
+    expect(RIBBON_PANEL).toContain('grid-template-rows_420ms_cubic-bezier(0.32,0.72,0,1)');
+    expect(RIBBON_PANEL).toMatch(/opacity_320ms_ease-out/);
+    expect(RIBBON_PANEL).not.toContain('transition-all');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const panel = document.getElementById(
+      getToggle().getAttribute('aria-controls')!
+    ) as HTMLElement;
+    expect(panel.className).toContain(RIBBON_PANEL);
+    expect(panel.className).toContain('grid-rows-[1fr]');
+    fireEvent.click(getToggle());
+    expect(panel.className).toContain('grid-rows-[0fr]');
+    expect(panel.className).toContain('opacity-0');
+    expect(container).toBeTruthy();
+  });
+
+  it('paints no mask, no blend and no permanent layer on the stage or the cards', () => {
+    // `.clip-stable` is a permanent compositing layer plus an opaque
+    // `-webkit-mask-image`. On the root of a panel that fades, resizes and
+    // re-lights itself, and on six cards running a 700ms transition, it asked
+    // Safari to re-mask the stage on every frame.
+    expect(RIBBON_ROOT).not.toContain('clip-stable');
+    expect(RIBBON_TIER_CARD).not.toContain('clip-stable');
+    expect(RIBBON_ROOT).toContain('isolate');
+    expect(RIBBON_ROOT).toContain('overflow-hidden');
+    expect(RIBBON_TIER_CARD).toContain('overflow-hidden');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    // `mix-blend-mode` renders everything under it offscreen and blends it back,
+    // every frame anything under it changes. The ribbon's mesh is plain.
+    expect(container.querySelectorAll('[class*="mix-blend"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[class*="clip-stable"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[class*="backdrop-"]')).toHaveLength(0);
+    // The two full-bleed children that could show a square corner for a frame
+    // now that the root is not masked round themselves.
+    const aura = container.querySelector(`[class*="${RIBBON_INK_AURA}"]`) as HTMLElement;
+    expect(aura.className).toContain('rounded-[inherit]');
+    const mesh = container.querySelector('[class*="opacity-[0.035]"]') as HTMLElement;
+    expect(mesh, 'the stage has no mesh').toBeTruthy();
+    expect(mesh.className).toContain('rounded-[inherit]');
+  });
+
+  it('sizes the aura and the mesh to a fixed box, not to a stage that is resizing', () => {
+    // A layer that tracks a resizing box is re-painted on every frame of the
+    // resize. The stage changes height on every frame of the panel's open and
+    // close; the aura and the mesh are fixed-height and top-anchored, so the
+    // stage clips them and they are painted once.
+    for (const value of [RIBBON_INK_AURA, RIBBON_INK_AURA_LEAVING]) {
+      expect(value).toContain('h-[80rem]');
+      expect(value).toContain('top-0');
+      expect(value).not.toMatch(/(^|\s)inset-0(\s|$)/);
+    }
+    expect(verbRibbonChrome.RIBBON_INK_MESH_BOX).toContain('h-[80rem]');
+    // Nor a shadow on the stage: a 70px blur re-rastered per frame was the
+    // largest single paint in the move.
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    expect(rootOf(container).style.boxShadow).toBe('');
+  });
+
+  it('marks the selected tier with a halo that fades, and moves it on selection', () => {
+    // The ring, the 2px edge and the glow are one overlay faded with `opacity`
+    // — compositor work — where they were a `transition-all` on the card that
+    // re-painted its border width, a blurred shadow and its fill together.
+    expect(RIBBON_TIER_HALO).toContain('transition-opacity');
+    expect(RIBBON_TIER_HALO).toContain('pointer-events-none');
+    expect(RIBBON_TIER_HALO).toContain('border-2');
+    expect(RIBBON_TIER_HALO).toContain('shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.18)');
+
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    const haloOf = (index: number) => strip.children[index].lastElementChild as HTMLElement;
+    const lit = () =>
+      Array.from(strip.children)
+        .map((_, i) => i)
+        .filter((i) => haloOf(i).className.includes('opacity-100'));
+
+    // DESCRIBE is tier 2: exactly its halo is up.
+    expect(lit()).toEqual([1]);
+    for (let i = 0; i < 6; i += 1) {
+      expect(haloOf(i).getAttribute('aria-hidden')).toBe('true');
+      expect(haloOf(i).textContent).toBe('');
+    }
+    fireEvent.click(within(container).getByRole('button', { name: 'SYNTHESISE' }));
+    expect(lit()).toEqual([5]);
+  });
+
+  it('draws the card from one box in every state', () => {
+    // `border-2` used to be added to the selected card, so selecting a tier
+    // re-laid out the card's contents by a pixel while it was transitioning.
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const strip = screen.getByRole('group', { name: /tier ladder/i });
+    const cards = Array.from(strip.children).map((slot) => slot.firstElementChild as HTMLElement);
+    for (const card of cards) {
+      expect(card.className).toContain('border');
+      expect(card.className).not.toContain('border-2');
+      expect(card.className).toContain('band-edge');
+      expect(card.className).not.toContain('band-edge-strong');
+      expect(card.style.boxShadow).toBe('');
+    }
+    expect(container).toBeTruthy();
+  });
+});
+
+/**
+ * The banner is light in the light theme.
+ *
+ * The ribbon's header was part of the dark stage in BOTH themes, which in the
+ * light theme made it a dark slab above a page of white panels whose headers are
+ * all light — the accordions, the question card, the navigator. Its text was
+ * perfectly legible, so no contrast check could say so: `light-theme.spec.ts`
+ * says as much itself, "a header that reads as a dark slab beside its light twin
+ * has fine contrast and is still wrong". Only the stage below it is dark in both
+ * themes now, because that is the hero; the banner is an ordinary themed bar.
+ *
+ * jsdom has no stylesheet, so what is pinned here is the class vocabulary and its
+ * pairing; `tests/e2e/verb-ribbon.spec.ts` reads the computed colours in a real
+ * browser in both themes.
+ */
+describe('the banner is a themed bar, light in the light theme', () => {
+  it('is opaque and white in the light theme, and lets the stage’s light through in the dark', () => {
+    // Opaque in the light theme, which also hides the part of the aura and mesh
+    // that would otherwise tint it; see-through in the dark one, where the aura
+    // falling through the bar is the look.
+    expect(RIBBON_HEADER_BAR).toMatch(/(^|\s)bg-white(\s|$)/);
+    expect(RIBBON_HEADER_BAR).toContain('dark:bg-white/0');
+    // A hover and a press that exist in both themes, on a device that can hover.
+    expect(RIBBON_HEADER_BAR).toContain('can-hover:hover:bg-slate-100');
+    expect(RIBBON_HEADER_BAR).toContain('dark:can-hover:hover:bg-white/[0.04]');
+    // A focus ring that exists in both themes: slate on white, white on dark.
+    expect(RIBBON_HEADER_BAR).toContain('focus-visible:ring-slate-900/40');
+    expect(RIBBON_HEADER_BAR).toContain('dark:focus-visible:ring-white/70');
+  });
+
+  it('is not a stage constant, and so is not held to the stage’s one ground', () => {
+    // The stage rule is "no theme variant". The banner is the opposite, and a
+    // rename back to `RIBBON_INK_*` would put a themed bar under a rule that
+    // forbids themes — so the names are pinned, in both directions.
+    for (const name of [
+      'RIBBON_HEADER_BAR',
+      'RIBBON_HEADER_TITLE',
+      'RIBBON_HEADER_SUBLABEL',
+      'RIBBON_SELECTED_LABEL',
+      'RIBBON_SELECTED_CHIP',
+      'RIBBON_MINI_BAR_UNLIT',
+    ]) {
+      expect(name.startsWith('RIBBON_INK_')).toBe(false);
+      expect(
+        (verbRibbonChrome as Record<string, unknown>)[name],
+        `${name} is not exported`
+      ).toBeTypeOf('string');
+      expect(
+        (verbRibbonChrome as unknown as Record<string, string>)[name],
+        `${name} has no dark: partner`
+      ).toMatch(/(^|\s)dark:/);
+    }
+    for (const stale of [
+      'RIBBON_INK_HEADER_BAR',
+      'RIBBON_INK_HEADER_TILE',
+      'RIBBON_INK_HEADER_TITLE',
+      'RIBBON_INK_HEADER_SUBLABEL',
+      'RIBBON_INK_SELECTED_LABEL',
+      'RIBBON_INK_SELECTED_CHIP',
+      'RIBBON_INK_MINI_STAIR',
+    ]) {
+      expect(stale in verbRibbonChrome, `${stale} is back as a one-ground constant`).toBe(false);
+    }
+  });
+
+  it('inks every word in the banner with a colour of its own, in a pair', () => {
+    // The root is `text-white` for the stage below, so any banner text that names
+    // no colour inherits white — which on the white banner is invisible. Every one
+    // of them says dark ink for the light theme and white or slate-300 for the dark.
+    expect(RIBBON_HEADER_TITLE).toContain('text-slate-900');
+    expect(RIBBON_HEADER_TITLE).toContain('dark:text-white');
+    for (const value of [RIBBON_HEADER_SUBLABEL, RIBBON_SELECTED_LABEL]) {
+      expect(value).toContain('text-slate-600');
+      expect(value).toContain('dark:text-slate-300');
+    }
+    expect(RIBBON_SELECTED_CHIP).toContain('text-slate-900');
+    expect(RIBBON_SELECTED_CHIP).toContain('dark:text-white');
+    // The chip's wash is a lighter one of the tier's hue on white and the deeper
+    // one on the dark bar, each from the same `--band-rgb`.
+    expect(RIBBON_SELECTED_CHIP).toContain('bg-[rgb(var(--band-rgb)/0.2)]');
+    expect(RIBBON_SELECTED_CHIP).toContain('dark:bg-[rgb(var(--band-rgb)/0.22)]');
+    for (const value of [RIBBON_HEADER_CHEVRON_OPEN, RIBBON_HEADER_CHEVRON_SHUT]) {
+      expect(value).toMatch(/(^|\s)text-slate-\d00(\s|$)/);
+      expect(value).toMatch(/(^|\s)dark:text-/);
+    }
+
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const banner = getToggle();
+    const words = [
+      screen.getByText('HSC Command Verb Hierarchy'),
+      screen.getByText(/Reference · 6 cognitive tiers/),
+      screen.getByText('Selected:'),
+      screen.getAllByText('EXPLAIN').find((el) => el.tagName === 'DIV' && banner.contains(el))!,
+    ];
+    for (const word of words) {
+      expect(banner.contains(word)).toBe(true);
+      expect(word.className, `"${word.textContent}" names no colour`).toMatch(
+        /(^|\s)text-(slate|white)/
+      );
+      expect(word.className).toMatch(/(^|\s)dark:text-/);
+    }
+  });
+
+  it('draws the unlit bars and the neutral tile from a themed pair', () => {
+    // White alpha reads on the dark bar and is invisible on the white one, so the
+    // two things that used it are classes with a partner now.
+    expect(RIBBON_MINI_BAR_UNLIT).toContain('bg-slate-300');
+    expect(RIBBON_MINI_BAR_UNLIT).toContain('dark:bg-white/20');
+    for (const token of ['bg-slate-100', 'text-slate-600', 'border-slate-300']) {
+      expect(RIBBON_HEADER_TILE_NEUTRAL).toContain(token);
+    }
+    for (const token of ['dark:bg-white/10', 'dark:text-slate-300', 'dark:border-white/15']) {
+      expect(RIBBON_HEADER_TILE_NEUTRAL).toContain(token);
+    }
+
+    // With no verb chosen the tile is neutral; with one it is the tier's solid
+    // pair — which reads the same on either bar — and the neutral is gone.
+    const { container, unmount } = render(<CommandVerbHierarchy />);
+    const neutral = container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
+    expect(neutral.className).toContain(RIBBON_HEADER_TILE_NEUTRAL);
+    unmount();
+
+    const lit = render(<CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />);
+    const tile = lit.container.querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
+    expect(tile.className).not.toContain(RIBBON_HEADER_TILE_NEUTRAL);
+    expect(tile.className).toContain(getTierScaleConfig(1).solidBg);
+  });
+
+  it('turns the chevron over, and re-inks it, with the state', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+    const chevron = () => getToggle().querySelector('svg.lucide-chevron-down') as SVGElement;
+    expect(chevron().getAttribute('class')).toContain('rotate-180');
+    expect(chevron().getAttribute('class')).toContain(RIBBON_HEADER_CHEVRON_OPEN);
+
+    fireEvent.click(getToggle());
+    expect(chevron().getAttribute('class')).not.toContain('rotate-180');
+    expect(chevron().getAttribute('class')).toContain(RIBBON_HEADER_CHEVRON_SHUT);
+    expect(container).toBeTruthy();
+  });
+
+  it('leaves the dark stage exactly as it was, and gives the light one a soft ground', () => {
+    // The dark palette is the stage as it shipped: the same near-black ground and
+    // the same cell, so this change cannot have moved a pixel of the dark theme.
+    const dark = stagePalette('dark');
+    expect(dark['--stage-ground']).toBe('7 11 20');
+    expect(dark['--stage-cell']).toBe('11 19 34');
+    expect(dark['--stage-ink']).toBe('255 255 255');
+    // The light ground is soft — a tint of slate, not a second near-black — and the
+    // ink on it is dark. The point of the change is that it is not a slab.
+    const light = stagePalette('light');
+    expect(luminance(light['--stage-ground'])).toBeGreaterThan(0.9);
+    expect(luminance(light['--stage-ink'])).toBeLessThan(0.05);
+    expect(luminance(light['--stage-ground'])).toBeLessThan(1);
+    // …and distinct from the white banner above it and the white drawer below, or
+    // the stage would have no edge.
+    expect(light['--stage-ground']).not.toBe('255 255 255');
+  });
+
+  it('defines every property in both themes, so neither can be left on the other’s value', () => {
+    const dark = stagePalette('dark');
+    const light = stagePalette('light');
+    expect(Object.keys(light).sort()).toEqual(Object.keys(dark).sort());
+    // And the hue: `--band-text` is the bright hue on the dark stage and the
+    // `-700` ink on the light one.
+    const css = readFileSync('index.css', 'utf8');
+    expect(css).toMatch(/\.ribbon-stage-hue\s*\{[^}]*--band-text:\s*var\(--band-rgb\);/);
+    expect(css).toMatch(
+      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--band-text:\s*var\(--band-ink\);/
+    );
+    // The edge under the banner reads `--band-rgb`, so it is declared with the hue
+    // and not in the static table: tier-coloured on the light stage, nothing on the
+    // dark one, where the banner is the stage.
+    expect(css).toMatch(/\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*transparent;/);
+    expect(css).toMatch(
+      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*rgb\(var\(--band-rgb\)\s*\/\s*0\.85\);/
+    );
+  });
+
+  // The thing a class-string test cannot say, and the one that matters: whether
+  // the words are legible. Every ink on every ground it can sit on, in both
+  // themes, at the strength the palette draws it.
+  describe('is legible in both themes', () => {
+    const TIERS = [1, 2, 3, 4, 5, 6];
+    /** The tier's text hue on the stage, the way `--band-text` resolves it. */
+    const hueOf = (theme: 'dark' | 'light', tier: number) =>
+      theme === 'dark' ? getBandRgb(tier) : getBandInkRgb(tier);
+
+    for (const theme of ['dark', 'light'] as const) {
+      it(`${theme}: the neutral inks clear 4.5:1 on the ground and on a scoreboard cell`, () => {
+        const palette = stagePalette(theme);
+        for (const ink of ['--stage-ink', '--stage-ink-2', '--stage-ink-3']) {
+          for (const ground of ['--stage-ground', '--stage-cell']) {
+            const ratio = contrast(palette[ink], palette[ground]);
+            expect(
+              ratio,
+              `${theme}: ${ink} on ${ground} is ${ratio.toFixed(2)}:1`
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      });
+
+      it(`${theme}: all six tier hues clear 4.5:1 as text on the ground and on a cell`, () => {
+        const palette = stagePalette(theme);
+        for (const tier of TIERS) {
+          for (const ground of ['--stage-ground', '--stage-cell']) {
+            const ratio = contrast(hueOf(theme, tier), palette[ground]);
+            expect(
+              ratio,
+              `${theme}: tier ${tier} text on ${ground} is ${ratio.toFixed(2)}:1`
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      });
+
+      it(`${theme}: the ink on the tier chip clears 4.5:1 over the tint it sits on`, () => {
+        const palette = stagePalette(theme);
+        const alpha = Number(palette['--chip-fill']);
+        for (const tier of TIERS) {
+          // The chip's own fill, composited over the ground the way the browser does.
+          const tint = mix(getBandRgb(tier), palette['--stage-ground'], alpha);
+          const ratio = contrast(palette['--stage-ink'], tint);
+          expect(
+            ratio,
+            `${theme}: tier ${tier} chip is ${ratio.toFixed(2)}:1 against its own tint`
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      });
+    }
+
+    // The light stage is lit in the tier's colour, and the colour is strong enough
+    // to stop it reading as washed out. That is a trade against legibility, and
+    // this is the half that holds it: the neutral inks over the pool of light at
+    // its brightest, on top of the whole-stage tint, for every tier.
+    for (const theme of ['dark', 'light'] as const) {
+      it(`${theme}: the neutral inks clear 4.5:1 over the tier’s light at its strongest`, () => {
+        const palette = stagePalette(theme);
+        for (const tier of TIERS) {
+          const washed = mix(
+            getBandRgb(tier),
+            palette['--stage-ground'],
+            Number(palette['--aura-wash'])
+          );
+          const peak = mix(getBandRgb(tier), washed, Number(palette['--aura-1']));
+          for (const ink of ['--stage-ink', '--stage-ink-2', '--stage-ink-3']) {
+            const ratio = contrast(palette[ink], peak);
+            expect(
+              ratio,
+              `${theme}: ${ink} over tier ${tier}'s pool is ${ratio.toFixed(2)}:1`
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      });
+    }
+
+    it('light: the tier’s text hue clears 4.5:1 over the whole-stage tint and its second pool', () => {
+      // The figures sit on white cells, but the current step's name sits on the
+      // stage itself — on the tint everywhere, and on the second pool's falloff on a
+      // phone. Held at the pool's PEAK, which is stricter than anywhere it is drawn.
+      const palette = stagePalette('light');
+      for (const tier of TIERS) {
+        const washed = mix(
+          getBandRgb(tier),
+          palette['--stage-ground'],
+          Number(palette['--aura-wash'])
+        );
+        const pool = mix(getBandRgb(tier), washed, Number(palette['--aura-2']));
+        for (const [where, ground] of [
+          ['tint', washed],
+          ['second pool', pool],
+        ]) {
+          const ratio = contrast(getBandInkRgb(tier), ground);
+          expect(
+            ratio,
+            `tier ${tier} text over the ${where} is ${ratio.toFixed(2)}:1`
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    });
+
+    it('the light ink shades are the -700 steps, derived from one map', () => {
+      for (const tier of TIERS) {
+        const hex = BAND_HEX_INK[tier];
+        expect(getBandInkRgb(tier)).toBe(
+          [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(' ')
+        );
+        // A different colour from the fill hue, or there would be nothing to switch.
+        expect(getBandInkRgb(tier)).not.toBe(getBandRgb(tier));
+      }
+    });
+  });
+});
+
+/** The stage palette for one theme, read back out of `index.css`. */
+const stagePalette = (theme: 'dark' | 'light'): Record<string, string> => {
+  const css = readFileSync('index.css', 'utf8');
+  const selector =
+    theme === 'dark' ? '\\.ribbon-stage' : "\\[data-theme='light'\\] \\.ribbon-stage";
+  const block = css.match(new RegExp(`(?:^|\\n)${selector}\\s*\\{([^}]*)\\}`));
+  expect(block, `the ${theme} stage palette is not in index.css`).toBeTruthy();
+  return Object.fromEntries(
+    Array.from(block![1].matchAll(/(--[a-z0-9-]+):\s*([^;]+);/g)).map((m) => [m[1], m[2].trim()])
+  );
+};
+
+/** WCAG relative luminance of an `r g b` triplet. */
+const luminance = (triplet: string): number => {
+  const [r, g, b] = triplet.split(' ').map((v) => {
+    const c = Number(v) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+/** WCAG contrast ratio between two `r g b` triplets. */
+const contrast = (a: string, b: string): number => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+
+/** `top` over `bottom` at `alpha`, as an `r g b` triplet. */
+const mix = (top: string, bottom: string, alpha: number): string => {
+  const t = top.split(' ').map(Number);
+  const u = bottom.split(' ').map(Number);
+  return t.map((v, i) => Math.round(v * alpha + u[i] * (1 - alpha))).join(' ');
+};

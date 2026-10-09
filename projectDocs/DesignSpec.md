@@ -118,8 +118,9 @@ the wrong tool — most white-alpha classes in this codebase are already correct
 
   This example has moved three times. It used to read "the ribbon header", and
   that surface is gone — the verb ribbon's header was a full-bleed tier gradient,
-  then a glass rail, then the same row every accordion wears, and is now the top
-  of a dark stage (see "The hero" in §3) with its tier colour on a 32px tile. It
+  then a glass rail, then the same row every accordion wears, and is now a themed
+  banner — light in the light theme, dark in the dark — over a dark stage (see
+  "The hero" in §3), with its tier colour on a 32px tile. It
   later named the ribbon's detail-card icon, which went when that card stopped
   being a wash of the tier. The rule is unchanged; only the illustration moved.
   Check what a class is painted on, not what this list happened to name when it
@@ -297,35 +298,70 @@ same treatment, the question is which of the two stops being it.
 
 What makes it a different object, and not a bigger panel:
 
-| Decision | The hero                                                                         | Why                                                                                                  |
-| -------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Rank     | `rounded-surface` (32px), the workspace cards' radius                            | Panels are 20px. The radius says this is a card, not reference material                              |
-| Ground   | A **stage, dark in both themes** (`bg-[#070b14]`), on an ordinary themed drawer  | A lit slab on a pale desk in the light theme; a spotlit stage in the dark one                        |
-| Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
-| Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                 | The display voice that already names the product, at the one place it is the subject                 |
-| Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above       | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
-| Motion   | One orchestrated moment on a change of verb, and responses to input              | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
+| Decision | The hero                                                                                                    | Why                                                                                                  |
+| -------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Rank     | `rounded-surface` (32px), the workspace cards' radius                                                       | Panels are 20px. The radius says this is a card, not reference material                              |
+| Ground   | A **stage with its own palette per theme**: near-black in the dark theme, a soft slate-50 tint in the light | A spotlit stage in the dark theme; a lit sheet, not a black slab, in the light one                   |
+| Banner   | The header bar is **themed**: white in the light theme, the stage itself in dark                            | A dark bar among white panels is the one defect a contrast audit cannot see (see below)              |
+| Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge                            | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
+| Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                                            | The display voice that already names the product, at the one place it is the subject                 |
+| Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above                                  | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
+| Motion   | One orchestrated moment on a change of verb, and responses to input                                         | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
 
-**The stage is dark in both themes, and that is a claim the tests hold.** The
-theme tokens flip: `--color-text-muted` resolves to slate-600 under the light
-theme, and a tier's `text` class swaps to its `-900` step, which is dark ink on a
-dark ground. Nothing throws; the light theme is simply unreadable on the stage.
-So everything painted on it is named `RIBBON_INK_*` in `utils/verbRibbonChrome.ts`
-and held to three rules by `tests/unit/verbRibbonChrome.test.tsx`:
+**The banner follows the theme.** The header bar (`RIBBON_HEADER_*`) used to be
+part of the stage, so in the light theme the ribbon opened with a dark slab above
+a page of white panels whose headers are all light. Its text was perfectly
+legible, so no contrast check could object — which is the defect
+`tests/e2e/light-theme.spec.ts` warns about by name. It is an ordinary themed bar
+now: opaque white with dark ink in the light theme (which also hides the part of
+the aura that would tint it), see-through with white ink in the dark theme, where
+the stage's light falling through it is the look. The tier is still on the 32px
+tile, the selected-verb chip and the miniature staircase, each with a pair for the
+unlit bars, the neutral tile and the chevron. The banner is held to the usual rule
+for a themed surface — every colour has a `dark:` partner. The root's neutral edge
+is a pair too (`border-slate-300 dark:border-white/15`), because a shut ribbon
+sits on the page, where white at 15% is invisible.
 
-1. **No `light:` or `dark:` partner.** It has one ground, so a partner is a second
-   guess at it. (Two documented exemptions: the header tile wears
-   `getBandConfig`'s `solidBg`/`solidText` pair, which is independent of the
-   ground, and the shared mesh overlay, a text-free decoration.)
-2. **No theme token.** No `--color-*`. A component that sits on both a themed
-   surface and the stage takes a `tone` (`StrategyBrief tone="ink"`), which names
-   its colours outright instead of reading tokens.
-3. **Nothing dimmed with `opacity`, and no tone below `slate-400`.** Measured on
-   this ground, `slate-300` is 13:1 and `slate-400` 7.7:1; `slate-500` is 4.1:1
-   and fails.
+**The stage has a palette for each theme, written down once.** Under the banner it
+was a near-black slab (`#070b14`) in both themes, which in the light theme was a
+440px block of the page's darkest colour between a white banner and a white
+drawer, and read as abrasive. The obvious fix, lightening the ground, does not
+work: the tier hues are the `-500` steps and stop clearing 4.5:1 beyond about
+`#0f172a` (purple is 4.5 there, 3.7 on slate-800), so the stage could only ever
+have become a shade less black. So the light theme has its own palette — slate-50
+ground, white scoreboard cells, slate-900/800/600 ink, the tier's `-700` shade for
+text (`BAND_HEX_INK`, 4.8:1 at the lowest) and the tier's own colour drawn strongly
+rather than in pastels — the light behind the verb, a faint tint over the whole
+stage, full-strength columns, and a tier-coloured edge under the banner — and the
+dark theme is the stage exactly as it was. How strong the light can be is a
+trade against legibility, and `tests/unit/verbRibbonChrome.test.tsx` holds it:
+the neutral inks must still clear 4.5:1 over the light at its brightest.
 
-The tier's hue itself clears the floor on this ground (4.65:1 for purple, the
-lowest, to 10:1 for yellow), which is what allows tier-coloured text on it.
+The palette is a table of custom properties, `.ribbon-stage` in `index.css`
+(`--stage-ground`, `--stage-ink`, `--stage-line` …, plus the alphas, because the
+tint that glows on near-black is a pastel on near-white and wants a different
+strength). Everything painted on the stage is named `RIBBON_INK_*` in
+`utils/verbRibbonChrome.ts`, and its class strings draw from the table and name no
+colour of their own, so a theme is decided in one place and cannot drift between
+two. `tests/unit/verbRibbonChrome.test.tsx` holds it:
+
+1. **No `light:` or `dark:` partner in a class string.** The palette switches the
+   theme. (The mesh overlay is switched off in the light theme, where its white
+   strokes paint nothing, and the root's neutral edge is the one themed class.)
+2. **No ground, ink or hairline named outright.** No `text-white`, no hex, no
+   `--color-*`. A component that sits on both a themed surface and the stage takes
+   a `tone` (`StrategyBrief tone="ink"`), which reads the stage's properties.
+3. **Nothing dimmed with `opacity`.** De-emphasis is a colour.
+4. **Measured, in both themes, from the table itself.** The test reads the two
+   palettes out of `index.css` and checks every pair: the three neutral inks on the
+   ground and on a scoreboard cell, all six tier hues as text on both, and the
+   chip's ink over its own tint, each at 4.5:1. A palette that fails is a failing
+   test, not a screenshot someone has to look at. The dark palette is also pinned
+   to the values it shipped with.
+
+`tests/e2e/verb-ribbon.spec.ts` reads the computed colours of the banner and the
+stage in both themes in a real browser, and `light-theme.spec.ts` audits the stage's
+text now that its ground is flat in the light theme too.
 
 **The aura is a sibling of the content, never an ancestor of any text.** The e2e
 contrast sweep returns `unassessable` for any text whose background chain meets a
@@ -342,6 +378,40 @@ numeral or be hit with a thumb.
 and for the two-word ones, which wrap. All thirty-eight were measured against
 their column at 1920, 1440, 1280, 1024, 820, 390 and 360px, and none overflows;
 if a verb is added or a breakpoint moves, that measurement is the thing to repeat.
+
+**Motion on a phone.** The hero is the one surface that animates a lot, and
+iOS Safari is where that is felt first, so it is built to a stricter rule than
+the rest of the app. `tests/unit/verbRibbonChrome.test.tsx` and
+`tests/e2e/verb-ribbon-touch.spec.ts` (which runs on the phone projects, real
+WebKit included) hold it:
+
+- **Animate `transform` and `opacity`, and nothing else.** A selection is marked
+  by a halo overlay that fades (`RIBBON_TIER_HALO`), not by a transition on the
+  card's border width, shadow and fill. Name the properties a transition covers;
+  `transition-all` and overshoot curves (`cubic-bezier(0.34, 1.56, …)`) are out.
+- **No `mask-image` on anything that scrolls or moves**, and no `clip-stable` on
+  the stage or its cards (a permanent layer plus an opaque mask). A scroller's
+  edge fade is two overlays in the container's own colour, ending in the SAME
+  colour at zero alpha rather than `transparent`, which Safari takes through grey.
+- **No `mix-blend-mode`.** It renders everything beneath it offscreen and blends it
+  back, every frame anything beneath it changes. The shared `MeshOverlay` takes
+  `plain` for surfaces that animate.
+- **No big blur on something that is re-created.** A glow behind a word, or under
+  the stage, is a radial gradient in a sibling, not a `text-shadow` or a
+  `box-shadow`. A shadow is painted from the box it belongs to, so one on a box
+  that is resizing is re-rastered every frame.
+- **A layer that must survive a resize has a fixed size.** The aura and mesh are
+  top-anchored and 80rem tall, and the stage clips them; `inset-0` on a box that
+  changes height repaints the layer on every frame of the change.
+- **Hover is `can-hover:`**, a variant wrapping `@media (hover: hover)`. On a
+  touch screen a tap leaves `:hover` on the element, so a bare `hover:` is a state
+  the control is left in. Press feedback is `active:` on `transform`.
+- **Touch targets are `touch-manipulation`** (no double-tap zoom) and `select-none`.
+- **A cross-fade is two layers.** Re-keying an element takes the old one away on
+  the same frame the new one starts from nothing, which dips to the ground. The
+  outgoing layer stays for the length of the fade (`RIBBON_INK_AURA_LEAVING`).
+- **Do not move what the reader is touching.** The strip is placed instantly when
+  the ribbon opens, and is not re-centred under a tap on a card already in view.
 
 ## 4. Typography
 

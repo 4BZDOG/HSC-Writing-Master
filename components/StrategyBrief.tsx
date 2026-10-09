@@ -100,13 +100,14 @@ interface StrategyBriefProps {
    *
    * - `surface` — the page's own surface, in whichever theme is on. Every ink
    *   colour is a theme token, so it reads on white and on near-black alike.
-   * - `ink` — a surface that is dark in BOTH themes, like the verb ribbon's
-   *   stage. The theme tokens are exactly wrong there: `--color-text-muted`
-   *   resolves to slate-600 under the light theme, which is dark text on a dark
-   *   ground, and the tier's `text` class swaps to its `-900` step for the same
-   *   reason. So `ink` names its colours outright, and takes the tier's hue
-   *   from the `--band-rgb` custom property the surface sets, which is the one
-   *   band palette handed to CSS rather than a second copy of it.
+   * - `ink` — the verb ribbon's stage, which has a palette of its own in both
+   *   themes (`.ribbon-stage` in `index.css`). The theme tokens are wrong there:
+   *   the stage's ground is not the page's, so `--color-text-muted` is not a
+   *   reading on it in either theme, and the tier's `text` class swaps to its
+   *   `-900` step under the light theme whatever the ground is. So `ink` reads
+   *   the stage's own properties — `--stage-ink-*` for the neutrals and
+   *   `--band-text` for the tier's hue, which is the bright `-500` on the dark
+   *   stage and the `-700` on the light one — and only works inside it.
    */
   tone?: 'surface' | 'ink';
   className?: string;
@@ -157,11 +158,11 @@ const PALETTES = {
     detail: 'text-xs',
   },
   ink: {
-    secondary: 'text-slate-300',
-    primary: 'text-slate-100',
-    muted: 'text-slate-300',
-    rule: 'border-white/25',
-    divider: 'bg-white/20',
+    secondary: 'text-[rgb(var(--stage-ink-3))]',
+    primary: 'text-[rgb(var(--stage-ink-2))]',
+    muted: 'text-[rgb(var(--stage-ink-3))]',
+    rule: 'border-[rgb(var(--stage-line)/0.25)]',
+    divider: 'bg-[rgb(var(--stage-line)/0.2)]',
     // A step up on each. The ink tone is the verb ribbon's stage, where the
     // method for answering a verb is the most useful thing on screen and sits
     // beside a 96px heading and an 18px definition: at 12–13px it was the
@@ -183,7 +184,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
   // The question's own tier colour, the same hue the writing surface, the verb
   // ribbon and the question card are already painted in.
   const accent = useMemo(
-    () => (tone === 'ink' ? 'text-[rgb(var(--band-rgb))]' : getBandConfig(info.tier).text),
+    () => (tone === 'ink' ? 'text-[rgb(var(--band-text))]' : getBandConfig(info.tier).text),
     [info.tier, tone]
   );
   const palette = PALETTES[tone];

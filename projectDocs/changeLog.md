@@ -1,5 +1,70 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-09 (Verb ribbon animations: smoother on a phone)
+
+- **Fixed.** The ribbon's animations were reported glitchy on an iPhone 15 in Safari. No iPhone was
+  to hand, so the causes were taken from what WebKit and a throttled Chromium could show, and each
+  was removed rather than tuned:
+  - **A mask on the tier strip** (the edge fade) made Safari re-mask the scrolling cards on every
+    frame of a swipe. The fades are now two small overlays in the drawer's own colour.
+  - **A mask and a permanent layer on the stage and all six cards** (`clip-stable`), and a
+    **`mix-blend-mode`** on the mesh texture. Both are gone from the ribbon; the mesh is plain, and
+    the aura and mesh round themselves so the corners stay clean.
+  - **A 700ms `transition-all` with an overshoot curve on every tier card**, which re-painted the
+    card's border width, a blurred shadow and its fill together on each selection. The selected
+    tier's ring, edge and glow are now one overlay that fades with `opacity`, and the card is the
+    same box in every state.
+  - **A 48px `text-shadow` on the 96px verb**, re-rastered on every chip tap. It is now a soft
+    gradient behind the word.
+  - **A `box-shadow` on the stage** and an aura sized to it, both re-painted on every frame of the
+    open and close. The glow is a small sibling layer and the aura and mesh are a fixed size.
+- **Fixed.** The ribbon's banner was a dark slab in the light theme, the same as in the dark one,
+  above a page of white panels with light headers. The header bar is now themed: white with dark ink
+  in the light theme, and unchanged in the dark theme. Its tier tile, selected-verb chip, miniature
+  staircase and chevron each have a light and a dark form. The stage below it is still dark in both
+  themes, because that is the hero. The ribbon's neutral edge is a themed pair so that a shut ribbon
+  has a visible edge on a white page.
+- **Fixed.** The ribbon's stage was a near-black slab in the light theme too: 440px of the page's
+  darkest colour between a white banner and a white drawer, reported as abrasive. The light theme now
+  has a stage palette of its own: a soft slate-50 ground, white scoreboard cells, dark ink, the tier's
+  own colour for the light behind the verb and as a faint tint over the whole stage, full-strength
+  staircase columns, a tier-coloured edge under the banner, and the tier's darker `-700` shade for
+  figures and the current step's name. It was first drawn in pastels and read as washed out, so the
+  tints, glows, columns and chips are stronger; how strong is limited by legibility, and a test holds
+  the dark and neutral inks at 4.5:1 over the light at its brightest. The dark theme is the stage exactly as it was. Lightening the
+  dark ground was not an option, because the tier colours stop being legible on anything much lighter
+  than the current near-black.
+- **Changed.** The stage's colours now come from one table of custom properties in `index.css`
+  (`.ribbon-stage`), one set of values per theme, and the ribbon's class strings no longer name any
+  ground or ink of their own. A unit test reads the table back and measures the contrast of every
+  pair in both themes.
+- **Fixed.** On a phone a tap left `:hover` stuck: cards stayed enlarged and staircase columns
+  stayed bright until the next tap elsewhere. Hover styles now only exist where a pointer can hover
+  (a new `can-hover:` variant).
+- **Changed.** The ribbon answers a finger on the first frame: chips, steps and the header press in
+  on touch; double-tap-to-zoom is off across the ribbon (`touch-action: manipulation`); a long press
+  no longer selects a label.
+- **Changed.** Tier changes no longer dip the stage to black. The outgoing light and glow cross-fade
+  with the incoming ones; a new verb arrives from a dim, low start rather than from nothing.
+- **Changed.** The panel opens and closes on the iOS sheet curve and on two named properties instead
+  of `transition-all`; the staircase waits for the panel to be mostly open before it builds, so the
+  moment is seen rather than spent behind the clip.
+- **Changed.** The tier strip no longer fights the reader: it is placed instantly when the ribbon
+  opens, and tapping another chip on a card already in view no longer slides the strip. A flick at
+  either end bounces in the strip and does not chain to the page.
+- **Measured.** Production build, Chromium with the 4x CPU throttle, iPhone 15 profile, against the
+  previous build: area repainted by a verb-chip tap fell from about 10-12.7 megapixels to about 4.5;
+  by opening the ribbon from 35.4 to 19.4; by closing it from 26.7 to 17.3. Total paint time over a
+  fixed sequence of seven interactions fell 34% and layer-tree rebuilds 49%. In real WebKit 26 (the
+  Playwright build, not an iPhone), the stage previously carried 8 masked elements, 2 blended ones
+  and a masked strip, and now carries none. These numbers are about work done, not about what an
+  iPhone's GPU does with it.
+- **Held by tests.** The unit tests pin the new structure and the rules above (no ungated hover, no
+  `transition-all`, no overshoot, no mask or blend on the ribbon). A new end-to-end spec,
+  `verb-ribbon-touch.spec.ts`, runs on the phone projects, including real WebKit: tapping moves the
+  selection and the strip follows it, nothing is left hovered, the panel folds and unfolds, and the
+  stage carries no mask or blend and answers a tap without a zoom.
+
 ## [Unreleased] - 2026-10-08 (Verb ribbon becomes the hero)
 
 - **Changed.** The command verb ribbon is now the one loud surface in the workspace, where the

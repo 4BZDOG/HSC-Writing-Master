@@ -225,6 +225,18 @@ export default {
         // for its turn holds at the first frame instead of showing at full height
         // and then collapsing to start.
         'stair-rise': 'stairRise 650ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        // The ribbon's verb changing under a reader's thumb. A new verb arrives
+        // from a dim, low start rather than from nothing: the old block is
+        // unmounted the instant a chip is tapped, and a fade from `opacity: 0`
+        // leaves the stage visibly empty for the first frames of the swap. This
+        // starts at 0.3 and 6px down and settles in 320ms, so the word reads as
+        // refreshed rather than blinked. `translate3d` so Safari puts it on the
+        // compositor from frame one.
+        'verb-swap': 'verbSwap 320ms cubic-bezier(0.22, 1, 0.36, 1) both',
+        // The other half of a cross-fade: the ribbon's outgoing light. Same
+        // duration and curve as `fade-in`, so the two opacities sum to one all
+        // the way across and the stage never dips toward black between tiers.
+        'fade-out': 'fadeOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         // All keyframes animate only transform/opacity so they stay on the
@@ -298,12 +310,34 @@ export default {
           '0%': { transform: 'scaleY(0)' },
           '100%': { transform: 'scaleY(1)' },
         },
+        // Ends at the resting state (opacity 1, no offset) like every other
+        // keyframe here, so the reduced-motion block's instant run leaves the
+        // verb exactly where it would have been.
+        verbSwap: {
+          '0%': { opacity: '0.3', transform: 'translate3d(0, 6px, 0)' },
+          '100%': { opacity: '1', transform: 'translate3d(0, 0, 0)' },
+        },
+        // The one exception to "ends at rest": this is a LEAVING layer, which
+        // the call site unmounts when the cross-fade is over. Its reduced-motion
+        // run lands on opacity 0 and the same unmount removes it.
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
     },
   },
   plugins: [
     function ({ addVariant }) {
       addVariant('light', '[data-theme="light"] &');
+      // Hover that only exists where a pointer can hover. On a touch screen a tap
+      // leaves `:hover` stuck on the element until the next tap elsewhere, so a
+      // hover style is not a hint there, it is a state the control is left in:
+      // iOS Safari kept tier cards at 1.02 scale and columns at 125% brightness
+      // after a tap, and then animated them back when the selection moved. This
+      // wraps the rule in `@media (hover: hover)`, which iPhones report false.
+      // Compose it as `can-hover:hover:*` or `can-hover:group-hover/step:*`.
+      addVariant('can-hover', '@media (hover: hover)');
     },
   ],
 };
