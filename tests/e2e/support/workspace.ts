@@ -27,6 +27,27 @@ export const signIn = async (
   await page.click('button[type=submit]');
 };
 
+/**
+ * The accessible name of the writing card's Evaluate button, for
+ * `getByRole('button', { name: EVALUATE_BUTTON })`.
+ *
+ * It is not simply `/^Evaluate/`, which used to be enough. The verb ribbon's top
+ * tier is called "Evaluate, Synthesise & Create", and its header button is
+ * named after it — formerly behind a system emoji, so the name began with a
+ * trophy and no prefix match could reach it; now behind an `aria-hidden` icon,
+ * so the name begins with the word. Both buttons are in the document whenever a
+ * question is open (the ribbon is only inert while shut, and Playwright does not
+ * treat `inert` as hidden), and a locator that matches two is a strict-mode
+ * failure rather than a choice.
+ *
+ * Not `exact: true` either. On a desktop viewport the button carries its
+ * keyboard hint, so its name is "Evaluate Ctrl ↵" and an exact match finds
+ * nothing; on a phone the hint is hidden and the name is just "Evaluate". What
+ * tells the two buttons apart on both is that the tier header is "Evaluate" and
+ * then a COMMA, so the pattern is the word at the start, not followed by one.
+ */
+export const EVALUATE_BUTTON = /^Evaluate(?!,)/;
+
 /** The charter gate, then the quick-start guide, then the bundled curriculum. */
 export const clearOnboarding = async (page: Page): Promise<void> => {
   // The gate animates in after the mock login's deliberate delay, so wait for

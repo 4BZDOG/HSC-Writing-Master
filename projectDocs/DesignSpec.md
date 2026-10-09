@@ -111,17 +111,19 @@ BEHIND it, not on the token.** This is what makes a blanket find-and-replace
 the wrong tool — most white-alpha classes in this codebase are already correct:
 
 - **On a coloured gradient or a modal backdrop** — the editor header, the
-  score placard, the verb ribbon's tier tile and detail-card icon,
-  `bg-black/80` scrims. These are the same colour in both themes, so
+  score placard, the verb ribbon's tier tile and the icon tile on its selected
+  tier card, `bg-black/80` scrims. These are the same colour in both themes, so
   `bg-white/20` and `border-white/20` are right as written and must be left
   alone.
 
-  This example used to read "the ribbon header", and that surface is gone —
-  the verb ribbon's header was a full-bleed tier gradient until it became a
-  glass rail, and its tier colour now lives on a 36px tile and a 2px
-  underline. The rule is unchanged; only the illustration moved. Check what a
-  class is painted on, not what this list happened to name when it was
-  written.
+  This example has moved three times. It used to read "the ribbon header", and
+  that surface is gone — the verb ribbon's header was a full-bleed tier gradient,
+  then a glass rail, then the same row every accordion wears, and is now the top
+  of a dark stage (see "The hero" in §3) with its tier colour on a 32px tile. It
+  later named the ribbon's detail-card icon, which went when that card stopped
+  being a wash of the tier. The rule is unchanged; only the illustration moved.
+  Check what a class is painted on, not what this list happened to name when it
+  was written.
 
 - **On a theme surface** — anything over `--color-bg-surface`, a `bg-white`
   card, or a `slate-100/200` track. Here white-alpha is invisible in light
@@ -279,6 +281,67 @@ Band glows (`getBandConfig().glow`) are part of the colour system, not this
 scale, and keep their own coloured shadows. Three modal shells keep a bespoke
 `shadow-[0_64px_128px…]`: a deliberately deep shadow no step on this scale
 provides.
+
+### The hero
+
+One surface in the application is allowed to be louder than the rest, and it is
+the verb ribbon (`components/CommandVerbHierarchy.tsx`). It explains the single
+fact that decides a student's ceiling — **the command verb caps the band** — and
+the design makes that fact the picture: the verb is set at poster scale, and a
+staircase of six tier columns shows how far it lets a response climb.
+
+**It is one hero, on purpose.** A workspace where every panel is loud has no
+hero, only noise. The accordions, the tier cards and everything else stay calm so
+that this one does not have to compete with them. If a second surface wants the
+same treatment, the question is which of the two stops being it.
+
+What makes it a different object, and not a bigger panel:
+
+| Decision | The hero                                                                         | Why                                                                                                  |
+| -------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Rank     | `rounded-surface` (32px), the workspace cards' radius                            | Panels are 20px. The radius says this is a card, not reference material                              |
+| Ground   | A **stage, dark in both themes** (`bg-[#070b14]`), on an ordinary themed drawer  | A lit slab on a pale desk in the light theme; a spotlit stage in the dark one                        |
+| Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
+| Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                 | The display voice that already names the product, at the one place it is the subject                 |
+| Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above       | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
+| Motion   | One orchestrated moment on a change of verb, and responses to input              | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
+
+**The stage is dark in both themes, and that is a claim the tests hold.** The
+theme tokens flip: `--color-text-muted` resolves to slate-600 under the light
+theme, and a tier's `text` class swaps to its `-900` step, which is dark ink on a
+dark ground. Nothing throws; the light theme is simply unreadable on the stage.
+So everything painted on it is named `RIBBON_INK_*` in `utils/verbRibbonChrome.ts`
+and held to three rules by `tests/unit/verbRibbonChrome.test.tsx`:
+
+1. **No `light:` or `dark:` partner.** It has one ground, so a partner is a second
+   guess at it. (Two documented exemptions: the header tile wears
+   `getBandConfig`'s `solidBg`/`solidText` pair, which is independent of the
+   ground, and the shared mesh overlay, a text-free decoration.)
+2. **No theme token.** No `--color-*`. A component that sits on both a themed
+   surface and the stage takes a `tone` (`StrategyBrief tone="ink"`), which names
+   its colours outright instead of reading tokens.
+3. **Nothing dimmed with `opacity`, and no tone below `slate-400`.** Measured on
+   this ground, `slate-300` is 13:1 and `slate-400` 7.7:1; `slate-500` is 4.1:1
+   and fails.
+
+The tier's hue itself clears the floor on this ground (4.65:1 for purple, the
+lowest, to 10:1 for yellow), which is what allows tier-coloured text on it.
+
+**The aura is a sibling of the content, never an ancestor of any text.** The e2e
+contrast sweep returns `unassessable` for any text whose background chain meets a
+gradient. With the light a sibling, every text node's nearest background is the
+flat ground and the audit can measure it.
+
+**Geometry is one scale.** Band `i` owns `[(i-1)/6, i/6]` of the staircase; its
+step is centred there and is one sixth wide less a gutter, so the column, its
+numeral, its name and the Deep Learning Threshold at 50% agree by construction.
+Tier 1's column is 28% of the tallest, not a sixth: a sliver cannot carry its
+numeral or be hit with a thumb.
+
+**The verb is sized to the word.** `ribbonVerbSize` steps down for longer verbs
+and for the two-word ones, which wrap. All thirty-eight were measured against
+their column at 1920, 1440, 1280, 1024, 820, 390 and 360px, and none overflows;
+if a verb is added or a breakpoint moves, that measurement is the thing to repeat.
 
 ## 4. Typography
 

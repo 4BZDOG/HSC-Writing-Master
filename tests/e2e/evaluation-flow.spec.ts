@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
 
 /**
  * The evaluation flow, as a student actually meets it.
@@ -58,7 +58,7 @@ test.describe('Evaluation flow', () => {
     await openFirstQuestion(page);
 
     // Nothing written yet: evaluating is refused rather than sent empty.
-    const evaluate = page.getByRole('button', { name: /^Evaluate/ });
+    const evaluate = page.getByRole('button', { name: EVALUATE_BUTTON });
     await expect(evaluate).toBeDisabled();
 
     const answer = 'DNA unwinds and each strand is copied.'; // seven words
@@ -80,7 +80,7 @@ test.describe('Evaluation flow', () => {
       'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +
         'template, and complementary bases are added along it to build two identical molecules.'
     );
-    await page.getByRole('button', { name: /^Evaluate/ }).click();
+    await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
 
     // The result reaches the student — not just the network.
     await expect(page.getByText(MARKED_RESPONSE.overallFeedback)).toBeVisible({ timeout: 30_000 });
@@ -102,7 +102,7 @@ test.describe('Evaluation flow', () => {
     const complaint = page.getByText(/error|failed|unavailable|try again/i);
     await expect(complaint).toHaveCount(0);
 
-    await page.getByRole('button', { name: /^Evaluate/ }).click();
+    await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
 
     // Something is said about the failure…
     await expect(complaint.first()).toBeVisible({ timeout: 30_000 });
@@ -169,7 +169,7 @@ test.describe('Comparison before feedback', () => {
       'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +
         'template, and complementary bases are added along it to build two identical molecules.'
     );
-    await page.getByRole('button', { name: /^Evaluate/ }).click();
+    await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
 
     // The diff arrives first, with a labelled way forward rather than only an X.
     const carryOn = page.getByRole('button', { name: /See my full feedback/i });

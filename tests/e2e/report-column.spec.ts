@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
 import { findClippedText, describeClipped } from './support/clipping';
 
 /**
@@ -103,7 +103,7 @@ test.describe('marking report column', () => {
         'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +
           'template, and complementary bases are added along it to build two identical molecules.'
       );
-    await page.getByRole('button', { name: /^Evaluate/ }).click();
+    await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
     await page.getByText(FEEDBACK).waitFor({ timeout: 60_000 });
 
     // Below xl: one column, and the score is still above the report.

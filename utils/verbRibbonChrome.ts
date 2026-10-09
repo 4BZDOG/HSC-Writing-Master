@@ -2,13 +2,32 @@
  * The command verb ribbon's class vocabulary, in the same shape as
  * `utils/headerChrome.ts`, `utils/cardChrome.ts` and `utils/panelStyles.ts`.
  *
+ * The ribbon is the workspace's one HERO, and this file is where that is
+ * written down. It has two zones, and the difference between them is the whole
+ * design:
+ *
+ * - The STAGE — the header row, the verb at poster scale, the scoreboard and the
+ *   ceiling staircase — is dark in BOTH themes. A page of white and slate panels
+ *   in the light theme is a calm page, and one lit slab on it is what makes the
+ *   ribbon the thing the eye goes to; in the dark theme the same slab reads as
+ *   a spotlit stage, lit in the tier's own colour. Every constant painted on it
+ *   is named `RIBBON_INK_*`, and `tests/unit/verbRibbonChrome.test.tsx` holds
+ *   the two rules that follow from that: nothing named INK carries a `dark:` or
+ *   `light:` partner (it has one ground, so a partner is a second guess at it),
+ *   and nothing named INK reads a theme token (`--color-text-*` resolves to
+ *   dark ink under the light theme, which is exactly wrong on a dark ground).
+ * - The DRAWER beneath it — the six tier cards and their thirty-eight verb
+ *   chips — is an ordinary themed surface, so every colour on it is a
+ *   light/`dark:` pair and the tier colours come from the tier config.
+ *
  * This file holds the ribbon's THEME-NEUTRAL CHROME only. Everything
- * tier-coloured stays interpolated from `getTierScaleConfig(tier)` at the call
- * site: baking six tiers into constants here would duplicate
+ * tier-coloured on the drawer stays interpolated from `getTierScaleConfig(tier)`
+ * at the call site: baking six tiers into constants here would duplicate
  * `utils/renderUtils.ts`, which is pinned by `tests/unit/bandColors.test.ts` and
- * shared by a dozen other surfaces. So a rendered `className` in this component
- * is one of these constants plus a tier config's strings, and the tier config
- * is written in the older `light:` idiom on purpose — it is not being migrated.
+ * shared by a dozen other surfaces. The stage takes its hue another way — the
+ * stage root sets `--band-rgb` once, from `getBandRgb`, and everything on it
+ * draws from that at whatever alpha it needs — so the palette is still written
+ * down in one place.
  *
  * Each constant records what it is painted ON, because that is the question
  * DesignSpec §2 asks of every colour and it is not answerable from the class
@@ -22,205 +41,363 @@
  * pins that.
  */
 
-/** The ribbon's outermost box. Painted on the page background, full page width
- *  and flush with the column — see the comment at the call site for why it
- *  carries no rail gutter.
+/** The ribbon's outermost box, and the stage's ground. Painted on the page.
  *
- *  It carries NO vertical margin of its own, and the reason is worth writing
- *  down because the margin it used to carry was defended here at length.
+ *  It is a workspace CARD in rank — `rounded-surface`, the 32px of the Writing
+ *  Prompt and Written Response cards — where it used to be a 20px panel beside
+ *  the accordions. The accordions are reference material of equal weight; this
+ *  is the thing that explains the one fact that sets a student's ceiling, and
+ *  the radius says so.
  *
- *  The argument was that `my-2 sm:my-3` on top of `<main>`'s `gap-6` is what
- *  makes the ribbon read as its own band rather than as the next block down —
- *  a change of register between the chooser above and the question below.
- *  The register change is real. The margin was not what delivered it: the two
- *  edge rules do that, and they did not exist when this comment was first
- *  written.
+ *  `bg-[#070b14]` is a deliberate literal. It is the dark theme's deep-sea navy
+ *  (DesignSpec §3, `#0a0f1a`) taken one step down, so the slab reads as a stage
+ *  with its lights lowered rather than as a second page background. It cannot be
+ *  a token: the surface tokens flip under the light theme, and the whole point
+ *  of the stage is that it does not. The tier-lit border and the glow beneath it
+ *  are inline at the call site, because they come from `--band-rgb`.
  *
- *  What the margin actually delivered was measured in Chromium at 1440x900:
- *  60px of air above the ribbon against 36px below, in both the collapsed and
- *  the expanded state. The asymmetry was never this constant's fault — it
- *  comes from a zero-height flex child in `<main>` (see `App.tsx`) that makes
- *  the column pay `gap-6` twice above and once below — but the margin was
- *  paid on both sides of an already-lopsided boundary, so it made the gap
- *  wider without making it evener. With the zero-height child neutralised at
- *  its own end and this margin gone, the boundary measures 24px on each side:
- *  `<main>`'s own rhythm, once. */
+ *  `isolate` so the aura and the mesh, which sit behind the content at `z-0`,
+ *  cannot be reordered against anything outside the ribbon. */
 export const RIBBON_ROOT =
-  'clip-stable relative overflow-hidden transition-all duration-700 ease-out animate-fade-in';
+  'clip-stable relative isolate overflow-hidden rounded-surface border border-white/15 bg-[#070b14] text-white animate-fade-in';
 
-/** The space an edge rule keeps from the content it bounds. Flush against the
- *  header bar, a hairline reads as that bar's own top edge rather than as the
- *  boundary of the section — the rule needs room on the content side before it
- *  states anything. Applied as margin, not padding: the rules are `h-px` boxes
- *  and padding would grow them into something with a height. */
-export const RIBBON_EDGE_RULE_GAP_TOP = 'mb-4 sm:mb-5';
-export const RIBBON_EDGE_RULE_GAP_BOTTOM = 'mt-4 sm:mt-5';
+/** The light that falls on the stage, in the tier's own hue. Painted on the
+ *  stage's ground; its gradient is inline at the call site and is built from
+ *  `--band-rgb`, so it re-tints with the question.
+ *
+ *  A SOURCE of light, not a wash: one pool at the top left, where the verb is,
+ *  and a fainter one low on the right, under the staircase. It is keyed by tier
+ *  at the call site, so changing to a verb of another tier cross-fades the
+ *  light rather than snapping it, and it ends at rest — `animate-fade-in` is a
+ *  one-shot, so nothing here moves between question changes.
+ *
+ *  It is a SIBLING of the content and never an ancestor of any text. That is
+ *  deliberate: `tests/e2e/support/contrast.ts` returns `unassessable` for any
+ *  text whose background chain meets a gradient, so a text node inside a
+ *  gradient-painted element would be taken out of the light-theme audit — the
+ *  blind spot that let this component's first three contrast defects ship. With
+ *  the aura beside the content, every text node's nearest background is the
+ *  flat ground. */
+export const RIBBON_INK_AURA = 'absolute inset-0 z-0 pointer-events-none animate-fade-in';
 
-/** The header bar, which is also the disclosure toggle. Painted on the page
- *  background and `AnimatedBackground` beneath it.
+/** The header row, which is also the disclosure toggle. Painted on the stage.
  *
- *  It used to be a full-bleed tier gradient — a wall, in a glass app, and the
- *  reason everything on it had to be white: white text, a white-alpha tile, a
- *  white-alpha chip. On tier 3 that white text sat on yellow at 1.9:1. The tier
- *  still colours the ribbon; it does it from a 36px tile and a 2px underline
- *  instead, which is `HEADER_HAIRLINE`'s argument transposed — edge-lighting
- *  rather than a wall.
+ *  It takes `PANEL_ROW_MIN_H` at the call site, so it stands on the same whole
+ *  pixel as every accordion's row — the ribbon is no longer one of them, but a
+ *  61px row among 61px rows is still what keeps the page's rhythm.
  *
- *  The height is LOCKED — `min-h` against shrinking, `whitespace-nowrap` and
- *  `truncate` on the pieces below against growing — and
- *  `tests/unit/commandVerbHierarchy.test.tsx` pins it. Every geometry token
- *  here is unchanged from the gradient version.
+ *  The height is LOCKED, and it takes both halves: `min-h` against shrinking, and
+ *  `whitespace-nowrap` / `truncate` on the pieces below against growing.
+ *  `tests/unit/commandVerbHierarchy.test.tsx` pins it. A long verb —
+ *  DIFFERENTIATE is thirteen characters — must not widen the chip, squeeze the
+ *  title and take it to a second line; nothing in the ribbon's chrome should move
+ *  when the question changes.
  *
- *  It carries a BORDER, which it did not. Unbordered glass works in the dark
- *  theme because `bg-surface/40` over a near-black page is a 1.3:1 step and
- *  the eye reads it as a pane; the light theme's `bg-white/60` over a page
- *  that was itself 248,250,252 was 1.03:1, so the bar had no edge in any
- *  direction and the ribbon's only boundaries were the two hairlines above and
- *  below it — which had the same problem. The page is now the desk rather than
- *  more paper, so the fill does most of the work; the border is what closes
- *  the box, and the reason it is 1px of a real tone rather than more alpha is
- *  recorded on the light token block in `index.css`.
- *
- *  Adding it costs no height: Tailwind's preflight sets `box-sizing:
- *  border-box`, so the 2px lands inside the `min-h` the height lock is made
- *  of. */
-export const RIBBON_HEADER_BAR =
-  'w-full px-0 py-3 sm:py-3.5 min-h-[60px] sm:min-h-[64px] flex items-center justify-between gap-3 ' +
-  'relative z-10 overflow-hidden rounded-xl transition-colors duration-500 group/header ' +
-  'text-slate-900 dark:text-white ' +
-  'border border-slate-300 dark:border-white/10 ' +
-  'bg-white/80 hover:bg-white dark:bg-[rgb(var(--color-bg-surface))]/40 backdrop-blur-xl ' +
-  'dark:hover:bg-[rgb(var(--color-bg-surface))]/60';
+ *  The focus ring is a white inset ring, which is the only one that reads on a
+ *  dark ground and is not clipped by the root's `overflow-hidden`. */
+export const RIBBON_INK_HEADER_BAR =
+  'relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left ' +
+  'transition-colors duration-300 group/header hover:bg-white/[0.04] ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70';
 
-/** Edge-lighting under the bar, and where the tier colour went. Painted on the
- *  bar's own bottom edge; the gradient itself is the tier config's and is
- *  interpolated at the call site. Rendered only when a verb is selected — with
- *  none there is no tier to state. */
-export const RIBBON_TIER_UNDERLINE =
-  'absolute inset-x-0 bottom-0 h-0.5 pointer-events-none bg-gradient-to-r';
-
-/** The 36px icon tile at the head of the bar, and the other half of where the
- *  tier colour went. Its fill is interpolated at the call site: the tier's
+/** The 32px icon tile at the head of the bar, where the tier colour lives while
+ *  the ribbon is shut. Its fill is interpolated at the call site: the tier's
  *  `solidBg` and `solidText` when a verb is selected — the pairing
  *  `getBandConfig` exists to provide, and the reason it is not `text-white`,
- *  which tier 3's yellow reads at 1.9:1 — and a slate pair when none is. The
- *  border colour arrives with the fill, because `border-white/20` is right in
- *  both themes on a solid tier fill (§2) and wrong on the slate one. Painted on
- *  the bar. */
-export const RIBBON_HEADER_TILE =
-  'w-9 h-9 shrink-0 rounded-xl flex items-center justify-center border shadow-sm group-hover/header:scale-110 transition-transform';
+ *  which tier 3's yellow reads at 1.9:1 — and a quiet white-alpha well when none
+ *  is. Painted on the stage. */
+export const RIBBON_INK_HEADER_TILE =
+  'w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border shadow-sm transition-colors duration-500';
 
-/** "HSC Command Verb Hierarchy". Truncates rather than wraps: an ellipsis on a
+/** "HSC Command Verb Hierarchy" — the panel's NAME, in the section voice every
+ *  title in the workspace takes. Truncates rather than wraps: an ellipsis on a
  *  title the reader already knows costs nothing, a second line costs the height
- *  lock. Painted on the bar. */
-export const RIBBON_HEADER_TITLE =
-  'text-sm sm:text-base font-black tracking-tight leading-none truncate';
+ *  lock. Painted on the stage.
+ *
+ *  The tracking comes in below `sm`. At the section voice's 0.16em the title is
+ *  about 50px wider than at 0.06em, and on a 390px phone — a 32px tile, a
+ *  chevron and the bar's padding already spoken for — that was the difference
+ *  between the whole name and "HSC COMMAND VERB HIERAR…". It is `!important`
+ *  because `.t-section` sets its own tracking and is declared after the
+ *  utilities, so a plain utility would lose to it. Below 380px — a 360px Android
+ *  is the common case — it comes in a second step, to 0.02em, which is what a
+ *  218px title box needs; a 320px screen still ellipsises, and is the one width
+ *  this does not try to save. */
+export const RIBBON_INK_HEADER_TITLE =
+  't-section block truncate text-white max-sm:!tracking-[0.06em] max-[379px]:!tracking-[0.02em]';
 
-/** "Reference • 6 cognitive tiers", under the title. Painted on the bar. */
-export const RIBBON_HEADER_SUBLABEL = 't-label block truncate text-slate-500 dark:text-slate-400';
+/** "Reference · 6 cognitive tiers", under the title. `slate-300`, not
+ *  `slate-500`: 13.3:1 against 4.1:1 on this ground, measured. Painted on the
+ *  stage. */
+export const RIBBON_INK_HEADER_SUBLABEL = 't-label block truncate text-slate-300';
 
 /** The word "Selected:" before the chip. `whitespace-nowrap` is half of the
- *  height lock. Painted on the bar. */
-export const RIBBON_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-500 dark:text-slate-400';
+ *  height lock. Painted on the stage. */
+export const RIBBON_INK_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-300';
 
 /** The chip carrying the selected verb. `whitespace-nowrap` is the other half
- *  of the height lock — DIFFERENTIATE is thirteen characters.
+ *  of the height lock — DIFFERENTIATE is thirteen characters. White text on a
+ *  wash of the tier, so it reads the same on all six hues, including the yellow
+ *  that white-on-fill fails. Painted on the stage. */
+export const RIBBON_INK_SELECTED_CHIP =
+  't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border text-white ' +
+  'bg-[rgb(var(--band-rgb)/0.22)] border-[rgb(var(--band-rgb)/0.65)]';
+
+/** The ceiling in miniature, in the header: six ascending bars, lit to the
+ *  tier. It is what the staircase below says, small enough to say it while the
+ *  ribbon is shut — which is when most students see this surface. The bars are
+ *  drawn at the call site. Decorative, so `aria-hidden` there; the chip beside it
+ *  and the live region say the same thing in words. Painted on the stage.
  *
- *  Structure only now. Its `bg-white/20 border-white/30` was correct while the
- *  bar was a gradient and would be a smudge on glass, so the colour comes from
- *  the tier config at the call site — the same wash the detail card wears. */
-export const RIBBON_SELECTED_CHIP =
-  't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border shadow-sm';
+ *  Not below `sm`. On a 390px phone the bars cost the title about 30px, which is
+ *  the difference between the whole name and "HSC COMMAND VERB HIER…" — and the
+ *  tile beside the title is already the tier's colour there, which is the part
+ *  of this glyph a phone has room for. */
+export const RIBBON_INK_MINI_STAIR = 'hidden sm:flex items-end gap-[3px] h-4 shrink-0';
 
-/** The chevron's round chip at the far end of the bar. Already a pair, because
- *  it is the one thing in the bar that has to read on both a tier gradient and
- *  the neutral no-verb fill. */
-export const RIBBON_CHEVRON_CHIP =
-  'w-7 h-7 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center border border-slate-900/10 dark:border-white/10 transition-transform duration-500';
-
-/** The active verb's detail card. Its `border` and `bg` come from the tier
- *  config at the call site. Painted on the page background. */
-export const RIBBON_DETAIL_CARD =
-  'clip-stable relative overflow-hidden rounded-2xl p-5 border shadow-lg animate-fade-in-up transition-all duration-500 group/hero';
-
-/** The verb itself, in the house display treatment. Painted on the detail
- *  card's tier wash. */
-export const RIBBON_DETAIL_TERM =
-  'text-3xl font-black tracking-normal uppercase italic leading-none text-slate-900 dark:text-white';
-
-/** The tier chip beside the verb. Its colours come from the tier config.
- *  Painted on the detail card. */
-export const RIBBON_DETAIL_TIER_CHIP =
-  // `whitespace-nowrap`: on a phone "Tier 2 · Define" broke after the dot.
-  't-label px-3 py-0.5 rounded-full border shadow-sm whitespace-nowrap';
-
-/**
- * How the prose in this file is allowed to break is `utils/prose`'s decision —
- * `PROSE_BLOCK` for a short declarative block read as one unit, `PROSE_FLOW`
- * for running text, and neither on the tier NAME, which is clamped. The
- * measurements that produced the rule were taken here; the reasoning is
- * recorded there rather than repeated at each use.
+/** The stage's body: the verb and its brief on the left, the staircase on the
+ *  right, the scoreboard across the foot. Painted on the stage.
  *
- * Applied at the CALL SITE rather than baked in here, which is the same rule
- * this file already follows for anything tier-coloured. Not only for
- * consistency: a constant here interpolating an imported value would be
- * reading it at module-init time, and `npm run check:eager-reads` rejects
- * that — it is the crash class where a bundler puts reader and definer in
- * chunks that import each other and the reader hits a temporal dead zone.
- * `utils/prose` imports nothing and so could not actually cycle, but that
- * script's exemption list is keyed by the READING file, so taking one would
- * have blanket-accepted every future eager read in this file too. A
- * render-time read costs nothing and keeps the guard honest.
+ *  `z-10` over the aura and the mesh. One column below `lg`, where the
+ *  staircase takes the full width and so keeps six columns wide enough to touch;
+ *  the left column gets slightly more than half from `lg`, because it carries a
+ *  96px verb. */
+export const RIBBON_INK_HERO =
+  'relative z-10 grid gap-8 lg:gap-10 px-5 sm:px-8 pt-4 pb-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start';
+
+/** The tier chip above the verb. Its words are the tier's, derived at the call
+ *  site. Painted on the stage. */
+export const RIBBON_INK_TIER_CHIP =
+  't-label inline-flex items-center rounded-full border px-3 py-1 whitespace-nowrap text-white ' +
+  'bg-[rgb(var(--band-rgb)/0.22)] border-[rgb(var(--band-rgb)/0.65)]';
+
+/** The verb itself, at poster scale. THE hero element, and the only one that is
+ *  allowed to be this loud: Inter 900 italic caps — the display voice that names
+ *  the product and the two workspace cards — lit from behind by the tier's own
+ *  hue, so it reads as a sign rather than as a heading.
+ *
+ *  The size is not here: it depends on how long the verb is, and CRITICALLY
+ *  EVALUATE does not fit where IDENTIFY sets at 96px. `ribbonVerbSize` below
+ *  chooses it, and `tests/e2e/verb-ribbon.spec.ts` measures all thirty-eight
+ *  against the column at six widths.
+ *
+ *  `text-shadow` is the glow, and it is drawn from `--band-rgb`, so it is the
+ *  tier's colour at 55% and not a second copy of anything. Painted on the stage. */
+export const RIBBON_INK_VERB =
+  't-display uppercase italic leading-[0.92] tracking-tighter text-white break-words ' +
+  '[text-shadow:0_0_48px_rgb(var(--band-rgb)/0.55)]';
+
+/** The type size for a verb, by what the verb is.
+ *
+ *  A function, not a constant, because the size is a property of the word. The
+ *  steps are set from Inter 900 italic caps measuring about 0.72em an
+ *  advance, against the left column's width at each breakpoint: the single-word
+ *  verbs of up to eight letters set at the full 96px only from 1440px, and the
+ *  long ones — DIFFERENTIATE, and the two-word CRITICALLY ANALYSE and CRITICALLY
+ *  EVALUATE, which wrap — step down so none of them is ever wider than its
+ *  column. */
+export const ribbonVerbSize = (term: string): string => {
+  const length = term.length;
+  if (!term.includes(' ') && length <= 8) {
+    return 'text-5xl sm:text-6xl xl:text-7xl min-[1440px]:text-8xl';
+  }
+  if (!term.includes(' ') && length <= 11) {
+    return 'text-4xl sm:text-5xl xl:text-6xl min-[1440px]:text-7xl';
+  }
+  return 'text-3xl sm:text-4xl xl:text-5xl min-[1440px]:text-6xl';
+};
+
+/** The tier-lit rule under the verb — the same device as the dotted underline
+ *  the question card puts under the verb in the prompt, so a student sees one
+ *  gesture in two places. It draws in from the left (`animate-rule-draw`, a
+ *  one-shot that ends at rest) when the verb changes. Painted on the stage. */
+export const RIBBON_INK_VERB_RULE =
+  'mt-4 h-1.5 w-24 rounded-full origin-left animate-rule-draw bg-[rgb(var(--band-rgb))] ' +
+  'shadow-[0_0_18px_rgb(var(--band-rgb)/0.7)]';
+
+/** The verb's definition. Painted on the stage. Plain `slate-100` at full
+ *  strength: 18:1 here, and nothing on this ground is dimmed with `opacity`. */
+export const RIBBON_INK_DEFINITION =
+  'mt-5 max-w-xl text-lg font-semibold leading-snug text-slate-100';
+
+/* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed. The brief
+ * itself is `StrategyBrief tone="ink"`, which takes its colours from a table of
+ * its own rather than from theme tokens — see the note on `tone` there.
  */
-/** The verb's definition. Painted on the detail card. The `opacity-90` it used
- *  to carry was softening white-on-gradient text; on a tier wash it only cost
- *  contrast. */
-export const RIBBON_DETAIL_DEFINITION =
-  'text-sm font-bold max-w-xl leading-relaxed text-slate-700 dark:text-[rgb(var(--color-text-secondary))]';
 
-/* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed.
+/** The scoreboard across the foot of the stage: marks, band cap, time, terms.
+ *  Painted on the stage.
  *
- * Its reason is worth keeping, because it still binds whatever is painted
- * here: on `slate-100` over a tier wash, `slate-500` sits within a tenth of
- * the contrast floor, which is why that token was `slate-600`. `StrategyBrief`
- * sets its checks in `--color-text-muted`, which resolves to slate-600 under
- * `[data-theme="light"]` — the same step, arrived at from the token system
- * rather than spelled out. `tests/e2e/light-theme.spec.ts` measures it.
- */
+ *  Hairlines are the `gap-px` showing a `bg-white/10` ground between opaque
+ *  cells, which is why each cell is a flat fill and not a wash: the lines cost no
+ *  elements and cannot misalign with the cells they divide. Two columns below
+ *  `sm` — all four stats fit a phone this way, where the old tray hid "Terms"
+ *  to make room — and four from there. */
+export const RIBBON_INK_SCOREBOARD =
+  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10';
 
-/** The four-stat tray on the right of the detail card. Painted on the detail
- *  card's tier wash. */
-export const RIBBON_STAT_TRAY =
-  'flex items-center gap-4 px-5 py-3 rounded-2xl backdrop-blur-md self-stretch md:self-auto ' +
-  'justify-center shadow-inner flex-wrap ' +
-  'bg-slate-100 border border-slate-300 dark:bg-black/20 dark:border-white/10';
+/** One scoreboard cell. A flat fill, a step lighter than the stage, so the
+ *  hairlines between cells show. Painted on the stage. */
+export const RIBBON_INK_STAT_CELL = 'flex flex-col px-4 sm:px-5 py-3.5 bg-[#0b1322]';
 
-/** "Marks", "Band Cap", "Time", "Terms". Painted on the tray. */
-export const RIBBON_STAT_LABEL = 't-label mb-0.5 text-slate-600 dark:text-slate-400';
+/** "Marks", "Band Cap", "Time", "Terms". Painted on the cell. */
+export const RIBBON_INK_STAT_LABEL = 't-label mb-1.5 text-slate-300';
 
-/** The number under each label; its colour is the tier's. Painted on the
- *  tray.
+/** The number under each label; its colour is the tier's. Painted on the cell.
  *
  *  Mono, because these four are telemetry: DesignSpec §4 gives `JetBrains Mono`
  *  to "marks, token counts, and system logs", and marks are the first example in
- *  that sentence. `tabular-nums` because the four sit in a fixed-width tray and
- *  a two-digit mark range must not shove its neighbours along. */
-export const RIBBON_STAT_VALUE = 'font-mono text-lg font-black tabular-nums';
+ *  that sentence. `tabular-nums` because a two-digit mark range must not shove
+ *  its neighbours along as the verb changes. Large type, so the tier hue's
+ *  4.65–10:1 on this ground clears the 3:1 that big text asks for with room. */
+export const RIBBON_INK_STAT_VALUE =
+  'whitespace-nowrap font-mono text-2xl sm:text-3xl font-black tabular-nums leading-none text-[rgb(var(--band-rgb))]';
 
-/** The one line under the tray, saying in words what "Band Cap" means. Painted
- *  on the detail card's tier wash, not on the tray.
+/** The sentence that says what the staircase means: the verb's ceiling, in
+ *  words. It is the staircase's headline — the one line of the whole ribbon that
+ *  is the point of it — and it used to be a 10px caption under a tray.
  *
- *  It was a `title` on a `<div>` with no `tabindex`, so the explanation of the
- *  one label a student will not already know was unreachable by keyboard and
- *  absent on touch. */
-export const RIBBON_STAT_CAPTION =
-  'text-[10px] font-bold leading-snug text-center md:text-right text-slate-600 dark:text-slate-400';
+ *  Plural rather than "A {TERM} question": eleven of the thirty-eight verbs begin
+ *  with a vowel, and "A EXPLAIN question" is what that sentence renders for every
+ *  one of them. Painted on the stage. */
+export const RIBBON_INK_CAPTION = 'text-lg sm:text-xl font-bold leading-snug text-white';
 
-/** The hairline between two stats. Painted on the tray. */
-export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-400 dark:bg-white/10';
+/** The staircase itself: the ribbon's second centre of gravity, and the picture
+ *  of what the verb costs. Six columns rising from tier 1 to tier 6; the ones a
+ *  student can reach with this verb are lit in their tiers' hues, the ones above
+ *  the ceiling are hatched and dashed — present, and out of reach. Painted on
+ *  the stage.
+ *
+ *  Geometry is ONE scale, which is what the old bar's own comment records as the
+ *  thing it kept getting wrong. Band `i` owns `[(i-1)/6, i/6]` of the width; its
+ *  step button is centred on that band and is one sixth wide less a gutter, so
+ *  the column, its numeral, its label and the Deep Learning Threshold at 50% all
+ *  agree by construction.
+ *
+ *  The three custom properties are the whole of its vertical rhythm: `--plot`
+ *  is the tallest column (tier 6), `--label` the row of tier names beneath, and
+ *  the `1.5rem` between them is the numeral that sits on every column. They
+ *  step down on a phone, where the strip is a third of the width. */
+export const RIBBON_INK_STAIR =
+  'relative [--plot:6.5rem] sm:[--plot:8.5rem] lg:[--plot:9.5rem] [--label:2.25rem] h-[calc(var(--plot)+1.5rem+var(--label))]';
+
+/** One step: a button that is the column, its band numeral and its tier name
+ *  at once, so the target a student aims at is the thing they are looking at —
+ *  a column 50px wide and 100px tall, where the old dot was 16px. It is centred
+ *  on its band (`left` at the call site, with the translate) and sized by a
+ *  `calc` from the band's width.
+ *
+ *  `group/step` so the column and the label can answer the hover and the focus
+ *  of the one control. The focus ring is white and sits on the button's own
+ *  rounded top. Painted on the stage. */
+export const RIBBON_INK_STAIR_STEP =
+  'absolute inset-y-0 z-10 -translate-x-1/2 flex flex-col justify-end cursor-pointer rounded-t-lg group/step ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]';
+
+/** A column's band numeral, above it: mono, because it is a figure, and
+ *  `slate-300` or white because the column it names is ghosted or lit. These are
+ *  NOT `aria-hidden`: `contrast.ts` skips everything inside an `aria-hidden`
+ *  subtree, and hiding a new block of text from the audit is the blind spot that
+ *  let this component's first three contrast defects ship. The button's
+ *  `aria-label` is the name a screen reader gets, so the numeral costs it
+ *  nothing. Painted on the stage. */
+export const RIBBON_INK_STAIR_NUMERAL =
+  'block pb-1.5 text-center font-mono text-xs font-bold tabular-nums transition-colors duration-300';
+
+/** The column. Fill, glow and hatch are inline at the call site, because they
+ *  come from the tier's `--tier-rgb` and from whether the column is reachable;
+ *  this is the shape and the response. `brightness` on hover is a filter and so
+ *  paints on the compositor; nothing here is `opacity` over text. Painted on the
+ *  stage.
+ *
+ *  It RISES from its foot when the ribbon is opened, each column a beat after
+ *  the one to its left — the staircase builds itself. That is the one
+ *  orchestrated moment this surface has, and it is written down as a delay per
+ *  column at the call site, so the stagger belongs to the column's position and
+ *  not to a class. `transform` only, so it stays on the compositor, and the last
+ *  frame is full height, so a reader who has asked for no motion is left with the
+ *  whole staircase (and no wait: `index.css` zeroes this one delay for them). */
+export const RIBBON_INK_STAIR_COLUMN =
+  'relative block w-full rounded-t-lg origin-bottom animate-stair-rise transition-[filter] duration-300 group-hover/step:brightness-125';
+
+/** The one-shot flare up the column the reader has just reached, keyed on the
+ *  tier at the call site so it replays when the question changes. It is the
+ *  bar's `tier-ignite`, growing from the foot of the column. Its fill is the
+ *  tier's own hex, inline. Painted over the column.
+ *
+ *  `opacity-0` is its RESTING state, not a dim: the flare has a delay, so that it
+ *  fires after its column has finished rising, and `tier-ignite` fills forwards
+ *  only, so without this the overlay would sit at full strength in the tier's
+ *  hex for the length of the delay. It carries no text. */
+export const RIBBON_INK_STAIR_IGNITION =
+  'absolute inset-0 rounded-t-lg pointer-events-none origin-bottom opacity-0 animate-tier-ignite';
+
+/** The ceiling: a dashed line across the whole staircase at the height of the
+ *  verb's tier. Everything lit is at or below it; the columns that climb through
+ *  it are the ones this verb will not let you reach. It draws in from the left
+ *  when the tier changes. Painted on the stage, over the columns. */
+export const RIBBON_INK_CEILING =
+  'absolute inset-x-0 z-20 h-0 border-t-2 border-dashed pointer-events-none origin-left animate-rule-draw';
+
+/** The Deep Learning Threshold, as a dashed rule down the middle of the
+ *  staircase — between tier 3 and tier 4, where a Band 3 cap stops being the
+ *  ceiling. Its chip is on the rail above, and the rule reaches up to it.
+ *  Painted on the stage, under the columns. */
+export const RIBBON_INK_THRESHOLD_RULE =
+  'absolute -top-2 bottom-0 z-0 w-px -translate-x-1/2 border-r-2 border-dashed border-white/35 pointer-events-none';
+
+/** The scale rail above the staircase — the two sides the Deep Learning
+ *  Threshold divides the ladder into, and the chip that names the gate.
+ *  Painted on the stage.
+ *
+ *  A row in the flow, which it was not for a long time: it used to hang in air
+ *  that belonged to a different element's margin, and deleting that element
+ *  dropped it 64px through the footer's divider. The rail occupies its own row
+ *  and the chip is positioned inside it, so the only thing either depends on is
+ *  this element.
+ *
+ *  `hidden sm:flex`, the same floor the chip had: below `sm` there is no room for
+ *  two captions and a pill across a 360px stage.
+ *
+ *  Flush to the staircase's own edges, so the captions start and end where the
+ *  columns do and the chip's 50% is the threshold's 50%. */
+export const RIBBON_INK_SCALE_RAIL =
+  'hidden sm:flex relative items-center justify-between mb-2 pointer-events-none';
+
+/** One span's caption. `slate-300` on this ground, 13.3:1. Not `aria-hidden`,
+ *  for the reason on `RIBBON_INK_STAIR_NUMERAL`. Painted on the stage. */
+export const RIBBON_INK_SCALE_SPAN =
+  't-label inline-flex items-center whitespace-nowrap text-slate-300';
+
+/** The "Deep Learning Threshold" marker on the rail. Painted on the stage, in a
+ *  pill that is the stage's own lighter fill, so it sits on the dashed rule
+ *  rather than being crossed by it. */
+export const RIBBON_INK_THRESHOLD_CHIP =
+  't-label absolute left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full border whitespace-nowrap ' +
+  'bg-[#0b1322] text-slate-100 border-white/25';
+
+/** A step's tier name, under its column. Painted on the stage. */
+export const RIBBON_INK_STEP_LABEL =
+  't-label flex h-[var(--label)] items-center justify-center sm:tracking-widest transition-colors duration-300';
+
+/** The five names that are not the reader's current tier. On phones six tracked
+ *  labels collide, so only the current one keeps its name below `sm`. The hover
+ *  lift is colour, not opacity — the rule this component spent three fixes
+ *  learning. */
+export const RIBBON_INK_STEP_LABEL_IDLE =
+  'hidden sm:flex text-slate-300 group-hover/step:text-white';
+
+/** The drawer: the six tier cards. A themed surface under the stage — paper in
+ *  the light theme, the surface token in the dark one — so the hero is a slab
+ *  sitting on a sheet, and the sheet is the ordinary workspace. Opaque in both,
+ *  because the aura is `inset-0` over the whole root and would otherwise show
+ *  through a translucent fill in one theme and not the other. */
+export const RIBBON_DRAWER =
+  'relative z-10 p-4 sm:p-6 border-t border-slate-300 bg-white ' +
+  'dark:border-white/10 dark:bg-[rgb(var(--color-bg-surface))]';
 
 /** The horizontal tier strip. Six 260px cards plus gaps is ~1580px, so it
- *  overflows at nearly every width. Painted on the page background.
+ *  overflows at nearly every width. Painted on the drawer.
  *
  *  `snap-proximity`, not `snap-mandatory`. Three things move this strip: the
  *  reader, the auto-scroll that centres the active tier, and the browser's own
@@ -234,49 +411,41 @@ export const RIBBON_STAT_DIVIDER = 'w-px h-8 bg-slate-400 dark:bg-white/10';
  *  inside it are focusable, and a 51st tab stop in front of them buys nothing.
  *  Do not add one. */
 export const RIBBON_STRIP =
-  'flex overflow-x-auto gap-4 pb-4 pt-2 snap-x snap-proximity scrollbar-hide ' +
+  // `relative`, so the cards' `offsetLeft` — which the auto-scroll that centres
+  // the selected tier is built on — is measured from THIS box in every browser.
+  // A `relative` wrapper used to do it by accident; with the wrapper gone, an
+  // unpositioned strip leaves the offset parent to the nearest positioned
+  // ancestor, which is the panel, whose left edge is not the strip's.
+  'relative flex overflow-x-auto gap-4 px-4 pb-4 pt-2 snap-x snap-proximity scrollbar-hide ' +
   // From `xl` the six tiers sit side by side. The strip scrolled at every
   // width, so on a 1280px laptop — the width the page is mostly used at —
   // Evaluate, the top of the ladder, was off-screen and Discuss was cut in
   // half: the two rungs the ladder is there to show a student they are
   // climbing toward. At 1216px of content, six columns are 189px each, which
   // holds the longest verb chip (DIFFERENTIATE) with room to spare.
-  'xl:grid xl:grid-cols-6 xl:overflow-visible xl:gap-3';
-
-/** The two edge fades over the strip, one per side, in the wrapper that until
- *  now held nothing but a `relative`. `scrollbar-hide` takes away the only
- *  signal that there is more to the right, and nothing replaced it — no fade,
- *  no arrows, no count — on a strip that overflows at nearly every width.
- *
- *  Unconditional rather than tracking `scrollLeft`: a scroll listener on a
- *  strip that is also scrolled programmatically is more machinery than eight
- *  pixels of gradient is worth, and a fade at an edge that happens to be flush
- *  costs nothing to look at.
- *
- *  `from-base` rather than the pair it was — `from-slate-50
- *  dark:from-[rgb(var(--color-bg-base))]`. The comment here used to explain
- *  that `slate-50` "is not a guess at white: the page behind the strip
- *  measures rgb(248, 250, 252) in the light theme, which is `--color-bg-base`
- *  exactly". It was right about the value and wrong to write it down: a
- *  literal copy of a token is a snapshot, and when the light theme's base
- *  moved off near-white this fade would have kept fading to the old one —
- *  painting a pale slot at each end of the strip on a page that is no longer
- *  that colour. `from-base` is the same token the dark side was already
- *  naming, and it is theme-aware on its own, so the pair collapses to one
- *  word that cannot drift.
- *
- *  `z-10` puts them over the five idle cards but under the current one, which
- *  carries `z-20` — fading out the card the reader is being pointed at would
- *  be the wrong way round. Painted on the page background. */
-const RIBBON_STRIP_FADE =
-  // Hidden from `xl`, where the strip no longer scrolls and there is nothing
-  // past either edge to fade toward.
-  'absolute top-0 bottom-4 w-8 z-10 pointer-events-none to-transparent from-base xl:hidden';
-export const RIBBON_STRIP_FADE_LEFT = `${RIBBON_STRIP_FADE} left-0 bg-gradient-to-r`;
-export const RIBBON_STRIP_FADE_RIGHT = `${RIBBON_STRIP_FADE} right-0 bg-gradient-to-l`;
+  'xl:grid xl:grid-cols-6 xl:overflow-visible xl:gap-3 xl:px-0 ' +
+  // The edge fades, as a mask on the strip itself (`index.css`). `scrollbar-hide`
+  // takes away the only signal that there is more to the right, and nothing
+  // replaced it. This used to be two gradient overlays that ended in the PAGE's
+  // colour — correct while the strip sat on the page, and a grey smear at each
+  // end once it sat on a white panel in the light theme. A mask fades the cards
+  // themselves into whatever is behind them, so it has no colour to get wrong in
+  // either theme.
+  //
+  // `px-4` is the 1rem the mask ramps over, so at rest the first card sits just
+  // past the left ramp at scroll 0 and the last just before the right one at the
+  // far end: the selected tier is never faded out by the very device that is
+  // there to say "there is more". It is also what gives the selected card's 4px
+  // ring somewhere to be drawn — an `overflow-x-auto` box clips at its padding
+  // edge, and at zero padding the ring was cut off along the card's left side.
+  //
+  // Unconditional rather than tracking `scrollLeft`, which is more machinery than
+  // 1rem of gradient is worth on a strip that is also scrolled programmatically;
+  // and switched off from `xl`, where nothing scrolls.
+  'strip-edge-mask';
 
 /** One tier card. Its border and fill come from the two constants below plus
- *  the tier config. Painted on the strip.
+ *  the tier config. Painted on the strip, which is painted on the drawer.
  *
  *  No fixed height: at a hard 256px the biggest tier had its last row of chips
  *  sliced by the card edge. The strip is a flex row, so leaving the height to
@@ -285,7 +454,7 @@ export const RIBBON_TIER_CARD =
   'clip-stable flex-shrink-0 w-[260px] xl:w-auto xl:min-w-0 min-h-[256px] snap-center relative overflow-hidden rounded-2xl border transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col group/card';
 
 /** A tier card with no verb selected anywhere, or one that is not the selected
- *  verb's tier. Painted on the page background.
+ *  verb's tier. Painted on the drawer.
  *
  *  It states a FILL and a shadow and no border colour, which is a change. It
  *  used to carry `border-slate-300 dark:border-white/5`, and the call site
@@ -308,7 +477,7 @@ export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] da
 /** Added to the card whose tier the selected verb belongs to. Lifts it out of
  *  the strip; the tier's own border and wash arrive from the tier config, and
  *  its ring and glow arrive as one inline `box-shadow` in the tier's hex at
- *  the call site — the same way the spectrum's leading edge takes its glow, so
+ *  the call site — the same way the staircase's lit column takes its glow, so
  *  the band palette stays the single source of the colour.
  *
  *  `tier-lift-current` and not a `scale-*` utility: `transform` is one property
@@ -386,6 +555,34 @@ export const RIBBON_TIER_HEADER =
   'xl:flex-col xl:items-start xl:gap-2 xl:px-4 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
+/** The header's fill on the five cards that are not the selected tier — a faint
+ *  tint of the tier's own hue, from the `--band-rgb` property each card already
+ *  carries (`.band-wash` in `index.css`).
+ *
+ *  It was the tier config's `bg`: `-100` in the light theme, which is a solid
+ *  pastel. Six of them side by side, over a pink brief and under a saturated
+ *  selected card, is what made the ladder read as a sweet shop beside a page of
+ *  white panels. The hue is still on every card — in the tint, the title, the
+ *  chips and the border — and the saturated fill is left to the ONE card the
+ *  reader is meant to be looking at. Painted on the card. The rule beneath it is
+ *  a pair because the card is a theme surface. */
+export const RIBBON_TIER_HEADER_IDLE = 'band-wash border-slate-200 dark:border-white/5';
+
+/** The icon tile in a tier card's header. It replaced a system emoji, which is
+ *  the one thing in the workspace's chrome that is drawn by the operating system
+ *  rather than by the app — a different picture on a school Chromebook, on a
+ *  Mac and on a Windows laptop, in colours that belong to none of the six tiers.
+ *  Every other panel in the workspace puts a line icon in a tile; the ladder now
+ *  does too.
+ *
+ *  Structure only. The fill is `bg-white/25 border-white/30` on the selected
+ *  card, which is a saturated tier gradient (the same colour in both themes, so
+ *  white alpha is right as written — DesignSpec §2), and a pair on the others,
+ *  which are theme surfaces; both arrive at the call site. */
+export const RIBBON_TIER_ICON =
+  'w-9 h-9 xl:w-8 xl:h-8 shrink-0 rounded-xl border flex items-center justify-center ' +
+  'transition-transform duration-500 group-hover/card:scale-110';
+
 /** "Band 3 ceiling", UNDER the tier's title.
  *
  *  It sat above the title as an eyebrow, which put the consequence before the
@@ -397,7 +594,7 @@ export const RIBBON_TIER_HEADER =
  *
  *  MONO, because it is the only thing in this header that is a figure.
  *  DesignSpec §4 gives JetBrains Mono to "marks, token counts, and system
- *  logs", and the ribbon's own stat tray already sets its four numbers in it —
+ *  logs", and the ribbon's own scoreboard already sets its four numbers in it —
  *  so the face is not a new idea here, it is the one the ribbon uses whenever
  *  it states a number. It also puts the widest possible daylight between this
  *  line and the tracked-out Inter caps directly above it: different family,
@@ -500,171 +697,3 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
 export const RIBBON_VERB_CHIP = 't-label px-3 py-1.5 rounded-xl border transition-all duration-300';
-
-/** The timeline's progress track — the unlit ground the spectrum is painted
- *  on, and the box that clips it. Painted on the page background.
- *
- *  `h-3`, not `h-2`: eight pixels is too thin to read a six-colour spectrum in.
- *  A visual judgement, stated as one. `mb-4` moved to the wrapper, which is
- *  what the leading edge and the ignition flare are positioned against — both
- *  must be free of this box's `overflow-hidden` or the clip eats the very bloom
- *  they exist to draw.
- *
- *  `slate-300` in light, where it was `slate-200`. The track is painted on the
- *  page, and the page in the light theme IS slate-200 now — so the unlit
- *  ground of the spectrum was the one colour it could not be, and the bar
- *  vanished wherever the dormant gradient over it is faintest. One step
- *  deeper puts it back on the right side of its own background. */
-export const RIBBON_TIMELINE_TRACK =
-  'relative h-3 bg-slate-300 dark:bg-white/10 rounded-full overflow-hidden';
-
-/** The whole cognitive journey, unlit — every tier's colour at low opacity
- *  across the full width, so the tiers a reader has not reached yet read as
- *  *ahead of them* rather than as empty track. Its gradient is built from
- *  `getBandHex(1…6)` in the component, never from literals: the band palette is
- *  a single source of truth (`bandColors.test.ts`) and a fourth hard copy of it
- *  is exactly what this redesign deleted. Painted on the track. */
-export const RIBBON_SPECTRUM_DORMANT =
-  'absolute inset-0 opacity-25 dark:opacity-40 pointer-events-none';
-
-/** The same spectrum at full strength, revealed as far as the reader's tier.
- *
- *  Revealed with `clip-path: inset()`, never with `width`. A percentage width
- *  on a gradient element rescales the gradient into that width, so at tier 3
- *  all six colours would be squeezed into half a bar and every colour would
- *  move as the tier changed. `inset()` clips a full-width gradient: a given
- *  colour sits at a given x for every tier. Animatable and GPU-composited.
- *  Painted on the track, over the dormant layer. */
-export const RIBBON_SPECTRUM_LIT =
-  'absolute inset-0 pointer-events-none ' +
-  'transition-[clip-path] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]';
-
-/** The lit edge — the playhead that turns "a coloured bar" into "lit this far".
- *  Its glow is the tier's own hex, inline, so it stays derived from the band
- *  palette. Painted over the track, and deliberately outside it: `clip-path`
- *  and `overflow-hidden` both clip a box-shadow.
- *
- *  A theme pair rather than `bg-white/90`: white alpha over the pale light-theme
- *  spectrum is DesignSpec §2 rule 2, and it disappears. `left` is not
- *  compositor-promoted; accepted for one 2px element that transitions once per
- *  question change, and written down rather than hidden. */
-export const RIBBON_SPECTRUM_EDGE =
-  'absolute inset-y-0 w-0.5 -translate-x-1/2 rounded-full pointer-events-none z-10 ' +
-  'transition-[left] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ' +
-  'bg-slate-900/70 dark:bg-white';
-
-/** The one-shot bloom over the band just reached, keyed on the tier so React
- *  remounts it and it replays. Its fill is the tier's own hex, inline. Painted
- *  over the track, outside its clip so the flare can bloom past the bar. */
-export const RIBBON_SPECTRUM_IGNITION =
-  'absolute inset-y-0 rounded-lg pointer-events-none z-10 origin-center';
-
-/** The same ignition on the current step's dot, one bloom out of the circle.
- *  Its fill is the tier's `solidBg` at the call site, and it is keyed on the
- *  tier so it replays with the band's flare. Painted over the dot.
- *
- *  It carries `animate-dot-bloom` and not the spectrum's `animate-tier-ignite`:
- *  that flare stretches 2.4x vertically and not at all horizontally, which is
- *  right for a bar segment and draws a vertical teardrop on anything
- *  `rounded-full`. `dotBloom` scales uniformly, so the halo stays a circle.
- *  It replaces an `animate-ping`, which was `1s … infinite` on a strip that is
- *  mounted for the whole session. */
-export const RIBBON_SPECTRUM_DOT_BLOOM =
-  'absolute inset-0 rounded-full pointer-events-none animate-dot-bloom';
-
-/** One of the five boundaries between six tiers, at `i/6`. These replace four
- *  "measurement ticks" that sat at 16/38.7/61.3/84% — a `justify-between` with
- *  `px-[16%]` — and so marked nothing at all, with no tick at the 50% the Deep
- *  Learning Threshold crosses.
- *
- *  Painted in the page's own background colour on top of the track, so they
- *  read as physical gaps cut into the spectrum rather than as lines drawn over
- *  it. Width comes from the call site: the 3/4 boundary is wider, because it is
- *  the threshold.
- *
- *  "The page's own background colour" is the whole mechanism, so it is named
- *  as the token and not spelled out — `bg-base`, which is theme-aware by
- *  itself. Written as the literal pair it was (`bg-slate-50`), these five gaps
- *  stayed near-white when the light theme's page went to the deeper stock, and
- *  a gap that is brighter than what it is cut into is not a gap, it is five
- *  glowing slots down the middle of the spectrum. */
-export const RIBBON_SPECTRUM_BOUNDARY =
-  'absolute inset-y-0 -translate-x-1/2 pointer-events-none bg-base';
-
-/** The scale rail above the spectrum — the two sides the Deep Learning
- *  Threshold divides the ladder into, and the chip that names the gate.
- *  Painted on the page background.
- *
- *  A row in the flow, which it was not. It used to be `absolute -top-6`, and
- *  the chip beside it `-top-11`, both hanging in air that belonged to a
- *  DIFFERENT element: the cue line's `mb-7`. The comment here called that
- *  "the whole vertical budget" and treated costing the footer no height as the
- *  feature. It was a dependency. Measured in Chromium, the rail sat 4px below
- *  the cue's box and the chip 0.91px below it, so deleting the cue dropped
- *  both of them 64px — 8px and 11px ABOVE the footer's own divider hairline,
- *  through it and into the tier strip's padding.
- *
- *  Both offsets are gone. The rail occupies its own row and the chip is
- *  positioned inside it, so the only thing either depends on is this element.
- *  The two `-top-` values that had been measured to 0.2px against each other
- *  are not retuned — there is nothing left to tune them against.
- *
- *  `hidden sm:flex`, the same floor the chip had: below `sm` there is no room
- *  for two captions and a pill across a 360px bar, and the dot row has already
- *  dropped five of its six labels at that width for the same reason.
- *
- *  Flush to the track's own edges, so the captions start and end where the
- *  spectrum does and the chip's 50% is the threshold's 50%. */
-export const RIBBON_SPECTRUM_SCALE_RAIL =
-  'hidden sm:flex relative items-center justify-between mb-2 pointer-events-none';
-
-/** One span's caption. Painted on the page background, in the tone
- *  `RIBBON_TIMELINE_STEP_LABEL_IDLE`'s contrast fix measured at 7.24:1 — this
- *  is the same text on the same background at nearly the same size, so it takes
- *  the same pair rather than a fresh guess. Not `aria-hidden`: `contrast.ts`
- *  skips everything inside an `aria-hidden` subtree, and hiding a new block of
- *  text from the audit is the blind spot that let this component's three
- *  contrast defects ship in the first place. */
-export const RIBBON_SPECTRUM_SCALE_SPAN =
-  't-label inline-flex items-center whitespace-nowrap ' + 'text-slate-600 dark:text-slate-400';
-
-/** One step's dot on the timeline. Its fill is the tier's `solidBg` once the
- *  reader has reached that step. Painted on the page background. */
-export const RIBBON_TIMELINE_DOT =
-  'w-4 h-4 rounded-full border-2 transition-all duration-500 relative';
-
-/** A timeline step's label, under its dot. Painted on the page background. */
-export const RIBBON_TIMELINE_STEP_LABEL = 't-label sm:tracking-widest transition-all duration-300';
-
-/** The five steps that are not the reader's current tier. On phones six tracked
- *  labels collide, so only the current one keeps its label below `sm`.
- *
- *  It was `text-slate-500 … opacity-70`, measured at **2.66:1** on the page
- *  background against a 4.5 floor. Both halves had to move: `slate-500` at full
- *  strength is only 4.66:1 here — the least margin anywhere in this component —
- *  and `slate-600` still composites to about 3.4:1 through `opacity-70`, because
- *  opacity pulls the text towards its background rather than scaling the ratio.
- *  So the opacity goes and the tint darkens, and the hover lift that the opacity
- *  used to provide is done with colour instead. */
-export const RIBBON_TIMELINE_STEP_LABEL_IDLE =
-  'hidden sm:block text-slate-600 dark:text-slate-400 ' +
-  'group-hover/step:text-slate-900 dark:group-hover/step:text-white';
-
-/** The "Deep Learning Threshold" marker between tiers 3 and 4. Painted on the
- *  page background, in its own surface-coloured pill.
- *
- *  Its `text-slate-400` measured **2.56:1** on that pill in the light theme — a
- *  dark-theme tone reused on white, which is the exact mistake the light-theme
- *  suite exists to catch, and it went unseen because until now the suite had
- *  never rendered this component.
- *
- *  The fill is written as the pair it has always resolved to rather than as the
- *  bare token it used to be: `--color-bg-surface` is `255 255 255` under
- *  `[data-theme="light"]`, so `bg-white` is the same white it was already
- *  painting, and saying it out loud is what lets the parity sweep read this
- *  constant at all. */
-export const RIBBON_TIMELINE_THRESHOLD_CHIP =
-  't-label absolute left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full ' +
-  'border shadow-sm whitespace-nowrap ' +
-  'bg-white text-slate-600 border-slate-400 ' +
-  'dark:bg-[rgb(var(--color-bg-surface))] dark:text-slate-400 dark:border-white/10';
