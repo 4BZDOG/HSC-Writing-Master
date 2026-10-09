@@ -26,9 +26,12 @@
   has a visible edge on a white page.
 - **Fixed.** The ribbon's stage was a near-black slab in the light theme too: 440px of the page's
   darkest colour between a white banner and a white drawer, reported as abrasive. The light theme now
-  has a stage palette of its own: a soft slate-50 ground, white scoreboard cells, dark ink, a pastel
-  tint of the tier's colour for the light behind the verb, and the tier's darker `-700` shade for
-  figures and the current step's name. The dark theme is the stage exactly as it was. Lightening the
+  has a stage palette of its own: a soft slate-50 ground, white scoreboard cells, dark ink, the tier's
+  own colour for the light behind the verb and as a faint tint over the whole stage, full-strength
+  staircase columns, a tier-coloured edge under the banner, and the tier's darker `-700` shade for
+  figures and the current step's name. It was first drawn in pastels and read as washed out, so the
+  tints, glows, columns and chips are stronger; how strong is limited by legibility, and a test holds
+  the dark and neutral inks at 4.5:1 over the light at its brightest. The dark theme is the stage exactly as it was. Lightening the
   dark ground was not an option, because the tier colours stop being legible on anything much lighter
   than the current near-black.
 - **Changed.** The stage's colours now come from one table of custom properties in `index.css`

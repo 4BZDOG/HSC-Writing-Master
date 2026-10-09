@@ -329,9 +329,13 @@ drawer, and read as abrasive. The obvious fix, lightening the ground, does not
 work: the tier hues are the `-500` steps and stop clearing 4.5:1 beyond about
 `#0f172a` (purple is 4.5 there, 3.7 on slate-800), so the stage could only ever
 have become a shade less black. So the light theme has its own palette — slate-50
-ground, white scoreboard cells, slate-900/800/600 ink, and the tier's `-700` shade
-for text (`BAND_HEX_INK`, 4.8:1 at the lowest) — and the dark theme is the stage
-exactly as it was.
+ground, white scoreboard cells, slate-900/800/600 ink, the tier's `-700` shade for
+text (`BAND_HEX_INK`, 4.8:1 at the lowest) and the tier's own colour drawn strongly
+rather than in pastels — the light behind the verb, a faint tint over the whole
+stage, full-strength columns, and a tier-coloured edge under the banner — and the
+dark theme is the stage exactly as it was. How strong the light can be is a
+trade against legibility, and `tests/unit/verbRibbonChrome.test.tsx` holds it:
+the neutral inks must still clear 4.5:1 over the light at its brightest.
 
 The palette is a table of custom properties, `.ribbon-stage` in `index.css`
 (`--stage-ground`, `--stage-ink`, `--stage-line` …, plus the alphas, because the

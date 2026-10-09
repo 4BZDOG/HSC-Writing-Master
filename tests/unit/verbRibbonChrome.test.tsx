@@ -1754,7 +1754,7 @@ describe('the banner is a themed bar, light in the light theme', () => {
     expect(RIBBON_SELECTED_CHIP).toContain('dark:text-white');
     // The chip's wash is a lighter one of the tier's hue on white and the deeper
     // one on the dark bar, each from the same `--band-rgb`.
-    expect(RIBBON_SELECTED_CHIP).toContain('bg-[rgb(var(--band-rgb)/0.14)]');
+    expect(RIBBON_SELECTED_CHIP).toContain('bg-[rgb(var(--band-rgb)/0.2)]');
     expect(RIBBON_SELECTED_CHIP).toContain('dark:bg-[rgb(var(--band-rgb)/0.22)]');
     for (const value of [RIBBON_HEADER_CHEVRON_OPEN, RIBBON_HEADER_CHEVRON_SHUT]) {
       expect(value).toMatch(/(^|\s)text-slate-\d00(\s|$)/);
@@ -1840,9 +1840,16 @@ describe('the banner is a themed bar, light in the light theme', () => {
     // And the hue: `--band-text` is the bright hue on the dark stage and the
     // `-700` ink on the light one.
     const css = readFileSync('index.css', 'utf8');
-    expect(css).toMatch(/\.ribbon-stage-hue\s*\{\s*--band-text:\s*var\(--band-rgb\);\s*\}/);
+    expect(css).toMatch(/\.ribbon-stage-hue\s*\{[^}]*--band-text:\s*var\(--band-rgb\);/);
     expect(css).toMatch(
-      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{\s*--band-text:\s*var\(--band-ink\);\s*\}/
+      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--band-text:\s*var\(--band-ink\);/
+    );
+    // The edge under the banner reads `--band-rgb`, so it is declared with the hue
+    // and not in the static table: tier-coloured on the light stage, nothing on the
+    // dark one, where the banner is the stage.
+    expect(css).toMatch(/\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*transparent;/);
+    expect(css).toMatch(
+      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*rgb\(var\(--band-rgb\)\s*\/\s*0\.85\);/
     );
   });
 
@@ -1896,6 +1903,56 @@ describe('the banner is a themed bar, light in the light theme', () => {
         }
       });
     }
+
+    // The light stage is lit in the tier's colour, and the colour is strong enough
+    // to stop it reading as washed out. That is a trade against legibility, and
+    // this is the half that holds it: the neutral inks over the pool of light at
+    // its brightest, on top of the whole-stage tint, for every tier.
+    for (const theme of ['dark', 'light'] as const) {
+      it(`${theme}: the neutral inks clear 4.5:1 over the tier’s light at its strongest`, () => {
+        const palette = stagePalette(theme);
+        for (const tier of TIERS) {
+          const washed = mix(
+            getBandRgb(tier),
+            palette['--stage-ground'],
+            Number(palette['--aura-wash'])
+          );
+          const peak = mix(getBandRgb(tier), washed, Number(palette['--aura-1']));
+          for (const ink of ['--stage-ink', '--stage-ink-2', '--stage-ink-3']) {
+            const ratio = contrast(palette[ink], peak);
+            expect(
+              ratio,
+              `${theme}: ${ink} over tier ${tier}'s pool is ${ratio.toFixed(2)}:1`
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      });
+    }
+
+    it('light: the tier’s text hue clears 4.5:1 over the whole-stage tint and its second pool', () => {
+      // The figures sit on white cells, but the current step's name sits on the
+      // stage itself — on the tint everywhere, and on the second pool's falloff on a
+      // phone. Held at the pool's PEAK, which is stricter than anywhere it is drawn.
+      const palette = stagePalette('light');
+      for (const tier of TIERS) {
+        const washed = mix(
+          getBandRgb(tier),
+          palette['--stage-ground'],
+          Number(palette['--aura-wash'])
+        );
+        const pool = mix(getBandRgb(tier), washed, Number(palette['--aura-2']));
+        for (const [where, ground] of [
+          ['tint', washed],
+          ['second pool', pool],
+        ]) {
+          const ratio = contrast(getBandInkRgb(tier), ground);
+          expect(
+            ratio,
+            `tier ${tier} text over the ${where} is ${ratio.toFixed(2)}:1`
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    });
 
     it('the light ink shades are the -700 steps, derived from one map', () => {
       for (const tier of TIERS) {

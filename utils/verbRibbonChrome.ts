@@ -233,8 +233,8 @@ export const RIBBON_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-600 d
 export const RIBBON_SELECTED_CHIP =
   't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border ' +
   'text-slate-900 dark:text-white ' +
-  'bg-[rgb(var(--band-rgb)/0.14)] dark:bg-[rgb(var(--band-rgb)/0.22)] ' +
-  'border-[rgb(var(--band-rgb)/0.55)] dark:border-[rgb(var(--band-rgb)/0.65)]';
+  'bg-[rgb(var(--band-rgb)/0.2)] dark:bg-[rgb(var(--band-rgb)/0.22)] ' +
+  'border-[rgb(var(--band-rgb)/0.7)] dark:border-[rgb(var(--band-rgb)/0.65)]';
 
 /** The ceiling in miniature, in the header: six ascending bars, lit to the
  *  tier. It is what the staircase below says, small enough to say it while the
@@ -267,7 +267,7 @@ export const RIBBON_HEADER_CHEVRON_SHUT = 'text-slate-500 dark:text-slate-300';
  *  96px verb. */
 export const RIBBON_INK_HERO =
   'relative z-10 grid gap-8 lg:gap-10 px-5 sm:px-8 pt-4 pb-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start ' +
-  'shadow-[inset_0_1px_0_var(--stage-rule)]';
+  'shadow-[inset_0_2px_0_var(--stage-rule)]';
 
 /** The tier chip above the verb. Its words are the tier's, derived at the call
  *  site. Painted on the stage. */

@@ -178,7 +178,11 @@ const NEUTRAL_INK_RGB = '71 85 105';
  */
 const AURA =
   'radial-gradient(56rem 26rem at 0% 0%, rgb(var(--band-rgb) / var(--aura-1)), transparent 72%), ' +
-  'radial-gradient(38rem 22rem at 100% 44rem, rgb(var(--band-rgb) / var(--aura-2)), transparent 70%)';
+  'radial-gradient(38rem 22rem at 100% 44rem, rgb(var(--band-rgb) / var(--aura-2)), transparent 70%), ' +
+  // A faint tint of the tier over the whole stage. Zero in the dark theme, where the
+  // two pools above are the light; in the light theme they are pastels on a pale
+  // sheet and need something under them to keep it from reading as washed out.
+  'linear-gradient(rgb(var(--band-rgb) / var(--aura-wash)), rgb(var(--band-rgb) / var(--aura-wash)))';
 
 /**
  * The line icon each tier wears in its card header, in place of the system emoji
