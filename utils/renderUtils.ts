@@ -463,6 +463,34 @@ export const getBandRgb = (band: number): string => {
   return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
 };
 export const getBandHexDark = (band: number): string => BAND_HEX_DARK[clampBand(band)];
+
+/**
+ * The six tier hues as TEXT on a light ground: the `-700` step of each.
+ *
+ * `BAND_HEX` is the `-500` step, which is right for a fill and for text on a dark
+ * ground and wrong for text on a pale one: on near-white it measures 1.9:1 for
+ * yellow, 2.3 for green, 2.8 for orange and 3.7 for red. The `-700` steps clear
+ * 4.5:1 on white and on slate-50 for all six (4.8 at the lowest, yellow), which is
+ * what the verb ribbon's light-theme stage needs for its figures and its current
+ * step's name. Not `-600`, which `BAND_HEX_DARK` is: yellow, green and orange all
+ * miss 4.5 there. Pinned by `tests/unit/bandColors.test.ts`.
+ */
+export const BAND_HEX_INK: Record<number, string> = {
+  1: '#b91c1c', // red-700
+  2: '#c2410c', // orange-700
+  3: '#a16207', // yellow-700
+  4: '#15803d', // green-700
+  5: '#1d4ed8', // blue-700
+  6: '#7e22ce', // purple-700
+};
+
+/** `getBandRgb`, for `BAND_HEX_INK`: the tier's text hue on a light ground, as an
+ *  `r g b` triplet so CSS can draw it at an alpha. */
+export const getBandInkRgb = (band: number): string => {
+  const hex = BAND_HEX_INK[clampBand(band)];
+  const n = parseInt(hex.slice(1), 16);
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+};
 export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
 
 /**

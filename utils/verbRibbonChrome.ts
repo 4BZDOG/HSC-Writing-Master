@@ -6,16 +6,21 @@
  * written down. It has two zones, and the difference between them is the whole
  * design:
  *
- * - The STAGE — the header row, the verb at poster scale, the scoreboard and the
- *   ceiling staircase — is dark in BOTH themes. A page of white and slate panels
- *   in the light theme is a calm page, and one lit slab on it is what makes the
- *   ribbon the thing the eye goes to; in the dark theme the same slab reads as
- *   a spotlit stage, lit in the tier's own colour. Every constant painted on it
- *   is named `RIBBON_INK_*`, and `tests/unit/verbRibbonChrome.test.tsx` holds
- *   the two rules that follow from that: nothing named INK carries a `dark:` or
- *   `light:` partner (it has one ground, so a partner is a second guess at it),
- *   and nothing named INK reads a theme token (`--color-text-*` resolves to
- *   dark ink under the light theme, which is exactly wrong on a dark ground).
+ * - The STAGE — the verb at poster scale, the scoreboard and the ceiling
+ *   staircase — has a PALETTE OF ITS OWN in each theme: a spotlit near-black in
+ *   the dark theme, lit in the tier's own colour, and a soft light sheet with dark
+ *   ink in the light theme, where a near-black slab between a white banner and a
+ *   white drawer read as abrasive. The palette is a table of custom properties in
+ *   `index.css` (`.ribbon-stage`), and every constant painted on the stage is named
+ *   `RIBBON_INK_*` and draws from it, naming no ground, ink or hairline of its own.
+ *   `tests/unit/verbRibbonChrome.test.tsx` holds the rules that follow: nothing
+ *   named INK carries a `dark:` or `light:` partner (the palette switches the
+ *   theme, in one place), nothing named INK reads a theme token (the page's tokens
+ *   are not the stage's ground in either theme), and the table is read back and
+ *   every pair in it measured for contrast in both themes.
+ * - The BANNER above it — the header row — is an ordinary themed bar, light in the
+ *   light theme and dark in the dark one: `RIBBON_HEADER_*`, `RIBBON_SELECTED_*`
+ *   and `RIBBON_MINI_*`, every colour a light/`dark:` pair.
  * - The DRAWER beneath it — the six tier cards and their thirty-eight verb
  *   chips — is an ordinary themed surface, so every colour on it is a
  *   light/`dark:` pair and the tier colours come from the tier config.
@@ -25,9 +30,10 @@
  * at the call site: baking six tiers into constants here would duplicate
  * `utils/renderUtils.ts`, which is pinned by `tests/unit/bandColors.test.ts` and
  * shared by a dozen other surfaces. The stage takes its hue another way — the
- * stage root sets `--band-rgb` once, from `getBandRgb`, and everything on it
- * draws from that at whatever alpha it needs — so the palette is still written
- * down in one place.
+ * stage root sets `--band-rgb` once, from `getBandRgb` (and `--band-ink`, the same
+ * tier's `-700` shade for text on the light stage, from `getBandInkRgb`), and
+ * everything on it draws from those at whatever alpha it needs — so the palette is
+ * still written down in one place.
  *
  * Each constant records what it is painted ON, because that is the question
  * DesignSpec §2 asks of every colour and it is not answerable from the class
@@ -49,12 +55,18 @@
  *  is the thing that explains the one fact that sets a student's ceiling, and
  *  the radius says so.
  *
- *  `bg-[#070b14]` is a deliberate literal. It is the dark theme's deep-sea navy
- *  (DesignSpec §3, `#0a0f1a`) taken one step down, so the slab reads as a stage
- *  with its lights lowered rather than as a second page background. It cannot be
- *  a token: the surface tokens flip under the light theme, and the whole point
- *  of the stage is that it does not. The tier-lit border and the glow beneath it
+ *  The ground is `--stage-ground` from the stage palette, not a token: the
+ *  surface tokens are the PAGE's, and the stage is not the page in either theme.
+ *  In the dark theme it is `#070b14`, the deep-sea navy (DesignSpec §3,
+ *  `#0a0f1a`) taken one step down, so the slab reads as a stage with its lights
+ *  lowered rather than as a second page background; in the light theme it is
+ *  slate-50, a soft sheet that is distinct from the white banner and drawer
+ *  around it without being a slab. The tier-lit border and the glow beneath it
  *  are inline at the call site, because they come from `--band-rgb`.
+ *
+ *  `ribbon-stage-hue` is where `--band-text` is declared, because a custom
+ *  property that reads another resolves on the element that declares it, and
+ *  `--band-rgb` and `--band-ink` are set inline here.
  *
  *  `isolate` so the aura and the mesh, which sit behind the content at `z-0`,
  *  cannot be reordered against anything outside the ribbon.
@@ -72,7 +84,7 @@
  *  second tap within ~300ms of the first was read as a zoom gesture: the page
  *  lurched instead of the selection moving. Panning and pinching are untouched. */
 export const RIBBON_ROOT =
-  'relative isolate overflow-hidden rounded-surface border border-slate-300 dark:border-white/15 bg-[#070b14] text-white touch-manipulation animate-fade-in';
+  'relative isolate overflow-hidden rounded-surface border border-slate-300 dark:border-white/15 bg-[rgb(var(--stage-ground))] text-[rgb(var(--stage-ink))] touch-manipulation animate-fade-in ribbon-stage-hue';
 
 /** The light that falls on the stage, in the tier's own hue. Painted on the
  *  stage's ground; its gradient is inline at the call site and is built from
@@ -126,21 +138,21 @@ export const RIBBON_INK_MESH_BOX = 'inset-x-0 top-0 h-[80rem]';
  *  the stage. */
 export const RIBBON_INK_GLOW =
   'absolute inset-x-8 -bottom-7 h-20 pointer-events-none animate-fade-in ' +
-  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/0.5),rgb(var(--band-rgb)/0))]';
+  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/var(--stage-glow)),rgb(var(--band-rgb)/0))]';
 
 /** The glow the stage is leaving: the same layer, fading out while the new one
  *  fades in, for the reason `RIBBON_INK_AURA_LEAVING` gives. */
 export const RIBBON_INK_GLOW_LEAVING =
   'absolute inset-x-8 -bottom-7 h-20 pointer-events-none animate-fade-out ' +
-  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/0.5),rgb(var(--band-rgb)/0))]';
+  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/var(--stage-glow)),rgb(var(--band-rgb)/0))]';
 
 /** The positioning context for the glow: the stage's wrapper, which has no
  *  overflow of its own, so the glow can paint outside the stage's clip. */
-export const RIBBON_FRAME = 'relative';
+export const RIBBON_FRAME = 'relative ribbon-stage';
 
 /** The banner: the header row, which is also the disclosure toggle. THEMED —
  *  light in the light theme, dark in the dark one — and so it is not a
- *  `RIBBON_INK_*` constant, which are held to one ground and no theme variants.
+ *  `RIBBON_INK_*` constant, which draw from the stage palette and carry no theme variant.
  *  Painted on the page when the ribbon is shut, and on the top of the stage when
  *  it is open.
  *
@@ -254,13 +266,14 @@ export const RIBBON_HEADER_CHEVRON_SHUT = 'text-slate-500 dark:text-slate-300';
  *  the left column gets slightly more than half from `lg`, because it carries a
  *  96px verb. */
 export const RIBBON_INK_HERO =
-  'relative z-10 grid gap-8 lg:gap-10 px-5 sm:px-8 pt-4 pb-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start';
+  'relative z-10 grid gap-8 lg:gap-10 px-5 sm:px-8 pt-4 pb-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start ' +
+  'shadow-[inset_0_1px_0_var(--stage-rule)]';
 
 /** The tier chip above the verb. Its words are the tier's, derived at the call
  *  site. Painted on the stage. */
 export const RIBBON_INK_TIER_CHIP =
-  't-label inline-flex items-center rounded-full border px-3 py-1 whitespace-nowrap text-white ' +
-  'bg-[rgb(var(--band-rgb)/0.22)] border-[rgb(var(--band-rgb)/0.65)]';
+  't-label inline-flex items-center rounded-full border px-3 py-1 whitespace-nowrap text-[rgb(var(--stage-ink))] ' +
+  'bg-[rgb(var(--band-rgb)/var(--chip-fill))] border-[rgb(var(--band-rgb)/var(--chip-edge))]';
 
 /** The verb itself, at poster scale. THE hero element, and the only one that is
  *  allowed to be this loud: Inter 900 italic caps — the display voice that names
@@ -280,7 +293,7 @@ export const RIBBON_INK_TIER_CHIP =
  *  can fade and move for nothing. `relative` so the word stays above it.
  *  Painted on the stage. */
 export const RIBBON_INK_VERB =
-  't-display relative uppercase italic leading-[0.92] tracking-tighter text-white break-words';
+  't-display relative uppercase italic leading-[0.92] tracking-tighter text-[rgb(var(--stage-ink))] break-words';
 
 /** The box the verb and its glow share, which is what `RIBBON_INK_VERB_GLOW` is
  *  positioned against. It carries the verb's top margin. */
@@ -293,7 +306,7 @@ export const RIBBON_INK_VERB_STAGE = 'relative mt-4';
  *  below the line so the light has somewhere to fall off. */
 export const RIBBON_INK_VERB_GLOW =
   'absolute -inset-x-8 -inset-y-5 rounded-[inherit] pointer-events-none ' +
-  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/0.32),rgb(var(--band-rgb)/0))]';
+  'bg-[radial-gradient(closest-side,rgb(var(--band-rgb)/var(--verb-glow)),rgb(var(--band-rgb)/0))]';
 
 /** The type size for a verb, by what the verb is.
  *
@@ -321,12 +334,12 @@ export const ribbonVerbSize = (term: string): string => {
  *  one-shot that ends at rest) when the verb changes. Painted on the stage. */
 export const RIBBON_INK_VERB_RULE =
   'mt-4 h-1.5 w-24 rounded-full origin-left animate-rule-draw bg-[rgb(var(--band-rgb))] ' +
-  'shadow-[0_0_18px_rgb(var(--band-rgb)/0.7)]';
+  'shadow-[0_0_18px_rgb(var(--band-rgb)/var(--rule-glow))]';
 
 /** The verb's definition. Painted on the stage. Plain `slate-100` at full
  *  strength: 18:1 here, and nothing on this ground is dimmed with `opacity`. */
 export const RIBBON_INK_DEFINITION =
-  'mt-5 max-w-xl text-lg font-semibold leading-snug text-slate-100';
+  'mt-5 max-w-xl text-lg font-semibold leading-snug text-[rgb(var(--stage-ink-2))]';
 
 /* RIBBON_DETAIL_TIP_ACCENT is gone with `StrategyTip`, which it dressed. The brief
  * itself is `StrategyBrief tone="ink"`, which takes its colours from a table of
@@ -342,14 +355,14 @@ export const RIBBON_INK_DEFINITION =
  *  `sm` — all four stats fit a phone this way, where the old tray hid "Terms"
  *  to make room — and four from there. */
 export const RIBBON_INK_SCOREBOARD =
-  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10';
+  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[rgb(var(--stage-line)/0.1)] bg-[rgb(var(--stage-line)/0.1)]';
 
 /** One scoreboard cell. A flat fill, a step lighter than the stage, so the
  *  hairlines between cells show. Painted on the stage. */
-export const RIBBON_INK_STAT_CELL = 'flex flex-col px-4 sm:px-5 py-3.5 bg-[#0b1322]';
+export const RIBBON_INK_STAT_CELL = 'flex flex-col px-4 sm:px-5 py-3.5 bg-[rgb(var(--stage-cell))]';
 
 /** "Marks", "Band Cap", "Time", "Terms". Painted on the cell. */
-export const RIBBON_INK_STAT_LABEL = 't-label mb-1.5 text-slate-300';
+export const RIBBON_INK_STAT_LABEL = 't-label mb-1.5 text-[rgb(var(--stage-ink-3))]';
 
 /** The number under each label; its colour is the tier's. Painted on the cell.
  *
@@ -359,7 +372,7 @@ export const RIBBON_INK_STAT_LABEL = 't-label mb-1.5 text-slate-300';
  *  its neighbours along as the verb changes. Large type, so the tier hue's
  *  4.65–10:1 on this ground clears the 3:1 that big text asks for with room. */
 export const RIBBON_INK_STAT_VALUE =
-  'whitespace-nowrap font-mono text-2xl sm:text-3xl font-black tabular-nums leading-none text-[rgb(var(--band-rgb))]';
+  'whitespace-nowrap font-mono text-2xl sm:text-3xl font-black tabular-nums leading-none text-[rgb(var(--band-text))]';
 
 /** The sentence that says what the staircase means: the verb's ceiling, in
  *  words. It is the staircase's headline — the one line of the whole ribbon that
@@ -368,7 +381,8 @@ export const RIBBON_INK_STAT_VALUE =
  *  Plural rather than "A {TERM} question": eleven of the thirty-eight verbs begin
  *  with a vowel, and "A EXPLAIN question" is what that sentence renders for every
  *  one of them. Painted on the stage. */
-export const RIBBON_INK_CAPTION = 'text-lg sm:text-xl font-bold leading-snug text-white';
+export const RIBBON_INK_CAPTION =
+  'text-lg sm:text-xl font-bold leading-snug text-[rgb(var(--stage-ink))]';
 
 /** The staircase itself: the ribbon's second centre of gravity, and the picture
  *  of what the verb costs. Six columns rising from tier 1 to tier 6; the ones a
@@ -405,10 +419,10 @@ export const RIBBON_INK_STAIR_STEP =
   // only, and comes back on release. `touch-manipulation` and `select-none` so a
   // quick second tap is not a zoom and a long press is not a text selection.
   'origin-bottom touch-manipulation select-none transition-transform duration-150 ease-out active:scale-[0.96] ' +
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]';
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--stage-ink)/0.8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--stage-ground))]';
 
 /** A column's band numeral, above it: mono, because it is a figure, and
- *  `slate-300` or white because the column it names is ghosted or lit. These are
+ *  the secondary or the primary ink because the column it names is ghosted or lit. These are
  *  NOT `aria-hidden`: `contrast.ts` skips everything inside an `aria-hidden`
  *  subtree, and hiding a new block of text from the audit is the blind spot that
  *  let this component's first three contrast defects ship. The button's
@@ -459,7 +473,7 @@ export const RIBBON_INK_CEILING =
  *  ceiling. Its chip is on the rail above, and the rule reaches up to it.
  *  Painted on the stage, under the columns. */
 export const RIBBON_INK_THRESHOLD_RULE =
-  'absolute -top-2 bottom-0 z-0 w-px -translate-x-1/2 border-r-2 border-dashed border-white/35 pointer-events-none';
+  'absolute -top-2 bottom-0 z-0 w-px -translate-x-1/2 border-r-2 border-dashed border-[rgb(var(--stage-line)/0.35)] pointer-events-none';
 
 /** The scale rail above the staircase — the two sides the Deep Learning
  *  Threshold divides the ladder into, and the chip that names the gate.
@@ -479,17 +493,18 @@ export const RIBBON_INK_THRESHOLD_RULE =
 export const RIBBON_INK_SCALE_RAIL =
   'hidden sm:flex relative items-center justify-between mb-2 pointer-events-none';
 
-/** One span's caption. `slate-300` on this ground, 13.3:1. Not `aria-hidden`,
+/** One span's caption, in the stage's secondary ink (13.3:1 on the dark stage,
+ *  7:1 on the light one — held by the palette test). Not `aria-hidden`,
  *  for the reason on `RIBBON_INK_STAIR_NUMERAL`. Painted on the stage. */
 export const RIBBON_INK_SCALE_SPAN =
-  't-label inline-flex items-center whitespace-nowrap text-slate-300';
+  't-label inline-flex items-center whitespace-nowrap text-[rgb(var(--stage-ink-3))]';
 
 /** The "Deep Learning Threshold" marker on the rail. Painted on the stage, in a
  *  pill that is the stage's own lighter fill, so it sits on the dashed rule
  *  rather than being crossed by it. */
 export const RIBBON_INK_THRESHOLD_CHIP =
   't-label absolute left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full border whitespace-nowrap ' +
-  'bg-[#0b1322] text-slate-100 border-white/25';
+  'bg-[rgb(var(--stage-cell))] text-[rgb(var(--stage-ink-2))] border-[rgb(var(--stage-line)/0.25)]';
 
 /** A step's tier name, under its column. Painted on the stage. */
 export const RIBBON_INK_STEP_LABEL =
@@ -500,7 +515,7 @@ export const RIBBON_INK_STEP_LABEL =
  *  lift is colour, not opacity — the rule this component spent three fixes
  *  learning. */
 export const RIBBON_INK_STEP_LABEL_IDLE =
-  'hidden sm:flex text-slate-300 can-hover:group-hover/step:text-white';
+  'hidden sm:flex text-[rgb(var(--stage-ink-3))] can-hover:group-hover/step:text-[rgb(var(--stage-ink))]';
 
 /** The drawer: the six tier cards. A themed surface under the stage — paper in
  *  the light theme, the surface token in the dark one — so the hero is a slab

@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   BAND_HEX,
+  BAND_HEX_INK,
+  getBandInkRgb,
   getBandHex,
   getBandName,
   getBandConfig,
@@ -39,6 +41,61 @@ describe('band colour palette', () => {
   it('names the top and bottom bands', () => {
     expect(getBandName(6)).toBe('Outstanding');
     expect(getBandName(1)).toBe('Elementary');
+  });
+});
+
+/**
+ * The tier hues as text on a LIGHT ground. `BAND_HEX` is the `-500` step, which
+ * is 1.9:1 for yellow on white; the verb ribbon's light stage draws its figures and
+ * its current step's name in these instead.
+ */
+describe('band ink palette (text on a light ground)', () => {
+  const luminance = (hex: string): number => {
+    const [r, g, b] = [1, 3, 5].map((i) => {
+      const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+      return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a: string, b: string): number => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  it('defines a distinct -700 hue for every band 1-6', () => {
+    const hexes = [1, 2, 3, 4, 5, 6].map((b) => BAND_HEX_INK[b]);
+    expect(new Set(hexes).size).toBe(6);
+    hexes.forEach((h) => expect(h).toMatch(/^#[0-9a-f]{6}$/i));
+    // Each is the same family as its fill hue, one stop deeper than the dark
+    // stage's: not a second palette.
+    const families = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'] as const;
+    families.forEach((family, i) => {
+      expect(BAND_HEX_INK[i + 1]).toBe(colors[family][700]);
+    });
+  });
+
+  it('clears 4.5:1 as text on white and on slate-50, for all six', () => {
+    for (const band of [1, 2, 3, 4, 5, 6]) {
+      for (const ground of ['#ffffff', '#f8fafc']) {
+        const ratio = contrast(BAND_HEX_INK[band], ground);
+        expect(ratio, `band ${band} on ${ground} is ${ratio.toFixed(2)}:1`).toBeGreaterThanOrEqual(
+          4.5
+        );
+      }
+    }
+  });
+
+  it('is what the fill hue is not: the fill hues do NOT clear 4.5:1 on white', () => {
+    // The reason this palette exists, held so it is not mistaken for decoration:
+    // if the fill hues did clear it, the ink map would be a redundant copy.
+    const failing = [1, 2, 3, 4, 5, 6].filter((b) => contrast(BAND_HEX[b], '#ffffff') < 4.5);
+    expect(failing.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('hands the triplet to CSS, clamped like the fill palette', () => {
+    expect(getBandInkRgb(3)).toBe('161 98 7');
+    expect(getBandInkRgb(0)).toBe(getBandInkRgb(1));
+    expect(getBandInkRgb(9)).toBe(getBandInkRgb(6));
   });
 });
 

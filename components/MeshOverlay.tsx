@@ -23,11 +23,17 @@ const MeshOverlay = ({
   opacity = 'opacity-[0.03]',
   color = '%23ffffff',
   plain = false,
+  darkOnly = false,
   box = 'inset-0',
 }: {
   opacity?: string;
   color?: string;
   plain?: boolean;
+  /** Draw it in the dark theme only. The strokes are white, and white strokes on
+   *  a light ground paint nothing at all — so on a surface that is light in the
+   *  light theme the layer is pure cost, and this takes it out of the tree
+   *  (`display: none`) rather than leaving an invisible one to be composited. */
+  darkOnly?: boolean;
   /** Where the overlay sits, as Tailwind position and size. `inset-0` (the
    *  parent's whole box) unless the parent's size changes while it is on
    *  screen: a texture that tracks a resizing box is re-painted on every frame
@@ -38,7 +44,7 @@ const MeshOverlay = ({
   <div
     className={
       plain
-        ? `absolute ${box} ${opacity} rounded-[inherit] pointer-events-none z-0`
+        ? `absolute ${box} ${opacity} rounded-[inherit] pointer-events-none z-0${darkOnly ? ' hidden dark:block' : ''}`
         : `absolute inset-0 ${opacity} light:opacity-[0.06] pointer-events-none mix-blend-overlay z-0 transition-all duration-700 ease-in-out`
     }
     style={{

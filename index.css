@@ -779,6 +779,87 @@ a:focus-visible,
 }
 
 /*
+ * The verb ribbon's stage palette, one table for both themes.
+ *
+ * The stage under the banner was a near-black slab (#070b14) in BOTH themes. In
+ * the light theme that is a 440px block of the page's one darkest colour between
+ * a white banner and a white drawer, and it was reported as abrasive. It cannot be
+ * softened by lightening the ground: the tier hues are the `-500` steps, and they
+ * stop clearing 4.5:1 beyond about #0f172a (purple is 4.5 there, 3.7 on slate-800).
+ * So in the light theme the stage is a soft light ground with dark ink and the
+ * tier's `-700` shade for text, and the dark theme is exactly what it was.
+ *
+ * Every colour on the stage is drawn from these properties, so the class strings in
+ * `utils/verbRibbonChrome.ts` carry no theme at all and the two palettes are
+ * written down in one place, here, where `tests/unit/verbRibbonChrome.test.tsx`
+ * reads them back and measures the contrast of every pair in both themes.
+ *
+ * Triplets, so a caller can draw them at an alpha. The alphas are properties too,
+ * because the same tint that glows on near-black is a pastel on near-white and
+ * wants a different strength: `--aura-*` (the light behind the verb),
+ * `--chip-*` (the tier chip), `--col-*` (the staircase's columns), `--hatch-*` (the
+ * columns above the ceiling) and the glows.
+ *
+ * `.ribbon-stage` is on the ribbon's wrapper, so the stage and the glow beneath it
+ * share the table. `.ribbon-stage-hue` is on the stage itself, where `--band-rgb`
+ * and `--band-ink` are set inline: a custom property that reads another is
+ * resolved on the element that declares it, and so has to be declared where its
+ * source is.
+ */
+.ribbon-stage {
+  --stage-ground: 7 11 20;
+  --stage-cell: 11 19 34;
+  --stage-ink: 255 255 255;
+  --stage-ink-2: 241 245 249;
+  --stage-ink-3: 203 213 225;
+  --stage-line: 255 255 255;
+  --stage-rule: transparent;
+  --aura-1: 0.42;
+  --aura-2: 0.16;
+  --verb-glow: 0.32;
+  --rule-glow: 0.7;
+  --stage-glow: 0.5;
+  --chip-fill: 0.22;
+  --chip-edge: 0.65;
+  --col-lo: 0.18;
+  --col-hi: 0.62;
+  --col-cur-lo: 0.35;
+  --col-cur-hi: 1;
+  --col-glow: 0.7;
+  --hatch-fill: 0.13;
+  --hatch-edge: 0.3;
+}
+[data-theme='light'] .ribbon-stage {
+  --stage-ground: 248 250 252;
+  --stage-cell: 255 255 255;
+  --stage-ink: 15 23 42;
+  --stage-ink-2: 30 41 59;
+  --stage-ink-3: 71 85 105;
+  --stage-line: 15 23 42;
+  --stage-rule: rgb(15 23 42 / 0.08);
+  --aura-1: 0.2;
+  --aura-2: 0.09;
+  --verb-glow: 0.16;
+  --rule-glow: 0.3;
+  --stage-glow: 0.3;
+  --chip-fill: 0.14;
+  --chip-edge: 0.5;
+  --col-lo: 0.3;
+  --col-hi: 0.85;
+  --col-cur-lo: 0.45;
+  --col-cur-hi: 1;
+  --col-glow: 0.35;
+  --hatch-fill: 0.09;
+  --hatch-edge: 0.25;
+}
+.ribbon-stage-hue {
+  --band-text: var(--band-rgb);
+}
+[data-theme='light'] .ribbon-stage-hue {
+  --band-text: var(--band-ink);
+}
+
+/*
  * The verb ribbon's strip, faded into the drawer at both ends.
  *
  * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade

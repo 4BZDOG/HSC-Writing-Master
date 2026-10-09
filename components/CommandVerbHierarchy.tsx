@@ -12,7 +12,13 @@ import {
   Trophy,
   type LucideIcon,
 } from 'lucide-react';
-import { getBandHex, getBandName, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
+import {
+  getBandHex,
+  getBandInkRgb,
+  getBandName,
+  getBandRgb,
+  getTierScaleConfig,
+} from '../utils/renderUtils';
 import StrategyBrief from './StrategyBrief';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import MeshOverlay from './MeshOverlay';
@@ -160,6 +166,10 @@ const THRESHOLD_SIDE_ABOVE = 'Use what you know';
  */
 const NEUTRAL_RGB = '100 116 139';
 
+/** The same neutral as TEXT on the light stage: slate-600, where the slate-500
+ *  above is 4.5 on white and no more. */
+const NEUTRAL_INK_RGB = '71 85 105';
+
 /**
  * The stage's light, as two pools: one top left behind the verb, one low on the
  * right under the staircase. Built from `--band-rgb`, which the root sets, so it
@@ -167,8 +177,8 @@ const NEUTRAL_RGB = '100 116 139';
  * CSS, not a copy of it.
  */
 const AURA =
-  'radial-gradient(56rem 26rem at 0% 0%, rgb(var(--band-rgb) / 0.42), transparent 72%), ' +
-  'radial-gradient(38rem 22rem at 100% 44rem, rgb(var(--band-rgb) / 0.16), transparent 70%)';
+  'radial-gradient(56rem 26rem at 0% 0%, rgb(var(--band-rgb) / var(--aura-1)), transparent 72%), ' +
+  'radial-gradient(38rem 22rem at 100% 44rem, rgb(var(--band-rgb) / var(--aura-2)), transparent 70%)';
 
 /**
  * The line icon each tier wears in its card header, in place of the system emoji
@@ -418,6 +428,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   // staircase's columns are painted from, so the light on the verb and the
   // column under it state one colour between them.
   const bandRgb = activeTier ? getBandRgb(activeTier) : NEUTRAL_RGB;
+  // The tier's hue as text, for the light stage (`--band-text` in index.css).
+  const bandInkRgb = activeTier ? getBandInkRgb(activeTier) : NEUTRAL_INK_RGB;
 
   // The light the stage has just left, kept mounted while it fades out under the
   // new one fading in. The aura is keyed on the tier so the new light is a fresh
@@ -464,12 +476,13 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
     : RIBBON_HEADER_TILE_NEUTRAL;
 
   return (
-    // The hero. A dark stage in both themes with a tier-lit edge and a glow
+    // The hero. A stage with a palette per theme — spotlit near-black in the dark
+    // theme, a soft light sheet in the light one — with a tier-lit edge and a glow
     // beneath it, so the one object on the page that explains what a student's
     // verb costs them is also the one object that cannot be missed. The border
     // is inline because it is drawn from `--band-rgb`; with no verb chosen it is
-    // not set and the stage keeps its neutral white-alpha edge from
-    // `RIBBON_ROOT`, and there is no glow.
+    // not set and the stage keeps its neutral edge from `RIBBON_ROOT`, and there
+    // is no glow.
     //
     // The glow is a sibling in a wrapper rather than a shadow on the stage:
     // see `RIBBON_INK_GLOW`.
@@ -495,6 +508,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
         style={
           {
             '--band-rgb': bandRgb,
+            '--band-ink': bandInkRgb,
             ...(activeTier ? { borderColor: 'rgb(var(--band-rgb) / 0.5)' } : {}),
           } as React.CSSProperties
         }
@@ -516,7 +530,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
           style={{ backgroundImage: AURA }}
           aria-hidden="true"
         />
-        <MeshOverlay plain box={RIBBON_INK_MESH_BOX} opacity="opacity-[0.035]" />
+        <MeshOverlay plain darkOnly box={RIBBON_INK_MESH_BOX} opacity="opacity-[0.035]" />
 
         {/* Header Button.
 
@@ -783,7 +797,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         className={RIBBON_INK_CEILING}
                         style={{
                           bottom: `calc(var(--label) + var(--plot) * ${columnFraction(activeTier)})`,
-                          borderColor: `rgb(${getBandRgb(activeTier)})`,
+                          borderColor: 'rgb(var(--band-text))',
                         }}
                       />
                     )}
@@ -822,7 +836,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                           }}
                         >
                           <span
-                            className={`${RIBBON_INK_STAIR_NUMERAL} ${isReachable ? 'text-white' : 'text-slate-300'}`}
+                            className={`${RIBBON_INK_STAIR_NUMERAL} ${isReachable ? 'text-[rgb(var(--stage-ink))]' : 'text-[rgb(var(--stage-ink-3))]'}`}
                           >
                             {tier}
                           </span>
@@ -833,17 +847,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                                 ? {
                                     animationDelay: columnDelay,
                                     height: `calc(var(--plot) * ${columnFraction(tier)})`,
-                                    backgroundImage: `linear-gradient(to top, rgb(var(--tier-rgb) / ${isCurrent ? 0.35 : 0.18}), rgb(var(--tier-rgb) / ${isCurrent ? 1 : 0.62}))`,
+                                    backgroundImage: `linear-gradient(to top, rgb(var(--tier-rgb) / var(${isCurrent ? '--col-cur-lo' : '--col-lo'})), rgb(var(--tier-rgb) / var(${isCurrent ? '--col-cur-hi' : '--col-hi'})))`,
                                     boxShadow: isCurrent
-                                      ? '0 0 40px -4px rgb(var(--tier-rgb) / 0.7), inset 0 3px 0 rgb(255 255 255 / 0.6)'
+                                      ? '0 0 40px -4px rgb(var(--tier-rgb) / var(--col-glow)), inset 0 3px 0 rgb(255 255 255 / 0.6)'
                                       : 'inset 0 2px 0 rgb(var(--tier-rgb) / 0.9)',
                                   }
                                 : {
                                     animationDelay: columnDelay,
                                     height: `calc(var(--plot) * ${columnFraction(tier)})`,
                                     backgroundImage:
-                                      'repeating-linear-gradient(135deg, rgb(255 255 255 / 0.13) 0 2px, transparent 2px 9px)',
-                                    border: '1px dashed rgb(255 255 255 / 0.3)',
+                                      'repeating-linear-gradient(135deg, rgb(var(--stage-line) / var(--hatch-fill)) 0 2px, transparent 2px 9px)',
+                                    border: '1px dashed rgb(var(--stage-line) / var(--hatch-edge))',
                                     borderBottom: 0,
                                   }
                             }
@@ -871,7 +885,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             another, so only the current step keeps its name
                             below sm. */}
                           <span
-                            className={`${RIBBON_INK_STEP_LABEL} ${isCurrent ? 'text-[rgb(var(--tier-rgb))]' : RIBBON_INK_STEP_LABEL_IDLE}`}
+                            className={`${RIBBON_INK_STEP_LABEL} ${isCurrent ? 'text-[rgb(var(--band-text))]' : RIBBON_INK_STEP_LABEL_IDLE}`}
                           >
                             {label}
                           </span>

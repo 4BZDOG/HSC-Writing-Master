@@ -24,6 +24,17 @@
   staircase and chevron each have a light and a dark form. The stage below it is still dark in both
   themes, because that is the hero. The ribbon's neutral edge is a themed pair so that a shut ribbon
   has a visible edge on a white page.
+- **Fixed.** The ribbon's stage was a near-black slab in the light theme too: 440px of the page's
+  darkest colour between a white banner and a white drawer, reported as abrasive. The light theme now
+  has a stage palette of its own: a soft slate-50 ground, white scoreboard cells, dark ink, a pastel
+  tint of the tier's colour for the light behind the verb, and the tier's darker `-700` shade for
+  figures and the current step's name. The dark theme is the stage exactly as it was. Lightening the
+  dark ground was not an option, because the tier colours stop being legible on anything much lighter
+  than the current near-black.
+- **Changed.** The stage's colours now come from one table of custom properties in `index.css`
+  (`.ribbon-stage`), one set of values per theme, and the ribbon's class strings no longer name any
+  ground or ink of their own. A unit test reads the table back and measures the contrast of every
+  pair in both themes.
 - **Fixed.** On a phone a tap left `:hover` stuck: cards stayed enlarged and staircase columns
   stayed bright until the next tap elsewhere. Hover styles now only exist where a pointer can hover
   (a new `can-hover:` variant).

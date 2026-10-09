@@ -298,55 +298,66 @@ same treatment, the question is which of the two stops being it.
 
 What makes it a different object, and not a bigger panel:
 
-| Decision | The hero                                                                         | Why                                                                                                  |
-| -------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Rank     | `rounded-surface` (32px), the workspace cards' radius                            | Panels are 20px. The radius says this is a card, not reference material                              |
-| Ground   | A **stage, dark in both themes** (`bg-[#070b14]`), under a themed banner         | A lit slab on a pale desk in the light theme; a spotlit stage in the dark one                        |
-| Banner   | The header bar is **themed**: white in the light theme, the stage itself in dark | A dark bar among white panels is the one defect a contrast audit cannot see (see below)              |
-| Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
-| Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                 | The display voice that already names the product, at the one place it is the subject                 |
-| Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above       | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
-| Motion   | One orchestrated moment on a change of verb, and responses to input              | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
+| Decision | The hero                                                                                                    | Why                                                                                                  |
+| -------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Rank     | `rounded-surface` (32px), the workspace cards' radius                                                       | Panels are 20px. The radius says this is a card, not reference material                              |
+| Ground   | A **stage with its own palette per theme**: near-black in the dark theme, a soft slate-50 tint in the light | A spotlit stage in the dark theme; a lit sheet, not a black slab, in the light one                   |
+| Banner   | The header bar is **themed**: white in the light theme, the stage itself in dark                            | A dark bar among white panels is the one defect a contrast audit cannot see (see below)              |
+| Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge                            | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
+| Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                                            | The display voice that already names the product, at the one place it is the subject                 |
+| Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above                                  | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
+| Motion   | One orchestrated moment on a change of verb, and responses to input                                         | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
 
-**The banner is the one part of the hero that follows the theme.** The header bar
-(`RIBBON_HEADER_*`) used to be part of the stage, so in the light theme the
-ribbon opened with a dark slab above a page of white panels whose headers are all
-light. Its text was perfectly legible, so no contrast check could object — which
-is the defect `tests/e2e/light-theme.spec.ts` warns about by name. It is an
-ordinary themed bar now: opaque white with dark ink in the light theme (which also
-hides the part of the aura that would tint it), see-through with white ink in the
-dark theme, where the stage's light falling through it is the look. The tier is
-still on the 32px tile, the selected-verb chip and the miniature staircase, each
-with a pair for the unlit bars, the neutral tile and the chevron. What stays one
-ground is everything from the banner's lower edge down to the drawer. The
-distinction is in the names: `RIBBON_INK_*` is the stage and is held to one ground
-with no theme variants; `RIBBON_HEADER_*`, `RIBBON_SELECTED_*` and `RIBBON_MINI_*`
-are the banner and are held to the opposite rule — every colour has a `dark:`
-partner. The root's neutral edge is a pair too (`border-slate-300
-dark:border-white/15`), because a shut ribbon sits on the page, where white at 15%
-is invisible. `tests/e2e/verb-ribbon.spec.ts` reads the computed colours of the
-banner and the stage in both themes.
+**The banner follows the theme.** The header bar (`RIBBON_HEADER_*`) used to be
+part of the stage, so in the light theme the ribbon opened with a dark slab above
+a page of white panels whose headers are all light. Its text was perfectly
+legible, so no contrast check could object — which is the defect
+`tests/e2e/light-theme.spec.ts` warns about by name. It is an ordinary themed bar
+now: opaque white with dark ink in the light theme (which also hides the part of
+the aura that would tint it), see-through with white ink in the dark theme, where
+the stage's light falling through it is the look. The tier is still on the 32px
+tile, the selected-verb chip and the miniature staircase, each with a pair for the
+unlit bars, the neutral tile and the chevron. The banner is held to the usual rule
+for a themed surface — every colour has a `dark:` partner. The root's neutral edge
+is a pair too (`border-slate-300 dark:border-white/15`), because a shut ribbon
+sits on the page, where white at 15% is invisible.
 
-**The stage is dark in both themes, and that is a claim the tests hold.** The
-theme tokens flip: `--color-text-muted` resolves to slate-600 under the light
-theme, and a tier's `text` class swaps to its `-900` step, which is dark ink on a
-dark ground. Nothing throws; the light theme is simply unreadable on the stage.
-So everything painted on it is named `RIBBON_INK_*` in `utils/verbRibbonChrome.ts`
-and held to three rules by `tests/unit/verbRibbonChrome.test.tsx`:
+**The stage has a palette for each theme, written down once.** Under the banner it
+was a near-black slab (`#070b14`) in both themes, which in the light theme was a
+440px block of the page's darkest colour between a white banner and a white
+drawer, and read as abrasive. The obvious fix, lightening the ground, does not
+work: the tier hues are the `-500` steps and stop clearing 4.5:1 beyond about
+`#0f172a` (purple is 4.5 there, 3.7 on slate-800), so the stage could only ever
+have become a shade less black. So the light theme has its own palette — slate-50
+ground, white scoreboard cells, slate-900/800/600 ink, and the tier's `-700` shade
+for text (`BAND_HEX_INK`, 4.8:1 at the lowest) — and the dark theme is the stage
+exactly as it was.
 
-1. **No `light:` or `dark:` partner.** It has one ground, so a partner is a second
-   guess at it. (The banner is not the stage and takes the opposite rule; the
-   root's neutral edge is the one themed class on it. The mesh overlay needs no
-   exemption: the stage uses its `plain` mode.)
-2. **No theme token.** No `--color-*`. A component that sits on both a themed
-   surface and the stage takes a `tone` (`StrategyBrief tone="ink"`), which names
-   its colours outright instead of reading tokens.
-3. **Nothing dimmed with `opacity`, and no tone below `slate-400`.** Measured on
-   this ground, `slate-300` is 13:1 and `slate-400` 7.7:1; `slate-500` is 4.1:1
-   and fails.
+The palette is a table of custom properties, `.ribbon-stage` in `index.css`
+(`--stage-ground`, `--stage-ink`, `--stage-line` …, plus the alphas, because the
+tint that glows on near-black is a pastel on near-white and wants a different
+strength). Everything painted on the stage is named `RIBBON_INK_*` in
+`utils/verbRibbonChrome.ts`, and its class strings draw from the table and name no
+colour of their own, so a theme is decided in one place and cannot drift between
+two. `tests/unit/verbRibbonChrome.test.tsx` holds it:
 
-The tier's hue itself clears the floor on this ground (4.65:1 for purple, the
-lowest, to 10:1 for yellow), which is what allows tier-coloured text on it.
+1. **No `light:` or `dark:` partner in a class string.** The palette switches the
+   theme. (The mesh overlay is switched off in the light theme, where its white
+   strokes paint nothing, and the root's neutral edge is the one themed class.)
+2. **No ground, ink or hairline named outright.** No `text-white`, no hex, no
+   `--color-*`. A component that sits on both a themed surface and the stage takes
+   a `tone` (`StrategyBrief tone="ink"`), which reads the stage's properties.
+3. **Nothing dimmed with `opacity`.** De-emphasis is a colour.
+4. **Measured, in both themes, from the table itself.** The test reads the two
+   palettes out of `index.css` and checks every pair: the three neutral inks on the
+   ground and on a scoreboard cell, all six tier hues as text on both, and the
+   chip's ink over its own tint, each at 4.5:1. A palette that fails is a failing
+   test, not a screenshot someone has to look at. The dark palette is also pinned
+   to the values it shipped with.
+
+`tests/e2e/verb-ribbon.spec.ts` reads the computed colours of the banner and the
+stage in both themes in a real browser, and `light-theme.spec.ts` audits the stage's
+text now that its ground is flat in the light theme too.
 
 **The aura is a sibling of the content, never an ancestor of any text.** The e2e
 contrast sweep returns `unassessable` for any text whose background chain meets a

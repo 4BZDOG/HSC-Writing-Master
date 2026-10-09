@@ -71,14 +71,14 @@ test.describe('the verb ribbon’s tier cards', () => {
     ).toBe(1);
   });
 
-  // The ribbon's banner was part of the dark stage in both themes, which in the
-  // light theme made it a dark slab above a page of white panels whose headers
-  // are all light. Its text was legible, so the contrast audit could not say so —
-  // `light-theme.spec.ts` warns about exactly this: "a header that reads as a dark
-  // slab beside its light twin has fine contrast and is still wrong". So this
-  // reads the computed colours: the banner follows the theme, and the stage below
-  // it does not.
-  test('has a light banner in the light theme and a dark one in the dark, over a stage that is always dark', async ({
+  // The ribbon was dark in both themes: a dark banner, then a near-black stage,
+  // between a white page and a white drawer. The banner was fixed first; the stage
+  // was a 440px slab of the page's darkest colour and read as abrasive in the light
+  // theme. It now has a soft light palette there — and the dark theme is exactly
+  // what it was. Contrast alone cannot say either: `light-theme.spec.ts` warns that
+  // "a header that reads as a dark slab beside its light twin has fine contrast and
+  // is still wrong", so this reads the computed colours.
+  test('is light in the light theme, banner and stage both, and dark in the dark', async ({
     page,
   }) => {
     await openWorkspace(page);
@@ -120,11 +120,19 @@ test.describe('the verb ribbon’s tier cards', () => {
           /Command Verb Hierarchy/i.test(h.textContent || '')
         ) as HTMLElement;
         const sublabel = title.nextElementSibling as HTMLElement;
+        const verb = Array.from(root.querySelectorAll('h4')).find((h) =>
+          h.className.includes('t-display')
+        ) as HTMLElement;
+        const stat = Array.from(root.querySelectorAll('span')).find((el) =>
+          el.className.includes('font-mono')
+        ) as HTMLElement;
         return {
           banner: luminance(getComputedStyle(toggle).backgroundColor),
           title: luminance(getComputedStyle(title).color),
           sublabel: luminance(getComputedStyle(sublabel).color),
           stage: luminance(getComputedStyle(root).backgroundColor),
+          verb: luminance(getComputedStyle(verb).color),
+          stat: luminance(getComputedStyle(stat).color),
         };
       });
 
@@ -135,8 +143,15 @@ test.describe('the verb ribbon’s tier cards', () => {
     expect(light.banner!.l, 'the light banner is not light').toBeGreaterThan(0.8);
     expect(light.title!.l, 'the title is not dark ink on it').toBeLessThan(0.1);
     expect(light.sublabel!.l, 'the sub-label is not dark ink on it').toBeLessThan(0.25);
-    // …over a stage that is the same near-black it always was.
-    expect(light.stage!.l, 'the stage went light').toBeLessThan(0.02);
+    // The stage under it is a soft light ground, no longer the near-black slab —
+    // and not pure white, or it would have no edge against the banner and the drawer.
+    expect(light.stage!.l, 'the light stage is still dark').toBeGreaterThan(0.9);
+    expect(light.stage!.l, 'the light stage is indistinguishable from white').toBeLessThan(1);
+    // Dark ink on it, and a tier-coloured figure darker than the dark stage's.
+    expect(light.verb!.l, 'the verb is not dark ink on the light stage').toBeLessThan(0.05);
+    expect(light.stat!.l, 'the scoreboard figure is too light for a light ground').toBeLessThan(
+      0.2
+    );
 
     await setTheme('dark');
     const dark = await read();
@@ -144,8 +159,11 @@ test.describe('the verb ribbon’s tier cards', () => {
     expect(dark.banner!.alpha, 'the dark banner is a fill, not the stage').toBeLessThan(0.05);
     expect(dark.title!.l, 'the title is not white on the dark banner').toBeGreaterThan(0.9);
     expect(dark.sublabel!.l).toBeGreaterThan(0.5);
-    expect(dark.stage!.l).toBeLessThan(0.02);
-    // The stage is one colour in both themes.
-    expect(dark.stage!.l).toBeCloseTo(light.stage!.l, 3);
+    // The dark stage is the near-black it always was, with white ink.
+    expect(dark.stage!.l, 'the dark stage moved').toBeLessThan(0.02);
+    expect(dark.verb!.l, 'the verb is not white on the dark stage').toBeGreaterThan(0.9);
+    expect(dark.stat!.l, 'the figure is not a bright tier hue on the dark stage').toBeGreaterThan(
+      light.stat!.l
+    );
   });
 });

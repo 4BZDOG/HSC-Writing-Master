@@ -8,7 +8,13 @@ import { commandTerms, getCommandTermInfo, TIER_GROUPS } from '../../data/comman
 import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import { PromptVerb } from '../../types';
 import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
-import { BAND_HEX, getBandRgb, getTierScaleConfig } from '../../utils/renderUtils';
+import {
+  BAND_HEX,
+  BAND_HEX_INK,
+  getBandInkRgb,
+  getBandRgb,
+  getTierScaleConfig,
+} from '../../utils/renderUtils';
 import tailwindConfig from '../../tailwind.config.js';
 import {
   RIBBON_DRAWER,
@@ -174,17 +180,25 @@ describe('the ribbon wears the shared vocabulary', () => {
 
 /**
  * The ribbon is a hero, and a hero stands out by being a different object from
- * what is around it. This one is a stage — dark in BOTH themes, lit in the
- * tier's own colour — standing on an ordinary themed drawer.
+ * what is around it. The stage is the part of it under the banner: the verb at
+ * poster scale, the staircase and the scoreboard, standing on an ordinary themed
+ * drawer.
  *
- * "Dark in both themes" is a claim that has to be held, because the failure
- * mode is silent. The theme tokens flip under the light theme: `--color-text-
- * muted` resolves to slate-600, and the tier's `text` class swaps to its `-900`
- * step, which is dark ink on a dark ground. Nothing throws; the light theme is
- * simply unreadable on the stage. So everything painted on it is pinned to name
- * its colours outright, and to carry no partner for a ground that has only one.
+ * It used to be a near-black slab in BOTH themes, which in the light theme was a
+ * 440px block of the page's darkest colour between a white banner and a white
+ * drawer, and read as abrasive. It now has a palette for each theme — a soft light
+ * ground with dark ink in the light theme, the near-black stage unchanged in the
+ * dark — and every colour on it is drawn from that palette, so the two cannot
+ * drift apart. The palette is a table of custom properties in `index.css`
+ * (`.ribbon-stage`), the class strings in `utils/verbRibbonChrome.ts` name no
+ * colour of their own, and the block below reads the table back and measures it.
+ *
+ * Why not simply lighten the dark ground: the tier hues are the `-500` steps and
+ * stop clearing 4.5:1 beyond about #0f172a, so the stage could only ever have been
+ * a shade less black. Why not leave the ink as it was: white on a light ground is
+ * nothing. Both are held below.
  */
-describe('the stage is dark in both themes, and says so', () => {
+describe('the stage draws every colour from one palette, for both themes', () => {
   const inkExports = Object.entries(verbRibbonChrome).filter(
     ([name, value]) => name.startsWith('RIBBON_INK_') && typeof value === 'string'
   ) as [string, string][];
@@ -196,8 +210,10 @@ describe('the stage is dark in both themes, and says so', () => {
   });
 
   it('carries no light: or dark: partner on anything painted on it', () => {
+    // The theme lives in the palette, in one place, and not in the class strings:
+    // a variant here would be a second place to decide what the light stage is.
     for (const [name, value] of inkExports) {
-      expect(value, `${name} has a theme variant on a ground with one theme`).not.toMatch(
+      expect(value, `${name} has a theme variant; the palette switches the theme`).not.toMatch(
         /(^|\s)[^\s]*(light|dark):/
       );
     }
@@ -214,7 +230,22 @@ describe('the stage is dark in both themes, and says so', () => {
     for (const [name, value] of [...inkExports, ['RIBBON_ROOT', RIBBON_ROOT]]) {
       expect(value, `${name} reads a theme colour token`).not.toContain('--color-');
     }
-    expect(RIBBON_ROOT).toContain('bg-[#070b14]');
+    // The ground and the ink are the palette's, not a colour named here.
+    expect(RIBBON_ROOT).toContain('bg-[rgb(var(--stage-ground))]');
+    expect(RIBBON_ROOT).toContain('text-[rgb(var(--stage-ink))]');
+    expect(RIBBON_ROOT).not.toMatch(/#[0-9a-f]{3,8}/i);
+  });
+
+  it('names no ground, ink or hairline colour of its own', () => {
+    // A literal `text-white` or `bg-[#0b1322]` here would be correct in one theme
+    // and invisible in the other, and no test of a class string would know.
+    for (const [name, value] of inkExports) {
+      if (name === 'RIBBON_INK_STAIR_IGNITION') continue;
+      expect(value, `${name} names a hex colour`).not.toMatch(/#[0-9a-f]{3,8}/i);
+      expect(value, `${name} names a ground, ink or hairline colour`).not.toMatch(
+        /(^|[\s:])(text|bg|border|ring|ring-offset)-(white|black|slate-\d+)(\/[\d.[\]]+)?(\s|$)/
+      );
+    }
   });
 
   it('names no tone the ground cannot carry, and dims nothing with opacity', () => {
@@ -248,6 +279,10 @@ describe('the stage is dark in both themes, and says so', () => {
       // The root's neutral edge is a themed pair, because on a shut ribbon it
       // sits on the page rather than on the stage — pinned above.
       .filter((el) => el !== rootOf(container))
+      // The mesh's strokes are white, which paint nothing on the light stage, so
+      // it is switched off there (`darkOnly`) and not left as an invisible layer.
+      // A text-free decoration, with no colour of its own to get wrong.
+      .filter((el) => !(el.className.toString().includes('dark:block') && !el.textContent))
       .map((el) => `${el.tagName}.${el.getAttribute('class')}`)
       .filter((described) => themed.test(described.slice(described.indexOf('.') + 1)));
     expect(offenders, `theme variants on the stage:\n${offenders.join('\n')}`).toEqual([]);
@@ -261,7 +296,9 @@ describe('the stage is dark in both themes, and says so', () => {
       'div.border-l-2 p.font-serif.leading-relaxed'
     ) as HTMLElement;
     expect(check).toBeTruthy();
-    expect(check.className).toContain('text-slate-300');
+    // The stage's own secondary ink, from the palette: slate-300 on the dark
+    // stage and slate-600 on the light one.
+    expect(check.className).toContain('text-[rgb(var(--stage-ink-3))]');
     expect(check.className).not.toContain('--color-text');
     cleanup();
 
@@ -501,7 +538,7 @@ describe('the verb is set at poster scale, sized to the word', () => {
     // Drawn from the stage's one hue, falling to the same colour at zero alpha
     // (`transparent` is rgba(0,0,0,0), which Safari interpolates through grey).
     expect(RIBBON_INK_VERB_GLOW).toContain('radial-gradient(');
-    expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/0.32)');
+    expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/var(--verb-glow))');
     expect(RIBBON_INK_VERB_GLOW).toContain('rgb(var(--band-rgb)/0))');
     expect(RIBBON_INK_VERB_GLOW).not.toContain('transparent');
 
@@ -646,7 +683,7 @@ describe('the scoreboard states what the verb is worth, in telemetry', () => {
 
   it('draws its hairlines from a one-pixel gap over a lighter ground', () => {
     expect(RIBBON_INK_SCOREBOARD).toContain('gap-px');
-    expect(RIBBON_INK_SCOREBOARD).toMatch(/bg-white\/10/);
+    expect(RIBBON_INK_SCOREBOARD).toContain('bg-[rgb(var(--stage-line)/0.1)]');
   });
 });
 
@@ -785,7 +822,9 @@ describe('the staircase lights one geometry from one palette', () => {
     // At the height of tier 3's column: its fraction of the plot, above the
     // row of names.
     expect(line.style.bottom).toBe('calc(var(--label) + var(--plot) * 0.568)');
-    expect(line.style.borderColor).toBe(`rgb(${getBandRgb(3).split(' ').join(', ')})`);
+    // The tier's hue AS TEXT-GRADE LINE: the bright `-500` on the dark stage and
+    // the `-700` on the light one, which `--band-text` resolves per theme.
+    expect(line.style.borderColor).toBe('rgb(var(--band-text))');
 
     // A verb of another tier moves it, and remounts it, which is what replays
     // the draw-in.
@@ -925,7 +964,7 @@ describe('the staircase lights one geometry from one palette', () => {
     expect(numerals.map((n) => n.textContent)).toEqual(['1', '2', '3', '4', '5', '6']);
     for (const numeral of numerals) {
       expect(numeral.closest('[aria-hidden="true"]')).toBeNull();
-      expect(numeral.className).toMatch(/text-(white|slate-300)/);
+      expect(numeral.className).toMatch(/text-\[rgb\(var\(--stage-ink(-3)?\)\)\]/);
     }
     for (const label of Array.from(
       container.querySelectorAll(`[class*="${RIBBON_INK_STEP_LABEL}"]`)
@@ -934,8 +973,8 @@ describe('the staircase lights one geometry from one palette', () => {
     }
     // The idle names lift on hover by COLOUR — the rule this component spent
     // three fixes learning — and are never dimmed.
-    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('text-slate-300');
-    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('group-hover/step:text-white');
+    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('text-[rgb(var(--stage-ink-3))]');
+    expect(RIBBON_INK_STEP_LABEL_IDLE).toContain('group-hover/step:text-[rgb(var(--stage-ink))]');
     expect(RIBBON_INK_STEP_LABEL_IDLE).not.toContain('opacity-');
     expect(RIBBON_INK_STEP_LABEL).not.toContain('opacity-');
   });
@@ -945,7 +984,7 @@ describe('the staircase lights one geometry from one palette', () => {
 
     expect(RIBBON_INK_SCALE_RAIL).not.toContain('opacity-');
     expect(RIBBON_INK_SCALE_SPAN).not.toContain('opacity-');
-    expect(RIBBON_INK_SCALE_SPAN).toContain('text-slate-300');
+    expect(RIBBON_INK_SCALE_SPAN).toContain('text-[rgb(var(--stage-ink-3))]');
 
     const rail = container.querySelector(`[class="${RIBBON_INK_SCALE_RAIL}"]`) as HTMLElement;
     expect(rail).toBeTruthy();
@@ -1722,7 +1761,7 @@ describe('the banner is a themed bar, light in the light theme', () => {
       expect(value).toMatch(/(^|\s)dark:text-/);
     }
 
-    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
     const banner = getToggle();
     const words = [
       screen.getByText('HSC Command Verb Hierarchy'),
@@ -1737,7 +1776,6 @@ describe('the banner is a themed bar, light in the light theme', () => {
       );
       expect(word.className).toMatch(/(^|\s)dark:text-/);
     }
-    expect(container.querySelector('[class*="RIBBON"]')).toBeNull();
   });
 
   it('draws the unlit bars and the neutral tile from a themed pair', () => {
@@ -1777,13 +1815,131 @@ describe('the banner is a themed bar, light in the light theme', () => {
     expect(container).toBeTruthy();
   });
 
-  it('keeps the stage below the banner dark: the hero did not become light', () => {
-    // The banner is the only thing that changed theme. The ground under the hero
-    // is still the one fixed dark colour, and the ink on it is still named.
-    expect(RIBBON_ROOT).toContain('bg-[#070b14]');
-    expect(RIBBON_ROOT).toContain('text-white');
-    expect(RIBBON_ROOT).toContain('border-slate-300');
-    expect(RIBBON_ROOT).toContain('dark:border-white/15');
-    expect(RIBBON_INK_VERB).toContain('text-white');
+  it('leaves the dark stage exactly as it was, and gives the light one a soft ground', () => {
+    // The dark palette is the stage as it shipped: the same near-black ground and
+    // the same cell, so this change cannot have moved a pixel of the dark theme.
+    const dark = stagePalette('dark');
+    expect(dark['--stage-ground']).toBe('7 11 20');
+    expect(dark['--stage-cell']).toBe('11 19 34');
+    expect(dark['--stage-ink']).toBe('255 255 255');
+    // The light ground is soft — a tint of slate, not a second near-black — and the
+    // ink on it is dark. The point of the change is that it is not a slab.
+    const light = stagePalette('light');
+    expect(luminance(light['--stage-ground'])).toBeGreaterThan(0.9);
+    expect(luminance(light['--stage-ink'])).toBeLessThan(0.05);
+    expect(luminance(light['--stage-ground'])).toBeLessThan(1);
+    // …and distinct from the white banner above it and the white drawer below, or
+    // the stage would have no edge.
+    expect(light['--stage-ground']).not.toBe('255 255 255');
+  });
+
+  it('defines every property in both themes, so neither can be left on the other’s value', () => {
+    const dark = stagePalette('dark');
+    const light = stagePalette('light');
+    expect(Object.keys(light).sort()).toEqual(Object.keys(dark).sort());
+    // And the hue: `--band-text` is the bright hue on the dark stage and the
+    // `-700` ink on the light one.
+    const css = readFileSync('index.css', 'utf8');
+    expect(css).toMatch(/\.ribbon-stage-hue\s*\{\s*--band-text:\s*var\(--band-rgb\);\s*\}/);
+    expect(css).toMatch(
+      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{\s*--band-text:\s*var\(--band-ink\);\s*\}/
+    );
+  });
+
+  // The thing a class-string test cannot say, and the one that matters: whether
+  // the words are legible. Every ink on every ground it can sit on, in both
+  // themes, at the strength the palette draws it.
+  describe('is legible in both themes', () => {
+    const TIERS = [1, 2, 3, 4, 5, 6];
+    /** The tier's text hue on the stage, the way `--band-text` resolves it. */
+    const hueOf = (theme: 'dark' | 'light', tier: number) =>
+      theme === 'dark' ? getBandRgb(tier) : getBandInkRgb(tier);
+
+    for (const theme of ['dark', 'light'] as const) {
+      it(`${theme}: the neutral inks clear 4.5:1 on the ground and on a scoreboard cell`, () => {
+        const palette = stagePalette(theme);
+        for (const ink of ['--stage-ink', '--stage-ink-2', '--stage-ink-3']) {
+          for (const ground of ['--stage-ground', '--stage-cell']) {
+            const ratio = contrast(palette[ink], palette[ground]);
+            expect(
+              ratio,
+              `${theme}: ${ink} on ${ground} is ${ratio.toFixed(2)}:1`
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      });
+
+      it(`${theme}: all six tier hues clear 4.5:1 as text on the ground and on a cell`, () => {
+        const palette = stagePalette(theme);
+        for (const tier of TIERS) {
+          for (const ground of ['--stage-ground', '--stage-cell']) {
+            const ratio = contrast(hueOf(theme, tier), palette[ground]);
+            expect(
+              ratio,
+              `${theme}: tier ${tier} text on ${ground} is ${ratio.toFixed(2)}:1`
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      });
+
+      it(`${theme}: the ink on the tier chip clears 4.5:1 over the tint it sits on`, () => {
+        const palette = stagePalette(theme);
+        const alpha = Number(palette['--chip-fill']);
+        for (const tier of TIERS) {
+          // The chip's own fill, composited over the ground the way the browser does.
+          const tint = mix(getBandRgb(tier), palette['--stage-ground'], alpha);
+          const ratio = contrast(palette['--stage-ink'], tint);
+          expect(
+            ratio,
+            `${theme}: tier ${tier} chip is ${ratio.toFixed(2)}:1 against its own tint`
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      });
+    }
+
+    it('the light ink shades are the -700 steps, derived from one map', () => {
+      for (const tier of TIERS) {
+        const hex = BAND_HEX_INK[tier];
+        expect(getBandInkRgb(tier)).toBe(
+          [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(' ')
+        );
+        // A different colour from the fill hue, or there would be nothing to switch.
+        expect(getBandInkRgb(tier)).not.toBe(getBandRgb(tier));
+      }
+    });
   });
 });
+
+/** The stage palette for one theme, read back out of `index.css`. */
+const stagePalette = (theme: 'dark' | 'light'): Record<string, string> => {
+  const css = readFileSync('index.css', 'utf8');
+  const selector =
+    theme === 'dark' ? '\\.ribbon-stage' : "\\[data-theme='light'\\] \\.ribbon-stage";
+  const block = css.match(new RegExp(`(?:^|\\n)${selector}\\s*\\{([^}]*)\\}`));
+  expect(block, `the ${theme} stage palette is not in index.css`).toBeTruthy();
+  return Object.fromEntries(
+    Array.from(block![1].matchAll(/(--[a-z0-9-]+):\s*([^;]+);/g)).map((m) => [m[1], m[2].trim()])
+  );
+};
+
+/** WCAG relative luminance of an `r g b` triplet. */
+const luminance = (triplet: string): number => {
+  const [r, g, b] = triplet.split(' ').map((v) => {
+    const c = Number(v) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+/** WCAG contrast ratio between two `r g b` triplets. */
+const contrast = (a: string, b: string): number => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+
+/** `top` over `bottom` at `alpha`, as an `r g b` triplet. */
+const mix = (top: string, bottom: string, alpha: number): string => {
+  const t = top.split(' ').map(Number);
+  const u = bottom.split(' ').map(Number);
+  return t.map((v, i) => Math.round(v * alpha + u[i] * (1 - alpha))).join(' ');
+};
