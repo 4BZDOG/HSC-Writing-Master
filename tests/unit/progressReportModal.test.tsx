@@ -749,6 +749,10 @@ describe('dialog behaviour', () => {
     renderDialog();
     const dialog = screen.getByRole('dialog');
     await waitFor(() => expect(document.activeElement).toBe(dialog));
+    // Download is disabled while the history loads, and a disabled button cannot take
+    // focus — so on a slow machine the Tab below would start from the dialog, not from
+    // the last control. Wait for the ready state before moving focus.
+    await waitFor(() => expect((download() as HTMLButtonElement).disabled).toBe(false));
 
     const download0 = download();
     download0.focus();
