@@ -19,6 +19,7 @@ import { supabase } from './supabaseClient';
 import { isCurriculumRemote } from './curriculumService';
 import { resolvePromptRowId, resolvePromptRowIds } from './contributionService';
 import type { EvaluationResult, UserFeedback } from '../types';
+import { toOwnAttempts, type OwnAttempt, type OwnEventRow } from '../utils/profileHistory';
 
 // --- Class analytics (reviewer-facing read path over persisted responses) ----
 
@@ -255,6 +256,38 @@ export const fetchStudentProgress = async (
   // `trend` is absent on a database that predates the history table — treat it
   // as empty rather than undefined so the UI can rely on the array.
   return { ...progress, trend: progress.trend ?? [] };
+};
+
+/**
+ * The caller's OWN attempt history, newest first, for the profile's charts.
+ *
+ * Reads `response_events` (append-only, no draft text) for the signed-in user.
+ * The `response_events_read` policy admits the row owner as well as reviewers
+ * (`can_view_student`), so a student can read their own history and nobody
+ * else's. The question's verb and marks come off the embedded `prompts` row.
+ *
+ * Not the reviewer RPC `fetchStudentProgress`: that one is gated to reviewers,
+ * and a student's own profile must not depend on it.
+ *
+ * Resolves to `null` when there is no online account to read from (local mode, or
+ * a guest with no session), so the profile can say so rather than draw an empty
+ * chart that reads as "no attempts". Throws on a failed read, for the same reason.
+ *
+ * The `supabase` check comes first and short-circuits the mode check, so a caller
+ * in local mode never reaches `isCurriculumRemote`.
+ */
+export const fetchMyAttemptHistory = async (limit = 200): Promise<OwnAttempt[] | null> => {
+  if (!supabase || !isCurriculumRemote()) return null;
+  const userId = await currentUserId();
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from('response_events')
+    .select('mark, band, word_count, created_at, prompts(verb, total_marks)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(Math.max(1, Math.trunc(limit)));
+  if (error) throw new Error(error.message);
+  return toOwnAttempts((data ?? []) as unknown as OwnEventRow[]);
 };
 
 export interface ResponsePersistInput {

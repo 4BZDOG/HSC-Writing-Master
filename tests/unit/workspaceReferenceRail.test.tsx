@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import ReferenceMaterials, { AccordionSection } from '../../components/ReferenceMaterials';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { Prompt, CourseOutcome, PromptVerb, SampleAnswer, Topic } from '../../types';
@@ -69,7 +69,9 @@ const sectionTitles = () =>
   );
 
 describe('ReferenceMaterials rail', () => {
-  it('orders the panels so standards are read before the criteria', () => {
+  // What's Assessed, Common mistakes and Grade Standards are off the rail for
+  // now; what remains is the terms, then the marking guide.
+  it('carries only the Syllabus Terms and Marking Guide panels', () => {
     render(
       <ReferenceMaterials
         {...railProps}
@@ -79,10 +81,29 @@ describe('ReferenceMaterials rail', () => {
       />
     );
     const titles = sectionTitles();
-    expect(titles[0]).toMatch(/What's Assessed/i);
-    expect(titles[1]).toMatch(/Syllabus Terms/i);
-    expect(titles[2]).toMatch(/Grade Standards/i);
-    expect(titles[3]).toMatch(/Marking Guide/i);
+    expect(titles).toHaveLength(2);
+    expect(titles[0]).toMatch(/Syllabus Terms/i);
+    expect(titles[1]).toMatch(/Marking Guide/i);
+  });
+
+  it('does not render the hidden panels, even when their data is present', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({
+          commonStudentErrors: ['Confusing transcription with replication'],
+          markerNotes: ['Credit explicit mention of start codons'],
+        })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+        userRole="admin"
+      />
+    );
+    expect(screen.queryByText(/What's Assessed/i)).toBeNull();
+    expect(screen.queryByText(/Common mistakes/i)).toBeNull();
+    expect(screen.queryByText(/Grade Standards/i)).toBeNull();
+    expect(screen.queryByText(OUTCOMES[0].description)).toBeNull();
+    expect(screen.queryByText(/Confusing transcription/)).toBeNull();
   });
 
   // The exemplars moved out of the rail entirely — they now dock beneath the
@@ -97,56 +118,6 @@ describe('ReferenceMaterials rail', () => {
       />
     );
     expect(screen.queryByText(/Sample Answers/i)).toBeNull();
-  });
-
-  it('marks every outcome with the target icon', () => {
-    const { container } = render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    // One per outcome row, plus the panel's own heading icon.
-    const targets = container.querySelectorAll('.lucide-target');
-    expect(targets.length).toBeGreaterThanOrEqual(OUTCOMES.length + 1);
-  });
-
-  it('names every linked outcome and opens its briefing on click', async () => {
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-        breadcrumb={['Biology', 'Heredity', 'Synthesis', 'Dot point']}
-      />
-    );
-    // The count moved out of the title and into the `subtitle` prop that
-    // AccordionSection already had for it — the title is the panel's name, and
-    // it now renders in the display voice, where a middle-dot meta string was
-    // the loudest thing on the rail. See DesignSpec §4, "Headings".
-    expect(screen.getByText(/^What's Assessed$/i)).toBeTruthy();
-    expect(screen.getByText(/^2 outcomes$/i)).toBeTruthy();
-    // The description is spelled out in the rail, not hidden behind a chip.
-    expect(screen.getByText(OUTCOMES[0].description)).toBeTruthy();
-
-    fireEvent.click(screen.getByText('BI-12-01'));
-    const dialog = await screen.findByRole('dialog');
-    expect(within(dialog).getAllByText('BI-12-01').length).toBeGreaterThan(0);
-  });
-
-  it('omits the outcomes panel entirely when nothing is linked', () => {
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt({ linkedOutcomes: [] })}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    expect(screen.queryByText(/What's Assessed/i)).toBeNull();
   });
 });
 
@@ -259,54 +230,12 @@ describe('panel chrome consistency', () => {
       </>
     );
     const panels = Array.from(document.querySelectorAll('button[aria-expanded]'));
-    expect(panels.length).toBe(5);
+    expect(panels.length).toBe(3);
     // Screen readers get the same story from all of them, exemplars included.
     for (const panel of panels) {
       expect(panel.getAttribute('aria-expanded')).toMatch(/true|false/);
       expect(panel.getAttribute('aria-controls')).toBeTruthy();
     }
-  });
-
-  // A DESCRIBE question reaches Band 2 at most. The ladder above it is still
-  // shown — that is how a student learns what the verb holds back — but it no
-  // longer reads as if every rung were on offer.
-  it('marks the top band a question can reach, and says why the rungs above are out of reach', () => {
-    const ladder = {
-      ...topic(),
-      performanceBandDescriptors: [
-        { band: 3, shortLabel: 'Developing', description: 'Basic understanding.' },
-        { band: 2, shortLabel: 'Limited', description: 'Elementary understanding.' },
-        { band: 1, shortLabel: 'Elementary', description: 'Minimal understanding.' },
-      ],
-    } as unknown as Topic;
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt({ verb: 'DESCRIBE' as PromptVerb, totalMarks: 4 })}
-        topic={ladder}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    expect(screen.getByText('This question reaches Band 2')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
-    expect(screen.getAllByText('Top band for this question')).toHaveLength(1);
-    expect(screen.getAllByText(/Beyond what a describe question can reach/)).toHaveLength(1);
-  });
-
-  // Only the seeded demo topics carried descriptors, so on an imported or
-  // library topic the panel vanished. It falls back to NESA's general set.
-  it('shows Grade Standards on a topic with no descriptors of its own', () => {
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={{ ...topic(), performanceBandDescriptors: undefined } as unknown as Topic}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
-    expect(screen.getByText('Band 6')).toBeTruthy();
-    expect(screen.getByText('Band 1')).toBeTruthy();
   });
 
   it('says the Marking Guide is not written yet rather than naming a band over nothing', () => {
@@ -357,35 +286,13 @@ describe('panel chrome consistency', () => {
         />
       );
 
-      expect(readSupportUsage('p1').available).toEqual([
-        'outcomes',
-        'keywords',
-        'gradeStandards',
-        'markingGuide',
-      ]);
+      expect(readSupportUsage('p1').available).toEqual(['keywords', 'markingGuide']);
       expect(readSupportUsage('p1').opened).toEqual([]);
 
       fireEvent.click(screen.getByRole('button', { name: /Marking Guide/i }));
 
       expect(readSupportUsage('p1').opened).toEqual(['markingGuide']);
-      expect(readSupportUsage('p1').skipped).toEqual(['outcomes', 'keywords', 'gradeStandards']);
-    });
-
-    it('records the outcome briefing when a student opens one', async () => {
-      resetSupportEngagement();
-      render(
-        <ReferenceMaterials
-          {...railProps}
-          prompt={prompt()}
-          topic={topic()}
-          courseOutcomes={OUTCOMES}
-        />
-      );
-
-      fireEvent.click(screen.getByText('BI-12-01'));
-      await screen.findByRole('dialog');
-
-      expect(readSupportUsage('p1').opened).toContain('outcomeBriefing');
+      expect(readSupportUsage('p1').skipped).toEqual(['keywords']);
     });
   });
 });
@@ -398,7 +305,7 @@ describe('panel chrome consistency', () => {
 describe('band-3 header icon badges use their matched text colour, not white-on-yellow', () => {
   it('AccordionSection (ReferenceMaterials rail)', () => {
     render(
-      <AccordionSection title="Grade Standards" icon={<span />} band={3} defaultOpen={true}>
+      <AccordionSection title="Marking Guide" icon={<span />} band={3} defaultOpen={true}>
         content
       </AccordionSection>
     );

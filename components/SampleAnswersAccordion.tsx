@@ -15,6 +15,40 @@ import {
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
+import {
+  RIBBON_HEADER_SUBLABEL,
+  RIBBON_HEADER_TILE,
+  RIBBON_HEADER_TITLE,
+  RIBBON_MINI_BAR_UNLIT,
+  RIBBON_MINI_STAIR,
+  RIBBON_TIER_CARD_IDLE,
+} from '../utils/verbRibbonChrome';
+import {
+  SAMPLE_EXEMPLAR_ACTIONS,
+  SAMPLE_EXEMPLAR_TOOLBAR,
+  SAMPLE_MINI_BAR,
+  SAMPLE_ROW_CAROUSEL,
+  SAMPLE_ROW_CHEVRON,
+  SAMPLE_ROW_DISCLOSURE,
+  SAMPLE_ROW_LINE,
+  SAMPLE_ROW_SCOREBOARD,
+  SAMPLE_PANEL_BODY,
+  SAMPLE_PANEL_HEADER,
+  SAMPLE_PANEL_LIT_EDGE,
+  SAMPLE_PANEL_LIT_GLOW,
+  SAMPLE_PANEL_TOGGLE,
+  SAMPLE_PANEL_TOOLS,
+  SAMPLE_ROW,
+  SAMPLE_ROW_BODY,
+  SAMPLE_ROW_EDGE_OPEN,
+  SAMPLE_ROW_EDGE_SHUT,
+  SAMPLE_ROW_HEADER,
+  SAMPLE_ROW_META,
+  SAMPLE_STAT_CELL,
+  SAMPLE_STAT_GRID,
+  SAMPLE_STAT_LABEL,
+  SAMPLE_STAT_VALUE,
+} from '../utils/sampleAnswerChrome';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import type { SyllabusKeywordContext } from '../services/geminiService';
@@ -37,7 +71,6 @@ import {
   ChevronRight,
   User as UserIcon,
   BookOpen,
-  Layers,
   Zap,
   Copy,
   Check,
@@ -206,6 +239,8 @@ const CarouselAccordionItem: React.FC<{
     // worth reading first — and keeps the rest one click away rather than
     // spending four rows of chips on near-identical AI variations.
     const [showAllVariants, setShowAllVariants] = useState(false);
+    // The row's expansion, named for its disclosure button (aria-controls).
+    const bodyId = useId();
     // Stepping past the fold with the header arrows opens the strip rather
     // than leaving the reader on an exemplar no chip is highlighting.
     const visibleVariants =
@@ -239,13 +274,13 @@ const CarouselAccordionItem: React.FC<{
 
     if (!currentSample) return null;
 
-    const handleNext = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    // The carousel's buttons are siblings of the disclosure, not children of it, so
+    // a press here never reaches the row's toggle and needs no `stopPropagation`.
+    const handleNext = () => {
       setCurrentIndex((prev) => (prev + 1) % group.answers.length);
     };
 
-    const handlePrev = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    const handlePrev = () => {
       setCurrentIndex((prev) => (prev - 1 + group.answers.length) % group.answers.length);
     };
 
@@ -267,96 +302,97 @@ const CarouselAccordionItem: React.FC<{
       Promise.resolve(onContribute(currentSample)).finally(() => setIsContributing(false));
     };
 
+    // A row is a tier card, in the ribbon's vocabulary: its edge is the group's own
+    // band, drawn from `--band-rgb` (set from `getBandRgb(displayBand)`), a whisper
+    // when shut and a statement when open. Its header is the band's tint, and the
+    // figures sit in a scoreboard. Nothing here is a second copy of the band palette.
     return (
       <div
-        className={`group border-b border-slate-100 dark:border-white/10 last:border-0 transition-all duration-500 ${isOpen ? bandConfig.bg : ''}`}
+        style={{ '--band-rgb': getBandRgb(displayBand) } as React.CSSProperties}
+        className={`group ${SAMPLE_ROW} ${RIBBON_TIER_CARD_IDLE} ${isOpen ? SAMPLE_ROW_EDGE_OPEN : SAMPLE_ROW_EDGE_SHUT}`}
       >
-        <button
-          onClick={onToggle}
-          className={`w-full py-4 px-6 flex items-center justify-between transition-all duration-300 relative overflow-hidden`}
-        >
-          {/* Collapsed rows carry a faint wash of their band colour so the
-              performance ladder reads at a glance before anything is opened. */}
-          <div
-            className={`absolute inset-0 bg-gradient-to-r ${bandConfig.gradient} pointer-events-none transition-opacity duration-500 ${
-              isOpen ? 'opacity-0' : 'opacity-[0.12] dark:opacity-[0.15] group-hover:opacity-[0.2]'
-            }`}
-          />
-          {/* Indicator Bar — always in band colour, full strength when open */}
-          <div
-            className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${bandConfig.solidBg} ${isOpen ? 'opacity-100' : 'opacity-40'}`}
-          />
-
-          <div className="flex items-center gap-5">
-            {/* Band Badge - Styled with tier colors */}
-            <div
-              className={`
-                flex flex-col items-center justify-center w-14 h-14 rounded-2xl border transition-all duration-500 relative overflow-hidden
-                ${
-                  isOpen
-                    ? `${bandConfig.bg} ${bandConfig.border} shadow-lg scale-105`
-                    : `bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20`
-                }
-            `}
-            >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} ${isOpen ? 'opacity-15' : 'opacity-5 group-hover:opacity-10'}`}
-              />
-              <span
-                className={`t-label mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-500 dark:text-slate-400'}`}
-              >
-                Band
-              </span>
-              <span className={`text-2xl font-black leading-none relative z-10 ${bandConfig.text}`}>
-                {displayBand}
-              </span>
-            </div>
-
-            <div className="text-left">
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-sm font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}
-                >
-                  {group.mark}/{prompt.totalMarks} marks
-                </span>
-                {/* Its length, because the first thing a student does with an
-                    exemplar is hold their own draft up against it, and the word
-                    guide under their draft counts in the same unit. */}
-                {!locked && (
-                  <span className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
-                    {countWords(currentSample.answer)} words
+        <div className={SAMPLE_ROW_HEADER}>
+          {/* The disclosure. It holds the scoreboard and the chevron, and it is a
+              button of its own: the carousel's controls are siblings of it on the
+              line beneath (see below), never inside it, so no button is nested in
+              another. */}
+          <button
+            type="button"
+            onClick={onToggle}
+            aria-expanded={isOpen}
+            aria-controls={bodyId}
+            className={SAMPLE_ROW_DISCLOSURE}
+          >
+            {/* The scoreboard. Each figure is one text run, so the row reads as
+              "6/6 marks" and "12 words" to a screen reader and to a search. The
+              band figure takes the band's own text shade, which is the one colour
+              a row says in words as well as in its edge. */}
+            <div className={SAMPLE_ROW_SCOREBOARD}>
+              <div className={SAMPLE_STAT_GRID}>
+                <div className={SAMPLE_STAT_CELL}>
+                  <span className={SAMPLE_STAT_LABEL}>Mark</span>
+                  <span className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white`}>
+                    {group.mark}/{prompt.totalMarks} marks
                   </span>
+                </div>
+                <div className={SAMPLE_STAT_CELL}>
+                  <span className={SAMPLE_STAT_LABEL}>Band</span>
+                  <span className={`${SAMPLE_STAT_VALUE} ${bandConfig.text}`}>{displayBand}</span>
+                </div>
+                {/* Its length, because the first thing a student does with an
+                exemplar is hold their own draft up against it, and the word
+                guide under their draft counts in the same unit. */}
+                {!locked && (
+                  <div className={SAMPLE_STAT_CELL}>
+                    <span className={SAMPLE_STAT_LABEL}>Length</span>
+                    <span
+                      className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white tabular-nums`}
+                    >
+                      {countWords(currentSample.answer)} words
+                    </span>
+                  </div>
                 )}
                 {group.answers.length > 1 && (
-                  <span className="t-label flex items-center gap-1 text-slate-400 bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-lg">
-                    <Layers className="w-2.5 h-2.5" /> {group.answers.length}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2 mt-1.5 opacity-90">
-                <SourceBadge
-                  source={currentSample.source}
-                  derivedFromStudent={currentSample.derivedFromStudent}
-                />
-                {currentSample.contentFlag?.status === 'open' && (
-                  <span
-                    className="t-label inline-flex items-center gap-1 px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
-                    title={`Flagged for review: ${currentSample.contentFlag.reason}`}
-                  >
-                    <Flag className="w-2.5 h-2.5 fill-current" /> Flagged
-                  </span>
+                  <div className={SAMPLE_STAT_CELL}>
+                    <span className={SAMPLE_STAT_LABEL}>Exemplars</span>
+                    <span
+                      className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white tabular-nums`}
+                    >
+                      {group.answers.length}
+                    </span>
+                  </div>
                 )}
               </div>
             </div>
-          </div>
+            <ChevronDown
+              className={`${SAMPLE_ROW_CHEVRON} ${isOpen ? 'rotate-180 text-slate-600 dark:text-white' : 'text-slate-400'}`}
+            />
+          </button>
 
-          <div className="flex items-center gap-4">
+          {/* The line beneath the disclosure: what the exemplar is (its source and
+              its flag) on the left, and the carousel on the right. The carousel's
+              buttons are siblings of the disclosure, so pressing them steps through
+              the exemplars and leaves the row as it is. */}
+          <div className={SAMPLE_ROW_LINE}>
+            <div className={SAMPLE_ROW_META}>
+              <SourceBadge
+                source={currentSample.source}
+                derivedFromStudent={currentSample.derivedFromStudent}
+              />
+              {currentSample.contentFlag?.status === 'open' && (
+                <span
+                  className="t-label inline-flex items-center gap-1 px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
+                  title={`Flagged for review: ${currentSample.contentFlag.reason}`}
+                >
+                  <Flag className="w-2.5 h-2.5 fill-current" /> Flagged
+                </span>
+              )}
+            </div>
+
             {isOpen && group.answers.length > 1 && (
-              <div
-                className="flex items-center gap-1 bg-white dark:bg-black/20 rounded-lg p-0.5 border border-slate-200 dark:border-white/10 shadow-sm"
-                onClick={(e) => e.stopPropagation()}
-              >
+              <div className={SAMPLE_ROW_CAROUSEL}>
                 <button
+                  type="button"
                   onClick={handlePrev}
                   aria-label="Previous sample"
                   className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
@@ -370,6 +406,7 @@ const CarouselAccordionItem: React.FC<{
                   {currentIndex + 1}/{group.answers.length}
                 </span>
                 <button
+                  type="button"
                   onClick={handleNext}
                   aria-label="Next sample"
                   className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
@@ -378,19 +415,17 @@ const CarouselAccordionItem: React.FC<{
                 </button>
               </div>
             )}
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-600 dark:text-white' : 'text-slate-400'}`}
-            />
           </div>
-        </button>
+        </div>
 
         {/* Smooth Expansion Animation Container */}
         <div
+          id={bodyId}
           inert={!isOpen}
-          className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+          className={`grid transition-[grid-template-rows,opacity] duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
         >
           <div className="overflow-hidden">
-            <div className="px-6 pb-6 relative">
+            <div className={SAMPLE_ROW_BODY}>
               {/* A locked exemplar is a locked exemplar, not a blurred one.
                   This was `blur-sm` over the real prose, which the server had
                   already sent — one class removed in the inspector and the
@@ -484,7 +519,7 @@ const CarouselAccordionItem: React.FC<{
                   )}
 
                   {/* Controls Bar */}
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/[0.02]">
+                  <div className={SAMPLE_EXEMPLAR_TOOLBAR}>
                     <AnswerMetricsDisplay
                       metrics={metrics}
                       showLabel={false}
@@ -492,7 +527,7 @@ const CarouselAccordionItem: React.FC<{
                       band={displayBand}
                     />
 
-                    <div className="flex items-center gap-2 ml-auto">
+                    <div className={SAMPLE_EXEMPLAR_ACTIONS}>
                       {/* "Use" writes the exemplar straight into the student's
                         draft, which is the one thing the writing surface refuses
                         to let a student do by hand: paste is blocked there so a
@@ -745,6 +780,31 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       ? `${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'} · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'}`
       : 'No models yet') + ` · Band ceiling ${maxPossibleBand}`;
 
+  // The tier's hue for the whole panel: the tile, the edge and the glow below are
+  // all drawn from this one `--band-rgb`, the same palette the rows and the ribbon
+  // use. A verb always has a tier, so the tile is always lit.
+  const tierRgb = getBandRgb(commandTermInfo.tier);
+
+  // The mini ladder: six bars, one per band, read against the verb's ceiling.
+  // Three states, and they are the point of the glyph:
+  //   - SOLID, in the band's colour: at least one exemplar is written at that
+  //     band. The student has a model to read there.
+  //   - FAINT, the band's colour at a third: the verb can reach that band, and no
+  //     exemplar has been written for it yet. This is the gap a curator fills.
+  //   - GREY: above the verb's band ceiling, so no response to it can reach that
+  //     band whatever the student writes.
+  // A band that is covered is always within the ceiling (`getBandForMark` caps
+  // every group at the verb's tier), so SOLID is a subset of the reachable bands.
+  const coveredBands = useMemo(
+    () => new Set(groupedAnswers.map((g) => g.calculatedBand)),
+    [groupedAnswers]
+  );
+  const ladderTitle = `Model answers at ${
+    coveredBands.size > 0
+      ? `Band ${[...coveredBands].sort((a, b) => a - b).join(', ')}`
+      : 'no band yet'
+  }; band ceiling Band ${maxPossibleBand}`;
+
   const handleRecalibrate = async (
     sampleIds: string[],
     onProgress?: (done: number, total: number) => void
@@ -761,7 +821,22 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   };
 
   return (
-    <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
+    // The panel is a tier-lit card when it is open: its edge and its glow are the
+    // tier's, drawn from `--band-rgb`, the same device as the verb ribbon's stage.
+    // Shut, it is the neutral folder every other reference panel is. The glow is a
+    // box shadow and not a sibling layer, because PANEL_SURFACE is pinned as the
+    // panel's root (see SAMPLE_PANEL_LIT_GLOW).
+    <div
+      style={
+        {
+          '--band-rgb': tierRgb,
+          ...(isCollapsed
+            ? {}
+            : { borderColor: SAMPLE_PANEL_LIT_EDGE, boxShadow: SAMPLE_PANEL_LIT_GLOW }),
+        } as React.CSSProperties
+      }
+      className={`${PANEL_SURFACE} mb-3 last:mb-0`}
+    >
       {/* Header: the disclosure on the left, the panel's own controls on the
           right. Reading size, "Generate" and "Recalibrate" used to live in a
           strip inside the body, which meant a student had to open the panel to
@@ -772,11 +847,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           Access is decided per control: the zoom is a reading aid everybody
           gets, while the two AI actions are gated on `canUseAiGeneration` and
           are simply not rendered for a student or a guest. */}
-      <div
-        className={`w-full flex items-stretch relative overflow-hidden transition-all ${
-          isCollapsed ? '' : PANEL_HEADER_OPEN
-        }`}
-      >
+      <div className={`${SAMPLE_PANEL_HEADER} ${isCollapsed ? '' : PANEL_HEADER_OPEN}`}>
         <div
           className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
         />
@@ -785,36 +856,23 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           onClick={() => setIsCollapsed((c) => !c)}
           aria-expanded={!isCollapsed}
           aria-controls={panelId}
-          className={`flex-1 min-w-0 ${PANEL_ROW_MIN_H} py-3.5 pl-5 pr-3 flex items-center gap-4 text-left transition-all group relative z-10 ${
+          className={`${SAMPLE_PANEL_TOGGLE} ${PANEL_ROW_MIN_H} group ${
             isCollapsed ? PANEL_HEADER_CLOSED : ''
           }`}
         >
+          {/* The tier's tile, in the ribbon's header vocabulary. The tier is always
+              known for a verb, so the tile is always lit — the ribbon does the same
+              once a verb is chosen. Its icon stays the bookmark this panel has. */}
           <div
-            className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border transition-all duration-500 ${
-              isCollapsed
-                ? 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'
-                : `${maxBandConfig.solidBg} border-white/20 ${maxBandConfig.solidText} shadow-lg`
-            }`}
+            className={`${RIBBON_HEADER_TILE} ${maxBandConfig.solidBg} ${maxBandConfig.solidText} border-white/20`}
           >
             <Bookmark className="w-4 h-4" />
           </div>
           <div className="text-left min-w-0">
-            <span
-              // The panel's own name, so it takes the section voice like every
-              // other panel heading on the workspace. The exemplar count under
-              // it stays `.t-label` — a caption for this heading, not another.
-              className={`t-section block ${
-                isCollapsed
-                  ? 'text-slate-500 dark:text-slate-400'
-                  : 'text-slate-900 dark:text-white'
-              }`}
-            >
-              Sample Answers
-            </span>
-            <span
-              title={exemplarSummary}
-              className={`t-label block truncate ${maxBandConfig.text}`}
-            >
+            {/* The panel's own name, in the ribbon's header title voice. The
+                exemplar summary under it is the ribbon's sublabel. */}
+            <span className={RIBBON_HEADER_TITLE}>Sample Answers</span>
+            <span title={exemplarSummary} className={RIBBON_HEADER_SUBLABEL}>
               {exemplarSummary}
             </span>
           </div>
@@ -828,7 +886,33 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           </div>
         </button>
 
-        <div className="flex items-center gap-2 pl-2 pr-4 relative z-10 shrink-0">
+        <div className={SAMPLE_PANEL_TOOLS}>
+          {/* The ceiling in miniature, as the ribbon draws it: one bar per band,
+              rising. It is decorative — the summary above says the same in words,
+              so it is hidden from assistive technology, and below `sm` it is not
+              drawn at all, as the ribbon's is not. It sits with the tools rather
+              than in the title's row, so when the header wraps it wraps with them
+              and never takes room from the title. See `ladderTitle` for the reading
+              of each state. */}
+          <span className={RIBBON_MINI_STAIR} aria-hidden="true" title={ladderTitle}>
+            {[1, 2, 3, 4, 5, 6].map((band) => {
+              const reachable = band <= maxPossibleBand;
+              const covered = coveredBands.has(band);
+              const bandRgb = getBandRgb(band);
+              const fill = covered
+                ? { backgroundColor: `rgb(${bandRgb.split(' ').join(', ')})` }
+                : reachable
+                  ? { backgroundColor: `rgba(${bandRgb.split(' ').join(', ')}, 0.35)` }
+                  : {};
+              return (
+                <span
+                  key={band}
+                  className={`${SAMPLE_MINI_BAR} ${reachable ? '' : RIBBON_MINI_BAR_UNLIT}`}
+                  style={{ height: `${5 + (band - 1) * 2.2}px`, ...fill }}
+                />
+              );
+            })}
+          </span>
           <div className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
             <button
               onClick={() => setFontSize(Math.max(12, fontSize - 2))}
@@ -897,7 +981,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       {/* Folded away means not rendered — a card with several exemplars, each
           running its own metrics, should not keep working out of sight. */}
       {!isCollapsed && (
-        <div id={panelId}>
+        <div id={panelId} className={SAMPLE_PANEL_BODY}>
           {groupedAnswers.length > 0 ? (
             groupedAnswers.map((group) => (
               <CarouselAccordionItem
@@ -925,7 +1009,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 No model responses available yet.
               </p>
               {canCurate && (
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">
                   Click generate to create exemplary answers.
                 </p>
               )}
