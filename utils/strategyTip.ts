@@ -75,3 +75,74 @@ export const parseStrategyTip = (tip: string | undefined | null): TipSegment[] =
     return { kind: 'point' as const, text: line };
   });
 };
+
+/** What a point can introduce: never another point. */
+export type TipDetail = Exclude<TipSegment, { kind: 'point' }>;
+
+/** A point, together with the example or term list it introduces. */
+export interface TipMove {
+  text: string;
+  detail: TipDetail[];
+}
+
+/**
+ * Re-groups flat segments into moves. `parseStrategyTip` already knows that a
+ * line following one that ends in a colon belongs to it; this attaches it.
+ */
+export const groupStrategyMoves = (segments: TipSegment[]): TipMove[] => {
+  const moves: TipMove[] = [];
+  for (const segment of segments) {
+    if (segment.kind === 'point') {
+      moves.push({ text: segment.text, detail: [] });
+    } else if (moves.length > 0) {
+      moves[moves.length - 1].detail.push(segment);
+    }
+  }
+  return moves;
+};
+
+/**
+ * Cues that a move names what to avoid or what it costs, not what to do. The
+ * tips are written that way: a method line, then a line on what it costs
+ * ("Explanations waste time…", "Facts alone don't explain…"). Matched on the
+ * words themselves rather than per verb, so a new tip is classified by what it
+ * says.
+ */
+const CAVEAT_CUE =
+  /\b(alone|only|not|no|never|don['’]?t|doesn['’]?t|do not|avoid|waste[sd]?|zero|instead|rather than|without|save|more than|too|over-\w+)\b/i;
+
+/** Whether a move reads as a caveat or a cost rather than a step to take. */
+export const isCaveatMove = (move: TipMove): boolean => CAVEAT_CUE.test(move.text);
+
+/**
+ * The moves a student follows, and the ones they should watch for.
+ *
+ * `method[0]` is always the lead: the first move leads, whatever it says. The
+ * rest split by what they say. A step to take is numbered after it, and a
+ * caveat goes under "Watch for".
+ */
+export const splitMethodMoves = (moves: TipMove[]): { method: TipMove[]; watch: TipMove[] } => {
+  const [lead, ...rest] = moves;
+  return {
+    method: lead ? [lead, ...rest.filter((move) => !isCaveatMove(move))] : [],
+    watch: rest.filter(isCaveatMove),
+  };
+};
+
+/**
+ * Every term list and template a tip offers, gathered across all its moves.
+ * Terms are de-duplicated and keep the order the tip gives them in.
+ */
+export const collectStrategyDetail = (
+  moves: TipMove[]
+): { terms: string[]; examples: string[] } => {
+  const terms = new Set<string>();
+  const examples: string[] = [];
+  for (const move of moves) {
+    for (const segment of move.detail) {
+      if (segment.kind === 'terms') segment.items.forEach((item) => terms.add(item));
+      else examples.push(segment.text);
+    }
+  }
+  return { terms: [...terms], examples };
+};

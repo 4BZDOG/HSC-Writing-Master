@@ -235,7 +235,10 @@ describe('the panels below the cards share one surface', () => {
 
   it('dresses the draft check the same way', () => {
     const { container } = render(
-      <DraftCheck insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]} />
+      <DraftCheck
+        insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]}
+        wordCount={20}
+      />
     );
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
   });
@@ -249,7 +252,7 @@ describe('the panels below the cards share one surface', () => {
    */
   it('gives every panel in the column the same name treatment', () => {
     const named = [
-      render(<DraftCheck insights={[]} />).container,
+      render(<DraftCheck insights={[]} wordCount={0} />).container,
       render(
         <SampleAnswersAccordion
           prompt={prompt()}
@@ -290,7 +293,7 @@ describe('the panels below the cards share one surface', () => {
         render(<WritingMetricsDashboard userAnswer="" prompt={prompt()} onAddWord={vi.fn()} />)
           .container,
       ],
-      ['draft check', render(<DraftCheck insights={[]} />).container],
+      ['draft check', render(<DraftCheck insights={[]} wordCount={0} />).container],
       [
         'exemplars',
         render(

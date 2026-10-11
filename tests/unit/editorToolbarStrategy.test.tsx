@@ -76,7 +76,9 @@ describe('the verb brief', () => {
 
   const strategyToggle = () => screen.getByRole('button', { name: /how to answer a .* question/i });
   const openPanel = () =>
-    document.getElementById(strategyToggle().getAttribute('aria-controls') as string) as HTMLElement;
+    document.getElementById(
+      strategyToggle().getAttribute('aria-controls') as string
+    ) as HTMLElement;
   const writingSurface = () => document.querySelector('textarea') as HTMLTextAreaElement;
 
   beforeEach(() => {
@@ -123,8 +125,10 @@ describe('the verb brief', () => {
     expect(screen.getByText(term())).toBeTruthy();
     expect(screen.getByText(definition())).toBeTruthy();
     // Shut, so the method is not competing with the writing area for height.
+    // The card is mounted all the same, so it can fold without a layout jump;
+    // while shut it is inert, which takes its controls out of reach.
     expect(strategyToggle().getAttribute('aria-expanded')).toBe('false');
-    expect(screen.queryByText(firstTip('DESCRIBE'))).toBeNull();
+    expect(openPanel().hasAttribute('inert')).toBe(true);
   });
 
   /**

@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useState,
   useMemo,
-  useId,
 } from 'react';
 import {
   renderEditorHighlights,
@@ -29,7 +28,6 @@ import {
   ZoomOut,
   Compass,
   GraduationCap,
-  ChevronDown,
   X,
   Loader2,
 } from 'lucide-react';
@@ -39,7 +37,7 @@ import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
-import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import {
   CARD_HEADER_BAR,
@@ -53,7 +51,7 @@ import {
   CARD_HEADER_TITLE_BLOCK,
   CARD_HEADER_TRAY,
 } from '../utils/cardChrome';
-import StrategyBrief from './StrategyBrief';
+import HowToAnswer from './HowToAnswer';
 
 interface EditorProps {
   value: string;
@@ -208,7 +206,6 @@ const Editor = forwardRef<
     const strategyOpened = useOpenedOnce(showStrategy, verb);
     // Bold/italic, folded away by default — see the toolbar below.
     const [showFormatting, setShowFormatting] = useState(false);
-    const strategyPanelId = useId();
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
 
@@ -814,67 +811,16 @@ const Editor = forwardRef<
             So the definition is stated once on this surface and the panel
             below opens headless. Every surface in the app that shows a verb
             now names it exactly once. */}
+          {/* The definition is CONTENT and the method is a control, so they
+              are separate elements: see `HowToAnswer`. The row names the verb
+              and its meaning; the card opens headless beneath it. */}
           {!isExamMode && verb && (
-            <div className="border-t border-white/10 light:border-slate-300">
-              {/* The definition is CONTENT, and the toggle is a control, so
-                  they are not the same element.
-
-                  The whole row was one button for a moment, which put the
-                  definition inside the control's accessible name: a screen
-                  reader announced "DESCRIBE, provide the characteristics and
-                  features of something in detail, How to answer, button" as
-                  the label of a thing to press. It also meant a student who
-                  clicked the sentence to re-read it collapsed the panel they
-                  were reading. A named button of its own says exactly what it
-                  does, and the sentence beside it stays a sentence. */}
-              <div className="flex items-baseline gap-x-3 px-4 sm:px-6 py-2">
-                <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-primary))]">
-                  {verbInfo.term}
-                </span>
-                {/* The meaning, in the reading face. It WRAPS rather than
-                    truncating: this is the one sentence a student most needs
-                    and the longest of them runs past a phone's width, so
-                    trimming it would withhold the thing the row is for. */}
-                <p className="font-serif text-[13px] leading-snug min-w-0 text-[rgb(var(--color-text-muted))]">
-                  {verbInfo.definition}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setShowStrategy((s) => !s)}
-                  aria-expanded={showStrategy}
-                  aria-controls={strategyPanelId}
-                  className="t-label ml-auto flex-shrink-0 self-center flex items-center gap-2 -mr-1.5 px-1.5 py-1 rounded-lg transition-colors duration-300 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))] hover:bg-black/5 light:hover:bg-slate-100"
-                >
-                  <PanelReadChip show={strategyOpened && !showStrategy} />
-                  {/* Named, not a bare chevron. It is the one control on this
-                      card that can say what a student gets by pressing it, and
-                      "How to answer" is the question they arrived with. The
-                      verb goes in the accessible name rather than the visible
-                      one, which already sits two words to the left. */}
-                  <span className="hidden sm:inline">
-                    {showStrategy ? 'Hide' : 'How to answer'}
-                  </span>
-                  <span className="sr-only">
-                    {showStrategy ? 'Hide how to answer a ' : 'How to answer a '}
-                    {verbInfo.term} question
-                  </span>
-                  <ChevronDown
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      showStrategy ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-              </div>
-              {showStrategy && (
-                <div id={strategyPanelId} className="px-4 sm:px-6 pb-4 animate-fade-in">
-                  {/* Headless: the row above names the verb and states its
-                      meaning, so what is left for the brief is the method and
-                      its checks — which is the half a student cannot get from
-                      the definition alone. */}
-                  <StrategyBrief verb={verb} lead="none" />
-                </div>
-              )}
-            </div>
+            <HowToAnswer
+              verb={verb}
+              open={showStrategy}
+              onToggle={() => setShowStrategy((s) => !s)}
+              read={strategyOpened}
+            />
           )}
 
           {/* Editor Body with Grid Stacking for Auto-Height */}
