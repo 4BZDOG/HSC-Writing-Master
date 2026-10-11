@@ -284,6 +284,18 @@ describe('student report, filters', () => {
     expect(labels(report)).not.toContain('Streak');
   });
 
+  it('names only the filter that is actually set when nothing matches', () => {
+    const course = { id: 'course-none', name: 'Nothing' };
+    const wording = (over: Parameters<typeof options>[0]) =>
+      buildStudentReport({ stats, history: withPhysics(), options: options(over) }).notes;
+    expect(wording({ courseFilter: course, windowDays: 'all' })).toContain(
+      'No marked answers match this course.'
+    );
+    expect(wording({ courseFilter: null, windowDays: 1 })).toContain(
+      'No marked answers match this period.'
+    );
+  });
+
   it('says so when a filter matches nothing, rather than showing the unfiltered report', () => {
     const report = buildStudentReport({
       stats,
@@ -294,7 +306,7 @@ describe('student report, filters', () => {
     expect(values(report)[1]).toBe('—');
     expect(report.trend).toEqual([]);
     expect(report.trendCaption).toBe(NO_TREND_CAPTION);
-    expect(report.notes).toContain('No marked answers match this course and period.');
+    expect(report.notes).toContain('No marked answers match this course.');
     noBadValues(report);
   });
 

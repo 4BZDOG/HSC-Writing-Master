@@ -459,11 +459,15 @@ const studentFromHistory = (
 
   const notes: string[] = [];
   if (scored.length === 0) {
-    notes.push(
-      courseFilter !== null || windowDays !== 'all'
-        ? 'No marked answers match this course and period.'
-        : 'No marked answers yet.'
-    );
+    const scope =
+      courseFilter !== null && windowDays !== 'all'
+        ? 'this course and period'
+        : courseFilter !== null
+          ? 'this course'
+          : windowDays !== 'all'
+            ? 'this period'
+            : null;
+    notes.push(scope ? `No marked answers match ${scope}.` : 'No marked answers yet.');
   } else {
     notes.push(BAND_CAP_NOTE);
   }
