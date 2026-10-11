@@ -5,16 +5,14 @@ import ReferenceMaterials from '../../components/ReferenceMaterials';
 import { Prompt, PromptVerb, UserRole } from '../../types';
 
 /**
- * "Common mistakes" carries two audiences, and only one of them is the student.
+ * "Common mistakes" is off the workspace for now.
  *
- * `commonStudentErrors` is written about students and is useful to them.
- * `markerNotes` is written TO a marker — "Credit explicit mention of…",
- * "Higher marks awarded for…" — so it sits behind `canCurateContent`. A
- * screenshot cannot prove a role boundary holds; this can.
- *
- * Both lists were authored, validated, migrated and round-tripped through
- * Supabase for the life of the project, and rendered nowhere: 119 shipped
- * questions carry mistakes and 126 carry marker notes that nobody could read.
+ * `commonStudentErrors` and `markerNotes` are still authored, validated and
+ * stored with each question — only the panel that showed them is gone. This
+ * pins that neither list reaches the screen for any role, so a half-restored
+ * panel (the marker notes in particular, which are written TO a marker) cannot
+ * slip back in unnoticed. When the panel returns, restore the role-boundary
+ * tests from this file's history.
  */
 
 vi.mock('../../services/geminiService', () => ({}));
@@ -24,7 +22,7 @@ afterEach(cleanup);
 const MISTAKE = 'Confusing transcription with replication';
 const NOTE = 'Credit explicit mention of start and stop codons';
 
-const prompt = (over: Partial<Prompt> = {}): Prompt =>
+const prompt = (): Prompt =>
   ({
     id: 'p1',
     question: 'Explain how DNA replication ensures genetic continuity.',
@@ -36,13 +34,12 @@ const prompt = (over: Partial<Prompt> = {}): Prompt =>
     isPastHSC: false,
     commonStudentErrors: [MISTAKE],
     markerNotes: [NOTE],
-    ...over,
   }) as Prompt;
 
-const renderRail = (role: UserRole, over: Partial<Prompt> = {}) =>
+const renderRail = (role: UserRole) =>
   render(
     <ReferenceMaterials
-      prompt={prompt(over)}
+      prompt={prompt()}
       topic={undefined}
       userRole={role}
       courseOutcomes={[]}
@@ -55,41 +52,15 @@ const renderRail = (role: UserRole, over: Partial<Prompt> = {}) =>
       isSuggestingKeywords={false}
       suggestError={null}
       onMarkingCriteriaChange={() => {}}
-      {...({} as Record<string, never>)}
     />
   );
 
-describe('Common mistakes panel', () => {
-  it('shows a student what goes wrong, and never the marker notes', () => {
-    renderRail('user');
-    expect(screen.getByText(/common mistakes/i)).toBeTruthy();
-    expect(screen.getByText(MISTAKE)).toBeTruthy();
+describe('Common mistakes panel (hidden)', () => {
+  it.each<UserRole>(['user', 'teacher', 'admin'])('shows %s neither list', (role) => {
+    renderRail(role);
+    expect(screen.queryByText(/common mistakes/i)).toBeNull();
+    expect(screen.queryByText(MISTAKE)).toBeNull();
     expect(screen.queryByText(NOTE)).toBeNull();
     expect(screen.queryByText(/what the marker looks for/i)).toBeNull();
-  });
-
-  it('shows a curator both, with the rule naming the boundary', () => {
-    renderRail('admin');
-    expect(screen.getByText(MISTAKE)).toBeTruthy();
-    expect(screen.getByText(NOTE)).toBeTruthy();
-    expect(screen.getByText(/what the marker looks for/i)).toBeTruthy();
-  });
-
-  it('draws no rule when there is only one group to show', () => {
-    // Marker notes alone: nothing above the rule, so no rule.
-    renderRail('admin', { commonStudentErrors: [] });
-    expect(screen.getByText(NOTE)).toBeTruthy();
-    expect(screen.queryByText(/what the marker looks for/i)).toBeNull();
-  });
-
-  it('does not render the panel at all when the question has neither', () => {
-    renderRail('admin', { commonStudentErrors: [], markerNotes: [] });
-    expect(screen.queryByText(/common mistakes/i)).toBeNull();
-  });
-
-  it('does not render for a student when only marker notes exist', () => {
-    // The panel would otherwise open onto nothing they are allowed to read.
-    renderRail('user', { commonStudentErrors: [] });
-    expect(screen.queryByText(/common mistakes/i)).toBeNull();
   });
 });

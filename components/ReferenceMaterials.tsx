@@ -2,24 +2,18 @@ import React, { useId, useState, useMemo } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import OutcomeDetailModal from './OutcomeDetailModal';
-import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } from 'lucide-react';
-import { getBandConfig, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
+import { ChevronDown, Sparkles, ListChecks } from 'lucide-react';
+import { getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
-import { NESA_PERFORMANCE_BAND_DESCRIPTORS } from '../data/performanceBands';
-import { canCurateContent } from '../utils/permissions';
 import {
   PANEL_HEADER_CLOSED,
   PANEL_HEADER_OPEN,
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
-import { PROSE_FLOW } from '../utils/prose';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
-import { isFeatureLocked, planLabelForFeature } from '../services/entitlements';
-import { PlusLockChip } from './UpgradeModal';
 import { useSupportResource } from '../hooks/useSupportResource';
-import { markSupportOpened, type SupportResourceId } from '../utils/supportEngagement';
+import type { SupportResourceId } from '../utils/supportEngagement';
 
 interface AccordionSectionProps {
   title: string;
@@ -141,42 +135,13 @@ interface ReferenceMaterialsProps {
 }
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
-  const { prompt, topic, userRole, courseOutcomes = [], breadcrumb } = props;
+  const { prompt, topic, userRole, courseOutcomes = [] } = props;
 
-  // Second, fuller entry point to the outcome briefing. The chips in the prompt
-  // footer are a quick reminder of WHICH outcomes apply; this panel spells out
-  // what each one asks for and offers the in-context explanation by name, so a
-  // student can read it before attempting an answer rather than discovering it
-  // by chance.
-  const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
-  const briefingLocked = isFeatureLocked('outcomeBriefing');
+  // Only the tier's ceiling is needed here now: What's Assessed, Common
+  // mistakes and Grade Standards are off the workspace for the time being, and
+  // the data behind them (linked outcomes, `commonStudentErrors`,
+  // `markerNotes`, band descriptors) is left untouched so they can return.
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const tierConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
-  const canCurate = canCurateContent(userRole);
-  const commonMistakes = useMemo(
-    () => (prompt.commonStudentErrors || []).map((s) => s.trim()).filter(Boolean),
-    [prompt.commonStudentErrors]
-  );
-  const markerNotes = useMemo(
-    () => (prompt.markerNotes || []).map((s) => s.trim()).filter(Boolean),
-    [prompt.markerNotes]
-  );
-  const linkedOutcomes = useMemo(
-    () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
-    [courseOutcomes, prompt.linkedOutcomes]
-  );
-  // The topic's own descriptors when it has them, and NESA's general band
-  // descriptors when it does not. Only the three seeded demo topics carried a
-  // set, so on any topic imported or loaded from the shared library the Grade
-  // Standards panel was simply absent — the one panel that says what each band
-  // means, missing without a word on exactly the courses teachers add.
-  const bandDescriptors = useMemo(
-    () =>
-      topic?.performanceBandDescriptors?.length
-        ? topic.performanceBandDescriptors
-        : NESA_PERFORMANCE_BAND_DESCRIPTORS,
-    [topic?.performanceBandDescriptors]
-  );
   const maxPossibleBand = useMemo(
     () => getBandForMark(prompt.totalMarks, prompt.totalMarks, verbInfo.tier),
     [prompt.totalMarks, verbInfo.tier]
@@ -184,82 +149,6 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
-      {linkedOutcomes.length > 0 && (
-        <AccordionSection
-          title="What's Assessed"
-          subtitle={`${linkedOutcomes.length} outcome${linkedOutcomes.length === 1 ? '' : 's'}`}
-          icon={<Target />}
-          band={verbInfo.tier}
-          resetKey={prompt.id}
-          supportId="outcomes"
-        >
-          <div className="space-y-2.5">
-            {/* The briefing is easy to miss: nothing about a row of outcome
-                statements says the app will explain them for THIS question. It
-                is named here, and priced here — a student should learn what it
-                is and that it is a Plus feature in the same breath, not by
-                tapping and hitting a wall. */}
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-              Read these before you start writing — they are the standards this question is marked
-              against. Tap any outcome for a briefing on what it wants from this question.
-            </p>
-            {briefingLocked && (
-              <p className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
-                <PlusLockChip feature="outcomeBriefing" />
-                Briefings are part of {planLabelForFeature('outcomeBriefing')} — the outcomes
-                themselves are always free to read.
-              </p>
-            )}
-            {linkedOutcomes.map((outcome) => (
-              <button
-                key={outcome.code}
-                onClick={() => {
-                  setSelectedOutcome(outcome);
-                  markSupportOpened(prompt.id, 'outcomeBriefing');
-                }}
-                // `band-edge` twice, from one `--band-rgb` set here and
-                // inherited by the glyph inside. Same fault as the Grade
-                // Standards ladder below and the criteria rows beside it: a
-                // fully saturated outline — solid `-600` in the light theme —
-                // drawn around this tier's own pale wash, once for the row and
-                // again for the 20px target in it, so two of the loudest edges
-                // on the panel belonged to its quietest content. It is worse
-                // here than on that ladder, because every row takes its colour
-                // from the QUESTION's verb tier rather than its own: the hue is
-                // identical down the list and so distinguishes nothing. The
-                // fill and the outcome code say what these are; the edge only
-                // has to close the shape.
-                style={{ '--band-rgb': getBandRgb(verbInfo.tier) } as React.CSSProperties}
-                className={`w-full text-left rounded-2xl border band-edge ${tierConfig.bg} p-4 transition-all hover:shadow-lg hover:brightness-110 active:scale-[0.98] group/outcome-row`}
-              >
-                <div className="flex items-center gap-2 mb-1.5">
-                  {/* The same target that heads the panel and marks every
-                      outcome chip on the question card, so an outcome is
-                      recognisable as one wherever it appears. */}
-                  <span
-                    className={`w-5 h-5 shrink-0 rounded-lg flex items-center justify-center border band-edge ${tierConfig.bg}`}
-                    aria-hidden="true"
-                  >
-                    <Target className={`w-3 h-3 ${tierConfig.text}`} />
-                  </span>
-                  <span className={`t-label ${tierConfig.text}`}>{outcome.code}</span>
-                  <span className="t-label ml-auto flex items-center gap-1.5 text-slate-600 dark:text-slate-400 group-hover/outcome-row:text-slate-900 dark:group-hover/outcome-row:text-white transition-colors">
-                    <Sparkles className="w-3 h-3" />
-                    Explain for this question
-                    {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
-                  </span>
-                </div>
-                <p
-                  className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
-                >
-                  {outcome.description}
-                </p>
-              </button>
-            ))}
-          </div>
-        </AccordionSection>
-      )}
-
       <AccordionSection
         title="Syllabus Terms"
         icon={<Sparkles />}
@@ -276,179 +165,6 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
           isSuggesting={props.isSuggestingKeywords}
         />
       </AccordionSection>
-
-      {/* What goes wrong here.
-
-          Two audiences in one panel, which is why the rule is in the middle of
-          it. `commonStudentErrors` is written about students and is useful TO
-          them ("Confusing the roles of the template and coding strands").
-          `markerNotes` is written to a marker — "Credit explicit mention of…",
-          "Higher marks awarded for…" — so it sits behind `canCurate`, in the
-          same device the Syllabus Terms panel uses for its own boundary: a rule
-          that names what is below it rather than a second heading above it.
-
-          Deliberately NOT numbered. These are a set of pitfalls a marker sees
-          again and again, not a sequence anyone works through in order, and a
-          01/02/03 down the side would claim an order the content does not have.
-
-          Band 2 is the caution end of the app's own ramp rather than a
-          hand-picked amber, and it makes no claim about the question — the same
-          use of `band` as chrome the Syllabus Terms panel already makes. */}
-      {(commonMistakes.length > 0 || (canCurate && markerNotes.length > 0)) && (
-        <AccordionSection
-          title="Common mistakes"
-          icon={<Eye />}
-          band={2}
-          resetKey={prompt.id}
-          supportId="commonMistakes"
-        >
-          <div className="space-y-3">
-            {commonMistakes.length > 0 && (
-              <>
-                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
-                  What students most often get wrong on this question.
-                </p>
-                <ul className="space-y-2">
-                  {commonMistakes.map((mistake) => (
-                    <li key={mistake} className="flex items-start gap-2.5">
-                      <span
-                        className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
-                        aria-hidden="true"
-                      />
-                      <span
-                        className={`text-[11px] ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
-                      >
-                        {mistake}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-
-            {canCurate && markerNotes.length > 0 && (
-              <>
-                {commonMistakes.length > 0 && (
-                  <div className="flex items-center gap-3" aria-hidden="true">
-                    <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                    <span className="t-label shrink-0 text-slate-500 dark:text-slate-400">
-                      What the marker looks for
-                    </span>
-                    <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                  </div>
-                )}
-                <ul
-                  className="space-y-2"
-                  role="group"
-                  aria-label="What the marker looks for — visible to teachers"
-                >
-                  {markerNotes.map((note) => (
-                    <li key={note} className="flex items-start gap-2.5">
-                      <span
-                        className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-indigo-400/70"
-                        aria-hidden="true"
-                      />
-                      <span
-                        className={`text-[11px] ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
-                      >
-                        {note}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
-        </AccordionSection>
-      )}
-
-      {bandDescriptors.length > 0 && (
-        <AccordionSection
-          title="Grade Standards"
-          subtitle={`This question reaches Band ${maxPossibleBand}`}
-          icon={<GraduationCap />}
-          band={6}
-          resetKey={prompt.id}
-          supportId="gradeStandards"
-        >
-          <div className="space-y-4">
-            {[...bandDescriptors]
-              .sort((a, b) => b.band - a.band)
-              .map((descriptor) => {
-                const bConfig = getBandConfig(descriptor.band);
-                // All six bands are shown — it is a ladder, and seeing the rungs
-                // above is how a student learns what the verb holds back — but
-                // they used to be shown as equals, so on a DESCRIBE question
-                // (Band 2 at most) a student read four descriptors they could
-                // not earn, in full colour, before reaching their own. The rungs
-                // above this question's ceiling now step back and say why, and
-                // the ceiling itself says it is the top.
-                const aboveCeiling = descriptor.band > maxPossibleBand;
-                const isCeiling = descriptor.band === maxPossibleBand;
-                return (
-                  <div
-                    key={descriptor.band}
-                    // `band-edge` rather than `bConfig.border`, and the same
-                    // on the icon tile inside it. Six descriptors is a LADDER,
-                    // and the token draws a fully saturated outline — solid
-                    // `-600` in the light theme — around this band's own `-100`
-                    // wash. Rendered, that made the outline the loudest thing
-                    // on a row whose whole content is a pale tint, six times
-                    // over, with a second saturated edge on every icon tile.
-                    // The edge closes the shape; the fill, the eyebrow and the
-                    // award glyph are what say which band it is. Softened to
-                    // 35% of the same hue, from the same `--band-rgb` the verb
-                    // ribbon's strip uses.
-                    style={{ '--band-rgb': getBandRgb(descriptor.band) } as React.CSSProperties}
-                    className={`relative rounded-2xl border band-edge p-4 group/descriptor transition-all ${
-                      // Out of reach steps back by losing its FILL, not its ink:
-                      // a 60% wash over the text put it under AA on white.
-                      aboveCeiling ? 'bg-transparent' : `${bConfig.bg} shadow-sm hover:shadow-lg`
-                    } ${isCeiling ? 'ring-2 ring-offset-0 ring-[rgb(var(--band-rgb)/0.45)]' : ''}`}
-                  >
-                    <div className="flex gap-4 items-start">
-                      <div
-                        className={`p-2 rounded-xl ${bConfig.iconBg} border band-edge shadow-inner`}
-                      >
-                        <Award className={`w-4 h-4 ${bConfig.text} shrink-0`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                          <span className={`t-label ${bConfig.text}`}>Band {descriptor.band}</span>
-                          {/* The band's word ("Outstanding", "Sound") sits on a
-                              tinted card in both themes, so it cannot afford a
-                              muted tone AND an opacity on top: at 8px that
-                              landed under every readability floor the rest of
-                              the app respects. */}
-                          <span className="t-label text-slate-600 dark:text-slate-300">
-                            • {descriptor.shortLabel}
-                          </span>
-                          {isCeiling && (
-                            <span
-                              className={`t-label ml-auto shrink-0 px-2 py-0.5 rounded-lg border band-edge ${bConfig.text}`}
-                            >
-                              Top band for this question
-                            </span>
-                          )}
-                        </div>
-                        <p
-                          className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
-                        >
-                          {descriptor.description}
-                        </p>
-                        {aboveCeiling && (
-                          <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
-                            Beyond what a {prompt.verb.toLowerCase()} question can reach.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </AccordionSection>
-      )}
 
       <AccordionSection
         title="Marking Guide"
@@ -476,20 +192,6 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
       {/* The exemplars used to sit here, under the Marking Guide. They are now
           docked beneath the student's own writing, where the comparison that
           makes them useful actually happens — see Workspace. */}
-
-      {selectedOutcome && (
-        <OutcomeDetailModal
-          isOpen={!!selectedOutcome}
-          onClose={() => setSelectedOutcome(null)}
-          outcomes={linkedOutcomes}
-          initialCode={selectedOutcome.code}
-          question={prompt.question}
-          tier={verbInfo.tier}
-          verb={prompt.verb}
-          totalMarks={prompt.totalMarks}
-          breadcrumb={breadcrumb}
-        />
-      )}
     </div>
   );
 };

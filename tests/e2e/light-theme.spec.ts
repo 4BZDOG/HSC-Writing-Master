@@ -7,7 +7,6 @@ import {
   typeAnswer,
   openPanel,
   expandNavigator,
-  openQuestionWithOutcomes,
 } from './support/workspace';
 import {
   freezeAnimations,
@@ -188,23 +187,13 @@ const STATES: {
     },
   },
   {
-    // The reference rail's disclosures. "What's Assessed" holds the outcome
-    // rows, one of which dimmed its own action to `opacity-70` until the pass
-    // that added this state.
+    // The reference rail's disclosures: the syllabus terms and the marking
+    // guide. ("What's Assessed", "Common mistakes" and "Grade Standards" are off
+    // the rail for now — add them back here when they return.)
     name: 'the reference panels open',
-    // Not the free tier, and not for a role reason this time. "What's Assessed"
-    // renders only when the question links an outcome, and in the bundled
-    // curriculum the questions that link outcomes are mostly Tier 4+ — which the
-    // free plan locks. So the panel was unreachable as `user` in the most literal way:
-    // the questions that would have produced it cannot be selected.
-    //
-    // This state spent a long time asking for that panel, getting a silent
-    // return from `openPanel`, and measuring only the one beside it.
-    as: 'admin',
     reach: async (page) => {
-      await openQuestionWithOutcomes(page);
-      await openPanel(page, /what's assessed/i);
       await openPanel(page, /syllabus terms/i);
+      await openPanel(page, /marking guide/i);
     },
   },
   // NOT here, and honestly out of reach: the writing clock's urgency tones.
