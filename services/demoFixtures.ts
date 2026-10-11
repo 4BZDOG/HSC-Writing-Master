@@ -109,13 +109,14 @@ export const demoStatsFor = async (username: string): Promise<UserStats | null> 
   if (!persona) return null;
 
   const { generateCohort, DEMO_STUDENTS } = await import('../utils/demoCohort');
-  const student = DEMO_STUDENTS.find((s) => s.username === persona);
-  if (!student) return null;
+  if (!DEMO_STUDENTS.some((s) => s.username === persona)) return null;
 
-  // Generate only the one student we need — the cohort is deterministic per
-  // student, so a single-student run yields exactly the same numbers the full
-  // Supabase seed would give that student.
-  const cohort = generateCohort({ prompts: FIXTURE_POOL, students: [student] });
+  // Generate the whole roster, then read the persona's stats out of it. A
+  // student's PRNG is seeded by their position in the roster, so a run of the
+  // persona alone would give every persona the first student's numbers — the
+  // teacher and admin mock accounts would show Aisha's figures. The roster is
+  // small, so the full run costs nothing.
+  const cohort = generateCohort({ prompts: FIXTURE_POOL });
   return cohort.stats[persona] ?? null;
 };
 

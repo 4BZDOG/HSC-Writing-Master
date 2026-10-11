@@ -390,6 +390,11 @@ aggregate, by class id or by username; a class-less teacher sees nothing; a
 student cannot enumerate a cohort or create a class; and an admin keeps the
 system-wide view.
 
+The progress report's read (`get_progress_report()`, §26) has its own suite,
+`supabase/tests/progress_report_tests.sql`: the same scope as the cohort RPC, the
+course filter applied to every collection rather than only the totals, week 0 as
+the oldest week, and no draft text in the payload.
+
 **The RPCs are not the only way in.** Scoping a function does nothing if the
 table it reads is still readable directly — a `supabase.from(...).select(...)`
 in a browser console, with the anon key that ships in the bundle, skips every
@@ -436,7 +441,7 @@ Most of what makes this product worth showing depends on _accumulated_ use:
 Class Insights ranks where a cohort is struggling, Student Progress draws a band
 trend, the Usage Dashboard plots a fortnight of spend, the Review Queue needs a
 queue. A fresh account shows none of it. `demoSeed.mjs` manufactures that
-history — twelve students, ten weeks, ~450 attempts — so all of it is
+history — twenty students across two classes, ten weeks, ~690 attempts — so all of it is
 demonstrable and testable on day one.
 
 ### ⚠️ Run it on a separate demo project, never on production
@@ -469,26 +474,34 @@ npm run demo:reseed               # wipe the demo data and rebuild from scratch
 
 ### What you get
 
-| Account                         | Role    | Plan   | Shows                                                                                     |
-| ------------------------------- | ------- | ------ | ----------------------------------------------------------------------------------------- |
-| `demo-admin@demo.invalid`       | admin   | school | Database Manager, Data Vault, Content Audit Studio, API monitor, quota admin              |
-| `demo-teacher@demo.invalid`     | teacher | school | Class Insights, Student Progress, Review Queue, authoring tools                           |
-| `demo-coteacher@demo.invalid`   | teacher | school | A second reviewer, and the author of the pending queue items                              |
-| `demo-free@demo.invalid`        | student | free   | The paywalls: locked tier 4–6 questions, blurred high-band samples, summary-only feedback |
-| `demo-plus@demo.invalid`        | student | plus   | The unlocked comparison                                                                   |
-| `demo-capped@demo.invalid`      | student | free   | Already at its daily cap — the 429 path and quota warnings                                |
-| `demo-aisha@…` … `demo-kayla@…` | student | free   | The twelve-student cohort behind the analytics                                            |
+| Account                                                        | Role    | Plan   | Shows                                                                                                                                                                   |
+| -------------------------------------------------------------- | ------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `demo-admin@demo.invalid`                                      | admin   | school | Database Manager, Data Vault, Content Audit Studio, API monitor, quota admin                                                                                            |
+| `demo-teacher@demo.invalid`                                    | teacher | school | Owns the Enterprise class (Year 12): Class Insights, Student Progress, Review Queue, authoring tools. Her progress reports cover that class only                        |
+| `demo-coteacher@demo.invalid`                                  | teacher | school | Owns the Software class (Year 12) and co-teaches the Enterprise class, so his reports cover both. The second reviewer, and author of the pending queue items            |
+| `demo-free@demo.invalid`                                       | student | free   | The paywalls: locked tier 4–6 questions, blurred high-band samples, summary-only feedback. A lighter Enterprise history (about 20 attempts) that improves over the term |
+| `demo-plus@demo.invalid`                                       | student | plus   | The unlocked comparison, and the best progress-report showcase: two courses of history, PDF export                                                                      |
+| `demo-capped@demo.invalid`                                     | student | free   | Already at its daily cap — the 429 path and quota warnings — with no history: the empty report state                                                                    |
+| `demo-aisha@…` … `demo-kayla@…`                                | student | free   | The twelve-student Enterprise cohort behind the analytics                                                                                                               |
+| `demo-ethan@…`, `demo-hana@…`                                  | student | free   | Year 12 students who take both courses and sit in both classes, so the course filter splits their work                                                                  |
+| `demo-sofia@…`, `demo-dylan@…`, `demo-amara@…`, `demo-mateo@…` | student | free   | The Software class: a verb-blocked student, an erratic (sporadic) student, an at-risk student, and a newcomer with one or two attempts                                  |
 
 Plus: a school (`Riverbank High School (Demo)`) with a 30-seat active licence and
-a 400-call pooled daily budget; a class (`Year 12 Enterprise Computing (Demo)`)
-owned by the demo teacher with the whole cohort enrolled and the co-teacher added
-as staff — required since §19, because the analytics are scoped to the classes a
-teacher teaches and an unenrolled cohort would be invisible; ~450 `response_events` and ~365 `responses` over
-ten weeks; matching `ai_usage` / `ai_model_usage` history across three engines;
-six pending contributions scored 34–91 for the Review Queue.
+a 400-call pooled daily budget; two Year 12 classes — both required since §19,
+because the analytics are scoped to the classes a teacher teaches:
+`Year 12 Enterprise Computing (Demo)`, owned by the demo teacher with the
+co-teacher added as staff, and `Year 12 Software Engineering (Demo)`, owned by the
+co-teacher alone. So the demo teacher's reports cover the Enterprise class only,
+while the co-teacher's cover both. Twenty students have history across the two
+courses: ~690 `response_events` and ~580 `responses` over ten weeks, with matching
+`ai_usage` / `ai_model_usage` history across three engines. Ben (capped) has none.
+Six pending contributions scored 34–91 for the Review Queue. Re-running
+`demo:seed` replaces the demo students' responses, usage and events in full, so a
+changed roster leaves no stale answers, and a class renamed since an earlier seed
+is removed by name on every run.
 
-Every student is one of six deliberate archetypes — improver, plateaued,
-verb-blocked, sporadic, strong, at-risk (`utils/demoCohort.ts`) — because
+Every student is one of seven deliberate archetypes — improver, plateaued,
+verb-blocked, sporadic, strong, at-risk, newcomer (`utils/demoCohort.ts`) — because
 analytics that rank a cohort need a cohort with something to rank.
 
 ### Determinism, and why dates are relative

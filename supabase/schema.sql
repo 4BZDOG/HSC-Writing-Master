@@ -3381,6 +3381,263 @@ $$;
 
 revoke all on function public.withheld_sample_answers() from public;
 grant execute on function public.withheld_sample_answers() to anon, authenticated;
+
+-- =============================================================================
+-- §26 · Progress report — one payload for a class, a school, or a roster
+-- -----------------------------------------------------------------------------
+--     The progress report (projectDocs/Plan-ProgressReportPdf.md) needs, for a
+--     teacher or an administrator, the numbers the Class Insights and cohort
+--     screens already show — totals, by verb, by course, by topic, by student,
+--     by student and verb, a weekly trend and, for a school, by class — in one
+--     round trip, narrowed by the same class and course the user picked.
+--
+--     Scope is exactly get_class_cohort()'s (§20): reviewers only; an admin sees
+--     every student only when no class is named; everyone else sees the students
+--     visible_student_ids() returns. A teacher with no classes gets an empty
+--     payload, and a class they do not teach is refused.
+--
+--     Counts and averages only. No draft text and no evaluation JSON are read.
+--     The rows are the latest marked answer per question, from `responses`, as
+--     on the Class Insights screen, so the report and the screen agree. The course
+--     filter runs through prompts -> dot_points -> sub_topics -> topics -> courses
+--     and is applied to EVERY collection, not only the totals.
+--
+--     Shape notes for the client:
+--       * `students` in byClass counts students with a marked answer in scope
+--         (active), not everyone enrolled.
+--       * byClass is present only when no class is named. A student in several
+--         classes is counted in each of them, so those rows can sum to more than
+--         the totals.
+--       * byStudentWeek (per student, per week) is added to the brief's list: the
+--         per-student sparkline and band change need it, and `weekly` is cohort-wide.
+--       * Week 0 is the OLDEST week in the window, as in §20.
+--
+--     The window is analytics_window_start(), clamped to 1–365 days like every
+--     other analytics RPC. `days` and `weeks` are echoed back so the client can
+--     label the report without repeating the clamp.
+-- =============================================================================
+
+create or replace function public.get_progress_report(
+  p_days      integer default 90,
+  p_class_id  uuid default null,
+  p_course_id uuid default null
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 90), 1), 365);
+  v_weeks  integer := ceil(v_days::numeric / 7)::int;
+  v_since  timestamptz := public.analytics_window_start(v_days);
+  v_all    boolean;
+  v_ids    uuid[];
+  v_result jsonb;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the progress report';
+  end if;
+
+  -- An admin with no class named keeps the system-wide view; everyone else is
+  -- limited to the students visible_student_ids() returns (it raises for a class
+  -- the caller does not teach).
+  v_all := public.is_admin() and p_class_id is null;
+  if not v_all then
+    select coalesce(array_agg(t.id), '{}') into v_ids
+      from public.visible_student_ids(p_class_id) as t(id);
+  end if;
+
+  -- One scan of the scoped answers, shared by every collection below. The
+  -- materialised CTE is read once however many times the select list refers to it.
+  with scoped as materialized (
+    select r.user_id,
+           r.created_at,
+           r.overall_band                                       as band,
+           r.overall_mark::numeric / nullif(p.total_marks, 0)   as mark_frac,
+           coalesce(nullif(btrim(p.verb), ''), 'Unspecified')   as verb,
+           c.id                                                 as course_id,
+           coalesce(nullif(btrim(c.name), ''), 'Uncategorised') as course_name,
+           t.id                                                 as topic_id,
+           coalesce(nullif(btrim(t.name), ''), 'Uncategorised') as topic_name,
+           least(v_weeks - 1,
+                 floor(extract(epoch from (r.created_at - v_since)) / 604800)::int) as week
+      from public.responses r
+      join public.prompts p    on p.id = r.prompt_id
+      join public.dot_points d on d.id = p.dot_point_id
+      join public.sub_topics s on s.id = d.sub_topic_id
+      join public.topics t     on t.id = s.topic_id
+      join public.courses c    on c.id = t.course_id
+     where r.created_at >= v_since
+       and r.overall_band is not null
+       and (v_all or r.user_id = any(v_ids))
+       and (p_course_id is null or c.id = p_course_id)
+  )
+  select jsonb_build_object(
+      'days', v_days,
+      'weeks', v_weeks,
+      'totals', (
+        select jsonb_build_object(
+          'attempts', count(*),
+          'active_students', count(distinct s.user_id),
+          'avg_band', round(avg(s.band)::numeric, 2),
+          'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3),
+          'first_attempt_at', min(s.created_at),
+          'last_attempt_at', max(s.created_at)
+        )
+          from scoped s
+      ),
+
+      -- One row per command verb ('Unspecified' when the question has none).
+      'byVerb', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'label'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'label', s.verb,
+              'attempts', count(*),
+              'students', count(distinct s.user_id),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.verb
+          ) sub
+      ),
+
+      'byCourse', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'label'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'course_id', s.course_id,
+              'label', s.course_name,
+              'attempts', count(*),
+              'students', count(distinct s.user_id),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.course_id, s.course_name
+          ) sub
+      ),
+
+      -- One row per topic. `course` is the course it belongs to, so two topics
+      -- that share a name in different courses stay apart.
+      'byTopic', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'label', row_obj->>'course'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'topic_id', s.topic_id,
+              'course_id', s.course_id,
+              'course', s.course_name,
+              'label', s.topic_name,
+              'attempts', count(*),
+              'students', count(distinct s.user_id),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.topic_id, s.topic_name, s.course_id, s.course_name
+          ) sub
+      ),
+
+      -- One row per student with at least one marked answer in scope — the same
+      -- roster the Class Insights screen shows. Names are returned to the caller
+      -- as the screen does; the client decides whether to print them.
+      'byStudent', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'username'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'username', pr.username,
+              'display_name', pr.display_name,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3),
+              'last_active', max(s.created_at)
+            ) as row_obj
+              from scoped s
+              join public.profiles pr on pr.id = s.user_id
+             group by pr.id, pr.username, pr.display_name
+          ) sub
+      ),
+
+      'byStudentVerb', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'username', row_obj->>'verb'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'username', pr.username,
+              'verb', s.verb,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+              join public.profiles pr on pr.id = s.user_id
+             group by pr.id, pr.username, s.verb
+          ) sub
+      ),
+
+      'byStudentWeek', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'username', (row_obj->>'week')::int), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'username', pr.username,
+              'week', s.week,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+              join public.profiles pr on pr.id = s.user_id
+             group by pr.id, pr.username, s.week
+          ) sub
+      ),
+
+      -- The cohort's own weekly trend. Only weeks with answers appear; the client
+      -- fills the gaps.
+      'weekly', (
+        select coalesce(jsonb_agg(row_obj order by (row_obj->>'week')::int), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'week', s.week,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.week
+          ) sub
+      )
+    )
+    -- byClass is only meaningful across classes, so it is absent when one is named.
+    || (
+      case when p_class_id is null then jsonb_build_object('byClass', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'name', row_obj->>'class_id'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'class_id', c.id,
+              'name', c.name,
+              'year', c.year,
+              'students', count(distinct x.user_id),
+              'attempts', count(x.user_id),
+              'avg_band', round(avg(x.band)::numeric, 2),
+              'avg_mark_frac', round(avg(x.mark_frac)::numeric, 3)
+            ) as row_obj
+              from public.classes c
+              left join (
+                select m.class_id, s.user_id, s.band, s.mark_frac
+                  from scoped s
+                  join public.class_members m
+                    on m.user_id = s.user_id and m.role = 'student'
+              ) x on x.class_id = c.id
+             where public.can_view_class(c.id)
+             group by c.id, c.name, c.year
+          ) sub
+      )) else '{}'::jsonb end
+    )
+  into v_result;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.get_progress_report(integer, uuid, uuid) from public, anon;
+grant execute on function public.get_progress_report(integer, uuid, uuid) to authenticated;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
