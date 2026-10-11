@@ -804,10 +804,10 @@ export const buildDemoReportSamples = ({
       pageSize: 'letter',
       report: studentReport(ctx, { username: 'demo.plus', windowDays: 'all' }),
     },
-    student('12-student-ben-empty-history', { username: 'demo.capped', windowDays: 90 }),
+    student('12-student-ben-empty-history', { username: 'demo.capped', windowDays: 'all' }),
     student('12b-student-sam-local-stats-only', {
       username: 'demo.free',
-      windowDays: 90,
+      windowDays: 'all',
       source: 'local',
     }),
     student('13-student-sam-light-history-30d', { username: 'demo.free', windowDays: 30 }),
