@@ -457,7 +457,7 @@ describe('the student flow', () => {
     historyMock.mockResolvedValue(null);
     renderDialog();
     expect(await screen.findByText(/^12 answers/)).toBeTruthy();
-    expect(screen.getByText(/History is kept for signed-in accounts/)).toBeTruthy();
+    expect(screen.getByText('Your report will use your saved totals only.')).toBeTruthy();
     await waitFor(() => expect(download().hasAttribute('disabled')).toBe(false));
 
     fireEvent.click(download());
@@ -465,6 +465,82 @@ describe('the student flow', () => {
     const report = lastExportedReport();
     expect(report.scope.courseName).toBeNull();
     expect(report.notes.join(' ')).toMatch(/Answer history is kept for signed-in accounts/);
+  });
+
+  it('locks the course and period controls when there is no history, and says why', async () => {
+    historyMock.mockResolvedValue(null);
+    renderDialog();
+    await screen.findByText(/^12 answers/);
+
+    const course = screen.getByLabelText('Course') as HTMLSelectElement;
+    expect(course.getAttribute('aria-disabled')).toBe('true');
+    const reason = screen.getByText(
+      'Period and course need your answer history, which is kept for signed-in accounts.'
+    );
+    expect(course.getAttribute('aria-describedby')).toBe(reason.id);
+
+    const thirtyDays = screen.getByRole('button', { name: '30 days' });
+    expect(thirtyDays.getAttribute('aria-disabled')).toBe('true');
+    expect(thirtyDays.getAttribute('aria-describedby')).toBe(reason.id);
+    // The period shown is the one the report will use: all time.
+    expect(screen.getByRole('button', { name: 'All time' }).getAttribute('aria-pressed')).toBe(
+      'true'
+    );
+  });
+
+  it('ignores presses on the locked controls, and prints all time with no course filter', async () => {
+    historyMock.mockResolvedValue(null);
+    renderDialog();
+    await screen.findByText(/^12 answers/);
+
+    const course = screen.getByLabelText('Course') as HTMLSelectElement;
+    fireEvent.change(course, { target: { value: 'course-a' } });
+    expect(course.value).toBe('');
+    fireEvent.click(screen.getByRole('button', { name: '30 days' }));
+    expect(screen.getByRole('button', { name: '30 days' }).getAttribute('aria-pressed')).toBe(
+      'false'
+    );
+    expect(screen.getByRole('button', { name: 'All time' }).getAttribute('aria-pressed')).toBe(
+      'true'
+    );
+
+    await waitFor(() => expect(download().hasAttribute('disabled')).toBe(false));
+    fireEvent.click(download());
+    await waitFor(() => expect(exportMock).toHaveBeenCalledTimes(1));
+    const report = lastExportedReport();
+    expect(report.scope.windowLabel).toBe('All time');
+    expect(report.scope.courseName).toBeNull();
+    // The note about filters that were not applied never prints, because none was chosen.
+    expect(report.notes.join(' ')).not.toMatch(/filters you chose/);
+  });
+
+  it('locks the controls for an account with an empty history, with its own reason', async () => {
+    historyMock.mockResolvedValue([]);
+    renderDialog();
+    await waitFor(() => expect(download().hasAttribute('disabled')).toBe(false));
+
+    expect(screen.getByLabelText('Course').getAttribute('aria-disabled')).toBe('true');
+    expect(
+      screen.getByText('Period and course apply once you have marked answers in your history.')
+    ).toBeTruthy();
+
+    fireEvent.click(download());
+    await waitFor(() => expect(exportMock).toHaveBeenCalledTimes(1));
+    const report = lastExportedReport();
+    expect(report.scope.windowLabel).toBe('All time');
+    expect(report.notes.join(' ')).not.toMatch(/filters you chose/);
+  });
+
+  it('leaves the controls live when there is history to filter', async () => {
+    readyStudentHistory();
+    renderDialog();
+    await waitFor(() => expect(download().hasAttribute('disabled')).toBe(false));
+
+    expect(screen.getByLabelText('Course').getAttribute('aria-disabled')).toBeNull();
+    expect(
+      screen.getByRole('button', { name: '30 days' }).getAttribute('aria-disabled')
+    ).toBeNull();
+    expect(screen.queryByText(/Period and course need your answer history/)).toBeNull();
   });
 
   it('disables the download with the reason when no answers fall in the scope', async () => {

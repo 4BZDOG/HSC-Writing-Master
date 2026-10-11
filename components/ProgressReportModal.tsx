@@ -71,7 +71,7 @@ export interface ProgressReportModalProps {
 }
 
 const SELECT_CLASS =
-  'w-full min-w-0 px-3 py-2.5 rounded-xl bg-surface-inset border border-primary text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 disabled:cursor-not-allowed';
+  'w-full min-w-0 px-3 py-2.5 rounded-xl bg-surface-inset border border-primary text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:cursor-not-allowed';
 
 const FOCUS_RING =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent motion-reduce:transition-none';
@@ -111,17 +111,27 @@ const ReportCheck: React.FC<{
   </label>
 );
 
-/** A small set of choices shown as a segmented control, with each choice's pressed state announced. */
+/**
+ * A small set of choices shown as a segmented control, with each choice's pressed state announced.
+ *
+ * `locked` shows the current choice but ignores presses. The buttons stay in the tab
+ * order, with `aria-disabled` rather than `disabled`, so a keyboard or screen reader
+ * user can still reach the reason that `describedBy` names.
+ */
 function Segmented<T extends string | number>({
   legend,
   options,
   value,
   onChange,
+  locked = false,
+  describedBy,
 }: {
   legend: string;
   options: readonly ChoiceOption<T>[];
   value: T;
   onChange: (next: T) => void;
+  locked?: boolean;
+  describedBy?: string;
 }) {
   // A grid, not a wrapping row: four periods sit as two pairs on a phone rather than
   // leaving "All time" alone on a second line.
@@ -144,12 +154,16 @@ function Segmented<T extends string | number>({
               key={String(option.value)}
               type="button"
               aria-pressed={active}
-              onClick={() => onChange(option.value)}
+              aria-disabled={locked || undefined}
+              aria-describedby={describedBy}
+              onClick={() => {
+                if (!locked) onChange(option.value);
+              }}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${FOCUS_RING} ${
                 active
                   ? 'bg-surface-elevated text-primary shadow-sm'
                   : 'text-muted hover:text-primary'
-              }`}
+              } ${locked ? 'cursor-not-allowed opacity-60 hover:text-muted' : ''}`}
             >
               {option.label}
             </button>
@@ -198,6 +212,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
   const statusId = useId();
   const classSelectId = useId();
   const courseSelectId = useId();
+  const scopeReasonId = useId();
 
   // The dialog is mounted only while open, so these hold for this open alone.
   useEscapeKey(true, onClose);
@@ -266,6 +281,27 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
 
   const ownHistory: OwnHistoryState = useOwnReportHistory(isStudent, attempt);
 
+  /**
+   * A student whose report can only use their saved totals: there is no answer history
+   * to read, either because there is no signed-in account (`null`), or because the
+   * history is empty. The totals carry no course and no dates, so the period and the
+   * course cannot apply. The report is built as all time and unfiltered, and the
+   * controls say why they are off, so the builder never prints a note about filters
+   * that were not applied.
+   */
+  const totalsOnly =
+    isStudent &&
+    ownHistory.status === 'ready' &&
+    (ownHistory.history === null || ownHistory.history.length === 0);
+  const withoutAccount = isStudent && ownHistory.status === 'ready' && ownHistory.history === null;
+  const scopeReason = totalsOnly
+    ? withoutAccount
+      ? 'Period and course need your answer history, which is kept for signed-in accounts.'
+      : 'Period and course apply once you have marked answers in your history.'
+    : null;
+  const effectivePeriod: ReportPeriod = totalsOnly ? 'all' : period;
+  const effectiveCourse = totalsOnly ? null : selectedCourse;
+
   const rosterScope: RosterScope | null =
     isRoster && remote && (courseGate === 'none' || courseGate === 'ready')
       ? {
@@ -288,8 +324,8 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
     if (readAt === null) return null;
     const options: ReportOptions = {
       audience,
-      windowDays: period,
-      courseFilter: selectedCourse ? { id: selectedCourse.id, name: selectedCourse.name } : null,
+      windowDays: effectivePeriod,
+      courseFilter: effectiveCourse ? { id: effectiveCourse.id, name: effectiveCourse.name } : null,
       className: selectedClass?.name ?? null,
       includeStudentNames: includeNames,
       sections,
@@ -309,8 +345,8 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
   }, [
     readAt,
     audience,
-    period,
-    selectedCourse,
+    effectivePeriod,
+    effectiveCourse,
     selectedClass,
     includeNames,
     sections,
@@ -340,9 +376,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
   })();
 
   const unavailable = view.kind === 'unavailable';
-  const localStudentHistory =
-    isStudent && ownHistory.status === 'ready' && ownHistory.history === null;
-  const allTimeEmpty = isStudent && period === 'all' && selectedCourse === null;
+  const allTimeEmpty = isStudent && effectivePeriod === 'all' && effectiveCourse === null;
 
   // --- Actions ------------------------------------------------------------------
 
@@ -497,9 +531,13 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
               </label>
               <select
                 id={courseSelectId}
-                value={courseId ?? ''}
-                onChange={(e) => setCourseId(e.target.value || null)}
+                value={effectiveCourse?.id ?? ''}
+                onChange={(e) => {
+                  if (!totalsOnly) setCourseId(e.target.value || null);
+                }}
                 disabled={unavailable || (isRoster && !remote)}
+                aria-disabled={totalsOnly || undefined}
+                aria-describedby={scopeReason ? scopeReasonId : undefined}
                 className={SELECT_CLASS}
               >
                 <option value="">All courses</option>
@@ -532,10 +570,17 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
               <Segmented
                 legend="Period"
                 options={periodChoicesFor(audience)}
-                value={period}
+                value={effectivePeriod}
                 onChange={(next: ReportPeriod) => setPeriod(next)}
+                locked={scopeReason !== null}
+                describedBy={scopeReason ? scopeReasonId : undefined}
               />
             </div>
+            {scopeReason && (
+              <p id={scopeReasonId} className="text-xs text-muted sm:col-span-2 -mt-2">
+                {scopeReason}
+              </p>
+            )}
           </section>
 
           <fieldset className="min-w-0 border-0 p-0 m-0">
@@ -601,10 +646,9 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
                   {statusText}
                 </span>
               </p>
-              {localStudentHistory && (
+              {totalsOnly && (
                 <p className="text-xs text-muted mt-1">
-                  History is kept for signed-in accounts. Your report will use your saved totals
-                  only, so the course and period do not apply.
+                  Your report will use your saved totals only.
                 </p>
               )}
               {view.kind === 'error' && (
