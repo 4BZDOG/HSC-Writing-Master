@@ -23,7 +23,8 @@ export type ModalName =
   | 'manualPrompt'
   | 'quickStart'
   | 'courseRequest'
-  | 'legalDocuments';
+  | 'legalDocuments'
+  | 'progressReport';
 
 export type RenameTarget = {
   type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt';

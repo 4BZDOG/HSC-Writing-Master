@@ -20,6 +20,8 @@ import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import QuickStartModal from './QuickStartModal';
 import LegalDocumentModal from './LegalDocumentModal';
+import ProgressReportModal from './ProgressReportModal';
+import { visibleCourses } from '../utils/courseVisibility';
 import {
   reconcileImportedTopicIds,
   mergeTopicContents,
@@ -127,6 +129,12 @@ const AppModals: React.FC<AppModalsProps> = ({
    * counted zero empty syllabus points, and silently skipped the offer in
    * exactly the case the offer is for.
    */
+  // The progress report's course picker offers what the navigator shows this role.
+  const reportCourses = React.useMemo(
+    () => (user ? visibleCourses(courses, user.role) : []),
+    [courses, user]
+  );
+
   const coursesRef = React.useRef(courses);
   coursesRef.current = courses;
 
@@ -536,6 +544,21 @@ const AppModals: React.FC<AppModalsProps> = ({
             closeModal('userProfile');
             modalHandlers.openModal('legalDocuments');
           }}
+          /* Hands off to the report's options, as the three rows above do. */
+          onOpenProgressReport={() => {
+            closeModal('userProfile');
+            modalHandlers.openModal('progressReport');
+          }}
+        />
+      )}
+
+      {user && (
+        <ProgressReportModal
+          isOpen={isModalOpen('progressReport')}
+          onClose={() => closeModal('progressReport')}
+          user={user}
+          courses={reportCourses}
+          showToast={showToast}
         />
       )}
 

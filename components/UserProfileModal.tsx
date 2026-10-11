@@ -21,6 +21,7 @@ import {
   Scale,
   Database,
   Download,
+  FileDown,
   Trash2,
 } from 'lucide-react';
 import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
@@ -28,6 +29,7 @@ import { getBandConfig } from '../utils/renderUtils';
 import { canUseAiGeneration, roleLabel } from '../utils/permissions';
 import { averageMarkPercent, levelProgress } from '../utils/progression';
 import { withStatDefaults } from '../utils/profileHistory';
+import { reportAudienceFor } from '../utils/progressReportOptions';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -66,6 +68,11 @@ interface UserProfileModalProps {
   onComparePlans?: () => void;
   /** Open the Terms of Use / Privacy Notice reader. */
   onOpenLegal?: () => void;
+  /**
+   * Open the progress report's options and download. Hands off, so the profile
+   * closes behind it. Offered only to a role with a report (never a guest).
+   */
+  onOpenProgressReport?: () => void;
 }
 
 /**
@@ -273,6 +280,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   onOpenQuickStart,
   onComparePlans,
   onOpenLegal,
+  onOpenProgressReport,
 }) => {
   useEscapeKey(isOpen, onClose);
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
@@ -803,6 +811,19 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
           {activeTab === 'overview' && (
             <div className="space-y-6 animate-fade-in">
               <p className="text-sm leading-relaxed text-secondary">{performanceSummary.text}</p>
+
+              {onOpenProgressReport && reportAudienceFor(user.role) !== null && (
+                <div>
+                  <button
+                    type="button"
+                    onClick={onOpenProgressReport}
+                    className="t-label px-4 py-2.5 rounded-xl bg-surface-inset text-primary border border-secondary/10 hover:bg-surface-elevated transition-colors flex items-center gap-2"
+                  >
+                    <FileDown className="w-3.5 h-3.5" aria-hidden="true" />
+                    Download progress report
+                  </button>
+                </div>
+              )}
 
               <section aria-labelledby="profile-band-heading" className={PROFILE_CARD}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-5">
