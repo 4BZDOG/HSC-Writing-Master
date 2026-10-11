@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
-import { parseStrategyTip, type TipSegment } from '../utils/strategyTip';
+import { groupStrategyMoves, parseStrategyTip, type TipDetail } from '../utils/strategyTip';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import type { PromptVerb } from '../types';
 
@@ -50,31 +50,6 @@ import type { PromptVerb } from '../types';
  * size and the rest sit under a rule as the checks on it — the structure
  * carries the information instead of a label announcing it.
  */
-
-/** What a point can introduce: never another point. */
-type TipDetail = Exclude<TipSegment, { kind: 'point' }>;
-
-/** A point, together with the example or term list it introduces. */
-interface TipMove {
-  text: string;
-  detail: TipDetail[];
-}
-
-/**
- * Re-groups flat segments into moves. `parseStrategyTip` already knows that a
- * line following one that ends in a colon belongs to it; this attaches it.
- */
-const groupTip = (segments: TipSegment[]): TipMove[] => {
-  const moves: TipMove[] = [];
-  for (const segment of segments) {
-    if (segment.kind === 'point') {
-      moves.push({ text: segment.text, detail: [] });
-    } else if (moves.length > 0) {
-      moves[moves.length - 1].detail.push(segment);
-    }
-  }
-  return moves;
-};
 
 interface StrategyBriefProps {
   verb: PromptVerb;
@@ -180,7 +155,7 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
   className = '',
 }) => {
   const info = useMemo(() => getCommandTermInfo(verb), [verb]);
-  const moves = useMemo(() => groupTip(parseStrategyTip(info.tip)), [info.tip]);
+  const moves = useMemo(() => groupStrategyMoves(parseStrategyTip(info.tip)), [info.tip]);
   // The question's own tier colour, the same hue the writing surface, the verb
   // ribbon and the question card are already painted in.
   const accent = useMemo(

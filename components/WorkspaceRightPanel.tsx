@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useSyncExternalStore } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode, StatePath } from '../types';
 import Editor from './Editor';
 import DraftCheck from './DraftCheck';
+import { insertIntoDraft } from '../utils/insertIntoDraft';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import EvaluationResultModal from './EvaluationResultModal';
 import ImprovementReviewModal from './ImprovementReviewModal';
@@ -143,7 +144,11 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // single provisional completeness signal (see utils/draftReadiness.ts) — it
   // feeds both the editor's progress meter and the Evaluate button's accent, so
   // the two can never tell a student two different stories about the same draft.
-  const { insights, readiness } = useWritingMetrics(debouncedUserAnswer, currentPrompt, syllabus);
+  const { insights, readiness, wordCount, keywordStats } = useWritingMetrics(
+    debouncedUserAnswer,
+    currentPrompt,
+    syllabus
+  );
 
   // The Evaluate button's accent tracks draft READINESS, never a predicted band.
   //
@@ -516,7 +521,14 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           the two gaps looked close enough alike to read as a mistake rather
           than two different relationships. */}
       <div className="flex flex-col gap-4">
-        {!isExamMode && <DraftCheck insights={insights} />}
+        {!isExamMode && (
+          <DraftCheck
+            insights={insights}
+            wordCount={wordCount}
+            missingTerms={keywordStats.missedInPriority}
+            onInsertTerm={insertIntoDraft}
+          />
+        )}
 
         <WritingMetricsDashboard
           userAnswer={debouncedUserAnswer}
