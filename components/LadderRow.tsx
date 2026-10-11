@@ -35,8 +35,10 @@ const edgeClass = (edge: LadderEdge): string =>
 
 /** The band's colour as the `--band-rgb` custom property, which the edge and wash
  *  classes read. Set on the row and on the gutter, so a gutter used on its own
- *  still draws its divider in the right band. */
-const bandVars = (band: number): React.CSSProperties =>
+ *  still draws its divider in the right band. Exported for a row that is built
+ *  from `LadderRowGutter` and a body of its own, which must hand the band to CSS
+ *  the same way. */
+export const ladderBandVars = (band: number): React.CSSProperties =>
   ({ '--band-rgb': getBandRgb(band) }) as React.CSSProperties;
 
 export interface LadderRowGutterProps {
@@ -65,7 +67,10 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
   // (a range such as "10–12" is not, whatever its length).
   const markClass = /^Band\b/.test(markLabel) ? LADDER_GUTTER_MARK_LONG : LADDER_GUTTER_MARK;
   return (
-    <div style={bandVars(band)} className={`${LADDER_GUTTER} ${config.bg} ${edgeClass(edge)}`}>
+    <div
+      style={ladderBandVars(band)}
+      className={`${LADDER_GUTTER} ${config.bg} ${edgeClass(edge)}`}
+    >
       <span className={`${markClass} ${config.text}`}>{markLabel}</span>
       {bandCaption !== false && (
         <span className={`${LADDER_GUTTER_CAPTION} ${config.text}`}>
@@ -96,7 +101,7 @@ const LadderRow: React.FC<LadderRowProps> = ({
 }) => {
   const config = getBandConfig(band);
   return (
-    <div style={bandVars(band)} className={`${LADDER_ROW} ${edgeClass(edge)} ${config.bg}`}>
+    <div style={ladderBandVars(band)} className={`${LADDER_ROW} ${edgeClass(edge)} ${config.bg}`}>
       <LadderRowGutter band={band} markLabel={markLabel} bandCaption={bandCaption} edge={edge} />
       <div className={LADDER_BODY}>
         {children}

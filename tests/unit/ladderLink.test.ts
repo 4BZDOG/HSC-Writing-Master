@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { renderHook, cleanup } from '@testing-library/react';
 import {
   OPEN_EXEMPLAR_EVENT,
+  nearestExemplarMark,
   requestOpenExemplar,
   useOpenExemplarRequest,
   type OpenExemplarDetail,
@@ -132,5 +133,31 @@ describe('useOpenExemplarRequest', () => {
 
     expect(() => window.dispatchEvent(new CustomEvent(OPEN_EXEMPLAR_EVENT))).not.toThrow();
     expect(handler).not.toHaveBeenCalled();
+  });
+});
+
+describe('nearestExemplarMark', () => {
+  // The levels a panel has exemplars at: six, four and one.
+  const levels = [6, 4, 1];
+
+  it('is the mark itself when a level has exactly that mark', () => {
+    expect(nearestExemplarMark(levels, 4)).toBe(4);
+  });
+
+  it('falls to the nearest level below a mark with no exemplar of its own', () => {
+    expect(nearestExemplarMark(levels, 5)).toBe(4);
+    expect(nearestExemplarMark(levels, 9)).toBe(6);
+  });
+
+  it('rises to the nearest level above when nothing sits below', () => {
+    expect(nearestExemplarMark(levels, 0)).toBe(1);
+  });
+
+  it('is undefined when there are no levels at all', () => {
+    expect(nearestExemplarMark([], 4)).toBeUndefined();
+  });
+
+  it('does not depend on the order the levels arrive in', () => {
+    expect(nearestExemplarMark([1, 6, 4], 5)).toBe(4);
   });
 });

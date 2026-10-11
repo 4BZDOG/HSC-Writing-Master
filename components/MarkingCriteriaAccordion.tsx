@@ -9,7 +9,7 @@ import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import MathSymbolToolbar from './MathSymbolToolbar';
 import LadderRow from './LadderRow';
-import { LADDER_MODEL_ANSWER, LADDER_STACK } from '../utils/ladderChrome';
+import { LADDER_CRITERION, LADDER_MODEL_ANSWER, LADDER_STACK } from '../utils/ladderChrome';
 import {
   exemplarMarkForItem,
   isBandLabelled,
@@ -263,7 +263,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                       ) : undefined
                     }
                   >
-                    <div className="t-body font-serif text-slate-600 dark:text-slate-300">
+                    <div className={LADDER_CRITERION}>
                       {renderFormattedText(item.description, prompt.keywords, prompt.verb)}
                     </div>
                   </LadderRow>

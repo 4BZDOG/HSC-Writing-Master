@@ -5,11 +5,10 @@ import { AccordionSection } from '../../components/ReferenceMaterials';
 import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 
 /**
- * Two slots on the disclosure header, both for the Sample Answers panel to use:
+ * The disclosure header's contract, and the two openings a sibling can use:
  *
- *  - `actions` sits in the header row BESIDE the disclosure, as a sibling of its
- *    button. A button cannot hold another button, and a control inside the
- *    toggle used to nest one inside the other.
+ *  - the header row is the disclosure and nothing else, so it holds one button and
+ *    stands on the shared row height;
  *  - `forceOpenSignal` opens the section from outside when it changes.
  */
 
@@ -17,72 +16,14 @@ afterEach(cleanup);
 
 const toggle = () => screen.getByRole('button', { name: /Exemplars/i });
 
-describe('AccordionSection actions', () => {
-  it('renders the action beside the disclosure, never inside it', () => {
-    render(
-      <AccordionSection
-        title="Exemplars"
-        icon={<span />}
-        actions={<button type="button">Generate</button>}
-      >
-        <p>body</p>
-      </AccordionSection>
-    );
-
-    const action = screen.getByRole('button', { name: 'Generate' });
-    const disclosure = toggle();
-    expect(disclosure.contains(action)).toBe(false);
-    expect(action.closest('button[aria-expanded]')).toBeNull();
-    // Still in the same header, so it reads as one row.
-    expect(disclosure.parentElement!.contains(action)).toBe(true);
-  });
-
-  it('does not open or shut the section when an action is pressed', () => {
-    const onAction = vi.fn();
-    render(
-      <AccordionSection
-        title="Exemplars"
-        icon={<span />}
-        actions={
-          <button type="button" onClick={onAction}>
-            Generate
-          </button>
-        }
-      >
-        <p>body</p>
-      </AccordionSection>
-    );
-
-    expect(toggle().getAttribute('aria-expanded')).toBe('false');
-    fireEvent.click(screen.getByRole('button', { name: 'Generate' }));
-
-    expect(onAction).toHaveBeenCalledTimes(1);
-    expect(toggle().getAttribute('aria-expanded')).toBe('false');
-  });
-
-  it('still toggles from the disclosure when actions are present', () => {
-    render(
-      <AccordionSection
-        title="Exemplars"
-        icon={<span />}
-        actions={<button type="button">Generate</button>}
-      >
-        <p>body</p>
-      </AccordionSection>
-    );
-
-    fireEvent.click(toggle());
-    expect(toggle().getAttribute('aria-expanded')).toBe('true');
-  });
-
-  it('renders the header with the disclosure alone when no actions are given', () => {
+describe('AccordionSection header', () => {
+  it('renders the header with the disclosure alone, as its only control', () => {
     render(
       <AccordionSection title="Exemplars" icon={<span />}>
         <p>body</p>
       </AccordionSection>
     );
 
-    // One button in the header, and it is the disclosure.
     const headerRow = toggle().parentElement!;
     expect(headerRow.querySelectorAll('button')).toHaveLength(1);
     expect(headerRow.children).toHaveLength(1);
@@ -90,11 +31,7 @@ describe('AccordionSection actions', () => {
 
   it('keeps the shared header height on the row that holds the disclosure', () => {
     const { container } = render(
-      <AccordionSection
-        title="Exemplars"
-        icon={<span />}
-        actions={<button type="button">Generate</button>}
-      >
+      <AccordionSection title="Exemplars" icon={<span />}>
         <p>body</p>
       </AccordionSection>
     );
@@ -105,11 +42,7 @@ describe('AccordionSection actions', () => {
 
   it('keeps aria-controls pointing at the body it discloses', () => {
     render(
-      <AccordionSection
-        title="Exemplars"
-        icon={<span />}
-        actions={<button type="button">Generate</button>}
-      >
+      <AccordionSection title="Exemplars" icon={<span />}>
         <p>body</p>
       </AccordionSection>
     );
@@ -181,5 +114,52 @@ describe('AccordionSection forceOpenSignal', () => {
     const { rerender } = render(section(undefined));
     rerender(section(undefined));
     expect(toggle().getAttribute('aria-expanded')).toBe('false');
+  });
+});
+
+describe('AccordionSection lazy', () => {
+  // A body whose rows run work on mount must not do that for a section nobody has
+  // opened. Off by default, so the other callers keep their children across a fold.
+  const body = (lazy?: boolean) => (
+    <AccordionSection title="Exemplars" icon={<span />} lazy={lazy}>
+      <p>expensive body</p>
+    </AccordionSection>
+  );
+
+  it('mounts no children while shut, and mounts them once opened', () => {
+    render(body(true));
+    expect(screen.queryByText('expensive body')).toBeNull();
+
+    fireEvent.click(toggle());
+    expect(screen.getByText('expensive body')).toBeTruthy();
+  });
+
+  it('unmounts the children again when the section is shut', () => {
+    render(body(true));
+    fireEvent.click(toggle());
+    expect(screen.getByText('expensive body')).toBeTruthy();
+
+    fireEvent.click(toggle());
+    expect(screen.queryByText('expensive body')).toBeNull();
+  });
+
+  it('keeps the body mounted while shut when lazy is not given, as before', () => {
+    render(body());
+    expect(toggle().getAttribute('aria-expanded')).toBe('false');
+    expect(screen.getByText('expensive body')).toBeTruthy();
+  });
+
+  it('mounts the children in the same render that a force-open signal opens the section', () => {
+    const section = (signal: number) => (
+      <AccordionSection title="Exemplars" icon={<span />} lazy forceOpenSignal={signal}>
+        <p>expensive body</p>
+      </AccordionSection>
+    );
+    const { rerender } = render(section(0));
+    expect(screen.queryByText('expensive body')).toBeNull();
+
+    rerender(section(1));
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByText('expensive body')).toBeTruthy();
   });
 });

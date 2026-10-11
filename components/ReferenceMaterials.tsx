@@ -27,16 +27,16 @@ interface AccordionSectionProps {
   resetKey?: string;
   /** Which of the question's supports this panel is, for the feedback report. */
   supportId?: SupportResourceId;
-  /** Controls shown in the header row, beside the chevron. They are SIBLINGS of
-   *  the disclosure button and never children of it, because a button cannot
-   *  hold another control. The disclosure still takes the whole left side of the
-   *  row, and pressing one of these does not open or shut the section. */
-  actions?: React.ReactNode;
   /** Opens the section each time this number CHANGES to a truthy value, so a
    *  sibling can open it from outside without owning its state. The value at
    *  mount is not a change, so it does not open the section; `defaultOpen` is
    *  what opens one on arrival. */
   forceOpenSignal?: number;
+  /** Mounts the children only while the section is open. A body whose rows run
+   *  work on mount (the exemplars run text metrics for every row) should not do
+   *  that for a section nobody has opened. Off by default, so every other caller
+   *  keeps its children mounted and its state across a fold. */
+  lazy?: boolean;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -48,8 +48,8 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   band = 6,
   resetKey,
   supportId,
-  actions,
   forceOpenSignal,
+  lazy = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   // The signal as last seen, kept as state and compared during render (the
@@ -68,10 +68,8 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
 
   return (
     <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
-      {/* The header row is a wrapper, not the button, so the actions can sit
-          beside the disclosure in the same header. The tint is on the row for
-          the same reason: the actions share the header's colour. A row with no
-          actions renders exactly as the button alone did. */}
+      {/* The header row is a wrapper around the disclosure, which carries the shared
+          row height and the tint. */}
       <div
         className={`group flex items-stretch ${PANEL_ROW_MIN_H} transition-all ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
       >
@@ -108,7 +106,6 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
             />
           </div>
         </button>
-        {actions && <div className="flex items-center gap-2 pr-3 flex-shrink-0">{actions}</div>}
       </div>
 
       {/* A grid-rows transition rather than a max-height one. The old
@@ -129,7 +126,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
       >
         <div className="overflow-hidden">
           <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
-            <div className="mt-5">{children}</div>
+            <div className="mt-5">{!lazy || isOpen ? children : null}</div>
           </div>
         </div>
       </div>

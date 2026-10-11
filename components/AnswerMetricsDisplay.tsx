@@ -15,6 +15,9 @@ interface AnswerMetricsDisplayProps {
   /** The achievement BAND to tint the chips with (1-6). Pass a band, not a
    *  cognitive tier — `getBandConfig` maps its argument as a band. */
   band?: number;
+  /** The word chip. A caller that already states the length in its own line sets
+   *  this false rather than saying it twice. Shown by default. */
+  showWords?: boolean;
 }
 
 const AnswerMetricsDisplay: React.FC<AnswerMetricsDisplayProps> = ({
@@ -22,6 +25,7 @@ const AnswerMetricsDisplay: React.FC<AnswerMetricsDisplayProps> = ({
   showLabel = true,
   className = '',
   band,
+  showWords = true,
 }) => {
   const { wordCount, keywordStats, colourStage } = metrics;
 
@@ -46,12 +50,14 @@ const AnswerMetricsDisplay: React.FC<AnswerMetricsDisplayProps> = ({
 
   return (
     <div className={`flex items-center flex-wrap gap-2 ${className}`}>
-      <span
-        className={`text-[10px] font-bold ${theme.text} ${theme.bg} border ${theme.border} px-2.5 py-1 rounded-lg font-mono flex items-center justify-center gap-1.5 text-center shadow-sm transition-colors duration-300`}
-      >
-        <Hash className={`w-3 h-3 ${theme.icon}`} />
-        {wordCount} words
-      </span>
+      {showWords && (
+        <span
+          className={`text-[10px] font-bold ${theme.text} ${theme.bg} border ${theme.border} px-2.5 py-1 rounded-lg font-mono flex items-center justify-center gap-1.5 text-center shadow-sm transition-colors duration-300`}
+        >
+          <Hash className={`w-3 h-3 ${theme.icon}`} />
+          {wordCount} words
+        </span>
+      )}
 
       {keywordStats.total > 0 && (
         <span

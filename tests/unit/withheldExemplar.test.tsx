@@ -78,7 +78,8 @@ describe('an exemplar the server withheld', () => {
 
   it('leaves an exemplar it did send alone', () => {
     renderWith([sample({ mark: 6 })]);
-    expect(screen.getByText(/PROSE THAT WAS PAID FOR/)).toBeTruthy();
+    // The prose is on the page and in the shut row's preview, so there are two.
+    expect(screen.getAllByText(/PROSE THAT WAS PAID FOR/).length).toBeGreaterThan(0);
     expect(screen.queryByRole('button', { name: /unlock with/i })).toBeNull();
   });
 });

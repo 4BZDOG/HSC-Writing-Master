@@ -57,3 +57,25 @@ export const useOpenExemplarRequest = (promptId: string, handler: (mark: number)
     return () => window.removeEventListener(OPEN_EXEMPLAR_EVENT, listener);
   }, [promptId]);
 };
+
+/**
+ * The level a request for `mark` should open, given the marks that a panel has
+ * exemplars at: `mark` itself when there is one, otherwise the nearest level
+ * below it, and failing that the nearest above it. Undefined when there are no
+ * exemplars at all.
+ *
+ * A guide row only asks for a mark its exemplar actually has, so the exact match
+ * is the normal case. The nearest-level fallback is for a request that does not
+ * line up, and the panel should still open somewhere sensible rather than do
+ * nothing.
+ */
+export const nearestExemplarMark = (marks: number[], mark: number): number | undefined => {
+  if (marks.includes(mark)) return mark;
+  let below: number | undefined;
+  let above: number | undefined;
+  for (const m of marks) {
+    if (m < mark && (below === undefined || m > below)) below = m;
+    if (m > mark && (above === undefined || m < above)) above = m;
+  }
+  return below ?? above;
+};

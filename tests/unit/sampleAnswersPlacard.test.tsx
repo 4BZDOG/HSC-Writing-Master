@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import React from 'react';
 import { readFileSync } from 'node:fs';
 import { render, screen, cleanup, fireEvent, within } from '@testing-library/react';
@@ -6,54 +6,35 @@ import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
 import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../../utils/panelStyles';
 import {
+  LADDER_EDGE_OPEN,
+  LADDER_EDGE_SHUT,
+  LADDER_GUTTER,
+  LADDER_ROW,
+  LADDER_STACK,
+} from '../../utils/ladderChrome';
+import {
   RIBBON_HEADER_SUBLABEL,
   RIBBON_HEADER_TILE,
   RIBBON_HEADER_TITLE,
-  RIBBON_MINI_BAR_UNLIT,
   RIBBON_MINI_STAIR,
 } from '../../utils/verbRibbonChrome';
-import {
-  SAMPLE_MINI_BAR,
-  SAMPLE_PANEL_BODY,
-  SAMPLE_PANEL_HEADER,
-  SAMPLE_PANEL_LIT_EDGE,
-  SAMPLE_PANEL_LIT_GLOW,
-  SAMPLE_PANEL_TOGGLE,
-  SAMPLE_PANEL_TOOLS,
-  SAMPLE_ROW,
-  SAMPLE_ROW_BODY,
-  SAMPLE_ROW_EDGE_OPEN,
-  SAMPLE_ROW_EDGE_SHUT,
-  SAMPLE_EXEMPLAR_ACTIONS,
-  SAMPLE_EXEMPLAR_TOOLBAR,
-  SAMPLE_ROW_CAROUSEL,
-  SAMPLE_ROW_DISCLOSURE,
-  SAMPLE_ROW_HEADER,
-  SAMPLE_STAT_CELL,
-  SAMPLE_STAT_GRID,
-  SAMPLE_STAT_LABEL,
-  SAMPLE_STAT_VALUE,
-} from '../../utils/sampleAnswerChrome';
 import * as sampleAnswerChrome from '../../utils/sampleAnswerChrome';
-import { getBandConfig, getBandRgb, getTierScaleConfig } from '../../utils/renderUtils';
+import { getBandConfig, getBandRgb } from '../../utils/renderUtils';
+import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
 import type { Prompt, PromptVerb, SampleAnswer, UserRole } from '../../types';
 
 /**
- * The Sample Answers placard is the verb ribbon's language, at reference
- * weight: a header in the ribbon's header vocabulary with the tier on its tile
- * and a mini ladder of the bands its exemplars cover, and mark-level rows that
- * are tier cards with scoreboard headers. The open panel is lit by its tier.
+ * The Sample Answers panel, on the Marking Guide's anatomy.
  *
- * What is pinned here is what jsdom can see: the class vocabulary, the
- * `--band-rgb` the panel and each row are lit from, the ladder's three states,
- * and the disclosure's aria state. The colours themselves are measured in the
- * browser (`tests/e2e`), as the ribbon's are.
+ * The panel is an `AccordionSection`: the same header, the same disclosure and the
+ * same surface as the guide beside it. Its tools sit in the body, and each mark
+ * level is a ladder row (`utils/ladderChrome.ts`) with the guide's gutter. This file
+ * pins what jsdom can see: the structure, the aria state, the behaviour of each
+ * control, and the class vocabulary. The colours themselves are measured in the
+ * browser.
  *
- * Nothing about behaviour changes: the zoom, the AI actions, the actions on an
- * exemplar, the carousel and the feedback block are the same controls with the
- * same names, and the existing suites (`workspaceReferenceRail`,
- * `sampleSourceBadge`, `draftIntegrity`, `manyExemplarsAndQuestions`, …) still
- * assert on them.
+ * The cross-link (a guide's "Model answer" opening a level here) and the parity
+ * with the guide's gutter are in `sampleAnswersLadder.test.tsx`.
  */
 
 vi.mock('../../services/geminiService', () => ({
@@ -61,6 +42,12 @@ vi.mock('../../services/geminiService', () => ({
   reviseSampleAnswer: vi.fn(),
   performQualityCheck: vi.fn(),
 }));
+
+beforeEach(() => {
+  // jsdom has no layout, so the cross-link's scroll is a stub where it is called.
+  Element.prototype.scrollIntoView = vi.fn();
+  resetSupportEngagement();
+});
 
 afterEach(cleanup);
 
@@ -74,7 +61,7 @@ const sample = (over: Partial<SampleAnswer> = {}): SampleAnswer =>
     ...over,
   }) as SampleAnswer;
 
-/** EXPLAIN is tier 3, so its ceiling is Band 3; EVALUATE is tier 6. */
+/** EXPLAIN is tier 3, so a six-mark question's ceiling is Band 3. */
 const renderPanel = (
   options: {
     verb?: PromptVerb;
@@ -82,9 +69,12 @@ const renderPanel = (
     sampleAnswers?: SampleAnswer[];
     userRole?: UserRole;
     defaultCollapsed?: boolean;
+    markingCriteria?: string;
+    keywords?: string[];
     onUseSampleAnswer?: (text: string) => void;
     onContributeSampleAnswer?: (answer: SampleAnswer) => void;
     onFontSizeChange?: (size: number) => void;
+    onRecalibrate?: () => Promise<void>;
   } = {}
 ) => {
   const prompt = {
@@ -92,7 +82,8 @@ const renderPanel = (
     question: 'Explain how the cell membrane regulates transport.',
     verb: options.verb ?? ('EXPLAIN' as PromptVerb),
     totalMarks: options.totalMarks ?? 6,
-    keywords: [],
+    keywords: options.keywords ?? [],
+    markingCriteria: options.markingCriteria ?? '',
     sampleAnswers: options.sampleAnswers ?? [],
   } as unknown as Prompt;
   return render(
@@ -103,6 +94,7 @@ const renderPanel = (
       onUpdateSampleAnswer={vi.fn()}
       onUseSampleAnswer={options.onUseSampleAnswer}
       onContributeSampleAnswer={options.onContributeSampleAnswer}
+      onRecalibrate={options.onRecalibrate}
       onFontSizeChange={options.onFontSizeChange}
       fontSize={options.onFontSizeChange ? 15 : undefined}
       userRole={options.userRole ?? 'user'}
@@ -111,358 +103,283 @@ const renderPanel = (
   );
 };
 
-/** The panel's own disclosure: the button that is named for Sample Answers. */
+/** The panel's own disclosure, which is named for Sample Answers. */
 const toggleOf = (): HTMLElement => screen.getByRole('button', { name: /^Sample Answers/i });
-/** The root of the panel, which is the surface every other panel shares. */
+/** The root of the panel, the surface every other panel shares. */
 const panelOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
-/** A row's card, from its disclosure: the disclosure sits in the header strip,
- *  and the header strip sits in the card. */
+/** The body the panel's disclosure controls. */
+const bodyOf = (toggle: HTMLElement): HTMLElement =>
+  document.getElementById(toggle.getAttribute('aria-controls')!) as HTMLElement;
+/** A level's disclosure, by the mark it names first ("4/6 marks, …"). */
+const disclosureFor = (mark: number, total = 6): HTMLElement =>
+  screen.getByRole('button', { name: new RegExp(`^${mark}/${total} marks`) });
+/** A level's row, from its disclosure. */
 const rowOf = (disclosure: HTMLElement): HTMLElement =>
-  disclosure.parentElement!.parentElement as HTMLElement;
-/** The mini ladder, by its exact class (the constant the header renders). */
-const ladderOf = (container: HTMLElement): HTMLElement =>
-  container.querySelector(`[class="${RIBBON_MINI_STAIR}"]`) as HTMLElement;
+  disclosure.closest('[data-exemplar-row]') as HTMLElement;
+/** A level's gutter: the ladder's own, which is the first `LADDER_GUTTER` in the row. */
+const gutterOf = (row: HTMLElement): HTMLElement =>
+  row.querySelector(`[class*="${LADDER_GUTTER.split(' ')[0]}"]`) as HTMLElement;
 
-/** The `rgb(r, g, b)` string jsdom reports for a band's `r g b` triplet. */
-const rgbOf = (band: number): string => `rgb(${getBandRgb(band).split(' ').join(', ')})`;
-const rgbaOf = (band: number, alpha: number): string =>
-  `rgba(${getBandRgb(band).split(' ').join(', ')}, ${alpha})`;
-
-describe('the header is the ribbon’s header, with the tier on its tile', () => {
-  it('names the panel in the ribbon’s title voice, with its summary as the sublabel', () => {
-    renderPanel({
-      sampleAnswers: [sample({ id: 'a', mark: 6 }), sample({ id: 'b', mark: 4 })],
-    });
-
+describe('the header is the Marking Guide’s header', () => {
+  it('names the panel, and states its exemplars and levels as the sublabel', () => {
+    renderPanel({ sampleAnswers: [sample({ id: 'a', mark: 6 }), sample({ id: 'b', mark: 4 })] });
     const title = screen.getByText('Sample Answers');
     expect(title.tagName).toBe('SPAN');
-    expect(title.className).toBe(RIBBON_HEADER_TITLE);
-    // A span inside the disclosure button, which is what the shared panel
-    // header test looks for.
+    expect(title.className).toContain('t-section');
     expect(toggleOf().querySelector('span.t-section')).toBe(title);
-
-    const summary = screen.getByText(/2 levels · 2 exemplars · Band ceiling 3/);
-    expect(summary.className).toBe(RIBBON_HEADER_SUBLABEL);
+    expect(screen.getByText('2 exemplars · 2 levels').className).toContain('t-label');
   });
 
-  it('lights the tile in the verb’s tier, paired the way getBandConfig intends', () => {
-    const { container } = renderPanel({ verb: 'EXPLAIN' as PromptVerb });
-    const tile = toggleOf().querySelector(`[class*="${RIBBON_HEADER_TILE}"]`) as HTMLElement;
-    const config = getTierScaleConfig(getCommandTermInfo('EXPLAIN' as PromptVerb).tier);
-
-    // Tier 3 is yellow, and white on it is 1.9:1, so the tile takes the config's
-    // own solidText. The tile is lit whether the panel is open or shut.
-    expect(tile.className).toContain(config.solidBg);
-    expect(tile.className).toContain(config.solidText);
-    expect(tile.className).toContain('text-yellow-950');
-    expect(tile.className).not.toContain('text-white');
-    expect(container).toBeTruthy();
+  it('says there are no models yet when none are written', () => {
+    renderPanel({ sampleAnswers: [] });
+    expect(screen.getByText('No models yet')).toBeTruthy();
   });
 
-  it('keeps the header on the panel row height, so the rhythm of the column holds', () => {
-    renderPanel();
-    expect(toggleOf().className).toContain(PANEL_ROW_MIN_H);
-    expect(toggleOf().className).toContain(SAMPLE_PANEL_TOGGLE);
-  });
-
-  // The header wraps by the PANEL's width, not the viewport's: the placard sits
-  // in a 22rem margin at xl, and a narrow panel must put the tools on a second
-  // line rather than take the title down to "SAMPLE …". jsdom has no layout, so
-  // what is pinned here is the mechanism: a wrapping row, a toggle with a real
-  // basis (`flex-1` is a zero basis, which never wraps), and the tools on the
-  // right of whichever line they land on.
-  it('wraps the tools under the title by the panel’s width, not the viewport’s', () => {
-    const { container } = renderPanel();
-    const header = toggleOf().parentElement as HTMLElement;
-    expect(header.className).toContain(SAMPLE_PANEL_HEADER);
-    expect(header.className).toContain('flex-wrap');
-    expect(header.className).not.toContain('flex-nowrap');
-    expect(toggleOf().className).toContain('flex-[1_1_20rem]');
-    expect(toggleOf().className).not.toMatch(/(^|\s)flex-1(\s|$)/);
-    // The header's children are the tint overlay, the toggle and then the tools,
-    // right-aligned on whichever line they land on.
-    const tools = header.children[2] as HTMLElement;
-    expect(tools.className).toBe(SAMPLE_PANEL_TOOLS);
-    expect(tools.className).toContain('ml-auto');
-    expect(container).toBeTruthy();
-  });
-
-  it('keeps the ladder with the tools, so the title keeps its line', () => {
-    const { container } = renderPanel({ sampleAnswers: [sample({ id: 'a', mark: 6 })] });
-    const ladder = ladderOf(container);
-    expect(toggleOf().contains(ladder)).toBe(false);
-    expect((toggleOf().parentElement as HTMLElement).children[2].contains(ladder)).toBe(true);
-    // And the title is the toggle's, so the ladder can never take room from it.
-    expect(toggleOf().contains(screen.getByText('Sample Answers'))).toBe(true);
-  });
-
-  it('keeps the panel on the shared surface', () => {
+  it('carries the same header row height and surface as every other panel', () => {
     const { container } = renderPanel();
     expect(panelOf(container).className).toContain(PANEL_SURFACE);
+    expect(toggleOf().parentElement!.className).toContain(PANEL_ROW_MIN_H);
+    expect(panelOf(container).firstElementChild!.contains(toggleOf())).toBe(true);
+  });
+
+  it('lights its icon tile in the question’s ceiling band, as the guide does', () => {
+    renderPanel({ verb: 'EXPLAIN' as PromptVerb, defaultCollapsed: false });
+    const ceiling = getBandForMark(6, 6, getCommandTermInfo('EXPLAIN' as PromptVerb).tier);
+    const tile = toggleOf().querySelector('.w-8') as HTMLElement;
+    for (const token of getBandConfig(ceiling).solidBg.split(' ')) {
+      expect(tile.className).toContain(token);
+    }
+  });
+
+  it('drops the verb ribbon’s chrome: no mini ladder, no tier-lit glow, no ribbon classes', () => {
+    const { container } = renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [sample({ id: 'a', mark: 6 })],
+    });
+    const html = container.innerHTML;
+    for (const token of [RIBBON_HEADER_TITLE, RIBBON_HEADER_SUBLABEL, RIBBON_HEADER_TILE]) {
+      expect(html).not.toContain(token);
+    }
+    expect(container.querySelector(`[class="${RIBBON_MINI_STAIR}"]`)).toBeNull();
+    expect(container.querySelector('[title^="Model answers at"]')).toBeNull();
+    expect(panelOf(container).style.borderColor).toBe('');
+    expect(panelOf(container).style.boxShadow).toBe('');
+  });
+
+  it('records the panel as a support the student opened, once they open it', () => {
+    renderPanel({ defaultCollapsed: true, sampleAnswers: [sample()] });
+    expect(readSupportUsage('p1').opened).not.toContain('sampleAnswers');
+    fireEvent.click(toggleOf());
+    expect(readSupportUsage('p1').opened).toContain('sampleAnswers');
   });
 });
 
-describe('the mini ladder says which bands the exemplars cover, against the ceiling', () => {
-  // EXPLAIN on six marks has a ceiling of Band 3. A mark of 6 is Band 3, a mark
-  // of 4 is Band 2, and a mark of 1 is Band 1 — so these two exemplars cover
-  // Bands 2 and 3, Band 1 is reachable but has no model yet, and Bands 4–6 are
-  // out of the verb's reach.
-  const exemplars = [sample({ id: 'a', mark: 6 }), sample({ id: 'b', mark: 4 })];
+describe('the body is folded until it is opened, and mounts nothing until then', () => {
+  it('reports the open state and names the body it controls', () => {
+    renderPanel({ defaultCollapsed: true, sampleAnswers: [sample({ id: 'a', mark: 6 })] });
+    const toggle = toggleOf();
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(toggle.getAttribute('aria-controls')).toBeTruthy();
 
-  it('is the ribbon’s miniature, hidden from assistive technology and from phones', () => {
-    const { container } = renderPanel({ sampleAnswers: exemplars });
-    const ladder = ladderOf(container);
-    expect(ladder).toBeTruthy();
-    expect(ladder.getAttribute('aria-hidden')).toBe('true');
-    expect(RIBBON_MINI_STAIR).toMatch(/(^|\s)hidden sm:flex/);
-    expect(Array.from(ladder.children)).toHaveLength(6);
+    // The body itself is there, inert and empty, so the aria-controls it names is real.
+    expect(bodyOf(toggle).hasAttribute('inert')).toBe(true);
+    expect(bodyOf(toggle).querySelector('[data-exemplar-row]')).toBeNull();
+
+    fireEvent.click(toggle);
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(bodyOf(toggle).hasAttribute('inert')).toBe(false);
+    expect(bodyOf(toggle).querySelector('[data-exemplar-row]')).toBeTruthy();
   });
 
-  it('draws a solid bar for each band that has an exemplar', () => {
-    const { container } = renderPanel({ sampleAnswers: exemplars });
-    const bars = Array.from(ladderOf(container).children) as HTMLElement[];
-
-    // The bands the two exemplars actually earn, from the same rule the rows use.
-    const covered = exemplars.map((s) => getBandForMark(s.mark, 6, 3));
-    expect(covered.sort()).toEqual([2, 3]);
-    for (const band of covered) {
-      expect(bars[band - 1].style.backgroundColor, `band ${band} is covered`).toBe(rgbOf(band));
-      expect(bars[band - 1].className).not.toContain(RIBBON_MINI_BAR_UNLIT);
-    }
+  it('mounts none of its rows while shut, so their text metrics do not run unseen', () => {
+    renderPanel({
+      defaultCollapsed: true,
+      sampleAnswers: [sample({ answer: 'Unseen prose here.' })],
+    });
+    expect(screen.queryByText('Unseen prose here.')).toBeNull();
+    fireEvent.click(toggleOf());
+    expect(screen.getAllByText('Unseen prose here.').length).toBeGreaterThan(0);
   });
 
-  it('draws a faint bar for a band inside the ceiling that has no exemplar yet', () => {
-    const { container } = renderPanel({ sampleAnswers: exemplars });
-    const bars = Array.from(ladderOf(container).children) as HTMLElement[];
+  it('can be asked to start open', () => {
+    renderPanel({ defaultCollapsed: false, sampleAnswers: [sample({ id: 'a', mark: 6 })] });
+    expect(toggleOf().getAttribute('aria-expanded')).toBe('true');
+    expect(disclosureFor(6)).toBeTruthy();
+  });
+});
 
-    // Band 1 is reachable on this verb, and nothing covers it: the gap.
-    expect(bars[0].style.backgroundColor).toBe(rgbaOf(1, 0.35));
-    expect(bars[0].className).not.toContain(RIBBON_MINI_BAR_UNLIT);
+describe('the tools sit in the body, in the guide’s slim row', () => {
+  it('puts the reading size in the body, not the header', () => {
+    const onFontSizeChange = vi.fn();
+    renderPanel({ onFontSizeChange });
+    const zoom = screen.getByTitle(/Increase text size/i);
+    expect(bodyOf(toggleOf()).contains(zoom)).toBe(true);
+    expect(toggleOf().parentElement!.contains(zoom)).toBe(false);
+    fireEvent.click(zoom);
+    expect(onFontSizeChange).toHaveBeenCalledWith(17);
   });
 
-  it('greys the bands above the verb’s ceiling', () => {
-    const { container } = renderPanel({ sampleAnswers: exemplars });
-    const bars = Array.from(ladderOf(container).children) as HTMLElement[];
-
-    for (const band of [4, 5, 6]) {
-      expect(bars[band - 1].className, `band ${band} is above the ceiling`).toContain(
-        RIBBON_MINI_BAR_UNLIT
-      );
-      expect(bars[band - 1].style.backgroundColor).toBe('');
-    }
+  it('shows the student the reading size and nothing else', () => {
+    renderPanel({ userRole: 'user', onRecalibrate: vi.fn().mockResolvedValue(undefined) });
+    expect(screen.getByTitle(/Increase text size/i)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /generate/i })).toBeNull();
+    expect(screen.queryByTitle(/Recalibrate samples with AI/i)).toBeNull();
   });
 
-  it('rises from Band 1 to Band 6, with a height for each step', () => {
-    const { container } = renderPanel({ sampleAnswers: exemplars });
-    const heights = (Array.from(ladderOf(container).children) as HTMLElement[]).map((bar) =>
-      parseFloat(bar.style.height)
-    );
-    expect([...heights].sort((a, b) => a - b)).toEqual(heights);
-    expect(new Set(heights).size).toBe(6);
-  });
-
-  it('says in its title which bands are covered, and what the ceiling is', () => {
-    const { container } = renderPanel({ sampleAnswers: exemplars });
-    expect(ladderOf(container).getAttribute('title')).toBe(
-      'Model answers at Band 2, 3; band ceiling Band 3'
-    );
-  });
-
-  it('reads "no band yet" with nothing written, and still shows the ceiling', () => {
-    const { container } = renderPanel({ sampleAnswers: [] });
-    const bars = Array.from(ladderOf(container).children) as HTMLElement[];
-    expect(ladderOf(container).getAttribute('title')).toBe(
-      'Model answers at no band yet; band ceiling Band 3'
-    );
-    // Nothing is solid, and the three reachable bands are faint.
-    expect(bars.filter((bar) => bar.style.backgroundColor.startsWith('rgb('))).toHaveLength(0);
-    expect(bars.slice(0, 3).every((bar) => bar.style.backgroundColor.startsWith('rgba('))).toBe(
+  it('gives a teacher the two AI actions beside the reading size', () => {
+    renderPanel({ userRole: 'teacher', onRecalibrate: vi.fn().mockResolvedValue(undefined) });
+    expect(screen.getByRole('button', { name: /generate a sample answer/i })).toBeTruthy();
+    expect(screen.getByTitle(/Recalibrate samples with AI/i)).toBeTruthy();
+    const row = screen.getByTitle(/Increase text size/i).parentElement!.parentElement!;
+    expect(row.contains(screen.getByRole('button', { name: /generate a sample answer/i }))).toBe(
       true
     );
   });
 });
 
-describe('the open panel is lit by its tier', () => {
-  it('sets the tier’s hue once, on the panel, from getBandRgb', () => {
-    const { container } = renderPanel({ verb: 'EVALUATE' as PromptVerb });
-    const tier = getCommandTermInfo('EVALUATE' as PromptVerb).tier;
-    expect(panelOf(container).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(tier));
-  });
-
-  it('has a neutral edge and no glow while it is folded', () => {
-    const { container } = renderPanel({ defaultCollapsed: true });
-    expect(panelOf(container).style.borderColor).toBe('');
-    expect(panelOf(container).style.boxShadow).toBe('');
-  });
-
-  it('takes the tier’s edge and glow when it opens, and gives them back when it shuts', () => {
-    const { container } = renderPanel({ defaultCollapsed: true, verb: 'EXPLAIN' as PromptVerb });
-    fireEvent.click(toggleOf());
-    expect(panelOf(container).style.borderColor).toContain('var(--band-rgb)');
-    expect(SAMPLE_PANEL_LIT_EDGE).toBe('rgb(var(--band-rgb) / 0.5)');
-    expect(SAMPLE_PANEL_LIT_GLOW).toContain('var(--band-rgb)');
-
-    fireEvent.click(toggleOf());
-    expect(panelOf(container).style.borderColor).toBe('');
-  });
-});
-
-describe('the disclosure keeps its aria state and its controls', () => {
-  it('reports the open state and names the body it controls', () => {
-    const { container } = renderPanel({
-      defaultCollapsed: true,
-      sampleAnswers: [sample({ id: 'a', mark: 6 })],
-    });
-    const toggle = toggleOf();
-    expect(toggle.getAttribute('aria-expanded')).toBe('false');
-    expect(document.getElementById(toggle.getAttribute('aria-controls')!)).toBeNull();
-
-    fireEvent.click(toggle);
-    expect(toggle.getAttribute('aria-expanded')).toBe('true');
-    const body = document.getElementById(toggle.getAttribute('aria-controls')!);
-    expect(body).toBeTruthy();
-    expect(body!.className).toContain(SAMPLE_PANEL_BODY);
-    expect(container).toBeTruthy();
-  });
-
-  it('keeps the reading size controls in the header, reachable while folded', () => {
-    const onFontSizeChange = vi.fn();
-    renderPanel({ defaultCollapsed: true, onFontSizeChange });
-    fireEvent.click(screen.getByTitle(/Increase text size/i));
-    expect(onFontSizeChange).toHaveBeenCalledWith(17);
-  });
-
-  it('keeps the AI actions to staff', () => {
-    renderPanel({ userRole: 'user', defaultCollapsed: false });
-    expect(screen.queryByRole('button', { name: /Generate/i })).toBeNull();
-    expect(screen.queryByTitle(/Recalibrate samples with AI/i)).toBeNull();
-  });
-
-  it('keeps the exemplar actions on an open row, and the teacher’s edit actions for staff', () => {
-    const onUseSampleAnswer = vi.fn();
-    const onContributeSampleAnswer = vi.fn();
-    renderPanel({
-      userRole: 'teacher',
-      sampleAnswers: [sample({ id: 'a', mark: 6, feedback: 'Strong link.' })],
-      onUseSampleAnswer,
-      onContributeSampleAnswer,
-    });
-    fireEvent.click(screen.getByRole('button', { name: /6\/6 marks/i }));
-
-    expect(screen.getByRole('button', { name: /^Use$/i })).toBeTruthy();
-    expect(screen.getByRole('button', { name: /copy/i })).toBeTruthy();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeTruthy();
-    expect(screen.getByTitle(/Flag it for review/i)).toBeTruthy();
-    expect(screen.getByTitle('Revise with AI')).toBeTruthy();
-    expect(screen.getByTitle('Edit manually')).toBeTruthy();
-    expect(screen.getByTitle('Delete')).toBeTruthy();
-    expect(screen.getByRole('button', { name: /Hide Feedback/i })).toBeTruthy();
-    expect(screen.getByText('Strong link.')).toBeTruthy();
-  });
-
-  it('hides the edit actions and the Use action from a student', () => {
-    renderPanel({ userRole: 'user', sampleAnswers: [sample({ id: 'a', mark: 6 })] });
-    fireEvent.click(screen.getByRole('button', { name: /6\/6 marks/i }));
-    expect(screen.queryByTitle('Delete')).toBeNull();
-    expect(screen.queryByRole('button', { name: /^Use$/i })).toBeNull();
-  });
-});
-
-describe('each mark level is a tier card in its own band', () => {
-  const twoLevels = [
+describe('each mark level is a ladder row, built on the guide’s gutter', () => {
+  const levels = [
     sample({ id: 'a', mark: 6 }), // Band 3
     sample({ id: 'b', mark: 4 }), // Band 2
     sample({ id: 'c', mark: 4, source: 'USER' }),
+    sample({ id: 'd', mark: 1 }), // Band 1
   ];
 
-  it('draws each row’s edge from its own band, and nothing else', () => {
-    renderPanel({ sampleAnswers: twoLevels });
-
-    const headerOfBand6 = screen.getByRole('button', { name: /6\/6 marks/i });
-    const rowOfBand6 = rowOf(headerOfBand6);
-    expect(rowOfBand6.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(3));
-    expect(rowOfBand6.className).toContain(SAMPLE_ROW);
-    expect(rowOfBand6.classList.contains(SAMPLE_ROW_EDGE_SHUT)).toBe(true);
-    expect(rowOfBand6.classList.contains('band-edge-strong')).toBe(false);
-
-    const headerOfBand2 = screen.getByRole('button', { name: /4\/6 marks/i });
-    expect(rowOf(headerOfBand2).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(2));
+  it('draws one row per level, highest mark first, in one stack', () => {
+    const { container } = renderPanel({ sampleAnswers: levels });
+    const rows = Array.from(container.querySelectorAll('[data-exemplar-row]')) as HTMLElement[];
+    expect(rows).toHaveLength(3);
+    expect(
+      rows.map((row) =>
+        row.querySelector('button[data-exemplar-mark]')!.getAttribute('data-exemplar-mark')
+      )
+    ).toEqual(['6', '4', '1']);
+    expect(rows[0].parentElement!.className).toBe(LADDER_STACK);
   });
 
-  it('gives the row its header in the scoreboard, with the band as a figure', () => {
-    renderPanel({ sampleAnswers: twoLevels });
-    const header = screen.getByRole('button', { name: /6\/6 marks/i });
-    // The disclosure is the button; the tinted strip around it is its wrapper.
-    expect(header.className).toContain(SAMPLE_ROW_DISCLOSURE);
-    expect((header.parentElement as HTMLElement).className).toContain(SAMPLE_ROW_HEADER);
-
-    const grid = header.querySelector(`[class="${SAMPLE_STAT_GRID}"]`) as HTMLElement;
-    expect(grid).toBeTruthy();
-    const cells = Array.from(grid.children) as HTMLElement[];
-    // One exemplar at this level, so there is no Exemplars cell — it only says
-    // something when there is more than one to count.
-    expect(cells.map((c) => c.querySelector('span')!.textContent)).toEqual([
-      'Mark',
-      'Band',
-      'Length',
-    ]);
-    for (const cell of cells) {
-      expect(cell.className).toBe(SAMPLE_STAT_CELL);
-      expect(cell.querySelector('span')!.className).toBe(SAMPLE_STAT_LABEL);
+  it('gives each row the ladder row’s shape and its band, from the band itself', () => {
+    renderPanel({ sampleAnswers: levels });
+    const row = rowOf(disclosureFor(6));
+    for (const token of LADDER_ROW.split(' ').filter((t) => !t.includes('['))) {
+      expect(row.className, `row lacks ${token}`).toContain(token);
     }
-    // The figures are one text run each, so "6/6 marks" is a single figure.
-    const mark = within(grid).getByText('6/6 marks');
-    expect(mark.className).toContain(SAMPLE_STAT_VALUE);
-    expect(within(grid).getByText('3', { selector: 'span' }).className).toContain(
-      getBandConfig(3).text
-    );
+    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(3));
+    expect(row.classList.contains(LADDER_EDGE_SHUT)).toBe(true);
   });
 
-  it('counts the words and the exemplars at a level in the scoreboard', () => {
-    renderPanel({ sampleAnswers: twoLevels });
-    const header = screen.getByRole('button', { name: /4\/6 marks/i });
-    // Two exemplars at this level, so the Exemplars cell is there and reads 2.
-    // The band figure is also 2, so the cell is found by its caption.
-    const exemplarsCell = within(header).getByText('Exemplars').parentElement as HTMLElement;
-    expect(exemplarsCell.querySelector('span:last-child')!.textContent).toBe('2');
-    // The first exemplar is the student's own (trust order puts USER ahead of AI),
-    // and its nine words are what the Length cell counts.
-    expect(within(header).getByText('9 words')).toBeTruthy();
+  it('shows the mark in the gutter, with the band beneath it as the guide does', () => {
+    renderPanel({ sampleAnswers: levels });
+    const gutter = gutterOf(rowOf(disclosureFor(6)));
+    expect(gutter.textContent).toBe(`6Band ${getBandForMark(6, 6, 3)}`);
+    expect(within(gutter).getByText('6')).toBeTruthy();
+    expect(within(gutter).getByText(`Band ${getBandForMark(6, 6, 3)}`)).toBeTruthy();
   });
 
-  it('opens a row to a statement edge in the same band, and shuts it to a whisper', () => {
-    renderPanel({ sampleAnswers: twoLevels });
-    const header = screen.getByRole('button', { name: /6\/6 marks/i });
-    const row = rowOf(header);
-
-    expect(header.getAttribute('aria-expanded')).toBe('false');
-    fireEvent.click(header);
-    expect(header.getAttribute('aria-expanded')).toBe('true');
-    expect(row.classList.contains(SAMPLE_ROW_EDGE_OPEN)).toBe(true);
-    expect(row.classList.contains(SAMPLE_ROW_EDGE_SHUT)).toBe(false);
-
-    const body = document.getElementById(header.getAttribute('aria-controls')!);
-    expect(body).toBeTruthy();
-    expect(body!.hasAttribute('inert')).toBe(false);
-    expect(body!.querySelector(`[class*="${SAMPLE_ROW_BODY}"]`)).toBeTruthy();
-
-    fireEvent.click(header);
-    expect(row.classList.contains(SAMPLE_ROW_EDGE_SHUT)).toBe(true);
-    expect(body!.hasAttribute('inert')).toBe(true);
+  it('opens a row to the strong edge, and shuts it back to the whisper', () => {
+    renderPanel({ sampleAnswers: levels });
+    const disclosure = disclosureFor(6);
+    const row = rowOf(disclosure);
+    fireEvent.click(disclosure);
+    expect(row.classList.contains(LADDER_EDGE_OPEN)).toBe(true);
+    expect(row.classList.contains(LADDER_EDGE_SHUT)).toBe(false);
+    fireEvent.click(disclosure);
+    expect(row.classList.contains(LADDER_EDGE_SHUT)).toBe(true);
   });
 
-  // A button inside a button is invalid HTML, and React says so in the console.
-  // The carousel used to sit inside the disclosure, so this is the regression the
-  // restructure exists to close: nothing in an open multi-exemplar row nests one
-  // interactive control in another.
-  it('never nests a button inside a button, in an open multi-exemplar row', () => {
+  it('holds only one row open at a time', () => {
+    renderPanel({ sampleAnswers: levels });
+    fireEvent.click(disclosureFor(6));
+    fireEvent.click(disclosureFor(4));
+    expect(disclosureFor(6).getAttribute('aria-expanded')).toBe('false');
+    expect(disclosureFor(4).getAttribute('aria-expanded')).toBe('true');
+  });
+});
+
+describe('the disclosure is the whole of a shut row', () => {
+  it('is a native button, named for its mark, with its body inert while shut', () => {
+    renderPanel({ defaultCollapsed: false, sampleAnswers: [sample({ id: 'a', mark: 4 })] });
+    const disclosure = disclosureFor(4);
+    expect(disclosure.tagName).toBe('BUTTON');
+    expect(disclosure.getAttribute('type')).toBe('button');
+    expect(disclosure.getAttribute('aria-expanded')).toBe('false');
+    const body = document.getElementById(disclosure.getAttribute('aria-controls')!)!;
+    expect(body.hasAttribute('inert')).toBe(true);
+  });
+
+  it('shows the source, the length and the exemplar count in its header line', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [
+        sample({ id: 'a', mark: 4, answer: 'Nine words in a model answer for the row.' }),
+        sample({ id: 'b', mark: 4, source: 'USER', answer: 'Short student one.' }),
+      ],
+    });
+    const disclosure = disclosureFor(4);
+    // The student's own response leads, as it is the one the trust order puts first.
+    expect(within(disclosure).getByText('Student')).toBeTruthy();
+    expect(within(disclosure).getByText('3 words')).toBeTruthy();
+    expect(within(disclosure).getByText('2 exemplars')).toBeTruthy();
+  });
+
+  it('names the exemplar’s opening as a two-line clamp while it is shut', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [
+        sample({ id: 'a', mark: 6, answer: 'The **membrane** regulates transport.' }),
+      ],
+    });
+    const preview = disclosureFor(6).querySelector('.line-clamp-2') as HTMLElement;
+    expect(preview).toBeTruthy();
+    expect(preview.textContent).toBe('The membrane regulates transport.');
+    expect(preview.textContent).not.toContain('**');
+  });
+
+  it('drops the preview once the row is open, and draws none for a locked exemplar', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [sample({ id: 'a', mark: 6, answer: 'Open prose.' })],
+    });
+    const disclosure = disclosureFor(6);
+    expect(disclosure.querySelector('.line-clamp-2')).toBeTruthy();
+    fireEvent.click(disclosure);
+    expect(disclosure.querySelector('.line-clamp-2')).toBeNull();
+  });
+
+  it('draws no preview and no word count for an exemplar the plan withholds', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [sample({ id: 'a', mark: 6, answer: '', withheld: true })],
+    });
+    const disclosure = disclosureFor(6);
+    expect(disclosure.querySelector('.line-clamp-2')).toBeNull();
+    expect(within(disclosure).getByText('Locked')).toBeTruthy();
+    expect(within(disclosure).queryByText(/words$/)).toBeNull();
+  });
+
+  it('flags a flagged exemplar in its header', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [
+        sample({
+          id: 'a',
+          mark: 6,
+          contentFlag: { reason: 'Looks wrong', flaggedAt: 1, status: 'open' },
+        }),
+      ],
+    });
+    expect(within(disclosureFor(6)).getByText('Flagged')).toBeTruthy();
+  });
+
+  // A button inside a button is invalid HTML, and it is the restructure this panel
+  // exists to keep closed: the carousel is a sibling of the disclosure, never a child.
+  it('never nests a button inside a button, with the carousel open', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
     try {
       const { container } = renderPanel({
+        defaultCollapsed: false,
         sampleAnswers: [sample({ id: 'a', mark: 4 }), sample({ id: 'b', mark: 4, source: 'USER' })],
       });
-      fireEvent.click(screen.getByRole('button', { name: /4\/6 marks/i }));
-
+      fireEvent.click(disclosureFor(4));
       expect(screen.getByRole('button', { name: /next sample/i })).toBeTruthy();
       expect(container.querySelectorAll('button button')).toHaveLength(0);
       const nesting = consoleError.mock.calls.filter((call) =>
@@ -474,16 +391,12 @@ describe('each mark level is a tier card in its own band', () => {
     }
   });
 
-  it('keeps the disclosure a native button, and the carousel its siblings', () => {
+  it('steps the carousel beside the disclosure without toggling the row', () => {
     renderPanel({
+      defaultCollapsed: false,
       sampleAnswers: [sample({ id: 'a', mark: 4 }), sample({ id: 'b', mark: 4, source: 'USER' })],
     });
-    const disclosure = screen.getByRole('button', { name: /4\/6 marks/i });
-    // A native button takes Enter and Space for free; the disclosure must stay one.
-    expect(disclosure.tagName).toBe('BUTTON');
-    expect(disclosure.getAttribute('type')).toBe('button');
-    expect(disclosure.className).toContain(SAMPLE_ROW_DISCLOSURE);
-
+    const disclosure = disclosureFor(4);
     fireEvent.click(disclosure);
     const next = screen.getByRole('button', { name: /next sample/i });
     const prev = screen.getByRole('button', { name: /previous sample/i });
@@ -491,66 +404,215 @@ describe('each mark level is a tier card in its own band', () => {
       expect(disclosure.contains(control)).toBe(false);
       expect(control.getAttribute('type')).toBe('button');
     }
-    expect(next.parentElement!.className).toBe(SAMPLE_ROW_CAROUSEL);
-  });
-
-  it('steps the carousel without toggling the row, and keeps its “N/M” count', () => {
-    renderPanel({
-      sampleAnswers: [sample({ id: 'a', mark: 4 }), sample({ id: 'b', mark: 4, source: 'USER' })],
-    });
-    const disclosure = screen.getByRole('button', { name: /4\/6 marks/i });
-    fireEvent.click(disclosure);
-    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText('1/2')).toBeTruthy();
-
-    fireEvent.click(screen.getByRole('button', { name: /next sample/i }));
+    fireEvent.click(next);
     expect(disclosure.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText('2/2')).toBeTruthy();
-
-    fireEvent.click(screen.getByRole('button', { name: /previous sample/i }));
-    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    fireEvent.click(prev);
     expect(screen.getByText('1/2')).toBeTruthy();
-  });
-
-  // The controls bar used to be a fixed row of seven actions inside a box that
-  // clips with `overflow-hidden`: Delete sat 17px out of view at 390px. It wraps now.
-  it('wraps the exemplar toolbar, so every action is reachable at every width', () => {
-    renderPanel({
-      userRole: 'teacher',
-      sampleAnswers: [sample({ id: 'a', mark: 6 })],
-      onUseSampleAnswer: vi.fn(),
-    });
-    fireEvent.click(screen.getByRole('button', { name: /6\/6 marks/i }));
-
-    const deleteButton = screen.getByTitle('Delete');
-    const actions = deleteButton.parentElement as HTMLElement;
-    expect(actions.className).toBe(SAMPLE_EXEMPLAR_ACTIONS);
-    expect(actions.className).toContain('flex-wrap');
-    const toolbar = actions.parentElement as HTMLElement;
-    expect(toolbar.className).toBe(SAMPLE_EXEMPLAR_TOOLBAR);
-    expect(toolbar.className).toContain('flex-wrap');
-    // The old fixed column-then-row switch is gone: nothing here is `nowrap`.
-    expect(toolbar.className).not.toContain('nowrap');
-    expect(toolbar.className).not.toMatch(/(^|\s)flex-col(\s|$)/);
-  });
-
-  it('keeps the carousel, the source line and the level tabs on an open row', () => {
-    renderPanel({ sampleAnswers: twoLevels });
-    fireEvent.click(screen.getByRole('button', { name: /4\/6 marks/i }));
-    // Two exemplars at this level, so the picker and the arrows are there.
-    expect(screen.getByRole('tablist', { name: /exemplars at this mark/i })).toBeTruthy();
-    expect(screen.getByRole('button', { name: /next sample/i })).toBeTruthy();
-    // "Student" is the source badge and also the first tab's label, so it is
-    // found by its presence rather than as a single match.
-    expect(screen.getAllByText('Student').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('AI Model').length).toBeGreaterThan(0);
   });
 });
 
-describe('the placard’s class vocabulary is pinned', () => {
-  const source = readFileSync('utils/sampleAnswerChrome.ts', 'utf8');
+describe('an open row: the criterion, the picker, the page, then the actions', () => {
+  const GUIDE = [
+    '6 marks: Explains the membrane in detail, with a worked example',
+    '4 marks: Explains the membrane with accurate detail',
+    '2 marks: Identifies one feature of the membrane',
+  ].join('\n');
 
-  /** Every exported string, by name. */
+  it('states the criterion that earns the mark, from the guide, in a quiet note', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      markingCriteria: GUIDE,
+      sampleAnswers: [sample({ id: 'a', mark: 4 })],
+    });
+    fireEvent.click(disclosureFor(4));
+    const note = screen.getByText('What earns this mark');
+    expect(note.parentElement!.textContent).toContain('Explains the membrane with accurate detail');
+    expect(note.closest('.border-l-2')).toBeTruthy();
+  });
+
+  it('draws no note when the guide has no row for that level', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      markingCriteria: '6 marks: Explains the membrane in detail',
+      sampleAnswers: [sample({ id: 'a', mark: 4 })],
+    });
+    fireEvent.click(disclosureFor(4));
+    expect(screen.queryByText('What earns this mark')).toBeNull();
+  });
+
+  it('offers the level’s exemplars as a picker, and folds the tail behind "+N more"', () => {
+    const many = [1, 2, 3, 4, 5, 6].map((n) =>
+      sample({ id: `m${n}`, mark: 6, answer: `Exemplar ${n}.` })
+    );
+    renderPanel({ defaultCollapsed: false, sampleAnswers: many });
+    fireEvent.click(disclosureFor(6));
+    const strip = screen.getByRole('tablist', { name: /exemplars at this mark/i });
+    expect(within(strip).getAllByRole('tab')).toHaveLength(4);
+    fireEvent.click(screen.getByRole('button', { name: /\+2 more/i }));
+    expect(within(strip).getAllByRole('tab')).toHaveLength(6);
+  });
+
+  it('names each chip by where it came from and how long it is', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [
+        sample({ id: 'a', mark: 4, source: 'HSC_EXEMPLAR', answer: 'One two three.' }),
+        sample({ id: 'b', mark: 4, answer: 'Four five six seven.' }),
+      ],
+    });
+    fireEvent.click(disclosureFor(4));
+    const tabs = within(screen.getByRole('tablist')).getAllByRole('tab');
+    expect(tabs[0].textContent).toMatch(/Official/);
+    expect(tabs[0].textContent).toMatch(/3w/);
+    expect(tabs[0].getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('leaves a single exemplar with no picker at all', () => {
+    renderPanel({ defaultCollapsed: false, sampleAnswers: [sample({ id: 'only', mark: 6 })] });
+    fireEvent.click(disclosureFor(6));
+    expect(screen.queryByRole('tablist')).toBeNull();
+  });
+
+  it('reads the exemplar on its page, with the actions beneath it', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      userRole: 'teacher',
+      onUseSampleAnswer: vi.fn(),
+      onContributeSampleAnswer: vi.fn(),
+      sampleAnswers: [sample({ id: 'a', mark: 6, answer: 'Page prose.' })],
+    });
+    fireEvent.click(disclosureFor(6));
+    const text = document.querySelector(
+      `[class="${sampleAnswerChrome.SAMPLE_PAGE_TEXT}"]`
+    ) as HTMLElement;
+    const page = text.parentElement!;
+    const copy = screen.getByRole('button', { name: /^copy$/i });
+    expect(page.className).toBe(sampleAnswerChrome.SAMPLE_PAGE);
+    expect(text.textContent).toContain('Page prose.');
+    // The reading size is set inline, from the zoom control.
+    expect(text.style.fontSize).toBe('15px');
+    // The toolbar comes after the page in the document.
+    expect(page.compareDocumentPosition(copy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('keeps the exemplar actions for a curator, and hides Use and the edit actions from a student', () => {
+    const onUseSampleAnswer = vi.fn();
+    const onContributeSampleAnswer = vi.fn();
+    const { unmount } = renderPanel({
+      userRole: 'teacher',
+      sampleAnswers: [sample({ id: 'a', mark: 6, feedback: 'Strong link.' })],
+      onUseSampleAnswer,
+      onContributeSampleAnswer,
+    });
+    fireEvent.click(disclosureFor(6));
+    expect(screen.getByRole('button', { name: /^Use$/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /^copy$/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /submit/i })).toBeTruthy();
+    expect(screen.getByTitle(/Flag it for review/i)).toBeTruthy();
+    expect(screen.getByTitle('Revise with AI')).toBeTruthy();
+    expect(screen.getByTitle('Edit manually')).toBeTruthy();
+    expect(screen.getByTitle('Delete')).toBeTruthy();
+    unmount();
+
+    renderPanel({ userRole: 'user', sampleAnswers: [sample({ id: 'a', mark: 6 })] });
+    fireEvent.click(disclosureFor(6));
+    expect(screen.queryByTitle('Delete')).toBeNull();
+    expect(screen.queryByRole('button', { name: /^Use$/i })).toBeNull();
+    expect(screen.getByRole('button', { name: /^copy$/i })).toBeTruthy();
+  });
+
+  it('shows the keywords the exemplar meets, and not the word count a second time', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      keywords: ['membrane', 'diffusion'],
+      sampleAnswers: [sample({ id: 'a', mark: 6, answer: 'The membrane controls transport.' })],
+    });
+    fireEvent.click(disclosureFor(6));
+    const row = rowOf(disclosureFor(6));
+    expect(within(row).getByText(/1\/2 keywords/)).toBeTruthy();
+    // Once in the header line, and not again in the toolbar.
+    expect(within(row).getAllByText(/^\d+ words$/)).toHaveLength(1);
+  });
+});
+
+describe('the Coach’s Tip and Feedback are neutral notes, folded by the reader', () => {
+  const noted = [
+    sample({ id: 'a', mark: 6, quickTip: 'Tighten the opening.', feedback: 'Solid structure.' }),
+  ];
+
+  it('draws each note with a rule and a glyph, and no band or tone fill', () => {
+    renderPanel({ defaultCollapsed: false, sampleAnswers: noted });
+    fireEvent.click(disclosureFor(6));
+    const tip = screen.getByText("Coach's Tip").closest('.border-l-2') as HTMLElement;
+    const feedback = screen.getByText('Feedback').closest('.border-l-2') as HTMLElement;
+    for (const note of [tip, feedback]) {
+      expect(note.className).not.toMatch(/\b(bg|indigo|amber|emerald|sky|violet)-/);
+      expect(note.querySelector('svg')).toBeTruthy();
+    }
+    expect(tip.textContent).toContain('Tighten the opening.');
+  });
+
+  it('folds the notes away from the reader’s own toggle', () => {
+    renderPanel({ defaultCollapsed: false, sampleAnswers: noted });
+    fireEvent.click(disclosureFor(6));
+    const toggle = screen.getByRole('button', { name: /Hide Feedback/i });
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    fireEvent.click(toggle);
+    expect(
+      screen.getByRole('button', { name: /Show Feedback/i }).getAttribute('aria-expanded')
+    ).toBe('false');
+  });
+
+  it('shows neither a locked exemplar’s notes nor its prose', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [
+        sample({
+          id: 'a',
+          mark: 6,
+          withheld: true,
+          quickTip: 'Hidden tip.',
+          feedback: 'Hidden feedback.',
+        }),
+      ],
+    });
+    fireEvent.click(disclosureFor(6));
+    expect(screen.queryByText('Hidden tip.')).toBeNull();
+    expect(screen.queryByText('Hidden feedback.')).toBeNull();
+  });
+});
+
+describe('a locked exemplar is a locked card in its row', () => {
+  it('stands in for the page and the actions, with the upgrade', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      userRole: 'teacher',
+      onUseSampleAnswer: vi.fn(),
+      sampleAnswers: [sample({ id: 'a', mark: 6, answer: '', withheld: true })],
+    });
+    fireEvent.click(disclosureFor(6));
+    expect(screen.getByText(/A Band \d exemplar at 6\/6/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: /unlock with/i })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /^copy$/i })).toBeNull();
+    expect(screen.queryByTitle('Delete')).toBeNull();
+  });
+
+  it('shows the exemplar it did send, with its page and its actions', () => {
+    renderPanel({
+      defaultCollapsed: false,
+      sampleAnswers: [sample({ id: 'a', mark: 6, answer: 'Sent prose.' })],
+    });
+    fireEvent.click(disclosureFor(6));
+    expect(screen.queryByRole('button', { name: /unlock with/i })).toBeNull();
+    expect(screen.getByRole('button', { name: /^copy$/i })).toBeTruthy();
+  });
+});
+
+describe('the panel’s chrome is pinned', () => {
+  const source = readFileSync('utils/sampleAnswerChrome.ts', 'utf8');
+  const component = readFileSync('components/SampleAnswersAccordion.tsx', 'utf8');
   const strings = Object.entries(sampleAnswerChrome).filter(
     ([, value]) => typeof value === 'string'
   ) as [string, string][];
@@ -571,11 +633,10 @@ describe('the placard’s class vocabulary is pinned', () => {
   };
 
   it('has constants to hold to it', () => {
-    expect(strings.length).toBeGreaterThanOrEqual(15);
+    expect(strings.length).toBeGreaterThanOrEqual(25);
   });
 
   it('documents every export with a doc comment, saying what it is painted on', () => {
-    // A block comment directly above each export, and it names the surface.
     const exports = Array.from(source.matchAll(/^export const (\w+)/gm)).map((m) => m[1]);
     expect(exports.length).toBe(strings.length);
     for (const name of exports) {
@@ -583,22 +644,23 @@ describe('the placard’s class vocabulary is pinned', () => {
       const before = source.slice(0, index).trimEnd();
       expect(before.endsWith('*/'), `${name} has no doc comment`).toBe(true);
       const comment = before.slice(before.lastIndexOf('/**'));
-      expect(comment, `${name} does not say what it is painted on`).toMatch(
-        /[Pp]ainted (on|in)|Painted|painted/
+      expect(comment, `${name} does not say what it is painted on`).toMatch(/[Pp]ainted/);
+    }
+  });
+
+  it('uses every export in the component, so none is dead', () => {
+    for (const [name] of strings) {
+      expect(component.includes(name), `${name} is exported but the panel never uses it`).toBe(
+        true
       );
     }
   });
 
-  it('names no hex colour', () => {
+  it('names no hex colour, and no band palette colour: the tier comes from --band-rgb', () => {
     for (const [name, value] of strings) {
       expect(value, `${name} names a hex colour`).not.toMatch(/#[0-9a-f]{3,8}\b/i);
-    }
-  });
-
-  it('draws no band colour from a palette literal — the tier comes from --band-rgb', () => {
-    for (const [name, value] of strings) {
       expect(value, `${name} names a band palette colour`).not.toMatch(
-        /\b(red|orange|yellow|green|blue|purple|amber|emerald|violet|indigo)-\d{2,3}\b/
+        /\b(red|orange|yellow|green|blue|purple|amber|emerald|violet|indigo|sky)-\d{2,3}\b/
       );
     }
   });
@@ -610,10 +672,6 @@ describe('the placard’s class vocabulary is pinned', () => {
   });
 
   it('gives every colour on a themed surface a dark: partner', () => {
-    // The band-tinted classes are one colour in both themes, the same exemption the
-    // ribbon makes for its halo: `band-edge`, `band-edge-strong` and `band-wash`
-    // draw `--band-rgb` at an alpha and have no ground to get wrong.
-    const exempt = new Set(['band-edge', 'band-edge-strong', 'band-wash']);
     for (const [name, value] of strings) {
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -623,7 +681,7 @@ describe('the placard’s class vocabulary is pinned', () => {
           .filter(Boolean)
       );
       for (const token of tokens) {
-        if (token.startsWith('dark:') || exempt.has(token)) continue;
+        if (token.startsWith('dark:')) continue;
         const property = colourProperty(token);
         if (!property) continue;
         expect(themed.has(property), `${name} sets \`${token}\` with no dark: partner`).toBe(true);
@@ -631,13 +689,14 @@ describe('the placard’s class vocabulary is pinned', () => {
     }
   });
 
-  it('holds small text to the contrast floor in both themes', () => {
-    // The caption and the figure label are 12px: slate-600 on white is 7.6:1 and
-    // slate-300 on the dark surface is 13.3:1. slate-500 is 4.1:1 on the dark one.
-    expect(SAMPLE_STAT_LABEL).toContain('text-slate-600');
-    expect(SAMPLE_STAT_LABEL).toContain('dark:text-slate-300');
-    expect(SAMPLE_STAT_LABEL).not.toMatch(/text-slate-500/);
-    expect(SAMPLE_STAT_LABEL).not.toMatch(/dark:text-slate-400/);
+  it('holds the figures and the captions to the contrast floor in both themes', () => {
+    // slate-700 is 10:1 on white and slate-300 is about 10:1 on the dark ground, both
+    // above AA on the band wash; slate-500 is not, on the dark one.
+    expect(sampleAnswerChrome.SAMPLE_ROW_FIGURE).toContain('text-slate-700');
+    expect(sampleAnswerChrome.SAMPLE_ROW_FIGURE).toContain('dark:text-slate-300');
+    expect(sampleAnswerChrome.SAMPLE_ROW_PREVIEW).toContain('text-slate-700');
+    expect(sampleAnswerChrome.SAMPLE_ROW_PREVIEW).toContain('dark:text-slate-300');
+    expect(sampleAnswerChrome.SAMPLE_PAGE_TEXT).toContain('text-slate-800');
   });
 
   it('dims nothing with opacity, and animates nothing forever', () => {
@@ -651,7 +710,6 @@ describe('the placard’s class vocabulary is pinned', () => {
     for (const [name, value] of strings) {
       expect(value, `${name} transitions \`all\``).not.toMatch(/(^|\s)transition-all(\s|$)/);
     }
-    expect(SAMPLE_ROW).toContain('transition-[border-color]');
   });
 
   it('gates every hover to a device that can hover', () => {
@@ -663,7 +721,7 @@ describe('the placard’s class vocabulary is pinned', () => {
     }
   });
 
-  it('draws every focus ring in both themes, inset because the panel clips', () => {
+  it('draws every focus ring in both themes, inset because the row clips', () => {
     for (const [name, value] of strings) {
       if (!value.includes('focus-visible:ring-')) continue;
       expect(value, `${name} has a focus ring with no dark partner`).toContain(
@@ -675,46 +733,39 @@ describe('the placard’s class vocabulary is pinned', () => {
     }
   });
 
-  it('keeps the lit edge and glow to the tier’s own hue, from a variable', () => {
-    for (const value of [SAMPLE_PANEL_LIT_EDGE, SAMPLE_PANEL_LIT_GLOW]) {
-      expect(value).toContain('var(--band-rgb)');
-      expect(value).not.toMatch(/#[0-9a-f]{3,8}/i);
-      expect(value).not.toMatch(/\b(rgb|rgba|hsl)\(\s*\d/);
+  it('gives every touch target a 44px height on a phone, and returns it to its own size from sm', () => {
+    for (const name of [
+      'SAMPLE_ACTION',
+      'SAMPLE_PICKER_TAB',
+      'SAMPLE_ZOOM_BUTTON',
+      'SAMPLE_CAROUSEL_BUTTON',
+      'SAMPLE_NOTE_TOGGLE',
+    ] as const) {
+      const value = sampleAnswerChrome[name];
+      expect(value, `${name} is under 44px on a phone`).toMatch(/(^|\s)min-h-11(\s|$)/);
+      expect(value, `${name} keeps the phone height at desktop`).toContain('sm:min-h-0');
     }
   });
 
-  it('has the constants the placard renders, in the classes it renders them with', () => {
-    expect(SAMPLE_PANEL_BODY).toContain('flex-col');
-    expect(SAMPLE_ROW).toContain('rounded-2xl');
-    expect(SAMPLE_ROW_EDGE_SHUT).toBe('band-edge');
-    expect(SAMPLE_ROW_EDGE_OPEN).toBe('band-edge-strong');
-    expect(SAMPLE_MINI_BAR).toContain('w-1');
-    expect(SAMPLE_STAT_VALUE).toContain('font-mono');
-    expect(SAMPLE_STAT_VALUE).toContain('tabular-nums');
+  it('wraps the toolbar and the picker, so no control is clipped at 390px', () => {
+    expect(sampleAnswerChrome.SAMPLE_ACTIONS).toContain('flex-wrap');
+    expect(sampleAnswerChrome.SAMPLE_ACTION_GROUP).toContain('flex-wrap');
+    expect(sampleAnswerChrome.SAMPLE_PICKER).toContain('flex-wrap');
+    expect(sampleAnswerChrome.SAMPLE_TOOLS).toContain('flex-wrap');
   });
 
-  // A fixed grid left an empty grey slot whenever a level had three cells, so the
-  // scoreboard is a wrapping row whose cells are sized to it.
-  it('lays the scoreboard out as a wrapping row, with no grid to leave a slot empty', () => {
-    expect(SAMPLE_STAT_GRID).toContain('flex');
-    expect(SAMPLE_STAT_GRID).toContain('flex-wrap');
-    expect(SAMPLE_STAT_GRID).not.toMatch(/(^|\s)grid(\s|$)/);
-    expect(SAMPLE_STAT_GRID).not.toContain('grid-cols');
-    expect(SAMPLE_STAT_GRID).toContain('gap-px');
+  it('clamps the preview to two lines and never to one', () => {
+    expect(sampleAnswerChrome.SAMPLE_ROW_PREVIEW).toContain('line-clamp-2');
+    expect(sampleAnswerChrome.SAMPLE_ROW_PREVIEW).not.toContain('truncate');
   });
 
-  it('sizes each cell to grow into its row, from a real basis, so cells wrap', () => {
-    // `flex-1` is `flex: 1 1 0%`: a zero basis fits every cell on one line and
-    // they never wrap. The cell needs a grow factor AND a non-zero basis.
-    expect(SAMPLE_STAT_CELL).toMatch(/(^|\s)grow(\s|$)/);
-    expect(SAMPLE_STAT_CELL).toContain('basis-[7.5rem]');
-    expect(SAMPLE_STAT_CELL).not.toMatch(/(^|\s)flex-1(\s|$)/);
-    expect(SAMPLE_STAT_CELL).toContain('min-w-0');
+  it('keeps the page and the notes on the reading face', () => {
+    expect(sampleAnswerChrome.SAMPLE_PAGE_TEXT).toContain('font-serif');
+    expect(sampleAnswerChrome.SAMPLE_ROW_PREVIEW).toContain('font-serif');
   });
 
-  // A figure that does not fit is a defect, and an ellipsis hides the mark.
-  it('never truncates a figure: it is one unbroken run, sized by its cell', () => {
-    expect(SAMPLE_STAT_VALUE).toContain('whitespace-nowrap');
-    expect(SAMPLE_STAT_VALUE).not.toMatch(/(^|\s)truncate(\s|$)/);
+  it('keeps the row rhythm and the gutter the guide draws', () => {
+    expect(LADDER_STACK).toBe('space-y-2');
+    expect(LADDER_GUTTER).toContain('w-16');
   });
 });
