@@ -1052,6 +1052,28 @@ describe('the staircase lights one geometry from one palette', () => {
     }
   });
 
+  // The flare is the one bright, solid thing on the staircase that is not the
+  // column's own gradient. Its overlay is `origin-bottom` inside the column with
+  // no overflow clip, so a scale above 1 paints above the column into the stage,
+  // and a high peak reads as a slab of the tier's hex. Both are capped here.
+  it('keeps the flare inside its own column, and at half strength at most', () => {
+    const keyframes = tailwindConfig.theme.extend.keyframes as Record<
+      string,
+      Record<string, Record<string, string>>
+    >;
+    const frames = Object.values(keyframes.tierIgnite);
+
+    for (const frame of frames) {
+      const scaleY = /scaleY\(([\d.]+)\)/.exec(frame.transform ?? '');
+      expect(
+        Number(scaleY?.[1] ?? 1),
+        `flare outgrows its column: ${frame.transform}`
+      ).toBeLessThanOrEqual(1);
+    }
+    const peak = Math.max(...frames.map((frame) => Number(frame.opacity ?? 0)));
+    expect(peak, 'flare peaks as a near-solid slab').toBeLessThanOrEqual(0.5);
+  });
+
   // The global reduced-motion rule shortens every animation's DURATION and leaves
   // its DELAY alone. The staircase staggers by delay, with `both` fill, so each
   // column holds at its first frame until its turn — left as it was, a reader who

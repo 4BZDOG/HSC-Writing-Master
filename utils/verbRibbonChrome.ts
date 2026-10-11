@@ -452,7 +452,9 @@ export const RIBBON_INK_STAIR_COLUMN =
 /** The one-shot flare up the column the reader has just reached, keyed on the
  *  tier at the call site so it replays when the question changes. It is the
  *  bar's `tier-ignite`, growing from the foot of the column. Its fill is the
- *  tier's own hex, inline. Painted over the column.
+ *  tier's own hex, inline. Painted over the column. Its peak is half strength
+ *  and stays inside the column's box (`tierIgnite` in tailwind.config.js), so it
+ *  reads as light on the column rather than a solid block beside it.
  *
  *  `opacity-0` is its RESTING state, not a dim: the flare has a delay, so that it
  *  fires after its column has finished rising, and `tier-ignite` fills forwards
