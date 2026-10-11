@@ -115,6 +115,20 @@ describe('BandProgressChart', () => {
     expectFiniteSvg(container);
   });
 
+  it('says how many of the answers are plotted when the totals run ahead of the history', () => {
+    // `user.stats` counts answers from before history was kept, so the average
+    // line is all-time while the points are only what history holds.
+    render(
+      <BandProgressChart
+        history={ready([att(1, 3), att(2, 4), att(3, 5)])}
+        averageBand={4.1}
+        questionsAnswered={9}
+      />
+    );
+    expect(screen.getByText('3 of 9 answers plotted')).toBeTruthy();
+    expect(screen.getByText(/All-time average 4.1/)).toBeTruthy();
+  });
+
   it('plots many attempts on the band ladder, with the rungs named and an average label', () => {
     const bands = [2, 3, 3, 4, 5, 6, 4, 5, 5, 6, 6, 4];
     const attempts = bands.map((b, i) => att(i + 1, b));
@@ -123,11 +137,11 @@ describe('BandProgressChart', () => {
     );
 
     for (let b = 1; b <= 6; b++) expect(screen.getByText(`Band ${b}`)).toBeTruthy();
-    expect(screen.getByText('Average 4.3')).toBeTruthy();
+    expect(screen.getByText(/All-time average 4.3/)).toBeTruthy();
 
     const img = screen.getByRole('img', { name: /Band progress across 12 marked answers/ });
     expect(img.getAttribute('aria-label')).toContain(bands.join(', '));
-    expect(img.getAttribute('aria-label')).toContain('Average band 4.3');
+    expect(img.getAttribute('aria-label')).toContain('All-time average band 4.3');
 
     expect(container.querySelectorAll('circle')).toHaveLength(12);
     expect(container.querySelector('polyline')).not.toBeNull();

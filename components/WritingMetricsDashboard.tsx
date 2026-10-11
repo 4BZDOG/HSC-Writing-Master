@@ -568,7 +568,9 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                       />
                     ))}
                     {prompt.keywords?.length === 0 && (
-                      <span className="text-[10px] text-slate-400 italic">No terms defined</span>
+                      <span className="text-[10px] text-slate-600 dark:text-slate-400 italic">
+                        No terms defined
+                      </span>
                     )}
                   </div>
                 </div>

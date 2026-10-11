@@ -993,7 +993,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 No model responses available yet.
               </p>
               {canCurate && (
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">
                   Click generate to create exemplary answers.
                 </p>
               )}

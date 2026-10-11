@@ -188,7 +188,7 @@ export const BandProgressChart: React.FC<{
 
   const summary =
     `Band progress across ${bands.length} marked ${bands.length === 1 ? 'answer' : 'answers'}, oldest to latest: ${bands.join(', ')}.` +
-    (hasAverage ? ` Average band ${formatBand(averageBand)}.` : '');
+    (hasAverage ? ` All-time average band ${formatBand(averageBand)}.` : '');
 
   return (
     <div>
@@ -281,11 +281,14 @@ export const BandProgressChart: React.FC<{
           {delta > 0 ? `▲ +${delta}` : delta < 0 ? `▼ ${delta}` : '● no change'}
         </span>
         <span className="text-muted">
-          {bands.length} marked {bands.length === 1 ? 'answer' : 'answers'}
+          {questionsAnswered > bands.length
+            ? `${bands.length} of ${questionsAnswered} answers plotted`
+            : `${bands.length} marked ${bands.length === 1 ? 'answer' : 'answers'}`}
         </span>
         {hasAverage && (
           <span className="text-[rgb(var(--color-text-secondary))]">
-            Average {formatBand(averageBand)} <span className="text-muted">(dashed line)</span>
+            All-time average {formatBand(averageBand)}{' '}
+            <span className="text-muted">(dashed line)</span>
           </span>
         )}
       </p>
