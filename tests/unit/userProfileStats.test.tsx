@@ -175,3 +175,37 @@ describe('the achievements tab', () => {
     expect(container.querySelector('[stroke-dasharray]')).toBeNull();
   });
 });
+
+describe('focus on open', () => {
+  it('leaves no control with focus, so the name does not look selected', () => {
+    history.attempts = sampleAttempts;
+    renderProfile();
+    const dialog = screen.getByRole('dialog', { name: 'Your profile' });
+    expect(document.activeElement).toBe(dialog);
+    expect(document.activeElement).not.toBe(
+      screen.getByRole('button', { name: /rename yourself/i })
+    );
+  });
+
+  it('holds Shift+Tab inside the dialog, handing focus to its last control', () => {
+    history.attempts = sampleAttempts;
+    renderProfile();
+    const dialog = screen.getByRole('dialog', { name: 'Your profile' });
+    fireEvent.keyDown(dialog, { key: 'Tab', shiftKey: true });
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Close' }));
+  });
+});
+
+describe('a total with no history behind it', () => {
+  it('says so in every history view, rather than reporting no marked responses', async () => {
+    history.attempts = [];
+    renderProfile();
+    await waitFor(() =>
+      expect(
+        screen.getAllByText(/Your 39 earlier answers were marked before attempt history was kept/)
+          .length
+      ).toBeGreaterThanOrEqual(2)
+    );
+    expect(screen.queryByText(/No marked responses yet/)).toBeNull();
+  });
+});

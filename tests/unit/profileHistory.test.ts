@@ -4,6 +4,7 @@ import {
   bandSeries,
   formatAttemptWhen,
   formatVerbLabel,
+  legacyHistoryNotice,
   markShare,
   plotPoints,
   recentAttempts,
@@ -232,5 +233,24 @@ describe('withStatDefaults', () => {
     const s = withStatDefaults({ markShareMean: 0.8, markShareCount: 5 });
     expect(s.markShareMean).toBe(0.8);
     expect(s.markShareCount).toBe(5);
+  });
+});
+
+describe('legacyHistoryNotice (answers the totals count but no history row records)', () => {
+  it('says how many earlier answers there are, and that they are not listed', () => {
+    expect(legacyHistoryNotice(25)).toBe(
+      'Your 25 earlier answers were marked before attempt history was kept, so they are not listed here. New answers will appear from now on.'
+    );
+  });
+
+  it('reads one answer as one answer', () => {
+    expect(legacyHistoryNotice(1)).toBe(
+      'Your 1 earlier answer was marked before attempt history was kept, so it is not listed here. New answers will appear from now on.'
+    );
+  });
+
+  it('never writes a negative or fractional count', () => {
+    expect(legacyHistoryNotice(-3)).toMatch(/^Your 0 earlier answers/);
+    expect(legacyHistoryNotice(2.9)).toMatch(/^Your 2 earlier answers/);
   });
 });

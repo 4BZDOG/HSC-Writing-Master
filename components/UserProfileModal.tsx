@@ -276,6 +276,15 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 }) => {
   useEscapeKey(isOpen, onClose);
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
+  // The trap focuses the first control in the dialog, which is the name button,
+  // so the name wore a focus ring on every open and read as a selection the user
+  // never made. Hooks run in declaration order, so the trap's effect has already
+  // placed focus by the time this one runs. Moving it onto the dialog surface,
+  // which has no ring, leaves no control looking selected. Tab still walks into
+  // the controls, and the trap still holds focus inside the dialog.
+  useEffect(() => {
+    if (isOpen) dialogRef.current?.focus({ preventScroll: true });
+  }, [isOpen, dialogRef]);
   useScrollLock(isOpen);
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [displayName, setDisplayName] = useState(user.displayName);
@@ -604,8 +613,22 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Your profile"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-profile p-3 sm:p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-profile p-3 sm:p-4 focus:outline-none"
       onClick={onClose}
+      onKeyDown={(e) => {
+        // Shift+Tab from the dialog surface itself would carry focus out of the
+        // dialog to the page behind it, and the trap only corrects that once
+        // focus is on a control. So the surface hands it to the last control.
+        if (e.key !== 'Tab' || !e.shiftKey || e.target !== e.currentTarget) return;
+        const controls = e.currentTarget.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), input:not([disabled])'
+        );
+        const last = controls[controls.length - 1];
+        if (last) {
+          e.preventDefault();
+          last.focus();
+        }
+      }}
     >
       <div
         className="bg-white/95 dark:bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-sm rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-slate-200 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]"
@@ -740,7 +763,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </header>
 
         {/* Tab Navigation */}
-        <div className="flex-shrink-0 flex border-b border-slate-200 dark:border-white/10 px-4 sm:px-10 overflow-x-auto scrollbar-hide">
+        <div className="flex-shrink-0 flex border-b border-slate-200 dark:border-white/10 px-2 sm:px-10 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
             {
@@ -756,14 +779,17 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 aria-current={active ? 'true' : undefined}
-                className={`t-label px-4 sm:px-6 py-4 border-b-2 -mb-px transition-colors flex items-center gap-2 whitespace-nowrap ${
+                className={`t-label flex-auto justify-center px-2 sm:px-6 py-4 border-b-2 -mb-px transition-colors flex items-center gap-2 whitespace-nowrap ${
                   active
                     ? 'border-[rgb(var(--color-accent))] text-primary'
                     : 'border-transparent text-muted hover:text-primary'
                 }`}
               >
+                {/* The icon is dropped below `sm`: three tabs with their icons
+                    need about 313px, which is wider than a 360px phone's row, and
+                    the names alone fit with room to spare. */}
                 <tab.icon
-                  className={`w-4 h-4 ${active ? 'text-[rgb(var(--color-accent))]' : ''}`}
+                  className={`hidden sm:block w-4 h-4 ${active ? 'text-[rgb(var(--color-accent))]' : ''}`}
                   aria-hidden="true"
                 />
                 {tab.label}
@@ -797,14 +823,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   <h3 id="profile-tier-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
                     Strength by tier
                   </h3>
-                  <TierStrengthChart history={history} />
+                  <TierStrengthChart
+                    history={history}
+                    questionsAnswered={stats.questionsAnswered}
+                  />
                 </section>
 
                 <section aria-labelledby="profile-recent-heading" className={PROFILE_CARD}>
                   <h3 id="profile-recent-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
                     Recent attempts
                   </h3>
-                  <RecentAttemptsList history={history} />
+                  <RecentAttemptsList
+                    history={history}
+                    questionsAnswered={stats.questionsAnswered}
+                  />
                 </section>
               </div>
 

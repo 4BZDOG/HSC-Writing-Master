@@ -101,7 +101,9 @@ describe('BandProgressChart', () => {
 
   it('explains a gap rather than plotting one, when earlier answers have no history', () => {
     render(<BandProgressChart history={ready([])} averageBand={3} questionsAnswered={12} />);
-    expect(screen.getByText(/starts with your next marked answer/)).toBeTruthy();
+    expect(
+      screen.getByText(/Your 12 earlier answers were marked before attempt history was kept/)
+    ).toBeTruthy();
   });
 
   it('draws a single attempt as a point, and says a second one draws the line', () => {
@@ -263,5 +265,59 @@ describe('RecentAttemptsList', () => {
   it('names the verb as a state when the question has none', () => {
     render(<RecentAttemptsList history={ready([att(1, 2, null, null, null)])} />);
     expect(screen.getByText('No command verb')).toBeTruthy();
+  });
+});
+
+describe('an answer total with no history behind it', () => {
+  it('names the earlier answers in the band chart, rather than inviting a first one', () => {
+    render(<BandProgressChart history={ready([])} averageBand={3} questionsAnswered={25} />);
+    expect(
+      screen.getByText(/Your 25 earlier answers were marked before attempt history was kept/)
+    ).toBeTruthy();
+    expect(screen.queryByText(/Mark a response to a question/)).toBeNull();
+  });
+
+  it('says the same in the recent list', () => {
+    render(<RecentAttemptsList history={ready([])} questionsAnswered={25} />);
+    expect(screen.getByText(/Your 25 earlier answers were marked/)).toBeTruthy();
+    expect(screen.queryByText(/No marked responses yet/)).toBeNull();
+  });
+
+  it('says the same in the tier chart, rather than asking for a verb', () => {
+    render(<TierStrengthChart history={ready([])} questionsAnswered={25} />);
+    expect(screen.getByText(/Your 25 earlier answers were marked/)).toBeTruthy();
+    expect(screen.queryByText(/appears once you have marked/)).toBeNull();
+  });
+
+  it('keeps the first-answer copy when there are no answers at all', () => {
+    render(<RecentAttemptsList history={ready([])} questionsAnswered={0} />);
+    expect(screen.getByText(/No marked responses yet/)).toBeTruthy();
+    expect(screen.queryByText(/earlier answer/)).toBeNull();
+  });
+
+  it('keeps the verb copy when answers are scored but none carries a verb', () => {
+    render(<TierStrengthChart history={ready([att(1, 3, null)])} questionsAnswered={1} />);
+    expect(screen.getByText(/appears once you have marked a response/)).toBeTruthy();
+    expect(screen.queryByText(/earlier answer/)).toBeNull();
+  });
+});
+
+describe('the tier names in the strength chart', () => {
+  it('names a tier by its full group title, so DESCRIBE is not filed under DEFINE', () => {
+    render(<TierStrengthChart history={ready([att(1, 2, 'DESCRIBE', 4, 6)])} />);
+    expect(screen.getByText('Define & Describe')).toBeTruthy();
+    expect(screen.queryByText('Define')).toBeNull();
+  });
+
+  it('gives the verbs a tier holds as a tooltip on its name', () => {
+    render(<TierStrengthChart history={ready([att(1, 2, 'DESCRIBE', 4, 6)])} />);
+    const name = screen.getByTitle(/^Define & Describe: .*Describe/);
+    expect(name.textContent).toContain('Define & Describe');
+  });
+
+  it('lets a long group title wrap rather than cut it off', () => {
+    render(<TierStrengthChart history={ready([att(1, 6, 'EVALUATE', 3, 6)])} />);
+    const name = screen.getByText('Evaluate, Synthesise & Create');
+    expect(name.className).not.toContain('truncate');
   });
 });

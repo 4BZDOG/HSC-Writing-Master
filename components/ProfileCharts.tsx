@@ -1,6 +1,6 @@
 import React from 'react';
 import { BAND_NAMES, getBandConfig, getBandInkRgb, getBandRgb } from '../utils/renderUtils';
-import { commandTerms, tierShortLabel } from '../data/commandTerms';
+import { commandTerms, commandTermsList, TIER_GROUPS, tierShortLabel } from '../data/commandTerms';
 import type { PromptVerb } from '../types';
 import { foldVerbsIntoTiers, formatBand, type TierProfile } from '../utils/classAnalytics';
 import {
@@ -8,6 +8,7 @@ import {
   bandSeries,
   formatAttemptWhen,
   formatVerbLabel,
+  legacyHistoryNotice,
   plotPoints,
   recentAttempts,
   scoredOldestFirst,
@@ -165,7 +166,7 @@ export const BandProgressChart: React.FC<{
     return (
       <HistoryNotice>
         {questionsAnswered > 0
-          ? 'Band history starts with your next marked answer, so earlier answers are not plotted.'
+          ? legacyHistoryNotice(questionsAnswered)
           : 'Mark a response to a question and its band is plotted here, one point per answer.'}
       </HistoryNotice>
     );
@@ -341,13 +342,25 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
   const untried = profile.attempts === 0;
   const pct = profile.markFrac === null ? null : Math.round(profile.markFrac * 100);
   const tries = `${profile.attempts} ${profile.attempts === 1 ? 'try' : 'tries'}`;
+  // The full group title, not the one-word short label: "Define" alone reads as
+  // the verb DEFINE, and a DESCRIBE answer then looks misfiled. The title is
+  // allowed to wrap rather than truncate, so every word of it is on screen; the
+  // verbs the tier holds go in the tooltip for anyone who wants the full list.
+  const name =
+    TIER_GROUPS.find((g) => g.tier === profile.tier)?.title ?? tierShortLabel(profile.tier);
+  const verbs = commandTermsList
+    .filter((t) => t.tier === profile.tier)
+    .map((t) => formatVerbLabel(t.term));
+  const description = verbs.length > 0 ? `${name}: ${verbs.join(', ')}` : name;
 
   return (
     <li className="min-w-0">
       <div className="flex items-baseline justify-between gap-3">
-        <span className="t-label text-[rgb(var(--color-text-secondary))] truncate">
-          <span className="font-mono tabular-nums">{profile.tier}</span>{' '}
-          {tierShortLabel(profile.tier)}
+        <span
+          title={description}
+          className="t-label min-w-0 leading-snug text-[rgb(var(--color-text-secondary))]"
+        >
+          <span className="font-mono tabular-nums">{profile.tier}</span> {name}
         </span>
         {untried ? (
           <span className="t-label text-right text-muted whitespace-nowrap">Not attempted</span>
@@ -387,14 +400,20 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
  * flawless or failing; the marks are the fair measure of how well each verb was
  * answered.
  */
-export const TierStrengthChart: React.FC<{ history: OwnHistory }> = ({ history }) => {
+export const TierStrengthChart: React.FC<{ history: OwnHistory; questionsAnswered?: number }> = ({
+  history,
+  questionsAnswered = 0,
+}) => {
   if (history.status !== 'ready') return <HistoryState history={history} />;
 
-  const profiles = foldVerbsIntoTiers(verbAggregates(scoredOldestFirst(history.attempts)), tierOf);
+  const scored = scoredOldestFirst(history.attempts);
+  const profiles = foldVerbsIntoTiers(verbAggregates(scored), tierOf);
   if (!profiles.some((p) => p.attempts > 0)) {
     return (
       <HistoryNotice>
-        Strength by tier appears once you have marked a response to a question with a command verb.
+        {scored.length === 0 && questionsAnswered > 0
+          ? legacyHistoryNotice(questionsAnswered)
+          : 'Strength by tier appears once you have marked a response to a question with a command verb.'}
       </HistoryNotice>
     );
   }
@@ -419,14 +438,19 @@ export const TierStrengthChart: React.FC<{ history: OwnHistory }> = ({ history }
 // ---------------------------------------------------------------------------
 
 /** The latest marked answers, newest first, on a rail the band colours sit on. */
-export const RecentAttemptsList: React.FC<{ history: OwnHistory }> = ({ history }) => {
+export const RecentAttemptsList: React.FC<{ history: OwnHistory; questionsAnswered?: number }> = ({
+  history,
+  questionsAnswered = 0,
+}) => {
   if (history.status !== 'ready') return <HistoryState history={history} />;
 
   const recent = recentAttempts(history.attempts, 6);
   if (recent.length === 0) {
     return (
       <HistoryNotice>
-        No marked responses yet. Each one you mark is listed here, newest first.
+        {questionsAnswered > 0
+          ? legacyHistoryNotice(questionsAnswered)
+          : 'No marked responses yet. Each one you mark is listed here, newest first.'}
       </HistoryNotice>
     );
   }

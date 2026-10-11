@@ -192,6 +192,18 @@ export const formatAttemptWhen = (iso: string): string => {
   });
 };
 
+/**
+ * What a history view says when the totals count answers that no history row
+ * records. The totals and the history come from different places, and answers
+ * marked before attempt history was kept are in the first but not the second.
+ * Saying so is the only honest empty state for that case: "no marked responses
+ * yet" would contradict the figure beside it.
+ */
+export const legacyHistoryNotice = (answers: number): string => {
+  const n = Math.max(0, Math.trunc(answers));
+  return `Your ${n} earlier ${n === 1 ? 'answer was' : 'answers were'} marked before attempt history was kept, so ${n === 1 ? 'it is' : 'they are'} not listed here. New answers will appear from now on.`;
+};
+
 /** `EXPLAIN` → `Explain`. A missing verb reads as a state, not a blank. */
 export const formatVerbLabel = (verb: string | null): string => {
   if (!verb || verb === 'UNSPECIFIED') return 'No command verb';
