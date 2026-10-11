@@ -4,32 +4,19 @@ import { User, UserPreferences } from '../types';
 import { authService } from '../services/authService';
 import {
   X,
-  User as UserIcon,
   Settings,
   Award,
-  TrendingUp,
   LogOut,
-  Shield,
   Save,
   Pencil,
-  Edit2,
-  Check,
-  Flame,
   Sun,
   Moon,
   Zap,
-  Cpu,
   MousePointer2,
   Lock,
   Crown,
   ExternalLink,
-  BookOpen,
-  Target,
   Star,
-  Sparkles,
-  PenTool,
-  Clock,
-  BarChart3,
   Compass,
   Scale,
   Database,
@@ -40,9 +27,11 @@ import { downloadMyData, deleteMyAccount } from '../services/dataRightsService';
 import { getBandConfig } from '../utils/renderUtils';
 import { canUseAiGeneration, roleLabel } from '../utils/permissions';
 import { averageMarkPercent, levelProgress } from '../utils/progression';
+import { withStatDefaults } from '../utils/profileHistory';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { useOwnAttemptHistory } from '../hooks/useOwnAttemptHistory';
 import {
   getUserPlan,
   PLAN_LABELS,
@@ -55,6 +44,15 @@ import {
   type BillingState,
   type Plan,
 } from '../services/entitlements';
+import {
+  BandProgressChart,
+  PROFILE_CARD,
+  PROFILE_SECTION_TITLE,
+  ProfileScoreboard,
+  RecentAttemptsList,
+  TierStrengthChart,
+  type ScoreCell,
+} from './ProfileCharts';
 
 interface UserProfileModalProps {
   isOpen: boolean;
@@ -69,15 +67,6 @@ interface UserProfileModalProps {
   /** Open the Terms of Use / Privacy Notice reader. */
   onOpenLegal?: () => void;
 }
-
-const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
 
 /**
  * `onDismiss` closes the profile when a control here hands off to the upgrade
@@ -166,30 +155,31 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
   };
 
   return (
-    <div
-      className={`p-6 rounded-panel border flex items-start gap-5 ${
-        isPaid
-          ? 'bg-amber-400/5 border-amber-400/20'
-          : 'bg-white/[0.03] light:bg-slate-100 border-white/5 light:border-slate-300'
-      }`}
+    <section
+      aria-labelledby="profile-plan-heading"
+      className={`${PROFILE_CARD} flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5`}
     >
       <div
-        className={`p-3.5 rounded-2xl ${isPaid ? 'bg-amber-400/15 text-amber-400' : 'bg-white/5 light:bg-slate-200 text-slate-400'}`}
+        className={`shrink-0 w-11 h-11 rounded-tile flex items-center justify-center ${
+          isPaid
+            ? 'bg-amber-100 dark:bg-amber-400/15 text-amber-700 dark:text-amber-400'
+            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400'
+        }`}
       >
-        <Crown className="w-7 h-7" />
+        <Crown className="w-5 h-5" aria-hidden="true" />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
-            {PLAN_LABELS[plan]}
-          </h4>
+        <div className="flex flex-wrap items-center gap-2">
+          <h3 id="profile-plan-heading" className={PROFILE_SECTION_TITLE}>
+            Plan
+          </h3>
           {isPaid && (
-            <span className="t-label px-2 py-0.5 rounded-lg bg-amber-400/20 text-amber-500 light:text-amber-800">
+            <span className="t-label px-2 py-0.5 rounded-full border border-amber-500/40 bg-amber-100 dark:bg-amber-400/15 text-amber-800 dark:text-amber-400">
               {perkPlan ? 'Included' : 'Active'}
             </span>
           )}
         </div>
-        <p className="text-xs text-[rgb(var(--color-text-muted))] leading-relaxed mb-3">
+        <p className="mt-2 text-sm leading-relaxed text-secondary">
           {/* Plan-accurate, not aspirational — read from the live policy rather
               than asserted, so a deployment that moves the studio between plans
               cannot leave this card claiming otherwise.
@@ -214,8 +204,8 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
               : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
           {isPaid && user.stripePlan && periodEnd && (
             <span
-              className={`block mt-1 text-[10px] font-bold ${
-                endsAtPeriodEnd ? 'text-slate-400' : 'text-amber-500/80'
+              className={`block mt-1.5 t-label ${
+                endsAtPeriodEnd ? 'text-secondary' : 'text-amber-700 dark:text-amber-400'
               }`}
             >
               {endsAtPeriodEnd ? 'Access ends' : 'Renews'}{' '}
@@ -239,21 +229,23 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
           <button
             onClick={handleManageBilling}
             disabled={portalLoading}
-            className="t-label px-4 py-2 rounded-xl bg-white/5 light:bg-slate-200 text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-300 transition-all flex items-center gap-2"
+            className="mt-4 t-label px-4 py-2 rounded-xl bg-white dark:bg-white/5 text-secondary border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted"
           >
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3 h-3" aria-hidden="true" />
             {portalLoading ? 'Opening...' : 'Manage Subscription'}
           </button>
         )}
         {perkPlan && (
-          <p className="text-[10px] text-[rgb(var(--color-text-muted))] leading-relaxed">
+          <p className="mt-3 t-label text-muted leading-relaxed">
             {plan === 'school'
               ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
               : 'Included with your account — there is nothing to pay and no subscription of your own to manage.'}
           </p>
         )}
         {isPaid && portalError && (
-          <p className="mt-2 text-[10px] text-red-400 light:text-red-600">{portalError}</p>
+          <p role="alert" className="mt-2 t-label text-red-700 dark:text-red-400">
+            {portalError}
+          </p>
         )}
         {!isPaid && selling && (
           <button
@@ -261,48 +253,14 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
               requestUpgrade('fullFeedback');
               onDismiss();
             }}
-            className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
+            className="mt-4 t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-transform flex items-center gap-2"
           >
-            <Crown className="w-3 h-3" />
+            <Crown className="w-3 h-3" aria-hidden="true" />
             Upgrade to {PLAN_LABELS.plus}
           </button>
         )}
       </div>
-    </div>
-  );
-};
-
-const MiniProgressRing: React.FC<{ percent: number; size?: number; color: string }> = ({
-  percent,
-  size = 48,
-  color,
-}) => {
-  const r = (size - 6) / 2;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (Math.min(100, Math.max(0, percent)) / 100) * circ;
-  return (
-    <svg width={size} height={size} className="transform -rotate-90">
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={r}
-        fill="none"
-        strokeWidth={3}
-        className="stroke-white/10 light:stroke-slate-200"
-      />
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={r}
-        fill="none"
-        strokeWidth={3}
-        strokeDasharray={circ}
-        strokeDashoffset={offset}
-        strokeLinecap="round"
-        className={color}
-        style={{ transition: 'stroke-dashoffset 1s ease' }}
-      />
-    </svg>
+    </section>
   );
 };
 
@@ -322,6 +280,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   const [activeTab, setActiveTab] = useState<'overview' | 'achievements' | 'settings'>('overview');
   const [displayName, setDisplayName] = useState(user.displayName);
   const [isEditingName, setIsEditingName] = useState(false);
+  // Every figure below reads through here, so a field a saved profile predates
+  // renders as zero rather than as NaN.
+  const stats = useMemo(() => withStatDefaults(user.stats), [user.stats]);
+  // The per-answer history behind the charts. Read while the profile is open.
+  const history = useOwnAttemptHistory(isOpen);
 
   // Showing the version and date they accepted turns a dead legal link into a
   // record the user can actually check.
@@ -377,8 +340,8 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
    * was labelled Level 5 by one rule and shown "9% to next level" by another,
    * when the rule that produced the 5 puts them 65% of the way to 6.
    */
-  const progress = levelProgress(user.stats.xp);
-  const levelTier = Math.min(6, Math.ceil(user.stats.level / 5));
+  const progress = levelProgress(stats.xp);
+  const levelTier = Math.min(6, Math.ceil(stats.level / 5));
   const bandConfig = getBandConfig(levelTier);
 
   const achievements = useMemo(() => {
@@ -388,83 +351,75 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         title: 'First Steps',
         description: 'Complete your first evaluation.',
         icon: '🚀',
-        unlocked: user.stats.questionsAnswered >= 1,
-        progress: Math.min(1, user.stats.questionsAnswered),
+        unlocked: stats.questionsAnswered >= 1,
+        progress: Math.min(1, stats.questionsAnswered),
         total: 1,
-        accent: 'stroke-blue-500',
       },
       {
         id: 'dedicated',
         title: 'Scholar',
         description: 'Complete 10 evaluations.',
         icon: '🎓',
-        unlocked: user.stats.questionsAnswered >= 10,
-        progress: Math.min(10, user.stats.questionsAnswered),
+        unlocked: stats.questionsAnswered >= 10,
+        progress: Math.min(10, stats.questionsAnswered),
         total: 10,
-        accent: 'stroke-purple-500',
       },
       {
         id: 'centurion',
         title: 'Centurion',
         description: 'Complete 100 evaluations.',
         icon: '💯',
-        unlocked: user.stats.questionsAnswered >= 100,
-        progress: Math.min(100, user.stats.questionsAnswered),
+        unlocked: stats.questionsAnswered >= 100,
+        progress: Math.min(100, stats.questionsAnswered),
         total: 100,
-        accent: 'stroke-amber-500',
       },
       {
         id: 'wordsmith',
         title: 'Eloquent',
         description: 'Write 1,000 words total.',
         icon: '✒️',
-        unlocked: user.stats.totalWordsWritten >= 1000,
-        progress: Math.min(1000, user.stats.totalWordsWritten),
+        unlocked: stats.totalWordsWritten >= 1000,
+        progress: Math.min(1000, stats.totalWordsWritten),
         total: 1000,
-        accent: 'stroke-emerald-500',
       },
       {
         id: 'novelist',
         title: 'Novelist',
         description: 'Write 10,000 words total.',
         icon: '📖',
-        unlocked: user.stats.totalWordsWritten >= 10000,
-        progress: Math.min(10000, user.stats.totalWordsWritten),
+        unlocked: stats.totalWordsWritten >= 10000,
+        progress: Math.min(10000, stats.totalWordsWritten),
         total: 10000,
-        accent: 'stroke-sky-500',
       },
       {
         id: 'streaker',
         title: 'Persistent',
         description: 'Reach a 3-day streak.',
         icon: '🔥',
-        unlocked: user.stats.streakDays >= 3,
-        progress: Math.min(3, user.stats.streakDays),
+        unlocked: stats.streakDays >= 3,
+        progress: Math.min(3, stats.streakDays),
         total: 3,
-        accent: 'stroke-orange-500',
       },
       {
         id: 'marathon',
         title: 'Marathon',
         description: 'Reach a 7-day streak.',
         icon: '⚡',
-        unlocked: user.stats.streakDays >= 7,
-        progress: Math.min(7, user.stats.streakDays),
+        unlocked: stats.streakDays >= 7,
+        progress: Math.min(7, stats.streakDays),
         total: 7,
-        accent: 'stroke-indigo-500',
       },
       {
         id: 'high-achiever',
         title: 'High Achiever',
         description: 'Reach Band 5 average.',
         icon: '🏆',
-        unlocked: user.stats.averageBand >= 5,
-        progress: Math.min(5, user.stats.averageBand),
+        unlocked: stats.averageBand >= 5,
+        progress: Math.min(5, stats.averageBand),
         total: 5,
-        accent: 'stroke-blue-400',
       },
     ];
-  }, [user.stats]);
+  }, [stats]);
 
   const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
@@ -482,14 +437,14 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   );
 
   const performanceSummary = useMemo(() => {
-    const { questionsAnswered, averageBand, totalWordsWritten, streakDays } = user.stats;
+    const { questionsAnswered, averageBand, totalWordsWritten, streakDays } = stats;
     if (questionsAnswered === 0)
       return { text: 'Complete your first evaluation to start tracking progress.', positive: true };
     const parts: string[] = [];
     // The share of the marks on offer where it is known. An average BAND told a
     // student earning every mark on DESCRIBE questions — which top out at Band
     // 2 — that they were "averaging Band 2.0 — room to grow".
-    const markPercent = averageMarkPercent(user.stats);
+    const markPercent = averageMarkPercent(stats);
     if (markPercent !== null) {
       parts.push(
         `earning ${markPercent}% of the marks on offer${markPercent >= 80 ? '' : markPercent >= 60 ? ' — keep pushing' : ' — room to grow'}`
@@ -505,7 +460,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       text: `You've completed ${questionsAnswered} evaluation${questionsAnswered === 1 ? '' : 's'}, ${parts.join(', ')}.${streakDays >= 3 ? ' Keep the momentum going!' : ' Try to write every day to build your streak.'}`,
       positive: markPercent !== null ? markPercent >= 60 : averageBand >= 4,
     };
-  }, [user.stats]);
+  }, [stats]);
 
   useEffect(() => {
     if (isOpen) {
@@ -595,6 +550,53 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
     authService.updateUser(updatedUser);
   };
 
+  const markPercent = averageMarkPercent(stats);
+  const wordsLabel =
+    stats.totalWordsWritten >= 1000
+      ? `${(stats.totalWordsWritten / 1000).toFixed(1)}k`
+      : String(stats.totalWordsWritten);
+  /**
+   * The headline figures. Each is stated once, here, and nowhere else on the
+   * profile — the level sits on the badge, the progression in the meter above
+   * it, and the achievement count on its own tab.
+   */
+  const scoreCells: ScoreCell[] = [
+    {
+      label: 'Answers marked',
+      value: String(stats.questionsAnswered),
+      title: 'Answers the AI marker has marked for you',
+    },
+    markPercent !== null
+      ? {
+          label: 'Avg mark',
+          value: `${markPercent}%`,
+          title:
+            'Share of the marks on offer, averaged over every marked answer. Not capped by command verb.',
+        }
+      : {
+          label: 'Avg Band',
+          value: stats.averageBand.toFixed(1),
+          title:
+            'Average band over every marked answer. A command verb caps the band a question can reach.',
+        },
+    {
+      label: 'Words',
+      value: wordsLabel,
+      title: `${stats.totalWordsWritten.toLocaleString('en-AU')} words written`,
+    },
+    {
+      label: 'Day streak',
+      value: String(stats.streakDays),
+      title: stats.streakDays === 1 ? '1 day in a row' : `${stats.streakDays} days in a row`,
+    },
+  ];
+
+  const plan = getUserPlan(user);
+  const isPaid = plan !== 'free';
+
+  const settingsCard =
+    'rounded-panel border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.02] shadow-sm dark:shadow-none overflow-hidden';
+
   return createPortal(
     <div
       ref={dialogRef}
@@ -602,59 +604,39 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-label="Your profile"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-profile p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-profile p-3 sm:p-4"
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 backdrop-blur-sm rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-white/95 dark:bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-sm rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-slate-200 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <MeshOverlay opacity="opacity-[0.03]" />
-
-        {/*
-          Profile Identity Header.
-
-          It used to state the same three facts up to four times each. "Level
-          5" sat on the avatar badge, again in the meta row, and again in a
-          card below the fold; "4/8 Unlocked" sat in the meta row, in the tab
-          label and in the achievements summary. Between them they took 205px
-          of a 720px laptop screen — 37% of a phone — leaving about 330px of
-          scroller for the content anyone came for, with the plan card and the
-          account controls both below the fold.
-
-          So each fact is stated once, where it means the most: the level on
-          the badge that is already drawn for it, the progression as one meter
-          that says what it is counting, the streak as the one number that
-          changes daily. The achievement count belongs to its own tab, which
-          already carries it.
-        */}
-        <div className="flex-shrink-0 px-5 sm:px-10 py-5 sm:py-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-7 border-b border-white/5 light:border-slate-200 relative overflow-hidden">
-          <div className="relative group shrink-0">
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
-            />
-            <div
-              className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center shadow-lg border-4 border-white/10`}
-            >
-              <span className="text-3xl sm:text-4xl font-black text-white">
-                {user.displayName.charAt(0).toUpperCase()}
-              </span>
+        {/* Identity. The name, role and plan say who this is; the XP meter says
+            how far through the level they are; the scoreboard carries the four
+            figures that move. Everything below is detail for one of those. */}
+        <header className="flex-shrink-0 px-5 sm:px-10 pt-5 sm:pt-7 pb-5 sm:pb-6 border-b border-slate-200 dark:border-white/10 space-y-5">
+          <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+            <div className="relative shrink-0">
+              <div
+                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center`}
+              >
+                <span aria-hidden="true" className="text-3xl sm:text-4xl font-black text-white">
+                  {user.displayName.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              {/* The level lives HERE and nowhere else in this header. */}
+              <div
+                className="absolute -bottom-2 -right-2 px-2 h-7 min-w-7 rounded-xl bg-white dark:bg-black border border-slate-200 dark:border-white/10 flex items-center justify-center shadow-lg"
+                title={`Level ${stats.level}`}
+              >
+                <span className={`text-xs font-bold tabular-nums ${bandConfig.text}`}>
+                  <span className="sr-only">Level </span>
+                  {stats.level}
+                </span>
+              </div>
             </div>
-            {/* The level lives HERE and nowhere else in this header — the meter
-                below names the one being worked towards, not the one held. */}
-            <div
-              className="absolute -bottom-2 -right-2 px-2 h-7 min-w-7 rounded-xl bg-black light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center shadow-lg"
-              title={`Level ${user.stats.level}`}
-            >
-              <span className={`text-xs font-bold tabular-nums ${bandConfig.text}`}>
-                <span className="sr-only">Level </span>
-                {user.stats.level}
-              </span>
-            </div>
-          </div>
 
-          <div className="flex-1 min-w-0 w-full text-center sm:text-left">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3">
+            <div className="flex-1 min-w-0">
               {isEditingName ? (
                 <div className="flex items-center gap-2 min-w-0 w-full">
                   <input
@@ -677,26 +659,26 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     }}
                     aria-label="Your display name"
                     maxLength={60}
-                    className="flex-1 bg-white/5 light:bg-slate-100 border-b-2 border-indigo-500 text-xl sm:text-2xl font-black text-white light:text-slate-900 focus:outline-none px-2 py-1 min-w-0 rounded-t-lg"
+                    className="flex-1 bg-slate-100 dark:bg-white/5 border-b-2 border-[rgb(var(--color-accent))] text-xl sm:text-2xl font-black text-primary focus:outline-none px-2 py-1 min-w-0 rounded-t-lg"
                     autoFocus
                   />
                   <button
                     onClick={handleSaveName}
                     aria-label="Save your name"
-                    className="p-2 bg-indigo-500 hover:bg-indigo-400 text-white rounded-xl shrink-0 transition-colors"
+                    className="p-2 bg-[rgb(var(--color-accent))] text-white rounded-xl shrink-0 hover:bg-[rgb(var(--color-accent-dark))] transition-colors"
                   >
-                    <Save className="w-4 h-4" />
+                    <Save className="w-4 h-4" aria-hidden="true" />
                   </button>
                   <button
                     onClick={cancelNameEdit}
                     aria-label="Cancel renaming"
-                    className="p-2 bg-white/5 light:bg-slate-200 text-slate-400 light:text-slate-600 rounded-xl shrink-0 hover:bg-white/10 transition-colors"
+                    className="p-2 bg-slate-200 dark:bg-white/5 text-secondary rounded-xl shrink-0 hover:bg-slate-300 dark:hover:bg-white/10 transition-colors"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4" aria-hidden="true" />
                   </button>
                 </div>
               ) : (
-                <>
+                <h2 className="min-w-0 max-w-full">
                   {/* A real button, not an h2 with an onClick. The name was
                       editable only by mouse — no tab stop, no role, no
                       keyboard route — so a keyboard or screen-reader user
@@ -705,46 +687,60 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsEditingName(true)}
-                    className="group/name flex items-center gap-2 min-w-0 max-w-full rounded-lg px-1 -mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                    className="group/name flex items-center gap-2 min-w-0 max-w-full rounded-lg px-1 -mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))]"
                   >
-                    <h2 className="text-xl sm:text-3xl font-black text-white light:text-slate-900 tracking-tight break-words text-left group-hover/name:text-indigo-400 transition-colors">
+                    <span className="text-xl sm:text-2xl font-black text-primary tracking-tight break-words text-left group-hover/name:text-[rgb(var(--color-accent))] transition-colors">
                       {user.displayName}
-                    </h2>
-                    <Pencil className="w-3.5 h-3.5 shrink-0 text-slate-500 light:text-slate-600 group-hover/name:text-indigo-400 transition-colors" />
+                    </span>
+                    <Pencil
+                      className="w-3.5 h-3.5 shrink-0 text-muted group-hover/name:text-[rgb(var(--color-accent))] transition-colors"
+                      aria-hidden="true"
+                    />
                     <span className="sr-only">Rename yourself</span>
                   </button>
-                  <span className="t-label px-2.5 py-1 rounded-full bg-white/5 light:bg-indigo-50 border border-white/10 light:border-indigo-200 text-indigo-400 light:text-indigo-700">
-                    {roleLabel(user.role)}
-                  </span>
-                </>
+                </h2>
               )}
-            </div>
 
-            {/* One progression meter, naming what it counts. It replaced two
-                copies of the same bar (a mobile one and a desktop one) sitting
-                either side of a third statement of the level in words. */}
-            <div className="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-28 sm:w-36 h-1.5 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
-                  <div
-                    className={`h-full bg-gradient-to-r ${bandConfig.gradient}`}
-                    style={{ width: `${progress.percent}%` }}
-                  />
-                </div>
-                <span className="text-[11px] font-medium text-slate-400 light:text-slate-600 tabular-nums whitespace-nowrap">
-                  {progress.into}/{progress.needed} XP to Level {progress.nextLevel}
+              <div className="mt-2.5 flex flex-wrap items-center gap-2">
+                <span className="t-label px-2.5 py-1 rounded-full border border-slate-300 dark:border-white/10 text-secondary">
+                  {roleLabel(user.role)}
+                </span>
+                <span
+                  className={`t-label inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border ${
+                    isPaid
+                      ? 'border-amber-500/40 bg-amber-100 dark:bg-amber-400/15 text-amber-800 dark:text-amber-400'
+                      : 'border-slate-300 dark:border-white/10 text-secondary'
+                  }`}
+                >
+                  {isPaid && <Crown className="w-3 h-3" aria-hidden="true" />}
+                  {PLAN_LABELS[plan]}
                 </span>
               </div>
-              <span className="flex items-center gap-1.5 text-[11px] font-medium text-slate-400 light:text-slate-600 whitespace-nowrap">
-                <Flame className="w-3.5 h-3.5 text-orange-500" />
-                {user.stats.streakDays}-day streak
-              </span>
             </div>
           </div>
-        </div>
+
+          {/* One progression meter, naming what it counts. */}
+          <div className="flex items-center gap-3 min-w-0">
+            <div
+              className="flex-1 h-2 rounded-full overflow-hidden bg-slate-200 dark:bg-white/10"
+              role="img"
+              aria-label={`${progress.into} of ${progress.needed} XP through Level ${stats.level}`}
+            >
+              <div
+                className={`h-full rounded-full bg-gradient-to-r ${bandConfig.gradient}`}
+                style={{ width: `${progress.percent}%` }}
+              />
+            </div>
+            <span className="t-label tabular-nums whitespace-nowrap text-secondary">
+              {progress.into}/{progress.needed} XP to Level {progress.nextLevel}
+            </span>
+          </div>
+
+          <ProfileScoreboard cells={scoreCells} />
+        </header>
 
         {/* Tab Navigation */}
-        <div className="flex-shrink-0 flex border-b border-white/5 light:border-slate-300 px-4 sm:px-10 bg-black/10 light:bg-slate-100 overflow-x-auto scrollbar-hide">
+        <div className="flex-shrink-0 flex border-b border-slate-200 dark:border-white/10 px-4 sm:px-10 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
             {
@@ -753,154 +749,83 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               label: `Achievements (${unlockedCount}/${achievements.length})`,
             },
             { id: 'settings', icon: Settings, label: 'Settings' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`t-label px-4 sm:px-6 py-4 sm:py-5 border-b-2 transition-all flex items-center gap-2 sm:gap-3 whitespace-nowrap ${activeTab === tab.id ? `border-indigo-500 text-white light:text-slate-900` : 'border-transparent text-slate-500 light:text-slate-600 hover:text-slate-300 light:hover:text-slate-700'}`}
-            >
-              <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-indigo-400' : ''}`} />{' '}
-              {tab.label}
-            </button>
-          ))}
+          ].map((tab) => {
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                aria-current={active ? 'true' : undefined}
+                className={`t-label px-4 sm:px-6 py-4 border-b-2 -mb-px transition-colors flex items-center gap-2 whitespace-nowrap ${
+                  active
+                    ? 'border-[rgb(var(--color-accent))] text-primary'
+                    : 'border-transparent text-muted hover:text-primary'
+                }`}
+              >
+                <tab.icon
+                  className={`w-4 h-4 ${active ? 'text-[rgb(var(--color-accent))]' : ''}`}
+                  aria-hidden="true"
+                />
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-12 custom-scrollbar">
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-5 sm:p-10 custom-scrollbar">
           {activeTab === 'overview' && (
-            <div className="space-y-8 animate-fade-in">
-              {/* Main Stat Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {[
-                  {
-                    label: 'Completed',
-                    val: user.stats.questionsAnswered,
-                    icon: Check,
-                    color: 'text-emerald-400',
-                    ringColor: 'stroke-emerald-500',
-                    ringPercent: Math.min(100, user.stats.questionsAnswered),
-                  },
-                  // Marks earned, as a share of the marks on offer, once the
-                  // profile has that figure. Measured against each question's
-                  // own total, it cannot mistake a command verb's ceiling for
-                  // a weak answer the way an average band does.
-                  averageMarkPercent(user.stats) !== null
-                    ? {
-                        label: 'Avg mark',
-                        val: `${averageMarkPercent(user.stats)}%`,
-                        icon: Target,
-                        color: 'text-indigo-400',
-                        ringColor: 'stroke-indigo-500',
-                        ringPercent: averageMarkPercent(user.stats)!,
-                      }
-                    : {
-                        label: 'Avg Band',
-                        val: user.stats.averageBand.toFixed(1),
-                        icon: Target,
-                        color: 'text-indigo-400',
-                        ringColor: 'stroke-indigo-500',
-                        ringPercent: (user.stats.averageBand / 6) * 100,
-                      },
-                  {
-                    label: 'Words',
-                    val:
-                      user.stats.totalWordsWritten >= 1000
-                        ? `${(user.stats.totalWordsWritten / 1000).toFixed(1)}k`
-                        : user.stats.totalWordsWritten,
-                    icon: PenTool,
-                    color: 'text-sky-400',
-                    ringColor: 'stroke-sky-500',
-                    ringPercent: Math.min(100, (user.stats.totalWordsWritten / 10000) * 100),
-                  },
-                  {
-                    label: 'Streak',
-                    val: `${user.stats.streakDays}d`,
-                    icon: Flame,
-                    color: 'text-orange-400',
-                    ringColor: 'stroke-orange-500',
-                    ringPercent: Math.min(100, (user.stats.streakDays / 7) * 100),
-                  },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="p-5 rounded-panel bg-white/[0.03] light:bg-slate-100 border border-white/5 light:border-slate-300 flex flex-col items-center text-center group hover:bg-white/[0.06] light:hover:bg-slate-100 transition-all duration-300 hover:border-white/10 light:hover:border-slate-300"
-                  >
-                    <div className="relative mb-3">
-                      <MiniProgressRing percent={stat.ringPercent} color={stat.ringColor} />
-                      <div
-                        className={`absolute inset-0 flex items-center justify-center ${stat.color}`}
-                      >
-                        <stat.icon className="w-5 h-5" />
-                      </div>
-                    </div>
-                    <span className="text-2xl font-black text-white light:text-slate-900 tracking-tighter tabular-nums">
-                      {stat.val}
-                    </span>
-                    <span className="t-label text-slate-500 light:text-slate-600 mt-1">
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
+            <div className="space-y-6 animate-fade-in">
+              <p className="text-sm leading-relaxed text-secondary">{performanceSummary.text}</p>
+
+              <section aria-labelledby="profile-band-heading" className={PROFILE_CARD}>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-5">
+                  <h3 id="profile-band-heading" className={PROFILE_SECTION_TITLE}>
+                    Band progress
+                  </h3>
+                  <p className="t-label text-muted">One point per marked answer</p>
+                </div>
+                <BandProgressChart
+                  history={history}
+                  averageBand={stats.questionsAnswered > 0 ? stats.averageBand : null}
+                  questionsAnswered={stats.questionsAnswered}
+                />
+              </section>
+
+              <div className="grid gap-6 lg:grid-cols-2">
+                <section aria-labelledby="profile-tier-heading" className={PROFILE_CARD}>
+                  <h3 id="profile-tier-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
+                    Strength by tier
+                  </h3>
+                  <TierStrengthChart history={history} />
+                </section>
+
+                <section aria-labelledby="profile-recent-heading" className={PROFILE_CARD}>
+                  <h3 id="profile-recent-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
+                    Recent attempts
+                  </h3>
+                  <RecentAttemptsList history={history} />
+                </section>
               </div>
 
-              {/* The XP & Level card stood here, restating the level and the
-                  progress bar the header now carries properly — a third copy
-                  of the level on a screen that had four. Removing it is what
-                  brings the plan card above the fold on a laptop. */}
               <PlanCard user={user} onDismiss={onClose} />
-
-              {/* Performance Summary */}
-              <div
-                className={`p-6 rounded-panel border flex items-start gap-5 ${performanceSummary.positive ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-indigo-500/5 border-indigo-500/20'}`}
-              >
-                <div
-                  className={`p-3.5 rounded-2xl ${performanceSummary.positive ? 'bg-emerald-500/20 text-emerald-400' : 'bg-indigo-500/20 text-indigo-400'}`}
-                >
-                  <BarChart3 className="w-7 h-7" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-white light:text-slate-900 mb-2">
-                    Performance Summary
-                  </h4>
-                  <p className="text-sm text-slate-400 light:text-slate-600 leading-relaxed">
-                    {performanceSummary.text}
-                  </p>
-                </div>
-              </div>
             </div>
           )}
 
           {activeTab === 'achievements' && (
-            <div className="space-y-6 animate-fade-in">
-              {/*
-                The count that stood here is in the tab label directly above
-                it, and it was in the header too — three statements of "4 of 8"
-                within 250px, the middle one costing 100px of a 330px scroller
-                and pushing the achievements themselves below the fold.
-
-                What is left is the sentence the count could not say: what to
-                do next. It reads the nearest unfinished achievement rather
-                than restating arithmetic the reader has already been given
-                twice.
-              */}
+            <div className="space-y-5 animate-fade-in">
+              {/* The count is in the tab label. What is left here is the
+                  sentence the count could not say: what to do next. */}
               {nextAchievement && (
-                <div className="flex items-center gap-4 px-5 py-4 rounded-panel bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200">
-                  <div className="relative shrink-0">
-                    <MiniProgressRing
-                      percent={(nextAchievement.progress / nextAchievement.total) * 100}
-                      size={48}
-                      color="stroke-amber-500"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Star className="w-4 h-4 text-amber-400" />
-                    </div>
-                  </div>
-                  <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+                <div className="flex items-start gap-4 p-4 sm:p-5 rounded-panel border border-amber-300 dark:border-amber-400/20 bg-amber-50 dark:bg-amber-400/5">
+                  <Star
+                    className="w-4 h-4 mt-0.5 shrink-0 text-amber-700 dark:text-amber-400"
+                    aria-hidden="true"
+                  />
+                  <p className="text-sm leading-relaxed text-secondary">
                     Closest to unlocking:{' '}
-                    <span className="font-bold text-white light:text-slate-900">
-                      {nextAchievement.title}
-                    </span>{' '}
-                    — {nextAchievement.description.replace(/\.$/, '')}. You're at{' '}
+                    <span className="font-bold text-primary">{nextAchievement.title}</span> —{' '}
+                    {nextAchievement.description.replace(/\.$/, '')}. You&apos;re at{' '}
                     <span className="font-bold tabular-nums">
                       {nextAchievement.progress} of {nextAchievement.total}
                     </span>
@@ -909,325 +834,349 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {achievements.map((ach) => {
                   const pct = (ach.progress / ach.total) * 100;
                   return (
-                    <div
+                    <li
                       key={ach.id}
-                      className={`flex items-center gap-5 p-5 rounded-panel border transition-all duration-500 ${ach.unlocked ? 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200' : 'bg-black/20 light:bg-slate-100 border-transparent'}`}
+                      className={`${PROFILE_CARD} p-4 sm:p-5 flex items-start gap-4 ${ach.unlocked ? '' : 'shadow-none dark:shadow-none'}`}
                     >
-                      <div className="relative shrink-0">
-                        <MiniProgressRing percent={pct} color={ach.accent} />
-                        <div className="absolute inset-0 flex items-center justify-center text-2xl">
-                          {ach.unlocked ? ach.icon : <Lock className="w-5 h-5 text-slate-600" />}
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h4
-                            className={`font-bold text-sm ${ach.unlocked ? 'text-white light:text-slate-900' : 'text-slate-500 light:text-slate-600'}`}
-                          >
-                            {ach.title}
-                          </h4>
-                          {ach.unlocked && (
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
-                          )}
-                        </div>
-                        <p className="text-xs text-slate-500 light:text-slate-600 font-medium">
-                          {ach.description}
-                        </p>
-                        {!ach.unlocked && (
-                          <div className="mt-2 flex items-center gap-2">
-                            <div className="flex-1 h-1 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden">
-                              <div
-                                className="h-full bg-slate-500 rounded-full transition-all duration-500"
-                                style={{ width: `${pct}%` }}
-                              />
-                            </div>
-                            <span className="text-[9px] font-mono font-bold text-slate-600 tabular-nums">
-                              {ach.progress}/{ach.total}
-                            </span>
-                          </div>
+                      <div className="shrink-0 w-11 h-11 rounded-tile flex items-center justify-center text-2xl bg-slate-100 dark:bg-white/5">
+                        {ach.unlocked ? (
+                          <span aria-hidden="true">{ach.icon}</span>
+                        ) : (
+                          <Lock className="w-4 h-4 text-muted" aria-hidden="true" />
                         )}
                       </div>
-                    </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-baseline justify-between gap-3">
+                          <h4 className="text-sm font-bold text-primary">{ach.title}</h4>
+                          <span
+                            className={`t-label tabular-nums whitespace-nowrap ${
+                              ach.unlocked ? 'text-emerald-700 dark:text-emerald-400' : 'text-muted'
+                            }`}
+                          >
+                            {ach.unlocked ? 'Unlocked' : `${ach.progress}/${ach.total}`}
+                          </span>
+                        </div>
+                        <p className="mt-0.5 text-xs leading-relaxed text-secondary">
+                          {ach.description}
+                        </p>
+                        <div
+                          className="mt-3 h-1.5 rounded-full overflow-hidden bg-slate-200 dark:bg-white/10"
+                          aria-hidden="true"
+                        >
+                          <div
+                            className={`h-full rounded-full transition-[width] duration-500 ${
+                              ach.unlocked
+                                ? 'bg-emerald-600 dark:bg-emerald-400'
+                                : 'bg-[rgb(var(--color-accent))]'
+                            }`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    </li>
                   );
                 })}
-              </div>
+              </ul>
             </div>
           )}
 
           {activeTab === 'settings' && (
-            <div className="space-y-4 animate-fade-in">
-              <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
-                {[
-                  {
-                    id: 'theme',
-                    icon: Sun,
-                    label: 'Light Theme',
-                    desc: 'Switch to light mode.',
-                    isTheme: true,
-                  },
-                  // Auto-Save is gone from this list. Drafts save as you type
-                  // whatever it said — nothing read the setting — so a switch
-                  // that appeared to stop saving was a promise the app did not
-                  // keep, about the one thing a student cannot afford to lose.
-                  {
-                    id: 'defaultFocusMode',
-                    icon: MousePointer2,
-                    label: 'Open questions in Focus Mode',
-                    desc: 'The navigator and panels step aside whenever you open a question.',
-                  },
-                  {
-                    id: 'highContrast',
-                    icon: Zap,
-                    label: 'High Contrast',
-                    desc: 'Stronger text and edges across the app.',
-                  },
-                ].map((pref, i) => {
-                  const on =
-                    pref.id === 'theme'
-                      ? user.preferences.theme === 'light'
-                      : !!user.preferences[pref.id as keyof UserPreferences];
-                  return (
-                    <div
-                      key={pref.id}
-                      className={`flex items-center justify-between gap-4 px-5 sm:px-10 py-5 hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== 2 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
-                    >
-                      <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-                        <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500 light:text-slate-600">
-                          <pref.icon className="w-5 h-5" />
-                        </div>
-                        <div className="min-w-0">
-                          <h4
-                            id={`pref-${pref.id}-label`}
-                            className="text-sm font-bold text-white light:text-slate-900"
-                          >
-                            {pref.label}
-                          </h4>
-                          <p className="text-xs text-slate-500 light:text-slate-600 font-medium mt-1 leading-relaxed">
-                            {pref.desc}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* A real switch: `role="switch"` with `aria-checked` and
-                          a name. These were bare buttons with no accessible
-                          name and no state, so a screen reader announced four
-                          identical unlabelled buttons and never said whether
-                          any of them was on. */}
-                      <button
-                        type="button"
-                        role="switch"
-                        aria-checked={on}
-                        aria-labelledby={`pref-${pref.id}-label`}
-                        onClick={() =>
-                          pref.id === 'theme'
-                            ? commitPrefs({ theme: on ? 'dark' : 'light' })
-                            : commitPrefs({ [pref.id]: !on } as Partial<UserPreferences>)
-                        }
-                        className={`w-14 h-8 shrink-0 rounded-full relative transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))] ${
-                          on
-                            ? pref.id === 'theme'
-                              ? 'bg-indigo-500'
-                              : 'bg-emerald-500'
-                            : 'bg-slate-800 light:bg-slate-300'
+            <div className="space-y-8 animate-fade-in">
+              <section aria-labelledby="profile-prefs-heading" className="space-y-3">
+                <h3 id="profile-prefs-heading" className={PROFILE_SECTION_TITLE}>
+                  Preferences
+                </h3>
+                <div className={settingsCard}>
+                  {[
+                    {
+                      id: 'theme',
+                      icon: Sun,
+                      label: 'Light Theme',
+                      desc: 'Switch to light mode.',
+                    },
+                    // Auto-Save is gone from this list. Drafts save as you type
+                    // whatever it said — nothing read the setting — so a switch
+                    // that appeared to stop saving was a promise the app did not
+                    // keep, about the one thing a student cannot afford to lose.
+                    {
+                      id: 'defaultFocusMode',
+                      icon: MousePointer2,
+                      label: 'Open questions in Focus Mode',
+                      desc: 'The navigator and panels step aside whenever you open a question.',
+                    },
+                    {
+                      id: 'highContrast',
+                      icon: Zap,
+                      label: 'High Contrast',
+                      desc: 'Stronger text and edges across the app.',
+                    },
+                  ].map((pref, index, all) => {
+                    const on =
+                      pref.id === 'theme'
+                        ? user.preferences.theme === 'light'
+                        : !!user.preferences[pref.id as keyof UserPreferences];
+                    return (
+                      <div
+                        key={pref.id}
+                        className={`flex items-center justify-between gap-4 px-5 sm:px-8 py-4 sm:py-5 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors ${
+                          index < all.length - 1
+                            ? 'border-b border-slate-200 dark:border-white/5'
+                            : ''
                         }`}
                       >
-                        <div
-                          className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-500 flex items-center justify-center ${on ? 'left-7' : 'left-1'}`}
-                        >
-                          {pref.id === 'theme' &&
-                            (on ? (
-                              <Sun className="w-3 h-3 text-indigo-500" />
-                            ) : (
-                              <Moon className="w-3 h-3 text-slate-800" />
-                            ))}
+                        <div className="flex items-center gap-4 min-w-0">
+                          <div className="w-10 h-10 shrink-0 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-secondary">
+                            <pref.icon className="w-5 h-5" aria-hidden="true" />
+                          </div>
+                          <div className="min-w-0">
+                            <h4
+                              id={`pref-${pref.id}-label`}
+                              className="text-sm font-bold text-primary"
+                            >
+                              {pref.label}
+                            </h4>
+                            <p className="text-xs leading-relaxed text-secondary mt-0.5">
+                              {pref.desc}
+                            </p>
+                          </div>
                         </div>
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
+
+                        {/* A real switch: `role="switch"` with `aria-checked` and
+                            a name. These were bare buttons with no accessible
+                            name and no state, so a screen reader announced four
+                            identical unlabelled buttons and never said whether
+                            any of them was on. */}
+                        <button
+                          type="button"
+                          role="switch"
+                          aria-checked={on}
+                          aria-labelledby={`pref-${pref.id}-label`}
+                          onClick={() =>
+                            pref.id === 'theme'
+                              ? commitPrefs({ theme: on ? 'dark' : 'light' })
+                              : commitPrefs({ [pref.id]: !on } as Partial<UserPreferences>)
+                          }
+                          className={`w-14 h-8 shrink-0 rounded-full relative transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))] ${
+                            on
+                              ? pref.id === 'theme'
+                                ? 'bg-[rgb(var(--color-accent))]'
+                                : 'bg-emerald-600 dark:bg-emerald-500'
+                              : 'bg-slate-300 dark:bg-slate-700'
+                          }`}
+                        >
+                          <span
+                            className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-500 flex items-center justify-center ${on ? 'left-7' : 'left-1'}`}
+                          >
+                            {pref.id === 'theme' &&
+                              (on ? (
+                                <Sun className="w-3 h-3 text-amber-600" aria-hidden="true" />
+                              ) : (
+                                <Moon className="w-3 h-3 text-slate-700" aria-hidden="true" />
+                              ))}
+                          </span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
 
               {/* Help & agreements. Kept here rather than behind a separate
                   tab so there is exactly one place a user looks when they want
                   to re-read what they agreed to or how something works. */}
               {(onOpenQuickStart || onComparePlans || onOpenLegal) && (
-                <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
-                  {[
-                    onOpenQuickStart && {
-                      id: 'quickStart',
-                      icon: Compass,
-                      label: 'Quick Start Guide',
-                      desc: 'How the app works, in a couple of minutes.',
-                      action: onOpenQuickStart,
-                    },
-                    onComparePlans && {
-                      id: 'plans',
-                      icon: Crown,
-                      label: 'Compare Plans',
-                      desc: `You are on ${PLAN_LABELS[getUserPlan(user)]} — see exactly what that includes.`,
-                      action: onComparePlans,
-                    },
-                    onOpenLegal && {
-                      id: 'legal',
-                      icon: Scale,
-                      label: 'Terms & Privacy',
-                      desc: agreementSummary,
-                      action: onOpenLegal,
-                    },
-                  ]
-                    .filter(Boolean)
-                    .map((item, i, all) => {
-                      const entry = item as {
-                        id: string;
-                        icon: typeof Compass;
-                        label: string;
-                        desc: string;
-                        action: () => void;
-                      };
-                      return (
-                        <button
-                          key={entry.id}
-                          onClick={entry.action}
-                          className={`w-full flex items-center justify-between px-6 sm:px-10 py-6 text-left hover:bg-white/[0.02] light:hover:bg-slate-50 transition-colors ${i !== all.length - 1 ? 'border-b border-white/5 light:border-slate-100' : ''}`}
-                        >
-                          <div className="flex items-center gap-4 sm:gap-6">
-                            <div className="w-12 h-12 rounded-2xl bg-white/5 light:bg-slate-100 flex items-center justify-center text-slate-500 light:text-slate-600">
-                              <entry.icon className="w-5 h-5" />
+                <section aria-labelledby="profile-help-heading" className="space-y-3">
+                  <h3 id="profile-help-heading" className={PROFILE_SECTION_TITLE}>
+                    Help and agreements
+                  </h3>
+                  <div className={settingsCard}>
+                    {[
+                      onOpenQuickStart && {
+                        id: 'quickStart',
+                        icon: Compass,
+                        label: 'Quick Start Guide',
+                        desc: 'How the app works, in a couple of minutes.',
+                        action: onOpenQuickStart,
+                      },
+                      onComparePlans && {
+                        id: 'plans',
+                        icon: Crown,
+                        label: 'Compare Plans',
+                        desc: `You are on ${PLAN_LABELS[plan]} — see exactly what that includes.`,
+                        action: onComparePlans,
+                      },
+                      onOpenLegal && {
+                        id: 'legal',
+                        icon: Scale,
+                        label: 'Terms & Privacy',
+                        desc: agreementSummary,
+                        action: onOpenLegal,
+                      },
+                    ]
+                      .filter(Boolean)
+                      .map((item, index, all) => {
+                        const entry = item as {
+                          id: string;
+                          icon: typeof Compass;
+                          label: string;
+                          desc: string;
+                          action: () => void;
+                        };
+                        return (
+                          <button
+                            key={entry.id}
+                            onClick={entry.action}
+                            className={`w-full flex items-center justify-between gap-4 px-5 sm:px-8 py-4 sm:py-5 text-left hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors ${
+                              index !== all.length - 1
+                                ? 'border-b border-slate-200 dark:border-white/5'
+                                : ''
+                            }`}
+                          >
+                            <div className="flex items-center gap-4 min-w-0">
+                              <div className="w-10 h-10 shrink-0 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-secondary">
+                                <entry.icon className="w-5 h-5" aria-hidden="true" />
+                              </div>
+                              <div className="min-w-0">
+                                <h4 className="text-sm font-bold text-primary">{entry.label}</h4>
+                                <p className="text-xs leading-relaxed text-secondary mt-0.5">
+                                  {entry.desc}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <h4 className="text-sm font-bold text-white light:text-slate-900">
-                                {entry.label}
-                              </h4>
-                              <p className="text-xs text-slate-500 light:text-slate-600 font-medium mt-1">
-                                {entry.desc}
-                              </p>
-                            </div>
-                          </div>
-                          <ExternalLink className="w-4 h-4 text-slate-500 light:text-slate-600 shrink-0" />
-                        </button>
-                      );
-                    })}
-                </div>
+                            <ExternalLink
+                              className="w-4 h-4 text-muted shrink-0"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        );
+                      })}
+                  </div>
+                </section>
               )}
 
               {/* Your data — the Privacy Notice promises access, export and
                   erasure, so the product has to actually provide them. */}
-              <div className="bg-white/[0.02] light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 overflow-hidden">
-                <div className="px-6 sm:px-10 pt-6 pb-2">
-                  <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
-                    <Database className="w-4 h-4 text-slate-500 light:text-slate-600" /> Your Data
-                  </h4>
-                  <p className="text-xs text-slate-500 light:text-slate-600 font-medium mt-1.5 leading-relaxed">
-                    Take a copy of everything we hold about your account, or delete it. Curriculum
-                    content is not personal data and is not included in the export.
-                  </p>
-                </div>
+              <section aria-labelledby="profile-data-heading" className="space-y-3">
+                <h3 id="profile-data-heading" className={PROFILE_SECTION_TITLE}>
+                  Your data
+                </h3>
+                <div className={settingsCard}>
+                  <div className="px-5 sm:px-8 pt-5 pb-1">
+                    <p className="flex items-start gap-3 text-xs leading-relaxed text-secondary">
+                      <Database className="w-4 h-4 mt-0.5 shrink-0 text-muted" aria-hidden="true" />
+                      <span>
+                        Take a copy of everything we hold about your account, or delete it.
+                        Curriculum content is not personal data and is not included in the export.
+                      </span>
+                    </p>
+                  </div>
 
-                <div className="px-6 sm:px-10 py-5 flex flex-wrap gap-3">
-                  <button
-                    onClick={handleExportData}
-                    disabled={isExportingData}
-                    className="t-label px-5 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-700 border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 transition-all flex items-center gap-2 disabled:opacity-60"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    {isExportingData ? 'Preparing…' : 'Download my data'}
-                  </button>
-                  {!isConfirmingDelete && (
+                  <div className="px-5 sm:px-8 py-4 flex flex-wrap gap-3">
                     <button
-                      onClick={() => {
-                        setIsConfirmingDelete(true);
-                        setDataRightsMessage(null);
-                      }}
-                      className="t-label px-5 py-3 rounded-2xl bg-red-500/10 text-red-500 border border-red-500/30 hover:bg-red-500/20 transition-all flex items-center gap-2"
+                      onClick={handleExportData}
+                      disabled={isExportingData}
+                      className="t-label px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 text-secondary border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted"
                     >
-                      <Trash2 className="w-3.5 h-3.5" /> Delete my account
+                      <Download className="w-3.5 h-3.5" aria-hidden="true" />
+                      {isExportingData ? 'Preparing…' : 'Download my data'}
                     </button>
-                  )}
-                </div>
-
-                {isConfirmingDelete && (
-                  <div className="px-6 sm:px-10 pb-6 animate-fade-in">
-                    <div className="p-5 rounded-panel bg-red-500/[0.07] border border-red-500/30">
-                      <p className="text-xs text-red-400 light:text-red-600 leading-relaxed">
-                        This deletes your profile, your responses and all your progress. It cannot
-                        be undone.
-                      </p>
-                      <p className="text-[11px] text-slate-500 light:text-slate-600 font-medium leading-relaxed mt-2">
-                        Anything you contributed to the shared library stays, with your name
-                        removed. Consider downloading your data first.
-                      </p>
-                      <label
-                        htmlFor="delete-confirm"
-                        className="t-label block text-slate-500 light:text-slate-600 mt-4 mb-2"
+                    {!isConfirmingDelete && (
+                      <button
+                        onClick={() => {
+                          setIsConfirmingDelete(true);
+                          setDataRightsMessage(null);
+                        }}
+                        className="t-label px-4 py-2.5 rounded-xl text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 hover:bg-red-100 dark:hover:bg-red-500/20 transition-colors flex items-center gap-2"
                       >
-                        Type DELETE to confirm
-                      </label>
-                      <div className="flex flex-wrap gap-3">
-                        <input
-                          id="delete-confirm"
-                          value={deleteConfirmText}
-                          onChange={(e) => setDeleteConfirmText(e.target.value)}
-                          autoComplete="off"
-                          className="flex-1 min-w-[140px] px-4 py-3 rounded-2xl bg-black/40 light:bg-white border border-white/10 light:border-slate-300 text-white light:text-slate-900 text-sm font-bold outline-none focus:border-red-500/60 transition-colors"
-                          placeholder="DELETE"
-                        />
-                        <button
-                          onClick={handleDeleteAccount}
-                          disabled={deleteConfirmText !== 'DELETE' || isDeleting}
-                          className="t-label px-5 py-3 rounded-2xl bg-red-600 text-white hover:bg-red-500 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                        <Trash2 className="w-3.5 h-3.5" aria-hidden="true" /> Delete my account
+                      </button>
+                    )}
+                  </div>
+
+                  {isConfirmingDelete && (
+                    <div className="px-5 sm:px-8 pb-6">
+                      <div className="p-5 rounded-panel bg-red-50 dark:bg-red-500/[0.07] border border-red-300 dark:border-red-500/30">
+                        <p className="text-xs leading-relaxed text-red-800 dark:text-red-400">
+                          This deletes your profile, your responses and all your progress. It cannot
+                          be undone.
+                        </p>
+                        <p className="mt-2 text-xs leading-relaxed text-secondary">
+                          Anything you contributed to the shared library stays, with your name
+                          removed. Consider downloading your data first.
+                        </p>
+                        <label
+                          htmlFor="delete-confirm"
+                          className="t-label block text-secondary mt-4 mb-2"
                         >
-                          {isDeleting ? 'Deleting…' : 'Delete permanently'}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setIsConfirmingDelete(false);
-                            setDeleteConfirmText('');
-                          }}
-                          className="t-label px-5 py-3 rounded-2xl bg-white/5 light:bg-white text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/10 light:border-slate-300 hover:bg-white/10 transition-all"
-                        >
-                          Cancel
-                        </button>
+                          Type DELETE to confirm
+                        </label>
+                        <div className="flex flex-wrap gap-3">
+                          <input
+                            id="delete-confirm"
+                            value={deleteConfirmText}
+                            onChange={(e) => setDeleteConfirmText(e.target.value)}
+                            autoComplete="off"
+                            className="flex-1 min-w-[140px] px-4 py-2.5 rounded-xl bg-white dark:bg-black/40 border border-slate-300 dark:border-white/10 text-primary text-sm font-bold outline-none focus:border-red-600 dark:focus:border-red-500/60 transition-colors"
+                            placeholder="DELETE"
+                          />
+                          <button
+                            onClick={handleDeleteAccount}
+                            disabled={deleteConfirmText !== 'DELETE' || isDeleting}
+                            className="t-label px-4 py-2.5 rounded-xl bg-red-700 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 transition-colors disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-secondary dark:disabled:bg-white/10"
+                          >
+                            {isDeleting ? 'Deleting…' : 'Delete permanently'}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setIsConfirmingDelete(false);
+                              setDeleteConfirmText('');
+                            }}
+                            className="t-label px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 text-secondary border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                          >
+                            Cancel
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {dataRightsMessage && (
-                  <p
-                    role="status"
-                    className="px-6 sm:px-10 pb-6 -mt-2 text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed"
-                  >
-                    {dataRightsMessage}
-                  </p>
-                )}
-              </div>
-
-              {/* "Save Settings" stood here. With the switches above writing
-                  through immediately there is nothing left for it to save, and
-                  a Save button beside controls that have already taken effect
-                  only invites the reader to wonder which of the two is true. */}
+                  {dataRightsMessage && (
+                    <p
+                      role="status"
+                      className="px-5 sm:px-8 pb-5 -mt-1 text-xs leading-relaxed text-secondary"
+                    >
+                      {dataRightsMessage}
+                    </p>
+                  )}
+                </div>
+              </section>
             </div>
           )}
         </div>
 
-        {/* Modular Footer */}
-        <div className="flex-shrink-0 px-6 sm:px-12 py-5 sm:py-6 border-t border-white/5 light:border-slate-300 bg-black/20 light:bg-slate-100 flex justify-between items-center z-10">
+        {/* Footer: the two exits. Log out is the one that ends the session, so it
+            is the one set apart. */}
+        <div className="flex-shrink-0 px-5 sm:px-10 py-4 sm:py-5 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/20 flex justify-between items-center gap-3">
           <button
             onClick={() => {
               onClose();
               onLogout();
             }}
-            className="t-label text-red-500 light:text-red-700 hover:text-red-400 light:hover:text-red-800 transition-colors flex items-center gap-2 group"
+            className="t-label text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group"
           >
-            <LogOut className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Log Out
+            <LogOut
+              className="w-4 h-4 group-hover:-translate-x-1 transition-transform"
+              aria-hidden="true"
+            />{' '}
+            Log Out
           </button>
           <button
             onClick={onClose}
-            className="t-label px-8 py-3 rounded-2xl text-white bg-white/10 light:bg-slate-200 light:text-slate-700 border border-white/10 light:border-slate-300 hover:bg-white/20 light:hover:bg-slate-300 active:scale-[0.98] transition-all"
+            className="t-label px-6 sm:px-8 py-2.5 rounded-xl text-primary bg-white dark:bg-white/10 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/20 active:scale-[0.98] transition-all"
           >
             Close
           </button>
