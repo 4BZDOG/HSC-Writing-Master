@@ -133,19 +133,20 @@ describe('SampleAnswersAccordion', () => {
     sampleAnswers: [{ id: 's1', answer: 'A model response.', mark: 6, band: 6, source: 'AI' }],
   } as Partial<Prompt>);
 
-  // Folded by default, and its controls live in the header — reachable whether
-  // the panel is open or shut.
+  // Folded by default. Its tools and its rows live in the body, so nothing of them is
+  // on screen until the panel is opened.
   it('starts folded, and unfolds from the header', () => {
     render(<SampleAnswersAccordion {...sampleProps} prompt={withSamples} />);
     const header = screen.getByRole('button', { name: /Sample Answers/i });
     expect(header.getAttribute('aria-expanded')).toBe('false');
     expect(screen.queryByText(/6\/6 Marks/i)).toBeNull();
-    // Reading size is part of the header chrome, not the folded-away body.
-    expect(screen.getByTitle(/Increase text size/i)).toBeTruthy();
+    expect(screen.queryByTitle(/Increase text size/i)).toBeNull();
 
     fireEvent.click(header);
     expect(header.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText(/6\/6 Marks/i)).toBeTruthy();
+    // Reading size is in the body's tools row, which a student sees once it is open.
+    expect(screen.getByTitle(/Increase text size/i)).toBeTruthy();
   });
 
   it('keeps the AI actions for staff and hides them from students', () => {
@@ -156,6 +157,7 @@ describe('SampleAnswersAccordion', () => {
         onRecalibrate={vi.fn().mockResolvedValue(undefined)}
       />
     );
+    fireEvent.click(screen.getByRole('button', { name: /Sample Answers/i }));
     expect(screen.queryByRole('button', { name: /Generate/i })).toBeNull();
     expect(screen.queryByTitle(/Recalibrate all samples/i)).toBeNull();
     unmount();
@@ -168,6 +170,7 @@ describe('SampleAnswersAccordion', () => {
         onRecalibrate={vi.fn().mockResolvedValue(undefined)}
       />
     );
+    fireEvent.click(screen.getByRole('button', { name: /Sample Answers/i }));
     expect(screen.getByRole('button', { name: /Generate/i })).toBeTruthy();
     expect(screen.getByTitle(/Recalibrate samples with AI/i)).toBeTruthy();
   });

@@ -77,7 +77,7 @@ describe('many exemplars at one mark', () => {
 
   it('says how many exemplars there are, not just how many levels', () => {
     renderSamples([...six, sample('b1', { mark: 4 })]);
-    expect(screen.getByText(/2 levels · 7 exemplars/i)).toBeTruthy();
+    expect(screen.getByText(/7 exemplars · 2 levels/i)).toBeTruthy();
   });
 
   it('offers a named exemplar per variant instead of blind arrows', () => {

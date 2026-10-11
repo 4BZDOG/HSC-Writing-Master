@@ -1,14 +1,21 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
-import { renderFormattedText, getBandConfig, getBandRgb } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
-import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
-import { formatMarkingCriteria } from '../utils/dataManagerUtils';
+import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
+import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { AlertCircle, BookOpen, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { generateRubricForPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import MathSymbolToolbar from './MathSymbolToolbar';
+import LadderRow from './LadderRow';
+import { LADDER_CRITERION, LADDER_MODEL_ANSWER, LADDER_STACK } from '../utils/ladderChrome';
+import {
+  exemplarMarkForItem,
+  isBandLabelled,
+  parseMarkingCriteria,
+} from '../utils/markingGuideParse';
+import { requestOpenExemplar } from '../utils/ladderLink';
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -20,13 +27,6 @@ interface MarkingCriteriaAccordionProps {
   /** Rendered inside an AccordionSection, which supplies the card, the title
    *  and the band line. */
   embedded?: boolean;
-}
-
-interface MarkingCriteriaItem {
-  markLabel: string;
-  markRange: [number, number];
-  description: string;
-  band: number;
 }
 
 const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
@@ -62,115 +62,13 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
   const maxBandConfig = useMemo(() => getBandConfig(maxPossibleBand), [maxPossibleBand]);
 
-  const parsedCriteria: MarkingCriteriaItem[] = useMemo(() => {
-    const formattedCriteria = formatMarkingCriteria(markingCriteria);
-    if (!formattedCriteria) return [];
-
-    const items: MarkingCriteriaItem[] = [];
-
-    // Normalize: strip markdown bold, mid-line bullets → newlines
-    let normalizedText = formattedCriteria.replace(/\*\*/g, '');
-    normalizedText = normalizedText.replace(/ • /g, '\n- ');
-
-    const lines = normalizedText.split('\n');
-    let currentItem: MarkingCriteriaItem | null = null;
-
-    // Regex 1: "[Marks] marks:" or "[Marks]:" at START of line (with optional bullet/pipe prefix)
-    // Matches: "5 marks:", "3-4 marks:", "5:", "3–4 marks -", "• 5 marks:", etc.
-    const startMarkRegex = new RegExp(
-      '^[-•*|]?\\s*(\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*(?:marks?)?\\s*[:|.\\-)]+\\s*(.*)',
-      'i'
-    );
-
-    // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in
-    // line. The third group keeps whatever follows the bracket — a row written
-    // as "Band 6 (7-8 marks): Comprehensive analysis…" used to be stored as the
-    // words before the bracket alone, silently discarding the actual criteria.
-    const endMarkRegex = new RegExp(
-      '(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)\\s*[:.\\-–]?\\s*(.*)',
-      'i'
-    );
-
-    // Regex 3: "Band N:" or "Band N-M:" pattern (AI sometimes uses band labels)
-    const bandStartRegex = new RegExp(
-      '^[-•*]?\\s*band\\s+(\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*[:|.\\-)]+\\s*(.*)',
-      'i'
-    );
-
-    lines.forEach((line) => {
-      const cleanLine = line.trim();
-      if (!cleanLine || cleanLine.match(new RegExp('^[|\\-]+$'))) return;
-
-      const startMatch = cleanLine.match(startMarkRegex);
-      const endMatch = cleanLine.match(endMarkRegex);
-      const bandMatch = cleanLine.match(bandStartRegex);
-
-      if (startMatch && startMatch[1]) {
-        if (currentItem) items.push(currentItem);
-        const range = parseMarkRange(startMatch[1].trim());
-        currentItem = {
-          markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
-          markRange: range,
-          description: startMatch[2].trim(),
-          band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
-        };
-      } else if (bandMatch) {
-        if (currentItem) items.push(currentItem);
-        const bandNums = bandMatch[1].match(/\d+/g)?.map(Number) || [1];
-        const topBand = Math.max(...bandNums);
-        // The mark this band starts at on THIS question — tier-aware, like every
-        // other band figure in the app. The old inline `(band / 6) * totalMarks`
-        // ignored the verb's ceiling, so a Tier-2 question's rows were placed
-        // against marks it can never award.
-        const bandMark = markForBand(topBand, prompt.totalMarks, commandTermInfo.tier);
-        // Then the band that mark ACTUALLY earns here, which is what both the
-        // label and the colour are read from. A question with fewer marks than
-        // bands cannot award the bottom of the range — a 4-mark Evaluate runs
-        // Band 6 down to Band 3 — so a row an author wrote as "Band 2:" was
-        // painting orange at mark 1 while the exemplar at that same mark sat
-        // yellow at Band 3. Where the authored band IS reachable this is a
-        // no-op and the row keeps the number it was written with.
-        const rowBand = getBandForMark(bandMark, prompt.totalMarks, commandTermInfo.tier);
-        currentItem = {
-          markLabel: `Band ${rowBand}`,
-          markRange: [bandMark, bandMark],
-          description: bandMatch[2].trim(),
-          band: rowBand,
-        };
-      } else if (endMatch) {
-        if (currentItem) items.push(currentItem);
-        const range = parseMarkRange(endMatch[2].trim());
-        const before = endMatch[1].replace(/^[-•*]\s*/, '').trim();
-        const after = (endMatch[3] || '').trim();
-        // Prefer the criteria that follow the bracket; fall back to the label
-        // before it when the row is written as "Describes both features (2 marks)".
-        const desc = after || before;
-
-        // Stays the current item rather than being closed off, so wrapped or
-        // continuation lines beneath it are appended instead of dropped.
-        currentItem = {
-          markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
-          markRange: range,
-          description: desc,
-          band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
-        };
-      } else if (currentItem) {
-        currentItem.description += ' ' + cleanLine;
-      }
-    });
-
-    if (currentItem) items.push(currentItem);
-
-    return items.sort((a, b) => b.markRange[1] - a.markRange[1]);
-  }, [markingCriteria, prompt.totalMarks, commandTermInfo.tier]);
-
-  function parseMarkRange(str: string): [number, number] {
-    const numbers = str.match(new RegExp('(\\d+)', 'g'));
-    if (!numbers) return [0, 0];
-    const nums = numbers.map(Number);
-    if (nums.length === 1) return [nums[0], nums[0]];
-    return [Math.min(...nums), Math.max(...nums)];
-  }
+  // The rows of the guide, highest mark first. The parser lives in
+  // utils/markingGuideParse so the Sample Answers panel can read the same rows.
+  const parsedCriteria = useMemo(
+    () => parseMarkingCriteria(markingCriteria, prompt.totalMarks, commandTermInfo.tier),
+    [markingCriteria, prompt.totalMarks, commandTermInfo.tier]
+  );
+  const sampleAnswers = prompt.sampleAnswers ?? [];
 
   const handleSave = () => {
     onSave(editText);
@@ -326,44 +224,49 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
             />
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className={LADDER_STACK}>
             {parsedCriteria.length > 0 ? (
               parsedCriteria.map((item, idx) => {
-                const itemConfig = getBandConfig(item.band);
+                // The row's exemplar, if the question has one at this level. The
+                // chip only says that one exists; the Sample Answers panel decides
+                // what it shows.
+                const exemplarMark = exemplarMarkForItem(
+                  item,
+                  sampleAnswers,
+                  prompt.totalMarks,
+                  commandTermInfo.tier
+                );
                 return (
-                  // Both halves of the row are painted from the SAME band
-                  // config, so the ladder is a ladder in whichever theme is on.
-                  // What used to break it was the config itself, not this
-                  // markup: the light tint was a `-50` shade on a white panel —
-                  // about a 2% difference — so in light mode every level showed
-                  // its coloured border and no fill at all, while dark mode's
-                  // alpha wash read correctly. Fixed at source in
-                  // `getBandConfig`; see the note there before reaching for a
-                  // local override here.
-                  <div
+                  // The shared ladder row, so the guide and the exemplars draw one
+                  // gutter, one radius and one type scale. The band's colour is
+                  // taken from `getBandConfig` inside LadderRow, which is the one
+                  // place a band's fill, ink and edge are read from; the note there
+                  // says why a light tint is a `-100` and why the edge is
+                  // `band-edge` and not the token.
+                  <LadderRow
                     key={idx}
-                    // `band-edge` in place of the token, here and on the mark
-                    // column's divider. Same reason as the Grade Standards
-                    // ladder this panel sits beside: a saturated outline drawn
-                    // around this band's own pale wash, once for the row and
-                    // again for the internal seam, so a criteria list read as
-                    // a stack of hard-edged boxes rather than a ladder. The
-                    // comment above records the fill being fixed at source;
-                    // this is the other half of the same row.
-                    style={{ '--band-rgb': getBandRgb(item.band) } as React.CSSProperties}
-                    className={`flex items-stretch rounded-xl border band-edge ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}
+                    band={item.band}
+                    markLabel={item.markLabel}
+                    // A band-labelled row already says "Band N" in its label.
+                    bandCaption={isBandLabelled(item) ? false : `Band ${item.band}`}
+                    footer={
+                      exemplarMark !== undefined ? (
+                        <button
+                          type="button"
+                          onClick={() => requestOpenExemplar(prompt.id, exemplarMark)}
+                          aria-label={`See the model answer for ${exemplarMark} ${exemplarMark === 1 ? 'mark' : 'marks'}`}
+                          className={LADDER_MODEL_ANSWER}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+                          Model answer
+                        </button>
+                      ) : undefined
+                    }
                   >
-                    <div
-                      className={`w-14 flex flex-col items-center justify-center p-2 border-r band-edge ${itemConfig.bg} flex-shrink-0`}
-                    >
-                      <span className={`text-lg font-bold ${itemConfig.text} leading-none`}>
-                        {item.markLabel}
-                      </span>
-                    </div>
-                    <div className="flex-1 p-3 t-body text-slate-600 dark:text-slate-300 font-serif">
+                    <div className={LADDER_CRITERION}>
                       {renderFormattedText(item.description, prompt.keywords, prompt.verb)}
                     </div>
-                  </div>
+                  </LadderRow>
                 );
               })
             ) : markingCriteria ? (

@@ -1,4 +1,4 @@
-import React, { useId, useState, useMemo } from 'react';
+import React, { useId, useState } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
@@ -27,6 +27,16 @@ interface AccordionSectionProps {
   resetKey?: string;
   /** Which of the question's supports this panel is, for the feedback report. */
   supportId?: SupportResourceId;
+  /** Opens the section each time this number CHANGES to a truthy value, so a
+   *  sibling can open it from outside without owning its state. The value at
+   *  mount is not a change, so it does not open the section; `defaultOpen` is
+   *  what opens one on arrival. */
+  forceOpenSignal?: number;
+  /** Mounts the children only while the section is open. A body whose rows run
+   *  work on mount (the exemplars run text metrics for every row) should not do
+   *  that for a section nobody has opened. Off by default, so every other caller
+   *  keeps its children mounted and its state across a fold. */
+  lazy?: boolean;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -38,9 +48,19 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   band = 6,
   resetKey,
   supportId,
+  forceOpenSignal,
+  lazy = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const bandConfig = useMemo(() => getBandConfig(band), [band]);
+  // The signal as last seen, kept as state and compared during render (the
+  // React pattern for a prop that resets state), so a change opens the section
+  // in the same render rather than one frame after it.
+  const [seenSignal, setSeenSignal] = useState(forceOpenSignal);
+  if (forceOpenSignal !== seenSignal) {
+    setSeenSignal(forceOpenSignal);
+    if (forceOpenSignal) setIsOpen(true);
+  }
+  const bandConfig = getBandConfig(band);
   const panelId = useId();
   const opened = useOpenedOnce(isOpen, resetKey);
   // `resetKey` is the prompt id everywhere this panel is used for a question.
@@ -48,39 +68,45 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
 
   return (
     <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        className={`w-full ${PANEL_ROW_MIN_H} py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
+      {/* The header row is a wrapper around the disclosure, which carries the shared
+          row height and the tint. */}
+      <div
+        className={`group flex items-stretch ${PANEL_ROW_MIN_H} transition-all ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
       >
-        <div className="flex items-center gap-4">
-          <div
-            className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
-          >
-            {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
-          </div>
-          <span className="text-left">
-            <span
-              // The panel's NAME, so it takes the section treatment; the
-              // subtitle under it stays `.t-label`, which is what makes the
-              // pair read as a heading and its caption rather than two labels.
-              className={`t-section block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          className="flex-1 min-w-0 py-3.5 px-5 flex items-center justify-between"
+        >
+          <div className="flex items-center gap-4">
+            <div
+              className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
             >
-              {title}
+              {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
+            </div>
+            <span className="text-left">
+              <span
+                // The panel's NAME, so it takes the section treatment; the
+                // subtitle under it stays `.t-label`, which is what makes the
+                // pair read as a heading and its caption rather than two labels.
+                className={`t-section block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+              >
+                {title}
+              </span>
+              {subtitle && (
+                <span className="t-label block text-slate-600 dark:text-slate-400">{subtitle}</span>
+              )}
             </span>
-            {subtitle && (
-              <span className="t-label block text-slate-600 dark:text-slate-400">{subtitle}</span>
-            )}
-          </span>
-        </div>
-        <div className="flex items-center gap-2.5 flex-shrink-0">
-          <PanelReadChip show={opened && !isOpen} />
-          <ChevronDown
-            className={`w-4 h-4 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
-          />
-        </div>
-      </button>
+          </div>
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <PanelReadChip show={opened && !isOpen} />
+            <ChevronDown
+              className={`w-4 h-4 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
+            />
+          </div>
+        </button>
+      </div>
 
       {/* A grid-rows transition rather than a max-height one. The old
           `max-h-[2000px]` was a guess at how tall the content could get, and
@@ -100,11 +126,59 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
       >
         <div className="overflow-hidden">
           <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
-            <div className="mt-5">{children}</div>
+            <div className="mt-5">{!lazy || isOpen ? children : null}</div>
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+interface MarkingGuidePanelProps {
+  prompt: Prompt;
+  userRole: UserRole;
+  onMarkingCriteriaChange: (criteria: string) => void;
+  courseOutcomes?: CourseOutcome[];
+}
+
+/**
+ * The Marking Guide panel. It is built here once, for the reference rail and for
+ * Focus Mode, which have no other shared parent: both had their own copy of this
+ * composition, and the two had already drifted apart.
+ */
+export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
+  prompt,
+  userRole,
+  onMarkingCriteriaChange,
+  courseOutcomes = [],
+}) => {
+  const tier = getCommandTermInfo(prompt.verb).tier;
+  // The question's own ceiling, not a fixed band: the open icon tile takes this
+  // question's tier hue, and the Sample Answers panel reads the same figure.
+  const ceilingBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
+  return (
+    <AccordionSection
+      title="Marking Guide"
+      // It said "Top level: Band 2" over an empty panel, as though a guide
+      // existed and topped out there.
+      subtitle={
+        prompt.markingCriteria?.trim() ? `Written to Band ${ceilingBand}` : 'Not written yet'
+      }
+      icon={<ListChecks />}
+      band={ceilingBand}
+      resetKey={prompt.id}
+      supportId="markingGuide"
+    >
+      <MarkingCriteriaManager
+        prompt={prompt}
+        markingCriteria={prompt.markingCriteria || ''}
+        onSave={onMarkingCriteriaChange}
+        band={ceilingBand}
+        userRole={userRole}
+        courseOutcomes={courseOutcomes}
+        embedded
+      />
+    </AccordionSection>
   );
 };
 
@@ -137,15 +211,10 @@ interface ReferenceMaterialsProps {
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   const { prompt, topic, userRole, courseOutcomes = [] } = props;
 
-  // Only the tier's ceiling is needed here now: What's Assessed, Common
-  // mistakes and Grade Standards are off the workspace for the time being, and
-  // the data behind them (linked outcomes, `commonStudentErrors`,
-  // `markerNotes`, band descriptors) is left untouched so they can return.
-  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const maxPossibleBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, verbInfo.tier),
-    [prompt.totalMarks, verbInfo.tier]
-  );
+  // What's Assessed, Common mistakes and Grade Standards are off the workspace
+  // for the time being, and the data behind them (linked outcomes,
+  // `commonStudentErrors`, `markerNotes`, band descriptors) is left untouched so
+  // they can return.
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
@@ -166,28 +235,12 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         />
       </AccordionSection>
 
-      <AccordionSection
-        title="Marking Guide"
-        // It said "Top level: Band 2" over an empty panel, as though a guide
-        // existed and topped out there.
-        subtitle={
-          prompt.markingCriteria?.trim() ? `Written to Band ${maxPossibleBand}` : 'Not written yet'
-        }
-        icon={<ListChecks />}
-        band={5}
-        resetKey={prompt.id}
-        supportId="markingGuide"
-      >
-        <MarkingCriteriaManager
-          prompt={prompt}
-          markingCriteria={prompt.markingCriteria || ''}
-          onSave={props.onMarkingCriteriaChange}
-          band={5}
-          userRole={userRole}
-          courseOutcomes={courseOutcomes}
-          embedded
-        />
-      </AccordionSection>
+      <MarkingGuidePanel
+        prompt={prompt}
+        userRole={userRole}
+        onMarkingCriteriaChange={props.onMarkingCriteriaChange}
+        courseOutcomes={courseOutcomes}
+      />
 
       {/* The exemplars used to sit here, under the Marking Guide. They are now
           docked beneath the student's own writing, where the comparison that

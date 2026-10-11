@@ -13,12 +13,11 @@ import {
   SyllabusCrumb,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
-import ReferenceMaterials, { AccordionSection } from './ReferenceMaterials';
-import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import { ListChecks, Lock } from 'lucide-react';
+import ReferenceMaterials, { MarkingGuidePanel } from './ReferenceMaterials';
+import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import {
   cardHeightCap,
@@ -587,38 +586,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
     );
   }
 
+  // The same panel as the reference rail's. Focus Mode has no rail, so it is
+  // built here from the shared `MarkingGuidePanel` and cannot drift from it.
   const markingGuideCard = (
-    <AccordionSection
-      title="Marking Guide"
-      // The same panel as the reference rail's, and it has to say the same
-      // things. This copy — the one Focus Mode shows, with no rail to hold the
-      // other — still read "Top level: Band 2" over an empty guide, and it
-      // carried no `supportId`: a student who read the guide in Focus Mode was
-      // told in their report that they had written without opening it.
-      subtitle={
-        currentPrompt.markingCriteria?.trim()
-          ? `Written to Band ${getBandForMark(currentPrompt.totalMarks, currentPrompt.totalMarks, getCommandTermInfo(currentPrompt.verb).tier)}`
-          : 'Not written yet'
+    <MarkingGuidePanel
+      prompt={currentPrompt}
+      userRole={userRole}
+      onMarkingCriteriaChange={(mc) =>
+        syllabusHandlers.updateCourses((d) =>
+          findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
+        )
       }
-      icon={<ListChecks />}
-      band={5}
-      resetKey={currentPrompt.id}
-      supportId="markingGuide"
-    >
-      <MarkingCriteriaManager
-        prompt={currentPrompt}
-        markingCriteria={currentPrompt.markingCriteria || ''}
-        onSave={(mc) =>
-          syllabusHandlers.updateCourses((d) =>
-            findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
-          )
-        }
-        band={5}
-        userRole={userRole}
-        courseOutcomes={courseOutcomes}
-        embedded
-      />
-    </AccordionSection>
+      courseOutcomes={courseOutcomes}
+    />
   );
 
   const sampleAnswersCard = (
