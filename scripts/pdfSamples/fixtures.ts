@@ -12,6 +12,27 @@
 
 import type { EvaluationExportData } from '../../pdf/buildBlocks';
 
+import {
+  ALL_REPORT_SECTIONS,
+  type ProgressReport,
+  type ReportAttemptRow,
+  type ReportBreakdownRow,
+  type ReportStat,
+  type ReportClassRow,
+  type ReportStudentRow,
+  type ReportTierRow,
+  type ReportTrendPoint,
+} from '../../pdf/reportModel';
+import { formatShortDate } from '../../pdf/reportFormat';
+import type { ProgressReportPayload } from '../../services/responseService';
+import {
+  buildSchoolReport,
+  buildStudentReport,
+  buildTeacherReport,
+} from '../../utils/progressReport';
+import type { OwnAttempt } from '../../utils/profileHistory';
+import type { ReportCourseFilter, ReportOptions } from '../../utils/progressReport';
+
 /** The common case: a 6-mark EXPLAIN at Band 4, response + rewrite + notes. */
 export const typicalBand4: EvaluationExportData = {
   question:
@@ -306,4 +327,567 @@ export const SAMPLES: { name: string; subtitle: string; data: EvaluationExportDa
     subtitle: 'HSC Enterprise Computing',
     data: editedBand4,
   },
+];
+
+// ---------------------------------------------------------------------------
+// Progress-report fixtures
+// ---------------------------------------------------------------------------
+//
+// Every report is produced by the app's own builders (utils/progressReport.ts), fed by
+// simulated answers from a seeded generator. The strings, the caps, the ordering and
+// the anonymisation are therefore the ones a real export carries; only the answers
+// are invented. Each sample says what it is for in its comment.
+
+/** A small seeded generator (mulberry32), so the samples are the same every run. */
+const seeded = (seed: number): (() => number) => {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+
+const clamp = (n: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, n));
+
+/** The six tiers, each with a verb the app tiers (see data/commandTerms). */
+// Each a real command term in data/commandTerms.ts, at the tier named.
+const TIER_VERBS = ['STATE', 'DESCRIBE', 'COMPARE', 'ANALYSE', 'ASSESS', 'EVALUATE'];
+
+/** The catalogue the simulated answers are drawn from: courses, their topics. */
+interface Catalogue {
+  courses: { id: string; legacyId: string; name: string; topics: string[] }[];
+}
+
+const SAMPLE_CATALOGUE: Catalogue = {
+  courses: [
+    {
+      id: 'course-enterprise',
+      legacyId: 'hsc-enterprise-computing',
+      name: 'Enterprise Computing',
+      topics: [
+        'Data visualisation',
+        'Securing enterprise data',
+        'Legal and ethical responsibilities',
+      ],
+    },
+    {
+      id: 'course-software',
+      legacyId: 'hsc-software-engineering',
+      name: 'Software Engineering',
+      topics: ['Requirements', 'Software design', 'Testing and maintenance'],
+    },
+  ],
+};
+
+/** Long names on purpose: the stress sample checks that every one ellipsises inside its column. */
+const STRESS_CATALOGUE: Catalogue = {
+  courses: [
+    {
+      id: 'course-stress-a',
+      legacyId: 'hsc-stress-a',
+      name: 'Enterprise Computing and Emerging Technologies Extension Course',
+      topics: [
+        'Evaluating the legal, ethical and social responsibilities of enterprises in managing personal and organisational data',
+        'Securing enterprise data',
+      ],
+    },
+    {
+      id: 'course-stress-b',
+      legacyId: 'hsc-stress-b',
+      name: 'Software Engineering',
+      topics: ['Requirements', 'Testing and maintenance'],
+    },
+  ],
+};
+
+/** One simulated marked answer. `day` counts from the window's first day. */
+interface SimAttempt {
+  day: number;
+  at: string;
+  course: number;
+  topic: number;
+  tier: number;
+  verb: string;
+  band: number;
+  share: number;
+  mark: number;
+  total: number;
+  words: number;
+  student: number;
+}
+
+const WINDOW_START = { y: 2026, m: 7, d: 14 };
+const WINDOW_LAST_DAY = 88;
+const TOTAL_MARKS = [4, 6, 8];
+const generatedAt = new Date(2026, 9, 11, 9, 30).toISOString();
+
+/** Simulate `count` answers for one student, improving from `skill` across the span. */
+const simulateStudent = (
+  rand: () => number,
+  student: number,
+  count: number,
+  skill: number,
+  spanDays: number,
+  catalogue: Catalogue = SAMPLE_CATALOGUE
+): SimAttempt[] => {
+  const out: SimAttempt[] = [];
+  let day = Math.floor(rand() * 4);
+  for (let i = 0; i < count && day <= spanDays; i++) {
+    const course = Math.floor(rand() * catalogue.courses.length);
+    const topic = Math.floor(rand() * catalogue.courses[course].topics.length);
+    // Lower tiers are attempted more often than the top one.
+    const roll = rand();
+    const tier =
+      roll < 0.12 ? 1 : roll < 0.3 ? 2 : roll < 0.55 ? 3 : roll < 0.75 ? 4 : roll < 0.9 ? 5 : 6;
+    const progress = day / Math.max(1, spanDays);
+    const band = clamp(Math.round(skill + progress * 1.6 + (rand() - 0.5) * 2.2), 1, 6);
+    const total = TOTAL_MARKS[Math.floor(rand() * TOTAL_MARKS.length)];
+    const share = clamp(0.2 + 0.1 * band + (rand() - 0.5) * 0.16, 0, 1);
+    const mark = Math.round(share * total);
+    const d = new Date(WINDOW_START.y, WINDOW_START.m - 1, WINDOW_START.d + day, 12);
+    out.push({
+      day,
+      at: d.toISOString(),
+      course,
+      topic,
+      tier,
+      verb: TIER_VERBS[tier - 1],
+      band,
+      share: mark / total,
+      mark,
+      total,
+      words: 80 + Math.floor(rand() * 260),
+      student,
+    });
+    day += 1 + Math.floor(rand() * 5);
+  }
+  return out;
+};
+
+const byDay = (rows: SimAttempt[]): SimAttempt[] => [...rows].sort((a, b) => a.day - b.day);
+
+/** The app's own answer shape, from one simulated answer. */
+const toOwnAttempt = (a: SimAttempt, catalogue: Catalogue): OwnAttempt => {
+  const c = catalogue.courses[a.course];
+  const course = { id: c.id, legacyId: c.legacyId, name: c.name };
+  return {
+    at: a.at,
+    band: a.band,
+    mark: a.mark,
+    totalMarks: a.total,
+    verb: a.verb,
+    wordCount: a.words,
+    course,
+    topic: { name: c.topics[a.topic], course },
+  };
+};
+
+const meanOf = (xs: number[]): number | null =>
+  xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null;
+
+/** The count-and-mean metrics every roster row carries. */
+const metricsOf = (rows: SimAttempt[]) => ({
+  attempts: rows.length,
+  students: new Set(rows.map((r) => r.student)).size,
+  avg_band: meanOf(rows.map((r) => r.band)),
+  avg_mark_frac: meanOf(rows.map((r) => r.share)),
+});
+
+const groupRows = <K>(rows: SimAttempt[], key: (r: SimAttempt) => K): Map<K, SimAttempt[]> => {
+  const out = new Map<K, SimAttempt[]>();
+  for (const r of rows) out.set(key(r), [...(out.get(key(r)) ?? []), r]);
+  return out;
+};
+
+/** A student in a roster: the username the RPC keys on, and the display name it returns. */
+interface StudentSpec {
+  username: string;
+  displayName: string;
+}
+
+/** One class: the students in it, by their index in the roster. */
+interface ClassSpec {
+  classId: string;
+  name: string;
+  year: number | null;
+  members: number[];
+}
+
+/**
+ * The `get_progress_report()` payload the app receives, built from the same answers.
+ * Only the arrays the builders read are filled, in the shape the RPC returns.
+ */
+const rosterPayload = (
+  rows: SimAttempt[],
+  students: StudentSpec[],
+  catalogue: Catalogue,
+  classes?: ClassSpec[]
+): ProgressReportPayload => {
+  const days = 90;
+  const weeks = 13;
+  const first = byDay(rows)[0]?.at ?? null;
+  const last = byDay(rows)[byDay(rows).length - 1]?.at ?? null;
+  const byVerb = [...groupRows(rows, (r) => r.verb)].map(([label, items]) => ({
+    label,
+    ...metricsOf(items),
+  }));
+  const byCourse = [...groupRows(rows, (r) => r.course)].map(([idx, items]) => ({
+    course_id: catalogue.courses[idx].legacyId,
+    label: catalogue.courses[idx].name,
+    ...metricsOf(items),
+  }));
+  const byTopic = [...groupRows(rows, (r) => `${r.course}-${r.topic}`)].map(([, items]) => {
+    const c = catalogue.courses[items[0].course];
+    return {
+      topic_id: `${c.legacyId}:${items[0].topic}`,
+      course_id: c.legacyId,
+      course: c.name,
+      label: c.topics[items[0].topic],
+      ...metricsOf(items),
+    };
+  });
+  const byStudent = students.map((s, i) => {
+    const mine = byDay(rows.filter((r) => r.student === i));
+    return {
+      username: s.username,
+      display_name: s.displayName,
+      attempts: mine.length,
+      avg_band: meanOf(mine.map((r) => r.band)),
+      avg_mark_frac: meanOf(mine.map((r) => r.share)),
+      last_active: mine.length ? mine[mine.length - 1].at : null,
+    };
+  });
+  const byStudentVerb = students.flatMap((s, i) =>
+    [
+      ...groupRows(
+        rows.filter((r) => r.student === i),
+        (r) => r.verb
+      ),
+    ].map(([verb, items]) => ({
+      username: s.username,
+      verb,
+      attempts: items.length,
+      avg_band: meanOf(items.map((r) => r.band)),
+      avg_mark_frac: meanOf(items.map((r) => r.share)),
+    }))
+  );
+  const weekRows = (items: SimAttempt[]) =>
+    [...groupRows(items, (r) => Math.floor(r.day / 7))].map(([week, w]) => ({
+      week,
+      attempts: w.length,
+      avg_band: meanOf(w.map((r) => r.band)),
+      avg_mark_frac: meanOf(w.map((r) => r.share)),
+    }));
+  const byStudentWeek = students.flatMap((s, i) =>
+    weekRows(rows.filter((r) => r.student === i)).map((w) => ({ username: s.username, ...w }))
+  );
+  return {
+    days,
+    weeks,
+    totals: {
+      attempts: rows.length,
+      active_students: new Set(rows.map((r) => r.student)).size,
+      avg_band: meanOf(rows.map((r) => r.band)),
+      avg_mark_frac: meanOf(rows.map((r) => r.share)),
+      first_attempt_at: first,
+      last_attempt_at: last,
+    },
+    byVerb,
+    byCourse,
+    byTopic,
+    byStudent,
+    byStudentVerb,
+    byStudentWeek,
+    weekly: weekRows(rows),
+    ...(classes
+      ? {
+          byClass: classes.map((c) => ({
+            class_id: c.classId,
+            name: c.name,
+            year: c.year,
+            ...metricsOf(rows.filter((r) => c.members.includes(r.student))),
+            students: c.members.length,
+          })),
+        }
+      : {}),
+  };
+};
+
+const ALL_SECTIONS = { ...ALL_REPORT_SECTIONS };
+
+/** A roster of `n` named students, drawn from first and last names, with stable usernames. */
+const rosterOf = (n: number): StudentSpec[] => {
+  const FIRST = [
+    'Ava',
+    'Liam',
+    'Mia',
+    'Noah',
+    'Isla',
+    'Ethan',
+    'Zara',
+    'Lachlan',
+    'Chloe',
+    'Oliver',
+    'Amelia',
+    'Jack',
+    'Sofia',
+    'Mason',
+    'Ruby',
+    'Hunter',
+    'Grace',
+    'Ryan',
+    'Hannah',
+    'Jayden',
+  ];
+  const LAST = [
+    'Nguyen',
+    "O'Brien",
+    'Chen',
+    'Patel',
+    'Walker',
+    'Kim',
+    'Ahmed',
+    'Reid',
+    'Smith',
+    'Wright',
+    'Taylor',
+    'Rossi',
+    'Lee',
+    'Campbell',
+    'Clarke',
+    'Mitchell',
+    'Zhang',
+    'Scott',
+    'Singh',
+    'Murphy',
+    'Martin',
+    'Thompson',
+    'Park',
+    'Hall',
+    'Harris',
+    'Jones',
+  ];
+  return Array.from({ length: n }, (_, i) => ({
+    username: `student${String(i + 1).padStart(3, '0')}`,
+    displayName: `${FIRST[i % FIRST.length]} ${LAST[(i * 7 + Math.floor(i / FIRST.length)) % LAST.length]}`,
+  }));
+};
+
+/** One simulated class of `n` students: each with their own count and skill. */
+const simulateClass = (seed: number, n: number, catalogue: Catalogue, offset = 0): SimAttempt[] => {
+  const rand = seeded(seed);
+  const rows: SimAttempt[] = [];
+  for (let i = 0; i < n; i++) {
+    const count = 4 + Math.floor(rand() * 18);
+    const skill = 2.6 + rand() * 2.2;
+    rows.push(...simulateStudent(rand, i + offset, count, skill, WINDOW_LAST_DAY, catalogue));
+  }
+  return rows;
+};
+
+const ownOptions = (over: Partial<ReportOptions>): ReportOptions => ({
+  audience: 'student',
+  windowDays: 90,
+  courseFilter: null,
+  className: null,
+  includeStudentNames: true,
+  sections: ALL_SECTIONS,
+  subject: { name: 'Jordan Lee', roleLabel: 'Student', school: 'Northern Valley High School' },
+  generatedAt,
+  ...over,
+});
+
+const studentStats = (rows: SimAttempt[]) => {
+  const scored = rows.map((r) => r.band);
+  return {
+    questionsAnswered: rows.length,
+    averageBand: meanOf(scored) ?? 0,
+    markShareMean: meanOf(rows.map((r) => r.share)) ?? undefined,
+    markShareCount: rows.length,
+    totalWordsWritten: rows.reduce((sum, r) => sum + r.words, 0),
+    streakDays: 3,
+  };
+};
+
+/** The typical student: 25 answers across two courses, improving across the window. */
+const typicalRows = byDay(simulateStudent(seeded(20260714), 0, 25, 3, WINDOW_LAST_DAY));
+
+export const typicalStudentReport: ProgressReport = buildStudentReport({
+  stats: studentStats(typicalRows),
+  history: typicalRows.map((r) => toOwnAttempt(r, SAMPLE_CATALOGUE)),
+  options: ownOptions({}),
+});
+
+/** The same student, narrowed to one course: the topic table goes flat, the course table one row. */
+export const courseFilteredReport: ProgressReport = buildStudentReport({
+  stats: studentStats(typicalRows),
+  history: typicalRows.map((r) => toOwnAttempt(r, SAMPLE_CATALOGUE)),
+  options: ownOptions({
+    courseFilter: {
+      id: 'hsc-software-engineering',
+      name: 'Software Engineering',
+    } as ReportCourseFilter,
+  }),
+});
+
+/** One answer: a single point is a point with its caption, not a line. */
+const oneRows = byDay(simulateStudent(seeded(7), 0, 1, 3, 4)).map((r) => ({
+  ...r,
+  // Pinned to Software Engineering, the course the sample filters on.
+  course: 1,
+  topic: 0,
+  day: r.day + 84,
+  at: new Date(WINDOW_START.y, WINDOW_START.m - 1, WINDOW_START.d + r.day + 84, 12).toISOString(),
+}));
+export const oneAttemptStudentReport: ProgressReport = buildStudentReport({
+  stats: studentStats(oneRows),
+  history: oneRows.map((r) => toOwnAttempt(r, SAMPLE_CATALOGUE)),
+  options: ownOptions({
+    windowDays: 30,
+    courseFilter: {
+      id: 'hsc-software-engineering',
+      name: 'Software Engineering',
+    } as ReportCourseFilter,
+  }),
+});
+
+/**
+ * No answers in the period: history exists, but nothing falls in the last 30 days, so
+ * every section says why it is empty and none is a blank frame.
+ */
+const oldRows: OwnAttempt[] = [
+  {
+    at: new Date(2025, 2, 2, 12).toISOString(),
+    band: 4,
+    mark: 4,
+    totalMarks: 6,
+    verb: 'EXPLAIN',
+    wordCount: 140,
+    course: {
+      id: 'course-enterprise',
+      legacyId: 'hsc-enterprise-computing',
+      name: 'Enterprise Computing',
+    },
+    topic: { name: 'Data visualisation', course: null },
+  },
+];
+export const emptyStudentReport: ProgressReport = buildStudentReport({
+  stats: { questionsAnswered: 1, averageBand: 4, totalWordsWritten: 140, streakDays: 0 },
+  history: oldRows,
+  options: ownOptions({ windowDays: 30 }),
+});
+
+/** A class of 28: the named report, with the students table and the tier heatmap. */
+const classRows = simulateClass(20261011, 28, SAMPLE_CATALOGUE);
+const classStudents = rosterOf(28);
+const enterprise12A: ClassSpec = {
+  classId: 'class-12a',
+  name: 'Enterprise 12A',
+  year: 12,
+  members: classStudents.map((_, i) => i),
+};
+const classOptions = (over: Partial<ReportOptions> = {}): ReportOptions =>
+  ownOptions({
+    audience: 'teacher',
+    className: 'Enterprise 12A',
+    subject: { name: 'Ms Priya Raman', roleLabel: 'Teacher', school: 'Northfield High School' },
+    ...over,
+  });
+export const classReportNamed: ProgressReport = buildTeacherReport({
+  payload: rosterPayload(classRows, classStudents, SAMPLE_CATALOGUE),
+  options: classOptions(),
+});
+export const classReportAnonymised: ProgressReport = buildTeacherReport({
+  payload: rosterPayload(classRows, classStudents, SAMPLE_CATALOGUE),
+  options: classOptions({ includeStudentNames: false }),
+});
+
+/** A class of 120: forces the students table and the heatmap to split across several pages. */
+const bigRows = simulateClass(20261120, 120, SAMPLE_CATALOGUE);
+export const classReport120: ProgressReport = buildTeacherReport({
+  payload: rosterPayload(bigRows, rosterOf(120), SAMPLE_CATALOGUE),
+  options: classOptions({ className: null }),
+});
+
+/** Long names throughout: students, topics, courses. Every cell must ellipsise inside its column. */
+const stressStudents: StudentSpec[] = [
+  {
+    username: 'stress001',
+    displayName: 'Bartholomew Maximilian Ferdinand-Alexander Montgomery III',
+  },
+  { username: 'stress002', displayName: 'Søren Ørsted-Wäldchen' },
+  { username: 'stress003', displayName: 'Ana' },
+  { username: 'stress004', displayName: 'Nguyễn Thị Phương Thảo Trần-Hoàng' },
+];
+const stressRows = simulateClass(20260505, stressStudents.length, STRESS_CATALOGUE);
+export const stressReport: ProgressReport = buildTeacherReport({
+  payload: rosterPayload(stressRows, stressStudents, STRESS_CATALOGUE),
+  options: classOptions({
+    className: 'Software Engineering and Emerging Technologies Extension Class 12 Advanced',
+    subject: {
+      name: 'Dr Alexandra Maria Fitzgerald-Montgomery',
+      roleLabel: 'Head Teacher',
+      school: 'Northfield High School of the Upper Valley Performing and Visual Arts',
+    },
+  }),
+});
+
+/** Five classes across Years 11 and 12: the school-level view, with the classes table. */
+const schoolClasses: ClassSpec[] = [
+  { classId: 'c1', name: 'Enterprise 11A', year: 11, members: [] },
+  { classId: 'c2', name: 'Enterprise 11B', year: 11, members: [] },
+  { classId: 'c3', name: 'Software 11', year: 11, members: [] },
+  { classId: 'c4', name: 'Enterprise 12A', year: 12, members: [] },
+  { classId: 'c5', name: 'Software 12', year: 12, members: [] },
+];
+const SCHOOL_SIZES = [22, 23, 24, 22, 23];
+const schoolStudents = rosterOf(SCHOOL_SIZES.reduce((a, b) => a + b, 0));
+let schoolStart = 0;
+schoolClasses.forEach((c, idx) => {
+  c.members = Array.from({ length: SCHOOL_SIZES[idx] }, (_, k) => schoolStart + k);
+  schoolStart += SCHOOL_SIZES[idx];
+});
+const schoolRows = (() => {
+  const rand = seeded(20261012);
+  const rows: SimAttempt[] = [];
+  schoolClasses.forEach((c, idx) => {
+    c.members.forEach((student) => {
+      const count = 3 + Math.floor(rand() * 16);
+      const skill = 2.4 + rand() * 2.4 + (idx > 2 ? 0.3 : 0);
+      rows.push(...simulateStudent(rand, student, count, skill, WINDOW_LAST_DAY));
+    });
+  });
+  return rows;
+})();
+export const schoolReport: ProgressReport = buildSchoolReport({
+  payload: rosterPayload(schoolRows, schoolStudents, SAMPLE_CATALOGUE, schoolClasses),
+  options: ownOptions({
+    audience: 'school',
+    includeStudentNames: false,
+    subject: { name: 'Northfield High School', roleLabel: 'Administrator', school: null },
+  }),
+});
+
+/**
+ * Every progress-report sample, named for the file it renders to. R7 is the typical
+ * student on US Letter: the same report, the other paper size.
+ */
+export const REPORT_SAMPLES: {
+  name: string;
+  report: ProgressReport;
+  pageSize?: 'a4' | 'letter';
+}[] = [
+  { name: 'R1-student-typical-25', report: typicalStudentReport },
+  { name: 'R2-student-one-attempt', report: oneAttemptStudentReport },
+  { name: 'R3-student-empty', report: emptyStudentReport },
+  { name: 'R4-class-28-named', report: classReportNamed },
+  { name: 'R5-school-five-classes', report: schoolReport },
+  { name: 'R6-class-28-anonymised', report: classReportAnonymised },
+  { name: 'R7-student-typical-letter', report: typicalStudentReport, pageSize: 'letter' },
+  { name: 'R8-student-course-filter', report: courseFilteredReport },
+  { name: 'R9-class-120', report: classReport120 },
+  { name: 'R10-stress-long-names', report: stressReport },
 ];

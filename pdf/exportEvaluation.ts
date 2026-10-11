@@ -101,17 +101,21 @@ export const sanitizeFilename = (name: string): string => {
   return (base || 'export') + '.pdf';
 };
 
-const makeExportId = (): string => `HSC-${Date.now().toString(36).toUpperCase()}`;
+export const makeExportId = (): string => `HSC-${Date.now().toString(36).toUpperCase()}`;
 
-const formatDate = (d = new Date()): string =>
-  d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+/**
+ * The footer date in house style (en-AU, so "11 Oct 2026"). The locale is pinned
+ * rather than left to the browser, so an export reads the same on any machine.
+ */
+export const formatDate = (d = new Date()): string =>
+  d.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' });
 
 /** Small async yield so the export overlay/progress UI can repaint. */
-const repaint = () => new Promise<void>((r) => setTimeout(r, 0));
+export const repaint = () => new Promise<void>((r) => setTimeout(r, 0));
 
 const footerReserve = (pScale: number) => 8 * pScale;
 
-const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
+export const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
   computeGeometry({
     size: pageSize,
     columnsPerPage: COLUMNS_PER_PAGE,
@@ -273,7 +277,7 @@ const drawPanel = (
   doc.roundedRect(xLeft, top, width, height, r, r, 'FD');
 };
 
-const drawBlock = (
+export const drawBlock = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
   block: MeasuredBlock,
@@ -830,7 +834,7 @@ export class PdfExportError extends Error {
   }
 }
 
-const STAGE_MESSAGE: Record<PdfExportError['stage'], string> = {
+export const STAGE_MESSAGE: Record<PdfExportError['stage'], string> = {
   engine: 'The PDF engine could not be loaded. Check your connection and try again.',
   layout: 'This report could not be laid out. Try again, or export without the student response.',
   render: 'The PDF could not be drawn. Try again, or export without the improved response.',

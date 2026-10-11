@@ -130,3 +130,83 @@ export const DEMO_QUICK_TIPS: Record<DraftBandTier, string[]> = {
   mid: ['Turn your "however" into a judgement.', 'Say which consideration wins, and why.'],
   high: ['Strong work. Test the judgement against one more case.', 'Trim to sharpen.'],
 };
+
+// ----------------------------------------------------------------------------
+// Software Engineering corpus
+// ----------------------------------------------------------------------------
+// The Enterprise corpus above speaks of businesses, managers and organisations,
+// which is right for Enterprise Computing and wrong for a Software Engineering
+// class — a Software student's answer on secure architecture should not read like
+// a business studies essay. The same banded design, in the course's own terms.
+// Quick tips and strengths are course-neutral and are shared (see DEMO_CORPORA).
+
+export const DEMO_SOFTWARE_DRAFTS: Record<DraftBandTier, string[]> = {
+  low: [
+    '{topic} is important for software teams. It helps them build better programs and makes development faster. Developers use it a lot these days.',
+    'I think {topic} is useful because it saves time. There are lots of examples of this in real software. It also takes time to learn properly.',
+    '{topic} means using good habits when writing code. This is good for the team and also for the people who end up using the program.',
+    'The main thing about {topic} is that it is modern. Software companies need it to stay competitive with other software companies.',
+  ],
+  mid: [
+    '{topic} applies a structured method to a software problem so that the developer can predict how the program will behave. For example, a team building an online store can keep the payment code separate from the product catalogue, so a fault in one part does not stop the other. This makes the system easier to test. However, the benefit depends on the team keeping that separation clear as new features are added.',
+    '{topic} works by controlling how the parts of a program depend on one another. A web application that checks user input on the server, rather than trusting the browser, can reject a malformed request before it reaches the database. This is more reliable than checking only on the page, because the user cannot bypass the check. A limitation is that every extra check adds processing time to each request.',
+    'The purpose of {topic} in a software project is to reduce the effort needed to find and fix faults. Developers can read unfamiliar code more quickly when its structure is consistent, which shortens the time between a bug report and a fix. This improves maintenance. It does require discipline, and a team that skips the standards will not see the benefit.',
+    'A development team applies {topic} to plan its work. By recording how long earlier tasks actually took, the team can estimate the time for new features more accurately. This reduces the risk of missed deadlines. The approach assumes that future tasks resemble past ones, which is not always true when requirements change quickly.',
+  ],
+  high: [
+    'The significance of {topic} lies less in any single technique than in how it changes the decisions a development team makes about risk. By making the structure of a system explicit, it moves the team from repairing faults after release to anticipating where they are likely to appear. A developer who can see that a module is shared by three services will test it carefully before changing it, rather than discovering the dependency when something breaks. This is a material change in how quality is managed.\n\nHowever, the advantage is conditional. A structure is only as sound as the requirements it was designed from. If the security requirements are incomplete, a clean architecture will protect the wrong assets with great consistency, and that consistency makes the gap harder to notice. The risk is compounded when the documentation describes the intended design rather than the system actually built.\n\nOn balance, {topic} delivers substantial value where a team also invests in review and in checking the implementation against the design. Where it is adopted as a set of diagrams alone, it tends to give confidence without evidence.',
+    'Evaluating {topic} requires weighing faster delivery against the long-term cost of the decisions it encourages. The delivery case is strong: a well-structured system lets a team change one component without rebuilding the rest, which shortens the interval between an idea and a working feature.\n\nThe counter-consideration is that a simple structure can hide complexity rather than remove it. Moving logic into a shared library shortens each program but concentrates faults in code that many programs depend on. A team that treats the library as finished may under-test exactly the code that matters most.\n\nMy judgement is that {topic} is justified where the team keeps the capacity to test the shared parts thoroughly, and questionable where the structure is adopted only to look orderly. The determining variable is the discipline of testing, not the sophistication of the design.',
+  ],
+};
+
+export const DEMO_SOFTWARE_FEEDBACK: Record<DraftBandTier, string[]> = {
+  low: [
+    'This response identifies the topic but does not yet develop it. The claims made are general and are not supported with a specific example, so the marker cannot see evidence of understanding. Aim to name a concrete program or system and explain what happens in it.',
+    'The response stays at the level of assertion. Statements such as "it saves time" need to be followed by *how* — which step becomes faster in the code or the process, and what the consequence is for the users. Adding one worked example would lift this considerably.',
+  ],
+  mid: [
+    'A sound response that explains the concept and supports it with a relevant example. The cause-and-effect reasoning is clear. To reach the higher bands, the trade-off raised at the end needs to be developed into a judgement rather than left as an observation — say which consideration outweighs the other, and why.',
+    'This demonstrates solid understanding and communicates it competently. The example is well chosen and does real work in the argument. The response would be strengthened by sustaining the analysis further: the second half is thinner than the first, and the concession is stated without being weighed.',
+  ],
+  high: [
+    'A well-developed response that sustains a line of argument and reaches a defensible judgement. The concession is genuinely weighed rather than acknowledged in passing, and the criterion for the judgement is made explicit — this is what distinguishes the top band. The terminology is used accurately throughout.',
+    'This is a sophisticated treatment. The link drawn between the design decision and the risk it carries is a genuine insight, and it is carried through to the conclusion rather than abandoned. The judgement is conditional in a way that reflects the complexity of the question rather than hedging it.',
+  ],
+};
+
+export const DEMO_SOFTWARE_IMPROVEMENTS: Record<DraftBandTier, string[]> = {
+  low: [
+    'Name a specific program or system and explain what happens in it.',
+    'Replace general claims with a cause-and-effect chain.',
+    'Address the command verb directly — the question asks for more than a definition.',
+  ],
+  mid: [
+    'Develop the trade-off into a weighed judgement.',
+    'Sustain the depth of the opening paragraph through the second half.',
+    'Make the criterion for your judgement explicit.',
+  ],
+  high: [
+    'Consider a second case study to test the judgement further.',
+    'Tighten the middle paragraph — one supporting point is doing less work than the others.',
+  ],
+};
+
+/** The course-specific prose one course's demo writing is drawn from. */
+export interface DemoCorpus {
+  drafts: Record<DraftBandTier, string[]>;
+  feedback: Record<DraftBandTier, string[]>;
+  improvements: Record<DraftBandTier, string[]>;
+}
+
+/**
+ * The corpus for each demo course, keyed by course key. Enterprise is the
+ * original corpus, untouched, so the Enterprise cohort reads exactly as it did.
+ */
+export const DEMO_CORPORA: Record<string, DemoCorpus> = {
+  enterprise: { drafts: DEMO_DRAFTS, feedback: DEMO_FEEDBACK, improvements: DEMO_IMPROVEMENTS },
+  software: {
+    drafts: DEMO_SOFTWARE_DRAFTS,
+    feedback: DEMO_SOFTWARE_FEEDBACK,
+    improvements: DEMO_SOFTWARE_IMPROVEMENTS,
+  },
+};

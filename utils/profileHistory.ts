@@ -14,6 +14,24 @@ import type { VerbAggregate } from './classAnalytics';
  * Nothing here touches the network or React, so every rule below is unit-tested.
  */
 
+/** The history the progress report reads, when a student asks for every answer. */
+export const REPORT_HISTORY_LIMIT = 1000;
+
+/** The course a question belongs to, as far as the signed-in reader can see it. */
+export interface OwnAttemptCourse {
+  /** The database row id. */
+  id: string | null;
+  /** The app-facing id the course carries when it was seeded from the syllabus. */
+  legacyId: string | null;
+  name: string | null;
+}
+
+/** The topic a question belongs to, and the course that topic sits in. */
+export interface OwnAttemptTopic {
+  name: string | null;
+  course: OwnAttemptCourse | null;
+}
+
 /** One marked answer, as the profile needs it. */
 export interface OwnAttempt {
   /** ISO timestamp of the attempt. */
@@ -27,6 +45,14 @@ export interface OwnAttempt {
   /** The question's command verb, uppercase, or null when it has none. */
   verb: string | null;
   wordCount: number;
+  /**
+   * The question's course. Set only when mapped with `{ curriculum: true }`
+   * (the progress report's read); absent on the profile's read. Null when the
+   * question or its course is not visible to the reader.
+   */
+  course?: OwnAttemptCourse | null;
+  /** The question's topic, under the same rule as `course`. */
+  topic?: OwnAttemptTopic | null;
 }
 
 /** An attempt that has a band — the only kind a band chart can plot. */
@@ -42,9 +68,33 @@ export interface OwnEventRow {
   prompts: EmbeddedPrompt | EmbeddedPrompt[] | null;
 }
 
+/** Each level of an embed is many-to-one, so PostgREST sends an object; tolerate an array. */
+type Embed<T> = T | T[] | null | undefined;
+
 interface EmbeddedPrompt {
   verb: string | null;
   total_marks: number | null;
+  /** Present only when the read embeds the curriculum (`fetchMyReportHistory`). */
+  dot_points?: Embed<EmbeddedDotPoint>;
+}
+
+interface EmbeddedDotPoint {
+  sub_topics?: Embed<EmbeddedSubTopic>;
+}
+
+interface EmbeddedSubTopic {
+  topics?: Embed<EmbeddedTopic>;
+}
+
+interface EmbeddedTopic {
+  name: string | null;
+  courses?: Embed<EmbeddedCourse>;
+}
+
+interface EmbeddedCourse {
+  id: string | null;
+  legacy_id: string | null;
+  name: string | null;
 }
 
 /**
@@ -63,25 +113,67 @@ export type OwnHistory =
 const finiteOrNull = (n: unknown): number | null =>
   typeof n === 'number' && Number.isFinite(n) ? n : null;
 
-/** Maps raw rows to attempts. Rows without a usable timestamp are dropped. */
-export const toOwnAttempts = (rows: OwnEventRow[]): OwnAttempt[] =>
+/** The first element of an embed that PostgREST may send as an object or an array. */
+const firstOf = <T>(value: Embed<T>): T | null =>
+  Array.isArray(value) ? (value[0] ?? null) : (value ?? null);
+
+const textOrNull = (value: string | null | undefined): string | null => {
+  const trimmed = typeof value === 'string' ? value.trim() : '';
+  return trimmed ? trimmed : null;
+};
+
+/** The topic and course of a question, from the nested embed. Every level may be hidden. */
+const curriculumOf = (prompt: EmbeddedPrompt | null): Pick<OwnAttempt, 'course' | 'topic'> => {
+  const subTopic = firstOf(firstOf(prompt?.dot_points)?.sub_topics);
+  const topic = firstOf(subTopic?.topics);
+  const course = firstOf(topic?.courses);
+  const courseOut: OwnAttemptCourse | null = course
+    ? {
+        id: course.id ?? null,
+        legacyId: textOrNull(course.legacy_id),
+        name: textOrNull(course.name),
+      }
+    : null;
+  return {
+    course: courseOut,
+    topic: topic ? { name: textOrNull(topic.name), course: courseOut } : null,
+  };
+};
+
+export interface OwnAttemptOptions {
+  /**
+   * Also map the question's topic and course. The profile does not need them and
+   * does not ask for them; the progress report breaks answers down by both. With
+   * it on, a question RLS hides yields null rather than an absent field, so the
+   * report can say "not recorded" instead of guessing.
+   */
+  curriculum?: boolean;
+}
+
+/**
+ * Maps raw rows to attempts. Rows without a usable timestamp are dropped.
+ *
+ * With `{ curriculum: true }` each attempt also carries `course` and `topic`, read
+ * from the embed the caller selected. The default output is unchanged, so the
+ * profile's shape and its tests stay as they were.
+ */
+export const toOwnAttempts = (rows: OwnEventRow[], options: OwnAttemptOptions = {}): OwnAttempt[] =>
   rows.flatMap((row) => {
     if (!row || typeof row.created_at !== 'string' || Number.isNaN(Date.parse(row.created_at))) {
       return [];
     }
-    const prompt = Array.isArray(row.prompts) ? (row.prompts[0] ?? null) : (row.prompts ?? null);
+    const prompt = firstOf(row.prompts);
     const verb = prompt?.verb?.trim() ? prompt.verb.trim().toUpperCase() : null;
     const totalMarks = finiteOrNull(prompt?.total_marks);
-    return [
-      {
-        at: row.created_at,
-        band: finiteOrNull(row.band),
-        mark: finiteOrNull(row.mark),
-        totalMarks: totalMarks !== null && totalMarks > 0 ? totalMarks : null,
-        verb,
-        wordCount: Math.max(0, Math.trunc(finiteOrNull(row.word_count) ?? 0)),
-      },
-    ];
+    const attempt: OwnAttempt = {
+      at: row.created_at,
+      band: finiteOrNull(row.band),
+      mark: finiteOrNull(row.mark),
+      totalMarks: totalMarks !== null && totalMarks > 0 ? totalMarks : null,
+      verb,
+      wordCount: Math.max(0, Math.trunc(finiteOrNull(row.word_count) ?? 0)),
+    };
+    return [options.curriculum ? { ...attempt, ...curriculumOf(prompt) } : attempt];
   });
 
 /** Share of the question's marks earned (0–1), or null when either side is unknown. */

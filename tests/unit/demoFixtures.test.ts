@@ -1,13 +1,68 @@
 /**
  * The offline fixture path has one safety property that matters: it must never
  * overwrite a developer's own local profile, and it must never be able to block
- * sign-in. Both are pinned here, along with the guarantee that it produces the
- * same numbers as the Supabase cohort for the same student.
+ * sign-in. Both are pinned here, along with the guarantee that each mock account
+ * shows its own persona's figures, the same ones the full cohort run gives that
+ * student over the same questions.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { demoStatsFor, hydrateDemoProfile } from '../../services/demoFixtures';
-import { generateCohort, DEMO_STUDENTS } from '../../utils/demoCohort';
+import { generateCohort } from '../../utils/demoCohort';
+import type { DemoPromptRef } from '../../utils/demoCohort';
 import type { User } from '../../types';
+
+/** The offline question mix — the same pool services/demoFixtures.ts derives from. */
+const FIXTURE_QUESTIONS: DemoPromptRef[] = [
+  {
+    id: 'fx-identify-2',
+    question: 'Identify two purposes.',
+    verb: 'IDENTIFY',
+    totalMarks: 2,
+    topicName: 'Data visualisation',
+  },
+  {
+    id: 'fx-outline-3',
+    question: 'Outline the process.',
+    verb: 'OUTLINE',
+    totalMarks: 3,
+    topicName: 'Data visualisation',
+  },
+  {
+    id: 'fx-describe-4',
+    question: 'Describe the system.',
+    verb: 'DESCRIBE',
+    totalMarks: 4,
+    topicName: 'Enterprise systems',
+  },
+  {
+    id: 'fx-explain-5',
+    question: 'Explain the impact.',
+    verb: 'EXPLAIN',
+    totalMarks: 5,
+    topicName: 'Enterprise systems',
+  },
+  {
+    id: 'fx-analyse-6',
+    question: 'Analyse the effect.',
+    verb: 'ANALYSE',
+    totalMarks: 6,
+    topicName: 'Cybersecurity',
+  },
+  {
+    id: 'fx-assess-7',
+    question: 'Assess the risk.',
+    verb: 'ASSESS',
+    totalMarks: 7,
+    topicName: 'Cybersecurity',
+  },
+  {
+    id: 'fx-evaluate-8',
+    question: 'Evaluate the approach.',
+    verb: 'EVALUATE',
+    totalMarks: 8,
+    topicName: 'Project management',
+  },
+];
 
 const baseUser = (username: string): User => ({
   username,
@@ -58,67 +113,30 @@ describe('demoStatsFor', () => {
     expect(await demoStatsFor('someone.else')).toBeNull();
   });
 
-  it('agrees with the cohort generator for the same student', async () => {
-    const stats = await demoStatsFor('user');
-    const student = DEMO_STUDENTS.find((s) => s.username === 'demo.aisha')!;
-    // Same student, same seed → same derived figures, whichever path ran.
-    const direct = generateCohort({
-      prompts: [
-        {
-          id: 'fx-identify-2',
-          question: 'Identify two purposes.',
-          verb: 'IDENTIFY',
-          totalMarks: 2,
-          topicName: 'Data visualisation',
-        },
-        {
-          id: 'fx-outline-3',
-          question: 'Outline the process.',
-          verb: 'OUTLINE',
-          totalMarks: 3,
-          topicName: 'Data visualisation',
-        },
-        {
-          id: 'fx-describe-4',
-          question: 'Describe the system.',
-          verb: 'DESCRIBE',
-          totalMarks: 4,
-          topicName: 'Enterprise systems',
-        },
-        {
-          id: 'fx-explain-5',
-          question: 'Explain the impact.',
-          verb: 'EXPLAIN',
-          totalMarks: 5,
-          topicName: 'Enterprise systems',
-        },
-        {
-          id: 'fx-analyse-6',
-          question: 'Analyse the effect.',
-          verb: 'ANALYSE',
-          totalMarks: 6,
-          topicName: 'Cybersecurity',
-        },
-        {
-          id: 'fx-assess-7',
-          question: 'Assess the risk.',
-          verb: 'ASSESS',
-          totalMarks: 7,
-          topicName: 'Cybersecurity',
-        },
-        {
-          id: 'fx-evaluate-8',
-          question: 'Evaluate the approach.',
-          verb: 'EVALUATE',
-          totalMarks: 8,
-          topicName: 'Project management',
-        },
-      ],
-      students: [student],
-    });
-    expect(stats!.questionsAnswered).toBe(direct.stats['demo.aisha'].questionsAnswered);
-    expect(stats!.xp).toBe(direct.stats['demo.aisha'].xp);
-    expect(stats!.averageBand).toBe(direct.stats['demo.aisha'].averageBand);
+  it('agrees with the cohort generator for the same persona, over the same questions', async () => {
+    // The persona's figures are read out of the full roster run, because a
+    // student's stream is seeded by their place in it. Generating the roster the
+    // same way here must give the same numbers, whichever path ran.
+    const direct = generateCohort({ prompts: FIXTURE_QUESTIONS });
+    for (const [username, persona] of [
+      ['user', 'demo.aisha'],
+      ['teacher', 'demo.jayden'],
+    ] as const) {
+      const stats = await demoStatsFor(username);
+      expect(stats!.questionsAnswered, username).toBe(direct.stats[persona].questionsAnswered);
+      expect(stats!.xp, username).toBe(direct.stats[persona].xp);
+      expect(stats!.averageBand, username).toBe(direct.stats[persona].averageBand);
+    }
+  });
+
+  it('gives the teacher persona its own figures, not a copy of the student persona', async () => {
+    // A lone run would seed every persona as the first student, so the teacher
+    // and the student would show identical numbers. They must not.
+    const student = await demoStatsFor('user');
+    const teacher = await demoStatsFor('teacher');
+    expect(teacher!.xp === student!.xp && teacher!.averageBand === student!.averageBand).toBe(
+      false
+    );
   });
 
   it('is deterministic across calls', async () => {

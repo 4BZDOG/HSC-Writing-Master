@@ -1,11 +1,12 @@
 /**
  * Deterministic demo cohort generator.
  *
- * Builds a plausible term's worth of student activity — a class of twelve
- * students, ten weeks of attempts, marks, bands and AI feedback — so that every
- * feature depending on *accumulated* use has something to show: Class Insights,
- * Student Progress and its band-trend sparkline, the student roster, the Usage
- * Dashboard, XP/levels/streaks.
+ * Builds a plausible term's worth of student activity — two Year 12 classes (the
+ * Enterprise class and the Software class), ten weeks of attempts,
+ * marks, bands and AI feedback — so that every feature depending on
+ * *accumulated* use has something to show: Class Insights, Student Progress and
+ * its band-trend sparkline, the progress reports (student, class and school, with
+ * their course drill-down), the student roster, the Usage Dashboard, XP/levels/streaks.
  *
  * Two consumers share this one module so the two demo paths can never tell
  * different stories:
@@ -30,13 +31,12 @@ import { levelForXp, xpForEvaluation } from './progression';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AI_MODELS } from '../services/aiModels';
 import {
+  DEMO_CORPORA,
   DEMO_CRITERION_FEEDBACK,
-  DEMO_DRAFTS,
-  DEMO_FEEDBACK,
-  DEMO_IMPROVEMENTS,
   DEMO_QUICK_TIPS,
   DEMO_STRENGTHS,
   bandTierFor,
+  type DemoCorpus,
 } from '../data/demoDrafts';
 
 // ----------------------------------------------------------------------------
@@ -51,6 +51,44 @@ import {
  */
 export const DEMO_SCHOOL_NAME = 'Riverbank High School (Demo)';
 export const DEMO_CLASS_NAME = 'Year 12 Enterprise Computing (Demo)';
+
+/** A demo class: the course it studies, and the staff who run it. */
+export interface DemoClassSpec {
+  /** What a student's `classKeys` refers to. */
+  key: string;
+  name: string;
+  year: number;
+  /** The course key whose questions the class works through. */
+  course: string;
+  /** Staff username of the owner. */
+  ownerUsername: string;
+  /** Staff username added as co-teacher, if any. */
+  coTeacherUsername?: string;
+}
+
+/**
+ * The two demo classes, both Year 12. Ms Bennett owns the Enterprise class with
+ * Mr Okafor as co-teacher; Mr Okafor alone owns the Software class. So Ms
+ * Bennett's reports cover the Enterprise class only, while Mr Okafor's cover both
+ * — the scoping the progress reports exist to show.
+ */
+export const DEMO_CLASSES: DemoClassSpec[] = [
+  {
+    key: 'enterprise',
+    name: DEMO_CLASS_NAME,
+    year: 12,
+    course: 'enterprise',
+    ownerUsername: 'demo.teacher',
+    coTeacherUsername: 'demo.coteacher',
+  },
+  {
+    key: 'software',
+    name: 'Year 12 Software Engineering (Demo)',
+    year: 12,
+    course: 'software',
+    ownerUsername: 'demo.coteacher',
+  },
+];
 
 /** Fixed PRNG seed. Changing it reshuffles the whole cohort — don't, casually. */
 export const DEMO_SEED = 0x48534344; // "HSCD"
@@ -67,7 +105,8 @@ export type ArchetypeId =
   | 'verbBlocked'
   | 'sporadic'
   | 'strong'
-  | 'atRisk';
+  | 'atRisk'
+  | 'newcomer';
 
 export interface Archetype {
   id: ArchetypeId;
@@ -75,6 +114,11 @@ export interface Archetype {
   note: string;
   /** Attempts per week (before the PRNG's ±1 jitter). */
   weeklyVolume: number;
+  /**
+   * First week the student is present in (0-indexed, as in `targetAttainment`).
+   * Weeks before it have no attempts. Omitted: present for the whole term.
+   */
+  startWeek?: number;
   /**
    * How much of a question's *achievable ceiling* this student reaches, as a
    * fraction in (0, 1], for a given week (0-indexed, 0 = ten weeks ago) and
@@ -135,6 +179,16 @@ export const ARCHETYPES: Record<ArchetypeId, Archetype> = {
     weeklyVolume: 2,
     targetAttainment: (week) => (week % 4 === 0 ? 0.4 : 0.2),
   },
+  // Joined in the most recent week: one or two attempts, all recent. The sparse
+  // case — a profile with almost nothing behind it, which every report and
+  // roster column must still render without an empty frame.
+  newcomer: {
+    id: 'newcomer',
+    note: 'joined this week: one or two attempts, all recent — the sparse-data case',
+    weeklyVolume: 1,
+    startWeek: TOTAL_WEEKS - 1,
+    targetAttainment: () => 0.6,
+  },
 };
 
 /**
@@ -169,25 +223,192 @@ export interface DemoStudentSpec {
   username: string;
   displayName: string;
   archetype: ArchetypeId;
+  /**
+   * The course keys whose questions the student draws from. Omitted: every
+   * question given to `generateCohort`. A student with two courses works through
+   * both, choosing a course at random for each attempt.
+   */
+  courses?: string[];
+  /**
+   * The demo classes (`DEMO_CLASSES` keys) the student is enrolled in. Plural
+   * because a student who studies both courses sits in both classes.
+   */
+  classKeys?: string[];
+  /**
+   * Scales the archetype's weekly attempts, before the ±1 jitter. Default 1; a
+   * student who is 0.5 writes about half as often. Never below one attempt a week.
+   * Unset draws exactly the PRNG calls it always did, so nobody else's work moves.
+   */
+  volumeScale?: number;
 }
 
 /**
- * The twelve students. First names only — a demo does not need surnames, and
+ * The cohort: twelve students in the Enterprise class, then six in the Software
+ * class. All are Year 12. First names only — a demo does not need surnames, and
  * omitting them removes any chance of colliding with a real person's full name.
+ *
+ * Appended, never inserted: a student's writing is drawn from a PRNG seeded by
+ * their position here, so reordering or inserting would reshuffle everyone after
+ * the change. Ethan and Hana take both courses, so they sit in both the Enterprise
+ * class and the Software class, and the course filter in the progress reports has
+ * one student's work to split.
  */
 export const DEMO_STUDENTS: DemoStudentSpec[] = [
-  { username: 'demo.aisha', displayName: 'Aisha (Demo)', archetype: 'improver' },
-  { username: 'demo.tom', displayName: 'Tom (Demo)', archetype: 'improver' },
-  { username: 'demo.priya', displayName: 'Priya (Demo)', archetype: 'improver' },
-  { username: 'demo.jayden', displayName: 'Jayden (Demo)', archetype: 'plateaued' },
-  { username: 'demo.mei', displayName: 'Mei (Demo)', archetype: 'plateaued' },
-  { username: 'demo.harry', displayName: 'Harry (Demo)', archetype: 'plateaued' },
-  { username: 'demo.olivia', displayName: 'Olivia (Demo)', archetype: 'verbBlocked' },
-  { username: 'demo.noah', displayName: 'Noah (Demo)', archetype: 'verbBlocked' },
-  { username: 'demo.zara', displayName: 'Zara (Demo)', archetype: 'sporadic' },
-  { username: 'demo.liam', displayName: 'Liam (Demo)', archetype: 'sporadic' },
-  { username: 'demo.chen', displayName: 'Chen (Demo)', archetype: 'strong' },
-  { username: 'demo.kayla', displayName: 'Kayla (Demo)', archetype: 'atRisk' },
+  {
+    username: 'demo.aisha',
+    displayName: 'Aisha (Demo)',
+    archetype: 'improver',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.tom',
+    displayName: 'Tom (Demo)',
+    archetype: 'improver',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.priya',
+    displayName: 'Priya (Demo)',
+    archetype: 'improver',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.jayden',
+    displayName: 'Jayden (Demo)',
+    archetype: 'plateaued',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.mei',
+    displayName: 'Mei (Demo)',
+    archetype: 'plateaued',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.harry',
+    displayName: 'Harry (Demo)',
+    archetype: 'plateaued',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.olivia',
+    displayName: 'Olivia (Demo)',
+    archetype: 'verbBlocked',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.noah',
+    displayName: 'Noah (Demo)',
+    archetype: 'verbBlocked',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.zara',
+    displayName: 'Zara (Demo)',
+    archetype: 'sporadic',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.liam',
+    displayName: 'Liam (Demo)',
+    archetype: 'sporadic',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.chen',
+    displayName: 'Chen (Demo)',
+    archetype: 'strong',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  {
+    username: 'demo.kayla',
+    displayName: 'Kayla (Demo)',
+    archetype: 'atRisk',
+    courses: ['enterprise'],
+    classKeys: ['enterprise'],
+  },
+  // The Software class. Ethan and Hana take both courses, so they also sit in the
+  // Enterprise class.
+  {
+    username: 'demo.ethan',
+    displayName: 'Ethan (Demo)',
+    archetype: 'improver',
+    courses: ['enterprise', 'software'],
+    classKeys: ['enterprise', 'software'],
+  },
+  {
+    username: 'demo.sofia',
+    displayName: 'Sofia (Demo)',
+    archetype: 'verbBlocked',
+    courses: ['software'],
+    classKeys: ['software'],
+  },
+  {
+    username: 'demo.mateo',
+    displayName: 'Mateo (Demo)',
+    archetype: 'newcomer',
+    courses: ['software'],
+    classKeys: ['software'],
+  },
+  {
+    username: 'demo.hana',
+    displayName: 'Hana (Demo)',
+    archetype: 'strong',
+    courses: ['enterprise', 'software'],
+    classKeys: ['enterprise', 'software'],
+  },
+  {
+    username: 'demo.dylan',
+    displayName: 'Dylan (Demo)',
+    archetype: 'sporadic',
+    courses: ['software'],
+    classKeys: ['software'],
+  },
+  {
+    username: 'demo.amara',
+    displayName: 'Amara (Demo)',
+    archetype: 'atRisk',
+    courses: ['software'],
+    classKeys: ['software'],
+  },
+];
+
+/**
+ * Attempts for the two plan-state accounts that have history. Their accounts,
+ * plans and class enrolment are created with the other plan-state accounts in
+ * supabase/demoSeed.mjs; this list only supplies their work, so the cohort's
+ * generator is the one place a student's attempts are written. Ben (demo.capped)
+ * is deliberately absent: an empty history is the state his account exists to show.
+ *
+ * Appended after DEMO_STUDENTS in the generator call, so their own streams stay
+ * stable as long as the cohort itself is not extended.
+ */
+export const DEMO_PLAN_STUDENT_HISTORY: DemoStudentSpec[] = [
+  {
+    username: 'demo.free',
+    displayName: 'Sam (Demo, Free)',
+    archetype: 'improver',
+    courses: ['enterprise'],
+    // Half Aisha's volume: a lighter history, still climbing.
+    volumeScale: 0.5,
+  },
+  {
+    username: 'demo.plus',
+    displayName: 'Ava (Demo, Plus)',
+    archetype: 'strong',
+    courses: ['enterprise', 'software'],
+  },
 ];
 
 // ----------------------------------------------------------------------------
@@ -231,6 +452,12 @@ export interface DemoPromptRef {
   totalMarks: number;
   /** Owning topic name — used to personalise the draft text. */
   topicName: string;
+  /**
+   * The course key this question belongs to (see `DemoStudentSpec.courses`).
+   * Omitted for a course-agnostic pool: an untagged question is eligible for every
+   * student, and is written in the Enterprise voice.
+   */
+  course?: string;
 }
 
 /** One generated attempt: a student's draft plus its AI evaluation. */
@@ -277,6 +504,44 @@ export const tierOfPrompt = (prompt: DemoPromptRef): number =>
 const countWords = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
 
 /**
+ * The course-specific prose for a question. Untagged questions are written
+ * against the Enterprise corpus, which is what the original bank was.
+ */
+const corpusFor = (course?: string): DemoCorpus => {
+  const corpus = DEMO_CORPORA[course ?? 'enterprise'];
+  if (!corpus) throw new Error(`demoCohort: no demo writing for course "${course}"`);
+  return corpus;
+};
+
+/**
+ * The questions a student draws from, as lanes: one per course they study, in
+ * the order they list them. An untagged question is course-agnostic and sits in
+ * every lane.
+ *
+ * A student with one lane draws from it exactly as from a single pool, so
+ * single-course students produce the same attempts they always did. A student
+ * with two lanes picks a lane at random for each attempt, so their work splits
+ * between the courses rather than being weighted by how many questions each has.
+ */
+const lanesFor = (student: DemoStudentSpec, prompts: DemoPromptRef[]): DemoPromptRef[][] => {
+  if (!student.courses) return [prompts];
+  if (!student.courses.length) {
+    throw new Error(
+      `generateCohort: ${student.username} lists no courses — omit courses to draw from every question`
+    );
+  }
+  const lanes = student.courses
+    .map((course) => prompts.filter((p) => p.course === undefined || p.course === course))
+    .filter((lane) => lane.length > 0);
+  if (!lanes.length) {
+    throw new Error(
+      `generateCohort: no questions for ${student.username} in courses ${student.courses.join(', ')}`
+    );
+  }
+  return lanes;
+};
+
+/**
  * Builds an EvaluationResult consistent with the mark awarded.
  *
  * The criteria must sum to `mark` out of `totalMarks` — the app renders each
@@ -290,6 +555,7 @@ const buildEvaluation = (
   band: number
 ): EvaluationResult => {
   const tier = bandTierFor(band);
+  const corpus = corpusFor(prompt.course);
   const criterionCount = Math.min(3, Math.max(1, Math.round(prompt.totalMarks / 2)));
 
   // Split totalMarks into criterionCount parts, then distribute the awarded
@@ -316,12 +582,12 @@ const buildEvaluation = (
   });
 
   const strengths = DEMO_STRENGTHS[tier];
-  const improvements = DEMO_IMPROVEMENTS[tier];
+  const improvements = corpus.improvements[tier];
 
   return {
     overallMark: mark,
     overallBand: band,
-    overallFeedback: pick(rand, DEMO_FEEDBACK[tier]),
+    overallFeedback: pick(rand, corpus.feedback[tier]),
     quickTip: pick(rand, DEMO_QUICK_TIPS[tier]),
     strengths: strengths.slice(0, Math.min(strengths.length, intBetween(rand, 1, 3))),
     improvements: improvements.slice(0, Math.min(improvements.length, intBetween(rand, 1, 2))),
@@ -363,7 +629,12 @@ const deriveStats = (attempts: DemoAttempt[], rand: () => number): UserStats => 
     markShareCount: attempts.length,
     // Relative to the run time, like every other date in the cohort.
     lastActive: Date.now() - mostRecent * 86_400_000,
-    streakDays: intBetween(rand, 1, 12),
+    // A streak cannot outlast the days a student was active on. Capped so a
+    // newcomer with two attempts in one week does not show a 9-day streak.
+    streakDays: Math.min(
+      intBetween(rand, 1, 12),
+      Math.max(1, new Set(attempts.map((a) => a.daysAgo)).size)
+    ),
   };
 };
 
@@ -371,7 +642,9 @@ const deriveStats = (attempts: DemoAttempt[], rand: () => number): UserStats => 
  * Generates the whole cohort. Deterministic for a given `seed` and prompt list.
  *
  * Each student's PRNG is seeded from the base seed plus their index, so adding
- * a student at the end of DEMO_STUDENTS does not reshuffle everyone before them.
+ * a student at the end of the list does not reshuffle everyone before them. Each
+ * student draws only from the courses they study (`DemoStudentSpec.courses`); a
+ * student with no `courses` draws from every question given.
  */
 export const generateCohort = ({
   prompts,
@@ -390,11 +663,24 @@ export const generateCohort = ({
   students.forEach((student, studentIndex) => {
     const rand = mulberry32(seed + studentIndex * 7919);
     const archetype = ARCHETYPES[student.archetype];
+    // Rounded to whole attempts. At the default scale of 1 this is the archetype's
+    // own volume, so existing students draw exactly the same PRNG sequence as before.
+    const weeklyVolume = Math.max(
+      1,
+      Math.round(archetype.weeklyVolume * (student.volumeScale ?? 1))
+    );
+    const lanes = lanesFor(student, prompts);
+    // One lane is drawn from as it stands; with several, each draw picks a course
+    // first. Either way exactly the same PRNG calls as a single pool would make.
+    const drawPrompt = (): DemoPromptRef => {
+      const lane = lanes.length === 1 ? lanes[0] : pick(rand, lanes);
+      return pick(rand, lane);
+    };
     const mine: DemoAttempt[] = [];
     const calls: Record<number, number> = {};
 
-    for (let week = 0; week < weeks; week++) {
-      const volume = Math.max(1, archetype.weeklyVolume + intBetween(rand, -1, 1));
+    for (let week = archetype.startWeek ?? 0; week < weeks; week++) {
+      const volume = Math.max(1, weeklyVolume + intBetween(rand, -1, 1));
       // Within a single week a student works through different questions, but
       // across the term they may revisit one — which is how a student actually
       // improves, and what the append-only `response_events` history is for.
@@ -407,9 +693,9 @@ export const generateCohort = ({
         // small to offer one, take the repeat rather than dropping the slot —
         // silently generating fewer attempts would thin out the later weeks
         // and break the band trends the demo exists to show.
-        let prompt = pick(rand, prompts);
+        let prompt = drawPrompt();
         for (let tries = 0; tries < 12 && thisWeek.has(prompt.id); tries++) {
-          prompt = pick(rand, prompts);
+          prompt = drawPrompt();
         }
         thisWeek.add(prompt.id);
 
@@ -444,7 +730,7 @@ export const generateCohort = ({
         );
         const band = getBandForMark(mark, prompt.totalMarks, tier);
 
-        const draft = pick(rand, DEMO_DRAFTS[bandTierFor(band)]).replace(
+        const draft = pick(rand, corpusFor(prompt.course).drafts[bandTierFor(band)]).replace(
           /\{topic\}/g,
           prompt.topicName
         );
@@ -505,16 +791,20 @@ export const latestPerPrompt = (attempts: DemoAttempt[]): DemoAttempt[] => {
 };
 
 /** Flattens a course tree (the app's `Course` JSON shape) into a prompt pool. */
-export const promptPoolFromCourse = (course: {
-  topics?: Array<{
-    name: string;
-    subTopics?: Array<{
-      dotPoints?: Array<{
-        prompts?: Array<{ id: string; question: string; verb?: PromptVerb; totalMarks?: number }>;
+export const promptPoolFromCourse = (
+  course: {
+    topics?: Array<{
+      name: string;
+      subTopics?: Array<{
+        dotPoints?: Array<{
+          prompts?: Array<{ id: string; question: string; verb?: PromptVerb; totalMarks?: number }>;
+        }>;
       }>;
     }>;
-  }>;
-}): DemoPromptRef[] => {
+  },
+  /** The course key to stamp on every question (see `DemoPromptRef.course`). */
+  courseKey?: string
+): DemoPromptRef[] => {
   const pool: DemoPromptRef[] = [];
   for (const topic of course.topics ?? []) {
     for (const sub of topic.subTopics ?? []) {
@@ -529,6 +819,7 @@ export const promptPoolFromCourse = (course: {
             verb: p.verb,
             totalMarks: p.totalMarks,
             topicName: topic.name,
+            ...(courseKey ? { course: courseKey } : {}),
           });
         }
       }
