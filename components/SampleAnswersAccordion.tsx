@@ -24,11 +24,20 @@ import {
   RIBBON_TIER_CARD_IDLE,
 } from '../utils/verbRibbonChrome';
 import {
+  SAMPLE_EXEMPLAR_ACTIONS,
+  SAMPLE_EXEMPLAR_TOOLBAR,
   SAMPLE_MINI_BAR,
+  SAMPLE_ROW_CAROUSEL,
+  SAMPLE_ROW_CHEVRON,
+  SAMPLE_ROW_DISCLOSURE,
+  SAMPLE_ROW_LINE,
+  SAMPLE_ROW_SCOREBOARD,
   SAMPLE_PANEL_BODY,
+  SAMPLE_PANEL_HEADER,
   SAMPLE_PANEL_LIT_EDGE,
   SAMPLE_PANEL_LIT_GLOW,
   SAMPLE_PANEL_TOGGLE,
+  SAMPLE_PANEL_TOOLS,
   SAMPLE_ROW,
   SAMPLE_ROW_BODY,
   SAMPLE_ROW_EDGE_OPEN,
@@ -265,13 +274,13 @@ const CarouselAccordionItem: React.FC<{
 
     if (!currentSample) return null;
 
-    const handleNext = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    // The carousel's buttons are siblings of the disclosure, not children of it, so
+    // a press here never reaches the row's toggle and needs no `stopPropagation`.
+    const handleNext = () => {
       setCurrentIndex((prev) => (prev + 1) % group.answers.length);
     };
 
-    const handlePrev = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    const handlePrev = () => {
       setCurrentIndex((prev) => (prev - 1 + group.answers.length) % group.answers.length);
     };
 
@@ -302,54 +311,69 @@ const CarouselAccordionItem: React.FC<{
         style={{ '--band-rgb': getBandRgb(displayBand) } as React.CSSProperties}
         className={`group ${SAMPLE_ROW} ${RIBBON_TIER_CARD_IDLE} ${isOpen ? SAMPLE_ROW_EDGE_OPEN : SAMPLE_ROW_EDGE_SHUT}`}
       >
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={isOpen}
-          aria-controls={bodyId}
-          className={SAMPLE_ROW_HEADER}
-        >
-          {/* The scoreboard. Each figure is one text run, so the row reads as
+        <div className={SAMPLE_ROW_HEADER}>
+          {/* The disclosure. It holds the scoreboard and the chevron, and it is a
+              button of its own: the carousel's controls are siblings of it on the
+              line beneath (see below), never inside it, so no button is nested in
+              another. */}
+          <button
+            type="button"
+            onClick={onToggle}
+            aria-expanded={isOpen}
+            aria-controls={bodyId}
+            className={SAMPLE_ROW_DISCLOSURE}
+          >
+            {/* The scoreboard. Each figure is one text run, so the row reads as
               "6/6 marks" and "12 words" to a screen reader and to a search. The
               band figure takes the band's own text shade, which is the one colour
               a row says in words as well as in its edge. */}
-          <div className={SAMPLE_STAT_GRID}>
-            <div className={SAMPLE_STAT_CELL}>
-              <span className={SAMPLE_STAT_LABEL}>Mark</span>
-              <span className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white`}>
-                {group.mark}/{prompt.totalMarks} marks
-              </span>
-            </div>
-            <div className={SAMPLE_STAT_CELL}>
-              <span className={SAMPLE_STAT_LABEL}>Band</span>
-              <span className={`${SAMPLE_STAT_VALUE} ${bandConfig.text}`}>{displayBand}</span>
-            </div>
-            {/* Its length, because the first thing a student does with an
+            <div className={SAMPLE_ROW_SCOREBOARD}>
+              <div className={SAMPLE_STAT_GRID}>
+                <div className={SAMPLE_STAT_CELL}>
+                  <span className={SAMPLE_STAT_LABEL}>Mark</span>
+                  <span className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white`}>
+                    {group.mark}/{prompt.totalMarks} marks
+                  </span>
+                </div>
+                <div className={SAMPLE_STAT_CELL}>
+                  <span className={SAMPLE_STAT_LABEL}>Band</span>
+                  <span className={`${SAMPLE_STAT_VALUE} ${bandConfig.text}`}>{displayBand}</span>
+                </div>
+                {/* Its length, because the first thing a student does with an
                 exemplar is hold their own draft up against it, and the word
                 guide under their draft counts in the same unit. */}
-            {!locked && (
-              <div className={SAMPLE_STAT_CELL}>
-                <span className={SAMPLE_STAT_LABEL}>Length</span>
-                <span
-                  className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white tabular-nums`}
-                >
-                  {countWords(currentSample.answer)} words
-                </span>
+                {!locked && (
+                  <div className={SAMPLE_STAT_CELL}>
+                    <span className={SAMPLE_STAT_LABEL}>Length</span>
+                    <span
+                      className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white tabular-nums`}
+                    >
+                      {countWords(currentSample.answer)} words
+                    </span>
+                  </div>
+                )}
+                {group.answers.length > 1 && (
+                  <div className={SAMPLE_STAT_CELL}>
+                    <span className={SAMPLE_STAT_LABEL}>Exemplars</span>
+                    <span
+                      className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white tabular-nums`}
+                    >
+                      {group.answers.length}
+                    </span>
+                  </div>
+                )}
               </div>
-            )}
-            {group.answers.length > 1 && (
-              <div className={SAMPLE_STAT_CELL}>
-                <span className={SAMPLE_STAT_LABEL}>Exemplars</span>
-                <span
-                  className={`${SAMPLE_STAT_VALUE} text-slate-900 dark:text-white tabular-nums`}
-                >
-                  {group.answers.length}
-                </span>
-              </div>
-            )}
-          </div>
+            </div>
+            <ChevronDown
+              className={`${SAMPLE_ROW_CHEVRON} ${isOpen ? 'rotate-180 text-slate-600 dark:text-white' : 'text-slate-400'}`}
+            />
+          </button>
 
-          <div className="flex items-center justify-between gap-3 min-w-0">
+          {/* The line beneath the disclosure: what the exemplar is (its source and
+              its flag) on the left, and the carousel on the right. The carousel's
+              buttons are siblings of the disclosure, so pressing them steps through
+              the exemplars and leaves the row as it is. */}
+          <div className={SAMPLE_ROW_LINE}>
             <div className={SAMPLE_ROW_META}>
               <SourceBadge
                 source={currentSample.source}
@@ -365,40 +389,34 @@ const CarouselAccordionItem: React.FC<{
               )}
             </div>
 
-            <div className="flex items-center gap-4 shrink-0">
-              {isOpen && group.answers.length > 1 && (
-                <div
-                  className="flex items-center gap-1 bg-white dark:bg-black/20 rounded-lg p-0.5 border border-slate-200 dark:border-white/10 shadow-sm"
-                  onClick={(e) => e.stopPropagation()}
+            {isOpen && group.answers.length > 1 && (
+              <div className={SAMPLE_ROW_CAROUSEL}>
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Previous sample"
+                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
                 >
-                  <button
-                    onClick={handlePrev}
-                    aria-label="Previous sample"
-                    className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
-                  >
-                    <ChevronLeft className="w-3.5 h-3.5" />
-                  </button>
-                  {/* "2 of 3", not a bare "2": the position is meaningless
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
+                {/* "2 of 3", not a bare "2": the position is meaningless
                     without the total, and a batch of exemplars now arrives
                     several at a time. */}
-                  <span className="text-[11px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
-                    {currentIndex + 1}/{group.answers.length}
-                  </span>
-                  <button
-                    onClick={handleNext}
-                    aria-label="Next sample"
-                    className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
-                  >
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )}
-              <ChevronDown
-                className={`w-4 h-4 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-600 dark:text-white' : 'text-slate-400'}`}
-              />
-            </div>
+                <span className="text-[11px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
+                  {currentIndex + 1}/{group.answers.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Next sample"
+                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
-        </button>
+        </div>
 
         {/* Smooth Expansion Animation Container */}
         <div
@@ -501,7 +519,7 @@ const CarouselAccordionItem: React.FC<{
                   )}
 
                   {/* Controls Bar */}
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/[0.02]">
+                  <div className={SAMPLE_EXEMPLAR_TOOLBAR}>
                     <AnswerMetricsDisplay
                       metrics={metrics}
                       showLabel={false}
@@ -509,7 +527,7 @@ const CarouselAccordionItem: React.FC<{
                       band={displayBand}
                     />
 
-                    <div className="flex items-center gap-2 ml-auto">
+                    <div className={SAMPLE_EXEMPLAR_ACTIONS}>
                       {/* "Use" writes the exemplar straight into the student's
                         draft, which is the one thing the writing surface refuses
                         to let a student do by hand: paste is blocked there so a
@@ -829,11 +847,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           Access is decided per control: the zoom is a reading aid everybody
           gets, while the two AI actions are gated on `canUseAiGeneration` and
           are simply not rendered for a student or a guest. */}
-      <div
-        className={`w-full flex items-stretch relative overflow-hidden transition-all ${
-          isCollapsed ? '' : PANEL_HEADER_OPEN
-        }`}
-      >
+      <div className={`${SAMPLE_PANEL_HEADER} ${isCollapsed ? '' : PANEL_HEADER_OPEN}`}>
         <div
           className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
         />
@@ -864,30 +878,6 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           </div>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">
             <PanelReadChip show={opened && isCollapsed} />
-            {/* The ceiling in miniature, as the ribbon draws it: one bar per band,
-                rising. It is decorative — the summary above says the same in words,
-                so it is hidden from assistive technology, and below `sm` it is not
-                drawn at all, as the ribbon's is not. See `ladderTitle` for the
-                reading of each state. */}
-            <span className={RIBBON_MINI_STAIR} aria-hidden="true" title={ladderTitle}>
-              {[1, 2, 3, 4, 5, 6].map((band) => {
-                const reachable = band <= maxPossibleBand;
-                const covered = coveredBands.has(band);
-                const bandRgb = getBandRgb(band);
-                const fill = covered
-                  ? { backgroundColor: `rgb(${bandRgb.split(' ').join(', ')})` }
-                  : reachable
-                    ? { backgroundColor: `rgba(${bandRgb.split(' ').join(', ')}, 0.35)` }
-                    : {};
-                return (
-                  <span
-                    key={band}
-                    className={`${SAMPLE_MINI_BAR} ${reachable ? '' : RIBBON_MINI_BAR_UNLIT}`}
-                    style={{ height: `${5 + (band - 1) * 2.2}px`, ...fill }}
-                  />
-                );
-              })}
-            </span>
             <ChevronDown
               className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 ${
                 isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
@@ -896,7 +886,33 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           </div>
         </button>
 
-        <div className="flex items-center gap-2 pl-2 pr-4 relative z-10 shrink-0">
+        <div className={SAMPLE_PANEL_TOOLS}>
+          {/* The ceiling in miniature, as the ribbon draws it: one bar per band,
+              rising. It is decorative — the summary above says the same in words,
+              so it is hidden from assistive technology, and below `sm` it is not
+              drawn at all, as the ribbon's is not. It sits with the tools rather
+              than in the title's row, so when the header wraps it wraps with them
+              and never takes room from the title. See `ladderTitle` for the reading
+              of each state. */}
+          <span className={RIBBON_MINI_STAIR} aria-hidden="true" title={ladderTitle}>
+            {[1, 2, 3, 4, 5, 6].map((band) => {
+              const reachable = band <= maxPossibleBand;
+              const covered = coveredBands.has(band);
+              const bandRgb = getBandRgb(band);
+              const fill = covered
+                ? { backgroundColor: `rgb(${bandRgb.split(' ').join(', ')})` }
+                : reachable
+                  ? { backgroundColor: `rgba(${bandRgb.split(' ').join(', ')}, 0.35)` }
+                  : {};
+              return (
+                <span
+                  key={band}
+                  className={`${SAMPLE_MINI_BAR} ${reachable ? '' : RIBBON_MINI_BAR_UNLIT}`}
+                  style={{ height: `${5 + (band - 1) * 2.2}px`, ...fill }}
+                />
+              );
+            })}
+          </span>
           <div className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
             <button
               onClick={() => setFontSize(Math.max(12, fontSize - 2))}

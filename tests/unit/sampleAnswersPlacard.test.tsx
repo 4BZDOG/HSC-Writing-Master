@@ -15,13 +15,19 @@ import {
 import {
   SAMPLE_MINI_BAR,
   SAMPLE_PANEL_BODY,
+  SAMPLE_PANEL_HEADER,
   SAMPLE_PANEL_LIT_EDGE,
   SAMPLE_PANEL_LIT_GLOW,
   SAMPLE_PANEL_TOGGLE,
+  SAMPLE_PANEL_TOOLS,
   SAMPLE_ROW,
   SAMPLE_ROW_BODY,
   SAMPLE_ROW_EDGE_OPEN,
   SAMPLE_ROW_EDGE_SHUT,
+  SAMPLE_EXEMPLAR_ACTIONS,
+  SAMPLE_EXEMPLAR_TOOLBAR,
+  SAMPLE_ROW_CAROUSEL,
+  SAMPLE_ROW_DISCLOSURE,
   SAMPLE_ROW_HEADER,
   SAMPLE_STAT_CELL,
   SAMPLE_STAT_GRID,
@@ -109,6 +115,10 @@ const renderPanel = (
 const toggleOf = (): HTMLElement => screen.getByRole('button', { name: /^Sample Answers/i });
 /** The root of the panel, which is the surface every other panel shares. */
 const panelOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+/** A row's card, from its disclosure: the disclosure sits in the header strip,
+ *  and the header strip sits in the card. */
+const rowOf = (disclosure: HTMLElement): HTMLElement =>
+  disclosure.parentElement!.parentElement as HTMLElement;
 /** The mini ladder, by its exact class (the constant the header renders). */
 const ladderOf = (container: HTMLElement): HTMLElement =>
   container.querySelector(`[class="${RIBBON_MINI_STAIR}"]`) as HTMLElement;
@@ -153,6 +163,37 @@ describe('the header is the ribbon’s header, with the tier on its tile', () =>
     renderPanel();
     expect(toggleOf().className).toContain(PANEL_ROW_MIN_H);
     expect(toggleOf().className).toContain(SAMPLE_PANEL_TOGGLE);
+  });
+
+  // The header wraps by the PANEL's width, not the viewport's: the placard sits
+  // in a 22rem margin at xl, and a narrow panel must put the tools on a second
+  // line rather than take the title down to "SAMPLE …". jsdom has no layout, so
+  // what is pinned here is the mechanism: a wrapping row, a toggle with a real
+  // basis (`flex-1` is a zero basis, which never wraps), and the tools on the
+  // right of whichever line they land on.
+  it('wraps the tools under the title by the panel’s width, not the viewport’s', () => {
+    const { container } = renderPanel();
+    const header = toggleOf().parentElement as HTMLElement;
+    expect(header.className).toContain(SAMPLE_PANEL_HEADER);
+    expect(header.className).toContain('flex-wrap');
+    expect(header.className).not.toContain('flex-nowrap');
+    expect(toggleOf().className).toContain('flex-[1_1_20rem]');
+    expect(toggleOf().className).not.toMatch(/(^|\s)flex-1(\s|$)/);
+    // The header's children are the tint overlay, the toggle and then the tools,
+    // right-aligned on whichever line they land on.
+    const tools = header.children[2] as HTMLElement;
+    expect(tools.className).toBe(SAMPLE_PANEL_TOOLS);
+    expect(tools.className).toContain('ml-auto');
+    expect(container).toBeTruthy();
+  });
+
+  it('keeps the ladder with the tools, so the title keeps its line', () => {
+    const { container } = renderPanel({ sampleAnswers: [sample({ id: 'a', mark: 6 })] });
+    const ladder = ladderOf(container);
+    expect(toggleOf().contains(ladder)).toBe(false);
+    expect((toggleOf().parentElement as HTMLElement).children[2].contains(ladder)).toBe(true);
+    // And the title is the toggle's, so the ladder can never take room from it.
+    expect(toggleOf().contains(screen.getByText('Sample Answers'))).toBe(true);
   });
 
   it('keeps the panel on the shared surface', () => {
@@ -338,22 +379,22 @@ describe('each mark level is a tier card in its own band', () => {
     renderPanel({ sampleAnswers: twoLevels });
 
     const headerOfBand6 = screen.getByRole('button', { name: /6\/6 marks/i });
-    const rowOfBand6 = headerOfBand6.parentElement as HTMLElement;
+    const rowOfBand6 = rowOf(headerOfBand6);
     expect(rowOfBand6.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(3));
     expect(rowOfBand6.className).toContain(SAMPLE_ROW);
     expect(rowOfBand6.classList.contains(SAMPLE_ROW_EDGE_SHUT)).toBe(true);
     expect(rowOfBand6.classList.contains('band-edge-strong')).toBe(false);
 
     const headerOfBand2 = screen.getByRole('button', { name: /4\/6 marks/i });
-    expect((headerOfBand2.parentElement as HTMLElement).style.getPropertyValue('--band-rgb')).toBe(
-      getBandRgb(2)
-    );
+    expect(rowOf(headerOfBand2).style.getPropertyValue('--band-rgb')).toBe(getBandRgb(2));
   });
 
   it('gives the row its header in the scoreboard, with the band as a figure', () => {
     renderPanel({ sampleAnswers: twoLevels });
     const header = screen.getByRole('button', { name: /6\/6 marks/i });
-    expect(header.className).toContain(SAMPLE_ROW_HEADER);
+    // The disclosure is the button; the tinted strip around it is its wrapper.
+    expect(header.className).toContain(SAMPLE_ROW_DISCLOSURE);
+    expect((header.parentElement as HTMLElement).className).toContain(SAMPLE_ROW_HEADER);
 
     const grid = header.querySelector(`[class="${SAMPLE_STAT_GRID}"]`) as HTMLElement;
     expect(grid).toBeTruthy();
@@ -392,7 +433,7 @@ describe('each mark level is a tier card in its own band', () => {
   it('opens a row to a statement edge in the same band, and shuts it to a whisper', () => {
     renderPanel({ sampleAnswers: twoLevels });
     const header = screen.getByRole('button', { name: /6\/6 marks/i });
-    const row = header.parentElement as HTMLElement;
+    const row = rowOf(header);
 
     expect(header.getAttribute('aria-expanded')).toBe('false');
     fireEvent.click(header);
@@ -408,6 +449,89 @@ describe('each mark level is a tier card in its own band', () => {
     fireEvent.click(header);
     expect(row.classList.contains(SAMPLE_ROW_EDGE_SHUT)).toBe(true);
     expect(body!.hasAttribute('inert')).toBe(true);
+  });
+
+  // A button inside a button is invalid HTML, and React says so in the console.
+  // The carousel used to sit inside the disclosure, so this is the regression the
+  // restructure exists to close: nothing in an open multi-exemplar row nests one
+  // interactive control in another.
+  it('never nests a button inside a button, in an open multi-exemplar row', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      const { container } = renderPanel({
+        sampleAnswers: [sample({ id: 'a', mark: 4 }), sample({ id: 'b', mark: 4, source: 'USER' })],
+      });
+      fireEvent.click(screen.getByRole('button', { name: /4\/6 marks/i }));
+
+      expect(screen.getByRole('button', { name: /next sample/i })).toBeTruthy();
+      expect(container.querySelectorAll('button button')).toHaveLength(0);
+      const nesting = consoleError.mock.calls.filter((call) =>
+        String(call[0]).includes('cannot be a descendant')
+      );
+      expect(nesting).toHaveLength(0);
+    } finally {
+      consoleError.mockRestore();
+    }
+  });
+
+  it('keeps the disclosure a native button, and the carousel its siblings', () => {
+    renderPanel({
+      sampleAnswers: [sample({ id: 'a', mark: 4 }), sample({ id: 'b', mark: 4, source: 'USER' })],
+    });
+    const disclosure = screen.getByRole('button', { name: /4\/6 marks/i });
+    // A native button takes Enter and Space for free; the disclosure must stay one.
+    expect(disclosure.tagName).toBe('BUTTON');
+    expect(disclosure.getAttribute('type')).toBe('button');
+    expect(disclosure.className).toContain(SAMPLE_ROW_DISCLOSURE);
+
+    fireEvent.click(disclosure);
+    const next = screen.getByRole('button', { name: /next sample/i });
+    const prev = screen.getByRole('button', { name: /previous sample/i });
+    for (const control of [next, prev]) {
+      expect(disclosure.contains(control)).toBe(false);
+      expect(control.getAttribute('type')).toBe('button');
+    }
+    expect(next.parentElement!.className).toBe(SAMPLE_ROW_CAROUSEL);
+  });
+
+  it('steps the carousel without toggling the row, and keeps its “N/M” count', () => {
+    renderPanel({
+      sampleAnswers: [sample({ id: 'a', mark: 4 }), sample({ id: 'b', mark: 4, source: 'USER' })],
+    });
+    const disclosure = screen.getByRole('button', { name: /4\/6 marks/i });
+    fireEvent.click(disclosure);
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByText('1/2')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /next sample/i }));
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByText('2/2')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /previous sample/i }));
+    expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByText('1/2')).toBeTruthy();
+  });
+
+  // The controls bar used to be a fixed row of seven actions inside a box that
+  // clips with `overflow-hidden`: Delete sat 17px out of view at 390px. It wraps now.
+  it('wraps the exemplar toolbar, so every action is reachable at every width', () => {
+    renderPanel({
+      userRole: 'teacher',
+      sampleAnswers: [sample({ id: 'a', mark: 6 })],
+      onUseSampleAnswer: vi.fn(),
+    });
+    fireEvent.click(screen.getByRole('button', { name: /6\/6 marks/i }));
+
+    const deleteButton = screen.getByTitle('Delete');
+    const actions = deleteButton.parentElement as HTMLElement;
+    expect(actions.className).toBe(SAMPLE_EXEMPLAR_ACTIONS);
+    expect(actions.className).toContain('flex-wrap');
+    const toolbar = actions.parentElement as HTMLElement;
+    expect(toolbar.className).toBe(SAMPLE_EXEMPLAR_TOOLBAR);
+    expect(toolbar.className).toContain('flex-wrap');
+    // The old fixed column-then-row switch is gone: nothing here is `nowrap`.
+    expect(toolbar.className).not.toContain('nowrap');
+    expect(toolbar.className).not.toMatch(/(^|\s)flex-col(\s|$)/);
   });
 
   it('keeps the carousel, the source line and the level tabs on an open row', () => {
@@ -565,9 +689,32 @@ describe('the placard’s class vocabulary is pinned', () => {
     expect(SAMPLE_ROW_EDGE_SHUT).toBe('band-edge');
     expect(SAMPLE_ROW_EDGE_OPEN).toBe('band-edge-strong');
     expect(SAMPLE_MINI_BAR).toContain('w-1');
-    expect(SAMPLE_STAT_GRID).toContain('grid-cols-2');
-    expect(SAMPLE_STAT_GRID).toContain('sm:grid-cols-4');
     expect(SAMPLE_STAT_VALUE).toContain('font-mono');
     expect(SAMPLE_STAT_VALUE).toContain('tabular-nums');
+  });
+
+  // A fixed grid left an empty grey slot whenever a level had three cells, so the
+  // scoreboard is a wrapping row whose cells are sized to it.
+  it('lays the scoreboard out as a wrapping row, with no grid to leave a slot empty', () => {
+    expect(SAMPLE_STAT_GRID).toContain('flex');
+    expect(SAMPLE_STAT_GRID).toContain('flex-wrap');
+    expect(SAMPLE_STAT_GRID).not.toMatch(/(^|\s)grid(\s|$)/);
+    expect(SAMPLE_STAT_GRID).not.toContain('grid-cols');
+    expect(SAMPLE_STAT_GRID).toContain('gap-px');
+  });
+
+  it('sizes each cell to grow into its row, from a real basis, so cells wrap', () => {
+    // `flex-1` is `flex: 1 1 0%`: a zero basis fits every cell on one line and
+    // they never wrap. The cell needs a grow factor AND a non-zero basis.
+    expect(SAMPLE_STAT_CELL).toMatch(/(^|\s)grow(\s|$)/);
+    expect(SAMPLE_STAT_CELL).toContain('basis-[7.5rem]');
+    expect(SAMPLE_STAT_CELL).not.toMatch(/(^|\s)flex-1(\s|$)/);
+    expect(SAMPLE_STAT_CELL).toContain('min-w-0');
+  });
+
+  // A figure that does not fit is a defect, and an ellipsis hides the mark.
+  it('never truncates a figure: it is one unbroken run, sized by its cell', () => {
+    expect(SAMPLE_STAT_VALUE).toContain('whitespace-nowrap');
+    expect(SAMPLE_STAT_VALUE).not.toMatch(/(^|\s)truncate(\s|$)/);
   });
 });
