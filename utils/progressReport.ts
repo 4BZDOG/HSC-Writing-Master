@@ -154,6 +154,44 @@ const noteDate = (ms: number): string =>
     timeZone: 'Australia/Sydney',
   });
 
+/** The window in words for a note: "in the last 90 days", or null for all time. */
+const windowPhrase = (windowDays: number | 'all'): string | null =>
+  windowDays === 'all' ? null : `in the ${formatWindowLabel(windowDays).toLowerCase()}`;
+
+/** "No marked answers in HSC Enterprise Computing in the last 90 days.", from the scope actually applied. */
+const emptyScopeNote = (courseName: string | null, windowDays: number | 'all'): string => {
+  const words = [courseName === null ? null : `in ${courseName}`, windowPhrase(windowDays)].filter(
+    (w): w is string => w !== null
+  );
+  return words.length > 0 ? `No marked answers ${words.join(' ')}.` : 'No marked answers yet.';
+};
+
+/** Said in every student report: a student's count is every attempt, not the latest per question. */
+export const COUNTS_EVERY_ATTEMPT_NOTE = 'Counts every attempt, including repeats of a question.';
+
+/** 32-bit FNV-1a: a small, stable string hash with no dependency. */
+const fnv1a = (text: string): number => {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
+};
+
+/**
+ * The "Student n" numbers for an anonymised report: a stable shuffle keyed on the
+ * report's clock and each username, so the numbers are a permutation of 1..n that
+ * is not the alphabetical order (and cannot be read back from the usernames alone).
+ * The same report always gets the same numbers, so the table and the heatmap agree.
+ */
+export const anonymousNumbers = (usernames: string[], generatedAt: string): Map<string, number> => {
+  const ordered = [...new Set(usernames)].sort(
+    (a, b) => fnv1a(`${generatedAt}|${a}`) - fnv1a(`${generatedAt}|${b}`) || a.localeCompare(b)
+  );
+  return new Map(ordered.map((username, i) => [username, i + 1]));
+};
+
 /**
  * The cognitive tier (1–6) of a command verb, or null for an unknown or missing one.
  *
@@ -317,18 +355,23 @@ const studentFromTotals = (
   const answered = Math.max(0, Math.trunc(s.questionsAnswered));
   const hasAnswers = answered > 0;
   const shareKnown = (s.markShareCount ?? 0) > 0 && Number.isFinite(s.markShareMean);
-  const filtered = options.courseFilter !== null || options.windowDays !== 'all';
+  // Only the filters the user actually chose are named, each with what it reads as.
+  const applied = [
+    options.courseFilter ? `the course (${options.courseFilter.name})` : null,
+    options.windowDays !== 'all' ? `the period (${formatWindowLabel(options.windowDays)})` : null,
+  ].filter((part): part is string => part !== null);
 
   const notes: string[] = [
     history === null
       ? 'Answer history is kept for signed-in accounts. This copy has no online history, so these figures are your running totals for all time.'
       : 'You have no marked answers in your history yet, so these figures are your running totals for all time.',
   ];
-  if (filtered) {
+  if (applied.length > 0) {
     notes.push(
-      'The course and period you chose need your answer history, so they are not applied to these totals.'
+      `The filters you chose need answer history, so they are not applied here: ${applied.join(' and ')}.`
     );
   }
+  notes.push(COUNTS_EVERY_ATTEMPT_NOTE);
 
   return {
     audience: 'student',
@@ -342,6 +385,7 @@ const studentFromTotals = (
       lastAttemptAt: null,
     },
     generatedAt: options.generatedAt,
+    answerCount: answered,
     headline: [
       { label: 'Answers marked', value: formatCount(answered), hint: 'all time' },
       {
@@ -459,18 +503,11 @@ const studentFromHistory = (
 
   const notes: string[] = [];
   if (scored.length === 0) {
-    const scope =
-      courseFilter !== null && windowDays !== 'all'
-        ? 'this course and period'
-        : courseFilter !== null
-          ? 'this course'
-          : windowDays !== 'all'
-            ? 'this period'
-            : null;
-    notes.push(scope ? `No marked answers match ${scope}.` : 'No marked answers yet.');
+    notes.push(emptyScopeNote(courseFilter?.name ?? null, windowDays));
   } else {
     notes.push(BAND_CAP_NOTE);
   }
+  notes.push(COUNTS_EVERY_ATTEMPT_NOTE);
   if (history.length >= REPORT_HISTORY_LIMIT) {
     notes.push(
       `Only your latest ${REPORT_HISTORY_LIMIT.toLocaleString('en-AU')} answers are included, so the oldest may be missing.`
@@ -499,6 +536,7 @@ const studentFromHistory = (
       lastAttemptAt: scored[scored.length - 1]?.at ?? null,
     },
     generatedAt: options.generatedAt,
+    answerCount: scored.length,
     headline,
     trend,
     trendCaption: scored.length > 0 ? STUDENT_TREND_CAPTION : NO_TREND_CAPTION,
@@ -564,10 +602,9 @@ const roster = (
 
   // Students: the Class Insights order (weakest first), each with a sparkline and a band change.
   const byName = new Map(payload.byStudent.map((s) => [s.username, s]));
-  const numberOf = new Map(
-    [...payload.byStudent]
-      .sort((a, b) => a.username.localeCompare(b.username))
-      .map((s, i) => [s.username, i + 1])
+  const numberOf = anonymousNumbers(
+    payload.byStudent.map((s) => s.username),
+    options.generatedAt
   );
   const weeksByUser = new Map<string, CohortWeekRow[]>();
   for (const row of payload.byStudentWeek) {
@@ -577,8 +614,11 @@ const roster = (
     (tierRow) => {
       const s = byName.get(tierRow.username);
       if (!s) return [];
-      const series = weekSeries(weeksByUser.get(tierRow.username) ?? [], weeks);
-      const recorded = series.filter((v): v is number => v !== null);
+      // The sparkline and the band change read the same weeks: the last SPARKLINE_WEEKS.
+      const drawn = weekSeries(weeksByUser.get(tierRow.username) ?? [], weeks).slice(
+        -SPARKLINE_WEEKS
+      );
+      const recorded = drawn.filter((v): v is number => v !== null);
       return [
         {
           name: anonymised
@@ -589,7 +629,7 @@ const roster = (
           markShare: finiteOrNull(s.avg_mark_frac),
           bandChange:
             recorded.length >= 2 ? round2(recorded[recorded.length - 1] - recorded[0]) : null,
-          sparkline: series.slice(-SPARKLINE_WEEKS),
+          sparkline: drawn,
           lastActiveAt: s.last_active,
           tierShares: tierRow.tiers.map((tier) => tier.markFrac),
         },
@@ -624,9 +664,31 @@ const roster = (
     if (sections.students)
       notes.push('Students are listed weakest first by share of marks earned.');
   }
-  if (classRows !== undefined && classRows.length > 0) {
+  // A class bound to its course counts only that course, so a student who takes
+  // both is counted once per course. Unbound classes keep the older rule.
+  if (payload.classCourse) {
+    notes.push(`This class studies ${payload.classCourse.name}; only its answers are counted.`);
+  }
+  if (
+    options.courseFilter &&
+    payload.classCourse &&
+    options.courseFilter.name !== payload.classCourse.name
+  ) {
     notes.push(
-      'A student enrolled in more than one class is counted in each of those classes, so the class rows can add up to more than the school total.'
+      `The course you picked (${options.courseFilter.name}) is not the one this class studies (${payload.classCourse.name}), so nothing is counted.`
+    );
+  }
+  const boundClasses = (payload.byClass ?? []).filter((c) => c.course);
+  if (audience === 'school' && boundClasses.length > 0) {
+    notes.push(
+      boundClasses
+        .map((c) => `${c.name} studies ${c.course}; only its answers are counted.`)
+        .join(' ')
+    );
+  }
+  if ((payload.byClass ?? []).some((c) => !c.course) && (payload.byClass ?? []).length > 1) {
+    notes.push(
+      'A student in more than one class with no course is counted in each of those classes, so those class rows can add up to more than the school total.'
     );
   }
   if (anonymised) {
@@ -640,13 +702,14 @@ const roster = (
     title: audience === 'school' ? 'School report' : 'Class report',
     subject: options.subject,
     scope: {
-      courseName: options.courseFilter?.name ?? null,
+      courseName: options.courseFilter?.name ?? payload.classCourse?.name ?? null,
       windowLabel: formatWindowLabel(days),
       className: options.className,
       firstAttemptAt: totals.first_attempt_at,
       lastAttemptAt: totals.last_attempt_at,
     },
     generatedAt: options.generatedAt,
+    answerCount: attempts,
     headline: [
       {
         label: 'Students',

@@ -3391,10 +3391,16 @@ grant execute on function public.withheld_sample_answers() to anon, authenticate
 --     by student and verb, a weekly trend and, for a school, by class — in one
 --     round trip, narrowed by the same class and course the user picked.
 --
---     Scope is exactly get_class_cohort()'s (§20): reviewers only; an admin sees
---     every student only when no class is named; everyone else sees the students
---     visible_student_ids() returns. A teacher with no classes gets an empty
---     payload, and a class they do not teach is refused.
+--     WHO IS COUNTED. Reviewers only. Scope is per ANSWER, not per student. An
+--     answer counts for the caller when the answering student is enrolled as a
+--     'student' in a class the caller can see (can_view_class: the owner, a
+--     co-teacher, or an admin), and that class's course_id is NULL or is the
+--     answer's own course. So a teacher sees a student's answers in the courses
+--     of the classes the teacher teaches them in; a class with no course set shows
+--     all of that student's answers. A named class (p_class_id) narrows this to
+--     that class alone. An admin with no class named sees every answer. A teacher
+--     with no classes sees nothing, and naming a class the caller does not teach
+--     is refused, as visible_student_ids() refuses it.
 --
 --     Counts and averages only. No draft text and no evaluation JSON are read.
 --     The rows are the latest marked answer per question, from `responses`, as
@@ -3415,6 +3421,20 @@ grant execute on function public.withheld_sample_answers() to anon, authenticate
 --     The window is analytics_window_start(), clamped to 1–365 days like every
 --     other analytics RPC. `days` and `weeks` are echoed back so the client can
 --     label the report without repeating the clamp.
+--
+--     A CLASS STUDIES ONE COURSE. This RPC reads `classes.course_id` (§19, the
+--     course a class studies; its own column comment is unchanged). A student can
+--     take two courses, so the per-answer rule above is what keeps a Software class
+--     from counting that student's Enterprise answers:
+--       * a named class whose course_id is set makes that course the effective
+--         course filter. If p_course_id is also given and differs, the result is
+--         EMPTY (the totals and every collection), not the unfiltered report.
+--       * byClass counts each class only within its own course_id, so a student
+--         in two classes of two courses is counted once per course. A class with
+--         a null course_id keeps the old rule: every answer of its students.
+--       * `classCourse` says which course a named class is bound to (null when it
+--         is not, or when no class is named), so the client can explain the scope.
+--     With no class named, p_course_id alone applies on top of the per-answer rule.
 -- =============================================================================
 
 create or replace function public.get_progress_report(
@@ -3428,21 +3448,38 @@ declare
   v_weeks  integer := ceil(v_days::numeric / 7)::int;
   v_since  timestamptz := public.analytics_window_start(v_days);
   v_all    boolean;
-  v_ids    uuid[];
   v_result jsonb;
+  v_class_course      uuid;
+  v_class_course_name text;
+  v_course            uuid;
+  v_mismatch          boolean := false;
 begin
   if not public.is_reviewer() then
     raise exception 'Only admins/teachers can view the progress report';
   end if;
 
-  -- An admin with no class named keeps the system-wide view; everyone else is
-  -- limited to the students visible_student_ids() returns (it raises for a class
-  -- the caller does not teach).
+  -- An admin with no class named keeps the whole-school view. Otherwise the scope
+  -- is per answer, below. A named class is still checked here: visible_student_ids()
+  -- refuses a class the caller does not teach, and that refusal is what callers see.
   v_all := public.is_admin() and p_class_id is null;
-  if not v_all then
-    select coalesce(array_agg(t.id), '{}') into v_ids
-      from public.visible_student_ids(p_class_id) as t(id);
+  if p_class_id is not null then
+    perform public.visible_student_ids(p_class_id);
   end if;
+
+  -- The course a named class studies (classes.course_id), or nothing when no class
+  -- is named or the class has no course. Read after visible_student_ids(), so a
+  -- class the caller does not teach is refused before anything is read from it.
+  if p_class_id is not null then
+    select c.course_id, co.name into v_class_course, v_class_course_name
+      from public.classes c
+      left join public.courses co on co.id = c.course_id
+     where c.id = p_class_id;
+  end if;
+  -- A bound class fixes the course. A different p_course_id asks for something the
+  -- class does not study, so it matches nothing rather than widening the report.
+  v_course   := coalesce(v_class_course, p_course_id);
+  v_mismatch := v_class_course is not null and p_course_id is not null
+                and p_course_id <> v_class_course;
 
   -- One scan of the scoped answers, shared by every collection below. The
   -- materialised CTE is read once however many times the select list refers to it.
@@ -3466,8 +3503,20 @@ begin
       join public.courses c    on c.id = t.course_id
      where r.created_at >= v_since
        and r.overall_band is not null
-       and (v_all or r.user_id = any(v_ids))
-       and (p_course_id is null or c.id = p_course_id)
+       and not v_mismatch
+       and (v_course is null or c.id = v_course)
+       -- Per answer: a class the caller can see, in which this student is enrolled,
+       -- whose course is none or this answer's course. A named class narrows it.
+       and (v_all or exists (
+             select 1
+               from public.class_members m
+               join public.classes k on k.id = m.class_id
+              where m.user_id = r.user_id
+                and m.role = 'student'
+                and (p_class_id is null or k.id = p_class_id)
+                and (k.course_id is null or k.course_id = c.id)
+                and public.can_view_class(k.id)
+           ))
   )
   select jsonb_build_object(
       'days', v_days,
@@ -3613,6 +3662,7 @@ begin
               'class_id', c.id,
               'name', c.name,
               'year', c.year,
+              'course', co.name,
               'students', count(distinct x.user_id),
               'attempts', count(x.user_id),
               'avg_band', round(avg(x.band)::numeric, 2),
@@ -3620,15 +3670,22 @@ begin
             ) as row_obj
               from public.classes c
               left join (
-                select m.class_id, s.user_id, s.band, s.mark_frac
+                select m.class_id, s.user_id, s.band, s.mark_frac, s.course_id
                   from scoped s
                   join public.class_members m
                     on m.user_id = s.user_id and m.role = 'student'
               ) x on x.class_id = c.id
+                 and (c.course_id is null or x.course_id = c.course_id)
+              left join public.courses co on co.id = c.course_id
              where public.can_view_class(c.id)
-             group by c.id, c.name, c.year
+             group by c.id, c.name, c.year, c.course_id, co.name
           ) sub
       )) else '{}'::jsonb end
+    )
+    || jsonb_build_object(
+      'classCourse', case when v_class_course is null then null
+                          else jsonb_build_object('course_id', v_class_course,
+                                                  'name', v_class_course_name) end
     )
   into v_result;
 

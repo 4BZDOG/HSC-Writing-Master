@@ -20,7 +20,8 @@ const geo = computeGeometry({
 });
 
 describe('buildReportBlocks: page order', () => {
-  it('builds the page order, with one muted line for each section that is on but empty', () => {
+  it('builds the page order, with the empty breakdowns said once under the first', () => {
+    // No answers in any breakdown: one heading and one line stand for all four.
     expect(kinds(makeReport())).toEqual([
       'masthead',
       'paragraph',
@@ -29,10 +30,6 @@ describe('buildReportBlocks: page order', () => {
       'lineChart',
       'heading',
       'barList',
-      'heading',
-      'paragraph',
-      'heading',
-      'paragraph',
       'heading',
       'paragraph',
       'heading',
@@ -114,9 +111,16 @@ describe('buildReportBlocks: section toggles', () => {
   });
 });
 
+/** A report with no answers at all: the empty line the data side gives for it. */
+const noAnswers = {
+  answerCount: 0,
+  trend: [],
+  trendCaption: 'No marked answers in this period to plot yet.',
+};
+
 describe('buildReportBlocks: empty states', () => {
   it('replaces an empty chart with a sentence that says what would fill it, never an empty frame', () => {
-    const blocks = buildReportBlocks(makeReport({ trend: [] }));
+    const blocks = buildReportBlocks(makeReport(noAnswers));
     expect(blocks.some((b) => b.kind === 'lineChart')).toBe(false);
     const note = blocks.find((b) => b.id === 'trend-empty');
     expect(note?.runs[0].text).toMatch(/No marked answers/);
@@ -124,10 +128,13 @@ describe('buildReportBlocks: empty states', () => {
   });
 
   it('words the empty note for a class and a school, not for one student', () => {
-    const teacher = buildReportBlocks(makeReport({ audience: 'teacher', trend: [] }));
-    const school = buildReportBlocks(makeReport({ audience: 'school', trend: [] }));
-    expect(teacher.find((b) => b.id === 'trend-empty')?.runs[0].text).toMatch(/these students/);
-    expect(school.find((b) => b.id === 'trend-empty')?.runs[0].text).toMatch(/these classes/);
+    const teacher = buildReportBlocks(makeReport({ ...noAnswers, audience: 'teacher' }));
+    const school = buildReportBlocks(makeReport({ ...noAnswers, audience: 'school' }));
+    const teacherText = teacher.find((b) => b.id === 'trend-empty')?.runs[0].text;
+    expect(teacherText).toMatch(/^No marked answers in these classes/);
+    expect(teacherText).toMatch(/The line fills in as answers are marked\.$/);
+    expect(teacherText).not.toMatch(/one point on this line/);
+    expect(school.find((b) => b.id === 'trend-empty')?.runs[0].text).toMatch(/in these classes/);
   });
 
   it('prints every tier as not attempted when nothing was attempted', () => {
@@ -162,7 +169,7 @@ describe('buildReportBlocks: empty states', () => {
 
   it('builds a report with no history, no headline and no notes without error', () => {
     const blocks = buildReportBlocks(
-      makeReport({ headline: [], trend: [], averageBand: null, notes: [] })
+      makeReport({ ...noAnswers, headline: [], averageBand: null, notes: [] })
     );
     expect(blocks.map((b) => b.id)).toEqual([
       'mast',
@@ -172,12 +179,102 @@ describe('buildReportBlocks: empty states', () => {
       'h-tiers',
       'tiers',
       'h-courses',
-      'courses-empty',
-      'h-topics',
-      'topics-empty',
-      'h-verbs',
-      'verbs-empty',
+      'breakdowns-empty',
     ]);
+  });
+});
+
+describe('buildReportBlocks: the empty chart never contradicts the headline', () => {
+  const trendNote = (over: Parameters<typeof makeReport>[0]) =>
+    buildReportBlocks(makeReport({ trend: [], ...over })).find((b) => b.id === 'trend-empty')
+      ?.runs[0].text;
+
+  it("says what is missing in the report's own scope when it has no answers", () => {
+    expect(
+      trendNote({ answerCount: 0, trendCaption: 'No marked answers in this period to plot yet.' })
+    ).toBe(
+      'No marked answers in the last 90 days. Each answer you mark in the app is one point on this line.'
+    );
+  });
+
+  it('says there are no answers, not that the history is kept elsewhere, when a report has none', () => {
+    const text = trendNote({
+      answerCount: 0,
+      scope: { ...makeReport().scope, windowLabel: 'All time' },
+      trendCaption: 'Progress over time is kept for signed-in accounts.',
+    });
+    expect(text).toBe(
+      'No marked answers. Each answer you mark in the app is one point on this line.'
+    );
+  });
+
+  it('never says there are no answers when the report counts some', () => {
+    const text = trendNote({
+      answerCount: 23,
+      trendCaption: 'No marked answers in this period to plot yet.',
+    });
+    expect(text).not.toMatch(/No marked answers/);
+    expect(text).toMatch(/counted above/);
+  });
+
+  it('prints the caption that explains a stats-only report, under its answers', () => {
+    expect(
+      trendNote({
+        answerCount: 23,
+        trendCaption: 'Progress over time is kept for signed-in accounts.',
+      })
+    ).toBe('Progress over time is kept for signed-in accounts.');
+  });
+
+  it('does not repeat the points caption under an empty chart', () => {
+    const text = trendNote({ answerCount: 0, trendCaption: 'Each point is one marked answer' });
+    expect(text).not.toMatch(/^Each point/);
+    expect(text).toMatch(/No marked answers/);
+  });
+
+  it('gives the average its window, so a 90-day mean is never captioned all-time', () => {
+    const chart = buildReportBlocks(
+      makeReport({
+        scope: { ...makeReport().scope, windowLabel: 'Last 90 days' },
+        averageBand: 4.2,
+      })
+    ).find((b) => b.kind === 'lineChart');
+    expect(chart?.report?.type === 'lineChart' && chart.report.averageWindow).toBe('Last 90 days');
+  });
+});
+
+describe('buildReportBlocks: bars on few answers', () => {
+  const tierRows = (attempts: number) =>
+    [1, 2, 3, 4, 5, 6].map((tier) => ({
+      tier,
+      label: `T${tier}`,
+      attempts: tier === 3 ? attempts : 0,
+      markShare: tier === 3 ? 0.25 : null,
+    }));
+  const aboutText = (report: ReturnType<typeof makeReport>) =>
+    buildReportBlocks(report).find((b) => b.id === 'about-notes')?.runs[0].text ?? '';
+
+  it('adds the lighter-bars note to About when a tier bar has fewer than three answers', () => {
+    expect(aboutText(makeReport({ tiers: tierRows(1), notes: [] }))).toBe(
+      'Bars with fewer than 3 answers are drawn lighter.'
+    );
+    expect(
+      aboutText(makeReport({ tiers: tierRows(2), notes: ['History began on 14 Jul 2026.'] }))
+    ).toBe('History began on 14 Jul 2026.\nBars with fewer than 3 answers are drawn lighter.');
+  });
+
+  it('does not add the note when every bar has three answers or more, or none', () => {
+    expect(aboutText(makeReport({ tiers: tierRows(3), notes: ['A note.'] }))).toBe('A note.');
+    expect(aboutText(makeReport({ tiers: tierRows(0), notes: ['A note.'] }))).toBe('A note.');
+  });
+
+  it('does not add the note when the tiers section is off, so no bar is drawn', () => {
+    const report = makeReport({
+      tiers: tierRows(1),
+      notes: [],
+      sections: { ...ALL_REPORT_SECTIONS, tiers: false },
+    });
+    expect(aboutText(report)).not.toMatch(/drawn lighter/);
   });
 });
 

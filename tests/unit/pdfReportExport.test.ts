@@ -139,7 +139,7 @@ const {
   printsStudentNames,
   progressReportNotices,
 } = await import('../../pdf/exportProgressReport');
-const { PdfExportError } = await import('../../pdf/exportEvaluation');
+const { PdfExportError, formatDate } = await import('../../pdf/exportEvaluation');
 
 const printed = (calls: Call[]): string[] =>
   calls.filter((c) => c.name === 'text').map((c) => String(c.args[0]));
@@ -384,5 +384,18 @@ describe('exporting a progress report', () => {
     expect(err).toBeInstanceOf(PdfExportError);
     expect(err.stage).toBe('save');
     expect(toast).toHaveBeenLastCalledWith(expect.stringMatching(/download/), 'error');
+  });
+});
+
+describe('the footer date', () => {
+  it('is written in en-AU house style, day first and the month abbreviated', () => {
+    expect(formatDate(new Date(2026, 9, 11))).toBe('11 Oct 2026');
+  });
+
+  it('does not depend on the browser locale, so the same day reads the same everywhere', () => {
+    const spy = vi.spyOn(Date.prototype, 'toLocaleDateString');
+    formatDate(new Date(2026, 0, 5));
+    expect(spy).toHaveBeenCalledWith('en-AU', expect.any(Object));
+    spy.mockRestore();
   });
 });

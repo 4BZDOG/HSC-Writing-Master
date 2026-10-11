@@ -206,6 +206,33 @@ const chartPointX = (
 };
 
 /**
+ * The two parts of the average's label, each wrapped to the margin: the caption (the
+ * window, or "Average" when the window is not known) and the value. An all-time
+ * mean reads "All-time / average 4.3"; a windowed one "Last 90 days / average 4.3",
+ * so a 90-day mean is never captioned as all-time.
+ */
+export const averageLabelLines = (
+  averageWindow: string | undefined,
+  bandText: string,
+  maxWidthMm: number,
+  pt: number,
+  m: TextMeasurer
+): string[] => {
+  const caption =
+    averageWindow === undefined
+      ? 'Average'
+      : averageWindow === 'All time'
+        ? 'All-time'
+        : averageWindow;
+  const detail = averageWindow === undefined ? bandText : `average ${bandText}`;
+  const wrapPart = (text: string): string[] => {
+    const lines = m.wrap(text, maxWidthMm, pt, 'bold');
+    return lines.length ? lines : [text];
+  };
+  return [...wrapPart(caption), ...wrapPart(detail)];
+};
+
+/**
  * Progress over time on the band ladder.
  *
  * The y axis is the six bands, each with a gridline and its name; the x axis is
@@ -298,24 +325,30 @@ export const measureLineChart = (
   const avg =
     data.averageBand !== null && Number.isFinite(data.averageBand) ? data.averageBand : null;
   // The label sits in the margin past the plot's right edge, centred on the line,
-  // so no point or segment can run under it.
+  // so no point or segment can run under it. It names the window the average is
+  // over: "All-time" for the whole history, otherwise the window itself, so a
+  // 90-day mean is never captioned as all-time.
   const averageLabelLH = averageLabelPt * MM_PER_PT * 1.3;
+  const averageLabelX = plot.right + gutterGap;
   const average =
     avg === null
       ? null
       : {
           y: yOf(avg),
-          labelX: plot.right + gutterGap,
-          lines: [
-            {
-              text: 'All-time',
-              baseline: yOf(avg) - averageLabelLH / 2 + ascentOf(averageLabelPt),
-            },
-            {
-              text: `average ${formatBand(avg)}`,
-              baseline: yOf(avg) + averageLabelLH / 2 + ascentOf(averageLabelPt),
-            },
-          ],
+          labelX: averageLabelX,
+          lines: averageLabelLines(
+            data.averageWindow,
+            formatBand(avg),
+            width - LINE_CHART.rightInsetBaseMm * s - averageLabelX,
+            averageLabelPt,
+            m
+          ).map((text, i, all) => ({
+            text,
+            // Centred on the line: the first baseline sits half a line above it for
+            // two lines, a full line either side of it for three, and so on.
+            baseline:
+              yOf(avg) + ascentOf(averageLabelPt) + (i - (all.length - 1) / 2) * averageLabelLH,
+          })),
         };
 
   const xLabelBaseline = plot.bottom + LINE_CHART.xLabelGapBaseMm * s + ascentOf(xLabelPt);
@@ -403,6 +436,14 @@ export const measureLineChart = (
  * marks on offer, and the value flush right. A row with no attempts keeps its
  * track — drawn dashed and empty — and says "Not attempted" where the value goes.
  */
+/**
+ * Whether a bar stands for too few answers to carry its full weight: fewer than
+ * `BAR_LIST.lowCount`, and at least one, with a share to draw. Such a bar is drawn
+ * lighter, so one answer does not look like a verdict.
+ */
+export const isLowN = (attempts: number, share: number | null): boolean =>
+  share !== null && attempts > 0 && attempts < BAR_LIST.lowCount;
+
 export const measureBarList = (
   data: BarListData,
   m: TextMeasurer,
@@ -436,6 +477,7 @@ export const measureBarList = (
       barY: top + (rowH - barH) / 2,
       fillWidth: notAttempted || share === null ? 0 : share * trackWidth,
       notAttempted,
+      lowN: isLowN(row.attempts, share),
     };
   });
 

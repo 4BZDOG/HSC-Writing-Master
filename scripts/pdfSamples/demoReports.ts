@@ -191,14 +191,22 @@ export interface DemoClassRoster {
   id: string;
   name: string;
   year: number | null;
+  /** The course the class studies (`classes.course_id`), by its app id, and its name. */
+  courseId: string | null;
+  courseName: string | null;
   ownerUsername: string;
   coTeacherUsernames: string[];
   /** Enrolled as role 'student'. Students with no answers are listed too. */
   studentUsernames: string[];
 }
 
-/** The two demo classes with their enrolments, read from the same lists the seed uses. */
-export const demoClassRosters = (): DemoClassRoster[] => {
+/**
+ * The two demo classes with their enrolments, read from the same lists the seed uses.
+ * Each is bound to the course it studies, as the seed binds `classes.course_id`.
+ */
+export const demoClassRosters = (
+  trees: Record<DemoCourseKey, DemoCourseTree>
+): DemoClassRoster[] => {
   const enrolled: { username: string; classKeys?: string[] }[] = [
     ...DEMO_STUDENTS,
     ...PLAN_STATE_ENROLMENTS,
@@ -207,6 +215,8 @@ export const demoClassRosters = (): DemoClassRoster[] => {
     id: DEMO_CLASS_IDS[spec.key as DemoCourseKey],
     name: spec.name,
     year: spec.year,
+    courseId: trees[spec.course as DemoCourseKey].id,
+    courseName: trees[spec.course as DemoCourseKey].name,
     ownerUsername: spec.ownerUsername,
     coTeacherUsernames: spec.coTeacherUsername ? [spec.coTeacherUsername] : [],
     studentUsernames: enrolled
@@ -398,17 +408,33 @@ export const emulateProgressReportPayload = (
     c.coTeacherUsernames.includes(input.viewerUsername);
 
   const vAll = input.asAdmin && input.classId === null;
-  let scope: Set<string> | null = null;
-  if (!vAll) {
-    if (input.classId !== null) {
-      const named = input.classes.find((c) => c.id === input.classId);
-      if (!named) throw new Error(`emulateProgressReportPayload: no class ${input.classId}`);
-      if (!canView(named)) throw new Error('You do not teach that class');
-      scope = new Set(named.studentUsernames);
-    } else {
-      scope = new Set(input.classes.filter(canView).flatMap((c) => c.studentUsernames));
-    }
+  if (input.classId !== null) {
+    const named = input.classes.find((c) => c.id === input.classId);
+    if (!named) throw new Error(`emulateProgressReportPayload: no class ${input.classId}`);
+    if (!canView(named)) throw new Error('You do not teach that class');
   }
+  // Per answer, as get_progress_report() scopes it: a class the viewer can see (and
+  // the named one, when a class is named), in which the student is enrolled, whose
+  // course is none or this answer's own course. An admin with no class named sees all.
+  const inScope = (username: string, courseId: string): boolean =>
+    vAll ||
+    input.classes.some(
+      (c) =>
+        canView(c) &&
+        (input.classId === null || c.id === input.classId) &&
+        c.studentUsernames.includes(username) &&
+        (c.courseId === null || c.courseId === courseId)
+    );
+
+  // A named class bound to a course fixes the course (classes.course_id), and a
+  // different course filter matches nothing. Mirrors get_progress_report().
+  const namedClass =
+    input.classId === null ? null : (input.classes.find((c) => c.id === input.classId) ?? null);
+  const classCourseId = namedClass?.courseId ?? null;
+  const classCourseName = namedClass?.courseName ?? null;
+  const courseId = classCourseId ?? input.courseId;
+  const mismatch =
+    classCourseId !== null && input.courseId !== null && input.courseId !== classCourseId;
 
   const scoped: ScopedAnswer[] = [];
   for (const attempt of latestPerPrompt(input.attempts)) {
@@ -416,8 +442,9 @@ export const emulateProgressReportPayload = (
     if (!q) continue; // every join in the SQL is inner
     const createdMs = nowMs - attempt.daysAgo * DAY_MS;
     if (createdMs < sinceMs) continue;
-    if (scope !== null && !scope.has(attempt.username)) continue;
-    if (input.courseId !== null && q.courseId !== input.courseId) continue;
+    if (!inScope(attempt.username, q.courseId)) continue;
+    if (mismatch) continue;
+    if (courseId !== null && q.courseId !== courseId) continue;
     scoped.push({
       username: attempt.username,
       createdMs,
@@ -535,16 +562,26 @@ export const emulateProgressReportPayload = (
     weekly,
   };
 
+  payload.classCourse =
+    classCourseId !== null && classCourseName !== null
+      ? { course_id: classCourseId, name: classCourseName }
+      : null;
+
   if (input.classId === null) {
     payload.byClass = input.classes
       .filter(canView)
       .map((c) => {
         const members = new Set(c.studentUsernames);
+        // A class bound to its course counts only that course's answers.
+        const own = scoped.filter(
+          (r) => members.has(r.username) && (c.courseId === null || r.courseId === c.courseId)
+        );
         return {
           class_id: c.id,
           name: c.name,
           year: c.year,
-          ...metricsOf(scoped.filter((r) => members.has(r.username))),
+          course: c.courseName,
+          ...metricsOf(own),
         };
       })
       .sort((a, b) => compareText(a.name, b.name) || compareText(a.class_id, b.class_id));
@@ -722,7 +759,7 @@ export const buildDemoReportSamples = ({
     cohort,
     curriculum,
     trees,
-    classes: demoClassRosters(),
+    classes: demoClassRosters(trees),
     directory: demoUserDirectory(),
     now,
     generatedAt: now.toISOString(),

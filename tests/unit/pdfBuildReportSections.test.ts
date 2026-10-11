@@ -170,16 +170,28 @@ describe('sections: which tables are drawn, and in what order', () => {
 });
 
 describe('sections on with nothing in scope: one muted line, never a frame', () => {
-  it('prints a sentence in place of an empty breakdown, and no table', () => {
+  it('says the empty breakdowns once, under the first, and no table', () => {
     const report = makeReport({ audience: 'student', byCourse: [], byTopic: [], byVerb: [] });
-    for (const id of ['courses-empty', 'topics-empty', 'verbs-empty']) {
-      const block = find(report, id);
-      expect(block?.kind).toBe('paragraph');
-      expect(block?.runs[0].text).toMatch(/^No marked answers/);
-    }
+    const line = find(report, 'breakdowns-empty');
+    expect(line?.kind).toBe('paragraph');
+    expect(line?.runs[0].text).toMatch(/^No marked answers/);
+    expect(ids(report)).toContain('h-courses');
+    expect(ids(report)).not.toContain('h-topics');
+    expect(ids(report)).not.toContain('h-verbs');
+    expect(ids(report)).not.toContain('courses-empty');
+    expect(ids(report)).not.toContain('topics-empty');
+    expect(ids(report)).not.toContain('verbs-empty');
     expect(ids(report)).not.toContain('courses');
     expect(ids(report)).not.toContain('topics');
     expect(ids(report)).not.toContain('verbs');
+  });
+
+  it('keeps a line under each empty breakdown when another breakdown has rows', () => {
+    const report = makeReport({ byCourse: [row('Software Engineering')], byTopic: [], byVerb: [] });
+    expect(ids(report)).not.toContain('breakdowns-empty');
+    expect(find(report, 'topics-empty')?.runs[0].text).toMatch(/^No marked answers/);
+    expect(find(report, 'verbs-empty')?.runs[0].text).toMatch(/^No marked answers/);
+    expect(ids(report)).toContain('courses');
   });
 
   it('says what was narrowed: the course, and the period', () => {
@@ -192,7 +204,7 @@ describe('sections on with nothing in scope: one muted line, never a frame', () 
         windowLabel: 'Last 30 days',
       },
     });
-    expect(find(report, 'courses-empty')?.runs[0].text).toBe(
+    expect(find(report, 'breakdowns-empty')?.runs[0].text).toBe(
       'No marked answers in this course in the last 30 days.'
     );
   });
@@ -203,7 +215,7 @@ describe('sections on with nothing in scope: one muted line, never a frame', () 
       byCourse: [],
       scope: { ...makeReport().scope, courseName: null, windowLabel: 'All time' },
     });
-    expect(find(report, 'courses-empty')?.runs[0].text).toBe('No marked answers.');
+    expect(find(report, 'breakdowns-empty')?.runs[0].text).toBe('No marked answers.');
   });
 
   it('words the empty students and classes lines for a class and a school', () => {
@@ -261,14 +273,30 @@ describe('labels', () => {
     ]);
   });
 
-  it('gives a verb its tier as the quieter second line', () => {
+  it('gives a verb its tier and the most that tier can earn as the quieter second line', () => {
     const verbs = find(fullTeacher(), 'verbs');
     const first = verbs?.report?.type === 'table' ? verbs.report.rows[0] : null;
     expect(first?.type === 'body' && first.cells[0]).toEqual({
       type: 'text',
       text: 'Explain',
-      sublabel: 'Tier 3',
+      sublabel: 'Tier 3 · up to Band 3',
     });
+  });
+
+  it('reads a tier-1 verb as capped at Band 1, never a higher band it cannot reach', () => {
+    const report = makeReport({ byVerb: [{ ...row('State'), sublabel: 'Tier 1' }] });
+    const verbs = find(report, 'verbs');
+    const first = verbs?.report?.type === 'table' ? verbs.report.rows[0] : null;
+    expect(first?.type === 'body' && first.cells[0]).toMatchObject({
+      sublabel: 'Tier 1 · up to Band 1',
+    });
+  });
+
+  it('leaves a sublabel that is not a tier as it was given', () => {
+    const report = makeReport({ byVerb: [{ ...row('Explain'), sublabel: 'Something else' }] });
+    const verbs = find(report, 'verbs');
+    const first = verbs?.report?.type === 'table' ? verbs.report.rows[0] : null;
+    expect(first?.type === 'body' && first.cells[0]).toMatchObject({ sublabel: 'Something else' });
   });
 
   it('shows one heatmap column per tier, in order, with the tier number', () => {

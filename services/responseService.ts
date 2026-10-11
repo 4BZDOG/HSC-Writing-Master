@@ -389,6 +389,14 @@ export interface ProgressReportClassRow extends ProgressReportMetrics {
   class_id: string;
   name: string;
   year: number | null;
+  /** The course the class studies, or null. A course-bound class counts only that course. */
+  course?: string | null;
+}
+
+/** The course a named class is bound to (`classes.course_id`), when it is bound. */
+export interface ProgressReportClassCourse {
+  course_id: string;
+  name: string;
 }
 
 /**
@@ -413,6 +421,12 @@ export interface ProgressReportPayload {
   weekly: ProgressReportWeekRow[];
   /** Present only when no class was named. */
   byClass?: ProgressReportClassRow[];
+  /**
+   * The course a named class studies, or null when no class is named or the class
+   * has no course. When set, that course is the report's only course: a different
+   * course filter gives an empty report (schema §26).
+   */
+  classCourse?: ProgressReportClassCourse | null;
 }
 
 /**
@@ -462,6 +476,7 @@ const normaliseProgressPayload = (raw: unknown): ProgressReportPayload => {
     byStudentWeek: p.byStudentWeek ?? [],
     weekly: p.weekly ?? [],
     ...(Array.isArray(p.byClass) ? { byClass: p.byClass } : {}),
+    classCourse: p.classCourse ?? null,
   };
 };
 

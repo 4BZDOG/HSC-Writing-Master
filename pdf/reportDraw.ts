@@ -13,7 +13,7 @@
 
 import { bandColor, COLORS } from './buildBlocks';
 import { drawDisplayLine, drawLines, tint, TextStyleCtx } from './helpers';
-import { LINE_CHART, MeasuredBlock, PANEL, STAT_STRIP, TABLE } from './types';
+import { BAR_LIST, LINE_CHART, MeasuredBlock, PANEL, STAT_STRIP, TABLE } from './types';
 import type { JsPdfLike } from './types';
 import type {
   BarListLayout,
@@ -269,7 +269,8 @@ const drawBarList = (
       setFill(doc, COLORS.rule);
       doc.rect(trackLeft, barY, layout.trackWidth, layout.barHeight, 'F');
       if (row.fillWidth > 0) {
-        setFill(doc, accent);
+        // A bar on a handful of answers keeps its hue but not its full weight.
+        setFill(doc, row.lowN ? tint(accent, BAR_LIST.lowCountTintMix) : accent);
         doc.rect(trackLeft, barY, row.fillWidth, layout.barHeight, 'F');
       }
     }

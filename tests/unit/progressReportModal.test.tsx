@@ -316,7 +316,7 @@ describe('the summary line and dates', () => {
 
   it('reads "25 answers across 2 courses" with the period, and counts an empty scope as empty', () => {
     const report = {
-      headline: [{ label: 'Answers marked', value: '25' }],
+      answerCount: 25,
       byCourse: [{ label: 'A' }, { label: 'B' }],
       scope: {
         firstAttemptAt: '2026-08-12T02:00:00Z',
@@ -328,7 +328,7 @@ describe('the summary line and dates', () => {
 
     const none = {
       ...report,
-      headline: [{ label: 'Answers marked', value: '0' }],
+      answerCount: 0,
     } as unknown as ProgressReport;
     expect(reportIsEmpty(none)).toBe(true);
   });

@@ -168,24 +168,17 @@ export const periodLine = (first: string | null, last: string | null): string | 
   return start === end ? end : `${start} – ${end}`;
 };
 
-/**
- * The count of answers in the report, as the builders print it. The builders label
- * that figure "Answers marked", and a zero there means nothing is in scope.
- */
-export const answersMarked = (report: ProgressReport): string =>
-  report.headline.find((stat) => stat.label === 'Answers marked')?.value ?? '0';
-
 /** True when the scope the user chose has no marked answers to print. */
-export const reportIsEmpty = (report: ProgressReport): boolean => answersMarked(report) === '0';
+export const reportIsEmpty = (report: ProgressReport): boolean => report.answerCount === 0;
 
 /** "25 answers across 2 courses · 12 Aug – 4 Oct", the line that says what will print. */
 export const summaryLine = (report: ProgressReport): string => {
-  const answers = answersMarked(report);
+  const answers = report.answerCount;
   const courses = report.byCourse.length;
   const across =
     courses === 0 ? '' : ` across ${courses === 1 ? '1 course' : `${courses} courses`}`;
   const period = periodLine(report.scope.firstAttemptAt, report.scope.lastAttemptAt);
-  const noun = answers === '1' ? 'answer' : 'answers';
+  const noun = answers === 1 ? 'answer' : 'answers';
   return `${answers} ${noun}${across}${period ? ` · ${period}` : ''}`;
 };
 

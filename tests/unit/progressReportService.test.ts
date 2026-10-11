@@ -174,6 +174,27 @@ describe('fetchProgressReport results and errors', () => {
     expect(payload.weekly).toEqual([]);
   });
 
+  it('passes classCourse through, and reads it as null when the class has no course', async () => {
+    rpcMock.mockResolvedValue({
+      data: {
+        days: 90,
+        weeks: 13,
+        totals: { attempts: 0 },
+        classCourse: { course_id: 'c1', name: 'HSC Enterprise Computing' },
+      },
+      error: null,
+    });
+    const bound = await fetchProgressReport(90, 'class-1');
+    expect(bound.classCourse).toEqual({ course_id: 'c1', name: 'HSC Enterprise Computing' });
+
+    rpcMock.mockResolvedValue({
+      data: { days: 90, weeks: 13, totals: { attempts: 0 }, classCourse: null },
+      error: null,
+    });
+    const unbound = await fetchProgressReport(90, 'class-2');
+    expect(unbound.classCourse).toBeNull();
+  });
+
   it('leaves byClass undefined when the database omits it (a named class)', async () => {
     const payload = await fetchProgressReport(90, 'class-1');
     expect(payload.byClass).toBeUndefined();

@@ -12,14 +12,21 @@
 // show says what is missing and what would fill it, rather than printing an empty
 // frame. The result strip always prints when the data has one.
 
-import type { ProgressReport, ReportAudience, ReportBreakdownRow } from './reportModel';
+import type {
+  ProgressReport,
+  ReportAttemptRow,
+  ReportAudience,
+  ReportBreakdownRow,
+} from './reportModel';
+import { BAR_LIST } from './types';
 import type { ContentBlock, TextRun } from './types';
 import type { TableColumn, TableRow } from './reportBlocks';
 import type { IconName } from './icons';
 import { bandColor, COLORS } from './buildBlocks';
 import { normalizeContent } from './text';
+import { isLowN } from './reportGeometry';
 import { formatDateRange, formatShortDate } from './reportFormat';
-import { TIER_GROUPS } from '../data/commandTerms';
+import { getTierTargetBand, TIER_GROUPS } from '../data/commandTerms';
 
 type Rgb = [number, number, number];
 
@@ -117,18 +124,73 @@ const scopeBlock = (report: ProgressReport): ContentBlock => {
   };
 };
 
-const emptyTrendNote = (audience: ReportAudience): string =>
+/** The phrase that says what was narrowed, for an empty section's sentence. */
+const scopeWords = (report: ProgressReport, what: 'answers' | 'students' | 'classes'): string => {
+  const head =
+    what === 'students'
+      ? 'No student has a marked answer'
+      : what === 'classes'
+        ? 'No class has a marked answer'
+        : 'No marked answers';
+  const place =
+    what === 'classes'
+      ? ''
+      : report.scope.courseName
+        ? 'in this course'
+        : report.audience === 'student'
+          ? ''
+          : report.scope.className
+            ? 'in this class'
+            : 'in these classes';
+  const when =
+    report.scope.windowLabel === 'All time'
+      ? ''
+      : `in the ${report.scope.windowLabel.toLowerCase()}`;
+  return `${[head, place, when].filter(Boolean).join(' ')}.`;
+};
+
+/** A caption that describes the points of a line, rather than why there are none. */
+const DESCRIBES_POINTS = /^each point\b/i;
+/** A caption that says there are no answers at all. */
+const SAYS_NO_ANSWERS = /\bno marked answers\b/i;
+
+const sentence = (text: string): string => (/[.!?]$/.test(text) ? text : `${text}.`);
+
+/** The sentence that tells a reader how the line fills in. */
+const trendHowTo = (audience: ReportAudience): string =>
   audience === 'student'
-    ? 'No marked answers in this period yet. Each answer you mark in the app is one point on this line.'
-    : audience === 'teacher'
-      ? 'No marked answers from these students in this period. The line fills in as answers are marked.'
-      : 'No marked answers from these classes in this period. The line fills in as answers are marked.';
+    ? 'Each answer you mark in the app is one point on this line.'
+    : 'The line fills in as answers are marked.';
+
+/**
+ * Why the progress line is empty.
+ *
+ * A report that counts answers is never told there are none, which would contradict
+ * the result strip above it. Its own caption is used when that caption explains the
+ * gap (a stats-only copy's "kept for signed-in accounts"); otherwise the note says
+ * the answers have no dated history to plot.
+ *
+ * A report with no answers says what is missing in its own scope ("in the last 90
+ * days", or nothing for all time). The builder's caption for that state says "in this
+ * period", which reads wrongly on an all-time report, and it is not used for it.
+ */
+const emptyTrendNote = (report: ProgressReport): string => {
+  if (report.answerCount > 0) {
+    const caption = report.trendCaption.trim();
+    const explains =
+      caption !== '' && !DESCRIBES_POINTS.test(caption) && !SAYS_NO_ANSWERS.test(caption);
+    return explains
+      ? sentence(caption)
+      : 'The answers counted above have no dated history to draw a line from yet.';
+  }
+  return `${scopeWords(report, 'answers')} ${trendHowTo(report.audience)}`;
+};
 
 /** The progress chart, or the sentence that says why there is none. */
 const trendBlocks = (report: ProgressReport): ContentBlock[] => {
   const blocks: ContentBlock[] = [heading('h-trend', 'Progress over time', 'trend')];
   if (!report.trend.length) {
-    blocks.push(note('trend-empty', emptyTrendNote(report.audience)));
+    blocks.push(note('trend-empty', emptyTrendNote(report)));
     return blocks;
   }
   // One point is a point, not a line. The caption says so rather than leaving a
@@ -146,6 +208,8 @@ const trendBlocks = (report: ProgressReport): ContentBlock[] => {
       type: 'lineChart',
       points: report.trend,
       averageBand: report.averageBand,
+      // The window says what the average is over, so the chart labels it honestly.
+      averageWindow: report.scope.windowLabel,
       caption,
     },
     accent: reportAccent(report),
@@ -191,31 +255,6 @@ const column = (
   widthWeight: number,
   align: TableColumn['align'] = 'left'
 ): TableColumn => ({ key, header, kind, widthWeight, align });
-
-/** The phrase that says what was narrowed, for an empty section's sentence. */
-const scopeWords = (report: ProgressReport, what: 'answers' | 'students' | 'classes'): string => {
-  const head =
-    what === 'students'
-      ? 'No student has a marked answer'
-      : what === 'classes'
-        ? 'No class has a marked answer'
-        : 'No marked answers';
-  const place =
-    what === 'classes'
-      ? ''
-      : report.scope.courseName
-        ? 'in this course'
-        : report.audience === 'student'
-          ? ''
-          : report.scope.className
-            ? 'in this class'
-            : 'in these classes';
-  const when =
-    report.scope.windowLabel === 'All time'
-      ? ''
-      : `in the ${report.scope.windowLabel.toLowerCase()}`;
-  return `${[head, place, when].filter(Boolean).join(' ')}.`;
-};
 
 /** A section that is on but has nothing in scope: one muted sentence saying why, never an empty frame. */
 const emptySection = (
@@ -279,34 +318,82 @@ const tableBlock = (
   basePadBottom: 4,
 });
 
+/** The four answer breakdowns, in page order, each as this report has it: on or off, and its rows. */
+type BreakdownKey = 'courses' | 'topics' | 'verbs' | 'recent';
+
+/** How an empty breakdown is printed: under its own sentence, as the one that speaks for all, or not at all. */
+type EmptyPlan = 'own' | 'lead' | 'omit';
+
+const breakdownSections = (
+  report: ProgressReport
+): { key: BreakdownKey; on: boolean; rows: number }[] => [
+  { key: 'courses', on: report.sections.courses, rows: report.byCourse.length },
+  { key: 'topics', on: report.sections.topics, rows: report.byTopic.length },
+  { key: 'verbs', on: report.sections.verbs, rows: report.byVerb.length },
+  {
+    key: 'recent',
+    on: report.sections.recent && report.recent !== undefined,
+    rows: report.recent?.length ?? 0,
+  },
+];
+
+/**
+ * How each empty breakdown is printed. When any breakdown has rows, each empty one
+ * says so under its own heading. When none has rows, the same sentence would stand
+ * under every heading, so the first breakdown on says it once and the rest are left
+ * out entirely.
+ */
+const emptyPlans = (report: ProgressReport): ((key: BreakdownKey) => EmptyPlan) => {
+  const on = breakdownSections(report).filter((s) => s.on);
+  const allEmpty = on.length > 0 && on.every((s) => s.rows === 0);
+  const lead = on[0]?.key;
+  return (key) => (!allEmpty ? 'own' : key === lead ? 'lead' : 'omit');
+};
+
+/**
+ * One breakdown: its heading and table when it has rows. When it is empty, its
+ * heading and a sentence, or nothing, as its plan says.
+ */
+const breakdownBlocks = (
+  report: ProgressReport,
+  key: BreakdownKey,
+  plan: EmptyPlan,
+  title: string,
+  icon: IconName,
+  rows: number,
+  table: () => ContentBlock
+): ContentBlock[] => {
+  const headingBlock = heading(`h-${key}`, title, icon);
+  if (rows > 0) return [headingBlock, table()];
+  if (plan === 'omit') return [];
+  const id = plan === 'lead' ? 'breakdowns-empty' : `${key}-empty`;
+  return [headingBlock, emptySection(id, report, 'answers')];
+};
+
 /** The by-course table: a student's courses, or a class's. */
-const courseBlocks = (report: ProgressReport): ContentBlock[] => {
+const courseBlocks = (report: ProgressReport, plan: EmptyPlan): ContentBlock[] => {
   if (!report.sections.courses) return [];
-  const blocks: ContentBlock[] = [heading('h-courses', 'By course', 'course')];
-  if (!report.byCourse.length) {
-    blocks.push(emptySection('courses-empty', report, 'answers'));
-    return blocks;
-  }
-  blocks.push(
-    tableBlock(
-      'courses',
-      breakdownColumns('Course'),
-      breakdownRows(report.byCourse, { grouped: false, sublabel: false }),
-      reportAccent(report)
-    )
+  return breakdownBlocks(
+    report,
+    'courses',
+    plan,
+    'By course',
+    'course',
+    report.byCourse.length,
+    () =>
+      tableBlock(
+        'courses',
+        breakdownColumns('Course'),
+        breakdownRows(report.byCourse, { grouped: false, sublabel: false }),
+        reportAccent(report)
+      )
   );
-  return blocks;
 };
 
 /** The by-topic table: grouped under course headings when no course is chosen, flat when one is. */
-const topicBlocks = (report: ProgressReport): ContentBlock[] => {
+const topicBlocks = (report: ProgressReport, plan: EmptyPlan): ContentBlock[] => {
   if (!report.sections.topics) return [];
-  const blocks: ContentBlock[] = [heading('h-topics', 'By topic', 'topic')];
-  if (!report.byTopic.length) {
-    blocks.push(emptySection('topics-empty', report, 'answers'));
-    return blocks;
-  }
-  blocks.push(
+  return breakdownBlocks(report, 'topics', plan, 'By topic', 'topic', report.byTopic.length, () =>
     tableBlock(
       'topics',
       breakdownColumns('Topic'),
@@ -317,26 +404,40 @@ const topicBlocks = (report: ProgressReport): ContentBlock[] => {
       reportAccent(report)
     )
   );
-  return blocks;
 };
 
-/** The by-verb table: each command verb, with its tier as the quieter line. */
-const verbBlocks = (report: ProgressReport): ContentBlock[] => {
+/**
+ * A verb's tier as its quieter line: "Tier 1 · up to Band 1". The verb's cap is read
+ * from the command-term table, so the line never promises a band the verb cannot earn.
+ */
+const verbTierLine = (sublabel: string | undefined): string | undefined => {
+  const match = /^Tier (\d)$/.exec(sublabel ?? '');
+  if (!match) return sublabel;
+  const tier = Number(match[1]);
+  return `Tier ${tier} · up to Band ${getTierTargetBand(tier)}`;
+};
+
+/** The by-verb table: each command verb, with its tier and the most that tier can earn. */
+const verbBlocks = (report: ProgressReport, plan: EmptyPlan): ContentBlock[] => {
   if (!report.sections.verbs) return [];
-  const blocks: ContentBlock[] = [heading('h-verbs', 'By command verb', 'verb')];
-  if (!report.byVerb.length) {
-    blocks.push(emptySection('verbs-empty', report, 'answers'));
-    return blocks;
-  }
-  blocks.push(
-    tableBlock(
-      'verbs',
-      breakdownColumns('Command verb'),
-      breakdownRows(report.byVerb, { grouped: false, sublabel: true }),
-      reportAccent(report)
-    )
+  return breakdownBlocks(
+    report,
+    'verbs',
+    plan,
+    'By command verb',
+    'verb',
+    report.byVerb.length,
+    () =>
+      tableBlock(
+        'verbs',
+        breakdownColumns('Command verb'),
+        breakdownRows(
+          report.byVerb.map((r) => ({ ...r, sublabel: verbTierLine(r.sublabel) })),
+          { grouped: false, sublabel: true }
+        ),
+        reportAccent(report)
+      )
   );
-  return blocks;
 };
 
 /** A recent attempt's mark, as "3 / 5". The mark is printed; nothing is inferred. */
@@ -345,14 +446,8 @@ const markText = (mark: number | null, total: number | null): string => {
   return total === null ? `${mark}` : `${mark} / ${total}`;
 };
 
-/** The student's recent attempts, newest first, as the data side caps them. */
-const recentBlocks = (report: ProgressReport): ContentBlock[] => {
-  if (!report.sections.recent || report.recent === undefined) return [];
-  const blocks: ContentBlock[] = [heading('h-recent', 'Recent attempts', 'clock')];
-  if (!report.recent.length) {
-    blocks.push(emptySection('recent-empty', report, 'answers'));
-    return blocks;
-  }
+/** The table of a student's recent attempts. */
+const recentTable = (report: ProgressReport, recent: ReportAttemptRow[]): ContentBlock => {
   const columns = [
     column('at', 'Date', 'date', 2.4),
     column('topic', 'Course and topic', 'text', 5),
@@ -360,7 +455,7 @@ const recentBlocks = (report: ProgressReport): ContentBlock[] => {
     column('mark', 'Mark', 'text', 1.6, 'right'),
     column('band', 'Band', 'band', 1.8, 'center'),
   ];
-  const rows: TableRow[] = report.recent.map((r) => ({
+  const rows: TableRow[] = recent.map((r) => ({
     type: 'body',
     cells: [
       { type: 'date', iso: r.at },
@@ -375,8 +470,16 @@ const recentBlocks = (report: ProgressReport): ContentBlock[] => {
       { type: 'band', value: r.band },
     ],
   }));
-  blocks.push(tableBlock('recent', columns, rows, reportAccent(report)));
-  return blocks;
+  return tableBlock('recent', columns, rows, reportAccent(report));
+};
+
+/** The student's recent attempts, newest first, as the data side caps them. */
+const recentBlocks = (report: ProgressReport, plan: EmptyPlan): ContentBlock[] => {
+  if (!report.sections.recent || report.recent === undefined) return [];
+  const recent = report.recent;
+  return breakdownBlocks(report, 'recent', plan, 'Recent attempts', 'clock', recent.length, () =>
+    recentTable(report, recent)
+  );
 };
 
 /** The students a teacher or school sees: one row each, weakest first as the data side orders them. */
@@ -504,10 +607,18 @@ const recentTableDrawn = (report: ProgressReport): boolean =>
 const RECENT_NOTE = /^The recent list shows the latest \d+ of \d+/;
 
 /** About this report: the caveats, each on its own line inside one framed note. */
+/** Drawn only when a tier bar has too few answers to carry its full weight. */
+const lowNNote = (report: ProgressReport): string | null =>
+  report.sections.tiers && report.tiers.some((t) => isLowN(t.attempts, t.markShare))
+    ? `Bars with fewer than ${BAR_LIST.lowCount} answers are drawn lighter.`
+    : null;
+
 const aboutBlocks = (report: ProgressReport): ContentBlock[] => {
   // The recent-list note describes a table. Printed without one it would describe
   // nothing on the page, so it is kept only when the table is drawn.
-  const notes = report.notes.filter((n) => !RECENT_NOTE.test(n) || recentTableDrawn(report));
+  const kept = report.notes.filter((n) => !RECENT_NOTE.test(n) || recentTableDrawn(report));
+  const low = lowNNote(report);
+  const notes = low ? [...kept, low] : kept;
   if (!notes.length) return [];
   const text = notes.join('\n');
   return [
@@ -572,10 +683,11 @@ export const buildReportBlocks = (report: ProgressReport): ContentBlock[] => {
 
   // Page order: by course, by topic, by verb; then the student's recent attempts,
   // or a class's students and tier heatmap; then a school's classes; then the notes.
-  blocks.push(...courseBlocks(report));
-  blocks.push(...topicBlocks(report));
-  blocks.push(...verbBlocks(report));
-  blocks.push(...recentBlocks(report));
+  const plan = emptyPlans(report);
+  blocks.push(...courseBlocks(report, plan('courses')));
+  blocks.push(...topicBlocks(report, plan('topics')));
+  blocks.push(...verbBlocks(report, plan('verbs')));
+  blocks.push(...recentBlocks(report, plan('recent')));
   blocks.push(...studentBlocks(report));
   blocks.push(...classBlocks(report));
 

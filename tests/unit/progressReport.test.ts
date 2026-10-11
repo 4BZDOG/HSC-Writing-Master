@@ -3,7 +3,9 @@ import { ALL_REPORT_SECTIONS, type ProgressReport } from '../../pdf/reportModel'
 import type { ProgressReportPayload } from '../../services/responseService';
 import type { OwnAttempt, OwnAttemptCourse } from '../../utils/profileHistory';
 import {
+  anonymousNumbers,
   BAND_CAP_NOTE,
+  COUNTS_EVERY_ATTEMPT_NOTE,
   buildSchoolReport,
   buildStudentReport,
   buildTeacherReport,
@@ -284,15 +286,28 @@ describe('student report, filters', () => {
     expect(labels(report)).not.toContain('Streak');
   });
 
-  it('names only the filter that is actually set when nothing matches', () => {
+  it('words the empty note from the scope actually applied, never as "the period you chose"', () => {
     const course = { id: 'course-none', name: 'Nothing' };
     const wording = (over: Parameters<typeof options>[0]) =>
       buildStudentReport({ stats, history: withPhysics(), options: options(over) }).notes;
     expect(wording({ courseFilter: course, windowDays: 'all' })).toContain(
-      'No marked answers match this course.'
+      'No marked answers in Nothing.'
+    );
+    expect(wording({ courseFilter: course, windowDays: 90 })).toContain(
+      'No marked answers in Nothing in the last 90 days.'
     );
     expect(wording({ courseFilter: null, windowDays: 1 })).toContain(
-      'No marked answers match this period.'
+      'No marked answers in the last 1 day.'
+    );
+    expect(
+      buildStudentReport({
+        stats,
+        history: [attempt({ band: null })],
+        options: options({ courseFilter: null, windowDays: 'all' }),
+      }).notes
+    ).toContain('No marked answers yet.');
+    expect(JSON.stringify(wording({ courseFilter: course, windowDays: 90 }))).not.toContain(
+      'the period you chose'
     );
   });
 
@@ -306,7 +321,7 @@ describe('student report, filters', () => {
     expect(values(report)[1]).toBe('—');
     expect(report.trend).toEqual([]);
     expect(report.trendCaption).toBe(NO_TREND_CAPTION);
-    expect(report.notes).toContain('No marked answers match this course.');
+    expect(report.notes).toContain('No marked answers in Nothing.');
     noBadValues(report);
   });
 
@@ -451,7 +466,9 @@ describe('student report, local mode and no history', () => {
       }),
     });
     expect(report.scope.courseName).toBeNull();
-    expect(report.notes.join(' ')).toContain('need your answer history');
+    expect(report.notes.join(' ')).toContain('need answer history');
+    expect(report.notes.join(' ')).toContain('the period (Last 30 days)');
+    expect(report.notes.join(' ')).toContain('the course (Enterprise Computing)');
   });
 
   it('treats an empty history as no history, with its own note', () => {
@@ -607,7 +624,8 @@ describe('teacher report', () => {
     expect(first.tierShares).toEqual([null, null, 0.4, null, null, null]);
 
     expect(second.name).toBe('Ava Lee');
-    expect(second.bandChange).toBe(2);
+    // Week 0 falls outside the twelve weeks the sparkline draws, so it does not count.
+    expect(second.bandChange).toBeNull();
     expect(second.sparkline).toHaveLength(12);
     expect(second.sparkline[11]).toBe(4);
     expect(second.sparkline[0]).toBeNull();
@@ -615,13 +633,13 @@ describe('teacher report', () => {
     noBadValues(report);
   });
 
-  it('names students by number when names are off, numbered alphabetically and kept the same in every table', () => {
+  it('names students by number when names are off, from a stable shuffle, with the same names in the table and heatmap', () => {
     const report = buildTeacherReport({
       payload: payload(),
       options: options({ audience: 'teacher', windowDays: 90, includeStudentNames: false }),
     });
     expect(report.anonymised).toBe(true);
-    expect(report.students?.map((s) => s.name)).toEqual(['Student 2', 'Student 1']);
+    expect(report.students?.map((s) => s.name).sort()).toEqual(['Student 1', 'Student 2']);
     const text = JSON.stringify(report);
     expect(text).not.toContain('Ava Lee');
     expect(text).not.toContain('"ben"');
@@ -874,5 +892,220 @@ describe('formatting helpers', () => {
     expect(courseMatches(EC, { id: 'uuid-ec', name: 'x' })).toBe(true);
     expect(courseMatches(EC, { id: 'Enterprise Computing', name: 'x' })).toBe(false);
     expect(courseMatches(null, { id: 'course-ec-01', name: 'x' })).toBe(false);
+  });
+});
+
+describe('anonymised numbering', () => {
+  const names = ['amara', 'ben', 'chen', 'dylan', 'ethan', 'hana', 'mateo', 'sofia'];
+  /** Each student has a different attempt count, so a table row can be traced back to its username. */
+  const roster = (): ProgressReportPayload =>
+    payload({
+      byStudent: names.map((username, i) => ({
+        username,
+        display_name: username,
+        attempts: i + 1,
+        avg_band: 3,
+        avg_mark_frac: 0.5,
+        last_active: '2026-10-01T00:00:00Z',
+      })),
+      byStudentVerb: names.map((username, i) => ({
+        username,
+        verb: 'EXPLAIN',
+        attempts: i + 1,
+        avg_band: 3,
+        avg_mark_frac: 0.5,
+      })),
+      byStudentWeek: [],
+      weekly: [],
+    });
+
+  it('numbers the students 1 to n once each, in a stable shuffle rather than the alphabetical order', () => {
+    const report = buildTeacherReport({
+      payload: roster(),
+      options: options({ audience: 'teacher', windowDays: 90, includeStudentNames: false }),
+    });
+    const numbers = anonymousNumbers(names, GENERATED);
+    expect([...numbers.values()].sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+
+    const inNumberOrder = [...numbers.entries()].sort((a, b) => a[1] - b[1]).map(([u]) => u);
+    expect(inNumberOrder).not.toEqual([...names].sort());
+
+    expect(new Set(report.students?.map((r) => r.name)).size).toBe(names.length);
+    names.forEach((username, i) => {
+      // The row for this student is the one with their attempts count.
+      const row = report.students?.find((r) => r.attempts === i + 1);
+      expect(row?.name).toBe(`Student ${numbers.get(username)}`);
+    });
+  });
+
+  it('keys the shuffle on the report clock, so another report numbers the same students differently', () => {
+    const now = anonymousNumbers(names, GENERATED);
+    const later = anonymousNumbers(names, '2027-03-01T00:00:00.000Z');
+    expect(later).not.toEqual(now);
+    expect([...later.values()].sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+  });
+
+  it('gives the same numbers to the same report every time it is built', () => {
+    const build = () =>
+      buildTeacherReport({
+        payload: roster(),
+        options: options({ audience: 'teacher', windowDays: 90, includeStudentNames: false }),
+      }).students?.map((r) => r.name);
+    expect(build()).toEqual(build());
+  });
+});
+
+describe('the band change and the sparkline read the same weeks', () => {
+  it('draws the sparkline and the change from the last twelve weeks, so week 0 does not count', () => {
+    const report = buildTeacherReport({
+      payload: payload({
+        byStudentWeek: [
+          { username: 'ava', week: 2, attempts: 1, avg_band: 2, avg_mark_frac: 0.5 },
+          { username: 'ava', week: 12, attempts: 1, avg_band: 4, avg_mark_frac: 0.9 },
+          { username: 'ben', week: 0, attempts: 1, avg_band: 1, avg_mark_frac: 0.2 },
+          { username: 'ben', week: 1, attempts: 1, avg_band: 3, avg_mark_frac: 0.5 },
+        ],
+      }),
+      options: options({ audience: 'teacher', windowDays: 90 }),
+    });
+    const ava = report.students?.find((r) => r.name === 'Ava Lee');
+    const ben = report.students?.find((r) => r.name === 'ben');
+    // Ava's two weeks both fall inside the twelve drawn, so the change is 4 - 2.
+    expect(ava?.bandChange).toBe(2);
+    expect(ava?.sparkline).toHaveLength(12);
+    // Ben's week 0 is outside the drawn weeks, leaving one point: no change.
+    expect(ben?.sparkline).toHaveLength(12);
+    expect(ben?.bandChange).toBeNull();
+  });
+});
+
+describe('the count basis and the answer count', () => {
+  it('says in every student report that a count includes repeats of a question', () => {
+    const reports = [
+      buildStudentReport({ stats, history: threeAnswers(), options: options() }),
+      buildStudentReport({ stats, history: null, options: options() }),
+      buildStudentReport({ stats, history: [], options: options() }),
+    ];
+    for (const report of reports) {
+      expect(report.notes).toContain(COUNTS_EVERY_ATTEMPT_NOTE);
+    }
+  });
+
+  it('sets answerCount to the figure the Answers marked headline counts, in every builder', () => {
+    expect(
+      buildStudentReport({ stats, history: threeAnswers(), options: options() }).answerCount
+    ).toBe(3);
+    expect(buildStudentReport({ stats, history: null, options: options() }).answerCount).toBe(3);
+    expect(
+      buildStudentReport({
+        stats,
+        history: [...threeAnswers(), attempt({ course: PHYSICS, topic: null })],
+        options: options({ courseFilter: { id: 'course-ec-01', name: 'Enterprise Computing' } }),
+      }).answerCount
+    ).toBe(3);
+    expect(
+      buildStudentReport({ stats: undefined, history: null, options: options() }).answerCount
+    ).toBe(0);
+    expect(
+      buildTeacherReport({
+        payload: payload(),
+        options: options({ audience: 'teacher', windowDays: 90 }),
+      }).answerCount
+    ).toBe(6);
+    expect(
+      buildSchoolReport({
+        payload: payload(),
+        options: options({ audience: 'school', windowDays: 90 }),
+      }).answerCount
+    ).toBe(6);
+  });
+
+  it('names the period in the totals-only note, so an all-time header is not contradicted', () => {
+    const report = buildStudentReport({
+      stats,
+      history: null,
+      options: options({ windowDays: 90 }),
+    });
+    expect(report.scope.windowLabel).toBe('All time');
+    expect(report.notes.join(' ')).toContain('the period (Last 90 days)');
+    expect(report.notes.join(' ')).not.toContain('the period you chose');
+  });
+});
+
+describe('a course-bound class explains its scope', () => {
+  const bound = { course_id: 'uuid-ec', name: 'HSC Enterprise Computing' };
+
+  it('says what the class studies, and uses that course as the scope line', () => {
+    const report = buildTeacherReport({
+      payload: payload({ classCourse: bound }),
+      options: options({ audience: 'teacher', windowDays: 90, className: 'Year 12 Enterprise' }),
+    });
+    expect(report.notes).toContain(
+      'This class studies HSC Enterprise Computing; only its answers are counted.'
+    );
+    expect(report.scope.courseName).toBe('HSC Enterprise Computing');
+  });
+
+  it('says so when the course filter is not the one the class studies', () => {
+    const report = buildTeacherReport({
+      payload: payload({ classCourse: bound }),
+      options: options({
+        audience: 'teacher',
+        windowDays: 90,
+        className: 'Year 12 Enterprise',
+        courseFilter: { id: 'course-a48c', name: 'HSC Software Engineering' },
+      }),
+    });
+    expect(report.notes.join(' ')).toContain(
+      'The course you picked (HSC Software Engineering) is not the one this class studies (HSC Enterprise Computing), so nothing is counted.'
+    );
+  });
+
+  it('explains each course-bound class on the school report, and leaves an unbound class unexplained', () => {
+    const report = buildSchoolReport({
+      payload: payload({
+        byClass: [
+          {
+            class_id: 'k1',
+            name: 'Year 12 Enterprise',
+            year: 12,
+            course: 'HSC Enterprise Computing',
+            students: 1,
+            attempts: 1,
+            avg_band: 3,
+            avg_mark_frac: 0.5,
+          },
+          {
+            class_id: 'k2',
+            name: 'Year 12 Software',
+            year: 12,
+            course: 'HSC Software Engineering',
+            students: 1,
+            attempts: 1,
+            avg_band: 3,
+            avg_mark_frac: 0.5,
+          },
+          {
+            class_id: 'k3',
+            name: 'Year 11 Mixed',
+            year: 11,
+            course: null,
+            students: 1,
+            attempts: 1,
+            avg_band: 3,
+            avg_mark_frac: 0.5,
+          },
+        ],
+      }),
+      options: options({ audience: 'school', windowDays: 90 }),
+    });
+    const text = report.notes.join(' ');
+    expect(text).toContain(
+      'Year 12 Enterprise studies HSC Enterprise Computing; only its answers are counted.'
+    );
+    expect(text).toContain(
+      'Year 12 Software studies HSC Software Engineering; only its answers are counted.'
+    );
+    expect(text).not.toContain('Year 11 Mixed studies');
   });
 });

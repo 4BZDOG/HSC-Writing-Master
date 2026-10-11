@@ -103,8 +103,12 @@ export const sanitizeFilename = (name: string): string => {
 
 export const makeExportId = (): string => `HSC-${Date.now().toString(36).toUpperCase()}`;
 
+/**
+ * The footer date in house style (en-AU, so "11 Oct 2026"). The locale is pinned
+ * rather than left to the browser, so an export reads the same on any machine.
+ */
 export const formatDate = (d = new Date()): string =>
-  d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  d.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' });
 
 /** Small async yield so the export overlay/progress UI can repaint. */
 export const repaint = () => new Promise<void>((r) => setTimeout(r, 0));

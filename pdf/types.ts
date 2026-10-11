@@ -229,6 +229,10 @@ export const BAR_LIST = {
   barHeightBaseMm: 2.6,
   labelPt: 8,
   valuePt: 7.8,
+  /** A bar on fewer answers than this is drawn in a lighter tint, and the About notes say so. */
+  lowCount: 3,
+  /** The tint a low-count bar is drawn in: 0.55 toward paper, so about 45% of the band colour. */
+  lowCountTintMix: 0.55,
 };
 
 /**

@@ -369,7 +369,7 @@ const upsertSchool = async (name) => {
  * Returns null when the table does not exist yet, so the seed still completes
  * against a database that predates schema §19 instead of aborting.
  */
-const upsertClass = async ({ schoolId, name, year, ownerId }) => {
+const upsertClass = async ({ schoolId, name, year, ownerId, courseId }) => {
   if (!ownerId) throw new Error(`upsertClass: the owner of "${name}" has no id`);
 
   const { data: existing, error: selErr } = await db
@@ -384,7 +384,7 @@ const upsertClass = async ({ schoolId, name, year, ownerId }) => {
     throw new Error(`class lookup failed: ${selErr.message}`);
   }
 
-  const row = { school_id: schoolId, name, owner_id: ownerId, year };
+  const row = { school_id: schoolId, name, owner_id: ownerId, year, course_id: courseId ?? null };
   if (existing) {
     const { error } = await db.from('classes').update(row).eq('id', existing.id);
     if (error) throw new Error(`class update failed: ${error.message}`);
@@ -393,6 +393,35 @@ const upsertClass = async ({ schoolId, name, year, ownerId }) => {
   const { data, error } = await db.from('classes').insert(row).select('id').single();
   if (error) throw new Error(`class insert failed: ${error.message}`);
   return data.id;
+};
+
+/**
+ * The seeded course rows for each demo course key. seed.mjs writes a course's JSON
+ * id as its `legacy_id`, so that is the key. A failed or empty lookup is a note,
+ * not an abort: the class it would bind is then left unbound.
+ */
+const loadCourseRowIds = async (legacyIds) => {
+  const rows = new Map();
+  for (const [courseKey, legacyId] of legacyIds) {
+    const { data, error } = await db
+      .from('courses')
+      .select('id')
+      .eq('legacy_id', legacyId)
+      .order('created_at', { ascending: true })
+      .limit(1);
+    if (error) {
+      console.log(
+        `  note: could not look up the ${courseKey} course (${error.message}); its class is not bound to it`
+      );
+    } else if (!data?.length) {
+      console.log(
+        `  note: no ${courseKey} course row (legacy_id ${legacyId}); its class is not bound to it`
+      );
+    } else {
+      rows.set(courseKey, data[0].id);
+    }
+  }
+  return rows;
 };
 
 /** Maps the course JSON's prompt `legacy_id`s onto the seeded rows' UUIDs. */
@@ -632,10 +661,12 @@ async function main() {
   // database is skipped with a note (its class, and any student who studies only
   // it, are left out); if no course is usable at all, the seed stops.
   const pool = [];
+  const courseLegacyIds = new Map();
   for (const [courseKey, file] of Object.entries(COURSE_FILES)) {
     const raw = await readFile(join(COURSE_DATA_DIR, file), 'utf8');
     const parsed = JSON.parse(raw);
     const course = Array.isArray(parsed) ? parsed[0] : parsed;
+    courseLegacyIds.set(courseKey, course.id);
     pool.push(...promptPoolFromCourse(course, courseKey));
   }
   if (!pool.length) die('No questions found in the course files.');
@@ -659,6 +690,11 @@ async function main() {
   }
   const usableCourses = new Set(seeded.map((p) => p.course));
   console.log(`✓ curriculum: ${seeded.length} question(s) across ${usableCourses.size} course(s)`);
+
+  // Each class is bound to the course row it studies (classes.course_id), so its
+  // report counts that course only. A course row that cannot be found leaves its
+  // class unbound, which is the old behaviour, and the seed says so.
+  const courseRowIds = await loadCourseRowIds(courseLegacyIds);
 
   // --- school + accounts ----------------------------------------------------
   const schoolId = await upsertSchool(DEMO_SCHOOL_NAME);
@@ -712,6 +748,7 @@ async function main() {
       name: spec.name,
       year: spec.year,
       ownerId: userIds.get(spec.ownerUsername),
+      courseId: courseRowIds.get(spec.course) ?? null,
     });
     if (!classId) {
       classesTableMissing = true;

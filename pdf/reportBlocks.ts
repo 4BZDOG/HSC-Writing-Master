@@ -22,8 +22,14 @@ export interface LineChartData {
   type: 'lineChart';
   /** Oldest first. Points with a null band are kept for their date but not drawn. */
   points: ReportTrendPoint[];
-  /** The all-time average the dashed line stands for, or null for none. */
+  /** The average the dashed line stands for, or null for none. */
   averageBand: number | null;
+  /**
+   * The window the average is over, as the scope prints it ("All time", "Last 90
+   * days"). It decides the average's label: an all-time mean is labelled as such,
+   * a windowed one names its window.
+   */
+  averageWindow?: string;
   /** Printed under the chart, in the words the builder chose. */
   caption: string;
 }
@@ -200,6 +206,8 @@ export interface BarRowLayout {
   barY: number;
   fillWidth: number;
   notAttempted: boolean;
+  /** Fewer than three answers: drawn in a lighter tint, and the About notes say so. */
+  lowN: boolean;
 }
 
 export interface BarListLayout {

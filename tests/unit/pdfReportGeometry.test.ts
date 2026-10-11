@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
+  averageLabelLines,
   fitToWidth,
   displayWidth,
+  isLowN,
   measureBarList,
   measureLineChart,
   measureReportBlock,
@@ -243,7 +245,7 @@ describe('measureLineChart', () => {
 
   it('places the dashed average in the margin, labelled on two lines, and never NaN', () => {
     const { layout } = measureLineChart(
-      chart([point(day(0), 3), point(day(6), 5)], { averageBand: 4.3 }),
+      chart([point(day(0), 3), point(day(6), 5)], { averageBand: 4.3, averageWindow: 'All time' }),
       measurer,
       190,
       1
@@ -252,6 +254,38 @@ describe('measureLineChart', () => {
     expect(layout.average!.lines.map((l) => l.text)).toEqual(['All-time', 'average 4.3']);
     expect(layout.average!.labelX).toBeGreaterThan(layout.plot.right);
     finite(layout.average!.y);
+  });
+
+  it('labels a windowed average with its window, never as all-time', () => {
+    const { layout } = measureLineChart(
+      chart([point(day(0), 3), point(day(6), 5)], {
+        averageBand: 4.3,
+        averageWindow: 'Last 90 days',
+      }),
+      measurer,
+      190,
+      1
+    );
+    expect(layout.average!.lines.map((l) => l.text)).toEqual(['Last 90 days', 'average 4.3']);
+    expect(layout.average!.lines.map((l) => l.text).join(' ')).not.toMatch(/All-time/);
+  });
+
+  it('keeps every average line inside the margin, past the plot and before the page edge', () => {
+    const { layout } = measureLineChart(
+      chart([point(day(0), 3), point(day(6), 5)], {
+        averageBand: 4.3,
+        averageWindow: 'Last 12 months',
+      }),
+      measurer,
+      190,
+      1
+    );
+    const right = 190 - LINE_CHART.rightInsetBaseMm;
+    for (const line of layout.average!.lines) {
+      expect(
+        layout.average!.labelX + measurer.measure(line.text, LINE_CHART.averageLabelPt, 'bold')
+      ).toBeLessThanOrEqual(right + 1e-6);
+    }
   });
 
   it('ignores a non-finite average rather than drawing it', () => {
@@ -307,8 +341,63 @@ describe('measureLineChart', () => {
   });
 });
 
+describe('the average label', () => {
+  it('captions an all-time mean as all-time', () => {
+    expect(averageLabelLines('All time', '4.3', 50, 7, measurer)).toEqual([
+      'All-time',
+      'average 4.3',
+    ]);
+  });
+
+  it('names the window of a windowed mean', () => {
+    expect(averageLabelLines('Last 90 days', '4.3', 50, 7, measurer)).toEqual([
+      'Last 90 days',
+      'average 4.3',
+    ]);
+  });
+
+  it('says only Average when the window is not known, with the value alone beneath', () => {
+    expect(averageLabelLines(undefined, '4.3', 50, 7, measurer)).toEqual(['Average', '4.3']);
+  });
+
+  it('wraps a caption too wide for the margin, so no line runs past it', () => {
+    const lines = averageLabelLines('Last 12 months', '4.3', 14, 7, measurer);
+    expect(lines.length).toBeGreaterThan(2);
+    lines.forEach((l) => expect(measurer.measure(l, 7, 'bold')).toBeLessThanOrEqual(14 + 1e-6));
+  });
+});
+
 describe('measureBarList', () => {
   const bars = (rows: BarListData['rows']): BarListData => ({ type: 'barList', rows });
+
+  it('flags a bar on fewer than three answers as low-count, and no other', () => {
+    expect(isLowN(1, 0.25)).toBe(true);
+    expect(isLowN(2, 0.5)).toBe(true);
+    expect(isLowN(3, 0.5)).toBe(false);
+    expect(isLowN(0, null)).toBe(false);
+    expect(isLowN(1, null)).toBe(false);
+    const { layout } = measureBarList(
+      bars([
+        { label: 'one', share: 0.25, attempts: 1 },
+        { label: 'three', share: 0.5, attempts: 3 },
+        { label: 'none', share: null, attempts: 0 },
+      ]),
+      measurer,
+      190,
+      1
+    );
+    expect(layout.rows.map((r) => r.lowN)).toEqual([true, false, false]);
+  });
+
+  it('keeps the full fill for a low-count bar, so only its tint changes', () => {
+    const { layout } = measureBarList(
+      bars([{ label: 'one', share: 0.25, attempts: 1 }]),
+      measurer,
+      190,
+      1
+    );
+    expect(layout.rows[0].fillWidth).toBeCloseTo(0.25 * layout.trackWidth, 6);
+  });
 
   it('draws one row per item at the row height', () => {
     const { height, layout } = measureBarList(

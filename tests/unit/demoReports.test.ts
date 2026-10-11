@@ -48,7 +48,7 @@ const SOFTWARE_ID = trees.software.id;
 const baseInput = (over: Partial<EmulateProgressInput> = {}): EmulateProgressInput => ({
   attempts: cohort.attempts,
   userDirectory: demoUserDirectory(),
-  classes: demoClassRosters(),
+  classes: demoClassRosters(trees),
   courseTree: [trees.enterprise, trees.software],
   windowDays: 90,
   classId: null,
@@ -173,6 +173,7 @@ describe('emulateProgressReportPayload: who is in scope', () => {
       byStudentWeek: [],
       weekly: [],
       byClass: [],
+      classCourse: null,
     });
   });
 });
@@ -325,9 +326,12 @@ describe('emulateProgressReportPayload: rounding and labels', () => {
       band,
       evaluation: {} as DemoAttempt['evaluation'],
     });
+    // An administrator: the synthetic course is bound to no demo class, so only the
+    // whole-school view counts its answers.
     const payload = emulateProgressReportPayload(
       baseInput({
         courseTree: [tree],
+        asAdmin: true,
         attempts: [attempt('test-q1', 2, 3), attempt('test-q2', 1, 1)],
       })
     );
@@ -431,7 +435,129 @@ describe('demo sample set', () => {
     expect(byName('15').report.audience).toBe('teacher');
     expect(byName('21').report.audience).toBe('school');
     expect(byName('21').report.classes?.map((c) => c.name)).toEqual(
-      demoClassRosters().map((c) => c.name)
+      demoClassRosters(trees).map((c) => c.name)
     );
+  });
+});
+
+describe('emulateProgressReportPayload: course-bound classes', () => {
+  const SOFTWARE_CLASS = DEMO_CLASS_IDS.software;
+  const ENTERPRISE_CLASS = DEMO_CLASS_IDS.enterprise;
+
+  it("a named class counts only the course it studies, so a dual student's other course is out", () => {
+    const named = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.coteacher', classId: SOFTWARE_CLASS })
+    );
+    const softwareOnly = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.coteacher', courseId: SOFTWARE_ID })
+    );
+    expect(named.totals).toEqual(softwareOnly.totals);
+    expect(named.byCourse.every((r) => r.course_id === SOFTWARE_ID)).toBe(true);
+    expect(named.byStudent.map((r) => r.username).sort()).toEqual(
+      [...STUDENTS_SOFTWARE_ACTIVE].sort()
+    );
+  });
+
+  it('names the course a bound class studies, and matches nothing for a different course filter', () => {
+    const named = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.coteacher', classId: SOFTWARE_CLASS })
+    );
+    expect(named.classCourse).toEqual({ course_id: SOFTWARE_ID, name: trees.software.name });
+
+    const mismatch = emulateProgressReportPayload(
+      baseInput({
+        viewerUsername: 'demo.coteacher',
+        classId: SOFTWARE_CLASS,
+        courseId: ENTERPRISE_ID,
+      })
+    );
+    expect(mismatch.totals.attempts).toBe(0);
+    expect(mismatch.byStudent).toEqual([]);
+    expect(mismatch.classCourse?.name).toBe(trees.software.name);
+  });
+
+  it('gives the Enterprise class its own course, and no course to an unnamed view', () => {
+    const enterprise = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.teacher', classId: ENTERPRISE_CLASS })
+    );
+    expect(enterprise.classCourse).toEqual({
+      course_id: ENTERPRISE_ID,
+      name: trees.enterprise.name,
+    });
+    expect(enterprise.byCourse.every((r) => r.course_id === ENTERPRISE_ID)).toBe(true);
+    expect(emulateProgressReportPayload(baseInput()).classCourse).toBeNull();
+  });
+
+  it('counts every answer once across the course-bound classes: the class rows add up to the totals', () => {
+    const all = emulateProgressReportPayload(baseInput({ viewerUsername: 'demo.coteacher' }));
+    const rows = all.byClass ?? [];
+    expect(rows.map((r) => r.course).sort()).toEqual(
+      [trees.enterprise.name, trees.software.name].sort()
+    );
+    expect(rows.reduce((sum, r) => sum + r.attempts, 0)).toBe(all.totals.attempts);
+  });
+
+  it("a class with no course keeps the old rule: its students' answers in every course", () => {
+    const rosters = demoClassRosters(trees).map((c) =>
+      c.id === SOFTWARE_CLASS ? { ...c, courseId: null, courseName: null } : c
+    );
+    const unbound = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.coteacher', classId: SOFTWARE_CLASS, classes: rosters })
+    );
+    const bound = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.coteacher', classId: SOFTWARE_CLASS })
+    );
+    expect(unbound.classCourse).toBeNull();
+    expect(unbound.totals.attempts).toBeGreaterThan(bound.totals.attempts);
+  });
+});
+
+describe('emulateProgressReportPayload: whose answers a viewer sees', () => {
+  const ENTERPRISE_CLASS = DEMO_CLASS_IDS.enterprise;
+
+  it("Ms Bennett, who teaches only the Enterprise class, sees none of a dual student's Software answers", () => {
+    const unnamed = emulateProgressReportPayload(baseInput({ viewerUsername: 'demo.teacher' }));
+    expect(unnamed.byCourse.every((r) => r.course_id === ENTERPRISE_ID)).toBe(true);
+    expect(unnamed.byStudent.some((r) => r.username === 'demo.ethan')).toBe(true);
+    // Her unnamed view is exactly her Enterprise course: nothing else is in it.
+    const enterpriseOnly = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.teacher', courseId: ENTERPRISE_ID })
+    );
+    expect(unnamed.totals).toEqual(enterpriseOnly.totals);
+  });
+
+  it('Mr Okafor, who teaches both classes, sees both courses, and his class rows add up to his totals', () => {
+    const payload = emulateProgressReportPayload(baseInput({ viewerUsername: 'demo.coteacher' }));
+    expect((payload.byClass ?? []).map((c) => c.name).sort()).toEqual(
+      demoClassRosters(trees)
+        .map((c) => c.name)
+        .sort()
+    );
+    const rowSum = (payload.byClass ?? []).reduce((sum, c) => sum + c.attempts, 0);
+    expect(rowSum).toBe(payload.totals.attempts);
+    expect(payload.byCourse.map((c) => c.course_id).sort()).toEqual(
+      [ENTERPRISE_ID, SOFTWARE_ID].sort()
+    );
+  });
+
+  it("an administrator with no class named sees every answer, which Mr Okafor's view is a subset of", () => {
+    const admin = emulateProgressReportPayload(
+      baseInput({ asAdmin: true, viewerUsername: 'demo.admin' })
+    );
+    const okafor = emulateProgressReportPayload(baseInput({ viewerUsername: 'demo.coteacher' }));
+    expect(admin.totals.attempts).toBeGreaterThanOrEqual(okafor.totals.attempts);
+    expect(admin.classCourse).toBeNull();
+  });
+
+  it("a class with no course shows all of its students' answers when the viewer teaches it", () => {
+    const rosters = demoClassRosters(trees).map((c) =>
+      c.id === ENTERPRISE_CLASS ? { ...c, courseId: null, courseName: null } : c
+    );
+    const unbound = emulateProgressReportPayload(
+      baseInput({ viewerUsername: 'demo.teacher', classes: rosters })
+    );
+    const bound = emulateProgressReportPayload(baseInput({ viewerUsername: 'demo.teacher' }));
+    expect(unbound.totals.attempts).toBeGreaterThan(bound.totals.attempts);
+    expect(unbound.byCourse.some((r) => r.course_id === SOFTWARE_ID)).toBe(true);
   });
 });

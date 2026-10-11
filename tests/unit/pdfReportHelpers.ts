@@ -50,6 +50,7 @@ export const makeReport = (over: Partial<ProgressReport> = {}): ProgressReport =
     lastAttemptAt: dayAt(30),
   },
   generatedAt: new Date(2026, 9, 11, 9, 30).toISOString(),
+  answerCount: 5,
   headline: [
     { label: 'Marked answers', value: '5', hint: 'across 1 course' },
     { label: 'Average band', value: 'Band 4', band: 4, hint: 'mean 4.2' },

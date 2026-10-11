@@ -157,6 +157,13 @@ export interface ProgressReport {
   scope: ReportScope;
   /** ISO timestamp the data was read. */
   generatedAt: string;
+  /**
+   * The number of answers the report counts, as a number: the same figure as the
+   * "Answers marked" headline, unformatted. A student's report counts every
+   * attempt; a teacher's or school's counts the latest answer per question. Zero
+   * means the report is empty; read this, not the formatted headline string.
+   */
+  answerCount: number;
   /** The result strip: 4–5 cells. */
   headline: ReportStat[];
   /** Progress over time, oldest first. Empty when there is no history. */
