@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useId, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
 import { getCommandTermInfo, getRecommendedTime, getExpectedTerms } from '../data/commandTerms';
 import { BandConfig } from '../utils/renderUtils';
@@ -15,7 +15,12 @@ import {
   AlignLeft,
   BookMarked,
 } from 'lucide-react';
-import { PANEL_HEADER_OPEN, PANEL_ROW_MIN_H, PANEL_SURFACE } from '../utils/panelStyles';
+import {
+  PANEL_HEADER_CLOSED,
+  PANEL_HEADER_OPEN,
+  PANEL_ROW_MIN_H,
+  PANEL_SURFACE,
+} from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { TERM_CHIP_HOVER, TERM_CHIP_RESTING } from '../utils/termChrome';
 
@@ -189,6 +194,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // something that should push the evaluation results off screen.
     const [isCollapsed, setIsCollapsed] = useState(true);
     const opened = useOpenedOnce(!isCollapsed, prompt.id);
+    const bodyId = useId();
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -356,10 +362,15 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       <div className={PANEL_SURFACE}>
         {/* The divider only earns its place when something sits below it —
             collapsed, it doubled up with the card's own bottom border. */}
+        {/* The header row. Its tone follows the disclosure exactly as every other
+            panel's header does (`utils/panelStyles`): the open tint while the body
+            is open, the hover tint while it is shut, and neither in Exam Mode,
+            where there is no disclosure to say anything about. The stretched
+            disclosure below is positioned against this row. */}
         <div
-          className={`flex flex-col sm:flex-row items-stretch ${PANEL_ROW_MIN_H} ${PANEL_HEADER_OPEN} ${
-            isCollapsed || isExamMode ? '' : 'border-b border-slate-300 dark:border-white/10'
-          }`}
+          className={`group/metrics relative flex flex-col sm:flex-row items-stretch ${PANEL_ROW_MIN_H} ${
+            isExamMode ? '' : isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
+          } ${isCollapsed || isExamMode ? '' : 'border-b border-slate-300 dark:border-white/10'}`}
         >
           {/* One lead, two supports.
               Three equal stat boxes — icon, small label, large figure, divider
@@ -427,8 +438,33 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             </div>
           </div>
 
+          {/* The disclosure, stretched over the whole header row.
+
+              It is a SIBLING of the timer and of the controls, never a parent of
+              them: a button cannot hold the timer (its children are presentational,
+              so `role="timer"` would be lost to a screen reader) and a control
+              cannot sit inside a control. So the timer and the words stay where
+              they are, and this button is laid over them. The controls below are
+              lifted above it (`relative z-10`) so a press on Pause or Reset never
+              reaches it. Exam Mode has no disclosure at all. */}
+          {!isExamMode && (
+            <button
+              type="button"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
+              aria-expanded={!isCollapsed}
+              aria-controls={bodyId}
+              title={
+                isCollapsed
+                  ? 'Show syllabus term tracker and structure breakdown'
+                  : 'Collapse metrics'
+              }
+              className="absolute inset-0 w-full cursor-pointer touch-manipulation select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60"
+            />
+          )}
+
           <div className="flex items-center gap-2 px-3 py-2 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
-            <div className="flex gap-1 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10">
+            <div className="relative z-10 flex gap-1 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10">
               <button
                 onClick={() => {
                   const next = !isTimerActive;
@@ -461,17 +497,14 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
             </div>
+            {/* The pill is the disclosure's visible label, not a second control:
+                the stretched button above it takes the press, so it is marked
+                aria-hidden and carries no name of its own. Its hover answers the
+                row's, because pressing anywhere on the row toggles the panel. */}
             {!isExamMode && (
-              <button
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                aria-label={isCollapsed ? 'Expand writing metrics' : 'Collapse writing metrics'}
-                aria-expanded={!isCollapsed}
-                title={
-                  isCollapsed
-                    ? 'Show syllabus term tracker and structure breakdown'
-                    : 'Collapse metrics'
-                }
-                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all"
+              <span
+                aria-hidden="true"
+                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full can-hover:group-hover/metrics:bg-slate-100 dark:can-hover:group-hover/metrics:bg-white/10 text-slate-600 dark:text-slate-400 can-hover:group-hover/metrics:text-slate-900 dark:can-hover:group-hover/metrics:text-white transition-all"
               >
                 {/* Named, not just a chevron — the panel starts collapsed, so
                     nothing else tells a student the term tracker is in here. */}
@@ -482,7 +515,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
                 />
-              </button>
+              </span>
             )}
           </div>
         </div>
@@ -490,6 +523,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
         {/* Improved Smooth Expansion Container — all live-feedback panels; hidden
             entirely under Exam conditions. */}
         <div
+          id={bodyId}
           inert={isCollapsed || isExamMode}
           className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >

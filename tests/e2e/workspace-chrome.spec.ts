@@ -231,3 +231,67 @@ test.describe('workspace card chrome', () => {
     }
   });
 });
+
+/**
+ * The live writing stats open from their whole header row, and the controls on
+ * that row stay their own.
+ *
+ * jsdom cannot say which element a press lands on, so this asks the browser:
+ * a press on the clock must reach the disclosure, a press on Pause must not
+ * open the panel, and the Terms & Structure pill must still open it. The
+ * disclosure is a button laid over the row as a sibling of the timer, so this
+ * is the check that the overlay sits where it is meant to.
+ */
+test.describe('the live writing stats disclosure', () => {
+  test.describe.configure({ timeout: 120_000 });
+  test.skip(({ isMobile }) => !!isMobile, 'the hit-test is taken once, at desk width');
+
+  test('a press on the clock opens it, and Pause does not', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await openWorkspace(page);
+
+    const disclosure = page.getByRole('button', { name: /writing metrics/i });
+    const timer = page.getByRole('timer').first();
+    await timer.scrollIntoViewIfNeeded();
+    await expect(disclosure).toHaveAttribute('aria-expanded', 'false');
+
+    const centre = async (locator: typeof timer) => {
+      const box = await locator.boundingBox();
+      return { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 };
+    };
+    const hitAt = (point: { x: number; y: number }) =>
+      page.evaluate(
+        ({ x, y }) =>
+          (document.elementFromPoint(x, y) as HTMLElement | null)
+            ?.closest('button')
+            ?.getAttribute('aria-label') ?? null,
+        point
+      );
+
+    // The clock is not a button of its own, and what lies under it is the disclosure.
+    const clockPoint = await centre(timer);
+    expect(await hitAt(clockPoint), 'a press on the clock does not reach the disclosure').toMatch(
+      /writing metrics/i
+    );
+    await page.mouse.click(clockPoint.x, clockPoint.y);
+    await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
+
+    // Shut it from the word count, then press Pause: the panel stays shut.
+    const words = page.getByText(/words of about/i).first();
+    const wordsBox = await words.boundingBox();
+    await page.mouse.click(wordsBox!.x + 5, wordsBox!.y + wordsBox!.height / 2);
+    await expect(disclosure).toHaveAttribute('aria-expanded', 'false');
+
+    const pause = page.getByRole('button', { name: /pause timer|start timer/i }).first();
+    expect(await hitAt(await centre(pause)), 'Pause is covered by the disclosure').not.toMatch(
+      /writing metrics/i
+    );
+    await pause.click();
+    await expect(disclosure).toHaveAttribute('aria-expanded', 'false');
+
+    // The pill is the visible label of the same disclosure, so it still opens it.
+    const pillPoint = await centre(page.getByText('Terms & Structure').first());
+    await page.mouse.click(pillPoint.x, pillPoint.y);
+    await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
+  });
+});

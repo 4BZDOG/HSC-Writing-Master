@@ -289,9 +289,13 @@ export default {
         // no motion the flare runs once, instantly, and lands on its last
         // frame. Ending anywhere but `opacity: 0` would burn a permanent bloom
         // into the spectrum for exactly those readers.
+        // The peak stays inside the column's own box and at half strength. It was
+        // 0.85 and scaled to 2.4x the column, so on the staircase it read as a solid
+        // slab of the tier's hex that overhung the stage for a beat, and on first
+        // load it fired after the rest of the staircase had settled.
         tierIgnite: {
           '0%': { opacity: '0', transform: 'scaleX(0.4) scaleY(1)' },
-          '30%': { opacity: '0.85', transform: 'scaleX(1) scaleY(2.4)' },
+          '30%': { opacity: '0.5', transform: 'scaleX(1) scaleY(1)' },
           '100%': { opacity: '0', transform: 'scaleX(1) scaleY(1)' },
         },
         // The final frame IS the resting state, for the reason `tierIgnite`'s
