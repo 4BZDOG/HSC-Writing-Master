@@ -35,6 +35,12 @@ export const HSC_RESULTS_YEAR = 2025;
 const NESA_PERFORMANCE_BANDS_URL =
   'https://www.nsw.gov.au/education-and-training/nesa/hsc/facts-and-figures/performance-bands';
 
+const NESA_FACTS_FIGURES_URL =
+  'https://www.nsw.gov.au/sites/default/files/noindex/2026-06/nesa-hsc-facts-and-figures-2025.pdf';
+
+const UAC_SCALING_REPORT_URL =
+  'https://uac.edu.au/assets/documents/scaling-reports/scaling-report-2025-nsw-hsc.pdf';
+
 const UAC_ATAR_RELEASE_URL = 'https://uac.edu.au/media-releases/2025-atars-released-today';
 
 export interface HscSource {
@@ -100,7 +106,9 @@ export const HSC_RESULTS_FACTS: readonly HscFact[] = [
     id: 'statewide-top-band',
     year: 2025,
     text: 'Counting Extension courses too, 12% of 2025 HSC results across the state were in the top band, Band 6 or E4.',
-    sources: [{ label: 'NESA, 2025 HSC Facts and Figures, Table 3-1' }],
+    sources: [
+      { label: 'NESA, 2025 HSC Facts and Figures, Table 3-1', url: NESA_FACTS_FIGURES_URL },
+    ],
     caveat:
       'Includes Extension courses, so it is not the same base as the pooled Band 6 share (10.4%), which excludes them.',
   },
@@ -110,7 +118,7 @@ export const HSC_RESULTS_FACTS: readonly HscFact[] = [
     text: 'The share of Band 6 depends on the course: under 0.5% in English Standard, and 40% in Music 2. Results cannot be compared across courses.',
     sources: [
       { label: 'NESA, performance band data 2025', url: NESA_PERFORMANCE_BANDS_URL },
-      { label: 'NESA, 2025 HSC Facts and Figures' },
+      { label: 'NESA, 2025 HSC Facts and Figures', url: NESA_FACTS_FIGURES_URL },
     ],
     caveat:
       'NESA does not compare results across courses, and no course has a pre-defined distribution.',
@@ -135,6 +143,8 @@ export const HSC_RESULTS_FACTS: readonly HscFact[] = [
     id: 'median-mark-band-4',
     year: 2025,
     text: 'For most 2-unit courses, the median HSC mark in 2025 fell in Band 4, which is 70 to 79.',
-    sources: [{ label: 'UAC, 2025 HSC results analysis' }],
+    sources: [
+      { label: 'UAC, 2025 report on the scaling of the NSW HSC', url: UAC_SCALING_REPORT_URL },
+    ],
   },
 ];
