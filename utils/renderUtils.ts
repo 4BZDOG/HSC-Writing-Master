@@ -728,6 +728,25 @@ export const KEYWORD_HIGHLIGHT_CLASS =
 export const VERB_HIGHLIGHT_CLASS =
   'font-black text-[rgb(var(--color-accent))] underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
 /**
+ * The command verb inside a diff run (an added or a cut passage). That run is
+ * already underlined or struck through, so the verb keeps its colour and weight
+ * and drops its own underline — two rules under one word read as a smear.
+ *
+ * The run sits on a green or rose wash, and in the dark theme the accent (sky-500)
+ * drops to 4.0:1 on the emerald wash. The glow step (sky-400) clears 4.5:1 there.
+ * The light accent (sky-800) already clears it on the light wash, so only dark moves.
+ */
+export const VERB_HIGHLIGHT_IN_MARK_CLASS =
+  'font-black text-[rgb(var(--color-accent))] dark:text-[rgb(var(--color-accent-glow))]';
+/**
+ * A syllabus term in a LIST of terms (the "terms the revision added" chips), as
+ * opposed to a term inside a sentence. The same emerald as KEYWORD_HIGHLIGHT_CLASS
+ * so a term reads as one kind of thing wherever it appears, with the chip's own
+ * edge and padding because it stands alone.
+ */
+export const KEYWORD_CHIP_CLASS =
+  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold text-emerald-400 light:text-emerald-800 bg-emerald-500/10 light:bg-emerald-600/10 border border-emerald-500/25 light:border-emerald-600/25';
+/**
  * …and the same verb where it OPENS the command-verb guide.
  *
  * The highlight above already draws the verb bold, accent-coloured and
@@ -810,6 +829,13 @@ const coordinationEllipsisSources = (keyword: string): string[] => {
  */
 const KEY_SEPARATOR = '\u0000';
 
+/**
+ * Straight and curly apostrophes are one character to a reader. Word processors
+ * curl them as a student types and the model writes either, so "Newton's" in the
+ * syllabus has to find "Newton’s" in an answer, and the other way round.
+ */
+const apostropheInsensitive = (escaped: string): string => escaped.replace(/['’]/g, "['’]");
+
 const keywordRegexSource = memoise(500, (key: string): string | null => {
   const words = key.split(KEY_SEPARATOR).filter(Boolean);
   const allVariants = new Set<string>();
@@ -824,8 +850,13 @@ const keywordRegexSource = memoise(500, (key: string): string | null => {
   // renderers split on this regex and rely on odd indices being the matches.
   const alternatives = sortedWords.map((v) => {
     const lead = /^\w/.test(v) ? '\\b' : '';
-    const tail = /\w$/.test(v) ? '\\b' : '';
-    return lead + escapeRegExp(v) + tail;
+    const wordEnds = /\w$/.test(v);
+    // A possessive belongs to the term it follows: "W3C's standard" is one term
+    // with its 's, not a chip on "W3C" with a stray "'s" beside it. The `\b` after
+    // the s stops it taking "'sx". Only ever widens the match, never adds one, so
+    // `textContainsKeyword` (which only asks whether there is a match) is unchanged.
+    const possessive = wordEnds ? "\\b(?:['’]s\\b)?" : '';
+    return lead + apostropheInsensitive(escapeRegExp(v)) + possessive;
   });
   // Elliptical coordinated forms are regex sources (lookaheads), not literal
   // variants — appended after the literals so a full contiguous phrase always
@@ -838,6 +869,35 @@ export const createKeywordRegex = (words: string[]) => {
   if (!words || words.length === 0) return null;
   const source = keywordRegexSource(words.join(KEY_SEPARATOR));
   return source ? new RegExp(source, 'gi') : null;
+};
+
+/**
+ * The matcher for a question's command verb: what the highlight paints in prose.
+ *
+ * Two things a plain `createKeywordRegex([verb])` gets wrong for a command verb.
+ *
+ * The verb is stored in capitals ("ANALYSE"), and the variant builder reads an
+ * all-capital word of four letters or fewer as an acronym and makes no inflections
+ * for it. So a short command verb would light up its own bare form and nothing
+ * else: "DRAW" would miss "drawing" and "drawn". Lower-casing it first takes that
+ * path away. The regex is case-insensitive either way, so only the derivation changes.
+ *
+ * A compound command term ("CRITICALLY ANALYSE") is matched whole, and its command
+ * word on its own as well. A marker who writes "analysing the sources" in feedback on
+ * that question is naming the command, and "critically" has no meaning apart from it.
+ *
+ * What it deliberately does NOT match is the noun a verb shares a stem with:
+ * "analysis" is not a form of ANALYSE, so the content of an answer ("the analysis
+ * above") never lights up as the instruction.
+ */
+export const createVerbRegex = (verb: string | null | undefined): RegExp | null => {
+  if (typeof verb !== 'string') return null;
+  const lower = verb.trim().toLowerCase();
+  if (!lower) return null;
+  const words = [lower];
+  const head = lower.split(/\s+/).pop();
+  if (head && head !== lower) words.push(head);
+  return createKeywordRegex(words);
 };
 
 /**
@@ -1011,80 +1071,135 @@ const processInlineFormatting = (
 
     // 5. Keyword/Verb Highlighting (Leaf nodes)
     if (verbRegex || keywordRegex) {
-      let nodes: React.ReactNode[] = [segment];
-
-      if (verbRegex) {
-        nodes = nodes.flatMap((n, outer) => {
-          if (typeof n !== 'string') return n;
-          const parts = n.split(verbRegex);
-          return parts.map((part, i) => {
-            // Odd indices are the captured matches. Using verbRegex.test() here
-            // would be stateful (/g regex, lastIndex carries over) and drop every
-            // other match — index parity is the reliable, stateless check.
-            if (i % 2 === 1) {
-              // A button in flowing prose, when there is a guide to open. It
-              // inherits the paragraph's type and keeps the highlight's own
-              // colour and underline, so the word reads as it always did and
-              // simply becomes pressable.
-              return onVerbClick
-                ? React.createElement(
-                    'button',
-                    {
-                      key: `v${path}.${outer}.${i}`,
-                      type: 'button',
-                      onClick: onVerbClick,
-                      className: VERB_TRIGGER_CLASS,
-                      // The matched text, not the canonical verb: the question
-                      // may say "Analysing", and "What a Analysing question
-                      // asks for" is neither grammatical nor what a reader
-                      // pressed. Naming the word and then the purpose keeps
-                      // both, and works for every inflection the matcher finds.
-                      'aria-label': `${part}: what this command verb asks for`,
-                    },
-                    part
-                  )
-                : React.createElement(
-                    'span',
-                    { key: `v${path}.${outer}.${i}`, className: VERB_HIGHLIGHT_CLASS },
-                    part
-                  );
-            }
-            return part;
-          });
-        });
-      }
-
-      if (keywordRegex) {
-        nodes = nodes.flatMap((n, outer) => {
-          if (typeof n !== 'string') return n;
-          const parts = n.split(keywordRegex);
-          return parts.map((part, i) => {
-            // Odd indices are the matched keywords (see verb branch above).
-            if (i % 2 === 1) {
-              // The key carries the OUTER node index as well as the index
-              // within this split. `nodes` already holds several segments by the
-              // time the keyword pass runs (the verb pass split it), and each is
-              // split independently — so a bare `k-${i}` collides the moment two
-              // segments both match at the same position. React then warns and
-              // may duplicate or omit the highlighted spans.
-              return React.createElement(
-                'span',
-                { key: `k${path}.${outer}.${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
-                part
-              );
-            }
-            return part;
-          });
-        });
-      }
-
-      return nodes;
+      return highlightPlainRun(segment, path, verbRegex, keywordRegex, {
+        className: VERB_HIGHLIGHT_CLASS,
+        onVerbClick,
+      });
     }
 
     return [segment];
   };
 
   return processRecursively(text, '0');
+};
+
+/**
+ * The highlight pass over ONE run of plain text: the command verb first, then the
+ * syllabus terms over whatever the verb left as text.
+ *
+ * Shared by `processInlineFormatting` (prose, once its markdown is split out) and
+ * `renderHighlightedText` (a bare run, such as one segment of a revision's diff),
+ * so every surface paints the same matches in the same way.
+ */
+const highlightPlainRun = (
+  text: string,
+  path: string,
+  verbRegex: RegExp | null,
+  keywordRegex: RegExp | null,
+  verbStyle: {
+    className?: string;
+    /** Present when the command verb should open its guide — see VERB_TRIGGER_CLASS. */
+    onVerbClick?: () => void;
+  }
+): React.ReactNode[] => {
+  let nodes: React.ReactNode[] = [text];
+
+  if (verbRegex) {
+    nodes = nodes.flatMap((n, outer) => {
+      if (typeof n !== 'string') return n;
+      const parts = n.split(verbRegex);
+      return parts.map((part, i) => {
+        // Odd indices are the captured matches. Using verbRegex.test() here
+        // would be stateful (/g regex, lastIndex carries over) and drop every
+        // other match — index parity is the reliable, stateless check.
+        if (i % 2 === 1) {
+          // A button in flowing prose, when there is a guide to open. It
+          // inherits the paragraph's type and keeps the highlight's own
+          // colour and underline, so the word reads as it always did and
+          // simply becomes pressable.
+          return verbStyle.onVerbClick
+            ? React.createElement(
+                'button',
+                {
+                  key: `v${path}.${outer}.${i}`,
+                  type: 'button',
+                  onClick: verbStyle.onVerbClick,
+                  className: VERB_TRIGGER_CLASS,
+                  // The matched text, not the canonical verb: the question
+                  // may say "Analysing", and "What a Analysing question
+                  // asks for" is neither grammatical nor what a reader
+                  // pressed. Naming the word and then the purpose keeps
+                  // both, and works for every inflection the matcher finds.
+                  'aria-label': `${part}: what this command verb asks for`,
+                },
+                part
+              )
+            : React.createElement(
+                'span',
+                {
+                  key: `v${path}.${outer}.${i}`,
+                  className: verbStyle.className ?? VERB_HIGHLIGHT_CLASS,
+                },
+                part
+              );
+        }
+        return part;
+      });
+    });
+  }
+
+  if (keywordRegex) {
+    nodes = nodes.flatMap((n, outer) => {
+      if (typeof n !== 'string') return n;
+      const parts = n.split(keywordRegex);
+      return parts.map((part, i) => {
+        // Odd indices are the matched keywords (see verb branch above).
+        if (i % 2 === 1) {
+          // The key carries the OUTER node index as well as the index
+          // within this split. `nodes` already holds several segments by the
+          // time the keyword pass runs (the verb pass split it), and each is
+          // split independently — so a bare `k-${i}` collides the moment two
+          // segments both match at the same position. React then warns and
+          // may duplicate or omit the highlighted spans.
+          return React.createElement(
+            'span',
+            { key: `k${path}.${outer}.${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
+            part
+          );
+        }
+        return part;
+      });
+    });
+  }
+
+  return nodes;
+};
+
+/**
+ * A bare run of text, highlighted the way `renderFormattedText` highlights prose
+ * — with none of its line, list or markdown handling.
+ *
+ * For text that is already a fragment of something else: one segment of a
+ * revision's diff, or one edit in the margin. Running those through
+ * `renderFormattedText` would read a leading "1." or "#" in a fragment as list or
+ * heading syntax, and wrap every run in a block.
+ *
+ * `inMark` is for a run that already sits under an underline or a strike-through
+ * (the words a revision added or cut). See VERB_HIGHLIGHT_IN_MARK_CLASS.
+ */
+export const renderHighlightedText = (
+  text: string,
+  keywords?: string[],
+  commandVerb?: PromptVerb,
+  inMark = false
+): React.ReactNode[] => {
+  if (!text) return [];
+  const keywordRegex = createKeywordRegex(keywords || []);
+  const verbRegex = createVerbRegex(commandVerb);
+  if (!verbRegex && !keywordRegex) return [text];
+  return highlightPlainRun(text, 'h', verbRegex, keywordRegex, {
+    className: inMark ? VERB_HIGHLIGHT_IN_MARK_CLASS : VERB_HIGHLIGHT_CLASS,
+  });
 };
 
 type TableAlign = 'left' | 'center' | 'right';
@@ -1274,7 +1389,7 @@ export const renderFormattedText = (
   if (!text) return text;
 
   const keywordRegex = createKeywordRegex(keywords || []);
-  const verbRegex = commandVerb ? createKeywordRegex([commandVerb]) : null;
+  const verbRegex = createVerbRegex(commandVerb);
 
   // Strip $...$ inline-math delimiters first — Gemini reaches for them out
   // of habit even though this app's own shorthand never uses them, and
@@ -1392,7 +1507,7 @@ export const renderEditorHighlights = (
   if (!text) return null;
 
   const keywordRegex = createKeywordRegex(keywords || []);
-  const verbRegex = verb ? createKeywordRegex([verb]) : null;
+  const verbRegex = createVerbRegex(verb);
 
   const processSegment = (segment: string): React.ReactNode[] => {
     let nodes: React.ReactNode[] = [segment];
