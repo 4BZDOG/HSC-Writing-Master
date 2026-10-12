@@ -11,9 +11,12 @@ import {
   getBandConfig,
   getBandHex,
   getBandName,
+  KEYWORD_HIGHLIGHT_CLASS,
   renderFormattedText,
+  renderHighlightedText,
   stripHtmlTags,
   textContainsKeyword,
+  VERB_HIGHLIGHT_CLASS,
   BandConfig,
 } from '../utils/renderUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
@@ -99,13 +102,13 @@ const MetricCard = ({
       <div className={`p-2 rounded-xl shrink-0 ${theme.bg} ${theme.text}`}>
         <Icon className="w-4 h-4" />
       </div>
-      <h4 className="t-label text-slate-500 dark:text-slate-400 truncate">{label}</h4>
+      <h4 className="t-label text-slate-600 dark:text-slate-400 truncate">{label}</h4>
     </div>
     <div className="flex items-baseline gap-1.5 mt-auto">
       <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
         {value}
       </span>
-      {subtext && <span className="t-label text-slate-500 dark:text-slate-400">{subtext}</span>}
+      {subtext && <span className="t-label text-slate-600 dark:text-slate-400">{subtext}</span>}
     </div>
   </div>
 );
@@ -135,7 +138,7 @@ const BandGoalCard = ({
         <div className={`p-2 rounded-xl shrink-0 ${goalConfig.bg} ${goalConfig.text}`}>
           <Trophy className="w-4 h-4" />
         </div>
-        <h4 className="t-section text-slate-500 dark:text-slate-400 truncate">
+        <h4 className="t-section text-slate-600 dark:text-slate-400 truncate">
           Band {maxBand} Goal
         </h4>
       </div>
@@ -162,7 +165,7 @@ const BandGoalCard = ({
                     ? goalConfig.text
                     : b <= currentBand
                       ? 'text-slate-600 dark:text-slate-300'
-                      : 'text-slate-500 dark:text-slate-400'
+                      : 'text-slate-600 dark:text-slate-400'
                 }`}
               >
                 {b}
@@ -172,7 +175,7 @@ const BandGoalCard = ({
         </div>
         {/* The band name belongs to the CURRENT band, so it reads as a caption
             on the meter rather than as a modifier of "n bands to go" above. */}
-        <p className="t-label mt-2.5 text-slate-500 dark:text-slate-400">
+        <p className="t-label mt-2.5 text-slate-600 dark:text-slate-400">
           Now Band {currentBand} · {getBandName(currentBand)}
         </p>
       </div>
@@ -182,6 +185,26 @@ const BandGoalCard = ({
         </p>
       )}
     </div>
+  );
+};
+
+/**
+ * The one-line key for the highlighting in this report, shown once under the question.
+ *
+ * The samples are the real classes the text uses, so the key cannot drift from the
+ * thing it explains. It is shown only when there is something to explain: a question
+ * with neither a command verb nor syllabus terms highlights nothing, and a key for it
+ * would be a legend for an absent colour.
+ */
+const HighlightKey: React.FC<{ hasVerb: boolean; hasTerms: boolean }> = ({ hasVerb, hasTerms }) => {
+  if (!hasVerb && !hasTerms) return null;
+  return (
+    <p className="t-label flex flex-wrap items-center gap-x-2 gap-y-1 text-slate-600 dark:text-slate-400">
+      <span>Highlighted:</span>
+      {hasVerb && <span className={VERB_HIGHLIGHT_CLASS}>command verb</span>}
+      {hasVerb && hasTerms && <span aria-hidden="true">·</span>}
+      {hasTerms && <span className={KEYWORD_HIGHLIGHT_CLASS}>syllabus terms</span>}
+    </p>
   );
 };
 
@@ -210,7 +233,7 @@ const SectionHeading: React.FC<{
   tone?: string;
   toneBg?: string;
   children?: React.ReactNode;
-}> = ({ icon: Icon, label, tone = 'text-slate-500 dark:text-slate-400', toneBg, children }) => (
+}> = ({ icon: Icon, label, tone = 'text-slate-600 dark:text-slate-400', toneBg, children }) => (
   <div className="flex items-center gap-3 mb-4">
     <div className={`p-1.5 rounded-lg ${toneBg ?? 'bg-slate-100 dark:bg-white/10'} ${tone}`}>
       <Icon className="w-3.5 h-3.5" />
@@ -286,8 +309,8 @@ const CriteriaRow: React.FC<CriteriaRowProps> = ({
         <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 leading-snug flex-1 min-w-0">
           {/* Numbered, so a criterion can be referred to out loud — "look at
               three" — rather than by quoting its wording back. */}
-          <span className="text-slate-500 dark:text-slate-400 tabular-nums mr-2">{index + 1}</span>
-          {criterion.criterion}
+          <span className="text-slate-600 dark:text-slate-400 tabular-nums mr-2">{index + 1}</span>
+          {renderHighlightedText(criterion.criterion, prompt.keywords, prompt.verb)}
         </h4>
         <div
           className={`flex items-baseline gap-0.5 px-2.5 py-1 rounded-lg text-xs font-black shrink-0 tabular-nums ${isSuccess ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400' : isFailure ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-400' : 'bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300'}`}
@@ -600,7 +623,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             // tabIndex makes the hidden-scrollbar rail reachable by keyboard so a
             // clipped deep trail can still be scrolled without a pointer.
             tabIndex={0}
-            className="flex items-center gap-x-1.5 flex-nowrap overflow-x-auto scrollbar-hide text-slate-500 dark:text-slate-400"
+            className="flex items-center gap-x-1.5 flex-nowrap overflow-x-auto scrollbar-hide text-slate-600 dark:text-slate-400"
           >
             {syllabusTrail.map((segment, i) => (
               <React.Fragment key={i}>
@@ -623,6 +646,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         <h2 className="text-xl md:text-2xl font-serif font-medium text-slate-900 dark:text-white leading-snug max-w-3xl">
           {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
         </h2>
+        <HighlightKey hasVerb={!!prompt.verb} hasTerms={(prompt.keywords?.length ?? 0) > 0} />
       </header>
 
       {/* From `xl` up the report is a document with a margin, not one column in
@@ -823,10 +847,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 capNote={
                   capIsBinding ? (
                     <>
-                      <span className="font-semibold text-slate-800 dark:text-slate-100">
-                        {prompt.verb}
-                      </span>{' '}
-                      is a Tier {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command, so{' '}
+                      <span className={VERB_HIGHLIGHT_CLASS}>{prompt.verb}</span> is a Tier{' '}
+                      {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command, so{' '}
                       <span className={`font-semibold ${capConfig.text}`}>Band {maxBand}</span> is
                       the top of the scale for this question — even a flawless response tops out
                       here.
@@ -864,11 +886,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                   <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
                     <PenLine className="w-4 h-4" />
                   </div>
-                  <h3 className="t-section text-slate-500 dark:text-slate-400">
+                  <h3 className="t-section text-slate-600 dark:text-slate-400">
                     {userName ? `${userName}'s response` : 'Your response'}
                   </h3>
                 </div>
-                <span className="t-label text-slate-500 dark:text-slate-400">
+                <span className="t-label text-slate-600 dark:text-slate-400">
                   {wordCount} words · as submitted
                 </span>
               </div>
@@ -930,7 +952,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               <SectionHeading
                 icon={CheckCircle}
                 label="Strong Evidence"
-                tone="text-emerald-600 dark:text-emerald-400"
+                // emerald-600 measured 3.1:1 on the light desk, under AA; -800 is
+                // 5.9:1 there and keeps the same hue.
+                tone="text-emerald-800 dark:text-emerald-400"
                 toneBg="bg-emerald-100 dark:bg-emerald-500/15"
               />
               <ul className={`${CARD} p-5 sm:p-6 space-y-3.5`}>
@@ -944,7 +968,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     used to be told apart only by the colour of a 6px circle —
                     which is no distinction at all on a greyscale print. */}
                     <Check className="w-4 h-4 mt-0.5 shrink-0 text-emerald-500" />
-                    <span>{renderFormattedText(s, prompt.keywords)}</span>
+                    <span>{renderFormattedText(s, prompt.keywords, prompt.verb)}</span>
                   </li>
                 ))}
               </ul>
@@ -959,7 +983,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               <SectionHeading
                 icon={XCircle}
                 label="Areas for Growth"
-                tone="text-rose-600 dark:text-rose-400"
+                tone="text-rose-700 dark:text-rose-400"
                 toneBg="bg-rose-100 dark:bg-rose-500/15"
               >
                 {feedbackLocked && <PlusLockChip />}
@@ -981,7 +1005,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
                   >
                     <ArrowUpRight className="w-4 h-4 mt-0.5 shrink-0 text-rose-500" />
-                    <span>{renderFormattedText(im, prompt.keywords)}</span>
+                    <span>{renderFormattedText(im, prompt.keywords, prompt.verb)}</span>
                   </li>
                 ))}
               </ul>
@@ -1060,7 +1084,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 toneBg={exemplarConfig.bg}
               >
                 {revisedText && result.overallMark < exemplarMark && (
-                  <span className="t-label ml-auto text-slate-500 dark:text-slate-400 tabular-nums">
+                  <span className="t-label ml-auto text-slate-600 dark:text-slate-400 tabular-nums">
                     {exemplarMark}/{prompt.totalMarks} · Band {exemplarBand} · +
                     {exemplarMark - result.overallMark} mark
                     {exemplarMark - result.overallMark === 1 ? '' : 's'}
@@ -1077,7 +1101,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 {revisedText ? (
                   <>
                     <div className="px-6 sm:px-8 pt-6 pb-6">
-                      <p className="t-label mb-3 text-slate-500 dark:text-slate-400">
+                      <p className="t-label mb-3 text-slate-600 dark:text-slate-400">
                         Your answer with the marker&apos;s edits made
                       </p>
                       <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
@@ -1124,7 +1148,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                     <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
                       Your answer, rewritten one mark higher — in your own words
                     </p>
-                    <p className="max-w-md text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                    <p className="max-w-md text-xs leading-relaxed text-slate-600 dark:text-slate-400">
                       {planLabelForFeature('answerUpgrades')} rewrites what you wrote to reach{' '}
                       {exemplarMark}/{prompt.totalMarks}, keeping your structure and voice, and
                       marks every edit so you can see exactly what the extra mark was for.

@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import { Prompt } from '../types';
+import { Prompt, PromptVerb } from '../types';
 import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
   getBandHex,
+  KEYWORD_CHIP_CLASS,
   renderFormattedText,
+  renderHighlightedText,
   textContainsKeyword,
 } from '../utils/renderUtils';
 import { Copy, ArrowRight, ArrowLeft, X, Check, CheckCircle2, ArrowUpRight } from 'lucide-react';
@@ -104,6 +106,9 @@ const DiffText: React.FC<{
   registerMark?: (index: number, el: HTMLElement | null) => void;
   onSelectEdit?: (editIndex: number) => void;
   bandHex: string;
+  /** The question's terms and command verb, painted on the text as everywhere else. */
+  keywords?: string[];
+  verb?: PromptVerb;
 }> = ({
   segments,
   fontSize,
@@ -112,6 +117,8 @@ const DiffText: React.FC<{
   registerMark,
   onSelectEdit,
   bandHex,
+  keywords,
+  verb,
 }) => {
   // Every run of the active edit wears the ring, not only its first — a
   // replacement is a cut AND an insertion, and ringing half of it pointed at
@@ -123,9 +130,16 @@ const DiffText: React.FC<{
       style={{ fontSize: `${fontSize}px` }}
     >
       {segments.map((segment, index) => {
+        // Every run is highlighted, including the ones the marker added or cut:
+        // a syllabus term the revision brought in is the thing the reader is
+        // looking for, so it has to show inside the edit as well as beside it.
         if (segment.op === 'equal') {
           inActive = false;
-          return <React.Fragment key={index}>{segment.value}</React.Fragment>;
+          return (
+            <React.Fragment key={index}>
+              {renderHighlightedText(segment.value, keywords, verb)}
+            </React.Fragment>
+          );
         }
         const previous = segments[index - 1];
         const opensEdit = !previous || previous.op === 'equal';
@@ -156,7 +170,7 @@ const DiffText: React.FC<{
               style={inActive ? ({ '--tw-ring-color': bandHex } as React.CSSProperties) : undefined}
               title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
             >
-              {segment.value}
+              {renderHighlightedText(segment.value, keywords, verb, true)}
             </mark>
           </React.Fragment>
         );
@@ -369,7 +383,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const toolGroup =
     'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20';
   const toolButton =
-    'p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors disabled:opacity-40';
+    'p-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors disabled:opacity-40';
 
   return createPortal(
     <div
@@ -428,22 +442,22 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <p className="flex items-baseline justify-end gap-1.5 tabular-nums leading-none">
                   {originalMark !== undefined && (
                     <>
-                      <span className="text-lg font-semibold text-slate-500 dark:text-slate-400">
+                      <span className="text-lg font-semibold text-slate-600 dark:text-slate-400">
                         {originalMark}
                       </span>
-                      <span className="text-slate-500 dark:text-slate-400" aria-label="to">
+                      <span className="text-slate-600 dark:text-slate-400" aria-label="to">
                         →
                       </span>
                     </>
                   )}
                   <span className={`text-3xl font-black ${bandConfig.text}`}>{targetMark}</span>
-                  <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                  <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">
                     <span aria-hidden="true">/</span>
                     <span className="sr-only"> out of </span>
                     {originalPrompt.totalMarks}
                   </span>
                 </p>
-                <p className="t-label mt-1.5 text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                <p className="t-label mt-1.5 text-slate-600 dark:text-slate-400 whitespace-nowrap">
                   Band {targetBand}
                   {gained > 0 && ` · +${gained} mark${gained === 1 ? '' : 's'}`}
                 </p>
@@ -474,7 +488,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   className={`t-label px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
                     view === v.id
                       ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                   }`}
                 >
                   {v.label}
@@ -487,7 +501,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               reassurance a student needs before they read on, and the figure
               that shows whether the rewrite actually followed its brief. */}
           {comparing && (
-            <p className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
+            <p className="t-label text-slate-600 dark:text-slate-400 tabular-nums">
               <span className="font-semibold text-slate-800 dark:text-slate-100">
                 {retentionPct}%
               </span>{' '}
@@ -592,7 +606,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                       <h3 className="text-[13px] font-semibold text-slate-700 dark:text-slate-200">
                         {label}
                       </h3>
-                      <span className="ml-auto t-label text-slate-500 dark:text-slate-400 tabular-nums">
+                      <span className="ml-auto t-label text-slate-600 dark:text-slate-400 tabular-nums">
                         {words} words
                       </span>
                     </div>
@@ -605,6 +619,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                         bandHex={bandHex}
                         activeAnchor={isRevised ? (revisedAnchors[cursor] ?? null) : null}
                         registerMark={isRevised ? registerMark : undefined}
+                        keywords={originalPrompt.keywords}
+                        verb={originalPrompt.verb}
                       />
                     </div>
                   </div>
@@ -617,7 +633,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                  narrow as one. */
               <div className="px-5 sm:px-10 py-7 max-w-3xl mx-auto">
                 {comparing && view === 'marked' && (
-                  <p className="t-label mb-5 text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <p className="t-label mb-5 text-slate-600 dark:text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span className={OP_CLASS.insert}>added</span>
                     <span className={OP_CLASS.delete}>cut</span>
                     <span>everything unmarked is your own writing</span>
@@ -632,13 +648,15 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     registerMark={registerMark}
                     onSelectEdit={goTo}
                     bandHex={bandHex}
+                    keywords={originalPrompt.keywords}
+                    verb={originalPrompt.verb}
                   />
                 ) : (
                   <p
                     className="font-serif leading-[1.9] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
                     style={{ fontSize: `${fontSize}px` }}
                   >
-                    {renderFormattedText(revisedText, originalPrompt.keywords)}
+                    {renderFormattedText(revisedText, originalPrompt.keywords, originalPrompt.verb)}
                   </p>
                 )}
               </div>
@@ -665,7 +683,9 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                           className={`w-3.5 h-3.5 mt-[3px] shrink-0 ${bandConfig.text}`}
                           aria-hidden="true"
                         />
-                        <span>{renderFormattedText(item, originalPrompt.keywords)}</span>
+                        <span>
+                          {renderFormattedText(item, originalPrompt.keywords, originalPrompt.verb)}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -675,7 +695,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <section>
                 <RailHeading
                   aside={
-                    <span className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
+                    <span className="t-label text-slate-600 dark:text-slate-400 tabular-nums">
                       {edits.length}
                     </span>
                   }
@@ -718,12 +738,31 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                           </span>
                           <span className="min-w-0 font-serif text-[14px] leading-relaxed text-slate-700 dark:text-slate-300 line-clamp-4">
                             {edit.removed && (
-                              <span className={OP_CLASS.delete}>{edit.removed}</span>
+                              <span className={OP_CLASS.delete}>
+                                {renderHighlightedText(
+                                  edit.removed,
+                                  originalPrompt.keywords,
+                                  originalPrompt.verb,
+                                  true
+                                )}
+                              </span>
                             )}
                             {edit.removed && edit.added && (
-                              <span className="font-sans text-slate-400"> → </span>
+                              // Decorative: the cut and the added words are both read out.
+                              <span className="font-sans text-slate-400" aria-hidden="true">
+                                {' → '}
+                              </span>
                             )}
-                            {edit.added && <span className={OP_CLASS.insert}>{edit.added}</span>}
+                            {edit.added && (
+                              <span className={OP_CLASS.insert}>
+                                {renderHighlightedText(
+                                  edit.added,
+                                  originalPrompt.keywords,
+                                  originalPrompt.verb,
+                                  true
+                                )}
+                              </span>
+                            )}
                           </span>
                         </button>
                       </li>
@@ -737,10 +776,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   <RailHeading>Syllabus terms the revision added</RailHeading>
                   <div className="flex flex-wrap gap-1.5">
                     {newKeywords.map((kw) => (
-                      <span
-                        key={kw}
-                        className="px-2.5 py-1 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-xs font-semibold"
-                      >
+                      <span key={kw} className={KEYWORD_CHIP_CLASS}>
                         {kw}
                       </span>
                     ))}
@@ -752,7 +788,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         </div>
 
         <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
-          <p className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-left">
+          <p className="text-xs text-slate-600 dark:text-slate-400 text-center sm:text-left">
             {continueLabel
               ? // Standing in front of the marking summary, the useful thing to
                 // say is what is behind it — not where the samples were filed.
