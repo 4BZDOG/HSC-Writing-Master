@@ -434,26 +434,29 @@ describe('an open row: the criterion, the picker, the page, then the actions', (
     '2 marks: Identifies one feature of the membrane',
   ].join('\n');
 
-  it('states the criterion that earns the mark, from the guide, in a quiet note', () => {
+  it('opens with the criterion that earns the mark, from the guide, as its own labelled zone', () => {
     renderPanel({
       defaultCollapsed: false,
       markingCriteria: GUIDE,
       sampleAnswers: [sample({ id: 'a', mark: 4 })],
     });
     fireEvent.click(disclosureFor(4));
-    const note = screen.getByText('What earns this mark');
-    expect(note.parentElement!.textContent).toContain('Explains the membrane with accurate detail');
-    expect(note.closest('.border-l-2')).toBeTruthy();
+    const zone = screen.getByRole('group', { name: 'Marking criterion' });
+    expect(zone.textContent).toContain('Marking criterion');
+    expect(zone.textContent).toContain('4/6');
+    expect(zone.textContent).toContain('Explains the membrane with accurate detail');
+    // The head is the band's solid strip; the edge is the band's strong edge.
+    expect(zone.classList.contains(LADDER_EDGE_OPEN)).toBe(true);
   });
 
-  it('draws no note when the guide has no row for that level', () => {
+  it('draws no criterion zone when the guide has no row for that level', () => {
     renderPanel({
       defaultCollapsed: false,
       markingCriteria: '6 marks: Explains the membrane in detail',
       sampleAnswers: [sample({ id: 'a', mark: 4 })],
     });
     fireEvent.click(disclosureFor(4));
-    expect(screen.queryByText('What earns this mark')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Marking criterion' })).toBeNull();
   });
 
   it('offers the level’s exemplars as a picker, and folds the tail behind "+N more"', () => {
