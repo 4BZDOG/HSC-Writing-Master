@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { MarkingGuidePanel } from '../../components/ReferenceMaterials';
-import { getBandConfig } from '../../utils/renderUtils';
+import { getBandConfig, getBandRgb } from '../../utils/renderUtils';
 import type { Prompt, PromptVerb } from '../../types';
 
 /**
@@ -30,19 +30,20 @@ const prompt = (over: Partial<Prompt> = {}): Prompt =>
   }) as unknown as Prompt;
 
 const toggle = () => screen.getByRole('button', { name: /marking guide/i });
+// The hero's tile is 40px (`w-10 h-10`); the ordinary section's was 32px.
 const iconTile = (container: HTMLElement) =>
-  container.querySelector('button .w-8.h-8') as HTMLElement;
+  container.querySelector('button .w-10.h-10') as HTMLElement;
 
 describe('MarkingGuidePanel subtitle', () => {
   it('says the guide is not written yet, rather than naming a band it tops out at', () => {
     render(
       <MarkingGuidePanel prompt={prompt()} userRole="user" onMarkingCriteriaChange={vi.fn()} />
     );
-    expect(toggle().textContent).toMatch(/not written yet/i);
+    expect(toggle().textContent).toMatch(/4 marks · not written yet/i);
     expect(toggle().textContent).not.toMatch(/top level/i);
   });
 
-  it('names the ceiling band of the question once a guide is written', () => {
+  it('names the marks, then the ceiling band of the question once a guide is written', () => {
     // EVALUATE on 4 marks reaches Band 6 at full marks.
     render(
       <MarkingGuidePanel
@@ -51,7 +52,38 @@ describe('MarkingGuidePanel subtitle', () => {
         onMarkingCriteriaChange={vi.fn()}
       />
     );
-    expect(toggle().textContent).toMatch(/written to band 6/i);
+    expect(toggle().textContent).toMatch(/4 marks · written to band 6/i);
+  });
+});
+
+describe('MarkingGuidePanel is a secondary hero', () => {
+  it('washes its header with the band and glows its tile, whether open or not', () => {
+    const { container } = render(
+      <MarkingGuidePanel
+        prompt={prompt({ markingCriteria: '4 marks: Judges the reform' })}
+        userRole="user"
+        onMarkingCriteriaChange={vi.fn()}
+      />
+    );
+    expect(toggle().parentElement!.className).toContain('band-header-wash');
+    expect(iconTile(container).className).toContain('band-glow');
+    expect(iconTile(container).className).toContain('rounded-tile');
+  });
+
+  it('lights its edge only while open, and draws the band it is lit in on the panel root', () => {
+    const { container } = render(
+      <MarkingGuidePanel
+        prompt={prompt({ markingCriteria: '4 marks: Judges the reform' })}
+        userRole="user"
+        onMarkingCriteriaChange={vi.fn()}
+      />
+    );
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).not.toContain('band-lit');
+
+    fireEvent.click(toggle());
+    expect(root.className).toContain('band-lit');
+    expect(root.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(6));
   });
 });
 

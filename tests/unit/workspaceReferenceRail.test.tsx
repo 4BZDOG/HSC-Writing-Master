@@ -6,6 +6,8 @@ import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { Prompt, CourseOutcome, PromptVerb, SampleAnswer, Topic } from '../../types';
 import { isTwoColumnWidth, TWO_COLUMN_BREAKPOINT } from '../../utils/layoutConstants';
 import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
+import { getBandRgb } from '../../utils/renderUtils';
+import { questionCeilingBand } from '../../utils/markingGuideParse';
 
 /**
  * Ordering and communication contract for the workspace's left reference rail
@@ -67,6 +69,54 @@ const sectionTitles = () =>
   Array.from(document.querySelectorAll('button[aria-expanded]')).map(
     (el) => (el.textContent ?? '').trim().split('\n')[0]
   );
+
+describe('ReferenceMaterials: the reference headers are lit in the question’s band', () => {
+  // EVALUATE is Tier 6, so a 6-mark question's ceiling is Band 6. Syllabus Terms was
+  // drawn in a fixed band 4 for every question, beside a guide in the question's own
+  // band; these pin that both panels now read the same figure.
+  const evaluate = { verb: 'EVALUATE' as PromptVerb, totalMarks: 6 };
+
+  it('draws Syllabus Terms and the Marking Guide in the same band, the question’s ceiling', () => {
+    const { container } = render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt(evaluate)}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    const [terms, guide] = Array.from(container.firstElementChild!.children) as HTMLElement[];
+    const ceiling = questionCeilingBand(6, 'EVALUATE' as PromptVerb);
+    expect(ceiling).not.toBe(4);
+    expect(terms.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(ceiling));
+    expect(guide.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(ceiling));
+  });
+
+  it('counts the key terms the question names, and the supporting ones beside them', () => {
+    // "mRNA" and "tRNA" are named in the question; "start codon" is not, so it is supporting.
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({ ...evaluate, keywords: ['mRNA', 'tRNA', 'start codon'] })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    expect(screen.getByText('2 key · 1 supporting')).toBeTruthy();
+  });
+
+  it('says there are no terms yet, rather than a count of nothing', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({ ...evaluate, keywords: [] })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    expect(screen.getByText('No terms yet')).toBeTruthy();
+  });
+});
 
 describe('ReferenceMaterials rail', () => {
   // What's Assessed, Common mistakes and Grade Standards are off the rail for
@@ -250,7 +300,8 @@ describe('panel chrome consistency', () => {
         courseOutcomes={OUTCOMES}
       />
     );
-    expect(screen.getByText('Not written yet')).toBeTruthy();
+    // The marks lead the line, so the phrase is read within it rather than alone.
+    expect(screen.getByText(/Not written yet/)).toBeTruthy();
   });
 
   it('does not head the Marking Guide twice', () => {
@@ -339,7 +390,8 @@ describe('band-3 header icon badges use their matched text colour, not white-on-
         defaultCollapsed={false}
       />
     );
-    const badge = document.querySelector('button .rounded-xl') as HTMLElement;
+    // Sample Answers is a hero, so its tile is the 40px one, not the ordinary `rounded-xl`.
+    const badge = document.querySelector('button .w-10.h-10') as HTMLElement;
     expect(badge.className).not.toContain('text-white');
     expect(badge.className).toContain('text-yellow-950');
   });

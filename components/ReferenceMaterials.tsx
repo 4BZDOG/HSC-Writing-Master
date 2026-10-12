@@ -1,16 +1,19 @@
-import React, { useId, useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
 import { ChevronDown, Sparkles, ListChecks } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import {
   PANEL_HEADER_CLOSED,
   PANEL_HEADER_OPEN,
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
+import { HERO_HEAD_WASH, HERO_LIT, HERO_TILE, LADDER_EDGE_SHUT } from '../utils/ladderChrome';
+import { ladderBandVars } from './LadderRow';
+import { questionCeilingBand } from '../utils/markingGuideParse';
+import { classifySyllabusTerms, type SyllabusTermContext } from '../utils/syllabusTermSource';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import type { SupportResourceId } from '../utils/supportEngagement';
@@ -37,6 +40,12 @@ interface AccordionSectionProps {
    *  that for a section nobody has opened. Off by default, so every other caller
    *  keeps its children mounted and its state across a fold. */
   lazy?: boolean;
+  /** Draws the section as a SECONDARY hero (DesignSpec §3): a band-washed header,
+   *  a solid icon tile with a glow and, while open, a lit edge with a tier glow
+   *  beneath. `band` is the colour it is lit in, so a hero takes the question's
+   *  ceiling band and the three reference panels of a question agree. Off by
+   *  default, so every other section keeps its calm header. */
+  hero?: boolean;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -50,6 +59,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   supportId,
   forceOpenSignal,
   lazy = false,
+  hero = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   // The signal as last seen, kept as state and compared during render (the
@@ -67,42 +77,61 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   useSupportResource(resetKey, supportId, isOpen);
 
   return (
-    <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
+    <div
+      // The band reaches the panel's own header, body divider and lit edge through
+      // `--band-rgb`. Set only on a hero, so an ordinary section draws none of it.
+      style={hero ? ladderBandVars(band) : undefined}
+      className={`${PANEL_SURFACE} mb-3 last:mb-0 ${hero && isOpen ? HERO_LIT : ''}`}
+    >
       {/* The header row is a wrapper around the disclosure, which carries the shared
-          row height and the tint. */}
+          row height and the tint. The hero's wash sits on this row, behind the title. */}
       <div
-        className={`group flex items-stretch ${PANEL_ROW_MIN_H} transition-all ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
+        className={`group flex items-stretch ${PANEL_ROW_MIN_H} transition-all ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED} ${hero ? HERO_HEAD_WASH : ''}`}
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls={panelId}
-          className="flex-1 min-w-0 py-3.5 px-5 flex items-center justify-between"
+          // A hero is 40px at its tile, so it trims its padding to keep the row on the
+          // shared 61px line the rest of the column stands on.
+          className={`flex-1 min-w-0 ${hero ? 'py-2.5' : 'py-3.5'} px-5 flex items-center justify-between`}
         >
           <div className="flex items-center gap-4">
-            <div
-              className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
-            >
-              {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
-            </div>
+            {hero ? (
+              <div className={`${HERO_TILE} ${bandConfig.solidBg} ${bandConfig.solidText}`}>
+                {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-5 h-5' })}
+              </div>
+            ) : (
+              <div
+                className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
+              >
+                {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
+              </div>
+            )}
             <span className="text-left">
               <span
                 // The panel's NAME, so it takes the section treatment; the
                 // subtitle under it stays `.t-label`, which is what makes the
                 // pair read as a heading and its caption rather than two labels.
-                className={`t-section block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                // A hero's name is in the primary ink whether it is open or not:
+                // it is the panel's identity, not a state.
+                className={`t-section block ${hero || isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
               >
                 {title}
               </span>
               {subtitle && (
-                <span className="t-label block text-slate-600 dark:text-slate-400">{subtitle}</span>
+                <span
+                  className={`t-label block ${hero ? 'text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-400'}`}
+                >
+                  {subtitle}
+                </span>
               )}
             </span>
           </div>
           <div className="flex items-center gap-2.5 flex-shrink-0">
             <PanelReadChip show={opened && !isOpen} />
             <ChevronDown
-              className={`w-4 h-4 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
+              className={`w-4 h-4 transition-transform duration-500 ${hero ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400'} ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
             />
           </div>
         </button>
@@ -125,7 +154,13 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
+          <div
+            className={
+              hero
+                ? `p-5 pt-0 border-t ${LADDER_EDGE_SHUT}`
+                : 'p-5 pt-0 border-t border-slate-300 dark:border-white/10'
+            }
+          >
             <div className="mt-5">{!lazy || isOpen ? children : null}</div>
           </div>
         </div>
@@ -152,20 +187,21 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
   onMarkingCriteriaChange,
   courseOutcomes = [],
 }) => {
-  const tier = getCommandTermInfo(prompt.verb).tier;
-  // The question's own ceiling, not a fixed band: the open icon tile takes this
-  // question's tier hue, and the Sample Answers panel reads the same figure.
-  const ceilingBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
+  // The question's own ceiling, not a fixed band: the hero's tile takes this
+  // question's tier hue, and the Sample Answers and Syllabus Terms panels read the
+  // same figure, so the three headers of a question agree.
+  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
+  const written = Boolean(prompt.markingCriteria?.trim());
   return (
     <AccordionSection
       title="Marking Guide"
-      // It said "Top level: Band 2" over an empty panel, as though a guide
-      // existed and topped out there.
-      subtitle={
-        prompt.markingCriteria?.trim() ? `Written to Band ${ceilingBand}` : 'Not written yet'
-      }
+      // The marks lead, so the header says what the guide is FOR before it says
+      // where it is written to. It used to say "Top level: Band 2" over an empty
+      // panel, as though a guide existed and topped out there.
+      subtitle={`${prompt.totalMarks} marks · ${written ? `Written to Band ${ceilingBand}` : 'Not written yet'}`}
       icon={<ListChecks />}
       band={ceilingBand}
+      hero
       resetKey={prompt.id}
       supportId="markingGuide"
     >
@@ -180,6 +216,19 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
       />
     </AccordionSection>
   );
+};
+
+/**
+ * The Syllabus Terms header's count: how many of the question's terms the question
+ * or the syllabus it comes from names (the must-use ones), against the terms the AI
+ * added around them. It is the same split `KeywordEditor` draws its two groups from,
+ * so the number in the header and the groups below it cannot disagree.
+ */
+const termCountLabel = (keywords: string[], context: SyllabusTermContext): string => {
+  if (keywords.length === 0) return 'No terms yet';
+  const sources = classifySyllabusTerms(keywords, context);
+  const key = keywords.filter((kw) => sources.get(kw)).length;
+  return `${key} key · ${keywords.length - key} supporting`;
 };
 
 interface ReferenceMaterialsProps {
@@ -209,7 +258,24 @@ interface ReferenceMaterialsProps {
 }
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
-  const { prompt, topic, userRole, courseOutcomes = [] } = props;
+  const { prompt, topic, userRole, courseOutcomes = [], dotPointText, subTopicName } = props;
+  const topicName = topic?.name;
+
+  // The Syllabus Terms panel was drawn in a fixed band 4 (green), beside a Marking
+  // Guide in the question's own band: a visible mismatch in one column. It is the
+  // question's ceiling now, like the guide and the exemplars.
+  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
+  const termsSubtitle = useMemo(
+    () =>
+      termCountLabel(prompt.keywords ?? [], {
+        question: prompt.question,
+        scenario: prompt.scenario,
+        dotPointText,
+        subTopicName,
+        topicName,
+      }),
+    [prompt.keywords, prompt.question, prompt.scenario, dotPointText, subTopicName, topicName]
+  );
 
   // What's Assessed, Common mistakes and Grade Standards are off the workspace
   // for the time being, and the data behind them (linked outcomes,
@@ -220,14 +286,16 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
     <div className="flex flex-col gap-1 animate-fade-in">
       <AccordionSection
         title="Syllabus Terms"
+        subtitle={termsSubtitle}
         icon={<Sparkles />}
-        band={4}
+        band={ceilingBand}
+        hero
         resetKey={prompt.id}
         supportId="keywords"
       >
         <KeywordEditor
           {...props}
-          topicName={topic?.name}
+          topicName={topicName}
           onRegenerate={props.onRegenerateKeywords}
           isRegenerating={props.isRegeneratingKeywords}
           onSuggest={props.onSuggestKeywords}

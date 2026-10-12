@@ -2,9 +2,10 @@
  * The command verb ribbon's class vocabulary, in the same shape as
  * `utils/headerChrome.ts`, `utils/cardChrome.ts` and `utils/panelStyles.ts`.
  *
- * The ribbon is the workspace's one HERO, and this file is where that is
- * written down. It has two zones, and the difference between them is the whole
- * design:
+ * The ribbon is the workspace's loudest surface, the HERO, and this file is where
+ * that is written down. The reference panels beneath it are secondary heroes
+ * (DesignSpec §3) and are drawn to stay under it. It has two zones, and the
+ * difference between them is the whole design:
  *
  * - The STAGE — the verb at poster scale, the scoreboard and the ceiling
  *   staircase — has a PALETTE OF ITS OWN in each theme: a spotlit near-black in

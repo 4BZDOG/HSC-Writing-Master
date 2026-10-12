@@ -3,6 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { AccordionSection } from '../../components/ReferenceMaterials';
 import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
+import { getBandConfig, getBandRgb } from '../../utils/renderUtils';
 
 /**
  * The disclosure header's contract, and the two openings a sibling can use:
@@ -49,6 +50,65 @@ describe('AccordionSection header', () => {
     const controlled = toggle().getAttribute('aria-controls');
     expect(controlled).toBeTruthy();
     expect(document.getElementById(controlled!)).toBeTruthy();
+  });
+});
+
+describe('AccordionSection hero', () => {
+  // A secondary hero (DesignSpec §3): the band washes its header, a solid tile glows,
+  // and an open panel is lit. Every colour is the band's, through `--band-rgb`.
+  const section = (hero: boolean, open = false) => (
+    <AccordionSection title="Exemplars" icon={<span />} band={4} hero={hero} defaultOpen={open}>
+      <p>body</p>
+    </AccordionSection>
+  );
+
+  it('draws a 40px tile in the band’s solid colour, with the band glow', () => {
+    const { container } = render(section(true));
+    const tile = toggle().querySelector('.w-10.h-10') as HTMLElement;
+    expect(tile).toBeTruthy();
+    for (const token of getBandConfig(4).solidBg.split(' ')) {
+      expect(tile.className).toContain(token);
+    }
+    expect(tile.className).toContain('band-glow');
+    // The ordinary tile is 32px, and only the hero has the glow.
+    expect(container.querySelector('.w-8.h-8')).toBeNull();
+  });
+
+  it('keeps the hero header on the shared row height, with the band wash behind it', () => {
+    const { container } = render(section(true));
+    const row = container.querySelector(`[class*="${PANEL_ROW_MIN_H}"]`) as HTMLElement;
+    expect(row).toBeTruthy();
+    expect(row.className).toContain('band-header-wash');
+    expect(row.contains(toggle())).toBe(true);
+  });
+
+  it('keeps the title in the primary ink whether the hero is open or shut', () => {
+    render(section(true));
+    const name = toggle().querySelector('span.t-section') as HTMLElement;
+    expect(name.className).toContain('text-slate-900');
+    fireEvent.click(toggle());
+    expect(name.className).toContain('text-slate-900');
+  });
+
+  it('lights the panel only while it is open, and sets the band on the root for it', () => {
+    const { container } = render(section(true));
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).not.toContain('band-lit');
+    expect(root.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(4));
+
+    fireEvent.click(toggle());
+    expect(root.className).toContain('band-lit');
+    fireEvent.click(toggle());
+    expect(root.className).not.toContain('band-lit');
+  });
+
+  it('leaves an ordinary section calm: no wash, no glow, no lit edge, no band on the root', () => {
+    const { container } = render(section(false, true));
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).not.toContain('band-lit');
+    expect(root.style.getPropertyValue('--band-rgb')).toBe('');
+    expect(toggle().parentElement!.className).not.toContain('band-header-wash');
+    expect(container.querySelector('.band-glow')).toBeNull();
   });
 });
 

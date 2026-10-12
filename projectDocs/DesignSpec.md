@@ -291,10 +291,35 @@ fact that decides a student's ceiling — **the command verb caps the band** —
 the design makes that fact the picture: the verb is set at poster scale, and a
 staircase of six tier columns shows how far it lets a response climb.
 
-**It is one hero, on purpose.** A workspace where every panel is loud has no
-hero, only noise. The accordions, the tier cards and everything else stay calm so
-that this one does not have to compete with them. If a second surface wants the
-same treatment, the question is which of the two stops being it.
+**The ribbon is still the loudest surface, on purpose.** A workspace where every
+panel is loud has no hero, only noise. The accordions, the tier cards and everything
+else stay calm so that this one does not have to compete with them.
+
+**Three reference panels are secondary heroes, and the ribbon outranks them.** The
+Syllabus Terms, Marking Guide and Sample Answers panels are where a student does the
+reading that the ribbon sends them to, so they are drawn richer than a calm
+accordion. They are not drawn like the ribbon. The ribbon owns the display type,
+the staircase and the stage; a panel owns a solid tile, a wash, a fill and a lit
+edge, and nothing it draws is larger than the ribbon's verb.
+
+All three read the question's ceiling band (`questionCeilingBand` in
+`utils/markingGuideParse.ts`), so their headers agree with each other and with the
+guide's rows beside them. The panels are `AccordionSection` with `hero`, and the
+treatment is stated in `utils/ladderChrome.ts`:
+
+| Element   | Secondary hero                                                                                                 | Why                                                                                                                                                               |
+| --------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Gutter    | Solid band fill (`solidBg`), the figure as mark over total ("5/6") in mono numerals, in the band's `solidText` | A figure has to read against a full band, not against a wash. Every pair is held at AA by `bandColors.test.ts`                                                    |
+| Row fill  | `band-fill`: the band at 18% from the gutter, fading to 7% at the right, with a faint top sheen                | A pale wash let the gutter carry all the colour. The alpha is the limit: the verb highlight is sky text on the fill, and it must hold 4.5:1 on the strongest tint |
+| Header    | `band-header-wash`: the band at 16%, fading to the band's own hue at zero alpha (not `transparent`)            | Safari takes `transparent` through grey on a gradient                                                                                                             |
+| Icon tile | 40px solid tile with `band-glow`, so the first thing the eye lands on in the header                            | The tile is the one solid thing in an otherwise tinted header                                                                                                     |
+| Open      | `band-lit`: the panel's edge at 50% of the band, and a soft tier glow beneath it                               | The open panel is the one being read, so it says so. It is on the panel root and `PANEL_SURFACE` stays the root's class                                           |
+| Motion    | None added. The existing transition on the panel is neutralised by `prefers-reduced-motion`                    | A lit edge is a state, not an animation                                                                                                                           |
+
+The band reaches every part of a hero through `--band-rgb`, set once on the panel
+root, so no colour is written at a call site. The lit edge is written `:root .band-lit`
+because the panel's dark-theme border is a `.dark .` selector with two classes of
+specificity, and one class would lose to it.
 
 What makes it a different object, and not a bigger panel:
 

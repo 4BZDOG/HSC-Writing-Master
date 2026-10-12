@@ -3,6 +3,7 @@ import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
 import MarkingCriteriaAccordion from '../../components/MarkingCriteriaAccordion';
 import { formatMarkingCriteria } from '../../utils/dataManagerUtils';
+import { getBandRgb } from '../../utils/renderUtils';
 import { Prompt, PromptVerb } from '../../types';
 
 /**
@@ -148,8 +149,9 @@ describe('the accordion renders a row per mark level', () => {
 
     expect(screen.getByText('Band 3')).toBeTruthy();
     expect(screen.queryByText('Band 2')).toBeNull();
-    const row = container.querySelector('div.items-stretch');
-    expect(row?.className).toMatch(/bg-yellow-500\/10/);
+    const row = container.querySelector('div.items-stretch') as HTMLElement;
+    expect(row.className).toContain('band-fill');
+    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(3));
   });
 
   it('leaves a band-labelled row alone when the question can award that band', () => {
@@ -161,8 +163,9 @@ describe('the accordion renders a row per mark level', () => {
     });
 
     expect(screen.getByText('Band 2')).toBeTruthy();
-    const row = container.querySelector('div.items-stretch');
-    expect(row?.className).toMatch(/bg-orange-500\/10/);
+    const row = container.querySelector('div.items-stretch') as HTMLElement;
+    expect(row.className).toContain('band-fill');
+    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(2));
   });
 
   /**
@@ -171,30 +174,29 @@ describe('the accordion renders a row per mark level', () => {
    * both, not just its border. See `bandColors.test.ts` for the light-tint
    * regression that made this worth pinning.
    */
-  it('paints every level with its own band fill, not just a border', () => {
+  it('paints every level with its own band fill and a solid gutter, not just a border', () => {
     const { container } = renderCriteria(
       '8 marks: Comprehensive analysis.\\n6-7 marks: Thorough analysis.\\n1-2 marks: Elementary.'
     );
 
-    const rows = Array.from(container.querySelectorAll('div.items-stretch'));
+    const rows = Array.from(container.querySelectorAll('div.items-stretch')) as HTMLElement[];
     expect(rows).toHaveLength(3);
     for (const row of rows) {
-      // A dark wash AND a light one — a row with only the dark class is the
-      // state that made the guide colourless in light mode. This pair is the
-      // regression this test exists for and it is unchanged.
-      expect(row.className).toMatch(/bg-\w+-500\/10/);
-      expect(row.className).toMatch(/light:bg-\w+-100/);
+      // The row's fill is `band-fill`, a gradient drawn from `--band-rgb` in both
+      // themes, so a row is coloured by its band and not by a light wash that only
+      // the dark theme could show. This is the regression the test exists for.
+      expect(row.className).toContain('band-fill');
 
-      // The edge is band-derived too, but no longer the raw `-500/50` token.
-      // Drawn at full saturation around this row's own pale wash it was the
-      // loudest thing on the row — six times over, plus again on the mark
-      // column's divider — so a criteria list read as a stack of hard-edged
-      // boxes rather than a ladder. `band-edge` takes 35% of the same hue from
-      // `--band-rgb`, which is the band palette by another route rather than a
-      // neutral: the point of the original assertion was that the row is
-      // COLOURED BY ITS BAND in both themes, and it still is.
+      // The gutter is the band's SOLID colour, so the figure is read against a full
+      // band and not against the row's tint.
+      const gutter = row.querySelector('.border-r') as HTMLElement;
+      expect(gutter.className).toMatch(/\bbg-\w+-(500|600|700)\b/);
+
+      // The edge is band-derived, not the raw `-500/50` token: drawn at full
+      // saturation round a filled row it is the loudest thing on the row. `band-edge`
+      // takes 35% of the band's hue from `--band-rgb`.
       expect(row.className).toContain('band-edge');
-      expect((row as HTMLElement).style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
+      expect(row.style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
     }
   });
 });

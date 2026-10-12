@@ -8,8 +8,18 @@ import { generateRubricForPrompt } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import MathSymbolToolbar from './MathSymbolToolbar';
-import LadderRow from './LadderRow';
-import { LADDER_CRITERION, LADDER_MODEL_ANSWER, LADDER_STACK } from '../utils/ladderChrome';
+import LadderRow, { ladderBandVars } from './LadderRow';
+import {
+  LADDER_CRITERION,
+  LADDER_EDGE_SHUT,
+  LADDER_EMPTY,
+  LADDER_FALLBACK,
+  LADDER_FILL,
+  LADDER_MODEL_ANSWER,
+  LADDER_STACK,
+  LADDER_TOOL,
+  LADDER_TOOL_ICON,
+} from '../utils/ladderChrome';
 import {
   exemplarMarkForItem,
   isBandLabelled,
@@ -28,6 +38,11 @@ interface MarkingCriteriaAccordionProps {
    *  and the band line. */
   embedded?: boolean;
 }
+
+/** The AI Draft control while the plan withholds it: the amber of the plan's lock,
+ *  in the same shape as `LADDER_TOOL`, so a locked tool reads as the same family. */
+const TOOL_LOCKED =
+  't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 shadow-sm dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
 
 const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   prompt,
@@ -99,14 +114,15 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   // Embedded, the enclosing AccordionSection already supplies the card, the
   // title and the band line — leaving this component's own header to announce
   // "Marking Criteria" directly beneath a panel headed "Marking Guide". Only
-  // the curator controls still need a home, in the same slim row the exemplars
-  // panel uses.
+  // the curator controls still need a home, as a toolbar in the same family as
+  // the exemplars' tools.
   const curatorControls = canCurate ? (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-2">
       {!isEditing ? (
         <>
           {canGenerate && (
             <button
+              type="button"
               onClick={
                 studioLocked ? () => requestUpgrade('aiContentStudio') : handleGenerateRubric
               }
@@ -116,48 +132,47 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
                   : undefined
               }
-              className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow-lg ${
-                studioLocked
-                  ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
-                  : 'bg-white dark:bg-white/5 border-slate-300 dark:border-white/10 hover:border-indigo-500/30 text-indigo-600 dark:text-indigo-400'
-              }`}
+              className={studioLocked ? TOOL_LOCKED : LADDER_TOOL}
             >
               {isGenerating ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
               ) : (
-                <Sparkles className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
               )}
               AI Draft
               {studioLocked && <PlusLockChip feature="aiContentStudio" />}
             </button>
           )}
           <button
+            type="button"
             onClick={() => {
               setEditText(markingCriteria);
               setIsEditing(true);
             }}
             title="Edit criteria"
             aria-label="Edit criteria"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
+            className={`${LADDER_TOOL_ICON} text-slate-600 dark:text-slate-300 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white`}
           >
-            <Edit3 className="w-4 h-4" />
+            <Edit3 className="w-4 h-4" aria-hidden="true" />
           </button>
         </>
       ) : (
-        <div className="flex gap-1.5">
+        <div className="flex items-center gap-1">
           <button
+            type="button"
             onClick={handleCancel}
             aria-label="Cancel edit"
-            className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+            className={`${LADDER_TOOL_ICON} text-red-600 dark:text-red-400`}
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
           <button
+            type="button"
             onClick={handleSave}
             aria-label="Save"
-            className="p-1.5 rounded-lg text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20"
+            className={`${LADDER_TOOL_ICON} text-green-700 dark:text-green-400`}
           >
-            <Save className="w-4 h-4" />
+            <Save className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       )}
@@ -193,17 +208,18 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
       <div className={embedded ? '' : 'p-4 bg-slate-50/30 dark:bg-black/20'}>
         {generateError && (
-          <div className="mb-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 text-[10px] font-medium text-red-600 dark:text-red-400 flex items-center justify-between gap-2 animate-fade-in">
+          <div className="mb-3 p-3 rounded-xl border border-red-600/40 bg-red-500/10 t-label text-red-800 dark:border-red-400/40 dark:text-red-300 flex items-center justify-between gap-2 animate-fade-in">
             <span className="flex items-center gap-2">
-              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              <AlertCircle className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
               {generateError}
             </span>
             <button
+              type="button"
               onClick={() => setGenerateError(null)}
               aria-label="Dismiss"
-              className="p-1 rounded-lg hover:bg-red-500/10 transition-colors"
+              className={`${LADDER_TOOL_ICON} text-red-800 dark:text-red-300`}
             >
-              <X className="w-3 h-3" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         )}
@@ -238,17 +254,16 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 );
                 return (
                   // The shared ladder row, so the guide and the exemplars draw one
-                  // gutter, one radius and one type scale. The band's colour is
-                  // taken from `getBandConfig` inside LadderRow, which is the one
-                  // place a band's fill, ink and edge are read from; the note there
-                  // says why a light tint is a `-100` and why the edge is
-                  // `band-edge` and not the token.
+                  // gutter, one radius and one type scale. A band-labelled row is
+                  // drawn at the mark its band starts at, so its figure is a mark
+                  // over the total like every other row, and the band goes in the
+                  // caption. The band's colour is read from `getBandConfig` inside
+                  // LadderRow, the one place a band's fill and ink come from.
                   <LadderRow
                     key={idx}
                     band={item.band}
-                    markLabel={item.markLabel}
-                    // A band-labelled row already says "Band N" in its label.
-                    bandCaption={isBandLabelled(item) ? false : `Band ${item.band}`}
+                    markLabel={isBandLabelled(item) ? String(item.markRange[0]) : item.markLabel}
+                    total={prompt.totalMarks}
                     footer={
                       exemplarMark !== undefined ? (
                         <button
@@ -270,19 +285,27 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 );
               })
             ) : markingCriteria ? (
+              // A guide that did not split into rows, shown as one block. It is drawn as
+              // a row's shape with no gutter, in the same band edge and fill, so it reads
+              // as this question's ladder and not as a stray box.
               <div
-                className={`p-4 rounded-xl border ${maxBandConfig.border} bg-white dark:bg-black/20 t-body text-slate-600 dark:text-slate-300 font-serif shadow-sm`}
+                className={`${LADDER_FALLBACK} ${LADDER_EDGE_SHUT} ${LADDER_FILL}`}
+                style={ladderBandVars(maxPossibleBand)}
               >
                 {renderFormattedText(markingCriteria, prompt.keywords, prompt.verb)}
               </div>
             ) : (
-              <div className="py-8 px-4 text-center border-2 border-dashed border-slate-300 dark:border-white/10 rounded-xl">
-                {/* A pair, where it was a bare `text-slate-400` — a dark-theme
-                    tone with no light partner, measuring 2.56:1 on the white
-                    panel behind it. It is also the only thing this state says,
-                    so it is the one reading on the surface that has to be
-                    legible. DesignSpec §2. */}
-                <p className="t-label text-slate-600 dark:text-slate-400">
+              <div
+                className={`${LADDER_EMPTY} ${LADDER_EDGE_SHUT}`}
+                style={ladderBandVars(maxPossibleBand)}
+              >
+                <ListChecks
+                  className={`w-8 h-8 mx-auto mb-2 ${maxBandConfig.text}`}
+                  aria-hidden="true"
+                />
+                {/* The line is the only thing this state says, so it is the one reading
+                    on the surface that has to be legible: a pair, on both grounds. */}
+                <p className="t-label text-slate-700 dark:text-slate-300">
                   {canCurate
                     ? canGenerate
                       ? 'No marking criteria yet — add them with Edit, or start one with AI Draft.'

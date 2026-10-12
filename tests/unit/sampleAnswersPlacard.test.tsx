@@ -127,12 +127,25 @@ describe('the header is the Marking Guide’s header', () => {
     expect(title.tagName).toBe('SPAN');
     expect(title.className).toContain('t-section');
     expect(toggleOf().querySelector('span.t-section')).toBe(title);
-    expect(screen.getByText('2 exemplars · 2 levels').className).toContain('t-label');
+    // The marks lead the sublabel: the same ladder for every question, read off the total.
+    expect(screen.getByText('6 marks · 2 exemplars · 2 levels').className).toContain('t-label');
   });
 
-  it('says there are no models yet when none are written', () => {
+  it('says there are no exemplars yet when none are written, on the same marks line', () => {
     renderPanel({ sampleAnswers: [] });
-    expect(screen.getByText('No models yet')).toBeTruthy();
+    expect(screen.getByText('6 marks · No exemplars yet')).toBeTruthy();
+  });
+
+  it('is a secondary hero: a glowing tile always, and a lit edge only while open', () => {
+    const { container } = renderPanel({ defaultCollapsed: true });
+    const root = panelOf(container);
+    expect(toggleOf().querySelector('.band-glow')).toBeTruthy();
+    expect(toggleOf().parentElement!.className).toContain('band-header-wash');
+    expect(root.className).not.toContain('band-lit');
+
+    fireEvent.click(toggleOf());
+    expect(root.className).toContain('band-lit');
+    expect(root.style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
   });
 
   it('carries the same header row height and surface as every other panel', () => {
@@ -145,7 +158,8 @@ describe('the header is the Marking Guide’s header', () => {
   it('lights its icon tile in the question’s ceiling band, as the guide does', () => {
     renderPanel({ verb: 'EXPLAIN' as PromptVerb, defaultCollapsed: false });
     const ceiling = getBandForMark(6, 6, getCommandTermInfo('EXPLAIN' as PromptVerb).tier);
-    const tile = toggleOf().querySelector('.w-8') as HTMLElement;
+    // A hero's tile is 40px (`w-10`), not the ordinary section's 32px.
+    const tile = toggleOf().querySelector('.w-10') as HTMLElement;
     for (const token of getBandConfig(ceiling).solidBg.split(' ')) {
       expect(tile.className).toContain(token);
     }
@@ -270,7 +284,7 @@ describe('each mark level is a ladder row, built on the guide’s gutter', () =>
   it('shows the mark in the gutter, with the band beneath it as the guide does', () => {
     renderPanel({ sampleAnswers: levels });
     const gutter = gutterOf(rowOf(disclosureFor(6)));
-    expect(gutter.textContent).toBe(`6Band ${getBandForMark(6, 6, 3)}`);
+    expect(gutter.textContent).toBe(`6/6Band ${getBandForMark(6, 6, 3)}`);
     expect(within(gutter).getByText('6')).toBeTruthy();
     expect(within(gutter).getByText(`Band ${getBandForMark(6, 6, 3)}`)).toBeTruthy();
   });
@@ -766,6 +780,7 @@ describe('the panel’s chrome is pinned', () => {
 
   it('keeps the row rhythm and the gutter the guide draws', () => {
     expect(LADDER_STACK).toBe('space-y-2');
-    expect(LADDER_GUTTER).toContain('w-16');
+    expect(LADDER_GUTTER).toContain('w-[4.5rem]');
+    expect(LADDER_GUTTER).toContain('sm:w-20');
   });
 });
