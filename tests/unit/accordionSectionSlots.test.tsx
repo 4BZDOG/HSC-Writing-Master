@@ -66,9 +66,9 @@ describe('AccordionSection hero', () => {
     const { container } = render(section(true));
     const tile = toggle().querySelector('.w-10.h-10') as HTMLElement;
     expect(tile).toBeTruthy();
-    for (const token of getBandConfig(4).solidBg.split(' ')) {
-      expect(tile.className).toContain(token);
-    }
+    expect(tile.className).toContain('band-solid');
+    const owner = tile.closest('[style*="--band-rgb"]') as HTMLElement;
+    expect(owner.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(4));
     expect(tile.className).toContain('band-glow');
     // The ordinary tile is 32px, and only the hero has the glow.
     expect(container.querySelector('.w-8.h-8')).toBeNull();

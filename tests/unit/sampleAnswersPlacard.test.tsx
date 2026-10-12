@@ -160,9 +160,9 @@ describe('the header is the Marking Guide’s header', () => {
     const ceiling = getBandForMark(6, 6, getCommandTermInfo('EXPLAIN' as PromptVerb).tier);
     // A hero's tile is 40px (`w-10`), not the ordinary section's 32px.
     const tile = toggleOf().querySelector('.w-10') as HTMLElement;
-    for (const token of getBandConfig(ceiling).solidBg.split(' ')) {
-      expect(tile.className).toContain(token);
-    }
+    expect(tile.className).toContain('band-solid');
+    const owner = tile.closest('[style*="--band-rgb"]') as HTMLElement;
+    expect(owner.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(ceiling));
   });
 
   it('drops the verb ribbon’s chrome: no mini ladder, no tier-lit glow, no ribbon classes', () => {

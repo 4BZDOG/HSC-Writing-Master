@@ -99,11 +99,11 @@ describe('MarkingGuidePanel icon tile', () => {
     fireEvent.click(toggle());
 
     const tile = iconTile(container);
-    for (const token of getBandConfig(6).solidBg.split(' ')) {
-      expect(tile.className).toContain(token);
-    }
-    // The fixed band the panel used to draw in, 5, is no longer on the tile.
-    expect(tile.className).not.toContain('bg-blue-600');
+    expect(tile.className).toContain('band-solid');
+    const owner = tile.closest('[style*="--band-rgb"]') as HTMLElement;
+    expect(owner.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(6));
+    // The fixed band the panel used to draw in, 5, is not on the panel.
+    expect(owner.style.getPropertyValue('--band-rgb')).not.toBe(getBandRgb(5));
   });
 
   it('follows a different tier, so a Describe question draws Band 2', () => {
@@ -117,9 +117,9 @@ describe('MarkingGuidePanel icon tile', () => {
     fireEvent.click(toggle());
 
     const tile = iconTile(container);
-    for (const token of getBandConfig(2).solidBg.split(' ')) {
-      expect(tile.className).toContain(token);
-    }
+    expect(tile.className).toContain('band-solid');
+    const owner = tile.closest('[style*="--band-rgb"]') as HTMLElement;
+    expect(owner.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(2));
   });
 });
 

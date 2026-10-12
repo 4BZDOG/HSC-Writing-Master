@@ -190,7 +190,7 @@ describe('the accordion renders a row per mark level', () => {
       // The gutter is the band's SOLID colour, so the figure is read against a full
       // band and not against the row's tint.
       const gutter = row.querySelector('.border-r') as HTMLElement;
-      expect(gutter.className).toMatch(/\bbg-\w+-(500|600|700)\b/);
+      expect(gutter.className).toContain('band-solid');
 
       // The edge is band-derived, not the raw `-500/50` token: drawn at full
       // saturation round a filled row it is the loudest thing on the row. `band-edge`

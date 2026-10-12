@@ -10,7 +10,13 @@ import {
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
-import { HERO_HEAD_WASH, HERO_LIT, HERO_TILE, LADDER_EDGE_SHUT } from '../utils/ladderChrome';
+import {
+  HERO_HEAD_WASH,
+  HERO_LIT,
+  HERO_TILE,
+  LADDER_EDGE_SHUT,
+  LADDER_SOLID,
+} from '../utils/ladderChrome';
 import { ladderBandVars } from './LadderRow';
 import { questionCeilingBand } from '../utils/markingGuideParse';
 import { classifySyllabusTerms, type SyllabusTermContext } from '../utils/syllabusTermSource';
@@ -98,7 +104,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         >
           <div className="flex items-center gap-4">
             {hero ? (
-              <div className={`${HERO_TILE} ${bandConfig.solidBg} ${bandConfig.solidText}`}>
+              <div className={`${HERO_TILE} ${LADDER_SOLID}`}>
                 {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-5 h-5' })}
               </div>
             ) : (

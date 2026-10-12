@@ -8,6 +8,7 @@ import {
   LADDER_EDGE_OPEN,
   LADDER_EDGE_SHUT,
   LADDER_FILL,
+  LADDER_SOLID,
   LADDER_GUTTER,
   LADDER_GUTTER_MARK,
   LADDER_GUTTER_MARK_LONG,
@@ -68,13 +69,12 @@ describe('LadderRow gutter', () => {
       </LadderRow>
     );
 
-    const config = getBandConfig(6);
     const figure = screen.getByText('8');
     const caption = screen.getByText('Band 6');
-    for (const token of config.solidText.split(' ')) {
-      expect(figure.className).toContain(token);
-      expect(caption.className).toContain(token);
-    }
+    // The ink is the gutter's own (`band-solid` sets it in index.css), inherited by
+    // the figure and the caption, so neither restates a colour.
+    expect(figure.className).not.toMatch(/text-(white|yellow-950)/);
+    expect(caption.className).not.toMatch(/text-(white|yellow-950)/);
     expect(caption.className).toContain('t-label');
     expect(figure.className).toContain(LADDER_GUTTER_MARK);
     expect(figure.className).toContain('font-mono');
@@ -200,9 +200,8 @@ describe('LadderRow edge and colour', () => {
     // The row's fill is a class in index.css that reads --band-rgb, so it is the same
     // band in both themes; the gutter is the band's SOLID colour, not its wash.
     expect(row.className).toContain(LADDER_FILL);
-    for (const token of getBandConfig(5).solidBg.split(' ')) {
-      expect(gutter.className).toContain(token);
-    }
+    expect(gutter.className).toContain(LADDER_SOLID);
+    expect(gutter.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(5));
     for (const token of getBandConfig(5).bg.split(' ')) {
       expect(gutter.className).not.toContain(token);
     }
