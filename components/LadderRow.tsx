@@ -1,10 +1,11 @@
 import React from 'react';
-import { getBandRgb } from '../utils/renderUtils';
+import { getBandConfig, getBandRgb } from '../utils/renderUtils';
 import {
   LADDER_BODY,
   LADDER_EDGE_OPEN,
   LADDER_EDGE_SHUT,
   LADDER_FILL,
+  LADDER_FILL_QUIET,
   LADDER_FOOTER,
   LADDER_GUTTER,
   LADDER_GUTTER_CAPTION,
@@ -57,6 +58,9 @@ export interface LadderRowGutterProps {
    *  caption would say nothing the figure does not. */
   bandCaption?: string | false;
   edge?: LadderEdge;
+  /** The quiet treatment: no solid ground, so the figure and caption are the band's
+   *  text colour on the row's wash. For a supporting group, under a solid row. */
+  quiet?: boolean;
 }
 
 /**
@@ -70,6 +74,7 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
   total,
   bandCaption,
   edge = 'shut',
+  quiet = false,
 }) => {
   // The figure steps down as it lengthens, so it always fits the gutter: "5/6" and
   // "3–4/6" at the usual size, "7–8/10" one step down, and "10–12/12", eight
@@ -83,17 +88,20 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
         ? LADDER_GUTTER_MARK_MEDIUM
         : LADDER_GUTTER_MARK_LONG;
   const totalClass = long ? LADDER_GUTTER_TOTAL_LONG : LADDER_GUTTER_TOTAL;
+  // A quiet gutter has no ground of its own: the row's wash runs under it, and the
+  // figure is the band's text step, which `getBandConfig` already holds to AA on
+  // the wash. Its divider is the same band edge as a solid gutter's. A solid gutter
+  // is the ribbon's tier hue (`band-solid`), whose ink it sets itself.
+  const ground = quiet ? '' : LADDER_SOLID;
+  const ink = quiet ? getBandConfig(band).text : '';
   return (
-    <div
-      style={ladderBandVars(band)}
-      className={`${LADDER_GUTTER} ${LADDER_SOLID} ${edgeClass(edge)}`}
-    >
-      <span className={markClass}>
+    <div style={ladderBandVars(band)} className={`${LADDER_GUTTER} ${ground} ${edgeClass(edge)}`}>
+      <span className={`${markClass} ${ink}`}>
         {markLabel}
         {total !== undefined && <span className={totalClass}>/{total}</span>}
       </span>
       {bandCaption !== false && (
-        <span className={LADDER_GUTTER_CAPTION}>{bandCaption ?? `Band ${band}`}</span>
+        <span className={`${LADDER_GUTTER_CAPTION} ${ink}`}>{bandCaption ?? `Band ${band}`}</span>
       )}
     </div>
   );
@@ -108,6 +116,8 @@ export interface LadderRowProps {
   /** A control or line set under the body's content, inside the row. */
   footer?: React.ReactNode;
   edge?: LadderEdge;
+  /** The quiet row: the band's wash in place of its full fill, with a quiet gutter. */
+  quiet?: boolean;
 }
 
 const LadderRow: React.FC<LadderRowProps> = ({
@@ -118,14 +128,19 @@ const LadderRow: React.FC<LadderRowProps> = ({
   children,
   footer,
   edge = 'shut',
+  quiet = false,
 }) => (
-  <div style={ladderBandVars(band)} className={`${LADDER_ROW} ${edgeClass(edge)} ${LADDER_FILL}`}>
+  <div
+    style={ladderBandVars(band)}
+    className={`${LADDER_ROW} ${edgeClass(edge)} ${quiet ? LADDER_FILL_QUIET : LADDER_FILL}`}
+  >
     <LadderRowGutter
       band={band}
       markLabel={markLabel}
       total={total}
       bandCaption={bandCaption}
       edge={edge}
+      quiet={quiet}
     />
     <div className={LADDER_BODY}>
       {children}
