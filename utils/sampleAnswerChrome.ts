@@ -214,7 +214,7 @@ export const ZONE_CRITERION = 'overflow-hidden rounded-xl border';
  *  which the call site adds with the band's ink. It is the one solid thing a zone
  *  carries, so it is the first place the eye lands on the zone. Painted on the band's
  *  solid fill. */
-export const ZONE_HEAD = 'flex items-center gap-2 px-3 py-2';
+export const ZONE_HEAD = 'flex flex-wrap items-center gap-x-2 gap-y-0.5 px-3 py-2';
 
 /** A zone's label, in the boundary voice (`.t-section`): it marks where a zone starts,
  *  which is what DesignSpec §4 keeps the caps for. It sets no colour, so it takes the

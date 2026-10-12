@@ -16,6 +16,7 @@ import {
   LADDER_NOTE_LABEL,
   LADDER_PANE,
   LADDER_ROW,
+  LADDER_SOLID,
   LADDER_STACK,
 } from '../utils/ladderChrome';
 import {
@@ -528,7 +529,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       aria-label="Marking criterion"
                       className={`${ZONE_CRITERION} ${LADDER_EDGE_OPEN}`}
                     >
-                      <div className={`${ZONE_HEAD} ${bandConfig.solidBg} ${bandConfig.solidText}`}>
+                      <div className={`${ZONE_HEAD} ${LADDER_SOLID}`}>
                         <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                         <span className={ZONE_LABEL}>Marking criterion</span>
                         <span className={ZONE_FIGURE} aria-hidden="true">
@@ -575,7 +576,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                                 onClick={() => setCurrentIndex(i)}
                                 className={`${SAMPLE_PICKER_TAB} ${
                                   isCurrent
-                                    ? `${bandConfig.solidBg} ${bandConfig.solidText} border-transparent shadow-sm`
+                                    ? `${LADDER_SOLID} border-transparent shadow-sm`
                                     : SAMPLE_PICKER_TAB_IDLE
                                 }`}
                               >

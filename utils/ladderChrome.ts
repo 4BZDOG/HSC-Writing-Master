@@ -153,7 +153,7 @@ export const LADDER_DISCLOSURE =
  *  exemplar. It takes the same 16px inset as the disclosure above it, so the
  *  content of the two halves of an open row starts on one left edge. Painted on
  *  the row's band fill. */
-export const LADDER_PANE = 'px-4 pb-4 flex flex-col gap-3';
+export const LADDER_PANE = 'px-2.5 sm:px-4 pb-4 flex flex-col gap-3';
 
 /** A quiet note inside a row: a rule down its left edge and a glyph, with no fill.
  *  This is the family `components/DraftCheck.tsx` uses for its notes. The rule is
