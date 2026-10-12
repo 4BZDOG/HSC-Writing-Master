@@ -4,7 +4,9 @@ import { render, screen, cleanup, act } from '@testing-library/react';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import EvaluationProgressBar from '../../components/EvaluationProgressBar';
 import { emitEvalProgress } from '../../services/aiCore';
-import { WAIT_TIPS } from '../../utils/waitTips';
+import { waitNotes } from '../../utils/waitTips';
+import type { AiTaskType } from '../../components/LoadingIndicator';
+import { HSC_RESULTS_FACTS } from '../../data/hscResultsFacts';
 import { acquireAiBusy } from '../../utils/aiBusySignal';
 
 /**
@@ -20,16 +22,57 @@ import { acquireAiBusy } from '../../utils/aiBusySignal';
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.restoreAllMocks();
   document.body.classList.remove('ai-busy');
 });
 
-const tipShown = (task: keyof typeof WAIT_TIPS): boolean =>
-  WAIT_TIPS[task].some((tip) => screen.queryByText(tip) !== null);
+const tipShown = (task: AiTaskType): boolean =>
+  waitNotes(task).some((note) => screen.queryByText(note.text) !== null);
+
+const CHART_TITLE = 'How 2025 HSC results fell';
 
 describe('LoadingIndicator', () => {
   it('shows a note chosen for the task being waited on', () => {
     render(<LoadingIndicator task="evaluation" message="Marking your response" />);
     expect(tipShown('evaluation')).toBe(true);
+  });
+
+  it('rotates HSC numbers in with the advice, labelled with their year', () => {
+    vi.useFakeTimers();
+    // Start the rotation on the first note, so the next one is known.
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+    const { container } = render(<LoadingIndicator task="evaluation" message="Marking" />);
+    const first = waitNotes('evaluation')[0];
+    const second = waitNotes('evaluation')[1];
+    expect(second.kind).toBe('fact');
+    expect(container.querySelector('blockquote')?.textContent).toBe(first.text);
+    act(() => void vi.advanceTimersByTime(9_000));
+    expect(container.querySelector('blockquote')?.textContent).toBe(second.text);
+    expect(screen.getByText('HSC in numbers, 2025')).toBeTruthy();
+    expect(HSC_RESULTS_FACTS.map((f) => f.text)).toContain(second.text);
+  });
+
+  it('shows the 2025 results chart on a reading wait', () => {
+    render(<LoadingIndicator task="enrichment" message="Reading the syllabus" />);
+    expect(screen.getByRole('figure', { name: CHART_TITLE })).toBeTruthy();
+  });
+
+  it('shows the chart on a default AI wait, not on a plain data load', () => {
+    const { unmount } = render(<LoadingIndicator message="Discovering terminology..." />);
+    expect(screen.getByText(CHART_TITLE)).toBeTruthy();
+    unmount();
+    render(<LoadingIndicator messages={['Loading usage data…']} duration={2} />);
+    expect(screen.queryByText(CHART_TITLE)).toBeNull();
+  });
+
+  it('never shows the chart while a student’s response is being marked', () => {
+    render(<LoadingIndicator task="evaluation" message="Marking your response" />);
+    expect(screen.queryByText(CHART_TITLE)).toBeNull();
+  });
+
+  it('never shows the chart on a generation wait', () => {
+    render(<LoadingIndicator task="generation" message="Writing" />);
+    expect(screen.queryByText(CHART_TITLE)).toBeNull();
   });
 
   it('keeps the note out of the live region, so it is not announced on its own clock', () => {

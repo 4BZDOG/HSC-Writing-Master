@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { PenLine } from 'lucide-react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import AiWaitGlyph from './AiWaitGlyph';
-import { WAIT_TIPS } from '../utils/waitTips';
+import WaitNoteFigure from './WaitNoteFigure';
+import { waitNotes } from '../utils/waitTips';
 import { acquireAiBusy } from '../utils/aiBusySignal';
 import {
   subscribeEvalProgress,
@@ -50,8 +50,8 @@ const EvaluationProgressBar: React.FC = () => {
   // Read at render, not at module scope — `npm run check:eager-reads` holds
   // that line, since an import read during module init is how a chunk cycle
   // renders the page blank.
-  const tips = WAIT_TIPS.evaluation;
-  const [tipOffset] = useState(() => Math.floor(Math.random() * tips.length));
+  const notes = useMemo(() => waitNotes('evaluation'), []);
+  const [noteOffset] = useState(() => Math.floor(Math.random() * notes.length));
   const startRef = useRef(Date.now());
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const EvaluationProgressBar: React.FC = () => {
       ? eventMessage.replace(/\.{3}$/, '')
       : PHASE_MESSAGES[shownPhase];
   const overdue = elapsedSec > USUAL_SECONDS;
-  const tip = tips[(tipOffset + Math.floor(elapsedSec / TIP_SECONDS)) % tips.length];
+  const note = notes[(noteOffset + Math.floor(elapsedSec / TIP_SECONDS)) % notes.length];
 
   return (
     // Same veil recipe as AiBusyOverlay so the most-seen wait in the app looks
@@ -116,19 +116,11 @@ const EvaluationProgressBar: React.FC = () => {
       </div>
 
       {/* A marker's note in the margin while the real one works. Outside the
-          live region, so it is never announced on its own clock. */}
-      <figure
-        key={tip}
-        className="w-full max-w-sm flex gap-3 pl-3 border-l-2 border-indigo-500/40 animate-fade-in"
-      >
-        <PenLine
-          className="w-4 h-4 mt-1 shrink-0 text-slate-500 dark:text-slate-400"
-          aria-hidden="true"
-        />
-        <blockquote className="font-serif italic text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
-          {tip}
-        </blockquote>
-      </figure>
+          live region, so it is never announced on its own clock. No results
+          chart here: this is the wait where the student's own band is decided. */}
+      <div className="w-full max-w-sm">
+        <WaitNoteFigure key={note.text} note={note} accent="#6366f1" />
+      </div>
     </div>
   );
 };
