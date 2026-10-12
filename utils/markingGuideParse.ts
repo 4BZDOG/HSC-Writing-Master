@@ -1,5 +1,6 @@
 import { formatMarkingCriteria } from './dataManagerUtils';
-import { getBandForMark, markForBand } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
+import type { PromptVerb } from '../types';
 
 /**
  * The marking guide as a ladder: one row per mark level or band, each with the
@@ -140,6 +141,16 @@ export const parseMarkingCriteria = (
 
   return items.sort((a, b) => b.markRange[1] - a.markRange[1]);
 };
+
+/**
+ * The band a question's full marks earn: the one colour all three hero panels of
+ * a question are drawn in (Syllabus Terms, Marking Guide and Sample Answers), so
+ * their headers agree and the rows read against the same band. It is read through
+ * `getBandForMark`, never worked out inline, which is what keeps the Verb Gate's
+ * ceiling the only ceiling there is.
+ */
+export const questionCeilingBand = (totalMarks: number, verb: PromptVerb | undefined): number =>
+  getBandForMark(totalMarks, totalMarks, getCommandTermInfo(verb).tier);
 
 /**
  * A row written against a band rather than a mark. Its `markRange` is the single

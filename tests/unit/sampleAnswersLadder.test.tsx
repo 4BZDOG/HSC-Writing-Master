@@ -98,7 +98,8 @@ const gutterIn = (scope: HTMLElement, mark: string): HTMLElement => {
   const gutters = Array.from(
     scope.querySelectorAll<HTMLElement>(`[class*="${LADDER_GUTTER.split(' ')[0]}"]`)
   );
-  const found = gutters.find((g) => g.firstElementChild?.textContent === mark);
+  // The figure's own text is the mark; its total ("/6") is a child of the figure.
+  const found = gutters.find((g) => g.firstElementChild?.firstChild?.textContent === mark);
   if (!found) throw new Error(`no gutter for mark ${mark}`);
   return found;
 };
@@ -122,10 +123,10 @@ describe('a mark draws the same gutter in the guide and in the exemplars', () =>
 
     const guideGutter = gutterIn(screen.getByTestId('guide'), '5');
     const sampleGutter = gutterIn(screen.getByTestId('samples'), '5');
-    // The gutter's text is the mark, then the band beneath it.
+    // The gutter's text is the mark over the total, then the band beneath it.
     const band = getBandForMark(5, 6, TIER);
-    expect(guideGutter.textContent).toBe(`5Band ${band}`);
-    expect(sampleGutter.textContent).toBe(`5Band ${band}`);
+    expect(guideGutter.textContent).toBe(`5/6Band ${band}`);
+    expect(sampleGutter.textContent).toBe(`5/6Band ${band}`);
     // The same classes, so the same width, radius, type and band wash.
     expect(sampleGutter.className).toBe(guideGutter.className);
     expect(sampleGutter.style.getPropertyValue('--band-rgb')).toBe(
@@ -156,8 +157,9 @@ describe('a mark draws the same gutter in the guide and in the exemplars', () =>
     expect(sampleRow.className).toContain(
       guideRow.className.split(' ').find((c) => c.startsWith('min-h-'))!
     );
-    expect(samplesToggle().querySelector('.w-8')!.className).toBe(
-      guideToggle().querySelector('.w-8')!.className
+    // Both are hero tiles, so both are the 40px tile.
+    expect(samplesToggle().querySelector('.w-10')!.className).toBe(
+      guideToggle().querySelector('.w-10')!.className
     );
   });
 });

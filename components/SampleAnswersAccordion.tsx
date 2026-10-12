@@ -10,6 +10,7 @@ import {
   LADDER_DISCLOSURE,
   LADDER_EDGE_OPEN,
   LADDER_EDGE_SHUT,
+  LADDER_FILL,
   LADDER_NOTE,
   LADDER_NOTE_GLYPH,
   LADDER_NOTE_LABEL,
@@ -20,6 +21,7 @@ import {
 import {
   criterionForMark,
   parseMarkingCriteria,
+  questionCeilingBand,
   type MarkingCriteriaItem,
 } from '../utils/markingGuideParse';
 import { nearestExemplarMark, useOpenExemplarRequest } from '../utils/ladderLink';
@@ -353,11 +355,12 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
       <div
         data-exemplar-row
         style={ladderBandVars(displayBand)}
-        className={`${LADDER_ROW} ${isOpen ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT} ${bandConfig.bg}`}
+        className={`${LADDER_ROW} ${isOpen ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT} ${LADDER_FILL}`}
       >
         <LadderRowGutter
           band={displayBand}
           markLabel={String(group.mark)}
+          total={prompt.totalMarks}
           edge={isOpen ? 'open' : 'shut'}
         />
 
@@ -754,11 +757,11 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const tier = commandTermInfo.tier;
 
-  // The question's own ceiling, as the Marking Guide has it: the header's tile
-  // takes this band, so the two panels' headers are the same colour.
+  // The question's own ceiling, as the Marking Guide and Syllabus Terms have it:
+  // the header is drawn in this band, so the three reference headers agree.
   const ceilingBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, tier),
-    [prompt.totalMarks, tier]
+    () => questionCeilingBand(prompt.totalMarks, prompt.verb),
+    [prompt.totalMarks, prompt.verb]
   );
 
   const groupedAnswers = useMemo(() => {
@@ -787,15 +790,15 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const totalSamples = groupedAnswers.reduce((sum, g) => sum + g.answers.length, 0);
 
   /**
-   * The folded header's second line: the exemplar TOTAL and the level count, the
-   * same way the Marking Guide's line states its band. Eleven models over three
-   * levels and three models over three levels are very different things to walk
-   * into.
+   * The header's second line: the question's marks, then the exemplar TOTAL and the
+   * level count, the same way the Marking Guide's line states its band. Eleven models
+   * over three levels and three models over three levels are very different things
+   * to walk into, and the marks say which ladder they are on.
    */
   const subtitle =
     groupedAnswers.length > 0
-      ? `${totalSamples} exemplar${totalSamples === 1 ? '' : 's'} · ${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'}`
-      : 'No models yet';
+      ? `${prompt.totalMarks} marks · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'} · ${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'}`
+      : `${prompt.totalMarks} marks · No exemplars yet`;
 
   /** Opens the panel, then the row at `mark`. The one way both an outside request
    *  and a freshly generated exemplar open the panel, so they cannot drift. */
@@ -966,6 +969,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         subtitle={subtitle}
         icon={<Bookmark />}
         band={ceilingBand}
+        hero
         defaultOpen={!defaultCollapsed}
         resetKey={prompt.id}
         supportId="sampleAnswers"

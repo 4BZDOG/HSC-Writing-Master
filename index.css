@@ -793,6 +793,75 @@ a:focus-visible,
 }
 
 /*
+ * The mark ladder's row fill (`LADDER_FILL`): the band as a gradient, strongest
+ * where the solid gutter meets it and fading into the panel to the right.
+ *
+ * `band-wash` is a flat 10%, which read as a pale wash on the guide's rows and let
+ * the gutter carry all the colour. The row is now the band at a real strength, so
+ * it is the second thing the eye reads after the figure. The alpha is a property
+ * per theme because the same tint is a rich deep one on near-black and a pastel on
+ * white (DesignSpec §2 rule 1). The dark theme's 18% is as strong as the verb's sky
+ * ink allows: at 20% the verb's worst pixel fell to 4.48:1 on a band 6 row, under the
+ * 4.5:1 AA floor for 16px text. The light theme's 20% lands between its own `-100`
+ * and `-200` steps.
+ *
+ * The top highlight is white, not a band colour: it is a sheen on the row, the one
+ * thing the design lets a neutral do, and it is the same white in both themes.
+ */
+.band-fill {
+  --band-fill-alpha: 0.18;
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / var(--band-fill-alpha)) 0%,
+    rgb(var(--band-rgb) / 0.07) 90%
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 1px 2px 0 rgb(0 0 0 / 0.08);
+}
+[data-theme='light'] .band-fill {
+  --band-fill-alpha: 0.2;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    0 1px 2px 0 rgb(15 23 42 / 0.08);
+}
+
+/*
+ * The hero panels (DesignSpec §3, "Secondary heroes"): a header wash, a glowing
+ * icon tile and, while open, a lit edge with a tier glow beneath the panel.
+ *
+ * Each one reads `--band-rgb`, which the panel root sets from the question's
+ * ceiling band, so the three panels of a question share one colour. The wash ends
+ * at the band's own hue with zero alpha, not at `transparent`, which Safari takes
+ * through grey on a gradient.
+ *
+ * The lit state is written `:root .band-lit` on purpose. The panel's dark-theme
+ * border (`dark:border-white/20`) is a `.dark .` selector, which has two classes of
+ * specificity, and one class here would lose to it in the dark theme and the lit
+ * edge would never show there. `:root` adds the second class, and this block sits
+ * after the utilities, so at equal specificity it is the later rule that wins.
+ *
+ * Nothing here moves. The one transition is the panel's own `transition-all`, which
+ * the reduced-motion rule above already neutralises.
+ */
+.band-header-wash {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.16) 0%,
+    rgb(var(--band-rgb) / 0) 75%
+  );
+}
+.band-glow {
+  box-shadow: 0 6px 18px -6px rgb(var(--band-rgb) / 0.75);
+}
+:root .band-lit {
+  border-color: rgb(var(--band-rgb) / 0.5);
+  box-shadow:
+    0 1px 2px 0 rgb(0 0 0 / 0.05),
+    0 16px 36px -18px rgb(var(--band-rgb) / 0.8);
+}
+
+/*
  * The verb ribbon's stage palette, one table for both themes.
  *
  * The stage under the banner was a near-black slab (#070b14) in BOTH themes. In
