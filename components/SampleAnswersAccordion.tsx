@@ -32,18 +32,24 @@ import {
   SAMPLE_ACTION_ICON,
   SAMPLE_ACTIONS,
   SAMPLE_AI_BUTTON,
+  SAMPLE_ANSWER,
   SAMPLE_CAROUSEL,
   SAMPLE_CAROUSEL_BUTTON,
   SAMPLE_CAROUSEL_COUNT,
+  SAMPLE_COMMENTARY,
+  SAMPLE_COMMENTARY_HEAD,
   SAMPLE_EMPTY,
   SAMPLE_LOCKED,
   SAMPLE_LOCKED_CTA,
   SAMPLE_NOTE_TEXT,
   SAMPLE_NOTE_TOGGLE,
   SAMPLE_PAGE,
+  SAMPLE_PAGE_BAR,
+  SAMPLE_PAGE_FOOT,
   SAMPLE_PAGE_TEXT,
   SAMPLE_PICKER,
   SAMPLE_PICKER_MORE,
+  SAMPLE_PICKER_ROW,
   SAMPLE_PICKER_TAB,
   SAMPLE_PICKER_TAB_IDLE,
   SAMPLE_ROW_FIGURE,
@@ -51,9 +57,15 @@ import {
   SAMPLE_ROW_META,
   SAMPLE_ROW_PREVIEW,
   SAMPLE_TOOLS,
+  SAMPLE_ZONES,
   SAMPLE_ZOOM,
   SAMPLE_ZOOM_BUTTON,
   SAMPLE_ZOOM_VALUE,
+  ZONE_CRITERION,
+  ZONE_CRITERION_BODY,
+  ZONE_FIGURE,
+  ZONE_HEAD,
+  ZONE_LABEL,
 } from '../utils/sampleAnswerChrome';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
@@ -84,6 +96,7 @@ import {
   Flag,
   Lock,
   ListChecks,
+  MessageSquareQuote,
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
@@ -232,9 +245,10 @@ const SourceBadge: React.FC<Pick<SampleAnswer, 'source' | 'derivedFromStudent'>>
  * open side by side.
  *
  * Shut, the whole body is one disclosure button: the source, the length and the
- * opening of the exemplar. Open, the disclosure keeps its header and the body
- * beneath it holds the criterion that earns the mark, the picker, the exemplar
- * on its page, the actions beneath that and the notes.
+ * opening of the exemplar. Open, the body is three labelled zones read top to
+ * bottom: the criterion that earns the mark (a solid head over the band wash), the
+ * answer on its paper with the exemplar selector above it, and the marker's
+ * commentary, which sits outside the paper on the desk.
  */
 interface ExemplarRowProps {
   group: GroupedSampleAnswers;
@@ -279,9 +293,18 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
     // worth reading first — and keeps the rest one click away rather than
     // spending four rows of chips on near-identical AI variations.
     const [showAllVariants, setShowAllVariants] = useState(false);
-    // The disclosure's body and the notes' body, each named by aria-controls.
+    // The disclosure's body, the notes' body and the picker's ids: the disclosure
+    // names the first by aria-controls, the picker's tabs and the paper name each other.
     const bodyId = useId();
     const notesId = useId();
+    const pickerId = useId();
+    const paperId = useId();
+    // The tabs by index, so the arrow keys can move focus with the selection.
+    const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+    // The "Copied" confirmation's timer. It is cleared when the row unmounts, so it
+    // cannot set state on a row that has gone.
+    const copiedTimer = useRef<number | undefined>(undefined);
+    useEffect(() => () => window.clearTimeout(copiedTimer.current), []);
     // Stepping past the fold with the header arrows opens the strip rather
     // than leaving the reader on an exemplar no chip is highlighting.
     const visibleVariants =
@@ -337,9 +360,16 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
     };
 
     const handleCopy = async () => {
-      await navigator.clipboard.writeText(cleanMarkdown(currentSample.answer));
+      try {
+        await navigator.clipboard.writeText(cleanMarkdown(currentSample.answer));
+      } catch {
+        // The browser refused the clipboard, so nothing was copied and nothing
+        // should say "Copied". The text is still on the page to select by hand.
+        return;
+      }
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      window.clearTimeout(copiedTimer.current);
+      copiedTimer.current = window.setTimeout(() => setIsCopied(false), 2000);
     };
 
     const handleContribute = () => {
@@ -349,7 +379,33 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
       Promise.resolve(onContribute(currentSample)).finally(() => setIsContributing(false));
     };
 
+    // The selector is a tablist, so it takes the arrow keys, Home and End, and only the
+    // selected tab sits in the tab order. Moving the selection moves focus with it.
+    const handleTabKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const last = visibleVariants.length - 1;
+      const next =
+        event.key === 'ArrowRight'
+          ? currentIndex >= last
+            ? 0
+            : currentIndex + 1
+          : event.key === 'ArrowLeft'
+            ? currentIndex <= 0
+              ? last
+              : currentIndex - 1
+            : event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? last
+                : null;
+      if (next === null) return;
+      event.preventDefault();
+      setCurrentIndex(next);
+      tabRefs.current[next]?.focus();
+    };
+
     const flagged = currentSample.contentFlag?.status === 'open';
+    const hasPicker = group.answers.length > 1;
+    const hiddenVariants = group.answers.length - visibleVariants.length;
 
     return (
       <div
@@ -367,7 +423,8 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
         <div className="flex-1 min-w-0 flex flex-col">
           {/* The header line. The disclosure is the whole of it while the row is
               shut, and the carousel's arrows are its siblings while it is open,
-              so no button is ever inside another. */}
+              so no button is ever inside another. Open, the source, the length and
+              the lock move to the paper, which is where the answer is labelled. */}
           <div className="flex items-stretch">
             <button
               type="button"
@@ -384,10 +441,14 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
               </span>
               <span className={SAMPLE_ROW_HEAD}>
                 <span className={SAMPLE_ROW_META}>
-                  <SourceBadge
-                    source={currentSample.source}
-                    derivedFromStudent={currentSample.derivedFromStudent}
-                  />
+                  {!isOpen && (
+                    <SourceBadge
+                      source={currentSample.source}
+                      derivedFromStudent={currentSample.derivedFromStudent}
+                    />
+                  )}
+                  {/* The flag stays in the header whether the row is open or shut, so it
+                      is seen at a glance. */}
                   {flagged && (
                     <span
                       title={`Flagged for review: ${currentSample.contentFlag?.reason}`}
@@ -396,18 +457,19 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       <Flag className="w-2.5 h-2.5 fill-current" aria-hidden="true" /> Flagged
                     </span>
                   )}
-                  {locked ? (
-                    <span
-                      className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
-                    >
-                      <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
-                    </span>
-                  ) : (
-                    <span className={SAMPLE_ROW_FIGURE}>
-                      {countWords(currentSample.answer)} words
-                    </span>
-                  )}
-                  {group.answers.length > 1 && (
+                  {!isOpen &&
+                    (locked ? (
+                      <span
+                        className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
+                      >
+                        <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
+                      </span>
+                    ) : (
+                      <span className={SAMPLE_ROW_FIGURE}>
+                        {countWords(currentSample.answer)} words
+                      </span>
+                    ))}
+                  {hasPicker && (
                     <span className={SAMPLE_ROW_FIGURE}>{group.answers.length} exemplars</span>
                   )}
                 </span>
@@ -419,7 +481,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
               {!isOpen && preview && <span className={SAMPLE_ROW_PREVIEW}>{preview}</span>}
             </button>
 
-            {isOpen && group.answers.length > 1 && (
+            {isOpen && hasPicker && (
               <div className={SAMPLE_CAROUSEL}>
                 <button
                   type="button"
@@ -456,251 +518,336 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
           >
             <div className="overflow-hidden min-h-0">
               <div className={LADDER_PANE}>
-                {/* What the guide asks for at this level. The note says so in the
-                    guide's own words, so the exemplar is read against the criterion
-                    it is meant to meet. Nothing is drawn when the guide has no row. */}
-                {criterion && (
-                  <div className={LADDER_NOTE}>
-                    <ListChecks className={LADDER_NOTE_GLYPH} aria-hidden="true" />
-                    <div className="min-w-0">
-                      <p className={LADDER_NOTE_LABEL}>What earns this mark</p>
-                      <div className={`mt-1 ${LADDER_CRITERION}`}>
-                        {renderFormattedText(criterion.description, prompt.keywords, prompt.verb)}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Which exemplar, of the several at this mark. The arrows in the
-                    header can step through them, but they say nothing about what
-                    is being stepped through: "2 of 5" turns five distinct
-                    exemplars into a shuffle, and a student reads all five to find
-                    out that four were AI variations on the same shape. Naming each
-                    one by where it came from and how long it is makes the choice a
-                    choice. */}
-                {group.answers.length > 1 && (
-                  <div className={SAMPLE_PICKER} role="tablist" aria-label="Exemplars at this mark">
-                    {visibleVariants.map((sample, i) => {
-                      const isCurrent = i === currentIndex;
-                      return (
-                        <button
-                          key={sample.id}
-                          type="button"
-                          role="tab"
-                          aria-selected={isCurrent}
-                          onClick={() => setCurrentIndex(i)}
-                          className={`${SAMPLE_PICKER_TAB} ${
-                            isCurrent
-                              ? `${bandConfig.solidBg} ${bandConfig.solidText} border-transparent shadow-sm`
-                              : SAMPLE_PICKER_TAB_IDLE
-                          }`}
-                        >
-                          {sourceLabel(sample)}{' '}
-                          <span className="font-normal tabular-nums">
-                            · {countWords(sample.answer)}w
-                          </span>
-                        </button>
-                      );
-                    })}
-                    {group.answers.length > visibleVariants.length && (
-                      <button
-                        type="button"
-                        onClick={() => setShowAllVariants(true)}
-                        className={SAMPLE_PICKER_MORE}
-                      >
-                        +{group.answers.length - visibleVariants.length} more
-                      </button>
-                    )}
-                  </div>
-                )}
-
-                {locked ? (
-                  // A locked exemplar is a locked exemplar, not a blurred one.
-                  // schema.sql §25 stops sending the prose, so there is nothing
-                  // here to blur: the card says which band it is, that it exists,
-                  // and what covers it.
-                  <div className={SAMPLE_LOCKED}>
-                    <div className="w-10 h-10 rounded-tile flex items-center justify-center border border-amber-500/40 bg-amber-400/15">
-                      <Lock
-                        className="w-5 h-5 text-amber-700 dark:text-amber-400"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                      A Band {displayBand} exemplar at {group.mark}/{prompt.totalMarks}
-                    </p>
-                    <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 max-w-sm">
-                      It is written and marked. Exemplars above Band{' '}
-                      {freeTierLimits().maxSampleBand} are part of{' '}
-                      {planLabelForFeature('sampleAnswers')}, so this one stays on the server until
-                      your plan covers it.
-                    </p>
-                    <button
-                      onClick={() => requestUpgrade('sampleAnswers')}
-                      className={`${SAMPLE_LOCKED_CTA} ${LOCK_CTA}`}
-                    >
-                      Unlock with {planLabelForFeature('sampleAnswers')}
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    {/* The exemplar, on a page, in the reading face at the shared
-                        size. The page is the one bright surface in the row, so it
-                        is what the eye reads, and the actions sit beneath it. */}
-                    <div className={SAMPLE_PAGE}>
-                      <div className={SAMPLE_PAGE_TEXT} style={{ fontSize: `${fontSize}px` }}>
-                        {renderFormattedText(currentSample.answer, prompt.keywords, prompt.verb)}
-                      </div>
-                    </div>
-
-                    <div className={SAMPLE_ACTIONS}>
-                      {/* The word count is in the header line above, so the metrics
-                          show the keywords only. */}
-                      <AnswerMetricsDisplay metrics={metrics} showLabel={false} showWords={false} />
-
-                      <div className={SAMPLE_ACTION_GROUP}>
-                        {/* "Use" writes the exemplar straight into the student's
-                            draft, which is the one thing the writing surface refuses
-                            to let a student do by hand: paste is blocked there so a
-                            response is the student's own writing. It is handed down
-                            only to a curator, who moves exemplars through the editor
-                            as part of the job — for a student the exemplar stays
-                            something to read and compare against. */}
-                        {onUseSample && (
-                          <button
-                            type="button"
-                            onClick={handleUseSample}
-                            title="Load this exemplar into the writing surface"
-                            className={SAMPLE_ACTION}
-                          >
-                            <Copy className="w-3 h-3" aria-hidden="true" /> Use
-                          </button>
-                        )}
-                        <button type="button" onClick={handleCopy} className={SAMPLE_ACTION}>
-                          {isCopied ? (
-                            <Check className="w-3 h-3" aria-hidden="true" />
-                          ) : (
-                            <FileText className="w-3 h-3" aria-hidden="true" />
-                          )}
-                          {isCopied ? 'Copied' : 'Copy'}
-                        </button>
-                        {onContribute && (
-                          <button
-                            type="button"
-                            onClick={handleContribute}
-                            disabled={isContributing}
-                            title="Submit this sample answer to the shared library for review"
-                            className={SAMPLE_ACTION}
-                          >
-                            <UploadCloud className="w-3 h-3" aria-hidden="true" />
-                            {isContributing ? 'Submitting…' : 'Submit'}
-                          </button>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => onFlag(currentSample)}
-                          className={flagged ? FLAG_ACTIVE : SAMPLE_ACTION_ICON}
-                          title={
-                            flagged
-                              ? 'This sample is flagged for review — click to view'
-                              : 'Something off about this sample? Flag it for review'
-                          }
-                        >
-                          <Flag
-                            className={`w-3.5 h-3.5 ${flagged ? 'fill-current' : ''}`}
-                            aria-hidden="true"
-                          />
-                        </button>
-                        {canModify && (
-                          <>
-                            <span className={SAMPLE_ACTION_DIVIDER} aria-hidden="true" />
-                            <button
-                              type="button"
-                              onClick={() => onRevise(currentSample)}
-                              className={SAMPLE_ACTION_ICON}
-                              title="Revise with AI"
-                            >
-                              <Repeat className="w-3.5 h-3.5" aria-hidden="true" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => onEdit(currentSample)}
-                              className={SAMPLE_ACTION_ICON}
-                              title="Edit manually"
-                            >
-                              <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => onDelete(currentSample.id)}
-                              className={`${SAMPLE_ACTION_ICON} ${DANGER_HOVER}`}
-                              title="Delete"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {/* Feedback and Coach's Tip, which the reader can fold away. A locked
-                    exemplar shows neither: the lock covers the notes as much as the
-                    text. */}
-                {!locked && (currentSample.quickTip || currentSample.feedback) && (
-                  <div className="flex flex-col gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setFeedbackExpanded((prev) => !prev)}
-                      aria-expanded={feedbackExpanded}
-                      aria-controls={notesId}
-                      className={SAMPLE_NOTE_TOGGLE}
-                    >
-                      <ChevronDown
-                        aria-hidden="true"
-                        className={`w-3 h-3 transition-transform duration-200 ${feedbackExpanded ? '' : '-rotate-90'}`}
-                      />
-                      {feedbackExpanded ? 'Hide Feedback' : 'Show Feedback'}
-                    </button>
+                <div className={SAMPLE_ZONES}>
+                  {/* Zone one: what the guide asks for at this level. It is the guide's
+                      own row, lifted out: the band's solid head, then the criterion on
+                      the band wash. Nothing is drawn when the guide has no row. */}
+                  {criterion && (
                     <div
-                      id={notesId}
-                      inert={!feedbackExpanded}
-                      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${feedbackExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                      role="group"
+                      aria-label="Marking criterion"
+                      className={`${ZONE_CRITERION} ${LADDER_EDGE_OPEN}`}
                     >
-                      <div className="overflow-hidden min-h-0">
-                        <div className="flex flex-col gap-3 pb-1">
-                          {currentSample.quickTip && (
-                            <div className={LADDER_NOTE}>
-                              <Lightbulb className={LADDER_NOTE_GLYPH} aria-hidden="true" />
-                              <div className="min-w-0">
-                                <p className={LADDER_NOTE_LABEL}>Coach's Tip</p>
-                                <p className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
-                                  {currentSample.quickTip}
-                                </p>
-                              </div>
-                            </div>
-                          )}
-                          {currentSample.feedback && (
-                            <div className={LADDER_NOTE}>
-                              <BookOpen className={LADDER_NOTE_GLYPH} aria-hidden="true" />
-                              <div className="min-w-0">
-                                <p className={LADDER_NOTE_LABEL}>Feedback</p>
-                                <div className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
-                                  {renderFormattedText(
-                                    currentSample.feedback,
-                                    prompt.keywords,
-                                    prompt.verb
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          )}
+                      <div className={`${ZONE_HEAD} ${bandConfig.solidBg} ${bandConfig.solidText}`}>
+                        <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                        <span className={ZONE_LABEL}>Marking criterion</span>
+                        <span className={ZONE_FIGURE} aria-hidden="true">
+                          ·
+                        </span>
+                        <span className={ZONE_FIGURE}>
+                          {group.mark}/{prompt.totalMarks}
+                        </span>
+                      </div>
+                      <div className={ZONE_CRITERION_BODY}>
+                        <div className={LADDER_CRITERION}>
+                          {renderFormattedText(criterion.description, prompt.keywords, prompt.verb)}
                         </div>
                       </div>
                     </div>
+                  )}
+
+                  {/* Zone two: the answer. The selector sits above the paper because it
+                      chooses which paper is shown, and the paper is the centre of the
+                      row. The paper is labelled on its own top edge, and its foot holds
+                      the metrics and the actions, so they belong to the answer. */}
+                  <div role="group" aria-label="Model answer" className={SAMPLE_ANSWER}>
+                    {hasPicker && (
+                      <div className={SAMPLE_PICKER_ROW}>
+                        <div
+                          role="tablist"
+                          aria-label="Exemplars at this mark"
+                          className={SAMPLE_PICKER}
+                          onKeyDown={handleTabKey}
+                        >
+                          {visibleVariants.map((sample, i) => {
+                            const isCurrent = i === currentIndex;
+                            return (
+                              <button
+                                key={sample.id}
+                                ref={(el) => {
+                                  tabRefs.current[i] = el;
+                                }}
+                                id={`${pickerId}-tab-${i}`}
+                                type="button"
+                                role="tab"
+                                aria-selected={isCurrent}
+                                tabIndex={isCurrent ? 0 : -1}
+                                onClick={() => setCurrentIndex(i)}
+                                className={`${SAMPLE_PICKER_TAB} ${
+                                  isCurrent
+                                    ? `${bandConfig.solidBg} ${bandConfig.solidText} border-transparent shadow-sm`
+                                    : SAMPLE_PICKER_TAB_IDLE
+                                }`}
+                              >
+                                {sourceLabel(sample)}{' '}
+                                <span className="font-normal tabular-nums">
+                                  · {countWords(sample.answer)}w
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {hiddenVariants > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setShowAllVariants(true)}
+                            className={SAMPLE_PICKER_MORE}
+                          >
+                            +{hiddenVariants} more
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    <div
+                      id={paperId}
+                      role={hasPicker ? 'tabpanel' : undefined}
+                      aria-labelledby={hasPicker ? `${pickerId}-tab-${currentIndex}` : undefined}
+                      className={SAMPLE_PAGE}
+                    >
+                      {/* The length, the source and the lock are named once: in the
+                          header while the row is shut, and here on the paper while it is
+                          open. The open body stays mounted through its collapse, so
+                          this bar would otherwise repeat the header's figures. */}
+                      <div className={SAMPLE_PAGE_BAR}>
+                        <span className={ZONE_LABEL}>Model answer</span>
+                        {isOpen &&
+                          (locked ? (
+                            <span
+                              className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
+                            >
+                              <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
+                            </span>
+                          ) : (
+                            <>
+                              <span className={SAMPLE_ROW_FIGURE}>
+                                {countWords(currentSample.answer)} words
+                              </span>
+                              <SourceBadge
+                                source={currentSample.source}
+                                derivedFromStudent={currentSample.derivedFromStudent}
+                              />
+                            </>
+                          ))}
+                      </div>
+
+                      {locked ? (
+                        // A locked exemplar is a locked exemplar, not a blurred one.
+                        // schema.sql §25 stops sending the prose, so there is nothing
+                        // here to blur: the card says which band it is, that it exists,
+                        // and what covers it.
+                        <div className="p-3 sm:p-4">
+                          <div className={SAMPLE_LOCKED}>
+                            <div className="w-10 h-10 rounded-tile flex items-center justify-center border border-amber-500/40 bg-amber-400/15">
+                              <Lock
+                                className="w-5 h-5 text-amber-700 dark:text-amber-400"
+                                aria-hidden="true"
+                              />
+                            </div>
+                            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                              A Band {displayBand} exemplar at {group.mark}/{prompt.totalMarks}
+                            </p>
+                            <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 max-w-sm">
+                              It is written and marked. Exemplars above Band{' '}
+                              {freeTierLimits().maxSampleBand} are part of{' '}
+                              {planLabelForFeature('sampleAnswers')}, so this one stays on the
+                              server until your plan covers it.
+                            </p>
+                            <button
+                              onClick={() => requestUpgrade('sampleAnswers')}
+                              className={`${SAMPLE_LOCKED_CTA} ${LOCK_CTA}`}
+                            >
+                              Unlock with {planLabelForFeature('sampleAnswers')}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          {/* The exemplar, in the reading face at the shared size. */}
+                          <div className={SAMPLE_PAGE_TEXT} style={{ fontSize: `${fontSize}px` }}>
+                            {renderFormattedText(
+                              currentSample.answer,
+                              prompt.keywords,
+                              prompt.verb
+                            )}
+                          </div>
+
+                          <div className={SAMPLE_PAGE_FOOT}>
+                            <div className={SAMPLE_ACTIONS}>
+                              {/* The word count is in the paper's bar, so the metrics show
+                                  the keywords only. */}
+                              <AnswerMetricsDisplay
+                                metrics={metrics}
+                                showLabel={false}
+                                showWords={false}
+                              />
+
+                              <div className={SAMPLE_ACTION_GROUP}>
+                                {/* "Use" writes the exemplar straight into the student's
+                                    draft, which is the one thing the writing surface refuses
+                                    to let a student do by hand: paste is blocked there so a
+                                    response is the student's own writing. It is handed down
+                                    only to a curator, who moves exemplars through the editor
+                                    as part of the job — for a student the exemplar stays
+                                    something to read and compare against. */}
+                                {onUseSample && (
+                                  <button
+                                    type="button"
+                                    onClick={handleUseSample}
+                                    title="Load this exemplar into the writing surface"
+                                    className={SAMPLE_ACTION}
+                                  >
+                                    <Copy className="w-3 h-3" aria-hidden="true" /> Use
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={handleCopy}
+                                  className={SAMPLE_ACTION}
+                                >
+                                  {isCopied ? (
+                                    <Check className="w-3 h-3" aria-hidden="true" />
+                                  ) : (
+                                    <FileText className="w-3 h-3" aria-hidden="true" />
+                                  )}
+                                  {isCopied ? 'Copied' : 'Copy'}
+                                </button>
+                                {onContribute && (
+                                  <button
+                                    type="button"
+                                    onClick={handleContribute}
+                                    disabled={isContributing}
+                                    title="Submit this sample answer to the shared library for review"
+                                    className={SAMPLE_ACTION}
+                                  >
+                                    <UploadCloud className="w-3 h-3" aria-hidden="true" />
+                                    {isContributing ? 'Submitting…' : 'Submit'}
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => onFlag(currentSample)}
+                                  className={flagged ? FLAG_ACTIVE : SAMPLE_ACTION_ICON}
+                                  title={
+                                    flagged
+                                      ? 'This sample is flagged for review — click to view'
+                                      : 'Something off about this sample? Flag it for review'
+                                  }
+                                >
+                                  <Flag
+                                    className={`w-3.5 h-3.5 ${flagged ? 'fill-current' : ''}`}
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                                {canModify && (
+                                  <>
+                                    <span className={SAMPLE_ACTION_DIVIDER} aria-hidden="true" />
+                                    <button
+                                      type="button"
+                                      onClick={() => onRevise(currentSample)}
+                                      className={SAMPLE_ACTION_ICON}
+                                      title="Revise with AI"
+                                    >
+                                      <Repeat className="w-3.5 h-3.5" aria-hidden="true" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => onEdit(currentSample)}
+                                      className={SAMPLE_ACTION_ICON}
+                                      title="Edit manually"
+                                    >
+                                      <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => onDelete(currentSample.id)}
+                                      className={`${SAMPLE_ACTION_ICON} ${DANGER_HOVER}`}
+                                      title="Delete"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                )}
+
+                  {/* Zone three: the marker's commentary. It sits outside the paper, on
+                      the desk, with a solid band bar down its edge. The notes fold away
+                      from the reader's own toggle. A locked exemplar shows no notes: the
+                      lock covers the commentary as much as the text. */}
+                  {!locked && (currentSample.quickTip || currentSample.feedback) && (
+                    <div
+                      role="group"
+                      aria-label="Marker's commentary"
+                      className={`${SAMPLE_COMMENTARY} ${LADDER_EDGE_OPEN}`}
+                    >
+                      <div className={SAMPLE_COMMENTARY_HEAD}>
+                        <span className={`flex items-center gap-2 ${ZONE_LABEL}`}>
+                          <MessageSquareQuote className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                          Marker's commentary
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setFeedbackExpanded((prev) => !prev)}
+                          aria-expanded={feedbackExpanded}
+                          aria-controls={notesId}
+                          className={SAMPLE_NOTE_TOGGLE}
+                        >
+                          <ChevronDown
+                            aria-hidden="true"
+                            className={`w-3 h-3 transition-transform duration-200 ${feedbackExpanded ? '' : '-rotate-90'}`}
+                          />
+                          {feedbackExpanded ? 'Hide Feedback' : 'Show Feedback'}
+                        </button>
+                      </div>
+                      <div
+                        id={notesId}
+                        inert={!feedbackExpanded}
+                        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${feedbackExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                      >
+                        <div className="overflow-hidden min-h-0">
+                          <div className="flex flex-col gap-3 pb-1">
+                            {currentSample.quickTip && (
+                              <div className={LADDER_NOTE}>
+                                <Lightbulb className={LADDER_NOTE_GLYPH} aria-hidden="true" />
+                                <div className="min-w-0">
+                                  <p className={LADDER_NOTE_LABEL}>Coach's Tip</p>
+                                  <div className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
+                                    {renderFormattedText(
+                                      currentSample.quickTip,
+                                      prompt.keywords,
+                                      prompt.verb
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {currentSample.feedback && (
+                              <div className={LADDER_NOTE}>
+                                <BookOpen className={LADDER_NOTE_GLYPH} aria-hidden="true" />
+                                <div className="min-w-0">
+                                  <p className={LADDER_NOTE_LABEL}>Feedback</p>
+                                  <div className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
+                                    {renderFormattedText(
+                                      currentSample.feedback,
+                                      prompt.keywords,
+                                      prompt.verb
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

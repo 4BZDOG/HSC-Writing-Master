@@ -177,8 +177,8 @@ describe('the note quotes the criterion the guide prints for that mark', () => {
       screen.getByTestId('guide').querySelectorAll<HTMLElement>(`[class="${LADDER_CRITERION}"]`)
     ).find((el) => el.textContent?.includes('with accurate examples'));
     const note = screen
-      .getByText('What earns this mark')
-      .parentElement!.querySelector(`[class="mt-1 ${LADDER_CRITERION}"]`) as HTMLElement;
+      .getByRole('group', { name: 'Marking criterion' })
+      .querySelector(`[class="${LADDER_CRITERION}"]`) as HTMLElement;
     expect(guideBlock).toBeTruthy();
     expect(note).toBeTruthy();
     expect(note.textContent).toBe(guideBlock!.textContent);
@@ -189,7 +189,7 @@ describe('the note quotes the criterion the guide prints for that mark', () => {
     prompt.markingCriteria = '6 marks: Explains the membrane in detail';
     renderBoth(prompt, { defaultCollapsed: false });
     fireEvent.click(levelOf(4));
-    expect(screen.queryByText('What earns this mark')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Marking criterion' })).toBeNull();
   });
 });
 

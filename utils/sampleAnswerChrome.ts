@@ -86,6 +86,11 @@ export const SAMPLE_CAROUSEL_BUTTON =
 export const SAMPLE_CAROUSEL_COUNT =
   'px-1 text-center font-mono text-xs font-bold tabular-nums text-slate-700 dark:text-slate-300';
 
+/** The answer zone's selector row: the exemplar tablist and the "+N more" fold beside
+ *  it, wrapping together. The fold is outside the tablist because a tablist owns only
+ *  its tabs. Painted on the row's band wash. */
+export const SAMPLE_PICKER_ROW = 'flex flex-wrap items-center gap-1.5';
+
 /** The picker: the row of exemplar chips at a level that has several. It wraps, so
  *  the chips take as many lines as the row needs. Painted on the row's band wash. */
 export const SAMPLE_PICKER = 'flex flex-wrap gap-1.5';
@@ -107,19 +112,33 @@ export const SAMPLE_PICKER_TAB_IDLE =
 export const SAMPLE_PICKER_MORE =
   't-label inline-flex items-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-full border border-dashed border-slate-500 bg-transparent text-slate-700 dark:border-white/30 dark:text-slate-300 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white transition-colors duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** The page the exemplar is read on: a sheet, set into the row. It is white in the
- *  light theme, the paper the writing surface sits on, and the inset well in the
- *  dark one, which is the same job in the other theme's ground. Painted on the
- *  row's band wash, so the page is the one bright thing in the row and reads as the
- *  exemplar itself. */
+/** The answer zone's paper: the sheet the exemplar is read on, the visual centre of the
+ *  open row. White with a real border and a lifted shadow in the light theme, and the
+ *  inset near-black with a brighter border in the dark one, so it reads as a different
+ *  object from the criterion above (a solid head on the band wash) and from the
+ *  commentary below (no fill at all). Painted on the row's band wash; its top bar, its
+ *  text and its foot sit inside it. */
 export const SAMPLE_PAGE =
-  'overflow-hidden rounded-xl border border-slate-300 bg-white shadow-sm dark:border-white/10 dark:bg-[rgb(var(--color-bg-surface-inset))]';
+  'overflow-hidden rounded-xl border border-slate-400 bg-white shadow-lg dark:border-white/20 dark:bg-[rgb(var(--color-bg-surface-inset))] dark:shadow-none';
+
+/** The paper's top bar: the label that names the answer, its length and its source,
+ *  in a strip one step off the paper, the labelled edge the answer is read under.
+ *  Painted on the paper, which is white in the light theme and the inset well in the
+ *  dark one, so its ink is the slate pair that reads on both. */
+export const SAMPLE_PAGE_BAR =
+  'flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-slate-200 bg-slate-100 px-4 py-2.5 sm:px-6 text-slate-800 dark:border-white/10 dark:bg-white/[0.05] dark:text-slate-100';
+
+/** The paper's foot: the keyword figure and the actions, on a strip attached to the
+ *  paper's bottom edge, so the toolbar belongs to the answer and not to the commentary
+ *  beneath it. Painted on the paper. */
+export const SAMPLE_PAGE_FOOT =
+  'border-t border-slate-200 bg-slate-50 px-3 py-2.5 sm:px-6 dark:border-white/10 dark:bg-white/[0.03]';
 
 /** The exemplar's text on the page: the reading face, at the reading size. The size
  *  is set inline from the zoom control, so it is not in this class. Painted on the
  *  page. */
 export const SAMPLE_PAGE_TEXT =
-  'px-5 py-4 sm:px-6 font-serif leading-[1.6] whitespace-pre-wrap break-words text-slate-800 dark:text-slate-200';
+  'px-4 py-4 sm:px-6 font-serif leading-[1.6] whitespace-pre-wrap break-words text-slate-800 dark:text-slate-200';
 
 /** The toolbar beneath the page: the word and keyword figures on the left and the
  *  actions on the right, wrapping as two lines on a phone. Painted on the row's band
@@ -129,7 +148,8 @@ export const SAMPLE_ACTIONS = 'flex flex-wrap items-center justify-between gap-x
 /** The group of actions on the toolbar, right-aligned on the line they land on. It
  *  wraps within itself, so every action is reachable at 390px. Painted on the
  *  row's band wash. */
-export const SAMPLE_ACTION_GROUP = 'ml-auto flex flex-wrap items-center justify-end gap-1.5';
+export const SAMPLE_ACTION_GROUP =
+  'flex w-full sm:w-auto flex-wrap items-center justify-start sm:justify-end gap-1.5 sm:ml-auto';
 
 /** A labelled action: "Use", "Copy", "Submit". It is a neutral button, so the actions
  *  are quiet and the exemplar is what the eye lands on. It is 44px on a phone. Painted
@@ -173,3 +193,51 @@ export const SAMPLE_LOCKED_CTA =
  *  with what is missing. Painted on the panel body. */
 export const SAMPLE_EMPTY =
   'flex flex-col items-center gap-1 rounded-xl border-2 border-dashed border-slate-300 px-4 py-8 text-center dark:border-white/10';
+
+/** The three zones of an open row, one above the other: the criterion, the answer and
+ *  the commentary. Sixteen pixels between them, so the reading order runs across a gap
+ *  the eye can see and not a rule it has to find. Painted on the row's band wash. */
+export const SAMPLE_ZONES = 'flex flex-col gap-4';
+
+/** The answer zone: the exemplar selector above the paper, and the paper. A column, so
+ *  the selector is always the paper's own label line and never beside it. Painted on
+ *  the row's band wash. */
+export const SAMPLE_ANSWER = 'flex flex-col gap-2';
+
+/** The criterion zone: the Marking Guide's own row, lifted out and placed above the
+ *  answer. It is a rounded box, and its strong band edge is added at the call site as
+ *  `LADDER_EDGE_OPEN`, so the criterion reads as the guide's criterion and not as text.
+ *  Painted on the row's band wash, so its body takes the same tint the guide's row does. */
+export const ZONE_CRITERION = 'overflow-hidden rounded-xl border';
+
+/** A zone's head strip: its icon, its label and its figure, on the band's solid fill,
+ *  which the call site adds with the band's ink. It is the one solid thing a zone
+ *  carries, so it is the first place the eye lands on the zone. Painted on the band's
+ *  solid fill. */
+export const ZONE_HEAD = 'flex items-center gap-2 px-3 py-2';
+
+/** A zone's label, in the boundary voice (`.t-section`): it marks where a zone starts,
+ *  which is what DesignSpec §4 keeps the caps for. It sets no colour, so it takes the
+ *  ink of the head or the bar it sits on. Painted on the head strip, or on the paper's
+ *  bar or the commentary's head, whichever holds it. */
+export const ZONE_LABEL = 't-section leading-none';
+
+/** The figure after a zone's label ("4/6"): mono and tabular, so it lines up with the
+ *  gutter's figure. Painted on the band's solid fill, in its ink. */
+export const ZONE_FIGURE = 'font-mono text-xs font-bold tabular-nums';
+
+/** The body of the criterion zone: the guide's criterion, read as the guide reads it.
+ *  Painted on the row's band wash. */
+export const ZONE_CRITERION_BODY = 'px-3 py-3 sm:px-4';
+
+/** The commentary zone: a desk with no fill, set off from the paper by a solid band
+ *  bar down its left edge (the band's strong edge, added at the call site), and by the
+ *  spacing above it. It is the margin the paper is annotated in, so it reads as
+ *  commentary about the answer and not as part of it. Painted on the row's band wash. */
+export const SAMPLE_COMMENTARY = 'flex flex-col gap-3 rounded-r-xl border-l-4 py-1 pl-3 sm:pl-4';
+
+/** The commentary's head: its label on the left and the fold on the right, wrapping
+ *  on a phone so the fold keeps its 44px target. Painted on the row's band wash, so
+ *  its ink is the slate pair beside the notes. */
+export const SAMPLE_COMMENTARY_HEAD =
+  'flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-slate-800 dark:text-slate-100';
