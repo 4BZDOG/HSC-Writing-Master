@@ -1,5 +1,5 @@
 import React from 'react';
-import { getBandConfig, getBandRgb } from '../utils/renderUtils';
+import { getBandRgb } from '../utils/renderUtils';
 import {
   LADDER_BODY,
   LADDER_EDGE_OPEN,
@@ -14,6 +14,7 @@ import {
   LADDER_GUTTER_TOTAL,
   LADDER_GUTTER_TOTAL_LONG,
   LADDER_ROW,
+  LADDER_SOLID,
 } from '../utils/ladderChrome';
 
 /**
@@ -22,8 +23,8 @@ import {
  *
  * Every colour comes from the band. The row sets `--band-rgb` from `getBandRgb`,
  * which the `band-edge`, `band-fill` and hero classes in `index.css` read; the
- * gutter's solid fill and its ink come from `getBandConfig(band)` (`solidBg` and
- * `solidText`, the pairs `bandColors.test.ts` holds at AA). Nothing here names a
+ * gutter's solid fill is that same colour, the verb ribbon's own tier hue, drawn by
+ * `band-solid` in `index.css` with the dark ink that holds AA on all six. Nothing here names a
  * colour, so a band is one colour in both themes. Do not restate a band colour at a
  * call site, and do not reach for `bandConfig.border` in place of `band-edge`: the
  * token is a fully saturated outline and drawn round a filled row it is the loudest
@@ -70,7 +71,6 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
   bandCaption,
   edge = 'shut',
 }) => {
-  const config = getBandConfig(band);
   // The figure steps down as it lengthens, so it always fits the gutter: "5/6" and
   // "3–4/6" at the usual size, "7–8/10" one step down, and "10–12/12", eight
   // characters, at the smallest with its total smaller again.
@@ -86,16 +86,14 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
   return (
     <div
       style={ladderBandVars(band)}
-      className={`${LADDER_GUTTER} ${config.solidBg} ${edgeClass(edge)}`}
+      className={`${LADDER_GUTTER} ${LADDER_SOLID} ${edgeClass(edge)}`}
     >
-      <span className={`${markClass} ${config.solidText}`}>
+      <span className={markClass}>
         {markLabel}
         {total !== undefined && <span className={totalClass}>/{total}</span>}
       </span>
       {bandCaption !== false && (
-        <span className={`${LADDER_GUTTER_CAPTION} ${config.solidText}`}>
-          {bandCaption ?? `Band ${band}`}
-        </span>
+        <span className={LADDER_GUTTER_CAPTION}>{bandCaption ?? `Band ${band}`}</span>
       )}
     </div>
   );

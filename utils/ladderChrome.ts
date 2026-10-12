@@ -226,3 +226,12 @@ export const HERO_TILE =
  *  beneath the panel. It is on the panel root, and `PANEL_SURFACE` stays the root's
  *  class, so this only adds to it. Painted on the panel's own border and shadow. */
 export const HERO_LIT = 'band-lit';
+
+/** The solid band fill, in the verb ribbon's own tier hue. `band-solid` in `index.css`
+ *  draws `--band-rgb` (the `-500` step the ribbon's columns and stage use, from
+ *  `getBandRgb`) with near-black ink, which holds AA on all six hues: white on the
+ *  same fills is 3.7:1 on red, blue and purple and 1.9:1 on yellow. It replaces
+ *  `getBandConfig().solidBg`, which is a darker step per band (green-700, orange-700)
+ *  and so read as a different palette beside the ribbon. Painted on the gutter and on
+ *  a hero panel's icon tile; the owner sets `--band-rgb`. */
+export const LADDER_SOLID = 'band-solid';

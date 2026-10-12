@@ -392,7 +392,8 @@ describe('band-3 header icon badges use their matched text colour, not white-on-
     );
     // Sample Answers is a hero, so its tile is the 40px one, not the ordinary `rounded-xl`.
     const badge = document.querySelector('button .w-10.h-10') as HTMLElement;
+    // The tile is the band's own hue with the dark ink `band-solid` sets, never white.
     expect(badge.className).not.toContain('text-white');
-    expect(badge.className).toContain('text-yellow-950');
+    expect(badge.className).toContain('band-solid');
   });
 });
