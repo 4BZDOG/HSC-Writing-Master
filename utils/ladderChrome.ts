@@ -235,3 +235,35 @@ export const HERO_LIT = 'band-lit';
  *  and so read as a different palette beside the ribbon. Painted on the gutter and on
  *  a hero panel's icon tile; the owner sets `--band-rgb`. */
 export const LADDER_SOLID = 'band-solid';
+
+/*
+ * The Syllabus Terms panel's additions to the vocabulary above. They sit in their
+ * own block so the terms panel's rules can be read in one place, and so nothing
+ * above them had to move.
+ */
+
+/** A QUIET row: the band at its wash (`.band-wash`, 10%), where `LADDER_FILL` is
+ *  the band at a real strength. The Syllabus Terms panel draws its supporting
+ *  terms as one of these, under the key terms' solid rows, so the two groups are
+ *  one ladder at two strengths and not two different devices. Painted on the panel
+ *  body. */
+export const LADDER_FILL_QUIET = 'band-wash';
+
+/** The toolbar's text input ("Add new term…"): the shape `LADDER_TOOL` gives a
+ *  button, so the input and the buttons beside it sit on one line of one height.
+ *  It is 16px on a phone, where a smaller field makes iOS Safari zoom on focus, and
+ *  returns to the label size from `sm`. It is 44px on a phone, the touch target.
+ *  Painted on the panel body. */
+export const LADDER_TOOL_INPUT =
+  'w-full min-w-0 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-base sm:text-xs text-slate-900 shadow-sm placeholder:text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-slate-400 outline-none transition-[border-color,box-shadow] duration-200 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+
+/** The plan's lock on a panel tool: the amber of a control the plan withholds, in the
+ *  same shape as `LADDER_TOOL`, so a locked tool reads as part of the same family.
+ *  Painted on the panel body. */
+export const LADDER_TOOL_LOCKED =
+  't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 shadow-sm dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
+
+/** The icon-only version of `LADDER_TOOL_LOCKED`, combined with `LADDER_TOOL_ICON`
+ *  for a locked icon tool ("AI Suggest" and "Regenerate" without the plan). */
+export const LADDER_TOOL_LOCKED_ICON =
+  'rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300';

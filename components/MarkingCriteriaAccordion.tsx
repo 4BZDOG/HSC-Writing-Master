@@ -19,6 +19,7 @@ import {
   LADDER_STACK,
   LADDER_TOOL,
   LADDER_TOOL_ICON,
+  LADDER_TOOL_LOCKED,
 } from '../utils/ladderChrome';
 import {
   exemplarMarkForItem,
@@ -38,11 +39,6 @@ interface MarkingCriteriaAccordionProps {
    *  and the band line. */
   embedded?: boolean;
 }
-
-/** The AI Draft control while the plan withholds it: the amber of the plan's lock,
- *  in the same shape as `LADDER_TOOL`, so a locked tool reads as the same family. */
-const TOOL_LOCKED =
-  't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 shadow-sm dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
 
 const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   prompt,
@@ -132,7 +128,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
                   : undefined
               }
-              className={studioLocked ? TOOL_LOCKED : LADDER_TOOL}
+              className={studioLocked ? LADDER_TOOL_LOCKED : LADDER_TOOL}
             >
               {isGenerating ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
