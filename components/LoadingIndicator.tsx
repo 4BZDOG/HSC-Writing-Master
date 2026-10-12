@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, PenLine } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { getBandHex } from '../utils/renderUtils';
 import { getSelectionSnapshot } from '../services/aiConfig';
 import { getModelById } from '../services/aiModels';
-import { WAIT_TIPS } from '../utils/waitTips';
+import { waitNotes } from '../utils/waitTips';
 import { acquireAiBusy } from '../utils/aiBusySignal';
 import AiWaitGlyph from './AiWaitGlyph';
+import HscResultsCard from './HscResultsCard';
+import WaitNoteFigure from './WaitNoteFigure';
 
 /**
  * The ONE AI progress card. Every AI-backed wait in the app renders this
@@ -17,10 +19,15 @@ import AiWaitGlyph from './AiWaitGlyph';
  *    has been, how long it usually takes, and a plain statement when it is
  *    running long, instead of a bar that crept to 98% and sat there;
  *  - a short note about HSC writing (utils/waitTips.ts), so the wait teaches
- *    something rather than displaying invented jargon;
+ *    something rather than displaying invented jargon. The notes rotate between
+ *    advice and the published HSC numbers (data/hscResultsFacts.ts), and on the
+ *    reading waits a quiet card shows how 2025 results fell across the bands;
  *  - the engine the task actually routes to (from the admin's AI Engine
  *    selection), and an optional `band` that inks the drawing and bar in that
  *    band's colour.
+ *
+ * On a phone shorter than the card, the card scrolls inside the viewport rather
+ * than having its top and bottom cut off by the veil.
  */
 
 export type AiTaskType = 'evaluation' | 'generation' | 'enrichment' | 'default';
@@ -85,6 +92,16 @@ const DEFAULT_ACCENT = '#6366f1';
 /** Seconds between notes. Long enough to read one twice. */
 const TIP_SECONDS = 9;
 
+/**
+ * The waits that also show the 2025 results chart: someone is reading a source
+ * (syllabus pages, a quality check, a keyword pass), not waiting on their own
+ * mark. Marking (`evaluation`) never shows it, because a band distribution
+ * beside a student's response being marked could be taken for their own band.
+ * Generation (`generation`) does not either: it is the teacher's authoring
+ * wait, and the chart would be decoration on it.
+ */
+const RESULTS_CHART_TASKS: readonly AiTaskType[] = ['enrichment', 'default'];
+
 /** Infer the task type from a status message when no explicit task is given. */
 const sniffTask = (message?: string | null): AiTaskType => {
   const msg = message?.toLowerCase() || '';
@@ -141,10 +158,11 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     return getModelById(getSelectionSnapshot()[role])?.label ?? 'the AI engine';
   }, [taskType]);
 
-  const tips = WAIT_TIPS[taskType];
+  const notes = useMemo(() => waitNotes(taskType), [taskType]);
   // A random first note, so the same card does not open on the same sentence.
-  const [tipOffset] = useState(() => Math.floor(Math.random() * tips.length));
-  const tip = tips[(tipOffset + Math.floor(elapsed / TIP_SECONDS)) % tips.length];
+  const [noteOffset] = useState(() => Math.floor(Math.random() * notes.length));
+  const note = notes[(noteOffset + Math.floor(elapsed / TIP_SECONDS)) % notes.length];
+  const showResultsChart = isAiWait && RESULTS_CHART_TASKS.includes(taskType);
 
   // Walk the steps forward, pacing them across the expected duration and
   // holding on the last (a list that loops back reads as a glitch).
@@ -184,7 +202,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
   return (
     <div
-      className={`relative w-full max-w-[400px] mx-auto overflow-hidden rounded-panel shadow-lg backdrop-blur-3xl border p-8 sm:p-9 flex flex-col gap-6 animate-in ${
+      className={`relative w-full max-w-[400px] max-h-[calc(100dvh-2rem)] mx-auto overflow-x-hidden overflow-y-auto overscroll-contain rounded-panel shadow-lg backdrop-blur-3xl border p-8 sm:p-9 flex flex-col gap-6 animate-in ${
         isError
           ? 'bg-red-50/90 dark:bg-slate-900/90 border-red-200 dark:border-red-500/30'
           : 'bg-white/90 dark:bg-slate-900/90 border-slate-200/80 dark:border-white/10'
@@ -306,24 +324,17 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
           {isAiWait && (
             <>
-              {/* The note, set as a marker's comment in the margin — in the
-                  serif italic written feedback is set in — so it reads as
-                  advice rather than as another status line. */}
-              <figure
-                key={tip}
-                className="flex gap-3 pl-3 border-l-2 animate-fade-in"
-                style={{ borderColor: `${accent}66` }}
-              >
-                <PenLine
-                  className="w-4 h-4 mt-1 shrink-0 text-slate-500 dark:text-slate-400"
-                  aria-hidden="true"
-                />
-                <blockquote className="font-serif italic text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
-                  {tip}
-                </blockquote>
-              </figure>
+              {/* The note, in the margin (see WaitNoteFigure). Outside the live
+                  region, so it is never announced on its own clock. */}
+              <WaitNoteFigure key={note.text} note={note} accent={accent} />
 
-              <p className="-mt-2 text-center text-xs text-slate-500 dark:text-slate-400">
+              {showResultsChart && <HscResultsCard />}
+
+              <p
+                className={`text-center text-xs text-slate-500 dark:text-slate-400 ${
+                  showResultsChart ? '' : '-mt-2'
+                }`}
+              >
                 Working with {engineLabel}
               </p>
             </>

@@ -362,6 +362,20 @@ body.ai-busy .aurora {
 }
 
 /*
+ * The HSC results strip (components/HscResultsCard) draws in once, segment by
+ * segment, from the left. Its end state is the drawing, so the reduced-motion
+ * block below, which runs every animation to its last frame, leaves it correct.
+ */
+@keyframes hsc-strip-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/*
  * Sign-in ambience.
  *
  * The auth screens used to paint an opaque `--color-bg-base` panel over the
