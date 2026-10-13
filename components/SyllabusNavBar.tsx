@@ -95,10 +95,12 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
               <Award className="w-3.5 h-3.5" /> Band {targetBand}
             </span>
           </div>
+          {/* The two buttons are the 44px touch floor on a phone, where the bar
+              has nothing else to tap; they step down to 36px from `sm`. */}
           {onShareAssignment && (
             <button
               onClick={onShareAssignment}
-              className={`flex items-center justify-center w-9 h-9 rounded-xl ${band.text} ${band.border} border ${band.bg} hover:brightness-110 active:scale-[0.98] transition-all`}
+              className={`flex items-center justify-center w-11 h-11 sm:w-9 sm:h-9 rounded-xl ${band.text} ${band.border} border ${band.bg} hover:brightness-110 active:scale-[0.98] transition-all`}
               title="Copy assignment link — students who open it land on this question"
               aria-label="Copy assignment link"
             >
@@ -109,7 +111,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
             ref={expandButtonRef}
             onClick={onExpand}
             aria-label="Change question"
-            className={`t-label flex items-center gap-2 px-3.5 h-9 rounded-xl border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-[0.98] transition-all`}
+            className={`t-label flex items-center gap-2 px-3.5 h-11 sm:h-9 rounded-xl border ${band.border} ${band.bg} ${band.text} hover:brightness-110 active:scale-[0.98] transition-all`}
             title="Open the syllabus navigator to change your selection"
           >
             <Pencil className="w-3.5 h-3.5" />

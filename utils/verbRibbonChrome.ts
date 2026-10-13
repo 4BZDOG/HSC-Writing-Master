@@ -723,6 +723,22 @@ export const RIBBON_TIER_HEADER =
  *  a pair because the card is a theme surface. */
 export const RIBBON_TIER_HEADER_IDLE = 'band-wash border-slate-200 dark:border-white/5';
 
+/** The selected tier's header: the band's own hue, flat, under slate-950.
+ *
+ *  It was the tier's gradient under the config's `solidText`, and no ink could
+ *  carry that gradient. White measured 2.3–3.3:1 on the dark gradients and
+ *  2.8–3.8:1 on the light red, orange and green ones; slate-950 cleared 4.5:1 on
+ *  the dark gradients but fell to 3.0–4.0:1 on the light blue, purple and green.
+ *  So the fill is the hue every tier already carries (`--band-rgb`, from
+ *  `BAND_HEX`), and the ink is the one `band-solid` uses. slate-950 is 5.1:1 on
+ *  the weakest of the six, purple, and 10.5:1 on yellow. `band-solid` itself is
+ *  not used: its black shade takes purple to 4.4:1 at the far corner, under the
+ *  floor for the 12px ceiling beneath the name. Pinned in
+ *  tests/unit/verbRibbonChrome.test.tsx. The same in both themes, because the
+ *  fill is. The title and the ceiling inherit this ink from the header. */
+export const RIBBON_TIER_HEADER_SELECTED =
+  'bg-[rgb(var(--band-rgb))] text-slate-950 border-white/10';
+
 /** The icon tile in a tier card's header. It replaced a system emoji, which is
  *  the one thing in the workspace's chrome that is drawn by the operating system
  *  rather than by the app — a different picture on a school Chromebook, on a

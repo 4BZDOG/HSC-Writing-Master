@@ -30,7 +30,10 @@ const questions = [
   { id: 'q7', label: 'Justify a design decision.', searchText: 'JUSTIFY 7 marks HSC 2023' },
 ];
 
-const renderBox = (options: React.ComponentProps<typeof Combobox>['options'], onChange = vi.fn()) => {
+const renderBox = (
+  options: React.ComponentProps<typeof Combobox>['options'],
+  onChange = vi.fn()
+) => {
   render(<Combobox options={options} value="" onChange={onChange} label={null} />);
   fireEvent.click(screen.getByRole('button', { name: /select/i }));
   return onChange;
@@ -52,6 +55,36 @@ describe('Combobox search', () => {
     renderBox(makeOptions(7));
     expect(search()).toBeTruthy();
     expect(search().getAttribute('placeholder')).toContain('7');
+  });
+
+  // A bare count reads as a truncated word, so the field names what it counts.
+  it('says what it is counting, and says the plural', () => {
+    render(
+      <Combobox
+        options={makeOptions(10)}
+        value=""
+        onChange={vi.fn()}
+        label={null}
+        optionNoun="courses"
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /select/i }));
+    expect(search().getAttribute('placeholder')).toBe('Search 10 courses');
+    expect(search().getAttribute('aria-label')).toBe('Search 10 courses');
+  });
+
+  it('falls back to "options" for a caller that names nothing', () => {
+    renderBox(makeOptions(9));
+    expect(search().getAttribute('placeholder')).toBe('Search 9 options');
+  });
+
+  // iOS zooms into any field set below 16px, and the zoom does not come back out.
+  it('sets the search field at 16px on a phone, and the small size from sm', () => {
+    renderBox(makeOptions(8));
+    const classes = search().className.split(/\s+/);
+    expect(classes).toContain('text-base');
+    expect(classes).toContain('sm:text-sm');
+    expect(classes).not.toContain('text-sm');
   });
 
   it('filters on the option text', () => {
