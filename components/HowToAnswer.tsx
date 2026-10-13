@@ -1,8 +1,8 @@
 import React, { useId, useMemo } from 'react';
-import { AlertTriangle, ChevronDown, ListOrdered } from 'lucide-react';
+import { ChevronDown, ListOrdered } from 'lucide-react';
 import { getCommandTermInfo } from '../data/commandTerms';
-import { getBandConfig, getBandRgb } from '../utils/renderUtils';
-import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
+import { getBandRgb } from '../utils/renderUtils';
+import { PROSE_BLOCK } from '../utils/prose';
 import {
   collectStrategyDetail,
   groupStrategyMoves,
@@ -13,7 +13,7 @@ import { insertIntoDraft } from '../utils/insertIntoDraft';
 import { withIndefiniteArticle } from '../utils/grammar';
 import type { PromptVerb } from '../types';
 import { PanelReadChip } from './PanelDisclosure';
-import WordChip from './WordChip';
+import StrategyMoves from './StrategyMoves';
 
 interface HowToAnswerProps {
   verb: PromptVerb;
@@ -24,8 +24,6 @@ interface HowToAnswerProps {
   /** Opened for this question before and shut again: the "Read" chip. */
   read: boolean;
 }
-
-const sectionClass = 'py-4 first:pt-0 last:pb-0';
 
 /**
  * The verb's definition, and a way into how to answer it.
@@ -50,9 +48,8 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
   const moves = useMemo(() => groupStrategyMoves(parseStrategyTip(info.tip)), [info.tip]);
   const { method, watch } = useMemo(() => splitMethodMoves(moves), [moves]);
   const { terms, examples } = useMemo(() => collectStrategyDetail(moves), [moves]);
-  // The question's own tier colour, through the band system. The step numbers
-  // and their rule take it; nothing else on the card does.
-  const band = getBandConfig(info.tier);
+  // The question's own tier colour, through the band system. The row's rule
+  // takes it; the step numbers in the card take it through StrategyMoves.
   const bandStyle = { '--band-rgb': getBandRgb(info.tier) } as React.CSSProperties;
 
   const hasBody = method.length > 0 || terms.length > 0 || examples.length > 0 || watch.length > 0;
@@ -112,99 +109,15 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
           <div className="min-h-0 overflow-hidden">
             <div className="px-4 sm:px-6 pb-4">
               <div className="max-w-xl rounded-panel border border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] p-4 sm:p-5 divide-y divide-[rgb(var(--color-border-secondary))]">
-                {method.length > 0 && (
-                  <section className={sectionClass}>
-                    <h3 className="t-section text-[rgb(var(--color-text-primary))]">Method</h3>
-                    <ol className="mt-3 flex flex-col">
-                      {method.map((move, i) => {
-                        const isLead = i === 0;
-                        const isLast = i === method.length - 1;
-                        return (
-                          <li key={move.text} className="flex gap-3">
-                            <div className="flex shrink-0 flex-col items-center">
-                              <span
-                                style={bandStyle}
-                                className={`band-edge flex items-center justify-center rounded-full border font-mono font-bold tabular-nums ${band.text} ${
-                                  isLead ? 'h-7 w-7 text-sm' : 'h-6 w-6 text-xs'
-                                }`}
-                              >
-                                {i + 1}
-                              </span>
-                              {!isLast && (
-                                <span
-                                  aria-hidden="true"
-                                  className="my-1 w-px flex-1 bg-[rgb(var(--color-border-secondary))]"
-                                />
-                              )}
-                            </div>
-                            <p
-                              className={`min-w-0 font-serif ${PROSE_FLOW} leading-relaxed ${
-                                isLead
-                                  ? 'pt-0.5 text-base text-[rgb(var(--color-text-primary))]'
-                                  : 'pt-1 text-sm text-[rgb(var(--color-text-secondary))]'
-                              } ${isLast ? '' : 'pb-4'}`}
-                            >
-                              {move.text}
-                            </p>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  </section>
-                )}
-
-                {terms.length > 0 && (
-                  <section className={sectionClass}>
-                    <h3 className="t-section text-[rgb(var(--color-text-primary))]">
-                      Words to use
-                    </h3>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {terms.map((word) => (
-                        <WordChip key={word} word={word} onInsert={insertIntoDraft} />
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {examples.length > 0 && (
-                  <section className={sectionClass}>
-                    <h3 className="t-section text-[rgb(var(--color-text-primary))]">
-                      Sentence shape
-                    </h3>
-                    <div className="mt-3 flex flex-col gap-3">
-                      {examples.map((text) => (
-                        <blockquote
-                          key={text}
-                          className={`border-l-2 border-[rgb(var(--color-border-primary))] pl-3 font-serif text-sm italic leading-relaxed ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))]`}
-                        >
-                          {text}
-                        </blockquote>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {watch.length > 0 && (
-                  <section className={sectionClass}>
-                    <h3 className="t-section flex items-center gap-2 text-[rgb(var(--color-text-primary))]">
-                      <AlertTriangle
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400"
-                      />
-                      Watch for
-                    </h3>
-                    <ul className="mt-3 flex flex-col gap-2">
-                      {watch.map((move) => (
-                        <li
-                          key={move.text}
-                          className={`font-serif text-sm leading-relaxed ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))]`}
-                        >
-                          {move.text}
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                )}
+                <StrategyMoves
+                  method={method}
+                  terms={terms}
+                  examples={examples}
+                  watch={watch}
+                  band={info.tier}
+                  onInsertWord={insertIntoDraft}
+                  variant="worked"
+                />
               </div>
             </div>
           </div>
