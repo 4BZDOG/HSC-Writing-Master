@@ -1117,7 +1117,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       {/* Lazy: a folded panel mounts none of its rows, so the text metrics each
           row runs happen only while the panel is on screen. */}
       <AccordionSection
-        title="Sample Answers"
+        title="Sample answers"
         subtitle={subtitle}
         icon={<Bookmark />}
         band={ceilingBand}

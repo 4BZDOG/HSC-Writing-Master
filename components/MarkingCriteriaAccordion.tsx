@@ -27,6 +27,7 @@ import {
   parseMarkingCriteria,
 } from '../utils/markingGuideParse';
 import { requestOpenExemplar } from '../utils/ladderLink';
+import { PANEL_NAME } from './PanelDisclosure';
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -192,8 +193,8 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <ListChecks className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="t-section text-slate-900 dark:text-white">Marking Criteria</h3>
-              <p className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">
+              <h3 className={`${PANEL_NAME} text-slate-900 dark:text-white`}>Marking criteria</h3>
+              <p className="t-label text-slate-600 dark:text-slate-400">
                 Top Level: Band {maxPossibleBand}
               </p>
             </div>

@@ -20,7 +20,7 @@ import {
 import { ladderBandVars } from './LadderRow';
 import { questionCeilingBand } from '../utils/markingGuideParse';
 import { classifySyllabusTerms, type SyllabusTermContext } from '../utils/syllabusTermSource';
-import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { PANEL_NAME, PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import type { SupportResourceId } from '../utils/supportEngagement';
 
@@ -98,9 +98,10 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls={panelId}
-          // A hero is 40px at its tile, so it trims its padding to keep the row on the
-          // shared 61px line the rest of the column stands on.
-          className={`flex-1 min-w-0 ${hero ? 'py-2.5' : 'py-3.5'} px-5 flex items-center justify-between`}
+          // The name and its caption stand 36px tall, so a plain header pads 12px
+          // either side to clear the shared 61px line the rest of the column stands
+          // on. A hero is 40px at its tile, so it trims its padding to 10px.
+          className={`flex-1 min-w-0 ${hero ? 'py-2.5' : 'py-3'} px-5 flex items-center justify-between`}
         >
           <div className="flex items-center gap-4">
             {hero ? (
@@ -116,12 +117,12 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
             )}
             <span className="text-left">
               <span
-                // The panel's NAME, so it takes the section treatment; the
-                // subtitle under it stays `.t-label`, which is what makes the
-                // pair read as a heading and its caption rather than two labels.
-                // A hero's name is in the primary ink whether it is open or not:
-                // it is the panel's identity, not a state.
-                className={`t-section block ${hero || isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+                // The panel's NAME, in the heading voice; the subtitle under it
+                // stays `.t-label`, which is what makes the pair read as a heading
+                // and its caption rather than two labels. A hero's name is in the
+                // primary ink whether it is open or not: it is the panel's
+                // identity, not a state.
+                className={`${PANEL_NAME} ${hero || isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
               >
                 {title}
               </span>
@@ -200,7 +201,7 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
   const written = Boolean(prompt.markingCriteria?.trim());
   return (
     <AccordionSection
-      title="Marking Guide"
+      title="Marking guide"
       // The marks lead, so the header says what the guide is FOR before it says
       // where it is written to. It used to say "Top level: Band 2" over an empty
       // panel, as though a guide existed and topped out there.
@@ -291,7 +292,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
       <AccordionSection
-        title="Syllabus Terms"
+        title="Syllabus terms"
         subtitle={termsSubtitle}
         icon={<Sparkles />}
         band={ceilingBand}

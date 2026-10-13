@@ -137,3 +137,16 @@ describe('useOpenedOnce', () => {
     expect(screen.queryByText(/^Read$/i)).toBeNull();
   });
 });
+
+describe('the read tick', () => {
+  // The chip sits on a white panel, where the 600 step measured 3.8:1, under the
+  // 4.5:1 body text needs. The deeper step clears it; the dark ink is the lighter
+  // one, the direction every text pair takes.
+  it('is set in the deeper emerald on white and the lighter one in the dark', () => {
+    render(<PanelReadChip show />);
+    const chip = screen.getByText(/^Read$/i);
+    expect(chip.className).toContain('text-emerald-800');
+    expect(chip.className).toContain('dark:text-emerald-300');
+    expect(chip.className).not.toMatch(/(^|\s)text-emerald-600(\s|$)/);
+  });
+});

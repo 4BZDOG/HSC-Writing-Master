@@ -13,7 +13,7 @@ import {
   summariseChecklist,
   type DraftChecklistRow,
 } from '../utils/draftChecklist';
-import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { PANEL_NAME, PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import WordChip from './WordChip';
 
 const NO_TERMS: string[] = [];
@@ -183,25 +183,19 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
           disabled={resting}
           aria-expanded={resting ? undefined : !isCollapsed}
           aria-controls={resting ? undefined : panelId}
-          className={`w-full ${PANEL_ROW_MIN_H} py-3.5 px-5 flex items-center gap-4 text-left transition-all ${
+          className={`w-full ${PANEL_ROW_MIN_H} py-3 px-5 flex items-center gap-4 text-left transition-all ${
             resting ? 'cursor-default' : isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
           }`}
         >
           <ClearRing cleared={cleared} total={total} resting={resting} />
-          {/* The panel's NAME takes the section treatment and the line under it
-              stays `.t-label`: the heading and its caption, as on every other
-              panel in this column. A span rather than a heading element is still
-              right, because the row IS the disclosure. */}
+          {/* The panel's NAME takes the heading voice and the line under it stays
+              `.t-label`: the heading and its caption, as on every other panel in
+              this column. The name is in the primary ink shut or open, as the
+              reference panels' names are, so the column does not dim one of its
+              headers. A span rather than a heading element is still right,
+              because the row IS the disclosure. */}
           <span className="text-left">
-            <span
-              className={`t-section block ${
-                isCollapsed
-                  ? 'text-slate-500 dark:text-slate-400'
-                  : 'text-slate-900 dark:text-white'
-              }`}
-            >
-              Draft check
-            </span>
+            <span className={`${PANEL_NAME} text-slate-900 dark:text-white`}>Draft check</span>
             <span className="t-label block text-slate-600 dark:text-slate-400">{summary}</span>
           </span>
           <div className="flex items-center gap-2.5 shrink-0 ml-auto">
