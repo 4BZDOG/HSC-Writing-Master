@@ -801,8 +801,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       scenario, and the contrast sweep's first question has
                       none — see `openQuestionWithOutcomes`. The light partner
                       is unchanged; it was already clearing the floor. */}
-                  <h3 className="t-section text-slate-400 light:text-slate-600 flex items-center gap-2">
-                    <BookOpen className="w-3.5 h-3.5" /> Context Scenario
+                  <h3 className="text-sm font-bold text-slate-400 light:text-slate-600 flex items-center gap-2">
+                    <BookOpen className="w-3.5 h-3.5" /> Context scenario
                   </h3>
                   {canCurate && !isEditingScenario && (
                     <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
