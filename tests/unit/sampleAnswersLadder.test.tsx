@@ -84,8 +84,8 @@ const renderBoth = (prompt: Prompt, options: { defaultCollapsed?: boolean } = {}
     </>
   );
 
-const guideToggle = () => screen.getByRole('button', { name: /^Marking Guide/ });
-const samplesToggle = () => screen.getByRole('button', { name: /^Sample Answers/ });
+const guideToggle = () => screen.getByRole('button', { name: /^Marking guide/ });
+const samplesToggle = () => screen.getByRole('button', { name: /^Sample answers/ });
 
 /** A level's disclosure in the Sample Answers panel, by the mark it names first. */
 const levelOf = (mark: number): HTMLElement =>
