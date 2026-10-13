@@ -240,7 +240,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
           </button>
           <button
             onClick={handleSave}
-            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
+            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
           >
             <Save className="w-4 h-4" />
             Save Changes

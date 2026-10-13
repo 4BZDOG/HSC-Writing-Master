@@ -115,7 +115,7 @@ const ReportCheck: React.FC<{
       aria-hidden="true"
       className={`mt-0.5 w-4 h-4 shrink-0 rounded-lg border flex items-center justify-center transition-colors motion-reduce:transition-none peer-focus-visible:ring-2 peer-focus-visible:ring-accent ${
         checked
-          ? 'bg-accent border-accent text-white'
+          ? 'bg-accent border-accent text-white dark:text-slate-950'
           : 'bg-surface-inset border-slate-500 dark:border-primary'
       }`}
     >
