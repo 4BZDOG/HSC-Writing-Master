@@ -117,6 +117,7 @@ export const CARD_HEADER_TRAY =
 export const CARD_HEADER_BAR =
   // Scrolls only below `sm`, and only when it has to: above that the tray is
   // `shrink-0`, so the bar is never bounded, `scrollWidth === clientWidth` and
-  // no scroll container is created at all. The height, fill and border — the
-  // three things the matched pair rests on — are untouched either way.
-  'flex items-center h-9 px-2 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
+  // no scroll container is created at all. The fill and border are the same
+  // at every width; the height is 44px below `sm`, where the writing tools are
+  // 44px touch targets. Both cards take the same step, so the pair still matches.
+  'flex items-center h-9 max-sm:h-11 px-2 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';

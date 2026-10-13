@@ -1207,7 +1207,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // tooltip, and not every screen reader treats one as the
                     // accessible name.
                     aria-label="Decrease reading size"
-                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
+                    className="p-1 sm:p-1.5 max-sm:size-11 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
                     title="Decrease font size"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
@@ -1218,7 +1218,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <button
                     onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
                     aria-label="Increase reading size"
-                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
+                    className="p-1 sm:p-1.5 max-sm:size-11 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
                     title="Increase font size"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />

@@ -141,7 +141,7 @@ const ToolbarButton: React.FC<{
     aria-label={tooltip}
     aria-expanded={expanded}
     className={`
-            p-1.5 rounded-lg transition-all duration-200 
+            p-1.5 max-sm:size-11 rounded-lg transition-all duration-200
             ${
               active
                 ? 'bg-white/20 text-white shadow-sm'
@@ -651,11 +651,11 @@ const Editor = forwardRef<
                     so the whole bar fits a 360px screen: it scrolls there, and
                     nothing says so, so the focus-mode button at its end was
                     cut in half and easily never found. */}
-                <div className={`${CARD_HEADER_BAR} gap-0.5 sm:gap-1`}>
+                <div className={`${CARD_HEADER_BAR} max-sm:px-1 gap-0 sm:gap-1`}>
                   {onWritingModeChange && (
                     <>
                       <div
-                        className="flex items-center gap-0.5"
+                        className="flex items-center gap-0 sm:gap-0.5"
                         role="group"
                         aria-label="Writing mode"
                       >
@@ -675,7 +675,7 @@ const Editor = forwardRef<
                           // "draft checks" are inside its tooltip.
                           aria-label="Coach mode"
                           title="Coach Mode — live highlighting, draft checks and exemplars"
-                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <Compass className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Coach</span>
@@ -692,7 +692,7 @@ const Editor = forwardRef<
                           aria-pressed={isExamMode}
                           aria-label="Exam mode"
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
-                          className={`t-label px-2.5 h-6 rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>
@@ -782,7 +782,7 @@ const Editor = forwardRef<
                           ? 'Exit focus mode (Esc)'
                           : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
                       }
-                      className={`t-label ml-1.5 px-2.5 h-6 rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                      className={`t-label max-sm:ml-0 ml-1.5 px-2.5 max-sm:px-0 h-6 max-sm:size-11 max-sm:justify-center rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                     >
                       {isFocusMode ? (
                         <Minimize className="w-3.5 h-3.5" />
