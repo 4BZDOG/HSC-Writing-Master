@@ -26,7 +26,6 @@ vi.mock('../../services/responseService', () => ({
   saveResponseFeedback: vi.fn().mockResolvedValue(undefined),
 }));
 
-
 vi.mock('../../services/authService', () => ({
   authService: {
     getCurrentUser: () => ({ username: 'student-a', role: 'student', preferences: {} }),
@@ -84,11 +83,12 @@ const treeAround = (target: Prompt) => [
   },
 ];
 
-const markWith = async (revisedAnswer: unknown) => {
+const markWith = async (revisedAnswer: unknown, overallMark = evaluation.overallMark) => {
   const target = { ...prompt, sampleAnswers: [] as SampleAnswer[] };
   const draft = treeAround(target);
   vi.mocked(gemini.evaluateAnswer).mockResolvedValue({
     ...evaluation,
+    overallMark,
     ...(revisedAnswer === undefined ? {} : { revisedAnswer }),
   } as never);
 
@@ -145,6 +145,26 @@ describe('marking opens the comparison before the feedback summary', () => {
     expect(result.current.evaluationResult).toBeTruthy();
   });
 
+  /**
+   * A student on full marks has no next mark to lift to. The marker's rewrite
+   * comes back as their own answer, and "6 → 6" in front of the feedback has
+   * nothing to say, so the marks come first.
+   */
+  it('goes straight to the feedback at full marks, even with a rewrite', async () => {
+    // `prompt.totalMarks` is 4, so 4 is the full mark.
+    const result = await markWith('A response that is already full marks.', 4);
+
+    expect(result.current.evaluationResult?.overallMark).toBe(4);
+    expect(result.current.showImprovementReview).toBe(false);
+    expect(result.current.improvementReviewLeadsToFeedback).toBe(false);
+  });
+
+  it('still opens the comparison one mark short of full marks', async () => {
+    const result = await markWith('A fuller response.', 3);
+
+    expect(result.current.showImprovementReview).toBe(true);
+  });
+
   it('goes straight to the feedback when there is no rewrite at all', async () => {
     const result = await markWith(undefined);
 
@@ -160,6 +180,22 @@ describe('marking opens the comparison before the feedback summary', () => {
     expect(result.current.showImprovementReview).toBe(false);
     // Closing reveals the feedback; it must never cost the mark.
     expect(result.current.evaluationResult?.overallMark).toBe(3);
+  });
+
+  /**
+   * Closing the comparison ends the flag, so the summary's "See the edits" can
+   * reopen it as a detour. Without this it reopened labelled "See my full
+   * feedback", which is the wrong way out of a detour.
+   */
+  it('reopens as a detour, not as a lead-in, once the comparison has been closed', async () => {
+    const result = await markWith('A fuller response.');
+    expect(result.current.improvementReviewLeadsToFeedback).toBe(true);
+
+    act(() => result.current.setShowImprovementReview(false));
+    act(() => result.current.setShowImprovementReview(true));
+
+    expect(result.current.showImprovementReview).toBe(true);
+    expect(result.current.improvementReviewLeadsToFeedback).toBe(false);
   });
 
   it('does not claim to lead anywhere when the review is a detour off the summary', async () => {

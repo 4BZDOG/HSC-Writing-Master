@@ -6,7 +6,7 @@ import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
-  getBandHex,
+  getBandRgb,
   KEYWORD_CHIP_CLASS,
   renderFormattedText,
   renderHighlightedText,
@@ -52,9 +52,16 @@ interface ImprovementReviewModalProps {
    * having been opened from it — after marking, the diff comes first and the
    * feedback summary is behind it. Without a labelled way forward the only exit
    * is an X in the corner, which reads as "dismiss", not "continue". Omit it
-   * and the footer keeps its Copy / Use-this-version pair.
+   * and the footer offers "Back to feedback" beside "Use this version", because
+   * this comparison was opened from the summary and the way out is back to it.
    */
   continueLabel?: string;
+  /**
+   * What the marker says it changed and why, from the rewrite's `keyChanges`.
+   * Shown as a short list above the edits, so the reader has the reason before
+   * the list of where. Omit it and the margin opens on the edits.
+   */
+  keyChanges?: string[];
 }
 
 type ViewMode = 'marked' | 'clean' | 'split';
@@ -76,8 +83,10 @@ const OP_CLASS: Record<DiffSegment['op'], string> = {
   equal: '',
   insert:
     'bg-emerald-500/15 text-emerald-900 dark:text-emerald-200 rounded-lg px-0.5 underline decoration-emerald-600/60 dark:decoration-emerald-400/60 decoration-2 underline-offset-[3px]',
+  // Cut text is struck through, and still has to be read to be compared, so it
+  // takes the full tone rather than an alpha that drops it under 4.5:1.
   delete:
-    'bg-rose-500/10 text-rose-800/80 dark:text-rose-300/75 rounded-lg px-0.5 line-through decoration-rose-600/70 dark:decoration-rose-400/70 decoration-2',
+    'bg-rose-500/10 text-rose-800 dark:text-rose-300 rounded-lg px-0.5 line-through decoration-rose-600/70 dark:decoration-rose-400/70 decoration-2',
 };
 
 /** One edit: the run of cut and added words between two stretches of the student's own. */
@@ -106,7 +115,6 @@ const DiffText: React.FC<{
   /** Registers each edit's first run so the stepper can scroll to it. */
   registerMark?: (index: number, el: HTMLElement | null) => void;
   onSelectEdit?: (editIndex: number) => void;
-  bandHex: string;
   /** The question's terms and command verb, painted on the text as everywhere else. */
   keywords?: string[];
   verb?: PromptVerb;
@@ -117,7 +125,6 @@ const DiffText: React.FC<{
   editNumbers,
   registerMark,
   onSelectEdit,
-  bandHex,
   keywords,
   verb,
 }) => {
@@ -153,16 +160,18 @@ const DiffText: React.FC<{
                 type="button"
                 onClick={() => onSelectEdit?.(number - 1)}
                 aria-label={`Edit ${number}`}
+                // The active marker is the band's solid fill with its own ink
+                // (`band-solid`), not white on the band: white failed 4.5:1 on
+                // the purple and the yellow-green hues.
                 // The marker is a small pill in the prose, far under a finger's
                 // width on a phone. Its hit area is a 44px square centred on it,
                 // drawn by a pseudo-element: absolute, so the line's layout is the
                 // same with or without it.
                 className={`relative after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-[''] inline-flex items-center justify-center align-[0.3em] mr-0.5 min-w-[1.4em] h-[1.4em] px-1 rounded-full font-sans text-[10px] font-bold tabular-nums leading-none transition-colors ${
                   inActive
-                    ? 'text-white'
-                    : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-white/20'
+                    ? 'band-solid'
+                    : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300 can-hover:hover:bg-slate-300 dark:can-hover:hover:bg-white/20'
                 }`}
-                style={inActive ? { backgroundColor: bandHex } : undefined}
               >
                 {number}
               </button>
@@ -172,7 +181,11 @@ const DiffText: React.FC<{
               // The focused edit gets a ring rather than a different colour, so
               // "where am I" never competes with "what kind of edit is this".
               className={`${OP_CLASS[segment.op]} ${inActive ? 'ring-2 ring-offset-1 ring-offset-transparent' : ''}`}
-              style={inActive ? ({ '--tw-ring-color': bandHex } as React.CSSProperties) : undefined}
+              style={
+                inActive
+                  ? ({ '--tw-ring-color': 'rgb(var(--band-rgb))' } as React.CSSProperties)
+                  : undefined
+              }
               title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
             >
               {renderHighlightedText(segment.value, keywords, verb, true)}
@@ -219,6 +232,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   onApply,
   markerAsked,
   continueLabel,
+  keyChanges,
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [view, setView] = useState<ViewMode>('marked');
@@ -226,12 +240,20 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const [cursor, setCursor] = useState(0);
   const markRefs = useRef(new Map<number, HTMLElement>());
   const railRefs = useRef(new Map<number, HTMLElement>());
+  const copiedTimer = useRef<number | undefined>(undefined);
   const titleId = useId();
   const descId = useId();
   const bandConfig = getBandConfig(targetBand);
-  const bandHex = getBandHex(targetBand);
+  // The band as one custom property on the frame. Every band-coloured part of
+  // the modal reads it from here, through `band-solid`, `band-edge-strong` and
+  // `rgb(var(--band-rgb))`, so no colour is written at a call site.
+  const bandStyle = { '--band-rgb': getBandRgb(targetBand) } as React.CSSProperties;
 
   useEscapeKey(isOpen, onClose);
+
+  // The "Copied" confirmation is cleared when the modal goes, so a timer left
+  // running cannot set state on an unmounted component.
+  useEffect(() => () => window.clearTimeout(copiedTimer.current), []);
 
   // Tab stays inside the dialog while it is open, and focus returns to
   // whatever opened it on close. Partners `useEscapeKey` — same stack, same
@@ -314,6 +336,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
     () => (markerAsked || []).map((s) => s.trim()).filter(Boolean),
     [markerAsked]
   );
+  const changeReasons = useMemo(
+    () => (keyChanges || []).map((s) => s.trim()).filter(Boolean),
+    [keyChanges]
+  );
 
   useEffect(() => {
     // A fresh comparison starts at the first edit, not wherever the last one
@@ -359,14 +385,38 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   if (!isOpen) return null;
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(revisedText);
+    try {
+      await navigator.clipboard.writeText(revisedText);
+    } catch {
+      // The browser refused the clipboard, so nothing was copied and nothing
+      // should say "Copied". The text is on the page to select by hand.
+      return;
+    }
     setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+    window.clearTimeout(copiedTimer.current);
+    copiedTimer.current = window.setTimeout(() => setIsCopied(false), 2000);
   };
 
+  // Put the rewrite in the draft, then close. Focus then goes to the writing
+  // surface, because that is where the student is sent next. The focus trap alone
+  // hands it back to whatever opened the review, and after marking that is often
+  // a control that has since been disabled or closed, or a theme toggle the
+  // student used earlier, which leaves focus on the page chrome.
+  //
+  // The trap restores on the frame after it closes, so this waits a frame more
+  // to land after it. Written as a second frame rather than a timeout, so the
+  // order does not depend on how long the restore takes.
   const handleApply = () => {
     onApply(revisedText);
     onClose();
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document
+          .getElementById('main-content')
+          ?.querySelector<HTMLTextAreaElement>('textarea')
+          ?.focus();
+      });
+    });
   };
 
   const hasOriginal = !!originalText.trim();
@@ -382,13 +432,18 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const activeAnchor = view === 'clean' ? null : (edits[cursor]?.anchor ?? null);
   const comparing = hasOriginal && !unchanged;
 
+  // Every button here is 44px tall on a phone, the touch target, and returns to
+  // its own height from `sm`. The primary action is the band's own solid fill
+  // with its ink (`band-solid`), which holds AA on all six hues where white did
+  // not.
   const secondaryButton =
-    't-label flex-1 sm:flex-none py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 transition-colors flex items-center justify-center gap-2';
-  const primaryButton = `t-label flex-1 sm:flex-none py-2.5 px-6 rounded-xl text-white font-semibold ${bandConfig.solidBg} hover:brightness-110 active:brightness-95 transition-[filter] flex items-center justify-center gap-2`;
+    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 border border-slate-300 dark:border-white/10 transition-colors touch-manipulation flex items-center justify-center gap-2';
+  const primaryButton =
+    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-6 rounded-xl font-semibold band-solid can-hover:hover:brightness-110 active:brightness-95 transition-[filter] touch-manipulation flex items-center justify-center gap-2';
   const toolGroup =
     'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20';
   const toolButton =
-    'p-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors disabled:opacity-40';
+    'inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-1.5 rounded-lg text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation disabled:opacity-40';
 
   return createPortal(
     <div
@@ -402,14 +457,15 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descId}
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border border-slate-200 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]"
+        style={bandStyle}
+        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg w-full max-w-6xl border border-slate-200 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* The band this revision reaches, as one rule across the top — the
             only saturated colour on the frame, so the edits keep the page's
             attention. It replaces a full-width gradient header with a grid
             texture, which outshouted the words it was introducing. */}
-        <div className="h-1 shrink-0" style={{ backgroundColor: bandHex }} aria-hidden="true" />
+        <div className="h-1 shrink-0 bg-[rgb(var(--band-rgb))]" aria-hidden="true" />
 
         <header className="px-5 sm:px-8 pt-5 pb-4 flex items-start justify-between gap-4 shrink-0">
           <div className="min-w-0">
@@ -440,8 +496,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           </div>
 
           <div className="flex items-start gap-3 sm:gap-5 shrink-0">
-            {/* The mark it moved, said once and large enough to be the point.
-                The chip it replaces put "3 → 4/4" at 12px inside a gradient. */}
+            {/* The mark it moved, said once and large enough to be the point. The
+                title names the gain, so this line gives the figure and the band
+                and nothing else. The chip it replaces put "3 → 4/4" at 12px inside
+                a gradient. */}
             {!unchanged && targetMark !== undefined && (
               <div className="text-right">
                 <p className="flex items-baseline justify-end gap-1.5 tabular-nums leading-none">
@@ -450,7 +508,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                       <span className="text-lg font-semibold text-slate-600 dark:text-slate-400">
                         {originalMark}
                       </span>
-                      <span className="text-slate-600 dark:text-slate-400" aria-label="to">
+                      <span className="sr-only"> to </span>
+                      <span aria-hidden="true" className="text-slate-600 dark:text-slate-400">
                         →
                       </span>
                     </>
@@ -464,21 +523,22 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 </p>
                 <p className="t-label mt-1.5 text-slate-600 dark:text-slate-400 whitespace-nowrap">
                   Band {targetBand}
-                  {gained > 0 && ` · +${gained} mark${gained === 1 ? '' : 's'}`}
                 </p>
               </div>
             )}
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 shrink-0 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center justify-center"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors flex items-center justify-center touch-manipulation"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
         </header>
 
-        <div className="px-5 sm:px-8 py-2.5 border-y border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
+        {/* A strip lying on the paper, so it takes the elevated rung of the
+            ladder rather than a grey of its own. */}
+        <div className="px-5 sm:px-8 py-2.5 border-y border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
           {comparing && (
             <div
               className="flex items-center gap-0.5 p-0.5 rounded-xl bg-slate-200/70 dark:bg-black/25"
@@ -490,10 +550,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   key={v.id}
                   onClick={() => setView(v.id)}
                   aria-pressed={view === v.id}
-                  className={`t-label px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
+                  className={`t-label inline-flex items-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap touch-manipulation ${
                     view === v.id
                       ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                      : 'text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-200'
                   }`}
                 >
                   {v.label}
@@ -580,9 +640,11 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   <p className="text-sm text-emerald-800 dark:text-emerald-300">
                     No changes — this is already your answer
                   </p>
-                  <p className="text-xs text-emerald-700/80 dark:text-emerald-400/80 mt-0.5 leading-relaxed">
-                    The marker did not change anything, so there is nothing here to copy across. Try
-                    marking a fuller draft, or regenerate for a second opinion.
+                  {/* The way to get a different rewrite is to write more: this
+                      modal has no control that asks for another one. */}
+                  <p className="text-xs text-emerald-800 dark:text-emerald-300 mt-0.5 leading-relaxed">
+                    The marker did not change anything, so there is nothing here to copy across. Add
+                    more of your own reasoning, then mark it again.
                   </p>
                 </div>
               </div>
@@ -597,11 +659,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   ] as const
                 ).map(([label, words, side, isRevised]) => (
                   <div key={label}>
-                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-slate-50/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
+                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
                       {isRevised && (
                         <span
-                          className="w-2 h-2 rounded-full"
-                          style={{ backgroundColor: bandHex }}
+                          className="w-2 h-2 rounded-full bg-[rgb(var(--band-rgb))]"
                           aria-hidden="true"
                         />
                       )}
@@ -618,7 +679,6 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                       <DiffText
                         segments={side}
                         fontSize={fontSize}
-                        bandHex={bandHex}
                         activeAnchor={isRevised ? (revisedAnchors[cursor] ?? null) : null}
                         registerMark={isRevised ? registerMark : undefined}
                         keywords={originalPrompt.keywords}
@@ -649,7 +709,6 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     editNumbers={editNumbers}
                     registerMark={registerMark}
                     onSelectEdit={goTo}
-                    bandHex={bandHex}
                     keywords={originalPrompt.keywords}
                     verb={originalPrompt.verb}
                   />
@@ -670,7 +729,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {comparing && (
             <aside
               aria-label="What changed and why"
-              className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/10 bg-slate-50/70 dark:bg-white/[0.02] lg:overflow-y-auto lg:min-h-0 custom-scrollbar px-5 sm:px-6 py-6 flex flex-col gap-7"
+              className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] lg:overflow-y-auto lg:min-h-0 custom-scrollbar px-5 sm:px-6 py-6 flex flex-col gap-7"
             >
               {asked.length > 0 && (
                 <section>
@@ -683,6 +742,30 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                       >
                         <ArrowUpRight
                           className={`w-3.5 h-3.5 mt-[3px] shrink-0 ${bandConfig.text}`}
+                          aria-hidden="true"
+                        />
+                        <span>
+                          {renderFormattedText(item, originalPrompt.keywords, originalPrompt.verb)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {/* What the marker says it changed, and why. The reasons sit above
+                  the edits so the reader has the why before the where. */}
+              {changeReasons.length > 0 && (
+                <section>
+                  <RailHeading>What changed and why</RailHeading>
+                  <ul className="space-y-2.5">
+                    {changeReasons.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex gap-2.5 text-[13px] leading-relaxed text-slate-700 dark:text-slate-300"
+                      >
+                        <span
+                          className="mt-[7px] w-1.5 h-1.5 shrink-0 rounded-full bg-[rgb(var(--band-rgb))]"
                           aria-hidden="true"
                         />
                         <span>
@@ -722,19 +805,21 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                             goTo(i);
                           }}
                           aria-current={active ? 'true' : undefined}
-                          className={`w-full text-left flex gap-3 p-2.5 rounded-xl border transition-colors ${
+                          // The cursor is the band's own edge at full strength
+                          // (`band-edge-strong`), so the rail says which edit the
+                          // page is on in the colour the page uses for it.
+                          className={`w-full text-left flex gap-3 p-2.5 rounded-xl border touch-manipulation transition-colors ${
                             active
-                              ? 'bg-white dark:bg-white/[0.06] border-slate-300 dark:border-white/15 shadow-sm'
-                              : 'border-transparent hover:bg-white/70 dark:hover:bg-white/[0.04]'
+                              ? 'bg-white dark:bg-white/[0.06] band-edge-strong shadow-sm'
+                              : 'border-transparent can-hover:hover:bg-white/70 dark:can-hover:hover:bg-white/[0.04]'
                           }`}
                         >
                           <span
                             className={`mt-0.5 shrink-0 inline-flex items-center justify-center min-w-[1.5rem] h-6 px-1 rounded-full text-[11px] font-bold tabular-nums ${
                               active
-                                ? 'text-white'
+                                ? 'band-solid'
                                 : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300'
                             }`}
-                            style={active ? { backgroundColor: bandHex } : undefined}
                           >
                             {i + 1}
                           </span>
@@ -789,7 +874,13 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           )}
         </div>
 
-        <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+        {/* The footer's job is the way forward, so one action is primary. After
+            marking it is "See my full feedback", which carries on; opened from the
+            summary it is "Use this version" when there is a version to take, and
+            "Back to feedback" when there is not. Everything else is secondary. On a
+            phone the primary takes the first full-width row, and the rest share the
+            row beneath. */}
+        <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
           <p className="text-xs text-slate-600 dark:text-slate-400 text-center sm:text-left">
             {continueLabel
               ? // Standing in front of the marking summary, the useful thing to
@@ -800,9 +891,6 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 : 'Both versions are saved to this question’s sample answers.'}
           </p>
 
-          {/* On a phone the way forward takes its own full-width row above the
-              other two; three abreast, "See my full feedback" wrapped to three
-              lines in a button 110px wide. */}
           <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-end gap-2.5 w-full sm:w-auto">
             <button onClick={handleCopy} className={secondaryButton}>
               {isCopied ? (
@@ -813,31 +901,57 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               {isCopied ? 'Copied' : 'Copy'}
             </button>
 
-            {/* Nothing to apply when the two texts are the same — a button
-                that silently does nothing is worse than no button. */}
-            {!unchanged && (
-              <button
-                onClick={handleApply}
-                title="Put this version in your draft"
-                className={continueLabel ? secondaryButton : `${primaryButton} col-span-1`}
-              >
-                <span>Use this version</span>
-                {!continueLabel && <ArrowRight className="w-4 h-4" />}
-              </button>
-            )}
+            {continueLabel ? (
+              <>
+                {/* Nothing to apply when the two texts are the same — a button
+                    that silently does nothing is worse than no button. */}
+                {!unchanged && (
+                  <button
+                    onClick={handleApply}
+                    title="Put this version in your draft"
+                    className={secondaryButton}
+                  >
+                    <span>Use this version</span>
+                  </button>
+                )}
 
-            {/* Where the flow goes next — see `continueLabel`. Focused on open
-                so Enter carries on, and so a keyboard user is not left hunting
-                for the exit. */}
-            {continueLabel && (
-              <button
-                onClick={onClose}
-                autoFocus
-                className={`${primaryButton} col-span-2 order-first sm:order-none`}
-              >
-                <span>{continueLabel}</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+                {/* Where the flow goes next — see `continueLabel`. Focused on open
+                    so Enter carries on, and so a keyboard user is not left hunting
+                    for the exit. */}
+                <button
+                  onClick={onClose}
+                  autoFocus
+                  className={`${primaryButton} col-span-2 order-first sm:order-none`}
+                >
+                  <span>{continueLabel}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onClose}
+                  className={
+                    unchanged
+                      ? `${primaryButton} col-span-2 order-first sm:order-none`
+                      : secondaryButton
+                  }
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to feedback</span>
+                </button>
+
+                {!unchanged && (
+                  <button
+                    onClick={handleApply}
+                    title="Put this version in your draft"
+                    className={`${primaryButton} col-span-2 order-first sm:order-none`}
+                  >
+                    <span>Use this version</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>

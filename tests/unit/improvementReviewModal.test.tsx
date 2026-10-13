@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, within, waitFor, act } from '@testing-library/react';
 import ImprovementReviewModal from '../../components/ImprovementReviewModal';
 import type { Prompt, PromptVerb } from '../../types';
 
@@ -26,10 +26,11 @@ const IMPROVED =
 
 const renderModal = (over: Partial<React.ComponentProps<typeof ImprovementReviewModal>> = {}) => {
   const onApply = vi.fn();
+  const onClose = vi.fn();
   render(
     <ImprovementReviewModal
       isOpen
-      onClose={vi.fn()}
+      onClose={onClose}
       improvedAnswer={IMPROVED}
       originalAnswer={ORIGINAL}
       originalPrompt={prompt}
@@ -40,7 +41,7 @@ const renderModal = (over: Partial<React.ComponentProps<typeof ImprovementReview
       {...over}
     />
   );
-  return { onApply };
+  return { onApply, onClose };
 };
 
 describe('ImprovementReviewModal', () => {
@@ -102,14 +103,20 @@ describe('ImprovementReviewModal', () => {
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
     expect(within(dialog).getByText('4')).toBeTruthy();
     expect(within(dialog).getByText('5')).toBeTruthy();
-    expect(screen.getByText(/Band 4 · \+1 mark/)).toBeTruthy();
+    expect(screen.getByText('Band 4')).toBeTruthy();
   });
 
-  it('says how many marks when the gain is more than one', () => {
+  /**
+   * The header states the gain once. The title says it, the figure shows the
+   * move, and the line under the figure names only the band. The "+1 mark"
+   * chip used to say it a third time.
+   */
+  it('says how many marks when the gain is more than one, and only once', () => {
     renderModal({ originalMark: 3, targetMark: 5 });
 
     expect(screen.getByRole('dialog', { name: 'Your answer, 2 marks higher' })).toBeTruthy();
-    expect(screen.getByText(/\+2 marks/)).toBeTruthy();
+    expect(screen.queryByText(/\+2 marks/)).toBeNull();
+    expect(screen.queryByText(/\+1 mark/)).toBeNull();
   });
 
   it('names the syllabus terms the revision brought in', () => {
@@ -291,5 +298,171 @@ describe('ImprovementReviewModal', () => {
     expect(screen.queryByText('Side by side')).toBeNull();
     expect(screen.queryAllByTitle('Cut by the marker')).toHaveLength(0);
     expect(screen.getByText(/Caching stores frequently requested data/)).toBeTruthy();
+  });
+
+  /**
+   * White text on a band's solid fill failed AA on most of the bands (2.15:1 on
+   * yellow, under 4:1 on purple), so the ink comes from `band-solid`, which sets
+   * the band as the fill and its own near-black ink, with the band itself
+   * handed down on the frame as `--band-rgb`.
+   */
+  it('paints the primary action and the active edit marker in the band, not in white', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    const apply = screen.getByText('Use this version').closest('button')!;
+    expect(apply.className).toContain('band-solid');
+    expect(apply.className).not.toMatch(/text-white/);
+
+    const activeMarker = screen.getByLabelText('Edit 1');
+    expect(activeMarker.className).toContain('band-solid');
+    expect(activeMarker.className).not.toMatch(/text-white/);
+    expect(screen.getByLabelText('Edit 2').className).not.toContain('band-solid');
+  });
+
+  it('hands the band down to the frame as one custom property', () => {
+    renderModal({ targetBand: 4 });
+
+    const dialog = screen.getByRole('dialog');
+    // Band 4 is the green-500 step, the same triplet `getBandRgb` gives.
+    expect(dialog.style.getPropertyValue('--band-rgb')).toBe('34 197 94');
+  });
+
+  it('marks the cursor edit in the band’s edge, and only that edit', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const [first, second] = within(margin).getAllByRole('button');
+    expect(first.className).toContain('band-edge-strong');
+    expect(second.className).not.toContain('band-edge-strong');
+  });
+
+  it('draws the page’s own colours from tokens: the cut text is not dimmed by an alpha', () => {
+    renderModal({ improvedAnswer: 'Caching stores data.' });
+
+    const cut = screen.getAllByTitle('Cut by the marker')[0];
+    expect(cut.className).toContain('text-rose-800');
+    expect(cut.className).not.toMatch(/text-rose-800\/\d/);
+  });
+
+  it('keeps the stepper and the close button at a 44px touch target on a phone', () => {
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    for (const name of ['Previous change', 'Next change']) {
+      expect(screen.getByLabelText(name).className).toMatch(/min-h-11/);
+      expect(screen.getByLabelText(name).className).toMatch(/min-w-11/);
+    }
+    expect(screen.getByLabelText('Close').className).toContain('w-11 h-11 sm:w-9 sm:h-9');
+  });
+
+  it('gives aria-label only to elements that can carry one', () => {
+    renderModal();
+
+    expect(document.body.querySelectorAll('span[aria-label]')).toHaveLength(0);
+  });
+
+  it('says what changed and why above the edits, when the rewrite says', () => {
+    renderModal({
+      keyChanges: ['Named the consequence', 'Added a judgement'],
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const reasons = within(margin).getByRole('heading', { name: 'What changed and why' });
+    const edits = within(margin).getByRole('heading', { name: 'The edits' });
+    expect(within(margin).getByText('Named the consequence')).toBeTruthy();
+    expect(within(margin).getByText('Added a judgement')).toBeTruthy();
+    expect(reasons.compareDocumentPosition(edits) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('leaves the reasons out when the rewrite gives none', () => {
+    renderModal();
+
+    expect(screen.queryByRole('heading', { name: 'What changed and why' })).toBeNull();
+  });
+
+  it('does not point at a regenerate control this modal does not have', () => {
+    renderModal({ improvedAnswer: ORIGINAL });
+
+    expect(screen.queryByText(/regenerate/i)).toBeNull();
+    expect(screen.getByText(/Add more of your own reasoning/)).toBeTruthy();
+  });
+
+  it('offers Back to feedback beside Use this version when opened from the summary', () => {
+    const { onClose, onApply } = renderModal();
+
+    fireEvent.click(screen.getByText('Back to feedback'));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+    // Going back must not quietly overwrite what the student wrote.
+    expect(onApply).not.toHaveBeenCalled();
+  });
+
+  it('applies the version and closes the review, so control goes back to the workspace', () => {
+    const { onApply, onClose } = renderModal();
+
+    fireEvent.click(screen.getByText('Use this version'));
+
+    expect(onApply).toHaveBeenCalledWith(IMPROVED);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('makes Back to feedback the way forward when there is nothing to apply', () => {
+    renderModal({ improvedAnswer: ORIGINAL });
+
+    const back = screen.getByText('Back to feedback').closest('button')!;
+    expect(back.className).toContain('band-solid');
+  });
+
+  describe('copying the rewrite', () => {
+    const stubClipboard = (writeText: ReturnType<typeof vi.fn>) =>
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText },
+        configurable: true,
+      });
+
+    afterEach(() => {
+      delete (navigator as { clipboard?: unknown }).clipboard;
+    });
+
+    it('says Copied once the clipboard accepts the text', async () => {
+      const writeText = vi.fn().mockResolvedValue(undefined);
+      stubClipboard(writeText);
+      renderModal();
+
+      fireEvent.click(screen.getByText('Copy'));
+
+      expect(await screen.findByText('Copied')).toBeTruthy();
+      expect(writeText).toHaveBeenCalledWith(IMPROVED);
+    });
+
+    /**
+     * A refused clipboard (no permission, an insecure page) used to be an
+     * unhandled rejection, and the button went on saying nothing had happened
+     * while claiming it had not. Now nothing is claimed.
+     */
+    it('does not say Copied when the browser refuses the clipboard', async () => {
+      const writeText = vi.fn().mockRejectedValue(new DOMException('Denied', 'NotAllowedError'));
+      stubClipboard(writeText);
+      renderModal();
+
+      fireEvent.click(screen.getByText('Copy'));
+      await waitFor(() => expect(writeText).toHaveBeenCalledWith(IMPROVED));
+      await act(async () => {
+        await Promise.resolve();
+      });
+
+      expect(screen.queryByText('Copied')).toBeNull();
+      expect(screen.getByText('Copy')).toBeTruthy();
+    });
   });
 });
