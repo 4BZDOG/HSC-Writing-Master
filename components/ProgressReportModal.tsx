@@ -70,11 +70,24 @@ export interface ProgressReportModalProps {
   showToast?: (message: string, type?: ToastType) => void;
 }
 
+/*
+ * The dialog is drawn in the profile's shell language: a desk body, paper head and
+ * foot, and each group of choices is a card lying on the desk. Inputs are 16px and
+ * 44px tall on a phone, because a smaller field makes iOS zoom on focus and a
+ * shorter one is hard to hit.
+ */
 const SELECT_CLASS =
-  'w-full min-w-0 px-3 py-2.5 rounded-xl bg-surface-inset border border-primary text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:cursor-not-allowed';
+  'w-full min-w-0 min-h-11 sm:min-h-0 px-3 py-2.5 rounded-xl bg-surface-inset border border-slate-500 dark:border-primary text-base sm:text-sm text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:cursor-not-allowed';
 
 const FOCUS_RING =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent motion-reduce:transition-none';
+
+/** A group of choices: paper with a real edge, on the desk. The same card as the profile's. */
+const CARD =
+  'rounded-panel border border-slate-300 bg-surface shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none p-4 sm:p-5';
+
+/** A 44px touch target on a phone that returns to its own size from `sm`. */
+const TOUCH = 'min-h-11 sm:min-h-0';
 
 /** A checkbox row in the style of the export options. The native input keeps the tab stop. */
 const ReportCheck: React.FC<{
@@ -86,7 +99,7 @@ const ReportCheck: React.FC<{
 }> = ({ label, hint, checked, disabled = false, onChange }) => (
   <label
     className={`flex items-start gap-3 px-3 py-2.5 rounded-xl transition-colors motion-reduce:transition-none ${
-      disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-surface-inset'
+      disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer can-hover:hover:bg-surface-inset'
     }`}
   >
     <input
@@ -96,10 +109,14 @@ const ReportCheck: React.FC<{
       disabled={disabled}
       onChange={(e) => onChange(e.target.checked)}
     />
+    {/* The box's edge is slate-500 in the light theme: a box is a control, so its
+        edge needs 3:1 against the card it sits on, and slate-400 is 2.5:1. */}
     <span
       aria-hidden="true"
       className={`mt-0.5 w-4 h-4 shrink-0 rounded-lg border flex items-center justify-center transition-colors motion-reduce:transition-none peer-focus-visible:ring-2 peer-focus-visible:ring-accent ${
-        checked ? 'bg-accent border-accent text-white' : 'bg-surface-inset border-primary'
+        checked
+          ? 'bg-accent border-accent text-white'
+          : 'bg-surface-inset border-slate-500 dark:border-primary'
       }`}
     >
       {checked && <Check className="w-3 h-3" strokeWidth={3} />}
@@ -145,10 +162,12 @@ function Segmented<T extends string | number>({
     <fieldset className="min-w-0 border-0 p-0 m-0">
       <legend className="t-label text-muted mb-2 p-0">{legend}</legend>
       <div
-        className={`grid gap-1 p-1 rounded-xl bg-surface-inset border border-secondary/10 ${columns}`}
+        className={`grid gap-1 p-1 rounded-xl bg-surface-inset border border-slate-300 dark:border-white/10 ${columns}`}
       >
         {options.map((option) => {
           const active = option.value === value;
+          // The selected choice is the paper raised off the well, which is how a
+          // segmented control shows what is chosen in every system a reader knows.
           return (
             <button
               key={String(option.value)}
@@ -159,11 +178,11 @@ function Segmented<T extends string | number>({
               onClick={() => {
                 if (!locked) onChange(option.value);
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${FOCUS_RING} ${
+              className={`${TOUCH} px-3 py-1.5 rounded-lg text-xs font-bold transition-[background-color,color,box-shadow] ${FOCUS_RING} ${
                 active
-                  ? 'bg-surface-elevated text-primary shadow-sm'
-                  : 'text-muted hover:text-primary'
-              } ${locked ? 'cursor-not-allowed opacity-60 hover:text-muted' : ''}`}
+                  ? 'bg-surface text-primary shadow-sm dark:bg-[rgb(var(--color-bg-surface-elevated))]'
+                  : 'text-muted can-hover:hover:text-primary'
+              } ${locked ? 'cursor-not-allowed text-muted' : ''}`}
             >
               {option.label}
             </button>
@@ -468,9 +487,11 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
             last.focus();
           }
         }}
-        className="w-full max-w-2xl max-h-[92vh] sm:max-h-[90vh] flex flex-col overflow-hidden rounded-surface bg-surface border border-secondary/10 shadow-lg animate-fade-in-up motion-reduce:animate-none focus:outline-none"
+        className="w-full max-w-2xl max-h-[92vh] sm:max-h-[90vh] flex flex-col overflow-hidden rounded-surface bg-[rgb(var(--color-bg-base))] dark:bg-[rgb(var(--color-bg-surface))] border border-slate-300 dark:border-white/10 shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] animate-fade-in-up motion-reduce:animate-none focus:outline-none"
       >
-        <header className="shrink-0 flex items-start gap-4 px-5 sm:px-8 pt-5 sm:pt-7 pb-5 border-b border-secondary/10">
+        {/* Paper head, washed with the accent the way the profile's head is washed
+            with its band. The desk body and paper foot frame the choices. */}
+        <header className="shrink-0 flex items-start gap-4 px-5 sm:px-8 pt-5 sm:pt-7 pb-5 bg-surface bg-gradient-to-r from-accent/10 to-accent/0 border-b border-slate-300 dark:border-white/10">
           <div
             aria-hidden="true"
             className="w-11 h-11 shrink-0 rounded-tile bg-accent/15 text-accent flex items-center justify-center"
@@ -493,14 +514,14 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className={`ml-auto shrink-0 p-2 rounded-xl text-muted hover:text-primary hover:bg-surface-inset transition-colors ${FOCUS_RING}`}
+            className={`ml-auto shrink-0 flex items-center justify-center min-w-11 sm:min-w-0 p-2 rounded-xl text-muted can-hover:hover:text-primary can-hover:hover:bg-surface-inset transition-colors ${TOUCH} ${FOCUS_RING}`}
           >
             <X className="w-4 h-4" />
           </button>
         </header>
 
-        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden custom-scrollbar px-5 sm:px-8 py-5 space-y-6">
-          <section aria-label="Scope" className="grid gap-4 sm:grid-cols-2">
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden custom-scrollbar px-5 sm:px-8 py-5 space-y-5 bg-[rgb(var(--color-bg-base))] dark:bg-transparent">
+          <section aria-label="Scope" className={`${CARD} grid gap-4 sm:grid-cols-2`}>
             {showClassPicker && (
               <div className="min-w-0">
                 <label htmlFor={classSelectId} className="t-label block text-muted mb-2">
@@ -583,51 +604,55 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
             )}
           </section>
 
-          <fieldset className="min-w-0 border-0 p-0 m-0">
-            <legend className="t-label text-muted mb-2 p-0">Include in the report</legend>
-            <div className="grid gap-1 sm:grid-cols-2">
-              {sectionChoicesFor(audience).map((choice) => {
-                // The school's class table is one row per class, so it has nothing to
-                // list once the report is narrowed to a single class.
-                const off = choice.key === 'classes' && selectedClass !== null;
-                return (
-                  <ReportCheck
-                    key={choice.key}
-                    label={choice.label}
-                    hint={off ? 'Shown when every class is included' : choice.hint}
-                    checked={sections[choice.key]}
-                    disabled={off}
-                    onChange={(on) => setSection(choice.key, on)}
-                  />
-                );
-              })}
-            </div>
-          </fieldset>
-
-          {isRoster && (
+          <div className={CARD}>
             <fieldset className="min-w-0 border-0 p-0 m-0">
-              <legend className="t-label text-muted mb-2 p-0">Names</legend>
-              <ReportCheck
-                label="Include student names"
-                hint="Names are personal information. Off prints each student as a number."
-                checked={includeNames}
-                onChange={setIncludeNames}
-              />
+              <legend className="t-label text-muted mb-2 p-0">Include in the report</legend>
+              <div className="grid gap-1 sm:grid-cols-2">
+                {sectionChoicesFor(audience).map((choice) => {
+                  // The school's class table is one row per class, so it has nothing to
+                  // list once the report is narrowed to a single class.
+                  const off = choice.key === 'classes' && selectedClass !== null;
+                  return (
+                    <ReportCheck
+                      key={choice.key}
+                      label={choice.label}
+                      hint={off ? 'Shown when every class is included' : choice.hint}
+                      checked={sections[choice.key]}
+                      disabled={off}
+                      onChange={(on) => setSection(choice.key, on)}
+                    />
+                  );
+                })}
+              </div>
             </fieldset>
-          )}
 
-          <Segmented
-            legend="Paper"
-            options={[
-              { value: 'a4', label: 'A4' },
-              { value: 'letter', label: 'Letter' },
-            ]}
-            value={pageSize}
-            onChange={choosePageSize}
-          />
+            {isRoster && (
+              <fieldset className="mt-5 min-w-0 border-0 p-0 m-0">
+                <legend className="t-label text-muted mb-2 p-0">Names</legend>
+                <ReportCheck
+                  label="Include student names"
+                  hint="Names are personal information. Off prints each student as a number."
+                  checked={includeNames}
+                  onChange={setIncludeNames}
+                />
+              </fieldset>
+            )}
+          </div>
+
+          <div className={CARD}>
+            <Segmented
+              legend="Paper"
+              options={[
+                { value: 'a4', label: 'A4' },
+                { value: 'letter', label: 'Letter' },
+              ]}
+              value={pageSize}
+              onChange={choosePageSize}
+            />
+          </div>
         </div>
 
-        <footer className="shrink-0 border-t border-secondary/10 bg-surface-inset/60 px-5 sm:px-8 py-4">
+        <footer className="shrink-0 border-t border-slate-300 dark:border-white/10 bg-surface px-5 sm:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="min-w-0 flex-1">
               <p
@@ -655,7 +680,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
                 <button
                   type="button"
                   onClick={() => setAttempt((n) => n + 1)}
-                  className={`mt-2 px-3 py-1.5 rounded-lg text-xs font-bold text-accent bg-accent/15 border border-accent/30 hover:bg-accent/25 transition-colors inline-flex items-center gap-1.5 ${FOCUS_RING}`}
+                  className={`mt-2 px-3 py-1.5 rounded-lg text-xs font-bold text-accent bg-accent/15 border border-accent/30 can-hover:hover:bg-accent/25 transition-colors inline-flex items-center gap-1.5 ${TOUCH} ${FOCUS_RING}`}
                 >
                   <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
                   Try again
@@ -669,7 +694,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
               disabled={downloadDisabled}
               aria-busy={exporting}
               aria-describedby={statusId}
-              className={`shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 bg-accent/15 text-accent border border-accent/30 hover:bg-accent/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed ${FOCUS_RING}`}
+              className={`shrink-0 ${TOUCH} px-5 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 bg-[rgb(var(--color-accent))] text-white dark:text-slate-950 shadow-sm transition-colors can-hover:hover:bg-[rgb(var(--color-accent-dark))] dark:can-hover:hover:bg-[rgb(var(--color-accent-glow))] disabled:opacity-50 disabled:cursor-not-allowed ${FOCUS_RING}`}
             >
               {exporting ? (
                 <>
