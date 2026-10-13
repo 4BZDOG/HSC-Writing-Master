@@ -197,6 +197,24 @@ valid and existing components are **not** being migrated, because `App.tsx`
 maintains both the `.dark` class and `[data-theme='light']`. Expect to meet
 both idioms; write the new one.
 
+**4. Three guards cover what rules 0–3 cannot see.** Each was added after a
+round-1 defect that no committed test could have caught:
+
+- **`npm run check:build`** (in `test:all`) runs `vite build` and the two chunk
+  checks CI runs after it. A staff-only module imported by an eager component
+  joined the first load and failed CI while every unit test passed.
+- **Text over gradients** (`light-theme.spec.ts`, "text over gradients"). The
+  solid-background sweep skips text on an image, so white text on the band and
+  amber gradients (1.9–2.8:1) was never measured. The guard measures each run
+  against every colour its gradient can paint, worst case, in both themes. It is
+  not ratcheted: on `main` it fails on the band headers, the Plus chip and the
+  feedback highlights, and those are fixed in the components, not in the guard.
+- **Stark surfaces** (`light-stark-surfaces.spec.ts`). A painted surface over
+  20,000 px², within 1.08:1 of white, on a white parent, with no border or
+  shadow and no 1.1:1 step, is a defect: the white slab on the white page that
+  rule 0 describes. It walks computed styles and hit-tests, not pixels, so it is
+  deterministic and names the element.
+
 ## 3. Component Patterns
 
 ### Layering & Hierarchy

@@ -11,9 +11,12 @@ import { Page } from '@playwright/test';
  * What this can and cannot see, stated plainly, because a checker that quietly
  * skips things is worse than none:
  *
- *   - **Gradients and images are not assessed.** Where the resolved background
+ *   - **Gradients and images are not assessed here.** Where the resolved background
  *     is a gradient the true contrast depends on which pixel the glyph lands
- *     on, so those nodes are counted and reported, never failed.
+ *     on, so those nodes are counted and reported, never failed. Text over a
+ *     gradient is measured by `measureGradientContrast` in gradientContrast.ts,
+ *     worst case over every colour the gradient paints; this function does not
+ *     do that, and a green run here says nothing about gradients.
  *   - **The app header is measured like everything else, as of the redesign
  *     that gave it a light theme.** It used to be skipped: its background was a
  *     full-bleed gradient painted by an absolutely-positioned child, so the text
@@ -82,7 +85,8 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
       const v = c / 255;
       return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
     };
-    const lum = (rgb: number[]) => 0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
+    const lum = (rgb: number[]) =>
+      0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
     const ratio = (a: number[], b: number[]) => {
       const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
       return (hi + 0.05) / (lo + 0.05);
@@ -90,7 +94,10 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
     const parse = (value: string) => {
       const m = String(value).match(/rgba?\(([^)]+)\)/);
       if (!m) return null;
-      const parts = m[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+      const parts = m[1]
+        .split(/[,\s/]+/)
+        .filter(Boolean)
+        .map(Number);
       return { rgb: parts.slice(0, 3), a: parts.length > 3 ? parts[3] : 1 };
     };
     const composite = (fg: { rgb: number[]; a: number }, bg: number[]) =>
@@ -180,13 +187,14 @@ export const measureContrast = (page: Page): Promise<ContrastReport> =>
       readings.push({
         id,
         text: text.slice(0, 48),
-        ratio: Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, bg.rgb), bg.rgb) * 100) / 100,
+        ratio:
+          Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, bg.rgb), bg.rgb) * 100) /
+          100,
         floor: large ? 3 : 4.5,
         color: cs.color,
         background: `rgb(${bg.rgb.join(',')})`,
         neutralBackground: neutral,
-        classes:
-          typeof el.className === 'string' ? el.className.replace(/\s+/g, ' ').trim() : '',
+        classes: typeof el.className === 'string' ? el.className.replace(/\s+/g, ' ').trim() : '',
         selector:
           el.tagName.toLowerCase() +
           (typeof el.className === 'string' && el.className.trim()
@@ -214,7 +222,8 @@ export const remeasureTagged = (page: Page): Promise<Record<number, Remeasured>>
       const v = c / 255;
       return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
     };
-    const lum = (rgb: number[]) => 0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
+    const lum = (rgb: number[]) =>
+      0.2126 * chan(rgb[0]) + 0.7152 * chan(rgb[1]) + 0.0722 * chan(rgb[2]);
     const ratio = (a: number[], b: number[]) => {
       const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
       return (hi + 0.05) / (lo + 0.05);
@@ -222,7 +231,10 @@ export const remeasureTagged = (page: Page): Promise<Record<number, Remeasured>>
     const parse = (value: string) => {
       const m = String(value).match(/rgba?\(([^)]+)\)/);
       if (!m) return null;
-      const parts = m[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+      const parts = m[1]
+        .split(/[,\s/]+/)
+        .filter(Boolean)
+        .map(Number);
       return { rgb: parts.slice(0, 3), a: parts.length > 3 ? parts[3] : 1 };
     };
     const composite = (fg: { rgb: number[]; a: number }, bg: number[]) =>
@@ -259,7 +271,8 @@ export const remeasureTagged = (page: Page): Promise<Record<number, Remeasured>>
         p = p.parentElement;
       }
       out[Number(el.dataset.contrastId)] = {
-        ratio: Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, base), base) * 100) / 100,
+        ratio:
+          Math.round(ratio(composite({ rgb: fg.rgb, a: fg.a * opacity }, base), base) * 100) / 100,
         color: cs.color,
         background: `rgb(${base.join(',')})`,
         text: (el.textContent ?? '').trim().slice(0, 48),

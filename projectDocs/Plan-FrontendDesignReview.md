@@ -2386,3 +2386,123 @@ unfilled TRACK of the ring, an SVG stroke in `currentColor` and a surface rather
 than ink, and the filled arc plus the percentage at its centre carry the value.
 It takes the same tone the verb ribbon's timeline track does. Confirmed to fail,
 naming file and line, when a pale override is reintroduced.
+
+# A third pass: the surfaces the owner named
+
+The owner named these surfaces after a read of the light theme. They were fixed in
+#318–#325, and the findings continue from 76. Every one was found by eye: the
+sweeps walk text and painted surfaces in the states the workspace reaches, so a
+surface nobody opened, or a defect that is not a text-contrast fact (a seam, a
+veil, a missing fill, a chunk boundary), was outside them.
+
+### 77. The writing card's seams and marking veil — FIXED (#318)
+
+- **Wrong.** The definition row under the header was paper with a neutral hairline,
+  so the header, a white strip and the grey well read as a stray white line. The
+  marking veil sat over the whole card: its blur landed on the 2px border (a pink
+  halo) and washed the header title.
+- **Measured.** By eye, in screenshots of the writing card during marking.
+- **Fixed.** The row sits on the well token with one band-tinted rule. The veil lies
+  under the header, inside the card. `busyVeilPlacement.test.tsx` pins the placement.
+- **Why nothing caught it.** A seam and a border are not text, and no state held the
+  marking wait open.
+
+### 78. The profile was a white slab — FIXED (#319)
+
+- **Wrong.** White shell, white cards, and three empty history cards repeating one
+  sentence.
+- **Measured.** The audit's surface scan (`scan-lib.mjs`, in the working scratchpad):
+  painted surfaces over 20,000 px², within 1.08:1 of white, on a white parent.
+- **Fixed.** Paper head washed with the level's band, desk body, cards with an edge
+  and `shadow-sm`, and one calm note in place of the empty cards.
+- **Why nothing caught it.** The profile was in no state the sweep reached, and a
+  white card with dark text passes every text rule.
+
+### 79. The signed-out and reader shells — FIXED (#320)
+
+- **Wrong.** Legal reader, quick start, agreement gate and upgrade modal were white
+  on white; slate-400/500 pairs failed on paper; auth inputs were under 16px on phones.
+- **Measured.** The same surface scan, and by eye.
+- **Fixed.** Ladder rungs: desk-toned head with a rule, elevated rail, inset step
+  wells. Hero headers held to tones where white clears AA.
+- **Why nothing caught it.** The sweep opens the workspace, not these surfaces.
+
+### 80. The Delete button was white on white — FIXED (#320)
+
+- **Wrong.** The destructive confirm used `bg-gradient-danger`, which no stylesheet
+  defines. No fill, so the white label sat on the white dialog.
+- **Measured.** By eye, in the confirm dialog.
+- **Fixed.** Both confirm intents carry a solid fill. `confirmationButtonFill.test.tsx`
+  asserts the undefined class is gone.
+- **Why nothing caught it.** No state opened a confirmation, and the unit test pins
+  the class name, not the painted colour.
+
+### 81. The staff tools were bright slabs — FIXED (#321)
+
+- **Wrong.** Data Vault, Content Audit Studio, AI Usage Dashboard, Runtime AI Keys and
+  the teacher and database tools drew shells and bodies in white. The Data Vault's
+  logical-units figure was white on white.
+- **Measured.** The surface scan over the admin desk states, and a text check on the
+  figure.
+- **Fixed.** Paper shells, tinted heads, elevated rails, inset wells, and a -700
+  light partner for dark-only ink. Shared chrome in `utils/adminChrome.ts`.
+- **Why nothing caught it.** The tools sit behind an admin role, and the sweep runs
+  as a student.
+
+### 82. The first CI build failed on the staff tools — FIXED (#321)
+
+- **Wrong.** Shared admin chrome lived under `components/admin/` and an eager component
+  imported it. Rollup folded the directory into the `admin` chunk, so the whole staff
+  bundle joined every student's first load: 1,922 kB against a 1,900 kB ceiling.
+- **Measured.** The build job's `check:eager-chunks`, after the push.
+- **Fixed.** The constants moved to `utils/adminChrome.ts`. First load 1,726 kB.
+- **Why nothing caught it.** `test:all` never ran the build checks. `npm run
+check:build` now runs them locally, and `test:all` runs it.
+
+### 83. The verb sheet and outcome brief — FIXED (#322)
+
+- **Wrong.** Heads held band text with no checked contrast across the six bands. A
+  failed outcome briefing showed the raw service error.
+- **Measured.** `infoModalHeroContrast.test.ts` computes head text in all six bands,
+  both themes. `outcomeDetailModal.test.tsx` covers the failed briefing.
+- **Fixed.** Band-washed heads with a solid tier tile, 44px controls on a phone, and a
+  plain note with a retry.
+- **Why nothing caught it.** The sweep opens the verb ribbon, not the sheet opened from
+  a question. Both are now states in `light-stark-surfaces.spec.ts`.
+
+### 84. The PDF printed band text on paper, and drifted from the screen — FIXED (#323)
+
+- **Wrong.** Band text printed in the fill colour, which misses 4.5:1 on white. The
+  printed report also drifted from the screen in labels, figures and highlights.
+- **Measured.** `pdfExport.test.ts` checks each band's ink against white at 4.5:1; the
+  assertion was added in #323.
+- **Fixed.** Band text uses the ink step. Meters take the screen's three steps. The
+  words-kept figure comes from `utils/diffSummary.ts`, as on screen.
+- **Why nothing caught it.** No committed test compared the PDF with the screen.
+
+### 85. The marking report put white text on band gradients — FIXED (#324)
+
+- **Wrong.** White text on band gradients, at 1.9–2.8:1 by the commit's own count.
+- **Measured.** The commit records the ratios. The solid harness skips gradient text
+  and counts it as unassessed, so no test measured it.
+- **Fixed.** The mark is stated once, in a placard on the band's flat ground with ink.
+  The tip sits under the question, with the rewrite beneath it.
+- **Why nothing caught it.** Gradient text was never failed; the guard below measures it.
+
+### 86. The revision dialog opened at 0 of 6 — FIXED (#325, not yet on `main`)
+
+- **Wrong.** The revision dialog opened at 0/6. The review's action was white text on
+  the band fill, under AA on most bands. A toast sat under the review (z 1250 under 1300).
+- **Measured.** `sampleAnswerRevisionDefault.test.tsx` pins the default. Band-solid
+  ink on band 6 later measured 4.41:1 in one corner: under AA, in the follow-ups.
+- **Fixed.** Opens on the next band up; the action uses the band's own ink on its fill.
+- **Why nothing caught it.** The review was in no sweep, and the default only shows
+  after a marking that needs a revision.
+
+### What the guards say now
+
+- **`npm run check:build`** would have caught 82 locally. It is in `test:all`.
+- **Text over gradients** (`light-theme.spec.ts`) fails on `main`, as it should: white
+  labels on band headers at 2.3–4.2:1, the Plus chip (`PlusLockChip`) at 1.5–2.9:1,
+  and feedback highlights at 3.8–4.45:1 on the modal's wash. Bands 2–6 are not on screen.
+- **Stark surfaces** fails on `main` for one row, `PlanComparison.tsx:149`.
