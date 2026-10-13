@@ -14,6 +14,22 @@
  * for a title, a six-word meta line and a row of pills, most of it air.
  */
 
+/**
+ * The strip along the foot of each card: the word count and Evaluate on the
+ * writing card, the outcome chips and zoom controls on the prompt. Both take
+ * this one ground and rule, so the pair closes the way it opens.
+ *
+ * The ground is the writing well's own token, not a translucent inset laid over
+ * the paper. At 60% over a white card the prompt's footer came out as a grey
+ * that was almost, not quite, the card's white, and nothing else in the card
+ * used that tone. As a ladder token it is the same recess in both themes.
+ *
+ * The rule is the alpha carrier (`--color-border-secondary`, see index.css) at
+ * /15: a whisper, rather than white/10 on dark and slate-300 on light.
+ */
+export const CARD_FOOTER_BOX =
+  'flex-shrink-0 rounded-b-surface-inner px-4 sm:px-6 py-3 border-t border-[rgb(var(--color-border-secondary))]/15 bg-[rgb(var(--color-bg-surface-inset))]';
+
 /** The header box itself. Each card adds its own background — a band gradient
  *  on the question, the progress-driven colour on the writing area. */
 export const CARD_HEADER_BOX =
