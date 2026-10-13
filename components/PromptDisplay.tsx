@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback, useId } from 'react';
 import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
@@ -138,6 +138,9 @@ const OutcomeChip: React.FC<{
 }> = ({ outcome, bandConfig, onOpen }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [anchor, setAnchor] = useState<{ left: number; top: number } | null>(null);
+  // The preview is the chip's description. It is named by id only while it is
+  // showing: a reference to a node that is not in the page is a dangling one.
+  const tipId = useId();
 
   const show = useCallback(() => {
     // Touch browsers leave a tapped element in :hover, so on a phone the panel
@@ -174,6 +177,7 @@ const OutcomeChip: React.FC<{
       <button
         ref={buttonRef}
         onClick={onOpen}
+        aria-describedby={anchor ? tipId : undefined}
         onMouseEnter={show}
         onMouseLeave={hide}
         onFocus={show}
@@ -194,6 +198,7 @@ const OutcomeChip: React.FC<{
         createPortal(
           <div
             role="tooltip"
+            id={tipId}
             className="fixed z-tooltip w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-lg pointer-events-none backdrop-blur-xl animate-fade-in"
             style={{ left: anchor.left, top: anchor.top - 12 }}
           >
@@ -1240,6 +1245,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             verb={prompt.verb}
             totalMarks={prompt.totalMarks}
             breadcrumb={breadcrumb}
+            // Stacked over the brief, not swapped for it. Exam mode disables the
+            // verb button, so it gets no sheet either (it has no outcome chips
+            // today, so this is the rule written down, not a reachable path).
+            onVerbSheet={examMode ? undefined : onVerbClick}
           />
         )}
 
