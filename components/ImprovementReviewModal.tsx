@@ -22,6 +22,7 @@ import {
   summariseDiff,
   type DiffSegment,
 } from '../utils/textDiff';
+import { wordCountsLine, wordsKeptParts } from '../utils/diffSummary';
 
 interface ImprovementReviewModalProps {
   isOpen: boolean;
@@ -365,7 +366,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   };
 
   const hasOriginal = !!originalText.trim();
-  const retentionPct = Math.round(stats.retention * 100);
+  const kept = wordsKeptParts(stats);
   // A rewrite identical to the student's answer is worth exactly what theirs
   // was, so the header must not go on claiming the extra mark, and there is
   // nothing to copy across.
@@ -503,13 +504,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {comparing && (
             <p className="t-label text-slate-600 dark:text-slate-400 tabular-nums">
               <span className="font-semibold text-slate-800 dark:text-slate-100">
-                {retentionPct}%
+                {kept.figure}
               </span>{' '}
-              <span>of your words kept</span>
-              <span className="hidden md:inline">
-                {' '}
-                · {stats.originalWords} → {stats.revisedWords} words
-              </span>
+              <span>{kept.label}</span>
+              <span className="hidden md:inline"> · {wordCountsLine(stats)}</span>
             </p>
           )}
 
