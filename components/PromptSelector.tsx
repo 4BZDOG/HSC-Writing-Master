@@ -854,7 +854,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   )}
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
-                  <span className="leading-snug font-semibold line-clamp-2 block break-words text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  {/* No `block` here: `line-clamp-2` sets its own `display: -webkit-box`,
+                  and a `block` on the same element voids the clamp. And
+                  `whitespace-normal`, because the closed trigger wraps the row in
+                  `truncate` (`nowrap`), which the title inherited: the question was
+                  cut at one line, mid-word, whatever the clamp said. */}
+                  <span className="leading-snug font-semibold line-clamp-2 whitespace-normal break-words text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     {p.question}
                   </span>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5">
@@ -863,7 +868,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       {verbInfo.term}
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    {/* 12px, not 10. On the light tier tints the old `slate-500` was
+                    3.9–4.3:1; `slate-700` is 8.5–9.4:1 on the same six. The dark
+                    token already clears 4.5:1 over the tint, so it stays. */}
+                    <span className="text-xs font-mono font-bold text-[rgb(var(--color-text-muted))] light:text-slate-700">
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span
@@ -1071,6 +1079,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <Combobox
                 label={null}
                 options={courseOptions}
+                optionNoun="courses"
                 value={statePath.courseId || ''}
                 onChange={(id) =>
                   onPathChange({
@@ -1105,6 +1114,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={yearOptions}
+                  optionNoun="years"
                   value={syllabusYear}
                   onChange={handleYearChange}
                   placeholder="Select Year..."
@@ -1230,6 +1240,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={topicOptions}
+                  optionNoun="topics"
                   value={statePath.topicId || ''}
                   onChange={(id) =>
                     onPathChange({
@@ -1431,6 +1442,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={subTopicOptions}
+                  optionNoun="sub-topics"
                   value={statePath.subTopicId || ''}
                   onChange={(id) =>
                     onPathChange({
@@ -1517,6 +1529,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={isDotPointSelected && hasSubItems ? 'Syllabus Point' : null}
                   options={dotPointOptions}
+                  optionNoun="dot points"
                   value={statePath.dotPointId || ''}
                   onChange={(id) =>
                     onPathChange({
@@ -1541,6 +1554,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   <Combobox
                     label="Active Focus"
                     options={subItemOptions}
+                    optionNoun="sub-points"
                     value={activeFocusCount > 0 ? 'MULTIPLE' : ''}
                     onChange={handleSubItemToggle}
                     placeholder="Refine Scope..."
@@ -1722,6 +1736,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={visiblePromptOptions}
+                  optionNoun="questions"
                   value={statePath.promptId || ''}
                   onChange={(id) => {
                     const opt = promptOptions.find((o) => o.id === id);

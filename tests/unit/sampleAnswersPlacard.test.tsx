@@ -5,6 +5,7 @@ import { render, screen, cleanup, fireEvent, within } from '@testing-library/rea
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
 import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../../utils/panelStyles';
+import { PANEL_NAME } from '../../components/PanelDisclosure';
 import {
   LADDER_EDGE_OPEN,
   LADDER_EDGE_SHUT,
@@ -123,10 +124,10 @@ const gutterOf = (row: HTMLElement): HTMLElement =>
 describe('the header is the Marking Guide’s header', () => {
   it('names the panel, and states its exemplars and levels as the sublabel', () => {
     renderPanel({ sampleAnswers: [sample({ id: 'a', mark: 6 }), sample({ id: 'b', mark: 4 })] });
-    const title = screen.getByText('Sample Answers');
+    const title = screen.getByText('Sample answers');
     expect(title.tagName).toBe('SPAN');
-    expect(title.className).toContain('t-section');
-    expect(toggleOf().querySelector('span.t-section')).toBe(title);
+    expect(title.className).toContain(PANEL_NAME);
+    expect(toggleOf().querySelector('span.font-bold')).toBe(title);
     // The marks lead the sublabel: the same ladder for every question, read off the total.
     expect(screen.getByText('6 marks · 2 exemplars · 2 levels').className).toContain('t-label');
   });

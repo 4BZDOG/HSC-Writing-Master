@@ -84,7 +84,7 @@ describe('AccordionSection hero', () => {
 
   it('keeps the title in the primary ink whether the hero is open or shut', () => {
     render(section(true));
-    const name = toggle().querySelector('span.t-section') as HTMLElement;
+    const name = toggle().querySelector('span.font-bold') as HTMLElement;
     expect(name.className).toContain('text-slate-900');
     fireEvent.click(toggle());
     expect(name.className).toContain('text-slate-900');

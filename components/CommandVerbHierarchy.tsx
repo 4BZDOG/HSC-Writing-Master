@@ -81,6 +81,7 @@ import {
   RIBBON_TIER_HEADER_IDLE,
   RIBBON_TIER_HEADER_LABEL,
   RIBBON_TIER_HEADER_LABEL_IDLE,
+  RIBBON_TIER_HEADER_SELECTED,
   RIBBON_TIER_HEADER_TEXT,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_ICON,
@@ -1035,11 +1036,11 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       it are buttons already — so the shortcut lives on the
                       header, which has nothing interactive in it.
 
-                      `tierConfig.solidText` rather than `text-white`, here and
-                      on the title below: on tier 3 the fill is yellow and white
-                      on it is 1.92:1. `getBandConfig` returns a `solidText`
-                      field for exactly this, and SyllabusNavBar and
-                      PromptSelector already pair the two. */}
+                      The selected header is the band's own flat hue under
+                      slate-950, not the tier's gradient under `solidText`:
+                      white was under 4.5:1 on five of the six hues, and on
+                      the light stage the gradients could not carry any single
+                      ink. See `RIBBON_TIER_HEADER_SELECTED`. */}
                           <button
                             type="button"
                             onClick={() => {
@@ -1047,7 +1048,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             }}
                             aria-pressed={isCurrentTier}
                             title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
-                            className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? `bg-gradient-to-r ${tierConfig.gradient} border-white/10 ${tierConfig.solidText}` : RIBBON_TIER_HEADER_IDLE}`}
+                            className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? RIBBON_TIER_HEADER_SELECTED : RIBBON_TIER_HEADER_IDLE}`}
                           >
                             {/* A line icon in a tile, where there was a system
                             emoji. On the selected card the tile is white
@@ -1070,7 +1071,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                               before any of the words that tell them apart.
                               This is also the order the card is spoken in. */}
                               <h4
-                                className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? tierConfig.solidText : tierConfig.text}`}
+                                className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? '' : tierConfig.text}`}
                               >
                                 {group.title}
                               </h4>
