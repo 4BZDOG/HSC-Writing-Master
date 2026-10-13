@@ -447,12 +447,15 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             }}
           />
 
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg flex items-center justify-center">
+          {/* The title block gives way before the close does: it can shrink and its
+              subtitle wraps, and the close keeps a 44px target on a phone. Without
+              `min-w-0` the subtitle ran under the close button at 390px. */}
+          <div className="flex items-center justify-between gap-3 relative z-10">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg flex items-center justify-center">
                 <Database className="w-6 h-6 text-white" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Database Manager
                 </h2>
@@ -464,7 +467,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-600 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>

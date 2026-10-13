@@ -101,7 +101,7 @@ const NavButton = ({
     onClick={() => onSelect(tab)}
     aria-current={activeTab === tab ? 'page' : undefined}
     className={`
-            t-label w-auto md:w-full flex items-center gap-3 md:gap-4 px-4 md:px-6 py-3 md:py-4 rounded-2xl whitespace-nowrap transition-all duration-300
+            t-label min-w-0 w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 px-2 md:px-6 py-2.5 md:py-4 rounded-2xl whitespace-nowrap transition-all duration-300
             ${
               activeTab === tab
                 ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/20 scale-[1.02] border border-white/20'
@@ -194,7 +194,10 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
             </div>
           </div>
 
-          <div className="p-4 md:p-6 md:flex-1 flex flex-row md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-x-visible md:overflow-y-auto scrollbar-hide md:custom-scrollbar">
+          {/* Three tabs share the phone width as equal columns, each with its icon
+              above its label, so every tab is on screen with no scroll to find
+              the last one. From md the column becomes the rail's own list. */}
+          <div className="p-4 md:p-6 md:flex-1 grid grid-cols-3 md:flex md:flex-col gap-2 md:gap-3 md:overflow-y-auto md:custom-scrollbar">
             <NavButton
               tab="maintenance"
               icon={Activity}
