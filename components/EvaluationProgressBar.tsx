@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import AiWaitGlyph from './AiWaitGlyph';
+import AiBusyOverlay from './AiBusyOverlay';
 import WaitNoteFigure from './WaitNoteFigure';
 import { waitNotes } from '../utils/waitTips';
 import { acquireAiBusy } from '../utils/aiBusySignal';
@@ -84,44 +85,48 @@ const EvaluationProgressBar: React.FC = () => {
   const overdue = elapsedSec > USUAL_SECONDS;
   const note = notes[(noteOffset + Math.floor(elapsedSec / TIP_SECONDS)) % notes.length];
 
+  // The veil is the shared AiBusyOverlay, so this wait is the same object as
+  // every other one. It is laid over the writing card's body, below the header
+  // (see Editor), which is why its bottom corners take the card's INNER radius
+  // and its top edge is the header's own edge.
   return (
-    // Same veil recipe as AiBusyOverlay so the most-seen wait in the app looks
-    // like every other one.
-    <div className="absolute inset-0 rounded-[inherit] bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl z-50 flex flex-col items-center justify-center gap-5 px-6 animate-fade-in">
-      <AiWaitGlyph task="evaluation" accent="#6366f1" />
+    <AiBusyOverlay show rounded="rounded-b-surface-inner">
+      <div className="flex flex-col items-center gap-5 text-center">
+        <AiWaitGlyph task="evaluation" accent="#6366f1" />
 
-      <div role="status" aria-live="polite" aria-atomic="true" className="text-center space-y-1">
-        <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-          Marking your response
-        </p>
-        <p className="text-sm text-slate-600 dark:text-slate-300">{statusLine}</p>
-      </div>
-
-      <div className="w-full max-w-sm space-y-2">
-        <div className="h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-          <div
-            className={`h-full w-full rounded-full animate-progress-indeterminate transition-colors duration-500 ${
-              isRetrying || isFallback ? 'bg-amber-500' : 'bg-indigo-500'
-            }`}
-          />
+        <div role="status" aria-live="polite" aria-atomic="true" className="space-y-1">
+          <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+            Marking your response
+          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">{statusLine}</p>
         </div>
-        <p className="flex justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 tabular-nums">
-          <span>{formatTime(elapsedSec)}</span>
-          <span className="text-right">
-            {overdue
-              ? 'Longer than usual. A detailed answer takes more reading.'
-              : 'Usually 20 to 40 seconds'}
-          </span>
-        </p>
-      </div>
 
-      {/* A marker's note in the margin while the real one works. Outside the
-          live region, so it is never announced on its own clock. No results
-          chart here: this is the wait where the student's own band is decided. */}
-      <div className="w-full max-w-sm">
-        <WaitNoteFigure key={note.text} note={note} accent="#6366f1" />
+        <div className="w-full max-w-sm space-y-2">
+          <div className="h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div
+              className={`h-full w-full rounded-full animate-progress-indeterminate transition-colors duration-500 ${
+                isRetrying || isFallback ? 'bg-amber-500' : 'bg-indigo-500'
+              }`}
+            />
+          </div>
+          <p className="flex justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 tabular-nums">
+            <span>{formatTime(elapsedSec)}</span>
+            <span className="text-right">
+              {overdue
+                ? 'Longer than usual. A detailed answer takes more reading.'
+                : 'Usually 20 to 40 seconds'}
+            </span>
+          </p>
+        </div>
+
+        {/* A marker's note in the margin while the real one works. Outside the
+            live region, so it is never announced on its own clock. No results
+            chart here: this is the wait where the student's own band is decided. */}
+        <div className="w-full max-w-sm">
+          <WaitNoteFigure key={note.text} note={note} accent="#6366f1" />
+        </div>
       </div>
-    </div>
+    </AiBusyOverlay>
   );
 };
 

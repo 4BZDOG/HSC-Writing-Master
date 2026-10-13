@@ -10,6 +10,7 @@ import { AccordionSection } from '../../components/ReferenceMaterials';
 import { BookOpen } from 'lucide-react';
 import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../../utils/panelStyles';
 import {
+  CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
   CARD_HEADER_ICON,
@@ -220,6 +221,36 @@ describe('the two headers are built from one vocabulary', () => {
     // The reading-size controls are in the tray, not beside the title.
     expect(tray?.querySelector('button[aria-label="Smaller text"]')).toBeTruthy();
     expect(heading.parentElement?.querySelector('button[aria-label="Smaller text"]')).toBeNull();
+  });
+});
+
+/**
+ * The feet of the pair. The writing card's footer and the prompt's footer were
+ * two translucent insets laid over two different greys, so the chips on one
+ * sat on a white the other did not share. They take one ground and one rule
+ * now, and this is what holds them to it.
+ */
+describe('the two card feet share one ground and rule', () => {
+  const footerOf = (container: HTMLElement) =>
+    container.querySelector('[class*="rounded-b-surface-inner"]') as HTMLElement;
+
+  it('builds the writing card footer from the shared footer vocabulary', () => {
+    const { container } = render(
+      <Editor value="" onChange={vi.fn()} verb={'DESCRIBE' as PromptVerb} writingMode="coach" />
+    );
+    expect(footerOf(container).className).toContain(CARD_FOOTER_BOX);
+  });
+
+  it('builds the question card footer from the same vocabulary', () => {
+    const { container } = render(<PromptDisplay {...promptProps} />);
+    expect(footerOf(container).className).toContain(CARD_FOOTER_BOX);
+  });
+
+  it('gives the shared footer a ladder ground in both themes, never white', () => {
+    expect(CARD_FOOTER_BOX).toContain('bg-[rgb(var(--color-bg-surface-inset))]');
+    expect(CARD_FOOTER_BOX).not.toMatch(/(^|\s)bg-white(\s|$)/);
+    expect(CARD_FOOTER_BOX).not.toContain('light:bg-white');
+    expect(CARD_FOOTER_BOX).not.toContain('border-white/10');
   });
 });
 

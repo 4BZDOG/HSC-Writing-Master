@@ -40,6 +40,7 @@ import { PlusLockChip } from './UpgradeModal';
 import { useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
 import {
+  CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
   CARD_HEADER_ICON,
@@ -99,6 +100,10 @@ interface EditorProps {
    *  floating, it hid the student's own words; in a row of its own it took
    *  ~90px out of a card whose height is fixed by the question beside it. */
   footerAction?: React.ReactNode;
+  /** The wait laid over the writing area while a request is in flight (see
+   *  AiBusyOverlay). It covers the definition row, the well and the footer,
+   *  never the header — see where it is mounted below. */
+  busyOverlay?: React.ReactNode;
 }
 
 const MeshOverlay = ({
@@ -182,6 +187,7 @@ const Editor = forwardRef<
       footerAction,
       blockPaste = false,
       draftSaved,
+      busyOverlay,
     },
     ref
   ) => {
@@ -791,7 +797,16 @@ const Editor = forwardRef<
             </div>
           </div>
 
-          {/* The verb, and what it wants — a glossary line above the page it
+          {/* Everything under the header sits in this one box, so a wait laid
+              over the writing area covers the definition row, the well and the
+              footer, and stops at the header's edge. The header is not veiled:
+              it is the card's identity, and nothing in it changes while a
+              request is in flight. Laid over the whole card, the veil blurred
+              the 2px border into a halo, washed the title to ghost-white, and
+              centred the wait card on the full height rather than on the body
+              the student is looking at. */}
+          <div className="relative flex flex-col flex-1 min-h-0">
+            {/* The verb, and what it wants — a glossary line above the page it
             applies to.
 
             A NESA command term IS a dictionary entry, so the row is set as
@@ -811,143 +826,143 @@ const Editor = forwardRef<
             So the definition is stated once on this surface and the panel
             below opens headless. Every surface in the app that shows a verb
             now names it exactly once. */}
-          {/* The definition is CONTENT and the method is a control, so they
+            {/* The definition is CONTENT and the method is a control, so they
               are separate elements: see `HowToAnswer`. The row names the verb
               and its meaning; the card opens headless beneath it. */}
-          {!isExamMode && verb && (
-            <HowToAnswer
-              verb={verb}
-              open={showStrategy}
-              onToggle={() => setShowStrategy((s) => !s)}
-              read={strategyOpened}
-            />
-          )}
-
-          {/* Editor Body with Grid Stacking for Auto-Height */}
-          <div
-            ref={bodyRef}
-            className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
-          >
-            {/* Progress-Aware Background Bloom */}
-            <div
-              className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
-              style={{
-                background: `radial-gradient(circle at 50% 0%, ${chroma.accent}88, transparent 70%)`,
-                filter: 'blur(40px)',
-              }}
-            />
-
-            <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
-
-            {/* Floated over the writing surface rather than placed in flow: a
-              banner that takes up a row would shove the student's text down
-              the moment they pressed ⌘V, which is its own small disruption. */}
-            {pasteNotice && (
-              <div
-                role="status"
-                className="absolute top-3 left-1/2 -translate-x-1/2 z-20 w-[min(28rem,calc(100%-2rem))] animate-fade-in"
-              >
-                <div className="flex items-start gap-3 px-4 py-3 rounded-2xl border border-amber-400/40 bg-amber-50 light:bg-amber-50 dark:bg-amber-950/80 backdrop-blur-xl shadow-lg">
-                  <PenTool className="w-4 h-4 mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
-                  <div className="min-w-0">
-                    <p className="t-label text-amber-600 dark:text-amber-400">
-                      Pasting is switched off
-                    </p>
-                    <p className="text-xs font-medium leading-relaxed text-amber-900 dark:text-amber-100/90 mt-1">
-                      Type your response in your own words — that is the part the marker rewards,
-                      and the feedback is only useful if the writing is yours.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setPasteNotice(false)}
-                    aria-label="Dismiss"
-                    className="ml-auto -mr-1 -mt-1 p-1 rounded-lg text-amber-600/70 dark:text-amber-400/70 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-amber-500/10 transition-colors"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
+            {!isExamMode && verb && (
+              <HowToAnswer
+                verb={verb}
+                open={showStrategy}
+                onToggle={() => setShowStrategy((s) => !s)}
+                read={strategyOpened}
+              />
             )}
 
-            <div className="grid w-full relative z-10 min-h-full">
-              {/* Invisible phantom div to force height based on content */}
+            {/* Editor Body with Grid Stacking for Auto-Height */}
+            <div
+              ref={bodyRef}
+              className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
+            >
+              {/* Progress-Aware Background Bloom */}
               <div
-                className={`${gridStackItemStyles} invisible`}
-                style={{ fontSize: `${internalFontSize}px` }}
-              >
-                {value + ' '}
-              </div>
-
-              {/* Textarea for input */}
-              <textarea
-                ref={textareaRef}
-                value={value}
-                onChange={(e) => {
-                  onChange(e.target.value);
-                  queueCaretScroll();
-                }}
-                onKeyDown={handleKeyDown}
-                // Arrow keys, Home/End and click-to-place move the caret
-                // without changing the text, so onChange never fires.
-                onKeyUp={queueCaretScroll}
-                onClick={queueCaretScroll}
-                onPaste={refuseTransfer}
-                onDrop={refuseTransfer}
-                onBlur={() => onSave?.()}
-                placeholder={
-                  isExamMode ? 'Begin your response. The clock is running…' : placeholder
-                }
-                disabled={disabled}
-                // The focus indicator moves to the scroll region around it
-                // (focus-within, inset): a textarea always matches
-                // :focus-visible, and the global rule's outline was being
-                // clipped by the card down to a single bar across the page.
-                // The placeholder is always visible now. It used to be turned
-                // transparent while the page brief was up, on the grounds that
-                // the brief was the empty state and saying both was saying the
-                // instruction twice. The brief is gone, and what that left
-                // behind was the real problem underneath it: a blank writing
-                // surface with no invitation to write on it, and a caret that
-                // landed behind the brief's first letterform.
-                className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
                 style={{
-                  fontSize: `${internalFontSize}px`,
-                  // The caret takes the readiness hue when a live signal is
-                  // present (non-neutral, non-exam), reinforcing the "filling
-                  // in" as the draft develops; otherwise it keeps the tier
-                  // accent. A hairline caret, never a surface under text.
-                  caretColor: readinessAccent ? readinessAccent.hex : chroma.accent,
+                  background: `radial-gradient(circle at 50% 0%, ${chroma.accent}88, transparent 70%)`,
+                  filter: 'blur(40px)',
                 }}
-                spellCheck="false"
               />
 
-              {/* Highlights Overlay */}
-              <div
-                className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
-                style={{ fontSize: `${internalFontSize}px` }}
-                aria-hidden="true"
-              >
-                {highlightedContent}
+              <MeshOverlay opacity="opacity-[0.04]" color={chroma.mesh} />
+
+              {/* Floated over the writing surface rather than placed in flow: a
+              banner that takes up a row would shove the student's text down
+              the moment they pressed ⌘V, which is its own small disruption. */}
+              {pasteNotice && (
+                <div
+                  role="status"
+                  className="absolute top-3 left-1/2 -translate-x-1/2 z-20 w-[min(28rem,calc(100%-2rem))] animate-fade-in"
+                >
+                  <div className="flex items-start gap-3 px-4 py-3 rounded-2xl border border-amber-400/40 bg-amber-50 light:bg-amber-50 dark:bg-amber-950/80 backdrop-blur-xl shadow-lg">
+                    <PenTool className="w-4 h-4 mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
+                    <div className="min-w-0">
+                      <p className="t-label text-amber-600 dark:text-amber-400">
+                        Pasting is switched off
+                      </p>
+                      <p className="text-xs font-medium leading-relaxed text-amber-900 dark:text-amber-100/90 mt-1">
+                        Type your response in your own words — that is the part the marker rewards,
+                        and the feedback is only useful if the writing is yours.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setPasteNotice(false)}
+                      aria-label="Dismiss"
+                      className="ml-auto -mr-1 -mt-1 p-1 rounded-lg text-amber-600/70 dark:text-amber-400/70 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-amber-500/10 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <div className="grid w-full relative z-10 min-h-full">
+                {/* Invisible phantom div to force height based on content */}
+                <div
+                  className={`${gridStackItemStyles} invisible`}
+                  style={{ fontSize: `${internalFontSize}px` }}
+                >
+                  {value + ' '}
+                </div>
+
+                {/* Textarea for input */}
+                <textarea
+                  ref={textareaRef}
+                  value={value}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                    queueCaretScroll();
+                  }}
+                  onKeyDown={handleKeyDown}
+                  // Arrow keys, Home/End and click-to-place move the caret
+                  // without changing the text, so onChange never fires.
+                  onKeyUp={queueCaretScroll}
+                  onClick={queueCaretScroll}
+                  onPaste={refuseTransfer}
+                  onDrop={refuseTransfer}
+                  onBlur={() => onSave?.()}
+                  placeholder={
+                    isExamMode ? 'Begin your response. The clock is running…' : placeholder
+                  }
+                  disabled={disabled}
+                  // The focus indicator moves to the scroll region around it
+                  // (focus-within, inset): a textarea always matches
+                  // :focus-visible, and the global rule's outline was being
+                  // clipped by the card down to a single bar across the page.
+                  // The placeholder is always visible now. It used to be turned
+                  // transparent while the page brief was up, on the grounds that
+                  // the brief was the empty state and saying both was saying the
+                  // instruction twice. The brief is gone, and what that left
+                  // behind was the real problem underneath it: a blank writing
+                  // surface with no invitation to write on it, and a caret that
+                  // landed behind the brief's first letterform.
+                  className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                  style={{
+                    fontSize: `${internalFontSize}px`,
+                    // The caret takes the readiness hue when a live signal is
+                    // present (non-neutral, non-exam), reinforcing the "filling
+                    // in" as the draft develops; otherwise it keeps the tier
+                    // accent. A hairline caret, never a surface under text.
+                    caretColor: readinessAccent ? readinessAccent.hex : chroma.accent,
+                  }}
+                  spellCheck="false"
+                />
+
+                {/* Highlights Overlay */}
+                <div
+                  className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
+                  style={{ fontSize: `${internalFontSize}px` }}
+                  aria-hidden="true"
+                >
+                  {highlightedContent}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Footer Metrics */}
-          <div
-            ref={footerRef}
-            className={`px-4 sm:px-6 py-3 flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-y-0 items-center border-t border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface))]/80 light:bg-[rgb(var(--color-bg-surface-inset))] rounded-b-surface-inner transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy} flex-shrink-0`}
-            style={{ minHeight: minFooterHeight || 52 }}
-          >
-            {/* Inner wrapper carries the row layout so its height stays
+            {/* Footer Metrics */}
+            <div
+              ref={footerRef}
+              className={`${CARD_FOOTER_BOX} flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-y-0 items-center transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy}`}
+              style={{ minHeight: minFooterHeight || 52 }}
+            >
+              {/* Inner wrapper carries the row layout so its height stays
               content-driven — the outer box is inflated by the synced
               minFooterHeight and cannot be measured. */}
-            <div
-              ref={footerContentRef}
-              className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
-            >
-              <div className="t-label flex items-center gap-4 sm:gap-6 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
-                {/* Words, and not also characters.
+              <div
+                ref={footerContentRef}
+                className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
+              >
+                <div className="t-label flex items-center gap-4 sm:gap-6 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
+                  {/* Words, and not also characters.
                     A character count is a text-editor convention, and nothing
                     in this application is measured in characters: the length
                     guidance says "15 words of about 32", the metrics panel
@@ -956,61 +971,63 @@ const Editor = forwardRef<
                     in no other place. Standing beside the counter that DOES
                     mean something, it halved the prominence of the one a
                     student is actually working to. */}
-                <span>
-                  {wordCount} {wordCount === 1 ? 'Word' : 'Words'}
-                </span>
-                {/* The draft saves itself a second after typing stops. Saying so
+                  <span>
+                    {wordCount} {wordCount === 1 ? 'Word' : 'Words'}
+                  </span>
+                  {/* The draft saves itself a second after typing stops. Saying so
                   is the point: a student who cannot see that their work is kept
                   has no reason to believe it, and this app asks them to type a
                   page of prose into a browser tab. Only shown once there is
                   something to lose. */}
-                {draftSaved !== undefined && value.trim() !== '' && (
-                  <span
-                    className={`hidden sm:flex items-center gap-1.5 transition-colors ${
-                      draftSaved
-                        ? 'text-emerald-500/80 light:text-emerald-700'
-                        : 'text-[rgb(var(--color-text-dim))]'
-                    }`}
-                    title={draftSaved ? 'Your draft is saved on this device' : 'Saving your draft…'}
-                  >
-                    {draftSaved ? (
-                      <Check className="w-3.5 h-3.5" />
-                    ) : (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin opacity-50" />
-                    )}
-                    {draftSaved ? 'Saved' : 'Saving'}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-wrap sm:flex-nowrap items-center justify-end gap-x-3 sm:gap-x-5 gap-y-2 sm:gap-y-0 ml-auto">
-                <div className="flex items-center gap-2.5">
-                  {/* The halo separates the band dot from the surface behind
+                  {draftSaved !== undefined && value.trim() !== '' && (
+                    <span
+                      className={`hidden sm:flex items-center gap-1.5 transition-colors ${
+                        draftSaved
+                          ? 'text-emerald-500/80 light:text-emerald-700'
+                          : 'text-[rgb(var(--color-text-dim))]'
+                      }`}
+                      title={
+                        draftSaved ? 'Your draft is saved on this device' : 'Saving your draft…'
+                      }
+                    >
+                      {draftSaved ? (
+                        <Check className="w-3.5 h-3.5" />
+                      ) : (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin opacity-50" />
+                      )}
+                      {draftSaved ? 'Saved' : 'Saving'}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-wrap sm:flex-nowrap items-center justify-end gap-x-3 sm:gap-x-5 gap-y-2 sm:gap-y-0 ml-auto">
+                  <div className="flex items-center gap-2.5">
+                    {/* The halo separates the band dot from the surface behind
                       it. A white ring does that on the dark footer and vanishes
                       on the light one, so the dot lost its edge in light mode —
                       the footer is a theme surface, unlike the header above it,
                       which is always painted with the band gradient and where a
                       white-alpha treatment is right in both themes. */}
-                  <div
-                    className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
-                    style={{ backgroundColor: chroma.accent }}
-                  />
-                  {/* "Band 2 target", not "Band 2 Target · Limited". The band's
+                    <div
+                      className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
+                      style={{ backgroundColor: chroma.accent }}
+                    />
+                    {/* "Band 2 target", not "Band 2 Target · Limited". The band's
                       NESA descriptor beside the word "target" read as though the
                       goal itself were "limited" — to a student aiming at the top
                       of a DESCRIBE question, which is capped at Band 2 by its
                       verb. The descriptor rides in the title for anyone who
                       wants it. `whitespace-nowrap`: at 1280px it broke in two. */}
-                  <span
-                    className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))]"
-                    title={
-                      isExamMode
-                        ? undefined
-                        : `The highest band this question can reach: Band ${chroma.targetBand} (${chroma.name})`
-                    }
-                  >
-                    {isExamMode ? 'Exam conditions' : `Band ${chroma.targetBand} target`}
-                  </span>
-                  {/* The completeness word used to be repeated here, appended
+                    <span
+                      className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))]"
+                      title={
+                        isExamMode
+                          ? undefined
+                          : `The highest band this question can reach: Band ${chroma.targetBand} (${chroma.name})`
+                      }
+                    >
+                      {isExamMode ? 'Exam conditions' : `Band ${chroma.targetBand} target`}
+                    </span>
+                    {/* The completeness word used to be repeated here, appended
                       to the target-band pill as `· Coming along`. The
                       `ReadinessMeter` a few inches to the right — in this same
                       footer row, inside `footerAction` — already carries it,
@@ -1024,10 +1041,12 @@ const Editor = forwardRef<
                       the one with something to explain. What is left here is
                       the question's fixed goal, which is what this pill was
                       always for. */}
+                  </div>
+                  {footerAction}
                 </div>
-                {footerAction}
               </div>
             </div>
+            {busyOverlay}
           </div>
         </div>
       </div>
