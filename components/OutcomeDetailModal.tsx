@@ -389,7 +389,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                   <button
                     type="button"
                     onClick={onVerbSheet}
-                    className="ml-auto min-h-11 sm:min-h-0 inline-flex items-center text-sm font-medium underline underline-offset-4 decoration-[rgb(var(--color-border-primary))] text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+                    className="ml-auto min-h-11 sm:min-h-0 inline-flex items-center text-sm font-medium underline underline-offset-4 decoration-[rgb(var(--color-border-primary))] text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
                   >
                     What does {verbInfo?.term || verb} ask for?
                   </button>
