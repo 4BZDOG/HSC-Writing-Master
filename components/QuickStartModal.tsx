@@ -20,6 +20,11 @@ import { PLAN_LABELS, getUserPlan } from '../services/entitlements';
  * this, what does it cost, and what am I missing. Content for all three comes
  * from `data/quickStartContent.ts` and the live entitlement rules, so a new
  * step or a changed plan needs no work here.
+ *
+ * Ladder: the body is paper, each step and each plan is a well cut into it, and
+ * the header is the one coloured surface. Its gradient is held to the tones
+ * where white text clears AA at both ends, so the hero is legible on a bright
+ * monitor without going flat.
  */
 
 type QuickStartTab = 'guide' | 'plans' | 'tips';
@@ -79,9 +84,9 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
       aria-modal="true"
       aria-labelledby="quickstart-title"
     >
-      <div className="clip-stable w-full max-w-3xl rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh]">
+      <div className="clip-stable w-full max-w-3xl rounded-surface bg-[rgb(var(--color-bg-surface))] border border-white/10 light:border-slate-300 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500 text-white overflow-hidden shrink-0">
+        <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-700 via-indigo-600 to-sky-700 text-white overflow-hidden shrink-0">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/20 blur-3xl rounded-full pointer-events-none" />
           <button
             onClick={onClose}
@@ -100,9 +105,9 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
             <X className="w-4 h-4" />
           </button>
           <div className="relative z-10 pr-10">
-            <span className="t-label text-white/75 flex items-center gap-2">
+            <span className="t-label text-white/85 flex items-center gap-2">
               {track.eyebrow}
-              <span className="inline-flex items-center gap-1 text-white/60">
+              <span className="inline-flex items-center gap-1 text-white/85">
                 <Clock className="w-3 h-3" /> {track.timeToRead}
               </span>
             </span>
@@ -112,7 +117,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
             >
               {track.title}
             </h2>
-            <p className="text-sm text-white/85 leading-relaxed mt-2 max-w-xl font-medium">
+            <p className="text-sm text-white/90 leading-relaxed mt-2 max-w-xl font-medium">
               {track.intro}
             </p>
           </div>
@@ -127,11 +132,14 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
               aria-pressed={tab === id}
               className={`t-label px-4 sm:px-5 py-4 border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
                 tab === id
-                  ? 'border-indigo-500 text-[rgb(var(--color-text-primary))] light:text-slate-900'
-                  : 'border-transparent text-slate-500 hover:text-slate-300 light:hover:text-slate-700'
+                  ? 'border-indigo-500 text-[rgb(var(--color-text-primary))]'
+                  : 'border-transparent text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${tab === id ? 'text-indigo-400' : ''}`} /> {label}
+              <Icon
+                className={`w-3.5 h-3.5 ${tab === id ? 'text-indigo-400 light:text-indigo-600' : ''}`}
+              />{' '}
+              {label}
             </button>
           ))}
         </div>
@@ -158,21 +166,21 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                   return (
                     <li
                       key={step.title}
-                      className="flex gap-4 p-5 rounded-2xl bg-white/[0.03] light:bg-slate-100 border border-white/5 light:border-slate-300"
+                      className="flex gap-4 p-5 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
                     >
                       <div className="shrink-0 flex flex-col items-center gap-2">
                         <span className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 light:text-indigo-600">
                           <Icon className="w-4 h-4" />
                         </span>
-                        <span className="text-[10px] font-black text-slate-400 light:text-slate-600 tabular-nums">
+                        <span className="t-label tabular-nums text-[rgb(var(--color-text-muted))]">
                           {String(index + 1).padStart(2, '0')}
                         </span>
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug">
+                        <h3 className="text-sm font-black text-[rgb(var(--color-text-primary))] leading-snug">
                           {step.title}
                         </h3>
-                        <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-1.5">
+                        <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-1.5">
                           {step.body}
                         </p>
                         {step.detail && (
@@ -180,7 +188,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                             {step.detail.map((line) => (
                               <li
                                 key={line}
-                                className="text-[11px] leading-relaxed text-[rgb(var(--color-text-muted))] flex gap-2.5"
+                                className="text-xs leading-relaxed text-[rgb(var(--color-text-muted))] flex gap-2.5"
                               >
                                 <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-indigo-400/60" />
                                 <span>{line}</span>
@@ -192,7 +200,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                             cannot do — the note only appears when the feature
                             is genuinely beyond their plan. */}
                         {step.planNote && plan === 'free' && (
-                          <p className="mt-3 inline-flex items-start gap-2 text-[10px] text-amber-500 light:text-amber-800 leading-relaxed">
+                          <p className="mt-3 inline-flex items-start gap-2 text-xs text-amber-500 light:text-amber-800 leading-relaxed">
                             <Lock className="w-3 h-3 mt-0.5 shrink-0" />
                             {step.planNote}
                           </p>
@@ -203,11 +211,11 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                 })}
               </ol>
 
-              <div className="mt-5 p-5 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200">
-                <span className="t-label text-indigo-400 light:text-indigo-600 block mb-2">
+              <div className="mt-5 p-5 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-100/60 border border-indigo-500/20 light:border-indigo-300">
+                <span className="t-label text-indigo-400 light:text-indigo-700 block mb-2">
                   The one thing to remember
                 </span>
-                <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
+                <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] font-medium">
                   {track.closer}
                 </p>
               </div>
@@ -216,7 +224,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 
           {tab === 'plans' && (
             <>
-              <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mb-5">
+              <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mb-5">
                 You are on <span className="font-bold">{PLAN_LABELS[plan]}</span>. Here is exactly
                 what that includes — and what the other plans add. Everything below is read straight
                 from the app’s own access rules, so it is always current.
@@ -231,12 +239,12 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                 {POWER_TIPS.map((tip) => (
                   <li
                     key={tip.label}
-                    className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200"
+                    className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
                   >
-                    <span className="t-label shrink-0 px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 light:text-indigo-600">
+                    <span className="t-label shrink-0 px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 light:text-indigo-700">
                       {tip.label}
                     </span>
-                    <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 pt-0.5">
+                    <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] pt-0.5">
                       {tip.body}
                     </p>
                   </li>
@@ -245,25 +253,25 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 
               <button
                 onClick={onOpenLegal}
-                className="mt-5 w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200 hover:bg-white/[0.06] light:hover:bg-slate-100 transition-colors text-left"
+                className="mt-5 w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/[0.03] light:bg-surface-elevated border border-white/5 light:border-slate-300 hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
               >
                 <Scale className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
                 <span className="flex-1 min-w-0">
-                  <span className="t-label block text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  <span className="t-label block text-[rgb(var(--color-text-primary))]">
                     Your agreement, terms and privacy
                   </span>
-                  <span className="block text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5 font-medium">
+                  <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
                     What the AI marker is, what your teacher can see, and what we do with your work.
                   </span>
                 </span>
-                <ArrowRight className="w-4 h-4 text-slate-400 shrink-0" />
+                <ArrowRight className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
               </button>
             </>
           )}
         </div>
 
         <div className="px-6 sm:px-8 py-4 border-t border-white/5 light:border-slate-200 shrink-0 flex items-center justify-between gap-4">
-          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+          <span className="t-label text-[rgb(var(--color-text-muted))]">
             Re-open any time from your profile
           </span>
           <button
