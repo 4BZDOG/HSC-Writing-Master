@@ -112,7 +112,7 @@ export const useGemini = ({
   // The diff review opens on its own the moment an upgrade lands — the student
   // asked "how do I get the next mark", and the answer is the comparison, not a
   // block of new prose they have to eyeball against their own.
-  const [showImprovementReview, setShowImprovementReview] = useState(false);
+  const [showImprovementReview, setShowImprovementReviewState] = useState(false);
   /**
    * True while the diff review is standing IN FRONT of the marking feedback
    * rather than having been opened from it.
@@ -125,6 +125,19 @@ export const useGemini = ({
    * say where it leads ("See my full feedback") instead of just closing.
    */
   const [improvementReviewLeadsToFeedback, setImprovementReviewLeadsToFeedback] = useState(false);
+
+  /**
+   * Shows or hides the diff review.
+   *
+   * Hiding it also ends the comparison-first flag. The flag describes the review
+   * standing in front of the marks, and that is over once it is closed. Left set,
+   * a later "See the edits" from the summary would re-open the review under the
+   * label "See my full feedback" instead of "Back to feedback".
+   */
+  const setShowImprovementReview = useCallback((show: boolean) => {
+    setShowImprovementReviewState(show);
+    if (!show) setImprovementReviewLeadsToFeedback(false);
+  }, []);
 
   const [isGeneratingScenario, setIsGeneratingScenario] = useState(false);
   const [generateScenarioError, setGenerateScenarioError] = useState<string | null>(null);
@@ -334,19 +347,27 @@ export const useGemini = ({
           // the library save is — a free-tier result carries a truthy but empty
           // rewrite, and opening an empty diff over the feedback would be a
           // blank screen between the student and their mark.
+          //
+          // And on the MARK. A student already on full marks has no next mark to
+          // lift to, so their "rewrite" is their own answer back again, and a
+          // "6 → 6" comparison in front of the feedback has nothing to show.
+          // They go straight to the marks.
           const rewrite =
             typeof result.revisedAnswer === 'string'
               ? result.revisedAnswer
               : (result.revisedAnswer?.text ?? '');
-          if (rewrite.trim()) {
+          if (rewrite.trim() && result.overallMark < prompt.totalMarks) {
             setImprovementReviewLeadsToFeedback(true);
             setShowImprovementReview(true);
           }
           const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
+          // A rounded "in 0s" reads as a fault; a mark that came back inside a
+          // second is simply quick.
+          const took = elapsed2 < 1 ? 'in under a second' : `in ${elapsed2}s`;
           // Keyed, so the Undo raised when the student then puts the rewrite
           // in their draft takes this slot instead of queueing behind it.
           showToast(
-            `Marking complete in ${elapsed2}s. Results auto-saved to library.`,
+            `Marking complete ${took}. Results auto-saved to library.`,
             'success',
             undefined,
             MARKING_TOAST_SLOT
