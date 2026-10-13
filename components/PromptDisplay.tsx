@@ -56,6 +56,7 @@ import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
 import FlagContentModal from './FlagContentModal';
 import { TERM_CHIP_RESTING } from '../utils/termChrome';
+import { withIndefiniteArticle } from '../utils/grammar';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -177,7 +178,6 @@ const OutcomeChip: React.FC<{
         onMouseLeave={hide}
         onFocus={show}
         onBlur={hide}
-        title={`Open the brief for ${outcome.code} — what it asks for and how it applies to this question`}
         className={`
           t-label flex items-center gap-1 px-2.5 py-1 rounded-lg whitespace-nowrap flex-shrink-0
           ${bandConfig.bg} border ${bandConfig.border}
@@ -564,7 +564,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     aria-label={
                       examMode ? undefined : `Open the command verb guide for ${prompt.verb}`
                     }
-                    title={examMode ? undefined : `What a ${prompt.verb} question asks for`}
+                    title={
+                      examMode
+                        ? undefined
+                        : `What ${withIndefiniteArticle(prompt.verb)} question asks for`
+                    }
                     // Underlined, like the verb in the question below it, so
                     // one visual language means "this opens the verb guide" —
                     // and so this chip stops reading as another fact chip like

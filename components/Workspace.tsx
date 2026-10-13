@@ -17,7 +17,7 @@ import ReferenceMaterials, { MarkingGuidePanel } from './ReferenceMaterials';
 import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import {
   cardHeightCap,
@@ -847,6 +847,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
           isOpen={isGuideOpen}
           onClose={() => setIsGuideOpen(false)}
           termInfo={getCommandTermInfo(currentPrompt.verb)}
+          marks={currentPrompt.totalMarks}
+          band={getTargetBand(
+            currentPrompt.totalMarks,
+            getCommandTermInfo(currentPrompt.verb).tier
+          )}
         />
       </div>
     </div>

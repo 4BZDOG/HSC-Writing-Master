@@ -235,6 +235,65 @@ describe('stacked dialogs', () => {
  * the writing surface travelled through the marking guide's edit button, the
  * exemplar carousel and the keyword editor, none of which were on screen.
  */
+/**
+ * Under StrictMode, React runs a mounted effect, cleans it up, and runs it again
+ * in development. A modal that mounts already open (the outcome brief is mounted
+ * on the click that opens it) gets that double run, and the cleanup of the first
+ * run schedules the focus restore for the opener. Without cancelling that restore,
+ * it lands one frame later and takes focus out of the dialog it has just opened.
+ */
+describe('under StrictMode', () => {
+  const twoFrames = () =>
+    new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    );
+
+  it('keeps focus inside a dialog that mounts open', async () => {
+    const opener = document.createElement('button');
+    opener.textContent = 'Open';
+    document.body.appendChild(opener);
+    opener.focus();
+
+    render(
+      <React.StrictMode>
+        <Dialog active />
+      </React.StrictMode>
+    );
+    await twoFrames();
+
+    expect(screen.getByTestId('dialog').contains(document.activeElement)).toBe(true);
+    opener.remove();
+  });
+
+  it('still hands focus back to the opener when the dialog really closes', async () => {
+    const Harness = () => {
+      const [open, setOpen] = useState(true);
+      return (
+        <>
+          <button onClick={() => setOpen(false)}>dismiss</button>
+          <Dialog active={open} />
+        </>
+      );
+    };
+    const opener = document.createElement('button');
+    opener.textContent = 'Open';
+    document.body.appendChild(opener);
+    opener.focus();
+
+    render(
+      <React.StrictMode>
+        <Harness />
+      </React.StrictMode>
+    );
+    await twoFrames();
+    expect(screen.getByTestId('dialog').contains(document.activeElement)).toBe(true);
+
+    fireEvent.click(screen.getByText('dismiss'));
+    await waitFor(() => expect(document.activeElement).toBe(opener));
+    opener.remove();
+  });
+});
+
 describe('collapsed panels are unreachable', () => {
   it('marks a shut disclosure panel inert, and lifts it when opened', async () => {
     const { AccordionSection } = await import('../../components/ReferenceMaterials');

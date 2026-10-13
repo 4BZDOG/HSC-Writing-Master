@@ -10,6 +10,7 @@ import {
   splitMethodMoves,
 } from '../utils/strategyTip';
 import { insertIntoDraft } from '../utils/insertIntoDraft';
+import { withIndefiniteArticle } from '../utils/grammar';
 import type { PromptVerb } from '../types';
 import { PanelReadChip } from './PanelDisclosure';
 import WordChip from './WordChip';
@@ -89,7 +90,7 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
             <span>How to answer</span>
             {/* The verb is in the name, not the visible label, which already
                 sits beside the term. */}
-            <span className="sr-only"> a {info.term} question</span>
+            <span className="sr-only"> {withIndefiniteArticle(info.term)} question</span>
             <ChevronDown
               aria-hidden="true"
               className={`w-3.5 h-3.5 shrink-0 transition-transform duration-300 motion-reduce:transition-none ${
