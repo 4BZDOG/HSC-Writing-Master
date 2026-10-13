@@ -160,4 +160,19 @@ describe('EvaluationProgressBar', () => {
     render(<EvaluationProgressBar />);
     expect(tipShown('evaluation')).toBe(true);
   });
+
+  it('is the shared veil, with the writing card inner radius at its bottom corners', () => {
+    render(<EvaluationProgressBar />);
+    const veil = screen.getByRole('status').closest('[role="presentation"]') as HTMLElement;
+
+    // The same recipe as every other AI wait: a deep blur, a surface wash and
+    // the card's inner radius, not the outer one. A bare white here is the
+    // seam that used to show on the card.
+    expect(veil.className).toContain('absolute inset-0');
+    expect(veil.className).toContain('rounded-b-surface-inner');
+    expect(veil.className).toContain('backdrop-blur-xl');
+    expect(veil.className).toContain('bg-surface/80');
+    expect(veil.className).not.toMatch(/(^|\s)bg-white(\s|$)/);
+    expect(veil.className).not.toContain('rounded-[inherit]');
+  });
 });

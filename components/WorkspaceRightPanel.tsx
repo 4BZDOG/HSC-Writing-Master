@@ -448,10 +448,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           everything below it. */}
       <div className="relative group flex flex-col">
         <div className="flex flex-col relative shadow-lg rounded-surface">
-          <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-surface overflow-hidden">
-            {isEvaluating && <EvaluationProgressBar />}
-          </div>
-
           <Editor
             ref={editorRef}
             value={userAnswer}
@@ -482,6 +478,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             writingMode={writingMode}
             onWritingModeChange={onWritingModeChange}
             footerAction={evaluateAction}
+            // The marking wait is laid inside the card, under its header,
+            // rather than over the whole box. See Editor for why the header
+            // stays uncovered and the border never sits under the veil.
+            busyOverlay={isEvaluating ? <EvaluationProgressBar /> : undefined}
             blockPaste={blockPaste}
             draftSaved={draftSaved}
           />
