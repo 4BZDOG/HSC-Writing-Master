@@ -84,7 +84,7 @@ export const ContentLockOverlay: React.FC<{
     >
       <div className="flex flex-col items-center gap-3 text-center px-6 max-w-xs">
         <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
-          <Lock className="w-5 h-5 text-amber-500" />
+          <Lock className="w-5 h-5 text-amber-500 light:text-amber-700" />
         </div>
         <p className="text-xs font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
           {message || meta?.title || 'Plus Feature'}
@@ -93,7 +93,7 @@ export const ContentLockOverlay: React.FC<{
           onClick={() =>
             window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }))
           }
-          className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
+          className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
         >
           Unlock with {planLabelForFeature(feature)}
         </button>
@@ -285,9 +285,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       aria-modal="true"
       aria-labelledby="upgrade-modal-title"
     >
-      <div className="clip-stable w-full max-w-md rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 border-amber-400/40 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
+      <div className="clip-stable w-full max-w-md rounded-surface bg-[rgb(var(--color-bg-surface))] border-2 border-amber-400/40 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
         {/* Golden header */}
-        <div className="relative px-6 py-6 bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-white overflow-hidden shrink-0">
+        <div className="relative px-6 py-6 bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-slate-900 overflow-hidden shrink-0">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
           <button
             onClick={close}
@@ -298,7 +298,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                EVERY width, not just on a phone. The close button on the
                highest-intent surface in the product did nothing; the only ways
                out were "Maybe later", Escape or the backdrop. */
-            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
+            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-slate-900 transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>
@@ -307,7 +307,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <Crown className="w-7 h-7" />
             </div>
             <div className="min-w-0">
-              <span className="t-label text-white/80 block">{PLAN_LABELS[requiredPlan]}</span>
+              <span className="t-label text-slate-900/80 block">{PLAN_LABELS[requiredPlan]}</span>
               <h2
                 id="upgrade-modal-title"
                 className="text-xl font-black tracking-tight leading-tight"
@@ -333,7 +333,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           </p>
 
           {showBandHook && (
-            <div className="rounded-2xl bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200 p-4 mb-5 flex items-start gap-3">
+            <div className="rounded-2xl bg-indigo-500/10 light:bg-indigo-100/60 border border-indigo-500/20 light:border-indigo-300 p-4 mb-5 flex items-start gap-3">
               <TrendingUp className="w-4 h-4 text-indigo-400 light:text-indigo-600 mt-0.5 shrink-0" />
               <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600">
                 You're averaging{' '}
@@ -346,7 +346,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             </div>
           )}
 
-          <div className="rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200 p-4 mb-6">
+          <div className="rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300 p-4 mb-6">
             <span className="t-label text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
               <Sparkles className="w-3.5 h-3.5" /> Included in {PLAN_LABELS[requiredPlan]}
             </span>
@@ -354,17 +354,17 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               {perkKeys.map((key) => (
                 <li
                   key={key}
-                  className={`flex items-start gap-2.5 text-xs leading-relaxed ${key === feature ? 'text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold' : 'text-[rgb(var(--color-text-muted))] light:text-slate-500 font-medium'}`}
+                  className={`flex items-start gap-2.5 text-xs leading-relaxed ${key === feature ? 'text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold' : 'text-[rgb(var(--color-text-muted))] font-medium'}`}
                 >
-                  <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500" />
+                  <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500 light:text-amber-700" />
                   {PREMIUM_FEATURES[key].perk}
                 </li>
               ))}
               {/* Not a feature gate — the plan-aware server quota (schema §11):
                   paid plans are guaranteed a 300-call daily AI allowance. */}
-              <li className="flex items-start gap-2.5 text-xs leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-500 font-medium">
-                <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500" />A{' '}
-                {PAID_DAILY_AI_CALLS}-call daily AI allowance —{' '}
+              <li className="flex items-start gap-2.5 text-xs leading-relaxed text-[rgb(var(--color-text-muted))] font-medium">
+                <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500 light:text-amber-700" />
+                A {PAID_DAILY_AI_CALLS}-call daily AI allowance —{' '}
                 {Math.round(PAID_DAILY_AI_CALLS / FREE_DAILY_AI_CALLS)} times the free tier
               </li>
             </ul>
@@ -383,13 +383,16 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   className={`px-4 py-3 rounded-xl text-left transition-all border ${
                     billingPeriod === 'monthly'
                       ? 'bg-amber-400/20 border-amber-400/40'
-                      : 'border-white/5 light:border-slate-200 hover:border-amber-400/20'
+                      : 'border-white/5 light:border-slate-300 hover:border-amber-400/20'
                   }`}
                 >
-                  <span className="t-label block text-slate-400">Monthly</span>
+                  <span className="t-label block text-[rgb(var(--color-text-muted))]">Monthly</span>
                   <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                     {PLAN_PRICING.monthly}
-                    <span className="text-[10px] font-bold text-slate-400"> /month</span>
+                    <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
+                      {' '}
+                      /month
+                    </span>
                   </span>
                 </button>
                 <button
@@ -398,22 +401,25 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   className={`px-4 py-3 rounded-xl text-left transition-all border relative ${
                     billingPeriod === 'yearly'
                       ? 'bg-amber-400/20 border-amber-400/40'
-                      : 'border-white/5 light:border-slate-200 hover:border-amber-400/20'
+                      : 'border-white/5 light:border-slate-300 hover:border-amber-400/20'
                   }`}
                 >
-                  <span className="t-label text-slate-400 flex items-center gap-1">
-                    Yearly <Zap className="w-3 h-3 text-amber-500" />
+                  <span className="t-label text-[rgb(var(--color-text-muted))] flex items-center gap-1">
+                    Yearly <Zap className="w-3 h-3 text-amber-500 light:text-amber-700" />
                   </span>
                   <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                     {PLAN_PRICING.yearly}
-                    <span className="text-[10px] font-bold text-slate-400"> /year</span>
+                    <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
+                      {' '}
+                      /year
+                    </span>
                   </span>
                 </button>
               </div>
               {billingPeriod === 'yearly' && (
-                <p className="mt-2 text-center text-[10px] text-emerald-500">
+                <p className="mt-2 text-center text-xs text-emerald-500 light:text-emerald-700">
                   {PLAN_PRICING.yearlyNote}
-                  <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))]">
                     A year of unlimited marking for less than one hour of tutoring.
                   </span>
                 </p>
@@ -426,12 +432,12 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               nothing to toggle, not that the price should be hidden. */}
           {stripeReady && !canChoosePeriod && sellsPlus && (
             <div className="mb-5 px-4 py-3 rounded-xl bg-amber-400/20 border border-amber-400/40">
-              <span className="t-label block text-slate-400">
+              <span className="t-label block text-[rgb(var(--color-text-muted))]">
                 {effectivePeriod === 'yearly' ? 'Yearly' : 'Monthly'}
               </span>
               <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                 {plusPriceDisplay}
-                <span className="text-[10px] font-bold text-slate-400">
+                <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                   {effectivePeriod === 'yearly' ? ' /year' : ' /month'}
                 </span>
               </span>
@@ -446,7 +452,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <button
                 onClick={alreadySubscribed ? handleManageSubscription : handleUpgrade}
                 disabled={isRedirecting}
-                className="t-label flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                className="t-label flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
                 {isRedirecting
@@ -462,21 +468,21 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             )}
             <button
               onClick={close}
-              className={`t-label ${sellsPlus ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 transition-all`}
+              className={`t-label ${sellsPlus ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all`}
             >
               Maybe later
             </button>
           </div>
 
           {alreadySubscribed ? (
-            <p className="mt-3 text-center text-[11px] font-medium text-amber-500 light:text-amber-600 leading-relaxed">
+            <p className="mt-3 text-center text-xs font-medium text-amber-500 light:text-amber-700 leading-relaxed">
               You already have a live subscription, so there is nothing to buy here. Change your
               plan or seat count in the billing portal.
             </p>
           ) : (
             stripeReady &&
             sellsPlus && (
-              <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="mt-3 text-center text-xs text-[rgb(var(--color-text-muted))]">
                 Cancel anytime from your profile — no lock-in.
               </p>
             )
@@ -490,7 +496,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             user={user}
             showToast={showToast}
             onDone={close}
-            className="mt-4 pt-4 border-t border-white/5 light:border-slate-100"
+            className="mt-4 pt-4 border-t border-white/5 light:border-slate-300"
           />
         </div>
       </div>

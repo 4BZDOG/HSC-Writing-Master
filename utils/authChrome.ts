@@ -26,9 +26,9 @@ export const AUTH_COLUMN = 'my-auto w-full flex flex-col items-center';
 /** The card that holds the form. */
 export const AUTH_CARD =
   'clip-stable relative overflow-hidden rounded-surface border-2 ' +
-  'bg-[rgb(var(--color-bg-surface))] light:bg-white ' +
-  'border-white/20 light:border-slate-300/80 ' +
-  'shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_28px_60px_-20px_rgba(51,65,85,0.35)]';
+  'bg-[rgb(var(--color-bg-surface))] ' +
+  'border-white/20 light:border-slate-400/60 ' +
+  'shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] light:shadow-[0_1px_2px_rgba(15,23,42,0.08),0_18px_36px_-14px_rgba(15,23,42,0.26),0_44px_80px_-24px_rgba(30,41,59,0.36)]';
 
 /** The one primary action on each card — sign in, create, send, set, back.
  *  Painted on `AUTH_CARD`. Solid indigo-600 in both themes (white on it is
