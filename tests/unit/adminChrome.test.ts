@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from '../../components/admin/adminChrome';
+import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from '../../utils/adminChrome';
 
 /**
  * The staff tools' shared chrome. These are class strings, so the checks are on

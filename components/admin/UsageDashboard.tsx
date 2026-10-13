@@ -58,7 +58,7 @@ import { createClass, enrolInClass } from '../../services/classService';
 import { fetchMyClasses, type TeachingClass } from '../../services/responseService';
 import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
 import { estCostForModelId, getModelById, getModelByProviderModel } from '../../services/aiModels';
-import { TOOL_HEAD } from './adminChrome';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 import {
   usageReportToCsv,
   estimateCostRange,

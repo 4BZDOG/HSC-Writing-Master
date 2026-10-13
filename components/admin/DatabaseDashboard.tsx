@@ -47,7 +47,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
-import { TOOL_HEAD, TOOL_RAIL } from './adminChrome';
+import { TOOL_HEAD, TOOL_RAIL } from '../../utils/adminChrome';
 
 interface BackupSummary {
   key: string;

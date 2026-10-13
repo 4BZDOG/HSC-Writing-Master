@@ -22,7 +22,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import AiEngineSelector from './AiEngineSelector';
-import { TOOL_HEAD } from './adminChrome';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 interface RuntimeKeyModalProps {
   isOpen: boolean;

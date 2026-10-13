@@ -69,7 +69,7 @@ import {
   saveSampleAnswerContribution,
 } from '../../services/contributionService';
 import { dropNonSyllabusTerms } from '../../services/geminiService';
-import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from './adminChrome';
+import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from '../../utils/adminChrome';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';

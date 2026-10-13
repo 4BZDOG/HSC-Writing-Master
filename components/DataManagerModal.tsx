@@ -6,7 +6,7 @@ import ImportFlow from './dataManager/ImportFlow';
 import ExportFlow from './dataManager/ExportFlow';
 import TopicReorderList from './dataManager/TopicReorderList';
 import MicroLabel from './MicroLabel';
-import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from './admin/adminChrome';
+import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from '../utils/adminChrome';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';

@@ -29,7 +29,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
-import { TOOL_HEAD } from './adminChrome';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 type KindFilter = 'all' | 'prompt' | 'sample_answer' | 'structure';
 

@@ -37,7 +37,7 @@ import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 import CohortBreakdown from './CohortBreakdown';
-import { TOOL_HEAD } from './adminChrome';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 interface ClassInsightsModalProps {
   isOpen: boolean;

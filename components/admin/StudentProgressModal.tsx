@@ -26,7 +26,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
-import { TOOL_HEAD } from './adminChrome';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 interface StudentProgressModalProps {
   isOpen: boolean;
