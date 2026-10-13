@@ -4,6 +4,7 @@ import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isFeatureLocked } from '../services/entitlements';
+import { presentableRewrite } from '../components/feedback/rewriteText';
 
 interface UseFeedbackViewArgs {
   result: EvaluationResult;
@@ -22,23 +23,14 @@ export function useFeedbackView({ result, prompt, userAnswer, hierarchy }: UseFe
   const termInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const upgradesLocked = isFeatureLocked('answerUpgrades');
 
-  /**
-   * The rewrite, as this client is allowed to present it.
-   *
-   * The server withholds it from a plan without `answerUpgrades`, so normally
-   * there is nothing here to hide. The lock is applied again anyway, in ONE
-   * place that every consumer reads — the rendered exemplar, the buttons, the
-   * comparison, and the exported PDF — because a rewrite can outlive the
-   * entitlement that produced it: a cached result, or a session that was still
-   * open when the plan lapsed. A paid asset should not depend on which of four
-   * call sites remembered to check.
-   */
-  const revisedText = useMemo(() => {
-    if (upgradesLocked || !result.revisedAnswer) return '';
-    return typeof result.revisedAnswer === 'string'
-      ? result.revisedAnswer
-      : result.revisedAnswer.text;
-  }, [result.revisedAnswer, upgradesLocked]);
+  // The rewrite as this client may present it (see `presentableRewrite`): the
+  // one place the lock is applied, read by the report, its footer and the PDF.
+  const rewrite = useMemo(
+    () => presentableRewrite(result.revisedAnswer, upgradesLocked),
+    [result.revisedAnswer, upgradesLocked]
+  );
+  const revisedText = rewrite.text;
+  const keyChanges = rewrite.keyChanges;
 
   // The question's tier caps how high an exemplar can realistically sit.
   const maxBand = useMemo(
@@ -118,6 +110,7 @@ export function useFeedbackView({ result, prompt, userAnswer, hierarchy }: UseFe
     termInfo,
     upgradesLocked,
     revisedText,
+    keyChanges,
     maxBand,
     nextLevel,
     exemplarMark,

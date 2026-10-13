@@ -5,7 +5,12 @@ import EvaluationDisplay from './EvaluationDisplay';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
-import { X, Save, AlertTriangle, FileCheck, ArrowLeft, Check } from 'lucide-react';
+import { X, FileCheck, ArrowUpCircle, Check } from 'lucide-react';
+import { isFeatureLocked } from '../services/entitlements';
+import { stripHtmlTags } from '../utils/renderUtils';
+import { ladderBandVars } from './LadderRow';
+import { presentableRewrite } from './feedback/rewriteText';
+import { BAND_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedback/feedbackChrome';
 
 interface EvaluationResultModalProps {
   isOpen: boolean;
@@ -74,6 +79,18 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
 
   if (!isOpen || !mounted || typeof document === 'undefined' || !document.body) return null;
 
+  // The rewrite the footer would put in the draft, read the same way the report reads it,
+  // so the button is offered exactly when the report shows a rewrite to use.
+  const rewrite = presentableRewrite(result.revisedAnswer, isFeatureLocked('answerUpgrades'));
+  const canUse = !!rewrite.text && result.overallMark < prompt.totalMarks;
+
+  // Taking the rewrite is leaving the feedback, not a toast on top of it: the draft is
+  // replaced and the report closes, so the student is back at their own response.
+  const handleUse = () => {
+    onUseRevisedAnswer(stripHtmlTags(rewrite.text));
+    onClose();
+  };
+
   return createPortal(
     <div
       ref={dialogRef}
@@ -128,7 +145,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close feedback"
-              className="p-2.5 rounded-xl hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
+              className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 flex items-center justify-center p-2.5 rounded-xl hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
               title="Close Feedback"
             >
               <X className="w-5 h-5" />
@@ -136,20 +153,15 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
           </div>
         </div>
 
-        {/* The desk this modal's cards sit on. `EvaluationDisplay` fills it
-            with six opaque `bg-white` cards, so the ground under them cannot be
-            another sheet of near-white — it was `light:bg-slate-50`, which put
-            those cards at 1.05:1 against it and left them to be held up by a
-            hairline apiece. It takes the page's own base token instead, at full
-            strength in light: the `/50` is right in dark, where it lets the
-            surface beneath warm the ground, and in light it only washes the
-            desk back out towards the paper it is supposed to be distinct from. */}
-        <div className="flex-1 overflow-y-auto p-6 sm:p-10 custom-scrollbar bg-[rgb(var(--color-bg-base))]/50 light:bg-[rgb(var(--color-bg-base))]">
+        {/* The desk this modal's cards sit on. The report's cards are paper
+            (`bg-surface`) with an edge, so the ground under them is the page's own
+            base token: in light it is the cool grey the paper lifts off, and in
+            dark the `/50` lets the surface beneath warm it. */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 sm:p-10 custom-scrollbar bg-[rgb(var(--color-bg-base))]/50 light:bg-[rgb(var(--color-bg-base))]">
           <EvaluationDisplay
             result={result}
             prompt={prompt}
             userAnswer={userAnswer}
-            onUseRevisedAnswer={onUseRevisedAnswer}
             onImproveAnswer={onImproveAnswer}
             onCompareImprovement={onCompareImprovement}
             isImproving={isImproving}
@@ -158,6 +170,37 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             onFeedbackSubmit={onFeedbackSubmit}
             hierarchy={hierarchy}
           />
+        </div>
+
+        {/* The way out. It sits outside the scrolling desk, so it is there at every
+            point in the report and not only at its end. "Use this version" is the
+            primary action when there is a rewrite to use; without one, going back is. */}
+        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-300 dark:border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-wrap items-center justify-end gap-3">
+          {canUse && (
+            <p className="t-label w-full sm:w-auto sm:mr-auto text-slate-600 dark:text-slate-400">
+              Replaces your draft.
+            </p>
+          )}
+          {/* On a phone the two actions share the row, so both are one thumb's reach. */}
+          <button
+            onClick={onClose}
+            disabled={isImproving}
+            className={`${canUse ? SECONDARY_ACTION : `${PRIMARY_ACTION} ${BAND_GROUND}`} flex-1 sm:flex-none`}
+            style={canUse ? undefined : ladderBandVars(result.overallBand)}
+          >
+            Back to my response
+          </button>
+          {canUse && (
+            <button
+              onClick={handleUse}
+              disabled={isImproving}
+              className={`${PRIMARY_ACTION} ${BAND_GROUND} flex-1 sm:flex-none`}
+              style={ladderBandVars(result.overallBand)}
+            >
+              <ArrowUpCircle className="w-4 h-4" aria-hidden="true" />
+              Use this version
+            </button>
+          )}
         </div>
       </div>
     </div>,

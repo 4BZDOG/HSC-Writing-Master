@@ -118,7 +118,7 @@ test.describe('Highlights in marking feedback', () => {
       const reviewHighlights = review.readings.filter(isHighlight);
 
       await carryOn.click();
-      await expect(page.getByText(/Marker's Commentary/)).toBeVisible({ timeout: 20_000 });
+      await expect(page.getByText(/Marker's commentary/)).toBeVisible({ timeout: 20_000 });
       await freezeAnimations(page);
       const feedback = await measureContrast(page);
       const feedbackHighlights = feedback.readings.filter(isHighlight);

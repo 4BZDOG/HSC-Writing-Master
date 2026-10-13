@@ -42,8 +42,9 @@ const MAIN = '.EvaluationDisplay';
 const layout = (page: Page) =>
   page.evaluate(() => {
     const root = document.querySelector('.EvaluationDisplay') as HTMLElement | null;
-    const aside = root?.querySelector('aside') as HTMLElement | null;
-    const main = aside?.parentElement?.querySelector(':scope > div') as HTMLElement | null;
+    // The mark (placard) and the reading column are marked by the report itself.
+    const aside = root?.querySelector('[data-report="placard"]') as HTMLElement | null;
+    const main = root?.querySelector('[data-report="reading"]') as HTMLElement | null;
     if (!root || !aside || !main) return null;
 
     const a = aside.getBoundingClientRect();
@@ -51,9 +52,10 @@ const layout = (page: Page) =>
 
     // Characters per line, from the element's own computed font rather than an
     // assumed average width — the interface face has changed once already.
-    const prose = Array.from(root.querySelectorAll('p')).find(
-      (p) => (p.textContent || '').length > 120
-    ) as HTMLElement | undefined;
+    // The longest paragraph in the reading column is the measure the reader actually meets.
+    const prose = Array.from(main.querySelectorAll('p')).sort(
+      (a, b) => (b.textContent || '').length - (a.textContent || '').length
+    )[0] as HTMLElement | undefined;
     let chars: number | null = null;
     if (prose) {
       const probe = document.createElement('span');
