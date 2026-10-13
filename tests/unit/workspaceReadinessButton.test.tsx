@@ -62,9 +62,7 @@ const syllabusHandlers = {
   handleSampleAnswerGenerated: vi.fn(),
 } as unknown as React.ComponentProps<typeof WorkspaceRightPanel>['syllabusHandlers'];
 
-const renderPanel = (
-  over: Partial<React.ComponentProps<typeof WorkspaceRightPanel>> = {}
-) => {
+const renderPanel = (over: Partial<React.ComponentProps<typeof WorkspaceRightPanel>> = {}) => {
   const answer = over.userAnswer ?? '';
   return render(
     <WorkspaceRightPanel
@@ -136,5 +134,25 @@ describe('the Evaluate button + readiness meter (step 4)', () => {
     expect(screen.queryByRole('progressbar')).toBeNull();
     expect(screen.queryByRole('button', { name: /draft readiness/i })).toBeNull();
     expect(screen.getByRole('button', { name: /evaluate/i })).toBeTruthy();
+  });
+
+  it('paints a substantial draft in the band fill, labelled in its own ink', () => {
+    renderPanel({ userAnswer: SUBSTANTIAL_DRAFT });
+    const button = screen.getByRole('button', { name: /draft readiness/i });
+    // `band-solid` carries the ink that clears AA on every band; white on the
+    // band fill measured 3.1:1 in the dark theme, so the label must not set it.
+    expect(button.className).toContain('band-solid');
+    expect(button.className).not.toContain('text-white');
+    expect(button.style.getPropertyValue('--band-rgb')).not.toBe('');
+    // A 44px touch target on a phone, the height of the footer it sits in.
+    expect(button.className).toContain('min-h-11');
+  });
+
+  it('gives an empty draft neither the band fill nor the indigo default', () => {
+    // Disabled: it keeps its own muted surface, and carries no band colour.
+    renderPanel({ userAnswer: '' });
+    const button = screen.getByRole('button', { name: /evaluate/i });
+    expect(button.className).not.toContain('band-solid');
+    expect(button.className).not.toContain('from-indigo-700');
   });
 });
