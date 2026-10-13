@@ -1,3 +1,5 @@
+import { getBandInkRgb } from './renderUtils';
+
 /**
  * The header shared by the workspace's two cards — "Writing Prompt" and
  * "Written Response".
@@ -30,8 +32,29 @@
 export const CARD_FOOTER_BOX =
   'flex-shrink-0 rounded-b-surface-inner px-4 sm:px-6 py-3 border-t border-[rgb(var(--color-border-secondary))]/15 bg-[rgb(var(--color-bg-surface-inset))]';
 
-/** The header box itself. Each card adds its own background — a band gradient
- *  on the question, the progress-driven colour on the writing area. */
+/**
+ * The ground under a card header's title, for the band the card is drawn in.
+ *
+ * The header used to take the band's `-500` fill, and the title is white on
+ * it. That fails at the bright end of the gradient: white measured 2.2:1 on
+ * the dark theme's yellow and 3.8:1 on red, and the title is 18-24px at weight
+ * 900 — there is no size at which it is large text in both themes.
+ *
+ * So the ground is the band's `-700` step (`BAND_HEX_INK`, the pinned set for
+ * text on a pale surface), and white clears 4.5:1 on it for all six hues, the
+ * palest — yellow — at 4.9:1. It is flat at the left and darkens towards the
+ * right, so the depth stays and the worst pixel is the flat one. Not
+ * `band-solid`: its white sheen takes the top corner back under 3.5:1.
+ *
+ * It is the same in both themes. The dark theme's progress veil only darkens
+ * it further, so nothing here depends on the theme.
+ */
+export const cardHeaderWash = (band: number): string =>
+  `linear-gradient(90deg, rgb(0 0 0 / 0) 40%, rgb(0 0 0 / 0.2) 100%), rgb(${getBandInkRgb(band)})`;
+
+/** The header box itself. Each card adds its own background — the band wash
+ *  from `cardHeaderWash` on both cards, or the surface on the writing area in
+ *  Exam Mode. */
 export const CARD_HEADER_BOX =
   'px-4 sm:px-6 py-3 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 

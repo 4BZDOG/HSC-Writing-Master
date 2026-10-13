@@ -10,7 +10,6 @@ import {
   renderEditorHighlights,
   getBandConfig,
   getBandHex,
-  getBandHexDark,
   getBandName,
 } from '../utils/renderUtils';
 import { getCommandTermInfo } from '../data/commandTerms';
@@ -43,6 +42,7 @@ import {
   CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
+  cardHeaderWash,
   CARD_HEADER_ICON,
   CARD_HEADER_IDENTITY,
   CARD_HEADER_META,
@@ -278,7 +278,6 @@ const Editor = forwardRef<
       // copy (footer, progress row) via targetBand/name below.
       const hue = Math.max(1, Math.min(6, verbTier));
       const targetHex = getBandHex(hue);
-      const targetHexDark = getBandHexDark(hue);
       const targetConfig = getBandConfig(hue);
 
       const p = Math.max(0, Math.min(1, progress));
@@ -290,7 +289,7 @@ const Editor = forwardRef<
         name: getBandName(targetBand),
         targetBand,
         accent: targetHex,
-        background: `linear-gradient(135deg, ${targetHex} 0%, ${targetHexDark} 100%)`,
+        background: cardHeaderWash(hue),
         veil,
         glow: p > 0.85 ? targetConfig.glow : 'shadow-none',
         border: targetConfig.border,
@@ -633,7 +632,7 @@ const Editor = forwardRef<
                           it took back from the target-band pill: the meter's
                           copy is the one with something to explain, and it sits
                           where the decision is made, beside Evaluate. */}
-                      <span className="t-label leading-none whitespace-nowrap bg-white/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm">
+                      <span className="t-label leading-none whitespace-nowrap bg-black/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm">
                         Band {chroma.targetBand}
                       </span>
                     </div>
