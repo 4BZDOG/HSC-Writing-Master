@@ -76,6 +76,12 @@ interface ComboboxProps {
   onChange: (id: string) => void;
   label: React.ReactNode;
   placeholder?: string;
+  /**
+   * What the options are, plural, for the search field's count: "Search 10
+   * courses". A bare count reads as a truncated word. The field only appears at
+   * `SEARCH_THRESHOLD` options and up, so the plural is the one it shows.
+   */
+  optionNoun?: string;
   disabled?: boolean;
   color?: ComboboxColor;
   /**
@@ -238,6 +244,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   emptyAction,
   appearance = 'filled',
   caption,
+  optionNoun = 'options',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -591,12 +598,14 @@ const Combobox: React.FC<ComboboxProps> = ({
                   aria-expanded={isOpen}
                   aria-controls={listboxId}
                   aria-activedescendant={`${listboxId}-opt-${highlightedIndex}`}
-                  aria-label={`Search ${options.length} options`}
+                  aria-label={`Search ${options.length} ${optionNoun}`}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={`Search ${options.length}…`}
-                  className="w-full bg-transparent py-3 pl-10 pr-9 text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
+                  placeholder={`Search ${options.length} ${optionNoun}`}
+                  // 16px below `sm`: iOS zooms the page into any input set smaller,
+                  // and the zoom does not come back out on its own.
+                  className="w-full bg-transparent py-3 pl-10 pr-9 text-base sm:text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
                 />
                 {query && (
                   <button

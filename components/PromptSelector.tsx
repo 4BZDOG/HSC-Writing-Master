@@ -1079,6 +1079,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               <Combobox
                 label={null}
                 options={courseOptions}
+                optionNoun="courses"
                 value={statePath.courseId || ''}
                 onChange={(id) =>
                   onPathChange({
@@ -1113,6 +1114,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={yearOptions}
+                  optionNoun="years"
                   value={syllabusYear}
                   onChange={handleYearChange}
                   placeholder="Select Year..."
@@ -1238,6 +1240,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={topicOptions}
+                  optionNoun="topics"
                   value={statePath.topicId || ''}
                   onChange={(id) =>
                     onPathChange({
@@ -1439,6 +1442,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={subTopicOptions}
+                  optionNoun="sub-topics"
                   value={statePath.subTopicId || ''}
                   onChange={(id) =>
                     onPathChange({
@@ -1525,6 +1529,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={isDotPointSelected && hasSubItems ? 'Syllabus Point' : null}
                   options={dotPointOptions}
+                  optionNoun="dot points"
                   value={statePath.dotPointId || ''}
                   onChange={(id) =>
                     onPathChange({
@@ -1549,6 +1554,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   <Combobox
                     label="Active Focus"
                     options={subItemOptions}
+                    optionNoun="sub-points"
                     value={activeFocusCount > 0 ? 'MULTIPLE' : ''}
                     onChange={handleSubItemToggle}
                     placeholder="Refine Scope..."
@@ -1730,6 +1736,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <Combobox
                   label={null}
                   options={visiblePromptOptions}
+                  optionNoun="questions"
                   value={statePath.promptId || ''}
                   onChange={(id) => {
                     const opt = promptOptions.find((o) => o.id === id);
