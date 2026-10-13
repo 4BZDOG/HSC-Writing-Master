@@ -294,7 +294,7 @@ const ProvenanceEditor: React.FC<{
               })
             }
             disabled={!yearIsUsable}
-            className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-amber-600 hover:bg-amber-500 shadow-lg flex items-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-4 py-2 rounded-xl text-xs font-bold text-slate-900 bg-amber-600 hover:bg-amber-500 shadow-lg flex items-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Save className="w-3.5 h-3.5" /> Save
           </button>

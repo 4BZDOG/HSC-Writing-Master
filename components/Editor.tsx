@@ -782,7 +782,7 @@ const Editor = forwardRef<
                           ? 'Exit focus mode (Esc)'
                           : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
                       }
-                      className={`t-label ml-1.5 px-2.5 h-6 rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-white shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                      className={`t-label ml-1.5 px-2.5 h-6 rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-slate-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                     >
                       {isFocusMode ? (
                         <Minimize className="w-3.5 h-3.5" />
