@@ -310,3 +310,94 @@ Each step is done when, on all three samples:
 - The greyscale render (`pdftoppm -gray`) still distinguishes additions from
   deletions and reached bands from unreached ones.
 - Page count does not grow: A stays at 2, B at 1, C at 3 or fewer.
+
+## Second pass: the paper matches the screen
+
+The first pass made the report look like a document. This pass makes it say the
+same things as the screen it was exported from. A teacher or a student should
+not be able to find a label, a figure or a highlight on paper that the screen
+does not show, or the reverse.
+
+Each decision below has its reason in a comment at the code it governs. This
+section is the index.
+
+### Text in a band colour uses the ink step
+
+Band figures, chips and the question's eyebrow label are text, so they take
+`BAND_HEX_INK` (`-700`) via `bandInkColor`. The fill step (`bandColor`, `-600`)
+stays for bars, rules, rungs and panels, where it is a graphic. Pinned at 4.5:1
+on white for bands 1 to 6 in `tests/unit/pdfExport.test.ts`.
+
+### Criterion meters take the screen's three steps
+
+`meterStep` uses `METER.strongRatio` and `METER.fairRatio`, the thresholds the
+screen's `CriterionMeter` already uses. Full is the band colour, fair is a
+40% tint, weak is a 72% tint with a hairline outline. The steps are told apart
+by lightness, length and outline, not by hue, so a greyscale printer keeps all
+three. (Checked with `pdftoppm -gray`.) Empty is the track colour, which is
+lighter than a rule so the fills read against it.
+
+### Labels and figures are the screen's
+
+| Paper, before                            | Paper, now                             | Screen                 |
+| ---------------------------------------- | -------------------------------------- | ---------------------- |
+| Next Steps                               | Areas for Growth                       | Areas for Growth       |
+| What Changed                             | Improved response: what changed        | (same)                 |
+| 4 of your 4 sentences rewritten          | 84% of your words kept · 63 → 81 words | 84% of your words kept |
+| Improved response in the response's band | in the exemplar's band                 | exemplar band          |
+
+The wording lives in `utils/diffSummary.ts`, so the improvement review can
+adopt the same two functions rather than restate them.
+
+**This reverses a decision in Findings F6.** F6 argued that the retention
+percentage discourages a student and replaced it with a count of rewritten
+sentences. The product now states the same figure on screen and on paper, and
+the count was the one place the two disagreed. If the figure is judged
+discouraging, the fix belongs on the screen and in the paper together, in one
+function, rather than in one of them alone.
+
+### Highlighting: where the colour is spent, and where the underline carries it
+
+The screen highlights the command verb and the syllabus terms in every piece of
+marking prose. The paper now does the same, in three forms (see
+`proseHighlight`, `feedbackHighlight` and `diffHighlight` in `pdf/buildBlocks.ts`):
+
+- **Prose** (the question, the response, the rewrite): the term is teal and
+  underlined; the verb is indigo, bold and underlined. Here the reader is asking
+  "did I use the term?", so the colour earns its place.
+- **Feedback** (tip, commentary, strengths, next steps, criteria): the term is
+  underlined in body colour; the verb is indigo and underlined. The marker's own
+  bold stays the heaviest emphasis on the page. This keeps the first pass's
+  decision that teal does not appear in the marker's prose.
+- **Diff rows**: underlined in the row's own colour, rose or green, so a term
+  does not borrow a third colour inside a change.
+
+The underline is the print-safe mark. It is drawn by `drawSpanLine` in
+`pdf/helpers.ts`, in the span's colour. A key under the question (`highlightKey`)
+says what the two highlights are, as the screen does.
+
+The verb is matched with the screen's own matcher, `createVerbRegex`. The
+keyword matcher reads an all-capital short verb as an acronym, so "DRAW" missed
+"drawing" on paper and matched it on screen.
+
+### Smaller fixes found on the sample renders
+
+- Text in a panel wrapped to the width of the panel's left inset only, so a
+  line ran into the frame's right edge. The wrap now subtracts both insets
+  (`measureBlock`). This also applies to the progress report's "About this
+  report" panel.
+- A bold term followed by punctuation could leave a comma or full stop opening
+  a wrapped line. The punctuation is now kept with the word before it
+  (`wrapRich`).
+- Type sizes: the band ladder's end labels 5.5pt to 6.5pt; the question's trail
+  and the key 8pt; the diff summary, the unused-terms line and "more rewritten
+  sentences" 8.5pt; the diff legend 8pt.
+
+### Not changed, and why
+
+- A section that does not fit the rest of its column still moves whole to the
+  next column (`sectionHeight`). On page 1 this can leave a gap of about 25mm
+  in the right column. That is the cost of never printing a heading and one
+  tick box at the foot of a column, and it was chosen deliberately.
+- The meter has no text label. The screen's meter has none either; the chip
+  states the marks beside it.

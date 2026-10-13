@@ -40,7 +40,22 @@ export interface InlineSpan {
   style: FontStyle;
   /** RGB triple 0-255. Absent means "the block's colour". */
   color?: [number, number, number];
+  /**
+   * A syllabus term or the command verb. Drawn with a continuous underline, so
+   * the highlight survives greyscale and a colour-blind reader — the screen's
+   * wash does not survive a printer, and colour alone is not a mark on paper.
+   */
+  underline?: boolean;
 }
+
+/**
+ * The underline under a highlighted span, in em. Set as a rule, not a border:
+ * it has to read under 9pt body type without outweighing the bold beside it.
+ */
+export const INLINE_UNDERLINE = {
+  offsetEm: 0.16,
+  thicknessEm: 0.06,
+};
 
 /**
  * Geometry of the result strip, shared by the measurer (layout) and the drawer
@@ -156,7 +171,9 @@ export const BAND_SCALE = {
   heightBaseMm: 2.4,
   gapBaseMm: 1.8,
   segmentGapBaseMm: 0.8,
-  labelPt: 5.5,
+  // The ends are what say where the scale starts and stops. At 5.5pt they were
+  // the smallest type on the page, which is the wrong place to make them hard.
+  labelPt: 6.5,
 };
 
 /**
@@ -361,6 +378,12 @@ export interface ContentBlock {
   breakable?: boolean;
   /** Accent colour for rules / bars associated with the block. */
   accent?: [number, number, number];
+  /**
+   * The band colour where it is TEXT — a mark, a chip, an eyebrow label. The
+   * ink step, because the fill step fails 4.5:1 on paper for several bands.
+   * Absent means the block has no band text; `accent` stays the fill.
+   */
+  inkAccent?: [number, number, number];
   /**
    * Proportion earned, drawn as a filled track under the block's label. The
    * chip states it in numerals; this makes a column of criteria comparable at

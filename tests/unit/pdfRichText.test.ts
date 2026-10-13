@@ -290,3 +290,75 @@ describe('the report blocks carry their styling to the page', () => {
     expect(tail.flat().some((s) => s.style === 'bold')).toBe(true);
   });
 });
+
+describe('highlighting is printed as colour and as an underline', () => {
+  it('underlines a term, and keeps the marker’s bold without the underline', () => {
+    const spans = parseInlineSpans('Explain **why** latency matters.', {
+      keywords: ['latency'],
+      keywordColor: COLORS.keyword,
+    });
+
+    expect(spans.find((s) => s.text.includes('latency'))?.underline).toBe(true);
+    expect(spans.find((s) => s.text.includes('why'))?.underline).toBeUndefined();
+  });
+
+  it('underlines a term in the block colour when no keyword colour is given', () => {
+    // The marker's commentary: the term is marked by its rule and nothing else.
+    const spans = parseInlineSpans('Caching helps latency.', { keywords: ['latency'] });
+    const term = spans.find((s) => s.text.includes('latency'));
+
+    expect(term?.underline).toBe(true);
+    expect(term?.color).toBeUndefined();
+  });
+
+  it('finds the command verb with the screen’s verb matcher, inflections included', () => {
+    // A short all-capital verb is read as an acronym by the keyword matcher, so
+    // "drawing" used to go unhighlighted on paper and lit up on screen.
+    const spans = parseInlineSpans('They are drawing the graph.', {
+      verb: 'DRAW',
+      verbColor: COLORS.verb,
+    });
+
+    expect(colorOf(spans, 'drawing')).toEqual(COLORS.verb);
+  });
+
+  it('prints the verb in bold in prose, and not in the feedback', () => {
+    const prose = parseInlineSpans('Explain why.', { verb: 'Explain', verbBold: true });
+    const feedback = parseInlineSpans('Explain why.', { verb: 'Explain' });
+
+    expect(styleOf(prose, 'Explain')).toBe('bold');
+    expect(styleOf(feedback, 'Explain')).toBe('normal');
+  });
+});
+
+describe('wrapping keeps closing punctuation with its word', () => {
+  it('never opens a line with a comma, full stop or semicolon', () => {
+    // A bold term followed by punctuation is two chunks with no space between.
+    // The comma used to be free to start the next line, which reads as a typo.
+    const spans: InlineSpan[] = [
+      { text: 'Replace with a term ', style: 'normal' },
+      { text: 'storytelling', style: 'bold' },
+      { text: ', or highlighting results.', style: 'normal' },
+    ];
+    for (let width = 12; width <= 24; width++) {
+      const lines = wrapRich(spans, width, 9, measurer).map(spansToText);
+      for (const line of lines.slice(1)) {
+        expect(/^[,.;:]/.test(line)).toBe(false);
+      }
+    }
+  });
+});
+
+describe('the key under the question', () => {
+  it('names the two highlights the way the screen does', () => {
+    const key = buildEvaluationBlocks(data()).find((b) => b.id.startsWith('hkey-'));
+
+    expect(key?.runs[0].text).toBe('Highlighted: command verb · syllabus terms');
+  });
+
+  it('is left out when nothing in the report is highlighted', () => {
+    const blocks = buildEvaluationBlocks(data({ verb: '', keywords: undefined }));
+
+    expect(blocks.some((b) => b.id.startsWith('hkey-'))).toBe(false);
+  });
+});

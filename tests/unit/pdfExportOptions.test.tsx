@@ -77,16 +77,38 @@ describe('the export options panel', () => {
     expect(state().markerNotes).toBe(true);
   });
 
-  // A typed 999 would render for a minute before anyone could stop it.
-  it('clamps the copy count as it is typed', () => {
+  // A typed 999 would render for a minute before anyone could stop it, so the
+  // value is clamped the moment the field is left.
+  it('clamps the copy count when the field is left', () => {
     render(<Harness />);
     const copies = screen.getByLabelText(/Copies/i);
 
     fireEvent.change(copies, { target: { value: '5000' } });
+    fireEvent.blur(copies);
     expect(state().copies).toBeLessThanOrEqual(40);
 
     fireEvent.change(copies, { target: { value: '0' } });
+    fireEvent.blur(copies);
     expect(state().copies).toBe(1);
+  });
+
+  // Clearing the field to type a new number used to snap it to 1 at once, so the
+  // teacher was typing into a control that kept rewriting itself.
+  it('lets the copy field be empty while it is being typed in', () => {
+    render(<Harness />);
+    const copies = screen.getByLabelText(/Copies/i) as HTMLInputElement;
+
+    fireEvent.change(copies, { target: { value: '12' } });
+    fireEvent.blur(copies);
+    expect(state().copies).toBe(12);
+
+    fireEvent.change(copies, { target: { value: '' } });
+    expect(copies.value).toBe('');
+    expect(state().copies).toBe(12);
+
+    fireEvent.blur(copies);
+    expect(state().copies).toBe(1);
+    expect(copies.value).toBe('1');
   });
 
   /**
@@ -131,5 +153,27 @@ describe('the export options panel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'trigger' }));
 
     expect(screen.queryByRole('dialog', { name: /export options/i })).toBeNull();
+  });
+
+  /**
+   * The panel sits in `<body>`, outside the evaluation modal, and that modal
+   * traps Tab inside itself. Without its own trap the checkboxes were
+   * unreachable from the keyboard, so a focus ring on them would have been a ring
+   * on nothing a keyboard user could reach.
+   */
+  it('takes keyboard focus on open, and holds Tab inside itself', () => {
+    render(<Harness />);
+    const panel = screen.getByRole('dialog', { name: /export options/i });
+
+    expect(panel.contains(document.activeElement)).toBe(true);
+  });
+
+  it('gives each checkbox a visible focus ring on its box, not on the hidden input', () => {
+    render(<Harness />);
+    const checkbox = screen.getByRole('checkbox', { name: /Student's response/i });
+    const box = checkbox.parentElement?.querySelector('span[aria-hidden="true"]');
+
+    expect(checkbox.className).toContain('peer');
+    expect(box?.className).toContain('peer-focus-visible:ring-2');
   });
 });

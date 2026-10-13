@@ -4,18 +4,19 @@
 // jsPDF; fully unit-testable. Markup is normalised to selectable Unicode via
 // toText() here so downstream drawing/measurement is plain-text.
 
-import { ContentBlock, TextRun } from './types';
+import { ContentBlock, InlineSpan, TextRun } from './types';
 import { normalizeContent } from './text';
 import { parseInlineSpans, type InlineOptions } from './inline';
 import type { IconName } from './icons';
-import { getBandHexDark, getBandName, textContainsKeyword } from '../utils/renderUtils';
-import { getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
 import {
-  diffWords,
-  rewrittenSentenceCount,
-  sentenceChanges,
-  summariseDiff,
-} from '../utils/textDiff';
+  BAND_HEX_INK,
+  getBandHexDark,
+  getBandName,
+  textContainsKeyword,
+} from '../utils/renderUtils';
+import { getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
+import { diffWords, sentenceChanges, summariseDiff } from '../utils/textDiff';
+import { wordCountsLine, wordsKeptLine } from '../utils/diffSummary';
 
 /** #rrggbb -> the RGB triple the exporter draws in. */
 const hexToRgb = (hex: string): [number, number, number] => [
@@ -23,6 +24,8 @@ const hexToRgb = (hex: string): [number, number, number] => [
   parseInt(hex.slice(3, 5), 16),
   parseInt(hex.slice(5, 7), 16),
 ];
+
+const clampBand = (band: number): number => Math.max(1, Math.min(6, Math.round(band)));
 
 /**
  * The report's palette, and the rule that governs it: EVERY COLOUR MEANS
@@ -34,11 +37,17 @@ const hexToRgb = (hex: string): [number, number, number] => [
  * front of them meant which. So:
  *
  *   band accent  attainment — the result strip, the ladder, the rewrite, and
- *                the words the rewrite added. Never structure.
- *   keyword      a syllabus term, inline in the prose. Nowhere else.
- *   verb         the question's command term, in the question. Nowhere else.
+ *                the words the rewrite added. Never structure. As TEXT it is
+ *                the ink step (`bandInkColor`), never the fill step.
+ *   keyword      a syllabus term, in the student's own words and the rewrite.
+ *   verb         the question's command term, wherever the screen highlights it.
  *   rose         something to fix — the next-step ticks, the words cut.
  *   slate/ink    structure — headings, rules, bullets, chips, frames.
+ *
+ * A syllabus term and the command verb are also UNDERLINED wherever they are
+ * highlighted, so the mark survives a greyscale printer. The colour is spent
+ * only where the reader is asking "did I use the term?"; in the marker's own
+ * commentary a term is underlined in body colour instead. See `proseHighlight`.
  */
 export const COLORS = {
   ink: [17, 24, 39] as [number, number, number],
@@ -48,6 +57,8 @@ export const COLORS = {
   /** Structure: heading rules, bullets, accent bars, frames. */
   slate: [100, 116, 139] as [number, number, number],
   rule: [203, 213, 225] as [number, number, number],
+  /** The unfilled part of a criterion meter: lighter than a rule, so a fill reads against it. */
+  track: [226, 232, 240] as [number, number, number],
   /**
    * Something to fix, and the words a rewrite cut.
    *
@@ -91,6 +102,17 @@ export const COLORS = {
  * notices between the app and the sheet in their hand.
  */
 export const bandColor = (band: number): [number, number, number] => hexToRgb(getBandHexDark(band));
+
+/**
+ * The same band, as TEXT on paper: the `-700` ink step.
+ *
+ * `bandColor` is the `-600` fill, and on white it measures 3.0 to 5.2:1 by band —
+ * yellow misses 4.5 outright, and the figures and chips that were set in it
+ * (the mark, the criterion scores) were the report's text, not its decoration.
+ * Pinned by pdfExport.test.ts at 4.5:1 for every band.
+ */
+export const bandInkColor = (band: number): [number, number, number] =>
+  hexToRgb(BAND_HEX_INK[clampBand(band)]);
 
 /** Minimal data the exporter needs — decoupled from the React prop shapes. */
 export interface EvaluationExportData {
@@ -183,10 +205,11 @@ const richRun = (
   const base = run(text, baseFontPt, extra);
   return {
     ...base,
+    // No default keyword colour here: whether a term is coloured is the decision
+    // of the highlight set the caller passes (see `proseHighlight`). A default
+    // would colour the marker's commentary whatever the caller meant.
     spans: parseInlineSpans(text ?? '', {
       baseStyle: extra.style ?? 'normal',
-      keywordColor: COLORS.keyword,
-      verbColor: COLORS.verb,
       ...highlight,
     }),
   };
@@ -229,6 +252,86 @@ const divider = (accent = COLORS.rule): ContentBlock => ({
 });
 
 /**
+ * How the screen's highlighting is spent on paper, in three places.
+ *
+ * The screen paints the command verb and the syllabus terms in every piece of
+ * marking prose: the question, the response, the tip, the commentary, the
+ * strengths, the next steps, the criteria and the rewrite. The paper used to
+ * paint them in the question only, or not at all, so a term emerald on screen
+ * printed as plain text. Each surface now gets the highlight, in the form its
+ * colour can afford:
+ *
+ *   prose     The question, the student's response, the rewrite. The reader is
+ *             asking "did I use the term?" here, so the term is teal and
+ *             underlined, and the verb is indigo, bold and underlined.
+ *   feedback  The tip, the commentary, the strengths, the next steps and the
+ *             criteria. The marker's own **bold** is the emphasis that matters
+ *             in these, and a second colour competing with it turned a page of
+ *             feedback into a page of highlighter. So a term is underlined in
+ *             body colour, and the verb in indigo and underlined but not bold.
+ *   diff      The rewrite's changed sentences. Their colour is the diff's own
+ *             (rose for what went, green for what came), so a term is underlined
+ *             in that colour and nothing else.
+ *
+ * Nothing here depends on colour alone. The underline is the mark a greyscale
+ * printer keeps, and the verb's weight is the second one in prose.
+ */
+const proseHighlight = (data: EvaluationExportData): InlineOptions => ({
+  keywords: data.keywords,
+  keywordColor: COLORS.keyword,
+  verb: data.verb,
+  verbColor: COLORS.verb,
+  verbBold: true,
+});
+
+const feedbackHighlight = (data: EvaluationExportData): InlineOptions => ({
+  keywords: data.keywords,
+  verb: data.verb,
+  verbColor: COLORS.verb,
+});
+
+const diffHighlight = (data: EvaluationExportData): InlineOptions => ({
+  keywords: data.keywords,
+  verb: data.verb,
+});
+
+/**
+ * The one-line key under the question, as the screen prints it: the same two
+ * highlights, drawn as they are drawn in the text, so the key cannot disagree
+ * with what it explains. Shown only when there is something to explain.
+ */
+const highlightKey = (data: EvaluationExportData): ContentBlock | null => {
+  const hasVerb = !!data.verb?.trim();
+  const hasTerms = !!data.keywords?.length;
+  if (!hasVerb && !hasTerms) return null;
+  // One run with spans, for the reason the diff key carries: sibling runs stack
+  // as separate lines rather than flowing inline.
+  const spans: InlineSpan[] = [{ text: 'Highlighted: ', style: 'normal', color: COLORS.muted }];
+  if (hasVerb) {
+    spans.push({ text: 'command verb', style: 'bold', color: COLORS.verb, underline: true });
+  }
+  if (hasVerb && hasTerms) spans.push({ text: ' · ', style: 'normal', color: COLORS.muted });
+  if (hasTerms) {
+    spans.push({ text: 'syllabus terms', style: 'normal', color: COLORS.keyword, underline: true });
+  }
+  return {
+    kind: 'paragraph',
+    id: nid('hkey'),
+    fullWidth: true,
+    runs: [
+      {
+        text: spans.map((s) => s.text).join(''),
+        baseFontPt: 8,
+        color: COLORS.muted,
+        spans,
+      },
+    ],
+    basePadTop: 1.6,
+    basePadBottom: 0,
+  };
+};
+
+/**
  * Build the ordered block list for a marking-feedback report. Criteria are
  * numbered continuously (1., 2., …) regardless of where the column flow places
  * them.
@@ -239,23 +342,9 @@ export const buildEvaluationBlocks = (
 ): ContentBlock[] => {
   seq = 0;
   const blocks: ContentBlock[] = [];
-  // One highlighting brief for the whole report, so a syllabus term is the same
-  // colour in the student's response, the marker's commentary and the rewrite.
-  //
-  // Two briefs, not one. The verb used to be coloured wherever it occurred in
-  // the whole document, so "explaining", "explain" and "explained" came out
-  // indigo in the commentary, the tip, the next steps and the criteria — places
-  // where the word is ordinary English rather than the question's command term.
-  // It is the command term in exactly one place, so it is coloured in exactly
-  // one place. Syllabus terms stay everywhere the prose is the student's or the
-  // model's, which is where "did I use the term?" is the reader's question.
-  // Keywords ride with the PROSE — the question, the response, the rewrite —
-  // where "did I use the term?" is the reader's own question. The commentary and
-  // the criteria carry the marker's own **bold**, and a second colour competing
-  // with it there turned a page of feedback into a page of highlighter.
-  const hl: InlineOptions = { keywords: data.keywords };
-  const questionHl: InlineOptions = { keywords: data.keywords, verb: data.verb };
-  const plain: InlineOptions = {};
+  const prose = proseHighlight(data);
+  const feedback = feedbackHighlight(data);
+  const diff = diffHighlight(data);
 
   // 0. Masthead -------------------------------------------------------------
   // Content, not page chrome. It used to be drawn as a header, which meant its
@@ -280,6 +369,7 @@ export const buildEvaluationBlocks = (
   // question — it says where the question came from, which is context a reader
   // wants after the question, not before it.
   const accent = bandColor(data.overallBand);
+  const inkAccent = bandInkColor(data.overallBand);
   const marks = `${data.totalMarks} ${data.totalMarks === 1 ? 'mark' : 'marks'}`;
   blocks.push({
     kind: 'questionCard',
@@ -292,18 +382,21 @@ export const buildEvaluationBlocks = (
     panel: true,
     panelAccent: accent,
     accent,
+    inkAccent,
     runs: [
       richRun(
         data.question,
         14,
         { style: 'bold', color: COLORS.ink, lineHeightFactor: 1.3 },
-        questionHl
+        prose
       ),
     ],
     subText: data.syllabusPath?.trim() ? data.syllabusPath : undefined,
     basePadTop: 1,
     basePadBottom: 3,
   });
+  const key = highlightKey(data);
+  if (key) blocks.push(key);
 
   // 2. Result strip ---------------------------------------------------------
   // "Assessment" is a word with weight in an HSC year — this is practice
@@ -328,6 +421,7 @@ export const buildEvaluationBlocks = (
     // student has to already know how to read; "Band 4 · Sound" is not.
     subText: `Band ${shownBand} · ${getBandName(shownBand)}`,
     accent,
+    inkAccent,
     bandScale: shownBand,
     bandScaleMax,
     runs: [run(metricBits.join('\n'), 8.5, { style: 'bold', color: COLORS.body })],
@@ -350,7 +444,9 @@ export const buildEvaluationBlocks = (
       // were within half a point of the notes around them, so a page of this
       // report read as one undifferentiated wall of 9pt with frames drawn on
       // parts of it. The frames said "this is a document"; the type did not.
-      runs: [richRun(data.studentAnswer, 10.5, { color: COLORS.body, lineHeightFactor: 1.4 }, hl)],
+      runs: [
+        richRun(data.studentAnswer, 10.5, { color: COLORS.body, lineHeightFactor: 1.4 }, prose),
+      ],
       panel: true,
       panelAccent: COLORS.slate,
       breakable: true,
@@ -401,12 +497,12 @@ export const buildEvaluationBlocks = (
         runs: [
           {
             text: `${label}: ${named}` + (more > 0 ? ` (and ${more} more)` : '') + '.',
-            baseFontPt: 8,
+            baseFontPt: 8.5,
             color: COLORS.muted,
             lineHeightFactor: 1.3,
             spans: [
               { text: `${label}: `, style: 'bold', color: COLORS.slate },
-              { text: named, style: 'bold', color: COLORS.keyword },
+              { text: named, style: 'bold', color: COLORS.keyword, underline: true },
               {
                 text: (more > 0 ? ` (and ${more} more)` : '') + '.',
                 style: 'normal',
@@ -433,7 +529,7 @@ export const buildEvaluationBlocks = (
           data.quickTip,
           9.5,
           { style: 'italic', color: COLORS.body, lineHeightFactor: 1.35 },
-          plain
+          feedback
         ),
       ],
       accent: COLORS.slate,
@@ -449,7 +545,7 @@ export const buildEvaluationBlocks = (
       kind: 'paragraph',
       id: nid('comm'),
       runs: [
-        richRun(data.overallFeedback, 9.5, { color: COLORS.body, lineHeightFactor: 1.4 }, plain),
+        richRun(data.overallFeedback, 9.5, { color: COLORS.body, lineHeightFactor: 1.4 }, feedback),
       ],
       breakable: true,
       basePadBottom: 2.5,
@@ -463,7 +559,7 @@ export const buildEvaluationBlocks = (
       blocks.push({
         kind: 'listItem',
         id: nid('str'),
-        runs: [richRun(str, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, plain)],
+        runs: [richRun(str, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, feedback)],
         accent: COLORS.slate,
         // A tick against the next steps' empty box: the two lists are the same
         // gesture in two states — what the response already does, and what it
@@ -475,17 +571,18 @@ export const buildEvaluationBlocks = (
     );
   }
 
-  // 7. Areas for growth -----------------------------------------------------
+  // 7. Areas for Growth ---------------------------------------------------
   // Tick boxes rather than bullets. These are the things to do next, and a
   // printed report a student can work down and tick off is a different object
   // from a printed report they read once — the same words, doing more.
   if (data.improvements?.length) {
-    blocks.push(heading('Next Steps', 'arrow'));
+    // The screen's own heading. "Next Steps" names the action; this names the list.
+    blocks.push(heading('Areas for Growth', 'arrow'));
     data.improvements.forEach((im) =>
       blocks.push({
         kind: 'listItem',
         id: nid('imp'),
-        runs: [richRun(im, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, plain)],
+        runs: [richRun(im, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, feedback)],
         accent: COLORS.rose,
         checkbox: true,
         breakable: true,
@@ -506,15 +603,16 @@ export const buildEvaluationBlocks = (
         // to survive in the feedback and vanish from the title above it.
         label: `${i + 1}. ${normalizeContent(c.criterion)}`,
         labelRuns: [
-          richRun(`${i + 1}. ${c.criterion}`, 9, { style: 'bold', color: COLORS.ink }, plain),
+          richRun(`${i + 1}. ${c.criterion}`, 9, { style: 'bold', color: COLORS.ink }, feedback),
         ],
         chip: `${c.mark} / ${c.maxMark}`,
         // Same fact as the chip, in a form a reader takes in without doing
         // arithmetic — and a column of them shows which criterion cost the
         // most marks without reading a word.
         meter: { value: c.mark, max: c.maxMark },
-        runs: [richRun(c.feedback, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, plain)],
+        runs: [richRun(c.feedback, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, feedback)],
         accent: accent,
+        inkAccent,
         breakable: true,
         basePadTop: 1,
         basePadBottom: 2.4,
@@ -539,16 +637,18 @@ export const buildEvaluationBlocks = (
     );
     const exBand = data.exemplarBand ?? nextLevel.targetBand;
     const exMark = data.exemplarMark ?? nextLevel.targetMark;
-    // The report has ONE accent, and it is the band this response reached. The
-    // rewrite used to be framed in the EXEMPLAR's band instead, which put a
-    // second hue on the page — purple beside a green result strip — for a fact
-    // the heading beside it already states in words.
+    // The rewrite is in the EXEMPLAR's band, as the screen draws it: the rule
+    // across the top of the improved response is that band, and the heading's
+    // icon is too. An earlier version framed it in the response's band so the
+    // report had one hue; the screen does not, so the paper does not either. The
+    // result strip above still carries the response's own band.
+    const exemplarAccent = bandColor(exBand);
     blocks.push(spacer(2));
     blocks.push({
       ...heading(
         `Improved Response — ${exMark}/${data.totalMarks} · Band ${exBand} ${getBandName(exBand)}`,
         'sparkle',
-        accent
+        exemplarAccent
       ),
       fullWidth: true,
     });
@@ -561,9 +661,11 @@ export const buildEvaluationBlocks = (
       // Set at the student's own size — the two are read against each other, and
       // a rewrite in smaller type than the answer it improves reads as a
       // footnote to it.
-      runs: [richRun(data.revisedAnswer, 10.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, hl)],
+      runs: [
+        richRun(data.revisedAnswer, 10.5, { color: COLORS.ink, lineHeightFactor: 1.4 }, prose),
+      ],
       panel: true,
-      panelAccent: accent,
+      panelAccent: exemplarAccent,
       breakable: true,
       basePadBottom: 2,
     });
@@ -590,17 +692,24 @@ export const buildEvaluationBlocks = (
         // the page rather than sitting in a narrow column with the heading
         // beside it and the sentence wrapping awkwardly in the other.
         const holistic = changes.length === 0;
-        blocks.push({ ...heading('What Changed', 'swap'), fullWidth: holistic });
-        const { rewritten, total } = rewrittenSentenceCount(data.studentAnswer, changes);
-        const summary = changes.length
-          ? `${rewritten} of your ${total} sentence${total === 1 ? '' : 's'} rewritten` +
-            ` · ${stats.added} words added · ${stats.removed} cut`
-          : `${stats.added} words added · ${stats.removed} cut`;
+        blocks.push({
+          ...heading('Improved response: what changed', 'swap'),
+          fullWidth: holistic,
+        });
+        // The screen's own summary, from the same statistic: the share of the
+        // student's words the rewrite keeps, and how far the count moves. A count
+        // of rewritten sentences reads as a rewrite of everything, whatever the
+        // edit was, so the paper says what the screen says.
         blocks.push({
           kind: 'paragraph',
           id: nid('diffsum'),
           fullWidth: holistic,
-          runs: [run(summary, 8, { style: 'bold', color: COLORS.muted })],
+          runs: [
+            run(`${wordsKeptLine(stats)} · ${wordCountsLine(stats)}`, 8.5, {
+              style: 'bold',
+              color: COLORS.muted,
+            }),
+          ],
           basePadBottom: 2,
         });
 
@@ -656,7 +765,7 @@ export const buildEvaluationBlocks = (
             runs: [
               {
                 text: 'Read each pair top to bottom: \u2212 what you wrote, then + what it became.',
-                baseFontPt: 7.5,
+                baseFontPt: 8,
                 color: COLORS.muted,
                 spans: [
                   { text: 'Read each pair top to bottom: ', style: 'normal', color: COLORS.muted },
@@ -680,7 +789,9 @@ export const buildEvaluationBlocks = (
               blocks.push({
                 kind: 'listItem',
                 id: nid('chgold'),
-                runs: [run(change.before, 8.5, { color: COLORS.rose, lineHeightFactor: 1.35 })],
+                runs: [
+                  richRun(change.before, 8.5, { color: COLORS.rose, lineHeightFactor: 1.35 }, diff),
+                ],
                 diffMarker: '\u2212',
                 accent: COLORS.rose,
                 panel: true,
@@ -701,11 +812,12 @@ export const buildEvaluationBlocks = (
                 kind: 'listItem',
                 id: nid('chgnew'),
                 runs: [
-                  run(change.after, 8.5, {
-                    color: COLORS.added,
-                    style: 'bold',
-                    lineHeightFactor: 1.35,
-                  }),
+                  richRun(
+                    change.after,
+                    8.5,
+                    { color: COLORS.added, style: 'bold', lineHeightFactor: 1.35 },
+                    diff
+                  ),
                 ],
                 diffMarker: '+',
                 accent: COLORS.added,
@@ -726,7 +838,7 @@ export const buildEvaluationBlocks = (
                 run(
                   `+ ${changes.length - MAX_PRINTED_CHANGES} more rewritten sentence` +
                     `${changes.length - MAX_PRINTED_CHANGES === 1 ? '' : 's'} — read them in the improved response above.`,
-                  8,
+                  8.5,
                   { color: COLORS.muted }
                 ),
               ],

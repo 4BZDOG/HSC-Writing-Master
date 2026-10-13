@@ -56,7 +56,7 @@ export const MASTHEAD_SUB_GAP_MM = 1.4;
 
 /** Question-card type sizes, shared by the measurer and the drawer. */
 export const QUESTION_EYEBROW_PT = 8;
-export const QUESTION_SUB_PT = 7.5;
+export const QUESTION_SUB_PT = 8;
 /** Between the syllabus trail and the question it orients. */
 export const QUESTION_SUB_GAP_MM = 1.8;
 
@@ -403,6 +403,10 @@ export const measureBlock = (
   }
   const labelExtraMm = meterHeight(block, pScale);
 
+  // A panel is inset on BOTH sides: the text starts `textIndentMm` in from the
+  // frame's left edge and must stop as far short of its right one, or a line
+  // runs into the frame.
+  const bodyWidth = columnWidth - textIndentMm * (block.panel ? 2 : 1);
   const wrapped: string[][] = [];
   const wrappedRich: (InlineSpan[][] | null)[] = [];
   let body = 0;
@@ -412,14 +416,14 @@ export const measureBlock = (
       // Wrapped in the styles it will be DRAWN in, and the plain lines derived
       // from that wrap rather than measured separately — two wraps of the same
       // paragraph would disagree the moment a bold term sat near a line end.
-      const richLines = wrapRich(run.spans, columnWidth - textIndentMm, fontPt, measurer);
+      const richLines = wrapRich(run.spans, bodyWidth, fontPt, measurer);
       wrappedRich.push(richLines);
       wrapped.push(richLines.map(spansToText));
       body += richLines.length * runLineHeight(measurer, run, pScale);
       continue;
     }
     const lines = healOrphanPunctuation(
-      measurer.wrap(run.text, columnWidth - textIndentMm, fontPt, run.style ?? 'normal')
+      measurer.wrap(run.text, bodyWidth, fontPt, run.style ?? 'normal')
     );
     wrappedRich.push(null);
     wrapped.push(lines);
@@ -850,7 +854,7 @@ const minimumHeight = (b: MeasuredBlock): number => {
  * The height of a heading and everything it introduces, up to the next heading.
  *
  * A section is a unit to a reader even though it is many blocks to the engine.
- * Next Steps printing its heading and one tick box at the foot of a column,
+ * Areas for Growth printing its heading and one tick box at the foot of a column,
  * with the other three arriving at the head of the next one above an unrelated
  * card, is correct column-major flow and reads as a rendering fault: three
  * orphaned checkboxes under nothing.
@@ -1076,10 +1080,10 @@ const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page:
     if (ordered[k].block.kind === 'heading' || ordered[k].block.keepWithNext) continue;
     // Nor inside a list. The flow keeps a short section whole
     // (`sectionHeight`), and this pass then undid it: the most even cut on a
-    // one-page report fell between the first and second of three Next Steps,
+    // one-page report fell between the first and second of three growth points,
     // so the heading and one tick box sat at the foot of the left column and
     // the other two headed the right one, above Criteria Breakdown.
-    // (A checklist, not the What Changed pairs: those are list items too, and
+    // (A checklist, not the improved-response pairs: those are list items too, and
     // the cut between one pair and the next is exactly where they may break.)
     if (sameChecklist(ordered[k].block, ordered[k + 1].block)) continue;
     // A spacer at the head of the new column would print as a gap.
