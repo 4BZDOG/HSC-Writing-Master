@@ -150,6 +150,16 @@ test.describe('Comparison before feedback', () => {
       route.fulfill(
         proxyReply({
           ...MARKED_RESPONSE,
+          // Below the total of ANY question. The comparison is only offered while
+          // there is a mark left to gain (a full-mark answer goes straight to the
+          // feedback), and the first question in the bundled curriculum is not
+          // always the same one, so 3/3 here passed or failed with the data order.
+          overallMark: 1,
+          overallBand: 2,
+          criteria: [
+            { criterion: 'Accuracy', mark: 1, maxMark: 2, feedback: 'Steps are correct.' },
+            { criterion: 'Detail', mark: 0, maxMark: 2, feedback: 'Thin on specifics.' },
+          ],
           revisedAnswer: {
             text:
               'DNA replication begins when helicase unwinds the double helix, and DNA polymerase ' +

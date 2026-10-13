@@ -533,7 +533,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
 
         {/* A strip lying on the paper, so it takes the elevated rung of the
             ladder rather than a grey of its own. */}
-        <div className="px-5 sm:px-8 py-2.5 border-y border-slate-200 dark:border-white/10 bg-surface-elevated flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
+        <div className="px-5 sm:px-8 py-2.5 border-y border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
           {comparing && (
             <div
               className="flex items-center gap-0.5 p-0.5 rounded-xl bg-slate-200/70 dark:bg-black/25"
@@ -657,7 +657,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   ] as const
                 ).map(([label, words, side, isRevised]) => (
                   <div key={label}>
-                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
+                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
                       {isRevised && (
                         <span
                           className="w-2 h-2 rounded-full bg-[rgb(var(--band-rgb))]"
@@ -727,7 +727,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {comparing && (
             <aside
               aria-label="What changed and why"
-              className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/10 bg-surface-elevated lg:overflow-y-auto lg:min-h-0 custom-scrollbar px-5 sm:px-6 py-6 flex flex-col gap-7"
+              className="border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] lg:overflow-y-auto lg:min-h-0 custom-scrollbar px-5 sm:px-6 py-6 flex flex-col gap-7"
             >
               {asked.length > 0 && (
                 <section>
@@ -878,7 +878,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             "Back to feedback" when there is not. Everything else is secondary. On a
             phone the primary takes the first full-width row, and the rest share the
             row beneath. */}
-        <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+        <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
           <p className="text-xs text-slate-600 dark:text-slate-400 text-center sm:text-left">
             {continueLabel
               ? // Standing in front of the marking summary, the useful thing to
