@@ -5,7 +5,7 @@ import { useBackdropDismiss } from '../hooks/useBackdropDismiss';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { AICache } from '../services/aiCache';
-import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
+import { renderBriefingText, getBandConfig } from '../utils/renderUtils';
 import { AlertCircle, Target, X, Loader2, ChevronRight, RefreshCw } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -67,7 +67,7 @@ const BriefingText: React.FC<{ text: string }> = ({ text }) => {
     <div className="flex flex-col gap-4 animate-fade-in">
       {lead && (
         <div className="t-body text-[rgb(var(--color-text-secondary))]">
-          {renderFormattedText(lead)}
+          {renderBriefingText(lead)}
         </div>
       )}
       {sections.map((section) => (
@@ -75,7 +75,7 @@ const BriefingText: React.FC<{ text: string }> = ({ text }) => {
           <div className="min-w-0">
             <h4 className={headingClass}>{section.heading}</h4>
             <div className="mt-1 t-body text-[rgb(var(--color-text-secondary))]">
-              {renderFormattedText(section.body)}
+              {renderBriefingText(section.body)}
             </div>
           </div>
         </section>
