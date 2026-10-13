@@ -21,10 +21,20 @@ interface Painted {
   color: [number, number, number];
 }
 
+/** A rule drawn under a line of text: the underline a highlighted span gets. */
+interface Rule {
+  x1: number;
+  x2: number;
+  y: number;
+  color: [number, number, number];
+}
+
 const recordingDoc = () => {
   const painted: Painted[] = [];
+  const underlines: Rule[] = [];
   let style = 'normal';
   let color: [number, number, number] = [0, 0, 0];
+  let drawColor: [number, number, number] = [0, 0, 0];
   const self: Record<string, unknown> = {};
   const chain =
     () =>
@@ -44,7 +54,10 @@ const recordingDoc = () => {
       color = [r, g, b];
       return self as unknown as JsPdfLike;
     },
-    setDrawColor: chain(),
+    setDrawColor: (r: number, g: number, b: number) => {
+      drawColor = [r, g, b];
+      return self as unknown as JsPdfLike;
+    },
     setFillColor: chain(),
     setLineWidth: chain(),
     setLineDashPattern: chain(),
@@ -53,7 +66,10 @@ const recordingDoc = () => {
       painted.push({ text: value, style, color });
       return self as unknown as JsPdfLike;
     },
-    line: chain(),
+    line: (x1: number, y1: number, x2: number) => {
+      underlines.push({ x1, x2, y: y1, color: drawColor });
+      return self as unknown as JsPdfLike;
+    },
     rect: chain(),
     roundedRect: chain(),
     circle: chain(),
@@ -89,7 +105,7 @@ const recordingDoc = () => {
     save: () => {},
   });
 
-  return { doc: self as unknown as JsPdfLike, painted };
+  return { doc: self as unknown as JsPdfLike, painted, underlines };
 };
 
 let current = recordingDoc();
@@ -178,5 +194,32 @@ describe('the exported page is painted in the app’s voice', () => {
     expect(painted.some((p) => p.color.join() === COLORS.keyword.join())).toBe(false);
     // The marker's own emphasis is not a syllabus feature, so it stays.
     expect(painted.some((p) => p.style === 'bold' && p.text === 'analyse')).toBe(true);
+  });
+});
+
+describe('the highlight is printed as an underline, not only as a colour', () => {
+  it('underlines the syllabus terms and the command verb where they are highlighted', async () => {
+    await runExport();
+    const colours = current.underlines.map((r) => r.color.join());
+
+    // Teal in the prose (the response), indigo for the verb: colour and rule.
+    expect(colours).toContain(COLORS.keyword.join());
+    expect(colours).toContain(COLORS.verb.join());
+  });
+
+  it('keeps the marker’s commentary out of teal, with the term underlined in body colour', async () => {
+    await runExport({ studentAnswer: undefined });
+    const colours = current.underlines.map((r) => r.color.join());
+
+    // "latency" is in the commentary. It is underlined, and not in the keyword colour.
+    expect(colours).toContain(COLORS.body.join());
+    expect(colours).toContain(COLORS.verb.join());
+  });
+
+  it('draws no underline when the report carries no keywords and no verb', async () => {
+    await runExport({ keywords: undefined, verb: '' });
+    expect(current.underlines.filter((r) => r.color.join() === COLORS.keyword.join())).toHaveLength(
+      0
+    );
   });
 });

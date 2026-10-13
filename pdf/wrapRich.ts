@@ -20,6 +20,7 @@ interface Chunk {
   text: string;
   style: FontStyle;
   color?: [number, number, number];
+  underline?: boolean;
   kind: 'word' | 'space' | 'break';
 }
 
@@ -34,11 +35,47 @@ const chunksOf = (spans: InlineSpan[]): Chunk[] => {
         text: piece,
         style: span.style,
         color: span.color,
+        ...(span.underline ? { underline: true } : {}),
         kind: piece === '\n' ? 'break' : /^[ \t]+$/.test(piece) ? 'space' : 'word',
       });
     }
   }
   return chunks;
+};
+
+/**
+ * Closing punctuation belongs to the word before it. A bold term followed by a
+ * comma is two chunks with no space between them, and a comma must never open a
+ * line: on paper it reads as a typo.
+ */
+const CLOSING_PUNCTUATION = /^[,.;:!?)\]’”]/;
+
+/**
+ * What the wrap decides between: a word with whatever closing punctuation is
+ * fastened to it (kept as one unit, so it can only break before the whole of
+ * it), a run of spaces, or a line break.
+ */
+type Item = { kind: 'break' } | { kind: 'space'; chunk: Chunk } | { kind: 'word'; chunks: Chunk[] };
+
+const itemsOf = (chunks: Chunk[]): Item[] => {
+  const items: Item[] = [];
+  for (const chunk of chunks) {
+    if (chunk.kind === 'break') {
+      items.push({ kind: 'break' });
+      continue;
+    }
+    if (chunk.kind === 'space') {
+      items.push({ kind: 'space', chunk });
+      continue;
+    }
+    const previous = items[items.length - 1];
+    if (previous?.kind === 'word' && CLOSING_PUNCTUATION.test(chunk.text)) {
+      previous.chunks.push(chunk);
+    } else {
+      items.push({ kind: 'word', chunks: [chunk] });
+    }
+  }
+  return items;
 };
 
 /**
@@ -94,7 +131,8 @@ export const wrapRich = (
     if (
       last &&
       last.style === chunk.style &&
-      (last.color?.join() ?? '') === (chunk.color?.join() ?? '')
+      (last.color?.join() ?? '') === (chunk.color?.join() ?? '') &&
+      !!last.underline === !!chunk.underline
     ) {
       last.text += chunk.text;
     } else {
@@ -102,6 +140,7 @@ export const wrapRich = (
         text: chunk.text,
         style: chunk.style,
         ...(chunk.color ? { color: chunk.color } : {}),
+        ...(chunk.underline ? { underline: true } : {}),
       });
     }
     width += measurer.measure(chunk.text, fontPt, chunk.style);
@@ -114,23 +153,24 @@ export const wrapRich = (
     pending = [];
   };
 
-  for (const chunk of chunksOf(spans)) {
-    if (chunk.kind === 'break') {
+  for (const item of itemsOf(chunksOf(spans))) {
+    if (item.kind === 'break') {
       endLine();
       continue;
     }
-    if (chunk.kind === 'space') {
+    if (item.kind === 'space') {
       // Held back: a run of spaces at a wrap point is discarded rather than
       // indenting the next line.
-      if (line.length > 0) pending.push(chunk);
+      if (line.length > 0) pending.push(item.chunk);
       continue;
     }
 
+    const unit = item.chunks;
     const pendingWidth = pending.reduce(
       (sum, s) => sum + measurer.measure(s.text, fontPt, s.style),
       0
     );
-    const wordWidth = measurer.measure(chunk.text, fontPt, chunk.style);
+    const wordWidth = unit.reduce((sum, c) => sum + measurer.measure(c.text, fontPt, c.style), 0);
 
     if (line.length > 0 && width + pendingWidth + wordWidth > maxWidthMm + 1e-6) {
       endLine();
@@ -140,13 +180,15 @@ export const wrapRich = (
     }
 
     if (wordWidth > maxWidthMm + 1e-6) {
-      const pieces = breakLongWord(chunk, maxWidthMm, fontPt, measurer);
-      pieces.forEach((piece, i) => {
-        if (i > 0) endLine();
-        push(piece);
-      });
+      for (const chunk of unit) {
+        const pieces = breakLongWord(chunk, maxWidthMm, fontPt, measurer);
+        pieces.forEach((piece, i) => {
+          if (i > 0) endLine();
+          push(piece);
+        });
+      }
     } else {
-      push(chunk);
+      unit.forEach(push);
     }
   }
 

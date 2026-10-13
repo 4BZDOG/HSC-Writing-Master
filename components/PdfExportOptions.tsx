@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Check, FileText, Settings2, X } from 'lucide-react';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { MAX_COPIES, PdfExportPreferences } from '../utils/pdfExportPreferences';
 
 /**
@@ -13,6 +14,12 @@ import { MAX_COPIES, PdfExportPreferences } from '../utils/pdfExportPreferences'
  * toolbar, a one-click export is still one click.
  */
 
+/**
+ * A checkbox row. The native input is kept, visually hidden, for the keyboard and
+ * the screen reader; the box drawn beside it takes the focus ring, because the
+ * hidden input has no outline of its own and a keyboard user would otherwise
+ * tab through a list with no sign of where they are.
+ */
 const Row: React.FC<{
   label: string;
   hint: string;
@@ -23,30 +30,31 @@ const Row: React.FC<{
   return (
     <label
       htmlFor={id}
-      className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition-colors"
+      className="flex items-start gap-3 px-3 py-2.5 min-h-11 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition-colors"
     >
+      <input
+        id={id}
+        type="checkbox"
+        className="peer sr-only"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+      />
       <span
-        className={`mt-0.5 w-4 h-4 shrink-0 rounded-lg border flex items-center justify-center transition-all ${
+        className={`mt-0.5 w-4 h-4 shrink-0 rounded-lg border flex items-center justify-center transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-500 ${
           checked
             ? 'bg-indigo-600 border-indigo-600 text-white'
-            : 'border-slate-300 dark:border-white/20'
+            : 'border-slate-500 dark:border-white/30'
         }`}
+        aria-hidden="true"
       >
         {checked && <Check className="w-3 h-3" strokeWidth={3} />}
       </span>
       <span className="min-w-0">
         <span className="block text-xs font-bold text-slate-800 dark:text-slate-100">{label}</span>
-        <span className="block text-[11px] leading-snug text-slate-500 dark:text-slate-400 mt-0.5">
+        <span className="block text-xs leading-snug text-slate-600 dark:text-slate-400 mt-0.5">
           {hint}
         </span>
       </span>
-      <input
-        id={id}
-        type="checkbox"
-        className="sr-only"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
     </label>
   );
 };
@@ -72,10 +80,39 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
   onChange,
   anchorRef,
 }) => {
-  const panelRef = useRef<HTMLDivElement>(null);
   const [anchor, setAnchor] = useState<{ left: number; top: number } | null>(null);
+  /**
+   * The panel is a focus trap of its own while it is open.
+   *
+   * It is portalled to `<body>`, which is outside the evaluation modal, and that
+   * modal holds focus inside itself. Left alone, Tab could never reach the
+   * checkboxes: a keyboard user got a visible focus ring on nothing they could
+   * focus. As an overlay on the stack it is the topmost trap, so it takes focus
+   * on open, keeps Tab inside, and hands focus back to the settings button when
+   * it closes — the same arrangement the modals beneath it already use.
+   */
+  const panelRef = useFocusTrap<HTMLDivElement>(open && anchor !== null);
   const set = <K extends keyof PdfExportPreferences>(key: K, next: PdfExportPreferences[K]) =>
     onChange({ ...value, [key]: next });
+
+  /**
+   * The copy count is typed as text and committed when the field is left.
+   *
+   * An empty field stays empty while it has focus, so a new number can be typed
+   * over the old one. Leaving the field clamps the value to the range the
+   * exporter will render.
+   */
+  const [copiesText, setCopiesText] = useState(String(value.copies));
+  useEffect(() => {
+    setCopiesText(String(value.copies));
+  }, [value.copies]);
+  const commitCopies = () => {
+    const n = Math.floor(Number(copiesText));
+    const clamped =
+      copiesText.trim() !== '' && Number.isFinite(n) ? Math.max(1, Math.min(MAX_COPIES, n)) : 1;
+    setCopiesText(String(clamped));
+    if (clamped !== value.copies) set('copies', clamped);
+  };
 
   /**
    * Anchored with a fixed-position portal rather than positioned inside the
@@ -177,25 +214,26 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
   return createPortal(
     <div
       ref={panelRef}
+      tabIndex={-1}
       role="dialog"
       aria-label="PDF export options"
       style={{ left: anchor.left, top: anchor.top, width: PANEL_WIDTH }}
-      className="fixed z-popover max-w-[calc(100vw-2rem)] p-2 rounded-2xl bg-white dark:bg-[rgb(var(--color-bg-surface-elevated))] border border-slate-200 dark:border-white/10 shadow-lg animate-fade-in text-left"
+      className="fixed z-popover max-w-[calc(100vw-2rem)] p-2 rounded-2xl bg-surface-elevated border border-slate-200 dark:border-white/10 shadow-lg animate-fade-in text-left"
     >
       <div className="flex items-center gap-2 px-3 py-2">
-        <Settings2 className="w-3.5 h-3.5 text-slate-400" />
-        <span className="t-label text-slate-500 dark:text-slate-400">Export options</span>
+        <Settings2 className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" aria-hidden="true" />
+        <span className="t-label text-slate-600 dark:text-slate-400">Export options</span>
         <button
           onClick={onClose}
           aria-label="Close export options"
-          className="ml-auto p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+          className="ml-auto inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:p-1 rounded-lg text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
         >
           <X className="w-3.5 h-3.5" />
         </button>
       </div>
 
       <div className="px-3 py-2">
-        <span className="t-label block text-slate-400 mb-1.5">Paper</span>
+        <span className="t-label block text-slate-600 dark:text-slate-400 mb-1.5">Paper</span>
         <div
           role="group"
           aria-label="Page size"
@@ -213,10 +251,10 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
               onClick={() => set('pageSize', size)}
               aria-pressed={value.pageSize === size}
               title={dims}
-              className={`flex-1 px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all ${
+              className={`flex-1 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 value.pageSize === size
                   ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'
+                  : 'text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white'
               }`}
             >
               {label}
@@ -244,28 +282,31 @@ const PdfExportOptions: React.FC<PdfExportOptionsProps> = ({
         onChange={(v) => set('showFields', v)}
       />
 
-      <div className="flex items-center gap-3 px-3 py-2.5 border-t border-slate-100 dark:border-white/10 mt-1">
-        <FileText className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+      <div className="flex items-center gap-3 px-3 py-2.5 border-t border-slate-200 dark:border-white/10 mt-1">
+        <FileText
+          className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400 shrink-0"
+          aria-hidden="true"
+        />
         <label
           htmlFor="pdf-copies"
           className="text-xs font-bold text-slate-800 dark:text-slate-100"
         >
           Copies
         </label>
-        <span className="text-[11px] text-slate-500 dark:text-slate-400">for a class set</span>
+        <span className="text-xs text-slate-600 dark:text-slate-400">for a class set</span>
         <input
           id="pdf-copies"
           type="number"
+          inputMode="numeric"
           min={1}
           max={MAX_COPIES}
-          value={value.copies}
-          onChange={(e) => {
-            // Clamped on the way in as well as on the way out: a typed "999"
-            // should not become a 999-copy render before it is saved.
-            const n = Math.floor(Number(e.target.value));
-            set('copies', Number.isFinite(n) ? Math.max(1, Math.min(MAX_COPIES, n)) : 1);
+          value={copiesText}
+          onChange={(e) => setCopiesText(e.target.value)}
+          onBlur={commitCopies}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') e.currentTarget.blur();
           }}
-          className="ml-auto w-16 px-2 py-1 rounded-lg text-xs font-bold text-right tabular-nums bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+          className="ml-auto w-16 min-h-11 sm:min-h-0 px-2 py-1 rounded-lg text-base sm:text-xs font-bold text-right tabular-nums bg-slate-100 dark:bg-black/30 border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
         />
       </div>
     </div>,

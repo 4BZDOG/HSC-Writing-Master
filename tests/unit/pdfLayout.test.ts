@@ -3,13 +3,14 @@ import {
   computeGeometry,
   flowBlocks,
   chooseScale,
+  measureBlock,
   measureBlocks,
   planLayout,
   splitOversized,
   columnLeft,
   fullContentWidth,
 } from '../../pdf/layout';
-import { ContentBlock, MeasuredBlock, TextMeasurer } from '../../pdf/types';
+import { ContentBlock, MeasuredBlock, PANEL, TextMeasurer } from '../../pdf/types';
 import { buildEvaluationBlocks, COLORS, EvaluationExportData } from '../../pdf/buildBlocks';
 
 const block = (height: number, kind: MeasuredBlock['kind'] = 'paragraph'): MeasuredBlock => ({
@@ -177,7 +178,7 @@ describe('flowBlocks (column-major)', () => {
   });
 
   it('still balances between one diff pair and the next', () => {
-    // The What Changed rows are list items too, and the break between one
+    // The improved-response rows are list items too, and the break between one
     // pair and the next is exactly where they may go to the other column.
     const pairs = [1, 2, 3, 4].flatMap((n) => [
       { ...block(20, 'listItem'), keepWithNext: true, id: `m${n}` },
@@ -641,13 +642,22 @@ describe('the improved response prints what changed', () => {
     expect(added.every((b) => b.runs.every((r) => r.color === COLORS.added))).toBe(true);
   });
 
-  it('summarises the scale of the revision without grading the student on it', () => {
+  it('words the revision the way the screen does, as words kept', () => {
+    // The same statistic and the same wording as the improvement review, from
+    // utils/diffSummary, so a student reads one number on screen and on paper.
     const summary = withDiff().find((b) => b.id.startsWith('diffsum-'));
 
-    expect(summary?.runs[0].text).toMatch(/\d+ words added · \d+ cut/);
-    // "23% of your own writing kept" is accurate, demoralising, and always low
-    // for a rewrite a band up.
-    expect(summary?.runs[0].text).not.toMatch(/kept/);
+    expect(summary?.runs[0].text).toMatch(/^\d+% of your words kept · \d+ → \d+ words$/);
+    expect(summary?.runs[0].text).not.toMatch(/sentences? rewritten/);
+  });
+
+  it('titles the section in the screen’s words', () => {
+    const titles = withDiff()
+      .filter((b) => b.kind === 'heading')
+      .map((b) => b.runs[0].text);
+
+    expect(titles).toContain('Improved response: what changed');
+    expect(titles).not.toContain('What Changed');
   });
 
   it('says nothing when there is no rewrite to compare', () => {
@@ -695,5 +705,26 @@ describe('the improved response prints what changed', () => {
 
     expect(text).toContain('The dog sat on the mat right there by the door.');
     expect(text).toContain('The cat sat on the extra mat by the door.');
+  });
+});
+
+describe('a panelled block wraps inside both of its insets', () => {
+  it('stops its text short of the frame on the right as well as the left', () => {
+    const block: ContentBlock = {
+      kind: 'paragraph',
+      id: 'panel-para',
+      runs: [{ text: 'word '.repeat(60), baseFontPt: 10 }],
+      fullWidth: true,
+      panel: true,
+      breakable: true,
+    };
+    const measured = measureBlock(block, fakeMeasurer(), 100, 1);
+    // A line wider than this is drawn across the frame's right edge.
+    const room = 100 - 2 * PANEL.padXBaseMm;
+
+    expect(measured.wrapped[0].length).toBeGreaterThan(1);
+    for (const line of measured.wrapped[0]) {
+      expect(line.trimEnd().length).toBeLessThanOrEqual(room);
+    }
   });
 });
