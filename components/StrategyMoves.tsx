@@ -35,25 +35,27 @@ const sectionClass = 'py-4 first:pt-0 last:pb-0';
 
 /** Sentence case, not the tracked caps `.t-section` gives: these are the parts of
  *  one answer, and the caps read as a list of separate panels. The writing area
- *  keeps `.t-section` because it sits in a smaller card with a caption above it. */
-const SCALES = {
-  sheet: {
-    Heading: 'h4',
-    subheading: 'text-sm font-semibold text-[rgb(var(--color-text-primary))]',
-    lead: 'pt-0.5 t-body text-[rgb(var(--color-text-primary))]',
-    step: 'pt-1 text-base leading-relaxed text-[rgb(var(--color-text-secondary))]',
-    example: `${PROSE_BLOCK} t-body`,
-    watch: `${PROSE_FLOW} text-base leading-relaxed`,
-  },
-  worked: {
-    Heading: 'h3',
-    subheading: 't-section text-[rgb(var(--color-text-primary))]',
-    lead: 'pt-0.5 text-base leading-relaxed text-[rgb(var(--color-text-primary))]',
-    step: 'pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-secondary))]',
-    example: `${PROSE_FLOW} text-sm leading-relaxed`,
-    watch: `${PROSE_FLOW} text-sm leading-relaxed`,
-  },
-} as const;
+ *  keeps `.t-section` because it sits in a smaller card with a caption above it.
+ *  A function, not a table: the prose constants it reads are imports, and an
+ *  import read at module init can sit on a chunk cycle. */
+const scaleFor = (variant: StrategyMovesVariant) =>
+  variant === 'worked'
+    ? {
+        Heading: 'h3' as const,
+        subheading: 't-section text-[rgb(var(--color-text-primary))]',
+        lead: 'pt-0.5 text-base leading-relaxed text-[rgb(var(--color-text-primary))]',
+        step: 'pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-secondary))]',
+        example: `${PROSE_FLOW} text-sm leading-relaxed`,
+        watch: `${PROSE_FLOW} text-sm leading-relaxed`,
+      }
+    : {
+        Heading: 'h4' as const,
+        subheading: 'text-sm font-semibold text-[rgb(var(--color-text-primary))]',
+        lead: 'pt-0.5 t-body text-[rgb(var(--color-text-primary))]',
+        step: 'pt-1 text-base leading-relaxed text-[rgb(var(--color-text-secondary))]',
+        example: `${PROSE_BLOCK} t-body`,
+        watch: `${PROSE_FLOW} text-base leading-relaxed`,
+      };
 
 /**
  * How a verb's tip is laid out, as the four parts a student works through:
@@ -74,7 +76,7 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
 }) => {
   const config = getBandConfig(band);
   const bandStyle = ladderBandVars(band);
-  const scale = SCALES[variant];
+  const scale = scaleFor(variant);
   const { Heading } = scale;
 
   return (

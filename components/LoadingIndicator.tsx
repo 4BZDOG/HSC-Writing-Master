@@ -86,9 +86,6 @@ const TASK_TITLE: Record<AiTaskType, string> = {
   default: 'Working on it',
 };
 
-/** The app's accent: the neutral ink when no band is in play. */
-const DEFAULT_ACCENT = WAIT_INK;
-
 /** Seconds between notes. Long enough to read one twice. */
 const TIP_SECONDS = 9;
 
@@ -195,7 +192,8 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     return acquireAiBusy();
   }, [isError, isAiWait]);
 
-  const accent = !isError && band ? getBandHex(band) : DEFAULT_ACCENT;
+  // With no band in play the ink is the app's accent: a theme token, read at render.
+  const accent = !isError && band ? getBandHex(band) : WAIT_INK;
   const overdue = hasEstimate && elapsed > Math.max(duration * 1.25, duration + 4);
   const progress = Math.min(92, (elapsed / Math.max(1, duration)) * 92);
   const visibleSteps = steps.slice(0, 5);
