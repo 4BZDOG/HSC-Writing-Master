@@ -173,7 +173,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
                     // the fill is what says pressed, and an amber-tinted OFF
                     // state read as half-on.
                     filter.pastHscOnly
-                      ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
+                      ? 'bg-amber-500 text-slate-900 border-amber-400 shadow-sm'
                       : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
                   }`}
                 >

@@ -17,9 +17,18 @@
  * override (see DesignSpec §2, "Which variant to write in new code").
  */
 
-/** The bar itself — a glass rail. Content scrolls under a translucent surface
- *  rather than behind an opaque wall, which is the point of §1's glassmorphism.
- *  Painted on the page background and `AnimatedBackground` beneath it.
+/** The bar itself. Dark keeps the glass: a near-black rail at 70% with a blur, so
+ *  scrolled content softens behind it rather than meeting an opaque wall, which
+ *  is the point of §1's glassmorphism. Painted on the page background and
+ *  `AnimatedBackground` beneath it.
+ *
+ *  Light is paper. It was `bg-white/80` with the same blur, and over scrolled
+ *  content that let the verb ribbon's type ghost through the wordmark: 20% of
+ *  whatever sits beneath, blurred, is still enough to read as a second line of
+ *  "BAND 6". So the light rail is the paper rung itself, opaque, with the
+ *  hairline and `shadow-sm` doing the separating a translucent edge used to do.
+ *  It also drops the blur in light, which is one fewer backdrop layer repainting
+ *  under the reader's thumb on iOS (see the WebKit notes in `index.css`).
  *
  *  `border-slate-300`, where it was `slate-200`. Its dark partner is white at
  *  10% over a near-black page, which is the edge the rail is actually read by
@@ -29,7 +38,7 @@
  *  tuned on one ground cannot be carried to the other unchanged. */
 export const HEADER_BAR =
   'sticky top-0 z-header h-16 flex items-center ' +
-  'bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70 backdrop-blur-2xl ' +
+  'bg-surface dark:bg-[rgb(var(--color-bg-surface))]/70 dark:backdrop-blur-2xl ' +
   'border-b border-slate-300 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
 
@@ -133,9 +142,15 @@ export const HEADER_SUBLABEL =
 /** The square controls that stay on the rail whatever the role: the tools
  *  trigger, help and the theme toggle. On the rail, so they carry the pair; the
  *  resting fill is gone because a glass surface does not need a chip behind
- *  every icon. */
+ *  every icon.
+ *
+ *  44px on a phone, which is the touch target; it was 40px everywhere, and a
+ *  thumb is the only input there. From `sm` up the pointer is precise and 40px
+ *  stays, so the rail is no taller or wider on a laptop than it was. The bar is
+ *  a fixed 64px, so the 44px square fits with ten pixels either side and does
+ *  not change the header's height at any width. */
 export const HEADER_ACTION =
-  'w-10 h-10 flex items-center justify-center rounded-xl transition-colors ' +
+  'w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl transition-colors ' +
   'text-slate-500 hover:text-slate-900 hover:bg-slate-100 ' +
   'dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10';
 

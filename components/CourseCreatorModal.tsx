@@ -358,7 +358,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
               <button
                 type="submit"
                 disabled={!courseName.trim()}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Create Course
               </button>

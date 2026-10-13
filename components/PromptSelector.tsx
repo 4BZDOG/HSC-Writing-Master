@@ -365,7 +365,7 @@ const ActionButton = ({
           : variant === 'special'
             ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
             : variant === 'primary'
-              ? 'bg-gradient-to-r from-indigo-500 to-sky-500 border-transparent text-white shadow-sm'
+              ? 'bg-gradient-to-r from-indigo-600 to-sky-700 border-transparent text-white shadow-sm'
               : variant === 'vault'
                 ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
                 : 'bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
@@ -375,7 +375,7 @@ const ActionButton = ({
     {Icon && <Icon className="w-4 h-4" />}
     {label && <span className="t-label hidden sm:inline whitespace-nowrap">{label}</span>}
     {locked && (
-      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-sm">
+      <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-slate-900 flex items-center justify-center shadow-sm">
         <Lock className="w-2.5 h-2.5" />
       </span>
     )}

@@ -298,7 +298,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
             <button
               onClick={handleRun}
               disabled={isRunning || selected.length === 0}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-sky-500 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-40 flex items-center gap-2"
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-sky-700 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-40 flex items-center gap-2"
             >
               {isRunning ? (
                 <>
