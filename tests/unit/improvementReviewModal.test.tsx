@@ -218,6 +218,25 @@ describe('ImprovementReviewModal', () => {
     expect(screen.getByText('2/3')).toBeTruthy();
   });
 
+  it('gives each inline marker a 44px hit area that does not change the line it sits in', () => {
+    // The pill is about 14px tall on a phone. Its tap target is a 44px square
+    // drawn by an absolutely positioned pseudo-element, so the layout of the
+    // prose is the same with or without it.
+    renderModal({
+      originalAnswer: 'one two three four five six seven eight',
+      improvedAnswer: 'one alpha three four beta six seven gamma',
+    });
+
+    const marker = screen.getByLabelText('Edit 1');
+    expect(marker.className).toContain('relative');
+    expect(marker.className).toContain('after:absolute');
+    expect(marker.className).toContain('after:h-11');
+    expect(marker.className).toContain('after:w-11');
+    expect(marker.className).toContain('after:-translate-x-1/2');
+    // Still the small pill as well: its own size is unchanged.
+    expect(marker.className).toContain('h-[1.4em]');
+  });
+
   it('puts the marker’s advice beside the edits', () => {
     renderModal({ markerAsked: ['Name the effect on latency.', '  '] });
 
