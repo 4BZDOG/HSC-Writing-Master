@@ -178,6 +178,31 @@ describe('HowToAnswer', () => {
     });
   });
 
+  describe('the row on the writing well', () => {
+    // The row is the first thing under the writing card's header. It used to be
+    // paper-coloured with a neutral hairline, which read as a white strip
+    // between the saturated header and the grey well. What is pinned here is the
+    // structure that stops that: the well's ground, and one band-tinted rule.
+    it('sits on the well token, with no paper ground and no neutral rule', () => {
+      const { container } = render(<Harness verb={'DESCRIBE' as PromptVerb} />);
+      const row = container.firstElementChild as HTMLElement;
+
+      expect(row.className).toContain('bg-[rgb(var(--color-bg-surface-inset))]');
+      expect(row.className).not.toMatch(/(^|\s)bg-white(\s|$)/);
+      expect(row.className).not.toContain('light:bg-white');
+      expect(row.className).not.toContain('border-secondary');
+    });
+
+    it('draws its one rule in the verb tier, through the band system', () => {
+      const { container } = render(<Harness verb={'DESCRIBE' as PromptVerb} />);
+      const row = container.firstElementChild as HTMLElement;
+
+      expect(row.className).toContain('band-edge');
+      expect(row.className).toContain('border-t');
+      expect(row.getAttribute('style') ?? '').toContain('--band-rgb');
+    });
+  });
+
   describe('sentence shape', () => {
     it('sets a template as a quotation', () => {
       render(<Harness verb={'COMPARE' as PromptVerb} initiallyOpen />);

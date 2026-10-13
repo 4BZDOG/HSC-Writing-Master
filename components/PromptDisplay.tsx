@@ -39,6 +39,7 @@ import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import {
+  CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
   CARD_HEADER_ICON,
@@ -1034,7 +1035,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
-            className="relative z-10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-[rgb(var(--color-bg-surface-inset))]/60 border-t border-white/10 light:border-slate-300 px-4 sm:px-6 py-3 flex items-center backdrop-blur-sm mt-auto flex-shrink-0 rounded-b-surface-inner"
+            className={`${CARD_FOOTER_BOX} relative z-10 flex items-center mt-auto`}
             style={{ minHeight: minFooterHeight || 52 }}
           >
             {/* Inner wrapper carries the row layout so its height stays
