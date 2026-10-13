@@ -626,10 +626,13 @@ export const getTierBandConfig = (tier: number): BandConfig =>
  * colours. That component is gone; this is the scale it meant.
  *
  * Use this when displaying the tier LADDER itself (tier cards, tier pickers,
- * the cognitive timeline) where every tier must be visually distinct. The
- * band-target mapping above collapses Tiers 5 and 6 into the same purple and
- * shifts Tier 1 to orange, because several tiers share a target band — right
- * for colouring a question, wrong for telling tiers apart.
+ * the cognitive timeline) where every tier must be visually distinct.
+ *
+ * Today the two agree for every tier 1–6: `getTierTargetBand` returns the tier
+ * itself, so Tier 5 is Band 5 and Tier 1 is Band 1. The split is kept so a call
+ * site says which of the two it means. If a tier ever targets a different band
+ * from its own number, this is the one that keeps the tiers apart, and
+ * `getTierBandConfig` is the one that colours a question at that tier.
  */
 export const getTierScaleConfig = (tier: number): BandConfig =>
   getBandConfig(Math.max(1, Math.min(6, Math.round(tier))));

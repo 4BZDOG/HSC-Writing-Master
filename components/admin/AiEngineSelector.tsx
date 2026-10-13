@@ -29,7 +29,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
 
   return (
     <div className={className}>
-      <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 flex items-center gap-2">
+      <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-2 flex items-center gap-2">
         <Cpu className="w-3.5 h-3.5" />
         AI Engine
       </div>
@@ -38,7 +38,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
           const selectedDead = isModelQuotaDead(getModelById(selection[role])?.model ?? '');
           return (
             <label key={role} className="block">
-              <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+              <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                 {ROLE_LABELS[role]}
               </span>
               <select
@@ -64,7 +64,7 @@ const AiEngineSelector: React.FC<{ className?: string }> = ({ className = '' }) 
           );
         })}
       </div>
-      <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))] light:text-slate-500">
+      <p className="mt-2 text-[9px] leading-relaxed text-[rgb(var(--color-text-dim))] light:text-slate-600">
         Applies to new requests. Non-Gemini engines require their server-side API key.
       </p>
     </div>

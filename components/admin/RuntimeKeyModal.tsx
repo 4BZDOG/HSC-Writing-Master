@@ -22,6 +22,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import AiEngineSelector from './AiEngineSelector';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 interface RuntimeKeyModalProps {
   isOpen: boolean;
@@ -91,7 +92,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
   const inputType = reveal ? 'text' : 'password';
   const fieldClass =
-    'w-full text-sm rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 pr-10 font-mono outline-none focus:border-[rgb(var(--color-accent))]/60';
+    'w-full text-sm rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 pr-10 font-mono outline-none focus:border-[rgb(var(--color-accent))]/60';
 
   return createPortal(
     <div
@@ -104,11 +105,13 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">
+        <div
+          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+        >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 shadow-lg flex items-center justify-center">
               <KeyRound className="w-6 h-6 text-white" />
@@ -117,7 +120,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 Runtime AI Keys
               </h2>
-              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 Paste a provider key to test the models without a restart
               </p>
             </div>
@@ -132,9 +135,9 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-5">
+        <div className="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-5 light:bg-surface-inset">
           {/* Warning */}
-          <div className="flex gap-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-500 light:text-amber-700">
+          <div className="flex gap-3 p-3 rounded-xl bg-amber-500/10 light:bg-amber-50 border border-amber-500/30 light:border-amber-300 text-amber-500 light:text-amber-700">
             <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5" />
             <p className="text-xs leading-relaxed">
               For <strong>testing only</strong>. The key is held in this browser tab
@@ -149,14 +152,14 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Reveal toggle — applies to all key fields at once */}
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="text-xs font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600">
               API Keys
             </span>
             <button
               type="button"
               onClick={() => setReveal((r) => !r)}
               aria-label={reveal ? 'Hide keys' : 'Show keys'}
-              className="flex items-center gap-1.5 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
+              className="flex items-center gap-1.5 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
             >
               {reveal ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
               {reveal ? 'Hide all' : 'Show all'}
@@ -165,10 +168,10 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Gemini */}
           <label className="block">
-            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600">
               Gemini API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-600">
               current: {maskKey(current.gemini)}
             </span>
             <div className="relative mt-1">
@@ -186,10 +189,10 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Anthropic */}
           <label className="block">
-            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600">
               Anthropic (Claude) API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-600">
               optional · current: {maskKey(current.anthropic)}
             </span>
             <div className="relative mt-1">
@@ -207,10 +210,10 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* OpenRouter */}
           <label className="block">
-            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600">
               OpenRouter API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-600">
               optional · current: {maskKey(current.openrouter)}
             </span>
             <div className="relative mt-1">
@@ -224,7 +227,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 className={fieldClass}
               />
             </div>
-            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
               One key runs GLM, DeepSeek, Qwen, Llama and more —
               <a
                 href="https://openrouter.ai/keys"
@@ -239,10 +242,10 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Groq */}
           <label className="block">
-            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600">
               Groq API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-600">
               optional · current: {maskKey(current.groq)}
             </span>
             <div className="relative mt-1">
@@ -256,7 +259,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 className={fieldClass}
               />
             </div>
-            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
               Free, ultra-fast Llama and Gemma —
               <a
                 href="https://console.groq.com/keys"
@@ -271,10 +274,10 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
           {/* Kimi */}
           <label className="block">
-            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600">
               Kimi (Moonshot AI) API key
             </span>
-            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="ml-2 text-[10px] font-mono text-[rgb(var(--color-text-dim))] light:text-slate-600">
               optional · current: {maskKey(current.kimi)}
             </span>
             <div className="relative mt-1">
@@ -288,7 +291,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 className={fieldClass}
               />
             </div>
-            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="mt-1 flex items-center gap-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
               K3 reasoning model —
               <a
                 href="https://platform.kimi.ai/"
@@ -305,7 +308,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
               key drives. Also mirrored in the API telemetry widget (bottom-right). */}
           <div className="pt-4 border-t border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200">
             <AiEngineSelector />
-            <p className="mt-2 flex gap-1.5 items-start text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <p className="mt-2 flex gap-1.5 items-start text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
               <Cpu className="w-3 h-3 shrink-0 mt-0.5" />
               <span>
                 Gemini, Claude, Kimi, Groq and the OpenRouter open models all appear here once their
@@ -316,17 +319,17 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between gap-3">
+        <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-elevated flex items-center justify-between gap-3">
           <button
             onClick={handleClear}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] text-xs font-bold transition-all"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] text-xs font-bold transition-all"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear
           </button>
           <button
             onClick={handleSave}
-            className="t-label flex items-center gap-2 px-5 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all"
+            className="t-label flex items-center gap-2 px-5 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 light:bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all"
           >
             <Check className="w-3.5 h-3.5" />
             Save Keys

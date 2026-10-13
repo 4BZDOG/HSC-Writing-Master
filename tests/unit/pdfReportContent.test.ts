@@ -127,13 +127,14 @@ describe('the report says what it means', () => {
 
   // The next steps are a list of things to do, so they are drawn as boxes to
   // tick. Strong evidence is a list of things already done, so it is not.
-  it('makes the next steps tickable and leaves the strengths as bullets', () => {
+  it('makes the areas for growth tickable and leaves the strengths as bullets', () => {
     const blocks = buildEvaluationBlocks(data());
     const items = blocks.filter((b) => b.kind === 'listItem');
 
     expect(items.filter((b) => b.checkbox)).toHaveLength(2);
     expect(items.filter((b) => !b.checkbox)).toHaveLength(1);
-    expect(find(blocks, (b) => /next steps/i.test(b.runs[0]?.text ?? ''))).toBeTruthy();
+    // The screen's own heading. "Next Steps" named the action and not the list.
+    expect(find(blocks, (b) => /areas for growth/i.test(b.runs[0]?.text ?? ''))).toBeTruthy();
   });
 
   it('leaves ruled space for a marker only when asked', () => {

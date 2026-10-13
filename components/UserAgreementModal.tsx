@@ -30,6 +30,11 @@ import { useScrollLock } from '../hooks/useScrollLock';
  *
  * A blocking gate always keeps an exit — "Sign out" — because a dialog with no
  * way past it and no way back is a trap, not a consent flow.
+ *
+ * Ladder: the dialog is paper, each charter promise is a well cut into it, and
+ * the documents toggle is a strip. The header keeps its colour, because this is
+ * the one screen every student meets first, and it is set to the AA tones of the
+ * quick-start hero so its text reads on a bright monitor.
  */
 
 interface UserAgreementModalProps {
@@ -100,13 +105,13 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
       <div
         ref={dialogRef}
         tabIndex={-1}
-        className="clip-stable w-full max-w-2xl rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
+        className="clip-stable w-full max-w-2xl rounded-surface bg-[rgb(var(--color-bg-surface))] border border-white/10 light:border-slate-300 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
       >
         {/* Header */}
-        <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-600 via-indigo-500 to-sky-500 text-white overflow-hidden shrink-0">
+        <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-700 via-indigo-600 to-sky-700 text-white overflow-hidden shrink-0">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
           <div className="relative z-10">
-            <span className="t-label text-white/75 block">
+            <span className="t-label text-white/85 block">
               {charter.eyebrow} · v{AGREEMENT_VERSION}
             </span>
             <h2
@@ -115,7 +120,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             >
               {heading}
             </h2>
-            <p className="text-sm text-white/85 leading-relaxed mt-2 max-w-lg font-medium">
+            <p className="text-sm text-white/90 leading-relaxed mt-2 max-w-lg font-medium">
               {lede}
             </p>
           </div>
@@ -125,7 +130,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
           {/* What changed — only ever shown to someone who accepted an
               earlier version, and only when we can actually say what moved. */}
           {returning && changes.length > 0 && (
-            <div className="mb-6 rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200 p-4">
+            <div className="mb-6 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300 p-4">
               <span className="t-label text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
                 <History className="w-3.5 h-3.5" /> What changed
               </span>
@@ -134,7 +139,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
                   change.summary.map((line, i) => (
                     <li
                       key={`${change.version}-${i}`}
-                      className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 flex gap-2.5"
+                      className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] flex gap-2.5"
                     >
                       <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-amber-500" />
                       <span>{line}</span>
@@ -145,7 +150,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             </div>
           )}
 
-          {/* The charter itself */}
+          {/* The charter itself. Each promise is a well cut into the paper. */}
           <ul className="space-y-3">
             {charter.promises.map((promise) => {
               const Icon = CHARTER_ICONS[promise.icon];
@@ -154,24 +159,24 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
                   key={promise.title}
                   className={`flex items-start gap-4 p-4 rounded-2xl border transition-colors ${
                     promise.emphasis
-                      ? 'bg-amber-400/[0.06] light:bg-amber-50 border-amber-400/25 light:border-amber-200'
-                      : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200'
+                      ? 'bg-amber-400/[0.06] light:bg-amber-100/60 border-amber-400/25 light:border-amber-300'
+                      : 'bg-white/[0.03] light:bg-surface-inset border-white/5 light:border-slate-300'
                   }`}
                 >
                   <div
                     className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center ${
                       promise.emphasis
-                        ? 'bg-amber-400/15 text-amber-500'
+                        ? 'bg-amber-400/15 text-amber-500 light:text-amber-700'
                         : 'bg-indigo-500/10 text-indigo-400 light:text-indigo-600'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">
-                    <h3 className="text-[13px] font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-snug">
+                    <h3 className="text-[13px] font-black text-[rgb(var(--color-text-primary))] leading-snug">
                       {promise.title}
                     </h3>
-                    <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-1">
+                    <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-1">
                       {promise.body}
                     </p>
                   </div>
@@ -181,30 +186,30 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
           </ul>
 
           {/* The binding documents, in the same dialog so reading them never
-              costs you your place in the flow. */}
-          <div className="mt-5 rounded-2xl border border-white/5 light:border-slate-200 overflow-hidden">
+              costs you your place in the flow. The toggle is a strip. */}
+          <div className="mt-5 rounded-2xl border border-white/5 light:border-slate-300 overflow-hidden">
             <button
               onClick={() => setShowDocuments((open) => !open)}
               aria-expanded={showDocuments}
-              className="w-full flex items-center gap-3 px-4 py-3.5 bg-white/[0.03] light:bg-slate-50 hover:bg-white/[0.06] light:hover:bg-slate-100 transition-colors text-left"
+              className="w-full flex items-center gap-3 px-4 py-3.5 bg-white/[0.03] light:bg-surface-elevated hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
             >
               <ScrollText className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
               <span className="flex-1 min-w-0">
-                <span className="t-label block text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                <span className="t-label block text-[rgb(var(--color-text-primary))]">
                   Read the full Terms of Use and Privacy Notice
                 </span>
-                <span className="block text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5 font-medium">
+                <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
                   The charter above is a summary. These are the documents you are agreeing to.
                 </span>
               </span>
               {showDocuments ? (
-                <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                <ChevronUp className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                <ChevronDown className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
               )}
             </button>
             {showDocuments && (
-              <div className="p-4 border-t border-white/5 light:border-slate-200 animate-fade-in">
+              <div className="p-4 border-t border-white/5 light:border-slate-300 animate-fade-in">
                 <LegalDocumentReader scrollAreaClassName="max-h-[40vh]" />
               </div>
             )}
@@ -212,24 +217,24 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
 
           {/* Consent */}
           {blocking ? (
-            <label className="mt-6 flex items-start gap-3 p-4 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-50 border border-indigo-500/25 light:border-indigo-200 cursor-pointer select-none">
+            <label className="mt-6 flex items-start gap-3 p-4 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-100/60 border border-indigo-500/25 light:border-indigo-300 cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
                 className="mt-0.5 w-4 h-4 shrink-0 rounded-lg accent-indigo-500 cursor-pointer"
               />
-              <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 leading-relaxed">
+              <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] leading-relaxed">
                 {charter.acceptLabel}, including the Terms of Use and Privacy Notice.
                 {user.role === 'user' && (
-                  <span className="block font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-1">
+                  <span className="block font-medium text-[rgb(var(--color-text-secondary))] mt-1">
                     If you are under 18, read this with a parent, carer or teacher first.
                   </span>
                 )}
               </span>
             </label>
           ) : (
-            <p className="mt-6 text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed p-4 rounded-2xl bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200">
+            <p className="mt-6 text-xs text-[rgb(var(--color-text-secondary))] leading-relaxed p-4 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300">
               You are browsing as a guest, so there is nothing to sign — nothing you do is saved to
               our servers. Make an account when you want your work and progress kept.
             </p>
@@ -256,14 +261,14 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             {blocking && (
               <button
                 onClick={onLogout}
-                className="t-label px-5 py-3.5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 text-[rgb(var(--color-text-secondary))] light:text-slate-600 border border-white/5 light:border-slate-200 hover:bg-white/10 light:hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
+                className="t-label px-5 py-3.5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all flex items-center justify-center gap-2"
               >
                 <LogOut className="w-3.5 h-3.5" /> Sign out
               </button>
             )}
           </div>
 
-          <p className="mt-3 text-center text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+          <p className="mt-3 text-center text-xs text-[rgb(var(--color-text-muted))]">
             {LEGAL_CONFIG.productName} · You can re-read this any time from your profile.
           </p>
         </div>

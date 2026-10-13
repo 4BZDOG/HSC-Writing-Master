@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { useBackdropDismiss } from '../hooks/useBackdropDismiss';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { AICache } from '../services/aiCache';
-import {
-  renderFormattedText,
-  getBandRgb,
-  getTierScaleConfig,
-  BAND_HEX,
-} from '../utils/renderUtils';
+import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { AlertCircle, Target, X, Loader2, ChevronRight, RefreshCw } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -17,7 +13,17 @@ import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { isFeatureLocked, planLabelForFeature } from '../services/entitlements';
 import { ContentLockOverlay, PlusLockChip } from './UpgradeModal';
 import type { PromptVerb } from '../types';
-import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
+import { PROSE_BLOCK } from '../utils/prose';
+import { parseOutcomeBriefing } from '../utils/outcomeBriefing';
+import { yearShortLabel } from '../utils/syllabusYear';
+import {
+  HERO_HEAD_WASH,
+  HERO_TILE,
+  LADDER_NOTE,
+  LADDER_SOLID,
+  LADDER_TOOL,
+} from '../utils/ladderChrome';
+import { ladderBandVars } from './LadderRow';
 
 interface OutcomeDetailModalProps {
   isOpen: boolean;
@@ -40,6 +46,37 @@ type ExplanationState =
   | { status: 'ready'; text: string }
   | { status: 'error'; message: string };
 
+const headingClass = 'text-sm font-semibold text-[rgb(var(--color-text-primary))]';
+const sectionClass = 'mt-7 first:mt-0';
+
+/**
+ * The briefing, set as its own blocks: one per heading the model wrote, each with
+ * a rule down its left edge, the way the ladder sets a note. Text the model
+ * wrote without headings is kept whole, above the blocks, rather than dropped.
+ */
+const BriefingText: React.FC<{ text: string }> = ({ text }) => {
+  const { lead, sections } = useMemo(() => parseOutcomeBriefing(text), [text]);
+  return (
+    <div className="flex flex-col gap-4 animate-fade-in">
+      {lead && (
+        <div className="t-body text-[rgb(var(--color-text-secondary))]">
+          {renderFormattedText(lead)}
+        </div>
+      )}
+      {sections.map((section) => (
+        <section key={section.heading} className={LADDER_NOTE}>
+          <div className="min-w-0">
+            <h4 className={headingClass}>{section.heading}</h4>
+            <div className="mt-1 t-body text-[rgb(var(--color-text-secondary))]">
+              {renderFormattedText(section.body)}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+};
+
 const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   isOpen,
   onClose,
@@ -57,6 +94,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   // same topmost-only arbitration.
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
+  const backdrop = useBackdropDismiss(onClose);
 
   const [activeCode, setActiveCode] = useState(initialCode ?? outcomes[0]?.code);
   // Keyed by outcome code. An explanation costs an AI call, so once fetched it
@@ -76,13 +114,14 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   );
   const activeOutcome = outcomes[activeIndex];
 
-  const bandConfig = useMemo(() => getTierScaleConfig(tier), [tier]);
   const verbInfo = useMemo(() => (verb ? getCommandTermInfo(verb) : null), [verb]);
+  // The band this question reaches at full marks. It colours the whole brief, so
+  // the head, the verb chip and the ladder notes agree with the question's card.
   const targetBand = useMemo(
     () => (totalMarks && verbInfo ? getTargetBand(totalMarks, verbInfo.tier) : tier),
     [totalMarks, verbInfo, tier]
   );
-  const bandHex = BAND_HEX[targetBand as keyof typeof BAND_HEX] || BAND_HEX[3];
+  const bandConfig = useMemo(() => getBandConfig(targetBand), [targetBand]);
 
   // Identity-independent key for the tab set. `outcomes` is rebuilt by its
   // parent's useMemo, so depending on the array itself would reset the modal on
@@ -141,6 +180,9 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
         // student the briefing they already have on screen.
         void AICache.set(key, text);
       } catch (err) {
+        // The message is kept for the record, but it is not shown: a service
+        // error reads as a fault in the student's device, and the panel says
+        // what happened in plain words instead.
         const message = err instanceof Error ? err.message : 'Could not fetch explanation.';
         setExplanations((prev) => ({ ...prev, [outcome.code]: { status: 'error', message } }));
       }
@@ -182,64 +224,66 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
 
   const state: ExplanationState = explanations[activeOutcome.code] ?? { status: 'idle' };
   const hasTabs = outcomes.length > 1;
+  const year = activeOutcome.year ? yearShortLabel(activeOutcome.year) : null;
+  const caption = [
+    hasTabs ? `Outcome ${activeIndex + 1} of ${outcomes.length}` : 'Syllabus outcome',
+    year,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return createPortal(
     <div
       className="fixed inset-0 bg-black/60 light:bg-black/40 backdrop-blur-sm flex items-center justify-center z-modal p-4 sm:p-6"
-      onClick={onClose}
+      {...backdrop}
     >
       <div
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
-        aria-label={`Syllabus outcome ${activeOutcome.code}`}
+        aria-labelledby="outcome-brief-title"
         // `max-w-xl`, not `2xl`. The briefing ran 95-100 characters against
         // DesignSpec §4's measure rule, and the whole dialog is a reading
         // surface — question, outcome statement, briefing — so the container is
         // the thing that was too wide. §4 also records that capping the text
         // inside a wide card was tried elsewhere and reverted: it reads as a
         // defect rather than a margin. At 576px the briefing measures ~77.
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg light:shadow-lg w-full max-w-xl border border-white/10 light:border-slate-200 animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        style={ladderBandVars(targetBand)}
+        className="clip-stable w-full max-w-xl max-h-[90vh] flex flex-col rounded-surface border-2 band-edge bg-surface shadow-lg animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div
-          className={`px-5 sm:px-6 pt-4 ${hasTabs ? 'pb-0' : 'pb-4'} border-b border-white/10 light:border-slate-200 bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0`}
+        {/* The head stays put while the body scrolls. Its tabs sit on its bottom
+            edge, so the selected one opens onto the body beneath it. */}
+        <header
+          className={`${HERO_HEAD_WASH} flex-shrink-0 px-5 sm:px-6 pt-5 ${hasTabs ? 'pb-0' : 'pb-5'} border-b border-[rgb(var(--color-border-secondary))]`}
         >
-          <div
-            className="absolute inset-0 opacity-[0.06] mix-blend-overlay pointer-events-none"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10 gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center border border-white/20 flex-shrink-0">
-                <Target className="w-5 h-5 text-white" />
-              </div>
-              <div className="min-w-0">
-                <h2 className="text-lg font-black text-white tracking-tight leading-tight">
-                  {activeOutcome.code}
-                </h2>
-                <p className="t-label text-white/60 mt-0.5">
-                  {hasTabs
-                    ? `Outcome ${activeIndex + 1} of ${outcomes.length}`
-                    : 'Syllabus Outcome'}
-                </p>
-              </div>
+          <div className="flex items-start gap-4">
+            <div aria-hidden="true" className={`${HERO_TILE} ${LADDER_SOLID}`}>
+              <Target className="w-5 h-5" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="t-label text-[rgb(var(--color-text-muted))]">{caption}</p>
+              <h2
+                id="outcome-brief-title"
+                className="t-display mt-1 text-3xl uppercase italic leading-none tracking-tight text-[rgb(var(--color-text-primary))]"
+              >
+                {activeOutcome.code}
+              </h2>
             </div>
             <button
+              type="button"
               onClick={onClose}
               aria-label="Close"
-              className="w-8 h-8 rounded-lg bg-white/15 hover:bg-white/25 transition-colors flex items-center justify-center flex-shrink-0"
+              className="flex-shrink-0 flex items-center justify-center min-h-11 min-w-11 rounded-lg text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <X className="w-4 h-4 text-white" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
 
-          {/* One tab per linked outcome. A tick marks the ones already
-              analysed, so it is obvious which are ready to compare. */}
+          {/* One tab per linked outcome. A dot marks the ones already analysed,
+              so it is obvious which are ready to compare. Only the selected tab
+              names a panel, because only that panel is in the page. */}
           {hasTabs && (
             <div
               role="tablist"
@@ -256,26 +300,26 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                     ref={(el) => {
                       tabRefs.current[outcome.code] = el;
                     }}
+                    type="button"
                     role="tab"
                     id={`outcome-tab-${outcome.code}`}
                     aria-selected={isActive}
-                    aria-controls={`outcome-panel-${outcome.code}`}
+                    aria-controls={isActive ? `outcome-panel-${outcome.code}` : undefined}
                     tabIndex={isActive ? 0 : -1}
-                    title={outcome.description}
                     onClick={() => setActiveCode(outcome.code)}
-                    className={`px-3.5 py-2 rounded-t-xl text-xs font-black tracking-tight whitespace-nowrap transition-all flex items-center gap-1.5 border-b-2 ${
+                    className={`min-h-11 sm:min-h-0 sm:h-9 px-4 rounded-t-xl text-sm font-bold whitespace-nowrap inline-flex items-center gap-1.5 border border-b-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent ${
                       isActive
-                        ? 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-[rgb(var(--color-text-primary))] light:text-slate-900 border-transparent shadow-sm'
-                        : 'text-white/70 hover:text-white hover:bg-white/10 border-transparent'
+                        ? 'bg-[rgb(var(--color-bg-surface))] border-[rgb(var(--color-border-secondary))] text-[rgb(var(--color-text-primary))]'
+                        : 'border-transparent text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))]/60'
                     }`}
                   >
                     {outcome.code}
                     {outcomeState?.status === 'loading' && (
-                      <Loader2 className="w-3 h-3 animate-spin opacity-70" />
+                      <Loader2 className="w-3 h-3 animate-spin opacity-70" aria-hidden="true" />
                     )}
                     {outcomeState?.status === 'ready' && !isActive && (
                       <span
-                        className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                        className="w-1.5 h-1.5 rounded-full bg-emerald-500"
                         aria-hidden="true"
                       />
                     )}
@@ -287,101 +331,84 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               })}
             </div>
           )}
-        </div>
+        </header>
 
-        {/* Body — a reading document, not a stack of cards.
-          It was four bordered blocks of equal weight: the question, the
-          outcome statement, the briefing and the footer. Nothing said which of
-          them a student had come here to read. Now the question frames, the
-          outcome statement is the one tinted thing on the page, and the
-          briefing is prose under it. */}
+        {/* Body: the question this outcome is read against, the outcome itself,
+            then the briefing. */}
         <div
           role="tabpanel"
           id={`outcome-panel-${activeOutcome.code}`}
           aria-labelledby={`outcome-tab-${activeOutcome.code}`}
-          className="px-5 sm:px-6 py-5 overflow-y-auto flex-1"
+          tabIndex={0}
+          className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 pb-8"
         >
-          {/* The question this outcome is being read against. */}
-          {breadcrumb && breadcrumb.length > 0 && (
-            <div className="flex items-center gap-1 mb-2 flex-wrap">
-              {breadcrumb.map((crumb, i) => (
-                <React.Fragment key={i}>
-                  {i > 0 && (
-                    <ChevronRight className="w-3 h-3 text-[rgb(var(--color-text-dim))] light:text-slate-500 flex-shrink-0" />
-                  )}
-                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500 truncate max-w-[140px]">
-                    {crumb}
-                  </span>
-                </React.Fragment>
-              ))}
-            </div>
-          )}
-          {/* The question, balanced: it is a single sentence read as one unit,
-              and set against the outcome statement below it — which is also
-              balanced — an even rag is what makes the two read as a pair. */}
-          <p
-            className={`text-sm font-semibold ${PROSE_BLOCK} text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-snug`}
-          >
-            {question}
-          </p>
-          {verb && totalMarks && (
-            <div className="flex items-center gap-2 mt-2">
-              <span
-                className="t-label px-2 py-0.5 rounded-lg text-white"
-                style={{ backgroundColor: bandHex }}
-              >
-                {verbInfo?.term || verb}
-              </span>
-              <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                {totalMarks} {totalMarks === 1 ? 'mark' : 'marks'} · Band {targetBand}
-              </span>
-            </div>
-          )}
+          <div className="rounded-xl bg-[rgb(var(--color-bg-surface-inset))] px-4 py-3.5">
+            {breadcrumb && breadcrumb.length > 0 && (
+              <div className="flex items-center gap-1 mb-2 flex-wrap">
+                {breadcrumb.map((crumb, i) => (
+                  <React.Fragment key={i}>
+                    {i > 0 && (
+                      <ChevronRight
+                        className="w-3 h-3 text-[rgb(var(--color-text-dim))] flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className="t-label text-[rgb(var(--color-text-dim))] truncate max-w-[140px]">
+                      {crumb}
+                    </span>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+            <p
+              className={`text-sm sm:text-base font-semibold ${PROSE_BLOCK} leading-snug text-[rgb(var(--color-text-primary))]`}
+            >
+              {question}
+            </p>
+            {verb && totalMarks ? (
+              <div className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                <span className={`t-label px-2 py-0.5 rounded-lg ${LADDER_SOLID}`}>
+                  {verbInfo?.term || verb}
+                </span>
+                <span className="t-label text-[rgb(var(--color-text-muted))]">
+                  {totalMarks} {totalMarks === 1 ? 'mark' : 'marks'} · Band {targetBand}
+                </span>
+              </div>
+            ) : null}
+          </div>
 
-          <div
-            aria-hidden="true"
-            className="my-5 h-px bg-[rgb(var(--color-border-secondary))] light:bg-slate-200"
-          />
-
-          {/* The outcome statement, and the only tinted thing in the dialog.
-              Its heading used to read "What Students Must Demonstrate" — a
-              label written in the third person to the one person reading it,
-              set above the sentence it was describing. The heading now says
-              whose job this is, which the syllabus wording beneath it cannot:
-              NESA writes about students, and the reader IS the student.
-
-              Set in Newsreader because it is quoted verbatim from the
-              syllabus, in the same face the writing surface and the exemplars
-              use for the exam paper's own voice. */}
-          <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500">
-            What you have to show
-          </h3>
-          <p
-            style={{ '--band-rgb': getBandRgb(tier) } as React.CSSProperties}
-            className={`mt-2.5 rounded-xl border band-edge ${bandConfig.bg} px-4 py-3.5 font-serif italic ${PROSE_BLOCK} text-base sm:text-lg leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-800`}
-          >
-            {activeOutcome.description}
-          </p>
+          {/* The outcome statement, quoted from the syllabus and set in the face
+              the exam paper uses, so it reads as the source and not as advice.
+              Its heading says whose job this is, which the wording beneath it
+              cannot: NESA writes about students, and the reader IS the student. */}
+          <section className={sectionClass}>
+            <h3 className={headingClass}>What you have to show</h3>
+            <p
+              className={`mt-2 border-l-2 border-[rgb(var(--color-border-primary))] pl-4 font-serif italic ${PROSE_BLOCK} t-body text-[rgb(var(--color-text-primary))]`}
+            >
+              {activeOutcome.description}
+            </p>
+          </section>
 
           {/* The briefing. */}
-          <div className="relative mt-6">
-            <div className="flex items-center gap-2 mb-3">
-              {/* No glyph. A Sparkles sat here, which is the generic mark for
-                  "AI did this" and the one the design review already retired
-                  from the login hero — and it was the fourth thing, after a
-                  heading, a position and a rule, saying "this is a section". */}
-              <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500">
+          <section
+            className={`${sectionClass} relative`}
+            aria-labelledby="outcome-briefing-heading"
+          >
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <h3 id="outcome-briefing-heading" className={`${headingClass} min-w-0`}>
                 How this outcome shows up in your answer
               </h3>
               {briefingLocked && <PlusLockChip feature="outcomeBriefing" className="ml-auto" />}
               {!briefingLocked && state.status === 'ready' && (
                 <button
+                  type="button"
                   onClick={() => fetchExplanation(activeOutcome, { force: true })}
-                  title="Ask again"
-                  aria-label={`Regenerate the analysis for ${activeOutcome.code}`}
-                  className="ml-auto p-1.5 rounded-lg text-[rgb(var(--color-text-dim))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                  aria-label={`Ask again: regenerate the analysis for ${activeOutcome.code}`}
+                  className={`${LADDER_TOOL} ml-auto whitespace-nowrap`}
                 >
-                  <RefreshCw className="w-3.5 h-3.5" />
+                  <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
+                  Ask again
                 </button>
               )}
             </div>
@@ -394,14 +421,14 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               />
             )}
 
-            <div className={`min-h-[100px] ${briefingLocked ? 'select-none' : ''}`}>
+            <div className={`mt-3 min-h-[100px] ${briefingLocked ? 'select-none' : ''}`}>
               {briefingLocked ? (
                 // A shape to sell, not a blur of nothing: locked, the panel
                 // shows the three questions the briefing answers, so what Plus
                 // buys is legible before it is bought.
                 <ul
                   aria-hidden="true"
-                  className="space-y-2.5 text-[13px] font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-500 blur-[1.5px]"
+                  className="space-y-2.5 t-body font-semibold text-[rgb(var(--color-text-muted))] blur-[1.5px]"
                 >
                   <li>What this outcome is asking of you</li>
                   <li>What a marker is looking for here</li>
@@ -413,62 +440,70 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                       beside it used to `animate-pulse`, which animates opacity
                       on a reading — the fault DesignSpec §2 rule 3 exists to
                       keep out. */}
-                  <Loader2 className={`w-6 h-6 animate-spin ${bandConfig.text}`} />
-                  <p className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <Loader2
+                    className={`w-6 h-6 animate-spin ${bandConfig.text}`}
+                    aria-hidden="true"
+                  />
+                  <p className="t-label text-[rgb(var(--color-text-muted))]">
                     Reading this outcome against your question
                   </p>
                 </div>
               ) : state.status === 'error' ? (
-                <div className="bg-red-500/10 light:bg-red-50 p-3 rounded-xl border border-red-500/20 light:border-red-200 flex items-start gap-2.5">
-                  <AlertCircle className="w-4 h-4 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-xs font-semibold text-red-300 light:text-red-700">
-                      The briefing did not load
+                <div
+                  role="alert"
+                  className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/10 light:border-red-200 light:bg-red-50 p-4"
+                >
+                  <AlertCircle
+                    className="w-4 h-4 mt-0.5 shrink-0 text-red-400 light:text-red-600"
+                    aria-hidden="true"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-red-300 light:text-red-700">
+                      The briefing did not load this time.
                     </p>
                     {/* The syllabus wording above is on screen and unaffected —
                         which is the question a failed panel actually raises. */}
-                    <p
-                      className={`text-[11px] ${PROSE_FLOW} text-red-400/90 light:text-red-600 mt-0.5 leading-relaxed`}
-                    >
-                      {state.message} The outcome itself is above, unchanged.
+                    <p className="mt-1 text-sm text-[rgb(var(--color-text-secondary))]">
+                      The outcome above is unchanged. You can try again.
                     </p>
                     <button
+                      type="button"
                       onClick={() => fetchExplanation(activeOutcome, { force: true })}
-                      className="mt-1.5 text-[11px] font-bold text-red-300 light:text-red-600 hover:text-white light:hover:text-red-800 underline"
+                      className={`${LADDER_TOOL} mt-3`}
                     >
                       Try again
                     </button>
                   </div>
                 </div>
               ) : (
-                <div
-                  className={`text-[13px] ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed animate-fade-in`}
-                >
-                  {state.text ? renderFormattedText(state.text) : null}
-                </div>
+                <>
+                  <BriefingText text={state.text} />
+                  <p className="mt-4 t-label text-[rgb(var(--color-text-dim))]">
+                    Written by AI from the syllabus outcome and this question. Check it against your
+                    teacher&rsquo;s guidance.
+                  </p>
+                </>
               )}
             </div>
-          </div>
+          </section>
         </div>
 
-        {/* Footer — only when there is somewhere to go.
-          It used to hold a gradient-filled "Close" styled as a primary action,
-          in a dialog whose only job is to be read, beside a ✕ that already
-          closed it: two closes, one of them dressed as the thing to do next.
-          Escape and the backdrop close it too. The arrows on "← Previous" and
-          "Next →" are the pattern DesignSpec §5 retires — a button already
-          says what pressing it does. */}
+        {/* Footer — only when there is somewhere to go. The arrows the old
+            buttons carried are gone: a button already says what pressing it
+            does. Escape and the backdrop close the sheet too. */}
         {hasTabs && (
-          <div className="px-5 sm:px-6 py-3 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 flex items-center justify-end gap-1.5 rounded-b-surface-inner flex-shrink-0">
+          <div className="px-5 sm:px-6 py-2 sm:py-3 bg-[rgb(var(--color-bg-surface-elevated))] border-t border-[rgb(var(--color-border-secondary))] flex items-center justify-end gap-2 rounded-b-surface-inner flex-shrink-0">
             <button
+              type="button"
               onClick={() => focusTab(activeIndex - 1)}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-white/10 light:hover:bg-slate-200 transition-colors"
+              className="min-h-11 sm:min-h-0 px-4 py-2 sm:py-1.5 rounded-lg text-sm sm:text-xs font-bold text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors"
             >
               Previous outcome
             </button>
             <button
+              type="button"
               onClick={() => focusTab(activeIndex + 1)}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-white/10 light:hover:bg-slate-200 transition-colors"
+              className="min-h-11 sm:min-h-0 px-4 py-2 sm:py-1.5 rounded-lg text-sm sm:text-xs font-bold text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors"
             >
               Next outcome
             </button>

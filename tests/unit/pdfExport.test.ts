@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { JsPdfLike } from '../../pdf/types';
-import { EvaluationExportData } from '../../pdf/buildBlocks';
+import { JsPdfLike, METER } from '../../pdf/types';
+import {
+  bandColor,
+  bandInkColor,
+  buildEvaluationBlocks,
+  EvaluationExportData,
+} from '../../pdf/buildBlocks';
 
 /**
  * The export orchestrator, driven end to end against a fake engine.
@@ -106,7 +111,7 @@ vi.mock('../../pdf/fontLoader', () => ({
   loadInterFont: vi.fn(async () => false),
 }));
 
-const { exportEvaluationPdf, PdfExportError, sanitizeFilename } =
+const { exportEvaluationPdf, PdfExportError, sanitizeFilename, meterStep } =
   await import('../../pdf/exportEvaluation');
 
 const data = (over: Partial<EvaluationExportData> = {}): EvaluationExportData => ({
@@ -235,5 +240,64 @@ describe('exporting a report', () => {
     const without = await exportEvaluationPdf({ data: data(), onToast: vi.fn() });
 
     expect(withAnswer.pages).toBeGreaterThanOrEqual(without.pages);
+  });
+});
+
+/** WCAG relative luminance and contrast, for the text the report prints on paper. */
+const luminance = ([r, g, b]: [number, number, number]): number => {
+  const [lr, lg, lb] = [r, g, b].map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
+};
+const contrastOnWhite = (fg: [number, number, number]): number => {
+  const L = luminance(fg);
+  return 1.05 / (L + 0.05);
+};
+
+describe('the palette on paper', () => {
+  it('sets band text at 4.5:1 or better on white, for every band', () => {
+    // Band figures and chips are the report's text, so they take the ink step.
+    // The fill step (`bandColor`) is `-600`, and on white it misses 4.5:1 for
+    // yellow, green and orange; that is why text does not use it.
+    for (const band of [1, 2, 3, 4, 5, 6]) {
+      expect(contrastOnWhite(bandInkColor(band)), `band ${band}`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it('prints the mark, the band and each criterion chip in the ink step', () => {
+    const blocks = buildEvaluationBlocks(data({ overallBand: 2, overallMark: 2 }));
+    const score = blocks.find((b) => b.kind === 'scoreSummary');
+    const criteria = blocks.filter((b) => b.kind === 'criterion');
+
+    expect(score?.inkAccent).toEqual(bandInkColor(2));
+    expect(criteria.length).toBeGreaterThan(0);
+    for (const c of criteria) expect(c.inkAccent).toEqual(bandInkColor(2));
+  });
+
+  it('frames the improved response in the band it is written to, as the screen does', () => {
+    const blocks = buildEvaluationBlocks(
+      data({ revisedAnswer: 'A better answer.', exemplarBand: 6, exemplarMark: 5, overallMark: 4 })
+    );
+    const heading = blocks.find(
+      (b) => b.kind === 'heading' && b.runs[0].text.startsWith('Improved Response')
+    );
+    const rewrite = blocks.find((b) => b.id.startsWith('rev-'));
+
+    expect(heading?.accent).toEqual(bandColor(6));
+    expect(rewrite?.panelAccent).toEqual(bandColor(6));
+  });
+});
+
+describe('criterion meters on paper', () => {
+  it('steps at the same thresholds the screen uses', () => {
+    expect(meterStep(1)).toBe('strong');
+    expect(meterStep(METER.strongRatio)).toBe('strong');
+    expect(meterStep(METER.strongRatio - 0.01)).toBe('fair');
+    expect(meterStep(METER.fairRatio)).toBe('fair');
+    expect(meterStep(METER.fairRatio - 0.01)).toBe('weak');
+    expect(meterStep(0.01)).toBe('weak');
+    expect(meterStep(0)).toBe('none');
   });
 });

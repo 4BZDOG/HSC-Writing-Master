@@ -4,7 +4,15 @@
 // transforms live in ./text and are re-exported here so callers have one
 // import surface. Anything DOM-dependent (emoji canvas, toast) is guarded.
 
-import { DISPLAY, FontStyle, InlineSpan, JsPdfLike, MM_PER_PT, TextMeasurer } from './types';
+import {
+  DISPLAY,
+  FontStyle,
+  INLINE_UNDERLINE,
+  InlineSpan,
+  JsPdfLike,
+  MM_PER_PT,
+  TextMeasurer,
+} from './types';
 import { drawIcon, type IconName } from './icons';
 import { containsEmoji, degradeToAscii, toText } from './text';
 
@@ -175,11 +183,22 @@ const drawSpanLine = (
     const text = opts.customFontAvailable ? span.text : degradeToAscii(span.text);
     if (!text) continue;
     const spanStyle = span.style ?? style;
-    setStyle(doc, opts, fontPt, spanStyle, span.color ?? color);
+    const spanColor = span.color ?? color;
+    setStyle(doc, opts, fontPt, spanStyle, spanColor);
     doc.text(text, cursorX, y, { baseline: 'alphabetic' });
     // Re-measure under the style just used — jsPDF's getTextWidth reads the
     // CURRENT font, which setStyle has already put in place.
-    cursorX += doc.getTextWidth(text);
+    const width = doc.getTextWidth(text);
+    if (span.underline) {
+      // A rule under the span, in the span's own colour, so a teal term carries
+      // a teal line and an ink term an ink one.
+      const thickness = fontPt * MM_PER_PT * INLINE_UNDERLINE.thicknessEm;
+      const under = y + fontPt * MM_PER_PT * INLINE_UNDERLINE.offsetEm;
+      doc.setDrawColor(spanColor[0], spanColor[1], spanColor[2]);
+      doc.setLineWidth(thickness);
+      doc.line(cursorX, under, cursorX + width, under);
+    }
+    cursorX += width;
   }
 };
 

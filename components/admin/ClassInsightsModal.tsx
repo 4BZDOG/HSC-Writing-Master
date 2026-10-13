@@ -37,6 +37,7 @@ import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
 import CohortBreakdown from './CohortBreakdown';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 interface ClassInsightsModalProps {
   isOpen: boolean;
@@ -63,8 +64,8 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   value,
   sub,
 }) => (
-  <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
+  <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-1.5">
       {icon}
       {label}
     </div>
@@ -72,7 +73,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
       {value}
     </div>
     {sub && (
-      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mt-0.5">
+      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mt-0.5">
         {sub}
       </div>
     )}
@@ -87,7 +88,7 @@ const StruggleBar: React.FC<{ pct: number | null }> = ({ pct }) => {
   if (pct == null) {
     return (
       <div className="flex items-center gap-2 min-w-[120px]">
-        <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
+        <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 italic">
           no marks recorded
         </span>
       </div>
@@ -315,11 +316,13 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">
+        <div
+          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+        >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 shadow-lg flex items-center justify-center">
               <BarChart3 className="w-6 h-6 text-white" />
@@ -328,7 +331,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 Class Insights
               </h2>
-              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 Where the cohort is struggling, by verb or topic
               </p>
             </div>
@@ -355,14 +358,14 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
         </div>
 
         {/* Body */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6 light:bg-surface-inset">
           {!remote ? (
             <div className="text-center py-16">
               <Info className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                 Class analytics requires Supabase.
               </p>
-              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-sm mx-auto mt-1">
+              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 max-w-sm mx-auto mt-1">
                 Student responses are only persisted centrally in Supabase mode, so there is nothing
                 to aggregate in local mode.
               </p>
@@ -380,7 +383,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   student work will change, so saying so is the only useful
                   thing this panel can do in that state. */}
               {classes.length === 0 ? (
-                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-4">
+                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface p-4">
                   <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
                     You do not teach a class yet
                   </p>
@@ -393,7 +396,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                 </div>
               ) : (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                     Roll
                   </span>
                   <button
@@ -441,7 +444,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       <button
                         onClick={handleEnrol}
                         disabled={isEnrolling}
-                        className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                        className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                       >
                         {isEnrolling ? 'Enrolling…' : 'Enrol'}
                       </button>
@@ -454,7 +457,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   does not push the analytics down the page for the teacher who
                   came to read them. */}
               {rollOpen && members !== null && (
-                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 p-3">
+                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface p-3">
                   {members.length === 0 ? (
                     <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                       Nobody is enrolled yet. Add a student above and they will appear in these
@@ -462,7 +465,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                     </p>
                   ) : (
                     <>
-                      <p className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-2">
+                      <p className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600 mb-2">
                         {members.length} on the roll
                       </p>
                       <ul className="flex flex-wrap gap-1.5">
@@ -498,7 +501,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
 
               {classes.length > 1 && (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                     Class
                   </span>
                   <button
@@ -531,7 +534,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
               {/* Window + dimension selectors */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                     Window
                   </span>
                   {WINDOWS.map((w) => (
@@ -549,7 +552,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   ))}
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                     Break down
                   </span>
                   {DIMENSIONS.map((d) => (
@@ -611,16 +614,16 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   ) : (
                     /* Per-dimension weakness table */
                     <section>
-                      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                      <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         {dimension === 'verb' ? 'Struggle by command verb' : 'Struggle by topic'}
                       </h3>
                       {rows.length === 0 ? (
-                        <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-4">
+                        <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 italic py-4">
                           No marked responses in this window yet.
                         </p>
                       ) : (
-                        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                           <table className="w-full text-left text-sm min-w-[500px]">
                             <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                               <tr>
@@ -663,7 +666,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                                     <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-secondary))] light:text-slate-700">
                                       {formatBand(r.avg_band)}
                                     </td>
-                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-[rgb(var(--color-text-dim))] light:text-slate-600">
                                       {r.lowBandPct}%
                                     </td>
                                     <td className="px-4 py-2.5">
@@ -676,7 +679,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                           </table>
                         </div>
                       )}
-                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         Ranked weakest-first by the share of available marks lost. Band ≤ 3 is shown
                         for reference only: a question&rsquo;s band is capped at its verb&rsquo;s
                         tier, so low-tier verbs sit at 100% however well they were answered.

@@ -1,74 +1,101 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { useBackdropDismiss } from '../hooks/useBackdropDismiss';
 import { CommandTermInfo } from '../types';
 import { X } from 'lucide-react';
-import { BandConfig, getBandRgb, getTierBandConfig } from '../utils/renderUtils';
-import { getTierTargetBand } from '../data/commandTerms';
+import { escapeRegExp, getBandConfig } from '../utils/renderUtils';
+import { getTierTargetBand, TIER_GROUPS } from '../data/commandTerms';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
+import { insertIntoDraft } from '../utils/insertIntoDraft';
+import { withIndefiniteArticle } from '../utils/grammar';
+import { parseGenericMarkRow } from '../utils/genericMarkRows';
+import {
+  collectStrategyDetail,
+  groupStrategyMoves,
+  parseStrategyTip,
+  splitMethodMoves,
+} from '../utils/strategyTip';
+import {
+  HERO_HEAD_WASH,
+  HERO_TILE,
+  LADDER_CRITERION,
+  LADDER_SOLID,
+  LADDER_STACK,
+} from '../utils/ladderChrome';
+import LadderRow, { ladderBandVars } from './LadderRow';
+import StrategyMoves from './StrategyMoves';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   termInfo: CommandTermInfo;
+  /** The question being answered, when the guide is opened from one. */
+  marks?: number;
+  /** The band that question reaches at full marks. Given with `marks`. */
+  band?: number;
 }
 
+const sectionClass = 'mt-7 first:mt-0';
+const headingClass = 'text-sm font-semibold text-[rgb(var(--color-text-primary))]';
+
 /**
- * One figure in the guide's at-a-glance row.
- *
- * Five tiles, each with a circular icon badge over a big number over a small
- * label — which is the treatment the design skill names as the generic default,
- * and these five are not five separate things worth five boxes. They are the
- * shape of the answer, read in one line: a tier, a mark range, a ceiling, a
- * time, a length. The figures keep their weight and the mono face; the boxes,
- * the badges and the five glyphs go.
+ * One figure in the guide's stat row: a mark range, a time or a length. Set as a
+ * description list, so a reader using a screen reader hears each name with its
+ * value. The figures keep the band's text colour and the mono face; there are no
+ * boxes around them.
  */
-const Stat: React.FC<{
-  label: string;
-  value: React.ReactNode;
-  config: BandConfig;
-}> = ({ label, value, config }) => (
+const Stat: React.FC<{ label: string; value: string; band: string }> = ({ label, value, band }) => (
   <div>
-    <p className={`font-mono font-bold tabular-nums text-lg leading-tight ${config.text}`}>
+    <dt className="t-label text-[rgb(var(--color-text-muted))]">{label}</dt>
+    <dd className={`mt-0.5 font-mono font-bold tabular-nums text-lg leading-tight ${band}`}>
       {value}
-    </p>
-    <p className="t-label mt-0.5 text-[rgb(var(--color-text-muted))]">{label}</p>
+    </dd>
   </div>
 );
 
 /**
- * A named part of the guide.
+ * The command verb's guide, opened from the verb in a question.
  *
- * Every one of these was a bordered, tinted box with an icon beside its
- * heading — seven of them stacked, identical, so nothing said which mattered
- * and each glyph was the third thing announcing "this is a section" after the
- * heading and the box. A rule and a heading do it, and the definition below
- * gets to be the one thing on the page with a fill.
+ * It is a reading sheet with one job: say what the verb asks for and how to start.
+ * The band-washed head names the verb and its tier; the figures and the question's
+ * own marks sit under it; the method comes next, in the same parts `HowToAnswer`
+ * draws it in, and the marking detail follows, as ladder rows.
  */
-const Section: React.FC<{ title: string; note?: string; children: React.ReactNode }> = ({
-  title,
-  note,
-  children,
-}) => (
-  <section className="pt-5 mt-5 border-t border-[rgb(var(--color-border-secondary))] first:pt-0 first:mt-0 first:border-t-0">
-    <h3 className="t-section text-[rgb(var(--color-text-muted))]">{title}</h3>
-    {note && <p className="t-label mt-1 text-[rgb(var(--color-text-dim))]">{note}</p>}
-    <div className="mt-2.5">{children}</div>
-  </section>
-);
-
 const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   isOpen,
   onClose,
   termInfo,
+  marks,
+  band,
 }) => {
-  // Colour by the verb's target band so the guide matches the prompt/writing area.
-  const bandConfig = getTierBandConfig(termInfo.tier);
-  // The band `bandConfig` resolves to, named once so the edge colour and the
-  // config cannot come from two different bands.
+  // The verb's own colour: the band its tier targets. The head, the tile, the
+  // step numbers and the ladder rows all read this one band.
   const bandTarget = getTierTargetBand(termInfo.tier);
+  const bandConfig = getBandConfig(bandTarget);
+  const tierTitle = TIER_GROUPS.find((group) => group.tier === termInfo.tier)?.title;
+
+  const { moves, method, watch, terms, examples, words } = useMemo(() => {
+    const parsed = groupStrategyMoves(parseStrategyTip(termInfo.tip));
+    const split = splitMethodMoves(parsed);
+    const detail = collectStrategyDetail(parsed);
+    // The structural keywords used to be a separate list that repeated the
+    // tip's own phrases. They are merged into the words to use, and only the ones
+    // the tip does not already quote are added.
+    const extras = termInfo.structuralKeywords.filter(
+      (keyword) => !new RegExp(`\\b${escapeRegExp(keyword)}\\b`, 'i').test(termInfo.tip)
+    );
+    return {
+      moves: parsed,
+      method: split.method,
+      watch: split.watch,
+      terms: detail.terms,
+      examples: detail.examples,
+      words: [...new Set([...detail.terms, ...extras])],
+    };
+  }, [termInfo.tip, termInfo.structuralKeywords]);
 
   // Shared hook rather than a private listener, so this guide also registers
   // itself as an open overlay and Escape dismisses it without also exiting
@@ -79,186 +106,158 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
   // same topmost-only arbitration.
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
+  const backdrop = useBackdropDismiss(onClose);
 
   if (!isOpen) return null;
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onClose();
+  // A word added from the guide goes into the draft behind it, so the guide
+  // closes: otherwise the student is left reading a sheet while the text lands
+  // under a scrim they cannot see past.
+  const insertWord = (word: string) => {
+    insertIntoDraft(word);
+    onClose();
   };
 
-  const handleCloseKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onClose();
-    }
-  };
+  const hasQuestion = marks !== undefined && band !== undefined;
 
   return createPortal(
     <div
-      ref={dialogRef}
-      tabIndex={-1}
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={handleOverlayClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="command-term-title"
+      {...backdrop}
     >
       <div
-        // `--band-rgb` once, here: custom properties inherit, so every
-        // `band-edge` below draws from this without the colour being handed
-        // down by hand.
-        style={{ '--band-rgb': getBandRgb(bandTarget) } as React.CSSProperties}
-        className={`
-        clip-stable w-full max-w-xl rounded-2xl shadow-lg
-        border-2 band-edge-strong ${bandConfig.glow}
-        bg-[rgb(var(--color-bg-surface))]/95
-        animate-fade-in-up
-        overflow-hidden flex flex-col max-h-[90vh]
-      `}
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="command-term-title"
+        // `--band-rgb` once, here: custom properties inherit, so the head, the
+        // tile, the edge and every ladder row draw from it without the colour
+        // being handed down by hand.
+        style={ladderBandVars(bandTarget)}
+        className="clip-stable w-full max-w-xl max-h-[90vh] flex flex-col rounded-surface border-2 band-edge-strong bg-surface shadow-lg animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Hero Header - Matching PromptGeneratorModal Style */}
-        <div
-          className={`
-          px-6 py-5 border-b-2 band-edge
-          bg-gradient-to-r ${bandConfig.gradient} relative overflow-hidden flex-shrink-0
-        `}
+        {/* The head stays put while the body scrolls. */}
+        <header
+          className={`${HERO_HEAD_WASH} flex-shrink-0 px-5 sm:px-6 pt-5 pb-5 border-b border-[rgb(var(--color-border-secondary))]`}
         >
-          <div className="absolute inset-0 bg-white/10 mix-blend-overlay opacity-20"></div>
-
-          <div className="flex justify-between items-center relative z-10">
-            {/* The verb IS the title, so nothing beside it needs to say
-                "information". An `Info` glyph in a tile sat here doing exactly
-                that, and the meta line under it repeated the tier and the mark
-                range that the figures further down now state properly.
-
-                What the header owes a reader is what they are looking AT: a
-                student arrives here by pressing a word in their own question,
-                and "Command verb" is what that word is. */}
-            <div>
-              <p className="t-label text-white/70">Command verb</p>
+          <div className="flex items-start gap-4">
+            <div
+              aria-hidden="true"
+              className={`${HERO_TILE} ${LADDER_SOLID} font-mono text-lg font-bold tabular-nums`}
+            >
+              {termInfo.tier}
+            </div>
+            <div className="min-w-0 flex-1">
+              {tierTitle && (
+                <p className="t-label text-[rgb(var(--color-text-muted))]">{tierTitle}</p>
+              )}
               <h2
                 id="command-term-title"
-                className="text-2xl font-black text-white tracking-tight mt-0.5"
+                className="t-display mt-1 text-3xl sm:text-4xl uppercase italic leading-none tracking-tight text-[rgb(var(--color-text-primary))]"
               >
                 {termInfo.term}
+                <span className="sr-only"> — what the command verb asks for</span>
               </h2>
             </div>
-
             <button
+              type="button"
               onClick={onClose}
-              onKeyDown={handleCloseKeyDown}
-              className="w-9 h-9 rounded-lg bg-white/20 hover:bg-white/30 transition-all duration-200 flex items-center justify-center group backdrop-blur-sm"
-              aria-label="Close modal"
+              aria-label="Close the command verb guide"
+              className="flex-shrink-0 flex items-center justify-center min-h-11 min-w-11 rounded-lg text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <X className="w-5 h-5 text-white" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
-        </div>
-
-        {/* The guide as a reading document.
-
-          It was seven bordered, tinted boxes stacked down the page, each with
-          a glyph beside its heading and a five-tile stat grid above them. Every
-          section looked exactly as important as every other one, which for a
-          student who has stopped writing to ask "what does this word want?" is
-          the one thing the page must not say. The definition is what they came
-          for, so it is the one thing here with a fill; everything else is a
-          heading over prose, divided by rules. */}
-        <div className="px-6 sm:px-7 py-6 overflow-y-auto flex-1">
-          {/* The answer to the question they opened this with. */}
+          {/* The definition takes the full width under the title, indented to the
+              title's own edge, so a phone sets it in lines of its own length. */}
           <p
-            className={`rounded-xl border band-edge ${bandConfig.bg} px-4 py-3.5 font-serif italic ${PROSE_BLOCK} text-base sm:text-lg leading-relaxed text-[rgb(var(--color-text-primary))]`}
+            className={`mt-4 pl-14 font-serif ${PROSE_FLOW} text-base sm:text-lg leading-snug text-[rgb(var(--color-text-primary))]`}
           >
             {termInfo.definition}
           </p>
+        </header>
 
-          {/* The shape of the answer, at a glance.
+        {/* The guide as a reading document, scrolling under the head. */}
+        <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 pb-8">
+          {hasQuestion && (
+            <p className="rounded-xl bg-[rgb(var(--color-bg-surface-inset))] px-4 py-3 text-sm leading-snug text-[rgb(var(--color-text-secondary))]">
+              <span className="font-semibold text-[rgb(var(--color-text-primary))]">
+                This question:
+              </span>{' '}
+              {marks} {marks === 1 ? 'mark' : 'marks'}. A full-mark answer reaches Band {band}.
+            </p>
+          )}
 
-              Five figures, not five cards: a tier, a mark range, a ceiling, a
-              time and a length are one reading — "what am I being asked for,
-              and how much of it" — and they belong on one line. */}
-          <div className="mt-5 flex flex-wrap gap-x-8 gap-y-4">
-            <Stat label="Command tier" value={termInfo.tier} config={bandConfig} />
-            <Stat label="Marks" value={termInfo.markRange.join('–')} config={bandConfig} />
-            <Stat label="Band ceiling" value={bandTarget} config={bandConfig} />
-            <Stat label="Minutes" value={termInfo.timeRange.join('–')} config={bandConfig} />
-            <Stat label="Pages" value={termInfo.pageEstimate} config={bandConfig} />
-          </div>
+          <dl className="mt-5 flex flex-wrap gap-x-10 gap-y-4">
+            <Stat label="Marks" value={termInfo.markRange.join('–')} band={bandConfig.text} />
+            <Stat label="Minutes" value={termInfo.timeRange.join('–')} band={bandConfig.text} />
+            <Stat label="Pages" value={termInfo.pageEstimate} band={bandConfig.text} />
+          </dl>
 
-          <div className="mt-6">
-            {/* `termInfo.tip` — the one thing in this record that tells a
-                student what to DO. A reader who has stopped to open this modal
-                has stopped precisely because they do not know how to start. */}
-            <Section title="How to answer it">
-              <div className="space-y-1.5">
-                {termInfo.tip.split('\n').map((line, i) => (
-                  <p
-                    key={i}
-                    className={`text-sm ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))] leading-relaxed`}
+          {moves.length > 0 && (
+            <section className={sectionClass}>
+              <h3 className={headingClass}>
+                How to answer {withIndefiniteArticle(termInfo.term)} question
+              </h3>
+              <div className="mt-2.5 rounded-panel border border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] p-4 sm:p-5 divide-y divide-[rgb(var(--color-border-secondary))]">
+                <StrategyMoves
+                  method={method}
+                  terms={words}
+                  examples={examples}
+                  watch={watch}
+                  band={bandTarget}
+                  onInsertWord={insertWord}
+                />
+              </div>
+            </section>
+          )}
+
+          <section className={sectionClass}>
+            <h3 className={headingClass}>What separates a strong answer</h3>
+            <p className="mt-2 t-body text-[rgb(var(--color-text-secondary))]">
+              {termInfo.bandDiscrimination}
+            </p>
+          </section>
+
+          <section className={sectionClass}>
+            <h3 className={headingClass}>How the marks usually fall</h3>
+            <p className="mt-0.5 t-label text-[rgb(var(--color-text-dim))]">
+              A general guide. Your paper’s own marking guidelines win.
+            </p>
+            <div className={`${LADDER_STACK} mt-3`}>
+              {termInfo.genericMarkingGuide.map((line, index) => {
+                const row = parseGenericMarkRow(line);
+                return row ? (
+                  <LadderRow
+                    key={index}
+                    band={bandTarget}
+                    markLabel={row.marks}
+                    bandCaption={false}
+                    quiet
                   >
+                    <p className={LADDER_CRITERION}>{row.criterion}</p>
+                  </LadderRow>
+                ) : (
+                  <p key={index} className={`${LADDER_CRITERION} px-1`}>
                     {line}
                   </p>
-                ))}
-              </div>
-            </Section>
+                );
+              })}
+            </div>
+          </section>
 
-            {/* The phrases that make a response READ as the verb it was asked
-                in, which is most of what separates a response that answers the
-                question from one that circles it. */}
-            {termInfo.structuralKeywords.length > 0 && (
-              <Section
-                title={`The language of a ${termInfo.term} answer`}
-                note="Marker-facing phrasing — work these in where they fit"
-              >
-                {/* Spaced words in the band colour rather than bordered chips,
-                    matching `StrategyBrief`: these are words to WRITE, not
-                    controls to press. */}
-                <p className={`flex flex-wrap gap-x-5 gap-y-1 font-serif ${bandConfig.text}`}>
-                  {termInfo.structuralKeywords.map((keyword) => (
-                    <span key={keyword}>{keyword}</span>
-                  ))}
-                </p>
-              </Section>
-            )}
-
-            <Section title="What separates a strong answer">
-              <p
-                className={`text-sm ${PROSE_FLOW} text-[rgb(var(--color-text-secondary))] leading-relaxed`}
-              >
-                {termInfo.bandDiscrimination}
-              </p>
-            </Section>
-
-            {/* Headed "NESA Marking Guide" until a previous pass: it is not.
-                These rows are this application's own generic guidance, written
-                against the tier ladder in `projectDocs/GoldStandard.md`. */}
-            <Section
-              title="How the marks usually fall"
-              note="A general guide — your paper&rsquo;s own marking guidelines win"
+          {/* An abstract definition plus one concrete question is how a reader
+              checks they have understood the definition at all. */}
+          <section className={sectionClass}>
+            <h3 className={headingClass}>A question that asks for this</h3>
+            <blockquote
+              className={`mt-2 border-l-2 border-[rgb(var(--color-border-primary))] pl-4 font-serif italic ${PROSE_BLOCK} t-body text-[rgb(var(--color-text-secondary))]`}
             >
-              <ul className="space-y-2">
-                {termInfo.genericMarkingGuide.map((criterion, index) => (
-                  <li
-                    key={index}
-                    className={`border-l-2 ${bandConfig.border} pl-3 text-sm ${PROSE_FLOW} leading-relaxed text-[rgb(var(--color-text-secondary))]`}
-                  >
-                    {criterion}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-
-            {/* An abstract definition plus one concrete question is how a
-                reader checks they have understood the definition at all. */}
-            <Section title="A question that asks for this">
-              <p
-                className={`font-serif italic ${PROSE_BLOCK} text-sm sm:text-base leading-relaxed text-[rgb(var(--color-text-secondary))]`}
-              >
-                &ldquo;{termInfo.exampleQuestion}&rdquo;
-              </p>
-            </Section>
-          </div>
+              &ldquo;{termInfo.exampleQuestion}&rdquo;
+            </blockquote>
+          </section>
         </div>
       </div>
     </div>,

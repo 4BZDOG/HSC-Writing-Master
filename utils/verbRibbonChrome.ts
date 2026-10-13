@@ -85,7 +85,7 @@
  *  second tap within ~300ms of the first was read as a zoom gesture: the page
  *  lurched instead of the selection moving. Panning and pinching are untouched. */
 export const RIBBON_ROOT =
-  'relative isolate overflow-hidden rounded-surface border border-slate-300 dark:border-white/15 bg-[rgb(var(--stage-ground))] text-[rgb(var(--stage-ink))] touch-manipulation animate-fade-in ribbon-stage-hue';
+  'relative isolate overflow-hidden rounded-surface border border-slate-400 dark:border-white/15 shadow-sm bg-[rgb(var(--stage-ground))] text-[rgb(var(--stage-ink))] touch-manipulation animate-fade-in ribbon-stage-hue';
 
 /** The light that falls on the stage, in the tier's own hue. Painted on the
  *  stage's ground; its gradient is inline at the call site and is built from
@@ -166,6 +166,12 @@ export const RIBBON_FRAME = 'relative ribbon-stage';
  *  otherwise tint it; in the dark theme it is transparent and the stage's light
  *  falls through it, as before.
  *
+ *  Shut, the bar is the whole ribbon. Its rim is the root's (`RIBBON_ROOT`): a
+ *  `slate-400` edge and the resting shadow. The bar also draws its own hairline along
+ *  its foot, in light only, because a white bar on the 248 stage ground has no edge
+ *  of its own otherwise, and the audit that reads a surface's own paint counts it
+ *  as white on white. The bar stays the paper that lies on the desk.
+ *
  *  It takes `PANEL_ROW_MIN_H` at the call site, so it stands on the same whole
  *  pixel as every accordion's row: a 61px row among 61px rows is what keeps the
  *  page's rhythm.
@@ -182,7 +188,7 @@ export const RIBBON_FRAME = 'relative ribbon-stage';
  *  would clip an outside one: slate on the white bar, white on the dark one. */
 export const RIBBON_HEADER_BAR =
   'relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left group/header ' +
-  'bg-white dark:bg-white/0 transition-colors duration-300 ' +
+  'bg-white dark:bg-white/0 shadow-[inset_0_-1px_0_rgb(15_23_42/0.12)] dark:shadow-none transition-colors duration-300 ' +
   'can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/[0.04] active:bg-slate-200 dark:active:bg-white/[0.07] ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/70';
 

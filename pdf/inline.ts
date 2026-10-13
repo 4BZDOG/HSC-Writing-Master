@@ -11,13 +11,14 @@
 // right sentences in the wrong voice: the marker's emphasis gone, and no way to
 // see at a glance which syllabus terms the response actually used.
 //
-// The keyword matcher is the app's own (`createKeywordRegex`), deliberately:
-// two matchers would drift, and a term highlighted on screen but black on the
-// printout is a disagreement a student notices and a teacher cannot explain.
+// The keyword and verb matchers are the app's own (`createKeywordRegex` and
+// `createVerbRegex`), deliberately: two matchers would drift, and a term
+// highlighted on screen but black on the printout is a disagreement a student
+// notices and a teacher cannot explain.
 //
 // No DOM, no jsPDF — unit-testable under Node.
 
-import { createKeywordRegex } from '../utils/renderUtils';
+import { createKeywordRegex, createVerbRegex } from '../utils/renderUtils';
 import { FontStyle, InlineSpan } from './types';
 import { stripBasicHtml, toText } from './text';
 
@@ -26,12 +27,19 @@ export type { InlineSpan };
 export interface InlineOptions {
   /** The style the surrounding block is drawn in — emphasis is added to it. */
   baseStyle?: FontStyle;
-  /** Syllabus terms to colour, matched with the app's own matcher. */
+  /** Syllabus terms to highlight, matched with the app's own matcher. */
   keywords?: string[];
+  /**
+   * The colour a term is printed in. Absent means the block's own colour, and
+   * the term is then marked by its underline alone — see buildBlocks for where
+   * the colour is spent and where it is not.
+   */
   keywordColor?: [number, number, number];
-  /** The question's command verb, coloured separately from the keywords. */
+  /** The question's command verb, highlighted separately from the keywords. */
   verb?: string;
   verbColor?: [number, number, number];
+  /** Print the verb in bold as well. Set where the verb is read as prose. */
+  verbBold?: boolean;
 }
 
 /** Combine an emphasis with whatever the block was already set in. */
@@ -77,31 +85,40 @@ const splitEmphasis = (text: string, style: FontStyle): InlineSpan[] => {
 };
 
 /**
- * Split each uncoloured span on a matcher, colouring the matches.
+ * Split each unclaimed span on a matcher, and emphasise the matches.
  *
  * The regex's whole alternation sits in ONE capturing group (see
  * `createKeywordRegex`), so `split` yields matches at odd indices — the same
  * index-parity contract the React renderers rely on. Testing the regex instead
  * would be stateful (`/g` carries `lastIndex`) and would drop every other hit.
+ *
+ * A match is always underlined. It is coloured only when a colour is given, and
+ * made bold only when asked: the underline is the mark that survives a greyscale
+ * printer, and the colour and weight are what the prose can afford on top of it.
  */
-const colourMatches = (
+const emphasise = (
   spans: InlineSpan[],
   regex: RegExp | null,
-  color: [number, number, number] | undefined
+  emphasis: { color?: [number, number, number]; bold?: boolean }
 ): InlineSpan[] => {
-  if (!regex || !color) return spans;
+  if (!regex) return spans;
   return spans.flatMap((span) => {
-    // A span that already carries a colour has been claimed by an earlier pass
-    // (the verb outranks the keywords), so leave it alone.
-    if (span.color) return [span];
+    // A span already underlined was claimed by an earlier pass (the verb
+    // outranks the keywords), so leave it alone.
+    if (span.underline) return [span];
     const parts = span.text.split(regex);
     if (parts.length < 2) return [span];
     return parts
-      .map((part, i) => ({
-        text: part,
-        style: span.style,
-        ...(i % 2 === 1 ? { color } : {}),
-      }))
+      .map((part, i) => {
+        if (i % 2 === 0)
+          return { text: part, style: span.style, ...(span.color ? { color: span.color } : {}) };
+        return {
+          text: part,
+          style: emphasis.bold ? withBold(span.style) : span.style,
+          ...(emphasis.color ? { color: emphasis.color } : span.color ? { color: span.color } : {}),
+          underline: true,
+        };
+      })
       .filter((s) => s.text.length > 0);
   });
 };
@@ -115,7 +132,8 @@ const coalesce = (spans: InlineSpan[]): InlineSpan[] => {
     const last = out[out.length - 1];
     const sameColour =
       (last?.color?.join() ?? '') === (span.color?.join() ?? '') && last?.style === span.style;
-    if (last && sameColour) last.text += span.text;
+    const sameMark = !!last?.underline === !!span.underline;
+    if (last && sameColour && sameMark) last.text += span.text;
     else out.push({ ...span });
   }
   return out;
@@ -135,8 +153,17 @@ export const parseInlineSpans = (input: string, opts: InlineOptions = {}): Inlin
   // Verb first, then keywords: the verb is the one word a marker's comment
   // turns on, and letting a keyword claim it would recolour the question's own
   // command term. Matches the order on screen.
-  spans = colourMatches(spans, opts.verb ? createKeywordRegex([opts.verb]) : null, opts.verbColor);
-  spans = colourMatches(spans, createKeywordRegex(opts.keywords ?? []), opts.keywordColor);
+  //
+  // The verb uses the screen's own verb matcher, not the keyword one: a plain
+  // keyword match reads an all-capital short verb as an acronym and misses its
+  // inflections ("DRAW" would miss "drawing"), which the screen does not.
+  spans = emphasise(spans, opts.verb ? createVerbRegex(opts.verb) : null, {
+    color: opts.verbColor,
+    bold: opts.verbBold,
+  });
+  spans = emphasise(spans, createKeywordRegex(opts.keywords ?? []), {
+    color: opts.keywordColor,
+  });
 
   return coalesce(spans.map((span) => ({ ...span, text: toText(span.text) })));
 };

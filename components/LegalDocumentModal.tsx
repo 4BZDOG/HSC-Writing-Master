@@ -19,6 +19,10 @@ interface LegalDocumentModalProps {
  * the profile, the quick-start guide and the sign-in page, so the agreements
  * are readable BEFORE anyone is asked to accept them — and re-readable at any
  * time afterwards, which is the part most apps forget.
+ *
+ * The head sits on the desk tone with a rule under it, and the reading column
+ * is the paper below. A reader's head is furniture, not an advertisement; the
+ * document is the thing that should be bright.
  */
 const LegalDocumentModal: React.FC<LegalDocumentModalProps> = ({
   isOpen,
@@ -45,27 +49,27 @@ const LegalDocumentModal: React.FC<LegalDocumentModalProps> = ({
       aria-modal="true"
       aria-labelledby="legal-modal-title"
     >
-      <div className="clip-stable w-full max-w-4xl rounded-surface bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-200 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
-        <div className="relative px-6 py-5 bg-gradient-to-r from-indigo-600 to-sky-500 text-white shrink-0 flex items-center gap-4">
-          <div className="w-11 h-11 shrink-0 rounded-2xl bg-white/20 backdrop-blur border border-white/30 flex items-center justify-center">
+      <div className="clip-stable w-full max-w-4xl rounded-surface bg-[rgb(var(--color-bg-surface))] border border-white/10 light:border-slate-300 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
+        <div className="px-6 py-4 bg-[rgb(var(--color-bg-base))] border-b border-white/10 light:border-slate-300 shrink-0 flex items-center gap-4">
+          <div className="w-11 h-11 shrink-0 rounded-2xl bg-[rgb(var(--color-bg-surface))] border border-white/10 light:border-slate-300 flex items-center justify-center text-indigo-400 light:text-indigo-600">
             <Scale className="w-5 h-5" />
           </div>
-          <div className="min-w-0">
-            <span className="t-label text-white/70 block">The fine print</span>
-            <h2 id="legal-modal-title" className="text-lg font-black tracking-tight leading-tight">
-              Terms &amp; Privacy
-            </h2>
-          </div>
+          <h2
+            id="legal-modal-title"
+            className="min-w-0 text-xl font-bold tracking-tight leading-tight text-[rgb(var(--color-text-primary))]"
+          >
+            Terms &amp; Privacy
+          </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="ml-auto p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors"
+            className="ml-auto p-2 rounded-xl text-[rgb(var(--color-text-muted))] hover:bg-white/10 light:hover:bg-surface-inset hover:text-[rgb(var(--color-text-primary))] transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto custom-scrollbar">
+        <div className="p-5 sm:p-6 overflow-y-auto custom-scrollbar">
           <LegalDocumentReader
             initialDocument={initialDocument}
             scrollAreaClassName="max-h-[60vh]"

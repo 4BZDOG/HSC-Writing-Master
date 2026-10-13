@@ -122,7 +122,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             type="button"
             aria-label="Fewer seats"
             onClick={() => setSeats((s) => Math.max(SCHOOL_SEAT_LIMITS.min, s - 5))}
-            className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
+            className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
           >
             <Minus className="w-3.5 h-3.5" />
           </button>
@@ -133,11 +133,11 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             type="button"
             aria-label="More seats"
             onClick={() => setSeats((s) => Math.min(SCHOOL_SEAT_LIMITS.max, s + 5))}
-            className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
+            className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
-          <span className="t-label text-slate-400 ml-1">
+          <span className="t-label text-slate-400 light:text-slate-600 ml-1">
             seats · {PLAN_PRICING.schoolSeat}/student/yr
           </span>
         </div>
@@ -150,7 +150,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
           {isBuyingSeats ? 'Redirecting…' : `Buy ${seats} seats`}
         </button>
       </div>
-      <p className="mt-2.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+      <p className="mt-2.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 leading-relaxed">
         Everyone in your school gets {PLAN_LABELS.school} while the licence is active. Make sure
         your school is set up (and you're in it) before purchasing.
       </p>

@@ -249,7 +249,6 @@ const renderReport = () =>
       result={result}
       prompt={prompt}
       userAnswer={STUDENT}
-      onUseRevisedAnswer={vi.fn()}
       onImproveAnswer={vi.fn()}
       isImproving={false}
       improveAnswerError={null}
@@ -287,14 +286,14 @@ describe('EvaluationDisplay: every surface paints the verb and the terms', () =>
 
   it('strong evidence, the strengths list', () => {
     renderReport();
-    const section = screen.getByRole('heading', { name: 'Strong Evidence' }).closest('section')!;
+    const section = screen.getByRole('heading', { name: 'Strong evidence' }).closest('section')!;
     expect(verbsIn(section)).toEqual(['Explains']);
     expect(termsIn(section)).toEqual(['cache hit ratio']);
   });
 
   it('areas for growth, the improvements list', () => {
     renderReport();
-    const section = screen.getByRole('heading', { name: 'Areas for Growth' }).closest('section')!;
+    const section = screen.getByRole('heading', { name: 'Areas for growth' }).closest('section')!;
     // The question's verb is painted; "Evaluate" in the advice is quoted, so it is not.
     expect(verbsIn(section)).toEqual(['Explain']);
     expect(termsIn(section)).toEqual(['latency']);
@@ -337,7 +336,6 @@ describe('EvaluationDisplay: every surface paints the verb and the terms', () =>
       <EvaluationDisplay
         result={{ ...result, revisedAnswer: undefined } as EvaluationResult}
         prompt={bare}
-        onUseRevisedAnswer={vi.fn()}
         onImproveAnswer={vi.fn()}
         isImproving={false}
         improveAnswerError={null}

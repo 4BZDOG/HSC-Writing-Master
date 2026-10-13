@@ -66,7 +66,6 @@ const renderDisplay = () =>
     <EvaluationDisplay
       result={redactedResult}
       prompt={prompt}
-      onUseRevisedAnswer={vi.fn()}
       onImproveAnswer={vi.fn()}
       isImproving={false}
       improveAnswerError={null}

@@ -1,341 +1,50 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { ToastType } from '../hooks/useToast';
+import { EvaluationResult, Prompt, UserFeedback, HierarchyContext } from '../types';
+import { getBandConfig, renderFormattedText, VERB_HIGHLIGHT_CLASS } from '../utils/renderUtils';
 import {
-  EvaluationResult,
-  Prompt,
-  EvaluationCriterion,
-  UserFeedback,
-  HierarchyContext,
-} from '../types';
-import {
-  getBandConfig,
-  getBandHex,
-  getBandName,
-  KEYWORD_HIGHLIGHT_CLASS,
-  renderFormattedText,
-  renderHighlightedText,
-  stripHtmlTags,
-  textContainsKeyword,
-  VERB_HIGHLIGHT_CLASS,
-  BandConfig,
-} from '../utils/renderUtils';
-import { splitSyllabusTerms } from '../utils/syllabusTermSource';
-import {
-  CheckCircle,
-  XCircle,
-  Hash,
-  Award,
-  Trophy,
-  ClipboardList,
-  FileDown,
   Settings2,
   Loader2,
   Save,
-  ArrowUpCircle,
   AlertCircle,
   ChevronRight,
+  FileDown,
   FileText,
+  Hash,
   PenLine,
   Quote,
-  Target,
-  RefreshCw,
-  Zap,
-  Lightbulb,
-  Columns2,
-  Check,
-  ArrowUpRight,
-  type LucideIcon,
 } from 'lucide-react';
-import {
-  getCommandTermInfo,
-  getBandForMark,
-  getNextLevelTarget,
-  tierShortLabel,
-} from '../data/commandTerms';
-import LoadingIndicator from './LoadingIndicator';
-import AiBusyOverlay from './AiBusyOverlay';
+import { tierShortLabel } from '../data/commandTerms';
 import ResponseFeedback from './ResponseFeedback';
 import SupportUsageSummary from './SupportUsageSummary';
-import { exportEvaluationPdf } from '../pdf';
 import PdfExportOptions from './PdfExportOptions';
-import {
-  PdfExportPreferences,
-  readPdfPreferences,
-  writePdfPreferences,
-} from '../utils/pdfExportPreferences';
 import {
   isFeatureLocked,
   isFeedbackLocked,
   planLabelForFeature,
   requestUpgrade,
 } from '../services/entitlements';
-import { PlusLockChip, ContentLockOverlay } from './UpgradeModal';
+import { PlusLockChip } from './UpgradeModal';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
-
-const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500 no-print`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v10M0 1h10' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
-
-const MetricCard = ({
-  label,
-  value,
-  subtext,
-  icon: Icon,
-  theme,
-}: {
-  label: string;
-  value: string | number;
-  subtext?: string;
-  icon: LucideIcon;
-  theme: BandConfig;
-}) => (
-  <div className="bg-white dark:bg-white/5 rounded-panel p-4 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col gap-3 h-full relative overflow-hidden">
-    {/* Icon sits inline with its label rather than floating in its own row —
-        keeps the tile compact so the score placard beside it doesn't have to
-        stretch to match an artificially tall column. */}
-    <div className="flex items-center gap-2.5">
-      <div className={`p-2 rounded-xl shrink-0 ${theme.bg} ${theme.text}`}>
-        <Icon className="w-4 h-4" />
-      </div>
-      <h4 className="t-label text-slate-600 dark:text-slate-400 truncate">{label}</h4>
-    </div>
-    <div className="flex items-baseline gap-1.5 mt-auto">
-      <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
-        {value}
-      </span>
-      {subtext && <span className="t-label text-slate-600 dark:text-slate-400">{subtext}</span>}
-    </div>
-  </div>
-);
-
-// The "Band 6" goal meter: how far this response sits from the app's titular
-// goal. Achieved bands fill in the current band's canonical colour (BAND_HEX,
-// via getBandHex, so it always matches the placard beside it); the numbered
-// rungs and the distance text carry the information without relying on colour.
-const BandGoalCard = ({
-  currentBand,
-  maxBand,
-  capNote,
-}: {
-  currentBand: number;
-  maxBand: number;
-  /** Why the goal is where it is, when the command verb caps it. */
-  capNote?: React.ReactNode;
-}) => {
-  const goalConfig = getBandConfig(maxBand);
-  const reached = currentBand >= maxBand;
-  const bandsAway = Math.max(0, maxBand - currentBand);
-  const rungs = Array.from({ length: maxBand }, (_, i) => i + 1);
-
-  return (
-    <div className="bg-white dark:bg-white/5 rounded-panel p-4 sm:p-5 border border-slate-200/80 dark:border-white/10 shadow-sm flex flex-col justify-between gap-3 h-full relative overflow-hidden">
-      <div className="flex items-center gap-2.5">
-        <div className={`p-2 rounded-xl shrink-0 ${goalConfig.bg} ${goalConfig.text}`}>
-          <Trophy className="w-4 h-4" />
-        </div>
-        <h4 className="t-section text-slate-600 dark:text-slate-400 truncate">
-          Band {maxBand} Goal
-        </h4>
-      </div>
-      <div>
-        <span className="block text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-3">
-          {reached ? 'Achieved' : `${bandsAway} band${bandsAway === 1 ? '' : 's'} to go`}
-        </span>
-        <div
-          className="flex gap-1"
-          role="img"
-          aria-label={`Band ${currentBand} of ${maxBand} — ${reached ? `Band ${maxBand} achieved` : `${bandsAway} band${bandsAway === 1 ? '' : 's'} from the Band ${maxBand} goal`}`}
-        >
-          {rungs.map((b) => (
-            <div key={b} className="flex-1 flex flex-col items-center gap-1.5">
-              <div
-                className={`h-2 w-full rounded-full transition-colors duration-500 ${
-                  b <= currentBand ? '' : 'bg-slate-200 dark:bg-white/10'
-                }`}
-                style={b <= currentBand ? { backgroundColor: getBandHex(b) } : undefined}
-              />
-              <span
-                className={`text-[9px] font-bold leading-none ${
-                  b === maxBand
-                    ? goalConfig.text
-                    : b <= currentBand
-                      ? 'text-slate-600 dark:text-slate-300'
-                      : 'text-slate-600 dark:text-slate-400'
-                }`}
-              >
-                {b}
-              </span>
-            </div>
-          ))}
-        </div>
-        {/* The band name belongs to the CURRENT band, so it reads as a caption
-            on the meter rather than as a modifier of "n bands to go" above. */}
-        <p className="t-label mt-2.5 text-slate-600 dark:text-slate-400">
-          Now Band {currentBand} · {getBandName(currentBand)}
-        </p>
-      </div>
-      {capNote && (
-        <p className="pt-3 mt-1 border-t border-slate-200/80 dark:border-white/10 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-          {capNote}
-        </p>
-      )}
-    </div>
-  );
-};
-
-/**
- * The one-line key for the highlighting in this report, shown once under the question.
- *
- * The samples are the real classes the text uses, so the key cannot drift from the
- * thing it explains. It is shown only when there is something to explain: a question
- * with neither a command verb nor syllabus terms highlights nothing, and a key for it
- * would be a legend for an absent colour.
- */
-const HighlightKey: React.FC<{ hasVerb: boolean; hasTerms: boolean }> = ({ hasVerb, hasTerms }) => {
-  if (!hasVerb && !hasTerms) return null;
-  return (
-    <p className="t-label flex flex-wrap items-center gap-x-2 gap-y-1 text-slate-600 dark:text-slate-400">
-      <span>Highlighted:</span>
-      {hasVerb && <span className={VERB_HIGHLIGHT_CLASS}>command verb</span>}
-      {hasVerb && hasTerms && <span aria-hidden="true">·</span>}
-      {hasTerms && <span className={KEYWORD_HIGHLIGHT_CLASS}>syllabus terms</span>}
-    </p>
-  );
-};
-
-/**
- * One card treatment for every panel in the report.
- *
- * The sections had drifted into four: a `rounded-panel`tinted panel, a
- * `rounded-3xl` white card, a dashed-border callout and a bare region between
- * two hairline rules. Read top to bottom the page looked assembled rather than
- * designed, which is most of what "dated" meant here. One radius, one border,
- * one surface — the colour a section carries is then free to mean something.
- */
-const CARD =
-  'rounded-panel bg-white dark:bg-white/5 border border-slate-200/80 dark:border-white/10 shadow-sm';
-
-/**
- * The heading above a section: an icon in its section's colour, the label, and
- * an optional trailing chip. Replaces three different treatments — a centred
- * label between two hairline rules, a left-aligned icon pair, and a bare
- * uppercase span — with one, so the eye can find section boundaries without
- * re-learning them each time.
- */
-const SectionHeading: React.FC<{
-  icon: React.ElementType;
-  label: string;
-  tone?: string;
-  toneBg?: string;
-  children?: React.ReactNode;
-}> = ({ icon: Icon, label, tone = 'text-slate-600 dark:text-slate-400', toneBg, children }) => (
-  <div className="flex items-center gap-3 mb-4">
-    <div className={`p-1.5 rounded-lg ${toneBg ?? 'bg-slate-100 dark:bg-white/10'} ${tone}`}>
-      <Icon className="w-3.5 h-3.5" />
-    </div>
-    <h3 className={`t-section ${tone}`}>{label}</h3>
-    {children}
-  </div>
-);
-
-/**
- * How much of a criterion's marks the response earned, as a filled track.
- *
- * "2 / 4" is a fact the reader has to do arithmetic on, and a list of them is a
- * list of arithmetic; the same fact as a track is read at a glance, and a
- * column of tracks shows which criterion cost the most marks without reading a
- * word. The exported PDF has drawn this since it was written (see METER in
- * pdf/types) — the screen was the one that made you work it out.
- */
-const CriterionMeter: React.FC<{ mark: number; maxMark: number }> = ({ mark, maxMark }) => {
-  const ratio = maxMark > 0 ? Math.max(0, Math.min(1, mark / maxMark)) : 0;
-  // The same three-step scale the PDF uses, so a printed report and the screen
-  // never disagree about which criteria went well.
-  const tone =
-    ratio >= 0.85
-      ? 'bg-emerald-500'
-      : ratio >= 0.5
-        ? 'bg-amber-500'
-        : ratio > 0
-          ? 'bg-rose-500'
-          : 'bg-slate-300 dark:bg-white/15';
-  return (
-    <div
-      className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-white/10 overflow-hidden"
-      role="img"
-      aria-label={`${mark} of ${maxMark} marks awarded`}
-    >
-      <div
-        className={`h-full rounded-full transition-all duration-700 ${tone}`}
-        style={{ width: `${ratio * 100}%` }}
-      />
-    </div>
-  );
-};
-
-// Added interface and used React.FC to correctly allow standard props like 'key' in JSX
-interface CriteriaRowProps {
-  criterion: EvaluationCriterion;
-  maxMark: number;
-  mark: number;
-  feedback: string;
-  prompt: Prompt;
-  index?: number;
-}
-
-const CriteriaRow: React.FC<CriteriaRowProps> = ({
-  criterion,
-  maxMark,
-  mark,
-  feedback,
-  prompt,
-  index = 0,
-}) => {
-  const percentage = maxMark > 0 ? (mark / maxMark) * 100 : 0;
-  const isSuccess = percentage === 100;
-  const isFailure = percentage === 0;
-
-  return (
-    <div
-      className={`relative p-5 sm:p-6 ${CARD} animate-fade-in-up-sm CriteriaRow`}
-      style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 leading-snug flex-1 min-w-0">
-          {/* Numbered, so a criterion can be referred to out loud — "look at
-              three" — rather than by quoting its wording back. */}
-          <span className="text-slate-600 dark:text-slate-400 tabular-nums mr-2">{index + 1}</span>
-          {renderHighlightedText(criterion.criterion, prompt.keywords, prompt.verb)}
-        </h4>
-        <div
-          className={`flex items-baseline gap-0.5 px-2.5 py-1 rounded-lg text-xs font-black shrink-0 tabular-nums ${isSuccess ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400' : isFailure ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-400' : 'bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-slate-300'}`}
-        >
-          <span>{mark}</span>
-          <span className="opacity-40">/</span>
-          <span>{maxMark}</span>
-        </div>
-      </div>
-
-      <div className="mt-3">
-        <CriterionMeter mark={mark} maxMark={maxMark} />
-      </div>
-
-      <p className="mt-3.5 text-[13px] leading-relaxed text-slate-600 dark:text-slate-400">
-        {renderFormattedText(feedback, prompt.keywords, prompt.verb)}
-      </p>
-    </div>
-  );
-};
+import { useFeedbackView } from '../hooks/useFeedbackView';
+import { useFeedbackExport } from '../hooks/useFeedbackExport';
+import { BandGoalCard, HighlightKey, MetricCard, SectionHeading } from './feedback/FeedbackPieces';
+import CriteriaSection from './feedback/CriteriaSection';
+import StrengthsAndGrowth from './feedback/StrengthsAndGrowth';
+import ImprovedResponseSection from './feedback/ImprovedResponseSection';
+import NextStepNote from './feedback/NextStepNote';
+import ScorePlacard from './feedback/ScorePlacard';
+import {
+  FEEDBACK_CARD,
+  FEEDBACK_HEADING,
+  FEEDBACK_TILE,
+  FOOTNOTE,
+  INK_BUTTON,
+} from './feedback/feedbackChrome';
 
 interface EvaluationDisplayProps {
   result: EvaluationResult;
   prompt: Prompt;
-  onUseRevisedAnswer: (answer: string) => void;
   onImproveAnswer: () => void;
   /** Open the side-by-side diff of the student's answer against the rewrite. */
   onCompareImprovement?: () => void;
@@ -349,10 +58,21 @@ interface EvaluationDisplayProps {
   showToast?: (message: string, type?: ToastType) => void;
 }
 
+/**
+ * The marking report. Its footer, which holds "Use this version", belongs to the
+ * modal around it (EvaluationResultModal), since leaving the feedback is the modal's
+ * act and not the report's.
+ *
+ * The layout is the reading order a student needs, not the order the marker wrote
+ * the sections in: the mark first, then the one thing to do next and the rewrite
+ * that acts on it, then the marker's words, the evidence, the criteria, and the
+ * student's own response. From `xl` the mark, the goal and the figures sit in a
+ * column beside the next step and the rewrite, so the top of the report is one
+ * screen with no empty margin beside it.
+ */
 const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   result,
   prompt,
-  onUseRevisedAnswer,
   onImproveAnswer,
   onCompareImprovement,
   isImproving,
@@ -365,128 +85,51 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   showToast,
 }) => {
   const bandConfig = getBandConfig(result.overallBand);
-  const termInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const reportRef = useRef<HTMLDivElement>(null);
 
   // Plus-gated controls stay visible in a locked (amber) state; a click opens
   // the upgrade prompt instead of running the action. See services/entitlements.
   const pdfLocked = isFeatureLocked('pdfExport');
-  const upgradesLocked = isFeatureLocked('answerUpgrades');
   const feedbackLocked = isFeedbackLocked();
 
-  // Vector-PDF export state (guards double-clicks, drives the button spinner).
-  const [isExporting, setIsExporting] = useState(false);
-  const [exportStatus, setExportStatus] = useState('');
-  // Paper, copies and what goes in the report. Read once from the device's
-  // stored preferences so a teacher printing a class set sets them once.
-  const [pdfPrefs, setPdfPrefs] = useState<PdfExportPreferences>(() => readPdfPreferences());
-  const [showPdfOptions, setShowPdfOptions] = useState(false);
-  const pdfMenuRef = useRef<HTMLDivElement>(null);
+  const view = useFeedbackView({ result, prompt, userAnswer, hierarchy });
+  const {
+    termInfo,
+    upgradesLocked,
+    revisedText,
+    keyChanges,
+    maxBand,
+    nextLevel,
+    exemplarMark,
+    exemplarBand,
+    exemplarConfig,
+    wordCount,
+    keywordsUsedCount,
+    syllabusTrail,
+  } = view;
 
-  const updatePdfPrefs = (next: PdfExportPreferences) => {
-    setPdfPrefs(next);
-    writePdfPreferences(next);
-  };
+  const {
+    isExporting,
+    exportStatus,
+    pdfPrefs,
+    updatePdfPrefs,
+    showPdfOptions,
+    setShowPdfOptions,
+    pdfMenuRef,
+    handleExportPdf,
+  } = useFeedbackExport({ prompt, result, userAnswer, hierarchy, view, showToast });
 
-  /**
-   * The rewrite, as this client is allowed to present it.
-   *
-   * The server withholds it from a plan without `answerUpgrades`, so normally
-   * there is nothing here to hide. The lock is applied again anyway, in ONE
-   * place that every consumer reads — the rendered exemplar, the buttons, the
-   * comparison, and the exported PDF — because a rewrite can outlive the
-   * entitlement that produced it: a cached result, or a session that was still
-   * open when the plan lapsed. A paid asset should not depend on which of four
-   * call sites remembered to check.
-   */
-  const revisedText = useMemo(() => {
-    if (upgradesLocked || !result.revisedAnswer) return '';
-    return typeof result.revisedAnswer === 'string'
-      ? result.revisedAnswer
-      : result.revisedAnswer.text;
-  }, [result.revisedAnswer, upgradesLocked]);
+  const atCeiling = result.overallMark >= prompt.totalMarks;
+  const marksToFull = prompt.totalMarks - result.overallMark;
 
   // The question's tier caps how high an exemplar can realistically sit.
-  const maxBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier),
-    [prompt.totalMarks, termInfo.tier]
-  );
-
   // The Verb Gate binds only below Band 6: a tier-6 verb (Evaluate, Synthesise…)
   // leaves the full range open, so there is nothing to explain there. Below that
   // the ceiling is real, and the report should say why it is where it is.
   const capIsBinding = maxBand < 6;
   // Band N's canonical colour equals Tier N's, so the cap note wears the same
-  // hue as the "Band N Goal" card beside it (see getBandConfig / BandGoalCard).
+  // hue as the "Band N goal" card beside it (see getBandConfig / BandGoalCard).
   const capConfig = getBandConfig(maxBand);
-
-  // What the improved response is actually worth: one mark above the student's,
-  // and the band that mark maps to. Both come from `getNextLevelTarget`, which
-  // is also what the marker was briefed with, so the header can never promise a
-  // band the rewrite was not aimed at — in either direction. It read "Band N+1"
-  // over a one-mark rewrite once, and later read the unchanged band over a
-  // rewrite the student was told was an improvement.
-  const nextLevel = useMemo(
-    () => getNextLevelTarget(result.overallMark, prompt.totalMarks, termInfo.tier),
-    [result.overallMark, prompt.totalMarks, termInfo.tier]
-  );
-
-  const exemplarMark = useMemo(() => {
-    if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.mark) {
-      return Math.min(prompt.totalMarks, result.revisedAnswer.mark);
-    }
-    return nextLevel.targetMark;
-  }, [result.revisedAnswer, nextLevel.targetMark, prompt.totalMarks]);
-
-  const exemplarBand = useMemo(() => {
-    // An AI-reported band is clamped to the question's ceiling too — the Verb
-    // Gate applies to every band figure shown, including model output.
-    if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.band) {
-      return Math.min(maxBand, result.revisedAnswer.band);
-    }
-    return Math.min(maxBand, getBandForMark(exemplarMark, prompt.totalMarks, termInfo.tier));
-  }, [result.revisedAnswer, exemplarMark, prompt.totalMarks, termInfo.tier, maxBand]);
-
-  const exemplarConfig = getBandConfig(exemplarBand);
-
-  // Calculations for metrics
-  const wordCount = useMemo(
-    () => userAnswer.trim().split(/\s+/).filter(Boolean).length,
-    [userAnswer]
-  );
-  const { keywordsUsedCount } = useMemo(() => {
-    // Shares the highlighter's matcher so this count always agrees with the
-    // terms shown highlighted in the response.
-    const used = (prompt.keywords || []).filter((kw) => textContainsKeyword(userAnswer, kw));
-    return { keywordsUsedCount: used.length };
-  }, [userAnswer, prompt.keywords]);
-
-  // Which terms the question names itself, for the printed report — the trail
-  // this component already receives carries every syllabus level the
-  // classifier reads, so nothing new has to be threaded down to get it.
-  const mustUseKeywords = useMemo(
-    () =>
-      splitSyllabusTerms(prompt.keywords || [], {
-        question: prompt.question,
-        scenario: prompt.scenario,
-        dotPointText: hierarchy?.dotPoint,
-        subTopicName: hierarchy?.subTopic,
-        topicName: hierarchy?.topic,
-      }).mustUse,
-    [prompt.keywords, prompt.question, prompt.scenario, hierarchy]
-  );
-
-  // Where this question lives in the syllabus — shown under the hero and
-  // embedded in the PDF so a shared report identifies its own provenance.
-  const syllabusTrail = useMemo(
-    () =>
-      hierarchy
-        ? [hierarchy.course, hierarchy.topic, hierarchy.subTopic, hierarchy.dotPoint].filter(
-            (s): s is string => !!s && !!s.trim()
-          )
-        : [],
-    [hierarchy]
-  );
 
   // Auto-scroll the trail rail to its leaf on overflow, matching Breadcrumb.tsx:
   // the deepest segment (the exact dot point marked) is the most useful, but a
@@ -501,114 +144,85 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     el.scrollTo({ left: el.scrollWidth, behavior: reduce ? 'auto' : 'smooth' });
   }, [trailKey]);
 
-  const handleExportPdf = async () => {
-    if (isExporting) return; // guard double-clicks
-    setIsExporting(true);
-    setExportStatus('Starting…');
-    try {
-      // Pass raw content through; the pdf module normalises HTML/markup safely
-      // (a whitelist strip that preserves bare `<`/`>` in code and maths).
-      await exportEvaluationPdf({
-        data: {
-          question: prompt.question,
-          verb: prompt.verb,
-          totalMarks: prompt.totalMarks,
-          syllabusPath: syllabusTrail.join('  ›  ') || undefined,
-          studentAnswer: pdfPrefs.includeResponse ? userAnswer.trim() || undefined : undefined,
-          overallMark: result.overallMark,
-          overallBand: result.overallBand,
-          // Caps the PDF band ladder at the question's tier ceiling so a
-          // lower-tier question does not draw empty rungs up to Band 6.
-          targetBand: maxBand,
-          overallFeedback: result.overallFeedback || '',
-          quickTip: result.quickTip,
-          strengths: result.strengths || [],
-          improvements: result.improvements || [],
-          criteria: (result.criteria || []).map((c) => ({
-            criterion: c.criterion,
-            mark: c.mark,
-            maxMark: c.maxMark,
-            feedback: c.feedback,
-          })),
-          // Empty while locked (see `revisedText`), which takes the improved
-          // response AND the change list built from it out of the file.
-          revisedAnswer: revisedText || undefined,
-          exemplarBand,
-          exemplarMark,
-          wordCount,
-          keywordsUsed: keywordsUsedCount,
-          keywordsTotal: prompt.keywords?.length || 0,
-          markerNotes: pdfPrefs.markerNotes,
-          // Colours the syllabus terms on the page the way `renderFormattedText`
-          // colours them on screen — the exporter shares the app's matcher, so
-          // the two cannot disagree about what counts as a key term.
-          keywords: prompt.keywords || [],
-          mustUseKeywords,
-        },
-        pageSize: pdfPrefs.pageSize,
-        copies: pdfPrefs.copies,
-        showFields: pdfPrefs.showFields,
-        filename: `HSC-${prompt.verb}-Band${result.overallBand}-Feedback`,
-        // The COURSE, not the topic and sub-topic — those are the middle two
-        // segments of the syllabus trail printed a centimetre below, so the
-        // masthead was repeating the trail verbatim while the one thing the
-        // trail does not reliably carry went unnamed. The trail is fitted to a
-        // single line from its END (`fitTrailToLine`), so on a long path the
-        // course is the first segment dropped; said here it cannot be lost, and
-        // the two lines divide the job between them — what course this is, and
-        // where in it the question sits.
-        subtitle: hierarchy?.course?.trim() || 'Marking Feedback Report',
-        onToast: showToast,
-        onProgress: (_fraction, label) => setExportStatus(label),
-      });
-    } catch {
-      // Every rejection is a PdfExportError the exporter has already toasted,
-      // naming the stage that failed.
-    } finally {
-      setIsExporting(false);
-      setExportStatus('');
-    }
-  };
+  // The export controls live in the placard, so they are drawn in its ink: the band's
+  // solid fill takes dark ink, and a white button on it would be white on the band.
+  const exportActions = (
+    <>
+      <div className="relative flex" ref={pdfMenuRef}>
+        <button
+          onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
+          disabled={isExporting}
+          aria-busy={isExporting}
+          title={
+            pdfLocked
+              ? `PDF export is part of ${planLabelForFeature('pdfExport')} — tap to learn more`
+              : undefined
+          }
+          className="min-h-11 sm:min-h-0 px-5 py-3 rounded-l-2xl text-xs font-bold shadow-sm transition-all border border-r-0 border-white/40 bg-white/25 hover:bg-white/35 text-slate-950 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isExporting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+              {/* The stage text updates several times during a multi-second
+                  export (engine → fonts → page N of M). aria-busy on the
+                  button says "working", but without a live region none of
+                  the progress is announced. */}
+              <span role="status" aria-live="polite">
+                {exportStatus || 'Exporting…'}
+              </span>
+            </>
+          ) : (
+            <>
+              <FileDown className="w-4 h-4" aria-hidden="true" /> Export PDF
+              {pdfLocked && (
+                // The chip's own amber is drawn on a dark pill, so it reads on the
+                // band fill as well as on the white page it was designed for.
+                <span className="inline-flex rounded-lg bg-slate-950/85">
+                  <PlusLockChip />
+                </span>
+              )}
+            </>
+          )}
+        </button>
+        <button
+          onClick={() => setShowPdfOptions((v) => !v)}
+          disabled={isExporting}
+          aria-label="PDF export options"
+          aria-expanded={showPdfOptions}
+          title="Paper size, copies and what to include"
+          className={`min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 px-3 rounded-r-2xl text-slate-950 border border-white/40 transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
+            showPdfOptions ? 'bg-white/35' : 'bg-white/25 hover:bg-white/35'
+          }`}
+        >
+          <Settings2 className="w-4 h-4" aria-hidden="true" />
+        </button>
+        <PdfExportOptions
+          open={showPdfOptions}
+          onClose={() => setShowPdfOptions(false)}
+          value={pdfPrefs}
+          onChange={updatePdfPrefs}
+          anchorRef={pdfMenuRef}
+        />
+      </div>
+      {onSaveToSamples && (
+        <button onClick={onSaveToSamples} className={INK_BUTTON}>
+          <Save className="w-4 h-4" aria-hidden="true" /> Save result
+        </button>
+      )}
+    </>
+  );
 
   return (
     <div
       ref={reportRef}
-      /* gap-6, not gap-8: each section now carries its own heading with its own
-         margin, so the old gap stacked two separations on top of each other and
-         pushed the criteria a scroll further down than they needed to be. */
       /* The report is a document, so its column is bounded by what prose can be
-         read at rather than by the modal it sits in. At `max-w-5xl` the reading
-         cards ran 142 characters a line on a laptop and wider; `3xl` brings that
-         to 104. Measured across viewports: phone (306px panel, 38 chars) and
-         tablet (652px, 87) are untouched, because their column is already
-         narrower than this — the cap only engages from about 1024px up, which is
-         exactly where the lines were too long.
-
-         Not tighter than `3xl`: 44rem reaches 95 characters but starts clipping
-         "Key Terms" to "Key…" in the stat grid, and 40rem takes "Volume" with
-         it. 104 characters is the tightest line this layout buys without
-         spending a label to get it. Narrowing the text inside these cards
-         instead was tried and reverted — it left the prose stranded halfway
-         across a card nobody had narrowed. See DesignSpec §4, "Measure". */
+         read at rather than by the modal it sits in. `max-w-3xl` below `xl` keeps the
+         reading column at about 104 characters a line; `xl` widens the report to the
+         two columns it now has, and the reading column inside them stays at a measure
+         that reads. See DesignSpec §4, "Measure". */
       className="relative flex flex-col gap-6 max-w-3xl xl:max-w-5xl mx-auto pb-20 EvaluationDisplay"
     >
-      <AiBusyOverlay show={isImproving} rounded="rounded-panel">
-        <LoadingIndicator
-          task="generation"
-          message={`Lifting your answer to ${nextLevel.targetMark}/${prompt.totalMarks}`}
-          messages={[
-            'Keeping your wording and structure...',
-            'Adding what the marker asked for...',
-            'Sharpening the syllabus terminology...',
-          ]}
-          duration={12}
-          band={exemplarBand}
-        />
-      </AiBusyOverlay>
-
-      {/* Hero Question Context — left edge aligns with the cards below it, and
-          the trail/meta/question sit on a tightening rhythm so the question
-          reads as the heading of the whole report. */}
+      {/* Question. Left edge aligns with the cards below it. */}
       <header className="flex flex-col gap-3">
         {/* Breadcrumb as one scrollable rail rather than a wrapping block: a
             deep syllabus trail wrapped to four stacked lines on a phone,
@@ -649,531 +263,170 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         <HighlightKey hasVerb={!!prompt.verb} hasTerms={(prompt.keywords?.length ?? 0) > 0} />
       </header>
 
-      {/* From `xl` up the report is a document with a margin, not one column in
-          a wide empty card. Bounding the column at `3xl` fixed the 142-character
-          line but left about 400px of nothing beside it on a desktop, which is
-          the half of the problem the cap could not reach: the container was the
-          thing that was too wide. So the score placard and the metrics move into
-          that space and the prose narrows behind them, which uses the width and
-          shortens the line in one move rather than trading one against the
-          other.
+      {/* The top of the report is two columns from `xl`, and one column below it. The
+          DOM order is the phone order, so a keyboard or a screen reader meets the mark
+          before the words, the same as a student on a phone does. */}
+      <div className="flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-start xl:gap-x-8">
+        {/* The mark. Stated here and only here: every other surface says what it means
+            in words and points back to this. */}
+        <div
+          className="flex flex-col gap-3 min-w-0 xl:col-start-2 xl:row-start-1"
+          data-report="placard"
+        >
+          <ScorePlacard
+            band={result.overallBand}
+            mark={result.overallMark}
+            total={prompt.totalMarks}
+            atCeiling={atCeiling || result.overallBand >= maxBand}
+            actions={exportActions}
+          />
+          <p className={`${FOOTNOTE} px-1`}>{AI_MARKING_DISCLAIMER}</p>
+        </div>
 
-          Below `xl` nothing changes. The wrapper is a flex column there and the
-          aside is its first child, so the reading order is the order it has
-          always been — question, score, then the report. The `order` swap only
-          applies once there are two columns to swap between. */}
-      <div className="flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-start xl:gap-8">
-        {/* NOT sticky, though it was built that way first and it worked: pinned
-            at `top-6` the mark stayed in view through the whole report. It came
-            out because it fails on a short window. The aside measures 687px and
-            the modal's scroll container is 572px at 1440x700 and 496px at
-            1280x620 — a laptop with a browser bar. Pinned, the top holds and the
-            bottom of the column, which is where the Volume and Key Terms figures
-            are, can never be scrolled to. A capped height with its own scrollbar
-            inside a 352px margin is worse than scrolling with the page, and a
-            `min-height` media query guessing where the sidebar stops fitting is
-            a rule that breaks the first time the goal card gains a line.
-
-            `self-start` stays: without it the aside stretches to the reading
-            column's full height and the gradient placard grows a void. */}
-        <aside className="flex flex-col gap-4 xl:order-2 xl:self-start">
-          {/* Score & Metrics Dashboard */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 xl:grid-cols-1 gap-4 items-stretch">
-            {/* Main Vibrant Placard */}
-            <div
-              className={`clip-stable lg:col-span-7 xl:col-span-full relative rounded-panel overflow-hidden p-7 sm:p-8 shadow-lg transition-all duration-500 bg-gradient-to-br ${bandConfig.gradient}`}
-            >
-              <MeshOverlay opacity="opacity-[0.15]" />
-
-              <div className="relative z-10 flex flex-col justify-between h-full gap-6 text-white">
-                <div className="flex flex-col gap-5">
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="min-w-0">
-                      <div
-                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/20 mb-4 shadow-sm backdrop-blur-md bg-white/20`}
-                      >
-                        <Award className="w-3.5 h-3.5" />
-                        <span className="t-label">
-                          Band {result.overallBand} · {getBandName(result.overallBand)}
-                        </span>
-                      </div>
-                      {/* A `<p>`, not the `<h1>` it was. A number is not a heading:
-                          it made the mark the page's second level-one heading,
-                          under this panel's own `<h2>`, and a screen reader read
-                          it as "15 slash 20". The slash is drawn for the eye and
-                          "out of" is spoken for the ear. */}
-                      <p className="text-6xl sm:text-7xl font-black tracking-tight italic leading-none">
-                        {result.overallMark}
-                        <span
-                          className="text-3xl font-medium align-top opacity-60"
-                          aria-hidden="true"
-                        >
-                          /{prompt.totalMarks}
-                        </span>
-                        <span className="sr-only"> out of {prompt.totalMarks}</span>
-                      </p>
-                      {/* "Result", not "Assessment Score". The word carries weight in the HSC
-                      that practice marking has not earned, which is why it was taken out
-                      of the exported report; the screen it was exported from still said
-                      it. See pdf/buildBlocks.ts, where the same cell is labelled. */}
-                      <p className="t-label opacity-80 mt-2">Result</p>
-                    </div>
-                    <div
-                      className={`w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/20 shadow-lg no-print`}
-                    >
-                      {/* Measured against the question's own ceiling, not
-                          against Band 6. A 3/4 on a DESCRIBE is the top band
-                          that question can award, and it wore a warning
-                          triangle because Band 2 is low on a six-band scale. */}
-                      {result.overallBand >= maxBand || result.overallMark >= prompt.totalMarks ? (
-                        <Trophy className="w-7 h-7 text-white" />
-                      ) : (
-                        <Target className="w-7 h-7 text-white" />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Marks awarded as a share of the total — gives the placard's
-                middle a purpose instead of leaving a gradient void when the
-                column stretches to match the metrics beside it. */}
-                  <div
-                    className="h-1.5 w-full rounded-full bg-white/25 overflow-hidden"
-                    role="img"
-                    aria-label={`${result.overallMark} of ${prompt.totalMarks} marks awarded`}
-                  >
-                    <div
-                      className="h-full rounded-full bg-white/90 transition-all duration-700"
-                      style={{
-                        width: `${prompt.totalMarks > 0 ? Math.min(100, (result.overallMark / prompt.totalMarks) * 100) : 0}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-3 no-print">
-                  {/* Export, and the options behind a chevron. Splitting them keeps
-                  the common case one click while making paper size, copies and
-                  what goes in the report reachable at all — every one of them
-                  was already supported by the exporter and unreachable. */}
-                  <div className="relative flex" ref={pdfMenuRef}>
-                    <button
-                      onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
-                      disabled={isExporting}
-                      aria-busy={isExporting}
-                      title={
-                        pdfLocked
-                          ? `PDF export is part of ${planLabelForFeature('pdfExport')} — tap to learn more`
-                          : undefined
-                      }
-                      className={`px-5 py-3 rounded-l-2xl text-white text-xs font-bold shadow-sm transition-all border border-r-0 backdrop-blur-sm flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed ${
-                        pdfLocked
-                          ? 'bg-amber-400/15 hover:bg-amber-400/25 border-amber-300/50'
-                          : 'bg-white/20 hover:bg-white/30 border-white/20'
-                      }`}
-                    >
-                      {isExporting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          {/* The stage text updates several times during a multi-second
-                          export (engine → fonts → page N of M). aria-busy on the
-                          button says "working", but without a live region none of
-                          the progress is announced. */}
-                          <span role="status" aria-live="polite">
-                            {exportStatus || 'Exporting…'}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <FileDown className="w-4 h-4" /> Export PDF
-                          {pdfLocked && (
-                            <PlusLockChip className="bg-white/15 border-white/40 text-white" />
-                          )}
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={() => setShowPdfOptions((v) => !v)}
-                      disabled={isExporting}
-                      aria-label="PDF export options"
-                      aria-expanded={showPdfOptions}
-                      title="Paper size, copies and what to include"
-                      className={`px-2.5 rounded-r-2xl text-white border backdrop-blur-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
-                        showPdfOptions ? 'bg-white/30' : 'bg-white/20 hover:bg-white/30'
-                      } border-white/20`}
-                    >
-                      <Settings2 className="w-4 h-4" />
-                    </button>
-                    <PdfExportOptions
-                      open={showPdfOptions}
-                      onClose={() => setShowPdfOptions(false)}
-                      value={pdfPrefs}
-                      onChange={updatePdfPrefs}
-                      anchorRef={pdfMenuRef}
-                    />
-                  </div>
-                  {onSaveToSamples && (
-                    <button
-                      onClick={onSaveToSamples}
-                      className="px-5 py-3 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 text-xs font-bold shadow-lg transition-all hover:scale-105 flex items-center gap-2 border-2 border-transparent"
-                    >
-                      <Save className="w-4 h-4" /> Save Result
-                    </button>
-                  )}
-                </div>
-
-                {/* The agreement makes this point once, at sign-up. This is where
-                it actually matters: next to a mark and a band that look
-                exactly like a real result. Deliberately quiet, and always
-                present — including on the printed page. */}
-                <p className="text-[10px] leading-relaxed text-white/60 max-w-md">
-                  {AI_MARKING_DISCLAIMER}
-                </p>
-              </div>
-            </div>
-
-            {/* Goal + Metrics */}
-            <div className="lg:col-span-5 xl:col-span-full flex flex-col gap-4">
-              {/* Why the goal is capped where it is, told on the goal itself.
-                  The "Band N Goal" states the ceiling; without the reason a
-                  student or teacher reads it as a harsh marker rather than the
-                  verb's own limit. It used to be a card of its own at the head
-                  of the report, the first thing read — above the student's own
-                  answer — and a paragraph away from the goal it explained.
-                  Only when the cap binds (below Band 6), and carried by the
-                  text alone, so it stands on greyscale and to a screen reader. */}
-              <BandGoalCard
-                currentBand={result.overallBand}
-                maxBand={maxBand}
-                capNote={
-                  capIsBinding ? (
-                    <>
-                      <span className={VERB_HIGHLIGHT_CLASS}>{prompt.verb}</span> is a Tier{' '}
-                      {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command, so{' '}
-                      <span className={`font-semibold ${capConfig.text}`}>Band {maxBand}</span> is
-                      the top of the scale for this question — even a flawless response tops out
-                      here.
-                    </>
-                  ) : undefined
-                }
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <MetricCard
-                  label="Volume"
-                  value={wordCount}
-                  subtext="Words"
-                  icon={FileText}
-                  theme={bandConfig}
-                />
-                <MetricCard
-                  label="Key Terms"
-                  value={keywordsUsedCount}
-                  subtext={`of ${prompt.keywords?.length || 0}`}
-                  icon={Hash}
-                  theme={bandConfig}
-                />
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <div className="flex flex-col gap-6 min-w-0 xl:order-1">
-          {/* Student Response — included so the report can be shared with a
-          teacher as a self-contained record of what was actually submitted. */}
-          {userAnswer.trim() && (
-            <section className={`${CARD} overflow-hidden`}>
-              <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-300 dark:border-white/5 bg-slate-100 dark:bg-white/[0.03]">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
-                    <PenLine className="w-4 h-4" />
-                  </div>
-                  <h3 className="t-section text-slate-600 dark:text-slate-400">
-                    {userName ? `${userName}'s response` : 'Your response'}
-                  </h3>
-                </div>
-                <span className="t-label text-slate-600 dark:text-slate-400">
-                  {wordCount} words · as submitted
-                </span>
-              </div>
-              <div className="p-6 sm:p-8">
-                <div className="font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                  {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Coach's Tip — the one sentence to act on first. A solid card with a
-          band-coloured rail rather than the dashed callout it used to be: the
-          dashes read as a placeholder, and the tip is the opposite of one. */}
+        {/* The one thing to do next, and the rewrite that acts on it. */}
+        <div
+          className="flex flex-col gap-6 min-w-0 xl:col-start-1 xl:row-start-1 xl:row-span-2"
+          data-report="reading"
+        >
           {result.quickTip && (
-            <div
-              className={`relative overflow-hidden ${CARD} flex items-start gap-4 p-5 animate-fade-in`}
-            >
-              <div
-                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
-                aria-hidden="true"
-              />
-              <div
-                className={`ml-1 p-2.5 rounded-xl ${bandConfig.iconBg} ${bandConfig.text} shrink-0`}
-              >
-                <Lightbulb className="w-5 h-5" />
-              </div>
-              <div className="min-w-0 pt-0.5">
-                <span className={`t-section block mb-1 ${bandConfig.text}`}>Coach&apos;s Tip</span>
-                {/* Run through the formatter like every other piece of marker prose
-                — it used to be the one place a syllabus term printed plain. */}
-                <p className="text-sm font-semibold leading-relaxed text-slate-700 dark:text-slate-200">
-                  {renderFormattedText(result.quickTip, prompt.keywords, prompt.verb)}
-                </p>
-              </div>
-            </div>
+            <NextStepNote band={result.overallBand} tip={result.quickTip} prompt={prompt} />
           )}
-
-          {/* Marker's Commentary */}
-          <section>
-            <SectionHeading icon={Quote} label="Marker's Commentary" />
-            <div className={`relative overflow-hidden ${CARD} p-6 sm:p-8`}>
-              <div
-                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
-                aria-hidden="true"
-              />
-              {/* Serif, because this is the one passage on the page written TO the
-              student — but at reading size. It used to be text-xl italic, which
-              set the marker's aside larger than the question it was about. */}
-              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
-                {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
-              </div>
-            </div>
-          </section>
-
-          {/* Strengths & Growth */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <section>
-              <SectionHeading
-                icon={CheckCircle}
-                label="Strong Evidence"
-                // emerald-600 measured 3.1:1 on the light desk, under AA; -800 is
-                // 5.9:1 there and keeps the same hue.
-                tone="text-emerald-800 dark:text-emerald-400"
-                toneBg="bg-emerald-100 dark:bg-emerald-500/15"
-              />
-              <ul className={`${CARD} p-5 sm:p-6 space-y-3.5`}>
-                {result.strengths.map((s, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fade-in-up-sm"
-                    style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
-                  >
-                    {/* A tick, not a dot. The two lists mean opposite things and
-                    used to be told apart only by the colour of a 6px circle —
-                    which is no distinction at all on a greyscale print. */}
-                    <Check className="w-4 h-4 mt-0.5 shrink-0 text-emerald-500" />
-                    <span>{renderFormattedText(s, prompt.keywords, prompt.verb)}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            {/* The improvement path is REDACTED server-side for the free tier
-            (api/_lib/entitlements.ts replaces it with the upgrade
-            placeholder), so it has to carry the same lock treatment as the
-            criteria below. Without it a free user reads
-            "Upgrade to see this feedback." as if it were the marker's actual
-            advice, with nothing to click. */}
-            <section className="relative">
-              <SectionHeading
-                icon={XCircle}
-                label="Areas for Growth"
-                tone="text-rose-700 dark:text-rose-400"
-                toneBg="bg-rose-100 dark:bg-rose-500/15"
-              >
-                {feedbackLocked && <PlusLockChip />}
-              </SectionHeading>
-              {feedbackLocked && (
-                <ContentLockOverlay
-                  feature="fullFeedback"
-                  message={`Your improvement path is part of ${planLabelForFeature('fullFeedback')}`}
-                  className="rounded-panel"
-                />
-              )}
-              <ul
-                className={`${CARD} p-5 sm:p-6 space-y-3.5 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
-              >
-                {result.improvements.map((im, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed animate-fade-in-up-sm"
-                    style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}
-                  >
-                    <ArrowUpRight className="w-4 h-4 mt-0.5 shrink-0 text-rose-500" />
-                    <span>{renderFormattedText(im, prompt.keywords, prompt.verb)}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </div>
-
-          {/* What the student had open before writing. Placed directly under the
-          improvement path, where "you did not open the Marking Guide" reads as
-          a route to the advice above rather than a reprimand of its own. */}
-          <SupportUsageSummary promptId={prompt.id} />
-
-          {/* Criteria Breakdown */}
-          <section className="relative">
-            <div className="no-print">
-              <SectionHeading icon={ClipboardList} label="Criteria Breakdown">
-                {feedbackLocked && <PlusLockChip />}
-              </SectionHeading>
-            </div>
-            {feedbackLocked && (
-              <ContentLockOverlay
-                feature="fullFeedback"
-                message={`Detailed criterion feedback is part of ${planLabelForFeature('fullFeedback')}`}
-              />
-            )}
-            <div
-              className={`grid grid-cols-1 gap-3 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
-            >
-              {result.criteria.map((criterion, idx) => (
-                <CriteriaRow
-                  key={idx}
-                  index={idx}
-                  criterion={criterion}
-                  maxMark={criterion.maxMark}
-                  mark={criterion.mark}
-                  feedback={criterion.feedback}
-                  prompt={prompt}
-                />
-              ))}
-            </div>
-          </section>
-
+          <ImprovedResponseSection
+            revisedText={revisedText}
+            keyChanges={keyChanges}
+            prompt={prompt}
+            overallMark={result.overallMark}
+            exemplarMark={exemplarMark}
+            exemplarBand={exemplarBand}
+            exemplarConfig={exemplarConfig}
+            upgradesLocked={upgradesLocked}
+            isImproving={isImproving}
+            onCompareImprovement={onCompareImprovement}
+            onImproveAnswer={onImproveAnswer}
+          />
           {/* Failed answer upgrades were silently swallowed before — surface them. */}
           {improveAnswerError && !isImproving && (
             <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 no-print">
-              <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-600 dark:text-red-400" />
+              <AlertCircle
+                className="w-5 h-5 shrink-0 mt-0.5 text-red-700 dark:text-red-400"
+                aria-hidden="true"
+              />
               <div>
-                <p className="text-sm text-red-700 dark:text-red-400">
+                <p className="text-sm text-red-800 dark:text-red-400">
                   The improved response could not be generated.
                 </p>
-                <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-0.5">
+                <p className="text-xs text-red-700 dark:text-red-400 mt-0.5">
                   {improveAnswerError}
                 </p>
               </div>
             </div>
           )}
 
-          {/* Improved Response (Exemplar).
-          Rendered when there IS a rewrite — or when the plan withheld one. The
-          proxy redacts the rewrite for an account whose plan doesn't include
-          answer upgrades (redactPaidFeedback), which left `revisedText` empty
-          and hid this whole section — including the upgrade button inside it
-          that is the only thing selling the feature. The section a free user
-          sees is the locked state below: no exemplar text, one clear CTA.
-
-          It takes the same heading and card as every other section. It was a
-          saturated gradient banner with a grid texture and three glass buttons
-          on it — the loudest object in the report, sitting under the criteria
-          it depends on. The band now shows as one rule across the card's top,
-          as it does on the comparison this section opens. */}
-          {(revisedText || (upgradesLocked && result.overallMark < prompt.totalMarks)) && (
-            <section className="relative">
-              <SectionHeading
-                icon={Zap}
-                label="Improved Response"
-                tone={exemplarConfig.text}
-                toneBg={exemplarConfig.bg}
-              >
-                {revisedText && result.overallMark < exemplarMark && (
-                  <span className="t-label ml-auto text-slate-600 dark:text-slate-400 tabular-nums">
-                    {exemplarMark}/{prompt.totalMarks} · Band {exemplarBand} · +
-                    {exemplarMark - result.overallMark} mark
-                    {exemplarMark - result.overallMark === 1 ? '' : 's'}
-                  </span>
-                )}
-                {upgradesLocked && <PlusLockChip />}
-              </SectionHeading>
-              <div className={`${CARD} overflow-hidden`}>
-                <div
-                  className="h-1"
-                  style={{ backgroundColor: getBandHex(exemplarBand) }}
-                  aria-hidden="true"
-                />
-                {revisedText ? (
-                  <>
-                    <div className="px-6 sm:px-8 pt-6 pb-6">
-                      <p className="t-label mb-3 text-slate-600 dark:text-slate-400">
-                        Your answer with the marker&apos;s edits made
-                      </p>
-                      <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
-                        {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
-                      </div>
-                    </div>
-                    <div className="px-6 sm:px-8 py-4 border-t border-slate-200/80 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] flex flex-wrap items-center gap-2.5 no-print">
-                      {/* The comparison is the point: the rewrite is an EDIT of
-                          the student's own answer, and reading it as a block of
-                          prose hides the handful of words that earned the mark. */}
-                      {onCompareImprovement && (
-                        <button
-                          onClick={onCompareImprovement}
-                          className={`t-label px-5 py-2.5 rounded-xl text-white font-semibold ${exemplarConfig.solidBg} hover:brightness-110 transition-[filter] flex items-center gap-2`}
-                        >
-                          <Columns2 className="w-4 h-4" />
-                          See the edits
-                        </button>
-                      )}
-                      <button
-                        onClick={() => onUseRevisedAnswer(stripHtmlTags(revisedText))}
-                        className="t-label px-5 py-2.5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 transition-colors flex items-center gap-2"
-                      >
-                        <ArrowUpCircle className="w-4 h-4" />
-                        Use this version
-                      </button>
-                      {/* Gated on MARKS, not bands: a student sitting at 5/6
-                          inside the top band still has a mark to win, and the
-                          band test hid the control from them. */}
-                      {result.overallMark < prompt.totalMarks && (
-                        <button
-                          onClick={onImproveAnswer}
-                          disabled={isImproving}
-                          className="t-label sm:ml-auto px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:opacity-60"
-                        >
-                          <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
-                          {isImproving ? 'Regenerating…' : 'Regenerate'}
-                        </button>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex flex-col items-center text-center gap-3 px-6 py-10 no-print">
-                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-                      Your answer, rewritten one mark higher — in your own words
-                    </p>
-                    <p className="max-w-md text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-                      {planLabelForFeature('answerUpgrades')} rewrites what you wrote to reach{' '}
-                      {exemplarMark}/{prompt.totalMarks}, keeping your structure and voice, and
-                      marks every edit so you can see exactly what the extra mark was for.
-                    </p>
-                    <button
-                      onClick={() => requestUpgrade('answerUpgrades')}
-                      className={`t-label mt-1 px-6 py-2.5 rounded-xl text-white font-semibold ${exemplarConfig.solidBg} hover:brightness-110 transition-[filter]`}
-                    >
-                      See what Plus unlocks
-                    </button>
-                  </div>
-                )}
+          {/* Marker's commentary: the one passage written TO the student. It sits under
+              the rewrite, so the left column carries the reading and the right carries the
+              mark, and neither leaves the other short at the top of the report. */}
+          <section>
+            <SectionHeading icon={Quote} label="Marker's commentary" />
+            <div className={`relative overflow-hidden ${FEEDBACK_CARD} p-6 sm:p-8`}>
+              <div
+                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
+                aria-hidden="true"
+              />
+              {/* Serif, because this is the one passage on the page written TO the
+                  student — but at reading size. */}
+              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
+                {renderFormattedText(result.overallFeedback, prompt.keywords, prompt.verb)}
               </div>
-            </section>
-          )}
+            </div>
+          </section>
+        </div>
 
-          {/* Feedback on the marking itself. One card: it used to sit in a
-              bordered wrapper of its own, whose padding and the card's own
-              top margin left an empty band above "Rate this evaluation". */}
-          <div className="no-print">
-            <ResponseFeedback
-              onFeedbackSubmit={onFeedbackSubmit}
-              existingFeedback={result.userFeedback}
+        {/* The goal and the figures beside the rewrite on a desktop, and after it on a phone. */}
+        <div className="flex flex-col gap-4 min-w-0 xl:col-start-2 xl:row-start-2">
+          <BandGoalCard
+            currentBand={result.overallBand}
+            maxBand={maxBand}
+            marksToFull={marksToFull}
+            capNote={
+              capIsBinding ? (
+                <>
+                  <span className={VERB_HIGHLIGHT_CLASS}>{prompt.verb}</span> is a Tier{' '}
+                  {termInfo.tier} ({tierShortLabel(termInfo.tier)}) command, so{' '}
+                  <span className={`font-semibold ${capConfig.text}`}>Band {maxBand}</span> is the
+                  top of the scale for this question — even a flawless response tops out here.
+                </>
+              ) : undefined
+            }
+          />
+          <div className="grid grid-cols-2 gap-4">
+            <MetricCard
+              label="Volume"
+              value={wordCount}
+              subtext="Words"
+              icon={FileText}
+              theme={bandConfig}
+            />
+            <MetricCard
+              label="Key terms"
+              value={keywordsUsedCount}
+              subtext={`of ${prompt.keywords?.length || 0}`}
+              icon={Hash}
+              theme={bandConfig}
             />
           </div>
+        </div>
+
+        <StrengthsAndGrowth
+          className="xl:col-span-2"
+          strengths={result.strengths}
+          improvements={result.improvements}
+          prompt={prompt}
+          feedbackLocked={feedbackLocked}
+        />
+
+        <CriteriaSection
+          className="xl:col-span-2"
+          criteria={result.criteria}
+          band={result.overallBand}
+          prompt={prompt}
+          feedbackLocked={feedbackLocked}
+        />
+
+        {/* Student response — included so the report can be shared with a teacher as a
+            self-contained record of what was actually submitted. */}
+        {userAnswer.trim() && (
+          <section className={`${FEEDBACK_CARD} overflow-hidden xl:col-span-2`}>
+            <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-300 dark:border-white/10 bg-surface-elevated">
+              <div className="flex items-center gap-3 min-w-0">
+                <div
+                  className={`${FEEDBACK_TILE} bg-slate-200/70 dark:bg-white/10 text-slate-700 dark:text-slate-300`}
+                >
+                  <PenLine className="w-4 h-4" aria-hidden="true" />
+                </div>
+                <h3 className={FEEDBACK_HEADING}>
+                  {userName ? `${userName}'s response` : 'Your response'}
+                </h3>
+              </div>
+              <span className="t-label text-slate-600 dark:text-slate-400">
+                {wordCount} words · as submitted
+              </span>
+            </div>
+            <div className="p-6 sm:p-8">
+              <div className="max-w-[40rem] font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+                {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
+              </div>
+            </div>
+          </section>
+        )}
+
+        <SupportUsageSummary promptId={prompt.id} className="xl:col-span-2" />
+
+        {/* Feedback on the marking itself. */}
+        <div className="no-print xl:col-span-2">
+          <ResponseFeedback
+            onFeedbackSubmit={onFeedbackSubmit}
+            existingFeedback={result.userFeedback}
+          />
         </div>
       </div>
     </div>
