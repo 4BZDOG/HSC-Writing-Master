@@ -65,8 +65,8 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
       className={`absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
-      {/* A soft accent bloom behind the card so it lifts off the blur rather
-          than floating on a flat grey pane. It is the app accent, not a fixed
+      {/* A soft accent bloom behind the card so it lifts off the veil rather
+          than floating on a flat pane. It is the app accent, not a fixed
           indigo, so it moves with the theme like the wait's own ink. */}
       <div
         aria-hidden="true"
