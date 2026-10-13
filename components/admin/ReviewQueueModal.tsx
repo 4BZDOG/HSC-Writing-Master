@@ -29,6 +29,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 
 type KindFilter = 'all' | 'prompt' | 'sample_answer' | 'structure';
 
@@ -81,7 +82,7 @@ const QualityBadge: React.FC<{ score: number | null; kind: ModerationItem['kind'
     if (isStructureKind(kind)) return null;
     return (
       <span
-        className="px-1.5 py-0.5 rounded-lg border text-[10px] font-bold bg-slate-500/15 text-slate-400 border-slate-500/30"
+        className="px-1.5 py-0.5 rounded-lg border text-[10px] font-bold bg-slate-500/15 text-slate-400 light:text-slate-600 border-slate-500/30"
         title="No AI pre-screen ran on this — it is at the top of the queue because you are the only check on it."
       >
         Not screened
@@ -90,10 +91,10 @@ const QualityBadge: React.FC<{ score: number | null; kind: ModerationItem['kind'
   }
   const tone =
     score >= 75
-      ? 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
+      ? 'bg-emerald-500/15 text-emerald-500 light:text-emerald-700 border-emerald-500/30'
       : score >= 50
-        ? 'bg-amber-500/15 text-amber-500 border-amber-500/30'
-        : 'bg-red-500/15 text-red-400 border-red-500/30';
+        ? 'bg-amber-500/15 text-amber-500 light:text-amber-700 border-amber-500/30'
+        : 'bg-red-500/15 text-red-400 light:text-red-700 border-red-500/30';
   return (
     <span
       className={`px-1.5 py-0.5 rounded-lg border text-[10px] font-bold ${tone}`}
@@ -231,10 +232,12 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
       onClick={requestClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">
+        <div
+          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+        >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 shadow-lg flex items-center justify-center">
               <ShieldCheck className="w-6 h-6 text-white" />
@@ -243,12 +246,12 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
                 Review Queue
                 {!isLoading && counts.all > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 text-xs font-bold">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 light:text-emerald-700 text-xs font-bold">
                     {counts.all} pending
                   </span>
                 )}
               </h2>
-              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 Approve or reject contributions to the shared library
               </p>
             </div>
@@ -276,7 +279,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
           </div>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar">
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar light:bg-surface-inset">
           {!isLoading && counts.all > 0 && (
             <div className="flex flex-wrap items-center gap-2 mb-4">
               {(
@@ -292,7 +295,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   onClick={() => setKindFilter(f.id)}
                   className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
                     kindFilter === f.id
-                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500'
+                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500 light:text-emerald-700'
                       : 'bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-100 border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'
                   }`}
                 >
@@ -304,7 +307,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                 onClick={() => setApproveAllOpen(true)}
                 disabled={isBulkApproving || visibleItems.length === 0}
                 title="Approve everything currently visible (respects the kind filter)"
-                className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 text-xs font-bold transition-all flex items-center gap-1.5 disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-500 light:text-emerald-700 hover:bg-emerald-500/20 text-xs font-bold transition-all flex items-center gap-1.5 disabled:opacity-50"
               >
                 <Check className="w-3.5 h-3.5" />
                 {isBulkApproving
@@ -324,7 +327,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                 {counts.all === 0 ? 'Nothing awaiting review.' : 'Nothing of this kind is pending.'}
               </p>
-              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 {counts.all === 0
                   ? 'Submitted questions, sample answers and structure will appear here.'
                   : 'Switch the filter above to see the rest of the queue.'}
@@ -335,7 +338,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               {visibleItems.map((item) => (
                 <li
                   key={`${item.kind}:${item.id}`}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200"
+                  className="flex items-start gap-4 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface border border-[rgb(var(--color-border-secondary))] light:border-slate-200"
                 >
                   <div className="mt-0.5 text-[rgb(var(--color-text-muted))]">
                     {item.kind === 'prompt' ? (
@@ -355,7 +358,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                     </div>
                     {item.context && (
                       <p
-                        className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 italic truncate"
+                        className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 italic truncate"
                         title={item.context}
                       >
                         For: {item.context}
@@ -385,14 +388,14 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                     <button
                       onClick={() => handleDecision(item, 'approve')}
                       disabled={busyId === item.id || isBulkApproving}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" /> Approve
                     </button>
                     <button
                       onClick={() => setRejectTarget(item)}
                       disabled={busyId === item.id || isBulkApproving}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 transition-all text-xs font-bold disabled:opacity-50"
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500/20 transition-all text-xs font-bold disabled:opacity-50"
                     >
                       <Ban className="w-3.5 h-3.5" /> Reject
                     </button>

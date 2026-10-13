@@ -58,6 +58,7 @@ import { createClass, enrolInClass } from '../../services/classService';
 import { fetchMyClasses, type TeachingClass } from '../../services/responseService';
 import { getSelectionSnapshot, subscribeAiConfig } from '../../services/aiConfig';
 import { estCostForModelId, getModelById, getModelByProviderModel } from '../../services/aiModels';
+import { TOOL_HEAD } from '../../utils/adminChrome';
 import {
   usageReportToCsv,
   estimateCostRange,
@@ -85,9 +86,9 @@ const ROLE_LABEL: Record<QuotaRole, string> = {
 };
 
 const ROLE_TONE: Record<QuotaRole, string> = {
-  admin: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400',
-  teacher: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
-  student: 'bg-sky-500/10 border-sky-500/30 text-sky-400',
+  admin: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400 light:text-indigo-700',
+  teacher: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 light:text-emerald-700',
+  student: 'bg-sky-500/10 border-sky-500/30 text-sky-400 light:text-sky-700',
 };
 
 /** UTC date string (yyyy-mm-dd) — the same day-bucket the server counts in. */
@@ -108,8 +109,8 @@ const StatTile: React.FC<{
   value: string;
   sub?: string;
 }> = ({ icon, label, value, sub }) => (
-  <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
+  <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface light:shadow-sm border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-1.5">
       {icon}
       {label}
     </div>
@@ -117,7 +118,7 @@ const StatTile: React.FC<{
       {value}
     </div>
     {sub && (
-      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mt-0.5">
+      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mt-0.5">
         {sub}
       </div>
     )}
@@ -155,7 +156,7 @@ const UsageMeter: React.FC<{ used: number; limit: number }> = ({ used, limit }) 
 const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
   if (school.plan_status === undefined) {
     return (
-      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
+      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 italic">
         unknown
       </span>
     );
@@ -163,7 +164,7 @@ const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
   const live = LIVE_LICENCE_STATUSES.includes(school.plan_status);
   if (!live) {
     return (
-      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
+      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 italic">
         {school.plan_status === 'none' ? 'no licence' : school.plan_status}
       </span>
     );
@@ -182,11 +183,11 @@ const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
           {seats} seat{seats === 1 ? '' : 's'}
         </span>
         {school.plan_status === 'past_due' && (
-          <span className="text-amber-500">payment failing</span>
+          <span className="text-amber-500 light:text-amber-700">payment failing</span>
         )}
       </span>
       {overSeats && (
-        <span className="text-[10px] font-bold text-amber-500">
+        <span className="text-[10px] font-bold text-amber-500 light:text-amber-700">
           {school.members - seats} over — top up seats
         </span>
       )}
@@ -198,8 +199,8 @@ const LicenceCell: React.FC<{ school: SchoolRow }> = ({ school }) => {
         <span
           className={`text-[10px] ${
             school.plan_cancel_at_period_end
-              ? 'font-bold text-amber-500'
-              : 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
+              ? 'font-bold text-amber-500 light:text-amber-700'
+              : 'text-[rgb(var(--color-text-dim))] light:text-slate-600'
           }`}
         >
           {school.plan_cancel_at_period_end ? 'ends' : 'renews'}{' '}
@@ -684,11 +685,13 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">
+        <div
+          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+        >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-rose-500 shadow-lg flex items-center justify-center">
               <Gauge className="w-6 h-6 text-white" />
@@ -697,7 +700,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 AI Usage Dashboard
               </h2>
-              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 Monitor spending and adjust daily budgets per group or per user
               </p>
             </div>
@@ -733,14 +736,14 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
         </div>
 
         {/* Body */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6 light:bg-surface-inset">
           {!remote ? (
             <div className="text-center py-16">
               <Info className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                 Usage metering requires Supabase.
               </p>
-              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-sm mx-auto mt-1">
+              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 max-w-sm mx-auto mt-1">
                 In local mode there are no user identities to meter, so the proxy does not enforce
                 quotas. Configure VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY (and their server-side
                 copies) to enable budgets.
@@ -792,7 +795,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* 7-day trend */}
               <section>
-                <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                   <TrendingUp className="w-3.5 h-3.5" /> Calls — last 7 days
                 </h3>
                 <div className="space-y-1.5">
@@ -802,7 +805,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       className="flex items-center gap-3"
                       title={`${day}: ${calls} calls`}
                     >
-                      <span className="w-24 shrink-0 text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      <span className="w-24 shrink-0 text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         {dayLabel(day)}
                       </span>
                       <div className="flex-1 h-4 rounded-lg bg-black/30 light:bg-slate-100 overflow-hidden">
@@ -823,10 +826,10 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   per-model usage (best-effort; absent on an un-migrated DB). */}
               {modelCost7d.rows.length > 0 && (
                 <section>
-                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <DollarSign className="w-3.5 h-3.5" /> Spend by engine — last 7 days
                   </h3>
-                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                     <table className="w-full text-left text-sm min-w-[360px]">
                       <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         <tr>
@@ -843,7 +846,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                           >
                             <td className="px-4 py-2.5 text-[rgb(var(--color-text-primary))] light:text-slate-800">
                               {r.label}
-                              <span className="ml-2 font-mono text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                              <span className="ml-2 font-mono text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                                 {r.model}
                               </span>
                             </td>
@@ -869,7 +872,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       </tfoot>
                     </table>
                   </div>
-                  <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                     Estimated at each engine's blended per-call price (see the engine registry) —
                     good for comparing engines and sanity-checking spend, not an invoice.
                   </p>
@@ -883,25 +886,27 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   table that would read as "nobody has accepted". */}
               {acceptance && acceptance.length > 0 && (
                 <section>
-                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Agreement v{AGREEMENT_VERSION} ·
                     acceptance
                   </h3>
                   <div className="flex flex-wrap items-center gap-3 mb-3">
                     <span className="text-2xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tabular-nums">
                       {acceptance.filter((a) => a.accepted).length}
-                      <span className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      <span className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         {' '}
                         / {acceptance.length}
                       </span>
                     </span>
-                    <span className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <span className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                       accounts have accepted the current agreement.
                     </span>
                   </div>
                   {acceptance.some((a) => !a.accepted) && (
                     <div className="rounded-xl border border-amber-400/25 bg-amber-400/5 p-3">
-                      <p className="t-label text-amber-500 mb-2">Yet to accept</p>
+                      <p className="t-label text-amber-500 light:text-amber-700 mb-2">
+                        Yet to accept
+                      </p>
                       <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
                         {acceptance
                           .filter((a) => !a.accepted)
@@ -910,7 +915,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                           .join(', ')}
                         {acceptance.filter((a) => !a.accepted).length > 30 && ' …'}
                       </p>
-                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         They will be asked the next time they sign in — nobody reaches the workspace
                         without accepting.
                       </p>
@@ -921,15 +926,15 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* Per-user usage today, with inline override editing */}
               <section>
-                <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                   <Users className="w-3.5 h-3.5" /> Usage today · per user
                 </h3>
                 {todayRows.length === 0 ? (
-                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-4">
+                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 italic py-4">
                     No AI calls yet today.
                   </p>
                 ) : (
-                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                  <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                     <table className="w-full text-left text-sm min-w-[500px]">
                       <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         <tr>
@@ -979,7 +984,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                   disabled={isBusy}
                                   aria-label={`Set override for ${row.username}`}
                                   title="Set a personal daily limit for this user"
-                                  className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                                  className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
                                 >
                                   <Check className="w-3.5 h-3.5" />
                                 </button>
@@ -1005,7 +1010,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                 {/* Fallback: adjust a user who hasn't called the AI today */}
                 <div className="mt-3 flex flex-wrap items-center gap-2 md:gap-3">
-                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500 font-medium">
+                  <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600 font-medium">
                     Adjust another user:
                   </span>
                   <input
@@ -1028,7 +1033,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <button
                     onClick={() => handleExtraOverride(false)}
                     disabled={isBusy}
-                    className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                    className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                   >
                     Set
                   </button>
@@ -1044,13 +1049,13 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
               {/* Group limits */}
               <section>
-                <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                   <Gauge className="w-3.5 h-3.5" /> Group daily limits
                 </h3>
                 <div className="flex flex-wrap items-end gap-3">
                   {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
                     <label key={role} className="flex flex-col gap-1">
-                      <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         {ROLE_LABEL[role]}s
                       </span>
                       <input
@@ -1071,7 +1076,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     Save Group Limits
                   </button>
                 </div>
-                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                   Budgets reset at midnight UTC. A personal override always beats its group limit.
                 </p>
               </section>
@@ -1085,10 +1090,10 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   predating §14) rather than offering to change a guess. */}
               {freeEvalLimit !== null && (
                 <section>
-                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <ScrollText className="w-3.5 h-3.5" /> Free plan · daily marked evaluations
                   </h3>
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mb-3 max-w-xl">
                     How many answers a free account can have marked each day. Paid plans, teachers
                     and admins are never metered by this. It takes effect on the very next
                     evaluation — no redeploy — and the app quotes whatever you set here, so the
@@ -1096,7 +1101,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
                   <div className="flex flex-wrap items-end gap-3">
                     <label className="flex flex-col gap-1">
-                      <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         Evaluations per day
                       </span>
                       <input
@@ -1116,7 +1121,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     >
                       Save Allowance
                     </button>
-                    <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 pb-2.5">
+                    <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 pb-2.5">
                       Currently enforcing <strong className="font-mono">{freeEvalLimit}</strong> a
                       day
                     </span>
@@ -1128,10 +1133,10 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   pre-dates the schools migration (schema §12). */}
               {schools !== null && (
                 <section>
-                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <School className="w-3.5 h-3.5" /> Schools · shared daily pools
                   </h3>
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mb-3 max-w-xl">
                     Place students and teachers in a school to give them one shared daily AI budget.
                     Every member&apos;s calls draw from the pool as well as their personal limit —
                     whichever runs out first stops the call. Leave the pool blank to use a school as
@@ -1139,7 +1144,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
 
                   {schools.length > 0 && (
-                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto mb-3">
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto mb-3">
                       <table className="w-full text-left text-sm min-w-[480px]">
                         <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                           <tr>
@@ -1169,7 +1174,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                 {s.daily_ai_limit !== null ? (
                                   <UsageMeter used={s.used_today} limit={s.daily_ai_limit} />
                                 ) : (
-                                  <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
+                                  <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 italic">
                                     no pooled cap
                                   </span>
                                 )}
@@ -1197,7 +1202,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                     disabled={isBusy}
                                     aria-label={`Set pooled limit for ${s.name}`}
                                     title="Set the shared daily pool for this school"
-                                    className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                                    className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
                                   >
                                     <Check className="w-3.5 h-3.5" />
                                   </button>
@@ -1223,7 +1228,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                   {/* Create a school */}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                       New school:
                     </span>
                     <input
@@ -1254,7 +1259,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                   {/* Place a user in a school */}
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                       Place a user:
                     </span>
                     <input
@@ -1281,7 +1286,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <button
                       onClick={() => handleAssignMember(false)}
                       disabled={isBusy}
-                      className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                      className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                     >
                       Place
                     </button>
@@ -1308,23 +1313,23 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   rather than in the teacher's own panel. */}
               {classes !== null && (
                 <section>
-                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <GraduationCap className="w-3.5 h-3.5" /> Classes
                     {classes.length > 0 && (
-                      <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
+                      <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 light:text-indigo-700 text-[10px] font-black tabular-nums">
                         {classes.length}
                       </span>
                     )}
                   </h3>
 
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-2xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mb-3 max-w-2xl">
                     A teacher sees a student&apos;s work because they are enrolled in a class that
                     teacher owns. Until a class exists and has students in it, every class analytic
                     is empty.
                   </p>
 
                   {classes.length > 0 && (
-                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto mb-3">
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto mb-3">
                       <table className="w-full text-left text-sm min-w-[420px]">
                         <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                           <tr>
@@ -1361,7 +1366,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
 
                   {/* Create a class */}
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                    <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                       New class:
                     </span>
                     <select
@@ -1417,7 +1422,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       exist on every deployment. */}
                   {classes.length > 0 && (
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <span className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         Enrol:
                       </span>
                       <input
@@ -1453,7 +1458,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       <button
                         onClick={handleEnrol}
                         disabled={isBusy}
-                        className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                        className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                       >
                         Enrol
                       </button>
@@ -1470,15 +1475,15 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               {demand !== null && (
                 <section>
                   <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                    <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
+                    <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 flex items-center gap-2">
                       <Compass className="w-3.5 h-3.5" /> Course demand
                       {demand.length > 0 && (
-                        <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 text-[10px] font-black tabular-nums">
+                        <span className="px-1.5 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-400 light:text-indigo-700 text-[10px] font-black tabular-nums">
                           {demand.length}
                         </span>
                       )}
                     </h3>
-                    <label className="t-label flex items-center gap-2 text-[rgb(var(--color-text-dim))] light:text-slate-500 cursor-pointer">
+                    <label className="t-label flex items-center gap-2 text-[rgb(var(--color-text-dim))] light:text-slate-600 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={showClosedDemand}
@@ -1491,7 +1496,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       Show closed
                     </label>
                   </div>
-                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mb-3 max-w-xl">
+                  <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mb-3 max-w-xl">
                     Courses people searched for and could not find. Each row counts distinct people,
                     not clicks, so the order is genuine demand. Marking one <em>planned</em> tells
                     the next admin it is in hand; <em>available</em> closes it once the course is in
@@ -1499,11 +1504,11 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </p>
 
                   {demand.length === 0 ? (
-                    <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
+                    <p className="text-[11px] text-[rgb(var(--color-text-dim))] light:text-slate-600 italic">
                       Nothing requested yet.
                     </p>
                   ) : (
-                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                       <table className="w-full text-left text-sm min-w-[560px]">
                         <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                           <tr>
@@ -1528,7 +1533,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                     part — "Year 11, starting Term 3" tells you
                                     more than the count does. */}
                                 {row.notes[0]?.note && (
-                                  <span className="block mt-0.5 text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 max-w-xs">
+                                  <span className="block mt-0.5 text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-600 max-w-xs">
                                     “{row.notes[0].note}”
                                   </span>
                                 )}
@@ -1558,7 +1563,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                       disabled={isBusy || row.status === status}
                                       className={`t-label px-2 py-1 rounded-lg border transition-all disabled:opacity-100 ${
                                         row.status === status
-                                          ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40'
+                                          ? 'bg-indigo-500/20 text-indigo-400 light:text-indigo-700 border-indigo-500/40'
                                           : 'bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] disabled:opacity-50'
                                       }`}
                                     >
