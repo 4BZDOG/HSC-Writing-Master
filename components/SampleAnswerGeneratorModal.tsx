@@ -331,7 +331,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
               <div
                 className={`
                         w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg
-                        bg-gradient-to-br ${activeBandConfig.gradient} text-white
+                        bg-gradient-to-br ${activeBandConfig.gradient} ${activeBandConfig.solidText}
                     `}
               >
                 <Sparkles className="w-6 h-6" />
@@ -535,7 +535,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                     )}
                     {isSelected && (
                       <div
-                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full text-white text-[9px] font-bold shadow-sm bg-gradient-to-br ${optionBandConfig.gradient}`}
+                        className={`absolute -top-2 -right-2 flex items-center justify-center w-5 h-5 rounded-full ${optionBandConfig.solidText} text-[9px] font-bold shadow-sm bg-gradient-to-br ${optionBandConfig.gradient}`}
                         title={`Will be written ${order === 1 ? 'first' : `${order}${order === 2 ? 'nd' : order === 3 ? 'rd' : 'th'}`}`}
                       >
                         {/* The order number matters: the batch runs bottom-up so

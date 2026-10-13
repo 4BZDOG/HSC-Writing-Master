@@ -718,7 +718,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   <button
                     onClick={handleSaveName}
                     aria-label="Save your name"
-                    className="flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 bg-[rgb(var(--color-accent))] text-white rounded-xl shrink-0 can-hover:hover:bg-[rgb(var(--color-accent-dark))] transition-colors"
+                    className="flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 bg-[rgb(var(--color-accent))] text-white dark:text-slate-950 rounded-xl shrink-0 can-hover:hover:bg-[rgb(var(--color-accent-dark))] transition-colors"
                   >
                     <Save className="w-4 h-4" aria-hidden="true" />
                   </button>

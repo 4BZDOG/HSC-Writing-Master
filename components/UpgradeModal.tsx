@@ -47,6 +47,13 @@ const lockLabelFor = (feature?: PremiumFeatureKey): string =>
  * button below, the tooltips, the prompt — says "Band 6 Plus" in full. Sits inline next to
  * the control's label so the feature is discoverable before it's paid for.
  *
+ * Its fill is OPAQUE, and that is the part that is easy to lose. The chip used
+ * to be an amber wash over whatever it sat on, and it sits on the band-coloured
+ * card headers as often as on paper: amber ink over the red Band 1 header
+ * measured 1.46:1 in light and 2.17:1 in dark. A translucent tint takes the
+ * ground's colour with it, so the chip now carries its own pale ground in both
+ * themes and its ink is set against that, not against the card.
+ *
  * Pass the `feature` it guards so the chip names the plan that actually unlocks
  * it. Without one it falls back to "Plus", which is right for every feature
  * this deployment prices at Plus and is the historical behaviour.
@@ -56,7 +63,7 @@ export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatu
   feature,
 }) => (
   <span
-    className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600 ${className}`}
+    className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-100 border border-amber-500/50 text-amber-800 dark:bg-amber-950 dark:border-amber-400/40 dark:text-amber-200 ${className}`}
   >
     <Lock className="w-2.5 h-2.5" /> {lockLabelFor(feature)}
   </span>

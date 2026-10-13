@@ -69,7 +69,7 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileDrop, disabled = fals
         <div
           className={`
             w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-all duration-300
-            ${isDragActive ? 'bg-[rgb(var(--color-accent))] text-white shadow-lg shadow-[rgb(var(--color-accent))]/30' : 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] group-hover:bg-[rgb(var(--color-bg-surface-elevated))]'}
+            ${isDragActive ? 'bg-[rgb(var(--color-accent))] text-white dark:text-slate-950 shadow-lg shadow-[rgb(var(--color-accent))]/30' : 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] group-hover:text-[rgb(var(--color-text-primary))] group-hover:bg-[rgb(var(--color-bg-surface-elevated))]'}
         `}
         >
           {isDragActive ? (
