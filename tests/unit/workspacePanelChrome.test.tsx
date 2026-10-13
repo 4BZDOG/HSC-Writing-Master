@@ -9,6 +9,7 @@ import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { AccordionSection } from '../../components/ReferenceMaterials';
 import { BookOpen } from 'lucide-react';
 import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../../utils/panelStyles';
+import { PANEL_NAME } from '../../components/PanelDisclosure';
 import {
   CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
@@ -275,11 +276,11 @@ describe('the panels below the cards share one surface', () => {
   });
 
   /**
-   * A panel's NAME takes the section voice; the line under it is its caption.
-   *
-   * `DraftCheck` set both in `.t-label`, with a comment claiming the others did
-   * the same — they do not. On a phone all five panels stack in one column, and
-   * it was the only one labelling itself differently.
+   * A panel's NAME takes the heading voice (`PANEL_NAME`); the line under it is its
+   * caption. On a phone the panels stack in one column, so a panel that named
+   * itself in a different voice would be the one that stood out. The rail used to
+   * set its names in `.t-section`, the tracked italic caps, and this test pinned
+   * that; it now pins the sentence-case heading the marking report uses.
    */
   it('gives every panel in the column the same name treatment', () => {
     const named = [
@@ -297,8 +298,14 @@ describe('the panels below the cards share one surface', () => {
     ];
 
     for (const container of named) {
-      const name = container.querySelector('button span.t-section');
-      expect(name, 'a panel whose name is not set in the section voice').toBeTruthy();
+      // `block` picks the name out: the draft check's ring also carries a bold span.
+      const name = container.querySelector('button span.block.font-bold');
+      expect(name, 'a panel whose name is not set in the heading voice').toBeTruthy();
+      for (const token of PANEL_NAME.split(' ')) {
+        expect(name!.className).toContain(token);
+      }
+      expect(name!.className).not.toContain('t-section');
+      expect(name!.className).not.toContain('uppercase');
     }
   });
 

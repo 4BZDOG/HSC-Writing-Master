@@ -35,7 +35,8 @@ const SIZES = {
     shell:
       'w-full overflow-hidden rounded-xl border border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-white/20 transition-colors',
     list: 'py-3 px-4',
-    crumb: 'gap-2 px-3 py-1.5 text-sm',
+    // 44px tall on a phone, the touch floor; the pill keeps its own size from `sm`.
+    crumb: 'gap-2 px-3 py-1.5 text-sm min-h-11 sm:min-h-0',
     icon: 'w-4 h-4',
     chevron: 'w-4 h-4 mx-2',
     item: 'flex-shrink-0',
@@ -46,7 +47,9 @@ const SIZES = {
     // a second bordered, blurred panel inside it reads as a nested box.
     shell: 'overflow-hidden',
     list: '',
-    crumb: 'gap-1.5 px-2 py-1 text-[11px]',
+    // The same 44px floor on a phone as the default size. The crumb was 28px tall
+    // there, and the path is the one thing in this bar that takes you back up it.
+    crumb: 'gap-1.5 px-2 py-1 text-[11px] min-h-11 sm:min-h-0',
     icon: 'w-3 h-3',
     chevron: 'w-3 h-3 mx-1',
     // Crumbs SHRINK here rather than scroll. The bar is one row beside the

@@ -928,6 +928,10 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
   }, [prompt.sampleAnswers, prompt.totalMarks, tier]);
 
+  // The marks already on the question, for the revision dialog. A fresh array per
+  // render would hand that dialog a new prop every time the panel re-renders.
+  const existingMarks = useMemo(() => groupedAnswers.map((g) => g.mark), [groupedAnswers]);
+
   // The guide's rows, read with the same parser the Marking Guide draws them with,
   // so the criterion a row names is the criterion the guide shows at that level.
   const guideRows = useMemo(
@@ -1113,7 +1117,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
       {/* Lazy: a folded panel mounts none of its rows, so the text metrics each
           row runs happen only while the panel is on screen. */}
       <AccordionSection
-        title="Sample Answers"
+        title="Sample answers"
         subtitle={subtitle}
         icon={<Bookmark />}
         band={ceilingBand}
@@ -1157,7 +1161,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           prompt={prompt}
           syllabus={syllabus}
           sampleToRevise={revisionTarget}
-          existingMarks={groupedAnswers.map((g) => g.mark)}
+          existingMarks={existingMarks}
           onRevisionComplete={(sa) => {
             onSampleAnswerGenerated(sa);
             setRevisionTarget(null);

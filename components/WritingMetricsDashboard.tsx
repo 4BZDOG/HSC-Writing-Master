@@ -463,8 +463,11 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             />
           )}
 
-          <div className="flex items-center gap-2 px-3 py-2 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
-            <div className="relative z-10 flex gap-1 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10">
+          <div className="flex items-center gap-2 px-3 py-1 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
+            {/* On a phone the two controls are one segmented strip of 44px cells,
+                so the touch targets are the size of the thumb and the strip is
+                no taller than they are. */}
+            <div className="relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border border-slate-200 dark:border-white/10">
               <button
                 onClick={() => {
                   const next = !isTimerActive;
@@ -476,7 +479,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 }}
                 aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
                 title={isTimerActive ? 'Pause timer' : 'Start timer'}
-                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
+                className="p-1.5 max-sm:size-11 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
               >
                 {isTimerActive ? (
                   <Pause className="w-3.5 h-3.5" />
@@ -492,7 +495,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                 }}
                 aria-label="Reset timer"
                 title="Reset timer"
-                className="p-1.5 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
+                className="p-1.5 max-sm:size-11 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>

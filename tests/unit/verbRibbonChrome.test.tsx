@@ -70,6 +70,7 @@ import {
   RIBBON_TIER_ICON,
   RIBBON_TIER_HEADER_LABEL,
   RIBBON_TIER_HEADER_LABEL_IDLE,
+  RIBBON_TIER_HEADER_SELECTED,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_VERB_CHIP,
@@ -1134,6 +1135,10 @@ describe('the drawer carries both themes', () => {
       // — on an overlay that has no fill of its own. There is no ground for it to
       // get wrong, so a `dark:` partner would only be a second guess at the hue.
       if (name === 'RIBBON_TIER_HALO') continue;
+      // The selected header is the band's own hue under slate-950 in both themes:
+      // the fill is the same colour on a light and a dark card alike, so there is
+      // no ground to partner. Its contrast is pinned for all six tiers below.
+      if (name === 'RIBBON_TIER_HEADER_SELECTED') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -1207,7 +1212,8 @@ describe('the tier strip is legible and reachable', () => {
     expect(idle.className).not.toContain('light:bg-green-100');
 
     const current = screen.getByRole('button', { name: /Define & Describe Up to Band 2/i });
-    expect(current.className).toContain('bg-gradient-to-r');
+    expect(current.className).toContain(RIBBON_TIER_HEADER_SELECTED);
+    expect(current.className).not.toContain('bg-gradient-to-r');
     expect(current.className).not.toContain('band-wash');
 
     // The tint is a property of the card's own `--band-rgb`, so it comes off the
@@ -1218,21 +1224,29 @@ describe('the tier strip is legible and reachable', () => {
     );
   });
 
-  it('pairs every solid tier fill with the config’s own solidText', () => {
+  it('inks the selected header in slate-950 on its own band hue, and the chips in solidText', () => {
     render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
 
-    // Tier 3 is the one that exposes it: white on yellow-500 is 1.92:1, and
-    // `getBandConfig` answers `text-yellow-950` when asked.
+    // Tier 3 is the one that exposes it: white on yellow was 1.92:1. The header
+    // is now the band's own flat hue, so its ink is the same slate-950 on every
+    // tier and the title inherits it rather than naming a colour of its own.
     const header = screen.getByRole('button', { name: /Explain & Compare Up to Band 3/i });
-    expect(header.className).toContain('text-yellow-950');
+    expect(header.className).toContain(RIBBON_TIER_HEADER_SELECTED);
     expect(header.className).not.toContain('text-white');
+    expect(header.className).not.toContain('text-yellow-950');
 
     // By query rather than by text: the timeline footer says "Explain &
     // Compare" as well, and that one is not on a tier fill.
     const title = header.querySelector('h4') as HTMLElement;
     expect(title.textContent).toBe('Explain & Compare');
-    expect(title.className).toContain('text-yellow-950');
+    // `text-sm` is the size, which is the title's own; any other `text-*` would
+    // be a colour, and the header's ink is the one it inherits.
+    expect(title.className.split(/\s+/).filter((c) => /^text-/.test(c) && c !== 'text-sm')).toEqual(
+      []
+    );
 
+    // The chips keep the config's own pairing: on tier 3 the fill is yellow and
+    // `getBandConfig` answers `text-yellow-950` for it.
     const chip = screen.getAllByRole('button', { name: 'EXPLAIN' })[0];
     expect(chip.className).toContain('bg-yellow-500');
     expect(chip.className).toContain('text-yellow-950');
@@ -1351,9 +1365,9 @@ describe('nothing in the drawer is dimmed below the floor', () => {
   /**
    * …and the card the reader is actually on is NOT dimmed.
    *
-   * Its header is a saturated tier gradient. The only steps down from
-   * `solidText` there are an alpha that reads differently on each of the six
-   * fills — tier 3's yellow has caught this codebase twice — and an opacity
+   * Its header is a saturated band fill under slate-950. The only steps down
+   * from that ink there are an alpha that reads differently on each of the six
+   * fills — the ink was what failed on tier 3's yellow — and an opacity
    * DesignSpec §2 rule 3 keeps off readings. On that card the mono face and the
    * weight separate the annotation from the name on their own.
    */
@@ -1925,6 +1939,25 @@ describe('the banner is a themed bar, light in the light theme', () => {
         }
       });
     }
+
+    // The selected card's header is the band's own hue, flat, and carries the one
+    // ink `RIBBON_TIER_HEADER_SELECTED` names. The fill does not change with the
+    // theme, so the same six pairs answer for both. The title is 14px and the
+    // ceiling beneath it 12px: both need the full 4.5:1.
+    it('inks the selected header in slate-950 over every tier’s own hue, in both themes', () => {
+      expect(RIBBON_TIER_HEADER_SELECTED).toContain('bg-[rgb(var(--band-rgb))]');
+      expect(RIBBON_TIER_HEADER_SELECTED).toContain('text-slate-950');
+      expect(RIBBON_TIER_HEADER_SELECTED).not.toMatch(/bg-gradient|text-white|dark:/);
+      for (const theme of ['dark', 'light'] as const) {
+        for (const tier of TIERS) {
+          const ratio = contrast('2 6 23', getBandRgb(tier));
+          expect(
+            ratio,
+            `${theme}: the tier ${tier} header is ${ratio.toFixed(2)}:1 under slate-950`
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    });
 
     // The light stage is lit in the tier's colour, and the colour is strong enough
     // to stop it reading as washed out. That is a trade against legibility, and

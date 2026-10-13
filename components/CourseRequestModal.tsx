@@ -187,7 +187,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
               <button
                 type="button"
                 onClick={handleDone}
-                className="py-2 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
+                className="py-2 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
               >
                 Done
               </button>
@@ -251,7 +251,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
               <button
                 type="submit"
                 disabled={!name.trim() || isSending}
-                className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 flex items-center gap-2"
+                className="py-2 px-4 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 flex items-center gap-2"
               >
                 {isSending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                 {isSending ? 'Sending…' : 'Send request'}

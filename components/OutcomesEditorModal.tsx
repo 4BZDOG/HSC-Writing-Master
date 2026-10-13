@@ -338,7 +338,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                 <button
                   onClick={handleParseText}
                   disabled={isBusy || !pastedText.trim()}
-                  className="mt-3 w-full py-2.5 px-4 rounded-lg text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.98] transition-all"
+                  className="mt-3 w-full py-2.5 px-4 rounded-lg text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.98] transition-all"
                 >
                   <Sparkles className="w-4 h-4" />
                   {isParsing ? 'Parsing...' : 'Parse with AI'}
@@ -481,7 +481,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
               <button
                 type="button"
                 onClick={handleSave}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
+                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
               >
                 Save Changes
               </button>

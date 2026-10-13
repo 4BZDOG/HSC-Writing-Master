@@ -35,9 +35,27 @@ export const useOpenedOnce = (isOpen: boolean, resetKey?: string): boolean => {
 };
 
 /**
+ * A panel's name, set the way the marking report sets its section headings
+ * (`FEEDBACK_HEADING`): sentence case, bold, 16px. The rail used to set names in
+ * `.t-section`, tracked italic caps that divide a panel into named parts, and
+ * beside the report those read as another app. `.t-section` itself is unchanged
+ * for the surfaces that still use it.
+ *
+ * The name keeps `block` so it stacks over its caption, and the caption stays
+ * `.t-label`. `leading-tight` is what lets a 20px name and a 16px caption share
+ * the 61px header line (`PANEL_ROW_MIN_H`) with the rows' 12px padding. The colour
+ * is the panel's state, so it is set where the name is drawn.
+ */
+export const PANEL_NAME = 'block font-bold text-base leading-tight tracking-tight';
+
+/**
  * "You have opened this one." Shown only while the panel is SHUT — open, the
  * content is the feedback — and deliberately quiet: a tick and a word, in the
- * same small caps as every other label in the panel chrome.
+ * same label voice as the rest of the panel chrome.
+ *
+ * The ink is the deeper emerald because the chip sits on white: the 600 step is
+ * 3.8:1 there, under the 4.5:1 that body text needs. The dark ink is the lighter
+ * step, which is the direction every text pair in the app takes.
  */
 export const PanelReadChip: React.FC<{ show: boolean; className?: string }> = ({
   show,
@@ -46,7 +64,7 @@ export const PanelReadChip: React.FC<{ show: boolean; className?: string }> = ({
   show ? (
     <span
       title="You have opened this panel for this question"
-      className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 animate-fade-in ${className}`}
+      className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-emerald-800 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 animate-fade-in ${className}`}
     >
       <Check className="w-2.5 h-2.5" strokeWidth={3} />
       Read

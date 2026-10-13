@@ -718,7 +718,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               <button
                 onClick={handleConfirmImport}
                 disabled={!importedTopic || importedTopic.subTopics.length === 0}
-                className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="py-2.5 px-5 rounded-lg text-sm text-white dark:text-slate-950 font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {mergePlan?.matchedTopic ? (
                   <GitMerge className="w-4 h-4" />
