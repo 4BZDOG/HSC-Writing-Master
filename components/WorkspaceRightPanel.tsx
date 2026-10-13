@@ -257,7 +257,14 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     // it keeps the intent legible at the call site, and stops a stale cached
     // result from re-opening the review after a downgrade.
     if (upgradesLocked) return null;
-    if (geminiHandlers.improvement) return geminiHandlers.improvement;
+    // Full marks have no next mark to lift to. The marker hands back the answer
+    // the student already wrote, so there is nothing to compare and no "Compare"
+    // to offer on the feedback. The same gate stops marking from opening it
+    // (`useGemini`).
+    if (evaluationResult && evaluationResult.overallMark >= currentPrompt.totalMarks) return null;
+    if (geminiHandlers.improvement) {
+      return { ...geminiHandlers.improvement, keyChanges: [] as string[] };
+    }
     if (!evaluationResult?.revisedAnswer) return null;
 
     const raw = evaluationResult.revisedAnswer;
@@ -279,6 +286,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           : getBandForMark(mark, currentPrompt.totalMarks, commandTermInfo.tier),
       originalAnswer: evaluatedAnswer,
       originalMark: evaluationResult.overallMark,
+      // What the marker says it changed and why, when the rewrite came with a
+      // list. The improve path has none, so the margin simply omits the block.
+      keyChanges: typeof raw === 'object' && Array.isArray(raw.keyChanges) ? raw.keyChanges : [],
     };
   }, [
     upgradesLocked,
@@ -602,10 +612,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           targetBand={reviewSubject.band}
           targetMark={reviewSubject.mark}
           originalMark={reviewSubject.originalMark}
+          keyChanges={reviewSubject.keyChanges}
           // The marker's own advice, beside the edits that act on it. Withheld
           // where the plan redacts it, rather than listing the placeholder.
           markerAsked={isFeedbackLocked() ? undefined : evaluationResult?.improvements}
-          onApply={applyRevision}
+          // Applying the rewrite ends the feedback as well. The marks were for the
+          // draft the student has just replaced, and closing the review would
+          // otherwise bring the summary straight back over the writing surface.
+          onApply={(text) => {
+            applyRevision(text);
+            geminiHandlers.resetEvaluation();
+          }}
         />
       )}
     </div>

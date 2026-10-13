@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { reviseSampleAnswer, type SyllabusKeywordContext } from '../services/geminiService';
 import {
   getBandForMark,
   getCommandTermInfo,
+  getNextLevelTarget,
   getTargetBand,
   TIER_GROUPS,
 } from '../data/commandTerms';
@@ -38,22 +39,48 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   existingMarks,
   onRevisionComplete,
 }) => {
-  const availableMarks = useMemo(
-    () =>
-      Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).filter(
-        (m) => m !== sampleToRevise.mark && !existingMarks.includes(m)
-      ),
-    [prompt.totalMarks, sampleToRevise.mark, existingMarks]
-  );
+  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
 
-  const [targetMark, setTargetMark] = useState(availableMarks[0] ?? 0);
+  // The marks already on this question, as a string. The accordion hands in a
+  // fresh array on every render, so the array's identity says nothing about
+  // whether the marks changed. Keying on the content means a parent's re-render
+  // cannot reset a revision that is part way through.
+  const takenKey = existingMarks
+    .slice()
+    .sort((a, b) => a - b)
+    .join(',');
+  const availableMarks = useMemo(() => {
+    const taken = new Set(takenKey ? takenKey.split(',').map(Number) : []);
+    return Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).filter(
+      (m) => m !== sampleToRevise.mark && !taken.has(m)
+    );
+  }, [prompt.totalMarks, sampleToRevise.mark, takenKey]);
+
+  // The mark a revision starts on. It is the next band up, from the same edge a
+  // student's own answer is lifted to (`getNextLevelTarget`), so one press of
+  // "Revise with AI" makes the sample better rather than worse. The old default
+  // was the lowest unused mark, which on a 6/6 sample is 0/6: a zero-mark rewrite
+  // one click away. At the top of the ladder there is no band above, so it steps
+  // down to the nearest unused mark below, which is 5/6 for a 6/6 sample.
+  const defaultMark = useMemo(() => {
+    const { targetMark } = getNextLevelTarget(
+      sampleToRevise.mark,
+      prompt.totalMarks,
+      commandTermInfo.tier
+    );
+    const up = availableMarks.find((m) => m > sampleToRevise.mark && m >= targetMark);
+    if (up !== undefined) return up;
+    const down = [...availableMarks].reverse().find((m) => m < sampleToRevise.mark);
+    return down ?? availableMarks[0] ?? 0;
+  }, [availableMarks, sampleToRevise.mark, prompt.totalMarks, commandTermInfo.tier]);
+
+  const [targetMark, setTargetMark] = useState(defaultMark);
   const [isLoading, setIsLoading] = useState(false);
   // Escape closes this modal like every other modal surface (but never mid-operation).
   useEscapeKey(isOpen && !isLoading, onClose);
   useScrollLock(isOpen);
   const [error, setError] = useState<string | null>(null);
-
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const originalLabelId = useId();
 
   // The band this sample is ALREADY at, through the Verb Gate — not the `band`
   // field stored on the record.
@@ -91,13 +118,16 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   );
   const isCapped = tierInfo && targetBand < potentialBand;
 
+  // Keyed on the default mark, not on the marks array, so it runs when the modal
+  // opens or the answer under revision changes, and never on a re-render that
+  // brings the same content in a new array.
   useEffect(() => {
     if (isOpen) {
-      setTargetMark(availableMarks[0] ?? 0);
+      setTargetMark(defaultMark);
       setIsLoading(false);
       setError(null);
     }
-  }, [isOpen, availableMarks]);
+  }, [isOpen, defaultMark]);
 
   const handleRevise = async () => {
     setIsLoading(true);
@@ -140,7 +170,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         // second one lands on this band's own pale wash.
         style={{ '--band-rgb': getBandRgb(sourceBand) } as React.CSSProperties}
         className={`
-          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
+          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg
           w-full max-w-4xl border-2 band-edge-strong
           clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]
         `}
@@ -155,16 +185,13 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div
-                className={`
-                w-10 h-10 rounded-xl bg-gradient-to-br ${bandConfig.gradient} 
-                flex items-center justify-center shadow-lg
-              `}
-              >
-                <RefreshCw className="w-5 h-5 text-white" />
+              {/* The icon's ink is the band's own `band-solid` ink. White on
+                  the yellow band's gradient was under the 3:1 a graphic needs. */}
+              <div className="w-10 h-10 rounded-xl band-solid flex items-center justify-center shadow-lg">
+                <RefreshCw className="w-5 h-5" />
               </div>
               <div>
-                <h2 className={`text-xl font-bold ${bandConfig.text}`}>Revise Sample Answer</h2>
+                <h2 className={`text-xl font-bold ${bandConfig.text}`}>Revise sample answer</h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))]">
                   Rewrite this answer to achieve a different mark.
                 </p>
@@ -175,8 +202,8 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
               disabled={isLoading}
               aria-label="Close"
               className="
-                w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50
-                hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 
+                w-11 h-11 sm:w-9 sm:h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50
+                can-hover:hover:bg-[rgb(var(--color-border-secondary))] transition-all duration-200 touch-manipulation
                 flex items-center justify-center group disabled:opacity-50 disabled:cursor-not-allowed
               "
             >
@@ -188,16 +215,20 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Original Answer Section */}
+            {/* Original Answer Section. The label names the box beside it, so a
+                screen reader announces the answer under its own heading, and the
+                box takes focus so its text can be scrolled from the keyboard. */}
             <div className="flex flex-col">
-              <label
-                className={`
-                block text-sm font-semibold mb-3 ${bandConfig.text}
-              `}
+              <p
+                id={originalLabelId}
+                className={`block text-sm font-semibold mb-3 ${bandConfig.text}`}
               >
-                Original Answer ({sampleToRevise.mark}/{prompt.totalMarks} marks)
-              </label>
+                Original answer ({sampleToRevise.mark}/{prompt.totalMarks} marks)
+              </p>
               <div
+                role="region"
+                aria-labelledby={originalLabelId}
+                tabIndex={0}
                 className="
                 flex-1 bg-[rgb(var(--color-bg-surface-inset))]/50 p-4 rounded-lg border border-[rgb(var(--color-border-secondary))]
                 overflow-y-auto text-sm text-[rgb(var(--color-text-secondary))] font-serif
@@ -214,15 +245,15 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
                 htmlFor="mark-select"
                 className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] mb-3"
               >
-                New Target Mark
+                New target mark
               </label>
               <select
                 id="mark-select"
                 value={targetMark}
                 onChange={(e) => setTargetMark(Number(e.target.value))}
                 className="
-                  w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))] 
-                  rounded-lg py-3 px-4 text-[rgb(var(--color-text-primary))]
+                  w-full bg-[rgb(var(--color-bg-surface-light))] border border-[rgb(var(--color-border-secondary))]
+                  rounded-lg py-3 px-4 min-h-11 text-base sm:text-sm text-[rgb(var(--color-text-primary))]
                   focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/50
                   transition-all duration-200 mb-3
                 "
@@ -273,8 +304,8 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2 text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
+        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 text-xs text-[rgb(var(--color-text-muted))]">
             <Info className="w-3.5 h-3.5" />
             <span>Revision typically takes 8-20 seconds</span>
           </div>
@@ -283,9 +314,9 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
               onClick={handleClose}
               disabled={isLoading}
               className="
-                py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))] 
-                bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] 
-                transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
+                min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg font-medium text-[rgb(var(--color-text-muted))]
+                bg-[rgb(var(--color-bg-surface-inset))]/50 can-hover:hover:bg-[rgb(var(--color-border-secondary))]
+                transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation
               "
             >
               Cancel
@@ -294,11 +325,10 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
               onClick={handleRevise}
               disabled={availableMarks.length === 0 || isLoading}
               className={`
-                py-2.5 px-5 rounded-lg font-semibold ${bandConfig.solidText}
-                bg-gradient-to-r ${bandConfig.gradient}
-                hover:shadow-lg ${bandConfig.glow}
+                min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg font-semibold band-solid
+                can-hover:hover:shadow-lg ${bandConfig.glow}
                 active:scale-[0.98]
-                transition-all duration-200
+                transition-all duration-200 touch-manipulation
                 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none
                 flex items-center gap-2
               `}
