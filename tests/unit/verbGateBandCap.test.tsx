@@ -57,7 +57,6 @@ const renderDisplay = (verb: PromptVerb, totalMarks: number) =>
     <EvaluationDisplay
       result={result}
       prompt={buildPrompt(verb, totalMarks)}
-      onUseRevisedAnswer={vi.fn()}
       onImproveAnswer={vi.fn()}
       isImproving={false}
       improveAnswerError={null}
