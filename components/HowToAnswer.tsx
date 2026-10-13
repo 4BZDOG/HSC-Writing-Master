@@ -57,8 +57,14 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
 
   const hasBody = method.length > 0 || terms.length > 0 || examples.length > 0 || watch.length > 0;
 
+  // The row sits on the writing well, not on the paper above it. It used to be
+  // transparent, so over a white card it was a flat white strip wedged between
+  // the saturated header and the grey well, joined to each by a grey hairline.
+  // On the well token the strip and the writing area are one surface, and the
+  // only seam left is the band-coloured rule under the header — the card's
+  // own tier hue at low alpha, not a neutral line that reads as a gap.
   return (
-    <div className="border-t border-[rgb(var(--color-border-secondary))]">
+    <div style={bandStyle} className="band-edge border-t bg-[rgb(var(--color-bg-surface-inset))]">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 sm:px-6 py-2.5">
         <span className="t-label order-1 shrink-0 text-[rgb(var(--color-text-primary))]">
           {info.term}
