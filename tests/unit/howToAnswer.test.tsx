@@ -13,7 +13,8 @@ import type { PromptVerb } from '../../types';
 
 afterEach(cleanup);
 
-const trigger = () => screen.getByRole('button', { name: /how to answer a .* question/i });
+// "a" or "an", by the sound of the verb: "an EXPLAIN question", "a DESCRIBE question".
+const trigger = () => screen.getByRole('button', { name: /how to answer an? .* question/i });
 const card = () => document.getElementById(trigger().getAttribute('aria-controls') ?? '');
 
 /** A controlled wrapper, so the open state behaves as it does in the editor. */

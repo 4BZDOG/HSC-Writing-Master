@@ -98,6 +98,17 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
   const containerRef = useRef<T | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const wasActive = useRef(false);
+  /**
+   * The frame that will hand focus back to the opener, while one is pending.
+   *
+   * Kept so a trap that becomes active again before that frame lands can cancel
+   * it. Under StrictMode React runs each effect, runs its cleanup, then runs it
+   * again: the cleanup schedules a restore, and the second run immediately moves
+   * focus into the dialog. Without a cancel, the restore then fires one frame
+   * later and takes focus straight back out to the page behind, so the dialog
+   * opens with nothing in it — which is what the dev build showed.
+   */
+  const pendingRestore = useRef<number | null>(null);
 
   /**
    * The opener, captured during RENDER rather than in the effect.
@@ -115,6 +126,13 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
 
   useEffect(() => {
     if (!active) return;
+
+    // The trap is live again, so whatever the last close scheduled is stale: it
+    // would hand focus to the page while this dialog is open.
+    if (pendingRestore.current !== null) {
+      cancelAnimationFrame(pendingRestore.current);
+      pendingRestore.current = null;
+    }
 
     const container = containerRef.current;
     // Not named `active` — that is the hook's own parameter, and shadowing it
@@ -222,12 +240,14 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
        * restored is the one the opener was clicked at.
        */
       const restore = () => {
+        pendingRestore.current = null;
         if (previouslyFocused && document.contains(previouslyFocused)) {
           previouslyFocused.focus?.({ preventScroll: true });
         }
       };
-      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(restore);
-      else restore();
+      if (typeof requestAnimationFrame === 'function') {
+        pendingRestore.current = requestAnimationFrame(restore);
+      } else restore();
     };
   }, [active]);
 
