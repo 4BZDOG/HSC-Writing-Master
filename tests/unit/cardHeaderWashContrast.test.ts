@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { cardHeaderWash } from '../../utils/cardChrome';
-import { getBandInkRgb } from '../../utils/renderUtils';
+import { getBandInkRgb, getBandRgb } from '../../utils/renderUtils';
 
 /**
  * The card header's title is white on the band wash (`cardHeaderWash`), and the
@@ -60,6 +60,20 @@ const groundAt = (band: number, theme: string, progress: number): Rgb => {
 describe('the card header wash', () => {
   it.each([1, 2, 3, 4, 5, 6])('band %i is painted from the band ink step, not the fill', (band) => {
     expect(cardHeaderWash(band)).toContain(`rgb(${getBandInkRgb(band)})`);
+  });
+});
+
+/**
+ * The Evaluate button's fill (`band-solid`, drawn from `--band-rgb`) carries the
+ * ink `rgb(2 6 23)` from index.css, not white. The label sits in the middle of
+ * the fill, where the sheen and the shade are both near zero, so the flat band
+ * colour is the one that has to clear 4.5:1.
+ */
+describe('the Evaluate band fill (band-solid ink)', () => {
+  const INK: Rgb = [2, 6, 23];
+
+  it.each([1, 2, 3, 4, 5, 6])('band %i: the ink clears 4.5:1 on the flat band fill', (band) => {
+    expect(contrast(INK, parseTriplet(getBandRgb(band)))).toBeGreaterThanOrEqual(4.5);
   });
 });
 
