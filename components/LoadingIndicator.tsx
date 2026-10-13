@@ -5,7 +5,7 @@ import { getSelectionSnapshot } from '../services/aiConfig';
 import { getModelById } from '../services/aiModels';
 import { waitNotes } from '../utils/waitTips';
 import { acquireAiBusy } from '../utils/aiBusySignal';
-import AiWaitGlyph from './AiWaitGlyph';
+import AiWaitGlyph, { WAIT_INK } from './AiWaitGlyph';
 import HscResultsCard from './HscResultsCard';
 import WaitNoteFigure from './WaitNoteFigure';
 
@@ -86,8 +86,8 @@ const TASK_TITLE: Record<AiTaskType, string> = {
   default: 'Working on it',
 };
 
-/** Indigo-500: the neutral ink when no band is in play. */
-const DEFAULT_ACCENT = '#6366f1';
+/** The app's accent: the neutral ink when no band is in play. */
+const DEFAULT_ACCENT = WAIT_INK;
 
 /** Seconds between notes. Long enough to read one twice. */
 const TIP_SECONDS = 9;
