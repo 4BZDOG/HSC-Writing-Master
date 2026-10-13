@@ -1,4 +1,5 @@
 import React from 'react';
+import { Info } from 'lucide-react';
 import { BAND_NAMES, getBandConfig, getBandInkRgb, getBandRgb } from '../utils/renderUtils';
 import { commandTerms, commandTermsList, TIER_GROUPS, tierShortLabel } from '../data/commandTerms';
 import type { PromptVerb } from '../types';
@@ -32,15 +33,27 @@ import {
  * its own light and dark pair.
  */
 
-/** A card. The verb ribbon's idle tier card, so the profile reads as the same family. */
+/**
+ * A card on the profile's desk. Paper, with a real edge and the resting shadow:
+ * the cards are where the reading happens, so they are the brightest thing in the
+ * body, and they are told apart from the desk by an edge, not by a second white.
+ * `border-slate-300` is the edge that survives a bright monitor; the old
+ * `slate-200` was the same declaration doing none of that work.
+ */
 export const PROFILE_CARD =
-  'min-w-0 rounded-panel border border-slate-200 dark:border-white/10 bg-white shadow-sm dark:bg-white/[0.03] dark:shadow-none p-5 sm:p-6';
+  'min-w-0 rounded-panel border border-slate-300 bg-surface shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none p-5 sm:p-6';
 
-/** A section heading inside the stats tab. */
-export const PROFILE_SECTION_TITLE = 't-section text-[rgb(var(--color-text-secondary))]';
+/**
+ * A section heading: sentence case, in the display face (`.t-display`, Inter 900).
+ * It is the `t-section` voice without the caps, the italics and the tracking, which
+ * set three headings in a row as shouting. Sentence case is the register a
+ * heading that divides a panel is meant to have.
+ */
+export const PROFILE_SECTION_TITLE = 't-display text-base sm:text-lg tracking-tight text-primary';
 
-/** A filled band-coloured surface (bar, dot). */
-const BAND_FILL = 'bg-[rgb(var(--band-ink))] dark:bg-[rgb(var(--band-rgb))]';
+/** A filled band-coloured surface (bar, dot). The light theme takes the band's `-700` ink,
+ *  because its `-500` is too pale to read as a fill on white (yellow is 1.9:1). */
+export const BAND_FILL = 'bg-[rgb(var(--band-ink))] dark:bg-[rgb(var(--band-rgb))]';
 /** A band-coloured SVG fill (point). */
 const BAND_SVG_FILL = 'fill-[rgb(var(--band-ink))] dark:fill-[rgb(var(--band-rgb))]';
 
@@ -62,18 +75,18 @@ export interface ScoreCell {
 }
 
 /**
- * Headline figures as a scoreboard: a grid of flat cells divided by hairlines,
- * the same construction as the verb ribbon's stat strip. Two columns on a phone,
- * four from `sm`. The label is a caption and the value is telemetry, so the
- * figure reads first and the caption says what it counts.
+ * Headline figures, as a strip that belongs to the profile's head rather than
+ * a box of its own. It sits on the head's band wash, so it has no fill and no
+ * border: a hairline between columns from `sm`, and the figure reads first with
+ * its caption naming what it counts. Two columns on a phone, four from `sm`.
  */
 export const ProfileScoreboard: React.FC<{ cells: ScoreCell[] }> = ({ cells }) => (
-  <dl className="grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-panel border border-slate-200 dark:border-white/10 bg-slate-200 dark:bg-white/10">
+  <dl className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-4 sm:gap-x-0 sm:gap-y-0 sm:divide-x sm:divide-slate-300 dark:sm:divide-white/10">
     {cells.map((cell) => (
       <div
         key={cell.label}
         title={cell.title}
-        className="flex flex-col px-4 sm:px-5 py-3 bg-surface-elevated min-w-0"
+        className="flex flex-col min-w-0 sm:px-5 sm:first:pl-0"
       >
         <dt className="t-label text-muted truncate">{cell.label}</dt>
         <dd className="mt-1.5 font-mono text-xl sm:text-2xl font-black tabular-nums leading-none text-primary whitespace-nowrap">
@@ -122,6 +135,27 @@ export const HistoryState: React.FC<{ history: Exclude<OwnHistory, { status: 're
     </HistoryNotice>
   );
 };
+
+/**
+ * The one line that says why there are no history charts, drawn once above where
+ * they would be.
+ *
+ * The charts used to each state it inside their own card, so the same paragraph
+ * stood three times in three empty boxes. A card is a claim that there is something
+ * to read in it, and there is not, so when there is no history the profile draws
+ * this note and no cards at all. The wording stays in `HistoryState`, so the
+ * charts and the note cannot drift apart.
+ */
+export const ProfileHistoryNote: React.FC<{
+  history: Exclude<OwnHistory, { status: 'ready' }>;
+}> = ({ history }) => (
+  <div className="flex items-start gap-3 min-w-0 rounded-panel border border-slate-300 bg-surface shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none p-4 sm:p-5">
+    <Info className="w-4 h-4 mt-0.5 shrink-0 text-muted" aria-hidden="true" />
+    <div className="min-w-0">
+      <HistoryState history={history} />
+    </div>
+  </div>
+);
 
 // ---------------------------------------------------------------------------
 // Band progress: the band ladder as the y axis
@@ -227,7 +261,7 @@ export const BandProgressChart: React.FC<{
                 y1={bandRowY(band, PLOT_H, PAD_Y)}
                 y2={bandRowY(band, PLOT_H, PAD_Y)}
                 strokeWidth={1}
-                className="stroke-slate-200 dark:stroke-white/10"
+                className="stroke-slate-300 dark:stroke-white/10"
               />
             ))}
             {hasAverage && (
@@ -376,7 +410,7 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
       <div
         className={`mt-1.5 h-2.5 rounded-full overflow-hidden ${
           untried
-            ? 'border border-dashed border-slate-300 dark:border-white/20'
+            ? 'border border-dashed border-slate-400 dark:border-white/20'
             : 'bg-slate-200 dark:bg-white/10'
         }`}
       >
@@ -458,7 +492,7 @@ export const RecentAttemptsList: React.FC<{ history: OwnHistory; questionsAnswer
   return (
     <ol
       aria-label="Recent attempts, newest first"
-      className="relative space-y-4 before:absolute before:bottom-2 before:left-[0.3125rem] before:top-2 before:w-px before:bg-slate-200 dark:before:bg-white/10"
+      className="relative space-y-4 before:absolute before:bottom-2 before:left-[0.3125rem] before:top-2 before:w-px before:bg-slate-300 dark:before:bg-white/10"
     >
       {recent.map((a, i) => {
         const cfg = getBandConfig(a.band);

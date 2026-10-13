@@ -143,6 +143,29 @@ describe('the stats tab, fed by the attempt history', () => {
     );
   });
 
+  it('says the no-account state once, and draws no history cards for it', async () => {
+    history.attempts = null;
+    renderProfile();
+    await waitFor(() =>
+      expect(screen.getAllByText(/not connected to one/).length).toBeGreaterThan(0)
+    );
+    // One note, not the same paragraph in three empty cards.
+    expect(screen.getAllByText(/not connected to one/)).toHaveLength(1);
+    expect(screen.queryByRole('heading', { name: 'Band progress' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Strength by tier' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Recent attempts' })).toBeNull();
+  });
+
+  it('says a failed read once, and draws no history cards for it either', async () => {
+    history.fail = true;
+    renderProfile();
+    await waitFor(() =>
+      expect(screen.getAllByText(/Could not load your history/).length).toBeGreaterThan(0)
+    );
+    expect(screen.getAllByText(/Could not load your history/)).toHaveLength(1);
+    expect(screen.queryByRole('heading', { name: 'Band progress' })).toBeNull();
+  });
+
   it('reads the history only while the profile is open', async () => {
     history.attempts = sampleAttempts;
     const { rerender } = renderProfile(false);

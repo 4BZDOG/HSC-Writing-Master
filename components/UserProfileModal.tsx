@@ -47,14 +47,18 @@ import {
   type Plan,
 } from '../services/entitlements';
 import {
+  BAND_FILL,
   BandProgressChart,
   PROFILE_CARD,
   PROFILE_SECTION_TITLE,
+  ProfileHistoryNote,
   ProfileScoreboard,
   RecentAttemptsList,
   TierStrengthChart,
+  bandVars,
   type ScoreCell,
 } from './ProfileCharts';
+import { HERO_HEAD_WASH } from '../utils/ladderChrome';
 
 interface UserProfileModalProps {
   isOpen: boolean;
@@ -170,7 +174,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
         className={`shrink-0 w-11 h-11 rounded-tile flex items-center justify-center ${
           isPaid
             ? 'bg-amber-100 dark:bg-amber-400/15 text-amber-700 dark:text-amber-400'
-            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400'
+            : 'bg-surface-inset dark:bg-white/5 text-slate-600 dark:text-slate-400'
         }`}
       >
         <Crown className="w-5 h-5" aria-hidden="true" />
@@ -236,7 +240,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
           <button
             onClick={handleManageBilling}
             disabled={portalLoading}
-            className="mt-4 t-label px-4 py-2 rounded-xl bg-white dark:bg-white/5 text-secondary border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted"
+            className="mt-4 t-label min-h-11 sm:min-h-0 px-4 py-2 rounded-xl bg-surface-elevated dark:bg-white/5 text-secondary border border-slate-400 dark:border-white/10 shadow-sm can-hover:hover:bg-surface-inset dark:can-hover:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted"
           >
             <ExternalLink className="w-3 h-3" aria-hidden="true" />
             {portalLoading ? 'Opening...' : 'Manage Subscription'}
@@ -254,13 +258,16 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             {portalError}
           </p>
         )}
+        {/* White on amber-700 is 5.0:1, where white on the old amber-to-orange
+            gradient was 2.8:1 at its orange end. The dark theme takes dark ink
+            instead, which is 5.0:1 on amber-600. */}
         {!isPaid && selling && (
           <button
             onClick={() => {
               requestUpgrade('fullFeedback');
               onDismiss();
             }}
-            className="mt-4 t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-transform flex items-center gap-2"
+            className="mt-4 t-label min-h-11 sm:min-h-0 px-4 py-2 rounded-xl bg-amber-700 text-white shadow-sm dark:bg-amber-600 dark:text-slate-950 can-hover:hover:bg-amber-800 dark:can-hover:hover:bg-amber-500 active:scale-[0.98] transition-colors flex items-center gap-2"
           >
             <Crown className="w-3 h-3" aria-hidden="true" />
             Upgrade to {PLAN_LABELS.plus}
@@ -611,8 +618,16 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
   const plan = getUserPlan(user);
   const isPaid = plan !== 'free';
 
+  // Paper with an edge, like every card on the profile's desk. The rows inside
+  // are separated by hairlines, which need the edge to read as dividers at all.
   const settingsCard =
-    'rounded-panel border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.02] shadow-sm dark:shadow-none overflow-hidden';
+    'rounded-panel border border-slate-300 bg-surface shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none overflow-hidden';
+  // The 44px touch target for a control whose visible ink is smaller. From `sm`
+  // the control returns to its own size.
+  const touchable = 'min-h-11 sm:min-h-0';
+  // The head takes the level's tier hue, the same one the avatar, the level badge and
+  // the XP meter already say, so the head and the figures beneath it agree.
+  const headBand = bandVars(levelTier);
 
   return createPortal(
     <div
@@ -639,25 +654,32 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
       }}
     >
       <div
-        className="bg-white/95 dark:bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-sm rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-slate-200 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-base))] dark:bg-[rgb(var(--color-bg-surface))]/90 backdrop-blur-sm rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-4xl border border-slate-300 dark:border-white/10 animate-fade-in-up overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Identity. The name, role and plan say who this is; the XP meter says
             how far through the level they are; the scoreboard carries the four
-            figures that move. Everything below is detail for one of those. */}
-        <header className="flex-shrink-0 px-5 sm:px-10 pt-5 sm:pt-7 pb-5 sm:pb-6 border-b border-slate-200 dark:border-white/10 space-y-5">
+            figures that move. Everything below is detail for one of those.
+
+            The head is paper washed with the level's band, so it is the one
+            coloured surface in the dialog, and the desk beneath it carries the
+            cards. */}
+        <header
+          style={headBand}
+          className={`flex-shrink-0 bg-surface ${HERO_HEAD_WASH} px-5 sm:px-10 pt-5 sm:pt-7 pb-5 sm:pb-6 border-b border-slate-300 dark:border-white/10 space-y-5`}
+        >
           <div className="flex items-center gap-4 sm:gap-6 min-w-0">
             <div className="relative shrink-0">
-              <div
-                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br ${bandConfig.gradient} flex items-center justify-center`}
-              >
-                <span aria-hidden="true" className="text-3xl sm:text-4xl font-black text-white">
+              {/* `band-solid` is the one solid band fill, with near-black ink, which
+                  holds AA on all six hues where white does not (yellow is 1.9:1). */}
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-tile band-solid band-glow flex items-center justify-center">
+                <span aria-hidden="true" className="text-3xl sm:text-4xl font-black">
                   {user.displayName.charAt(0).toUpperCase()}
                 </span>
               </div>
               {/* The level lives HERE and nowhere else in this header. */}
               <div
-                className="absolute -bottom-2 -right-2 px-2 h-7 min-w-7 rounded-xl bg-white dark:bg-black border border-slate-200 dark:border-white/10 flex items-center justify-center shadow-lg"
+                className="absolute -bottom-2 -right-2 px-2 h-7 min-w-7 rounded-xl bg-surface border border-slate-300 dark:border-white/10 flex items-center justify-center shadow-lg"
                 title={`Level ${stats.level}`}
               >
                 <span className={`text-xs font-bold tabular-nums ${bandConfig.text}`}>
@@ -690,20 +712,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     }}
                     aria-label="Your display name"
                     maxLength={60}
-                    className="flex-1 bg-slate-100 dark:bg-white/5 border-b-2 border-[rgb(var(--color-accent))] text-xl sm:text-2xl font-black text-primary focus:outline-none px-2 py-1 min-w-0 rounded-t-lg"
+                    className="flex-1 bg-surface-inset dark:bg-white/5 border-b-2 border-[rgb(var(--color-accent))] text-xl sm:text-2xl font-black text-primary focus:outline-none px-2 py-1 min-w-0 rounded-t-lg"
                     autoFocus
                   />
                   <button
                     onClick={handleSaveName}
                     aria-label="Save your name"
-                    className="p-2 bg-[rgb(var(--color-accent))] text-white rounded-xl shrink-0 hover:bg-[rgb(var(--color-accent-dark))] transition-colors"
+                    className="flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 bg-[rgb(var(--color-accent))] text-white rounded-xl shrink-0 can-hover:hover:bg-[rgb(var(--color-accent-dark))] transition-colors"
                   >
                     <Save className="w-4 h-4" aria-hidden="true" />
                   </button>
                   <button
                     onClick={cancelNameEdit}
                     aria-label="Cancel renaming"
-                    className="p-2 bg-slate-200 dark:bg-white/5 text-secondary rounded-xl shrink-0 hover:bg-slate-300 dark:hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 bg-surface-inset dark:bg-white/5 text-secondary rounded-xl shrink-0 can-hover:hover:bg-surface-light dark:can-hover:hover:bg-white/10 transition-colors"
                   >
                     <X className="w-4 h-4" aria-hidden="true" />
                   </button>
@@ -718,7 +740,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsEditingName(true)}
-                    className="group/name flex items-center gap-2 min-w-0 max-w-full rounded-lg px-1 -mx-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))]"
+                    className="group/name flex items-center gap-2 min-w-0 max-w-full min-h-11 sm:min-h-0 rounded-lg px-1 -mx-1 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))]"
                   >
                     <span className="text-xl sm:text-2xl font-black text-primary tracking-tight break-words text-left group-hover/name:text-[rgb(var(--color-accent))] transition-colors">
                       {user.displayName}
@@ -758,7 +780,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               aria-label={`${progress.into} of ${progress.needed} XP through Level ${stats.level}`}
             >
               <div
-                className={`h-full rounded-full bg-gradient-to-r ${bandConfig.gradient}`}
+                className={`h-full rounded-full ${BAND_FILL}`}
                 style={{ width: `${progress.percent}%` }}
               />
             </div>
@@ -771,7 +793,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </header>
 
         {/* Tab Navigation */}
-        <div className="flex-shrink-0 flex border-b border-slate-200 dark:border-white/10 px-2 sm:px-10 overflow-x-auto scrollbar-hide">
+        {/* The selected tab is the one with the accent rule, drawn 3px deep and in
+            ink, so it is read from across the bar without the colour alone. */}
+        <div className="flex-shrink-0 flex bg-surface-elevated dark:bg-surface border-b border-slate-300 dark:border-white/10 px-2 sm:px-10 overflow-x-auto scrollbar-hide">
           {[
             { id: 'overview', icon: Zap, label: 'Stats' },
             {
@@ -787,10 +811,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 aria-current={active ? 'true' : undefined}
-                className={`t-label flex-auto justify-center px-2 sm:px-6 py-4 border-b-2 -mb-px transition-colors flex items-center gap-2 whitespace-nowrap ${
+                className={`t-label flex-auto justify-center min-h-11 px-2 sm:px-6 py-3.5 border-b-[3px] -mb-px transition-colors flex items-center gap-2 whitespace-nowrap touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[rgb(var(--color-accent))] ${
                   active
                     ? 'border-[rgb(var(--color-accent))] text-primary'
-                    : 'border-transparent text-muted hover:text-primary'
+                    : 'border-transparent text-muted can-hover:hover:text-primary can-hover:hover:border-slate-300 dark:can-hover:hover:border-white/20'
                 }`}
               >
                 {/* The icon is dropped below `sm`: three tabs with their icons
@@ -807,59 +831,82 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-5 sm:p-10 custom-scrollbar">
+        {/* The body is the desk the cards lie on. In the dark theme it is the
+            dialog's own surface, as it always was. */}
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-5 sm:p-10 custom-scrollbar bg-[rgb(var(--color-bg-base))] dark:bg-transparent">
           {activeTab === 'overview' && (
             <div className="space-y-6 animate-fade-in">
               <p className="text-sm leading-relaxed text-secondary">{performanceSummary.text}</p>
 
               {onOpenProgressReport && reportAudienceFor(user.role) !== null && (
-                <div>
-                  <button
-                    type="button"
-                    onClick={onOpenProgressReport}
-                    className="t-label px-4 py-2.5 rounded-xl bg-surface-inset text-primary border border-secondary/10 hover:bg-surface-elevated transition-colors flex items-center gap-2"
-                  >
-                    <FileDown className="w-3.5 h-3.5" aria-hidden="true" />
-                    Download progress report
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={onOpenProgressReport}
+                  className={`w-full flex items-center justify-between gap-4 p-4 sm:p-5 rounded-panel border border-slate-300 bg-surface shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none text-left touch-manipulation can-hover:hover:shadow-lg transition-shadow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))] ${touchable}`}
+                >
+                  <span className="flex items-center gap-4 min-w-0">
+                    <span
+                      aria-hidden="true"
+                      className="w-11 h-11 shrink-0 rounded-tile bg-accent/15 text-accent flex items-center justify-center"
+                    >
+                      <FileDown className="w-5 h-5" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-bold text-primary">
+                        Download progress report
+                      </span>
+                      <span className="block text-xs leading-relaxed text-secondary mt-0.5">
+                        Choose what to include, then save a PDF.
+                      </span>
+                    </span>
+                  </span>
+                  <Download className="w-4 h-4 shrink-0 text-secondary" aria-hidden="true" />
+                </button>
               )}
 
-              <section aria-labelledby="profile-band-heading" className={PROFILE_CARD}>
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-5">
-                  <h3 id="profile-band-heading" className={PROFILE_SECTION_TITLE}>
-                    Band progress
-                  </h3>
-                  <p className="t-label text-muted">One point per marked answer</p>
-                </div>
-                <BandProgressChart
-                  history={history}
-                  averageBand={stats.questionsAnswered > 0 ? stats.averageBand : null}
-                  questionsAnswered={stats.questionsAnswered}
-                />
-              </section>
+              {/* With no history to read there is nothing for the three cards to show,
+                  so the profile says so once, and draws no cards. */}
+              {history.status === 'ready' ? (
+                <>
+                  <section aria-labelledby="profile-band-heading" className={PROFILE_CARD}>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-5">
+                      <h3 id="profile-band-heading" className={PROFILE_SECTION_TITLE}>
+                        Band progress
+                      </h3>
+                      <p className="t-label text-muted">One point per marked answer</p>
+                    </div>
+                    <BandProgressChart
+                      history={history}
+                      averageBand={stats.questionsAnswered > 0 ? stats.averageBand : null}
+                      questionsAnswered={stats.questionsAnswered}
+                    />
+                  </section>
 
-              <div className="grid gap-6 lg:grid-cols-2">
-                <section aria-labelledby="profile-tier-heading" className={PROFILE_CARD}>
-                  <h3 id="profile-tier-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
-                    Strength by tier
-                  </h3>
-                  <TierStrengthChart
-                    history={history}
-                    questionsAnswered={stats.questionsAnswered}
-                  />
-                </section>
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <section aria-labelledby="profile-tier-heading" className={PROFILE_CARD}>
+                      <h3 id="profile-tier-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
+                        Strength by tier
+                      </h3>
+                      <TierStrengthChart
+                        history={history}
+                        questionsAnswered={stats.questionsAnswered}
+                      />
+                    </section>
 
-                <section aria-labelledby="profile-recent-heading" className={PROFILE_CARD}>
-                  <h3 id="profile-recent-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
-                    Recent attempts
-                  </h3>
-                  <RecentAttemptsList
-                    history={history}
-                    questionsAnswered={stats.questionsAnswered}
-                  />
-                </section>
-              </div>
+                    <section aria-labelledby="profile-recent-heading" className={PROFILE_CARD}>
+                      <h3 id="profile-recent-heading" className={`${PROFILE_SECTION_TITLE} mb-5`}>
+                        Recent attempts
+                      </h3>
+                      <RecentAttemptsList
+                        history={history}
+                        questionsAnswered={stats.questionsAnswered}
+                      />
+                    </section>
+                  </div>
+                </>
+              ) : (
+                <ProfileHistoryNote history={history} />
+              )}
 
               <PlanCard user={user} onDismiss={onClose} />
             </div>
@@ -870,7 +917,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
               {/* The count is in the tab label. What is left here is the
                   sentence the count could not say: what to do next. */}
               {nextAchievement && (
-                <div className="flex items-start gap-4 p-4 sm:p-5 rounded-panel border border-amber-300 dark:border-amber-400/20 bg-amber-50 dark:bg-amber-400/5">
+                <div className="flex items-start gap-4 p-4 sm:p-5 rounded-panel border border-amber-400 dark:border-amber-400/20 bg-amber-50 dark:bg-amber-400/5 shadow-sm dark:shadow-none">
                   <Star
                     className="w-4 h-4 mt-0.5 shrink-0 text-amber-700 dark:text-amber-400"
                     aria-hidden="true"
@@ -893,9 +940,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   return (
                     <li
                       key={ach.id}
-                      className={`${PROFILE_CARD} p-4 sm:p-5 flex items-start gap-4 ${ach.unlocked ? '' : 'shadow-none dark:shadow-none'}`}
+                      className={`${PROFILE_CARD} p-4 sm:p-5 flex items-start gap-4`}
                     >
-                      <div className="shrink-0 w-11 h-11 rounded-tile flex items-center justify-center text-2xl bg-slate-100 dark:bg-white/5">
+                      <div className="shrink-0 w-11 h-11 rounded-tile flex items-center justify-center text-2xl bg-surface-inset dark:bg-white/5">
                         {ach.unlocked ? (
                           <span aria-hidden="true">{ach.icon}</span>
                         ) : (
@@ -975,14 +1022,14 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     return (
                       <div
                         key={pref.id}
-                        className={`flex items-center justify-between gap-4 px-5 sm:px-8 py-4 sm:py-5 hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors ${
+                        className={`flex items-center justify-between gap-4 px-5 sm:px-8 py-4 sm:py-5 can-hover:hover:bg-slate-50 dark:can-hover:hover:bg-white/[0.02] transition-colors ${
                           index < all.length - 1
                             ? 'border-b border-slate-200 dark:border-white/5'
                             : ''
                         }`}
                       >
                         <div className="flex items-center gap-4 min-w-0">
-                          <div className="w-10 h-10 shrink-0 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-secondary">
+                          <div className="w-10 h-10 shrink-0 rounded-2xl bg-surface-inset dark:bg-white/5 flex items-center justify-center text-secondary">
                             <pref.icon className="w-5 h-5" aria-hidden="true" />
                           </div>
                           <div className="min-w-0">
@@ -1002,7 +1049,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                             a name. These were bare buttons with no accessible
                             name and no state, so a screen reader announced four
                             identical unlabelled buttons and never said whether
-                            any of them was on. */}
+                            any of them was on.
+
+                            The hit area is 44px tall and 56px wide; the drawn
+                            track is the 32px inside it. The track is a child, so
+                            the target is the control and not the visible ink. */}
                         <button
                           type="button"
                           role="switch"
@@ -1013,16 +1064,21 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                               ? commitPrefs({ theme: on ? 'dark' : 'light' })
                               : commitPrefs({ [pref.id]: !on } as Partial<UserPreferences>)
                           }
-                          className={`w-14 h-8 shrink-0 rounded-full relative transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))] ${
-                            on
-                              ? pref.id === 'theme'
-                                ? 'bg-[rgb(var(--color-accent))]'
-                                : 'bg-emerald-600 dark:bg-emerald-500'
-                              : 'bg-slate-300 dark:bg-slate-700'
-                          }`}
+                          className="relative w-14 h-11 shrink-0 rounded-full touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]"
                         >
                           <span
-                            className={`absolute top-1 w-6 h-6 rounded-full bg-white transition-all duration-500 flex items-center justify-center ${on ? 'left-7' : 'left-1'}`}
+                            aria-hidden="true"
+                            className={`absolute inset-x-0 top-1/2 -translate-y-1/2 h-8 rounded-full transition-colors duration-500 motion-reduce:transition-none ${
+                              on
+                                ? pref.id === 'theme'
+                                  ? 'bg-[rgb(var(--color-accent))]'
+                                  : 'bg-emerald-600 dark:bg-emerald-500'
+                                : 'bg-slate-500 dark:bg-slate-600'
+                            }`}
+                          />
+                          <span
+                            aria-hidden="true"
+                            className={`absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white transition-[left] duration-500 motion-reduce:transition-none flex items-center justify-center ${on ? 'left-7' : 'left-1'}`}
                           >
                             {pref.id === 'theme' &&
                               (on ? (
@@ -1083,14 +1139,14 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           <button
                             key={entry.id}
                             onClick={entry.action}
-                            className={`w-full flex items-center justify-between gap-4 px-5 sm:px-8 py-4 sm:py-5 text-left hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors ${
+                            className={`w-full flex items-center justify-between gap-4 px-5 sm:px-8 py-4 sm:py-5 text-left touch-manipulation can-hover:hover:bg-slate-50 dark:can-hover:hover:bg-white/[0.02] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[rgb(var(--color-accent))] ${
                               index !== all.length - 1
                                 ? 'border-b border-slate-200 dark:border-white/5'
                                 : ''
                             }`}
                           >
                             <div className="flex items-center gap-4 min-w-0">
-                              <div className="w-10 h-10 shrink-0 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-secondary">
+                              <div className="w-10 h-10 shrink-0 rounded-2xl bg-surface-inset dark:bg-white/5 flex items-center justify-center text-secondary">
                                 <entry.icon className="w-5 h-5" aria-hidden="true" />
                               </div>
                               <div className="min-w-0">
@@ -1132,7 +1188,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                     <button
                       onClick={handleExportData}
                       disabled={isExportingData}
-                      className="t-label px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 text-secondary border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted"
+                      className={`t-label px-4 py-2.5 rounded-xl bg-surface-elevated dark:bg-white/5 text-secondary border border-slate-400 dark:border-white/10 shadow-sm can-hover:hover:bg-surface-inset dark:can-hover:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted ${touchable}`}
                     >
                       <Download className="w-3.5 h-3.5" aria-hidden="true" />
                       {isExportingData ? 'Preparing…' : 'Download my data'}
@@ -1143,7 +1199,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           setIsConfirmingDelete(true);
                           setDataRightsMessage(null);
                         }}
-                        className="t-label px-4 py-2.5 rounded-xl text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 hover:bg-red-100 dark:hover:bg-red-500/20 transition-colors flex items-center gap-2"
+                        className={`t-label px-4 py-2.5 rounded-xl text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 can-hover:hover:bg-red-100 dark:can-hover:hover:bg-red-500/20 transition-colors flex items-center gap-2 ${touchable}`}
                       >
                         <Trash2 className="w-3.5 h-3.5" aria-hidden="true" /> Delete my account
                       </button>
@@ -1168,18 +1224,19 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           Type DELETE to confirm
                         </label>
                         <div className="flex flex-wrap gap-3">
+                          {/* 16px on a phone: a smaller field makes iOS zoom on focus. */}
                           <input
                             id="delete-confirm"
                             value={deleteConfirmText}
                             onChange={(e) => setDeleteConfirmText(e.target.value)}
                             autoComplete="off"
-                            className="flex-1 min-w-[140px] px-4 py-2.5 rounded-xl bg-white dark:bg-black/40 border border-slate-300 dark:border-white/10 text-primary text-sm font-bold outline-none focus:border-red-600 dark:focus:border-red-500/60 transition-colors"
+                            className="flex-1 min-w-[140px] min-h-11 sm:min-h-0 px-4 py-2.5 rounded-xl bg-surface dark:bg-black/40 border border-slate-400 dark:border-white/10 text-primary text-base sm:text-sm font-bold outline-none focus:border-red-600 dark:focus:border-red-500/60 transition-colors"
                             placeholder="DELETE"
                           />
                           <button
                             onClick={handleDeleteAccount}
                             disabled={deleteConfirmText !== 'DELETE' || isDeleting}
-                            className="t-label px-4 py-2.5 rounded-xl bg-red-700 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 transition-colors disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-secondary dark:disabled:bg-white/10"
+                            className={`t-label px-4 py-2.5 rounded-xl bg-red-700 text-white can-hover:hover:bg-red-600 dark:bg-red-600 dark:can-hover:hover:bg-red-500 transition-colors disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-secondary dark:disabled:bg-white/10 ${touchable}`}
                           >
                             {isDeleting ? 'Deleting…' : 'Delete permanently'}
                           </button>
@@ -1188,7 +1245,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                               setIsConfirmingDelete(false);
                               setDeleteConfirmText('');
                             }}
-                            className="t-label px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 text-secondary border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                            className={`t-label px-4 py-2.5 rounded-xl bg-surface-elevated dark:bg-white/5 text-secondary border border-slate-400 dark:border-white/10 shadow-sm can-hover:hover:bg-surface-inset dark:can-hover:hover:bg-white/10 transition-colors ${touchable}`}
                           >
                             Cancel
                           </button>
@@ -1213,13 +1270,13 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
 
         {/* Footer: the two exits. Log out is the one that ends the session, so it
             is the one set apart. */}
-        <div className="flex-shrink-0 px-5 sm:px-10 py-4 sm:py-5 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/20 flex justify-between items-center gap-3">
+        <div className="flex-shrink-0 px-5 sm:px-10 py-4 sm:py-5 border-t border-slate-300 dark:border-white/10 bg-surface-elevated dark:bg-black/20 flex justify-between items-center gap-3">
           <button
             onClick={() => {
               onClose();
               onLogout();
             }}
-            className="t-label text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors flex items-center gap-2 group"
+            className={`t-label text-red-700 dark:text-red-400 can-hover:hover:text-red-800 dark:can-hover:hover:text-red-300 transition-colors flex items-center gap-2 group touch-manipulation ${touchable}`}
           >
             <LogOut
               className="w-4 h-4 group-hover:-translate-x-1 transition-transform"
@@ -1229,7 +1286,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
           </button>
           <button
             onClick={onClose}
-            className="t-label px-6 sm:px-8 py-2.5 rounded-xl text-primary bg-white dark:bg-white/10 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/20 active:scale-[0.98] transition-all"
+            className={`t-label px-6 sm:px-8 py-2.5 rounded-xl text-primary bg-surface dark:bg-white/10 border border-slate-400 dark:border-white/10 shadow-sm can-hover:hover:bg-surface-inset dark:can-hover:hover:bg-white/20 active:scale-[0.98] transition-[background-color,transform] ${touchable}`}
           >
             Close
           </button>
