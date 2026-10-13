@@ -31,7 +31,7 @@ const StatItem = ({ label, value, icon: Icon, color }: StatItemProps) => (
       >
         <Icon className="w-4 h-4" />
       </div>
-      <span className="t-label text-slate-500 light:text-slate-500 group-hover:text-slate-300 light:group-hover:text-slate-700 transition-colors">
+      <span className="t-label text-slate-400 light:text-slate-600 group-hover:text-slate-300 light:group-hover:text-slate-700 transition-colors">
         {label}
       </span>
     </div>
@@ -61,7 +61,9 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
         </div>
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <span className={`t-label ${result.isValid ? 'text-emerald-500' : 'text-red-500'}`}>
+            <span
+              className={`t-label ${result.isValid ? 'text-emerald-500 light:text-emerald-700' : 'text-red-500 light:text-red-700'}`}
+            >
               Validation
             </span>
             <div
@@ -83,25 +85,25 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
           label="Courses"
           value={result.stats.totalCourses}
           icon={BookOpen}
-          color="text-sky-400"
+          color="text-sky-400 light:text-sky-700"
         />
         <StatItem
           label="Topics"
           value={result.stats.totalTopics}
           icon={Folder}
-          color="text-purple-400"
+          color="text-purple-400 light:text-purple-700"
         />
         <StatItem
           label="Dot Points"
           value={result.stats.totalDotPoints}
           icon={Hash}
-          color="text-indigo-400"
+          color="text-indigo-400 light:text-indigo-700"
         />
         <StatItem
           label="Questions"
           value={result.stats.totalPrompts}
           icon={FileText}
-          color="text-emerald-400"
+          color="text-emerald-400 light:text-emerald-700"
         />
       </div>
 
@@ -109,9 +111,9 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
         <div className="mb-6 bg-red-500/5 rounded-panel p-6 border border-red-500/20">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-1.5 rounded-lg bg-red-500/20">
-              <AlertCircle className="w-4 h-4 text-red-400" />
+              <AlertCircle className="w-4 h-4 text-red-400 light:text-red-700" />
             </div>
-            <h5 className="t-label text-red-500">Errors</h5>
+            <h5 className="t-label text-red-500 light:text-red-700">Errors</h5>
           </div>
           <ul className="space-y-3">
             {result.errors.slice(0, 5).map((err, i) => (
@@ -119,7 +121,9 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
                 key={i}
                 className="text-xs text-red-300 light:text-red-700 flex items-start gap-4 bg-black/20 light:bg-red-50 p-4 rounded-2xl border border-red-500/10 light:border-red-200"
               >
-                <span className="text-red-500 font-mono font-bold">[{i + 1}]</span>
+                <span className="text-red-500 light:text-red-700 font-mono font-bold">
+                  [{i + 1}]
+                </span>
                 <span className="leading-relaxed font-medium">{err}</span>
               </li>
             ))}
@@ -136,9 +140,9 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
         <div className="bg-amber-500/5 rounded-panel p-6 border border-amber-500/20">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-1.5 rounded-lg bg-amber-500/20">
-              <AlertTriangle className="w-4 h-4 text-amber-400" />
+              <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-700" />
             </div>
-            <h5 className="t-label text-amber-500">Warnings</h5>
+            <h5 className="t-label text-amber-500 light:text-amber-700">Warnings</h5>
           </div>
           <ul className="space-y-3">
             {result.warnings.slice(0, 5).map((warn, i) => (
@@ -146,7 +150,9 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
                 key={i}
                 className="text-xs text-amber-200 light:text-amber-800 flex items-start gap-4 bg-black/20 light:bg-amber-50 p-4 rounded-2xl border border-amber-500/10 light:border-amber-200"
               >
-                <span className="text-amber-500 font-mono font-bold">[{i + 1}]</span>
+                <span className="text-amber-500 light:text-amber-700 font-mono font-bold">
+                  [{i + 1}]
+                </span>
                 <span className="leading-relaxed font-medium">{warn}</span>
               </li>
             ))}

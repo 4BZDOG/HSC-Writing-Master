@@ -28,7 +28,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
       {courses.map((course) => (
         <div
           key={course.id}
-          className={`clip-stable rounded-panel overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 light:bg-indigo-50/60 border-indigo-500/30 light:border-indigo-300 shadow-lg' : 'bg-white/[0.03] light:bg-white border-white/5 light:border-slate-300'}`}
+          className={`clip-stable rounded-panel overflow-hidden transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-black/40 light:bg-indigo-50/60 border-indigo-500/30 light:border-indigo-300 shadow-lg' : 'bg-white/[0.03] light:bg-surface border-white/5 light:border-slate-300 light:shadow-sm'}`}
         >
           <button
             onClick={() => toggleCourse(course.id)}
@@ -36,7 +36,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
           >
             <div className="flex items-center gap-6">
               <div
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-indigo-600 text-white border-white/20' : 'bg-white/5 light:bg-slate-100 text-slate-500 group-hover:text-slate-300 light:group-hover:text-slate-700 border-white/5 light:border-slate-200'}`}
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 border ${expandedCourseId === course.id ? 'bg-indigo-600 text-white border-white/20' : 'bg-white/5 light:bg-slate-100 text-slate-400 light:text-slate-600 group-hover:text-slate-300 light:group-hover:text-slate-700 border-white/5 light:border-slate-200'}`}
               >
                 <BookOpen className="w-6 h-6" />
               </div>
@@ -47,7 +47,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                   {course.name}
                 </span>
                 <div className="flex items-center gap-3">
-                  <span className="t-label text-slate-500 light:text-slate-500">
+                  <span className="t-label text-slate-400 light:text-slate-600">
                     {course.topics.length} {course.topics.length === 1 ? 'Topic' : 'Topics'}
                   </span>
                   <div className="h-1 w-1 rounded-full bg-slate-700 light:bg-slate-300" />
@@ -65,9 +65,9 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
           </button>
 
           {expandedCourseId === course.id && (
-            <div className="bg-black/20 light:bg-slate-50 border-t border-white/5 light:border-slate-200 p-4 space-y-2 animate-fade-in">
+            <div className="bg-black/20 light:bg-surface-inset border-t border-white/5 light:border-slate-200 p-4 space-y-2 animate-fade-in">
               {course.topics.length === 0 ? (
-                <div className="py-10 text-center text-xs font-semibold text-slate-500 light:text-slate-500">
+                <div className="py-10 text-center text-xs font-semibold text-slate-400 light:text-slate-600">
                   No topics yet
                 </div>
               ) : (
@@ -78,7 +78,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                       className="flex items-center justify-between p-3 rounded-2xl hover:bg-white/[0.03] light:hover:bg-slate-100 transition-all group/row"
                     >
                       <div className="flex items-center gap-5 flex-1 min-w-0">
-                        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 text-[10px] font-mono font-bold text-indigo-400/40 light:text-indigo-400 group-hover/row:text-indigo-400 transition-colors shadow-inner shrink-0">
+                        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 text-[10px] font-mono font-bold text-indigo-400/40 light:text-indigo-700 group-hover/row:text-indigo-400 transition-colors shadow-inner shrink-0">
                           {(index + 1).toString().padStart(2, '0')}
                         </div>
                         <div className="min-w-0">
@@ -86,7 +86,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                             {topic.name}
                           </span>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[10px] font-medium text-slate-500 light:text-slate-500">
+                            <span className="text-[10px] font-medium text-slate-400 light:text-slate-600">
                               {topic.subTopics.length} sub-topic
                               {topic.subTopics.length === 1 ? '' : 's'}
                             </span>
@@ -109,7 +109,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                         <button
                           onClick={() => onMoveTopic(course.id, topic.id, 'up')}
                           disabled={index === 0}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-500 light:text-slate-500 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
+                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
                           title="Move up"
                         >
                           <ArrowUp className="w-4 h-4" />
@@ -117,7 +117,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                         <button
                           onClick={() => onMoveTopic(course.id, topic.id, 'down')}
                           disabled={index === course.topics.length - 1}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-500 light:text-slate-500 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
+                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
                           title="Move down"
                         >
                           <ArrowDown className="w-4 h-4" />
@@ -136,7 +136,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
           <div className="w-20 h-20 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center border border-white/5 light:border-slate-200 shadow-inner">
             <Hash className="w-10 h-10 text-[rgb(var(--color-text-muted))]" />
           </div>
-          <p className="text-xs font-semibold text-slate-500 light:text-slate-500">
+          <p className="text-xs font-semibold text-slate-400 light:text-slate-600">
             No courses yet
           </p>
         </div>

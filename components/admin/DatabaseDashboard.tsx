@@ -47,6 +47,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
+import { TOOL_HEAD, TOOL_RAIL } from './adminChrome';
 
 interface BackupSummary {
   key: string;
@@ -70,7 +71,7 @@ const SnapshotPreview: React.FC<{ data: Course[] | null }> = ({ data }) => {
   if (!data) return null;
   return (
     <div className="mt-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] rounded-xl border border-[rgb(var(--color-border-secondary))] animate-fade-in">
-      <h4 className="t-section text-[rgb(var(--color-text-muted))] mb-3 flex items-center gap-2">
+      <h4 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] mb-3 flex items-center gap-2">
         <Eye className="w-3 h-3" /> Backup Contents Preview
       </h4>
       <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-2">
@@ -432,10 +433,12 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex-shrink-0 px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 relative">
+        <div
+          className={`flex-shrink-0 px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} relative`}
+        >
           {/* Cubic Mesh Texture Overlay */}
           <div
             className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
@@ -453,7 +456,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Database Manager
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                   Storage Management & Recovery
                 </p>
               </div>
@@ -463,7 +466,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
               aria-label="Close"
               className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
+              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-600 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
@@ -472,7 +475,9 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             sliver on a 390px screen; below md it becomes a horizontal tab
             strip above the full-width content. */}
         <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
-          <div className="w-full md:w-64 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 flex flex-row md:flex-col gap-2 flex-shrink-0 overflow-x-auto scrollbar-hide">
+          <div
+            className={`w-full md:w-64 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 flex flex-row md:flex-col gap-2 flex-shrink-0 overflow-x-auto scrollbar-hide`}
+          >
             <button
               onClick={() => setView('overview')}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'overview' ? 'bg-blue-500/10 light:bg-blue-100 text-blue-400 light:text-blue-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
@@ -513,7 +518,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                           {stats.isConnected ? (
                             <CheckCircle className="w-5 h-5 text-emerald-400 light:text-emerald-600" />
                           ) : (
-                            <AlertTriangle className="w-5 h-5 text-red-400" />
+                            <AlertTriangle className="w-5 h-5 text-red-400 light:text-red-700" />
                           )}
                           <span
                             className={`text-sm font-bold ${stats.isConnected ? 'text-emerald-400 light:text-emerald-700' : 'text-red-400'}`}
@@ -524,7 +529,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         <p className="text-2xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
                           {stats.isConnected ? 'Active' : 'Offline'}
                         </p>
-                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 mt-1">
                           IndexedDB v3
                         </p>
                       </div>
@@ -549,7 +554,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                             ></div>
                           </div>
                         )}
-                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 mt-1">
                           of {stats.quota ? formatBytes(stats.quota.quota) : 'Unknown'} Available
                         </p>
                       </div>
@@ -564,7 +569,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         <p className="text-2xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
                           {stats.stores.length}
                         </p>
-                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 mt-1">
                           Object Stores
                         </p>
                       </div>
@@ -620,7 +625,9 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center text-red-400 p-8">Database connection failed.</div>
+                  <div className="text-center text-red-400 light:text-red-700 p-8">
+                    Database connection failed.
+                  </div>
                 )}
               </>
             )}
@@ -630,9 +637,10 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
-                      <History className="w-5 h-5 text-purple-400" /> Available Backups
+                      <History className="w-5 h-5 text-purple-400 light:text-purple-700" />{' '}
+                      Available Backups
                     </h3>
-                    <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                       Backups are created automatically every hour during activity.
                     </p>
                   </div>
@@ -647,7 +655,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     />
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/30 hover:bg-purple-500/20 transition-all text-xs font-bold"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 light:text-purple-700 border border-purple-500/30 hover:bg-purple-500/20 transition-all text-xs font-bold"
                     >
                       <UploadCloud className="w-4 h-4" /> Upload Backup
                     </button>
@@ -667,7 +675,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                       No backups found.
                     </p>
-                    <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                       Backups will appear here as you work.
                     </p>
                   </div>
@@ -684,7 +692,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                               <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
                                 {backup.date}
                                 {backup.timestamp > 0 && (
-                                  <span className="font-normal text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                                  <span className="font-normal text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                                     {new Date(backup.timestamp).toLocaleTimeString()}
                                   </span>
                                 )}
@@ -694,7 +702,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                                   </span>
                                 )}
                               </p>
-                              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 font-mono">
+                              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 font-mono">
                                 {backup.courseCount} Courses · {formatBytes(backup.size)}
                               </p>
                             </div>
@@ -750,7 +758,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     <button
                       onClick={handleBackToStats}
                       aria-label="Back to stats"
-                      className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 transition-colors"
+                      className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 transition-colors"
                     >
                       <ArrowLeft className="w-5 h-5" />
                     </button>
@@ -769,7 +777,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                           </option>
                         ))}
                       </select>
-                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                         Raw Data View ·{' '}
                         {isLoadingData
                           ? '…'
@@ -819,8 +827,10 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
           </div>
         </div>
 
-        <div className="flex-shrink-0 px-6 py-5 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center">
-          <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
+        <div
+          className={`flex-shrink-0 px-6 py-5 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center`}
+        >
+          <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600">
             Local Database: {isLoading || isRestoring ? 'Busy...' : 'Ready'}
           </div>
           <div className="flex gap-3">

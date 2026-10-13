@@ -26,6 +26,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import LoadingIndicator from '../LoadingIndicator';
+import { TOOL_HEAD } from './adminChrome';
 
 interface StudentProgressModalProps {
   isOpen: boolean;
@@ -43,8 +44,8 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   value,
   sub,
 }) => (
-  <div className="flex-1 min-w-[130px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
-    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1.5">
+  <div className="flex-1 min-w-[130px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+    <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-1.5">
       {icon}
       {label}
     </div>
@@ -52,7 +53,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
       {value}
     </div>
     {sub && (
-      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 mt-0.5">
+      <div className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 mt-0.5">
         {sub}
       </div>
     )}
@@ -79,7 +80,7 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
   return (
     <div className="flex items-center gap-3">
       <span className="w-28 shrink-0 text-[11px] font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700">
-        <span className="text-[rgb(var(--color-text-dim))] light:text-slate-500">
+        <span className="text-[rgb(var(--color-text-dim))] light:text-slate-600">
           B{profile.tier}
         </span>{' '}
         {tierShortLabel(profile.tier)}
@@ -95,10 +96,10 @@ const TierRow: React.FC<{ profile: TierProfile }> = ({ profile }) => {
       <span className="w-12 text-right font-mono text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800 tabular-nums">
         {formatMarkFrac(profile.markFrac)}
       </span>
-      <span className="w-12 text-right font-mono text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 tabular-nums">
+      <span className="w-12 text-right font-mono text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-600 tabular-nums">
         {attempted ? `B${formatBand(profile.avgBand)}` : '—'}
       </span>
-      <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 tabular-nums">
+      <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-600 tabular-nums">
         {profile.attempts} {profile.attempts === 1 ? 'try' : 'tries'}
       </span>
     </div>
@@ -143,9 +144,9 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
   const delta = last - first;
   const tone =
     delta > 0
-      ? 'text-emerald-500'
+      ? 'text-emerald-500 light:text-emerald-700'
       : delta < 0
-        ? 'text-red-500'
+        ? 'text-red-500 light:text-red-700'
         : 'text-[rgb(var(--color-text-muted))]';
   const y3 = TREND_H - ((3 - 1) / 5) * TREND_H; // band-3 (struggling) reference line
 
@@ -156,7 +157,7 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
         width="100%"
         role="img"
         aria-label={`Band trend across ${bands.length} attempts, oldest to newest: ${bands.join(', ')}`}
-        className="rounded-lg bg-black/20 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200"
+        className="rounded-lg bg-black/20 light:bg-surface border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-200"
       >
         <line
           x1={0}
@@ -190,7 +191,7 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
           </g>
         ))}
       </svg>
-      <div className="mt-1.5 flex items-center gap-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+      <div className="mt-1.5 flex items-center gap-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
         <span>
           Band {formatBand(first)} → {formatBand(last)}
         </span>
@@ -307,11 +308,13 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
       onClick={isLoading ? undefined : onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-between">
+        <div
+          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+        >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 shadow-lg flex items-center justify-center">
               <LineChart className="w-6 h-6 text-white" />
@@ -320,7 +323,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 Student Progress
               </h2>
-              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 One student across the six verb groups
               </p>
             </div>
@@ -335,14 +338,14 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
         </div>
 
         {/* Body */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto p-6 custom-scrollbar space-y-6 light:bg-surface-inset">
           {!remote ? (
             <div className="text-center py-16">
               <Users className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
               <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                 Student progress requires Supabase.
               </p>
-              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 max-w-sm mx-auto mt-1">
+              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 max-w-sm mx-auto mt-1">
                 Responses are only persisted centrally in Supabase mode, so there is nothing to
                 profile in local mode.
               </p>
@@ -352,7 +355,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
               {/* Lookup controls */}
               <div className="flex flex-wrap items-end gap-3">
                 <label className="flex flex-col gap-1">
-                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                  <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                     Student username
                   </span>
                   <input
@@ -400,7 +403,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                 </div>
               ) : !data ? (
                 <section>
-                  <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+                  <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <Users className="w-3.5 h-3.5" /> Students · pick one
                   </h3>
                   {isRosterLoading ? (
@@ -408,12 +411,12 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       <LoadingIndicator messages={['Loading roster…']} duration={1} />
                     </div>
                   ) : roster.length === 0 ? (
-                    <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-6 text-center">
+                    <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 italic py-6 text-center">
                       No students have submitted marked responses in this window. You can still look
                       up a username directly above.
                     </p>
                   ) : (
-                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden overflow-x-auto divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
+                    <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden light:bg-surface overflow-x-auto divide-y divide-[rgb(var(--color-border-secondary))]/30 light:divide-slate-200">
                       {roster.map((s) => (
                         <button
                           key={s.username}
@@ -423,13 +426,13 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                           <span className="flex-1 font-mono text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800">
                             {s.username}
                           </span>
-                          <span className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 tabular-nums">
+                          <span className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-600 tabular-nums">
                             {s.attempts} {s.attempts === 1 ? 'response' : 'responses'}
                           </span>
                           <span className="w-16 text-right font-mono text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 tabular-nums">
                             B{formatBand(s.avg_band)}
                           </span>
-                          <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                          <span className="w-16 text-right text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                             {formatLastActive(s.last_active)}
                           </span>
                         </button>
@@ -445,7 +448,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   >
                     ← Back to students
                   </button>
-                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-8 text-center">
+                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 italic py-8 text-center">
                     No marked responses for <span className="font-mono">{data.username}</span> in
                     this window.
                   </p>
@@ -487,7 +490,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
 
                   {/* Cognitive tier profile */}
                   <section>
-                    <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                    <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3">
                       Command verb profile
                     </h3>
                     <div className="space-y-2.5">
@@ -495,7 +498,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                         <TierRow key={t.tier} profile={t} />
                       ))}
                     </div>
-                    <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                    <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                       Share of available marks earned per verb group, then the average band and
                       attempt count. The bar tracks marks, not band: a group&rsquo;s band is capped
                       at its tier, so a band bar would rise left-to-right for every student. A blank
@@ -506,11 +509,11 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Band trend over time (from the per-attempt history) */}
                   {trendBands >= 2 && (
                     <section>
-                      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                      <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3">
                         Band trend
                       </h3>
                       <BandTrend points={data.trend} />
-                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                      <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         Each point is a marked attempt in this window, oldest to newest; the dashed
                         line is band 3 (the struggling threshold).
                       </p>
@@ -520,10 +523,10 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                   {/* Per-verb detail */}
                   {verbRows.length > 0 && (
                     <section>
-                      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
+                      <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3">
                         By command verb
                       </h3>
-                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+                      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                         <table className="w-full text-left text-sm min-w-[360px]">
                           <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
                             <tr>
@@ -542,7 +545,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                                 <td className="px-4 py-2.5 text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
                                   {r.label}
                                   {r.tier != null && (
-                                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
                                       B{r.tier}
                                     </span>
                                   )}
