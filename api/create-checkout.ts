@@ -189,7 +189,11 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // than trusting that. (Skipped when Supabase is unconfigured — there is
       // no role to check, matching the auth gate's mock-mode parity.)
       if (sellablePrices[priceId] === 'school' && !['teacher', 'admin'].includes(profile?.role)) {
+        // `code` lets the client tell this refusal apart from a 403 that means
+        // the request itself was wrong. A student who reaches this point has a
+        // sentence to read, not a billing outage to report.
         res.status(403).json({
+          code: 'school_role_required',
           error: 'School licences are purchased by a teacher or admin account.',
         });
         return;

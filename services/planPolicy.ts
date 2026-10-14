@@ -41,7 +41,8 @@ export type PremiumFeatureKey =
   | 'fullFeedback'
   | 'sampleAnswers'
   | 'examMode'
-  | 'outcomeBriefing';
+  | 'outcomeBriefing'
+  | 'cohortReports';
 
 /** Ascending order of generosity — used to compare two plans. */
 export const PLAN_ORDER: Plan[] = ['free', 'plus', 'school'];
@@ -80,6 +81,11 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   // it to staff regardless of what a student pays — so pricing it at Plus does
   // not hand the studio to a student who subscribes.
   aiContentStudio: 'plus',
+  // The Class and School report PDFs: a whole cohort's numbers, handed on. This
+  // is what a School licence adds for staff, so it is the one gate that is
+  // priced above Plus. A teacher without a licence holds Plus and so is locked
+  // out of it; the student's own progress report stays on `pdfExport`.
+  cohortReports: 'school',
 };
 
 // ---------------------------------------------------------------------------

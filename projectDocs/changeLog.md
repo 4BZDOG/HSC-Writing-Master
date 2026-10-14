@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (Class & school reports are a School feature)
+
+- **Changed.** The Class report (a teacher's classes) and the School report (an administrator's school) are a School-tier feature (`cohortReports`). A teacher holds Plus as a staff perk, so a teacher with no licence now sees the report locked. The student's own progress report stays on Plus. Existing teachers on a deployment that upgrades without config will see this lock.
+- **Changed.** A teacher with their own Plus inside a licensed school now holds School, not Plus. The licence outranks the personal plan at sign-in and in `caller_plan()` (schema §17).
+- **Added.** `PLAN_FEATURE_OVERRIDES=cohortReports:plus` (and `VITE_` copy) restores the earlier behaviour.
+- **Docs.** `docs/stripesetup.md`, `.env.example`, `projectDocs/tier-structure.md`.
+
 ## [Unreleased] - 2026-10-14 (paywall: say what is charged, and match the plan)
 
 - **Changed.** The upgrade prompt states the amount, the renewal and how to stop. It no longer offers "Keep me posted" when nothing is on sale, and it offers no seat picker once checkout has refused because a subscription is live. Paid plans read "No daily limit", not "Unlimited", in the prompt, the comparison and the profile card. The comparison opens with its own header. The free counter at zero opens the daily-limit prompt.

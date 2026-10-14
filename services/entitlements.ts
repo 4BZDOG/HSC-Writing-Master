@@ -143,6 +143,15 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
     blurb: 'Practise under real HSC conditions — timed, unassisted, with post-exam feedback.',
     perk: 'Timed HSC exam simulation mode with post-exam analysis',
   },
+  cohortReports: {
+    title: 'Class & School Reports',
+    blurb:
+      'Hand on a progress report for a whole class or school: every student’s marks, by verb ' +
+      'and topic, as a PDF your head teacher or admin can read.',
+    // Says who it is for. A student never reads this as something they will
+    // get: the report is only offered to staff accounts, whatever the plan.
+    perk: 'Class and school progress reports as PDFs, for teacher and admin accounts',
+  },
 };
 
 // ---------------------------------------------------------------------------

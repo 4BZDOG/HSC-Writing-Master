@@ -77,6 +77,10 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
     label: 'PDF report export',
     note: 'Marking reports you can keep, print or hand in',
   },
+  cohortReports: {
+    label: 'Class & school reports',
+    note: 'Progress reports for a whole class or school, as PDFs',
+  },
   aiContentStudio: {
     label: 'AI Content Studio',
     // The role restriction belongs in the table, not just in the code: the plan

@@ -69,16 +69,23 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe('why the seat purchase cannot live behind a lock', () => {
-  it.each(['teacher', 'admin'] as const)(
-    'a %s has nothing locked, so no locked control can ever open the prompt for them',
-    (role) => {
-      const user = asUser(role);
-      const locked = (Object.keys(PREMIUM_FEATURES) as PremiumFeatureKey[]).filter((key) =>
-        isFeatureLocked(key, user)
-      );
-      expect(locked).toEqual([]);
-    }
-  );
+  // Staff hold Plus as a staff perk, so every Plus lock is open to them. The
+  // Class & School reports are priced at School, so a teacher does meet ONE lock,
+  // and the prompt that opens for it renders the seat route too. The plan
+  // comparison still carries the route for a teacher who meets no lock at all.
+  it('a teacher is locked out of only the School-priced reports', () => {
+    const locked = (Object.keys(PREMIUM_FEATURES) as PremiumFeatureKey[]).filter((key) =>
+      isFeatureLocked(key, asUser('teacher'))
+    );
+    expect(locked).toEqual(['cohortReports']);
+  });
+
+  it('an admin has nothing locked, so no lock can ever open the prompt for them', () => {
+    const locked = (Object.keys(PREMIUM_FEATURES) as PremiumFeatureKey[]).filter((key) =>
+      isFeatureLocked(key, asUser('admin'))
+    );
+    expect(locked).toEqual([]);
+  });
 });
 
 describe('the plan comparison carries the School route', () => {

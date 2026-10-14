@@ -452,6 +452,16 @@ Three things an operator should know about how this behaves:
   are told who bought the licence instead of being offered a button that would
   fail.
 
+**Class & school reports are a School feature.** The Class report (a teacher's
+classes) and the School report (an administrator's school) are gated by the
+`cohortReports` key, priced at `school`. A teacher holds Plus as a staff perk, so
+without a licence the report is locked for them; the purchaser's school licence
+unlocks it for every member of the school. The student's own progress report
+stays on Plus (`pdfExport`). Class Insights and the cohort view stay open to all
+staff. To keep the reports open to every teacher, set
+`VITE_PLAN_FEATURE_OVERRIDES=cohortReports:plus` **and**
+`PLAN_FEATURE_OVERRIDES=cohortReports:plus` (see `.env.example`).
+
 **Important**: the buyer must belong to a school (Admin → Schools) _before_
 purchasing. `api/create-checkout` now refuses a school-price checkout from an
 account with no `school_id` and says so, rather than taking the money for N
