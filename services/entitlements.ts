@@ -732,6 +732,56 @@ export const createPortalUrl = async (): Promise<BillingUrlResult> =>
     'Could not open the billing portal. Please try again shortly.'
   );
 
+/**
+ * The `session_id` Stripe appends to the success URL, or null when it is absent
+ * or not shaped like a Checkout Session id. The server checks it again; this only
+ * keeps a malformed value from being sent at all.
+ */
+export const checkoutSessionIdFrom = (params: URLSearchParams): string | null => {
+  const id = params.get('session_id');
+  return id && /^cs_[A-Za-z0-9_]{8,200}$/.test(id) ? id : null;
+};
+
+/**
+ * What the checkout return learned from `/api/sync-checkout`. `active` means the
+ * server has written the plan. `pending` means it has not, for whatever reason,
+ * and the caller falls back to polling, exactly as it did before that endpoint
+ * existed.
+ */
+export type CheckoutSyncResult = { status: 'active' } | { status: 'pending' };
+
+/** Reads a sync-checkout answer. Only a 200 that says `active` confirms the purchase. */
+export const parseCheckoutSync = (httpStatus: number | null, body: unknown): CheckoutSyncResult => {
+  const status = (body as { status?: unknown } | null)?.status;
+  return httpStatus === 200 && status === 'active' ? { status: 'active' } : { status: 'pending' };
+};
+
+/** How long the checkout return waits on the confirmation before it polls anyway. */
+const CHECKOUT_SYNC_TIMEOUT_MS = 15_000;
+
+/**
+ * Asks the server to confirm the purchase behind `sessionId`. Never rejects: any
+ * failure reads as pending, so the caller's poll still runs.
+ */
+export const syncCheckoutSession = async (sessionId: string): Promise<CheckoutSyncResult> => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CHECKOUT_SYNC_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${apiBase}/api/sync-checkout`, {
+      method: 'POST',
+      headers: await getAuthHeaders(),
+      body: JSON.stringify({ sessionId }),
+      signal: controller.signal,
+    });
+    const data = await res.json().catch(() => null);
+    return parseCheckoutSync(res.status, data);
+  } catch {
+    return { status: 'pending' };
+  } finally {
+    clearTimeout(timer);
+  }
+};
+
 /** Event carrying the feature key a locked control was asked for. */
 export const UPGRADE_REQUEST_EVENT = 'writing-studio:upgrade-request';
 

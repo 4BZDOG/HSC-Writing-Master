@@ -48,10 +48,12 @@ import {
 } from './utils/permissions';
 import { isCourseDemandAvailable } from './services/courseDemandService';
 import {
+  checkoutSessionIdFrom,
   isEvalLimitReached,
   evalLimitMessage,
   refreshFreeEvalCount,
   requestUpgrade,
+  syncCheckoutSession,
   PLAN_LABELS,
 } from './services/entitlements';
 import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'lucide-react';
@@ -1340,13 +1342,20 @@ const App: React.FC = () => {
       );
     };
     if (checkout === 'success') {
+      // Read before clearCheckoutParams strips it: the session id is what lets the
+      // server confirm this purchase itself instead of waiting on the webhook.
+      const sessionId = checkoutSessionIdFrom(params);
       clearCheckoutParams();
       showToast('Payment received — activating your subscription…', 'info');
       // Stripe redirects back faster than its webhook fires, so the profile is
-      // usually still 'free' on this first load. Poll until the webhook has
-      // written the plan (typically 2-10s), then unlock live — no re-login.
+      // usually still 'free' on this first load. Confirm the purchase, then poll
+      // until the plan is in the profile (typically 2-10s), and unlock live — no
+      // re-login.
       let cancelled = false;
       (async () => {
+        // Confirmed first, so the first refresh below already sees the plan. A
+        // pending or unreachable answer changes nothing: the poll is the fallback.
+        if (sessionId) await syncCheckoutSession(sessionId);
         for (let attempt = 0; attempt < 10 && !cancelled; attempt++) {
           const current = authService.getCurrentUser();
           if (current && current.role !== 'guest') {
