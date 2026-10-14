@@ -24,6 +24,16 @@
  * exception is a column the schema has not added yet: that is treated as "nothing
  * to check", so a database that has not re-applied §13 behaves as it did before.
  *
+ * A personal subscription that is `incomplete` (its first payment is waiting on the
+ * customer's bank) holds a new purchase only inside the 3-D Secure window after its last
+ * write (INCOMPLETE_HOLD_MS). Outside it, the customer may buy again. A school licence in
+ * that state does not hold, because the buyer's own guard covers the personal row.
+ *
+ * One open checkout per user. The session created here replaces the one recorded for
+ * the user, which is expired (api/_lib/openCheckout.ts). Sessions expire 31 to 36
+ * minutes after creation, not after Stripe's 24-hour default. A double tap returns the same
+ * session. A refused session is expired and never returned.
+ *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
  * end-to-end without a real Stripe account.
@@ -41,15 +51,40 @@ import { SCHOOL_SEAT_LIMITS } from './_lib/entitlements';
 import { verifyRequestAuth } from './_lib/auth';
 import { corsHeadersFor } from './_lib/cors';
 import { isMissingColumnError } from './_lib/stripeLedger';
-
-/**
- * Stripe statuses in which a subscription or licence is still being paid for, so
- * buying another would double-bill. `past_due` counts: Stripe is still retrying.
- */
-const LIVE_STATUSES = ['active', 'trialing', 'past_due'];
+import {
+  checkoutRequestKey,
+  expireDisplacedCheckout,
+  holdsPurchase,
+  HELD_STATUSES,
+  isIdempotencyConflict,
+  isLiveStatus,
+  type PurchaseRow,
+  releaseCheckout,
+  swapOpenCheckout,
+} from './_lib/openCheckout';
 
 const LOOKUP_FAILED =
   'We could not check your account just now, so no purchase was started. Please try again in a few minutes.';
+
+const ALREADY_SUBSCRIBED =
+  'You already have an active subscription. Use “Manage subscription” to change your plan or seats.';
+
+/**
+ * A purchase whose first payment is still waiting on the customer's bank (Stripe's
+ * `incomplete`), inside the window where it can still be approved. The customer is
+ * told how to finish it, and when a new attempt is allowed.
+ */
+const PURCHASE_PENDING =
+  'A previous purchase on your account is still waiting for your bank to confirm the payment. ' +
+  'Finish it or cancel it from your bank’s prompt. If nothing happens within an hour, you can ' +
+  'start again.';
+
+const SCHOOL_LICENCE_HELD =
+  'Your school already has a School licence. Ask whoever bought it to add seats through ' +
+  '“Manage subscription”, or contact us if you need it moved.';
+
+const CHECKOUT_STARTING =
+  'Your checkout is still being prepared. Please wait a minute, then try again.';
 
 interface RequestLike {
   method?: string;
@@ -212,13 +247,15 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // portal by design — this is only a duplicate-purchase guard, not an
       // in-app switcher. Applies to both Plus and School because it keys on
       // the user, before the price is inspected.
-      const { data: existingSub, error: existingSubError } = await supabase
+      // Read every row that could hold, then decide here: an `incomplete` row holds only
+      // inside its 3-D Secure window (holdsPurchase), and that depends on its own
+      // timestamp, which a status filter cannot express. No limit: a cap could hide a live
+      // row behind older pending ones, and a user has only a handful of rows.
+      const { data: heldRows, error: existingSubError } = await supabase
         .from('subscriptions')
-        .select('id, status')
+        .select('id, status, last_event_at, updated_at')
         .eq('user_id', auth.userId)
-        .in('status', LIVE_STATUSES)
-        .limit(1)
-        .maybeSingle();
+        .in('status', [...HELD_STATUSES]);
       // Fail closed: a lookup that errored says nothing about whether the user
       // is already subscribed, and a guard that cannot see is no guard.
       if (existingSubError) {
@@ -226,11 +263,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         res.status(503).json({ error: LOOKUP_FAILED });
         return;
       }
-      if (existingSub) {
-        res.status(409).json({
-          error:
-            'You already have an active subscription. Use “Manage subscription” to change your plan or seats.',
-        });
+      const now = Date.now();
+      const holding = ((heldRows ?? []) as PurchaseRow[]).filter((row) => holdsPurchase(row, now));
+      if (holding.length > 0) {
+        // A live subscription takes precedence over a pending one in the wording.
+        const live = holding.some((row) => isLiveStatus(row.status));
+        res.status(409).json({ error: live ? ALREADY_SUBSCRIBED : PURCHASE_PENDING });
         return;
       }
 
@@ -281,12 +319,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
             '[create-checkout] schools licence columns missing (schema §13 not re-applied) — ' +
               'cannot check for an existing licence.'
           );
-        } else if (school?.stripe_subscription_id && LIVE_STATUSES.includes(school.plan_status)) {
+        } else if (school?.stripe_subscription_id && isLiveStatus(school.plan_status)) {
+          // Only a live licence holds the school. An `incomplete` one does not: schools carry
+          // no timestamp to apply the window to, and the buyer's own guard above already
+          // covers that subscription's row for the window.
           res.status(409).json({
             code: 'school_licence_held',
-            error:
-              'Your school already has a School licence. Ask whoever bought it to add seats through ' +
-              '“Manage subscription”, or contact us if you need it moved.',
+            error: SCHOOL_LICENCE_HELD,
           });
           return;
         }
@@ -339,33 +378,91 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // the operator reconciles, not something this flag decides.
     const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX === 'true';
 
-    const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
-      payment_method_types: ['card'],
-      line_items: [{ price: priceId, quantity: seats }],
-      success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${returnBase}?checkout=cancelled`,
-      client_reference_id: auth.userId ?? undefined,
-      ...(automaticTaxEnabled ? { automatic_tax: { enabled: true } } : {}),
-      ...(existingCustomerId
-        ? { customer: existingCustomerId }
-        : customerEmail
-          ? { customer_email: customerEmail }
-          : {}),
-      // Stamp the Supabase user onto the subscription itself: webhook events
-      // (customer.subscription.created) can arrive BEFORE checkout.completed
-      // links the customer id to the profile, and without this metadata the
-      // subscription handler would find no profile and silently drop the plan.
-      subscription_data: { metadata: { supabase_user_id: auth.userId } },
-      allow_promotion_codes: true,
-      // With automatic tax on, Stripe needs a reliable location to pick the
-      // right rate, so it recommends REQUIRING the billing address rather than
-      // leaning on 'auto' (which only asks when it thinks it must). Off the tax
-      // path, keep 'auto' so a plain card purchase isn't made to type an
-      // address it doesn't need.
-      billing_address_collection: automaticTaxEnabled ? 'required' : 'auto',
-      tax_id_collection: { enabled: true },
+    // Same user, plan, seats and five-minute window: Stripe returns the same session, so
+    // a double tap cannot create one session and then expire it for the second (see
+    // api/_lib/openCheckout.ts). expires_at keeps a forgotten tab payable for minutes,
+    // not the day Stripe allows by default.
+    const request = checkoutRequestKey({
+      userId: auth.userId,
+      priceId,
+      seats,
+      returnBase,
+      customerRef: existingCustomerId ?? 'new',
     });
+
+    let session: { id: string; url: string | null };
+    try {
+      session = await stripe.checkout.sessions.create(
+        {
+          mode: 'subscription',
+          payment_method_types: ['card'],
+          line_items: [{ price: priceId, quantity: seats }],
+          success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${returnBase}?checkout=cancelled`,
+          client_reference_id: auth.userId ?? undefined,
+          ...(automaticTaxEnabled ? { automatic_tax: { enabled: true } } : {}),
+          ...(existingCustomerId
+            ? { customer: existingCustomerId }
+            : customerEmail
+              ? { customer_email: customerEmail }
+              : {}),
+          // Stamp the Supabase user onto the subscription itself: webhook events
+          // (customer.subscription.created) can arrive BEFORE checkout.completed
+          // links the customer id to the profile, and without this metadata the
+          // subscription handler would find no profile and silently drop the plan.
+          subscription_data: { metadata: { supabase_user_id: auth.userId } },
+          allow_promotion_codes: true,
+          // With automatic tax on, Stripe needs a reliable location to pick the
+          // right rate, so it recommends REQUIRING the billing address rather than
+          // leaning on 'auto' (which only asks when it thinks it must). Off the tax
+          // path, keep 'auto' so a plain card purchase isn't made to type an
+          // address it doesn't need.
+          billing_address_collection: automaticTaxEnabled ? 'required' : 'auto',
+          tax_id_collection: { enabled: true },
+          expires_at: request.expiresAt,
+        },
+        { idempotencyKey: request.idempotencyKey }
+      );
+    } catch (e) {
+      if (isIdempotencyConflict(e)) {
+        // The same request is still in flight in another invocation. That invocation
+        // returns the session to the customer, so this one steps aside.
+        console.warn('[create-checkout] an identical checkout request is still in flight.');
+        res.status(409).json({ error: CHECKOUT_STARTING });
+        return;
+      }
+      throw e;
+    }
+
+    // One open checkout per user (monetisation review §21). The new session is recorded,
+    // and the one it displaces is expired, BEFORE the URL leaves this function. If the
+    // record cannot be written, the new session is released and nothing is handed out.
+    if (supabase) {
+      let swap;
+      try {
+        swap = await swapOpenCheckout(supabase, auth.userId, session.id);
+      } catch (e) {
+        console.error(
+          '[create-checkout] could not record the open checkout:',
+          e instanceof Error ? e.message : 'unknown error'
+        );
+        await releaseCheckout(stripe, session.id);
+        res.status(503).json({ error: LOOKUP_FAILED });
+        return;
+      }
+      if (swap.recorded && swap.previous && swap.previous !== session.id) {
+        const displaced = await expireDisplacedCheckout(stripe, swap.previous, supabase);
+        if (displaced.held) {
+          // The earlier session was paid, and its subscription is still held. The
+          // duplicate guard would have refused this too, had the webhook already run.
+          await releaseCheckout(stripe, session.id);
+          res.status(409).json({
+            error: displaced.status === 'incomplete' ? PURCHASE_PENDING : ALREADY_SUBSCRIBED,
+          });
+          return;
+        }
+      }
+    }
 
     res.status(200).json({ url: session.url });
   } catch (e) {

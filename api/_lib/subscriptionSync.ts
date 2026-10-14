@@ -18,6 +18,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { priceToPlan } from './stripe';
 import { isMissingColumnError } from './stripeLedger';
+import { isHeldStatus } from './openCheckout';
+import {
+  checkDuplicateSubscriptions,
+  checkSchoolLicenceReplaced,
+  recordIncident,
+} from './billingIncidents';
 
 type SB = SupabaseClient;
 
@@ -68,24 +74,76 @@ export async function lastEventAtOf(supabase: SB, subId: string): Promise<string
 }
 
 /**
+ * What linkStripeCustomer did. 'linked' and 'already' leave the profile holding the
+ * customer this event names. 'mismatch' does not: the profile keeps its older customer.
+ */
+export type CustomerLink = 'linked' | 'already' | 'mismatch' | 'no_profile';
+
+/**
  * Links a Stripe customer to the Supabase profile that bought it. Throws on a
  * database error: without the link the billing portal and the later
  * subscription events cannot find the user.
+ *
+ * A profile is linked to ONE customer. Once it holds one, a different customer id is
+ * not written over it (monetisation review §24). Overwriting sends the billing portal,
+ * and every later event for the first customer, to a profile that no longer owns it.
+ * The mismatch is recorded as a billing incident and the caller still applies the plan,
+ * because the plan is keyed on the user and not on the customer.
+ *
+ * The write is conditional (only where the link is empty), so two events racing for
+ * one profile cannot both succeed: the second reads the first's customer and reports
+ * a mismatch.
  */
 export async function linkStripeCustomer(
   supabase: SB,
   userId: string,
   customerId: string
-): Promise<void> {
-  const { error } = await supabase
+): Promise<CustomerLink> {
+  const { data, error } = await supabase
     .from('profiles')
     .update({ stripe_customer_id: customerId })
-    .eq('id', userId);
+    .eq('id', userId)
+    .is('stripe_customer_id', null)
+    .select('id');
 
   if (error) {
     console.error('[stripe-webhook] Failed to link customer:', error.message);
     throw error;
   }
+  if (data && data.length > 0) return 'linked';
+
+  // Nothing was written: the profile holds a customer already, or it does not exist.
+  const { data: current, error: readError } = await supabase
+    .from('profiles')
+    .select('stripe_customer_id')
+    .eq('id', userId)
+    .maybeSingle();
+  if (readError) {
+    console.error('[stripe-webhook] Failed to read the customer link:', readError.message);
+    throw readError;
+  }
+  if (!current) return 'no_profile';
+
+  const held = (current.stripe_customer_id as string | null | undefined) ?? null;
+  if (held === customerId) return 'already';
+  if (held === null) {
+    // Unlinked between the two statements. Refuse this event so Stripe redelivers it,
+    // rather than guess which customer the profile should hold.
+    throw new Error(`the customer link for ${userId} changed while it was being written`);
+  }
+
+  console.error(
+    `[stripe-webhook] profile ${userId} is linked to ${held}; not replacing it with ${customerId}.`
+  );
+  await recordIncident(supabase, {
+    kind: 'customer_mismatch',
+    userId,
+    detail:
+      `Profile ${userId} is linked to Stripe customer ${held}, and a purchase for ${customerId} ` +
+      'completed. The plan was applied, but the link was not changed, so the billing portal ' +
+      `still opens ${held}. Subscriptions on ${customerId} need an operator to relink them.`,
+  });
+  return 'mismatch';
 }
 
 /**
@@ -184,15 +242,17 @@ export async function applySubscriptionUpsert(
     const metaUserId = metadata?.supabase_user_id;
     if (metaUserId) {
       userId = metaUserId;
-      // profiles.stripe_customer_id is uniquely indexed, so this fails if the
-      // id is already claimed by another profile. Log it — the plan write
-      // below still succeeds, but the portal lookup would use the older link.
-      const { error: linkError } = await supabase
-        .from('profiles')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', metaUserId);
-      if (linkError) {
-        console.error('[stripe-webhook] customer backfill failed:', linkError.message);
+      // The same rule as checkout.session.completed: the link is written only where
+      // the profile has none (linkStripeCustomer). A different customer already linked
+      // is recorded as an incident, and the plan write below still succeeds. A failed
+      // write is logged, and the plan write still succeeds, as it always has.
+      try {
+        await linkStripeCustomer(supabase, metaUserId, customerId);
+      } catch (linkError) {
+        console.error(
+          '[stripe-webhook] customer backfill failed:',
+          linkError instanceof Error ? linkError.message : linkError
+        );
       }
       const { data: metaProfile } = await supabase
         .from('profiles')
@@ -261,6 +321,11 @@ export async function applySubscriptionUpsert(
     throw profileError;
   }
 
+  // Two live subscriptions for one person are two charges, and the plan follows only
+  // one of them. The plan write above has already happened, so this only records the
+  // finding for the operator. It never throws, and it never changes the plan.
+  if (planKeepingStatus) await checkDuplicateSubscriptions(supabase, userId);
+
   // A licence belongs to the school it was bought for, not to wherever its
   // purchaser works now. create-checkout fixes that school at purchase, and the
   // school row already carries this subscription id, so find it by that. The
@@ -282,6 +347,15 @@ export async function applySubscriptionUpsert(
   // can attach the school later.
   if (plan === 'school') {
     if (schoolId) {
+      // Checked before the write: the row still names the licence this write replaces.
+      // A held status (incomplete included) is what counts, since the school row takes it too.
+      if (isHeldStatus(status)) {
+        await checkSchoolLicenceReplaced(supabase, {
+          schoolId,
+          purchaserId: userId,
+          subscriptionId: subId,
+        });
+      }
       const { error: schoolError } = await supabase
         .from('schools')
         .update({

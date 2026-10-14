@@ -16,13 +16,14 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
  */
 
 type Row = Record<string, unknown>;
-type TableName = 'profiles' | 'subscriptions' | 'schools' | 'stripe_events';
+type TableName = 'profiles' | 'subscriptions' | 'schools' | 'stripe_events' | 'billing_incidents';
 
 const tables: Record<TableName, Map<string, Row>> = {
   profiles: new Map(),
   subscriptions: new Map(),
   schools: new Map(),
   stripe_events: new Map(),
+  billing_incidents: new Map(),
 };
 
 /** Makes writes of profiles.stripe_plan fail, after the subscription row is written. */
@@ -53,6 +54,11 @@ const readBuilder = (table: TableName) => {
       filters.push([col, val]);
       return builder;
     },
+    // The duplicate-subscription count: .eq(user).in(status). Resolves to every match.
+    in: async (col: string, values: unknown[]) => ({
+      data: rowsOf(table, filters).filter((row) => values.includes(row[col])),
+      error: null,
+    }),
     maybeSingle: async () => ({ data: rowsOf(table, filters)[0] ?? null, error: null }),
     single: async () => ({ data: rowsOf(table, filters)[0] ?? null, error: null }),
   };
@@ -73,20 +79,61 @@ const writeError = (table: TableName, values: Row) => {
   return null;
 };
 
-const updateBuilder = (table: TableName, values: Row) => ({
-  eq: (col: string, val: unknown) => ({
-    then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) => {
-      const error = writeError(table, values);
-      if (!error) for (const row of rowsOf(table, [[col, val]])) Object.assign(row, values);
-      return Promise.resolve({ data: null, error }).then(resolve, reject);
+/**
+ * An UPDATE, modelled as the one statement the database would run: every filter
+ * applies together. `.is(col, null)` matches an empty column, as the customer link does.
+ * Resolves with the rows it changed when `.select()` is chained, as PostgREST does.
+ */
+const updateBuilder = (table: TableName, values: Row) => {
+  const matchers: Array<(row: Row) => boolean> = [];
+  const apply = () => {
+    const error = writeError(table, values);
+    if (error) return { data: null, error };
+    const hit = [...tables[table].values()].filter((row) => matchers.every((m) => m(row)));
+    for (const row of hit) Object.assign(row, values);
+    return { data: hit.map((row) => ({ id: row.id })), error: null };
+  };
+  const builder = {
+    eq: (col: string, val: unknown) => {
+      matchers.push((row) => row[col] === val);
+      return builder;
     },
-  }),
-});
+    is: (col: string, val: unknown) => {
+      matchers.push((row) => (row[col] ?? null) === val);
+      return builder;
+    },
+    select: async () => apply(),
+    then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
+      Promise.resolve(apply()).then(resolve, reject),
+  };
+  return builder;
+};
+
+/**
+ * billing_incidents: one OPEN row per user and kind, and one per school and kind. The
+ * database enforces that with a partial unique index; a second insert is 23505.
+ */
+const insertIncident = async (values: Row) => {
+  const clash = [...tables.billing_incidents.values()].some(
+    (row) =>
+      row.resolved_at == null &&
+      row.kind === values.kind &&
+      ((values.user_id != null && row.user_id === values.user_id) ||
+        (values.school_id != null && row.school_id === values.school_id))
+  );
+  if (clash) return { error: { code: '23505', message: 'duplicate key' } };
+  tables.billing_incidents.set(`inc_${tables.billing_incidents.size + 1}`, {
+    ...values,
+    resolved_at: null,
+  });
+  return { error: null };
+};
 
 const fakeSupabase = {
   from: (table: TableName) => ({
     select: () => readBuilder(table),
     insert: async (values: Row) => {
+      if (table === 'billing_incidents') return insertIncident(values);
       const id = values.id as string;
       if (tables[table].has(id)) return { error: { code: '23505', message: 'duplicate key' } };
       tables[table].set(id, { ...values });

@@ -54,6 +54,16 @@ export const isMissingColumnError = (error: DbError): boolean =>
   /could not find the .* column|column .* does not exist/i.test(error.message ?? '');
 
 /**
+ * True when the table itself is missing: schema §13 has not been re-applied since
+ * the table was added (checkout_sessions, billing_incidents). Callers treat this as
+ * "nothing recorded", so the database behaves as it did before the table existed.
+ */
+export const isMissingTableError = (error: DbError): boolean =>
+  error.code === '42P01' ||
+  error.code === 'PGRST205' ||
+  /could not find the table|relation .* does not exist/i.test(error.message ?? '');
+
+/**
  * Record the event id so a redelivery can be recognised. See ClaimResult.
  * `now` is injectable so the lease can be tested without fake timers.
  */

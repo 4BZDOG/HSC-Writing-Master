@@ -320,6 +320,90 @@ Logged-in paid users can manage their subscription from their **profile modal** 
 
 ---
 
+## One open checkout, and billing incidents
+
+**One payable checkout at a time.** Each account has one open Stripe Checkout
+Session at any moment. Pressing Upgrade again, in another tab or on another
+device, expires the earlier session and gives a new one. A double tap returns
+the same session. Before this change, two sessions could both stay payable for
+a day, and a customer who paid both was charged twice.
+
+**Sessions expire after 31 to 36 minutes**, not Stripe's default of 24 hours, so a tab
+left open overnight cannot complete a purchase. The constants are
+`CHECKOUT_LIFE_MS` and `CHECKOUT_REQUEST_BUCKET_MS` in `api/_lib/openCheckout.ts`.
+Nothing here is an environment variable.
+
+**A purchase is refused, not just warned about, in one new case.** A personal
+subscription whose first payment is still waiting on the customer's bank (Stripe's
+`incomplete`, for example a 3-D Secure step) holds that customer's new purchase
+for 45 minutes after its last update. That is the window in which the customer
+can approve the payment in their bank's prompt. The customer sees "still waiting
+for your bank to confirm the payment" and is told to finish or cancel it there,
+and to start again if nothing happens within an hour. After 45 minutes the hold
+lifts by itself, so a customer who came back later can buy again. The window is
+`INCOMPLETE_HOLD_MS` in `api/_lib/openCheckout.ts`. To clear a stuck subscription
+at once, cancel it in the Dashboard.
+
+A school licence in that state does not hold the school, because a school row
+carries no timestamp. A colleague can start a second licence while the first is
+waiting for payment. If both are paid, the `duplicate_school_licence` incident
+below records it. The reasoning is in `projectDocs/monetisation-review-2026-09.md`
+§36.
+
+**Schema.** Schema §13 adds two tables, `checkout_sessions` (one row per
+account, service-role only) and `billing_incidents` (admins can read it). Until
+you re-apply the schema, checkout behaves as it did before: nothing is
+recorded, no incident is written, and the log says so.
+
+**When a billing incident is open.** The webhook, and the return from Checkout,
+write a row to `billing_incidents` in three cases. Nothing is cancelled and
+nothing is refunded automatically. The row is for you to act on.
+
+- `duplicate_subscription`: one account holds two live subscriptions. Stripe
+  bills both, and the plan follows the one that runs longest. The listed
+  subscription ids are in `subscription_ids`.
+- `duplicate_school_licence`: a school's licence was replaced while the one it
+  held was still live. Both are billed, and the school row names only the newer.
+- `customer_mismatch`: a profile already linked to one Stripe customer completed
+  a purchase under another. The plan was applied to the account, but the link was
+  not changed, so the billing portal still opens the first customer. The second
+  customer's subscriptions cannot be managed from the app until you relink them.
+
+Some of these are not errors. An invoiced licence (purchase order) is stamped with
+the id of the teacher who requested it, so a teacher who also holds a personal Plus
+subscription will be flagged as `duplicate_subscription`. Check the product before you
+cancel anything.
+
+What to do:
+
+1. List the open incidents in the Supabase SQL Editor:
+   ```sql
+   select id, kind, user_id, school_id, subscription_ids, detail, detected_at
+     from public.billing_incidents
+    where resolved_at is null
+    order by detected_at;
+   ```
+2. For each subscription id, open it in the Stripe Dashboard
+   (Billing → Subscriptions) and decide which one should stay.
+3. Cancel or refund only what you have decided on, in the Dashboard. A
+   subscription you cancel there reaches the app through the normal webhook.
+4. Close the incident, with a note:
+   ```sql
+   update public.billing_incidents
+      set resolved_at = now(), resolution_note = 'Cancelled sub_… and refunded.'
+    where id = '<the id from step 1>';
+   ```
+   If you do not close it, the same finding is not written again, but it stays on
+   the list.
+5. For `customer_mismatch`, relink the account to the customer that holds the
+   subscription, once you have checked which one it is. `stripe_customer_id` is
+   unique, so this fails if another profile already holds that customer:
+   ```sql
+   update public.profiles set stripe_customer_id = 'cus_…' where id = '<user_id>';
+   ```
+
+Logs carry the same findings under `[stripe-webhook] BILLING INCIDENT`.
+
 ## Going Live (Production Checklist)
 
 When you're ready to accept real payments:
@@ -615,6 +699,9 @@ affected. If the licence columns have not been re-applied yet, the check is
 skipped and logged. If the lookup itself fails, the purchase is refused with a
 503, nothing is charged, and the buyer can retry.
 
-> Known gap: a licence whose first payment is waiting for 3-D Secure (status
-> `incomplete`) does not count as held yet, so a second purchase can still get
-> through during that window. See `projectDocs/monetisation-review-2026-09.md` §22.
+> Decided (§36): a licence whose first payment is still waiting for 3-D Secure
+> (status `incomplete`) does not hold the school. A colleague can buy a second
+> licence during that wait. If both are paid, the `duplicate_school_licence`
+> incident records it. The buyer's own purchases are held for 45 minutes after the
+> last update of their subscription. See `projectDocs/monetisation-review-2026-09.md`
+> §22 and §36.
