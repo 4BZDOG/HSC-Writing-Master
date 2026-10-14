@@ -1511,7 +1511,7 @@ const App: React.FC = () => {
           toast can live. */}
       {/* Portalled to <body>, beside the modals. Rendered here it sat inside
           the app root's `relative z-10` stacking context, so its z-toast
-          (1000) only ranked it among the page's own layers: every modal is
+          only ranked it among the page's own layers: every modal is
           portalled to <body> at z-100 and up, and no toast could ever be seen
           over one. "Marking complete", a failed PDF export, and the Undo
           after a rewrite replaced the draft all landed under the dialog the

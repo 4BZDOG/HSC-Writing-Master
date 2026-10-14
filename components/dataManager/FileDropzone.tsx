@@ -83,8 +83,8 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileDrop, disabled = fals
           {isDragActive ? 'Drop file here' : 'Click or Drag & Drop'}
         </p>
         <p className="text-sm text-[rgb(var(--color-text-muted))]">
-          Accepts <span className="font-mono text-[rgb(var(--color-accent))]">.json</span> course
-          files
+          Accepts <span className="font-mono text-[rgb(var(--color-accent-ink))]">.json</span>{' '}
+          course files
         </p>
       </div>
     </div>
