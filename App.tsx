@@ -23,6 +23,8 @@ import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
+import { usePlanFreshness } from './hooks/usePlanFreshness';
+import { applyPlanFields } from './utils/planFreshness';
 import { focusTrapCompanion } from './hooks/useFocusTrap';
 import { useDebounce } from './hooks/useDebounce';
 import { authService } from './services/authService';
@@ -58,6 +60,7 @@ import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'luc
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
+import SeatOverageNotice from './components/SeatOverageNotice';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile, STORAGE_KEYS } from './utils/storageUtils';
 import {
@@ -892,6 +895,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
+        {!isFocusMode && <SeatOverageNotice user={user} />}
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
@@ -1322,6 +1326,24 @@ const App: React.FC = () => {
     if (!user || user.role === 'guest') return;
     void refreshFreeEvalCount();
   }, [user?.username, user?.role]);
+
+  // A licence that goes live or lapses on another device, or in a colleague's
+  // checkout, reaches this session when the person comes back to the tab (see
+  // utils/planFreshness.ts). Only the plan fields are merged, so anything newer
+  // the app holds survives. The free counter is re-read on a change because a
+  // lapsed licence leaves a local mirror the server never spent from.
+  usePlanFreshness({
+    user,
+    onChange: (refreshed) => {
+      setUser((current) =>
+        current && current.username === refreshed.username
+          ? applyPlanFields(current, refreshed)
+          : current
+      );
+      void refreshFreeEvalCount();
+    },
+    notify: showToast,
+  });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

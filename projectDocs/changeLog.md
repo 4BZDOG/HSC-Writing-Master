@@ -9,6 +9,20 @@
   paged past PostgREST's row cap. No SQL changed and no money figure is shown.
 - **Not done.** Revenue needs a price source of truth, because the app's display prices are not Stripe amounts.
 
+## [Unreleased] - 2026-10-14 (A school licence reaches its members, and staff hear when it is outgrown)
+
+- **Changed.** A signed-in person's plan is re-read when they return to the tab or the connection comes back,
+  at most every five minutes (`PLAN_FRESHNESS_INTERVAL_MS`, `utils/planFreshness.ts`, `hooks/usePlanFreshness.ts`).
+  A licence that goes live or lapses reaches the other members of the school without a reload. An unchanged plan
+  is silent; a changed one updates the plan fields and is announced once, in the resolved-plan wording.
+- **Added.** `my_school_seats()` (schema §13, staff of their own school only, no member data) and the
+  `SeatOverageNotice` banner for teachers and admins when members exceed a live licence's seats. Only the
+  purchaser is offered Manage subscription; others are told who bought the licence. Dismissible per session.
+- **Operator.** Re-apply `supabase/schema.sql` to get `my_school_seats()`. Without it the notice stays hidden.
+  No new environment variables. Members beyond seats keep School access; seats are not enforced at sign-in.
+- **Found, not fixed.** `list_schools()` answers teachers for every school; `schools_read` lets every signed-in
+  account read every school's licence columns. See `projectDocs/monetisation-review-2026-09.md` §5.
+
 ## [Unreleased] - 2026-10-14 (Stripe server hardening: one licence per school, no lost webhook events)
 
 - **Fixed.** A school could buy a second School licence, because the duplicate guard is per person. A school that

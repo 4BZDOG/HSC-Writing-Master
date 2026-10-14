@@ -556,6 +556,134 @@ end $$;
 reset role;
 rollback;
 
+-- ---- 17. Staff see their own school's seats, and nobody else's -------------
+-- The over-seat notice reads {seats, members} for the caller's OWN school. The
+-- function takes no school argument, so the only school a caller can see is the
+-- one on their profile. Member counts are read as the owner, because a teacher
+-- cannot count a school's members through RLS; each call itself runs as the
+-- caller, the way PostgREST would make it.
+begin;
+insert into public.schools (id, name, plan_status, plan_seats) values
+  ('00000000-0000-0000-0000-0000000000f2', 'Ent Other High', 'active', 7)
+  on conflict (id) do nothing;
+update public.schools set plan_status = 'active', plan_seats = 1
+ where id = '00000000-0000-0000-0000-0000000000f1';
+update public.profiles set school_id = '00000000-0000-0000-0000-0000000000f1'
+ where id in ('00000000-0000-0000-0000-0000000000e3',
+              '00000000-0000-0000-0000-00000000ea05');
+-- The teacher bought the licence, so only she may open its billing portal.
+insert into public.subscriptions
+  (id, user_id, stripe_customer_id, status, price_id, plan, current_period_start, current_period_end)
+values ('sub_ent_test_school', '00000000-0000-0000-0000-0000000000e3', 'cus_ent_test_teacher',
+        'active', 'price_ent_test_school', 'school', now(), now() + interval '1 year');
+update public.schools set stripe_subscription_id = 'sub_ent_test_school'
+ where id = '00000000-0000-0000-0000-0000000000f1';
+
+do $$
+declare
+  v_members bigint;
+  v         jsonb;
+  v_state   text;
+begin
+  select count(*) into v_members from public.profiles
+   where school_id = '00000000-0000-0000-0000-0000000000f1';
+
+  -- The purchasing teacher sees her school's seats and is told she bought them.
+  execute 'set local role authenticated';
+  perform set_config('request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}', true);
+  v := public.my_school_seats();
+  execute 'reset role';
+  if v is null then
+    raise exception 'TEST FAILED: a teacher in a school saw no seat count';
+  end if;
+  if (v->>'plan_seats')::integer <> 1 or (v->>'plan_status') <> 'active' then
+    raise exception 'TEST FAILED: teacher saw seats % / status % (expected 1 / active)',
+      v->>'plan_seats', v->>'plan_status';
+  end if;
+  if (v->>'members')::bigint <> v_members then
+    raise exception 'TEST FAILED: teacher saw % members, the school has %', v->>'members', v_members;
+  end if;
+  if not (v->>'purchaser')::boolean then
+    raise exception 'TEST FAILED: the teacher who bought the licence was not recognised as its purchaser';
+  end if;
+  -- Nothing about the people in the school leaves the function.
+  if (select array_agg(k order by k) from jsonb_object_keys(v) as k)
+       <> array['members', 'plan_seats', 'plan_status', 'purchaser'] then
+    raise exception 'TEST FAILED: my_school_seats() returned keys beyond the seat picture: %', v;
+  end if;
+  raise notice 'PASS: a teacher sees their own school''s seats and members, not who they are';
+
+  -- A staff member who did not buy the licence still sees the count, but is
+  -- told so: the client must not offer a portal they cannot open.
+  perform set_config('request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-00000000ea05","role":"authenticated"}', true);
+  execute 'set local role authenticated';
+  v := public.my_school_seats();
+  execute 'reset role';
+  if (v->>'purchaser')::boolean then
+    raise exception 'TEST FAILED: an admin who did not buy the licence was shown as its purchaser';
+  end if;
+  raise notice 'PASS: a staff member who did not buy the licence is not offered the portal';
+
+  -- A student in the school is refused outright.
+  perform set_config('request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-0000000000e4","role":"authenticated"}', true);
+  execute 'set local role authenticated';
+  begin
+    perform public.my_school_seats();
+    execute 'reset role';
+    raise exception 'TEST FAILED: a student read their school''s seat count';
+  exception
+    when others then
+      execute 'reset role';
+      if sqlerrm like 'TEST FAILED:%' then raise; end if;
+      raise notice 'PASS: a student is refused the seat count (%)', sqlerrm;
+  end;
+
+  -- Staff of another school get THAT school's numbers, never this one's.
+  update public.profiles set school_id = '00000000-0000-0000-0000-0000000000f2'
+   where id = '00000000-0000-0000-0000-0000000000e3';
+  perform set_config('request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}', true);
+  execute 'set local role authenticated';
+  v := public.my_school_seats();
+  execute 'reset role';
+  if (v->>'plan_seats')::integer <> 7 then
+    raise exception 'TEST FAILED: a teacher of school two saw school one''s seats (%)', v->>'plan_seats';
+  end if;
+  raise notice 'PASS: staff of another school see only their own school';
+
+  -- A staff member with no school has nothing to warn about, so nothing is returned.
+  update public.profiles set school_id = null
+   where id = '00000000-0000-0000-0000-0000000000e3';
+  execute 'set local role authenticated';
+  v := public.my_school_seats();
+  execute 'reset role';
+  if v is not null then
+    raise exception 'TEST FAILED: a teacher with no school was given a seat count (%)', v;
+  end if;
+  raise notice 'PASS: a teacher with no school gets no seat count';
+
+  -- And an anonymous caller cannot reach it at all.
+  execute 'set local role anon';
+  begin
+    perform public.my_school_seats();
+    execute 'reset role';
+    raise exception 'TEST FAILED: an anonymous caller reached my_school_seats()';
+  exception
+    when others then
+      execute 'reset role';
+      if sqlerrm like 'TEST FAILED:%' then raise; end if;
+      v_state := sqlstate;
+      if v_state <> '42501' then
+        raise exception 'TEST FAILED: anonymous refusal was % (%), not a permission error', v_state, sqlerrm;
+      end if;
+      raise notice 'PASS: an anonymous caller cannot call my_school_seats()';
+  end;
+end $$;
+rollback;
+
 -- ---- 16. The webhook ledger: its shape, and who may write it ----------------
 -- api/_lib/stripeLedger.ts relies on three things the database must keep:
 -- processed_at exists with no default (so a new claim is unfinished, and a
