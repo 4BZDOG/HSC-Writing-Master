@@ -28,6 +28,7 @@ import {
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import SchoolLicencePanel from './SchoolLicencePanel';
+import ChampionKit from './ChampionKit';
 import { dailyResetPhrase } from '../utils/dailyReset';
 import { billingErrorMessage } from '../utils/billingMessages';
 
@@ -61,14 +62,25 @@ const lockLabelFor = (feature?: PremiumFeatureKey): string =>
  * it. Without one it falls back to "Plus", which is right for every feature
  * this deployment prices at Plus and is the historical behaviour.
  */
-export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatureKey }> = ({
-  className = '',
-  feature,
-}) => (
+export const PlusLockChip: React.FC<{
+  className?: string;
+  feature?: PremiumFeatureKey;
+  /**
+   * On a phone, show the lock alone and keep the plan's name for screen readers.
+   * For a chip that sits in a 44px control, where the word would crowd the
+   * neighbouring buttons. The name is still in the accessible text.
+   */
+  compactOnPhone?: boolean;
+}> = ({ className = '', feature, compactOnPhone = false }) => (
   <span
     className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-100 border border-amber-500/50 text-amber-800 dark:bg-amber-950 dark:border-amber-400/40 dark:text-amber-200 ${className}`}
   >
-    <Lock className="w-2.5 h-2.5" /> {lockLabelFor(feature)}
+    <Lock className="w-2.5 h-2.5" />{' '}
+    {compactOnPhone ? (
+      <span className="max-sm:sr-only">{lockLabelFor(feature)}</span>
+    ) : (
+      lockLabelFor(feature)
+    )}
   </span>
 );
 
@@ -349,7 +361,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             <div className="w-14 h-14 shrink-0 rounded-2xl bg-white/25 backdrop-blur border border-white/40 flex items-center justify-center shadow-lg">
               <Crown className="w-7 h-7" />
             </div>
-            <div className="min-w-0">
+            {/* Room for the close button: a long title must not run under it on a phone. */}
+            <div className="min-w-0 pr-10">
               <span className="t-label text-slate-900/80 block">{eyebrow}</span>
               <h2
                 id="upgrade-modal-title"
@@ -545,6 +558,16 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               The server refuses a second subscription whatever its price, so a
               seat picker under "there is nothing to buy here" contradicted the
               line above it. */}
+          {!alreadySubscribed &&
+            !licenceHeld &&
+            access.cta === 'ask-admin' &&
+            user?.role === 'teacher' && (
+              // A teacher with no school cannot buy, so the prompt hands them the
+              // words for the person who can, rather than a checkout that would refuse.
+              <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-300">
+                <ChampionKit schoolName={user.schoolName} />
+              </div>
+            )}
           {!alreadySubscribed && !licenceHeld && access.cta === 'buy-school' && (
             <SchoolLicencePanel
               user={user}

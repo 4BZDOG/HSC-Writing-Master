@@ -13,6 +13,7 @@ import {
 } from '../services/entitlements';
 import type { User } from '../types';
 import { billingErrorMessage } from '../utils/billingMessages';
+import ChampionKit from './ChampionKit';
 
 /**
  * The School licence route for STAFF: a seat purchase, or the reason there is
@@ -81,6 +82,8 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
     <div className={`text-center ${className}`}>{children}</div>
   );
 
+  const isTeacher = user?.role === 'teacher';
+
   if (heldMessage || schoolCovered(user)) {
     return (
       <div
@@ -95,17 +98,27 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             `Your school already has a ${PLAN_LABELS.school} licence, so everyone in it has ${PLAN_LABELS.school}. ` +
               'To add seats, ask whoever bought the licence. If that is you, use Manage subscription in your profile.'}
         </p>
+        {/* Someone else bought the licence, so a teacher cannot buy it either: the
+            note is the one thing they can send to the person who manages it. */}
+        {heldMessage && isTeacher && <ChampionKit schoolName={user?.schoolName} className="mt-3" />}
       </div>
     );
   }
 
   if (!user?.schoolId) {
-    return wrap(
-      <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
-        {user?.role === 'admin'
-          ? `Add your account to a school (Admin → Schools) before you buy seats, so the licence covers your school.`
-          : `A ${PLAN_LABELS.school} licence covers everyone in a school, so ask an admin to add you to yours. Then you can buy the seats.`}
-      </p>
+    return (
+      <div className={`text-center ${className}`}>
+        <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
+          {user?.role === 'admin'
+            ? `Add your account to a school (Admin → Schools) before you buy seats, so the licence covers your school.`
+            : `A ${PLAN_LABELS.school} licence covers everyone in a school, so ask an admin to add you to yours. Then you can buy the seats.`}
+        </p>
+        {isTeacher && (
+          <div className="mt-3 flex justify-center">
+            <ChampionKit />
+          </div>
+        )}
+      </div>
     );
   }
 
