@@ -594,7 +594,12 @@ const Editor = forwardRef<
               <div className="progress-veil" />
             </div>
 
-            <MeshOverlay opacity="opacity-20" color="%23ffffff" />
+            {/* Half the question card's grid in the dark theme. The white
+                lines lie under the meta line, and at 20% they lift the worst
+                pixel of the yellow and green washes to 4.4:1 under it (see
+                CARD_HEADER_META). The light theme's grid is set by the overlay
+                itself and is unchanged. */}
+            <MeshOverlay opacity="opacity-10" color="%23ffffff" />
 
             <div ref={headerContentRef} className={CARD_HEADER_ROW}>
               <div className={CARD_HEADER_IDENTITY}>

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cardHeaderWash } from '../../utils/cardChrome';
+import { cardHeaderWash, CARD_HEADER_META } from '../../utils/cardChrome';
 import { getBandInkRgb, getBandRgb } from '../../utils/renderUtils';
 
 /**
@@ -13,6 +13,11 @@ import { getBandInkRgb, getBandRgb } from '../../utils/renderUtils';
  * the writing card lays `.progress-veil` over the wash, dark in the dark theme
  * and slate at 45% in the light, with strength `(1 - progress) * 0.6`. The bare
  * wash is the worst case (progress 1, no veil), and the veil only darkens it.
+ *
+ * What this does NOT model is the header's white grid (`MeshOverlay`), which
+ * lifts some pixels. It is why the writing card's grid is half strength in the
+ * dark theme: measured in Chromium, the meta line on band 3 read 4.92:1 at its
+ * median and 4.37:1 at the worst pixel under the full grid, and 4.62:1 at half.
  */
 
 type Rgb = [number, number, number];
@@ -96,4 +101,24 @@ describe.each(Object.keys(THEMES))('card header contrast (%s theme)', (theme) =>
       }
     }
   );
+
+  // The meta line is read at the alpha the class actually sets, so a future
+  // `text-white/60` fails here rather than in a screenshot review.
+  it.each([1, 2, 3, 4, 5, 6])(
+    'band %i: the meta line (CARD_HEADER_META) clears 4.5:1 at every progress level',
+    (band) => {
+      const alpha = Number(/text-white\/(\d+)/.exec(CARD_HEADER_META)?.[1] ?? 100) / 100;
+      for (const progress of PROGRESS) {
+        const ground = groundAt(band, theme, progress);
+        expect(contrast(over(WHITE, alpha, ground), ground)).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  );
+});
+
+describe('the card header meta line', () => {
+  it('is solid white, not a translucent white', () => {
+    expect(CARD_HEADER_META).toContain('text-white');
+    expect(CARD_HEADER_META).not.toMatch(/text-white\//);
+  });
 });

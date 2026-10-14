@@ -150,6 +150,13 @@ describe('Syllabus Terms: the pills', () => {
     expect(pillFor('risk').className).toContain('min-h-11');
   });
 
+  it('gives a curator’s remove control a 44px target on a phone, both ways', () => {
+    expect(TERM_PILL_REMOVE).toContain('min-w-11');
+    expect(TERM_PILL_REMOVE).toContain('min-h-11');
+    expect(TERM_PILL_REMOVE).toContain('sm:min-w-6');
+    expect(TERM_PILL_REMOVE).toContain('sm:min-h-8');
+  });
+
   it('never nests a control inside a control', () => {
     const { container } = renderPanel({ role: 'teacher' });
     expect(container.querySelectorAll('button button').length).toBe(0);

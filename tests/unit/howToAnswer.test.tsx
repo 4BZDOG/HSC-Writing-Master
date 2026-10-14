@@ -49,6 +49,12 @@ describe('HowToAnswer', () => {
       expect(trigger().getAttribute('aria-controls')).toBeTruthy();
     });
 
+    it('is a 44px target on a phone and keeps its 32px height from sm', () => {
+      render(<Harness verb={'DESCRIBE' as PromptVerb} />);
+      expect(trigger().className).toContain('h-11');
+      expect(trigger().className).toContain('sm:h-8');
+    });
+
     it('shows the definition beside the verb, outside the control', () => {
       render(<Harness verb={'DESCRIBE' as PromptVerb} />);
 

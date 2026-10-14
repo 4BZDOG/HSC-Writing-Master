@@ -48,15 +48,16 @@ export default {
       //   agreement         │ 980  │ user agreement / consent modal
       //   status-banner     │ 1000 │ API status (blocked) banner
       //   recalibrate       │ 1200 │ sample recalibration modal
-      //   toast             │ 1250 │ toast notifications — over every modal a
-      //                     │      │   toast can be raised from, so "Undo" and
-      //                     │      │   export failures are seen, not buried —
-      //                     │      │   except the improvement review, which
-      //                     │      │   closes before its own "applied" toast
       //   improvement       │ 1300 │ improvement review modal — takes the whole
-      //                     │      │   phone screen, so a "Marking complete"
-      //                     │      │   notice must not sit across its header
-      //                     │      │   and footer
+      //                     │      │   phone screen. A toast raised while it is
+      //                     │      │   open must sit above it, not under it
+      //   toast             │ 1350 │ toast notifications — over every modal a
+      //                     │      │   toast can be raised from, the improvement
+      //                     │      │   review included, so "Undo" and export
+      //                     │      │   failures are seen, not buried. It covers
+      //                     │      │   the top of that review on a phone for the
+      //                     │      │   toast's few seconds; the alternative was
+      //                     │      │   a notice that cannot be seen at all
       //   loading           │ 2000 │ global full-screen loading overlay
       //   profile           │ 2000 │ co-tier: user profile modal
       //   focus-editor      │ 2100 │ focus-area editor modal
@@ -86,8 +87,8 @@ export default {
         agreement: '980',
         'status-banner': '1000',
         recalibrate: '1200',
-        toast: '1250',
         improvement: '1300',
+        toast: '1350',
         loading: '2000',
         profile: '2000',
         'focus-editor': '2100',

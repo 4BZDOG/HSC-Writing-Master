@@ -65,11 +65,11 @@ export const TERM_PILL_MAIN =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset ' +
   'focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** A curator's remove control on a pill: a 36px target on a phone and the pill's
- *  own height from `sm`. Its hover is a shade over the pill, so it reads on the
- *  neutral and the solid pill alike. */
+/** A curator's remove control on a pill: a 44px target on a phone (width and
+ *  height), and the pill's own size from `sm`. Its hover is a shade over the
+ *  pill, so it reads on the neutral and the solid pill alike. */
 export const TERM_PILL_REMOVE =
-  'inline-flex items-center justify-center min-w-9 sm:min-w-6 min-h-11 sm:min-h-8 pl-1 pr-2.5 sm:pr-2 rounded-full ' +
+  'inline-flex items-center justify-center min-w-11 sm:min-w-6 min-h-11 sm:min-h-8 pl-1 pr-2.5 sm:pr-2 rounded-full ' +
   'touch-manipulation transition-colors duration-150 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset ' +
   'focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60 ' +
