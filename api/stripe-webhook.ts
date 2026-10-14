@@ -26,6 +26,7 @@ import {
   isStripeConfigured,
   priceToPlan,
 } from './_lib/stripe';
+import { claimEvent, markEventProcessed, releaseEvent } from './_lib/stripeLedger';
 
 interface RequestLike {
   method?: string;
@@ -153,11 +154,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   const obj = (event as { data: { object: Record<string, unknown> } }).data.object;
 
   // Idempotency: Stripe delivers AT LEAST once, so a slow response here gets
-  // the same event again. Claim the event id before handling it; a duplicate
-  // is acknowledged without being applied twice.
+  // the same event again. Claim the event id before handling it; a finished
+  // event is acknowledged without being applied twice. The claim/lease rules
+  // (including how a crash mid-handler is recovered) live in stripeLedger.ts.
   const claim = await claimEvent(supabase, eventId, eventType, eventCreated);
   if (claim === 'duplicate') {
     res.status(200).json({ received: true, duplicate: true });
+    return;
+  }
+  if (claim === 'busy') {
+    // Another invocation holds a live claim. Non-2xx makes Stripe redeliver,
+    // by which time that claim has finished (a duplicate) or gone stale (taken over).
+    res.status(409).json({ error: 'Event is already being processed. Stripe will retry.' });
     return;
   }
 
@@ -190,51 +198,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         break;
     }
 
+    // Stamp only after the handler has returned: a stamp means "applied".
+    if (claim === 'claimed' && eventId) await markEventProcessed(supabase, eventId);
+
     res.status(200).json({ received: true });
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'Internal webhook handler error.';
     console.error(`[stripe-webhook] Error handling ${eventType}:`, msg);
     // Release the claim so Stripe's retry actually reprocesses the event
     // instead of being waved through as a duplicate.
-    if (claim === 'claimed' && eventId) {
-      await supabase.from('stripe_events').delete().eq('id', eventId);
-    }
+    if (claim === 'claimed' && eventId) await releaseEvent(supabase, eventId);
     res.status(500).json({ error: msg });
   }
-}
-
-// ── Idempotency ─────────────────────────────────────────────────────────────
-
-type ClaimResult = 'claimed' | 'duplicate' | 'unavailable';
-
-/**
- * Record the event id so a redelivery can be recognised. Returns:
- *   'claimed'     — first time we've seen it, go ahead;
- *   'duplicate'   — already applied, skip;
- *   'unavailable' — the ledger table is missing (schema §13 not applied yet)
- *                   or the id is absent, so fall back to processing without
- *                   dedup rather than dropping real events on the floor.
- */
-async function claimEvent(
-  supabase: SB,
-  eventId: string | undefined,
-  eventType: string,
-  eventCreated: number | undefined
-): Promise<ClaimResult> {
-  if (!eventId) return 'unavailable';
-  const { error } = await supabase.from('stripe_events').insert({
-    id: eventId,
-    type: eventType,
-    event_created: eventCreated ? new Date(eventCreated * 1000).toISOString() : null,
-  });
-  if (!error) return 'claimed';
-  // 23505 = unique_violation: we've already handled this delivery.
-  if (error.code === '23505') {
-    console.log(`[stripe-webhook] duplicate delivery of ${eventId} (${eventType}) — skipping.`);
-    return 'duplicate';
-  }
-  console.warn('[stripe-webhook] event ledger unavailable (processing anyway):', error.message);
-  return 'unavailable';
 }
 
 // ── Event handlers ──────────────────────────────────────────────────────────
@@ -497,6 +472,21 @@ async function handleSubscriptionUpsert(
     throw profileError;
   }
 
+  // A licence belongs to the school it was bought for, not to wherever its
+  // purchaser works now. create-checkout fixes that school at purchase, and the
+  // school row already carries this subscription id, so find it by that. The
+  // purchaser's current school_id is only the fallback for a first event. Without
+  // this, a teacher who moves school strands the licence: renewals and past_due or
+  // unpaid statuses stop reaching the school row, so an unpaid school keeps its plan.
+  if (plan === 'school') {
+    const { data: licensed } = await supabase
+      .from('schools')
+      .select('id')
+      .eq('stripe_subscription_id', subId)
+      .maybeSingle();
+    if (licensed?.id) schoolId = licensed.id as string;
+  }
+
   // School seat licence: sync the purchaser's school so every member holds
   // the plan (the client resolves membership → plan at sign-in). Best-effort:
   // a purchaser without a school still gets the plan personally, and an admin
@@ -568,18 +558,30 @@ async function handleSubscriptionDeleted(
     .eq('stripe_subscription_id', subId);
 
   // Find the user and downgrade their cached plan to free (unless they have
-  // another active subscription, which resolve_stripe_plan handles).
-  const { data: profile } = await supabase
+  // another active subscription, which resolve_stripe_plan handles). The customer
+  // link is the first route, but it can be missing or overwritten, for example
+  // when two checkouts race before either has linked a customer. The subscription
+  // row names its user directly, so fall back to it. Giving up here would leave a
+  // cancelled subscriber on Plus indefinitely.
+  const { data: byCustomer } = await supabase
     .from('profiles')
     .select('id')
     .eq('stripe_customer_id', customerId)
-    .single();
-
-  if (!profile) return;
+    .maybeSingle();
+  let userId = byCustomer?.id as string | undefined;
+  if (!userId) {
+    const { data: owned } = await supabase
+      .from('subscriptions')
+      .select('user_id')
+      .eq('id', subId)
+      .maybeSingle();
+    userId = owned?.user_id as string | undefined;
+  }
+  if (!userId) return;
 
   // Use the DB function to resolve the correct plan (handles multiple subs).
   const { data: resolvedPlan } = await supabase.rpc('resolve_stripe_plan', {
-    p_user_id: profile.id,
+    p_user_id: userId,
   });
 
   await supabase
@@ -588,7 +590,7 @@ async function handleSubscriptionDeleted(
       stripe_plan: resolvedPlan ?? 'free',
       plan_period_end: null,
     })
-    .eq('id', profile.id);
+    .eq('id', userId);
 }
 
 /**

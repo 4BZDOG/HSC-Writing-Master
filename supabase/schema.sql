@@ -1762,6 +1762,20 @@ create table if not exists public.stripe_events (
   received_at    timestamptz not null default now()
 );
 
+-- processed_at is stamped once the handler has returned. A claim that is never
+-- stamped belongs to a handler that died midway (a Vercel timeout, an OOM, a
+-- deploy swap), and a redelivery takes it over once it is older than the lease
+-- (api/_lib/stripeLedger.ts). The DEFAULT exists only so that rows written
+-- before this column are stamped with the migration time and read as finished:
+-- without it, every historical event would look abandoned and be replayed. The
+-- default is then dropped, so the webhook's insert (which names no processed_at)
+-- leaves a new claim unfinished. Re-running this block changes nothing: the add
+-- skips the default on an existing column, and dropping an absent default is a no-op.
+alter table public.stripe_events
+  add column if not exists processed_at timestamptz default now();
+alter table public.stripe_events
+  alter column processed_at drop default;
+
 alter table public.stripe_events enable row level security;
 -- Service-role writes only; readable by reviewers for delivery debugging.
 drop policy if exists "Reviewers read stripe events" on public.stripe_events;

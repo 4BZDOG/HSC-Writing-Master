@@ -77,7 +77,10 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 >
 > `STRIPE_WEBHOOK_SECRET` is mandatory once `VERCEL_ENV`/`NODE_ENV` is
 > `production`: without it the webhook refuses every event with a 500 (Stripe
-> retries, so nothing is lost once you set it). An unsigned production
+> retries, so nothing is lost once you set it). Preview deployments need the
+> same check: confirm that an unsigned request is refused there too, because the
+> production test above may not hold on a preview (see
+> `projectDocs/monetisation-review-2026-09.md` §23). An unsigned production
 > endpoint would let anyone POST a forged subscription event and grant
 > themselves a paid plan.
 
@@ -121,6 +124,18 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
    - `invoice.payment_action_required` (3-D Secure: the bank wants the customer
      to confirm. Without this the challenge is silent and the subscription
      lapses with no warning shown.)
+
+   These six are exactly the events the handler acts on. Any other event type
+   is acknowledged and ignored, so there is no need to subscribe to more.
+   Which of them the plan itself depends on:
+   - **Required for the plan to be right:** `checkout.session.completed` (links
+     the customer to the profile) and `customer.subscription.created`,
+     `customer.subscription.updated` and `customer.subscription.deleted` (grant,
+     renew and end the plan and any School licence).
+   - **Optional:** `invoice.payment_failed` and `invoice.payment_action_required`
+     only raise the payment-problem banner. The plan keeps working during
+     Stripe's retries either way. Without them the plan is still correct, but
+     nobody is told a card has failed or needs confirming.
 
 5. Click **Add endpoint**.
 6. On the endpoint detail page, click **Reveal** under Signing secret and copy the `whsec_...` value.
@@ -220,7 +235,14 @@ The abridged snippet above is enough to take payments, but the full `§13`
 also creates:
 
 - **`stripe_events`** — the webhook's idempotency ledger. Stripe delivers each
-  event _at least_ once, so without this a redelivery is applied twice.
+  event _at least_ once, so without this a redelivery is applied twice. Its
+  `processed_at` column marks an event as applied. If the function is killed
+  part-way through an event, Stripe's next retry takes the event over after two
+  minutes; a delivery that arrives while the first attempt is still running is
+  answered `409` and retried. Rows from before the column are treated as already
+  applied, so re-applying the schema does not replay history. An event that was
+  left unfinished when you re-apply is treated the same way. If you know one
+  failed, resend it from the Stripe Dashboard's event log.
 - **`subscriptions.last_event_at`** — the ordering guard. Stripe does not order
   deliveries; without it a delayed `customer.subscription.updated` can arrive
   after a cancellation and resurrect the plan.
@@ -409,3 +431,16 @@ account with no `school_id` and says so, rather than taking the money for N
 seats and licensing one person — the school row is not back-filled when an
 admin assigns them later, so the licence would stay attached to nothing until
 the subscription next updates.
+
+**One licence per school.** A second school-price purchase is refused before any
+payment is taken, with a 409 that names the fix: ask whoever bought the licence
+to add seats through **Manage subscription**. A licence still set to end at the
+period boundary counts as held, because its buyer can resume it. A cancelled or
+unpaid licence does not, so the school can buy again. Plus purchases are never
+affected. If the licence columns have not been re-applied yet, the check is
+skipped and logged. If the lookup itself fails, the purchase is refused with a
+503, nothing is charged, and the buyer can retry.
+
+> Known gap: a licence whose first payment is waiting for 3-D Secure (status
+> `incomplete`) does not count as held yet, so a second purchase can still get
+> through during that window. See `projectDocs/monetisation-review-2026-09.md` §22.

@@ -237,45 +237,6 @@ user could not see.
 **Fixed** with the same rule: a CTA that hands off dismisses the surface it was
 pressed from.
 
-### 16. A licence reached the buyer, not the school — P1, fixed
-
-`applySchoolPlan` runs inside `refreshSession`, which runs at app load and on
-checkout return. The buyer unlocked at once. The other members of the school
-stayed locked until they reloaded, and a licence that lapsed left them showing
-paid controls that the server would then refuse.
-
-**Fixed** by `usePlanFreshness` (`hooks/usePlanFreshness.ts`), with the decisions
-in `utils/planFreshness.ts`. When a signed-in, non-guest person returns to the
-tab or the connection comes back, the session is re-read at most once every five
-minutes (`PLAN_FRESHNESS_INTERVAL_MS`), and never while a read is in flight. An
-unchanged plan is silent: no state update and no toast. A changed plan updates
-the plan fields of the copy the app holds (so stats and preferences are left
-alone), re-reads the free counter, and is announced once. The wording comes from
-the resolved plan, so a teacher whose licence lapses is told the licence ended,
-not that they have lost access they still hold.
-
-Not changed: a session refresh rewrites the profile's stats and preferences, as
-it did at load, so each throttled check writes once. A refresh that returns no
-session is ignored rather than treated as a sign-out, because a background check
-should not drop someone to the login screen mid-answer.
-
-### 17. Nothing told a school that it had outgrown its licence — P2, fixed in part
-
-The over-seat warning lived in `UsageDashboard`, which only an admin can open.
-`list_schools()` would have answered a teacher, but it returns every school at
-once, so it cannot be the teacher's source.
-
-**Fixed** by `my_school_seats()` (schema §13). It takes no school argument and
-answers only staff, for the caller's own school. It returns the plan status,
-the seat count, the member count and whether the caller bought the licence, and
-nothing about the people in it. `components/SeatOverageNotice.tsx` sits beside
-the payment alert. When members exceed seats on a live licence it says how many
-over, says that the extra people keep School access for now, and offers Manage
-subscription to the purchaser only. Other staff are told who bought the licence.
-
-Seats are still not enforced at sign-in. The notice says so, which is accurate;
-whether they should be is a product decision, recorded in §5.
-
 ## 3. What was checked and found sound
 
 - **Enforcement is where it claims to be.** `api/_lib/planPolicy.ts` is honest
@@ -362,10 +323,193 @@ running the full CI SQL pipeline: six new entitlement assertions covering the
 free reader, the paying reader, the admin, the author, the tuned-off cap and
 the review queue.
 
+### 16. A second School licence could be bought for the same school — P1, fixed
+
+The duplicate guard in `api/create-checkout.ts` is per person. Two teachers at
+one school each passed it and each bought a licence. Both were charged, and the
+webhook wrote whichever event arrived last onto `schools.stripe_subscription_id`,
+so one licence was paid for and invisible, and billed for a year.
+
+**Fixed**: a school that already holds a live licence (a subscription id, and a
+status of `active`, `trialing` or `past_due`) refuses a second purchase with a 409
+and `code: school_licence_held`, before any session exists. A licence set to end at
+period end still holds. A cancelled, unpaid or expired one does not. Plus is never
+checked. Tests: `tests/unit/schoolLicenceDuplicateGuard.test.ts`.
+
+### 17. A webhook whose handler was killed lost its event for good — P1, fixed
+
+`claimEvent()` inserted the event id before handling it. A Vercel timeout, an OOM
+or a deploy swap killed the function after the insert, so the catch block never
+ran. Stripe's retry was acknowledged as a duplicate. A cancelled customer kept the
+plan; a paying one stayed on free.
+
+**Fixed** with `stripe_events.processed_at` (schema §13) and `api/_lib/stripeLedger.ts`.
+A claim counts as done only once the handler returns and stamps it. An unstamped
+claim older than two minutes (longer than the 60-second function limit) is taken
+over by the next retry, using a compare-and-set, so two retries cannot both win. A
+younger one answers 409, so Stripe retries later. Rows written before the column
+read as finished. Tests: `tests/unit/stripeWebhookGrace.test.ts` (stamp, lease,
+takeover, release, missing column); SQL in `supabase/tests/entitlement_tests.sql` §16.
+
+### 18. A School licence stopped syncing when its purchaser changed school — P1, fixed
+
+`handleSubscriptionUpsert` found the school through the purchaser's _current_
+`school_id` (`api/stripe-webhook.ts`, the `plan === 'school'` branches). A teacher
+who moved school left the licence unsynced. Renewals and `past_due` or `unpaid`
+statuses then never reached the school row, so an unpaid school kept its plan until
+the subscription was finally deleted.
+
+**Fixed**: the licence is found by its subscription id on the school row, and the
+purchaser's school is the fallback for a first event. Test:
+`tests/unit/stripeWebhookOwnership.test.ts`.
+
+### 19. A cancelled subscriber could stay on Plus — P1, fixed
+
+`handleSubscriptionDeleted` looked the user up by customer id with `.single()` and
+returned early when no profile matched. Two checkouts racing before either linked
+a customer give exactly that. The second subscription's cancellation then left the
+profile on `plus` for good. **Fixed**: the user is found through the subscription
+row when the customer route fails. Same test file as §18.
+
+### 20. The checkout guards failed open on a database error — P1, fixed
+
+`create-checkout` ignored the `error` from its profile and subscription lookups,
+so a database error read as "no existing subscription", and a second purchase
+could proceed. **Fixed**: those lookups, and the school licence lookup, now refuse
+the purchase with a 503 before any session is created. A licence column the schema
+has not added yet is treated as "nothing to check", so a database that has not
+re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuard.test.ts`.
+
+### 21. Two open Checkout Sessions can both complete — P1, open
+
+- **Where**: `api/create-checkout.ts` (the duplicate guard reads `subscriptions`,
+  around line 215, and `checkout.sessions.create`, around line 342).
+- **Scenario**: a buyer opens Checkout, does not pay, and opens it again. The first
+  session is still open. Both are completed, so there are two live subscriptions on
+  one customer. `resolve_stripe_plan` keeps whichever has the latest period end,
+  and the other keeps billing, which is the exact outcome the guard exists to prevent. The guard cannot
+  see it, because a subscription row exists only after the webhook has run.
+- **Severity**: P1 (double charge).
+- **Suggested fix**: before creating a session, list the customer's open sessions
+  (`stripe.checkout.sessions.list({ customer, status: 'open' })`) and expire them.
+  This needs a Stripe call the mocked tests do not yet cover, so it is not in this change.
+
+### 22. A subscription in `incomplete` holds nothing, so a second purchase is allowed — P1, open
+
+- **Where**: `api/create-checkout.ts:49` (`LIVE_STATUSES`) for both the personal and
+  school guards.
+- **Scenario**: the first payment needs 3-D Secure. The subscription stays
+  `incomplete` for up to about 23 hours, and the buyer, or a colleague for the same
+  school, checks out again. Both then complete.
+- **Severity**: P1 (double charge). Same mechanism as §21.
+- **Suggested fix**: hold `incomplete` as well, with its own message ("your
+  purchase is still waiting for payment"). The brief set the held statuses, and the
+  wording is a product call, so it is left open.
+
+### 23. Unsigned webhooks are accepted wherever `isProductionRuntime()` is false — P1 (P0 if the preview shares production data), open
+
+- **Where**: `api/stripe-webhook.ts:112-137`. `isProductionRuntime()` (in `api/_lib/stripe.ts`)
+  is `VERCEL_ENV === 'production' || NODE_ENV === 'production'`. Without a signing
+  secret, anything else trusts the request body.
+- **Scenario**: a preview deployment that holds a live `STRIPE_SECRET_KEY` and the
+  production Supabase service role, but no `STRIPE_WEBHOOK_SECRET`, accepts a forged
+  `customer.subscription.updated` whose `metadata.supabase_user_id` names any user.
+  The result is a paid plan for that user.
+- **Not verified**: whether `NODE_ENV` is `production` on a preview deployment. Check
+  it on a real preview before deciding how severe this is.
+- **Suggested fix**: refuse unsigned events whenever `VERCEL_ENV` is set, not only in
+  production. `vercel dev` would then need the Stripe CLI secret. This changes preview
+  behaviour, so it needs operator sign-off.
+
+### 24. A checkout link overwrites an existing customer link — P2, open
+
+- **Where**: `api/stripe-webhook.ts:273` (`checkout.session.completed` writes
+  `profiles.stripe_customer_id` unconditionally). The backfill at about line 403 has
+  the same shape.
+- **Scenario**: a profile already linked to customer C1 completes a checkout for C2.
+  Events for C1's subscription then find no profile by customer, and
+  `subscription.updated` has only the metadata fallback. §19 covers deletion, not
+  updates.
+- **Suggested fix**: write the link only when the profile has none. Otherwise log it
+  and resolve the owner through the subscription row.
+
+### 25. A seat reduction below the member count is not enforced — P2, open
+
+- **Where**: `api/stripe-webhook.ts` (school sync, `plan_seats: seats`, around line 494).
+- **Scenario**: an admin lowers the seats in the billing portal from 40 to 10 while 35
+  people are members. All 35 keep the School plan at the price of 10 seats. The
+  over-seat warning exists, but only an admin who opens the dashboard sees it.
+- **Suggested fix**: refuse decreases below the member count in the portal's
+  configuration, or flag the school to admins when the webhook writes a smaller seat count.
+
+### 26. Disputes and refunds are not handled — P2, open
+
+- **Where**: `api/stripe-webhook.ts` (the `default:` branch, around line 196).
+- **Scenario**: a card dispute is opened. Stripe does not cancel the subscription, so
+  access continues while the merchant loses the disputed amount.
+- **Suggested fix**: first, a flag-only `charge.dispute.created` handler that writes a
+  reviewer-visible row. Automatic cancellation is a product decision. If the handler is
+  added, add the event to `docs/stripesetup.md` as well.
+
+### 27. Checked and found sound (this pass)
+
+- **Grace period**: `past_due` keeps the plan. `unpaid` and `incomplete_expired`
+  drop it.
+- **Ordering**: `isStaleEvent` covers `subscription.deleted` and `invoice.payment_failed`
+  as well as the upserts.
+- **Unknown price**: an active subscription on an unlisted price keeps its plan.
+- **Pause**: `pause_collection` leaves `status` at `active`, so a paused subscription
+  keeps its plan. The portal does not offer pausing today, so this is open only if
+  someone enables it.
+
+### 28. A licence reached the buyer, not the school — P1, fixed
+
+`applySchoolPlan` runs inside `refreshSession`, which runs at app load and on
+checkout return. The buyer unlocked at once. The other members of the school
+stayed locked until they reloaded, and a licence that lapsed left them showing
+paid controls that the server would then refuse.
+
+**Fixed** by `usePlanFreshness` (`hooks/usePlanFreshness.ts`), with the decisions
+in `utils/planFreshness.ts`. When a signed-in, non-guest person returns to the
+tab or the connection comes back, the session is re-read at most once every five
+minutes (`PLAN_FRESHNESS_INTERVAL_MS`), and never while a read is in flight. An
+unchanged plan is silent: no state update and no toast. A changed plan updates
+the plan fields of the copy the app holds (so stats and preferences are left
+alone), re-reads the free counter, and is announced once. The wording comes from
+the resolved plan, so a teacher whose licence lapses is told the licence ended,
+not that they have lost access they still hold.
+
+Not changed: a session refresh rewrites the profile's stats and preferences, as
+it did at load, so each throttled check writes once. A refresh that returns no
+session is ignored rather than treated as a sign-out, because a background check
+should not drop someone to the login screen mid-answer.
+
+### 29. Nothing told a school that it had outgrown its licence — P2, fixed in part
+
+The over-seat warning lived in `UsageDashboard`, which only an admin can open.
+`list_schools()` would have answered a teacher, but it returns every school at
+once, so it cannot be the teacher's source.
+
+**Fixed** by `my_school_seats()` (schema §13). It takes no school argument and
+answers only staff, for the caller's own school. It returns the plan status,
+the seat count, the member count and whether the caller bought the licence, and
+nothing about the people in it. `components/SeatOverageNotice.tsx` sits beside
+the payment alert. When members exceed seats on a live licence it says how many
+over, says that the extra people keep School access for now, and offers Manage
+subscription to the purchaser only. Other staff are told who bought the licence.
+
+Seats are still not enforced at sign-in. The notice says so, which is accurate;
+whether they should be is a product decision, recorded in §5.
+
 ## 5. Still open (not attempted here)
 
+- **Open findings from the server-hardening pass (§16 and onwards)**: §21 (two open
+  checkouts can both complete) and §22 (`incomplete` holds nothing) are double-charge
+  risks. §23 (unsigned preview webhooks) needs the operator to confirm the preview
+  setup. §24–§26 are smaller. None of them is fixed.
+
 - ~~**A licence going live mid-session does not reach other members until they
-  reload.**~~ — **done**, see §16. Members now re-read their plan when they return
+  reload.**~~ — **done**, see §28. Members now re-read their plan when they return
   to the tab, at most every five minutes. The divergence this bullet described
   was safe (the server is authoritative); it is now also short.
 - **The School branch of the upgrade prompt is dead code under the shipped
@@ -376,7 +520,7 @@ the review queue.
   is "Who it covers". That is honest, and it is also the whole pitch — worth a
   product decision about whether School should carry something of its own
   (class-scoped analytics is the obvious candidate) rather than a code change.
-- ~~**Nothing notices when a school outgrows its licence.**~~ — **done**, see §17.
+- ~~**Nothing notices when a school outgrows its licence.**~~ — **done**, see §29.
   Staff are told the first time they open the app in a session. What is still
   open is in the three bullets below.
 - **`list_schools()` answers teachers for every school.** It is gated on

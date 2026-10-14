@@ -556,7 +556,7 @@ end $$;
 reset role;
 rollback;
 
--- ---- 16. Staff see their own school's seats, and nobody else's -------------
+-- ---- 17. Staff see their own school's seats, and nobody else's -------------
 -- The over-seat notice reads {seats, members} for the caller's OWN school. The
 -- function takes no school argument, so the only school a caller can see is the
 -- one on their profile. Member counts are read as the owner, because a teacher
@@ -682,6 +682,93 @@ begin
       raise notice 'PASS: an anonymous caller cannot call my_school_seats()';
   end;
 end $$;
+rollback;
+
+-- ---- 16. The webhook ledger: its shape, and who may write it ----------------
+-- api/_lib/stripeLedger.ts relies on three things the database must keep:
+-- processed_at exists with no default (so a new claim is unfinished, and a
+-- deploy does not read the whole history as abandoned), a signed-in user can
+-- neither plant nor stamp a claim (a browser must not decide what the webhook
+-- has applied), and a reviewer can read the ledger while a student cannot.
+-- This block runs after the schema has been applied twice, so the default check
+-- also proves the re-apply does not put one back.
+do $$
+declare v_default text;
+begin
+  select column_default into v_default
+    from information_schema.columns
+   where table_schema = 'public' and table_name = 'stripe_events'
+     and column_name = 'processed_at';
+  if not found then
+    raise exception 'TEST FAILED: stripe_events.processed_at does not exist';
+  end if;
+  if v_default is not null then
+    raise exception 'TEST FAILED: stripe_events.processed_at has a default (%) — a new claim would read as finished', v_default;
+  end if;
+  raise notice 'PASS: processed_at exists with no default after a double schema apply';
+end $$;
+
+begin;
+insert into public.stripe_events (id, type)
+  values ('evt_ledger_guard', 'invoice.payment_failed');
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  -- A signed-in user cannot add a claim of their own. Only the 42501 family is
+  -- the pass; anything else (including our own raise) must propagate.
+  begin
+    insert into public.stripe_events (id, type)
+      values ('evt_ledger_forged', 'checkout.session.completed');
+    raise exception 'TEST FAILED: a signed-in user wrote the webhook ledger';
+  exception when sqlstate '42501' then
+    raise notice 'PASS: a signed-in user cannot write the webhook ledger';
+  end;
+
+  -- Nor can they stamp an existing claim as processed. Without an UPDATE policy
+  -- the row is simply not matched, so the check is made as the owner below.
+  begin
+    update public.stripe_events set processed_at = now() where id = 'evt_ledger_guard';
+  exception when sqlstate '42501' then
+    null;
+  end;
+end $$;
+reset role;
+do $$
+declare v timestamptz;
+begin
+  select processed_at into v from public.stripe_events where id = 'evt_ledger_guard';
+  if v is not null then
+    raise exception 'TEST FAILED: a signed-in user stamped a claim as processed';
+  end if;
+  raise notice 'PASS: a signed-in user cannot mark a claim processed';
+end $$;
+
+-- A student cannot read the ledger; a reviewer can, for delivery debugging.
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v_n int;
+begin
+  select count(*) into v_n from public.stripe_events where id = 'evt_ledger_guard';
+  if v_n <> 0 then
+    raise exception 'TEST FAILED: a student could read the webhook ledger (% rows)', v_n;
+  end if;
+  raise notice 'PASS: a student cannot read the webhook ledger';
+end $$;
+reset role;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e3","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v_n int;
+begin
+  select count(*) into v_n from public.stripe_events where id = 'evt_ledger_guard';
+  if v_n <> 1 then
+    raise exception 'TEST FAILED: a reviewer could not read the webhook ledger (% rows)', v_n;
+  end if;
+  raise notice 'PASS: a reviewer reads the webhook ledger';
+end $$;
+reset role;
 rollback;
 
 do $$
