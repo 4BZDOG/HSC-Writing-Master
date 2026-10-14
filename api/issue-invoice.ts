@@ -201,6 +201,20 @@ const decline = async (
     return;
   }
 
+  // An approval that failed part-way may have left a live subscription in Stripe.
+  // The webhook licenses the school as soon as that subscription is active, so a
+  // decline that left it running would give access the request does not grant.
+  // Decline only once Stripe shows the subscription has ended.
+  if (row.stripe_subscription_id) {
+    const blocked = await subscriptionStillBilling(row.stripe_subscription_id);
+    if (blocked) {
+      res
+        .status(blocked.status)
+        .json({ error: blocked.error, subscriptionId: row.stripe_subscription_id });
+      return;
+    }
+  }
+
   const { data, error } = await supabase
     .from('licence_requests')
     .update({
@@ -225,6 +239,48 @@ const decline = async (
     return;
   }
   res.status(200).json({ request: publicLicenceRequest(updated) });
+};
+
+/**
+ * The refusal to show when a subscription left by an earlier approval is still
+ * billing, or when Stripe cannot say. Null when it has ended and the request can
+ * be declined.
+ */
+const subscriptionStillBilling = async (
+  subscriptionId: string
+): Promise<{ status: number; error: string } | null> => {
+  const stripe = getStripe();
+  if (!stripe || !isStripeConfigured()) {
+    return {
+      status: 501,
+      error:
+        'Stripe is not configured, so it cannot confirm that the subscription for this request has ended. ' +
+        'Configure Stripe, then decline the request again.',
+    };
+  }
+
+  let subscription: Stripe.Subscription;
+  try {
+    subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  } catch (e) {
+    logStripe('subscription read (decline)', e);
+    return {
+      status: 502,
+      error:
+        'Could not confirm in Stripe that the subscription for this request has ended. ' +
+        'Try again, or cancel it in the Stripe Dashboard first.',
+    };
+  }
+
+  if (BILLABLE_SUBSCRIPTION_STATUSES.includes(subscription.status)) {
+    return {
+      status: 409,
+      error:
+        `The subscription for this request is ${subscription.status} in Stripe, so it would keep ` +
+        'billing the school. Cancel it in the Stripe Dashboard, then decline the request again.',
+    };
+  }
+  return null;
 };
 
 type ApproveResult =

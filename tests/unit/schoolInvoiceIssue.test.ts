@@ -351,6 +351,42 @@ describe('issue-invoice: decline', () => {
     expect(again.statusCode).toBe(200);
   });
 
+  describe('a subscription an earlier approval left behind', () => {
+    beforeEach(() => {
+      tables.licence_requests = [
+        pendingRequest({ stripe_customer_id: 'cus_new', stripe_subscription_id: 'sub_1' }),
+      ];
+    });
+
+    it('refuses to decline while the subscription would keep billing the school', async () => {
+      const res = makeRes();
+      await issueInvoice(post({ requestId: REQUEST_ID, action: 'decline' }), res);
+
+      expect(res.statusCode).toBe(409);
+      expect(res.body?.subscriptionId).toBe('sub_1');
+      expect(res.body?.error).toContain('Cancel it in the Stripe Dashboard');
+      expect(requestRow().status).toBe('pending');
+    });
+
+    it('declines once Stripe shows the subscription has ended', async () => {
+      stripe.subscriptions.retrieve.mockResolvedValue({ id: 'sub_1', status: 'canceled' });
+      const res = makeRes();
+      await issueInvoice(post({ requestId: REQUEST_ID, action: 'decline' }), res);
+
+      expect(res.statusCode).toBe(200);
+      expect(requestRow().status).toBe('declined');
+    });
+
+    it('refuses to decline when Stripe cannot confirm the subscription has ended', async () => {
+      stripe.subscriptions.retrieve.mockRejectedValue(new Error('timeout'));
+      const res = makeRes();
+      await issueInvoice(post({ requestId: REQUEST_ID, action: 'decline' }), res);
+
+      expect(res.statusCode).toBe(502);
+      expect(requestRow().status).toBe('pending');
+    });
+  });
+
   it('refuses to decline a request that was already approved', async () => {
     tables.licence_requests = [pendingRequest({ status: 'approved' })];
     const res = makeRes();
