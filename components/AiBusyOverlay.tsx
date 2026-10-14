@@ -25,13 +25,19 @@ interface AiBusyOverlayProps {
  * Ten call sites had each invented their own veil: opacities from 60% to 95%,
  * blurs from `sm` to `3xl`, some rounded and some square, some animated in and
  * some snapping into place. Side by side in one session they read as different
- * apps. This fixes the recipe — a deep, even blur, a wash that works on both
- * themes, corners that follow the surface underneath, and one entrance
- * animation — so every wait in the app feels like the same wait.
+ * apps. This fixes the recipe — a near-opaque surface sheet, corners that follow
+ * the surface underneath, and one entrance animation — so every wait in the app
+ * feels like the same wait.
  *
- * The overlay is deliberately opaque enough to stop the content behind it
- * being read mid-change, and it swallows pointer events so nothing underneath
- * can be clicked while the request is in flight.
+ * NO BACKDROP BLUR. The veil used to blur what it covered, and on the writing
+ * card that let the student's own answer ghost through the sheet, while the
+ * blur was the most expensive paint in the workspace on WebKit. At 95% the
+ * surface is opaque enough to stop the content behind it being read mid-change,
+ * and the marking wait does not need the blur to read as a wait: the bloom and
+ * the card on it do that.
+ *
+ * It swallows pointer events so nothing underneath can be clicked while the
+ * request is in flight.
  *
  * PLACEMENT IS PART OF THE RECIPE. The veil is `absolute inset-0`, which
  * resolves against the PADDING edge of the box it sits in. So it stays inside
@@ -56,17 +62,18 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
 
   return (
     <div
-      className={`absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/80 backdrop-blur-xl`}
+      className={`absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
-      {/* A soft accent bloom behind the card so it lifts off the blur rather
-          than floating on a flat grey pane. */}
+      {/* A soft accent bloom behind the card so it lifts off the veil rather
+          than floating on a flat pane. It is the app accent, not a fixed
+          indigo, so it moves with the theme like the wait's own ink. */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none opacity-40"
         style={{
           background:
-            'radial-gradient(ellipse 60% 45% at 50% 50%, rgba(99,102,241,0.18), transparent 70%)',
+            'radial-gradient(ellipse 60% 45% at 50% 50%, rgb(var(--color-accent) / 0.18), transparent 70%)',
         }}
       />
       <div className={`relative w-full ${maxWidth} animate-in`}>{children}</div>

@@ -84,6 +84,19 @@ test.describe('the verb ribbon’s tier cards', () => {
     await openWorkspace(page);
     await openVerbRibbon(page);
 
+    // The banner and stage fade between themes (`transition-colors`). This test
+    // asks what colour each theme *ends* on, not how it gets there, so take the
+    // fade out. Desktop WebKit read the banner at alpha 0.04 on every retry: that
+    // is the dark theme's hover wash (`dark:can-hover:hover:bg-white/[0.04]`,
+    // left by the click that opened the ribbon), i.e. the fade's starting value,
+    // so the frames that advance it were not being produced on a loaded runner
+    // and no amount of waiting helps. Main runs 1180 and 1193 failed that way;
+    // 1182 and 1186 passed.
+    await page.addStyleTag({
+      content:
+        '*, *::before, *::after { transition: none !important; animation: none !important; }',
+    });
+
     const setTheme = async (theme: 'light' | 'dark') => {
       const toggle = page.getByRole('button', {
         name: new RegExp(`switch to ${theme} theme`, 'i'),
@@ -136,8 +149,22 @@ test.describe('the verb ribbon’s tier cards', () => {
         };
       });
 
+    // The theme swap transitions colour on the banner and stage, so a read taken the
+    // instant the attribute flips can catch a half-faded fill (WebKit did, once, on
+    // main). Read until two consecutive reads agree.
+    const readSettled = async () => {
+      let previous = JSON.stringify(await read());
+      for (let attempt = 0; attempt < 20; attempt += 1) {
+        await page.waitForTimeout(150);
+        const current = JSON.stringify(await read());
+        if (current === previous) break;
+        previous = current;
+      }
+      return read();
+    };
+
     await setTheme('light');
-    const light = await read();
+    const light = await readSettled();
     // A light bar: opaque and near white, with dark ink on it.
     expect(light.banner!.alpha, 'the light banner is see-through').toBe(1);
     expect(light.banner!.l, 'the light banner is not light').toBeGreaterThan(0.8);
@@ -154,7 +181,7 @@ test.describe('the verb ribbon’s tier cards', () => {
     );
 
     await setTheme('dark');
-    const dark = await read();
+    const dark = await readSettled();
     // The dark banner is the stage itself, seen through: transparent, white ink.
     expect(dark.banner!.alpha, 'the dark banner is a fill, not the stage').toBeLessThan(0.05);
     expect(dark.title!.l, 'the title is not white on the dark banner').toBeGreaterThan(0.9);

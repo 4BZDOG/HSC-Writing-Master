@@ -4,7 +4,11 @@ import type { WaitNote } from '../utils/waitTips';
 
 interface WaitNoteFigureProps {
   note: WaitNote;
-  /** The wait's ink colour, for the margin rule beside the note. */
+  /**
+   * The wait's ink colour, for the margin rule beside the note. Any CSS colour:
+   * the rule is mixed with the page through `color-mix`, not by appending an
+   * alpha to the value, so a theme token works as well as a hex.
+   */
   accent: string;
 }
 
@@ -22,7 +26,7 @@ interface WaitNoteFigureProps {
 const WaitNoteFigure: React.FC<WaitNoteFigureProps> = ({ note, accent }) => (
   <figure
     className="flex gap-3 pl-3 border-l-2 animate-fade-in"
-    style={{ borderColor: `${accent}66` }}
+    style={{ borderColor: `color-mix(in srgb, ${accent} 40%, transparent)` }}
   >
     <PenLine
       className="w-4 h-4 mt-1 shrink-0 text-slate-500 dark:text-slate-400"
