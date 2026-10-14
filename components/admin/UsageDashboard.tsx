@@ -87,7 +87,7 @@ const ROLE_LABEL: Record<QuotaRole, string> = {
 
 const ROLE_TONE: Record<QuotaRole, string> = {
   admin: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400 light:text-indigo-700',
-  teacher: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 light:text-emerald-700',
+  teacher: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 light:text-emerald-800',
   student: 'bg-sky-500/10 border-sky-500/30 text-sky-400 light:text-sky-700',
 };
 
@@ -711,7 +711,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               disabled={isLoading || isBusy || !remote || report.length === 0}
               aria-label="Export usage report as CSV"
               title="Download the usage report (CSV)"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
             >
               <Download className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
@@ -719,7 +719,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               onClick={load}
               disabled={isLoading || isBusy || !remote}
               aria-label="Refresh"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${isLoading ? 'animate-spin' : ''}`}
@@ -728,7 +728,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
@@ -984,7 +984,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                   disabled={isBusy}
                                   aria-label={`Set override for ${row.username}`}
                                   title="Set a personal daily limit for this user"
-                                  className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                                  className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
                                 >
                                   <Check className="w-3.5 h-3.5" />
                                 </button>
@@ -1019,7 +1019,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     aria-label="Other username"
                     value={extraUser}
                     onChange={(e) => setExtraUser(e.target.value)}
-                    className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    className="w-36 text-base sm:text-xs min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
                   />
                   <input
                     type="number"
@@ -1033,7 +1033,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <button
                     onClick={() => handleExtraOverride(false)}
                     disabled={isBusy}
-                    className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                    className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                   >
                     Set
                   </button>
@@ -1071,7 +1071,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <button
                     onClick={handleSaveLimits}
                     disabled={isBusy}
-                    className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
+                    className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
                   >
                     Save Group Limits
                   </button>
@@ -1117,7 +1117,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <button
                       onClick={handleSaveFreeEvalLimit}
                       disabled={isBusy || freeEvalDraft.trim() === String(freeEvalLimit)}
-                      className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
+                      className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50"
                     >
                       Save Allowance
                     </button>
@@ -1202,7 +1202,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                                     disabled={isBusy}
                                     aria-label={`Set pooled limit for ${s.name}`}
                                     title="Set the shared daily pool for this school"
-                                    className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
+                                    className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all disabled:opacity-50"
                                   >
                                     <Check className="w-3.5 h-3.5" />
                                   </button>
@@ -1251,7 +1251,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <button
                       onClick={handleCreateSchool}
                       disabled={isBusy}
-                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
                     >
                       <Plus className="w-3.5 h-3.5" /> Create school
                     </button>
@@ -1268,7 +1268,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       aria-label="Username to place in a school"
                       value={memberUser}
                       onChange={(e) => setMemberUser(e.target.value)}
-                      className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                      className="w-36 text-base sm:text-xs min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
                     />
                     <select
                       aria-label="School to place the user in"
@@ -1286,7 +1286,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <button
                       onClick={() => handleAssignMember(false)}
                       disabled={isBusy}
-                      className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                      className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                     >
                       Place
                     </button>
@@ -1388,7 +1388,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       aria-label="New class name"
                       value={newClassName}
                       onChange={(e) => setNewClassName(e.target.value)}
-                      className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                      className="w-36 text-base sm:text-xs min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
                     />
                     <input
                       type="text"
@@ -1396,7 +1396,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       aria-label="Username of the teacher who owns the class"
                       value={newClassOwner}
                       onChange={(e) => setNewClassOwner(e.target.value)}
-                      className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                      className="w-36 text-base sm:text-xs min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
                     />
                     <input
                       type="number"
@@ -1411,7 +1411,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                     <button
                       onClick={handleCreateClass}
                       disabled={isBusy}
-                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1.5"
                     >
                       <Plus className="w-3.5 h-3.5" /> Create class
                     </button>
@@ -1431,7 +1431,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                         aria-label="Username to enrol in a class"
                         value={enrolUser}
                         onChange={(e) => setEnrolUser(e.target.value)}
-                        className="w-36 text-xs rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                        className="w-36 text-base sm:text-xs min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-2 py-1.5 outline-none focus:border-[rgb(var(--color-accent))]/60"
                       />
                       <select
                         aria-label="Class to enrol them in"
@@ -1458,7 +1458,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                       <button
                         onClick={handleEnrol}
                         disabled={isBusy}
-                        className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                        className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                       >
                         Enrol
                       </button>

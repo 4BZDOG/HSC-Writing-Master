@@ -191,7 +191,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
 
         <div className="flex flex-wrap items-center gap-3 mt-4">
           <div className="flex items-center gap-4 text-xs font-bold">
-            <span className="flex items-center gap-1.5 text-emerald-400 light:text-emerald-700">
+            <span className="flex items-center gap-1.5 text-emerald-400 light:text-emerald-800">
               <CheckCircle className="w-3.5 h-3.5" /> {stats.placed} placed
             </span>
             <span className="flex items-center gap-1.5 text-amber-400 light:text-amber-700">
@@ -207,8 +207,8 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   aria-expanded={showBulkPlacer}
                   className={`flex-1 sm:flex-none justify-center text-[10px] font-bold px-3 py-2 sm:py-1.5 rounded-lg border transition-all flex items-center gap-1.5 ${
                     showBulkPlacer
-                      ? 'text-emerald-400 light:text-emerald-700 bg-emerald-500/15 border-emerald-500/30'
-                      : 'text-emerald-400 light:text-emerald-700 bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/20'
+                      ? 'text-emerald-400 light:text-emerald-800 bg-emerald-500/15 border-emerald-500/30'
+                      : 'text-emerald-400 light:text-emerald-800 bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/20'
                   }`}
                 >
                   <Layers className="w-3 h-3" /> Place All Remaining
@@ -235,7 +235,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
 
         {showBulkPlacer && bulkCourse && (
           <div className="mt-4 p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 animate-fade-in">
-            <p className="text-xs text-emerald-400 light:text-emerald-700 mb-3 flex items-center gap-1.5">
+            <p className="text-xs text-emerald-400 light:text-emerald-800 mb-3 flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5" />
               Place all {stats.remaining} remaining group{stats.remaining !== 1 ? 's' : ''} into:
             </p>
@@ -370,7 +370,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         {placement.skipped ? (
                           <SkipForward className="w-4 h-4 text-amber-400 light:text-amber-700 shrink-0" />
                         ) : isComplete ? (
-                          <CheckCircle className="w-4 h-4 text-emerald-400 light:text-emerald-700 shrink-0" />
+                          <CheckCircle className="w-4 h-4 text-emerald-400 light:text-emerald-800 shrink-0" />
                         ) : (
                           <Package className="w-4 h-4 text-[rgb(var(--color-text-muted))] shrink-0" />
                         )}
@@ -538,7 +538,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                       </div>
 
                       {placement.topicId && placement.subTopicId && placement.dotPointId && (
-                        <div className="flex items-center gap-2 text-xs text-emerald-400 light:text-emerald-700 font-medium animate-fade-in">
+                        <div className="flex items-center gap-2 text-xs text-emerald-400 light:text-emerald-800 font-medium animate-fade-in">
                           <MapPin className="w-3 h-3" />
                           Placed into {selectedTopic?.name}
                         </div>
