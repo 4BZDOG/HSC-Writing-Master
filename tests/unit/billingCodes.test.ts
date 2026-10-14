@@ -26,8 +26,12 @@ describe('the codes the client reads are the codes the server sends', () => {
   });
 
   it('keeps the 409 for a live subscription without a code, so the portal route still applies to it', () => {
+    // The live-subscription refusal is answered with its sentence and no `code`.
     expect(serverSource).toMatch(
-      /res\.status\(409\)\.json\(\{\s*error:\s*'You already have an active subscription/
+      /res\.status\(409\)\.json\(\{\s*error:\s*live \? ALREADY_SUBSCRIBED/
+    );
+    expect(serverSource).toMatch(
+      /const ALREADY_SUBSCRIBED =\s*\n?\s*'You already have an active subscription/
     );
   });
 });
