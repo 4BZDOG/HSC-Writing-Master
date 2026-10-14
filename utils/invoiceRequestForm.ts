@@ -238,7 +238,7 @@ export interface AbnFeedback {
   message: string;
 }
 
-const ABN_HINT =
+export const ABN_HINT =
   'Optional. Eleven digits. It prints on the tax invoice, so the accounts office can match it to the school.';
 
 /**
