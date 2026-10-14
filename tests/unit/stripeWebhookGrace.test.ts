@@ -11,8 +11,80 @@ const updates: Array<{ table: string; values: Record<string, unknown> }> = [];
 const upserts: Array<{ table: string; values: Record<string, unknown> }> = [];
 const retrieveMock = vi.fn();
 
-/** Event ids already in the ledger — a second delivery must be skipped. */
-const seenEvents = new Set<string>();
+interface LedgerRow {
+  received_at: number;
+  /** Stamped once the handler returned; null while the claim is unfinished. */
+  processed_at: number | null;
+}
+/** The stripe_events table, keyed by event id. */
+const ledger = new Map<string, LedgerRow>();
+/** Simulates a database that has not re-applied schema §13 (no processed_at). */
+let ledgerColumnMissing = false;
+/** Forces the processed_at stamp to fail, so the claim must be released. */
+let stampFails = false;
+/** Forces the ledger read to fail for a reason other than a missing column. */
+let ledgerReadFails = false;
+const missingColumnError = {
+  code: '42703',
+  message: 'column stripe_events.processed_at does not exist',
+};
+
+/**
+ * stripe_events UPDATE, modelled as the one statement the database would run:
+ * the filters apply together, and a claim takeover is a compare-and-set.
+ */
+const ledgerUpdate = (values: Record<string, unknown>) => {
+  let id = '';
+  let unfinishedOnly = false;
+  let receivedBefore: number | null = null;
+  const run = async () => {
+    if (ledgerColumnMissing) return { data: null, error: missingColumnError };
+    if ('processed_at' in values && stampFails) {
+      return { data: null, error: { message: 'stamp write failed' } };
+    }
+    const row = ledger.get(id);
+    const matches =
+      row !== undefined &&
+      (!unfinishedOnly || row.processed_at === null) &&
+      (receivedBefore === null || row.received_at < receivedBefore);
+    if (!row || !matches) return { data: [], error: null };
+    if ('processed_at' in values) row.processed_at = Date.now();
+    if ('received_at' in values) row.received_at = Date.parse(values.received_at as string);
+    return { data: [{ id }], error: null };
+  };
+  const chain = {
+    eq: (_col: string, value: string) => {
+      id = value;
+      return chain;
+    },
+    is: () => {
+      unfinishedOnly = true;
+      return chain;
+    },
+    lt: (_col: string, value: string) => {
+      receivedBefore = Date.parse(value);
+      return chain;
+    },
+    select: () => run(),
+    then: (resolve: (value: unknown) => unknown, reject: (reason: unknown) => unknown) =>
+      run().then(resolve, reject),
+  };
+  return chain;
+};
+
+const ledgerRead = (id: string) => {
+  if (ledgerColumnMissing) return { data: null, error: missingColumnError };
+  if (ledgerReadFails) return { data: null, error: { code: '08006', message: 'connection lost' } };
+  const row = ledger.get(id);
+  return {
+    data: row
+      ? {
+          processed_at: row.processed_at === null ? null : new Date(row.processed_at).toISOString(),
+        }
+      : null,
+    error: null,
+  };
+};
 /** last_event_at stamped on the subscription row, if any. */
 let lastEventAt: string | null = null;
 const deletedEvents: string[] = [];
@@ -24,8 +96,8 @@ const makeSupabaseMock = () => ({
     insert: async (values: Record<string, unknown>) => {
       if (table === 'stripe_events') {
         const id = values.id as string;
-        if (seenEvents.has(id)) return { error: { code: '23505', message: 'duplicate key' } };
-        seenEvents.add(id);
+        if (ledger.has(id)) return { error: { code: '23505', message: 'duplicate key' } };
+        ledger.set(id, { received_at: Date.now(), processed_at: null });
         return { error: null };
       }
       return { error: null };
@@ -33,32 +105,40 @@ const makeSupabaseMock = () => ({
     delete: () => ({
       eq: async (_col: string, id: string) => {
         deletedEvents.push(id);
-        seenEvents.delete(id);
+        ledger.delete(id);
         return { error: null };
       },
     }),
-    update: (values: Record<string, unknown>) => ({
-      eq: async () => {
-        if (failUpdates) return { error: { message: 'write failed' } };
-        updates.push({ table, values });
-        return { error: null };
-      },
-    }),
+    update: (values: Record<string, unknown>) => {
+      if (table === 'stripe_events') return ledgerUpdate(values);
+      return {
+        eq: async () => {
+          if (failUpdates) return { error: { message: 'write failed' } };
+          updates.push({ table, values });
+          return { error: null };
+        },
+      };
+    },
     upsert: async (values: Record<string, unknown>) => {
       upserts.push({ table, values });
       return { error: null };
     },
-    select: (columns?: string) => ({
-      eq: () => ({
-        maybeSingle: async () =>
-          columns === 'last_event_at'
-            ? { data: { last_event_at: lastEventAt } }
-            : columns === 'plan'
-              ? { data: storedSubscriptionPlan ? { plan: storedSubscriptionPlan } : null }
-              : { data: { id: 'user-1' } },
-        single: async () => ({ data: { id: 'user-1' } }),
-      }),
-    }),
+    select: (columns?: string) => {
+      if (table === 'stripe_events') {
+        return { eq: (_col: string, id: string) => ({ maybeSingle: async () => ledgerRead(id) }) };
+      }
+      return {
+        eq: () => ({
+          maybeSingle: async () =>
+            columns === 'last_event_at'
+              ? { data: { last_event_at: lastEventAt } }
+              : columns === 'plan'
+                ? { data: storedSubscriptionPlan ? { plan: storedSubscriptionPlan } : null }
+                : { data: { id: 'user-1' } },
+          single: async () => ({ data: { id: 'user-1' } }),
+        }),
+      };
+    },
   }),
   rpc: async () => ({ data: 'free' }),
 });
@@ -81,6 +161,7 @@ let priceToPlanImpl: (id: string) => string = () => 'plus';
 let storedSubscriptionPlan: string | null = null;
 
 import handler from '../../api/stripe-webhook';
+import { CLAIM_LEASE_MS } from '../../api/_lib/stripeLedger';
 
 const makeRes = () => {
   const res = {
@@ -356,7 +437,7 @@ describe('stripe webhook idempotency and ordering', () => {
     updates.length = 0;
     upserts.length = 0;
     retrieveMock.mockReset();
-    seenEvents.clear();
+    ledger.clear();
     deletedEvents.length = 0;
     lastEventAt = null;
     failUpdates = false;
@@ -429,7 +510,7 @@ describe('stripe webhook idempotency and ordering', () => {
     await handler(event('evt_boom', 1_700_000_500), res);
     expect(res.statusCode).toBe(500);
     expect(deletedEvents).toContain('evt_boom');
-    expect(seenEvents.has('evt_boom')).toBe(false);
+    expect(ledger.has('evt_boom')).toBe(false);
 
     // The retry now gets a fresh claim and applies cleanly.
     failUpdates = false;
@@ -453,7 +534,7 @@ describe('payment failures take part in the same ordering guard', () => {
   beforeEach(() => {
     updates.length = 0;
     upserts.length = 0;
-    seenEvents.clear();
+    ledger.clear();
     lastEventAt = null;
     failUpdates = false;
   });
@@ -529,5 +610,182 @@ describe('payment failures take part in the same ordering guard', () => {
     await handler(paymentFailed('evt_fresh_fail', 1_700_009_000), makeRes());
 
     expect(updates.find((u) => u.table === 'subscriptions')?.values.status).toBe('past_due');
+  });
+});
+
+/**
+ * The claim is "done" only once the handler has returned and stamped it. A
+ * handler killed in between (a Vercel timeout, an OOM, a deploy swap) must not
+ * cost the customer the event: its unstamped claim goes stale after the lease,
+ * and Stripe's retry takes it over. See api/_lib/stripeLedger.ts.
+ */
+describe('stripe webhook ledger: stamp, lease and takeover', () => {
+  const LEASE = CLAIM_LEASE_MS;
+  const DAY = 24 * 60 * 60 * 1000;
+
+  beforeEach(() => {
+    updates.length = 0;
+    upserts.length = 0;
+    retrieveMock.mockReset();
+    ledger.clear();
+    deletedEvents.length = 0;
+    lastEventAt = null;
+    failUpdates = false;
+    ledgerColumnMissing = false;
+    stampFails = false;
+    ledgerReadFails = false;
+  });
+
+  const subUpdated = (id: string | undefined, created = 1_700_000_500) => ({
+    method: 'POST',
+    headers: {},
+    body: {
+      ...(id ? { id } : {}),
+      created,
+      type: 'customer.subscription.updated',
+      data: {
+        object: {
+          id: 'sub_1',
+          customer: 'cus_1',
+          status: 'active',
+          items: { data: [{ price: { id: 'price_plus' } }] },
+          current_period_start: 1_700_000_000,
+          current_period_end: 1_702_600_000,
+        },
+      },
+    },
+  });
+
+  const subscriptionWrites = () => upserts.filter((u) => u.table === 'subscriptions');
+
+  it('stamps the claim finished once the handler has returned', async () => {
+    const res = makeRes();
+    await handler(subUpdated('evt_stamp'), res);
+    expect(res.statusCode).toBe(200);
+    expect(subscriptionWrites()).toHaveLength(1);
+    expect(ledger.get('evt_stamp')?.processed_at).not.toBeNull();
+  });
+
+  it('acknowledges a finished event as a duplicate and applies nothing', async () => {
+    ledger.set('evt_done', {
+      received_at: Date.now() - DAY,
+      processed_at: Date.now() - DAY + 1000,
+    });
+    const res = makeRes();
+    await handler(subUpdated('evt_done'), res);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toMatchObject({ duplicate: true });
+    expect(upserts).toHaveLength(0);
+    expect(updates).toHaveLength(0);
+  });
+
+  it('reads rows written before processed_at existed as finished, so a deploy replays nothing', async () => {
+    // The migration stamps every pre-existing row with the time it ran, so
+    // history looks finished. Without that, every historical event would look
+    // abandoned and be applied again the first time Stripe retried it.
+    ledger.set('evt_history', {
+      received_at: Date.now() - 400 * DAY,
+      processed_at: Date.now() - 30 * DAY,
+    });
+    const res = makeRes();
+    await handler(subUpdated('evt_history'), res);
+    expect(res.body).toMatchObject({ duplicate: true });
+    expect(upserts).toHaveLength(0);
+  });
+
+  it('answers 409 and applies nothing while another invocation holds a live claim', async () => {
+    ledger.set('evt_busy', { received_at: Date.now() - (LEASE - 30_000), processed_at: null });
+    const res = makeRes();
+    await handler(subUpdated('evt_busy'), res);
+    expect(res.statusCode).toBe(409);
+    expect(upserts).toHaveLength(0);
+    expect(updates).toHaveLength(0);
+    // The live claim is left as it was: its owner will stamp it.
+    expect(ledger.get('evt_busy')?.processed_at).toBeNull();
+  });
+
+  it('takes over an abandoned claim, reprocesses it and stamps it', async () => {
+    ledger.set('evt_abandoned', { received_at: Date.now() - (LEASE + 30_000), processed_at: null });
+    const res = makeRes();
+    await handler(subUpdated('evt_abandoned'), res);
+    expect(res.statusCode).toBe(200);
+    expect(subscriptionWrites()).toHaveLength(1);
+    expect(profilePlanWritten()).toBe('plus');
+    expect(ledger.get('evt_abandoned')?.processed_at).not.toBeNull();
+  });
+
+  it('lets exactly one of two racing redeliveries take over an abandoned claim', async () => {
+    ledger.set('evt_race', { received_at: Date.now() - (LEASE + 60_000), processed_at: null });
+    const first = makeRes();
+    const second = makeRes();
+    await Promise.all([
+      handler(subUpdated('evt_race'), first),
+      handler(subUpdated('evt_race'), second),
+    ]);
+    expect([first.statusCode, second.statusCode].sort()).toEqual([200, 409]);
+    expect(subscriptionWrites()).toHaveLength(1);
+  });
+
+  it('releases the claim when the handler throws, so the retry is claimed fresh', async () => {
+    failUpdates = true;
+    const res = makeRes();
+    await handler(subUpdated('evt_throw'), res);
+    expect(res.statusCode).toBe(500);
+    expect(ledger.has('evt_throw')).toBe(false);
+
+    failUpdates = false;
+    const retry = makeRes();
+    await handler(subUpdated('evt_throw'), retry);
+    expect(retry.statusCode).toBe(200);
+    expect(ledger.get('evt_throw')?.processed_at).not.toBeNull();
+  });
+
+  it('releases the claim and answers 500 when the stamp itself fails, so Stripe retries', async () => {
+    stampFails = true;
+    const res = makeRes();
+    await handler(subUpdated('evt_nostamp'), res);
+    expect(res.statusCode).toBe(500);
+    // An unstamped claim would be taken over only after the lease, so release it
+    // now. The retry reapplies the event, which is safe: the writes are ordered.
+    expect(ledger.has('evt_nostamp')).toBe(false);
+
+    stampFails = false;
+    const retry = makeRes();
+    await handler(subUpdated('evt_nostamp'), retry);
+    expect(retry.statusCode).toBe(200);
+    expect(ledger.get('evt_nostamp')?.processed_at).not.toBeNull();
+  });
+
+  it('with no processed_at column, applies the event and treats a redelivery as before', async () => {
+    ledgerColumnMissing = true;
+    const first = makeRes();
+    await handler(subUpdated('evt_nocol'), first);
+    expect(first.statusCode).toBe(200);
+    expect(subscriptionWrites()).toHaveLength(1);
+
+    const second = makeRes();
+    await handler(subUpdated('evt_nocol'), second);
+    expect(second.statusCode).toBe(200);
+    expect(second.body).toMatchObject({ duplicate: true });
+    expect(subscriptionWrites()).toHaveLength(1);
+  });
+
+  it('answers 409 rather than skipping when the ledger cannot be read', async () => {
+    // Acknowledging here could drop an abandoned event for good; refusing only
+    // makes Stripe try again.
+    ledger.set('evt_unreadable', { received_at: Date.now(), processed_at: null });
+    ledgerReadFails = true;
+    const res = makeRes();
+    await handler(subUpdated('evt_unreadable'), res);
+    expect(res.statusCode).toBe(409);
+    expect(upserts).toHaveLength(0);
+  });
+
+  it('applies an event that carries no id, with no ledger row (as before the ledger)', async () => {
+    const res = makeRes();
+    await handler(subUpdated(undefined), res);
+    expect(res.statusCode).toBe(200);
+    expect(subscriptionWrites()).toHaveLength(1);
+    expect(ledger.size).toBe(0);
   });
 });

@@ -26,6 +26,7 @@ import {
   isStripeConfigured,
   priceToPlan,
 } from './_lib/stripe';
+import { claimEvent, markEventProcessed, releaseEvent } from './_lib/stripeLedger';
 
 interface RequestLike {
   method?: string;
@@ -153,11 +154,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   const obj = (event as { data: { object: Record<string, unknown> } }).data.object;
 
   // Idempotency: Stripe delivers AT LEAST once, so a slow response here gets
-  // the same event again. Claim the event id before handling it; a duplicate
-  // is acknowledged without being applied twice.
+  // the same event again. Claim the event id before handling it; a finished
+  // event is acknowledged without being applied twice. The claim/lease rules
+  // (including how a crash mid-handler is recovered) live in stripeLedger.ts.
   const claim = await claimEvent(supabase, eventId, eventType, eventCreated);
   if (claim === 'duplicate') {
     res.status(200).json({ received: true, duplicate: true });
+    return;
+  }
+  if (claim === 'busy') {
+    // Another invocation holds a live claim. Non-2xx makes Stripe redeliver,
+    // by which time that claim has finished (a duplicate) or gone stale (taken over).
+    res.status(409).json({ error: 'Event is already being processed. Stripe will retry.' });
     return;
   }
 
@@ -190,51 +198,18 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         break;
     }
 
+    // Stamp only after the handler has returned: a stamp means "applied".
+    if (claim === 'claimed' && eventId) await markEventProcessed(supabase, eventId);
+
     res.status(200).json({ received: true });
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'Internal webhook handler error.';
     console.error(`[stripe-webhook] Error handling ${eventType}:`, msg);
     // Release the claim so Stripe's retry actually reprocesses the event
     // instead of being waved through as a duplicate.
-    if (claim === 'claimed' && eventId) {
-      await supabase.from('stripe_events').delete().eq('id', eventId);
-    }
+    if (claim === 'claimed' && eventId) await releaseEvent(supabase, eventId);
     res.status(500).json({ error: msg });
   }
-}
-
-// ── Idempotency ─────────────────────────────────────────────────────────────
-
-type ClaimResult = 'claimed' | 'duplicate' | 'unavailable';
-
-/**
- * Record the event id so a redelivery can be recognised. Returns:
- *   'claimed'     — first time we've seen it, go ahead;
- *   'duplicate'   — already applied, skip;
- *   'unavailable' — the ledger table is missing (schema §13 not applied yet)
- *                   or the id is absent, so fall back to processing without
- *                   dedup rather than dropping real events on the floor.
- */
-async function claimEvent(
-  supabase: SB,
-  eventId: string | undefined,
-  eventType: string,
-  eventCreated: number | undefined
-): Promise<ClaimResult> {
-  if (!eventId) return 'unavailable';
-  const { error } = await supabase.from('stripe_events').insert({
-    id: eventId,
-    type: eventType,
-    event_created: eventCreated ? new Date(eventCreated * 1000).toISOString() : null,
-  });
-  if (!error) return 'claimed';
-  // 23505 = unique_violation: we've already handled this delivery.
-  if (error.code === '23505') {
-    console.log(`[stripe-webhook] duplicate delivery of ${eventId} (${eventType}) — skipping.`);
-    return 'duplicate';
-  }
-  console.warn('[stripe-webhook] event ledger unavailable (processing anyway):', error.message);
-  return 'unavailable';
 }
 
 // ── Event handlers ──────────────────────────────────────────────────────────
