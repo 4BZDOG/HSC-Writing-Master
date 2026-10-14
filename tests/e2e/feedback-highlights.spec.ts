@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
+import { stubMarking, MARKED_ANSWER } from './support/markingStub';
 import { freezeAnimations, measureContrast, ContrastReading } from './support/contrast';
 
 /**
@@ -13,70 +14,6 @@ import { freezeAnimations, measureContrast, ContrastReading } from './support/co
  */
 
 const writingSurface = (page: Page) => page.locator('textarea').first();
-
-const ANSWER =
-  'Data visualisation is used for telling a story about the results. It can also help with ' +
-  'simplifying understanding for the reader.';
-
-/**
- * A marking that uses the question's own command verb and its syllabus terms, the way the
- * real marker does. The verb is read from the marking request, so the fixture follows the
- * question the workspace opens first.
- */
-const stubMarking = (page: Page) =>
-  page.route('**/api/gemini', (route) => {
-    const body = route.request().postData() ?? '';
-    const found = body.match(/Command Verb:\*\*\s*([A-Z][A-Z ]*?)\s*\(/);
-    const v = (found?.[1] ?? 'IDENTIFY').trim().toLowerCase();
-    const V = v.charAt(0).toUpperCase() + v.slice(1);
-    const payload = {
-      overallMark: 1,
-      overallBand: 1,
-      overallFeedback:
-        `Your response names one purpose of data visualisation, but the marker expects two. ` +
-        `The task is to name the purpose, so ${v} each purpose by name and stop there.`,
-      quickTip: `Name a second purpose of data visualisation, such as highlighting significant results.`,
-      strengths: [
-        `You ${v} telling a story as a purpose, which earns the credit.`,
-        `Your opening names data visualisation directly.`,
-      ],
-      improvements: [
-        `${V} a second purpose, such as simplifying understanding, and name it directly.`,
-        `Evaluate your word choice in the final sentence.`,
-      ],
-      criteria: [
-        {
-          criterion: `${V} the purpose`,
-          mark: 1,
-          maxMark: 1,
-          feedback: 'Names one purpose of data visualisation, with the term used correctly.',
-        },
-        {
-          criterion: 'Second purpose',
-          mark: 0,
-          maxMark: 1,
-          feedback: 'No second purpose is named; simplifying understanding would have earned it.',
-        },
-      ],
-      revisedAnswer: {
-        text:
-          `${V} two purposes of data visualisation: telling a story about the results, and ` +
-          `simplifying understanding for the reader.`,
-        mark: 2,
-        band: 2,
-        keyChanges: [],
-      },
-    };
-    return route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        text: JSON.stringify(payload),
-        candidates: [{ finishReason: 'STOP' }],
-        usageMetadata: { totalTokenCount: 120 },
-      }),
-    });
-  });
 
 const setTheme = async (page: Page, theme: 'light' | 'dark') => {
   const toggle = page.getByRole('button', { name: new RegExp(`switch to ${theme} theme`, 'i') });
@@ -107,7 +44,7 @@ test.describe('Highlights in marking feedback', () => {
       await clearOnboarding(page);
       await openFirstQuestion(page);
       await setTheme(page, theme);
-      await writingSurface(page).fill(ANSWER);
+      await writingSurface(page).fill(MARKED_ANSWER);
       await page.getByRole('button', { name: EVALUATE_BUTTON }).click();
 
       // The comparison opens first; the feedback is behind its way forward.
