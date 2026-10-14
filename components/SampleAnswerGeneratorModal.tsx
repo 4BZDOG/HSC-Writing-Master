@@ -646,8 +646,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center">
-                {/* Faded as a picture only: the words under it are read at full ink. */}
-                <Info className="w-10 h-10 mb-3 text-[rgb(var(--color-text-muted))] light:text-slate-500 opacity-40" />
+                <Info className="w-10 h-10 mb-3 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
                 <p className="text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-500">
                   Select one or more marks above to configure the generator.
                 </p>
