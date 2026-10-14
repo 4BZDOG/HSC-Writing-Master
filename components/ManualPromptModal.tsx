@@ -79,7 +79,7 @@ const Section: React.FC<{
   <section className="p-6 rounded-panel bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
     <div className="flex flex-wrap justify-between items-center gap-3 mb-5">
       <div className="flex flex-col gap-1 min-w-0">
-        <span className="t-label text-white/20 light:text-slate-500">{eyebrow}</span>
+        <span className="t-label text-muted">{eyebrow}</span>
         <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
           <Icon className={`w-5 h-5 ${iconClass}`} /> {title}
         </h4>
@@ -102,7 +102,7 @@ const Toggle: React.FC<{
   const on =
     accent === 'amber'
       ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 light:text-amber-700'
-      : 'bg-blue-500/10 border-blue-500/30 text-blue-300 light:text-blue-600';
+      : 'bg-blue-500/10 border-blue-500/30 text-blue-300 light:text-blue-700';
   return (
     <button
       type="button"
@@ -110,10 +110,10 @@ const Toggle: React.FC<{
       aria-checked={checked}
       onClick={onChange}
       title={title}
-      className={`flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all flex-shrink-0 ${
+      className={`min-h-11 sm:min-h-0 flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all flex-shrink-0 ${
         checked
           ? on
-          : 'bg-white/[0.03] light:bg-slate-100 border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600'
+          : 'bg-white/[0.03] light:bg-slate-100 border-white/10 light:border-slate-300 text-slate-400 light:text-muted'
       }`}
     >
       <span className="t-label">{checked ? onLabel : offLabel}</span>
@@ -359,10 +359,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
         aria-pressed={pinned}
         onClick={() => setPinnedVerb(pinned ? null : (info.term as PromptVerb))}
         title={`${info.definition} · typical range ${info.markRange[0]}–${info.markRange[1]} marks`}
-        className={`t-label px-3 py-1.5 rounded-xl border transition-all ${
+        className={`min-h-11 sm:min-h-0 t-label px-3 py-1.5 rounded-xl border transition-all ${
           pinned
             ? `${config.bg} ${config.border} ${config.text} shadow-lg scale-[1.03]`
-            : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:border-white/25'
+            : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-muted hover:text-white light:hover:text-slate-900 hover:border-white/25'
         }`}
       >
         {info.term}
@@ -408,14 +408,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   </h2>
                   {/* The breadcrumb the question will be filed under — the same
                     reassurance the AI generator gives before it writes. */}
-                  <div className="t-label flex flex-wrap items-center gap-1.5 text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1.5">
+                  <div className="t-label flex flex-wrap items-center gap-1.5 text-muted mt-1.5">
                     <span className="truncate max-w-[10rem]">{courseName || 'Course'}</span>
                     <ChevronRight className="w-3 h-3 opacity-30" />
                     <span className="truncate max-w-[10rem]">{topicName || 'Topic'}</span>
                     {subTopicName && (
                       <>
                         <ChevronRight className="w-3 h-3 opacity-30" />
-                        <span className="text-indigo-400 truncate max-w-[10rem]">
+                        <span className="text-indigo-400 light:text-indigo-700 truncate max-w-[10rem]">
                           {subTopicName}
                         </span>
                       </>
@@ -426,7 +426,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <button
                 onClick={guard.requestClose}
                 aria-label="Close"
-                className="p-3 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0"
+                className="p-3 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-muted hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -446,26 +446,24 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 return (
                   <div key={id} className="flex items-center gap-2">
                     <span
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold transition-colors ${
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${
                         active
-                          ? 'bg-indigo-500 text-white shadow-lg'
+                          ? 'bg-indigo-600 text-white shadow-lg'
                           : done
-                            ? 'bg-emerald-500 text-white'
-                            : 'bg-white/10 light:bg-slate-200 text-slate-500'
+                            ? 'bg-emerald-700 text-white'
+                            : 'bg-white/10 light:bg-slate-200 text-muted'
                       }`}
                     >
                       {done ? <Check className="w-3.5 h-3.5" strokeWidth={4} /> : num}
                     </span>
                     <span
                       className={`t-label ${
-                        active
-                          ? 'text-white light:text-slate-900'
-                          : 'text-slate-500 light:text-slate-500'
+                        active ? 'text-white light:text-slate-900' : 'text-muted'
                       }`}
                     >
                       {label}
                     </span>
-                    {id === 'input' && <ChevronRight className="w-3.5 h-3.5 text-slate-600 ml-1" />}
+                    {id === 'input' && <ChevronRight className="w-3.5 h-3.5 text-muted ml-1" />}
                   </div>
                 );
               })}
@@ -479,10 +477,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 {/* Your idea comes first: everything below it is calibration. */}
                 <div className="flex flex-col">
                   <div className="flex justify-between items-end mb-3">
-                    <label htmlFor="manual-prompt-draft" className="t-label text-slate-500 block">
+                    <label htmlFor="manual-prompt-draft" className="t-label text-muted block">
                       Your Rough Question Idea
                     </label>
-                    <span className="text-[10px] font-mono font-bold text-slate-600 tabular-nums">
+                    <span className="text-xs font-mono font-bold text-muted tabular-nums">
                       {draftQuestion.trim().length} chars
                     </span>
                   </div>
@@ -491,12 +489,12 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     value={draftQuestion}
                     onChange={(e) => setDraftQuestion(e.target.value)}
                     placeholder="e.g. Ask the student about how caching works in a CPU and why it's faster..."
-                    className="w-full h-32 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-2xl p-6 text-lg font-medium text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none transition-shadow shadow-inner"
+                    className="w-full h-32 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-2xl p-6 text-lg font-medium text-white light:text-slate-900 placeholder:text-dim focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none transition-shadow shadow-inner"
                   />
                   {dotPoint && (
-                    <p className="t-label mt-2 text-slate-600 flex items-start gap-2">
+                    <p className="t-label mt-2 text-muted flex items-start gap-2">
                       <ListChecks className="w-3.5 h-3.5 flex-shrink-0 mt-px opacity-60" />
-                      <span className="normal-case tracking-normal font-medium text-slate-500 leading-relaxed">
+                      <span className="normal-case tracking-normal font-medium text-muted leading-relaxed">
                         Grounded in this syllabus point: {dotPoint}
                       </span>
                     </p>
@@ -516,7 +514,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       >
                         {marks}
                       </span>
-                      <span className="t-label text-slate-500 ml-2">Marks</span>
+                      <span className="t-label text-muted ml-2">Marks</span>
                     </div>
                   }
                 >
@@ -546,16 +544,16 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </div>
                   </div>
                   <div className="flex justify-between mt-2 px-1 gap-2">
-                    <span className="t-label text-slate-600">Simple (1)</span>
-                    <span className="t-label text-slate-500 text-center">
+                    <span className="t-label text-muted">Simple (1)</span>
+                    <span className="t-label text-muted text-center">
                       {activeVerb.term} range: {activeVerb.markRange[0]}–{activeVerb.markRange[1]}
                     </span>
-                    <span className="t-label text-slate-600">Extended (20)</span>
+                    <span className="t-label text-muted">Extended (20)</span>
                   </div>
                   {outOfRange && (
                     <div className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2">
-                      <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-600 flex-shrink-0 mt-0.5" />
-                      <p className="text-[11px] text-amber-300 light:text-amber-700 leading-relaxed">
+                      <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5" />
+                      <p className="text-xs text-amber-300 light:text-amber-700 leading-relaxed">
                         <strong>{marks} marks</strong> is outside the typical range for{' '}
                         <strong>&apos;{activeVerb.term}&apos;</strong> ({activeVerb.markRange[0]}–
                         {activeVerb.markRange[1]} marks).{' '}
@@ -571,14 +569,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   asks for, and previously left entirely to the model. */}
                 <Section
                   icon={Brain}
-                  iconClass="text-purple-400"
+                  iconClass="text-purple-400 light:text-purple-700"
                   eyebrow="Cognitive demand"
                   title="Command Verb"
                   action={
                     <div
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border ${markTierConfig.bg} ${markTierConfig.border}`}
                     >
-                      <span className="t-label text-slate-500">Ceiling</span>
+                      <span className="t-label text-muted">Ceiling</span>
                       <span className={`t-label ${markBandColor}`}>Band {ceilingBand}</span>
                     </div>
                   }
@@ -588,10 +586,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       type="button"
                       aria-pressed={pinnedVerb === null}
                       onClick={() => setPinnedVerb(null)}
-                      className={`t-label px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${
+                      className={`min-h-11 sm:min-h-0 t-label px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${
                         pinnedVerb === null
                           ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300 light:text-indigo-700 shadow-lg'
-                          : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 hover:border-white/25'
+                          : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-muted hover:border-white/25'
                       }`}
                     >
                       <Sparkles className="w-3 h-3" /> AI Chooses
@@ -601,7 +599,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setShowAllVerbs((v) => !v)}
-                      className="t-label px-2.5 py-1.5 rounded-xl text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+                      className="min-h-11 sm:min-h-0 t-label px-2.5 py-1.5 rounded-xl text-muted hover:text-white light:hover:text-slate-900 transition-colors"
                     >
                       {showAllVerbs ? 'Fewer' : `+${otherVerbs.length} more`}
                     </button>
@@ -611,7 +609,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       {otherVerbs.map((v) => verbButton(v, pinnedVerb === v.term))}
                     </div>
                   )}
-                  <p className="mt-3 text-[11px] text-slate-500 leading-relaxed">
+                  <p className="mt-3 text-xs text-muted leading-relaxed">
                     {pinnedVerb ? (
                       <>
                         Pinned to{' '}
@@ -638,7 +636,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <Section
                     icon={Briefcase}
-                    iconClass="text-blue-400"
+                    iconClass="text-blue-400 light:text-blue-700"
                     eyebrow="Framing"
                     title="Context Scenario"
                     action={
@@ -655,7 +653,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       />
                     }
                   >
-                    <p className="text-[11px] text-slate-500 leading-relaxed">
+                    <p className="text-xs text-muted leading-relaxed">
                       {includeScenario
                         ? 'A short, realistic case-study paragraph is written to frame the question — who, what and why.'
                         : 'A direct knowledge or skill question with no case-study framing. The stem stands on its own.'}
@@ -664,7 +662,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
                   <Section
                     icon={Landmark}
-                    iconClass="text-amber-400"
+                    iconClass="text-amber-400 light:text-amber-700"
                     eyebrow="Provenance"
                     title="Past HSC Paper"
                     action={
@@ -685,7 +683,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     {isPastHSC ? (
                       <div className="flex flex-wrap items-end gap-3 animate-fade-in">
                         <div className="flex flex-col gap-1.5">
-                          <label htmlFor="manual-hsc-year" className="t-label text-slate-500">
+                          <label htmlFor="manual-hsc-year" className="t-label text-muted">
                             Year
                           </label>
                           <input
@@ -699,7 +697,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                           />
                         </div>
                         <div className="flex flex-col gap-1.5">
-                          <label htmlFor="manual-hsc-question" className="t-label text-slate-500">
+                          <label htmlFor="manual-hsc-question" className="t-label text-muted">
                             Question No.
                           </label>
                           <input
@@ -708,7 +706,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             value={hscQuestionNumber}
                             onChange={(e) => setHscQuestionNumber(e.target.value)}
                             placeholder="e.g. 12(b)"
-                            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-white light:text-slate-900 placeholder:text-dim focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                           />
                         </div>
                         {previewPastHsc && (
@@ -722,7 +720,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         )}
                       </div>
                     ) : (
-                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                      <p className="text-xs text-muted leading-relaxed">
                         Turn this on for a question lifted from a real HSC examination — students
                         see which paper and year it came from.
                       </p>
@@ -735,7 +733,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 {outcomes.length > 0 && (
                   <Section
                     icon={Link2}
-                    iconClass="text-emerald-400"
+                    iconClass="text-emerald-400 light:text-emerald-700"
                     eyebrow="What's assessed"
                     title="Syllabus Outcomes"
                     action={
@@ -743,12 +741,12 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         <button
                           type="button"
                           onClick={() => setPinnedOutcomes([])}
-                          className="t-label text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+                          className="t-label text-muted hover:text-white light:hover:text-slate-900 transition-colors"
                         >
                           Clear · let AI choose
                         </button>
                       ) : (
-                        <span className="t-label text-indigo-400 flex items-center gap-1.5">
+                        <span className="t-label text-indigo-400 light:text-indigo-700 flex items-center gap-1.5">
                           <Sparkles className="w-3 h-3" /> AI Chooses
                         </span>
                       )
@@ -764,10 +762,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             aria-pressed={active}
                             onClick={() => toggleOutcome(o.code)}
                             title={o.description}
-                            className={`t-label px-3 py-1.5 rounded-xl border transition-all ${
+                            className={`min-h-11 sm:min-h-0 t-label px-3 py-1.5 rounded-xl border transition-all ${
                               active
-                                ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-lg'
-                                : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 hover:border-white/25'
+                                ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 light:text-emerald-700 shadow-lg'
+                                : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-muted hover:border-white/25'
                             }`}
                           >
                             {o.code}
@@ -779,7 +777,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 )}
 
                 {error && (
-                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-3">
+                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-700 text-sm flex items-center gap-3">
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                     {error}
                   </div>
@@ -791,11 +789,11 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <div className="space-y-6 animate-fade-in">
                 <div className="bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-100 rounded-2xl p-6 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <Sparkles className="w-12 h-12 text-indigo-400 rotate-12" />
+                    <Sparkles className="w-12 h-12 text-indigo-400 light:text-indigo-700 rotate-12" />
                   </div>
                   <label
                     htmlFor="manual-preview-question"
-                    className="t-label text-indigo-400 mb-2 block"
+                    className="t-label text-indigo-400 light:text-indigo-700 mb-2 block"
                   >
                     Polished Question · edit before saving
                   </label>
@@ -813,9 +811,9 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     className="w-full bg-transparent border border-transparent hover:border-white/10 focus:border-indigo-500/40 rounded-xl p-2 -m-2 text-xl font-serif font-medium text-white light:text-slate-900 leading-relaxed focus:outline-none resize-none transition-colors"
                   />
                   {editedQuestion !== result.question && (
-                    <p className="t-label mt-2 text-amber-400 flex items-center gap-1.5">
+                    <p className="t-label mt-2 text-amber-400 light:text-amber-700 flex items-center gap-1.5">
                       <AlertTriangle className="w-3 h-3" /> Edited — the AI wrote:{' '}
-                      <span className="font-medium normal-case tracking-normal text-slate-500 truncate">
+                      <span className="font-medium normal-case tracking-normal text-muted truncate">
                         {renderFormattedText(result.question, result.keywords, result.verb)}
                       </span>
                     </p>
@@ -833,7 +831,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </div>
                     {previewPastHsc && (
                       <div
-                        className="t-label px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/40 flex items-center gap-1.5"
+                        className="t-label px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 light:text-amber-800 border border-amber-500/40 flex items-center gap-1.5"
                         title={previewPastHsc.title}
                       >
                         <Landmark className="w-3 h-3" />
@@ -846,10 +844,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <label
-                        htmlFor="manual-preview-scenario"
-                        className="t-label text-slate-500 block"
-                      >
+                      <label htmlFor="manual-preview-scenario" className="t-label text-muted block">
                         Scenario
                       </label>
                       <button
@@ -859,7 +854,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         className={`p-1.5 rounded-lg transition-colors ${
                           isUploadingImage
                             ? 'text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10'
-                            : 'text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
+                            : 'text-slate-400 light:text-muted hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
                         }`}
                         title={
                           result.scenarioImage ? 'Manage Scenario Image' : 'Add Scenario Image'
@@ -895,16 +890,13 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         />
                       </>
                     ) : (
-                      <div className="p-5 rounded-2xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-slate-500 italic font-medium">
+                      <div className="p-5 rounded-2xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-muted italic font-medium">
                         No scenario — this is a direct question.
                       </div>
                     )}
                   </div>
                   <div className="space-y-2">
-                    <label
-                      htmlFor="manual-preview-criteria"
-                      className="t-label text-slate-500 block"
-                    >
+                    <label htmlFor="manual-preview-criteria" className="t-label text-muted block">
                       Marking Criteria
                     </label>
                     <MathSymbolToolbar
@@ -918,7 +910,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       value={editedCriteria}
                       onChange={(e) => setEditedCriteria(e.target.value)}
                       rows={6}
-                      className="w-full p-5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-slate-400 light:text-slate-600 font-mono whitespace-pre-wrap leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/40 resize-none"
+                      className="w-full p-5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-slate-400 light:text-muted font-mono whitespace-pre-wrap leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/40 resize-none"
                     />
                   </div>
                 </div>
@@ -927,7 +919,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   then never shown — a teacher was saving them unseen. */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <span className="t-label text-slate-500 flex items-center gap-2">
+                    <span className="t-label text-muted flex items-center gap-2">
                       <Link2 className="w-3.5 h-3.5" /> Linked Outcomes
                     </span>
                     <div className="flex flex-wrap gap-2">
@@ -936,18 +928,18 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                           <span
                             key={code}
                             title={outcomes.find((o) => o.code === code)?.description}
-                            className="t-label px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
+                            className="t-label px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 light:text-emerald-700"
                           >
                             {code}
                           </span>
                         ))
                       ) : (
-                        <span className="text-xs text-slate-500 italic">None linked.</span>
+                        <span className="text-xs text-muted italic">None linked.</span>
                       )}
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <span className="t-label text-slate-500 flex items-center gap-2">
+                    <span className="t-label text-muted flex items-center gap-2">
                       <Tag className="w-3.5 h-3.5" /> Syllabus Keywords
                     </span>
                     <div className="flex flex-wrap gap-2">
@@ -955,13 +947,13 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         result.keywords.map((kw) => (
                           <span
                             key={kw}
-                            className="px-2.5 py-1 rounded-lg bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600 text-[10px] font-medium"
+                            className="px-2.5 py-1 rounded-lg bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-300 text-slate-400 light:text-muted text-xs font-medium"
                           >
                             {kw}
                           </span>
                         ))
                       ) : (
-                        <span className="text-xs text-slate-500 italic">None extracted.</span>
+                        <span className="text-xs text-muted italic">None extracted.</span>
                       )}
                     </div>
                   </div>
@@ -975,7 +967,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
             {step === 'preview' ? (
               <button
                 onClick={() => setStep('input')}
-                className="text-xs font-bold text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+                className="text-xs font-bold text-muted hover:text-white light:hover:text-slate-900 transition-colors"
               >
                 Back to Edit
               </button>
@@ -988,11 +980,11 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 onClick={handleRefine}
                 disabled={!draftQuestion.trim() || isRefining}
                 className={`
-                                    t-label group px-8 py-3 rounded-2xl text-white shadow-lg transition-all flex items-center gap-3
+                                    t-label group px-8 py-3 rounded-2xl shadow-lg transition-all flex items-center gap-3
                                     ${
                                       !draftQuestion.trim() || isRefining
-                                        ? 'bg-slate-700 opacity-50 cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-105 active:scale-[0.98]'
+                                        ? 'bg-[rgb(var(--color-bg-surface-light))] text-muted cursor-not-allowed'
+                                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:scale-105 active:scale-[0.98]'
                                     }
                                 `}
               >
@@ -1011,7 +1003,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
               <button
                 onClick={handleConfirm}
                 disabled={!editedQuestion.trim()}
-                className="t-label group px-10 py-3 rounded-2xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="t-label group px-10 py-3 rounded-2xl text-white bg-gradient-to-r from-emerald-700 to-teal-700 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Save className="w-4 h-4" /> Save to Syllabus
               </button>

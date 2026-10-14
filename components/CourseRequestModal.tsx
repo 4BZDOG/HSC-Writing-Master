@@ -119,17 +119,15 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                 >
                   Request a course
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  Tell us what to build next.
-                </p>
+                <p className="text-sm text-muted">Tell us what to build next.</p>
               </div>
             </div>
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
+              <X className="w-4 h-4 text-muted group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
@@ -140,7 +138,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
           <div className="p-6 bg-[rgb(var(--color-bg-surface))] light:bg-white">
             <div className="flex flex-col items-center text-center gap-3 py-2">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
-                <Check className="w-6 h-6 text-emerald-500" />
+                <Check className="w-6 h-6 text-emerald-500 light:text-emerald-700" />
               </div>
               {/* A course already marked `available` is a different answer
                   entirely: it is here, and the person is looking for it under a
@@ -166,17 +164,17 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                       : `“${result.name}” is on the list.`}
                   </p>
                   <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 flex items-center gap-2">
-                    <Users className="w-3.5 h-3.5 shrink-0 text-indigo-400" />
+                    <Users className="w-3.5 h-3.5 shrink-0 text-indigo-400 light:text-indigo-700" />
                     {result.requesters === 1
                       ? 'You are the first person to ask for this one.'
                       : `${result.requesters} people are waiting for this course.`}
                   </p>
                   {result.status === 'planned' && (
-                    <p className="text-xs text-indigo-400 light:text-indigo-600">
+                    <p className="text-xs text-indigo-400 light:text-indigo-700">
                       Good news — this one is already planned.
                     </p>
                   )}
-                  <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
+                  <p className="text-xs text-muted leading-relaxed">
                     Requests are reviewed by an administrator. Courses are added for everyone at
                     once, so there is nothing else to do.
                   </p>
@@ -212,7 +210,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                   value={name}
                   maxLength={120}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
+                  className="block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
                   placeholder="e.g., Software Engineering"
                   autoFocus
                 />
@@ -222,10 +220,7 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                   htmlFor="course-request-note"
                   className="block text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 mb-2"
                 >
-                  Anything else?{' '}
-                  <span className="font-normal text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                    (optional)
-                  </span>
+                  Anything else? <span className="font-normal text-muted">(optional)</span>
                 </label>
                 <textarea
                   id="course-request-note"
@@ -233,18 +228,18 @@ const CourseRequestModal: React.FC<CourseRequestModalProps> = ({
                   maxLength={500}
                   rows={3}
                   onChange={(e) => setNote(e.target.value)}
-                  className="block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg shadow-sm py-3 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition resize-none"
+                  className="block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg shadow-sm py-3 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition resize-none"
                   placeholder="Which year group, and when do you start it?"
                 />
               </div>
-              {error && <p className="text-red-400 light:text-red-600 text-xs">{error}</p>}
+              {error && <p className="text-red-400 light:text-red-700 text-xs">{error}</p>}
             </div>
 
             <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end space-x-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                className="py-2 px-4 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
               >
                 Cancel
               </button>

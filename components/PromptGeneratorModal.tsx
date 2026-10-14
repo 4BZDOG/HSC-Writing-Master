@@ -322,17 +322,19 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 <h2 className="text-3xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
                   Generate Question
                 </h2>
-                <span className="t-label text-indigo-400 mt-1 block">AI Assistant</span>
+                <span className="t-label text-indigo-400 light:text-indigo-700 mt-1 block">
+                  AI Assistant
+                </span>
               </div>
             </div>
-            <div className="t-label flex flex-wrap items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 ml-1">
+            <div className="t-label flex flex-wrap items-center gap-2 text-muted ml-1">
               <span>{courseName}</span>
               <ChevronRight className="w-3 h-3 opacity-30" />
               <span>{topicName}</span>
               {subTopicName && (
                 <>
                   <ChevronRight className="w-3 h-3 opacity-30" />
-                  <span className="text-indigo-400">{subTopicName}</span>
+                  <span className="text-indigo-400 light:text-indigo-700">{subTopicName}</span>
                 </>
               )}
             </div>
@@ -341,7 +343,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             onClick={handleClose}
             disabled={isLoading}
             aria-label="Close"
-            className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+            className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
           >
             <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
           </button>
@@ -363,11 +365,11 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <div className="flex flex-col gap-6 relative z-10">
               <div className="flex flex-wrap items-center gap-3">
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-200 shadow-inner">
-                  <Hash className="w-3.5 h-3.5 text-indigo-400" />
+                  <Hash className="w-3.5 h-3.5 text-indigo-400 light:text-indigo-700" />
                   <span className="t-label">Core Syllabus Element</span>
                 </div>
                 {focusItems.length > 0 && (
-                  <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-lg shadow-emerald-900/10">
+                  <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border border-emerald-500/20 shadow-lg shadow-emerald-900/10">
                     <ListFilter className="w-3.5 h-3.5" />
                     <span className="t-label">
                       Active Focus: {focusItems.length} Refinement
@@ -391,21 +393,17 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     <GraduationCap
                       className={`w-4 h-4 ${getTierBandConfig(syllabusVerbInfo.tier).text}`}
                     />
-                    <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                      Syllabus demands
-                    </span>
+                    <span className="t-label text-muted">Syllabus demands</span>
                     <span className={`t-label ${getTierBandConfig(syllabusVerbInfo.tier).text}`}>
                       {syllabusVerbInfo.term} · up to Band {syllabusVerbInfo.tier}
                     </span>
                   </div>
-                  <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                    {syllabusTierInfo.title}
-                  </span>
+                  <span className="t-label text-muted">{syllabusTierInfo.title}</span>
                 </div>
               ) : (
                 <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 shadow-inner">
-                  <Info className="w-4 h-4 text-slate-400 light:text-slate-500" />
-                  <span className="t-label text-slate-400 light:text-slate-500">
+                  <Info className="w-4 h-4 text-muted" />
+                  <span className="t-label text-muted">
                     No command verb detected in this dot point — set the level manually below.
                   </span>
                 </div>
@@ -413,7 +411,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
               {availableFocusItems.length > 0 && (
                 <div className="pt-2">
-                  <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 block mb-2">
+                  <span className="t-label text-muted block mb-2">
                     Focus the question on specific sub-components (optional)
                   </span>
                   <div className="flex flex-wrap gap-2">
@@ -429,10 +427,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                               isActive ? prev.filter((f) => f !== item) : [...prev, item]
                             )
                           }
-                          className={`t-label px-3 py-1 rounded-lg border italic transition-all duration-300 ${
+                          className={`min-h-11 sm:min-h-0 t-label px-3 py-1 rounded-lg border italic transition-all duration-300 ${
                             isActive
-                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-lg shadow-emerald-900/10'
-                              : 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 hover:border-white/20 light:hover:border-slate-400'
+                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 light:text-emerald-700 shadow-lg shadow-emerald-900/10'
+                              : 'bg-white/[0.03] light:bg-slate-50 border-white/10 light:border-slate-200 text-muted hover:text-white light:hover:text-slate-900 hover:border-white/20 light:hover:border-slate-400'
                           }`}
                         >
                           {item}
@@ -450,9 +448,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               <section>
                 <div className="flex justify-between items-end mb-6">
                   <div className="flex flex-col gap-1">
-                    <span className="t-label text-white/20 light:text-slate-500">Settings</span>
+                    <span className="t-label text-muted">Settings</span>
                     <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
-                      <Target className="w-5 h-5 text-indigo-400" /> Mark Allocation
+                      <Target className="w-5 h-5 text-indigo-400 light:text-indigo-700" /> Mark
+                      Allocation
                     </h4>
                   </div>
                   <div className="text-right">
@@ -461,9 +460,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     >
                       {marks}
                     </span>
-                    <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 ml-2 italic">
-                      Value
-                    </span>
+                    <span className="t-label text-muted ml-2 italic">Value</span>
                   </div>
                 </div>
                 <div className="h-4 bg-black/40 light:bg-slate-200 rounded-full border border-white/5 light:border-slate-300 p-1 shadow-inner relative group/slider">
@@ -487,11 +484,10 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
               </section>
 
               <section>
-                <span className="t-label text-white/20 light:text-slate-500 mb-4 block">
-                  Difficulty Level
-                </span>
+                <span className="t-label text-muted mb-4 block">Difficulty Level</span>
                 <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3 mb-6">
-                  <Brain className="w-5 h-5 text-purple-400" /> Processing Level
+                  <Brain className="w-5 h-5 text-purple-400 light:text-purple-700" /> Processing
+                  Level
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
                   {TIER_GROUPS.map((tier) => {
@@ -508,7 +504,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                         className={`group relative p-5 rounded-panel border text-left transition-all duration-500 ${isSelected ? `${config.bg} ${config.border} shadow-2xl scale-[1.03]` : isSyllabusLevel ? 'bg-white/[0.04] light:bg-emerald-50 border-emerald-500/30 hover:bg-white/[0.06]' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100 hover:border-white/10'}`}
                       >
                         {isSyllabusLevel && (
-                          <span className="t-label absolute -top-2 left-4 px-2 py-0.5 rounded-full bg-emerald-500 text-white shadow-lg flex items-center gap-1">
+                          <span className="t-label absolute -top-2 left-4 px-2 py-0.5 rounded-full bg-emerald-700 text-white shadow-lg flex items-center gap-1">
                             <GraduationCap className="w-2.5 h-2.5" /> Syllabus
                           </span>
                         )}
@@ -516,14 +512,12 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           <span className="text-2xl transition-transform duration-500 group-hover:scale-125">
                             {tier.emoji}
                           </span>
-                          <span
-                            className={`t-label ${isSelected ? config.text : 'text-white/20 light:text-slate-500'}`}
-                          >
+                          <span className={`t-label ${isSelected ? config.text : 'text-muted'}`}>
                             B{tier.tier}
                           </span>
                         </div>
                         <div
-                          className={`t-label leading-tight ${isSelected ? 'text-white light:text-slate-900' : 'text-slate-500'}`}
+                          className={`t-label leading-tight ${isSelected ? 'text-white light:text-slate-900' : 'text-muted'}`}
                         >
                           {tier.title}
                         </div>
@@ -545,7 +539,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     }`}
                   >
                     <div
-                      className={`p-1.5 rounded-lg shrink-0 ${difficulty.status === 'match' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}
+                      className={`p-1.5 rounded-lg shrink-0 ${difficulty.status === 'match' ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700' : 'bg-amber-500/20 text-amber-400 light:text-amber-700'}`}
                     >
                       {difficulty.status === 'match' ? (
                         <CircleCheck className="w-4 h-4" />
@@ -557,7 +551,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     </div>
                     <div>
                       <span
-                        className={`t-label block mb-0.5 ${difficulty.status === 'match' ? 'text-emerald-400' : 'text-amber-400'}`}
+                        className={`t-label block mb-0.5 ${difficulty.status === 'match' ? 'text-emerald-400 light:text-emerald-700' : 'text-amber-400 light:text-amber-700'}`}
                       >
                         {difficulty.status === 'match'
                           ? 'On the syllabus level'
@@ -565,7 +559,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                             ? `Harder than the syllabus asks · +${difficulty.steps} level${difficulty.steps > 1 ? 's' : ''}`
                             : `Easier than the syllabus asks · −${difficulty.steps} level${difficulty.steps > 1 ? 's' : ''}`}
                       </span>
-                      <p className="text-[10px] font-medium text-slate-400 light:text-slate-600 leading-relaxed">
+                      <p className="text-xs font-medium text-slate-400 light:text-slate-600 leading-relaxed">
                         {difficulty.status === 'match'
                           ? `This question matches the "${syllabusVerbInfo?.term}" demand of the syllabus dot point.`
                           : difficulty.status === 'above'
@@ -580,12 +574,11 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
             <div className="space-y-10">
               <section>
-                <span className="t-label text-white/20 light:text-slate-500 mb-4 block">
-                  Scenario Settings
-                </span>
+                <span className="t-label text-muted mb-4 block">Scenario Settings</span>
                 <div className="flex items-center justify-between gap-3 mb-6">
                   <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
-                    <Briefcase className="w-5 h-5 text-blue-400" /> Scenario Context
+                    <Briefcase className="w-5 h-5 text-blue-400 light:text-blue-700" /> Scenario
+                    Context
                   </h4>
                   {/* Scenario is optional — a direct knowledge/skill question can
                       be generated with no case-study framing. */}
@@ -594,7 +587,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                     role="switch"
                     aria-checked={includeScenario}
                     onClick={() => setIncludeScenario((v) => !v)}
-                    className={`flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all ${includeScenario ? 'bg-blue-500/10 border-blue-500/30 text-blue-300 light:text-blue-600' : 'bg-white/[0.03] light:bg-slate-100 border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600'}`}
+                    className={`min-h-11 sm:min-h-0 flex items-center gap-2.5 pl-3 pr-1.5 py-1.5 rounded-full border transition-all ${includeScenario ? 'bg-blue-500/10 border-blue-500/30 text-blue-300 light:text-blue-700' : 'bg-white/[0.03] light:bg-slate-100 border-white/10 light:border-slate-300 text-slate-400 light:text-slate-600'}`}
                     title={
                       includeScenario
                         ? 'Scenario on — a context paragraph will be written'
@@ -622,7 +615,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                         className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 ${scenarioType === type.id ? 'bg-blue-500/10 border-blue-500/30 shadow-lg' : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200 hover:bg-white/[0.05] light:hover:bg-slate-100'}`}
                       >
                         <div
-                          className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-500 text-white shadow-lg' : 'bg-black/20 light:bg-slate-200 text-slate-500'}`}
+                          className={`p-2 rounded-xl flex-shrink-0 transition-colors ${scenarioType === type.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-black/20 light:bg-slate-200 text-muted'}`}
                         >
                           <type.icon className="w-4 h-4" />
                         </div>
@@ -632,15 +625,15 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                           >
                             {type.label}
                           </div>
-                          <div className="t-label text-slate-600 truncate">{type.desc}</div>
+                          <div className="t-label text-muted truncate">{type.desc}</div>
                         </div>
                       </button>
                     ))}
                   </div>
                 ) : (
                   <div className="flex items-center gap-3 p-5 rounded-2xl border border-dashed border-white/10 light:border-slate-300 bg-white/[0.02] light:bg-slate-50 text-slate-400 light:text-slate-600">
-                    <Info className="w-4 h-4 shrink-0 text-blue-400" />
-                    <p className="text-[10px] font-medium leading-relaxed">
+                    <Info className="w-4 h-4 shrink-0 text-blue-400 light:text-blue-700" />
+                    <p className="text-xs font-medium leading-relaxed">
                       This question will be generated as a{' '}
                       <span className="font-bold text-white light:text-slate-900">
                         direct question
@@ -690,12 +683,12 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                               ? `'${activeTierInfo?.title}' verbs support up to Band ${tierMaxBand}`
                               : `Target Band ${b}`
                           }
-                          className={`relative z-10 w-10 h-10 rounded-2xl flex items-center justify-center text-xs font-bold transition-all duration-500 transform ${
+                          className={`relative z-10 w-11 h-11 sm:w-10 sm:h-10 shrink-0 rounded-2xl flex items-center justify-center text-xs font-bold transition-all duration-500 transform ${
                             isTarget
                               ? `${bConf.solidBg} ${bConf.solidText} shadow-lg scale-125 rotate-6 border border-white/20`
                               : isCappedOut
                                 ? 'bg-black/20 light:bg-slate-100 text-slate-700 border border-white/5 light:border-slate-200 cursor-not-allowed line-through'
-                                : 'bg-black/40 light:bg-slate-200 text-slate-500 hover:scale-110 hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'
+                                : 'bg-black/40 light:bg-slate-200 text-muted hover:scale-110 hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'
                           }`}
                         >
                           {b}
@@ -705,7 +698,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                   </div>
                 </div>
                 {tierMaxBand < 6 && (
-                  <p className="t-label mt-3 text-slate-500 text-center">
+                  <p className="t-label mt-3 text-muted text-center">
                     These verbs support up to Band {tierMaxBand}
                   </p>
                 )}
@@ -715,7 +708,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
 
           <section className="pt-6 border-t border-white/5 light:border-slate-200">
             <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3 mb-6">
-              <Wrench className="w-5 h-5 text-amber-400" /> Command Verb
+              <Wrench className="w-5 h-5 text-amber-400 light:text-amber-700" /> Command Verb
             </h4>
             <div className="flex flex-wrap gap-2 p-6 bg-black/40 light:bg-slate-100 rounded-panel border border-white/5 light:border-slate-200 shadow-inner">
               {verbsForCurrentTier.map((verb) => (
@@ -723,7 +716,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                   key={verb.term}
                   onClick={() => setSelectedSpecificVerb(verb.term)}
                   title={`${verb.term}: ${verb.markRange[0]}–${verb.markRange[1]} marks`}
-                  className={`t-label px-4 py-2 rounded-xl transition-all duration-300 border ${selectedSpecificVerb === verb.term ? `${activeBandConfig.bg} ${activeBandConfig.border} ${activeBandConfig.text} shadow-xl scale-105` : 'bg-white/5 light:bg-slate-50 border-transparent light:border-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-400'}`}
+                  className={`min-h-11 sm:min-h-0 t-label px-4 py-2 rounded-xl transition-all duration-300 border ${selectedSpecificVerb === verb.term ? `${activeBandConfig.bg} ${activeBandConfig.border} ${activeBandConfig.text} shadow-xl scale-105` : 'bg-white/5 light:bg-slate-50 border-transparent light:border-slate-200 text-muted hover:text-white light:hover:text-slate-900 hover:border-white/10 light:hover:border-slate-400'}`}
                 >
                   {verb.term}
                 </button>
@@ -736,10 +729,12 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
         <div className="px-10 py-8 bg-[rgb(var(--color-bg-surface))]/95 light:bg-slate-50/95 backdrop-blur-3xl border-t border-white/5 light:border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-6 shrink-0 z-20 shadow-[0_-32px_64px_-16px_rgba(0,0,0,0.4)] light:shadow-[0_-16px_32px_-8px_rgba(0,0,0,0.06)]">
           <div className="flex-1 w-full sm:w-auto p-4 rounded-2xl bg-black/40 light:bg-slate-100 border border-white/5 light:border-slate-200 flex items-start gap-4">
             <div className="p-2 rounded-xl bg-indigo-500/10">
-              <Info className="w-5 h-5 text-indigo-400" />
+              <Info className="w-5 h-5 text-indigo-400 light:text-indigo-700" />
             </div>
             <div>
-              <span className="t-label block mb-1 text-indigo-400">Configuration Valid</span>
+              <span className="t-label block mb-1 text-indigo-400 light:text-indigo-700">
+                Configuration Valid
+              </span>
               <p className="t-label text-slate-400 light:text-slate-600 leading-relaxed">
                 Constructing a{' '}
                 <strong className="text-white light:text-slate-900">
@@ -748,13 +743,13 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                 task targeting{' '}
                 <strong className="text-white light:text-slate-900">Band {targetBand}</strong>.
                 {selectedVerbInfo && (
-                  <span className="text-slate-500">
+                  <span className="text-muted">
                     {' '}
                     ({selectedVerbInfo.markRange[0]}–{selectedVerbInfo.markRange[1]} mark range)
                   </span>
                 )}
                 {focusItems.length > 0 && (
-                  <span className="text-emerald-400">
+                  <span className="text-emerald-400 light:text-emerald-700">
                     {' '}
                     (Focus enabled for {focusItems.length} item{focusItems.length > 1 ? 's' : ''})
                   </span>
@@ -767,7 +762,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
             <button
               onClick={handleClose}
               disabled={isLoading}
-              className="t-label px-8 py-4 rounded-2xl text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-50"
+              className="t-label px-8 py-4 rounded-2xl text-muted hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-50"
             >
               Cancel
             </button>

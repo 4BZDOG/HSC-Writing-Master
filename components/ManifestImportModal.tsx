@@ -216,7 +216,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
               >
                 Add syllabuses
               </h2>
-              <p className="text-slate-400 light:text-slate-500 text-sm font-medium mt-3 max-w-lg leading-relaxed">
+              <p className="text-slate-400 light:text-muted text-sm font-medium mt-3 max-w-lg leading-relaxed">
                 {/* Students meet this on their first sign-in too, and were
                     asked for the syllabuses they teach. */}
                 Tick the NESA syllabuses you study or teach. You can add more at any time.
@@ -226,19 +226,19 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
 
           <div className="flex items-center gap-4 w-full md:w-auto">
             <div className="relative group/search w-full md:w-auto md:min-w-[320px]">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 transition-colors group-focus-within/search:text-indigo-400" />
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted transition-colors group-focus-within/search:text-indigo-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-12 py-4 bg-black/20 light:bg-slate-50 border border-white/5 light:border-slate-200 rounded-2xl text-white light:text-slate-900 placeholder-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-inner font-medium"
+                className="w-full pl-12 pr-12 py-4 bg-black/20 light:bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-200 rounded-2xl text-white light:text-slate-900 placeholder:text-dim focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-inner font-medium"
                 placeholder="Search syllabuses"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
                   aria-label="Clear search"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 light:hover:bg-slate-200 text-slate-500 hover:text-white light:hover:text-slate-900 transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-white/10 light:hover:bg-slate-200 text-muted hover:text-white light:hover:text-slate-900 transition-colors"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -254,13 +254,13 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                 a button and doing nothing — the search field above is the
                 filter. The count is what this row is for. */}
             <div className="flex items-center gap-5 flex-wrap">
-              <span className="text-xs font-bold text-slate-500">
+              <span className="text-xs font-bold text-muted">
                 <span className="text-white light:text-slate-900">
                   {filteredGroupedDocs.allVisibleDocIds.length}
                 </span>{' '}
                 {filteredGroupedDocs.allVisibleDocIds.length === 1 ? 'syllabus' : 'syllabuses'}
                 {selectedIds.size > 0 && (
-                  <span className="text-indigo-400 light:text-indigo-600">
+                  <span className="text-indigo-400 light:text-indigo-700">
                     {' '}
                     · {selectedIds.size} ticked
                   </span>
@@ -279,7 +279,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             <button
               onClick={toggleSelectAll}
               disabled={isImporting}
-              className="t-label text-indigo-400 hover:text-indigo-300 transition-colors py-2 px-4 rounded-xl hover:bg-indigo-500/5"
+              className="t-label text-indigo-400 light:text-indigo-700 hover:text-indigo-300 transition-colors py-2 px-4 rounded-xl hover:bg-indigo-500/5"
             >
               {filteredGroupedDocs.allVisibleDocIds.every((id) => selectedIds.has(id))
                 ? 'Clear selection'
@@ -290,14 +290,14 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
           {!hasResults ? (
             <div className="flex flex-col items-center justify-center py-32 animate-fade-in">
               <div className="w-24 h-24 rounded-tile bg-white/5 light:bg-slate-100 flex items-center justify-center mb-8 border border-white/5 light:border-slate-200">
-                <Search className="w-10 h-10 text-slate-600" />
+                <Search className="w-10 h-10 text-muted" />
               </div>
-              <p className="text-xl font-black text-slate-500 tracking-tight">
+              <p className="text-xl font-black text-muted tracking-tight">
                 No syllabus matches “{searchQuery}”
               </p>
               <button
                 onClick={() => setSearchQuery('')}
-                className="mt-6 text-sm font-bold text-indigo-400 hover:underline"
+                className="mt-6 text-sm font-bold text-indigo-400 light:text-indigo-700 hover:underline"
               >
                 Show all syllabuses
               </button>
@@ -331,7 +331,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                         <h3 className="text-xl font-black text-white light:text-slate-900 tracking-tight">
                           {subject}
                         </h3>
-                        <span className="text-[11px] font-medium text-slate-500">
+                        <span className="text-xs font-medium text-muted">
                           {docs.length} available
                         </span>
                       </div>
@@ -351,7 +351,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                       The content is a list of names to tick. So it is a list
                       of names to tick, and all eight fit above the fold.
                     */}
-                    <ul className="rounded-panel border border-white/5 light:border-slate-200 bg-white/[0.02] light:bg-white overflow-hidden divide-y divide-white/5 light:divide-slate-200">
+                    <ul className="rounded-panel border border-white/5 light:border-slate-200 bg-white/[0.02] light:bg-[rgb(var(--color-bg-surface-elevated))] overflow-hidden divide-y divide-white/5 light:divide-slate-200">
                       {docs.map((doc) => {
                         const isSelected = selectedIds.has(doc.id);
                         const orphanTopic =
@@ -409,12 +409,12 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                   them, sitting at the same weight as a pill
                                   naming the file format. */}
                               {doc.type === 'topic' && !orphanTopic && (
-                                <span className="block text-[11px] text-slate-500 light:text-slate-500 mt-0.5">
+                                <span className="block text-xs text-muted mt-0.5">
                                   adds to {doc.targetCourseName || doc.targetCourseId}
                                 </span>
                               )}
                               {orphanTopic && (
-                                <span className="flex items-center gap-1.5 text-[11px] font-medium text-amber-500 light:text-amber-600 mt-0.5">
+                                <span className="flex items-center gap-1.5 text-xs font-medium text-amber-400 light:text-amber-700 mt-0.5">
                                   <AlertCircle className="w-3 h-3 shrink-0" />
                                   No course named — this one has nowhere to go
                                 </span>
@@ -433,7 +433,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                 onChange={(e) => handleSubjectChange(doc.id, e.target.value)}
                                 disabled={isImporting}
                                 aria-label={`Subject area for ${doc.name}`}
-                                className="t-label w-full sm:w-[11rem] appearance-none bg-black/20 light:bg-slate-100 border border-white/5 light:border-slate-300 text-slate-400 light:text-slate-600 rounded-lg py-2 pl-3 pr-9 cursor-pointer hover:border-indigo-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                                className="t-label w-full sm:w-[11rem] appearance-none bg-black/20 light:bg-slate-100 border border-white/5 light:border-slate-300 text-slate-400 light:text-muted rounded-lg py-2 pl-3 pr-9 cursor-pointer hover:border-indigo-500/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                               >
                                 {SUBJECT_AREAS.map((area) => (
                                   <option key={area} value={area}>
@@ -441,7 +441,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                   </option>
                                 ))}
                               </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted pointer-events-none" />
                             </div>
                           </li>
                         );
@@ -459,26 +459,21 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                   simply not laid out like something you can tick. */}
               {notCarried.length > 0 && (
                 <section className="pt-8 border-t border-white/5 light:border-slate-200">
-                  <h3 className="t-label flex items-center gap-2 text-slate-500 light:text-slate-500">
+                  <h3 className="t-label flex items-center gap-2 text-muted">
                     <Lock className="w-3 h-3" />
                     Not carried yet
                   </h3>
                   <dl className="mt-3 space-y-1.5">
                     {notCarried.map(({ subject, placeholders }) => (
-                      <div
-                        key={subject}
-                        className="flex flex-wrap gap-x-2 text-[11px] leading-relaxed"
-                      >
+                      <div key={subject} className="flex flex-wrap gap-x-2 text-xs leading-relaxed">
                         {/* A fixed column so seven faculty names scan down
                             the left edge rather than ragging against their
                             own lengths. Drops back to flow on a phone, where
                             the names wrap anyway. */}
-                        <dt className="font-bold text-slate-400 light:text-slate-600 sm:w-32 sm:shrink-0">
+                        <dt className="font-bold text-slate-400 light:text-muted sm:w-32 sm:shrink-0">
                           {subject}
                         </dt>
-                        <dd className="text-slate-500 light:text-slate-500">
-                          {placeholders.join(', ')}
-                        </dd>
+                        <dd className="text-muted">{placeholders.join(', ')}</dd>
                       </div>
                     ))}
                   </dl>
@@ -494,14 +489,14 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
             <button
               onClick={onClose}
               disabled={isImporting}
-              className="t-label px-6 sm:px-10 py-3 sm:py-4 rounded-panel text-slate-500 hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
+              className="t-label px-6 sm:px-10 py-3 sm:py-4 rounded-panel text-muted hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-30"
             >
               Skip for now
             </button>
           </div>
 
           {error && (
-            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 animate-shake">
+            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 light:text-red-700 animate-shake">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span className="text-xs font-bold">{error}</span>
             </div>
@@ -515,7 +510,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                     ${
                       selectedIds.size > 0 && !isImporting
                         ? 'bg-gradient-to-r from-indigo-600 to-indigo-500 hover:scale-105 active:scale-[0.98] shadow-indigo-500/20'
-                        : 'bg-white/5 light:bg-slate-100 text-slate-600 cursor-not-allowed border border-white/5 light:border-slate-200'
+                        : 'bg-white/5 light:bg-slate-100 text-muted cursor-not-allowed border border-white/5 light:border-slate-200'
                     }
                 `}
           >

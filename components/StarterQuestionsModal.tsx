@@ -178,9 +178,9 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
               onClick={handleClose}
               aria-label="Close"
               disabled={isRunning}
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-light hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-light hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
+              <X className="w-4 h-4 text-muted" />
             </button>
           </div>
         </div>
@@ -214,7 +214,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
 
               <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 p-4 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-inset">
                 {targets.length === 0 ? (
-                  <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 flex items-center gap-2">
+                  <p className="text-sm text-muted flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-400 light:text-green-700" />
                     Every syllabus point here already has a question.
                   </p>
@@ -273,7 +273,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
 
               {progress.fatalError && (
                 <div className="rounded-lg bg-red-900/20 light:bg-red-50 border border-red-500/25 light:border-red-200 p-3 flex items-start gap-2.5">
-                  <AlertTriangle className="w-4 h-4 text-red-400 light:text-red-600 flex-shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-4 h-4 text-red-400 light:text-red-700 flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-red-200 light:text-red-800">
                     <p className="font-semibold">{progress.fatalError.userMessage}</p>
                     <p className="mt-0.5">{progress.fatalError.suggestion}</p>
@@ -301,7 +301,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
               <button
                 type="button"
                 onClick={handleClose}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
               >
                 Not now
               </button>
@@ -309,7 +309,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
                 type="button"
                 onClick={handleStart}
                 disabled={targets.length === 0}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />
                 Write {targets.length} question{targets.length === 1 ? '' : 's'}
@@ -320,7 +320,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
             <button
               type="button"
               onClick={stop}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-500 transition"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition"
             >
               Stop
             </button>
@@ -332,7 +332,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
             <button
               type="button"
               onClick={handleFinish}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-green-700 hover:shadow-lg transition"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-green-700 hover:shadow-lg transition"
             >
               Done
             </button>
