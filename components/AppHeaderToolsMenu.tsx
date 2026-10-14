@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import {
   Activity,
   BarChart3,
+  CreditCard,
   Database,
   Gauge,
   HardDrive,
@@ -360,6 +361,15 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
                   icon={KeyRound}
                   label="Runtime AI Keys (paste a key to test models)"
                   onSelect={() => runTool(onOpenRuntimeKeys)}
+                />
+              </ToolGroup>
+            )}
+            {isSystemAdmin(user.role) && (
+              <ToolGroup label="Billing">
+                <ToolItem
+                  icon={CreditCard}
+                  label="Billing Overview (subscriptions, renewals, webhook)"
+                  onSelect={() => runTool(() => openModal('billingOverview'))}
                 />
               </ToolGroup>
             )}

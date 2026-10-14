@@ -52,6 +52,9 @@ import type {
  * admin chunk into every student's first load for a modal they can never open.
  */
 const DatabaseDashboard = lazy(() => import('./admin/DatabaseDashboard'));
+// The same rule as the Database Manager: a system-admin surface, and out of the
+// eager graph, so a student never fetches the billing figures they cannot open.
+const BillingOverview = lazy(() => import('./admin/BillingOverview'));
 
 interface AppModalsProps {
   activeModals: Set<string>;
@@ -376,6 +379,15 @@ const AppModals: React.FC<AppModalsProps> = ({
             onClose={() => closeModal('databaseDashboard')}
             courses={courses}
             showToast={showToast}
+          />
+        </Suspense>
+      )}
+
+      {user && isSystemAdmin(user.role) && (
+        <Suspense fallback={null}>
+          <BillingOverview
+            isOpen={isModalOpen('billingOverview')}
+            onClose={() => closeModal('billingOverview')}
           />
         </Suspense>
       )}
