@@ -472,6 +472,21 @@ async function handleSubscriptionUpsert(
     throw profileError;
   }
 
+  // A licence belongs to the school it was bought for, not to wherever its
+  // purchaser works now. create-checkout fixes that school at purchase, and the
+  // school row already carries this subscription id, so find it by that. The
+  // purchaser's current school_id is only the fallback for a first event. Without
+  // this, a teacher who moves school strands the licence: renewals and past_due or
+  // unpaid statuses stop reaching the school row, so an unpaid school keeps its plan.
+  if (plan === 'school') {
+    const { data: licensed } = await supabase
+      .from('schools')
+      .select('id')
+      .eq('stripe_subscription_id', subId)
+      .maybeSingle();
+    if (licensed?.id) schoolId = licensed.id as string;
+  }
+
   // School seat licence: sync the purchaser's school so every member holds
   // the plan (the client resolves membership → plan at sign-in). Best-effort:
   // a purchaser without a school still gets the plan personally, and an admin
@@ -543,18 +558,30 @@ async function handleSubscriptionDeleted(
     .eq('stripe_subscription_id', subId);
 
   // Find the user and downgrade their cached plan to free (unless they have
-  // another active subscription, which resolve_stripe_plan handles).
-  const { data: profile } = await supabase
+  // another active subscription, which resolve_stripe_plan handles). The customer
+  // link is the first route, but it can be missing or overwritten, for example
+  // when two checkouts race before either has linked a customer. The subscription
+  // row names its user directly, so fall back to it. Giving up here would leave a
+  // cancelled subscriber on Plus indefinitely.
+  const { data: byCustomer } = await supabase
     .from('profiles')
     .select('id')
     .eq('stripe_customer_id', customerId)
-    .single();
-
-  if (!profile) return;
+    .maybeSingle();
+  let userId = byCustomer?.id as string | undefined;
+  if (!userId) {
+    const { data: owned } = await supabase
+      .from('subscriptions')
+      .select('user_id')
+      .eq('id', subId)
+      .maybeSingle();
+    userId = owned?.user_id as string | undefined;
+  }
+  if (!userId) return;
 
   // Use the DB function to resolve the correct plan (handles multiple subs).
   const { data: resolvedPlan } = await supabase.rpc('resolve_stripe_plan', {
-    p_user_id: profile.id,
+    p_user_id: userId,
   });
 
   await supabase
@@ -563,7 +590,7 @@ async function handleSubscriptionDeleted(
       stripe_plan: resolvedPlan ?? 'free',
       plan_period_end: null,
     })
-    .eq('id', profile.id);
+    .eq('id', userId);
 }
 
 /**
