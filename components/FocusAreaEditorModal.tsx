@@ -130,7 +130,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))]/40 light:hover:bg-slate-300 transition-all flex items-center justify-center"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))]/40 light:hover:bg-slate-300 transition-all flex items-center justify-center"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
             </button>
@@ -197,12 +197,12 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                     onChange={(e) =>
                       setItems((prev) => prev.map((v, i) => (i === index ? e.target.value : v)))
                     }
-                    className="flex-1 min-w-0 bg-transparent text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:outline-none"
+                    className="flex-1 min-w-0 bg-transparent text-base sm:text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:outline-none"
                   />
                   <button
                     onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))}
                     aria-label={`Remove "${item}"`}
-                    className="p-1.5 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0"
+                    className="p-1.5 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 inline-flex items-center justify-center rounded-lg text-[rgb(var(--color-text-muted))] hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -228,12 +228,12 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                   }
                 }}
                 placeholder="Add a focus area…"
-                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:border-emerald-500 transition-colors"
+                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 rounded-xl py-2.5 px-4 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:border-emerald-500 transition-colors"
               />
               <button
                 onClick={addDraft}
                 disabled={!draft.trim()}
-                className="t-label px-4 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all disabled:opacity-40 flex items-center gap-1.5"
+                className="t-label px-4 min-h-11 sm:min-h-0 rounded-xl bg-emerald-500/15 text-emerald-800 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all disabled:opacity-40 flex items-center gap-1.5"
               >
                 <Plus className="w-3.5 h-3.5" /> Add
               </button>
@@ -259,20 +259,20 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                 ? 'Discard the hand-set list and read the syllabus wording again'
                 : 'This dot point is already using the automatic reading'
             }
-            className="t-label py-2.5 px-4 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-red-500 transition disabled:opacity-40 disabled:hover:text-[rgb(var(--color-text-muted))] flex items-center gap-2"
+            className="t-label py-2.5 px-4 min-h-11 sm:min-h-0 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-red-500 transition disabled:opacity-40 disabled:hover:text-[rgb(var(--color-text-muted))] flex items-center gap-2"
           >
             <RotateCcw className="w-3.5 h-3.5" /> Reset to automatic
           </button>
           <div className="flex gap-3 ml-auto">
             <button
               onClick={onClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))]/40 light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))]/20 light:hover:bg-slate-100 transition"
+              className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))]/40 light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))]/20 light:hover:bg-slate-100 transition"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-emerald-700 to-teal-700 hover:shadow-lg active:scale-[0.98] transition"
+              className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-emerald-700 to-teal-700 hover:shadow-lg active:scale-[0.98] transition"
             >
               Save Focus Areas
             </button>

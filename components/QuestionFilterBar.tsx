@@ -92,7 +92,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
           <button
             type="button"
             onClick={reset}
-            className="t-label flex items-center gap-1 px-2 py-1 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/20 light:border-red-300 hover:bg-red-500 hover:text-white transition-all flex-shrink-0"
+            className="t-label flex items-center gap-1 px-2 py-1 min-h-11 sm:min-h-0 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/20 light:border-red-300 hover:bg-red-600 hover:text-white transition-all flex-shrink-0"
             title="Show every question again"
           >
             <RotateCcw className="w-3 h-3" />

@@ -527,7 +527,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
             <button
               onClick={guard.requestClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
@@ -568,7 +568,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     onChange={(e) =>
                       handleChangeTargetCourse(e.target.value === '__new__' ? null : e.target.value)
                     }
-                    className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                    className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                   >
                     <option value="__new__">+ New course...</option>
                     {courses.length > 0 && (
@@ -590,7 +590,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           onChange={(e) =>
                             setTargetTopicId(e.target.value === '__auto__' ? null : e.target.value)
                           }
-                          className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                          className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2 px-4 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                         >
                           <option value="__auto__">
                             Auto — match topic names / add new topics
@@ -617,7 +617,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={courseName}
                       onChange={(e) => setCourseName(e.target.value)}
                       placeholder="New course name, e.g., HSC Software Engineering"
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                     />
                   )}
                   {/* A NESA document is one year's. Everything in this import
@@ -634,7 +634,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         role="radio"
                         aria-checked={y.id === year}
                         onClick={() => setYear(y.id)}
-                        className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold border transition-colors ${
+                        className={`flex-1 py-1.5 px-3 min-h-11 sm:min-h-0 rounded-lg text-xs font-semibold border transition-colors ${
                           y.id === year
                             ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
                             : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
@@ -660,19 +660,19 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={outcomesText}
                       onChange={(e) => setOutcomesText(e.target.value)}
                       placeholder={`Paste outcomes text here, e.g.:\nSE-12-01 Describes methods used to plan...\nSE-12-02 Applies appropriate development...`}
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y min-h-[72px] leading-relaxed font-mono"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y min-h-[72px] leading-relaxed font-mono"
                     />
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleParseOutcomes}
                         disabled={isParsingOutcomes || !outcomesText.trim()}
-                        className="px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                        className="px-4 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                       >
                         <Sparkles className="w-3.5 h-3.5" />
                         {isParsingOutcomes ? 'Parsing...' : 'Parse with AI'}
                       </button>
                       {parsedOutcomes.length > 0 && (
-                        <span className="text-xs text-green-400 light:text-green-600 font-medium">
+                        <span className="text-xs text-green-400 light:text-green-700 font-medium">
                           {parsedOutcomes.length} outcomes found
                         </span>
                       )}
@@ -686,7 +686,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   <span className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-[rgb(var(--color-accent))]" />
                     Fetch Syllabus from URL
-                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full normal-case">
+                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full normal-case">
                       experimental
                     </span>
                   </span>
@@ -714,7 +714,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   <div className="p-2 md:p-3 flex-shrink-0">
                     <button
                       onClick={handleAddTab}
-                      className="w-full py-2 px-3 rounded-lg border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all text-sm font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+                      className="w-full py-2 px-3 min-h-11 sm:min-h-0 rounded-lg border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all text-sm font-medium flex items-center justify-center gap-2 whitespace-nowrap"
                     >
                       <Plus className="w-4 h-4" /> Add Topic
                     </button>
@@ -742,7 +742,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           type="button"
                           onClick={() => setActiveTabId(tab.id)}
                           aria-current={activeTabId === tab.id ? 'true' : undefined}
-                          className="flex items-center gap-2 min-w-0 flex-1 text-left cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                          className="flex items-center gap-2 min-w-0 min-h-11 sm:min-h-0 flex-1 text-left cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
                         >
                           <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-black/20 light:bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-300 light:text-slate-600">
                             {index + 1}
@@ -803,7 +803,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
                       placeholder={`Paste dot points, sub-topics, or raw text here...\n\ne.g.:\nInquiry Question 1\n• describes the features of...\n• outlines the importance of...`}
-                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
+                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-base sm:text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
                     />
                   </div>
                 </div>
@@ -962,14 +962,14 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               <>
                 <button
                   onClick={guard.requestClose}
-                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleAnalyze}
                   disabled={isBusy}
-                  className="py-2.5 px-5 rounded-lg text-sm text-white dark:text-slate-950 font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm text-white dark:text-slate-950 font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
                   {isAnalyzing
@@ -983,14 +983,14 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               <>
                 <button
                   onClick={() => setStep('input')}
-                  className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
                 >
                   Back to Edit
                 </button>
                 <button
                   onClick={handleConfirmImport}
                   disabled={previewData.length === 0}
-                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-800 to-green-700 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-800 to-green-700 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {targetCourse ? (
                     <GitMerge className="w-4 h-4" />
