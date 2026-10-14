@@ -9,7 +9,7 @@ import {
   SYLLABUS_TERM_SOURCE_LABEL,
   type SyllabusTermContext,
 } from '../utils/syllabusTermSource';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { isFeatureLocked, planLabelForFeature, requestUpgrade } from '../services/entitlements';
 import LadderRow, { ladderBandVars } from './LadderRow';
 import {
   LADDER_EDGE_SHUT,
@@ -169,11 +169,15 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   );
   const supportingUsed = usedCount - keyUsed;
 
+  // The plan is named, not the feature: a tooltip that says "the AI Content
+  // Studio" where the chip beside it says "Band 6 Plus" is two answers to one
+  // question, and it goes stale the moment a deployment moves the studio.
+  const studioPlan = planLabelForFeature('aiContentStudio');
   const suggestTitle = studioLocked
-    ? 'Suggest with AI — part of the AI Content Studio, tap to learn more'
+    ? `Suggest with AI — part of ${studioPlan}, tap to learn more`
     : 'Suggest with AI';
   const regenerateTitle = studioLocked
-    ? 'Regenerate all — part of the AI Content Studio, tap to learn more'
+    ? `Regenerate all — part of ${studioPlan}, tap to learn more`
     : 'Regenerate all';
 
   // One pill: a term button (which inserts it) and, for a curator, a remove button.

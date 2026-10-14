@@ -94,7 +94,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
             Already full marks
           </span>
         )}
-        {upgradesLocked && <PlusLockChip />}
+        {upgradesLocked && <PlusLockChip feature="answerUpgrades" />}
       </SectionHeading>
 
       <div ref={cardRef} className={`${FEEDBACK_CARD} relative overflow-hidden`}>

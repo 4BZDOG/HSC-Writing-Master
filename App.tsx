@@ -1356,7 +1356,7 @@ const App: React.FC = () => {
               if (refreshed?.stripePlan && refreshed.stripePlan !== 'free') {
                 setUser(refreshed);
                 showToast(
-                  `Subscription active — welcome to ${PLAN_LABELS[refreshed.stripePlan]}!`,
+                  `Subscription active. Welcome to ${PLAN_LABELS[refreshed.stripePlan]}.`,
                   'success'
                 );
                 return;

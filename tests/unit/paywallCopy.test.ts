@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 /**
@@ -29,6 +29,40 @@ const PAYER_SURFACES = [
   'components/BillingAlertBanner.tsx',
   'utils/billingMessages.ts',
 ];
+
+/** Every .tsx file under a directory, recursively. */
+const tsxFiles = (dir: string): string[] =>
+  readdirSync(dir).flatMap((name) => {
+    const path = resolve(dir, name);
+    if (statSync(path).isDirectory()) return tsxFiles(path);
+    return path.endsWith('.tsx') ? [path] : [];
+  });
+
+describe('lock chips', () => {
+  it('name the feature they guard, so a PLAN_FEATURE_OVERRIDES move reaches the chip', () => {
+    // Without a `feature` the chip falls back to "Plus". That is right for a
+    // feature priced at Plus and wrong the day a deployment prices it at School,
+    // and the chip would then disagree with the prompt it opens.
+    const bareChip = /<PlusLockChip(?![^>]*\bfeature=)[^>]*>/;
+    const offenders = tsxFiles(resolve(ROOT, 'components')).filter((file) =>
+      bareChip.test(readFileSync(file, 'utf8'))
+    );
+    expect(offenders.map((file) => file.replace(ROOT, ''))).toEqual([]);
+  });
+
+  it('name the plan in a locked control’s tooltip, not the feature’s own name', () => {
+    // "part of the AI Content Studio" was typed out by hand in three places and
+    // went stale when the studio's plan moved.
+    for (const file of [
+      'components/KeywordEditor.tsx',
+      'components/PromptDisplay.tsx',
+      'components/MarkingCriteriaAccordion.tsx',
+    ]) {
+      // Inside a string literal only: a code comment may name the studio.
+      expect(read(file), file).not.toMatch(/['"`][^'"`\n]*part of the AI Content Studio/);
+    }
+  });
+});
 
 describe('paywall copy', () => {
   it.each(PAYER_SURFACES)('%s has no exclamation mark in a sentence', (file) => {

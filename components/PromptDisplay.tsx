@@ -3,7 +3,7 @@ import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { isFeatureLocked, planLabelForFeature, requestUpgrade } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import {
   Edit3,
@@ -377,7 +377,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     studioLocked ? requestUpgrade('aiContentStudio') : action();
   /** Append the reason to a control's tooltip when it is locked. */
   const studioTitle = (title: string): string =>
-    studioLocked ? `${title} — part of the AI Content Studio, tap to learn more` : title;
+    studioLocked
+      ? `${title} — part of ${planLabelForFeature('aiContentStudio')}, tap to learn more`
+      : title;
   /** Amber "locked" chrome, or nothing, for a control's className. */
   const studioChrome = studioLocked
     ? 'bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600'

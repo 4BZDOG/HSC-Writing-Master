@@ -181,7 +181,9 @@ export const SAMPLE_NOTE_TEXT =
  *  the exemplar is, and the upgrade. It has no amber fill, because the lock is a state
  *  of the exemplar and not a band. Painted on the row's band wash. */
 export const SAMPLE_LOCKED =
-  'flex flex-col items-center gap-3 rounded-xl border border-dashed border-slate-500 bg-white px-5 py-6 text-center dark:border-white/25 dark:bg-[rgb(var(--color-bg-surface-inset))]';
+  // A well cut into the card, not a white slab: on the ladder, a locked exemplar
+  // sits in the same inset tone as the rest of the panel's wells.
+  'flex flex-col items-center gap-3 rounded-xl border border-dashed border-slate-500 bg-surface-inset px-5 py-6 text-center dark:border-white/25 dark:bg-[rgb(var(--color-bg-surface-inset))]';
 
 /** The upgrade button on the locked card: its shape and its size, with the amber fill
  *  and its ink added at the call site (`LOCK_CTA`). It is 44px on a phone. Painted
