@@ -17,7 +17,7 @@
  * margin covers clock skew between the function and the database and a slow cold start.
  *
  * Reprocessing an abandoned event is safe because every subscription write is
- * ordered by subscriptions.last_event_at (isStaleEvent in api/stripe-webhook.ts):
+ * ordered by subscriptions.last_event_at (isStaleEvent in api/_lib/subscriptionSync.ts):
  * an event already overtaken by a newer one is skipped, and one that has not been
  * is applied as it would have been. Keep that true: a handler that writes without
  * the ordering stamp must not run on this path.

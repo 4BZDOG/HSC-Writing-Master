@@ -103,6 +103,8 @@ Copy `.env.example` to `.env.local` and fill in the values above. The app works 
 
 The webhook is how Stripe tells your app about subscription changes (new checkout, upgrades, cancellations, failed payments).
 
+Checkout return now confirms the first purchase itself: `/api/sync-checkout` asks Stripe about the session the browser came back with, and unlocks the plan straight away, without waiting for the webhook. The webhook is still **required**. It is the only thing that applies renewals, cancellations, failed payments and seat changes after the first payment, so a deployment without its endpoint unlocks purchases and then never learns that a subscription has ended.
+
 ### 4a — Create the webhook endpoint in Stripe
 
 1. Go to [Stripe Dashboard → Developers → Webhooks](https://dashboard.stripe.com/webhooks).
@@ -271,7 +273,7 @@ can't write their own usage row); CI runs it on every push.
    - **Success**: `4242 4242 4242 4242`, any future expiry, any CVC
    - **Decline**: `4000 0000 0000 0002`
 7. After successful payment, you should be redirected back to the app with a success toast.
-8. The webhook fires → updates your `profiles.stripe_plan` to `'plus'` → all gates unlock.
+8. The return confirms the purchase with Stripe (`/api/sync-checkout`) → `profiles.stripe_plan` becomes `'plus'` → all gates unlock. If that confirmation is not possible, the app waits for the webhook instead, as before.
 
 ### Verify the webhook worked
 
@@ -347,13 +349,20 @@ User clicks "Upgrade"
         │ sets client_reference_id = user's Supabase UUID
         ▼
  Stripe Checkout (hosted by Stripe)
-        │ user pays
+        │ user pays, then Stripe returns the browser to ?checkout=success&session_id=…
         ▼
- POST /api/stripe-webhook
+ POST /api/sync-checkout            (on return; the only client input is the session id)
+        │ retrieves the session from Stripe; refuses unless it is this user's, paid, and a subscription
+        │ applies the subscription through api/_lib/subscriptionSync.ts (same code as the webhook)
+        ▼
+ profiles.stripe_plan = 'plus'
+        │
+        ▼
+ POST /api/stripe-webhook           (every later event: renewals, cancellations, failed payments)
         │ checkout.session.completed → links stripe_customer_id to profile
         │ customer.subscription.created → upserts subscription row + sets stripe_plan
         ▼
- profiles.stripe_plan = 'plus'
+ profiles.stripe_plan kept in step with Stripe
         │
         ▼
  getUserPlan() returns 'plus' → all gates unlock
@@ -367,6 +376,7 @@ User clicks "Upgrade"
 | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | Upgrade button redirects to `/#/upgrade-test`               | `STRIPE_SECRET_KEY` not set on server                                                         | Set it in Vercel env vars and redeploy                                                          |
 | Checkout works but plan doesn't update                      | Webhook not receiving events                                                                  | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
+| Paid, returned to the app, plan still locked                | `/api/sync-checkout` could not confirm the purchase (the server log says why, prefixed `[sync-checkout]`): usually a `STRIPE_*_PRICE_ID` missing on the server, or a server key from the other Stripe mode (test or live) | Fix the price ID or key named in the log. The webhook applies the purchase once its endpoint is registered and reachable |
 | Webhook returns 501                                         | `SUPABASE_SERVICE_ROLE_KEY` not set                                                           | Add it to Vercel env vars                                                                       |
 | Checkout/portal returns 503                                 | Only the `VITE_SUPABASE_*` pair is set                                                        | Add the unprefixed `SUPABASE_URL` / `SUPABASE_ANON_KEY`; the response body names them           |
 | Checkout returns 401 "User identity required"               | No server-side Supabase at all, so there is no signed-in identity to attach a subscription to | Set `SUPABASE_URL` / `SUPABASE_ANON_KEY` — billing cannot work without them                     |
