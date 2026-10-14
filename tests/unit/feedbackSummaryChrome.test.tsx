@@ -67,7 +67,7 @@ describe('the marking summary', () => {
 
     // The tip is the note under "Your next step", not a card of its own any more.
     const tip = screen.getByText('Your next step').closest('section');
-    const highlighted = container.querySelectorAll('.text-emerald-400, .light\\:text-emerald-800');
+    const highlighted = container.querySelectorAll('.text-emerald-400, .light\\:text-emerald-900');
     expect(tip?.textContent).toContain('latency');
     // The formatter wraps a matched term in its own span; plain text would not.
     expect(highlighted.length).toBeGreaterThan(0);

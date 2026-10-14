@@ -739,10 +739,13 @@ export const cleanMarkdown = (text: string): string => {
  *   stay layout-neutral (no padding/margins/font-weight changes) or the
  *   overlay drifts out of alignment with the real text.
  */
+// The light inks are one step deeper than the body pair needs, because the
+// highlight sits on a tinted wash (a feedback modal's band wash, or the emerald
+// tint itself) and emerald-800 measured 4.45:1 on the modal's worst ground.
 export const KEYWORD_HIGHLIGHT_CLASS =
-  'font-semibold text-emerald-400 light:text-emerald-800 bg-emerald-500/10 light:bg-emerald-600/10 rounded-[0.3em] px-[0.15em] box-decoration-clone print:bg-transparent print:text-emerald-800';
+  'font-semibold text-emerald-400 light:text-emerald-900 bg-emerald-500/10 light:bg-emerald-600/10 rounded-[0.3em] px-[0.15em] box-decoration-clone print:bg-transparent print:text-emerald-800';
 export const VERB_HIGHLIGHT_CLASS =
-  'font-black text-[rgb(var(--color-accent))] underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
+  'font-black text-[rgb(var(--color-accent))] light:text-sky-800 underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
 /**
  * The command verb inside a diff run (an added or a cut passage). That run is
  * already underlined or struck through, so the verb keeps its colour and weight
@@ -753,7 +756,7 @@ export const VERB_HIGHLIGHT_CLASS =
  * The light accent (sky-800) already clears it on the light wash, so only dark moves.
  */
 export const VERB_HIGHLIGHT_IN_MARK_CLASS =
-  'font-black text-[rgb(var(--color-accent))] dark:text-[rgb(var(--color-accent-glow))]';
+  'font-black text-[rgb(var(--color-accent))] light:text-sky-800 dark:text-[rgb(var(--color-accent-glow))]';
 /**
  * A syllabus term in a LIST of terms (the "terms the revision added" chips), as
  * opposed to a term inside a sentence. The same emerald as KEYWORD_HIGHLIGHT_CLASS
@@ -761,7 +764,7 @@ export const VERB_HIGHLIGHT_IN_MARK_CLASS =
  * edge and padding because it stands alone.
  */
 export const KEYWORD_CHIP_CLASS =
-  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold text-emerald-400 light:text-emerald-800 bg-emerald-500/10 light:bg-emerald-600/10 border border-emerald-500/25 light:border-emerald-600/25';
+  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold text-emerald-400 light:text-emerald-900 bg-emerald-500/10 light:bg-emerald-600/10 border border-emerald-500/25 light:border-emerald-600/25';
 /**
  * …and the same verb where it OPENS the command-verb guide.
  *
