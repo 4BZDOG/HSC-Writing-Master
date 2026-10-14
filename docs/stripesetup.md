@@ -480,6 +480,35 @@ to be invoiced, and lets a platform admin approve it.
    existing webhook then licenses the school, exactly as it does for a card
    purchase. No webhook change is involved.
 
+**What the school sees.** Under the School seat picker, on the upgrade prompt
+and on the plan comparison, a teacher or admin sees "Invoices and purchase orders
+are accepted for school licences" and a disclosure, "Pay by invoice or purchase
+order". Students and parents see the same line without the disclosure: a teacher
+or admin at the school asks for the invoice. The form asks for the name on the
+invoice, the accounts email, an Australian billing address, and optionally the
+ABN, the purchase order number and a note. Nothing is charged while the request
+is pending. The panel then shows the request's state in place of the form:
+
+- **Pending.** The date it was received, and that the invoice will be emailed to
+  the accounts address once it is approved, usually within two working days.
+- **Approved.** The invoice, as a link to Stripe's hosted page (https only), and
+  that members get School access within five minutes of opening the app. The due
+  date is printed on the invoice.
+- **Declined.** The administrator's note, and the form again, filled in from the
+  declined request, so the school can correct it and ask again.
+
+Two things the school is not told. A colleague's pending request appears only as
+a summary ("received on", seats, "waiting for approval") with no billing details,
+because that is all the server returns for another person's request. And a
+teacher who opens the panel later, after a colleague has asked, sees the form
+again, not the summary: a read cannot see another person's request, so the
+summary appears only once they send their own. Nothing on any of these screens
+offers the billing portal.
+
+**Where the queue is.** Requests wait in the admin Billing overview (Admin Tools →
+Billing → Billing Overview), under **Invoice requests** at the top of **Needs
+attention**. Deciding them is set out in "Deciding a request" below.
+
 Each school can have one pending request at a time, and an account can raise
 three requests in any 24 hours. Approval refuses when the school already holds
 a live licence, so the same seats are never invoiced twice.
@@ -564,6 +593,14 @@ refuse, because the school then holds a licence.
 `VITE_SCHOOL_INVOICE_ENABLED=false`, which the server also reads). Both request
 endpoints then answer 404, and no new approval can start. Pending requests stay
 in the table and can be declined later. Unset or `true` turns it back on.
+
+The app has its own copy of the switch, and it is read when the site is built,
+not when the API runs. A server-only `false` leaves the disclosure on screen, and
+a teacher who sends the form is then told the route is not offered on this
+deployment. To take the route off the screen as well, set
+`VITE_SCHOOL_INVOICE_ENABLED=false` and rebuild and redeploy the site. The app
+also needs `VITE_STRIPE_SCHOOL_PRICE_ID` set; without it the route is not drawn,
+because an approval has no price to invoice.
 
 **Database.** `supabase/schema.sql` §27 adds the `licence_requests` table. It is
 `create … if not exists` throughout, so re-apply the schema to add it. Until you
