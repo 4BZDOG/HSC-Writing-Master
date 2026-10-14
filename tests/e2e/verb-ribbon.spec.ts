@@ -84,6 +84,19 @@ test.describe('the verb ribbon’s tier cards', () => {
     await openWorkspace(page);
     await openVerbRibbon(page);
 
+    // The banner and stage fade between themes (`transition-colors`). This test
+    // asks what colour each theme *ends* on, not how it gets there, so take the
+    // fade out. Desktop WebKit read the banner at alpha 0.04 on every retry: that
+    // is the dark theme's hover wash (`dark:can-hover:hover:bg-white/[0.04]`,
+    // left by the click that opened the ribbon), i.e. the fade's starting value,
+    // so the frames that advance it were not being produced on a loaded runner
+    // and no amount of waiting helps. Main runs 1180 and 1193 failed that way;
+    // 1182 and 1186 passed.
+    await page.addStyleTag({
+      content:
+        '*, *::before, *::after { transition: none !important; animation: none !important; }',
+    });
+
     const setTheme = async (theme: 'light' | 'dark') => {
       const toggle = page.getByRole('button', {
         name: new RegExp(`switch to ${theme} theme`, 'i'),
