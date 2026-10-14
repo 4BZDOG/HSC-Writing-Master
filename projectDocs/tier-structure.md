@@ -8,11 +8,11 @@ what it gates and why, and what a teacher sees in each situation. The code it de
 
 ## The three tiers, by buyer
 
-| Tier | Buyer | Job | Price today |
-| --- | --- | --- | --- |
-| **Free** | Student | "Try it honestly": 5 marked answers a day, summary and band, question tiers 1–3, exemplars to Band 3 | Free |
-| **Band 6 Plus** | Student or parent | "Get better, fast": unlimited marking, full feedback, answer upgrades, every exemplar, exam simulation, the student's own progress report, outcome briefings | A$7.99 a month, A$59 a year |
-| **School** | Head teacher or accounts office | "Cover the cohort and run it": Plus for every seat, the class and school reports, seat management, and invoicing against a purchase order | A$4 per student per year |
+| Tier            | Buyer                           | Job                                                                                                                                                          | Price today                 |
+| --------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| **Free**        | Student                         | "Try it honestly": 5 marked answers a day, summary and band, question tiers 1–3, exemplars to Band 3                                                         | Free                        |
+| **Band 6 Plus** | Student or parent               | "Get better, fast": unlimited marking, full feedback, answer upgrades, every exemplar, exam simulation, the student's own progress report, outcome briefings | A$7.99 a month, A$59 a year |
+| **School**      | Head teacher or accounts office | "Cover the cohort and run it": Plus for every seat, the class and school reports, seat management, and invoicing against a purchase order                    | A$4 per student per year    |
 
 The shipped prices are display strings (see `docs/stripesetup.md`). They are not read from Stripe.
 
@@ -30,15 +30,15 @@ The shipped prices are display strings (see `docs/stripesetup.md`). They are not
 
 ## What each plan gates
 
-| Feature | Plan that unlocks it | Notes |
-| --- | --- | --- |
-| Marked answers per day | Plus (metered for Free only) | Counted in Postgres (`consume_evaluation`). |
-| Question tiers 4–6 | Plus | Free sees tiers 1–3. |
-| Exemplars above Band 3 | Plus | Withheld by the database for Free (schema §25). |
-| Full marking feedback, answer upgrades | Plus | Feedback is redacted server-side for Free. |
-| Exam simulation, PDF export of a student's report, outcome briefings | Plus | Outcome briefings are metered by the server. |
-| AI Content Studio | Plus, **and a teacher or admin account** | A role lock. Paying does not give a student the studio. |
-| **Class and school reports** (`cohortReports`) | **School** | The Class report (a teacher's classes) and the School report (an administrator's school). |
+| Feature                                                              | Plan that unlocks it                     | Notes                                                                                     |
+| -------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Marked answers per day                                               | Plus (metered for Free only)             | Counted in Postgres (`consume_evaluation`).                                               |
+| Question tiers 4–6                                                   | Plus                                     | Free sees tiers 1–3.                                                                      |
+| Exemplars above Band 3                                               | Plus                                     | Withheld by the database for Free (schema §25).                                           |
+| Full marking feedback, answer upgrades                               | Plus                                     | Feedback is redacted server-side for Free.                                                |
+| Exam simulation, PDF export of a student's report, outcome briefings | Plus                                     | Outcome briefings are metered by the server.                                              |
+| AI Content Studio                                                    | Plus, **and a teacher or admin account** | A role lock. Paying does not give a student the studio.                                   |
+| **Class and school reports** (`cohortReports`)                       | **School**                               | The Class report (a teacher's classes) and the School report (an administrator's school). |
 
 **Change for existing teachers.** Until this branch, a teacher's Class and School report PDFs were a
 Plus feature, held by every teacher through the staff perk. They are now a School feature. A teacher
@@ -49,11 +49,11 @@ with no licence sees the report locked, and a teacher whose school holds a licen
 
 `describeAccess('cohortReports', user)` gives one answer per person. The three locked situations:
 
-| Situation | State | What the prompt says | What it offers |
-| --- | --- | --- | --- |
-| **A.** Not attached to a school | Locked, plan | "School includes Class & School Reports. A school licence covers everyone in the school, so ask an admin to add you to your school." | The copy-a-note kit for the admin. No seat picker. |
-| **B.** Attached to a school with no licence | Locked, plan | "School includes Class & School Reports. One licence covers everyone at *school*." | The seat picker ("Buy 30 seats"). |
-| **C.** Attached, but holds their own Plus | Locked, plan | As B, plus "Your own Band 6 Plus plan does not include it." | The seat picker. Plus is not offered. |
+| Situation                                   | State        | What the prompt says                                                                                                                 | What it offers                                     |
+| ------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| **A.** Not attached to a school             | Locked, plan | "School includes Class & School Reports. A school licence covers everyone in the school, so ask an admin to add you to your school." | The copy-a-note kit for the admin. No seat picker. |
+| **B.** Attached to a school with no licence | Locked, plan | "School includes Class & School Reports. One licence covers everyone at _school_."                                                   | The seat picker ("Buy 30 seats").                  |
+| **C.** Attached, but holds their own Plus   | Locked, plan | As B, plus "Your own Band 6 Plus plan does not include it."                                                                          | The seat picker. Plus is not offered.              |
 
 If the school already holds a licence, the teacher is on the School plan and the report is open. If a
 teacher's school licence is held by someone else at the moment they try to buy, the server's 409

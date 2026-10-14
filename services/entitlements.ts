@@ -783,10 +783,12 @@ export const postBillingJson = async <T extends object>(
       headers: await getAuthHeaders(),
       body: JSON.stringify(body),
     });
-    const data = (await res.json().catch(() => null)) as (T & {
-      error?: string;
-      code?: string;
-    }) | null;
+    const data = (await res.json().catch(() => null)) as
+      | (T & {
+          error?: string;
+          code?: string;
+        })
+      | null;
     const ok = res.ok && !!data;
     return {
       data: ok ? data : null,
