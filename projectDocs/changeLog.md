@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (CI: the E2E suite runs in parallel)
+
+- **Changed.** The E2E suite is one job per browser project instead of one long job, and no longer waits for
+  lint to finish. A pull request's whole pipeline went from about 20 minutes to about 10, and a push to main
+  from 35–50 minutes to about 11 (the first 8-leg run on main took 10m39s). The legs come from
+  `scripts/e2eMatrix.mjs`; a gate job keeps the check name "E2E Tests"; each leg installs and caches only the
+  browser it launches. On CI the log now lists every test with its duration, and video is recorded only from the
+  first retry.
+- **Fixed.** `openWorkspaceQuestion` failed about one run in seven: the picker walk clicked a disabled question
+  (the free tier cannot open tiers above 3) and waited out its budget. It now skips questions the account cannot
+  open. Also fixed: a race in `class-analytics-ranking` that read the table while a spinner replaced it.
+- **Learned.** Bounding a WebKit click at 10 s in a shared helper made eight Mobile Safari tests fail on the
+  loaded runner; helper actions that run on WebKit keep at least 30 s.
+
 ## [Unreleased] - 2026-10-13 (Light-theme surfaces, round 1, and guards for what slipped)
 
 - **Fixed.** The light theme's white slabs were redrawn on the depth ladder, as Plan-FrontendDesignReview
