@@ -139,7 +139,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))]">
                 {PLAN_LABELS[plan]}
               </h4>
-              <p className="text-xs font-bold text-[rgb(var(--color-text-secondary))] mt-0.5">
+              <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] mt-0.5">
                 {PLAN_AUDIENCES[plan]}
               </p>
               <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1">
