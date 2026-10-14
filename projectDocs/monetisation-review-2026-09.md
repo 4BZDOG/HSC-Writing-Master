@@ -202,7 +202,7 @@ inconsistency is a decision rather than an oversight.
 so a **buyer** — personal or school — unlocks without re-login. It is the other
 members of a licensed school who wait (see §4).
 
-_Superseded by §30: the return now confirms the purchase with Stripe before it
+_Superseded by §31: the return now confirms the purchase with Stripe before it
 polls, so the poll is the fallback rather than the only route._
 
 ### 13. The profile's three help rows were dead buttons — P0, fixed
@@ -504,7 +504,7 @@ subscription to the purchaser only. Other staff are told who bought the licence.
 Seats are still not enforced at sign-in. The notice says so, which is accurate;
 whether they should be is a product decision, recorded in §5.
 
-### 30. A paying customer could stay locked until the webhook landed — P1, fixed
+### 31. A paying customer could stay locked until the webhook landed — P1, fixed
 
 The return from Checkout polled the profile for about 30 seconds, then told the
 customer to "refresh if features stay locked". A refresh cannot help: the plan

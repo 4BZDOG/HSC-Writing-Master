@@ -10,7 +10,7 @@
   shared with the new endpoint. The webhook's behaviour is unchanged, and its existing tests pass without edits.
 - **Operator.** Still needs the webhook for renewals, cancellations, failed payments and seat changes (see
   `docs/stripesetup.md`, Step 4). No schema change and no new environment variable.
-- See `projectDocs/monetisation-review-2026-09.md` §30.
+- See `projectDocs/monetisation-review-2026-09.md` §31.
 
 ## [Unreleased] - 2026-10-14 (A school licence reaches its members, and staff hear when it is outgrown)
 
