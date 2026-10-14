@@ -215,7 +215,7 @@ export const validateInvoiceRequest = (body: unknown): ValidationResult<InvoiceR
   const source = body as Record<string, unknown>;
 
   const seats = parseSeats(source.seats);
-  if (!seats.ok) return seats;
+  if (seats.ok === false) return { ok: false, error: seats.error };
 
   const billingName = cleanLine(source.billingName);
   if (!billingName || billingName.length > INVOICE_LIMITS.name) {
@@ -239,7 +239,7 @@ export const validateInvoiceRequest = (body: unknown): ValidationResult<InvoiceR
   }
 
   const address = parseAddress(source.billingAddress);
-  if (!address.ok) return address;
+  if (address.ok === false) return { ok: false, error: address.error };
 
   let abn: string | null = null;
   const rawAbn = cleanLine(source.abn);
@@ -369,3 +369,63 @@ export const readSchoolLicence = async (
   if (!data) return { ok: false, error: 'The school could not be found.' };
   return { ok: true, school: data as SchoolLicenceRow };
 };
+
+/** The columns of a request the API reads back. Named, not `*`, so a new column is not exposed by accident. */
+export const LICENCE_REQUEST_COLUMNS =
+  'id, requested_by, school_id, seats, billing_name, billing_email, billing_address, abn, po_number, note, status, decided_at, decision_note, stripe_customer_id, stripe_subscription_id, stripe_invoice_id, hosted_invoice_url, created_at';
+
+/** A request as stored in public.licence_requests (supabase/schema.sql §27). */
+export interface LicenceRequestRow {
+  id: string;
+  requested_by: string | null;
+  school_id: string;
+  seats: number;
+  billing_name: string;
+  billing_email: string;
+  billing_address: Record<string, unknown>;
+  abn: string | null;
+  po_number: string | null;
+  note: string | null;
+  status: 'pending' | 'approved' | 'declined' | 'cancelled';
+  decided_at: string | null;
+  decision_note: string | null;
+  stripe_customer_id: string | null;
+  stripe_subscription_id: string | null;
+  stripe_invoice_id: string | null;
+  hosted_invoice_url: string | null;
+  created_at: string;
+}
+
+/**
+ * The request as the client may see it: the row minus the Stripe and account
+ * identifiers the client has no use for. The billing details stay, because the
+ * requester typed them and the accounts office needs to check them.
+ */
+export const publicLicenceRequest = (row: LicenceRequestRow) => ({
+  id: row.id,
+  status: row.status,
+  seats: row.seats,
+  billing_name: row.billing_name,
+  billing_email: row.billing_email,
+  billing_address: row.billing_address,
+  abn: row.abn,
+  po_number: row.po_number,
+  note: row.note,
+  decided_at: row.decided_at,
+  decision_note: row.decision_note,
+  hosted_invoice_url: row.hosted_invoice_url,
+  created_at: row.created_at,
+});
+
+/**
+ * What another teacher at the same school may learn about a pending request
+ * they did not make. Creating a request returns the school's existing pending
+ * one, so without this a teacher could read a colleague's billing details by
+ * asking for an invoice themselves.
+ */
+export const otherUsersLicenceRequest = (row: LicenceRequestRow) => ({
+  id: row.id,
+  status: row.status,
+  seats: row.seats,
+  created_at: row.created_at,
+});
