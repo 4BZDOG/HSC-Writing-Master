@@ -15,7 +15,8 @@ import { useEffect, useRef } from 'react';
  * misses:
  *
  *   1. Move focus INTO the dialog when it opens.
- *   2. Keep Tab and Shift+Tab inside it while it is open.
+ *   2. Keep Tab and Shift+Tab inside it while it is open — and inside the
+ *      layers deliberately painted above it (see `focusTrapCompanion`).
  *   3. Put focus BACK where it came from when it closes. Without this a
  *      keyboard user is returned to `<body>` and has to tab from the top of
  *      the page to reach the control they just used.
@@ -84,6 +85,66 @@ const isReachable = (el: HTMLElement): boolean => {
 /** Focusable, reachable descendants in document order. */
 const focusableWithin = (container: HTMLElement): HTMLElement[] =>
   Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(isReachable);
+
+/**
+ * Marks a region OUTSIDE the dialog that its Tab cycle should include.
+ *
+ * Spread it onto the mount of anything that is painted above the dialog and
+ * holds controls a keyboard user needs: today, the toast. The toast is portalled
+ * to <body> at z-toast, above the improvement review, so a mouse user can press
+ * its "Undo" — but it is not inside the dialog, and a trap that only knows its
+ * own subtree wraps Tab straight past it. The control was on screen, on top, and
+ * unreachable.
+ *
+ * It is an attribute and not a registration so that the mount stays a plain
+ * element, and so no dialog has to know a toast exists: the dialogs are
+ * untouched, and the cycle they get is "my controls, then the companion's".
+ */
+export const FOCUS_TRAP_COMPANION_ATTRIBUTE = 'data-focus-trap-companion';
+export const focusTrapCompanion = { [FOCUS_TRAP_COMPANION_ATTRIBUTE]: '' } as const;
+
+/**
+ * Is this control painted on top, as opposed to sitting under a scrim?
+ *
+ * The toast ranks below the confirm, rename and flag dialogs (z 2200 against
+ * 1350), so a toast raised over one of those is hidden by it. Offering its
+ * buttons to Tab there would put focus on a control nobody can see, and Enter
+ * would press "Undo" blind. Asking the browser what is actually painted at the
+ * control's centre answers that without this hook needing to know the z-index
+ * ladder, or which modal is open.
+ *
+ * Where there is no layout engine (jsdom reports an empty rectangle, and has no
+ * `elementFromPoint`) the safe answer is "assume it is on top", for the reason
+ * `isReachable` gives: a cycle that occasionally offers one control too many
+ * still keeps the dialog's own controls trapped.
+ */
+const isPaintedOnTop = (control: HTMLElement, region: HTMLElement): boolean => {
+  if (typeof document.elementFromPoint !== 'function') return true;
+  const box = control.getBoundingClientRect();
+  if (box.width === 0 && box.height === 0) return true;
+  const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+  return !!hit && region.contains(hit);
+};
+
+/**
+ * The companion regions, and the controls in them that Tab can land on.
+ *
+ * Read afresh on every Tab rather than cached: a toast appears and expires
+ * while the dialog stays open, and the cycle must follow it. A region inside
+ * the dialog is skipped — its controls are already the dialog's own — and so is
+ * one that contains it, which would otherwise swallow the dialog's controls.
+ */
+const companionsOutside = (
+  container: HTMLElement
+): { regions: HTMLElement[]; stops: HTMLElement[] } => {
+  const regions = Array.from(
+    document.querySelectorAll<HTMLElement>(`[${FOCUS_TRAP_COMPANION_ATTRIBUTE}]`)
+  ).filter((region) => !container.contains(region) && !region.contains(container));
+  const stops = regions.flatMap((region) =>
+    focusableWithin(region).filter((control) => isPaintedOnTop(control, region))
+  );
+  return { regions, stops };
+};
 
 /**
  * Trap focus inside the returned element while `active`.
@@ -180,33 +241,57 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
       const el = containerRef.current;
       if (!el) return;
       const focusable = focusableWithin(el);
-      if (focusable.length === 0) {
-        // Nothing to land on — keep focus on the dialog rather than letting
-        // Tab wander off into the page underneath.
-        e.preventDefault();
-        el.focus?.();
-        return;
-      }
+      const { regions, stops } = companionsOutside(el);
 
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      // The dialog's own stops. With no controls at all the dialog itself is
+      // the only place to stand, so keep focus on it rather than letting Tab
+      // wander off into the page underneath.
+      const own = focusable.length > 0 ? focusable : [el];
+      const first = own[0];
+      const last = own[own.length - 1];
+      const companionFirst = stops[0];
+      const companionLast = stops[stops.length - 1];
       const activeEl = document.activeElement;
+      const forward = !e.shiftKey;
 
-      // Focus outside the dialog entirely (a click on the page behind, a
-      // programmatic focus from a toast) — pull it back rather than letting
-      // the wrap-around logic silently no-op.
-      if (!el.contains(activeEl)) {
+      const inDialog = el.contains(activeEl);
+      const inCompanion = regions.some((region) => region.contains(activeEl));
+
+      // Focus outside the dialog and outside any companion (a click on the
+      // page behind, a stray programmatic focus) — pull it back rather than
+      // letting the wrap-around logic silently no-op. Only a region the app
+      // has marked as a companion is exempt: that is a deliberate hand-off to a
+      // layer painted above the dialog, not an escape.
+      if (!inDialog && !inCompanion) {
         e.preventDefault();
-        (e.shiftKey ? last : first).focus();
+        (forward ? first : last).focus?.();
         return;
       }
 
-      if (e.shiftKey && activeEl === first) {
+      /**
+       * The cycle is the dialog's controls, then each companion's, then round
+       * to the start. Only the edges are intercepted; between two controls in
+       * the same region the browser's own Tab order is left to do its work
+       * (radio groups, a control that moves focus itself).
+       */
+      let target: HTMLElement | null = null;
+      if (inDialog) {
+        if (focusable.length === 0) {
+          target = (forward ? companionFirst : companionLast) ?? el;
+        } else if (forward && activeEl === last) {
+          target = companionFirst ?? first;
+        } else if (!forward && activeEl === first) {
+          target = companionLast ?? last;
+        }
+      } else if (forward && (!companionLast || activeEl === companionLast)) {
+        target = first;
+      } else if (!forward && (!companionFirst || activeEl === companionFirst)) {
+        target = last;
+      }
+
+      if (target) {
         e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && activeEl === last) {
-        e.preventDefault();
-        first.focus();
+        target.focus?.();
       }
     };
 

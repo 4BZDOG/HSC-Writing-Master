@@ -1,7 +1,11 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { render, screen, cleanup, fireEvent, waitFor } from '@testing-library/react';
-import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { useFocusTrap, focusTrapCompanion } from '../../hooks/useFocusTrap';
+import Toast from '../../components/Toast';
 
 /**
  * Every dialog in the app declares `aria-modal="true"`, which tells a screen
@@ -48,6 +52,7 @@ const Harness: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   );
 };
 
+/** Returns false when the trap called `preventDefault`, i.e. took the key over. */
 const tab = (shift = false) =>
   fireEvent.keyDown(document, { key: 'Tab', shiftKey: shift, bubbles: true });
 
@@ -317,5 +322,298 @@ describe('collapsed panels are unreachable', () => {
 
     fireEvent.click(toggle);
     expect(inertPanel()).not.toBeNull();
+  });
+});
+
+/**
+ * A toast is painted above the improvement review (z 1350 against 1300) so that
+ * "Undo" and a failed export are SEEN — but it is portalled to <body>, outside
+ * the dialog, and the trap wrapped Tab round the dialog's own controls. A mouse
+ * user could press the toast's action; a keyboard user could not reach it at all.
+ *
+ * The fix is a deliberate, marked hand-off (`focusTrapCompanion` on the toast's
+ * mount), not a loosening: anything NOT marked is still pulled back into the
+ * dialog, and the dialog's own controls still wrap exactly as before.
+ */
+describe('a toast painted above the dialog', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    Reflect.deleteProperty(document, 'elementFromPoint');
+  });
+
+  /** The toast's mount as `App` renders it: portalled to <body>, marked as a companion. */
+  const ToastMount: React.FC<{ marked?: boolean; action?: boolean }> = ({
+    marked = true,
+    action = true,
+  }) =>
+    createPortal(
+      <div {...(marked ? focusTrapCompanion : {})} data-testid="toast-mount">
+        <Toast
+          message="Draft replaced."
+          type="success"
+          duration={600000}
+          onClose={() => {}}
+          action={action ? { label: 'Undo', onClick: () => {} } : undefined}
+        />
+      </div>,
+      document.body
+    );
+
+  const renderReview = (toast: React.ReactNode = <ToastMount />, dialog?: React.ReactNode) =>
+    render(
+      <>
+        <button>page control behind</button>
+        <Dialog active>{dialog}</Dialog>
+        {toast}
+      </>
+    );
+
+  const undo = () => screen.getByRole('button', { name: 'Undo' });
+  const dismiss = () => screen.getByRole('button', { name: 'Close notification' });
+
+  it('is reached by Tab from the dialog’s last control, rather than wrapping past it', () => {
+    renderReview();
+    screen.getByText('last').focus();
+
+    const left = tab();
+
+    expect(left).toBe(false);
+    expect(document.activeElement).toBe(undo());
+  });
+
+  it('leaves Tab between the toast’s own controls to the browser', () => {
+    renderReview();
+    undo().focus();
+
+    // Not the edge of the toast, so the trap has no business intercepting.
+    expect(tab()).toBe(true);
+    expect(document.activeElement).toBe(undo());
+  });
+
+  it('wraps from the toast’s last control back to the dialog’s first', () => {
+    renderReview();
+    dismiss().focus();
+
+    expect(tab()).toBe(false);
+    expect(document.activeElement).toBe(screen.getByText('first'));
+  });
+
+  it('runs the same cycle backwards with Shift+Tab', () => {
+    renderReview();
+
+    screen.getByText('first').focus();
+    tab(true);
+    expect(document.activeElement).toBe(dismiss());
+
+    undo().focus();
+    tab(true);
+    expect(document.activeElement).toBe(screen.getByText('last'));
+  });
+
+  it('reaches the toast whichever way round it sits in the document', () => {
+    // Raised BEFORE the dialog opened, so it comes first in DOM order. Tab order
+    // is the trap’s to decide, not the markup’s.
+    render(
+      <>
+        <ToastMount />
+        <Dialog active />
+      </>
+    );
+    screen.getByText('last').focus();
+
+    tab();
+    expect(document.activeElement).toBe(undo());
+  });
+
+  it('still reaches a toast with nothing to do but be dismissed', () => {
+    renderReview(<ToastMount action={false} />);
+    screen.getByText('last').focus();
+
+    tab();
+    expect(document.activeElement).toBe(dismiss());
+  });
+
+  it('follows the toast as it comes and goes while the dialog stays open', () => {
+    const { rerender } = renderReview(null);
+    screen.getByText('last').focus();
+
+    // No toast: the dialog wraps exactly as it always has.
+    tab();
+    expect(document.activeElement).toBe(screen.getByText('first'));
+
+    rerender(
+      <>
+        <button>page control behind</button>
+        <Dialog active />
+        <ToastMount />
+      </>
+    );
+    screen.getByText('last').focus();
+    tab();
+    expect(document.activeElement).toBe(undo());
+
+    rerender(
+      <>
+        <button>page control behind</button>
+        <Dialog active />
+      </>
+    );
+    screen.getByText('last').focus();
+    tab();
+    expect(document.activeElement).toBe(screen.getByText('first'));
+  });
+
+  describe('without weakening the trap', () => {
+    it('does not hand a toast to the dialog’s controls: they still wrap when no toast is up', () => {
+      renderReview(null);
+
+      screen.getByText('last').focus();
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('first'));
+
+      tab(true);
+      expect(document.activeElement).toBe(screen.getByText('last'));
+    });
+
+    it('still pulls focus back from the page behind while a toast is up', () => {
+      renderReview();
+
+      screen.getByText('page control behind').focus();
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('first'));
+
+      screen.getByText('page control behind').focus();
+      tab(true);
+      expect(document.activeElement).toBe(screen.getByText('last'));
+    });
+
+    it('does not treat an unmarked portalled layer as part of the cycle', () => {
+      // Same shape as the toast, minus the marker: only a deliberate hand-off
+      // is exempt, so a stray portal cannot become a way out of the dialog.
+      renderReview(<ToastMount marked={false} />);
+      screen.getByText('last').focus();
+
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('first'));
+
+      // And focus that has strayed onto it is pulled back like any other.
+      undo().focus();
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('first'));
+    });
+
+    it('skips a toast that is hidden from assistive technology', () => {
+      renderReview(
+        createPortal(
+          <div {...focusTrapCompanion} aria-hidden="true">
+            <button>unseen</button>
+          </div>,
+          document.body
+        )
+      );
+      screen.getByText('last').focus();
+
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('first'));
+    });
+
+    it('ignores a marked region inside the dialog, whose controls are already its own', () => {
+      renderReview(
+        null,
+        <>
+          <button>first</button>
+          <div {...focusTrapCompanion}>
+            <button>inner last</button>
+          </div>
+        </>
+      );
+      screen.getByText('inner last').focus();
+
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('first'));
+    });
+
+    it('only the topmost dialog hands focus on', () => {
+      render(
+        <>
+          <Dialog active>
+            <button>under first</button>
+            <button>under last</button>
+          </Dialog>
+          <Dialog active>
+            <button>over first</button>
+            <button>over last</button>
+          </Dialog>
+          <ToastMount />
+        </>
+      );
+
+      screen.getByText('over last').focus();
+      tab();
+      expect(document.activeElement).toBe(undo());
+
+      // From the toast it goes back to the TOPMOST dialog, not the one beneath.
+      dismiss().focus();
+      tab();
+      expect(document.activeElement).toBe(screen.getByText('over first'));
+    });
+  });
+
+  describe('when the toast is covered by a dialog above it', () => {
+    // The toast ranks below confirm, rename and flag (z 1350 against 2200), so
+    // one raised over those is hidden. Offering its buttons to Tab there would
+    // put focus on a control nobody can see, and Enter would press "Undo" blind.
+    const paintOver = (hit: Element) => {
+      // jsdom has no layout, so give every control a box and say what the
+      // browser would find painted at its centre.
+      vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+        left: 10,
+        top: 10,
+        width: 80,
+        height: 30,
+        right: 90,
+        bottom: 40,
+        x: 10,
+        y: 10,
+        toJSON: () => ({}),
+      });
+      Object.defineProperty(document, 'elementFromPoint', {
+        configurable: true,
+        value: () => hit,
+      });
+    };
+
+    it('is skipped, so Tab does not land on something hidden', () => {
+      const scrim = document.createElement('div');
+      document.body.appendChild(scrim);
+      renderReview();
+      paintOver(scrim);
+      screen.getByText('last').focus();
+
+      tab();
+
+      expect(document.activeElement).toBe(screen.getByText('first'));
+      scrim.remove();
+    });
+
+    it('is offered when it is the thing actually painted there', () => {
+      renderReview();
+      paintOver(screen.getByTestId('toast-mount'));
+      screen.getByText('last').focus();
+
+      tab();
+
+      expect(document.activeElement).toBe(undo());
+    });
+  });
+});
+
+describe('the toast mount in App', () => {
+  it('is marked as a focus-trap companion', () => {
+    // `App` is too large to mount in a unit test, so this guards the wiring: the
+    // wrapper that carries `z-toast` must spread `focusTrapCompanion`, or the
+    // keyboard cycle above silently stops including the toast.
+    const app = readFileSync(resolve(__dirname, '../../App.tsx'), 'utf8');
+    expect(app).toMatch(/<div\s+\{\.\.\.focusTrapCompanion\}\s+className="[^"]*\bz-toast\b/);
   });
 });
