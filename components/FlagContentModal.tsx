@@ -132,7 +132,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
                 onResolve();
                 onClose();
               }}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition hover:shadow-lg active:scale-[0.98] flex items-center gap-2"
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold bg-emerald-700 hover:bg-emerald-800 text-white transition hover:shadow-lg active:scale-[0.98] flex items-center gap-2"
             >
               <CheckCircle2 className="w-4 h-4" /> Mark Resolved
             </button>

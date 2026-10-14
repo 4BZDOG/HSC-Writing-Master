@@ -50,7 +50,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
     >
       <div className="flex items-center gap-6 mb-10">
         <div
-          className={`p-4 rounded-panel shadow-lg flex items-center justify-center relative overflow-hidden group/status ${result.isValid ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}
+          className={`p-4 rounded-panel shadow-lg flex items-center justify-center relative overflow-hidden group/status ${result.isValid ? 'bg-emerald-700 text-white' : 'bg-red-500 text-white'}`}
         >
           <div className="absolute inset-0 bg-white/20 animate-pulse opacity-0 group-hover/status:opacity-100 transition-opacity" />
           {result.isValid ? (

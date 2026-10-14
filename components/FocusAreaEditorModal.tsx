@@ -113,7 +113,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
         <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
           <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-700 flex items-center justify-center shadow-lg">
                 <Target className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -272,7 +272,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
             </button>
             <button
               onClick={handleSave}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-500 hover:shadow-lg active:scale-[0.98] transition"
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-emerald-700 to-teal-700 hover:shadow-lg active:scale-[0.98] transition"
             >
               Save Focus Areas
             </button>

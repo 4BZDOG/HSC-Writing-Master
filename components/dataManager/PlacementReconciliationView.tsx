@@ -331,7 +331,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                 disabled={
                   !bulkPlacement.topicId || !bulkPlacement.subTopicId || !bulkPlacement.dotPointId
                 }
-                className="w-full sm:w-auto justify-center text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2.5 sm:py-2 rounded-lg transition-all disabled:opacity-40 disabled:hover:bg-emerald-600 flex items-center gap-1.5"
+                className="w-full sm:w-auto justify-center text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 px-4 py-2.5 sm:py-2 rounded-lg transition-all disabled:opacity-40 disabled:hover:bg-emerald-700 flex items-center gap-1.5"
               >
                 <MapPin className="w-3.5 h-3.5" />
                 Place {stats.remaining} Group{stats.remaining !== 1 ? 's' : ''}

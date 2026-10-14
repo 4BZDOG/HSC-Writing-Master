@@ -990,7 +990,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 <button
                   onClick={handleConfirmImport}
                   disabled={previewData.length === 0}
-                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-600 to-green-500 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="py-2.5 px-5 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-800 to-green-700 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {targetCourse ? (
                     <GitMerge className="w-4 h-4" />

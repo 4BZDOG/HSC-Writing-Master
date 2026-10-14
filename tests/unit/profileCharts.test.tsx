@@ -253,7 +253,7 @@ describe('RecentAttemptsList', () => {
   it('colours each band chip from the band palette', () => {
     render(<RecentAttemptsList history={ready([att(1, 6)])} />);
     const chip = screen.getByText('Band 6');
-    expect(chip.className).toContain('text-purple-400');
+    expect(chip.className).toContain('text-purple-300');
   });
 
   it('lists nothing as a plain sentence, not as an empty list', () => {
