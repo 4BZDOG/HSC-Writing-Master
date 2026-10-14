@@ -474,31 +474,62 @@ the purchase with a 503 before any session is created. A licence column the sche
 has not added yet is treated as "nothing to check", so a database that has not
 re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuard.test.ts`.
 
-### 21. Two open Checkout Sessions can both complete — P1, open
+### 21. Two open Checkout Sessions can both complete — P1, fixed
 
-- **Where**: `api/create-checkout.ts` (the duplicate guard reads `subscriptions`,
-  around line 215, and `checkout.sessions.create`, around line 342).
+- **Where**: `api/create-checkout.ts`, `api/_lib/openCheckout.ts`, and the
+  `checkout_sessions` table (schema §13).
 - **Scenario**: a buyer opens Checkout, does not pay, and opens it again. The first
   session is still open. Both are completed, so there are two live subscriptions on
   one customer. `resolve_stripe_plan` keeps whichever has the latest period end,
   and the other keeps billing, which is the exact outcome the guard exists to prevent. The guard cannot
   see it, because a subscription row exists only after the webhook has run.
 - **Severity**: P1 (double charge).
-- **Suggested fix**: before creating a session, list the customer's open sessions
-  (`stripe.checkout.sessions.list({ customer, status: 'open' })`) and expire them.
-  This needs a Stripe call the mocked tests do not yet cover, so it is not in this change.
+- **Fixed**: each account has one payable session. A new session is recorded in
+  `checkout_sessions` before its URL leaves the function, and the one it displaces is
+  expired. The record is a compare-and-set on the session id, so two racing requests
+  cannot both displace the same session. A double tap returns the same session: the
+  create call carries an idempotency key made from the user, the plan, the seats and a
+  five-minute bucket, and `expires_at` comes from the same bucket. Sessions now live 31
+  to 36 minutes, not 24 hours. If the displaced session was paid and its subscription is still
+  held, the new purchase is refused and its session released. A Stripe failure while
+  expiring is logged and does not block the purchase, as the brief requires. The
+  residual window that leaves is §35.
+- **Evidence**: `tests/unit/openCheckout.test.ts` (the bucket, the expiry bounds, the swap
+  and its lost race, the refusal rule), `tests/unit/openCheckoutRoute.test.ts` (second
+  checkout displaces the first, double tap, paid first session refused and released,
+  Stripe failure on expiry does not block, unreadable record refused and released,
+  missing table as before); SQL assertions in `supabase/tests/entitlement_tests.sql`.
 
-### 22. A subscription in `incomplete` holds nothing, so a second purchase is allowed — P1, open
+### 22. A subscription in `incomplete` holds nothing, so a second purchase is allowed — P1, fixed
 
-- **Where**: `api/create-checkout.ts:49` (`LIVE_STATUSES`) for both the personal and
-  school guards.
+- **Where**: `api/create-checkout.ts` (both guards, and the displaced-session check),
+  `holdsPurchase` in `api/_lib/openCheckout.ts`.
 - **Scenario**: the first payment needs 3-D Secure. The subscription stays
   `incomplete` for up to about 23 hours, and the buyer, or a colleague for the same
   school, checks out again. Both then complete.
 - **Severity**: P1 (double charge). Same mechanism as §21.
-- **Suggested fix**: hold `incomplete` as well, with its own message ("your
-  purchase is still waiting for payment"). The brief set the held statuses, and the
-  wording is a product call, so it is left open.
+- **Decision, from the SDK types** (`node_modules/stripe/esm/resources/Subscriptions.d.ts`,
+  the `status` field): for `charge_automatically`, a failed first payment moves the
+  subscription to `incomplete`; "once the first invoice is paid, the subscription moves
+  into an `active` status"; and "if the first invoice is not paid within 23 hours, the
+  subscription transitions to `incomplete_expired`". So `incomplete` can still become a
+  paying subscription, and it holds a purchase. The same comment limits `incomplete` to
+  `charge_automatically`: an invoiced (`send_invoice`) licence never enters it, so this
+  hold does not stop a school's purchase-order licence. The Checkout Session types
+  (`Checkout/Sessions.d.ts`) say `status` is `open`, `complete` or `expired`, and that
+  `payment_status` is `paid`, `unpaid` or `no_payment_required`. A `complete` session
+  is therefore not evidence of payment, which is why `sync-checkout` also requires
+  `payment_status` to be paid.
+- **Why the one-open rule does not make it moot**: a `complete` session can carry an
+  `incomplete` subscription, and the rule expires only sessions that are still open. So
+  the displaced-session check reads the subscription as well as the session.
+- **Fixed**, with the window set in §36. A personal `incomplete` subscription holds the
+  account's new purchase for 45 minutes after its last write (`INCOMPLETE_HOLD_MS`, the
+  3-D Secure window), with its own wording ("still waiting for your bank"). The
+  displaced-session check applies the same rule. A school licence in `incomplete` does
+  not hold the school. Nothing here reaches `resolve_stripe_plan`, `caller_plan()`,
+  `resolve_ai_quota()` or the webhook's plan write, which grant access only on `active`,
+  `trialing` and `past_due`, so a held purchase grants nothing.
 
 ### 23. Unsigned webhooks are accepted wherever `isProductionRuntime()` is false — P1 (P0 if the preview shares production data), open
 
@@ -515,17 +546,24 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
   production. `vercel dev` would then need the Stripe CLI secret. This changes preview
   behaviour, so it needs operator sign-off.
 
-### 24. A checkout link overwrites an existing customer link — P2, open
+### 24. A checkout link overwrites an existing customer link — P2, fixed
 
-- **Where**: `api/stripe-webhook.ts:273` (`checkout.session.completed` writes
-  `profiles.stripe_customer_id` unconditionally). The backfill at about line 403 has
-  the same shape.
+- **Where**: `api/_lib/subscriptionSync.ts` (`linkStripeCustomer`, now used by
+  `checkout.session.completed` in `api/stripe-webhook.ts`, by the sync-checkout return,
+  and by the metadata backfill).
 - **Scenario**: a profile already linked to customer C1 completes a checkout for C2.
   Events for C1's subscription then find no profile by customer, and
   `subscription.updated` has only the metadata fallback. §19 covers deletion, not
   updates.
-- **Suggested fix**: write the link only when the profile has none. Otherwise log it
-  and resolve the owner through the subscription row.
+- **Fixed**: the link is written only where the profile holds no customer. A different
+  customer is not written over it. The mismatch is written as a `customer_mismatch`
+  incident, and the plan is still applied, since the plan is keyed on the user. The
+  write is conditional, so two events racing for one profile cannot both win. An
+  `already`-linked profile is left alone.
+- **Not done, by design**: the portal still opens C1 for that account. Relinking is an
+  operator step, recorded in `docs/stripesetup.md` ("When a billing incident is open").
+- **Evidence**: `tests/unit/billingIncidents.test.ts`, "linkStripeCustomer" and the
+  mismatch case in "applySubscriptionUpsert".
 
 ### 25. A seat reduction below the member count is not enforced — P2, open
 
@@ -698,6 +736,74 @@ the commonest first-deployment mistake.
   ordering stamp`; in that case the webhook copy of that one purchase can be
   discarded until a later event arrives. The client calls once per return, and each
   call costs one Stripe retrieve.
+### 34. Two members of one school can each hold an open licence checkout — P1, open
+
+- **Where**: `api/create-checkout.ts` (the school guard reads the completed licence on
+  `schools.stripe_subscription_id`). `checkout_sessions` is keyed on the user, not the
+  school.
+- **Scenario**: teacher A and teacher B at one school each open a School licence
+  checkout. Neither is recorded against the school yet, so both pass the guard, and
+  both can complete. Both are charged. The webhook writes whichever arrived last onto
+  `schools.stripe_subscription_id`, which is the §16 failure, now in the window before
+  either licence is paid.
+- **Detected, not prevented**: the apply path writes a `duplicate_school_licence`
+  incident when the second licence replaces a live one. That is after both are paid.
+- **Suggested fix**: key the open-checkout record on the school as well as the user for
+  school prices. A second member's checkout then displaces the first, through the same
+  expiry and refusal path. This changes what a teacher sees (a colleague's open checkout
+  is expired), so it needs a product decision.
+
+### 35. A transient Stripe failure on expiry leaves the displaced session open — P2, open
+
+- **Where**: `api/_lib/openCheckout.ts`, `expireDisplacedCheckout`.
+- **Scenario**: the expiry call fails with a server error, and the follow-up read shows
+  the session still open. The purchase proceeds, by the brief's rule that housekeeping
+  must not block a purchase. Both sessions are payable for up to 36 minutes. If both
+  are paid, the incident catches it after the fact.
+- **Suggested fix**: a sweep that expires any recorded session whose displacement
+  failed, or a retry on the next checkout. Not built.
+
+### 36. An abandoned 3-D Secure attempt blocks a new purchase for up to 23 hours — decided, fixed
+
+- **Where**: `INCOMPLETE_HOLD_MS` and `holdsPurchase` in `api/_lib/openCheckout.ts`; the
+  personal guard in `api/create-checkout.ts`; `PURCHASE_PENDING`.
+- **Scenario**: a buyer's first payment needs an extra step, and they give up. Their
+  `incomplete` subscription would hold the account until Stripe expires it, up to 23 hours.
+  That locks out a customer who came back to retry, and loses the sale.
+- **Decision**: the hold is a window, not a status. A personal `incomplete` subscription
+  holds the account's new purchase only while its last write (`last_event_at`, falling
+  back to `updated_at`) is inside 45 minutes. That is the 3-D Secure window: the customer
+  can approve the payment in their bank's prompt during it. After the window the row no
+  longer holds, and a retry is allowed. A row with no usable timestamp does not hold.
+  The displaced-session check reads the same row and applies the same rule.
+- **School licences do not hold on `incomplete`.** A school row carries no timestamp, so
+  the window cannot apply to it. The purchaser's own subscription row is what the personal
+  guard reads. A colleague can therefore buy a second licence while the first waits for
+  payment. If both complete, both are charged, and the `duplicate_school_licence` incident
+  records it. That is the trade the decision accepts.
+- **Why the trade is right**: the rare double charge is caught by incident detection,
+  which is kept as it was, and reported to an operator. A 23-hour lock on every abandoned
+  payment would lose the sales the window exists to keep.
+- **Tests**: `tests/unit/openCheckout.test.ts` (both sides of the 45-minute boundary; the
+  last-write fallback; no timestamp does not hold), `tests/unit/openCheckoutRoute.test.ts`
+  (a fresh row refuses before any session exists; a stale row lets the purchase go ahead),
+  `tests/unit/duplicateSubscriptionGuard.test.ts` and `tests/unit/schoolLicenceDuplicateGuard.test.ts`.
+- **Operator option, unchanged**: an `incomplete` subscription can still be cancelled in
+  the Stripe Dashboard, which clears any hold at once (`docs/stripesetup.md`, "One open
+  checkout, and billing incidents").
+
+### 37. A teacher with a personal Plus and an invoiced licence is flagged — P3, open
+
+- **Where**: `checkDuplicateSubscriptions` in `api/_lib/billingIncidents.ts`.
+- **Scenario**: `api/issue-invoice.ts` stamps an invoiced licence with the requester's
+  user id. A teacher who also holds a personal Plus subscription then has two live
+  subscriptions, and the detector writes `duplicate_subscription`. The two are different
+  products, so this is usually a false positive.
+- **Suggested fix**: exclude subscriptions whose `plan` is `school` from the per-user
+  count, since the per-school check covers licences. Left as it is for now: a false
+  positive costs the operator one look. The exclusion also needs a decision on whether
+  a person holding two licences is reported under the person or under the school.
+
 ## 5. Still open (not attempted here)
 
 - **Renewals, cancellations, failed payments and seat changes still need the
@@ -705,10 +811,13 @@ the commonest first-deployment mistake.
   longer locks a buyer out, but it does mean a lapsed subscription goes unnoticed.
   See `docs/stripesetup.md`, Step 4.
 
-- **Open findings from the server-hardening pass (§16 and onwards)**: §21 (two open
-  checkouts can both complete) and §22 (`incomplete` holds nothing) are double-charge
-  risks. §23 (unsigned preview webhooks) needs the operator to confirm the preview
-  setup. §24–§26 are smaller. None of them is fixed.
+- ~~**Open findings from the server-hardening pass (§16 and onwards)**~~: §21 (one open
+  checkout per user), §22 (`incomplete` holds a purchase) and §24 (a customer link is
+  never overwritten) are **done**, see those sections. What is left from that pass:
+  §23 (unsigned preview webhooks) needs the operator to confirm the preview setup;
+  §25 and §26 are smaller; and the school in-flight window (§34), the transient expiry
+  failure (§35), and the invoiced-licence false positive (§37) are new and open. The
+  3-D Secure hold was decided in §36 and is fixed.
 
 - ~~**A licence going live mid-session does not reach other members until they
   reload.**~~ — **done**, see §28. Members now re-read their plan when they return

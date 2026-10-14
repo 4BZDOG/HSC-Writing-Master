@@ -1848,6 +1848,72 @@ end; $$;
 revoke all on function public.my_school_seats() from public, anon;
 grant execute on function public.my_school_seats() to authenticated;
 
+-- One open Checkout Session per user (monetisation review §21).
+--
+-- Each user's most recent Checkout Session that may still be paid. api/create-checkout
+-- swaps its new session into this row and expires the one it displaces, so a second
+-- Upgrade press, or a second tab, cannot leave two payable sessions for one person.
+-- One row per user is the point: the swap is a compare-and-set on session_id, so two
+-- concurrent checkouts cannot both believe they displaced the same session. The
+-- logic lives in api/_lib/openCheckout.ts.
+--
+-- Written and read by the API with the service role ONLY. RLS is on with no policy,
+-- so a browser session reads nothing and writes nothing even if a grant is added by
+-- mistake; the grant is withdrawn as well. Nothing here is shown to a user.
+create table if not exists public.checkout_sessions (
+  user_id      uuid primary key references public.profiles (id) on delete cascade,
+  session_id   text not null,               -- Stripe Checkout Session id (cs_…)
+  recorded_at  timestamptz not null default now()
+);
+
+alter table public.checkout_sessions enable row level security;
+revoke all on public.checkout_sessions from anon, authenticated;
+
+-- Billing incidents: things the webhook saw that the customer and the operator both
+-- need to know about, and that no code should decide alone. An incident never cancels
+-- a subscription and never refunds anything; it sits here until an operator resolves it
+-- in the Stripe Dashboard and sets resolved_at (docs/stripesetup.md, "When a billing
+-- incident is open").
+--
+--   duplicate_subscription    one user holds more than one live subscription (§21, §22)
+--   duplicate_school_licence  a school's licence was replaced while another was still live
+--   customer_mismatch        a profile already linked to one Stripe customer was offered
+--                            another; the plan was still applied (§24)
+--
+-- Written by the webhook with the service role. Admins read them (the Billing overview);
+-- nothing else does. One OPEN incident per user and kind, and one per school and kind,
+-- so a redelivered webhook cannot pile up copies of the same finding.
+create table if not exists public.billing_incidents (
+  id                uuid primary key default gen_random_uuid(),
+  kind              text not null
+                      check (kind in ('duplicate_subscription', 'duplicate_school_licence', 'customer_mismatch')),
+  user_id           uuid references public.profiles (id) on delete set null,
+  school_id         uuid references public.schools (id) on delete set null,
+  subscription_ids  text[] not null default '{}',
+  detail            text not null check (char_length(detail) between 1 and 1000),
+  detected_at       timestamptz not null default now(),
+  resolved_at       timestamptz,
+  resolution_note   text check (resolution_note is null or char_length(resolution_note) <= 1000)
+);
+
+create unique index if not exists billing_incidents_open_user_idx
+  on public.billing_incidents (user_id, kind)
+  where resolved_at is null and user_id is not null;
+create unique index if not exists billing_incidents_open_school_idx
+  on public.billing_incidents (school_id, kind)
+  where resolved_at is null and school_id is not null;
+
+alter table public.billing_incidents enable row level security;
+
+drop policy if exists "Admins read billing incidents" on public.billing_incidents;
+create policy "Admins read billing incidents"
+  on public.billing_incidents for select
+  using (public.is_admin());
+
+-- No insert/update/delete policy on purpose: the webhook writes with the service role.
+revoke all on public.billing_incidents from anon, authenticated;
+grant select on public.billing_incidents to authenticated;
+
 -- =============================================================================
 -- §14 · Free-tier evaluation limit (server-side)
 --

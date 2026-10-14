@@ -13,6 +13,8 @@ const sessionCreateMock = vi.fn();
 
 const makeSupabaseMock = () => ({
   from: () => ({
+    // checkout_sessions: the open-checkout record accepts the first session.
+    insert: async () => ({ error: null }),
     select: () => ({
       eq: () => ({
         // Profile lookup: a teacher with no stored customer id.

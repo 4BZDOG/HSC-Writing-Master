@@ -45,15 +45,15 @@ const makeSupabaseMock = () => ({
           return chain;
         },
         limit: () => chain,
-        maybeSingle: async () => {
-          if (existingSubError) return { data: null, error: existingSubError };
-          return {
-            data:
-              existingSubscription && allowed.includes(existingSubscription.status)
-                ? existingSubscription
-                : null,
-            error: null,
-          };
+        // The guard awaits the held rows (a list) and decides the window itself.
+        then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) => {
+          if (existingSubError)
+            return Promise.resolve({ data: null, error: existingSubError }).then(resolve, reject);
+          const rows =
+            existingSubscription && allowed.includes(existingSubscription.status)
+              ? [existingSubscription]
+              : [];
+          return Promise.resolve({ data: rows, error: null }).then(resolve, reject);
         },
       };
       return chain;
@@ -69,6 +69,14 @@ const makeSupabaseMock = () => ({
             };
           },
         }),
+      };
+    }
+    // The open-checkout record: nothing recorded yet, so the first session displaces none.
+    // Its own branch, so a profile-column error in these cases does not reach it.
+    if (table === 'checkout_sessions') {
+      return {
+        select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: null, error: null }) }) }),
+        insert: async () => ({ error: null }),
       };
     }
     // profiles: .select().eq().maybeSingle()
@@ -183,6 +191,18 @@ describe('create-checkout: one School licence per school', () => {
     await checkoutHandler(schoolPurchase(), res);
     expect(res.statusCode).toBe(409);
     expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('does not hold a school whose licence is still awaiting its first payment', async () => {
+    // A school row carries no timestamp, so the 3-D Secure window cannot be applied to it.
+    // The purchaser's own subscription row is what holds during that window, and the
+    // personal guard reads it. Holding the school as well would lock out colleagues.
+    schoolRow = { stripe_subscription_id: 'sub_3ds', plan_status: 'incomplete' };
+    const res = makeRes();
+    await checkoutHandler(schoolPurchase(), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(sessionCreateMock).toHaveBeenCalledOnce();
   });
 
   it.each(['canceled', 'unpaid', 'incomplete_expired', 'none'])(

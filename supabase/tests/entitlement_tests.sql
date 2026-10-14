@@ -789,6 +789,138 @@ end $$;
 reset role;
 rollback;
 
+-- ---- One open checkout, and billing incidents (monetisation review §21, §22, §24) ----
+-- Both tables are written by the API with the service role. A signed-in user must
+-- neither read nor write them: a browser that could plant a checkout session id
+-- would let it expire someone else's purchase, and one that could clear an incident
+-- would hide a double charge from the operator.
+begin;
+insert into public.checkout_sessions (user_id, session_id)
+  values ('00000000-0000-0000-0000-0000000000e1', 'cs_ent_test_open');
+insert into public.billing_incidents (kind, user_id, subscription_ids, detail)
+  values ('duplicate_subscription', '00000000-0000-0000-0000-0000000000e2',
+          array['sub_ent_a', 'sub_ent_b'], 'entitlement fixture');
+
+do $$
+declare v_n int;
+begin
+  if not (select relrowsecurity from pg_class where oid = 'public.checkout_sessions'::regclass) then
+    raise exception 'TEST FAILED: checkout_sessions has row-level security off';
+  end if;
+  if not (select relrowsecurity from pg_class where oid = 'public.billing_incidents'::regclass) then
+    raise exception 'TEST FAILED: billing_incidents has row-level security off';
+  end if;
+  raise notice 'PASS: both billing tables have row-level security on';
+
+  -- The one-open rule depends on one row per user. The primary key is what makes the
+  -- compare-and-set swap in api/_lib/openCheckout.ts safe.
+  select count(*) into v_n
+    from information_schema.table_constraints tc
+    join information_schema.key_column_usage k
+      on k.constraint_name = tc.constraint_name and k.table_schema = tc.table_schema
+   where tc.table_schema = 'public' and tc.table_name = 'checkout_sessions'
+     and tc.constraint_type = 'PRIMARY KEY' and k.column_name = 'user_id';
+  if v_n <> 1 then
+    raise exception 'TEST FAILED: checkout_sessions is not keyed on user_id';
+  end if;
+  raise notice 'PASS: checkout_sessions holds one row per user';
+
+  -- An unknown incident kind is refused, so a typo cannot file an incident nobody reads.
+  begin
+    insert into public.billing_incidents (kind, detail) values ('duplicate_sub', 'typo');
+    raise exception 'TEST FAILED: an unknown incident kind was accepted';
+  exception when sqlstate '23514' then
+    raise notice 'PASS: an unknown incident kind is refused';
+  end;
+
+  -- A second OPEN incident for the same user and kind is refused, so a redelivered
+  -- webhook does not pile up copies. Resolving the first frees the slot.
+  begin
+    insert into public.billing_incidents (kind, user_id, detail)
+      values ('duplicate_subscription', '00000000-0000-0000-0000-0000000000e2', 'again');
+    raise exception 'TEST FAILED: a second open incident for one user and kind was accepted';
+  exception when unique_violation then
+    raise notice 'PASS: one open incident per user and kind';
+  end;
+end $$;
+
+update public.billing_incidents set resolved_at = now(), resolution_note = 'fixture'
+ where user_id = '00000000-0000-0000-0000-0000000000e2';
+insert into public.billing_incidents (kind, user_id, detail)
+  values ('duplicate_subscription', '00000000-0000-0000-0000-0000000000e2', 'after resolve');
+
+-- A signed-in student can neither read nor write either table.
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v_n int;
+begin
+  begin
+    select count(*) into v_n from public.checkout_sessions;
+    if v_n <> 0 then
+      raise exception 'TEST FAILED: a student read the open-checkout table (% rows)', v_n;
+    end if;
+  exception when insufficient_privilege then
+    null;
+  end;
+  begin
+    insert into public.checkout_sessions (user_id, session_id)
+      values ('00000000-0000-0000-0000-0000000000e1', 'cs_ent_test_forged');
+    raise exception 'TEST FAILED: a student wrote the open-checkout table';
+  exception when sqlstate '42501' then
+    raise notice 'PASS: a student cannot write the open-checkout table';
+  end;
+  begin
+    update public.checkout_sessions set session_id = 'cs_ent_test_stolen'
+     where user_id = '00000000-0000-0000-0000-0000000000e1';
+  exception when sqlstate '42501' then
+    null;
+  end;
+  begin
+    select count(*) into v_n from public.billing_incidents;
+    if v_n <> 0 then
+      raise exception 'TEST FAILED: a student read billing incidents (% rows)', v_n;
+    end if;
+  exception when insufficient_privilege then
+    null;
+  end;
+  begin
+    insert into public.billing_incidents (kind, detail) values ('customer_mismatch', 'forged');
+    raise exception 'TEST FAILED: a student wrote a billing incident';
+  exception when sqlstate '42501' then
+    raise notice 'PASS: a student cannot read or write billing incidents';
+  end;
+end $$;
+reset role;
+
+-- The owner still sees the seeded open session unchanged: the forged update matched nothing.
+do $$
+declare v text;
+begin
+  select session_id into v from public.checkout_sessions
+   where user_id = '00000000-0000-0000-0000-0000000000e1';
+  if v is distinct from 'cs_ent_test_open' then
+    raise exception 'TEST FAILED: a student changed the open-checkout session (now %)', v;
+  end if;
+  raise notice 'PASS: the open-checkout session was not changed by a student';
+end $$;
+
+-- An admin reads incidents for the Billing overview.
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000ea05","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare v_n int;
+begin
+  select count(*) into v_n from public.billing_incidents
+   where user_id = '00000000-0000-0000-0000-0000000000e2';
+  if v_n < 2 then
+    raise exception 'TEST FAILED: an admin could not read billing incidents (% rows)', v_n;
+  end if;
+  raise notice 'PASS: an admin reads billing incidents';
+end $$;
+reset role;
+rollback;
+
 do $$
 begin
   raise notice 'All entitlement tests passed.';
