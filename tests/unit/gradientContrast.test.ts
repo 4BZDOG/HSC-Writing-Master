@@ -99,6 +99,14 @@ describe('parseBackgroundImage', () => {
     expect('layers' in parsed && parsed.layers.map((l) => l.stops.length)).toEqual([2, 2]);
   });
 
+  it('ignores a none layer beside a real gradient, which is how a header is painted', () => {
+    // The band header's computed image: a translucent wash, then a `none` layer.
+    const parsed = parseBackgroundImage(
+      'linear-gradient(90deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.2) 100%), none'
+    );
+    expect('layers' in parsed && parsed.layers).toHaveLength(1);
+  });
+
   it('reports a url() image as unassessable, with the reason', () => {
     const parsed = parseBackgroundImage('url("data:image/png;base64,AAAA")');
     expect(parsed).toEqual({ unassessable: expect.stringContaining('not a gradient') });

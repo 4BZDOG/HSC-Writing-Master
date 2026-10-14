@@ -168,6 +168,9 @@ export const parseBackgroundImage = (image: string): BackgroundImage => {
 
   const layers: GradientLayer[] = [];
   for (const layer of splitTopLevel(value)) {
+    // A layer can be `none` next to a real one, as Tailwind leaves it when a
+    // gradient is set beside a reset. It paints nothing, so it is not a layer.
+    if (layer === 'none') continue;
     const g = layer.match(GRADIENT);
     if (!g) return { unassessable: `not a gradient: ${layer.slice(0, 40)}` };
     const stops = parseStops(splitTopLevel(g[1]));

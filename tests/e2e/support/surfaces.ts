@@ -13,7 +13,9 @@ import { stubMarking, MARKED_ANSWER } from './markingStub';
  *
  * Shared by light-theme.spec.ts (text over gradients) and
  * light-stark-surfaces.spec.ts (white slabs), so both reach a surface the same
- * way. Each helper leaves the surface open and returns its root locator.
+ * way. Each helper leaves the surface open and returns its root locator; a
+ * spec then calls `dismissAll` to get back to the bare workspace, which is
+ * where the theme toggle is reachable.
  */
 
 /**
@@ -35,6 +37,21 @@ export const setTheme = async (page: Page, theme: 'light' | 'dark') => {
     .toBe(theme === 'light' ? 'light' : null);
 };
 
+/**
+ * Closes every open dialog, innermost first, until the workspace is showing.
+ *
+ * A state can stack two dialogs (the legal reader sits on the profile), so one
+ * Escape is not always enough. Bounded: if a dialog will not close, the caller's
+ * next step fails with its own message, rather than this looping forever.
+ */
+export const dismissAll = async (page: Page): Promise<void> => {
+  for (let i = 0; i < 4; i++) {
+    if (!(await page.getByRole('dialog').count())) return;
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(500);
+  }
+};
+
 /** The profile dialog, with its head as the header element. */
 export const openProfile = async (page: Page): Promise<Locator> => {
   await page
@@ -52,58 +69,6 @@ export const openVerbSheet = async (page: Page): Promise<Locator> => {
   const sheet = page.locator('[aria-labelledby="command-term-title"]');
   await expect(sheet).toBeVisible({ timeout: 15_000 });
   return sheet;
-};
-
-/**
- * Selects a question whose outcome label is on screen.
- *
- * The label is drawn only once the course's outcome list has loaded, which
- * happens after the first question opens. `openQuestionWithOutcomes` checks for
- * the label once, with no wait, so on a first run it walks the syllabus and
- * fails with the label still on its way. Give it the moment first, and walk
- * only if it genuinely does not come.
- */
-export const openOutcomeQuestion = async (page: Page): Promise<void> => {
-  const label = page.getByRole('button', { name: /Read before you write/i });
-  const arrived = await label
-    .first()
-    .waitFor({ state: 'visible', timeout: 15_000 })
-    .then(
-      () => true,
-      () => false
-    );
-  if (!arrived) await openQuestionWithOutcomes(page);
-};
-
-/**
- * Signs in, clears the gates and opens the first question, or the first one
- * that links outcomes.
- *
- * `openFirstQuestion` clicks its pickers with no timeout, so when the bundled
- * curriculum is still settling under load a picker can stay "not stable" for
- * the whole test budget: two runs of this suite hung for four minutes that way,
- * with no assertion anywhere. One bounded attempt, then a fresh sign-in and one
- * more, turns a hang into a retry. CI retries failed tests as well.
- */
-export const openWorkspaceQuestion = async (
-  page: Page,
-  account: 'user' | 'admin',
-  outcomes = false
-): Promise<void> => {
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    page.setDefaultTimeout(30_000);
-    try {
-      await signIn(page, account);
-      await clearOnboarding(page);
-      await openFirstQuestion(page);
-      if (outcomes) await openOutcomeQuestion(page);
-      return;
-    } catch (error) {
-      if (attempt === 2) throw error;
-    } finally {
-      page.setDefaultTimeout(0);
-    }
-  }
 };
 
 /** The outcome brief, opened from the label above the question's outcomes. */
@@ -131,4 +96,35 @@ export const openFeedbackAfterMarking = async (page: Page): Promise<Locator> => 
   const commentary = page.getByText(/Marker's commentary/);
   await expect(commentary).toBeVisible({ timeout: 20_000 });
   return page.getByRole('dialog').filter({ has: commentary }).first();
+};
+
+/**
+ * Signs in, clears the gates and opens the first question, or the first one
+ * that links outcomes. Once per spec, so the many states that follow share one
+ * session instead of paying for a sign-in each.
+ *
+ * `openFirstQuestion` and the outcome walk click pickers, so a stuck picker can
+ * hang without a message. The page's default timeout bounds those clicks for
+ * the duration of this call, and one fresh attempt follows a failure. CI
+ * retries failed tests as well.
+ */
+export const openWorkspaceQuestion = async (
+  page: Page,
+  account: 'user' | 'admin',
+  outcomes = false
+): Promise<void> => {
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    page.setDefaultTimeout(30_000);
+    try {
+      await signIn(page, account);
+      await clearOnboarding(page);
+      await openFirstQuestion(page);
+      if (outcomes) await openQuestionWithOutcomes(page);
+      return;
+    } catch (error) {
+      if (attempt === 2) throw error;
+    } finally {
+      page.setDefaultTimeout(0);
+    }
+  }
 };

@@ -17,6 +17,7 @@ import {
 import { measureGradientContrast, describeGradientReadings } from './support/gradientContrast';
 import {
   setTheme,
+  dismissAll,
   openWorkspaceQuestion,
   openProfile,
   openVerbSheet,
@@ -261,125 +262,113 @@ test.describe('light theme, past the first screen', () => {
 });
 
 /**
- * Text over gradients, on the surfaces that were shipped unseen.
+ * Text over gradients, on the surfaces that shipped unseen.
  *
- * `measureContrast` above skips any text whose background is an image, so every
- * band and amber gradient in the marking report went unmeasured, and white text
- * on them read 1.9-2.8:1. These tests measure the same text against every
- * ground its gradient can paint, worst case, in both themes (the arithmetic is
- * in tests/e2e/support/gradientMath.ts and is unit-tested).
+ * `measureContrast` above skips any text whose background is an image, so the
+ * band headers, the verb sheet and the marking report went unmeasured for a long
+ * time, and white text on them read 1.9-2.8:1. These tests measure the same text
+ * against every ground its paint can show, worst case, in both themes (the
+ * arithmetic is in tests/e2e/support/gradientMath.ts and is unit-tested).
  *
- * The guard is strict and is NOT ratcheted. On the commit that added it, it fails
- * on main for real component defects (the band headers' white labels, the amber
- * lock chip, the feedback highlights). They are reported, not loosened here, so
- * this suite is red until they are fixed.
+ * The guard is strict and is NOT ratcheted: a failure fails the run, and it
+ * stays failing until the component is fixed.
  *
  * What a green run does NOT show:
- *   - The header gradient follows the question's band, and the workspace opens on
- *     whichever question the curriculum import delivers first. That order is not
- *     fixed (the same run has shown two different verbs), so the band under test
- *     varies between runs. Bands 2-6 are not covered deliberately; see the report.
+ *   - Bands 2-6. A header's ground follows the band of the question on screen,
+ *     and the workspace opens on whichever question loads first, so these tests
+ *     see one band. The ground for every band, in both themes, is pinned by
+ *     tests/unit/cardHeaderWashContrast.test.ts, which reads the same table the
+ *     app draws from. What it cannot see is a component that paints the header
+ *     some other way, which is why the header itself is measured here too.
+ *   - Anything not on the four surfaces below. The marking report is measured
+ *     only through its feedback modal, in the feedback test.
  */
-const GRADIENT_SURFACES: {
+
+/** The surfaces the user's session reaches, measured in both themes. */
+const SESSION_SURFACES: {
   name: string;
-  as?: 'admin';
-  outcomes?: boolean;
   /** Opens the surface on the workspace and returns its root. */
   reach: (page: Page) => Promise<Locator>;
-  /** Dismisses it, so the workspace toggle can be reached for the other theme. */
-  close: (page: Page) => Promise<void>;
 }[] = [
   {
-    // The writing card's header and the prompt card's header: the two
-    // `CARD_HEADER_BOX` headers on the workspace, both band gradients.
+    // The writing card's header and the prompt card's header: both are
+    // `CARD_HEADER_BOX` on the workspace.
     name: 'workspace card headers',
     reach: async (page) => page.locator('.rounded-t-surface-inner'),
-    close: async () => {},
   },
-  {
-    name: 'verb sheet',
-    reach: openVerbSheet,
-    close: async (page) => {
-      await page.keyboard.press('Escape');
-      await expect(page.locator('[aria-labelledby="command-term-title"]')).toHaveCount(0);
-    },
-  },
-  {
-    name: 'outcome brief',
-    outcomes: true,
-    reach: openOutcomeBrief,
-    close: async (page) => {
-      await page.keyboard.press('Escape');
-      await expect(page.locator('[aria-labelledby="outcome-brief-title"]')).toHaveCount(0);
-    },
-  },
+  { name: 'verb sheet', reach: openVerbSheet },
+  { name: 'outcome brief', reach: openOutcomeBrief },
   {
     name: 'profile head',
     reach: async (page) => (await openProfile(page)).locator('header').first(),
-    close: async (page) => {
-      await page.keyboard.press('Escape');
-      await expect(page.getByRole('dialog', { name: 'Your profile' })).toHaveCount(0);
-    },
-  },
-  {
-    name: 'feedback modal after marking',
-    as: 'admin',
-    reach: openFeedbackAfterMarking,
-    close: async (page) => {
-      await page.keyboard.press('Escape');
-      await page.waitForTimeout(600);
-    },
   },
 ];
 
-test.describe('text over gradients, the surfaces that shipped unseen', () => {
-  test.describe.configure({ timeout: 240_000 });
+/** Measures one surface and returns its failing runs, as one message, or nothing. */
+const gradientFailures = async (page: Page, name: string, theme: string, root: Locator) => {
+  const report = await measureGradientContrast(root);
+  // A run that measured nothing passes silently, and a run that never reached a
+  // gradient proves nothing about gradients.
+  if (report.readings.length <= 3) return `${name}, ${theme}: nothing was measured`;
+  if (report.gradientReadings === 0) {
+    return `${name}, ${theme}: no text was measured over a gradient, so the gradient path did not run`;
+  }
+  const failures = report.readings.filter((r) => r.ratio < r.floor);
+  if (!failures.length) return null;
+  return (
+    `${name}, ${theme} theme: ${failures.length} of ${report.readings.length} run(s) fall below ` +
+    `their floor over a gradient (${report.unassessed.length} could not be read)\n` +
+    describeGradientReadings(failures)
+  );
+};
 
-  // Measured once, in one engine. Contrast does not depend on the engine.
+test.describe('text over gradients, the surfaces that shipped unseen', () => {
   test.skip(
     ({ browserName, isMobile }) => browserName !== 'chromium' || !!isMobile,
     'chromium desktop only'
   );
 
-  for (const surface of GRADIENT_SURFACES) {
-    test(`text over gradients meets AA in both themes: ${surface.name}`, async ({ page }) => {
-      await page.setViewportSize(WIDE);
-      await openWorkspaceQuestion(page, surface.as ?? 'user', surface.outcomes);
+  test('text over gradients meets AA in both themes: the workspace and its sheets', async ({
+    page,
+  }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize(WIDE);
+    // One session for every surface: the outcome brief needs a question that
+    // links outcomes, and the header, sheet and profile are fine on it too.
+    await openWorkspaceQuestion(page, 'user', true);
 
-      // Both themes are measured before anything is asserted, so one run reports
-      // every failing reading in both, not just the first theme's.
-      const failing: string[] = [];
-      for (const theme of ['light', 'dark'] as const) {
-        // The toggle is reached on the bare workspace, then the surface opens in
-        // that theme. The surface is closed again before the second pass.
-        await setTheme(page, theme);
+    // Every failing run in both themes is collected before anything is asserted,
+    // so one run reports all of them.
+    const failing: string[] = [];
+    for (const theme of ['light', 'dark'] as const) {
+      await setTheme(page, theme);
+      for (const surface of SESSION_SURFACES) {
         const root = await surface.reach(page);
         await page.waitForTimeout(800);
         await freezeAnimations(page);
-
-        const report = await measureGradientContrast(root);
-
-        // A run that measured nothing passes silently, and a run that never
-        // reached a gradient proves nothing about gradients.
-        expect(report.readings.length, `${theme}: nothing was measured`).toBeGreaterThan(3);
-        expect(
-          report.gradientReadings,
-          `${theme}: no text was measured over a gradient, so the gradient path did not run`
-        ).toBeGreaterThan(0);
-
-        const failures = report.readings.filter((r) => r.ratio < r.floor);
-        if (failures.length) {
-          failing.push(
-            `${theme} theme: ${failures.length} of ${report.readings.length} run(s) fall below ` +
-              `their floor over a gradient (${report.unassessed.length} could not be read)\n` +
-              describeGradientReadings(failures)
-          );
-        }
-
-        await surface.close(page);
+        const problem = await gradientFailures(page, surface.name, theme, root);
+        if (problem) failing.push(problem);
+        await dismissAll(page);
       }
+    }
+    expect(failing, 'text below its floor over a gradient').toEqual([]);
+  });
 
-      expect(failing, `${surface.name}: text below its floor over a gradient`).toEqual([]);
-    });
-  }
+  test('text over gradients meets AA in both themes: the feedback modal', async ({ page }) => {
+    test.setTimeout(240_000);
+    await page.setViewportSize(WIDE);
+    await openWorkspaceQuestion(page, 'admin');
+
+    const failing: string[] = [];
+    for (const theme of ['light', 'dark'] as const) {
+      await setTheme(page, theme);
+      const root = await openFeedbackAfterMarking(page);
+      await page.waitForTimeout(800);
+      await freezeAnimations(page);
+      const problem = await gradientFailures(page, 'feedback modal after marking', theme, root);
+      if (problem) failing.push(problem);
+      await dismissAll(page);
+    }
+    expect(failing, 'text below its floor over a gradient').toEqual([]);
+  });
 });

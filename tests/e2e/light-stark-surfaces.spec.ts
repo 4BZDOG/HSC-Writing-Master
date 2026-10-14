@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { freezeAnimations } from './support/contrast';
 import {
   setTheme,
+  dismissAll,
   openWorkspaceQuestion,
   openProfile,
   openVerbSheet,
@@ -283,28 +284,13 @@ const explain = (findings: Finding[]) =>
     .join('\n');
 
 /**
- * The states this spec drives the page into. Each is one interaction from the
- * workspace, the same reach the light-theme sweep uses, and each is where a
- * student spends time: the profile, the legal reader, the plans, the sheets.
+ * The states this spec drives the page into, in one signed-in session. Each is
+ * one interaction from the workspace and each is where a student spends time:
+ * the profile, the legal reader, the plans, the sheets. Every state is closed
+ * before the next, so a state starts from the workspace the way a reader does.
  */
-const STATES: {
-  name: string;
-  as?: 'user' | 'admin';
-  /** Needs a question that links syllabus outcomes (the outcome brief's trigger). */
-  outcomes?: boolean;
-  reach: (page: Page) => Promise<void>;
-}[] = [
-  {
-    name: 'workspace, idle',
-    reach: async () => {},
-  },
-  {
-    name: 'feedback modal after marking',
-    as: 'admin',
-    reach: async (page) => {
-      await openFeedbackAfterMarking(page);
-    },
-  },
+const STATES: { name: string; reach: (page: Page) => Promise<void> }[] = [
+  { name: 'workspace, idle', reach: async () => {} },
   {
     name: 'profile, stats',
     reach: async (page) => {
@@ -350,56 +336,81 @@ const STATES: {
   },
   {
     name: 'outcome brief',
-    outcomes: true,
     reach: async (page) => {
       await openOutcomeBrief(page);
     },
   },
 ];
 
-test.describe('stark surfaces, light theme', () => {
-  test.describe.configure({ timeout: 240_000 });
+/**
+ * Judges the page as it is now and returns one message per problem, for the
+ * caller to collect. A walk that saw almost nothing is a problem too: it would
+ * pass by default, which is the one thing this spec must not do.
+ */
+const slabProblems = async (page: Page, name: string): Promise<string[]> => {
+  const surfaces = await collectSurfaces(page, AREA_MIN);
+  if (surfaces.length <= 2) return [`${name}: no painted surfaces were found`];
 
-  // Measured once, in one engine, at the width both cards share. Contrast and
-  // the box model are the same in each engine, and the mobile projects lay the
-  // same surfaces out differently, which is a separate question.
+  const { findings, unassessed } = judge(surfaces);
+  const allowed = ALLOWED.filter((a) => a.state === name);
+  const matches = (f: Finding, a: Allowance) => f.cls.includes(a.cls);
+  const unexpected = findings.filter((f) => !allowed.some((a) => matches(f, a)));
+  const stale = allowed.filter((a) => !findings.some((f) => matches(f, a)));
+
+  const problems: string[] = [];
+  if (unexpected.length) {
+    problems.push(
+      `${name}: ${unexpected.length} white slab(s) stand on a white parent with no edge ` +
+        `(${unassessed.length} surface(s) could not be read and were not judged)\n` +
+        explain(unexpected)
+    );
+  }
+  for (const a of stale) {
+    problems.push(`${name}: the allowance "${a.cls}" matches nothing now, so remove it`);
+  }
+  return problems;
+};
+
+test.describe('stark surfaces, light theme', () => {
   test.skip(
     ({ browserName, isMobile }) => browserName !== 'chromium' || !!isMobile,
     'chromium desktop only'
   );
 
-  for (const state of STATES) {
-    test(`no white slab stands on a white parent: ${state.name}`, async ({ page }) => {
-      await page.setViewportSize(WIDE);
-      await openWorkspaceQuestion(page, state.as ?? 'user', state.outcomes);
-      // Light is set on the bare workspace, where the toggle is reachable. Once a
-      // dialog is open its backdrop covers the toggle.
-      await setTheme(page, 'light');
+  test('no white slab stands on a white parent: the workspace and its reference surfaces', async ({
+    page,
+  }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize(WIDE);
+    // The outcome brief needs a question that links outcomes, and every other
+    // state here is fine on that question too, so one session serves them all.
+    await openWorkspaceQuestion(page, 'user', true);
+    await setTheme(page, 'light');
+    await freezeAnimations(page);
+
+    const problems: string[] = [];
+    for (const state of STATES) {
       await state.reach(page);
       await page.waitForTimeout(800);
-      await freezeAnimations(page);
+      problems.push(...(await slabProblems(page, state.name)));
+      await dismissAll(page);
+    }
+    expect(problems, 'white slabs on white parents, light theme').toEqual([]);
+  });
 
-      const surfaces = await collectSurfaces(page, AREA_MIN);
-      // A walk that saw almost nothing would pass by default. Every state has
-      // at least the page and the card or modal that is the state itself.
-      expect(surfaces.length, 'no painted surfaces were found').toBeGreaterThan(2);
-
-      const { findings, unassessed } = judge(surfaces);
-      const allowed = ALLOWED.filter((a) => a.state === state.name);
-      const matches = (f: Finding, a: Allowance) => f.cls.includes(a.cls);
-      const unexpected = findings.filter((f) => !allowed.some((a) => matches(f, a)));
-      const stale = allowed.filter((a) => !findings.some((f) => matches(f, a)));
-
-      expect(
-        unexpected,
-        `${state.name}: ${unexpected.length} white slab(s) stand on a white parent with no edge ` +
-          `(${unassessed.length} surface(s) could not be read and were not judged)\n` +
-          explain(unexpected)
-      ).toEqual([]);
-      expect(
-        stale.map((a) => `${a.cls}: ${a.reason}`),
-        `${state.name}: these allowances match nothing any more, so remove them`
-      ).toEqual([]);
-    });
-  }
+  test('no white slab stands on a white parent: the feedback modal after marking', async ({
+    page,
+  }) => {
+    test.setTimeout(240_000);
+    await page.setViewportSize(WIDE);
+    await openWorkspaceQuestion(page, 'admin');
+    await setTheme(page, 'light');
+    await freezeAnimations(page);
+    await openFeedbackAfterMarking(page);
+    await page.waitForTimeout(800);
+    expect(
+      await slabProblems(page, 'feedback modal after marking'),
+      'white slabs on white parents, light theme'
+    ).toEqual([]);
+  });
 });
