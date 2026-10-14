@@ -14,6 +14,21 @@
 - **Learned.** Bounding a WebKit click at 10 s in a shared helper made eight Mobile Safari tests fail on the
   loaded runner; helper actions that run on WebKit keep at least 30 s.
 
+## [Unreleased] - 2026-10-14 (A toast's action is reachable by keyboard over a dialog)
+
+- **Fixed.** A toast with an action ("Undo", "Go to it") raised while a dialog was open could be pressed
+  with a mouse but not reached with Tab. The toast is portalled to `<body>` at `z-toast`, above the
+  improvement review, so it was on screen and on top; the focus trap only knew its own subtree and wrapped
+  Tab round the dialog's controls. `useFocusTrap` now takes a marked "companion" region into the cycle
+  (dialog controls, then the toast's, then round), and `App` marks the toast's mount with
+  `focusTrapCompanion`. No dialog changes.
+- **Not loosened.** Only a marked region is exempt: an unmarked portal, or the page behind, is still pulled
+  back into the dialog. A toast covered by a higher dialog (confirm, rename, flag sit above it) is skipped,
+  by asking the browser what is painted at its centre, so Tab never lands on a control nobody can see.
+- **Not done.** After the toast closes with focus on it, focus falls to `<body>` until the next Tab, which
+  the trap sends back into the dialog. The toast's countdown also still runs while focus is on it; it only
+  pauses for the mouse.
+
 ## [Unreleased] - 2026-10-13 (Light-theme surfaces, round 1, and guards for what slipped)
 
 - **Fixed.** The light theme's white slabs were redrawn on the depth ladder, as Plan-FrontendDesignReview

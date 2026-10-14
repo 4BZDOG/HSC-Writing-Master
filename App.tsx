@@ -23,6 +23,7 @@ import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
+import { focusTrapCompanion } from './hooks/useFocusTrap';
 import { useDebounce } from './hooks/useDebounce';
 import { authService } from './services/authService';
 import { subscribeQuotaWarnings, subscribeAiNotices } from './services/quotaNotifier';
@@ -1524,7 +1525,15 @@ const App: React.FC = () => {
           // its whole lifetime, and those are the first two screens a new
           // account sees. Over the app bar it covers only chrome, and the top
           // of the screen is where a phone's own notices arrive.
-          <div className="fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] sm:top-auto sm:inset-x-auto sm:bottom-4 sm:left-4 z-toast animate-slide-in">
+          //
+          // `focusTrapCompanion` puts it in an open dialog's Tab cycle. Painted
+          // above the dialog but portalled outside it, its "Undo" could be
+          // pressed with a mouse and never reached with Tab: the trap wrapped
+          // round the dialog's own controls and skipped it.
+          <div
+            {...focusTrapCompanion}
+            className="fixed inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] sm:top-auto sm:inset-x-auto sm:bottom-4 sm:left-4 z-toast animate-slide-in"
+          >
             <Toast
               key={toast.id}
               message={toast.message}
