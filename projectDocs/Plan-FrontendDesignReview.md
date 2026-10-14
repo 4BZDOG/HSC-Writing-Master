@@ -2502,7 +2502,7 @@ check:build` now runs them locally, and `test:all` runs it.
 ### What the guards say now
 
 - **`npm run check:build`** would have caught 82 locally. It is in `test:all`.
-- **Text over gradients** (`light-theme.spec.ts`) fails on `main`, as it should: white
-  labels on band headers at 2.3–4.2:1, the Plus chip (`PlusLockChip`) at 1.5–2.9:1,
-  and feedback highlights at 3.8–4.45:1 on the modal's wash. Bands 2–6 are not on screen.
-- **Stark surfaces** fails on `main` for one row, `PlanComparison.tsx:149`.
+- **Text over gradients** and **stark surfaces** both fail on the first run and pass
+  once fixed. They found white labels on band headers (2.3–4.2:1), the Plus chip
+  (1.5–2.9:1), feedback highlights (3.8–4.45:1 on the modal's wash) and the Compare
+  Plans header row, which had no rule. Bands 2–6 are not on screen.

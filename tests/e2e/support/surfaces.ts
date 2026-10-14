@@ -113,6 +113,7 @@ export const openWorkspaceQuestion = async (
   account: 'user' | 'admin',
   outcomes = false
 ): Promise<void> => {
+  let firstFailure = '';
   for (let attempt = 1; attempt <= 2; attempt++) {
     page.setDefaultTimeout(30_000);
     try {
@@ -122,7 +123,21 @@ export const openWorkspaceQuestion = async (
       if (outcomes) await openQuestionWithOutcomes(page);
       return;
     } catch (error) {
-      if (attempt === 2) throw error;
+      // Both failures are kept. The second on its own is usually a sign-in
+      // timeout, because the first attempt's session is still in storage and
+      // signing in finds the workspace, not the form.
+      if (attempt === 2) {
+        throw new Error(
+          `the workspace did not open. First attempt: ${firstFailure}\nSecond attempt: ${String(error)}`
+        );
+      }
+      firstFailure = String(error).slice(0, 800);
+      await page
+        .evaluate(() => {
+          localStorage.clear();
+          sessionStorage.clear();
+        })
+        .catch(() => {});
     } finally {
       page.setDefaultTimeout(0);
     }

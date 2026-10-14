@@ -21,8 +21,10 @@
   in both themes. The arithmetic is in `tests/e2e/support/gradientMath.ts`, with unit tests.
 - **Added.** `light-stark-surfaces.spec.ts` walks computed styles in eight light states and fails a white
   painted slab on a white parent with no edge. Its one allow-list entry is the Plus paywall veil.
-- **Known.** Both new guards fail on `main`, on real defects reported rather than loosened: band headers,
-  the Plus chip, the feedback highlights, and one row of the Compare Plans table (`PlanComparison.tsx:149`).
+- **Fixed.** The guards' first run found two defects still on `main`: the Compare Plans header row
+  had no rule (`PlanComparison.tsx`), and the feedback's syllabus terms and command verb were under
+  4.5:1 on the modal's wash. The terms are emerald-900 in light and the verb is sky-800 in light.
+  The gradient guard also skipped the card headers' ground for a while, so it now reads it.
 
 ## [Unreleased] - 2026-10-09 (Verb ribbon animations: smoother on a phone)
 

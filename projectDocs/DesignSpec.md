@@ -207,8 +207,8 @@ round-1 defect that no committed test could have caught:
   solid-background sweep skips text on an image, so white text on the band and
   amber gradients (1.9–2.8:1) was never measured. The guard measures each run
   against every colour its gradient can paint, worst case, in both themes. It is
-  not ratcheted: on `main` it fails on the band headers, the Plus chip and the
-  feedback highlights, and those are fixed in the components, not in the guard.
+  not ratcheted. It found the band headers' white labels, the Plus chip and the
+  feedback highlights, and those were fixed in the components, not in the guard.
 - **Stark surfaces** (`light-stark-surfaces.spec.ts`). A painted surface over
   20,000 px², within 1.08:1 of white, on a white parent, with no border or
   shadow and no 1.1:1 step, is a defect: the white slab on the white page that

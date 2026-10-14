@@ -270,8 +270,9 @@ test.describe('light theme, past the first screen', () => {
  * against every ground its paint can show, worst case, in both themes (the
  * arithmetic is in tests/e2e/support/gradientMath.ts and is unit-tested).
  *
- * The guard is strict and is NOT ratcheted: a failure fails the run, and it
- * stays failing until the component is fixed.
+ * The guard is strict and is NOT ratcheted: a failure fails the run. It found the
+ * band headers' white labels, the Plus chip and the feedback highlights; those
+ * are fixed, so it passes on main, and a regression in any of them fails here.
  *
  * What a green run does NOT show:
  *   - Bands 2-6. A header's ground follows the band of the question on screen,
