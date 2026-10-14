@@ -25,10 +25,11 @@ import {
 describe('renderEditorHighlights', () => {
   const countHighlights = (node: React.ReactNode) => {
     const { container } = render(<>{node}</>);
-    // Keyword overlay spans carry the emerald class; verb spans the accent class.
+    // Keyword overlay spans carry the emerald class; verb spans the accent ink.
     return {
       keyword: container.querySelectorAll('span.text-emerald-400').length,
-      verb: container.querySelectorAll('span.text-\\[rgb\\(var\\(--color-accent\\)\\)\\]').length,
+      verb: container.querySelectorAll('span.text-\\[rgb\\(var\\(--color-accent-ink\\)\\)\\]')
+        .length,
     };
   };
 

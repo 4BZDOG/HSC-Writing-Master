@@ -114,7 +114,15 @@ export const CARD_HEADER_TITLE =
  *  Floored for the same reason: both cards put a chip on this line. */
 export const CARD_HEADER_META_ROW = 'flex flex-wrap items-center gap-2 min-h-6 mt-1';
 
-export const CARD_HEADER_META = 't-label text-white/60 leading-none';
+/**
+ * The meta line under a title ("No assistance", a band chip). Solid white, not
+ * `white/60`: a translucent white composites towards the band's ink, and on
+ * the six washes that put it at 2.6-3.4:1 in both themes. Clearing 4.5:1 on
+ * yellow, the palest, takes about 95% white, so the hierarchy comes from the
+ * `t-label` size and weight rather than from opacity.
+ * `tests/unit/cardHeaderWashContrast.test.ts` pins it on all six bands.
+ */
+export const CARD_HEADER_META = 't-label text-white leading-none';
 
 /**
  * The bottom-right corner of the header, where each card docks its controls.

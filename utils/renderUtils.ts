@@ -786,8 +786,10 @@ export const VERB_TRIGGER_CLASS =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-accent))]';
 export const KEYWORD_OVERLAY_CLASS =
   'bg-emerald-500/20 light:bg-emerald-500/25 text-emerald-400 light:text-emerald-900 rounded-[0.2em] box-decoration-clone';
+// The ink is the accent as text, not the fill step: on the 20% wash it was
+// sky-700 at 3.78:1 in the light theme. See `--color-accent-ink` in index.css.
 export const VERB_OVERLAY_CLASS =
-  'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] rounded-[0.2em] box-decoration-clone';
+  'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent-ink))] rounded-[0.2em] box-decoration-clone';
 
 /**
  * Coordination-ellipsis sources for a multi-word keyword. Syllabus text often

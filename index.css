@@ -54,6 +54,11 @@ html {
   --color-bg-surface-light: 51 65 85;
   --color-accent-dark: 2 132 199;
   --color-accent-glow: 56 189 248;
+  /* The accent as TEXT. `--color-accent` is a fill colour first: white reads on
+     it, and as ink it fails on the tinted grounds it is set on (sky-500 is
+     3.74:1 on the hovered drop zone). sky-400 clears 4.5:1 on the lightest
+     dark surface, and the light partner is set below. */
+  --color-accent-ink: 56 189 248;
   --color-border-primary: 71 85 105;
   --color-border-accent: 14 165 233;
   --color-danger: 239 68 68;
@@ -143,6 +148,10 @@ html {
   --color-bg-surface-light: 215 222 233;
   --color-accent-dark: 7 89 133;
   --color-accent-glow: 14 165 233;
+  /* sky-800, one stop below `--color-accent` (sky-700). The fill step is the
+     right ink for a button, but as text on a tinted wash sky-700 measured 3.78:1
+     on the verb overlay (accent at 20%) and 4.38:1 on the hovered drop zone. */
+  --color-accent-ink: 7 89 133;
   --color-border-primary: 148 163 184;
   --color-border-accent: 2 132 199;
   --color-danger: 220 38 38;
