@@ -504,6 +504,57 @@ subscription to the purchaser only. Other staff are told who bought the licence.
 Seats are still not enforced at sign-in. The notice says so, which is accurate;
 whether they should be is a product decision, recorded in §5.
 
+### 30. Schools could not pay by purchase order — P1, fixed on the server
+
+A School licence could be bought only by card, and the schools that most need one
+pay by purchase order: the head of department raises a PO, the accounts office
+pays an invoice weeks later, and nobody in that chain can use a Checkout page.
+The licence was unbuyable for the buyer it was built for.
+
+**Fixed on the server** (`claude/school-invoice-server`). A teacher or admin
+attached to a school requests a licence to be invoiced (`api/request-invoice.ts`).
+A platform admin approves or declines it (`api/issue-invoice.ts`). Approval
+creates a `send_invoice` subscription on the school price, finalises and sends
+the first invoice, and the existing webhook licenses the school with no change to
+it. Requests are kept in `licence_requests` (`supabase/schema.sql` §27), readable
+only by the requester and admins, and written only by the service role. The
+decision rules live in `api/_lib/schoolLicence.ts`. `SCHOOL_INVOICE_ENABLED=false`
+is the kill switch. The operator setup is in `docs/stripesetup.md`, "Invoiced
+school licences (purchase orders)".
+
+Three choices in the fix are worth keeping, because the obvious version of each
+is wrong:
+
+- **Approval refuses rather than guesses.** A school read that fails, a requester
+  who has moved school, or a school that already holds a live licence each stop the
+  approval before Stripe is called.
+- **Seats are refused out of range, not clamped.** A purchase order for three seats
+  must not be invoiced for five.
+- **A failed send is not tolerated just because the invoice is open.** An open
+  invoice may never have been emailed. Only a paid one needs no send.
+
+**What remains open:**
+
+- **The request and approval screens.** The client half is a separate change. Until
+  it lands the endpoints work, but nothing in the app offers them.
+- **A near-simultaneous second approval.** The live-licence check reads the
+  `schools` row, which the webhook writes a moment after the subscription is
+  created. Two approvals for one school in that gap are both allowed. Closing it
+  needs the approval to check for a just-approved request whose subscription the
+  school row does not yet show, or to ask Stripe.
+- **Nobody is told a request has arrived.** An admin finds it by opening the list.
+- **A requester cannot withdraw a request.** The table has a `cancelled` status, but
+  no endpoint sets it. A wrong request therefore blocks the school from asking again
+  until an admin declines it.
+- **Overdue-invoice wording.** The billing banner says "update your payment",
+  which is wrong for an unpaid invoice. The overdue wording is not written.
+- **ABN on a reused customer.** The ABN is attached only when a customer is created.
+  A requester who already has a Stripe customer keeps its tax details as they were.
+- **A purchaser-less admin cannot open the portal.** The invoice belongs to the
+  requester's Stripe customer, so an admin who bought nothing has no portal to open.
+- **Records are not deleted automatically.** The operator deletes them on request
+  and sets how long they are kept (see `docs/privacy-for-schools.md`).
+
 ### 31. A paying customer could stay locked until the webhook landed — P1, fixed
 
 The return from Checkout polled the profile for about 30 seconds, then told the
@@ -527,7 +578,6 @@ the commonest first-deployment mistake.
   ordering stamp`; in that case the webhook copy of that one purchase can be
   discarded until a later event arrives. The client calls once per return, and each
   call costs one Stripe retrieve.
-
 ## 5. Still open (not attempted here)
 
 - **Renewals, cancellations, failed payments and seat changes still need the

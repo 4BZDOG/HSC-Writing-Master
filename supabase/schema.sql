@@ -3768,6 +3768,84 @@ revoke all on function public.get_progress_report(integer, uuid, uuid) from publ
 grant execute on function public.get_progress_report(integer, uuid, uuid) to authenticated;
 
 -- =============================================================================
+-- §27 · Invoiced school licences (purchase orders)
+-- -----------------------------------------------------------------------------
+--     A school that pays by purchase order cannot use a Checkout page: the
+--     accounts office raises an invoice and pays it later. This table holds the
+--     REQUEST for one. Nothing in it grants access. A teacher or admin asks
+--     (api/request-invoice.ts); a platform admin approves (api/issue-invoice.ts),
+--     which creates a send_invoice subscription in Stripe. The existing webhook
+--     then applies the licence to the school exactly as it does for a card
+--     purchase, because the subscription carries the same metadata.
+--
+--     Written by the API with the service role ONLY. Authenticated users read
+--     their own requests (admins read all of them) and have no write policy, so
+--     a direct insert or update from a browser is refused by RLS. The grants
+--     below also withhold write privileges from the client roles, so a later
+--     policy added by mistake still cannot open the table to writes.
+--
+--     One pending request per school: the partial unique index is what stops a
+--     double-click, or two teachers at one school, from raising two invoices.
+--     Approved and declined rows do not count against it.
+-- =============================================================================
+
+create table if not exists public.licence_requests (
+  id                     uuid primary key default gen_random_uuid(),
+  requested_by           uuid references public.profiles (id) on delete set null,
+  school_id              uuid not null references public.schools (id) on delete cascade,
+  seats                  integer not null check (seats between 5 and 1000),
+  billing_name           text not null check (char_length(billing_name) between 1 and 150),
+  billing_email          text not null check (char_length(billing_email) between 3 and 254),
+  -- Shape (line1, city, state, postcode, country) is checked by the API, not here.
+  billing_address        jsonb not null check (jsonb_typeof(billing_address) = 'object'),
+  abn                    text check (abn is null or abn ~ '^[0-9]{11}$'),
+  po_number              text check (po_number is null or char_length(po_number) <= 60),
+  note                   text check (note is null or char_length(note) <= 1000),
+  status                 text not null default 'pending'
+                           check (status in ('pending', 'approved', 'declined', 'cancelled')),
+  decided_by             uuid references public.profiles (id) on delete set null,
+  decided_at             timestamptz,
+  decision_note          text check (decision_note is null or char_length(decision_note) <= 1000),
+  -- Stripe identifiers, written by api/issue-invoice.ts. The customer and the
+  -- subscription are recorded as soon as they exist, so a half-finished approval
+  -- can be seen and retried without raising a second invoice.
+  stripe_customer_id     text,
+  stripe_subscription_id text,
+  stripe_invoice_id      text,
+  hosted_invoice_url     text,
+  created_at             timestamptz not null default now(),
+  updated_at             timestamptz not null default now()
+);
+
+create unique index if not exists licence_requests_one_pending_idx
+  on public.licence_requests (school_id) where status = 'pending';
+
+-- The per-user cap (more than 3 requests in 24 hours) counts by requester.
+create index if not exists licence_requests_requester_idx
+  on public.licence_requests (requested_by, created_at);
+
+drop trigger if exists trg_licence_requests_updated on public.licence_requests;
+create trigger trg_licence_requests_updated before update on public.licence_requests
+  for each row execute function public.set_updated_at();
+
+alter table public.licence_requests enable row level security;
+
+drop policy if exists "Requesters read own licence requests" on public.licence_requests;
+create policy "Requesters read own licence requests"
+  on public.licence_requests for select
+  using (auth.uid() = requested_by);
+
+drop policy if exists "Admins read all licence requests" on public.licence_requests;
+create policy "Admins read all licence requests"
+  on public.licence_requests for select
+  using (public.is_admin());
+
+-- No insert/update/delete policy on purpose: the API writes with the service
+-- role, which bypasses RLS. The grants are narrowed to match.
+revoke all on public.licence_requests from anon, authenticated;
+grant select on public.licence_requests to authenticated;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================

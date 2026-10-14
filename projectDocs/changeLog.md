@@ -12,6 +12,19 @@
   `docs/stripesetup.md`, Step 4). No schema change and no new environment variable.
 - See `projectDocs/monetisation-review-2026-09.md` §31.
 
+## [Unreleased] - 2026-10-14 (Schools can pay a licence by purchase order: server half)
+
+- **Added.** A teacher or admin attached to a school can request a School licence to be invoiced
+  (`POST /api/request-invoice`). A platform admin approves or declines it (`POST /api/issue-invoice`).
+  Approval creates a `send_invoice` subscription on the school price and sends the first invoice; the
+  existing webhook licenses the school without change. Requests live in `licence_requests`
+  (`supabase/schema.sql` §27), with RLS and no client write policy.
+- **Added.** `SCHOOL_INVOICE_ENABLED=false` turns both endpoints off (404). Default on.
+- **Operator.** Re-apply `supabase/schema.sql` for the new table. Set Stripe's unpaid-invoice behaviour
+  and the invoice payment methods as in `docs/stripesetup.md`, "Invoiced school licences".
+- **Learned.** The approval refuses on any failed read and never clamps seats. A failed invoice send is
+  not tolerated just because the invoice is open.
+
 ## [Unreleased] - 2026-10-14 (A school licence reaches its members, and staff hear when it is outgrown)
 
 - **Changed.** A signed-in person's plan is re-read when they return to the tab or the connection comes back,
