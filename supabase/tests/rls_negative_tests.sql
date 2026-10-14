@@ -1054,7 +1054,262 @@ end $$;
 reset role;
 rollback;
 
+-- ---- §27 invoiced licence requests -------------------------------------------
+-- Two schools. A teacher at each school has a PENDING request for their own
+-- school; an admin and a student complete the picture. Ids: schools b1/b2,
+-- users d1 (teacher, school b1) d2 (student, school b1) d3 (teacher, school
+-- b2) d9 (admin), requests d5 (school b1, by d1) and d6 (school b2, by d3).
+begin;
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000d1', 'inv_teacher_x@example.test',
+   '{"username":"inv_teacher_x","display_name":"Invoice Teacher X"}'),
+  ('00000000-0000-0000-0000-0000000000d2', 'inv_student_x@example.test',
+   '{"username":"inv_student_x","display_name":"Invoice Student X"}'),
+  ('00000000-0000-0000-0000-0000000000d3', 'inv_teacher_y@example.test',
+   '{"username":"inv_teacher_y","display_name":"Invoice Teacher Y"}'),
+  ('00000000-0000-0000-0000-0000000000d9', 'inv_admin@example.test',
+   '{"username":"inv_admin","display_name":"Invoice Admin"}')
+on conflict (id) do nothing;
+
+update public.profiles set role = 'teacher'
+ where id in ('00000000-0000-0000-0000-0000000000d1',
+              '00000000-0000-0000-0000-0000000000d3');
+update public.profiles set role = 'admin'
+ where id = '00000000-0000-0000-0000-0000000000d9';
+
+insert into public.schools (id, name) values
+  ('00000000-0000-0000-0000-0000000000b1', 'Invoice Test School X'),
+  ('00000000-0000-0000-0000-0000000000b2', 'Invoice Test School Y')
+on conflict (id) do nothing;
+
+update public.profiles set school_id = '00000000-0000-0000-0000-0000000000b1'
+ where id in ('00000000-0000-0000-0000-0000000000d1',
+              '00000000-0000-0000-0000-0000000000d2');
+update public.profiles set school_id = '00000000-0000-0000-0000-0000000000b2'
+ where id = '00000000-0000-0000-0000-0000000000d3';
+
+insert into public.licence_requests
+  (id, requested_by, school_id, seats, billing_name, billing_email, billing_address, status)
+values
+  ('00000000-0000-0000-0000-0000000000d5', '00000000-0000-0000-0000-0000000000d1',
+   '00000000-0000-0000-0000-0000000000b1', 30, 'Accounts X', 'accounts@school-x.example.test',
+   '{"line1":"1 Test St","city":"Sydney","state":"NSW","postcode":"2000","country":"AU"}',
+   'pending'),
+  ('00000000-0000-0000-0000-0000000000d6', '00000000-0000-0000-0000-0000000000d3',
+   '00000000-0000-0000-0000-0000000000b2', 30, 'Accounts Y', 'accounts@school-y.example.test',
+   '{"line1":"2 Test St","city":"Parramatta","state":"NSW","postcode":"2150","country":"AU"}',
+   'pending')
+on conflict (id) do nothing;
+commit;
+
+-- A teacher reads their own request (positive control, so the next checks mean
+-- something: a refusal below is not just "the table is empty for everyone").
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d1","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare n int;
+begin
+  select count(*) into n from public.licence_requests
+   where id = '00000000-0000-0000-0000-0000000000d5';
+  if n <> 1 then
+    raise exception 'TEST FAILED: requester could not read their own licence request (% rows)', n;
+  end if;
+  raise notice 'PASS: requester reads their own licence request';
+end $$;
+rollback;
+
+-- A student at the same school cannot read the teacher's request.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d2","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare n int;
+begin
+  select count(*) into n from public.licence_requests;
+  if n > 0 then
+    raise exception 'TEST FAILED: a student read a licence request (% rows)', n;
+  end if;
+  raise notice 'PASS: student reads no licence requests';
+end $$;
+rollback;
+
+-- A teacher at another school cannot read school X's request.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d3","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare n int;
+begin
+  select count(*) into n from public.licence_requests
+   where id = '00000000-0000-0000-0000-0000000000d5';
+  if n > 0 then
+    raise exception 'TEST FAILED: a teacher at school Y read school X''s licence request (% rows)', n;
+  end if;
+  raise notice 'PASS: another school''s teacher cannot read the request';
+end $$;
+rollback;
+
+-- An admin reads every request (positive control for the admin policy).
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d9","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare n int;
+begin
+  select count(*) into n from public.licence_requests
+   where id in ('00000000-0000-0000-0000-0000000000d5',
+                '00000000-0000-0000-0000-0000000000d6');
+  if n <> 2 then
+    raise exception 'TEST FAILED: admin could not read every licence request (% of 2 rows)', n;
+  end if;
+  raise notice 'PASS: admin reads all licence requests';
+end $$;
+rollback;
+
+-- Anonymous callers read nothing. The grant is withheld, so this is refused
+-- outright; an RLS-filtered empty result would also be a pass.
+begin;
+set local role anon;
+do $$
+declare n int;
+begin
+  begin
+    select count(*) into n from public.licence_requests;
+    if n > 0 then
+      raise exception 'TEST FAILED: anonymous caller read licence requests (% rows)', n;
+    end if;
+    raise notice 'PASS: anonymous caller reads no licence requests';
+  exception
+    when insufficient_privilege then
+      raise notice 'PASS: anonymous caller has no privilege on licence requests';
+  end;
+end $$;
+rollback;
+
+-- Direct insert by a teacher is refused by RLS itself. The table grant is
+-- granted here, inside the transaction, so the refusal can only come from the
+-- missing insert policy; the rollback withdraws the grant again.
+begin;
+grant insert on public.licence_requests to authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d1","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  -- Inserted as 'approved' so the one-pending-per-school index cannot be the
+  -- thing that refuses it: only the RLS check is left to refuse.
+  insert into public.licence_requests
+    (requested_by, school_id, seats, billing_name, billing_email, billing_address, status)
+  values ('00000000-0000-0000-0000-0000000000d1',
+          '00000000-0000-0000-0000-0000000000b1', 30, 'Self', 'self@example.test',
+          '{"line1":"1 Test St","city":"Sydney","state":"NSW","postcode":"2000","country":"AU"}',
+          'approved');
+  raise exception 'TEST FAILED: a teacher inserted a licence request directly';
+exception
+  when insufficient_privilege then
+    raise notice 'PASS: direct insert of a licence request refused (%)', sqlerrm;
+end $$;
+rollback;
+
+-- A teacher cannot approve their own request by updating it. With no update
+-- policy the row is not visible to UPDATE, so nothing changes.
+begin;
+grant update on public.licence_requests to authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d1","role":"authenticated"}';
+set local role authenticated;
+do $$
+declare n int;
+begin
+  update public.licence_requests set status = 'approved'
+   where id = '00000000-0000-0000-0000-0000000000d5';
+  get diagnostics n = row_count;
+  if n <> 0 then
+    raise exception 'TEST FAILED: a teacher updated their own licence request (% rows)', n;
+  end if;
+  raise notice 'PASS: teacher cannot update a licence request';
+end $$;
+reset role;
+do $$
+declare v_status text;
+begin
+  select status into v_status from public.licence_requests
+   where id = '00000000-0000-0000-0000-0000000000d5';
+  if v_status <> 'pending' then
+    raise exception 'TEST FAILED: licence request status changed to % by a teacher', v_status;
+  end if;
+end $$;
+rollback;
+
+-- Constraints (run as the owner, so RLS is out of the picture): one pending
+-- request per school, the seat bounds, and the ABN shape.
+begin;
+do $$
+begin
+  begin
+    insert into public.licence_requests
+      (requested_by, school_id, seats, billing_name, billing_email, billing_address)
+    values ('00000000-0000-0000-0000-0000000000d1',
+            '00000000-0000-0000-0000-0000000000b1', 40, 'Second', 'second@example.test',
+            '{"line1":"1 Test St","city":"Sydney","state":"NSW","postcode":"2000","country":"AU"}');
+    raise exception 'TEST FAILED: a second pending request was accepted for school X';
+  exception
+    when unique_violation then
+      raise notice 'PASS: second pending request for the same school refused';
+  end;
+
+  begin
+    insert into public.licence_requests
+      (requested_by, school_id, seats, billing_name, billing_email, billing_address, status)
+    values ('00000000-0000-0000-0000-0000000000d1',
+            '00000000-0000-0000-0000-0000000000b1', 40, 'Approved', 'approved@example.test',
+            '{"line1":"1 Test St","city":"Sydney","state":"NSW","postcode":"2000","country":"AU"}',
+            'approved');
+    raise notice 'PASS: an approved request does not count against the pending limit';
+  end;
+
+  begin
+    insert into public.licence_requests
+      (requested_by, school_id, seats, billing_name, billing_email, billing_address, status)
+    values ('00000000-0000-0000-0000-0000000000d1',
+            '00000000-0000-0000-0000-0000000000b1', 3, 'Too few', 'few@example.test',
+            '{"line1":"1 Test St","city":"Sydney","state":"NSW","postcode":"2000","country":"AU"}',
+            'declined');
+    raise exception 'TEST FAILED: a request for 3 seats was accepted (bounds are 5 to 1000)';
+  exception
+    when check_violation then
+      raise notice 'PASS: seat bounds enforced by the table';
+  end;
+
+  begin
+    insert into public.licence_requests
+      (requested_by, school_id, seats, billing_name, billing_email, billing_address, abn, status)
+    values ('00000000-0000-0000-0000-0000000000d1',
+            '00000000-0000-0000-0000-0000000000b1', 30, 'Bad ABN', 'abn@example.test',
+            '{"line1":"1 Test St","city":"Sydney","state":"NSW","postcode":"2000","country":"AU"}',
+            '51 824 753 55', 'declined');
+    raise exception 'TEST FAILED: a spaced ABN was stored in the table';
+  exception
+    when check_violation then
+      raise notice 'PASS: ABN stored as 11 digits only';
+  end;
+end $$;
+rollback;
+
 -- ---- Cleanup ------------------------------------------------------------------
+begin;
+delete from public.schools where id in (
+  '00000000-0000-0000-0000-0000000000b1',
+  '00000000-0000-0000-0000-0000000000b2'
+);
+delete from auth.users where id in (
+  '00000000-0000-0000-0000-0000000000d1',
+  '00000000-0000-0000-0000-0000000000d2',
+  '00000000-0000-0000-0000-0000000000d3',
+  '00000000-0000-0000-0000-0000000000d9'
+);
+commit;
+
+-- ---- Cleanup (earlier fixtures) ----------------------------------------------
 begin;
 -- SECURITY DEFINER functions that take an ARBITRARY user id must not be reachable
 -- with the anon key, which ships in the client bundle. Each returns information
