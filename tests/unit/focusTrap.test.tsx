@@ -416,6 +416,64 @@ describe('close-then-open in the same tick', () => {
   });
 });
 
+/**
+ * The profile's Terms link closes the profile and opens the legal reader in one
+ * click. The reader's opener is the Terms link, which is removed with the profile,
+ * so the reader has to hand focus back to the page that opened the profile.
+ */
+describe('a hand-off from one dialog to another', () => {
+  const twoFrames = () =>
+    new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    );
+
+  it('returns focus to the page when the second dialog closes', async () => {
+    const Handoff = () => {
+      const [profile, setProfile] = useState(false);
+      const [legal, setLegal] = useState(false);
+      const profileRef = useFocusTrap<HTMLDivElement>(profile);
+      const legalRef = useFocusTrap<HTMLDivElement>(legal);
+      return (
+        <>
+          <button onClick={() => setProfile(true)}>open profile</button>
+          {profile && (
+            <div ref={profileRef} tabIndex={-1} role="dialog" aria-label="profile">
+              <button
+                onClick={() => {
+                  setProfile(false);
+                  setLegal(true);
+                }}
+              >
+                terms
+              </button>
+            </div>
+          )}
+          {legal && (
+            <div ref={legalRef} tabIndex={-1} role="dialog" aria-label="legal">
+              <button onClick={() => setLegal(false)}>close legal</button>
+            </div>
+          )}
+        </>
+      );
+    };
+    render(<Handoff />);
+    const opener = screen.getByText('open profile');
+    opener.focus();
+    fireEvent.click(opener);
+
+    const terms = screen.getByText('terms');
+    terms.focus();
+    fireEvent.click(terms);
+    // The reader stays open across a frame: the profile's restore runs then, and
+    // must leave focus in the reader.
+    await twoFrames();
+    expect(document.activeElement).toBe(screen.getByText('close legal'));
+
+    fireEvent.click(screen.getByText('close legal'));
+    await waitFor(() => expect(document.activeElement).toBe(opener));
+  });
+});
+
 describe('collapsed panels are unreachable', () => {
   it('marks a shut disclosure panel inert, and lifts it when opened', async () => {
     const { AccordionSection } = await import('../../components/ReferenceMaterials');

@@ -85,6 +85,19 @@ const isReachable = (el: HTMLElement): boolean => {
 const focusableWithin = (container: HTMLElement): HTMLElement[] =>
   Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(isReachable);
 
+/**
+ * The element that had focus before the first dialog of the current run opened.
+ *
+ * A dialog can hand off to another from one of its own controls: the profile's
+ * Terms link closes the profile and opens the legal reader in the same click. The
+ * second dialog then captures that control as its opener, and the first dialog's
+ * unmount removes it, so the restore finds a detached node and leaves focus on
+ * <body>. This page element is where focus belongs once the run ends. It is set
+ * by the first dialog to open, kept while any dialog is open, and cleared by the
+ * restore that runs with no dialog left.
+ */
+let runOpener: HTMLElement | null = null;
+
 /** The surface of the topmost dialog that is still mounted, if any dialog is open. */
 const topmostContainer = (): HTMLElement | null => {
   for (let i = trapStack.length - 1; i >= 0; i--) {
@@ -132,9 +145,13 @@ const restoreFocus = (opener: HTMLElement | null) => {
     }
     return;
   }
-  if (opener && document.contains(opener)) {
-    opener.focus?.({ preventScroll: true });
+  // A detached opener falls back to the page element that began the run, if it is
+  // still there (see runOpener).
+  const target = opener && document.contains(opener) ? opener : runOpener;
+  if (target && document.contains(target)) {
+    target.focus?.({ preventScroll: true });
   }
+  if (trapStack.length === 0) runOpener = null;
 };
 
 /**
@@ -187,6 +204,11 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
      */
     const opener = openerRef.current;
     const previouslyFocused = opener && !container?.contains(opener) ? opener : null;
+
+    // Kept while the run lasts. Replaced when it is missing, detached (a run that
+    // ended without its restore), or the body, which is never a place to return to.
+    const reusable = !runOpener || runOpener === document.body || !runOpener.isConnected;
+    if (reusable) runOpener = previouslyFocused;
 
     const entry: TrapEntry = { container: () => containerRef.current };
     trapStack.push(entry);
