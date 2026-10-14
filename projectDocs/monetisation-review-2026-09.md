@@ -444,7 +444,7 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
 ### 22. A subscription in `incomplete` holds nothing, so a second purchase is allowed — P1, fixed
 
 - **Where**: `api/create-checkout.ts` (both guards, and the displaced-session check),
-  `HELD_STATUSES` in `api/_lib/openCheckout.ts`.
+  `holdsPurchase` in `api/_lib/openCheckout.ts`.
 - **Scenario**: the first payment needs 3-D Secure. The subscription stays
   `incomplete` for up to about 23 hours, and the buyer, or a colleague for the same
   school, checks out again. Both then complete.
@@ -464,12 +464,13 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
 - **Why the one-open rule does not make it moot**: a `complete` session can carry an
   `incomplete` subscription, and the rule expires only sessions that are still open. So
   the displaced-session check reads the subscription as well as the session.
-- **Fixed**: `incomplete` is in `HELD_STATUSES` for both guards and the displaced check,
-  with its own wording ("still waiting for payment"). It is not in `resolve_stripe_plan`,
-  `caller_plan()`, `resolve_ai_quota()` or the webhook's plan write. Those grant access
-  only on `active`, `trialing` and `past_due`, so a held purchase grants nothing.
-- **Cost, a product call**: a buyer who abandons a 3-D Secure step cannot buy again for
-  up to 23 hours. §36 records it.
+- **Fixed**, with the window set in §36. A personal `incomplete` subscription holds the
+  account's new purchase for 45 minutes after its last write (`INCOMPLETE_HOLD_MS`, the
+  3-D Secure window), with its own wording ("still waiting for your bank"). The
+  displaced-session check applies the same rule. A school licence in `incomplete` does
+  not hold the school. Nothing here reaches `resolve_stripe_plan`, `caller_plan()`,
+  `resolve_ai_quota()` or the webhook's plan write, which grant access only on `active`,
+  `trialing` and `past_due`, so a held purchase grants nothing.
 
 ### 23. Unsigned webhooks are accepted wherever `isProductionRuntime()` is false — P1 (P0 if the preview shares production data), open
 
@@ -689,14 +690,34 @@ the commonest first-deployment mistake.
 - **Suggested fix**: a sweep that expires any recorded session whose displacement
   failed, or a retry on the next checkout. Not built.
 
-### 36. An abandoned 3-D Secure attempt blocks a new purchase for up to 23 hours — product call, open
+### 36. An abandoned 3-D Secure attempt blocks a new purchase for up to 23 hours — decided, fixed
 
-- **Where**: `HELD_STATUSES` in `api/_lib/openCheckout.ts`; the `PURCHASE_PENDING` wording.
+- **Where**: `INCOMPLETE_HOLD_MS` and `holdsPurchase` in `api/_lib/openCheckout.ts`; the
+  personal guard in `api/create-checkout.ts`; `PURCHASE_PENDING`.
 - **Scenario**: a buyer's first payment needs an extra step, and they give up. Their
-  `incomplete` subscription holds the account until Stripe expires it, up to 23 hours.
-- **Operator option**: cancel the `incomplete` subscription in the Stripe Dashboard, which
-  clears the hold at once (`docs/stripesetup.md`, "When a billing incident is open").
-  A product decision on whether the wait is acceptable is still needed.
+  `incomplete` subscription would hold the account until Stripe expires it, up to 23 hours.
+  That locks out a customer who came back to retry, and loses the sale.
+- **Decision**: the hold is a window, not a status. A personal `incomplete` subscription
+  holds the account's new purchase only while its last write (`last_event_at`, falling
+  back to `updated_at`) is inside 45 minutes. That is the 3-D Secure window: the customer
+  can approve the payment in their bank's prompt during it. After the window the row no
+  longer holds, and a retry is allowed. A row with no usable timestamp does not hold.
+  The displaced-session check reads the same row and applies the same rule.
+- **School licences do not hold on `incomplete`.** A school row carries no timestamp, so
+  the window cannot apply to it. The purchaser's own subscription row is what the personal
+  guard reads. A colleague can therefore buy a second licence while the first waits for
+  payment. If both complete, both are charged, and the `duplicate_school_licence` incident
+  records it. That is the trade the decision accepts.
+- **Why the trade is right**: the rare double charge is caught by incident detection,
+  which is kept as it was, and reported to an operator. A 23-hour lock on every abandoned
+  payment would lose the sales the window exists to keep.
+- **Tests**: `tests/unit/openCheckout.test.ts` (both sides of the 45-minute boundary; the
+  last-write fallback; no timestamp does not hold), `tests/unit/openCheckoutRoute.test.ts`
+  (a fresh row refuses before any session exists; a stale row lets the purchase go ahead),
+  `tests/unit/duplicateSubscriptionGuard.test.ts` and `tests/unit/schoolLicenceDuplicateGuard.test.ts`.
+- **Operator option, unchanged**: an `incomplete` subscription can still be cancelled in
+  the Stripe Dashboard, which clears any hold at once (`docs/stripesetup.md`, "One open
+  checkout, and billing incidents").
 
 ### 37. A teacher with a personal Plus and an invoiced licence is flagged — P3, open
 
@@ -722,8 +743,8 @@ the commonest first-deployment mistake.
   never overwritten) are **done**, see those sections. What is left from that pass:
   §23 (unsigned preview webhooks) needs the operator to confirm the preview setup;
   §25 and §26 are smaller; and the school in-flight window (§34), the transient expiry
-  failure (§35), the 23-hour hold (§36) and the invoiced-licence false positive (§37)
-  are new and open.
+  failure (§35), and the invoiced-licence false positive (§37) are new and open. The
+  3-D Secure hold was decided in §36 and is fixed.
 
 - ~~**A licence going live mid-session does not reach other members until they
   reload.**~~ — **done**, see §28. Members now re-read their plan when they return

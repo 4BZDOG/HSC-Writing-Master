@@ -3,7 +3,7 @@
 ## [Unreleased] - 2026-10-14 (One open checkout per user, and billing incidents)
 
 - **Fixed.** Two Checkout Sessions could both stay payable for a day, so a second Upgrade press or a second tab could double-charge (monetisation review §21). Each account now has one payable session: the new one is recorded, and the one it displaces is expired. A double tap returns the same session. Sessions expire 31 to 36 minutes after creation.
-- **Fixed.** A subscription in `incomplete` (first payment outstanding) now holds a new purchase, for both personal and school licences. Nothing that grants access reads `incomplete` (§22).
+- **Fixed.** A personal subscription whose first payment is outstanding (`incomplete`, for example a 3-D Secure step) holds that customer's new purchase for 45 minutes after its last update, the window in which the bank prompt can be answered. A school licence in that state does not hold the school (§22, §36). Nothing that grants access reads `incomplete`.
 - **Fixed.** A profile already linked to one Stripe customer is no longer overwritten by another. The plan is still applied, and the mismatch is recorded (§24).
 - **Added.** `billing_incidents` records a user holding two live subscriptions, a school licence replaced while live, and a customer mismatch. Nothing is cancelled or refunded automatically. The operator resolves each in the Stripe Dashboard (`docs/stripesetup.md`, "When a billing incident is open").
 - **Operator.** Re-apply schema §13: it adds `checkout_sessions` and `billing_incidents`. Until then checkout behaves as before. No environment variable changed. New open findings §34–§37 are recorded in `projectDocs/monetisation-review-2026-09.md`.

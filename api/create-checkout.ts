@@ -24,8 +24,10 @@
  * exception is a column the schema has not added yet: that is treated as "nothing
  * to check", so a database that has not re-applied §13 behaves as it did before.
  *
- * A subscription that is `incomplete` (its first payment still needs action) holds the
- * purchase as well: it can still become active for up to a day. The refusal says so.
+ * A personal subscription that is `incomplete` (its first payment is waiting on the
+ * customer's bank) holds a new purchase only inside the 3-D Secure window after its last
+ * write (INCOMPLETE_HOLD_MS). Outside it, the customer may buy again. A school licence in
+ * that state does not hold, because the buyer's own guard covers the personal row.
  *
  * One open checkout per user. The session created here replaces the one recorded for
  * the user, which is expired (api/_lib/openCheckout.ts). Sessions expire 31 to 36
@@ -52,9 +54,11 @@ import { isMissingColumnError } from './_lib/stripeLedger';
 import {
   checkoutRequestKey,
   expireDisplacedCheckout,
+  holdsPurchase,
   HELD_STATUSES,
-  isHeldStatus,
   isIdempotencyConflict,
+  isLiveStatus,
+  type PurchaseRow,
   releaseCheckout,
   swapOpenCheckout,
 } from './_lib/openCheckout';
@@ -66,23 +70,18 @@ const ALREADY_SUBSCRIBED =
   'You already have an active subscription. Use “Manage subscription” to change your plan or seats.';
 
 /**
- * A purchase that has been made, but whose first payment has not gone through (Stripe's
- * `incomplete`). It becomes active when the payment does, or lapses within about a day.
- * Until then a second checkout would be a second charge.
+ * A purchase whose first payment is still waiting on the customer's bank (Stripe's
+ * `incomplete`), inside the window where it can still be approved. The customer is
+ * told how to finish it, and when a new attempt is allowed.
  */
 const PURCHASE_PENDING =
-  'A previous purchase on your account is still waiting for payment. It lapses by itself ' +
-  'within about a day if it is not paid, so please wait before buying again. Contact us if it ' +
-  'has been waiting longer than that.';
+  'A previous purchase on your account is still waiting for your bank to confirm the payment. ' +
+  'Finish it or cancel it from your bank’s prompt. If nothing happens within an hour, you can ' +
+  'start again.';
 
 const SCHOOL_LICENCE_HELD =
   'Your school already has a School licence. Ask whoever bought it to add seats through ' +
   '“Manage subscription”, or contact us if you need it moved.';
-
-const SCHOOL_LICENCE_PENDING =
-  'Your school has a School licence that is still waiting for payment. It lapses by itself ' +
-  'within about a day if it is not paid, so please wait before buying again. Contact us if it ' +
-  'has been waiting longer than that.';
 
 const CHECKOUT_STARTING =
   'Your checkout is still being prepared. Please wait a minute, then try again.';
@@ -248,15 +247,15 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // portal by design — this is only a duplicate-purchase guard, not an
       // in-app switcher. Applies to both Plus and School because it keys on
       // the user, before the price is inspected.
-      // `incomplete` is held as well (see HELD_STATUSES): a purchase whose first payment
-      // is still outstanding can yet complete, and a second checkout would double-bill.
-      const { data: existingSub, error: existingSubError } = await supabase
+      // Read every row that could hold, then decide here: an `incomplete` row holds only
+      // inside its 3-D Secure window (holdsPurchase), and that depends on its own
+      // timestamp, which a status filter cannot express. No limit: a cap could hide a live
+      // row behind older pending ones, and a user has only a handful of rows.
+      const { data: heldRows, error: existingSubError } = await supabase
         .from('subscriptions')
-        .select('id, status')
+        .select('id, status, last_event_at, updated_at')
         .eq('user_id', auth.userId)
-        .in('status', [...HELD_STATUSES])
-        .limit(1)
-        .maybeSingle();
+        .in('status', [...HELD_STATUSES]);
       // Fail closed: a lookup that errored says nothing about whether the user
       // is already subscribed, and a guard that cannot see is no guard.
       if (existingSubError) {
@@ -264,10 +263,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         res.status(503).json({ error: LOOKUP_FAILED });
         return;
       }
-      if (existingSub) {
-        res.status(409).json({
-          error: existingSub.status === 'incomplete' ? PURCHASE_PENDING : ALREADY_SUBSCRIBED,
-        });
+      const now = Date.now();
+      const holding = ((heldRows ?? []) as PurchaseRow[]).filter((row) => holdsPurchase(row, now));
+      if (holding.length > 0) {
+        // A live subscription takes precedence over a pending one in the wording.
+        const live = holding.some((row) => isLiveStatus(row.status));
+        res.status(409).json({ error: live ? ALREADY_SUBSCRIBED : PURCHASE_PENDING });
         return;
       }
 
@@ -318,11 +319,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
             '[create-checkout] schools licence columns missing (schema §13 not re-applied) — ' +
               'cannot check for an existing licence.'
           );
-        } else if (school?.stripe_subscription_id && isHeldStatus(school.plan_status)) {
+        } else if (school?.stripe_subscription_id && isLiveStatus(school.plan_status)) {
+          // Only a live licence holds the school. An `incomplete` one does not: schools carry
+          // no timestamp to apply the window to, and the buyer's own guard above already
+          // covers that subscription's row for the window.
           res.status(409).json({
             code: 'school_licence_held',
-            error:
-              school.plan_status === 'incomplete' ? SCHOOL_LICENCE_PENDING : SCHOOL_LICENCE_HELD,
+            error: SCHOOL_LICENCE_HELD,
           });
           return;
         }
@@ -448,7 +451,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         return;
       }
       if (swap.recorded && swap.previous && swap.previous !== session.id) {
-        const displaced = await expireDisplacedCheckout(stripe, swap.previous);
+        const displaced = await expireDisplacedCheckout(stripe, swap.previous, supabase);
         if (displaced.held) {
           // The earlier session was paid, and its subscription is still held. The
           // duplicate guard would have refused this too, had the webhook already run.

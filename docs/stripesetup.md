@@ -333,12 +333,22 @@ left open overnight cannot complete a purchase. The constants are
 `CHECKOUT_LIFE_MS` and `CHECKOUT_REQUEST_BUCKET_MS` in `api/_lib/openCheckout.ts`.
 Nothing here is an environment variable.
 
-**A purchase is refused, not just warned about, in two new cases.** A
-subscription in Stripe's `incomplete` state (the first payment needs an extra
-step, such as 3-D Secure) holds a new purchase, because it can still become
-active for up to 23 hours. The customer sees "still waiting for payment". So
-does a school whose licence is in that state. The hold lifts when Stripe marks
-the subscription `incomplete_expired`, or when you cancel it in the Dashboard.
+**A purchase is refused, not just warned about, in one new case.** A personal
+subscription whose first payment is still waiting on the customer's bank (Stripe's
+`incomplete`, for example a 3-D Secure step) holds that customer's new purchase
+for 45 minutes after its last update. That is the window in which the customer
+can approve the payment in their bank's prompt. The customer sees "still waiting
+for your bank to confirm the payment" and is told to finish or cancel it there,
+and to start again if nothing happens within an hour. After 45 minutes the hold
+lifts by itself, so a customer who came back later can buy again. The window is
+`INCOMPLETE_HOLD_MS` in `api/_lib/openCheckout.ts`. To clear a stuck subscription
+at once, cancel it in the Dashboard.
+
+A school licence in that state does not hold the school, because a school row
+carries no timestamp. A colleague can start a second licence while the first is
+waiting for payment. If both are paid, the `duplicate_school_licence` incident
+below records it. The reasoning is in `projectDocs/monetisation-review-2026-09.md`
+§36.
 
 **Schema.** Schema §13 adds two tables, `checkout_sessions` (one row per
 account, service-role only) and `billing_incidents` (admins can read it). Until
@@ -652,6 +662,9 @@ affected. If the licence columns have not been re-applied yet, the check is
 skipped and logged. If the lookup itself fails, the purchase is refused with a
 503, nothing is charged, and the buyer can retry.
 
-> Known gap: a licence whose first payment is waiting for 3-D Secure (status
-> `incomplete`) does not count as held yet, so a second purchase can still get
-> through during that window. See `projectDocs/monetisation-review-2026-09.md` §22.
+> Decided (§36): a licence whose first payment is still waiting for 3-D Secure
+> (status `incomplete`) does not hold the school. A colleague can buy a second
+> licence during that wait. If both are paid, the `duplicate_school_licence`
+> incident records it. The buyer's own purchases are held for 45 minutes after the
+> last update of their subscription. See `projectDocs/monetisation-review-2026-09.md`
+> §22 and §36.

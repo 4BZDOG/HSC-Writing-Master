@@ -7,7 +7,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
  * two requests racing for one row cannot both believe they displaced the same session.
  * Expiry is housekeeping: a Stripe failure there must not stop a legitimate purchase,
  * with the one exception that a displaced session which was PAID, and whose subscription
- * is still held, refuses the new one.
+ * still holds, refuses the new one.
+ *
+ * A subscription in `incomplete` holds only inside the 3-D Secure window after its last
+ * write (INCOMPLETE_HOLD_MS, §36). The window tests below pin both sides of the boundary.
  */
 
 import {
@@ -15,6 +18,8 @@ import {
   CHECKOUT_LIFE_MS,
   CHECKOUT_REQUEST_BUCKET_MS,
   expireDisplacedCheckout,
+  holdsPurchase,
+  INCOMPLETE_HOLD_MS,
   isHeldStatus,
   isIdempotencyConflict,
   releaseCheckout,
@@ -86,6 +91,18 @@ const makeSupabase = () => ({
   },
 });
 
+/** A supabase stand-in whose subscriptions read returns `row`, or fails with `error`. */
+const subscriptionsWith = (row: Row | null, error: Row | null = null) => ({
+  from: (table: string) => {
+    if (table !== 'subscriptions') throw new Error(`unexpected table ${table}`);
+    return {
+      select: () => ({
+        eq: () => ({ maybeSingle: async () => ({ data: row, error }) }),
+      }),
+    };
+  },
+});
+
 beforeEach(() => {
   recorded.clear();
   readError = null;
@@ -149,14 +166,93 @@ describe('checkoutRequestKey', () => {
   });
 });
 
-describe('isHeldStatus', () => {
-  it('holds every status in which a purchase is paid, being paid, or may still be paid', () => {
+const NOW = Date.parse('2026-10-14T10:00:00Z');
+/** An ISO timestamp this many milliseconds before NOW. */
+const ago = (ms: number) => new Date(NOW - ms).toISOString();
+
+describe('holdsPurchase: the personal guard’s rule', () => {
+  it('holds an active, trialing or past_due subscription whatever its timestamps say', () => {
+    expect(holdsPurchase({ status: 'active' }, NOW)).toBe(true);
+    expect(holdsPurchase({ status: 'trialing', updated_at: ago(90 * 86_400_000) }, NOW)).toBe(true);
+    expect(holdsPurchase({ status: 'past_due', last_event_at: ago(3 * 86_400_000) }, NOW)).toBe(
+      true
+    );
+  });
+
+  it('holds an incomplete subscription written a few minutes ago, inside the 3-D Secure window', () => {
+    expect(holdsPurchase({ status: 'incomplete', last_event_at: ago(10 * 60 * 1000) }, NOW)).toBe(
+      true
+    );
+  });
+
+  it('holds right up to the boundary, and releases exactly at it', () => {
+    // The window is 45 minutes: a write one second short of it holds, one at it does not.
+    expect(INCOMPLETE_HOLD_MS).toBe(45 * 60 * 1000);
+    const justInside = { status: 'incomplete', last_event_at: ago(INCOMPLETE_HOLD_MS - 1_000) };
+    const exactly = { status: 'incomplete', last_event_at: ago(INCOMPLETE_HOLD_MS) };
+    const justOutside = { status: 'incomplete', last_event_at: ago(INCOMPLETE_HOLD_MS + 1_000) };
+    expect(holdsPurchase(justInside, NOW)).toBe(true);
+    expect(holdsPurchase(exactly, NOW)).toBe(false);
+    expect(holdsPurchase(justOutside, NOW)).toBe(false);
+  });
+
+  it('does not hold an incomplete subscription that has been quiet for longer than the window', () => {
+    // A customer who gave up on the bank prompt and came back later is not locked out.
+    expect(
+      holdsPurchase({ status: 'incomplete', last_event_at: ago(6 * 60 * 60 * 1000) }, NOW)
+    ).toBe(false);
+  });
+
+  it('reads last_event_at, and falls back to updated_at only when last_event_at is absent', () => {
+    // Recent updated_at does not rescue an old last_event_at: the event time is the record.
+    expect(
+      holdsPurchase(
+        { status: 'incomplete', last_event_at: ago(60 * 60 * 1000), updated_at: ago(60_000) },
+        NOW
+      )
+    ).toBe(false);
+    // With no event time (a row from before the stamp existed), updated_at is the clock.
+    expect(
+      holdsPurchase(
+        { status: 'incomplete', last_event_at: null, updated_at: ago(10 * 60 * 1000) },
+        NOW
+      )
+    ).toBe(true);
+    expect(
+      holdsPurchase(
+        { status: 'incomplete', last_event_at: null, updated_at: ago(2 * 60 * 60 * 1000) },
+        NOW
+      )
+    ).toBe(false);
+  });
+
+  it('does NOT hold an incomplete subscription with no usable timestamp', () => {
+    // Nothing says the payment is still in flight, and holding on a guess would lock out a customer.
+    expect(holdsPurchase({ status: 'incomplete' }, NOW)).toBe(false);
+    expect(
+      holdsPurchase({ status: 'incomplete', last_event_at: null, updated_at: null }, NOW)
+    ).toBe(false);
+    expect(holdsPurchase({ status: 'incomplete', last_event_at: '', updated_at: '' }, NOW)).toBe(
+      false
+    );
+    expect(holdsPurchase({ status: 'incomplete', last_event_at: 'not a date' }, NOW)).toBe(false);
+  });
+
+  it('does not hold any other status', () => {
+    for (const status of ['canceled', 'incomplete_expired', 'unpaid', 'paused', undefined]) {
+      expect(holdsPurchase({ status, last_event_at: ago(60_000) }, NOW)).toBe(false);
+    }
+  });
+});
+
+describe('isHeldStatus: the statuses the incident detection watches', () => {
+  it('includes incomplete, because a pending purchase can still become a live one', () => {
     for (const status of ['active', 'trialing', 'past_due', 'incomplete']) {
       expect(isHeldStatus(status)).toBe(true);
     }
   });
 
-  it('does not hold a purchase that has ended or never completed', () => {
+  it('does not include a purchase that has ended or never completed', () => {
     for (const status of ['canceled', 'incomplete_expired', 'unpaid', 'paused', '', undefined]) {
       expect(isHeldStatus(status)).toBe(false);
     }
@@ -259,60 +355,124 @@ describe('expireDisplacedCheckout', () => {
   const stripeWith = (expire: unknown, retrieve: unknown) =>
     ({ checkout: { sessions: { expire, retrieve } } }) as never;
 
+  /** A completed earlier session whose subscription is `status`. */
+  const completedWith = (status: string) =>
+    vi.fn().mockResolvedValue({
+      status: 'complete',
+      subscription: { id: 'sub_earlier', status },
+    });
+  const alreadyComplete = () => vi.fn().mockRejectedValue(new Error('session is complete'));
+
   it('expires an open session and proceeds', async () => {
     const expire = vi.fn().mockResolvedValue({});
     const retrieve = vi.fn();
-    const result = await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old');
+    const result = await expireDisplacedCheckout(
+      stripeWith(expire, retrieve),
+      'cs_old',
+      subscriptionsWith(null) as never,
+      NOW
+    );
     expect(result).toEqual({ held: false });
     expect(expire).toHaveBeenCalledWith('cs_old');
     expect(retrieve).not.toHaveBeenCalled();
   });
 
   it('refuses when the displaced session was paid and its subscription is active', async () => {
-    const expire = vi.fn().mockRejectedValue(new Error('session is complete'));
-    const retrieve = vi.fn().mockResolvedValue({
-      status: 'complete',
-      subscription: { id: 'sub_paid', status: 'active' },
-    });
-    const result = await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old');
+    const retrieve = completedWith('active');
+    const result = await expireDisplacedCheckout(
+      stripeWith(alreadyComplete(), retrieve),
+      'cs_old',
+      subscriptionsWith(null) as never,
+      NOW
+    );
     expect(result).toEqual({ held: true, status: 'active' });
     expect(retrieve).toHaveBeenCalledWith('cs_old', { expand: ['subscription'] });
   });
 
-  it('refuses when the displaced session’s subscription is still awaiting its first payment', async () => {
-    const expire = vi.fn().mockRejectedValue(new Error('session is complete'));
-    const retrieve = vi.fn().mockResolvedValue({
-      status: 'complete',
-      subscription: { id: 'sub_3ds', status: 'incomplete' },
-    });
-    const result = await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old');
+  it('refuses an incomplete subscription whose last write is inside the window, read from our row', async () => {
+    const result = await expireDisplacedCheckout(
+      stripeWith(alreadyComplete(), completedWith('incomplete')),
+      'cs_old',
+      subscriptionsWith({
+        id: 'sub_earlier',
+        status: 'incomplete',
+        last_event_at: ago(10 * 60 * 1000),
+        updated_at: ago(10 * 60 * 1000),
+      }) as never,
+      NOW
+    );
     expect(result).toEqual({ held: true, status: 'incomplete' });
   });
 
+  it('proceeds when the incomplete subscription has been quiet past the window', async () => {
+    const result = await expireDisplacedCheckout(
+      stripeWith(alreadyComplete(), completedWith('incomplete')),
+      'cs_old',
+      subscriptionsWith({
+        id: 'sub_earlier',
+        status: 'incomplete',
+        last_event_at: ago(INCOMPLETE_HOLD_MS + 60_000),
+        updated_at: ago(INCOMPLETE_HOLD_MS + 60_000),
+      }) as never,
+      NOW
+    );
+    expect(result).toEqual({ held: false });
+  });
+
+  it('proceeds when the incomplete subscription has no row yet, as the guard does', async () => {
+    const result = await expireDisplacedCheckout(
+      stripeWith(alreadyComplete(), completedWith('incomplete')),
+      'cs_old',
+      subscriptionsWith(null) as never,
+      NOW
+    );
+    expect(result).toEqual({ held: false });
+  });
+
+  it('proceeds, and logs, when the row cannot be read for an incomplete subscription', async () => {
+    const result = await expireDisplacedCheckout(
+      stripeWith(alreadyComplete(), completedWith('incomplete')),
+      'cs_old',
+      subscriptionsWith(null, { code: '08006', message: 'connection lost' }) as never,
+      NOW
+    );
+    expect(result).toEqual({ held: false });
+    expect(errorLog).toHaveBeenCalled();
+  });
+
   it('proceeds when the displaced session was completed but its subscription has ended', async () => {
-    const expire = vi.fn().mockRejectedValue(new Error('session is complete'));
-    const retrieve = vi.fn().mockResolvedValue({
-      status: 'complete',
-      subscription: { id: 'sub_old', status: 'canceled' },
-    });
-    expect(await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old')).toEqual({
-      held: false,
-    });
+    const result = await expireDisplacedCheckout(
+      stripeWith(alreadyComplete(), completedWith('canceled')),
+      'cs_old',
+      subscriptionsWith(null) as never,
+      NOW
+    );
+    expect(result).toEqual({ held: false });
   });
 
   it('proceeds when the displaced session is already expired', async () => {
     const expire = vi.fn().mockRejectedValue(new Error('already expired'));
     const retrieve = vi.fn().mockResolvedValue({ status: 'expired', subscription: null });
-    expect(await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old')).toEqual({
-      held: false,
-    });
+    expect(
+      await expireDisplacedCheckout(
+        stripeWith(expire, retrieve),
+        'cs_old',
+        subscriptionsWith(null) as never,
+        NOW
+      )
+    ).toEqual({ held: false });
   });
 
   it('does not block the purchase when Stripe fails on expiry AND on the follow-up read', async () => {
     // A Stripe hiccup is housekeeping. The purchase proceeds, and the failure is logged.
     const expire = vi.fn().mockRejectedValue(new Error('Stripe 500'));
     const retrieve = vi.fn().mockRejectedValue(new Error('Stripe 500'));
-    const result = await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old');
+    const result = await expireDisplacedCheckout(
+      stripeWith(expire, retrieve),
+      'cs_old',
+      subscriptionsWith(null) as never,
+      NOW
+    );
     expect(result).toEqual({ held: false });
     expect(errorLog).toHaveBeenCalled();
   });
@@ -320,9 +480,14 @@ describe('expireDisplacedCheckout', () => {
   it('proceeds when the expiry fails transiently and the session is still open', async () => {
     const expire = vi.fn().mockRejectedValue(new Error('Stripe timeout'));
     const retrieve = vi.fn().mockResolvedValue({ status: 'open', subscription: null });
-    expect(await expireDisplacedCheckout(stripeWith(expire, retrieve), 'cs_old')).toEqual({
-      held: false,
-    });
+    expect(
+      await expireDisplacedCheckout(
+        stripeWith(expire, retrieve),
+        'cs_old',
+        subscriptionsWith(null) as never,
+        NOW
+      )
+    ).toEqual({ held: false });
   });
 });
 

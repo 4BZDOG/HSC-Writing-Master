@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 /**
- * POST /api/create-checkout with the open-checkout record (monetisation review §21).
+ * POST /api/create-checkout with the open-checkout record (monetisation review §21),
+ * and the 3-D Secure window for an `incomplete` purchase (§36).
  *
  * The record is the checkout_sessions row for the caller. Stripe is faked as far as the
  * behaviour the code depends on: create returns the same session for a repeated key (as
@@ -18,6 +19,8 @@ type Row = Record<string, unknown>;
 const recorded = new Map<string, string>();
 /** A forced error on reading the record (for the lookup and missing-table cases). */
 let recordReadError: Row | null = null;
+/** The caller's subscription rows, as the guard and the displaced-session check read them. */
+let subRows: Row[] = [];
 
 const sessionsTable = () => ({
   select: () => {
@@ -60,21 +63,41 @@ const sessionsTable = () => ({
   },
 });
 
+/**
+ * subscriptions: the guard reads the caller's held rows with .in(status) and .limit,
+ * and the displaced-session check reads one row by id with .maybeSingle().
+ */
+const subscriptionsTable = () => {
+  const filters: Array<[string, unknown]> = [];
+  let statuses: string[] | null = null;
+  const matches = () =>
+    subRows.filter(
+      (row) =>
+        filters.every(([col, val]) => row[col] === val) &&
+        (statuses === null || statuses.includes(row.status as string))
+    );
+  const builder = {
+    select: () => builder,
+    eq: (col: string, val: unknown) => {
+      filters.push([col, val]);
+      return builder;
+    },
+    in: (_col: string, values: string[]) => {
+      statuses = values;
+      return builder;
+    },
+    limit: () => builder,
+    maybeSingle: async () => ({ data: matches()[0] ?? null, error: null }),
+    then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
+      Promise.resolve({ data: matches(), error: null }).then(resolve, reject),
+  };
+  return builder;
+};
+
 const makeSupabaseMock = () => ({
   from: (table: string) => {
     if (table === 'checkout_sessions') return sessionsTable();
-    if (table === 'subscriptions') {
-      // The duplicate guard: no held subscription for this caller.
-      return {
-        select: () => ({
-          eq: () => ({
-            in: () => ({
-              limit: () => ({ maybeSingle: async () => ({ data: null, error: null }) }),
-            }),
-          }),
-        }),
-      };
-    }
+    if (table === 'subscriptions') return subscriptionsTable();
     // profiles: a student with no Stripe customer yet.
     return {
       select: () => ({
@@ -144,9 +167,13 @@ const post = () => ({
 
 const session = (id: string) => ({ id, url: `https://stripe.test/${id}` });
 
+/** An ISO timestamp this many minutes before now. */
+const minutesAgo = (minutes: number) => new Date(Date.now() - minutes * 60_000).toISOString();
+
 beforeEach(() => {
   recorded.clear();
   recordReadError = null;
+  subRows = [];
   sessionCreateMock.mockReset();
   sessionExpireMock.mockReset();
   sessionExpireMock.mockResolvedValue({});
@@ -235,27 +262,6 @@ describe('create-checkout: one open checkout per user', () => {
     expect(sessionExpireMock).toHaveBeenCalledWith('cs_2');
   });
 
-  it('holds a purchase whose earlier subscription is still awaiting its first payment', async () => {
-    sessionCreateMock.mockResolvedValueOnce(session('cs_1')).mockResolvedValueOnce(session('cs_2'));
-    await checkoutHandler(post(), makeRes());
-
-    sessionExpireMock.mockImplementation(async (id: string) => {
-      if (id === 'cs_1') throw new Error('You can only expire a Checkout Session that is open.');
-      return {};
-    });
-    sessionRetrieveMock.mockResolvedValue({
-      status: 'complete',
-      subscription: { id: 'sub_3ds', status: 'incomplete' },
-    });
-
-    const res = makeRes();
-    await checkoutHandler(post(), res);
-
-    expect(res.statusCode).toBe(409);
-    expect(res.body?.error).toContain('still waiting for payment');
-    expect(res.body?.url).toBeUndefined();
-  });
-
   it('does not block a legitimate purchase when Stripe fails to expire the earlier session', async () => {
     sessionCreateMock.mockResolvedValueOnce(session('cs_1')).mockResolvedValueOnce(session('cs_2'));
     await checkoutHandler(post(), makeRes());
@@ -309,5 +315,52 @@ describe('create-checkout: one open checkout per user', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body?.url).toBe('https://stripe.test/cs_1');
     expect(sessionExpireMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('create-checkout: an awaiting-payment purchase and the 3-D Secure window', () => {
+  const awaitingPayment = (writtenMinutesAgo: number) => ({
+    id: 'sub_3ds',
+    user_id: 'user-1',
+    status: 'incomplete',
+    last_event_at: minutesAgo(writtenMinutesAgo),
+    updated_at: minutesAgo(writtenMinutesAgo),
+  });
+
+  it('refuses a new purchase while an earlier one is awaiting payment inside the window, creating nothing', async () => {
+    subRows = [awaitingPayment(10)];
+    const res = makeRes();
+    await checkoutHandler(post(), res);
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body?.error).toContain('still waiting for your bank');
+    expect(res.body?.error).toContain('within an hour');
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('lets a new purchase go ahead once the earlier one has been quiet past the window, and displaces its session', async () => {
+    // The customer started a purchase, then gave up on the bank prompt. Their session is
+    // still recorded. Their subscription was last written an hour ago, which is outside
+    // the window, so the new checkout proceeds, and the displaced session's check reads
+    // the same row and does not hold either.
+    sessionCreateMock.mockResolvedValueOnce(session('cs_1')).mockResolvedValueOnce(session('cs_2'));
+    await checkoutHandler(post(), makeRes());
+    subRows = [awaitingPayment(60)];
+
+    sessionExpireMock.mockImplementation(async (id: string) => {
+      if (id === 'cs_1') throw new Error('You can only expire a Checkout Session that is open.');
+      return {};
+    });
+    sessionRetrieveMock.mockResolvedValue({
+      status: 'complete',
+      subscription: { id: 'sub_3ds', status: 'incomplete' },
+    });
+
+    const res = makeRes();
+    await checkoutHandler(post(), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body?.url).toBe('https://stripe.test/cs_2');
+    expect(sessionExpireMock).toHaveBeenCalledWith('cs_1');
   });
 });

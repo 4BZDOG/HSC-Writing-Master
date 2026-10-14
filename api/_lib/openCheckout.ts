@@ -43,21 +43,75 @@ export const CHECKOUT_LIFE_MS = 31 * 60 * 1000;
 export const CHECKOUT_REQUEST_BUCKET_MS = 5 * 60 * 1000;
 
 /**
- * Subscription statuses that mean a purchase is paid, being paid, or may still be paid,
- * so a second checkout would double-bill. Used by both duplicate guards.
- *
- * `incomplete` is held as well. Stripe creates the subscription in this state when the
- * first payment needs action (for example, 3-D Secure), and it becomes `active` as soon
- * as that payment succeeds. Stripe's SDK types say it moves to `incomplete_expired`
- * if the first invoice is unpaid within 23 hours, so for that long the purchase can
- * still complete. A second checkout meanwhile would be a second charge. Nothing that
- * grants access reads `incomplete`, so holding it adds no plan: see resolve_stripe_plan
- * and caller_plan() in schema §13 and §17.
+ * Subscription statuses in which a purchase is paid, being paid, or may still be paid.
+ * They hold a new purchase outright, for both guards: a second checkout would double-bill.
+ * `past_due` counts because Stripe is still retrying the charge.
  */
-export const HELD_STATUSES = ['active', 'trialing', 'past_due', 'incomplete'] as const;
+export const LIVE_STATUSES = ['active', 'trialing', 'past_due'] as const;
+
+/**
+ * How long an `incomplete` subscription holds a new purchase after its last write: the
+ * 3-D Secure window. Stripe creates the subscription in `incomplete` when the first
+ * payment needs an extra step, and the customer has this long to approve it in their
+ * bank's prompt. Once the row has been quiet for longer, it no longer holds, so a
+ * customer who gave up and came back to retry is not locked out.
+ *
+ * The cost is accepted on purpose. If the abandoned payment does go through after the
+ * window, the account can end up with two live subscriptions. The duplicate-subscription
+ * incident (api/_lib/billingIncidents.ts) records that for the operator, which is the
+ * safeguard for this rare case; holding every `incomplete` purchase for up to a day
+ * would lose sales to prevent it.
+ */
+export const INCOMPLETE_HOLD_MS = 45 * 60 * 1000;
+
+/**
+ * `incomplete` and the live statuses together: every status the INCIDENT detection
+ * treats as one that may still be paid. The guards use LIVE_STATUSES plus
+ * holdsPurchase(), which applies INCOMPLETE_HOLD_MS.
+ */
+export const HELD_STATUSES = [...LIVE_STATUSES, 'incomplete'] as const;
 
 export const isHeldStatus = (status: unknown): boolean =>
   typeof status === 'string' && (HELD_STATUSES as readonly string[]).includes(status);
+
+/** True for an active, trialing or past_due subscription, which holds outright. */
+export const isLiveStatus = (status: unknown): boolean =>
+  typeof status === 'string' && (LIVE_STATUSES as readonly string[]).includes(status);
+
+/** The subscription row fields the hold decision reads. */
+export interface PurchaseRow {
+  status?: unknown;
+  last_event_at?: unknown;
+  updated_at?: unknown;
+}
+
+/**
+ * The timestamp that says when a row was last written: last_event_at (the Stripe event
+ * time that was applied), falling back to updated_at. Null when neither is present.
+ */
+const lastWrittenAt = (row: PurchaseRow): string | null =>
+  [row.last_event_at, row.updated_at].find(
+    (value): value is string => typeof value === 'string' && value !== ''
+  ) ?? null;
+
+/**
+ * Whether a subscription row holds a new purchase.
+ *
+ * - active, trialing and past_due hold, always.
+ * - incomplete holds only while its last write is inside INCOMPLETE_HOLD_MS. A row with
+ *   no timestamp, or one that does not parse, does NOT hold: nothing says the payment is
+ *   still in flight, and holding on a guess would lock out a customer.
+ * - Every other status does not hold.
+ */
+export const holdsPurchase = (row: PurchaseRow, now: number = Date.now()): boolean => {
+  if (isLiveStatus(row.status)) return true;
+  if (row.status !== 'incomplete') return false;
+  const stamp = lastWrittenAt(row);
+  if (!stamp) return false;
+  const writtenAt = Date.parse(stamp);
+  if (Number.isNaN(writtenAt)) return false;
+  return now - writtenAt < INCOMPLETE_HOLD_MS;
+};
 
 const describe = (e: unknown): string => (e instanceof Error ? e.message : String(e));
 
@@ -173,14 +227,21 @@ export type DisplacedCheckout = { held: false } | { held: true; status: string }
  *
  * Expiry is housekeeping, and a Stripe failure here must not stop a legitimate purchase.
  * So every failure is logged and the purchase proceeds, with one exception. If the
- * displaced session turns out to be COMPLETE and its subscription is still held
- * (HELD_STATUSES), the customer has already bought this, and a second purchase would
- * double-bill. That is the case the duplicate guard cannot see until the webhook runs,
- * so it is checked here against Stripe, which knows first.
+ * displaced session turns out to be COMPLETE and its subscription still holds (the same
+ * rule as the guard: a live subscription, or an `incomplete` one inside the window), the
+ * customer has already bought this, and a second purchase would double-bill. That is
+ * the case the duplicate guard cannot see until the webhook runs, so it is checked here
+ * against Stripe, which knows first.
+ *
+ * Stripe's subscription object carries no last-written time, so an `incomplete` one is
+ * judged on our row, with the same window. A row that is missing or unreadable does not
+ * hold, as in the guard.
  */
 export async function expireDisplacedCheckout(
   stripe: Stripe,
-  sessionId: string
+  sessionId: string,
+  supabase: SB,
+  now: number = Date.now()
 ): Promise<DisplacedCheckout> {
   try {
     await stripe.checkout.sessions.expire(sessionId);
@@ -199,8 +260,20 @@ export async function expireDisplacedCheckout(
     });
     if (session.status !== 'complete') return { held: false };
     const subscription = session.subscription;
-    if (subscription && typeof subscription === 'object' && isHeldStatus(subscription.status)) {
+    if (!subscription || typeof subscription !== 'object') return { held: false };
+    if (isLiveStatus(subscription.status)) {
       return { held: true, status: subscription.status };
+    }
+    if (subscription.status === 'incomplete') {
+      const { data: row, error: rowError } = await supabase
+        .from('subscriptions')
+        .select('id, status, last_event_at, updated_at')
+        .eq('id', subscription.id)
+        .maybeSingle();
+      if (rowError) throw new Error(rowError.message);
+      if (row && holdsPurchase(row as PurchaseRow, now)) {
+        return { held: true, status: 'incomplete' };
+      }
     }
     return { held: false };
   } catch (e) {
