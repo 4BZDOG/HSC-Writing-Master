@@ -1857,7 +1857,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
              (`relative z-10`, later in the DOM) and were silently unclickable.
              Declaring the z-index brings this one under the same rule, which
              `tests/unit/modalCloseButtonStacking.test.ts` now enforces. */
-          className="absolute top-4 right-4 md:right-6 z-20 w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+          className="absolute top-4 right-4 md:right-6 z-20 w-11 h-11 sm:w-9 sm:h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
         >
           <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
         </button>
@@ -1884,7 +1884,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 placeholder="Search curriculum…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-black/20 light:bg-surface border border-white/5 light:border-slate-300 rounded-xl pl-9 pr-3 h-10 text-sm text-white light:text-slate-900 placeholder-slate-600 light:placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 transition-colors"
+                className="w-full bg-black/20 light:bg-surface border border-white/5 light:border-slate-300 rounded-xl pl-9 pr-3 h-11 sm:h-10 text-base sm:text-sm text-white light:text-slate-900 placeholder-slate-600 light:placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 transition-colors"
               />
             </div>
             {isNarrowed && (
@@ -1913,14 +1913,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
             <button
               onClick={expandAll}
               title="Expand every branch of the tree"
-              className="t-label flex-1 h-9 rounded-lg text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100 hover:text-white light:hover:text-slate-900 flex items-center justify-center gap-1.5 transition-colors"
+              className="t-label flex-1 h-11 sm:h-9 rounded-lg text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100 hover:text-white light:hover:text-slate-900 flex items-center justify-center gap-1.5 transition-colors"
             >
               <ChevronDown className="w-3.5 h-3.5" /> Expand All
             </button>
             <button
               onClick={collapseAll}
               title="Collapse the whole tree"
-              className="t-label flex-1 h-9 rounded-lg text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100 hover:text-white light:hover:text-slate-900 flex items-center justify-center gap-1.5 transition-colors"
+              className="t-label flex-1 h-11 sm:h-9 rounded-lg text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100 hover:text-white light:hover:text-slate-900 flex items-center justify-center gap-1.5 transition-colors"
             >
               <ChevronRight className="w-3.5 h-3.5" /> Collapse All
             </button>
@@ -1957,7 +1957,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
               onClick={handleSelectAllShown}
               disabled={isProcessing || filteredMatchCount === 0}
               title="Select every item the search and the active filter are showing"
-              className="t-label w-full h-10 rounded-xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-300 text-white light:text-indigo-700 hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="t-label w-full h-11 sm:h-10 rounded-xl bg-white/10 light:bg-indigo-50 border border-white/20 light:border-indigo-300 text-white light:text-indigo-700 hover:bg-white/20 light:hover:bg-indigo-100 transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <CheckSquare className="w-4 h-4" /> Select All Filtered
             </button>
@@ -2015,7 +2015,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                       </p>
                       <button
                         onClick={resetNarrowing}
-                        className="t-label mt-6 px-5 h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-white/10 light:hover:bg-slate-200 transition-all inline-flex items-center gap-2"
+                        className="t-label mt-6 px-5 h-11 sm:h-10 rounded-xl bg-white/5 light:bg-slate-100 border border-white/10 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-white/10 light:hover:bg-slate-200 transition-all inline-flex items-center gap-2"
                       >
                         <RotateCcw className="w-3.5 h-3.5" /> Show the whole library
                       </button>
@@ -2075,11 +2075,14 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   </div>
                 )}
                 {progress.logs.map((log, i) => {
-                  let colour = 'text-indigo-300/60 light:text-indigo-600/70';
-                  if (log.includes('✓')) colour = 'text-emerald-400 light:text-emerald-600';
-                  else if (log.includes('⛔')) colour = 'text-red-400 light:text-red-600';
-                  else if (log.includes('⚠')) colour = 'text-amber-400 light:text-amber-600';
-                  else if (log.includes('✗')) colour = 'text-red-300 light:text-red-500';
+                  // The log sits on the inset well in the light theme, so each ink is the
+                  // step that clears 4.5:1 on that well, not the step that looks the same
+                  // as its dark twin on the black one.
+                  let colour = 'text-indigo-300/60 light:text-indigo-700';
+                  if (log.includes('✓')) colour = 'text-emerald-400 light:text-emerald-800';
+                  else if (log.includes('⛔')) colour = 'text-red-400 light:text-red-700';
+                  else if (log.includes('⚠')) colour = 'text-amber-400 light:text-amber-800';
+                  else if (log.includes('✗')) colour = 'text-red-300 light:text-red-700';
                   return (
                     <div key={i} className={`animate-fade-in truncate ${colour}`}>{`> ${log}`}</div>
                   );
@@ -2133,7 +2136,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                 onClick={handleStop}
                 disabled={isStopping}
                 title="Finish the task in flight, then stop the run"
-                className="t-label px-10 h-10 rounded-xl bg-red-500/10 text-red-400 light:text-red-700 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                className="t-label px-10 h-11 sm:h-10 rounded-xl bg-red-500/10 text-red-400 light:text-red-700 border border-red-500/20 hover:bg-red-600 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
               >
                 {isStopping ? 'Stopping…' : 'Stop Process'}
               </button>
@@ -2162,7 +2165,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     onClick={clearSelection}
                     disabled={isProcessing}
                     title="Deselect everything in the tree"
-                    className="t-label px-2.5 h-8 rounded-lg text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:bg-white/5 light:hover:bg-slate-100 transition-all flex items-center gap-1.5 disabled:opacity-40"
+                    className="t-label px-2.5 h-11 sm:h-8 rounded-lg text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:bg-white/5 light:hover:bg-slate-100 transition-all flex items-center gap-1.5 disabled:opacity-40"
                   >
                     <Square className="w-3.5 h-3.5" /> Clear Selection ({selectedIds.size})
                   </button>
@@ -2187,7 +2190,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                       ? 'Uses the app-wide engine selection per call type'
                       : AI_MODELS.find((m) => m.id === batchEngine)?.description
                   }
-                  className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-lg px-3 h-9 text-xs font-medium text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
+                  className="bg-black/40 light:bg-slate-50 border border-white/10 light:border-slate-300 rounded-lg px-3 h-11 sm:h-9 text-base sm:text-xs font-medium text-white light:text-slate-900 focus:outline-none focus:border-indigo-500/50 cursor-pointer"
                 >
                   <option value="default">App Default</option>
                   {AI_MODELS.map((m) => (
@@ -2288,7 +2291,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   onClick={handleBulkAction.bind(null, 'fixAllGaps')}
                   disabled={isProcessing || selectionTargets.allGaps === 0}
                   title="One run that fills every gap in the selection: missing questions, marking guides, outcomes and samples"
-                  className="t-label px-4 h-10 rounded-xl bg-gradient-to-r from-emerald-700 to-teal-700 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none disabled:hover:scale-100 flex items-center gap-2"
+                  className="t-label px-4 h-11 sm:h-10 rounded-xl bg-gradient-to-r from-emerald-700 to-teal-700 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none disabled:hover:scale-100 flex items-center gap-2"
                 >
                   <Wrench className="w-4 h-4" />
                   Fix All Gaps ({selectionTargets.allGaps})
@@ -2306,7 +2309,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                       ? `Export "${exportTarget.label}" as a JSON file`
                       : 'Select exactly one topic or course to export'
                   }
-                  className="t-label px-3.5 h-10 rounded-xl bg-emerald-500/10 light:bg-emerald-50 border border-emerald-500/30 light:border-emerald-300 text-emerald-300 light:text-emerald-700 hover:bg-emerald-500/20 light:hover:bg-emerald-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
+                  className="t-label px-3.5 h-11 sm:h-10 rounded-xl bg-emerald-500/10 light:bg-emerald-50 border border-emerald-500/30 light:border-emerald-300 text-emerald-300 light:text-emerald-700 hover:bg-emerald-500/20 light:hover:bg-emerald-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
                 >
                   <Download className="w-3.5 h-3.5" /> Export JSON
                 </button>
@@ -2318,7 +2321,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                       ? `Import a topic JSON file into "${courses.find((c) => c.id === importTargetCourseId)?.name ?? ''}"`
                       : 'Select exactly one topic or course to import into'
                   }
-                  className="t-label px-3.5 h-10 rounded-xl bg-sky-500/10 light:bg-sky-50 border border-sky-500/30 light:border-sky-300 text-sky-300 light:text-sky-700 hover:bg-sky-500/20 light:hover:bg-sky-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
+                  className="t-label px-3.5 h-11 sm:h-10 rounded-xl bg-sky-500/10 light:bg-sky-50 border border-sky-500/30 light:border-sky-300 text-sky-300 light:text-sky-700 hover:bg-sky-500/20 light:hover:bg-sky-100 transition-all flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed"
                 >
                   <UploadCloud className="w-3.5 h-3.5" /> Import JSON…
                 </button>
@@ -2327,7 +2330,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     onClick={handleRetryFailed}
                     disabled={isProcessing}
                     title={`Run the ${failedTasks.tasks.length} task${failedTasks.tasks.length === 1 ? '' : 's'} that failed in the last "${failedTasks.label}" run again — the selection does not need rebuilding, and the engine picker above still applies`}
-                    className="t-label px-3.5 h-10 rounded-xl bg-amber-500/10 light:bg-amber-50 border border-amber-500/30 light:border-amber-300 text-amber-300 light:text-amber-700 hover:bg-amber-500/20 light:hover:bg-amber-100 transition-all flex items-center gap-2 disabled:opacity-30"
+                    className="t-label px-3.5 h-11 sm:h-10 rounded-xl bg-amber-500/10 light:bg-amber-50 border border-amber-500/30 light:border-amber-300 text-amber-300 light:text-amber-700 hover:bg-amber-500/20 light:hover:bg-amber-100 transition-all flex items-center gap-2 disabled:opacity-30"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
                     Retry Failed ({failedTasks.tasks.length})
@@ -2338,7 +2341,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                     onClick={handleSyncToLibrary}
                     disabled={isProcessing}
                     title="Push the questions repaired by this studio to the shared library as pending contributions — they go through the review queue before publishing"
-                    className="t-label px-3.5 h-10 rounded-xl bg-emerald-500/10 text-emerald-300 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-2 disabled:opacity-30"
+                    className="t-label px-3.5 h-11 sm:h-10 rounded-xl bg-emerald-500/10 text-emerald-300 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all flex items-center gap-2 disabled:opacity-30"
                   >
                     <UploadCloud className="w-3.5 h-3.5" />
                     Sync to Library ({pendingSyncCount})
@@ -2352,7 +2355,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                       ? `Delete all questions under the selected scope(s), keeping the topic/sub-topic/dot point structure`
                       : 'Select a course, topic, sub-topic or dot point to clear its questions'
                   }
-                  className="t-label px-3.5 h-10 rounded-xl bg-red-500/10 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-500 hover:text-white active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
+                  className="t-label px-3.5 h-11 sm:h-10 rounded-xl bg-red-500/10 text-red-400 light:text-red-700 border border-red-500/30 hover:bg-red-600 hover:text-white active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:hover:bg-red-500/10 disabled:hover:text-red-400 flex items-center gap-2"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   Clear Questions ({clearQuestionsCount})

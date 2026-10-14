@@ -235,3 +235,49 @@ describe('the toast chrome clears AA in both themes, for every type it can show'
     }
   }
 });
+
+describe('the staff tools keep their light inks on the wells they sit in', () => {
+  // The Data Vault, Content Audit and the usage and key dashboards paint their chips
+  // and logs on the inset well (`TOOL_WELL`), which is darker than the paper. An ink
+  // that clears on white can fail there, so each pair below is read against the
+  // ground its markup sits on. The `-` side is the value a tool shipped with.
+  const LIGHT_ACCENT = token("\\[data-theme='light'\\]", 'color-accent');
+  const LIGHT_ACCENT_DARK = token("\\[data-theme='light'\\]", 'color-accent-dark');
+
+  it('accent chips read in accent-dark: the accent ink is 4.09:1 on the chip it tints', () => {
+    const chip = over(LIGHT_ACCENT, 0.15, LIGHT.inset);
+    expect(contrast(LIGHT_ACCENT_DARK, chip)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(LIGHT_ACCENT, chip)).toBeLessThan(4.5);
+  });
+
+  it('emerald tints take emerald-800: emerald-700 reads 4.30:1 on the tint over the well', () => {
+    const tint = over(tw('emerald', 500), 0.1, LIGHT.inset);
+    expect(contrast(tw('emerald', 800), tint)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tw('emerald', 700), tint)).toBeLessThan(4.5);
+  });
+
+  it('the status line on white takes green-700; green-600 reads 3.30:1', () => {
+    expect(contrast(tw('green', 700), WHITE)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tw('green', 600), WHITE)).toBeLessThan(4.5);
+  });
+
+  it('the processing log inks clear the well: amber-800, red-700 and indigo-700', () => {
+    expect(contrast(tw('amber', 800), LIGHT.inset)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tw('red', 700), LIGHT.inset)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tw('indigo', 700), LIGHT.inset)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tw('amber', 700), LIGHT.inset)).toBeLessThan(4.5);
+    expect(contrast(tw('red', 600), LIGHT.inset)).toBeLessThan(4.5);
+  });
+
+  it('a Clear chip on slate-100 takes slate-600; slate-500 reads 4.34:1', () => {
+    expect(contrast(tw('slate', 600), tw('slate', 100))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(tw('slate', 500), tw('slate', 100))).toBeLessThan(4.5);
+  });
+
+  it('a hover fill darkens to a step white clears: red-600 and indigo-700', () => {
+    expect(contrast(WHITE, tw('red', 600))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(WHITE, tw('indigo', 700))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(WHITE, tw('red', 500))).toBeLessThan(4.5);
+    expect(contrast(WHITE, tw('indigo', 500))).toBeLessThan(4.5);
+  });
+});

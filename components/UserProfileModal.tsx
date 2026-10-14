@@ -1236,7 +1236,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           <button
                             onClick={handleDeleteAccount}
                             disabled={deleteConfirmText !== 'DELETE' || isDeleting}
-                            className={`t-label px-4 py-2.5 rounded-xl bg-red-700 text-white can-hover:hover:bg-red-600 dark:bg-red-600 dark:can-hover:hover:bg-red-500 transition-colors disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-secondary dark:disabled:bg-white/10 ${touchable}`}
+                            className={`t-label px-4 py-2.5 rounded-xl bg-red-700 text-white can-hover:hover:bg-red-600 dark:bg-red-600 dark:can-hover:hover:bg-red-700 transition-colors disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-secondary dark:disabled:bg-white/10 ${touchable}`}
                           >
                             {isDeleting ? 'Deleting…' : 'Delete permanently'}
                           </button>

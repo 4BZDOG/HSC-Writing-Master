@@ -601,7 +601,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                       </h3>
                       <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
                         <table className="w-full text-left text-sm">
-                          <thead className="t-label bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
+                          <thead className="t-label bg-[rgb(var(--color-bg-surface-elevated))] light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
                             <tr>
                               <th className="px-6 py-3">Name</th>
                               <th className="px-6 py-3">Items</th>
@@ -624,13 +624,13 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                                   <div className="flex items-center justify-end gap-2">
                                     <button
                                       onClick={() => handleInspectStore(store.name)}
-                                      className="text-blue-400 light:text-blue-600 hover:bg-blue-500/10 light:hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors text-xs font-bold flex items-center gap-1"
+                                      className="text-blue-400 light:text-blue-600 hover:bg-blue-500/10 light:hover:bg-blue-50 px-3 py-1.5 min-h-11 sm:min-h-0 rounded-lg transition-colors text-xs font-bold flex items-center gap-1"
                                     >
                                       <Eye className="w-3.5 h-3.5" /> Inspect
                                     </button>
                                     <button
                                       onClick={() => handleClearStore(store.name)}
-                                      className="text-red-400 light:text-red-600 hover:bg-red-500/10 light:hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors text-xs font-bold flex items-center gap-1"
+                                      className="text-red-400 light:text-red-600 hover:bg-red-500/10 light:hover:bg-red-50 px-3 py-1.5 min-h-11 sm:min-h-0 rounded-lg transition-colors text-xs font-bold flex items-center gap-1"
                                     >
                                       <Trash2 className="w-3.5 h-3.5" /> Clear
                                     </button>
@@ -729,7 +729,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                           <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => handlePreviewBackup(backup.key)}
-                              className={`p-2 rounded-lg transition-colors ${previewId === backup.key ? 'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))]' : 'hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 text-[rgb(var(--color-text-secondary))]'}`}
+                              className={`p-2 rounded-lg transition-colors ${previewId === backup.key ? 'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))]' : 'hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 text-[rgb(var(--color-text-secondary))]'}`}
                               title="Preview contents"
                             >
                               <Eye className="w-4 h-4" />
@@ -772,12 +772,14 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
 
             {view === 'inspector' && (
               <div className="flex flex-col h-full animate-fade-in">
-                <div className="flex items-center justify-between mb-4 gap-4">
+                {/* Wraps on a phone: the store name and the search with Copy JSON do not
+                    fit one 390px row, and Copy JSON was cut off the right edge. */}
+                <div className="flex flex-wrap items-center justify-between mb-4 gap-x-4 gap-y-3">
                   <div className="flex items-center gap-3">
                     <button
                       onClick={handleBackToStats}
                       aria-label="Back to stats"
-                      className="p-1.5 rounded-lg hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 transition-colors"
+                      className="p-1.5 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 inline-flex items-center justify-center rounded-lg hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 transition-colors"
                     >
                       <ArrowLeft className="w-5 h-5" />
                     </button>
@@ -786,7 +788,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         aria-label="Object store"
                         value={inspectStoreName ?? 'main_store'}
                         onChange={(e) => handleInspectStore(e.target.value)}
-                        className="bg-transparent text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 font-mono tracking-tight cursor-pointer focus:outline-none border-b border-dashed border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-accent))]"
+                        className="bg-transparent min-h-11 sm:min-h-0 text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 font-mono tracking-tight cursor-pointer focus:outline-none border-b border-dashed border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-accent))]"
                       >
                         {(
                           stats?.stores.map((s) => s.name) ?? [inspectStoreName ?? 'main_store']
@@ -805,8 +807,8 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 flex-1 justify-end">
-                    <div className="relative max-w-xs w-full">
+                  <div className="flex items-center gap-3 flex-1 min-w-0 justify-end max-sm:flex-none max-sm:w-full">
+                    <div className="relative flex-1 min-w-0 max-w-xs">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgb(var(--color-text-muted))]" />
                       <input
                         type="text"
@@ -814,12 +816,12 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         aria-label="Search raw data"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-4 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-sm focus:border-[rgb(var(--color-accent))] focus:outline-none"
+                        className="w-full pl-9 pr-4 py-1.5 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-base sm:text-sm focus:border-[rgb(var(--color-accent))] focus:outline-none"
                       />
                     </div>
                     <button
                       onClick={handleCopyData}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 transition-colors flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-1.5 min-h-11 sm:min-h-0 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 transition-colors flex-shrink-0"
                     >
                       <Copy className="w-3.5 h-3.5" /> Copy JSON
                     </button>
@@ -857,7 +859,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
               <button
                 onClick={handleForceSync}
                 disabled={isSyncing}
-                className={`px-4 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 transition flex items-center gap-2 ${isSyncing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`px-4 py-2 min-h-11 sm:min-h-0 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 transition flex items-center gap-2 ${isSyncing ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
                 {isSyncing ? 'Syncing...' : 'Force Sync'}
@@ -865,7 +867,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             )}
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-sm font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-white light:hover:text-slate-900 transition hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200"
+              className="px-4 py-2 min-h-11 sm:min-h-0 rounded-lg text-sm font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-white light:hover:text-slate-900 transition hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200"
             >
               Close
             </button>

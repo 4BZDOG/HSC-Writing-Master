@@ -394,7 +394,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
         </h3>
         <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
           <table className="w-full text-left text-sm min-w-[620px]">
-            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
+            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
               <tr>
                 <th className="px-3 py-2.5">Student</th>
                 {COGNITIVE_TIERS.map((t) => (

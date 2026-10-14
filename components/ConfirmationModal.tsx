@@ -43,9 +43,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   // (see AUTH_PRIMARY_BUTTON), and red-600 carries white at 4.8:1. The
   // destructive colour used to be `bg-gradient-danger`, which no stylesheet
   // defines, so the button had no fill and white text on white paper.
+  // The hover steps darken too: white is 3.8:1 on red-500 and 4.5:1 on
+  // indigo-500, so a pointer on the button used to drop below AA.
   const confirmButtonClass = isDestructive
-    ? 'bg-red-600 hover:bg-red-500 text-white'
-    : 'bg-indigo-600 hover:bg-indigo-500 text-white';
+    ? 'bg-red-600 hover:bg-red-700 text-white'
+    : 'bg-indigo-600 hover:bg-indigo-700 text-white';
 
   // Portalled to <body>. This dialog is opened from inside cards that carry
   // `clip-stable` (a translateZ compositing hint), and a transformed ancestor

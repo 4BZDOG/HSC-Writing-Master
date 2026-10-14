@@ -92,7 +92,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
 
   const inputType = reveal ? 'text' : 'password';
   const fieldClass =
-    'w-full text-sm rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 pr-10 font-mono outline-none focus:border-[rgb(var(--color-accent))]/60';
+    'w-full text-base sm:text-sm min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 pr-10 font-mono outline-none focus:border-[rgb(var(--color-accent))]/60';
 
   return createPortal(
     <div
@@ -128,7 +128,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+            className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
           >
             <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
           </button>
@@ -159,7 +159,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
               type="button"
               onClick={() => setReveal((r) => !r)}
               aria-label={reveal ? 'Hide keys' : 'Show keys'}
-              className="flex items-center gap-1.5 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
+              className="flex items-center gap-1.5 min-h-11 sm:min-h-0 px-1 -mr-1 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
             >
               {reveal ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
               {reveal ? 'Hide all' : 'Show all'}
@@ -233,7 +233,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 href="https://openrouter.ai/keys"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-0.5 text-[rgb(var(--color-accent))] hover:underline"
+                className="inline-flex items-center gap-0.5 min-h-11 sm:min-h-0 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] hover:underline"
               >
                 get one at openrouter.ai <ExternalLink className="w-3 h-3" />
               </a>
@@ -265,7 +265,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 href="https://console.groq.com/keys"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-0.5 text-[rgb(var(--color-accent))] hover:underline"
+                className="inline-flex items-center gap-0.5 min-h-11 sm:min-h-0 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] hover:underline"
               >
                 get one at console.groq.com <ExternalLink className="w-3 h-3" />
               </a>
@@ -297,7 +297,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
                 href="https://platform.kimi.ai/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-0.5 text-[rgb(var(--color-accent))] hover:underline"
+                className="inline-flex items-center gap-0.5 min-h-11 sm:min-h-0 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] hover:underline"
               >
                 get a key at platform.kimi.ai <ExternalLink className="w-3 h-3" />
               </a>
@@ -322,14 +322,14 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
         <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-elevated flex items-center justify-between gap-3">
           <button
             onClick={handleClear}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] text-xs font-bold transition-all"
+            className="flex items-center gap-2 px-3 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] text-xs font-bold transition-all"
           >
             <Trash2 className="w-3.5 h-3.5" />
             Clear
           </button>
           <button
             onClick={handleSave}
-            className="t-label flex items-center gap-2 px-5 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 light:bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all"
+            className="t-label flex items-center gap-2 px-5 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-accent))]/15 light:bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all"
           >
             <Check className="w-3.5 h-3.5" />
             Save Keys

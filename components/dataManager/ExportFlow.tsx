@@ -90,14 +90,18 @@ const ExportFlow: React.FC<ExportFlowProps> = ({ courses, onClose, showToast }) 
           <div className="flex gap-2">
             <button
               onClick={selectAll}
-              className="text-[10px] font-bold text-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent-glow))]"
+              className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 px-1 text-[10px] font-bold text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] hover:text-[rgb(var(--color-accent-glow))]"
             >
               All
             </button>
-            <span className="text-[rgb(var(--color-border-secondary))]">|</span>
+            {/* A rule, not a glyph: a "|" in the border ink reads under 4.5:1 on the light well. */}
+            <span
+              aria-hidden="true"
+              className="w-px h-3 self-center bg-[rgb(var(--color-border-secondary))]"
+            />
             <button
               onClick={deselectAll}
-              className="text-[10px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-secondary))]"
+              className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 px-1 text-[10px] font-bold text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-secondary))]"
             >
               None
             </button>
@@ -105,13 +109,21 @@ const ExportFlow: React.FC<ExportFlowProps> = ({ courses, onClose, showToast }) 
         </div>
 
         <div className="flex-1 overflow-y-auto border-x border-b border-[rgb(var(--color-border-secondary))] rounded-b-xl bg-[rgb(var(--color-bg-surface))]/30 p-4 custom-scrollbar">
-          <SelectionTree
-            items={treeData}
-            selectedIds={selectedIds}
-            expandedIds={expandedIds}
-            onToggleSelect={handleToggleSelect}
-            onToggleExpand={handleToggleExpand}
-          />
+          {treeData.length === 0 ? (
+            // An empty library used to leave this box blank, which reads as a broken list.
+            <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 text-center py-6">
+              Nothing to export yet. Courses, topics and dot points appear here once the library has
+              them.
+            </p>
+          ) : (
+            <SelectionTree
+              items={treeData}
+              selectedIds={selectedIds}
+              expandedIds={expandedIds}
+              onToggleSelect={handleToggleSelect}
+              onToggleExpand={handleToggleExpand}
+            />
+          )}
         </div>
       </div>
 

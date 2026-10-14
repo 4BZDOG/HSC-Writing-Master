@@ -256,26 +256,43 @@ describe('no white ink is left on an amber or accent fill', () => {
 });
 
 /**
- * Emerald, teal and green are fills too, and white on their `-500` and `-600`
- * steps was the same failure as amber: 2.5:1 on emerald-500 and 3.8:1 on
+ * Emerald, teal, green and red are fills too, and white on their `-500` and
+ * `-600` steps was the same failure as amber: 2.5:1 on emerald-500 and 3.8:1 on
  * emerald-600 for the Flag button and the focus-area and syllabus import
  * actions. The `-700` steps clear white with room (5.0 to 5.5:1), and a hover
  * darkens to `-800` so the white stays readable where the pointer is.
+ *
+ * Red took the same shape: `hover:bg-red-500 hover:text-white` read 3.8:1 under
+ * the pointer on the question filter, the sample-answer discard and the content
+ * audit's destructive buttons. `red-600` is the step that clears (4.8:1).
  *
  * Hover and gradient stops are fills as well, so every variant of the fill is
  * read. A wash (`/10`) is not: its ink is judged against its own surface.
  */
 
 /**
- * Files that still paint white on an emerald, teal or green fill, each with the
- * reason it is not changed here. It is empty now: the authoring modals were the
- * last two. The check below also fails when an entry stops having such a fill,
- * so an entry cannot outlive the defect it names.
+ * Files that still paint white on an emerald, teal, green or red fill, each with
+ * the reason it is not changed here. The check below also fails when an entry
+ * stops having such a fill, so an entry cannot outlive the defect it names.
+ *
+ * Both entries are red-500 with white ink, which is 3.8:1. They are owned by
+ * another piece of work this round and are a one-token follow-up there
+ * (`hover:bg-red-600` / `bg-red-600`); the staff tools and the authoring modals
+ * are already on the step that clears.
  */
-const GREEN_FAMILY_EXEMPT = new Map<string, string>();
+const GREEN_FAMILY_EXEMPT = new Map<string, string>([
+  [
+    'components/Editor.tsx',
+    'the exam-mode toggle paints bg-red-500 with white (3.8:1); Editor.tsx is out of scope here',
+  ],
+  [
+    'components/PromptSelector.tsx',
+    'the discard control hovers to red-500 with white (3.8:1); PromptSelector.tsx is out of scope here',
+  ],
+]);
 
 const GREEN_FAMILY_FILL =
-  /(?<![\w/.-])((?:[\w-]+:)*)(?:bg|from|via|to)-(emerald|teal|green)-(\d{3})(?![\w/.-])/g;
+  /(?<![\w/.-])((?:[\w-]+:)*)(?:bg|from|via|to)-(emerald|teal|green|red)-(\d{3})(?![\w/.-])/g;
 const ANY_WHITE_INK = /(?<![\w/.-])(?:[\w-]+:)*text-white(?=[\s'"`}]|$)/;
 
 const greenFamilyOffenders = () => {
@@ -303,11 +320,13 @@ const greenFamilyOffenders = () => {
   return { found, checked };
 };
 
-describe('no white ink sits on an emerald, teal or green fill below AA', () => {
+describe('no white ink sits on an emerald, teal, green or red fill below AA', () => {
   it('measures the fills it replaces, so a broken scan cannot pass silently', () => {
     expect(contrast(WHITE, hex(colors.emerald[600]))).toBeLessThan(4);
     expect(contrast(WHITE, hex(colors.emerald[500]))).toBeLessThan(3);
     expect(contrast(WHITE, hex(colors.teal[500]))).toBeLessThan(3);
+    expect(contrast(WHITE, hex(colors.red[500]))).toBeLessThan(4);
+    expect(contrast(WHITE, hex(colors.red[600]))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(WHITE, hex(colors.emerald[700]))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(WHITE, hex(colors.green[700]))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(WHITE, hex(colors.teal[700]))).toBeGreaterThanOrEqual(4.5);

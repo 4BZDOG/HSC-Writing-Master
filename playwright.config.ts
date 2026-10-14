@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -9,8 +9,48 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-/** The projects a pull request runs when PW_FAST is set. */
+/**
+ * The projects a local `PW_FAST=1` run keeps. CI no longer reads this: it runs
+ * one job per project from `scripts/e2eMatrix.mjs`, which names the same three
+ * for a pull request (`tests/unit/e2eMatrix.test.ts` pins that they agree).
+ */
 const FAST_PROJECTS = new Set(['chromium', 'Mobile Safari', 'supabase-chromium']);
+
+/**
+ * Which dev servers to start. A CI leg runs one project, so it needs one server
+ * (`PW_SERVERS=default` or `supabase`); unset starts both, which is what a local
+ * run of the whole suite wants.
+ */
+const wantsServer = (kind: 'default' | 'supabase'): boolean => {
+  const wanted = process.env.PW_SERVERS;
+  return !wanted || wanted.split(',').includes(kind);
+};
+
+type WebServer = Extract<NonNullable<PlaywrightTestConfig['webServer']>, unknown[]>[number];
+
+/* Dev servers: the default mock-mode app, plus a Supabase-configured instance
+   (Vite bakes VITE_* env at serve time, so a separate server is the only way to
+   get isSupabaseConfigured=true). The stub URL never resolves — the spec
+   intercepts all requests to it. */
+const webServers: WebServer[] = [];
+if (wantsServer('default')) {
+  webServers.push({
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+  });
+}
+if (wantsServer('supabase')) {
+  webServers.push({
+    command: 'npm run dev -- --port 3100',
+    url: 'http://localhost:3100',
+    reuseExistingServer: !process.env.CI,
+    env: {
+      VITE_SUPABASE_URL: 'https://stub.supabase.test',
+      VITE_SUPABASE_ANON_KEY: 'stub-anon-key',
+    },
+  });
+}
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -35,15 +75,28 @@ export default defineConfig({
    * context, so IndexedDB and the login session are already isolated.
    */
   workers: process.env.CI ? Number(process.env.PW_WORKERS || 2) : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  /**
+   * On CI the log is the first place anyone looks, and the HTML report only
+   * exists as a downloadable artefact. `list` puts every test's result and its
+   * duration in the log as it finishes, so a slow or failing spec is readable
+   * where the failure is reported; the HTML report is still written for the
+   * trace viewer. Locally the HTML report alone is what people open.
+   */
+  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'html',
+  /* Name the slowest specs at the end of the run, so a leg that has become the
+     long pole of the pipeline says which tests made it so. */
+  reportSlowTests: { max: 10, threshold: 45_000 },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    /* Recorded from the retry on, not from the first attempt. `retain-on-failure`
+       records EVERY test and throws the recording away when it passes, which is
+       encoding work on the runner for the ninety-odd percent of tests that never
+       needed it. A failure is retried, so its video exists where it is needed. */
+    video: 'on-first-retry',
   },
 
   /* Configure projects for major browsers.
@@ -113,24 +166,5 @@ export default defineConfig({
     ] as const
   ).filter((project) => !process.env.PW_FAST || FAST_PROJECTS.has(project.name)),
 
-  /* Dev servers: the default mock-mode app, plus a Supabase-configured
-     instance (Vite bakes VITE_* env at serve time, so a separate server is the
-     only way to get isSupabaseConfigured=true). The stub URL never resolves —
-     the spec intercepts all requests to it. */
-  webServer: [
-    {
-      command: 'npm run dev',
-      url: 'http://localhost:3000',
-      reuseExistingServer: !process.env.CI,
-    },
-    {
-      command: 'npm run dev -- --port 3100',
-      url: 'http://localhost:3100',
-      reuseExistingServer: !process.env.CI,
-      env: {
-        VITE_SUPABASE_URL: 'https://stub.supabase.test',
-        VITE_SUPABASE_ANON_KEY: 'stub-anon-key',
-      },
-    },
-  ],
+  webServer: webServers,
 });

@@ -217,10 +217,43 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f supabase/tests/class_roll_tests.sql
           psql -v ON_ERROR_STOP=1 -f supabase/tests/progress_report_tests.sql
 
-  e2e:
-    name: E2E Tests
+  # The E2E suite used to be ONE job: every browser, one after another, on one
+  # runner, two tests at a time — about twenty minutes on a pull request and
+  # thirty-five to fifty on main, which is what a review round spent most of its
+  # time waiting for. It is now one job per browser project (and per shard of
+  # the slow WebKit pair), all running at once, so the wall-clock is the slowest
+  # leg instead of the sum. The matrix itself lives in scripts/e2eMatrix.mjs so
+  # it can be run and tested; this job only asks it what to run.
+  e2e-plan:
+    name: Plan E2E matrix
     runs-on: ubuntu-latest
-    needs: lint
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Choose the legs for this event
+        id: matrix
+        run: echo "matrix=$(node scripts/e2eMatrix.mjs "${{ github.event_name }}")" >> "$GITHUB_OUTPUT"
+
+  e2e:
+    name: E2E ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    needs: e2e-plan
+    # Not `needs: lint`. It used to be, so a failing lint stopped a full E2E run
+    # being spent on it — but lint takes ~2 minutes and the E2E legs are the
+    # long pole, so the gate delayed every run by exactly that and saved a
+    # runner only when lint was already red. They start together now; the
+    # deploy still waits for all of them.
+    strategy:
+      # A red leg should not cancel its siblings: the point of running them side
+      # by side is to see every browser's answer from one push.
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.e2e-plan.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -237,53 +270,58 @@ jobs:
         id: pw
         run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
 
-      # The browsers are ~1.3GB unpacked (Chromium alone is ~900MB) and were
-      # downloaded and unpacked from scratch on every single run — a minute or
-      # more before a test could start. The key carries the engine set as well
-      # as the version, so a pull request's two-engine cache and main's
-      # full-matrix cache never overwrite one another.
-      - name: Cache Playwright browsers
+      # One engine per leg, so a leg downloads (and caches) only the browser it
+      # will launch. They were ~1.3GB unpacked for all of them, fetched from
+      # scratch on every run before a test could start; now Chromium is one
+      # entry, WebKit another, Firefox a third, and a Chromium leg never waits
+      # for the WebKit download. The shared libraries live outside the cached
+      # directory, so a cache hit still installs those.
+      - name: Cache Playwright browser
         id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ github.event_name == 'pull_request' && 'pr' || 'full' }}
+          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ matrix.engine }}
 
-      # Only the engines the matrix below will actually launch: Mobile Safari
-      # is WebKit, so a pull request needs no Firefox download either.
-      #
-      # On a cache hit only the OS-level shared libraries are installed
-      # (--only-shell is not enough — those live outside the cached directory
-      # and are what a cold runner is missing).
-      - name: Install Playwright browsers
+      - name: Install Playwright browser
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            ENGINES="chromium webkit"
-          else
-            ENGINES=""
-          fi
           if [ "${{ steps.pw-cache.outputs.cache-hit }}" = "true" ]; then
-            npx playwright install-deps $ENGINES
+            npx playwright install-deps ${{ matrix.engine }}
           else
-            npx playwright install --with-deps $ENGINES
+            npx playwright install --with-deps ${{ matrix.engine }}
           fi
 
-      # Pull requests run the trimmed matrix (Chromium + Mobile Safari, plus
-      # the Supabase project) so a review round costs ~2 minutes instead of
-      # ~6. Pushes to main run all five browsers, so nothing ships without
-      # Firefox, desktop WebKit and Mobile Chrome having seen it.
+      # `--project` and `--shard` pick this leg's slice. PW_SERVERS keeps the
+      # leg to the one Vite dev server it talks to: the Supabase project needs
+      # the second, with its stub env; everything else needs only the first.
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: npx playwright test --project="${{ matrix.project }}" --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
-          PW_FAST: ${{ github.event_name == 'pull_request' && '1' || '' }}
+          PW_SERVERS: ${{ matrix.servers }}
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.slug }}
           path: playwright-report/
           retention-days: 30
+
+  # The check that used to be the whole E2E job, kept under its old name so
+  # nothing that waits on "E2E Tests" (a required status check, the deploy
+  # below) has to learn that it is now a dozen legs. `always()` so it reports
+  # when a leg fails or is cancelled rather than being skipped, which a required
+  # check would read as "never ran".
+  e2e-gate:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: [e2e-plan, e2e]
+    if: always()
+    steps:
+      - name: Every E2E leg passed
+        run: |
+          echo "plan: ${{ needs.e2e-plan.result }}, legs: ${{ needs.e2e.result }}"
+          [ "${{ needs.e2e-plan.result }}" = "success" ] && [ "${{ needs.e2e.result }}" = "success" ]
 
   security:
     name: Security Checks
@@ -309,7 +347,7 @@ jobs:
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: [build, test, rls, e2e, security]
+    needs: [build, test, rls, e2e-gate, security]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - name: Check Netlify secrets

@@ -147,6 +147,75 @@ const companionsOutside = (
 };
 
 /**
+ * The element that had focus before the first dialog of the current run opened.
+ *
+ * A dialog can hand off to another from one of its own controls: the profile's
+ * Terms link closes the profile and opens the legal reader in the same click. The
+ * second dialog then captures that control as its opener, and the first dialog's
+ * unmount removes it, so the restore finds a detached node and leaves focus on
+ * <body>. This page element is where focus belongs once the run ends. It is set
+ * by the first dialog to open, kept while any dialog is open, and cleared by the
+ * restore that runs with no dialog left.
+ */
+let runOpener: HTMLElement | null = null;
+
+/** The surface of the topmost dialog that is still mounted, if any dialog is open. */
+const topmostContainer = (): HTMLElement | null => {
+  for (let i = trapStack.length - 1; i >= 0; i--) {
+    const el = trapStack[i].container();
+    if (el) return el;
+  }
+  return null;
+};
+
+/**
+ * Hands focus back to the opener one frame after a dialog closes, unless a
+ * dialog that is still open has taken focus.
+ *
+ * The check is made when the frame lands, against the stack as it is then, and
+ * not when the close happened. That matters for the close-then-open case: a
+ * dialog closes and another opens in the same tick, so the new one is a separate
+ * hook instance, and no cancel kept on the closing one can see it. By the time
+ * the frame runs, the new dialog is on top and holds focus, and restoring to the
+ * page behind would take focus straight back out of it.
+ *
+ * So while a dialog is open whose surface does not hold the opener, that dialog
+ * keeps focus; if focus has nonetheless fallen out of it, it goes to its first
+ * control. A dialog opened from inside a still-open one holds its opener, so
+ * closing it returns focus to its parent exactly as before. StrictMode's double
+ * effect run is the same case: the dialog is open when the frame lands, and it
+ * holds focus.
+ *
+ * `preventScroll` is load-bearing, not decoration. `useScrollLock` has just
+ * unpinned <body> and put the viewport back at the exact offset it captured when
+ * the modal opened; a plain `.focus()` here immediately scrolls the opener into
+ * view and undoes that, so closing any dialog nudged the page by however far the
+ * opener sat from the scroll anchor. Nothing is stranded offscreen by
+ * suppressing it: the position being restored is the one the opener was clicked
+ * at.
+ *
+ * Re-checked as well that the opener is still in the document: a dialog that
+ * deletes the row which opened it leaves a detached node behind, and focusing
+ * that puts focus nowhere at all.
+ */
+const restoreFocus = (opener: HTMLElement | null) => {
+  const top = topmostContainer();
+  if (top && !top.contains(opener)) {
+    if (!top.contains(document.activeElement)) {
+      (focusableWithin(top)[0] ?? top).focus?.({ preventScroll: true });
+    }
+    return;
+  }
+  // A detached opener falls back to the page element that began the run, if it is
+  // still there (see runOpener).
+  const target = opener && document.contains(opener) ? opener : runOpener;
+  if (target && document.contains(target)) {
+    target.focus?.({ preventScroll: true });
+  }
+  if (trapStack.length === 0) runOpener = null;
+};
+
+/**
  * Trap focus inside the returned element while `active`.
  *
  * Put the ref on the dialog surface itself (the element carrying
@@ -159,17 +228,6 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
   const containerRef = useRef<T | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const wasActive = useRef(false);
-  /**
-   * The frame that will hand focus back to the opener, while one is pending.
-   *
-   * Kept so a trap that becomes active again before that frame lands can cancel
-   * it. Under StrictMode React runs each effect, runs its cleanup, then runs it
-   * again: the cleanup schedules a restore, and the second run immediately moves
-   * focus into the dialog. Without a cancel, the restore then fires one frame
-   * later and takes focus straight back out to the page behind, so the dialog
-   * opens with nothing in it — which is what the dev build showed.
-   */
-  const pendingRestore = useRef<number | null>(null);
 
   /**
    * The opener, captured during RENDER rather than in the effect.
@@ -187,13 +245,6 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
 
   useEffect(() => {
     if (!active) return;
-
-    // The trap is live again, so whatever the last close scheduled is stale: it
-    // would hand focus to the page while this dialog is open.
-    if (pendingRestore.current !== null) {
-      cancelAnimationFrame(pendingRestore.current);
-      pendingRestore.current = null;
-    }
 
     const container = containerRef.current;
     // Not named `active` — that is the hook's own parameter, and shadowing it
@@ -214,6 +265,11 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
      */
     const opener = openerRef.current;
     const previouslyFocused = opener && !container?.contains(opener) ? opener : null;
+
+    // Kept while the run lasts. Replaced when it is missing, detached (a run that
+    // ended without its restore), or the body, which is never a place to return to.
+    const reusable = !runOpener || runOpener === document.body || !runOpener.isConnected;
+    if (reusable) runOpener = previouslyFocused;
 
     const entry: TrapEntry = { container: () => containerRef.current };
     trapStack.push(entry);
@@ -312,27 +368,12 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
        * thing this restore exists to prevent, and invisible in a unit test
        * where nothing else re-renders. One frame later the tree has settled.
        *
-       * Re-checked at that point rather than trusting the earlier check: a
-       * dialog that deletes the row which opened it leaves a detached node
-       * behind, and focusing that puts focus nowhere at all.
-       *
-       * `preventScroll` is load-bearing, not decoration. `useScrollLock` has
-       * just unpinned <body> and put the viewport back at the exact offset it
-       * captured when the modal opened; a plain `.focus()` here immediately
-       * scrolls the opener into view and undoes that, so closing any dialog
-       * nudged the page by however far the opener sat from the scroll anchor.
-       * Nothing is stranded offscreen by suppressing it: the position being
-       * restored is the one the opener was clicked at.
+       * Whether the frame still hands focus back is decided when it lands, by
+       * `restoreFocus`, not here: see there for the close-then-open case.
        */
-      const restore = () => {
-        pendingRestore.current = null;
-        if (previouslyFocused && document.contains(previouslyFocused)) {
-          previouslyFocused.focus?.({ preventScroll: true });
-        }
-      };
       if (typeof requestAnimationFrame === 'function') {
-        pendingRestore.current = requestAnimationFrame(restore);
-      } else restore();
+        requestAnimationFrame(() => restoreFocus(previouslyFocused));
+      } else restoreFocus(previouslyFocused);
     };
   }, [active]);
 

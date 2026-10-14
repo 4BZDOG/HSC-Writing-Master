@@ -172,7 +172,7 @@ export const InstrumentMetric = ({
 );
 
 const AUDIT_BTN_BASE =
-  't-label px-3.5 h-10 rounded-xl border transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:hover:bg-transparent';
+  't-label px-3.5 h-11 sm:h-10 rounded-xl border transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:hover:bg-transparent';
 
 /**
  * One batch action, carrying the colour of the gap it repairs.
@@ -258,7 +258,7 @@ export const FilterRow = ({
       disabled={empty}
       title={empty ? `${title ?? label} — none found` : title}
       aria-pressed={active}
-      className={`t-label shrink-0 md:w-full flex items-center gap-2.5 pl-2.5 pr-3 h-9 rounded-lg border text-left whitespace-nowrap transition-colors ${
+      className={`t-label shrink-0 md:w-full flex items-center gap-2.5 pl-2.5 pr-3 h-11 sm:h-9 rounded-lg border text-left whitespace-nowrap transition-colors ${
         empty
           ? 'border-transparent text-slate-600 light:text-slate-500 cursor-default'
           : active

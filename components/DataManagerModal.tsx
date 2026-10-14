@@ -161,7 +161,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
       className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-modal-data p-3 sm:p-6 animate-fade-in"
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[92vh] md:h-[85vh] relative"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.8)] light:shadow-[0_1px_2px_rgba(15,23,42,0.08),0_18px_36px_-14px_rgba(15,23,42,0.26),0_44px_80px_-24px_rgba(30,41,59,0.36)] w-full max-w-6xl border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col md:flex-row h-[92vh] md:h-[85vh] relative"
         onClick={(e) => e.stopPropagation()}
       >
         <MeshOverlay opacity="opacity-[0.05]" />
@@ -187,7 +187,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
               <button
                 onClick={onClose}
                 aria-label="Close Data Vault"
-                className="md:hidden p-2.5 rounded-xl bg-white/5 light:bg-surface hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-300"
+                className="md:hidden p-2.5 min-h-11 min-w-11 flex items-center justify-center rounded-xl bg-white/5 light:bg-surface hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-300"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -197,7 +197,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
           {/* Three tabs share the phone width as equal columns, each with its icon
               above its label, so every tab is on screen with no scroll to find
               the last one. From md the column becomes the rail's own list. */}
-          <div className="p-4 md:p-6 md:flex-1 grid grid-cols-3 md:flex md:flex-col gap-2 md:gap-3 md:overflow-y-auto md:custom-scrollbar">
+          <div className="p-4 md:p-6 md:flex-1 grid grid-cols-3 md:flex md:flex-col gap-2 md:gap-3 md:overflow-y-auto custom-scrollbar">
             <NavButton
               tab="maintenance"
               icon={Activity}

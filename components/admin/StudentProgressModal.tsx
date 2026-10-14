@@ -331,7 +331,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
           <button
             onClick={onClose}
             aria-label="Close"
-            className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+            className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
           >
             <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
           </button>
@@ -367,7 +367,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                     }}
                     placeholder="e.g. jsmith"
                     aria-label="Student username"
-                    className="w-52 text-sm rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 outline-none focus:border-[rgb(var(--color-accent))]/60"
+                    className="w-52 text-base sm:text-sm min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 px-3 py-2 outline-none focus:border-[rgb(var(--color-accent))]/60"
                   />
                 </label>
                 <div className="flex items-center gap-2">
@@ -378,9 +378,9 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                         setDays(w);
                         if (data) load(username, w);
                       }}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
+                      className={`px-3 py-1.5 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg text-xs font-bold border transition-all ${
                         days === w
-                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border-[rgb(var(--color-accent))]/30'
                           : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
                       }`}
                     >
@@ -391,7 +391,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                 <button
                   onClick={() => load(username, days)}
                   disabled={isLoading}
-                  className="t-label px-4 py-2 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50 flex items-center gap-2"
+                  className="t-label px-4 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border border-[rgb(var(--color-accent))]/30 hover:bg-[rgb(var(--color-accent))]/25 transition-all disabled:opacity-50 flex items-center gap-2"
                 >
                   <Search className="w-3.5 h-3.5" /> Look up
                 </button>
@@ -528,7 +528,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
                       </h3>
                       <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                         <table className="w-full text-left text-sm min-w-[360px]">
-                          <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
+                          <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
                             <tr>
                               <th className="px-4 py-2.5">Verb</th>
                               <th className="px-4 py-2.5 text-right">Attempts</th>

@@ -35,7 +35,7 @@ const DiscardConfirmBar: React.FC<DiscardConfirmBarProps> = ({ summary, onKeep, 
       <button
         type="button"
         onClick={onDiscard}
-        className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-500 transition"
+        className="py-2 px-4 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition"
       >
         Discard
       </button>

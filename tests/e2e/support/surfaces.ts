@@ -4,9 +4,11 @@ import {
   clearOnboarding,
   openFirstQuestion,
   openQuestionWithOutcomes,
+  settleVerbRibbon,
   signIn,
 } from './workspace';
 import { stubMarking, MARKED_ANSWER } from './markingStub';
+import type { StatePath } from '../../../types';
 
 /**
  * Driving the page into the surfaces the light-theme checks are about.
@@ -50,6 +52,25 @@ export const dismissAll = async (page: Page): Promise<void> => {
     await page.keyboard.press('Escape');
     await page.waitForTimeout(500);
   }
+};
+
+/**
+ * Opens the question a path names. The workspace reads its path from storage
+ * when it mounts, so this stores the path and reloads, rather than walking the
+ * pickers, which only reach whichever question sits first in them.
+ */
+export const openQuestionAtPath = async (page: Page, path: StatePath): Promise<void> => {
+  // The key is the app's `STATE_PATH` (utils/storageUtils.ts), which the e2e
+  // specs spell out as contribution-loop.spec.ts does.
+  await page.evaluate(
+    (value) => window.localStorage.setItem('hsc-ai-evaluator-path', JSON.stringify(value)),
+    path
+  );
+  await page.reload();
+  await expect(page.getByRole('heading', { name: /Writing Prompt/i })).toBeVisible({
+    timeout: 20_000,
+  });
+  await settleVerbRibbon(page);
 };
 
 /** The profile dialog, with its head as the header element. */

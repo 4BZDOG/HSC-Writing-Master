@@ -276,7 +276,7 @@ const ApiMonitorDisplay: React.FC = () => {
         <button
           onClick={() => setIsExpanded(true)}
           className="
-            flex items-center gap-4 px-4 py-2 rounded-full
+            flex items-center gap-4 px-4 py-2 min-h-11 sm:min-h-0 rounded-full
             bg-[rgb(var(--color-bg-surface-elevated))]/80 light:bg-surface-elevated/95 backdrop-blur-md
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:border-[rgb(var(--color-border-accent))]/60
