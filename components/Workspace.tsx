@@ -32,6 +32,7 @@ import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
 import { isOverlayOpen } from '../hooks/useEscapeKey';
 import {
+  describeAccess,
   isQuestionTierLocked,
   planLabelForFeature,
   requestUpgrade,
@@ -95,15 +96,15 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
         {question}
       </h3>
       <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-        Higher-order questions — Analyse, Evaluate, Discuss — are part of{' '}
-        {planLabelForFeature('advancedQuestions')}. Your free plan covers every question up to tier{' '}
+        {describeAccess('advancedQuestions').explanation} Analyse, Evaluate and Discuss are the
+        higher-order questions. Your free plan covers every question up to tier{' '}
         {freeTierLimits().maxQuestionTier}.
       </p>
       <button
         onClick={() => requestUpgrade('advancedQuestions')}
         className="t-label px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
       >
-        Unlock with {planLabelForFeature('advancedQuestions')}
+        {describeAccess('advancedQuestions').ctaLabel}
       </button>
     </div>
   </div>

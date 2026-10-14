@@ -19,6 +19,7 @@ import ResponseFeedback from './ResponseFeedback';
 import SupportUsageSummary from './SupportUsageSummary';
 import PdfExportOptions from './PdfExportOptions';
 import {
+  describeAccess,
   isFeatureLocked,
   isFeedbackLocked,
   planLabelForFeature,
@@ -153,11 +154,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           onClick={pdfLocked ? () => requestUpgrade('pdfExport') : handleExportPdf}
           disabled={isExporting}
           aria-busy={isExporting}
-          title={
-            pdfLocked
-              ? `PDF export is part of ${planLabelForFeature('pdfExport')} — tap to learn more`
-              : undefined
-          }
+          title={pdfLocked ? describeAccess('pdfExport').explanation : undefined}
           className="min-h-11 sm:min-h-0 px-5 py-3 rounded-l-2xl text-xs font-bold shadow-sm transition-all border border-r-0 border-white/40 bg-white/25 hover:bg-white/35 text-slate-950 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {isExporting ? (

@@ -294,6 +294,24 @@ begin
 end $$;
 rollback;
 
+-- A personal Plus does not hide a live licence. The licence is the higher plan,
+-- and the cohort reports are priced at School, so the order matters here.
+begin;
+update public.schools set plan_status = 'active'
+ where id = '00000000-0000-0000-0000-0000000000f1';
+update public.profiles set school_id = '00000000-0000-0000-0000-0000000000f1'
+ where id = '00000000-0000-0000-0000-0000000000e2';
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e2","role":"authenticated"}';
+set local role authenticated;
+do $$
+begin
+  if public.caller_plan() <> 'school' then
+    raise exception 'TEST FAILED: a Plus subscriber in a licensed school resolved to % (want school)', public.caller_plan();
+  end if;
+  raise notice 'PASS: a personal Plus inside a licensed school resolves to school';
+end $$;
+rollback;
+
 -- ---- 8. Only an admin can retune the free allowance ------------------------
 -- The allowance is a live setting so it can be tuned without a deploy; that is
 -- only safe while the setter is closed to everyone else.

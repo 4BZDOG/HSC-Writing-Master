@@ -9,6 +9,7 @@ import {
   type PremiumFeatureKey,
 } from './planPolicy';
 import { dailyResetPhrase } from '../utils/dailyReset';
+import { canUseAiGeneration } from '../utils/permissions';
 import type { User } from '../types';
 import type { UserRole } from '../types';
 
@@ -143,6 +144,15 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
     blurb: 'Practise under real HSC conditions — timed, unassisted, with post-exam feedback.',
     perk: 'Timed HSC exam simulation mode with post-exam analysis',
   },
+  cohortReports: {
+    title: 'Class & School Reports',
+    blurb:
+      'Hand on a progress report for a whole class or school: every student’s marks, by verb ' +
+      'and topic, as a PDF your head teacher or admin can read.',
+    // Says who it is for. A student never reads this as something they will
+    // get: the report is only offered to staff accounts, whatever the plan.
+    perk: 'Class and school progress reports as PDFs, for teacher and admin accounts',
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -264,6 +274,148 @@ export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null):
   if (isAdmin(user)) return false;
   if (!(feature in PREMIUM_FEATURES)) return false;
   return !planUnlocks(getUserPlan(user), feature);
+};
+
+/**
+ * What a locked control should SAY and what it should OFFER, for one person.
+ *
+ * Every lock, chip, tooltip, overlay and prompt used to write its own sentence,
+ * and the sentences disagreed with each other and with the button beside them:
+ * a chip said "Plus" over a tooltip that said "Band 6 Plus", a button said
+ * "See what Plus unlocks", and a teacher was offered an upgrade to a plan that
+ * held nothing more than the one they had. This is the one answer. Surfaces read
+ * it and do not word a lock themselves.
+ *
+ *  - `open`: nothing to say. Monetisation is off, the caller is an admin, or the
+ *    plan already unlocks the feature.
+ *  - `cause: 'role'`: the feature is for staff whatever the plan. The AI Content
+ *    Studio is the one case. Never an upgrade button: paying would not help.
+ *  - `cause: 'plan'`: the plan is too low. The CTA follows from WHO is asking:
+ *      student, Plus feature      -> upgrade to Plus
+ *      student, School feature    -> ask-admin (their school provides it; a
+ *                                    student is never sold a School licence)
+ *      teacher, School feature    -> buy-school when attached to a school that has
+ *                                    no licence, otherwise ask-admin to be added
+ *
+ * A teacher is never offered Plus: the staff perk already holds it. A holder of
+ * a personal Plus subscription is told that their Plus does not cover a School
+ * feature, so they are not sent to buy what they already hold.
+ *
+ * Pure apart from reading the current user when none is passed.
+ */
+export type AccessAudience = 'student' | 'teacher' | 'admin';
+export type AccessCta = 'upgrade' | 'buy-school' | 'ask-admin' | 'none';
+
+export interface AccessDescription {
+  state: 'open' | 'locked';
+  cause: 'plan' | 'role' | null;
+  /** The plan that would unlock the feature. Null when the lock is about the role. */
+  planNeeded: Plan | null;
+  planLabel: string | null;
+  audience: AccessAudience;
+  cta: AccessCta;
+  /** Button text for `cta`. Empty when `cta` is 'none' or the state is open. */
+  ctaLabel: string;
+  /** One sentence, for a tooltip, an overlay or a prompt. Empty when open. */
+  explanation: string;
+}
+
+const accessAudience = (user: User | null): AccessAudience => {
+  if (user?.role === 'admin') return 'admin';
+  if (user?.role === 'teacher') return 'teacher';
+  return 'student';
+};
+
+const OPEN: Omit<AccessDescription, 'audience'> = {
+  state: 'open',
+  cause: null,
+  planNeeded: null,
+  planLabel: null,
+  cta: 'none',
+  ctaLabel: '',
+  explanation: '',
+};
+
+export const describeAccess = (
+  feature: PremiumFeatureKey,
+  user?: User | null
+): AccessDescription => {
+  const u = resolveUser(user);
+  const audience = accessAudience(u);
+  const open: AccessDescription = { ...OPEN, audience };
+  if (!monetisationEnabled()) return open;
+  if (audience === 'admin') return open;
+  if (!(feature in PREMIUM_FEATURES)) return open;
+
+  const title = PREMIUM_FEATURES[feature].title;
+
+  // The role comes before the plan. A student who pays for Plus still does not
+  // author, so the studio's answer is never an upgrade.
+  if (feature === 'aiContentStudio' && !canUseAiGeneration(u?.role ?? 'user')) {
+    return {
+      ...OPEN,
+      state: 'locked',
+      cause: 'role',
+      audience,
+      explanation: `${title} is for teacher and admin accounts.`,
+    };
+  }
+
+  if (planUnlocks(getUserPlan(u), feature)) return open;
+
+  const planNeeded = lowestPlanForFeature(feature);
+  const planLabel = PLAN_LABELS[planNeeded];
+  const base = {
+    state: 'locked' as const,
+    cause: 'plan' as const,
+    planNeeded,
+    planLabel,
+    audience,
+  };
+
+  if (planNeeded !== 'school') {
+    // Plus is never held back from a teacher, who holds it as a perk. So this
+    // branch is a student, or a guest, who is offered the upgrade.
+    return {
+      ...base,
+      cta: 'upgrade',
+      ctaLabel: `Upgrade to ${planLabel}`,
+      explanation: `${planLabel} includes ${title}.`,
+    };
+  }
+
+  if (audience === 'student') {
+    return {
+      ...base,
+      cta: 'ask-admin',
+      ctaLabel: 'Ask your school about access',
+      explanation:
+        `${PLAN_LABELS.school} includes ${title}. Your school provides it through a licence, ` +
+        'so ask your teacher or administrator.',
+    };
+  }
+
+  // Teacher: a School feature, and the plan they hold is Plus at most.
+  const ownPlus =
+    u?.stripePlan === 'plus' ? ` Your own ${PLAN_LABELS.plus} plan does not include it.` : '';
+  if (u?.schoolId) {
+    return {
+      ...base,
+      cta: 'buy-school',
+      ctaLabel: `Get a ${PLAN_LABELS.school} licence`,
+      explanation:
+        `${PLAN_LABELS.school} includes ${title}. One licence covers everyone at ` +
+        `${u.schoolName ?? 'your school'}.${ownPlus}`,
+    };
+  }
+  return {
+    ...base,
+    cta: 'ask-admin',
+    ctaLabel: 'Ask an admin to add you to your school',
+    explanation:
+      `${PLAN_LABELS.school} includes ${title}. A school licence covers everyone in the school, ` +
+      `so ask an admin to add you to your school.${ownPlus}`,
+  };
 };
 
 // ---------------------------------------------------------------------------
@@ -526,6 +678,26 @@ export const PLAN_PRICING = {
   schoolSeat: import.meta.env.VITE_SCHOOL_SEAT_PRICE_DISPLAY ?? 'A$4',
 } as const;
 
+/**
+ * Pure reading of the invoicing switch. A School licence can be invoiced
+ * against a purchase order only where a School price exists and the switch is
+ * not set to `false` (the default is on). Split out so the rule can be tested
+ * without touching the build-time environment.
+ */
+export const invoicedSchoolLicencesOn = (
+  schoolPriceId: string,
+  flag: string | undefined
+): boolean => !!schoolPriceId && flag !== 'false';
+
+/**
+ * Whether this deployment offers School by invoice (purchase order) as well as
+ * by card. Read at call time. The server's own switch is `SCHOOL_INVOICE_ENABLED`
+ * (api/_lib/schoolLicence.ts), which falls back to this same `VITE_` name, so one
+ * variable drives both halves when it is set in the build.
+ */
+export const schoolInvoicingEnabled = (): boolean =>
+  invoicedSchoolLicencesOn(STRIPE_PRICE_IDS.school, import.meta.env.VITE_SCHOOL_INVOICE_ENABLED);
+
 /** Contact for school/faculty licensing enquiries (shown in the upgrade prompt). */
 export const SCHOOL_CONTACT_EMAIL: string = import.meta.env.VITE_SCHOOL_CONTACT_EMAIL ?? '';
 
@@ -562,6 +734,12 @@ export interface BillingUrlResult {
   url: string | null;
   error: string | null;
   /**
+   * The machine code the server sent with a refusal, when it sent one. The
+   * sentence in `error` is for a person; the code is for the client, which must
+   * not guess from a status alone. See the BILLING_CODE constants below.
+   */
+  code: string | null;
+  /**
    * The HTTP status the endpoint answered with, so a caller can tell the
    * refusals apart rather than just printing the sentence.
    *
@@ -590,6 +768,8 @@ export interface BillingPostResult<T> {
   data: (T & { error?: string }) | null;
   error: string | null;
   status: number | null;
+  /** The server's machine code for a refusal (see BILLING_CODE), when it sent one. */
+  code?: string | null;
 }
 
 export const postBillingJson = async <T extends object>(
@@ -603,15 +783,22 @@ export const postBillingJson = async <T extends object>(
       headers: await getAuthHeaders(),
       body: JSON.stringify(body),
     });
-    const data = (await res.json().catch(() => null)) as (T & { error?: string }) | null;
+    const data = (await res.json().catch(() => null)) as
+      | (T & {
+          error?: string;
+          code?: string;
+        })
+      | null;
     const ok = res.ok && !!data;
     return {
       data: ok ? data : null,
       error: ok ? null : data?.error || fallbackError,
       status: res.status,
+      // The machine code the server sent with a refusal, when it sent one.
+      code: ok || typeof data?.code !== 'string' ? null : data.code,
     };
   } catch {
-    return { data: null, error: fallbackError, status: null };
+    return { data: null, error: fallbackError, status: null, code: null };
   }
 };
 
@@ -620,19 +807,32 @@ const postBilling = async (
   body: Record<string, unknown>,
   fallbackError: string
 ): Promise<BillingUrlResult> => {
-  const { data, error, status } = await postBillingJson<{ url?: string }>(
+  const { data, error, status, code } = await postBillingJson<{ url?: string }>(
     path,
     body,
     fallbackError
   );
   if (!data?.url) {
-    return { url: null, error: error || data?.error || fallbackError, status };
+    return { url: null, error: error || data?.error || fallbackError, status, code: code ?? null };
   }
-  return { url: data.url, error: null, status };
+  return { url: data.url, error: null, status, code: null };
 };
 
 /** The status `create-checkout` uses to refuse a second concurrent subscription. */
 export const ALREADY_SUBSCRIBED_STATUS = 409;
+
+/**
+ * The refusals a billing request can carry as a `code` (api/create-checkout.ts).
+ * A 409 is not always "already subscribed": `school_licence_held` means someone
+ * else at the school bought the licence, and the portal would 404 for the caller
+ * because the portal belongs to the purchaser. Only a 409 with NO code keeps the
+ * "Manage subscription" route.
+ */
+export const BILLING_CODE = {
+  schoolLicenceHeld: 'school_licence_held',
+  schoolRoleRequired: 'school_role_required',
+  accountLookupFailed: 'account_lookup_failed',
+} as const;
 
 /**
  * Request a Stripe Checkout session from the server. Returns the URL to

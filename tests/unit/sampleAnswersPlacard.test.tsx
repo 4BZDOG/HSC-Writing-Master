@@ -612,7 +612,7 @@ describe('a locked exemplar is a locked card in its row', () => {
     });
     fireEvent.click(disclosureFor(6));
     expect(screen.getByText(/A Band \d exemplar at 6\/6/)).toBeTruthy();
-    expect(screen.getByRole('button', { name: /unlock with/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /upgrade to band 6 plus/i })).toBeTruthy();
     expect(screen.queryByRole('button', { name: /^copy$/i })).toBeNull();
     expect(screen.queryByTitle('Delete')).toBeNull();
   });
@@ -623,7 +623,7 @@ describe('a locked exemplar is a locked card in its row', () => {
       sampleAnswers: [sample({ id: 'a', mark: 6, answer: 'Sent prose.' })],
     });
     fireEvent.click(disclosureFor(6));
-    expect(screen.queryByRole('button', { name: /unlock with/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /upgrade to band 6 plus/i })).toBeNull();
     expect(screen.getByRole('button', { name: /^copy$/i })).toBeTruthy();
   });
 });

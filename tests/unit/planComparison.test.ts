@@ -1,11 +1,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { buildPlanComparison, COMPARED_PLANS, PLAN_TAGLINES } from '../../utils/planComparison';
+import {
+  buildPlanComparison,
+  COMPARED_PLANS,
+  PLAN_AUDIENCES,
+  PLAN_TAGLINES,
+} from '../../utils/planComparison';
 import {
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
   FREE_TIER_EVAL_LIMIT,
   FREE_TIER_MAX_QUESTION_TIER,
   FREE_TIER_MAX_SAMPLE_BAND,
+  invoicedSchoolLicencesOn,
   planFeatureKeys,
   PREMIUM_FEATURES,
   type PremiumFeatureKey,
@@ -93,7 +99,10 @@ describe('plan comparison', () => {
     const rows = buildPlanComparison();
     expect(rows[0].id).toBe('evaluations');
     expect(rows[1].id).toBe('ai-allowance');
-    expect(rows[rows.length - 1].id).toBe('coverage');
+    // Who it covers, then how it is paid for: the two rows that say what a
+    // buyer is getting and what they do next, so they close the table.
+    expect(rows[rows.length - 2].id).toBe('coverage');
+    expect(rows[rows.length - 1].id).toBe('payment');
   });
 });
 
@@ -149,5 +158,50 @@ describe('plan comparison follows the deployment switches, not just the plan map
       // The provider budget is metered whatever the monetisation switch says.
       expect(rowsById()['ai-allowance'].cells.free.text).toBe(`${FREE_DAILY_AI_CALLS} calls`);
     });
+  });
+});
+
+describe('the comparison says who each plan is for, and how it is paid for', () => {
+  it('gives every plan one audience line, in the words the buyer uses', () => {
+    expect(PLAN_AUDIENCES).toEqual({
+      free: 'To try it out',
+      plus: 'For your own HSC',
+      school: 'For a whole cohort',
+    });
+  });
+
+  it('does not describe Plus as authoring for a teacher, which a student cannot use', () => {
+    expect(PLAN_TAGLINES.plus).not.toMatch(/authoring tools for one teacher/);
+  });
+
+  it('shows the Class & school reports only at School', () => {
+    const row = rowsById().cohortReports;
+    expect(row.label).toBe('Class & school reports');
+    expect(row.cells.free.kind).toBe('no');
+    expect(row.cells.plus.kind).toBe('no');
+    expect(row.cells.school.kind).toBe('yes');
+  });
+
+  it('states how each plan is bought, and offers an invoice only where one can be raised', () => {
+    const row = rowsById().payment;
+    expect(row.cells.free.text).toBe('Nothing to pay');
+    expect(row.cells.plus.text).toBe('Card, monthly or yearly');
+    // The school text is decided by the invoicing reading, not written by hand.
+    expect(['Card, or invoice against a purchase order', 'Card, per seat']).toContain(
+      row.cells.school.text
+    );
+  });
+});
+
+describe('the invoicing switch', () => {
+  it('offers the invoice route only where a School price is configured', () => {
+    expect(invoicedSchoolLicencesOn('price_school', undefined)).toBe(true);
+    expect(invoicedSchoolLicencesOn('', undefined)).toBe(false);
+    expect(invoicedSchoolLicencesOn('', 'true')).toBe(false);
+  });
+
+  it('is on by default and is switched off only by the literal false', () => {
+    expect(invoicedSchoolLicencesOn('price_school', '')).toBe(true);
+    expect(invoicedSchoolLicencesOn('price_school', 'false')).toBe(false);
   });
 });

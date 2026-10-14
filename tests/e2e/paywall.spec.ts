@@ -57,7 +57,7 @@ const openPlanComparison = async (page: Page) => {
   await compare.scrollIntoViewIfNeeded();
   await compare.click();
   // A tagline, not a plan name: the profile card names plans too.
-  await expect(page.getByText(/One licence covering every student and teacher/i)).toBeVisible({
+  await expect(page.getByText(/Plus for every student and teacher in the school/i)).toBeVisible({
     timeout: 15_000,
   });
 };
@@ -174,8 +174,9 @@ test.describe('the free tier can see what it is held to', () => {
     await clearOnboarding(page);
     await openPlanComparison(page);
     await expect(page.getByText(/Your plan/i).first()).toBeVisible();
-    // The School column carries a price, so it has to carry a way to act on it.
-    await expect(page.getByText(/Ask about a school licence/i).first()).toBeVisible();
+    // The School column says who it is for. A student is not offered a licence to buy.
+    await expect(page.getByText(/For a whole cohort/i).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /ask about a school licence/i })).toHaveCount(0);
   });
 
   test('offers an upgrade route from the comparison', async ({ page }) => {
@@ -183,7 +184,7 @@ test.describe('the free tier can see what it is held to', () => {
     await signIn(page, 'user');
     await clearOnboarding(page);
     await openPlanComparison(page);
-    await page.getByRole('button', { name: /See Band 6 Plus/i }).click();
+    await page.getByRole('button', { name: /Upgrade to Band 6 Plus/i }).click();
     await expect(page.getByRole('dialog', { name: /Full Marking Feedback/i })).toBeVisible({
       timeout: 10_000,
     });
@@ -204,7 +205,8 @@ test.describe('staff can reach the School licence', () => {
     // matches the comparison table's own row note — which is `hidden sm:block`,
     // so on a phone this asserted a hidden element and failed on Mobile Safari
     // while passing everywhere the table is drawn.
-    await expect(page.getByRole('button', { name: /ask about a school licence/i })).toBeVisible();
+    // A teacher with no school is not offered a checkout. They get the note for their admin.
+    await expect(page.getByRole('button', { name: /copy a note for your admin/i })).toBeVisible();
   });
 
   test('a teacher is not shown a free-tier marking limit', async ({ page }) => {
@@ -225,6 +227,6 @@ test.describe('an unlocked account sees no paywall', () => {
     await expect(page.getByTestId('free-eval-counter')).toHaveCount(0);
     await openPlanComparison(page);
     // Nothing to upgrade to: the CTA is for free-plan accounts only.
-    await expect(page.getByRole('button', { name: /See Band 6 Plus/i })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /Upgrade to Band 6 Plus/i })).toHaveCount(0);
   });
 });

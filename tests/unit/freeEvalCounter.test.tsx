@@ -17,6 +17,8 @@ vi.mock('../../services/entitlements', () => ({
   subscribeEvalCount: () => () => {},
   PLAN_LABELS: { free: 'Free', plus: 'Band 6 Plus', school: 'School' },
   requestUpgrade: (...args: unknown[]) => requestUpgradeMock(...args),
+  // The counter's button names the one CTA the policy gives a free student.
+  describeAccess: () => ({ state: 'locked', cta: 'upgrade', ctaLabel: 'Upgrade to Band 6 Plus' }),
 }));
 
 import FreeEvalCounter from '../../components/FreeEvalCounter';
@@ -40,7 +42,7 @@ describe('FreeEvalCounter', () => {
     remaining = 0;
     render(<FreeEvalCounter />);
 
-    const control = screen.getByRole('button', { name: /0 left today\. See Band 6 Plus\./ });
+    const control = screen.getByRole('button', { name: /0 left today\. Upgrade to Band 6 Plus\./ });
     fireEvent.click(control);
 
     expect(requestUpgradeMock).toHaveBeenCalledWith('fullFeedback', 'dailyLimit');

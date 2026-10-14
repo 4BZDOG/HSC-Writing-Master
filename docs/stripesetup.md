@@ -485,6 +485,35 @@ If you just want to test the UI flow without any Stripe setup:
 
 This is useful for front-end development and UI testing.
 
+## What each plan includes
+
+The shipped policy, and what a deployment can change. The reasoning is in
+`projectDocs/tier-structure.md`; the comparison a buyer sees is derived from the
+same rules (`utils/planComparison.ts`).
+
+| | Free | Band 6 Plus | School |
+| --- | --- | --- | --- |
+| For | A student trying it out | A student or parent getting better | A head teacher or accounts office covering a cohort |
+| Marked answers | 5 a day | No daily limit | No daily limit (every member of the school) |
+| Question tiers | 1–3 | All, 1–6 | All, 1–6 |
+| Marking feedback | Summary and band | Every criterion | Every criterion |
+| Sample answers | Bands 1–3 | All bands | All bands |
+| Answer upgrades, exam simulation, outcome briefings, student progress report (PDF) | No | Yes | Yes |
+| AI Content Studio | Teacher and admin accounts only | Teacher and admin accounts only | Teacher and admin accounts only |
+| Class and school reports (PDF) | No | No | Yes (staff accounts) |
+| How it is bought | Nothing to pay | Card, monthly or yearly | Card per seat, or invoice against a purchase order where invoicing is on |
+
+Things to know:
+
+- A teacher holds Plus through their staff account, so no Plus lock applies to them. The
+  Class and school reports are the one thing a teacher needs a licence for.
+- A teacher with their own Plus inside a licensed school holds School, because the licence is the
+  higher plan. The server does the same (`caller_plan()`, schema §17).
+- `PLAN_FEATURE_OVERRIDES=cohortReports:plus` (with `VITE_PLAN_FEATURE_OVERRIDES`) makes the
+  reports Plus again, which is what every teacher had before the School tier.
+- Students never see a School route. A student who presses a School lock is told their school
+  provides it.
+
 ## School seat licences (optional)
 
 Sell a whole-school licence directly from the upgrade modal:
@@ -535,6 +564,16 @@ Three things an operator should know about how this behaves:
   found through the purchaser's own Stripe customer id. Other staff in the school
   are told who bought the licence instead of being offered a button that would
   fail.
+
+**Class & school reports are a School feature.** The Class report (a teacher's
+classes) and the School report (an administrator's school) are gated by the
+`cohortReports` key, priced at `school`. A teacher holds Plus as a staff perk, so
+without a licence the report is locked for them; the purchaser's school licence
+unlocks it for every member of the school. The student's own progress report
+stays on Plus (`pdfExport`). Class Insights and the cohort view stay open to all
+staff. To keep the reports open to every teacher, set
+`VITE_PLAN_FEATURE_OVERRIDES=cohortReports:plus` **and**
+`PLAN_FEATURE_OVERRIDES=cohortReports:plus` (see `.env.example`).
 
 **Important**: the buyer must belong to a school (Admin → Schools) _before_
 purchasing. `api/create-checkout` now refuses a school-price checkout from an

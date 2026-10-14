@@ -231,7 +231,7 @@ describe('a locked exemplar keeps its card in the answer zone, and shows no comm
     const answer = zone(row, 'Model answer');
     expect(within(answer).getByText('Locked')).toBeTruthy();
     expect(answer.textContent).toMatch(/A Band \d exemplar at 4\/6/);
-    expect(within(answer).getByRole('button', { name: /unlock with/i })).toBeTruthy();
+    expect(within(answer).getByRole('button', { name: /upgrade to band 6 plus/i })).toBeTruthy();
     expect(within(row).queryByRole('group', { name: "Marker's commentary" })).toBeNull();
     expect(row.textContent).not.toContain('Hidden tip.');
     expect(row.textContent).not.toContain('Hidden feedback.');
