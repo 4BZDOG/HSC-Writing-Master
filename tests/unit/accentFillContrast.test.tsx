@@ -268,21 +268,11 @@ describe('no white ink is left on an amber or accent fill', () => {
 
 /**
  * Files that still paint white on an emerald, teal or green fill, each with the
- * reason it is not changed here. The check below also fails when one of them
- * stops having such a fill, so an entry cannot outlive the defect it names.
+ * reason it is not changed here. It is empty now: the authoring modals were the
+ * last two. The check below also fails when an entry stops having such a fill,
+ * so an entry cannot outlive the defect it names.
  */
-const GREEN_FAMILY_EXEMPT = new Map<string, string>([
-  [
-    'components/ManualPromptModal.tsx',
-    'the authoring modal, owned by the parallel modal PR. Its Generate and ' +
-      'Save chips still paint white on emerald-500 and emerald-600.',
-  ],
-  [
-    'components/PromptGeneratorModal.tsx',
-    'the authoring modal, owned by the parallel modal PR. Its emerald chip ' +
-      'still paints white on emerald-500.',
-  ],
-]);
+const GREEN_FAMILY_EXEMPT = new Map<string, string>();
 
 const GREEN_FAMILY_FILL =
   /(?<![\w/.-])((?:[\w-]+:)*)(?:bg|from|via|to)-(emerald|teal|green)-(\d{3})(?![\w/.-])/g;
