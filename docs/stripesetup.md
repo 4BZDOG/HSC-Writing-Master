@@ -406,7 +406,9 @@ plan_period_end / plan_cancel_at_period_end` and `subscriptions.seats` — all
 `add column if not exists`, safe to re-run). Re-applying also refreshes
 `list_schools()`, which is what puts the licence columns in front of an admin;
 until you do, the dashboard shows the licence as "unknown" and reads an end
-date as a renewal date.
+date as a renewal date. The same section adds `my_school_seats()`, which the
+over-seat notice for teachers and admins reads. Until it exists the notice stays
+hidden and nothing else changes.
 
 How it works: a teacher or admin picks a seat count and checks out; the
 webhook stores the seat quantity and stamps the licence onto **their
@@ -416,6 +418,22 @@ to the School plan at sign-in for as long as the subscription is active
 personal subscriptions). Seats are the billed quantity — compare
 `plan_seats` with the school's member count in the admin dashboard for
 true-ups.
+
+Three things an operator should know about how this behaves:
+
+- **Members beyond the paid seats keep School access.** Nothing counts seats at
+  sign-in (`caller_plan()`, `has_unlimited_evaluations()` and
+  `resolve_ai_quota()` all check the licence status alone). The seat count is a
+  billing fact, not an access gate. Staff are told when the school is over its
+  seats, and the purchaser can add seats from Manage subscription.
+- **A licence that starts or ends reaches members without a reload.** The app
+  re-reads the plan when a signed-in person returns to its tab or the connection
+  comes back, at most once every five minutes. Members see one notice when their
+  plan changes. Until then a member can still see the old plan.
+- **Only the purchaser can open Manage subscription.** The billing portal is
+  found through the purchaser's own Stripe customer id. Other staff in the school
+  are told who bought the licence instead of being offered a button that would
+  fail.
 
 **Important**: the buyer must belong to a school (Admin → Schools) _before_
 purchasing. `api/create-checkout` now refuses a school-price checkout from an

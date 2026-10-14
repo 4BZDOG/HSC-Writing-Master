@@ -782,6 +782,46 @@ export const syncCheckoutSession = async (sessionId: string): Promise<CheckoutSy
   }
 };
 
+/**
+ * A staff member's view of their own school's seat licence (schema §13,
+ * `my_school_seats()`). The seat count and the member count, and nothing about
+ * who the members are.
+ */
+export interface MySchoolSeats {
+  planStatus: string;
+  planSeats: number;
+  members: number;
+  /**
+   * Whether the caller bought this licence. Only the purchaser can open the
+   * billing portal, because the portal is found through their own customer id.
+   */
+  purchaser: boolean;
+}
+
+/**
+ * The caller's school seat picture, or null when there is nothing to show: no
+ * school, a database that predates the function, or a transient failure. Never
+ * throws; the over-seat notice treats null as "say nothing".
+ */
+export const fetchMySchoolSeats = async (): Promise<MySchoolSeats | null> => {
+  try {
+    const { supabase } = await import('./supabaseClient');
+    if (!supabase) return null;
+    const { data, error } = await supabase.rpc('my_school_seats');
+    if (error || !data || typeof data !== 'object') return null;
+    const row = data as Record<string, unknown>;
+    if (typeof row.plan_seats !== 'number' || typeof row.members !== 'number') return null;
+    return {
+      planStatus: typeof row.plan_status === 'string' ? row.plan_status : 'none',
+      planSeats: row.plan_seats,
+      members: row.members,
+      purchaser: row.purchaser === true,
+    };
+  } catch {
+    return null;
+  }
+};
+
 /** Event carrying the feature key a locked control was asked for. */
 export const UPGRADE_REQUEST_EVENT = 'writing-studio:upgrade-request';
 
