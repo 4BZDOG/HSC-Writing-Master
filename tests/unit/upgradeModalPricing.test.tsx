@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import type { User } from '../../types';
 
 /**
  * The upgrade prompt has to sell whatever this deployment configured, not only
@@ -155,19 +156,44 @@ describe('upgrade prompt when monetisation is switched off', () => {
   });
 });
 
-describe('upgrade prompt with no prices configured', () => {
-  it('registers interest instead of offering a checkout', () => {
-    openFor();
-
-    expect(screen.getByRole('button', { name: /keep me posted/i })).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /upgrade now/i })).toBeNull();
+describe('a guest on a deployment that sells Plus', () => {
+  beforeEach(() => {
+    priceIds = { plus_monthly: '', plus_yearly: 'price_y', school: '' };
   });
 
-  it('never calls the checkout endpoint', () => {
+  it('is sent to create an account, and never straight to a checkout that would 401', () => {
+    const showToast = vi.fn();
+    const guest = { username: 'guest', role: 'guest', stats: {} } as unknown as User;
+    render(<UpgradeModal showToast={showToast} user={guest} />);
+    fireEvent(
+      window,
+      new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature: 'fullFeedback' } })
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /create an account/i }));
+
+    expect(createCheckoutUrlMock).not.toHaveBeenCalled();
+    expect(showToast).toHaveBeenCalledWith(expect.stringMatching(/free account first/i), 'info');
+  });
+});
+
+describe('upgrade prompt with no prices configured', () => {
+  it('offers no button that implies a sign-up, and says the plan is not on sale', () => {
     openFor();
 
-    fireEvent.click(screen.getByRole('button', { name: /keep me posted/i }));
+    // "Keep me posted" read as a request to be told when Plus launches, and
+    // nothing recorded it. The prompt now states the fact and offers no button
+    // for it.
+    expect(screen.queryByRole('button', { name: /keep me posted/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /upgrade now/i })).toBeNull();
+    expect(screen.getByText(/isn't available on the free plan just yet/i)).toBeTruthy();
+    expect(screen.getByRole('button', { name: /maybe later/i })).toBeTruthy();
+  });
 
+  it('never offers a checkout, so there is nothing to click that could start one', () => {
+    openFor();
+
+    expect(screen.queryByRole('button', { name: /upgrade now|create an account/i })).toBeNull();
     expect(createCheckoutUrlMock).not.toHaveBeenCalled();
   });
 });

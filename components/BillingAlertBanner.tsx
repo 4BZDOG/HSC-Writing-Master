@@ -7,6 +7,7 @@ import {
   PLAN_LABELS,
   Plan,
 } from '../services/entitlements';
+import { billingErrorMessage } from '../utils/billingMessages';
 
 /**
  * Amber "fix your payment" banner, shown only while the user's subscription
@@ -39,14 +40,14 @@ const BillingAlertBanner: React.FC = () => {
   const openPortal = async () => {
     setIsOpeningPortal(true);
     setPortalError(null);
-    const { url, error } = await createPortalUrl();
+    const { url, error, status } = await createPortalUrl();
     if (url) {
       window.location.href = url;
       return;
     }
     // Say something: a spinner that stops with nothing happening reads as a
     // broken button on the one screen where the user is trying to pay us.
-    setPortalError(error ?? 'Could not open the billing portal. Please try again shortly.');
+    setPortalError(billingErrorMessage('portal', { error, status }));
     setIsOpeningPortal(false);
   };
 
@@ -58,14 +59,14 @@ const BillingAlertBanner: React.FC = () => {
       <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
         <AlertTriangle className="w-4 h-4 text-amber-500" />
       </div>
-      <p className="flex-1 min-w-[200px] text-xs text-amber-600 light:text-amber-700 leading-relaxed">
+      <p className="flex-1 min-w-[200px] text-sm text-amber-700 dark:text-amber-500 leading-relaxed">
         There's a payment issue with your {planLabel} subscription. Your access continues while the
-        payment is retried — update your card to keep it that way.
+        payment is retried. Update your card to keep it that way.
       </p>
       <button
         onClick={openPortal}
         disabled={isOpeningPortal}
-        className="t-label flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-slate-900 shadow-sm hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-60"
+        className="min-h-11 sm:min-h-0 t-label flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-slate-900 shadow-sm hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-60"
       >
         {isOpeningPortal ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -77,12 +78,14 @@ const BillingAlertBanner: React.FC = () => {
       <button
         onClick={() => setDismissed(true)}
         aria-label="Dismiss payment warning"
-        className="p-1.5 rounded-lg text-amber-500 hover:bg-amber-500/10 transition-colors"
+        className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-amber-600 dark:text-amber-500 hover:bg-amber-500/10 transition-colors"
       >
         <X className="w-4 h-4" />
       </button>
       {portalError && (
-        <p className="w-full text-[11px] text-red-500 light:text-red-600">{portalError}</p>
+        <p role="status" className="w-full text-xs text-red-700 dark:text-red-400">
+          {portalError}
+        </p>
       )}
     </div>
   );

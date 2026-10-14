@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { buildPlanComparison, COMPARED_PLANS, PLAN_TAGLINES } from '../../utils/planComparison';
 import {
   FREE_DAILY_AI_CALLS,
+  PAID_DAILY_AI_CALLS,
   FREE_TIER_EVAL_LIMIT,
   FREE_TIER_MAX_QUESTION_TIER,
   FREE_TIER_MAX_SAMPLE_BAND,
@@ -23,6 +24,17 @@ describe('plan comparison', () => {
   it('compares free, plus and school', () => {
     expect(COMPARED_PLANS).toEqual(['free', 'plus', 'school']);
     COMPARED_PLANS.forEach((plan) => expect(PLAN_TAGLINES[plan].length).toBeGreaterThan(0));
+  });
+
+  it('never calls a paid plan unlimited while the AI allowance beside it caps it', () => {
+    // Marking is not metered for paid plans, but every AI call still draws on
+    // the daily allowance in the row below. "Unlimited" next to "300 calls" was
+    // the table contradicting itself.
+    const rows = rowsById();
+    expect(rows.evaluations.cells.plus.text).toBe('No daily limit');
+    expect(rows.evaluations.cells.school.text).toBe('No daily limit');
+    expect(rows['ai-allowance'].cells.plus.text).toBe(`${PAID_DAILY_AI_CALLS} calls`);
+    expect(rows.evaluations.note).toMatch(/share the daily AI allowance/i);
   });
 
   it('quotes the free-tier limits the gates actually enforce', () => {

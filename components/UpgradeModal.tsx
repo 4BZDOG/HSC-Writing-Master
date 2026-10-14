@@ -27,6 +27,7 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import SchoolLicencePanel from './SchoolLicencePanel';
 import { dailyResetPhrase } from '../utils/dailyReset';
+import { billingErrorMessage } from '../utils/billingMessages';
 
 /**
  * The plan a lock should NAME, as one or two words fit for a chip.
@@ -209,12 +210,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   const handleUpgrade = async () => {
     if (isGuest) {
-      showToast('Create a free account first — a subscription needs somewhere to live.', 'info');
+      showToast('Create a free account first. A subscription is attached to an account.', 'info');
       close();
       return;
     }
+    // Unreachable from the button (which is not drawn without a price), kept so
+    // a stale open prompt cannot start a checkout that has nothing to buy.
     if (!stripeReady) {
-      showToast("Thanks! We'll let you know when Plus plans launch.", 'success');
+      showToast(`${PLAN_LABELS.plus} is not on sale yet, so there is nothing to buy.`, 'info');
       close();
       return;
     }
@@ -232,18 +235,18 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       setIsRedirecting(false);
       return;
     }
-    showToast(error ?? 'Could not start checkout. Please try again.', 'error');
+    showToast(billingErrorMessage('checkout', { error, status }), 'error');
     setIsRedirecting(false);
   };
 
   const handleManageSubscription = async () => {
     setIsRedirecting(true);
-    const { url, error } = await createPortalUrl();
+    const { url, error, status } = await createPortalUrl();
     if (url) {
       window.location.href = url;
       return;
     }
-    showToast(error ?? 'Could not open the billing portal. Please try again shortly.', 'error');
+    showToast(billingErrorMessage('portal', { error, status }), 'error');
     setIsRedirecting(false);
   };
 
@@ -273,11 +276,17 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
    */
   const atDailyLimit = reason === 'dailyLimit';
   const headline = atDailyLimit ? "You've used today's free markings" : meta.title;
+  /**
+   * What the buyer agrees to, in the order they will wonder about it: the
+   * amount, that it repeats, and how to stop. "Cancel anytime, no lock-in"
+   * answered none of those, and a payment prompt has to answer all three.
+   */
+  const chargeLine = `Charged ${plusPriceDisplay} ${effectivePeriod === 'yearly' ? 'a year' : 'a month'} and renews automatically. Cancel from your profile at any time, and your access runs to the end of the period you have paid for.`;
   const blurb = atDailyLimit
     ? // The reset is stated in the reader's own clock. "Midnight" was read as
       // THEIR midnight; the boundary is a UTC day, which is mid-morning here.
       `The free plan includes ${freeEvalLimit()} marked answers a day, and your next one is at ${dailyResetPhrase()}. ` +
-      `${PLAN_LABELS.plus} removes the limit entirely — mark as many drafts as you write.`
+      `${PLAN_LABELS.plus} removes the daily limit on marked answers.`
     : meta.blurb;
 
   return createPortal(
@@ -305,7 +314,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                EVERY width, not just on a phone. The close button on the
                highest-intent surface in the product did nothing; the only ways
                out were "Maybe later", Escape or the backdrop. */
-            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-slate-900 transition-colors z-20"
+            className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-xl bg-black/10 hover:bg-black/20 text-slate-900 transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>
@@ -394,7 +403,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   }`}
                 >
                   <span className="t-label block text-[rgb(var(--color-text-muted))]">Monthly</span>
-                  <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                  <span className="block text-2xl font-black tracking-tight text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                     {PLAN_PRICING.monthly}
                     <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                       {' '}
@@ -414,7 +423,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                   <span className="t-label text-[rgb(var(--color-text-muted))] flex items-center gap-1">
                     Yearly <Zap className="w-3 h-3 text-amber-500 light:text-amber-700" />
                   </span>
-                  <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+                  <span className="block text-2xl font-black tracking-tight text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                     {PLAN_PRICING.yearly}
                     <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                       {' '}
@@ -427,7 +436,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 <p className="mt-2 text-center text-xs text-emerald-500 light:text-emerald-700">
                   {PLAN_PRICING.yearlyNote}
                   <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))]">
-                    A year of unlimited marking for less than one hour of tutoring.
+                    A year of marking for less than one hour of tutoring.
                   </span>
                 </p>
               )}
@@ -442,7 +451,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <span className="t-label block text-[rgb(var(--color-text-muted))]">
                 {effectivePeriod === 'yearly' ? 'Yearly' : 'Monthly'}
               </span>
-              <span className="block text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
+              <span className="block text-2xl font-black tracking-tight text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
                 {plusPriceDisplay}
                 <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                   {effectivePeriod === 'yearly' ? ' /year' : ' /month'}
@@ -452,14 +461,16 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           )}
 
           <div className="flex flex-col sm:flex-row gap-3">
-            {/* Only offer the Plus checkout when Plus is what unlocks the
-                feature; school-only features are bought below (or enquired
-                about) instead. */}
-            {sellsPlus && (
+            {/* Only drawn when there is a price to sell. With none configured
+                this button used to read "Keep me posted" and did nothing but
+                show a toast, so a student could press it and believe they had
+                asked to be told when Plus launches. Nothing records that. The
+                line above already says plans are not on sale yet. */}
+            {sellsPlus && stripeReady && (
               <button
                 onClick={alreadySubscribed ? handleManageSubscription : handleUpgrade}
                 disabled={isRedirecting}
-                className="t-label flex-1 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                className="min-h-11 flex-1 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-sm font-bold text-slate-900 shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
                 {isRedirecting
@@ -468,14 +479,12 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                     ? 'Manage subscription'
                     : isGuest
                       ? 'Create an account'
-                      : stripeReady
-                        ? 'Upgrade now'
-                        : 'Keep me posted'}
+                      : 'Upgrade now'}
               </button>
             )}
             <button
               onClick={close}
-              className={`t-label ${sellsPlus ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all`}
+              className={`t-label min-h-11 ${sellsPlus && stripeReady ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all`}
             >
               Maybe later
             </button>
@@ -489,8 +498,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           ) : (
             stripeReady &&
             sellsPlus && (
-              <p className="mt-3 text-center text-xs text-[rgb(var(--color-text-muted))]">
-                Cancel anytime from your profile — no lock-in.
+              <p className="mt-3 text-center text-xs leading-relaxed text-[rgb(var(--color-text-muted))]">
+                {chargeLine}
               </p>
             )
           )}
