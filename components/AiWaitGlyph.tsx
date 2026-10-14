@@ -233,7 +233,17 @@ const WritingPage: React.FC<{ accent: string }> = ({ accent }) => {
           strokeWidth="1"
         />
       ))}
-      <line x1="3" x2="3" y1="4" y2="80" stroke="#f87171" strokeOpacity="0.55" strokeWidth="1" />
+      {/* The margin is the red of Band 1, read from the band palette rather than
+          written out, so a retune of the red reaches the booklet too. */}
+      <line
+        x1="3"
+        x2="3"
+        y1="4"
+        y2="80"
+        stroke={getBandHex(1)}
+        strokeOpacity="0.55"
+        strokeWidth="1"
+      />
       <g key={page} style={{ animation: 'glyph-settle 300ms ease-out' }}>
         {/* A forward slant, as a hand writes. An SVG attribute rather than CSS
             so it does not fight the settle animation for `transform`. */}

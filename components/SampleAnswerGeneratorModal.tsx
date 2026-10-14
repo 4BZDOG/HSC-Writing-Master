@@ -404,7 +404,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                         <div className="ml-auto flex items-center gap-2">
                           <button
                             onClick={() => keepDuplicate(answer.id)}
-                            className="t-label flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white transition-all"
+                            className="t-label flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 light:bg-emerald-50 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-700 hover:text-white transition-all"
                           >
                             <Check className="w-3 h-3" /> Keep it
                           </button>

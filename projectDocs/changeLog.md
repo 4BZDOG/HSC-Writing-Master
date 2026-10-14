@@ -1,5 +1,31 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-13 (Light-theme surfaces, round 1, and guards for what slipped)
+
+- **Fixed.** The light theme's white slabs were redrawn on the depth ladder, as Plan-FrontendDesignReview
+  "A third pass" (findings 77–86) records: the writing card's seams and marking veil (**#318**); the
+  profile and progress report (**#319**); the signed-out and reader shells, and the Delete button, which was
+  white on white because its class was never defined (**#320**); the staff tools (**#321**).
+- **Fixed.** The verb sheet and outcome brief were redrawn as band-washed reading sheets, with band text
+  held to AA in all six bands (**#322**). The feedback PDF prints the screen's band ink, meters and
+  words-kept figure, and band text on paper clears 4.5:1 (**#323**).
+- **Changed.** The marking report was rebuilt around the mark and the next step, and its band placard
+  carries ink, not white, where white fell under AA (**#324**).
+- **Not on `main` yet.** The improvement review and its revision default of 0 of 6 (**#325**) are on
+  `claude/ui-improvement-review`.
+- **Changed.** The shared admin chrome moved from `components/admin/` to `utils/adminChrome.ts`. The first CI
+  build failed with the staff bundle in the first load (1,922 kB against a 1,900 kB ceiling); this is the fix.
+- **Added.** `npm run check:build` runs `vite build`, `check:bundle` and `check:eager-chunks`, then removes
+  `dist/`. It is in `test:all`, which never ran the build checks before.
+- **Added.** Text over gradients is measured in `light-theme.spec.ts`, against every colour a gradient paints,
+  in both themes. The arithmetic is in `tests/e2e/support/gradientMath.ts`, with unit tests.
+- **Added.** `light-stark-surfaces.spec.ts` walks computed styles in eight light states and fails a white
+  painted slab on a white parent with no edge. Its one allow-list entry is the Plus paywall veil.
+- **Fixed.** The guards' first run found two defects still on `main`: the Compare Plans header row
+  had no rule (`PlanComparison.tsx`), and the feedback's syllabus terms and command verb were under
+  4.5:1 on the modal's wash. The terms are emerald-900 in light and the verb is sky-800 in light.
+  The gradient guard also skipped the card headers' ground for a while, so it now reads it.
+
 ## [Unreleased] - 2026-10-09 (Verb ribbon animations: smoother on a phone)
 
 - **Fixed.** The ribbon's animations were reported glitchy on an iPhone 15 in Safari. No iPhone was

@@ -146,7 +146,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
       <div className="hidden sm:block overflow-x-auto custom-scrollbar rounded-2xl border border-white/5 light:border-slate-300">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white/[0.03] light:bg-surface-elevated">
+            <tr className="bg-white/[0.03] light:bg-surface-elevated border-b border-white/5 light:border-slate-300">
               <th className="t-label px-4 py-3 text-[rgb(var(--color-text-muted))]">
                 What you get
               </th>

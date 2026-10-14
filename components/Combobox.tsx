@@ -52,6 +52,15 @@ interface ComboboxOption {
    * the step below it.
    */
   renderSelected?: React.ReactNode;
+  /**
+   * The chosen node wraps onto more than one line, so the closed control must
+   * not hold it to one. By default the control truncates whatever it shows to
+   * a single `nowrap` line, which is right for a name and clips a question that
+   * has been laid out in two lines. A node that sets this owns its own overflow
+   * (a `line-clamp`, or a wrap), and says so here rather than relying on its
+   * text to opt out of the control's `nowrap` one element at a time.
+   */
+  multiline?: boolean;
   marks?: number;
   verb?: PromptVerb;
   isNew?: boolean;
@@ -547,25 +556,33 @@ const Combobox: React.FC<ComboboxProps> = ({
         disabled={disabled}
         className={`${baseInputStyles} ${stateStyles}`}
         // The chosen value truncates inside — a dot point runs to 376px in a
-        // 188px control on a phone — so the whole of it lives here. `label`
-        // rather than `renderLabel`: the latter is a node, and this is the
-        // plain string it was built from.
+        // 188px control on a phone — so the whole of it lives here, unless the
+        // option says `multiline`. `label` rather than `renderLabel` in the
+        // title: the latter is a node, and this is the plain string it was built from.
         title={selectedOption ? selectedOption.label : placeholder}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
         aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
       >
-        <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
+        <span
+          className={`flex items-center w-full ${selectedOption?.multiline ? 'min-w-0' : 'truncate'} ${selectedOption ? 'font-bold' : ''}`}
+        >
           {selectedOption?.isNew && <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />}
-          <span className="truncate w-full block">
+          <span
+            className={
+              selectedOption?.multiline
+                ? 'min-w-0 w-full block whitespace-normal'
+                : 'truncate w-full block'
+            }
+          >
             {selectedOption
               ? selectedOption.renderSelected || selectedOption.renderLabel || selectedOption.label
               : placeholder}
           </span>
         </span>
         {caption && selectedOption && !isOpen && (
-          <span className="t-label hidden sm:inline shrink-0 ml-3 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+          <span className="t-label hidden sm:inline shrink-0 ml-3 text-[rgb(var(--color-text-muted))]">
             {caption}
           </span>
         )}

@@ -154,7 +154,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
                   aria-pressed={filter.unattemptedOnly}
                   className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all ${
                     filter.unattemptedOnly
-                      ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm'
+                      ? 'bg-emerald-700 text-white border-emerald-400 shadow-sm'
                       : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-emerald-400 light:text-emerald-700 border-white/10 light:border-slate-300 hover:border-emerald-500/40'
                   }`}
                 >

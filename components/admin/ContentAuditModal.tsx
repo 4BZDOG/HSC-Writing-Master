@@ -2288,7 +2288,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   onClick={handleBulkAction.bind(null, 'fixAllGaps')}
                   disabled={isProcessing || selectionTargets.allGaps === 0}
                   title="One run that fills every gap in the selection: missing questions, marking guides, outcomes and samples"
-                  className="t-label px-4 h-10 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none disabled:hover:scale-100 flex items-center gap-2"
+                  className="t-label px-4 h-10 rounded-xl bg-gradient-to-r from-emerald-700 to-teal-700 text-white shadow-lg hover:shadow-emerald-500/30 hover:scale-[1.03] active:scale-[0.98] transition-all disabled:opacity-25 disabled:grayscale disabled:shadow-none disabled:hover:scale-100 flex items-center gap-2"
                 >
                   <Wrench className="w-4 h-4" />
                   Fix All Gaps ({selectionTargets.allGaps})

@@ -181,6 +181,7 @@ Apply these Tailwind patterns consistently.
 - Husky runs `lint-staged` on every commit — ESLint + Prettier fix `.ts/.tsx` files automatically.
 - If lint fails during commit, fix the errors and commit again. Do not use `--no-verify`.
 - CI runs on all `claude/*` branches via `.github/workflows/build.yml`.
+- **The build job has two checks that are not unit tests: run `npm run check:build` before a PR that touches imports.** It runs `vite build`, then `check:bundle` and `check:eager-chunks`, then removes `dist/`. `test:all` runs it too. Before this existed, `test:all` was green while CI failed. The round-1 case: a shared module was placed under `components/admin/` and an eager component imported it. Rollup folded the module into the `admin` chunk, so the entry imported the whole staff-tooling bundle, and the first load of every student grew by about 200 kB. The rule that follows: staff-only code lives under `components/admin/`, shared chrome goes in `utils/`, and eager code never imports from `components/admin/` or `pdf/`.
 
 ---
 

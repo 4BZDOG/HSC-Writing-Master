@@ -152,7 +152,14 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
     // which had been hiding the race by accident.
     const option = page.getByRole('option').first();
     for (let attempt = 0; attempt < 3; attempt++) {
-      await trigger.first().click();
+      // Bounded, because an unbounded click waits for the picker to be "stable"
+      // for as long as the test has left. Under load it can stay in motion for
+      // minutes, and the test hung that way twice with no assertion to say why.
+      // A click that times out is retried below like an empty list.
+      await trigger
+        .first()
+        .click({ timeout: 10_000 })
+        .catch(() => {});
       try {
         await option.waitFor({ state: 'visible', timeout: 5_000 });
         break;
@@ -163,7 +170,7 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
       }
     }
     await option.waitFor({ state: 'visible', timeout: 10_000 });
-    await option.click();
+    await option.click({ timeout: 10_000 });
   }
   await expect(page.getByRole('heading', { name: /Writing Prompt/i })).toBeVisible({
     timeout: 20_000,
@@ -396,10 +403,24 @@ export const openQuestionWithOutcomes = async (page: Page): Promise<void> => {
   const marker = page.getByRole('button', { name: /Read before you write/i });
   const reopen = page.getByTitle(/Open the syllabus navigator/i);
 
+  // The label is drawn only once the course's outcome list has loaded, and that
+  // lags the first question by a second or two. Checking once, with no wait, and
+  // then walking the whole syllabus is how a question that already links
+  // outcomes was missed on a first run, so the label gets its moment first.
+  const shown = (ms: number) =>
+    marker
+      .first()
+      .waitFor({ state: 'visible', timeout: ms })
+      .then(
+        () => true,
+        () => false
+      );
+  if (await shown(15_000)) return;
+
   for (let dotPoint = 1; dotPoint < 10; dotPoint += 1) {
     if (await marker.count()) return;
 
-    await reopen.click();
+    await reopen.click({ timeout: 10_000 });
     await page.waitForTimeout(600);
 
     // The dot-point picker is the second-last combobox; the question is last.
@@ -420,7 +441,7 @@ export const openQuestionWithOutcomes = async (page: Page): Promise<void> => {
     const questions = page.getByRole('option');
     await questions.first().waitFor({ state: 'visible', timeout: 8_000 });
     await questions.first().click();
-    await page.waitForTimeout(900);
+    if (await shown(3_000)) return;
   }
 
   await expect(
