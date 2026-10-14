@@ -359,11 +359,11 @@ const ActionButton = ({
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
     className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-[0.98] border flex items-center gap-1.5 ${
       locked
-        ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-600'
+        ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-800'
         : variant === 'danger'
           ? 'bg-red-500/10 border-red-500/20 text-red-400 light:text-red-600'
           : variant === 'special'
-            ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-600'
+            ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-800'
             : variant === 'primary'
               ? 'bg-gradient-to-r from-indigo-600 to-sky-700 border-transparent text-white shadow-sm'
               : variant === 'vault'
@@ -479,7 +479,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
             {canCreateTree && c.status === 'draft' && (
-              <span className="t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30 flex-shrink-0">
+              <span className="t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0">
                 Draft
               </span>
             )}
@@ -570,7 +570,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {/* How much is inside, so the list says where the depth is before
                 anyone opens a topic to find out. */}
             {t.subTopics?.length > 0 && (
-              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))]">
                 {t.subTopics.length} sub-topic{t.subTopics.length === 1 ? '' : 's'}
               </span>
             )}
@@ -600,7 +600,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <FolderOpen className="w-4 h-4" />
               </div>
               <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
-              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))]">
                 {questionCount > 0
                   ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
                   : 'No questions yet'}
@@ -655,7 +655,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 {/* What is here to practise, in the muted voice every other
                     count in the picker uses. The focus-area count was emerald,
                     which is the rail's "done" colour and nothing else. */}
-                <span className="t-label block mt-0.5 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                <span className="t-label block mt-0.5 text-[rgb(var(--color-text-muted))]">
                   {questionCount > 0
                     ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
                     : 'No questions yet'}
@@ -680,7 +680,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               <div
-                className={`p-1.5 rounded-lg border transition-all ${isSelected ? 'bg-emerald-500 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'}`}
+                className={`p-1.5 rounded-lg border transition-all ${isSelected ? 'bg-emerald-700 text-white border-emerald-400/30' : 'bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border-emerald-500/20'}`}
               >
                 <Target className="w-4 h-4" />
               </div>
@@ -822,6 +822,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             marks: p.totalMarks,
             verb: verbInfo.term,
             tier: safeTier,
+            // The row is two lines in the closed control too (the title clamps
+            // at two), so the control must not hold it to one.
+            multiline: true,
             // Read by the refinement strip below, which filters on the same
             // three facets the row displays.
             isPastHsc: !!pastHsc,
@@ -842,24 +845,36 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               .join(' '),
             renderLabel: (
               <div
-                className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierLocked ? 'opacity-60' : ''} ${tierConfig.bg}`}
+                className={`flex items-start gap-3 w-full overflow-hidden p-2 rounded-lg transition-colors ${tierConfig.bg}`}
               >
+                {/* A locked question says so by its lock and its `Plus` chip, and
+                    by a quieter title. It used to dim the whole row with
+                    `opacity-60`, which took the title and the verb chip under AA:
+                    opacity fades the ink towards the ground, so the same colour
+                    reads paler on every tint, and nothing in the row said why. */}
                 <div
                   className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 border ${tierConfig.solidBg} ${tierConfig.border} shadow-sm`}
                 >
                   {tierLocked ? (
-                    <Lock className="w-5 h-5 text-white/70" />
+                    <Lock className={`w-5 h-5 ${tierConfig.solidText}`} />
                   ) : (
-                    <FileQuestion className="w-5 h-5 text-white" />
+                    <FileQuestion className={`w-5 h-5 ${tierConfig.solidText}`} />
                   )}
                 </div>
                 <div className="flex flex-col min-w-0 flex-1">
                   {/* No `block` here: `line-clamp-2` sets its own `display: -webkit-box`,
                   and a `block` on the same element voids the clamp. And
-                  `whitespace-normal`, because the closed trigger wraps the row in
-                  `truncate` (`nowrap`), which the title inherited: the question was
-                  cut at one line, mid-word, whatever the clamp said. */}
-                  <span className="leading-snug font-semibold line-clamp-2 whitespace-normal break-words text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  `whitespace-normal`, because the title inherits `nowrap` from
+                  whatever wraps it: the closed control's `truncate` (lifted for this
+                  row by `multiline`), or the list's option. Without it the question
+                  was cut at one line, mid-word, whatever the clamp said. */}
+                  <span
+                    className={`leading-snug font-semibold line-clamp-2 whitespace-normal break-words ${
+                      tierLocked
+                        ? 'text-[rgb(var(--color-text-secondary))] light:text-slate-700'
+                        : 'text-[rgb(var(--color-text-primary))] light:text-slate-900'
+                    }`}
+                  >
                     {p.question}
                   </span>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5">
@@ -1054,7 +1069,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     if (isActive) {
       return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-lg ${theme.activeShadow} py-6 px-6 z-20`;
     }
-    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100`;
+    // It steps back by tone and colour, not by `opacity`: the text inside is
+    // read at its own ink, and an opacity on the card would take it under AA.
+    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 text-[rgb(var(--color-text-secondary))] light:text-slate-600 grayscale hover:grayscale-0`;
   };
 
   return (
@@ -1337,7 +1354,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   {/* Which year this lands in. The topic list above is already
                       filtered to it, so a topic created here appears to vanish
                       if the author thought they were in the other one. */}
-                  <p className="text-xs font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <p className="text-xs font-semibold text-[rgb(var(--color-text-muted))]">
                     New topic in {yearShortLabel(syllabusYear)}
                     {selectedCourse ? ` of ${selectedCourse.name}` : ''}
                   </p>
@@ -1580,7 +1597,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           className={`p-2 rounded-lg border transition-all shadow-sm ${
                             focusAreasOverridden
                               ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border-emerald-500/40'
-                              : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-500 hover:text-white'
+                              : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-700 hover:text-white'
                           }`}
                           title={
                             focusAreasOverridden
@@ -1812,8 +1829,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           }
                           className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 active:scale-[0.98] transition-all ${
                             studioLocked
-                              ? 'bg-amber-400/15 text-amber-500 light:text-amber-600 border border-amber-400/40'
-                              : 'bg-gradient-to-r from-indigo-600 to-indigo-500 text-white'
+                              ? 'bg-amber-400/15 text-amber-500 light:text-amber-800 border border-amber-400/40'
+                              : 'bg-gradient-to-r from-indigo-700 to-indigo-600 text-white'
                           }`}
                         >
                           <Sparkles className="w-4 h-4" /> Generate

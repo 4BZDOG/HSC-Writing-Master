@@ -254,3 +254,93 @@ describe('no white ink is left on an amber or accent fill', () => {
     expect(offenders, 'add dark:text-slate-950 beside text-white on each accent fill').toEqual([]);
   });
 });
+
+/**
+ * Emerald, teal and green are fills too, and white on their `-500` and `-600`
+ * steps was the same failure as amber: 2.5:1 on emerald-500 and 3.8:1 on
+ * emerald-600 for the Flag button and the focus-area and syllabus import
+ * actions. The `-700` steps clear white with room (5.0 to 5.5:1), and a hover
+ * darkens to `-800` so the white stays readable where the pointer is.
+ *
+ * Hover and gradient stops are fills as well, so every variant of the fill is
+ * read. A wash (`/10`) is not: its ink is judged against its own surface.
+ */
+
+/**
+ * Files that still paint white on an emerald, teal or green fill, each with the
+ * reason it is not changed here. The check below also fails when one of them
+ * stops having such a fill, so an entry cannot outlive the defect it names.
+ */
+const GREEN_FAMILY_EXEMPT = new Map<string, string>([
+  [
+    'components/ManualPromptModal.tsx',
+    'the authoring modal, owned by the parallel modal PR. Its Generate and ' +
+      'Save chips still paint white on emerald-500 and emerald-600.',
+  ],
+  [
+    'components/PromptGeneratorModal.tsx',
+    'the authoring modal, owned by the parallel modal PR. Its emerald chip ' +
+      'still paints white on emerald-500.',
+  ],
+]);
+
+const GREEN_FAMILY_FILL =
+  /(?<![\w/.-])((?:[\w-]+:)*)(?:bg|from|via|to)-(emerald|teal|green)-(\d{3})(?![\w/.-])/g;
+const ANY_WHITE_INK = /(?<![\w/.-])(?:[\w-]+:)*text-white(?=[\s'"`}]|$)/;
+
+const greenFamilyOffenders = () => {
+  const found: { file: string; fill: string; ratio: number; text: string }[] = [];
+  let checked = 0;
+  for (const file of ROOTS.flatMap(walk)) {
+    for (const lit of literals(stripComments(readFileSync(file, 'utf8')))) {
+      if (!ANY_WHITE_INK.test(lit)) continue;
+      for (const m of lit.matchAll(GREEN_FAMILY_FILL)) {
+        const [, variant, family, step] = m;
+        const fill = (colors as unknown as Record<string, Record<string, string>>)[family]?.[step];
+        if (!fill) continue;
+        checked++;
+        const ratio = contrast(WHITE, hex(fill));
+        if (ratio >= 4.5) continue;
+        found.push({
+          file,
+          fill: `${variant}${family}-${step}`,
+          ratio,
+          text: lit.replace(/\s+/g, ' ').trim().slice(0, 110),
+        });
+      }
+    }
+  }
+  return { found, checked };
+};
+
+describe('no white ink sits on an emerald, teal or green fill below AA', () => {
+  it('measures the fills it replaces, so a broken scan cannot pass silently', () => {
+    expect(contrast(WHITE, hex(colors.emerald[600]))).toBeLessThan(4);
+    expect(contrast(WHITE, hex(colors.emerald[500]))).toBeLessThan(3);
+    expect(contrast(WHITE, hex(colors.teal[500]))).toBeLessThan(3);
+    expect(contrast(WHITE, hex(colors.emerald[700]))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(WHITE, hex(colors.green[700]))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(WHITE, hex(colors.teal[700]))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('finds the white-on-fill pairs it is meant to check', () => {
+    // The Flag button alone is one; a scan that matched nothing would pass.
+    expect(greenFamilyOffenders().checked).toBeGreaterThan(5);
+  });
+
+  it('never sets white on an emerald, teal or green fill that fails AA', () => {
+    const { found } = greenFamilyOffenders();
+    const offenders = found
+      .filter((o) => !GREEN_FAMILY_EXEMPT.has(o.file))
+      .map((o) => `${o.file}: ${o.fill} is ${o.ratio.toFixed(2)}:1 with white — ${o.text}`);
+    expect(offenders, 'use the -700 step, and -800 on hover').toEqual([]);
+  });
+
+  it('keeps its exemptions honest: each still has a failing fill to excuse', () => {
+    const { found } = greenFamilyOffenders();
+    const stale = [...GREEN_FAMILY_EXEMPT.keys()].filter(
+      (file) => !found.some((o) => o.file === file)
+    );
+    expect(stale, 'remove these from GREEN_FAMILY_EXEMPT — they are clean now').toEqual([]);
+  });
+});

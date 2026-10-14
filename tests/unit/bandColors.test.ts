@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
   BAND_HEX,
   BAND_HEX_INK,
@@ -264,7 +266,7 @@ describe('every band’s solid fill carries its text at AA', () => {
 
   /** `bg-orange-700` / `text-white` → the hex Tailwind will actually emit. */
   const hexOf = (token: string): string => {
-    const name = token.replace(/^(bg|text)-/, '');
+    const name = token.replace(/^(bg|text|from|via|to)-/, '');
     if (name === 'white') return '#ffffff';
     if (name === 'black') return '#000000';
     const [family, step] = [name.replace(/-\d+$/, ''), name.match(/(\d+)$/)?.[1]];
@@ -288,6 +290,56 @@ describe('every band’s solid fill carries its text at AA', () => {
     return chosen;
   };
 
+  /**
+   * Every colour stop of a gradient, in the theme's order: `from-*`, `via-*`,
+   * `to-*`, each taking its `light:` override where the theme has one. A stop is
+   * a fill too, and a chip whose gradient ends under its ink fails at that end.
+   */
+  const stopsFor = (classes: string, theme: 'dark' | 'light'): string[] => {
+    const tokens = classes.split(/\s+/).filter(Boolean);
+    return ['from', 'via', 'to']
+      .map((prefix) => {
+        const base = tokens.find((t) => t.startsWith(`${prefix}-`));
+        const light = tokens.find((t) => t.startsWith(`light:${prefix}-`))?.replace('light:', '');
+        return theme === 'light' ? (light ?? base) : base;
+      })
+      .filter((t): t is string => !!t);
+  };
+
+  /** The `r g b` of a `--color-*` token in index.css's first (dark) `:root` block. */
+  const cssRgb = (name: string): [number, number, number] => {
+    const css = readFileSync(resolve(__dirname, '../../index.css'), 'utf8');
+    const decl = new RegExp(`--${name}:\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)`).exec(css);
+    if (!decl) throw new Error(`index.css defines no --${name}`);
+    return [Number(decl[1]), Number(decl[2]), Number(decl[3])];
+  };
+
+  /**
+   * A tint's colour as it lands on the ground under it: `bg-red-500/10` is 10%
+   * of the hue over the panel, which is the lightest panel in each theme (the
+   * paper in light, the raised surface in dark). Opaque tints just return.
+   */
+  const tintOver = (
+    classes: string,
+    prefix: 'bg',
+    theme: 'dark' | 'light'
+  ): { hex: string; alpha: number } => {
+    const token = forTheme(classes, prefix, theme);
+    const alpha = Number(token.split('/')[1] ?? 100) / 100;
+    return { hex: hexOf(token.replace(/\/\d+$/, '')), alpha };
+  };
+  const composite = (hexValue: string, alpha: number, under: [number, number, number]) => {
+    const n = parseInt(hexValue.slice(1), 16);
+    const top = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    return top.map((c, i) => Math.round(c * alpha + under[i] * (1 - alpha))) as [
+      number,
+      number,
+      number,
+    ];
+  };
+  const toHex = (rgb: [number, number, number]) =>
+    `#${rgb.map((c) => c.toString(16).padStart(2, '0')).join('')}`;
+
   const BANDS = [1, 2, 3, 4, 5, 6];
   const AA_NORMAL_TEXT = 4.5;
 
@@ -306,6 +358,69 @@ describe('every band’s solid fill carries its text at AA', () => {
       ).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
     }
   );
+
+  // The gradient is the same fill in a different shape. The chips and headings
+  // that set `solidText` over `gradient` were the failing ones: white on the
+  // `-500` and `-400` stops measured 2.3–3.9:1 in the dark theme, and the
+  // `solidBg` test above never saw them.
+  it.each(BANDS.flatMap((band) => (['dark', 'light'] as const).map((t) => [band, t] as const)))(
+    'band %i on the %s theme: every gradient stop clears the same ink',
+    (band, theme) => {
+      const config = getBandConfig(band);
+      const ink = forTheme(config.solidText, 'text', theme);
+      const stops = stopsFor(config.gradient, theme);
+      expect(stops.length, `band ${band} gradient has no stops`).toBeGreaterThanOrEqual(2);
+
+      for (const stop of stops) {
+        const ratio = contrast(hexOf(ink), hexOf(stop));
+        expect(
+          ratio,
+          `band ${band} ${theme}: ${ink} on ${stop} is ${ratio.toFixed(2)}:1, below AA’s ${AA_NORMAL_TEXT}:1`
+        ).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
+      }
+    }
+  );
+
+  // The "Band N" label on a tint is the same pairing without a solid: a `.t-label`
+  // chip whose ink is `text` over `bg`. The navigator nests the wash two deep (the
+  // closed control and the row inside it both take the tier's `bg`), and at that
+  // depth the dark `-400` text read 4.0:1 on red in the browser.
+  it.each(BANDS.flatMap((band) => (['dark', 'light'] as const).map((t) => [band, t] as const)))(
+    'band %i on the %s theme: its label clears AA on its own tint, nested two deep',
+    (band, theme) => {
+      const config = getBandConfig(band);
+      const tint = tintOver(config.bg, 'bg', theme);
+      let under: [number, number, number] =
+        theme === 'dark' ? cssRgb('color-bg-surface-elevated') : [255, 255, 255];
+      for (let layer = 0; layer < 2; layer++) under = composite(tint.hex, tint.alpha, under);
+      const ink = forTheme(config.text, 'text', theme);
+      const ratio = contrast(hexOf(ink), toHex(under));
+
+      expect(
+        ratio,
+        `band ${band} ${theme}: ${ink} on two layers of ${forTheme(config.bg, 'bg', theme)} ` +
+          `(${toHex(under)}) is ${ratio.toFixed(2)}:1, below AA’s ${AA_NORMAL_TEXT}:1`
+      ).toBeGreaterThanOrEqual(AA_NORMAL_TEXT);
+    }
+  );
+
+  it('pins the band-solid ink, slate-950, to AA on every band hue in both themes', () => {
+    // `band-solid` (index.css) paints the -500 hue with near-black ink and has no
+    // theme of its own. Read the ink from the stylesheet, so a retune of either
+    // side fails here rather than in a screenshot.
+    const css = readFileSync(resolve(__dirname, '../../index.css'), 'utf8');
+    const block = /\.band-solid\s*\{([^}]*)\}/.exec(css);
+    const ink = /(?<![-\w])color:\s*rgb\((\d+)\s+(\d+)\s+(\d+)\)/.exec(block?.[1] ?? '');
+    if (!ink) throw new Error('index.css: .band-solid sets no ink');
+    const inkHex = `#${[ink[1], ink[2], ink[3]].map((c) => Number(c).toString(16).padStart(2, '0')).join('')}`;
+
+    for (const band of BANDS) {
+      const ratio = contrast(inkHex, BAND_HEX[band]);
+      expect(ratio, `band-solid on band ${band} is ${ratio.toFixed(2)}:1`).toBeGreaterThanOrEqual(
+        AA_NORMAL_TEXT
+      );
+    }
+  });
 
   it('reproduces the band 3 readings that were measured in a browser', () => {
     // The comments above this file's band-3 block record 7.60:1 and 6.79:1,

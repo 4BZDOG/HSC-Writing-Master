@@ -510,6 +510,19 @@ export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)]
  * keeps the two-level relationship the dark `/10` → `/20` pair has. The `text`
  * entries are `-900`, so contrast on either is far past AA.
  *
+ * The dark `text` is `-300`, not `-400`. In the navigator a band label sits on
+ * two nested `/10` washes (the closed control and the row inside it), and at that
+ * depth `-400` read 4.0:1 on red, 4.3 on orange and 4.5 on purple over the dark
+ * panels, under AA for the `.t-label` chips that carry it. `-300` clears 6:1 on
+ * every band at that depth.
+ *
+ * `gradient` is the fill a chip or heading wears when it is painted in one, and
+ * `solidText` sets its ink. Those two have to agree: `solidText` clears AA on
+ * `solidBg`, and a gradient that starts at `-500` under the same white reads
+ * 2.3–4.0:1, so the white-ink bands run their gradients on the solid's own step
+ * and one shade darker. Band 3 keeps its light gradient, because its ink is dark.
+ * `bandColors.test.ts` measures every stop in both themes.
+ *
  * `print:` stays at `-50`/`-100`: paper is white too, but a printed tint is
  * ink, and the printed report leans on the border and the band NUMBER rather
  * than on fill.
@@ -520,9 +533,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-purple-500/10 light:bg-purple-100 print:bg-purple-50',
       solidBg: 'bg-purple-600 light:bg-purple-700',
       border: 'border-purple-500/50 light:border-purple-600 print:border-purple-200',
-      text: 'text-purple-400 light:text-purple-900 print:text-purple-800',
+      text: 'text-purple-300 light:text-purple-900 print:text-purple-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-purple-500 to-purple-400 light:from-purple-700 light:to-purple-600',
+      gradient: 'from-purple-700 to-purple-600',
       glow: 'shadow-purple-500/25 light:shadow-purple-500/20',
       iconBg: 'bg-purple-500/20 light:bg-purple-200 print:bg-purple-100',
       ring: 'ring-purple-500/30 light:ring-purple-600/30',
@@ -531,9 +544,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-blue-500/10 light:bg-blue-100 print:bg-blue-50',
       solidBg: 'bg-blue-600 light:bg-blue-700',
       border: 'border-blue-500/50 light:border-blue-600 print:border-blue-200',
-      text: 'text-blue-400 light:text-blue-900 print:text-blue-800',
+      text: 'text-blue-300 light:text-blue-900 print:text-blue-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-blue-500 to-blue-400 light:from-blue-700 light:to-blue-600',
+      gradient: 'from-blue-700 to-blue-600',
       glow: 'shadow-blue-500/25 light:shadow-blue-500/20',
       iconBg: 'bg-blue-500/20 light:bg-blue-200 print:bg-blue-100',
       ring: 'ring-blue-500/30 light:ring-blue-600/30',
@@ -546,9 +559,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       // 5.02:1 and matches what the light theme already used.
       solidBg: 'bg-green-700 light:bg-green-700',
       border: 'border-green-500/50 light:border-green-600 print:border-green-200',
-      text: 'text-green-400 light:text-green-900 print:text-green-800',
+      text: 'text-green-300 light:text-green-900 print:text-green-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-green-500 to-green-400 light:from-green-700 light:to-green-600',
+      gradient: 'from-green-800 to-green-700',
       glow: 'shadow-green-500/25 light:shadow-green-500/20',
       iconBg: 'bg-green-500/20 light:bg-green-200 print:bg-green-100',
       ring: 'ring-green-500/30 light:ring-green-600/30',
@@ -557,7 +570,7 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-yellow-500/10 light:bg-amber-100 print:bg-yellow-50',
       solidBg: 'bg-yellow-500 light:bg-amber-500',
       border: 'border-yellow-500/50 light:border-amber-600 print:border-yellow-200',
-      text: 'text-yellow-400 light:text-amber-900 print:text-yellow-800',
+      text: 'text-yellow-300 light:text-amber-900 print:text-yellow-800',
       // Band 3 is the one band whose solid fill is too light for white text, so
       // it inverts: dark text on a light fill. `-900` was half a step short of
       // that being true. Measured in the browser on the three chips that wear
@@ -585,9 +598,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       // band's pairing computed, in bandColors.test.ts.
       solidBg: 'bg-orange-700 light:bg-orange-700',
       border: 'border-orange-500/50 light:border-orange-600 print:border-orange-200',
-      text: 'text-orange-400 light:text-orange-900 print:text-orange-800',
+      text: 'text-orange-300 light:text-orange-900 print:text-orange-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-orange-500 to-orange-400 light:from-orange-600 light:to-orange-500',
+      gradient: 'from-orange-800 to-orange-700',
       glow: 'shadow-orange-500/25 light:shadow-orange-500/20',
       iconBg: 'bg-orange-500/20 light:bg-orange-200 print:bg-orange-100',
       ring: 'ring-orange-500/30 light:ring-orange-600/30',
@@ -596,9 +609,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-red-500/10 light:bg-red-100 print:bg-red-50',
       solidBg: 'bg-red-600 light:bg-red-600',
       border: 'border-red-500/50 light:border-red-600 print:border-red-200',
-      text: 'text-red-400 light:text-red-900 print:text-red-800',
+      text: 'text-red-300 light:text-red-900 print:text-red-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-red-500 to-red-400 light:from-red-600 light:to-red-500',
+      gradient: 'from-red-700 to-red-600',
       glow: 'shadow-red-500/25 light:shadow-red-500/20',
       iconBg: 'bg-red-500/20 light:bg-red-200 print:bg-red-100',
       ring: 'ring-red-500/30 light:ring-red-600/30',
