@@ -1,5 +1,9 @@
 import { test, expect, Page } from '@playwright/test';
 import { openWorkspace } from './support/workspace';
+import { authFile } from './support/savedSession';
+
+// Every test here starts from the free account's saved session (auth.setup.ts).
+test.use({ storageState: authFile('user') });
 
 /**
  * The two workspace cards read as a pair, and stay that way.
@@ -55,7 +59,7 @@ test.describe('workspace card chrome', () => {
 
   test('the two headers stay a matched pair at every width', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 1000 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
 
     // 1600: comfortable. 1440: the width a 15" laptop actually runs at. 1280:
     // the two-column breakpoint itself, where the question card is narrowest
@@ -123,7 +127,7 @@ test.describe('workspace card chrome', () => {
    */
   test('zooming in keeps the headings level, then drops to one column', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 1000 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
 
     // 110% and 125% of a 1600px window, still above the 1280 breakpoint.
     for (const width of [1454, 1280]) {
@@ -153,7 +157,7 @@ test.describe('workspace card chrome', () => {
    */
   test('a one-line question does not open a screenful of empty card', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 1000 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
     await page.waitForTimeout(900);
 
     const card = await page.evaluate(() => {
@@ -185,7 +189,7 @@ test.describe('workspace card chrome', () => {
     browserName,
   }) => {
     await page.setViewportSize({ width: 1600, height: 1000 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
 
     const surface = page.locator('textarea').first();
     await surface.click();
@@ -248,7 +252,7 @@ test.describe('the live writing stats disclosure', () => {
 
   test('a press on the clock opens it, and Pause does not', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
 
     const disclosure = page.getByRole('button', { name: /writing metrics/i });
     const timer = page.getByRole('timer').first();

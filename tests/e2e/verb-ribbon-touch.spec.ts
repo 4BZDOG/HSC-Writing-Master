@@ -1,5 +1,9 @@
 import { test, expect, type Page } from '@playwright/test';
 import { openWorkspace, openVerbRibbon } from './support/workspace';
+import { authFile } from './support/savedSession';
+
+// Every test here starts from the free account's saved session (auth.setup.ts).
+test.use({ storageState: authFile('user') });
 
 /**
  * The verb ribbon under a thumb.
@@ -37,7 +41,7 @@ test.describe('the verb ribbon on a phone', () => {
   test('a tap moves the selection, the strip follows it, and nothing is left stuck on', async ({
     page,
   }) => {
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
     await openVerbRibbon(page);
 
     // One halo, up, from the moment the ribbon is open.
@@ -91,7 +95,7 @@ test.describe('the verb ribbon on a phone', () => {
   });
 
   test('folds and unfolds, and the shut panel is out of reach', async ({ page }) => {
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
     await openVerbRibbon(page);
 
     const toggle = page.getByRole('button', { name: /command verb hierarchy reference/i }).first();
@@ -125,7 +129,7 @@ test.describe('the verb ribbon on a phone', () => {
   test('wears none of what WebKit is slow at, and answers a tap without a zoom', async ({
     page,
   }) => {
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
     await openVerbRibbon(page);
 
     const found = await page.evaluate(() => {

@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { openWorkspace } from './support/workspace';
+import { authFile } from './support/savedSession';
 
 /**
  * The page holds still behind a modal.
@@ -22,11 +23,11 @@ test.describe('modal scrolling', () => {
   // Mobile Safari runs.
   test.skip(({ isMobile }) => !!isMobile, 'covered by the desktop projects');
 
+  test.use({ storageState: authFile('user') });
+
   test('the wheel never moves the page behind an open dialog', async ({ page, browserName }) => {
     await page.setViewportSize({ width: 1400, height: 900 });
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
 
     // Scrolled programmatically, not with the wheel: WebKit's driver does not
     // deliver synthetic wheel events to the page, and this step is only setup.

@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { openWorkspace, openVerbRibbon } from './support/workspace';
+import { authFile } from './support/savedSession';
+
+// Every test here starts from the free account's saved session (auth.setup.ts).
+test.use({ storageState: authFile('user') });
 
 /**
  * The six tier cards in the command verb ribbon, and the one thing that keeps
@@ -45,7 +49,7 @@ test.describe('the verb ribbon’s tier cards', () => {
     // 260px, so the failure this guards against is about the CARD, not the
     // viewport, and a wide window proves that.
     await page.setViewportSize({ width: 1920, height: 1150 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
     await openVerbRibbon(page);
 
     const headers = await tierHeaders(page);
@@ -81,7 +85,7 @@ test.describe('the verb ribbon’s tier cards', () => {
   test('is light in the light theme, banner and stage both, and dark in the dark', async ({
     page,
   }) => {
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
     await openVerbRibbon(page);
 
     // The banner and stage fade between themes (`transition-colors`). This test

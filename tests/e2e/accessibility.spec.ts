@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { signIn, clearOnboarding, openFirstQuestion, openVerbRibbon } from './support/workspace';
+import { openWorkspace, openVerbRibbon } from './support/workspace';
+import { authFile } from './support/savedSession';
 import { freezeAnimations, measureContrast, describeReadings } from './support/contrast';
 
 /**
@@ -86,14 +87,14 @@ test.describe('reflow — the primary action is reachable at phone widths', () =
   test.skip(({ browserName }) => browserName !== 'chromium', 'layout, not engine, is the subject');
   test.skip(({ isMobile }) => !!isMobile, 'the viewport is set explicitly below');
 
+  test.use({ storageState: authFile('user') });
+
   // 320 is the width WCAG 1.4.10 names, and what a 640px window gives at 200%
   // zoom; 390 is an iPhone 12. 375 is the SE, the narrowest mainstream phone.
   for (const width of [320, 375, 390]) {
     test(`Evaluate is fully within the viewport at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 844 });
-      await signIn(page);
-      await clearOnboarding(page);
-      await openFirstQuestion(page);
+      await openWorkspace(page, { account: 'user' });
 
       // Write something, so the button is in its live state rather than disabled.
       const editor = page.locator('[contenteditable="true"], textarea').first();
@@ -142,9 +143,7 @@ test.describe('reflow — the primary action is reachable at phone widths', () =
   for (const width of [320, 375, 390]) {
     test(`every control is reachable at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 844 });
-      await signIn(page);
-      await clearOnboarding(page);
-      await openFirstQuestion(page);
+      await openWorkspace(page, { account: 'user' });
 
       const editor = page.locator('[contenteditable="true"], textarea').first();
       if (await editor.count()) {
@@ -234,11 +233,11 @@ test.describe('brand-coloured text meets its contrast floor', () => {
   test.skip(({ browserName }) => browserName !== 'chromium', 'colour, not engine, is the subject');
   test.skip(({ isMobile }) => !!isMobile, 'measured once, at desktop width');
 
+  test.use({ storageState: authFile('user') });
+
   test('in both themes', async ({ page }) => {
     await page.setViewportSize({ width: 1400, height: 900 });
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
     // Shut, the verb ribbon is invisible to a checker that walks text nodes,
     // and it is most of the brand-coloured chrome there is: 3 readings without
     // it against 11 with — which the count assertion below turned into a
@@ -291,6 +290,17 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
     const { violations } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
     expect(violations, `sign-in page:${describeViolations(violations)}`).toEqual([]);
   });
+});
+
+test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
+  test.describe.configure({ timeout: 120_000 });
+
+  test.skip(({ browserName }) => browserName !== 'chromium', 'axe rules do not vary by engine');
+  test.skip(({ isMobile }) => !!isMobile, 'measured once, at desktop width');
+
+  // The two sweeps below open the workspace from the free account's saved session.
+  // The sign-in page above has to meet the form, so it stays in the describe without one.
+  test.use({ storageState: authFile('user') });
 
   test('the modals a student opens have no violations', async ({ page }) => {
     // This app is mostly modals, so a sweep of the workspace alone would miss
@@ -299,9 +309,7 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
     // "Getting started" tab has nothing interactive in it, and the tabs and
     // footer buttons sit OUTSIDE the scroller — so a keyboard user could reach
     // everything around the guide and never scroll the guide.
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
 
     const surfaces: Array<[string, RegExp]> = [
       ['quick start guide', /quick start guide/i],
@@ -327,9 +335,7 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
     // this file: the outcome strip only overflows once the card is narrow
     // enough, so the extra width hid it. A sweep that quietly picks a
     // comfortable layout tests the layout, not the app.
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
 
     for (const theme of ['dark', 'light'] as const) {
       const toggle = page.getByRole('button', {

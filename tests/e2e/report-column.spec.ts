@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
+import { openWorkspace, EVALUATE_BUTTON } from './support/workspace';
+import { authFile } from './support/savedSession';
 import { findClippedText, describeClipped } from './support/clipping';
 
 /**
@@ -81,6 +82,8 @@ test.describe('marking report column', () => {
   // The mobile projects reach the same single-column branch as 390 below.
   test.skip(({ isMobile }) => !!isMobile, 'measured here across widths in one run');
 
+  test.use({ storageState: authFile('user') });
+
   test('the score moves into the margin on wide screens, and nowhere else', async ({ page }) => {
     await page.route('**/api/gemini', (route) =>
       route.fulfill({
@@ -95,9 +98,7 @@ test.describe('marking report column', () => {
     );
 
     await page.setViewportSize({ width: 1440, height: 950 });
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
     await page
       .locator('textarea')
       .first()

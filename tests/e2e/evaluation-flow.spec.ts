@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
+import { openWorkspace, EVALUATE_BUTTON } from './support/workspace';
+import { authFile } from './support/savedSession';
 
 /**
  * The evaluation flow, as a student actually meets it.
@@ -49,14 +50,13 @@ test.describe('Evaluation flow', () => {
   // Two animated dialogs plus the mock login's deliberate 800ms delay.
   test.describe.configure({ timeout: 90_000 });
 
+  test.use({ storageState: authFile('user') });
+
   test.beforeEach(async ({ page }) => {
-    await signIn(page);
-    await clearOnboarding(page);
+    await openWorkspace(page, { account: 'user' });
   });
 
   test('a student writes a response and the card keeps count of it', async ({ page }) => {
-    await openFirstQuestion(page);
-
     // Nothing written yet: evaluating is refused rather than sent empty.
     const evaluate = page.getByRole('button', { name: EVALUATE_BUTTON });
     await expect(evaluate).toBeDisabled();
@@ -74,7 +74,6 @@ test.describe('Evaluation flow', () => {
 
   test('marking a response shows the mark, the band and the feedback', async ({ page }) => {
     await stubAi(page, (route) => route.fulfill(proxyReply(MARKED_RESPONSE)));
-    await openFirstQuestion(page);
 
     await writingSurface(page).fill(
       'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +
@@ -92,7 +91,6 @@ test.describe('Evaluation flow', () => {
     await stubAi(page, (route) =>
       route.fulfill({ status: 500, contentType: 'application/json', body: '{"error":"boom"}' })
     );
-    await openFirstQuestion(page);
 
     const answer = 'A short response that will not be marked because the proxy is down.';
     await writingSurface(page).fill(answer);
@@ -114,10 +112,10 @@ test.describe('Evaluation flow', () => {
 test.describe('Workspace accessibility', () => {
   test.describe.configure({ timeout: 90_000 });
 
+  test.use({ storageState: authFile('user') });
+
   test('the writing surface is reachable and labelled', async ({ page }) => {
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
 
     const textarea = writingSurface(page);
     await textarea.focus();
@@ -131,6 +129,8 @@ test.describe('Workspace accessibility', () => {
 
 test.describe('Comparison before feedback', () => {
   test.describe.configure({ timeout: 90_000 });
+
+  test.use({ storageState: authFile('admin') });
 
   /**
    * The comparison comes first, and the summary is behind it.
@@ -171,9 +171,7 @@ test.describe('Comparison before feedback', () => {
         })
       )
     );
-    await signIn(page, 'admin');
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'admin' });
 
     await writingSurface(page).fill(
       'DNA replication begins when the double helix unwinds. Each strand then acts as a ' +

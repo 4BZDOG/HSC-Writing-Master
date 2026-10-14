@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { openWorkspace, openVerbRibbon, openPanel } from './support/workspace';
+import { authFile } from './support/savedSession';
 import { findClippedText, describeClipped } from './support/clipping';
 
 /**
@@ -23,9 +24,11 @@ test.describe('nothing is clipped without recourse', () => {
   // The mobile projects land on the same 390 branch this walks to.
   test.skip(({ isMobile }) => !!isMobile, 'the widths are walked here in one run');
 
+  test.use({ storageState: authFile('user') });
+
   test('across the workspace, at every width, in both themes', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1100 });
-    await openWorkspace(page);
+    await openWorkspace(page, { account: 'user' });
 
     for (const theme of ['dark', 'light'] as const) {
       if (theme === 'light') {
