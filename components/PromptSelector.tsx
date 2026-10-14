@@ -520,9 +520,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="min-w-0">
-                {/* The disabled cue is on the name, as a tone, and not on the
-                    whole row: a note that says WHY the year cannot be picked
-                    is information, and at 60% it measured 2.9:1 in light. */}
+                {/* The disabled cue is on the name (a dim tone) and the tile,
+                    not on the whole row: a note that says WHY the year cannot
+                    be picked is information, and at 60% it measured 2.9:1 in
+                    light. */}
                 <span
                   className={`block font-medium leading-snug ${selectable ? '' : 'text-[rgb(var(--color-text-dim))]'}`}
                 >
