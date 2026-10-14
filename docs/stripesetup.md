@@ -432,6 +432,74 @@ seats and licensing one person — the school row is not back-filled when an
 admin assigns them later, so the licence would stay attached to nothing until
 the subscription next updates.
 
+## Invoiced school licences (purchase orders)
+
+Many schools cannot pay by card. The accounts office raises a purchase order
+and pays an invoice later. This flow lets a teacher or admin ask for a licence
+to be invoiced, and lets a platform admin approve it.
+
+**The flow.**
+
+1. A teacher or admin attached to a school asks for an invoice: the number of
+   seats, the billing name and email, the billing address, and optionally the
+   ABN, the purchase order number and a note. `POST /api/request-invoice`
+   records the request. It moves no money and needs no Stripe.
+2. A platform admin approves or declines it. `POST /api/issue-invoice`
+   does this. A decline changes nothing in Stripe.
+3. Approval creates the Stripe objects. The customer is the requester's own,
+   or a new one linked to their profile. A subscription on the school price is
+   created with `collection_method: send_invoice` and 30 days to pay. Stripe
+   finalises the first invoice and emails it, with a hosted payment page. The
+   existing webhook then licenses the school, exactly as it does for a card
+   purchase. No webhook change is involved.
+
+Each school can have one pending request at a time, and an account can raise
+three requests in any 24 hours. Approval refuses when the school already holds
+a live licence, so the same seats are never invoiced twice.
+
+**Approval activates the licence at once.** Access is granted when the invoice
+is issued, not when it is paid, because a purchase order is a commitment. The
+member's plan is live as soon as the webhook has applied the subscription,
+moments after the admin approves. What ends it if the
+invoice is never paid is the subscription's status, so set Stripe's behaviour
+for unpaid invoices (below).
+
+**Stripe Dashboard settings** (the labels move from time to time, so look for
+the settings described):
+
+- **Unpaid invoices:** under Billing, choose what happens to a subscription
+  whose invoice is not paid. Either cancel it after a number of days, or mark it
+  unpaid. Either ends the licence in the app. Without a setting here, an unpaid
+  subscription may stay active for as long as its invoice stays open. A
+  `past_due` subscription keeps the licence through Stripe's retry window, as a
+  card does.
+- **Invoice details:** check the business name and ABN on the invoice template
+  (Billing → Invoices, or Branding). A tax invoice must show the supplier's ABN,
+  and the school's accounts office will ask for it.
+- **Payment methods:** enable the methods the accounts office will use on
+  invoices (bank transfer is the usual one for Australian schools) under
+  Settings → Payment methods. The hosted invoice page offers only those.
+- **Customer portal:** if the portal is set to show invoices, a teacher can find
+  the invoice there again.
+
+**Creating one by hand.** An operator can make the same subscription in the
+Dashboard (Billing → Subscriptions → Create): the school's customer, the school
+price with the seat count as quantity, collection method "send invoice", and
+metadata `supabase_user_id` set to the id of a teacher or admin who belongs to
+that school (copy it from `profiles` in Supabase). The webhook finds the school
+through that profile, so the profile must already have `school_id` set. If a
+request is still pending for the same school, decline it: approving it would
+refuse, because the school then holds a licence.
+
+**Turning it off.** Set `SCHOOL_INVOICE_ENABLED=false` on the API host (or
+`VITE_SCHOOL_INVOICE_ENABLED=false`, which the server also reads). Both request
+endpoints then answer 404, and no new approval can start. Pending requests stay
+in the table and can be declined later. Unset or `true` turns it back on.
+
+**Database.** `supabase/schema.sql` §27 adds the `licence_requests` table. It is
+`create … if not exists` throughout, so re-apply the schema to add it. Until you
+do, both endpoints answer with a "could not" message and nothing is written.
+
 **One licence per school.** A second school-price purchase is refused before any
 payment is taken, with a 409 that names the fix: ask whoever bought the licence
 to add seats through **Manage subscription**. A licence still set to end at the
