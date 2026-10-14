@@ -73,6 +73,10 @@ describe('paywall copy', () => {
     expect(sentences).toEqual([]);
   });
 
+  it('does not call a paid perk unlimited, in the feature list the prompt shows', () => {
+    expect(read('services/entitlements.ts')).not.toMatch(/perk: '[^']*unlimited/i);
+  });
+
   it.each(['components/UpgradeModal.tsx', 'components/PlanComparison.tsx'])(
     '%s does not call a paid plan unlimited',
     (file) => {
