@@ -62,6 +62,20 @@ describe('the quick start guide’s scrolling body', () => {
     expect(scrollPanel().getAttribute('aria-label')).toMatch(/compare plans/i);
   });
 
+  it('gives the plan comparison its own header, not the guide’s “Quick start” one', () => {
+    open();
+    // The guide's own headline, for contrast.
+    expect(document.getElementById('quickstart-title')?.textContent).toMatch(/in five steps/i);
+
+    fireEvent.click(screen.getByRole('button', { name: /compare plans/i }));
+
+    const heading = document.getElementById('quickstart-title');
+    expect(heading?.textContent).toMatch(/what each plan includes/i);
+    // The eyebrow is just "Plans": no "Quick start" and no "3 min read" over a
+    // price comparison.
+    expect(heading?.previousElementSibling?.textContent).toBe('Plans');
+  });
+
   it('still has nothing focusable of its own on the guide tab', () => {
     // The reason the panel needs a tabindex at all. If this ever stops being
     // true — a link lands in the steps — the tabindex becomes belt-and-braces

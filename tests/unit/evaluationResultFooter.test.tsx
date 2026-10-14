@@ -15,6 +15,8 @@ vi.mock('../../services/entitlements', () => ({
     feature === 'answerUpgrades' ? lock.answerUpgrades : false,
   isFeedbackLocked: () => false,
   planLabelForFeature: () => 'Plus',
+  // The lock chip now names its feature, so it asks which plan unlocks it.
+  lowestPlanForFeature: () => 'plus',
   requestUpgrade: vi.fn(),
 }));
 vi.mock('../../pdf', () => ({ exportEvaluationPdf: vi.fn() }));

@@ -71,7 +71,7 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
         tone="text-rose-700 dark:text-rose-400"
         toneBg="bg-rose-100 dark:bg-rose-500/15"
       >
-        {feedbackLocked && <PlusLockChip />}
+        {feedbackLocked && <PlusLockChip feature="fullFeedback" />}
       </SectionHeading>
       {feedbackLocked && (
         <ContentLockOverlay

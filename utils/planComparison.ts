@@ -153,7 +153,11 @@ export const buildPlanComparison = (): PlanRow[] => {
     {
       id: 'evaluations',
       label: 'Marked evaluations',
-      note: 'Full AI marking of an answer you have written',
+      // The paid cell says "No daily limit", not "Unlimited": marking is not
+      // metered for paid plans (has_unlimited_evaluations), but every AI call,
+      // marking included, still draws on the daily allowance in the row below.
+      // "Unlimited" next to "300 calls" was a promise the table broke itself.
+      note: 'Full AI marking of an answer you have written. Paid plans share the daily AI allowance below.',
       cells: {
         free: monetisationEnabled()
           ? { kind: 'text', text: `${freeTierLimits().evalLimit} per day` }
@@ -161,8 +165,8 @@ export const buildPlanComparison = (): PlanRow[] => {
             // marking in that state (api/gemini.ts skips consume_evaluation),
             // so quoting a daily cap here would invent one.
             { kind: 'text', text: 'Unlimited' },
-        plus: { kind: 'text', text: 'Unlimited' },
-        school: { kind: 'text', text: 'Unlimited' },
+        plus: { kind: 'text', text: 'No daily limit' },
+        school: { kind: 'text', text: 'No daily limit' },
       },
     },
     {

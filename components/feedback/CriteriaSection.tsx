@@ -41,7 +41,7 @@ const CriteriaSection: React.FC<CriteriaSectionProps> = ({
   <section className={`relative ${className}`}>
     <div className="no-print">
       <SectionHeading icon={ClipboardList} label="Criteria breakdown">
-        {feedbackLocked && <PlusLockChip />}
+        {feedbackLocked && <PlusLockChip feature="fullFeedback" />}
       </SectionHeading>
     </div>
     {feedbackLocked && (

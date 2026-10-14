@@ -326,7 +326,7 @@ When you're ready to accept real payments:
 
 1. **Switch to live keys**: Replace all `sk_test_` / `pk_test_` values with `sk_live_` / `pk_live_` from Stripe Dashboard (toggle off "Test mode").
 2. **Create a live webhook**: Same steps as Step 4a but with your production URL and live mode enabled.
-3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars.
+3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars. The app shows the prices from `VITE_PLUS_MONTHLY_PRICE_DISPLAY`, `VITE_PLUS_YEARLY_PRICE_DISPLAY` and `VITE_SCHOOL_SEAT_PRICE_DISPLAY`; it does not read them from Stripe, so check that each matches its live price.
 4. **Update Vercel env vars**: Swap every test value for its live counterpart and redeploy.
 5. **Test with a real card**: Make a small real purchase, then cancel/refund it from the Stripe Dashboard.
 6. **Enable Stripe Tax** (optional): For Checkout to actually compute and add GST you must do **both** of the following — dashboard configuration alone does nothing for Checkout:
@@ -384,6 +384,7 @@ User clicks "Upgrade"
 | Webhook returns 500 "Webhook signing secret not configured" | `STRIPE_WEBHOOK_SECRET` missing in production                                                 | Set it and redeploy — Stripe retries the queued events automatically                            |
 | Checkout returns 400 "Unknown plan"                         | Client price ID isn't in the server allowlist                                                 | Make each `VITE_STRIPE_*_PRICE_ID` match its unprefixed server counterpart                      |
 | "No billing account found" in portal                        | User hasn't checked out yet                                                                   | The portal requires a prior checkout to create the Stripe customer link                         |
+| Customers see "Checkout is unavailable right now, so you have not been charged" | Server answers 503: plan prices are published (`VITE_STRIPE_*`) but `STRIPE_SECRET_KEY` is missing. The UI no longer shows that sentence to customers | Read the function log for "Billing is misconfigured on this deployment", then set `STRIPE_SECRET_KEY` and redeploy |
 | Gates still locked after payment                            | Browser has stale user data                                                                   | Refresh the page — `getUserPlan()` reads from the profile on each call                          |
 | Admin sees gates                                            | Running an old build                                                                          | Redeploy from `main` — admins bypass every gate in current code                                 |
 

@@ -99,7 +99,9 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   answerUpgrades: {
     title: 'AI Answer Upgrades',
     blurb: 'See your own words rewritten to the next band, so the path up is concrete.',
-    perk: 'Unlimited AI band-upgrade rewrites of your answers',
+    // Not "unlimited": rewrites are AI calls, and every AI call draws on the
+    // daily allowance the prompt states beside this list.
+    perk: 'AI band-upgrade rewrites of your own answers',
   },
   aiContentStudio: {
     title: 'AI Content Studio',

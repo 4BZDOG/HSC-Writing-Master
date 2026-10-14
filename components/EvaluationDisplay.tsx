@@ -178,7 +178,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
                 // The chip's own amber is drawn on a dark pill, so it reads on the
                 // band fill as well as on the white page it was designed for.
                 <span className="inline-flex rounded-lg bg-slate-950/85">
-                  <PlusLockChip />
+                  <PlusLockChip feature="pdfExport" />
                 </span>
               )}
             </>

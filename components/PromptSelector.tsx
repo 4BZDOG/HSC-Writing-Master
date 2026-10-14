@@ -929,7 +929,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           : `You: ${attempt.mark}/${p.totalMarks}`}
                       </span>
                     )}
-                    {tierLocked && <PlusLockChip />}
+                    {tierLocked && <PlusLockChip feature="advancedQuestions" />}
                   </div>
                 </div>
               </div>
@@ -1844,7 +1844,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           }`}
                         >
                           <Sparkles className="w-4 h-4" /> Generate
-                          {studioLocked && <PlusLockChip />}
+                          {studioLocked && <PlusLockChip feature="aiContentStudio" />}
                         </button>
                       )}
                     </div>

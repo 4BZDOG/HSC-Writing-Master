@@ -184,19 +184,18 @@ describe('the upgrade prompt at the daily limit', () => {
 });
 
 describe('a guest is told the real next step', () => {
-  it('offers an account rather than a checkout that can only 401', () => {
-    // /api/create-checkout answers "Authentication required." to a guest —
-    // correct, and useless at the moment someone is trying to pay.
-    const showToast = vi.fn();
+  it('offers no account route while nothing is on sale', () => {
+    // With no price configured there is no checkout to send a guest to, so
+    // "Create an account" would promise a purchase that cannot happen. The
+    // on-sale route (account first, then checkout) is pinned in
+    // upgradeModalPricing.test.tsx.
     const guest = { username: 'guest', role: 'guest', stats: {} } as unknown as User;
-    render(<UpgradeModal showToast={showToast} user={guest} />);
+    render(<UpgradeModal showToast={vi.fn()} user={guest} />);
     act(() => {
       requestUpgrade('fullFeedback');
     });
 
-    const cta = screen.getByRole('button', { name: /Create an account/i });
-    fireEvent.click(cta);
-    expect(showToast).toHaveBeenCalledWith(expect.stringMatching(/free account first/i), 'info');
+    expect(screen.queryByRole('button', { name: /Create an account/i })).toBeNull();
   });
 });
 

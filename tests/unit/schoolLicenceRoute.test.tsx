@@ -121,7 +121,10 @@ describe('the plan comparison carries the School route', () => {
     const showToast = vi.fn();
     render(<PlanComparison user={asUser('user')} showToast={showToast} />);
     fireEvent.click(screen.getByRole('button', { name: /Ask about a school licence/i }));
-    expect(showToast).toHaveBeenCalledWith(expect.stringMatching(/school licensing/i), 'info');
+    expect(showToast).toHaveBeenCalledWith(
+      expect.stringMatching(/school licences are not on sale/i),
+      'info'
+    );
   });
 
   it('offers nothing at all on a deployment that sells nothing', () => {
