@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './support/workspace';
+import { openWorkspace, EVALUATE_BUTTON } from './support/workspace';
+import { authFile } from './support/savedSession';
 import { stubMarking, MARKED_ANSWER } from './support/markingStub';
 import { freezeAnimations, measureContrast, ContrastReading } from './support/contrast';
 
@@ -36,13 +37,13 @@ test.describe('Highlights in marking feedback', () => {
   // The contrast of a colour does not depend on the browser engine, so one run is enough.
   test.skip(({ browserName }) => browserName !== 'chromium', 'measured once, in one engine');
 
+  test.use({ storageState: authFile('admin') });
+
   for (const theme of ['dark', 'light'] as const) {
     test(`every highlighted run meets AA in the ${theme} theme`, async ({ page }) => {
       await page.setViewportSize({ width: 1440, height: 900 });
       await stubMarking(page);
-      await signIn(page, 'admin');
-      await clearOnboarding(page);
-      await openFirstQuestion(page);
+      await openWorkspace(page, { account: 'admin' });
       await setTheme(page, theme);
       await writingSurface(page).fill(MARKED_ANSWER);
       await page.getByRole('button', { name: EVALUATE_BUTTON }).click();

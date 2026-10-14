@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
-import { signIn, clearOnboarding, openFirstQuestion } from './support/workspace';
+import { authFile } from './support/savedSession';
+import { signIn, clearOnboarding, openFirstQuestion, openWorkspace } from './support/workspace';
 
 /**
  * The paywall's WIRING, as opposed to its logic.
@@ -63,6 +64,8 @@ const openPlanComparison = async (page: Page) => {
 };
 
 test.describe('the profile hands off rather than stacking', () => {
+  test.use({ storageState: authFile('user') });
+
   test('“Compare plans” actually changes the screen', async ({ page }) => {
     // It did not. `activeModals` is a Set, so the profile stayed open at
     // `z-profile` (2000) over a plan table at `z-quickstart` (940) — the user
@@ -70,8 +73,7 @@ test.describe('the profile hands off rather than stacking', () => {
     // model occlusion, so only a click could catch it: the buried CTA reported
     // "element intercepts pointer events" from the profile's own subtree.
     await withoutMotion(page);
-    await signIn(page, 'user');
-    await clearOnboarding(page);
+    await openWorkspace(page, { account: 'user' });
     await openPlanComparison(page);
     await expect(page.getByRole('dialog', { name: /your profile/i })).toHaveCount(0);
   });
@@ -101,10 +103,11 @@ test.describe('a modal can be closed by its close button', () => {
    * timeout is the budget, and a button that is genuinely covered still fails
    * on "intercepts pointer events" long before it.
    */
+  test.use({ storageState: authFile('user') });
+
   test('the upgrade prompt closes from its X, at both widths', async ({ page }) => {
     await withoutMotion(page);
-    await signIn(page, 'user');
-    await clearOnboarding(page);
+    await openWorkspace(page, { account: 'user' });
     for (const width of [390, 1280]) {
       await page.setViewportSize({ width, height: 844 });
       await page.evaluate(() =>
@@ -120,7 +123,11 @@ test.describe('a modal can be closed by its close button', () => {
       await expect(prompt).toHaveCount(0);
     }
   });
+});
 
+test.describe('a modal can be closed by its close button', () => {
+  // First run is the subject here, so this one starts from a fresh browser,
+  // with no saved session to skip past the guide.
   test('the quick-start guide closes from its X on a phone', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await withoutMotion(page);
@@ -154,6 +161,9 @@ test.describe('a modal can be closed by its close button', () => {
 });
 
 test.describe('the free tier can see what it is held to', () => {
+  // Stays on a fresh browser rather than a saved session. It is the free-tier
+  // counter as a student meets it on a first visit, and the counter is the thing
+  // under test, so it is not borrowed from a state that was saved after a visit.
   test('states the remaining markings as text, not as a tooltip', async ({ page }) => {
     // A `title` attribute is not a limit anyone on a phone can plan around,
     // and most students are on one.
@@ -165,13 +175,16 @@ test.describe('the free tier can see what it is held to', () => {
     await expect(counter).toBeVisible({ timeout: 20_000 });
     await expect(counter).toContainText(/\d+\/\d+ left/);
   });
+});
+
+test.describe('the free tier can see what it is held to', () => {
+  test.use({ storageState: authFile('user') });
 
   test('names the plan and a price in the comparison, not just a list of crosses', async ({
     page,
   }) => {
     await withoutMotion(page);
-    await signIn(page, 'user');
-    await clearOnboarding(page);
+    await openWorkspace(page, { account: 'user' });
     await openPlanComparison(page);
     await expect(page.getByText(/Your plan/i).first()).toBeVisible();
     // The School column carries a price, so it has to carry a way to act on it.
@@ -180,8 +193,7 @@ test.describe('the free tier can see what it is held to', () => {
 
   test('offers an upgrade route from the comparison', async ({ page }) => {
     await withoutMotion(page);
-    await signIn(page, 'user');
-    await clearOnboarding(page);
+    await openWorkspace(page, { account: 'user' });
     await openPlanComparison(page);
     await page.getByRole('button', { name: /See Band 6 Plus/i }).click();
     await expect(page.getByRole('dialog', { name: /Full Marking Feedback/i })).toBeVisible({
@@ -191,14 +203,15 @@ test.describe('the free tier can see what it is held to', () => {
 });
 
 test.describe('staff can reach the School licence', () => {
+  test.use({ storageState: authFile('teacher') });
+
   test('a teacher finds a route to it, despite never meeting a lock', async ({ page }) => {
     // The regression this spec exists for. A teacher holds Plus through the
     // staff perk, so no control is ever locked for them and the upgrade prompt
     // — which is where the seat picker used to live, alone — cannot open. The
     // route has to be somewhere they actually go.
     await withoutMotion(page);
-    await signIn(page, 'teacher');
-    await clearOnboarding(page);
+    await openWorkspace(page, { account: 'teacher' });
     await openPlanComparison(page);
     // The ROUTE, not any text mentioning a licence. `/school licence/i` also
     // matches the comparison table's own row note — which is `hidden sm:block`,
@@ -209,19 +222,17 @@ test.describe('staff can reach the School licence', () => {
 
   test('a teacher is not shown a free-tier marking limit', async ({ page }) => {
     await withoutMotion(page);
-    await signIn(page, 'teacher');
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'teacher' });
     await expect(page.getByTestId('free-eval-counter')).toHaveCount(0);
   });
 });
 
 test.describe('an unlocked account sees no paywall', () => {
+  test.use({ storageState: authFile('admin') });
+
   test('an admin is metered by nothing and sold nothing', async ({ page }) => {
     await withoutMotion(page);
-    await signIn(page, 'admin');
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'admin' });
     await expect(page.getByTestId('free-eval-counter')).toHaveCount(0);
     await openPlanComparison(page);
     // Nothing to upgrade to: the CTA is for free-plan accounts only.

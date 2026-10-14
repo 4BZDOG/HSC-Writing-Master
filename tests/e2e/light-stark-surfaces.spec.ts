@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { freezeAnimations } from './support/contrast';
+import { authFile } from './support/savedSession';
 import {
   setTheme,
   dismissAll,
@@ -397,13 +398,22 @@ test.describe('stark surfaces, light theme', () => {
     }
     expect(problems, 'white slabs on white parents, light theme').toEqual([]);
   });
+});
+
+test.describe('stark surfaces, light theme', () => {
+  test.skip(
+    ({ browserName, isMobile }) => browserName !== 'chromium' || !!isMobile,
+    'chromium desktop only'
+  );
+
+  test.use({ storageState: authFile('admin') });
 
   test('no white slab stands on a white parent: the feedback modal after marking', async ({
     page,
   }) => {
     test.setTimeout(240_000);
     await page.setViewportSize(WIDE);
-    await openWorkspaceQuestion(page, 'admin');
+    await openWorkspaceQuestion(page, 'admin', false, { savedSession: true });
     await setTheme(page, 'light');
     await freezeAnimations(page);
     await openFeedbackAfterMarking(page);

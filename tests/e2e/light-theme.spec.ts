@@ -4,10 +4,12 @@ import {
   clearOnboarding,
   openFirstQuestion,
   openVerbRibbon,
+  openWorkspace,
   typeAnswer,
   openPanel,
   expandNavigator,
 } from './support/workspace';
+import { authFile } from './support/savedSession';
 import {
   freezeAnimations,
   measureContrast,
@@ -66,11 +68,11 @@ test.describe('light theme', () => {
 
   test.skip(({ isMobile }) => !!isMobile, 'measured once, at the width both cards share');
 
+  test.use({ storageState: authFile('user') });
+
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize(WIDE);
-    await signIn(page);
-    await clearOnboarding(page);
-    await openFirstQuestion(page);
+    await openWorkspace(page, { account: 'user' });
     // The verb ribbon is shut beneath the breadcrumb, and shut it is invisible
     // to a checker that walks text nodes. Opening it puts roughly 120 more of
     // them into the audit — and until the ribbon rendered in this state at all,
@@ -232,12 +234,12 @@ test.describe('light theme, past the first screen', () => {
 
   test.skip(({ isMobile }) => !!isMobile, 'measured once, at the width both cards share');
 
+  test.use({ storageState: authFile('user') });
+
   for (const state of STATES) {
     test(`every reading surface meets AA with ${state.name}`, async ({ page }) => {
       await page.setViewportSize(WIDE);
-      await signIn(page, state.as ?? 'user');
-      await clearOnboarding(page);
-      await openFirstQuestion(page);
+      await openWorkspace(page, { account: state.as ?? 'user' });
       await state.reach(page);
 
       for (const theme of ['light', 'dark'] as const) {
@@ -354,11 +356,20 @@ test.describe('text over gradients, the surfaces that shipped unseen', () => {
     }
     expect(failing, 'text below its floor over a gradient').toEqual([]);
   });
+});
+
+test.describe('text over gradients, the surfaces that shipped unseen', () => {
+  test.skip(
+    ({ browserName, isMobile }) => browserName !== 'chromium' || !!isMobile,
+    'chromium desktop only'
+  );
+
+  test.use({ storageState: authFile('admin') });
 
   test('text over gradients meets AA in both themes: the feedback modal', async ({ page }) => {
     test.setTimeout(240_000);
     await page.setViewportSize(WIDE);
-    await openWorkspaceQuestion(page, 'admin');
+    await openWorkspaceQuestion(page, 'admin', false, { savedSession: true });
 
     const failing: string[] = [];
     for (const theme of ['light', 'dark'] as const) {
@@ -372,6 +383,13 @@ test.describe('text over gradients, the surfaces that shipped unseen', () => {
     }
     expect(failing, 'text below its floor over a gradient').toEqual([]);
   });
+});
+
+test.describe('text over gradients, the surfaces that shipped unseen', () => {
+  test.skip(
+    ({ browserName, isMobile }) => browserName !== 'chromium' || !!isMobile,
+    'chromium desktop only'
+  );
 
   test('text over gradients meets AA in both themes: the card header of every band', async ({
     page,
