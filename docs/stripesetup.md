@@ -505,13 +505,9 @@ again, not the summary: a read cannot see another person's request, so the
 summary appears only once they send their own. Nothing on any of these screens
 offers the billing portal.
 
-**Where the queue is.** Requests wait in the admin Billing overview (Admin
-Tools → Billing → Billing Overview), in the "Invoice requests" group at the top
-of "Needs attention". Each row shows the school, the seats, the billing contact,
-the purchase order number and ABN if given, and how long it has waited; a request
-older than three working days is flagged. Approve (choose 14, 30, 45 or 60 days
-to pay; the default is 30) or decline with an optional note. **Nothing emails the
-operator when a request arrives.** Check the queue each working day.
+**Where the queue is.** Requests wait in the admin Billing overview (Admin Tools →
+Billing → Billing Overview), under **Invoice requests** at the top of **Needs
+attention**. Deciding them is set out in "Deciding a request" below.
 
 Each school can have one pending request at a time, and an account can raise
 three requests in any 24 hours. Approval refuses when the school already holds
@@ -523,6 +519,48 @@ member's plan is live as soon as the webhook has applied the subscription,
 moments after the admin approves. What ends it if the
 invoice is never paid is the subscription's status, so set Stripe's behaviour
 for unpaid invoices (below).
+
+**Deciding a request.** The queue is on the Billing overview (admin tools, then
+Billing Overview). Pending requests sit at the top of **Needs attention**, under
+**Invoice requests**, oldest first. Each card shows the school, the seats, the
+billing contact and address, the ABN and the purchase order number, and how long
+the request has waited in working days (Monday to Friday, counted in Sydney time;
+NSW public holidays are not excluded). A request waiting more than three working
+days is marked overdue.
+
+- **Approve** opens a confirm step that says what will happen before anything is
+  sent: the subscription and its seats, the invoice and the address it goes to,
+  and the payment terms. Choose 14, 30, 45 or 60 days (30 by default), then press
+  **Approve and send invoice**. The school's members get access once the
+  subscription is recorded, before the invoice is paid. If the person who asked
+  already has a Stripe billing customer, its name, email and address are replaced
+  with the ones on the request.
+- **Decline** takes an optional note, which the person who asked sees. It changes
+  nothing in Stripe and sends no invoice.
+
+While a call is in flight the decision buttons, Refresh and the close control are
+disabled, and Escape or a press on the backdrop does not close the window, so an
+answer cannot be lost. Only one call goes out at a time.
+
+**When the answer is not clean.**
+
+- A refusal shows the server's sentence as it came. Act on what it says: a school
+  that already holds a live licence has to be declined, not approved.
+- A refusal that names a Stripe subscription (`sub_…`) means Stripe already holds
+  one for this request, usually because an earlier approval stopped part-way. Approve
+  is then off in that window. Check the subscription in the Stripe Dashboard, then
+  press Refresh. The request is read again, and Approve comes back. Approving again
+  reuses that subscription and does not create a second one. Decline stays on, and
+  the server refuses it while the subscription is still billing.
+- If the answer never arrives (the connection drops, or the server times out), the
+  window says the result is not known, and both buttons stay off. Press Refresh and
+  check the request, and Stripe, before doing anything else.
+
+**Nothing tells you a request has arrived.** No email or push goes to an admin
+when a request is made. The queue shows it when you open the Billing overview, so
+that is the only signal until a notification route exists. If the purchase-order
+table (schema §27) is not in the database yet, the overview says the requests were
+not checked, and the rest of the page still loads.
 
 **Stripe Dashboard settings** (the labels move from time to time, so look for
 the settings described):

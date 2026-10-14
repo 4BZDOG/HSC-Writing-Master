@@ -554,6 +554,15 @@ decision rules live in `api/_lib/schoolLicence.ts`. `SCHOOL_INVOICE_ENABLED=fals
 is the kill switch. The operator setup is in `docs/stripesetup.md`, "Invoiced
 school licences (purchase orders)".
 
+**The approval queue is built** (`claude/school-invoice-admin`). Pending requests
+sit at the top of Needs attention on the admin Billing overview. Approve opens a
+confirm step that says what the call will do before it is sent, and the payment
+terms are chosen there. An answer that names a Stripe subscription, or no clear
+answer at all, withdraws Approve in that window until the request has been read
+again: the subscription that exists has to be checked in Stripe first, and a
+second approval is not a plain retry. The operator steps are in
+`docs/stripesetup.md`, "Deciding a request".
+
 Three choices in the fix are worth keeping, because the obvious version of each
 is wrong:
 
@@ -577,10 +586,9 @@ a recorded request.
 
 **What remains open:**
 
-- **The approval screen.** The request screen is done (above). The approval queue is
-  the "Invoice requests" group in the admin Billing overview, on
-  `claude/school-invoice-admin`. Until that merges, an operator approves or declines
-  through `POST /api/issue-invoice` only.
+- ~~**The request and approval screens.**~~ **Done.** The school's request form is
+  under the School seat picker (above). The approval queue is the "Invoice requests"
+  group in the admin Billing overview. One gap remains, in the next bullet.
 - **A teacher cannot see a colleague's pending request until they send their own.**
   The school's read is limited to the requester's own rows, and the summary of
   someone else's request comes back only from the POST. The form therefore shows
@@ -591,9 +599,11 @@ a recorded request.
   created. Two approvals for one school in that gap are both allowed. Closing it
   needs the approval to check for a just-approved request whose subscription the
   school row does not yet show, or to ask Stripe.
-- **Nobody is told a request has arrived.** An admin finds it by opening the list.
-  Still open, and the school's copy says so: there is no notification route, so
-  nothing emails or pages the operator when a request comes in.
+- **Nobody is told a request has arrived. Still open.** The queue now leads the
+  Billing overview, so an admin sees a waiting request on opening that page, and a
+  request waiting over three working days is flagged. No email or push goes out
+  when a request is made. Closing this needs a notification route, which is a
+  product decision (an email to the platform admins, or a daily digest).
 - **A requester cannot withdraw a request.** The table has a `cancelled` status, but
   no endpoint sets it, and the form offers no withdraw either. A wrong request
   therefore blocks the school from asking again until an admin declines it.

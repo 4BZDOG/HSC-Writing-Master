@@ -5,8 +5,22 @@
 - **Added.** A teacher or admin at a school can ask for the licence to be invoiced. Under the School seat picker, behind a "Pay by invoice or purchase order" disclosure, the form takes the billing name, accounts email, an Australian address, and optionally the ABN, purchase order number and a note. Once sent, the panel shows the request: pending, approved (the invoice link), or declined (the administrator's note, and the form again). Students see one line that a teacher or admin can ask.
 - **Changed.** `SchoolLicencePanel` mounts the form and one sentence. Nothing else in the upgrade prompt or the comparison moved.
 - **Operator.** The app's copy of the switch is `VITE_SCHOOL_INVOICE_ENABLED`, read at build time. Set it to `false` and rebuild to hide the route in the app. The route is drawn only when `VITE_STRIPE_SCHOOL_PRICE_ID` is set. No schema change: this needs the `licence_requests` table from §27, which the server half already requires.
-- **Not done.** The approval queue (`claude/school-invoice-admin`), a notification when a request arrives, withdrawing a request, and showing a teacher a colleague's pending request before they send their own.
+- **Not done.** A notification when a request arrives, withdrawing a request, and showing a teacher a colleague's pending request before they send their own. The approval queue is in the Billing overview (see the entry below).
 - See `docs/stripesetup.md`, "Invoiced school licences (purchase orders)", and `projectDocs/monetisation-review-2026-09.md` §30.
+
+## [Unreleased] - 2026-10-14 (Approve or decline purchase orders from the Billing overview)
+
+- **Added.** The Billing overview lists pending school invoice requests at the top of "Needs attention", oldest
+  first, with the billing details and the working days waited (over three is flagged). Approve opens a confirm step
+  that says what the call does, with the payment terms (14, 30, 45 or 60 days); Decline takes an optional note.
+  Both call `POST /api/issue-invoice` through `services/invoiceDecisionService.ts`.
+- **Changed.** While a decision call is in flight, the decision buttons, Refresh and the close control are disabled,
+  and Escape or the backdrop do not close the window. An answer that names a Stripe subscription, or no clear answer,
+  keeps Approve off until the request is read again.
+- **Operator.** Nothing to configure. The queue needs schema §27 (`licence_requests`); without it the overview says
+  the requests were not checked and loads the rest. See `docs/stripesetup.md`, "Deciding a request".
+- **Learned.** The confirm step's wording follows what `api/issue-invoice.ts` does, line for line, including that
+  a reused Stripe customer has its billing details replaced.
 
 ## [Unreleased] - 2026-10-14 (paywall: say what is charged, and match the plan)
 
@@ -14,6 +28,7 @@
 - **Changed.** Every lock chip names its feature, so a `PLAN_FEATURE_OVERRIDES` move reaches the chip, the tooltip and the prompt together.
 - **Fixed.** Billing failures show a customer sentence, not the server's operator text (a 503 misconfiguration used to reach the toast verbatim). Profile cards say "Cancelled" or "Payment due", not "Active"; admins are not told their access comes from a school licence; the portal button no longer flashes for perk holders. Paywall controls are 44px on a phone, and the 10px and 11px text a payer must read is 12px.
 - **Docs.** `projectDocs/paywall-surface-inventory.md` maps every place a paid feature is locked or advertised, and which audience is offered what.
+
 ## [Unreleased] - 2026-10-14 (Checkout return confirms the purchase itself)
 
 - **Fixed.** A customer who paid could be stuck on "refresh if features stay locked" until the webhook landed, and
