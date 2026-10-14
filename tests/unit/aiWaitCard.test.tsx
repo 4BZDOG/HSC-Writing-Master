@@ -3,6 +3,8 @@ import React from 'react';
 import { render, screen, cleanup, act } from '@testing-library/react';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import EvaluationProgressBar from '../../components/EvaluationProgressBar';
+import AiWaitGlyph, { WAIT_INK } from '../../components/AiWaitGlyph';
+import WaitNoteFigure from '../../components/WaitNoteFigure';
 import { emitEvalProgress } from '../../services/aiCore';
 import { waitNotes } from '../../utils/waitTips';
 import type { AiTaskType } from '../../components/LoadingIndicator';
@@ -165,14 +167,50 @@ describe('EvaluationProgressBar', () => {
     render(<EvaluationProgressBar />);
     const veil = screen.getByRole('status').closest('[role="presentation"]') as HTMLElement;
 
-    // The same recipe as every other AI wait: a deep blur, a surface wash and
-    // the card's inner radius, not the outer one. A bare white here is the
-    // seam that used to show on the card.
+    // The same recipe as every other AI wait: a near-opaque surface sheet, with
+    // no blur, and the card's inner radius, not the outer one. A bare white here
+    // is the seam that used to show on the card.
     expect(veil.className).toContain('absolute inset-0');
     expect(veil.className).toContain('rounded-b-surface-inner');
-    expect(veil.className).toContain('backdrop-blur-xl');
-    expect(veil.className).toContain('bg-surface/80');
+    expect(veil.className).not.toContain('backdrop-blur');
+    expect(veil.className).toContain('bg-surface/95');
     expect(veil.className).not.toMatch(/(^|\s)bg-white(\s|$)/);
     expect(veil.className).not.toContain('rounded-[inherit]');
+  });
+
+  it('draws its bar and its glyph in the accent token, not the indigo literal', () => {
+    const { container } = render(<EvaluationProgressBar />);
+
+    const bar = container.querySelector('.animate-progress-indeterminate') as HTMLElement;
+    expect(bar.className).toContain('bg-[rgb(var(--color-accent))]');
+    expect(bar.className).not.toContain('indigo');
+    expect(container.innerHTML).not.toMatch(/6366f1|99,\s*102,\s*241/i);
+  });
+});
+
+describe('the wait ink', () => {
+  it('is the app accent token, so both themes move it with the rest of the chrome', () => {
+    expect(WAIT_INK).toBe('rgb(var(--color-accent))');
+  });
+
+  it('sets the glyph ink through style, because a presentation attribute cannot read var()', () => {
+    const { container } = render(<AiWaitGlyph task="generation" accent={WAIT_INK} />);
+
+    const stroked = container.querySelector('path') as SVGPathElement;
+    expect(stroked).toBeTruthy();
+    expect(stroked.getAttribute('stroke')).toBeNull();
+    expect(stroked.style.stroke).toBe(WAIT_INK);
+  });
+
+  it('mixes the margin rule from the ink rather than appending an alpha to it', () => {
+    const { container } = render(
+      <WaitNoteFigure
+        note={{ kind: 'advice', text: 'Name the claim before the evidence.' }}
+        accent={WAIT_INK}
+      />
+    );
+
+    const figure = container.querySelector('figure') as HTMLElement;
+    expect(figure.style.borderColor).toContain('color-mix(in srgb, rgb(var(--color-accent)) 40%');
   });
 });

@@ -22,6 +22,7 @@ import {
   summariseDiff,
   type DiffSegment,
 } from '../utils/textDiff';
+import { wordCountsLine, wordsKeptParts } from '../utils/diffSummary';
 
 interface ImprovementReviewModalProps {
   isOpen: boolean;
@@ -162,7 +163,11 @@ const DiffText: React.FC<{
                 // The active marker is the band's solid fill with its own ink
                 // (`band-solid`), not white on the band: white failed 4.5:1 on
                 // the purple and the yellow-green hues.
-                className={`inline-flex items-center justify-center align-[0.3em] mr-0.5 min-w-[1.4em] h-[1.4em] px-1 rounded-full font-sans text-[10px] font-bold tabular-nums leading-none transition-colors ${
+                // The marker is a small pill in the prose, far under a finger's
+                // width on a phone. Its hit area is a 44px square centred on it,
+                // drawn by a pseudo-element: absolute, so the line's layout is the
+                // same with or without it.
+                className={`relative after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-[''] inline-flex items-center justify-center align-[0.3em] mr-0.5 min-w-[1.4em] h-[1.4em] px-1 rounded-full font-sans text-[10px] font-bold tabular-nums leading-none transition-colors ${
                   inActive
                     ? 'band-solid'
                     : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300 can-hover:hover:bg-slate-300 dark:can-hover:hover:bg-white/20'
@@ -415,7 +420,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   };
 
   const hasOriginal = !!originalText.trim();
-  const retentionPct = Math.round(stats.retention * 100);
+  const kept = wordsKeptParts(stats);
   // A rewrite identical to the student's answer is worth exactly what theirs
   // was, so the header must not go on claiming the extra mark, and there is
   // nothing to copy across.
@@ -563,13 +568,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {comparing && (
             <p className="t-label text-slate-600 dark:text-slate-400 tabular-nums">
               <span className="font-semibold text-slate-800 dark:text-slate-100">
-                {retentionPct}%
+                {kept.figure}
               </span>{' '}
-              <span>of your words kept</span>
-              <span className="hidden md:inline">
-                {' '}
-                · {stats.originalWords} → {stats.revisedWords} words
-              </span>
+              <span>{kept.label}</span>
+              <span className="hidden md:inline"> · {wordCountsLine(stats)}</span>
             </p>
           )}
 

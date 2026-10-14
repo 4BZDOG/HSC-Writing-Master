@@ -47,7 +47,7 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import LoadingIndicator from '../LoadingIndicator';
-import { TOOL_HEAD, TOOL_RAIL } from '../../utils/adminChrome';
+import { railTabClass, TOOL_HEAD, TOOL_RAIL } from '../../utils/adminChrome';
 
 interface BackupSummary {
   key: string;
@@ -475,29 +475,45 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         </div>
 
         {/* Stacks on phones: the fixed 16rem sidebar left the content pane a
-            sliver on a 390px screen; below md it becomes a horizontal tab
-            strip above the full-width content. */}
+            sliver on a 390px screen; below md it becomes three equal tabs,
+            icon over label, above the full-width content. A horizontal strip
+            cut "Data Browser" off at that width, so the tabs fit instead. */}
         <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
           <div
-            className={`w-full md:w-64 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 flex flex-row md:flex-col gap-2 flex-shrink-0 overflow-x-auto scrollbar-hide`}
+            className={`w-full md:w-64 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 grid grid-cols-3 md:flex md:flex-col gap-2 flex-shrink-0`}
           >
             <button
               onClick={() => setView('overview')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'overview' ? 'bg-blue-500/10 light:bg-blue-100 text-blue-400 light:text-blue-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
+              aria-current={view === 'overview' ? 'page' : undefined}
+              className={railTabClass(
+                view === 'overview',
+                'bg-blue-500/10 light:bg-blue-100 text-blue-400 light:text-blue-700'
+              )}
             >
-              <Server className="w-4 h-4" /> Overview
+              <Server className="w-4 h-4 shrink-0" aria-hidden="true" />
+              Overview
             </button>
             <button
               onClick={() => setView('snapshots')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'snapshots' ? 'bg-purple-500/10 light:bg-purple-100 text-purple-400 light:text-purple-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
+              aria-current={view === 'snapshots' ? 'page' : undefined}
+              className={railTabClass(
+                view === 'snapshots',
+                'bg-purple-500/10 light:bg-purple-100 text-purple-400 light:text-purple-700'
+              )}
             >
-              <History className="w-4 h-4" /> Backups
+              <History className="w-4 h-4 shrink-0" aria-hidden="true" />
+              Backups
             </button>
             <button
               onClick={() => handleInspectStore('main_store')}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-200 ${view === 'inspector' ? 'bg-amber-500/10 light:bg-amber-100 text-amber-400 light:text-amber-700' : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'}`}
+              aria-current={view === 'inspector' ? 'page' : undefined}
+              className={railTabClass(
+                view === 'inspector',
+                'bg-amber-500/10 light:bg-amber-100 text-amber-400 light:text-amber-700'
+              )}
             >
-              <FileJson className="w-4 h-4" /> Data Browser
+              <FileJson className="w-4 h-4 shrink-0" aria-hidden="true" />
+              Data Browser
             </button>
           </div>
 

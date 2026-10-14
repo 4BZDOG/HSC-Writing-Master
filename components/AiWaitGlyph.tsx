@@ -26,6 +26,15 @@ import type { AiTaskType } from './LoadingIndicator';
  * picture once (the keyframes end on it — see the note in index.css).
  */
 
+/**
+ * The ink for a wait that is not in any band: the app's accent token, so the
+ * glyph, the progress bar and the margin rule move with the theme. A band-less
+ * wait (marking, before the band is known) uses this; a wait for a known band
+ * passes that band's colour instead. Set as a CSS colour, not a hex, so the
+ * light theme's deeper accent applies without a second literal.
+ */
+export const WAIT_INK = 'rgb(var(--color-accent))';
+
 const BANDS = [1, 2, 3, 4, 5, 6] as const;
 
 const prefersReducedMotion = (): boolean =>
@@ -245,12 +254,14 @@ const WritingPage: React.FC<{ accent: string }> = ({ accent }) => {
               d={word.d}
               pathLength={1}
               fill="none"
-              stroke={accent}
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeDasharray="1 1"
               style={{
+                // A style, not a presentation attribute: an attribute does not
+                // take `var()`, and the ink is a theme token.
+                stroke: accent,
                 strokeDashoffset: 1,
                 animation: `glyph-write ${Math.round(word.duration)}ms ${Math.round(word.delay)}ms linear forwards`,
               }}
@@ -302,9 +313,9 @@ const HighlightedText: React.FC<{ accent: string }> = ({ accent }) => {
                 width={word.w + 4}
                 height="14"
                 rx="2"
-                fill={accent}
                 fillOpacity="0.32"
                 style={{
+                  fill: accent,
                   transformBox: 'fill-box',
                   transformOrigin: 'left',
                   transform: 'scaleX(0)',

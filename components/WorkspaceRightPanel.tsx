@@ -17,6 +17,7 @@ import {
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import { getReadinessChroma } from '../utils/draftReadiness';
+import { getBandRgb } from '../utils/renderUtils';
 import ReadinessMeter from './ReadinessMeter';
 import {
   freeEvalsRemaining,
@@ -35,6 +36,16 @@ const IS_APPLE =
   typeof navigator !== 'undefined' &&
   /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || '');
 const SUBMIT_SHORTCUT = IS_APPLE ? '⌘ ↵' : 'Ctrl ↵';
+
+/** How the Evaluate button is painted: its fill, its lift, its edge, and, for a
+ *  band fill, the band whose `--band-rgb` the fill is drawn from. */
+interface EvaluateSurface {
+  surface: string;
+  shadow: string;
+  border: string;
+  text?: string;
+  bandRgb?: string;
+}
 
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
@@ -178,11 +189,13 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // explicitly: a solid border in the accent hue, and a coloured drop shadow (the
   // band's own `glow`, or indigo's inset-highlighted shadow) that lifts it off
   // the bar rather than the flat `shadow-lg` that vanished against a dark footer.
-  const buttonConfig = useMemo(() => {
+  const buttonConfig = useMemo((): EvaluateSurface => {
     // The calm indigo default — the button's resting accent, and what it keeps
     // in every neutral/exam/disabled case so colour is never mistaken for a mark.
-    const neutralConfig = {
-      gradient: 'from-indigo-600 to-indigo-500',
+    // White on `indigo-600` is 6.3:1; the lighter `indigo-500` end it used to
+    // run to was 4.47:1, under the 4.5:1 floor, so the gradient stops at `indigo-600`.
+    const neutralConfig: EvaluateSurface = {
+      surface: 'bg-gradient-to-r from-indigo-700 to-indigo-600',
       shadow:
         'shadow-[0_4px_16px_-4px_rgba(79,70,229,0.65),inset_0_1px_0_0_rgba(255,255,255,0.25)] hover:shadow-[0_8px_24px_-4px_rgba(79,70,229,0.85),inset_0_1px_0_0_rgba(255,255,255,0.3)]',
       border: 'border-indigo-400/70 light:border-indigo-500',
@@ -192,15 +205,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     // Neutral while empty/barely-started, and always neutral in Exam Mode.
     if (readiness.isNeutral || isExamMode) return neutralConfig;
 
-    // Substance to evaluate, coach mode: borrow the readiness palette. The band
-    // config drives the gradient, border and text; its `glow` becomes the raised
-    // coloured drop shadow so the button keeps the same pressable lift.
+    // Substance to evaluate, coach mode: the band's own fill, drawn flat from
+    // `--band-rgb` as `band-solid`. That class carries its ink, which clears AA
+    // on all six hues, where the white this button used to set did not (3.1:1
+    // on red in the dark theme). Its `glow` becomes the raised coloured drop
+    // shadow so the button keeps the same pressable lift.
     const { config } = getReadinessChroma(readiness.chromaLevel);
     return {
-      gradient: config.gradient,
+      surface: 'band-solid',
       shadow: `shadow-lg ${config.glow} hover:shadow-xl motion-reduce:transition-none`,
       border: config.border,
-      text: config.solidText,
+      bandRgb: getBandRgb(readiness.chromaLevel),
     };
   }, [readiness.isNeutral, readiness.chromaLevel, isExamMode]);
 
@@ -380,8 +395,15 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ? 'Write a response first, then evaluate'
               : `Evaluate your response (${shortcutName})${evalCounterTitle}`
         }
+        // 44px tall on a phone, the touch target a thumb needs; the footer it sits
+        // in is the height of this button, so it grows with it and no further.
+        style={
+          buttonConfig.bandRgb
+            ? ({ '--band-rgb': buttonConfig.bandRgb } as React.CSSProperties)
+            : undefined
+        }
         className={`
-          group px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm tracking-tight
+          group px-4 py-2 sm:px-5 sm:py-2.5 min-h-11 sm:min-h-0 rounded-xl font-black text-xs sm:text-sm tracking-tight
           transition-all duration-300 flex items-center gap-2 flex-shrink-0 border
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400
           focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]
@@ -390,7 +412,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border-white/15 light:border-slate-300 shadow-inner'
               : !userAnswer.trim()
                 ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border-white/10 light:border-slate-400 opacity-50'
-                : `bg-gradient-to-r ${buttonConfig.gradient} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
+                : `${buttonConfig.surface} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
           }
         `}
       >
@@ -406,10 +428,11 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
               }`}
             />
-            {/* The white only belongs on the indigo fill. Applied
-              unconditionally it painted the DISABLED label white too — legible
-              against the dark footer, invisible against the light theme's pale
-              grey one. Unset, the label inherits the button's own colour. */}
+            {/* The label's colour is the fill's own: white on the indigo default,
+              and the band's ink on the band fill (`band-solid`), so it is unset
+              there. Applied unconditionally, the white painted the DISABLED label
+              too — legible against the dark footer, invisible against the light
+              theme's pale grey one. Unset, the label inherits the button's colour. */}
             <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
             {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
                 Windows and ChromeOS machines most NSW schools issue, where

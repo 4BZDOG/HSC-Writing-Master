@@ -124,8 +124,18 @@ describe('AiBusyOverlay', () => {
       </AiBusyOverlay>
     );
     const veil = container.firstElementChild as HTMLElement;
-    expect(veil.className).toContain('bg-surface/80');
+    expect(veil.className).toContain('bg-surface/95');
     expect(veil.className).not.toMatch(/(^|\s)bg-white(\s|$)/);
+  });
+
+  it('is an opaque sheet with no backdrop blur, so the answer underneath cannot ghost through', () => {
+    const { container } = render(
+      <AiBusyOverlay show>
+        <p>wait</p>
+      </AiBusyOverlay>
+    );
+    const veil = container.firstElementChild as HTMLElement;
+    expect(veil.className).not.toContain('backdrop-blur');
   });
 
   it('swallows pointer events, so nothing under the veil can be clicked', () => {

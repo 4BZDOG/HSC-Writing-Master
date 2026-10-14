@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 import { EvaluationResult, Prompt, UserFeedback, HierarchyContext } from '../types';
 import EvaluationDisplay from './EvaluationDisplay';
@@ -54,6 +54,9 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   hierarchy,
 }) => {
   const [mounted, setMounted] = useState(false);
+  // The footer's note on what "Use this version" does, named by the button it
+  // describes. It must be called before the early return below.
+  const replacesNoteId = useId();
 
   // Escape closes the feedback like every other modal surface — but never
   // mid-improvement, so the regeneration can't be abandoned half-rendered.
@@ -175,17 +178,23 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
         {/* The way out. It sits outside the scrolling desk, so it is there at every
             point in the report and not only at its end. "Use this version" is the
             primary action when there is a rewrite to use; without one, going back is. */}
-        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-300 dark:border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-wrap items-center justify-end gap-3">
+        {/* One row at every width. The two actions share it, so both are one thumb's
+            reach and the footer never stacks into a second band of controls.
+            On a phone the note on what "Use this version" does has no row of its
+            own: it is the second line of that button, and the button names it too. */}
+        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-300 dark:border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-nowrap items-center justify-end gap-2 sm:gap-3">
           {canUse && (
-            <p className="t-label w-full sm:w-auto sm:mr-auto text-slate-600 dark:text-slate-400">
+            <p
+              id={replacesNoteId}
+              className="hidden sm:block t-label sm:mr-auto text-slate-600 dark:text-slate-400"
+            >
               Replaces your draft.
             </p>
           )}
-          {/* On a phone the two actions share the row, so both are one thumb's reach. */}
           <button
             onClick={onClose}
             disabled={isImproving}
-            className={`${canUse ? SECONDARY_ACTION : `${PRIMARY_ACTION} ${BAND_GROUND}`} flex-1 sm:flex-none`}
+            className={`${canUse ? SECONDARY_ACTION : `${PRIMARY_ACTION} ${BAND_GROUND}`} min-w-0 flex-1 sm:flex-none`}
             style={canUse ? undefined : ladderBandVars(result.overallBand)}
           >
             Back to my response
@@ -194,11 +203,17 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             <button
               onClick={handleUse}
               disabled={isImproving}
-              className={`${PRIMARY_ACTION} ${BAND_GROUND} flex-1 sm:flex-none`}
+              aria-describedby={replacesNoteId}
+              className={`${PRIMARY_ACTION} ${BAND_GROUND} min-w-0 flex-1 sm:flex-none`}
               style={ladderBandVars(result.overallBand)}
             >
-              <ArrowUpCircle className="w-4 h-4" aria-hidden="true" />
-              Use this version
+              <ArrowUpCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span className="flex flex-col items-start text-left leading-tight">
+                Use this version
+                <span aria-hidden="true" className="sm:hidden font-normal">
+                  Replaces your draft.
+                </span>
+              </span>
             </button>
           )}
         </div>

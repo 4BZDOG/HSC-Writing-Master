@@ -5,7 +5,7 @@ import { getSelectionSnapshot } from '../services/aiConfig';
 import { getModelById } from '../services/aiModels';
 import { waitNotes } from '../utils/waitTips';
 import { acquireAiBusy } from '../utils/aiBusySignal';
-import AiWaitGlyph from './AiWaitGlyph';
+import AiWaitGlyph, { WAIT_INK } from './AiWaitGlyph';
 import HscResultsCard from './HscResultsCard';
 import WaitNoteFigure from './WaitNoteFigure';
 
@@ -85,9 +85,6 @@ const TASK_TITLE: Record<AiTaskType, string> = {
   enrichment: 'Reading',
   default: 'Working on it',
 };
-
-/** Indigo-500: the neutral ink when no band is in play. */
-const DEFAULT_ACCENT = '#6366f1';
 
 /** Seconds between notes. Long enough to read one twice. */
 const TIP_SECONDS = 9;
@@ -195,7 +192,8 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     return acquireAiBusy();
   }, [isError, isAiWait]);
 
-  const accent = !isError && band ? getBandHex(band) : DEFAULT_ACCENT;
+  // With no band in play the ink is the app's accent: a theme token, read at render.
+  const accent = !isError && band ? getBandHex(band) : WAIT_INK;
   const overdue = hasEstimate && elapsed > Math.max(duration * 1.25, duration + 4);
   const progress = Math.min(92, (elapsed / Math.max(1, duration)) * 92);
   const visibleSteps = steps.slice(0, 5);

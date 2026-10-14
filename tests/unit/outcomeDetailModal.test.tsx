@@ -164,4 +164,45 @@ describe('OutcomeDetailModal', () => {
     expect(screen.getAllByRole('tab')[1].getAttribute('aria-selected')).toBe('true');
     expect(screen.getByRole('dialog', { name: 'EC-04' })).toBeTruthy();
   });
+
+  describe('the verb sheet link', () => {
+    const renderWithSheet = (onVerbSheet?: () => void) => {
+      const onClose = vi.fn();
+      render(
+        <OutcomeDetailModal
+          isOpen
+          onClose={onClose}
+          outcomes={[EC02]}
+          initialCode="EC-02"
+          question={QUESTION}
+          tier={6}
+          verb="EVALUATE"
+          totalMarks={6}
+          onVerbSheet={onVerbSheet}
+        />
+      );
+      return { onClose };
+    };
+
+    it('asks what the question’s verb wants, as a link beside the verb', () => {
+      renderWithSheet(vi.fn());
+      expect(screen.getByRole('button', { name: 'What does EVALUATE ask for?' })).toBeTruthy();
+    });
+
+    it('opens the sheet over the brief, which stays open beneath it', () => {
+      const onVerbSheet = vi.fn();
+      const { onClose } = renderWithSheet(onVerbSheet);
+
+      fireEvent.click(screen.getByRole('button', { name: 'What does EVALUATE ask for?' }));
+      expect(onVerbSheet).toHaveBeenCalledTimes(1);
+      // Stacked, not swapped: the brief is closed only by its own controls, so
+      // focus and Escape stay with the sheet that opened over it.
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('is left out when there is no sheet to open', () => {
+      renderWithSheet(undefined);
+      expect(screen.queryByRole('button', { name: /ask for\?/ })).toBeNull();
+    });
+  });
 });

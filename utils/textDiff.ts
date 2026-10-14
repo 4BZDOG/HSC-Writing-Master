@@ -638,21 +638,3 @@ export const sentenceChanges = (original: string, revised: string): SentenceChan
     .map((g) => ({ before: join(beforeSpans, g.before), after: join(afterSpans, g.after) }))
     .filter((row) => row.before || row.after);
 };
-
-/**
- * How much of the response the revision reworked, as a sentence count.
- *
- * The printed report used to state `retention` — "23% of your own writing
- * kept". It is an accurate number and a demoralising one: a rewrite one band up
- * restates most sentences, so the figure is always low, and it reads as a verdict
- * on the student rather than a description of the edit. A count of rewritten
- * sentences says the same thing as a fact they can act on.
- */
-export const rewrittenSentenceCount = (
-  original: string,
-  changes: SentenceChange[]
-): { rewritten: number; total: number } => {
-  const total = tokenizeSentences(original).length;
-  const touched = new Set(changes.map((c) => c.before).filter(Boolean));
-  return { rewritten: Math.min(touched.size, total), total };
-};

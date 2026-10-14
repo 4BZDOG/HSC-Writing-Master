@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback, useId } from 'react';
 import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
@@ -42,6 +42,7 @@ import {
   CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
+  cardHeaderWash,
   CARD_HEADER_ICON,
   CARD_HEADER_IDENTITY,
   CARD_HEADER_META,
@@ -138,6 +139,9 @@ const OutcomeChip: React.FC<{
 }> = ({ outcome, bandConfig, onOpen }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [anchor, setAnchor] = useState<{ left: number; top: number } | null>(null);
+  // The preview is the chip's description. It is named by id only while it is
+  // showing: a reference to a node that is not in the page is a dangling one.
+  const tipId = useId();
 
   const show = useCallback(() => {
     // Touch browsers leave a tapped element in :hover, so on a phone the panel
@@ -174,6 +178,7 @@ const OutcomeChip: React.FC<{
       <button
         ref={buttonRef}
         onClick={onOpen}
+        aria-describedby={anchor ? tipId : undefined}
         onMouseEnter={show}
         onMouseLeave={hide}
         onFocus={show}
@@ -194,6 +199,7 @@ const OutcomeChip: React.FC<{
         createPortal(
           <div
             role="tooltip"
+            id={tipId}
             className="fixed z-tooltip w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-lg pointer-events-none backdrop-blur-xl animate-fade-in"
             style={{ left: anchor.left, top: anchor.top - 12 }}
           >
@@ -529,8 +535,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           ref={headerRef}
           // Every class in this header comes from utils/cardChrome, shared with
           // the writing card so the pair reads as one piece of furniture.
-          className={`${CARD_HEADER_BOX} bg-gradient-to-r ${bandConfig.gradient}`}
-          style={{ minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto' }}
+          className={CARD_HEADER_BOX}
+          style={{
+            minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
+            background: cardHeaderWash(verbInfo.tier),
+          }}
         >
           <MeshOverlay opacity="opacity-20" />
 
@@ -573,17 +582,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // one visual language means "this opens the verb guide" —
                     // and so this chip stops reading as another fact chip like
                     // the "4 Marks" and "Band 2" pills it sits beside.
-                    className={`t-label leading-none whitespace-nowrap bg-white/20 px-2.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
+                    className={`t-label leading-none whitespace-nowrap bg-black/20 px-2.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
                       examMode
                         ? 'cursor-default'
-                        : 'underline decoration-dotted decoration-white/50 underline-offset-[3px] hover:bg-white/30 hover:decoration-solid hover:decoration-white active:scale-[0.98]'
+                        : 'underline decoration-dotted decoration-white/50 underline-offset-[3px] hover:bg-black/30 hover:decoration-solid hover:decoration-white active:scale-[0.98]'
                     }`}
                   >
                     {prompt.verb}
                   </button>
                   {isEnriching && (
                     <span
-                      className="t-label inline-flex items-center gap-1 leading-none bg-white/15 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
+                      className="t-label inline-flex items-center gap-1 leading-none bg-black/20 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
                       title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
                     >
                       <Loader2 className="w-2.5 h-2.5 animate-spin" />
@@ -623,9 +632,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       // No `uppercase` here, unlike its neighbours: an HSC
                       // question number is "12(b)", and shouting it as
                       // "Q12(B)" changes what the label says.
-                      className={`inline-flex items-center gap-1 text-[9px] leading-none font-black tracking-[0.1em] rounded-full px-1.5 py-0.5 animate-fade-in transition-colors bg-white/20 border border-white/30 ${
+                      className={`inline-flex items-center gap-1 text-[9px] leading-none font-black tracking-[0.1em] rounded-full px-1.5 py-0.5 animate-fade-in transition-colors bg-black/20 border border-white/30 ${
                         canCurate && !examMode
-                          ? 'hover:bg-white/30 cursor-pointer'
+                          ? 'hover:bg-black/30 cursor-pointer'
                           : 'cursor-default'
                       }`}
                       title={`${pastHsc.title}${canCurate && !examMode ? ' — click to edit' : ''}`}
@@ -797,8 +806,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       scenario, and the contrast sweep's first question has
                       none — see `openQuestionWithOutcomes`. The light partner
                       is unchanged; it was already clearing the floor. */}
-                  <h3 className="t-section text-slate-400 light:text-slate-600 flex items-center gap-2">
-                    <BookOpen className="w-3.5 h-3.5" /> Context Scenario
+                  <h3 className="text-sm font-bold text-slate-400 light:text-slate-600 flex items-center gap-2">
+                    <BookOpen className="w-3.5 h-3.5" /> Context scenario
                   </h3>
                   {canCurate && !isEditingScenario && (
                     <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
@@ -1207,7 +1216,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // tooltip, and not every screen reader treats one as the
                     // accessible name.
                     aria-label="Decrease reading size"
-                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
+                    className="p-1 sm:p-1.5 max-sm:size-11 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
                     title="Decrease font size"
                   >
                     <ZoomOut className="w-3.5 h-3.5" />
@@ -1218,7 +1227,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <button
                     onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
                     aria-label="Increase reading size"
-                    className="p-1 sm:p-1.5 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
+                    className="p-1 sm:p-1.5 max-sm:size-11 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
                     title="Increase font size"
                   >
                     <ZoomIn className="w-3.5 h-3.5" />
@@ -1240,6 +1249,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             verb={prompt.verb}
             totalMarks={prompt.totalMarks}
             breadcrumb={breadcrumb}
+            // Stacked over the brief, not swapped for it. Exam mode disables the
+            // verb button, so it gets no sheet either (it has no outcome chips
+            // today, so this is the rule written down, not a reachable path).
+            onVerbSheet={examMode ? undefined : onVerbClick}
           />
         )}
 

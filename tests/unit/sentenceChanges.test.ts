@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { sentenceChanges, rewrittenSentenceCount } from '../../utils/textDiff';
+import { sentenceChanges } from '../../utils/textDiff';
 
 /**
  * The printed report's "What changed" pairs each rewritten sentence with what
- * it became, and says how many of the student's sentences were rewritten.
+ * it became.
  */
 describe('sentenceChanges', () => {
   const ORIGINAL =
@@ -27,7 +27,6 @@ describe('sentenceChanges', () => {
       'This means replication makes copies of cells.',
     ]);
     expect(changes[1].after).toContain('exposing two template strands.');
-    expect(rewrittenSentenceCount(ORIGINAL, changes)).toEqual({ rewritten: 4, total: 4 });
   });
 
   it('leaves untouched sentences out', () => {

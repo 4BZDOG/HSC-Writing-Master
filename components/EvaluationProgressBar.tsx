@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
-import AiWaitGlyph from './AiWaitGlyph';
+import AiWaitGlyph, { WAIT_INK } from './AiWaitGlyph';
 import AiBusyOverlay from './AiBusyOverlay';
 import WaitNoteFigure from './WaitNoteFigure';
 import { waitNotes } from '../utils/waitTips';
@@ -92,7 +92,7 @@ const EvaluationProgressBar: React.FC = () => {
   return (
     <AiBusyOverlay show rounded="rounded-b-surface-inner">
       <div className="flex flex-col items-center gap-5 text-center">
-        <AiWaitGlyph task="evaluation" accent="#6366f1" />
+        <AiWaitGlyph task="evaluation" accent={WAIT_INK} />
 
         <div role="status" aria-live="polite" aria-atomic="true" className="space-y-1">
           <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
@@ -105,7 +105,7 @@ const EvaluationProgressBar: React.FC = () => {
           <div className="h-1 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
             <div
               className={`h-full w-full rounded-full animate-progress-indeterminate transition-colors duration-500 ${
-                isRetrying || isFallback ? 'bg-amber-500' : 'bg-indigo-500'
+                isRetrying || isFallback ? 'bg-amber-500' : 'bg-[rgb(var(--color-accent))]'
               }`}
             />
           </div>
@@ -123,7 +123,7 @@ const EvaluationProgressBar: React.FC = () => {
             live region, so it is never announced on its own clock. No results
             chart here: this is the wait where the student's own band is decided. */}
         <div className="w-full max-w-sm">
-          <WaitNoteFigure key={note.text} note={note} accent="#6366f1" />
+          <WaitNoteFigure key={note.text} note={note} accent={WAIT_INK} />
         </div>
       </div>
     </AiBusyOverlay>
