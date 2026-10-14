@@ -372,7 +372,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
               </div>
             ) : (
               fileName && (
-                <div className="flex items-center gap-2 justify-center text-emerald-400 light:text-emerald-700 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
+                <div className="flex items-center gap-2 justify-center text-emerald-400 light:text-emerald-800 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
                   <CheckCircle className="w-4 h-4" />
                   <span className="text-sm font-medium">Selected: {fileName}</span>
                 </div>

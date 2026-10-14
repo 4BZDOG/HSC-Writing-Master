@@ -50,7 +50,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
     >
       <div className="flex items-center gap-6 mb-10">
         <div
-          className={`p-4 rounded-panel shadow-lg flex items-center justify-center relative overflow-hidden group/status ${result.isValid ? 'bg-emerald-700 text-white' : 'bg-red-500 text-white'}`}
+          className={`p-4 rounded-panel shadow-lg flex items-center justify-center relative overflow-hidden group/status ${result.isValid ? 'bg-emerald-700 text-white' : 'bg-red-600 text-white'}`}
         >
           <div className="absolute inset-0 bg-white/20 animate-pulse opacity-0 group-hover/status:opacity-100 transition-opacity" />
           {result.isValid ? (
@@ -128,7 +128,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
               </li>
             ))}
             {result.errors.length > 5 && (
-              <li className="text-xs text-red-500/60 light:text-red-400 font-semibold pl-4">
+              <li className="text-xs text-red-500/60 light:text-red-700 font-semibold pl-4">
                 +{result.errors.length - 5} more error{result.errors.length - 5 === 1 ? '' : 's'}
               </li>
             )}
@@ -157,7 +157,7 @@ const ValidationSummary = ({ result }: ValidationSummaryProps) => {
               </li>
             ))}
             {result.warnings.length > 5 && (
-              <li className="text-xs text-amber-500/60 light:text-amber-400 font-semibold pl-4">
+              <li className="text-xs text-amber-500/60 light:text-amber-700 font-semibold pl-4">
                 +{result.warnings.length - 5} more warning
                 {result.warnings.length - 5 === 1 ? '' : 's'}
               </li>
