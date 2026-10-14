@@ -19,6 +19,7 @@ export type ModalName =
   | 'qualityCheck'
   | 'userProfile'
   | 'databaseDashboard'
+  | 'billingOverview'
   | 'manifestImport'
   | 'manualPrompt'
   | 'quickStart'

@@ -571,7 +571,8 @@ is wrong:
   product decision about whether School should carry something of its own
   (class-scoped analytics is the obvious candidate) rather than a code change.
 - ~~**Nothing notices when a school outgrows its licence.**~~ — **done**, see §29.
-  Staff are told the first time they open the app in a session. What is still
+  Staff are told the first time they open the app in a session, and the admin Billing
+  overview lists over-seat schools under "Needs attention". What is still
   open is in the three bullets below.
 - **`list_schools()` answers teachers for every school.** It is gated on
   `is_reviewer()` (admin or teacher), not on admin alone, so a teacher who calls
@@ -590,6 +591,11 @@ is wrong:
   names the purchaser's role but the app cannot say who the purchaser is, and
   only the purchaser can open Manage subscription. Closing it needs either the
   purchaser's name on the licence row or an admin-side seat request.
+- **Revenue is not on the admin Billing overview.** The app's display prices
+  (`PLAN_PRICING`) are presentation strings, not Stripe amounts, so a total from
+  them would be a guess. A monthly-recurring figure needs a price source of truth
+  first (the Stripe Price amounts, read server-side, or a price table kept in step
+  with them).
 - ~~**`sampleAnswers` is the one UI-only gate with a real fix available**~~ —
   **done**, see §15 below. The other three (`advancedQuestions`, `pdfExport`,
   `examMode`) are honestly unfixable at that layer, for the reasons in

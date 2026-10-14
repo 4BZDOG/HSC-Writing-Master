@@ -1,5 +1,14 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (Admin Billing overview)
+
+- **Added.** Admin Tools → Billing → "Billing Overview". Read-only: paying subscriptions by plan and seats, what
+  is ending or renewing in 7 and 30 days, and a "Needs attention" list (past due, unpaid, a renewal the webhook
+  never recorded, a checkout that never completed, schools over their seats, a quiet webhook). It also shows the
+  last ten webhook events. The page is in the lazy `admin` chunk; the reads are the existing RLS-gated tables,
+  paged past PostgREST's row cap. No SQL changed and no money figure is shown.
+- **Not done.** Revenue needs a price source of truth, because the app's display prices are not Stripe amounts.
+
 ## [Unreleased] - 2026-10-14 (Schools can pay a licence by purchase order: server half)
 
 - **Added.** A teacher or admin attached to a school can request a School licence to be invoiced

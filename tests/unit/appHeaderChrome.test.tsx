@@ -99,7 +99,7 @@ const openTools = (): HTMLElement => {
   return trigger;
 };
 
-/** The eight admin/moderator tools, by the labels the e2e specs select on. */
+/** The nine admin/moderator tools, by the labels the e2e specs select on. */
 const ADMIN_TOOLS = [
   'Data Vault (Import/Export/Reorder)',
   'Content Audit Studio',
@@ -109,6 +109,7 @@ const ADMIN_TOOLS = [
   'Internal Database Health',
   'AI Usage Dashboard (monitor & adjust quotas)',
   'Runtime AI Keys (paste a key to test models)',
+  'Billing Overview (subscriptions, renewals, webhook)',
 ];
 
 describe('the header wears the shared vocabulary', () => {
@@ -448,7 +449,7 @@ describe('the admin tools stay behind the role gate', () => {
     }
   });
 
-  it('shows an admin all eight, under a trigger labelled for the role', () => {
+  it('shows an admin all nine, under a trigger labelled for the role', () => {
     renderHeader('admin');
 
     expect(openTools().getAttribute('aria-label')).toBe('Admin tools');
@@ -457,7 +458,7 @@ describe('the admin tools stay behind the role gate', () => {
     }
   });
 
-  it('shows a teacher the moderation three and none of the system-admin five', () => {
+  it('shows a teacher the moderation three and none of the system-admin six', () => {
     renderHeader('teacher');
 
     expect(openTools().getAttribute('aria-label')).toBe('Teaching tools');
