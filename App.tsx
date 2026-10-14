@@ -60,6 +60,7 @@ import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'luc
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
+import SeatOverageNotice from './components/SeatOverageNotice';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile, STORAGE_KEYS } from './utils/storageUtils';
 import {
@@ -894,6 +895,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
+        {!isFocusMode && <SeatOverageNotice user={user} />}
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
