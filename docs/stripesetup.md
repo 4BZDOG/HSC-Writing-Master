@@ -491,6 +491,48 @@ moments after the admin approves. What ends it if the
 invoice is never paid is the subscription's status, so set Stripe's behaviour
 for unpaid invoices (below).
 
+**Deciding a request.** The queue is on the Billing overview (admin tools, then
+Billing Overview). Pending requests sit at the top of **Needs attention**, under
+**Invoice requests**, oldest first. Each card shows the school, the seats, the
+billing contact and address, the ABN and the purchase order number, and how long
+the request has waited in working days (Monday to Friday, counted in Sydney time;
+NSW public holidays are not excluded). A request waiting more than three working
+days is marked overdue.
+
+- **Approve** opens a confirm step that says what will happen before anything is
+  sent: the subscription and its seats, the invoice and the address it goes to,
+  and the payment terms. Choose 14, 30, 45 or 60 days (30 by default), then press
+  **Approve and send invoice**. The school's members get access once the
+  subscription is recorded, before the invoice is paid. If the person who asked
+  already has a Stripe billing customer, its name, email and address are replaced
+  with the ones on the request.
+- **Decline** takes an optional note, which the person who asked sees. It changes
+  nothing in Stripe and sends no invoice.
+
+While a call is in flight the decision buttons, Refresh and the close control are
+disabled, and Escape or a press on the backdrop does not close the window, so an
+answer cannot be lost. Only one call goes out at a time.
+
+**When the answer is not clean.**
+
+- A refusal shows the server's sentence as it came. Act on what it says: a school
+  that already holds a live licence has to be declined, not approved.
+- A refusal that names a Stripe subscription (`sub_…`) means Stripe already holds
+  one for this request, usually because an earlier approval stopped part-way. Approve
+  is then off in that window. Check the subscription in the Stripe Dashboard, then
+  press Refresh. The request is read again, and Approve comes back. Approving again
+  reuses that subscription and does not create a second one. Decline stays on, and
+  the server refuses it while the subscription is still billing.
+- If the answer never arrives (the connection drops, or the server times out), the
+  window says the result is not known, and both buttons stay off. Press Refresh and
+  check the request, and Stripe, before doing anything else.
+
+**Nothing tells you a request has arrived.** No email or push goes to an admin
+when a request is made. The queue shows it when you open the Billing overview, so
+that is the only signal until a notification route exists. If the purchase-order
+table (schema §27) is not in the database yet, the overview says the requests were
+not checked, and the rest of the page still loads.
+
 **Stripe Dashboard settings** (the labels move from time to time, so look for
 the settings described):
 
