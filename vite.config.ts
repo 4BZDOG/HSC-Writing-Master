@@ -194,6 +194,7 @@ function apiDevProxy(): Plugin {
         'create-checkout',
         'customer-portal',
         'stripe-webhook',
+        'sync-checkout',
         // The contribution pre-screen. Without it, `npm run dev` 404s the call
         // and every local contribution arrives unscored — which is the correct
         // fail-open behaviour, and exactly the wrong thing to develop against.

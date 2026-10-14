@@ -381,6 +381,9 @@ describe('request-invoice: one pending request per school', () => {
   });
 
   it('shows a colleague’s pending request as a summary only, without their billing details', async () => {
+    // One instant, read once: calling daysAgo() again for the expectation reads the
+    // clock a millisecond later and fails about one run in a few hundred.
+    const colleaguesRequestAt = daysAgo(0.2);
     tables.licence_requests = [
       {
         id: 'req-2',
@@ -391,7 +394,7 @@ describe('request-invoice: one pending request per school', () => {
         billing_email: 'private@other.example',
         billing_address: address,
         status: 'pending',
-        created_at: daysAgo(0.2),
+        created_at: colleaguesRequestAt,
       },
     ];
     const res = makeRes();
@@ -403,7 +406,7 @@ describe('request-invoice: one pending request per school', () => {
       id: 'req-2',
       status: 'pending',
       seats: 40,
-      created_at: daysAgo(0.2),
+      created_at: colleaguesRequestAt,
     });
     expect(JSON.stringify(res.body)).not.toContain('private@other.example');
     expect(JSON.stringify(res.body)).not.toContain('Someone Else');

@@ -13,6 +13,17 @@
   the requests were not checked and loads the rest. See `docs/stripesetup.md`, "Deciding a request".
 - **Learned.** The confirm step's wording follows what `api/issue-invoice.ts` does, line for line, including that
   a reused Stripe customer has its billing details replaced.
+## [Unreleased] - 2026-10-14 (Checkout return confirms the purchase itself)
+
+- **Fixed.** A customer who paid could be stuck on "refresh if features stay locked" until the webhook landed, and
+  refreshing could not help. The return now calls `POST /api/sync-checkout` with the session id first. The server
+  asks Stripe about that session and applies the subscription, refusing anything that is not this account's, paid
+  and a live subscription. The poll is still the fallback.
+- **Changed.** The subscription-applying code moved from `api/stripe-webhook.ts` into `api/_lib/subscriptionSync.ts`,
+  shared with the new endpoint. The webhook's behaviour is unchanged, and its existing tests pass without edits.
+- **Operator.** Still needs the webhook for renewals, cancellations, failed payments and seat changes (see
+  `docs/stripesetup.md`, Step 4). No schema change and no new environment variable.
+- See `projectDocs/monetisation-review-2026-09.md` §31.
 
 ## [Unreleased] - 2026-10-14 (Admin Billing overview)
 

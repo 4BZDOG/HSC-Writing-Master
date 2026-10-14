@@ -202,6 +202,9 @@ inconsistency is a decision rather than an oversight.
 so a **buyer** — personal or school — unlocks without re-login. It is the other
 members of a licensed school who wait (see §4).
 
+_Superseded by §31: the return now confirms the purchase with Stripe before it
+polls, so the poll is the fallback rather than the only route._
+
 ### 13. The profile's three help rows were dead buttons — P0, fixed
 
 Found by the new end-to-end spec, and invisible to every unit test in the
@@ -566,7 +569,36 @@ is wrong:
   requester's Stripe customer, so an admin who bought nothing has no portal to open.
 - **Records are not deleted automatically.** The operator deletes them on request
   and sets how long they are kept (see `docs/privacy-for-schools.md`).
+
+### 31. A paying customer could stay locked until the webhook landed — P1, fixed
+
+The return from Checkout polled the profile for about 30 seconds, then told the
+customer to "refresh if features stay locked". A refresh cannot help: the plan
+was written only by the webhook. A slow delivery, a deploy in flight, a wrong
+signing secret, or an endpoint that was never registered left a customer who had
+just paid on the upgrade prompt. It is the costliest failure a paywall has, and
+the commonest first-deployment mistake.
+
+- **Fixed.** `POST /api/sync-checkout` takes the session id from the return URL and
+  asks Stripe about it. It refuses unless the session belongs to the signed-in
+  account, is a subscription, is complete and paid, and its subscription is active
+  or trialing. The plan comes from the subscription's price, as the webhook derives
+  it. The row is written through `api/_lib/subscriptionSync.ts`, which the webhook
+  now shares, so the ordering guard is the same code on both paths.
+- **Ordering.** The stamp is the time captured before the Stripe call, so a webhook
+  event created while that call is in flight still applies. If the apply fails after
+  the stamp is written, the stamp is put back, so the webhook's copy of the purchase
+  is not discarded as stale.
+- **Residual.** A failed restore is logged as `[sync-checkout] could not restore the
+  ordering stamp`; in that case the webhook copy of that one purchase can be
+  discarded until a later event arrives. The client calls once per return, and each
+  call costs one Stripe retrieve.
 ## 5. Still open (not attempted here)
+
+- **Renewals, cancellations, failed payments and seat changes still need the
+  webhook.** The return now confirms the first purchase, so a missing endpoint no
+  longer locks a buyer out, but it does mean a lapsed subscription goes unnoticed.
+  See `docs/stripesetup.md`, Step 4.
 
 - **Open findings from the server-hardening pass (§16 and onwards)**: §21 (two open
   checkouts can both complete) and §22 (`incomplete` holds nothing) are double-charge

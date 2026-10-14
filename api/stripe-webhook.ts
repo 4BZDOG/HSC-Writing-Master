@@ -27,6 +27,12 @@ import {
   priceToPlan,
 } from './_lib/stripe';
 import { claimEvent, markEventProcessed, releaseEvent } from './_lib/stripeLedger';
+import {
+  applySubscriptionUpsert,
+  eventStamp,
+  isStaleEvent,
+  linkStripeCustomer,
+} from './_lib/subscriptionSync';
 
 interface RequestLike {
   method?: string;
@@ -177,7 +183,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
-        await handleSubscriptionUpsert(supabase, obj, eventCreated);
+        await applySubscriptionUpsert(supabase, obj, eventCreated);
         break;
 
       case 'customer.subscription.deleted':
@@ -216,33 +222,6 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
 type SB = NonNullable<ReturnType<typeof getSupabaseAdmin>>;
 
-/** The ordering stamp written alongside every subscription-row write. */
-const eventStamp = (eventCreated?: number): Record<string, string> =>
-  eventCreated ? { last_event_at: new Date(eventCreated * 1000).toISOString() } : {};
-
-/**
- * True when this event predates the newest one already applied to the
- * subscription row — i.e. applying it would roll state backwards. Unknown
- * timestamps (no event.created, or a pre-migration row without the column)
- * are never treated as stale: skipping a real event is worse than the
- * out-of-order write it protects against.
- */
-async function isStaleEvent(
-  supabase: SB,
-  subId: string,
-  eventCreated: number | undefined
-): Promise<boolean> {
-  if (!eventCreated || !subId) return false;
-  const { data } = await supabase
-    .from('subscriptions')
-    .select('last_event_at')
-    .eq('id', subId)
-    .maybeSingle();
-  const seen = data?.last_event_at as string | null | undefined;
-  if (!seen) return false;
-  return new Date(seen).getTime() > eventCreated * 1000;
-}
-
 /**
  * checkout.session.completed — links the Stripe customer ID to the Supabase
  * profile using the `client_reference_id` (the user's auth.uid), then
@@ -268,15 +247,7 @@ async function handleCheckoutCompleted(
     return;
   }
 
-  const { error } = await supabase
-    .from('profiles')
-    .update({ stripe_customer_id: customerId })
-    .eq('id', userId);
-
-  if (error) {
-    console.error('[stripe-webhook] Failed to link customer:', error.message);
-    throw error;
-  }
+  await linkStripeCustomer(supabase, userId, customerId);
 
   const subscriptionId =
     typeof session.subscription === 'string'
@@ -285,7 +256,7 @@ async function handleCheckoutCompleted(
   if (stripe && subscriptionId && session.mode === 'subscription') {
     try {
       const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-      await handleSubscriptionUpsert(
+      await applySubscriptionUpsert(
         supabase,
         subscription as unknown as Record<string, unknown>,
         eventCreated
@@ -294,225 +265,6 @@ async function handleCheckoutCompleted(
       console.warn(
         '[stripe-webhook] eager activation failed (subscription events will cover it):',
         e instanceof Error ? e.message : e
-      );
-    }
-  }
-}
-
-/**
- * customer.subscription.created / updated — upserts the subscription row
- * and updates the profile's cached plan.
- */
-async function handleSubscriptionUpsert(
-  supabase: SB,
-  sub: Record<string, unknown>,
-  eventCreated?: number
-) {
-  const subId = sub.id as string;
-  const customerId = sub.customer as string;
-  const status = sub.status as string;
-  const cancelAtPeriodEnd = (sub.cancel_at_period_end as boolean) ?? false;
-
-  const items = sub.items as
-    | {
-        data?: Array<{
-          price?: { id?: string };
-          quantity?: number;
-          current_period_start?: number;
-          current_period_end?: number;
-        }>;
-      }
-    | undefined;
-  const firstItem = items?.data?.[0];
-  const priceId = firstItem?.price?.id ?? '';
-  let plan = priceToPlan(priceId);
-  // Seat count: the subscription item's quantity (school licences bill per
-  // seat); individual Plus subscriptions are quantity 1.
-  const seats = Math.max(1, Math.trunc(Number(firstItem?.quantity ?? sub.quantity ?? 1)) || 1);
-
-  // Stripe API ≥ 2025-03-31 (basil) removed current_period_start/end from the
-  // Subscription object — they now live on each subscription item. Read the
-  // top-level fields first (older webhook API versions) and fall back to the
-  // first item; without the fallback, modern accounts stored "now" for both
-  // and the profile's renewal date was always today.
-  const periodStart = (sub.current_period_start ?? firstItem?.current_period_start) as
-    | number
-    | undefined;
-  const periodEnd = (sub.current_period_end ?? firstItem?.current_period_end) as number | undefined;
-
-  // Ordering guard: Stripe does not order deliveries, so a delayed `updated`
-  // (e.g. the one that preceded a cancellation) can arrive after the state it
-  // predates and resurrect a plan that's already been ended. Refuse to apply
-  // an event older than the newest one this row has seen.
-  if (await isStaleEvent(supabase, subId, eventCreated)) {
-    console.log(`[stripe-webhook] ignoring out-of-order event for ${subId}`);
-    return;
-  }
-
-  // An ACTIVE subscription on a price this deployment doesn't recognise must
-  // never be read as "free". priceToPlan falls back to 'free' for unknown
-  // prices, and Stripe sends customer.subscription.updated for entirely
-  // routine things — a renewal, a card update, a quantity change. So the day
-  // someone rotates a price in Stripe, or a STRIPE_*_PRICE_ID goes missing
-  // from the Vercel project, the next renewal event would quietly downgrade
-  // every paying customer on the old price. Keep whatever plan the row already
-  // holds instead, and be loud about it: the price list needs fixing, but not
-  // at the customer's expense.
-  const planKeepingStatus = status === 'active' || status === 'trialing' || status === 'past_due';
-  if (plan === 'free' && planKeepingStatus) {
-    const { data: existing } = await supabase
-      .from('subscriptions')
-      .select('plan')
-      .eq('id', subId)
-      .maybeSingle();
-    const knownPlan = existing?.plan as string | undefined;
-    const fallback = knownPlan && knownPlan !== 'free' ? (knownPlan as 'plus' | 'school') : 'plus';
-    console.error(
-      `[stripe-webhook] price ${priceId || '(none)'} on active subscription ${subId} is not in ` +
-        `this deployment's price list — keeping '${fallback}' rather than downgrading. ` +
-        'Check STRIPE_PLUS_MONTHLY_PRICE_ID / STRIPE_PLUS_YEARLY_PRICE_ID / STRIPE_SCHOOL_PRICE_ID.'
-    );
-    plan = fallback;
-  }
-
-  // Find the user who owns this customer ID (and their school, for seat
-  // licences).
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, school_id')
-    .eq('stripe_customer_id', customerId)
-    .maybeSingle();
-
-  let userId = profile?.id as string | undefined;
-  let schoolId = (profile?.school_id as string | undefined) ?? undefined;
-
-  // Webhook ordering isn't guaranteed: customer.subscription.created can land
-  // BEFORE checkout.session.completed links the customer id to the profile.
-  // create-checkout stamps the Supabase user id onto the subscription's
-  // metadata for exactly this case — use it, and backfill the customer link.
-  if (!userId) {
-    const metadata = sub.metadata as Record<string, string> | undefined;
-    const metaUserId = metadata?.supabase_user_id;
-    if (metaUserId) {
-      userId = metaUserId;
-      // profiles.stripe_customer_id is uniquely indexed, so this fails if the
-      // id is already claimed by another profile. Log it — the plan write
-      // below still succeeds, but the portal lookup would use the older link.
-      const { error: linkError } = await supabase
-        .from('profiles')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', metaUserId);
-      if (linkError) {
-        console.error('[stripe-webhook] customer backfill failed:', linkError.message);
-      }
-      const { data: metaProfile } = await supabase
-        .from('profiles')
-        .select('school_id')
-        .eq('id', metaUserId)
-        .maybeSingle();
-      schoolId = (metaProfile?.school_id as string | undefined) ?? undefined;
-    }
-  }
-
-  if (!userId) {
-    console.warn('[stripe-webhook] No profile for customer', customerId);
-    return;
-  }
-
-  // Upsert the subscription row.
-  const { error: subError } = await supabase.from('subscriptions').upsert(
-    {
-      id: subId,
-      user_id: userId,
-      stripe_customer_id: customerId,
-      status,
-      price_id: priceId,
-      plan,
-      current_period_start: periodStart
-        ? new Date(periodStart * 1000).toISOString()
-        : new Date().toISOString(),
-      current_period_end: periodEnd
-        ? new Date(periodEnd * 1000).toISOString()
-        : new Date().toISOString(),
-      cancel_at_period_end: cancelAtPeriodEnd,
-      seats,
-      updated_at: new Date().toISOString(),
-      ...eventStamp(eventCreated),
-    },
-    { onConflict: 'id' }
-  );
-
-  if (subError) {
-    console.error('[stripe-webhook] subscription upsert failed:', subError.message);
-    throw subError;
-  }
-
-  // Update the cached plan on the profile.
-  //
-  // Grace period: `past_due` means one charge failed and STRIPE IS STILL
-  // RETRYING (smart retries run for days). Downgrading here would cut a
-  // paying customer off over a flaky card charge — and contradicts the
-  // invoice.payment_failed handler above, which deliberately doesn't
-  // downgrade. The plan is only dropped on terminal states (canceled,
-  // unpaid, incomplete_expired), which Stripe reaches after retries are
-  // exhausted (customer.subscription.deleted also fires for cancellations).
-  // The client reads the subscription row's `past_due` status directly
-  // (RLS: users read own subscriptions) to show a fix-your-payment banner.
-  const activePlan = planKeepingStatus ? plan : 'free';
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .update({
-      stripe_plan: activePlan,
-      plan_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
-    })
-    .eq('id', userId);
-
-  if (profileError) {
-    console.error('[stripe-webhook] profile plan update failed:', profileError.message);
-    throw profileError;
-  }
-
-  // A licence belongs to the school it was bought for, not to wherever its
-  // purchaser works now. create-checkout fixes that school at purchase, and the
-  // school row already carries this subscription id, so find it by that. The
-  // purchaser's current school_id is only the fallback for a first event. Without
-  // this, a teacher who moves school strands the licence: renewals and past_due or
-  // unpaid statuses stop reaching the school row, so an unpaid school keeps its plan.
-  if (plan === 'school') {
-    const { data: licensed } = await supabase
-      .from('schools')
-      .select('id')
-      .eq('stripe_subscription_id', subId)
-      .maybeSingle();
-    if (licensed?.id) schoolId = licensed.id as string;
-  }
-
-  // School seat licence: sync the purchaser's school so every member holds
-  // the plan (the client resolves membership → plan at sign-in). Best-effort:
-  // a purchaser without a school still gets the plan personally, and an admin
-  // can attach the school later.
-  if (plan === 'school') {
-    if (schoolId) {
-      const { error: schoolError } = await supabase
-        .from('schools')
-        .update({
-          stripe_subscription_id: subId,
-          plan_seats: seats,
-          plan_status: status,
-          plan_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
-          // Stripe holds a cancelling subscription at 'active' until the
-          // boundary, so without this the dashboard reads the end date as a
-          // renewal date and nobody finds out the school is about to lose the
-          // plan until it has.
-          plan_cancel_at_period_end: cancelAtPeriodEnd,
-        })
-        .eq('id', schoolId);
-      if (schoolError) {
-        console.error('[stripe-webhook] school licence sync failed:', schoolError.message);
-      }
-    } else {
-      console.warn(
-        '[stripe-webhook] school plan purchased by a user with no school_id — only the purchaser holds the plan until an admin assigns their school.'
       );
     }
   }
