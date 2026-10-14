@@ -362,6 +362,9 @@ is wrong:
   needs the approval to check for a just-approved request whose subscription the
   school row does not yet show, or to ask Stripe.
 - **Nobody is told a request has arrived.** An admin finds it by opening the list.
+- **A requester cannot withdraw a request.** The table has a `cancelled` status, but
+  no endpoint sets it. A wrong request therefore blocks the school from asking again
+  until an admin declines it.
 - **Overdue-invoice wording.** The billing banner says "update your payment",
   which is wrong for an unpaid invoice. The overdue wording is not written.
 - **ABN on a reused customer.** The ABN is attached only when a customer is created.
