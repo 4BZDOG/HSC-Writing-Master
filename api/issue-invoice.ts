@@ -307,58 +307,20 @@ const approve = async (
     return { ok: false, status: 501, error: 'Stripe is not configured on this deployment.' };
   }
 
-  // b. The customer. The requester's own customer is reused, so the portal keeps
-  //    seeing every subscription that person holds. A new one is linked to their
-  //    profile straight away.
-  const customer = await ensureCustomer(stripe, supabase, row, requester.profile);
-  if (customer.ok === false) return customer;
-
-  // c. The subscription. The idempotency key is what makes a double click, or a
-  //    retry after a failure below, return this same subscription rather than a
-  //    second one. Stripe rejects the key if the parameters change, so a retry
-  //    must send the same days-until-due the first attempt did.
-  let subscription: Stripe.Subscription;
-  try {
-    subscription = await stripe.subscriptions.create(
-      {
-        customer: customer.customerId,
-        items: [{ price: schoolPrice, quantity: row.seats }],
-        collection_method: 'send_invoice',
-        days_until_due: daysUntilDue,
-        metadata: {
-          supabase_user_id: row.requested_by as string,
-          school_id: row.school_id,
-          licence_request_id: row.id,
-        },
-        ...(process.env.STRIPE_AUTOMATIC_TAX === 'true'
-          ? { automatic_tax: { enabled: true } }
-          : {}),
-      },
-      { idempotencyKey: `licence-request-${row.id}` }
-    );
-  } catch (e) {
-    logStripe('subscription create', e);
-    return {
-      ok: false,
-      status: 502,
-      error:
-        'Stripe did not confirm the subscription, so the request is still pending. ' +
-        'Approve again to retry: the same subscription is reused, so nothing is invoiced twice.',
-    };
-  }
-  const subscriptionId = subscription.id;
-
-  // Record the ids now, while the request is still pending. If anything below
-  // fails, the row shows the subscription exists, and the admin can see it.
-  const invoiceId =
-    typeof subscription.latest_invoice === 'string'
-      ? subscription.latest_invoice
-      : (subscription.latest_invoice?.id ?? null);
-  await recordStripeIds(supabase, row.id, {
-    stripe_customer_id: customer.customerId,
-    stripe_subscription_id: subscriptionId,
-    stripe_invoice_id: invoiceId,
-  });
+  // b and c. Create the billing objects, or resume the ones an earlier approval
+  // already made. A row that names a subscription came from an approval that
+  // failed after Stripe created it. That subscription is reused, never replaced:
+  // the idempotency key on the create is honoured for only 24 hours, so a retry
+  // made after that would otherwise create a second subscription and invoice the
+  // school twice.
+  const billing = row.stripe_subscription_id
+    ? await resumeSubscription(stripe, row)
+    : await createSubscription(stripe, supabase, row, requester.profile, {
+        schoolPrice,
+        daysUntilDue,
+      });
+  if (billing.ok === false) return billing;
+  const { customerId, subscriptionId, invoiceId } = billing;
 
   // d. The first invoice. Finalise it if Stripe left it as a draft, then send it
   //    so the accounts office gets the email and the hosted payment page.
@@ -384,7 +346,7 @@ const approve = async (
       decided_by: adminId,
       decided_at: new Date().toISOString(),
       decision_note: decisionNote,
-      stripe_customer_id: customer.customerId,
+      stripe_customer_id: customerId,
       stripe_subscription_id: subscriptionId,
       stripe_invoice_id: invoiceId,
       hosted_invoice_url: invoice.hostedInvoiceUrl,
@@ -498,6 +460,146 @@ const billingDetails = (row: LicenceRequestRow) => {
   };
 };
 
+/** Stripe subscription statuses that can still be invoiced. */
+const BILLABLE_SUBSCRIPTION_STATUSES: string[] = ['active', 'trialing', 'past_due'];
+
+/** An id from a Stripe field that may arrive as an id or as an expanded object. */
+const idOf = (value: string | { id: string } | null | undefined): string | null =>
+  typeof value === 'string' ? value : (value?.id ?? null);
+
+/** The Stripe objects one approval bills through. */
+type Billing =
+  | { ok: true; customerId: string; subscriptionId: string; invoiceId: string | null }
+  | Refusal;
+
+/**
+ * Creates the customer and the subscription for a request that has none yet.
+ * The idempotency keys make a double click return the same objects. Recording
+ * the ids straight away means a later failure still leaves the subscription
+ * visible on the request.
+ */
+const createSubscription = async (
+  stripe: Stripe,
+  supabase: Supabase,
+  row: LicenceRequestRow,
+  requester: RequesterProfile,
+  terms: { schoolPrice: string; daysUntilDue: number }
+): Promise<Billing> => {
+  const customer = await ensureCustomer(stripe, supabase, row, requester);
+  if (customer.ok === false) return customer;
+
+  // Stripe rejects a retry whose parameters differ from the first attempt, so a
+  // retry must send the same days-until-due the first attempt did.
+  let subscription: Stripe.Subscription;
+  try {
+    subscription = await stripe.subscriptions.create(
+      {
+        customer: customer.customerId,
+        items: [{ price: terms.schoolPrice, quantity: row.seats }],
+        collection_method: 'send_invoice',
+        days_until_due: terms.daysUntilDue,
+        metadata: {
+          supabase_user_id: row.requested_by as string,
+          school_id: row.school_id,
+          licence_request_id: row.id,
+        },
+        ...(process.env.STRIPE_AUTOMATIC_TAX === 'true'
+          ? { automatic_tax: { enabled: true } }
+          : {}),
+      },
+      { idempotencyKey: `licence-request-${row.id}` }
+    );
+  } catch (e) {
+    logStripe('subscription create', e);
+    return {
+      ok: false,
+      status: 502,
+      error:
+        'Stripe did not confirm the subscription, so the request is still pending. ' +
+        'Approve again to retry: the same subscription is reused, so nothing is invoiced twice.',
+    };
+  }
+
+  const invoiceId = idOf(subscription.latest_invoice);
+  const recorded = await recordStripeIds(supabase, row.id, {
+    stripe_customer_id: customer.customerId,
+    stripe_subscription_id: subscription.id,
+    stripe_invoice_id: invoiceId,
+  });
+  // Without the id on the request, a retry after the idempotency key has
+  // expired would create a second subscription. So stop here, before any
+  // invoice is sent, and show the admin the one that exists.
+  if (!recorded) {
+    return {
+      ok: false,
+      status: 502,
+      subscriptionId: subscription.id,
+      error:
+        'Stripe created the subscription, but the request could not record it, so no invoice has been sent. ' +
+        'Approve again to retry; the same subscription is reused for 24 hours. Cancel the subscription ' +
+        'in the Stripe Dashboard if it is not wanted.',
+    };
+  }
+  return {
+    ok: true,
+    customerId: customer.customerId,
+    subscriptionId: subscription.id,
+    invoiceId,
+  };
+};
+
+/**
+ * Picks up an approval that already created its subscription. The subscription
+ * is read back and must still be billable. One that has ended is refused, not
+ * replaced: a new one is a new request and a new decision.
+ */
+const resumeSubscription = async (stripe: Stripe, row: LicenceRequestRow): Promise<Billing> => {
+  const subscriptionId = row.stripe_subscription_id as string;
+
+  let subscription: Stripe.Subscription;
+  try {
+    subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  } catch (e) {
+    logStripe('subscription read', e);
+    return {
+      ok: false,
+      status: 502,
+      subscriptionId,
+      error:
+        'A subscription for this request already exists in Stripe but could not be read. ' +
+        'Check it in the Stripe Dashboard before approving again.',
+    };
+  }
+
+  if (!BILLABLE_SUBSCRIPTION_STATUSES.includes(subscription.status)) {
+    return {
+      ok: false,
+      status: 409,
+      subscriptionId,
+      error:
+        `The subscription made for this request is ${subscription.status} in Stripe, so it cannot ` +
+        'be invoiced. Decline this request and ask for a new one.',
+    };
+  }
+
+  const customerId = idOf(subscription.customer) ?? row.stripe_customer_id;
+  if (!customerId) {
+    return {
+      ok: false,
+      status: 502,
+      subscriptionId,
+      error:
+        'The subscription for this request has no customer in Stripe. Check it in the Stripe Dashboard.',
+    };
+  }
+  return {
+    ok: true,
+    customerId,
+    subscriptionId,
+    invoiceId: idOf(subscription.latest_invoice),
+  };
+};
+
 /**
  * Returns the Stripe customer the subscription bills, creating it if needed.
  *
@@ -516,9 +618,12 @@ const ensureCustomer = async (
   const poNumber = row.po_number;
   const customFields = poNumber ? [{ name: PO_FIELD_NAME, value: poNumber }] : null;
 
-  if (requester.stripe_customer_id) {
+  // A customer recorded on the request, but not yet on the profile, is one an
+  // earlier attempt made: reuse it rather than making another.
+  const existingId = requester.stripe_customer_id ?? row.stripe_customer_id;
+  if (existingId) {
     try {
-      await stripe.customers.update(requester.stripe_customer_id, {
+      await stripe.customers.update(existingId, {
         ...billingDetails(row),
         invoice_settings: { custom_fields: customFields ?? '' },
       });
@@ -530,7 +635,8 @@ const ensureCustomer = async (
         error: 'Stripe did not accept the billing details. Nothing has been invoiced; try again.',
       };
     }
-    return { ok: true, customerId: requester.stripe_customer_id };
+    if (requester.stripe_customer_id) return { ok: true, customerId: existingId };
+    return linkCustomer(supabase, requester.id, existingId);
   }
 
   let customer: Stripe.Customer;
@@ -544,7 +650,7 @@ const ensureCustomer = async (
           school_id: row.school_id,
           licence_request_id: row.id,
         },
-        ...(row.abn ? { tax_id_data: [{ type: 'au_abn', value: row.abn }] } : {}),
+        ...(row.abn ? { tax_id_data: [{ type: 'au_abn' as const, value: row.abn }] } : {}),
         ...(customFields ? { invoice_settings: { custom_fields: customFields } } : {}),
       },
       { idempotencyKey: `licence-request-${row.id}-customer` }
@@ -558,13 +664,29 @@ const ensureCustomer = async (
     };
   }
 
-  // Link it to the requester. The unique index on profiles.stripe_customer_id
-  // means a link can only land once. If it does not, stop and say so: this
-  // customer is then unlinked, and no invoice has been sent.
+  // Record the customer on the request before linking it, so an approval that
+  // fails from here on still shows which customer exists.
+  await recordStripeIds(supabase, row.id, {
+    stripe_customer_id: customer.id,
+  });
+  return linkCustomer(supabase, requester.id, customer.id);
+};
+
+/**
+ * Links a Stripe customer to the requester's profile. The unique index on
+ * profiles.stripe_customer_id means a link can only land once. If it does not,
+ * stop and say so, and do not take the id from the other profile: no invoice has
+ * been sent yet.
+ */
+const linkCustomer = async (
+  supabase: Supabase,
+  profileId: string,
+  customerId: string
+): Promise<{ ok: true; customerId: string } | Refusal> => {
   const { data, error } = await supabase
     .from('profiles')
-    .update({ stripe_customer_id: customer.id })
-    .eq('id', requester.id)
+    .update({ stripe_customer_id: customerId })
+    .eq('id', profileId)
     .is('stripe_customer_id', null)
     .select('id');
   if (error) {
@@ -588,7 +710,7 @@ const ensureCustomer = async (
         'The person who asked gained a billing customer while this was being approved. Approve again.',
     };
   }
-  return { ok: true, customerId: customer.id };
+  return { ok: true, customerId };
 };
 
 /**
@@ -650,22 +772,30 @@ const finaliseAndSend = async (
   return { ok: true, hostedInvoiceUrl: invoice.hosted_invoice_url ?? null };
 };
 
-/** Writes the Stripe ids onto a request that is still pending. Best-effort: the idempotency keys protect a retry regardless. */
+/**
+ * Writes the Stripe ids onto a request that is still pending, as each one comes
+ * into existence. Returns false when the write fails, and the caller decides
+ * whether that is safe to go on from: for a subscription it is not.
+ */
 const recordStripeIds = async (
   supabase: Supabase,
   requestId: string,
   ids: {
-    stripe_customer_id: string;
-    stripe_subscription_id: string;
-    stripe_invoice_id: string | null;
+    stripe_customer_id?: string;
+    stripe_subscription_id?: string;
+    stripe_invoice_id?: string | null;
   }
-): Promise<void> => {
+): Promise<boolean> => {
   const { error } = await supabase
     .from('licence_requests')
     .update(ids)
     .eq('id', requestId)
     .eq('status', 'pending');
-  if (error) logStripe('record ids', error);
+  if (error) {
+    logStripe('record ids', error);
+    return false;
+  }
+  return true;
 };
 
 /** Logs a failure for the operator. Stripe's message can name the account, so it stays in the log. */

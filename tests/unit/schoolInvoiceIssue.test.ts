@@ -102,7 +102,7 @@ class FakeQuery implements PromiseLike<unknown> {
 
 const stripe = {
   customers: { create: vi.fn(), update: vi.fn() },
-  subscriptions: { create: vi.fn() },
+  subscriptions: { create: vi.fn(), retrieve: vi.fn() },
   invoices: { retrieve: vi.fn(), finalizeInvoice: vi.fn(), sendInvoice: vi.fn() },
 };
 
@@ -192,6 +192,12 @@ const resetStripeMocks = () => {
   stripe.subscriptions.create
     .mockReset()
     .mockResolvedValue({ id: 'sub_1', status: 'active', latest_invoice: 'in_1' });
+  stripe.subscriptions.retrieve.mockReset().mockResolvedValue({
+    id: 'sub_1',
+    status: 'active',
+    customer: 'cus_new',
+    latest_invoice: 'in_1',
+  });
   stripe.invoices.retrieve.mockReset().mockResolvedValue({ id: 'in_1', status: 'draft' });
   stripe.invoices.finalizeInvoice
     .mockReset()
@@ -703,6 +709,101 @@ describe('issue-invoice: approving twice', () => {
     await issueInvoice(post(approveBody), res);
     expect(res.statusCode).toBe(409);
     expect(stripeCallCount()).toBe(0);
+  });
+});
+
+describe('issue-invoice: resuming an approval that already made a subscription', () => {
+  // The request row records the subscription as soon as Stripe creates it. An
+  // approval that failed later leaves that id behind, and the next approval must
+  // pick it up. Creating another would invoice the school twice once the
+  // idempotency key has expired (Stripe keeps keys for 24 hours).
+  beforeEach(() => {
+    tables.licence_requests = [
+      pendingRequest({
+        stripe_customer_id: 'cus_new',
+        stripe_subscription_id: 'sub_1',
+        stripe_invoice_id: 'in_1',
+      }),
+    ];
+    tables.profiles = tables.profiles.map((p) =>
+      p.id === 'teacher-1' ? { ...p, stripe_customer_id: 'cus_new' } : p
+    );
+  });
+
+  it('reuses the recorded subscription and sends its invoice, without creating anything', async () => {
+    const res = makeRes();
+    await issueInvoice(post(approveBody), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(stripe.subscriptions.retrieve).toHaveBeenCalledWith('sub_1');
+    expect(stripe.subscriptions.create).not.toHaveBeenCalled();
+    expect(stripe.customers.create).not.toHaveBeenCalled();
+    expect(stripe.invoices.sendInvoice).toHaveBeenCalledWith('in_1');
+    expect(res.body).toMatchObject({ subscriptionId: 'sub_1' });
+    expect(requestRow().status).toBe('approved');
+  });
+
+  it('refuses, and creates nothing, when the recorded subscription has ended in Stripe', async () => {
+    stripe.subscriptions.retrieve.mockResolvedValue({
+      id: 'sub_1',
+      status: 'canceled',
+      customer: 'cus_new',
+      latest_invoice: 'in_1',
+    });
+    const res = makeRes();
+    await issueInvoice(post(approveBody), res);
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body?.error).toContain('canceled');
+    expect(res.body?.subscriptionId).toBe('sub_1');
+    expect(stripe.subscriptions.create).not.toHaveBeenCalled();
+    expect(stripe.invoices.sendInvoice).not.toHaveBeenCalled();
+    expect(requestRow().status).toBe('pending');
+  });
+
+  it('stops with the subscription id when Stripe cannot confirm it, and sends nothing', async () => {
+    stripe.subscriptions.retrieve.mockRejectedValue(new Error('timeout'));
+    const res = makeRes();
+    await issueInvoice(post(approveBody), res);
+
+    expect(res.statusCode).toBe(502);
+    expect(res.body?.subscriptionId).toBe('sub_1');
+    expect(stripe.subscriptions.create).not.toHaveBeenCalled();
+    expect(stripe.invoices.sendInvoice).not.toHaveBeenCalled();
+  });
+});
+
+describe('issue-invoice: a subscription that cannot be recorded', () => {
+  it('sends no invoice and shows the subscription id when the request cannot record it', async () => {
+    // Every write to the request fails from here on, so the id cannot be saved.
+    writeErrors['licence_requests.update'] = { message: 'connection reset' };
+    const res = makeRes();
+    await issueInvoice(post(approveBody), res);
+
+    expect(res.statusCode).toBe(502);
+    expect(res.body?.subscriptionId).toBe('sub_1');
+    expect(res.body?.error).toContain('no invoice has been sent');
+    expect(stripe.subscriptions.create).toHaveBeenCalledTimes(1);
+    expect(stripe.invoices.sendInvoice).not.toHaveBeenCalled();
+  });
+});
+
+describe('issue-invoice: a customer recorded on the request but not on the profile', () => {
+  it('reuses the recorded customer and links it, instead of creating another', async () => {
+    tables.licence_requests = [pendingRequest({ stripe_customer_id: 'cus_from_earlier_try' })];
+    const res = makeRes();
+    await issueInvoice(post(approveBody), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(stripe.customers.create).not.toHaveBeenCalled();
+    expect(stripe.customers.update).toHaveBeenCalledWith(
+      'cus_from_earlier_try',
+      expect.objectContaining({ email: 'accounts@school.edu.au' })
+    );
+    expect(tables.profiles.find((p) => p.id === 'teacher-1')?.stripe_customer_id).toBe(
+      'cus_from_earlier_try'
+    );
+    expect(stripe.subscriptions.create.mock.calls[0][0].customer).toBe('cus_from_earlier_try');
   });
 });
 
