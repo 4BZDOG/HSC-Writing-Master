@@ -18,15 +18,24 @@ import {
   loadBillingOverview,
   type AttentionItem,
   type BillingOverview,
+  type InvoiceRequestSummary,
   type UpcomingRenewal,
   type WindowCount,
 } from '../../services/billingOverviewService';
+import {
+  decideInvoiceRequest,
+  invoiceRequestRows,
+  keepSettled,
+  type DecidedInvoiceRequest,
+  type InvoiceDecision,
+} from '../../services/invoiceDecisionService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { PLAN_LABELS } from '../../services/entitlements';
 import { TOOL_HEAD, TOOL_WELL, SECTION_TITLE } from '../../utils/adminChrome';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
+import { InvoiceRequestsGroup } from './InvoiceRequests';
 
 interface BillingOverviewProps {
   isOpen: boolean;
@@ -188,14 +197,35 @@ const SectionHeading: React.FC<{ icon: React.ReactNode; children: React.ReactNod
   </h3>
 );
 
-const AttentionSection: React.FC<{ overview: BillingOverview }> = ({ overview }) => {
+interface AttentionSectionProps {
+  overview: BillingOverview;
+  requestRows: ReturnType<typeof invoiceRequestRows>;
+  deciding: string | null;
+  onDecide: (request: InvoiceRequestSummary, decision: InvoiceDecision) => void;
+}
+
+const AttentionSection: React.FC<AttentionSectionProps> = ({
+  overview,
+  requestRows,
+  deciding,
+  onDecide,
+}) => {
   const items = collectAttention(overview);
+  // "Nothing needs attention" is only true when the purchase-order requests were
+  // read as well, and none of them is waiting.
+  const requestsChecked = overview.requests !== null;
+  const allClear = items.length === 0 && requestRows.length === 0 && requestsChecked;
   return (
     <section aria-labelledby="billing-attention">
       <SectionHeading icon={<TriangleAlert className="w-3.5 h-3.5" />}>
         <span id="billing-attention">Needs attention</span>
       </SectionHeading>
-      {items.length === 0 ? (
+      {requestRows.length > 0 && (
+        <div className="mb-6">
+          <InvoiceRequestsGroup rows={requestRows} deciding={deciding} onDecide={onDecide} />
+        </div>
+      )}
+      {allClear ? (
         <div className="flex gap-3 p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 light:bg-emerald-50 light:border-emerald-300">
           <CircleCheck className="w-4 h-4 mt-0.5 shrink-0 text-emerald-400 light:text-emerald-800" />
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-800">
@@ -203,7 +233,7 @@ const AttentionSection: React.FC<{ overview: BillingOverview }> = ({ overview })
             {overview.schools ? ', and no school is over its seats' : ''}.
           </p>
         </div>
-      ) : (
+      ) : items.length > 0 ? (
         <ul className="space-y-2">
           {items.map((item, i) => {
             const copy = attentionCopy(item);
@@ -237,6 +267,15 @@ const AttentionSection: React.FC<{ overview: BillingOverview }> = ({ overview })
             );
           })}
         </ul>
+      ) : null}
+      {!requestsChecked && (
+        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 mt-2">
+          Invoice requests were not checked:{' '}
+          {endWithStop(overview.requestsError ?? 'Unknown error')}
+          {isMissingSchemaError(overview.requestsError ?? '')
+            ? ' The purchase-order table is not in this database yet. Apply the purchase-order section of supabase/schema.sql (§27), then refresh.'
+            : ''}
+        </p>
       )}
       {overview.schoolsError && (
         <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 mt-2">
@@ -403,8 +442,15 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
   // Each load takes a number; only the newest may write. Without this a slow
   // first read could land after a refresh and show figures from before it.
   const requestRef = useRef(0);
+  // The answers to decisions made in this window, and the one decision call in
+  // flight. Only one may be out at a time, so two approvals cannot race each other.
+  const [decided, setDecided] = useState<Record<string, DecidedInvoiceRequest>>({});
+  const [deciding, setDeciding] = useState<string | null>(null);
+  const decidingRef = useRef(false);
 
-  useEscapeKey(isOpen, onClose);
+  // A call in flight is not dismissed: closing would drop its answer, and the
+  // answer may be an invoice that has just been sent.
+  useEscapeKey(isOpen && deciding === null, onClose);
   useScrollLock(isOpen);
 
   const load = useCallback(async () => {
@@ -415,6 +461,9 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
       if (id !== requestRef.current) return;
       setOverview(next);
       setError(null);
+      // A fresh read is the server's word on refused and unknown answers, so those
+      // are dropped. Approved and declined stay, so the window does not lose them.
+      setDecided((prev) => keepSettled(prev));
     } catch (e) {
       if (id !== requestRef.current) return;
       setError(e instanceof Error ? e.message : 'Something went wrong.');
@@ -423,13 +472,30 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
     }
   }, []);
 
+  const decide = useCallback(async (request: InvoiceRequestSummary, decision: InvoiceDecision) => {
+    if (decidingRef.current) return;
+    decidingRef.current = true;
+    setDeciding(request.id);
+    const outcome = await decideInvoiceRequest(request.id, decision);
+    decidingRef.current = false;
+    setDecided((prev) => ({ ...prev, [request.id]: { request, outcome } }));
+    setDeciding(null);
+  }, []);
+
   useEffect(() => {
     if (isOpen && remote) load();
   }, [isOpen, remote, load]);
 
+  // The answers belong to one opening of the window. Reopening reads the server again.
+  useEffect(() => {
+    if (!isOpen) setDecided((prev) => (Object.keys(prev).length > 0 ? {} : prev));
+  }, [isOpen]);
+
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
+
+  const requestRows = invoiceRequestRows(overview?.requests ?? [], decided);
 
   const schemaMissing = error !== null && isMissingSchemaError(error);
   const asOfMs = overview ? Date.parse(overview.asOf) : Date.now();
@@ -504,7 +570,12 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
             </p>
           </div>
         )}
-        <AttentionSection overview={overview} />
+        <AttentionSection
+          overview={overview}
+          requestRows={requestRows}
+          deciding={deciding}
+          onDecide={decide}
+        />
         <ActiveSection overview={overview} />
         <ComingUpSection overview={overview} />
         <WebhookSection overview={overview} asOfMs={asOfMs} />
@@ -524,7 +595,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
       aria-modal="true"
       aria-label="Billing overview"
       className="fixed inset-0 z-modal-elevated bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
+      onClick={deciding === null ? onClose : undefined}
     >
       <div
         className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
@@ -550,7 +621,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={load}
-              disabled={loading || !remote}
+              disabled={loading || !remote || deciding !== null}
               aria-label="Refresh"
               title={
                 overview
@@ -565,8 +636,9 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
             </button>
             <button
               onClick={onClose}
+              disabled={deciding !== null}
               aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>

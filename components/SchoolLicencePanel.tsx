@@ -14,6 +14,8 @@ import {
 import type { User } from '../types';
 import { billingErrorMessage } from '../utils/billingMessages';
 import ChampionKit from './ChampionKit';
+import { invoicedLicencesEnabled } from '../services/licenceRequestService';
+import InvoiceRequestForm from './InvoiceRequestForm';
 
 /**
  * The School licence route for STAFF: a seat purchase, or the reason there is
@@ -76,7 +78,18 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
   const [heldMessage, setHeldMessage] = useState<string | null>(null);
 
   if (!monetisationEnabled()) return null;
-  if (!isStaff(user)) return null;
+  if (!isStaff(user)) {
+    // A student cannot buy a licence, so they get no route here. The one sentence
+    // that says how schools pay is kept for them, because it offers nothing to do.
+    return invoicedLicencesEnabled() ? (
+      <p
+        className={`text-center text-xs font-medium leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-600 ${className}`}
+      >
+        Invoices and purchase orders are accepted for school licences. A teacher or admin at the
+        school asks for one.
+      </p>
+    ) : null;
+  }
 
   const wrap = (children: React.ReactNode) => (
     <div className={`text-center ${className}`}>{children}</div>
@@ -217,6 +230,13 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
         Everyone in your school gets {PLAN_LABELS.school} while the licence is active. Check that
         your school is set up in the app and that you are listed in it before you buy.
       </p>
+      {/* The card stays the headline; an invoice or purchase order is the second route. */}
+      {invoicedLicencesEnabled() && (
+        <InvoiceRequestForm
+          seats={seats}
+          className="mt-4 pt-4 border-t border-indigo-500/20 light:border-indigo-200"
+        />
+      )}
     </div>
   );
 };

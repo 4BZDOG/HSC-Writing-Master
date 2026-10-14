@@ -754,31 +754,66 @@ export interface BillingUrlResult {
   status: number | null;
 }
 
-const postBilling = async (
+/**
+ * A signed POST to a billing endpoint, returning the parsed body whatever its
+ * shape. `data` is null when the request failed or the body was not an object.
+ * `error` is the server's own sentence when it sent one, otherwise the
+ * fallback, so a caller can show it without deciding which it has.
+ *
+ * Shared by the Checkout and portal calls below and by the invoice-request
+ * service, so the auth header, the base URL and the sentence-carrying failure
+ * are the same everywhere.
+ */
+export interface BillingPostResult<T> {
+  data: (T & { error?: string }) | null;
+  error: string | null;
+  status: number | null;
+  /** The server's machine code for a refusal (see BILLING_CODE), when it sent one. */
+  code?: string | null;
+}
+
+export const postBillingJson = async <T extends object>(
   path: string,
   body: Record<string, unknown>,
   fallbackError: string
-): Promise<BillingUrlResult> => {
+): Promise<BillingPostResult<T>> => {
   try {
     const res = await fetch(`${apiBase}${path}`, {
       method: 'POST',
       headers: await getAuthHeaders(),
       body: JSON.stringify(body),
     });
-    const data = (await res.json().catch(() => null)) as {
-      url?: string;
+    const data = (await res.json().catch(() => null)) as (T & {
       error?: string;
       code?: string;
-      test?: boolean;
-    } | null;
-    const code = typeof data?.code === 'string' ? data.code : null;
-    if (!res.ok || !data?.url) {
-      return { url: null, error: data?.error || fallbackError, status: res.status, code };
-    }
-    return { url: data.url, error: null, status: res.status, code: null };
+    }) | null;
+    const ok = res.ok && !!data;
+    return {
+      data: ok ? data : null,
+      error: ok ? null : data?.error || fallbackError,
+      status: res.status,
+      // The machine code the server sent with a refusal, when it sent one.
+      code: ok || typeof data?.code !== 'string' ? null : data.code,
+    };
   } catch {
-    return { url: null, error: fallbackError, status: null, code: null };
+    return { data: null, error: fallbackError, status: null, code: null };
   }
+};
+
+const postBilling = async (
+  path: string,
+  body: Record<string, unknown>,
+  fallbackError: string
+): Promise<BillingUrlResult> => {
+  const { data, error, status, code } = await postBillingJson<{ url?: string }>(
+    path,
+    body,
+    fallbackError
+  );
+  if (!data?.url) {
+    return { url: null, error: error || data?.error || fallbackError, status, code: code ?? null };
+  }
+  return { url: data.url, error: null, status, code: null };
 };
 
 /** The status `create-checkout` uses to refuse a second concurrent subscription. */

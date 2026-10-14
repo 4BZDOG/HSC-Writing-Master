@@ -613,6 +613,15 @@ decision rules live in `api/_lib/schoolLicence.ts`. `SCHOOL_INVOICE_ENABLED=fals
 is the kill switch. The operator setup is in `docs/stripesetup.md`, "Invoiced
 school licences (purchase orders)".
 
+**The approval queue is built** (`claude/school-invoice-admin`). Pending requests
+sit at the top of Needs attention on the admin Billing overview. Approve opens a
+confirm step that says what the call will do before it is sent, and the payment
+terms are chosen there. An answer that names a Stripe subscription, or no clear
+answer at all, withdraws Approve in that window until the request has been read
+again: the subscription that exists has to be checked in Stripe first, and a
+second approval is not a plain retry. The operator steps are in
+`docs/stripesetup.md`, "Deciding a request".
+
 Three choices in the fix are worth keeping, because the obvious version of each
 is wrong:
 
@@ -624,19 +633,39 @@ is wrong:
 - **A failed send is not tolerated just because the invoice is open.** An open
   invoice may never have been emailed. Only a paid one needs no send.
 
+**The school's side is on `claude/school-invoice-client`.** The request form is
+`components/InvoiceRequestForm.tsx`, mounted under the School seat picker in
+`components/SchoolLicencePanel.tsx`. It shows the requester's own request in
+place of the form: pending, approved with the Stripe invoice link (https only),
+or declined with the administrator's note and the form again. Its rules are the
+server's: the switch, the length caps, the states list and the ABN check are
+pinned to `api/_lib/schoolLicence.ts` by tests. The reachability test starts on
+the profile's Settings tab, presses Compare Plans, and sends the form through to
+a recorded request.
+
 **What remains open:**
 
-- **The request and approval screens.** The client half is a separate change. Until
-  it lands the endpoints work, but nothing in the app offers them.
+- ~~**The request and approval screens.**~~ **Done.** The school's request form is
+  under the School seat picker (above). The approval queue is the "Invoice requests"
+  group in the admin Billing overview. One gap remains, in the next bullet.
+- **A teacher cannot see a colleague's pending request until they send their own.**
+  The school's read is limited to the requester's own rows, and the summary of
+  someone else's request comes back only from the POST. The form therefore shows
+  the form again on a later open, not the summary. A read that returns the school's
+  pending request's summary (an RPC or a GET on the request endpoint) would close it.
 - **A near-simultaneous second approval.** The live-licence check reads the
   `schools` row, which the webhook writes a moment after the subscription is
   created. Two approvals for one school in that gap are both allowed. Closing it
   needs the approval to check for a just-approved request whose subscription the
   school row does not yet show, or to ask Stripe.
-- **Nobody is told a request has arrived.** An admin finds it by opening the list.
+- **Nobody is told a request has arrived. Still open.** The queue now leads the
+  Billing overview, so an admin sees a waiting request on opening that page, and a
+  request waiting over three working days is flagged. No email or push goes out
+  when a request is made. Closing this needs a notification route, which is a
+  product decision (an email to the platform admins, or a daily digest).
 - **A requester cannot withdraw a request.** The table has a `cancelled` status, but
-  no endpoint sets it. A wrong request therefore blocks the school from asking again
-  until an admin declines it.
+  no endpoint sets it, and the form offers no withdraw either. A wrong request
+  therefore blocks the school from asking again until an admin declines it.
 - **Overdue-invoice wording.** The billing banner says "update your payment",
   which is wrong for an unpaid invoice. The overdue wording is not written.
 - **ABN on a reused customer.** The ABN is attached only when a customer is created.
