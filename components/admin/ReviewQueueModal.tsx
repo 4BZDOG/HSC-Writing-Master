@@ -91,7 +91,7 @@ const QualityBadge: React.FC<{ score: number | null; kind: ModerationItem['kind'
   }
   const tone =
     score >= 75
-      ? 'bg-emerald-500/15 text-emerald-500 light:text-emerald-700 border-emerald-500/30'
+      ? 'bg-emerald-500/15 text-emerald-500 light:text-emerald-800 border-emerald-500/30'
       : score >= 50
         ? 'bg-amber-500/15 text-amber-500 light:text-amber-700 border-amber-500/30'
         : 'bg-red-500/15 text-red-400 light:text-red-700 border-red-500/30';
@@ -246,7 +246,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 flex items-center gap-2">
                 Review Queue
                 {!isLoading && counts.all > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 light:text-emerald-700 text-xs font-bold">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 light:text-emerald-800 text-xs font-bold">
                     {counts.all} pending
                   </span>
                 )}
@@ -261,7 +261,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               onClick={load}
               disabled={isLoading}
               aria-label="Refresh"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${isLoading ? 'animate-spin' : ''}`}
@@ -272,7 +272,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
               disabled={!canClose}
               aria-label="Close"
               title={canClose ? 'Close' : 'Wait for the decision in flight to finish'}
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
@@ -295,7 +295,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                   onClick={() => setKindFilter(f.id)}
                   className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
                     kindFilter === f.id
-                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500 light:text-emerald-700'
+                      ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500 light:text-emerald-800'
                       : 'bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-100 border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'
                   }`}
                 >
@@ -307,7 +307,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                 onClick={() => setApproveAllOpen(true)}
                 disabled={isBulkApproving || visibleItems.length === 0}
                 title="Approve everything currently visible (respects the kind filter)"
-                className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-500 light:text-emerald-700 hover:bg-emerald-500/20 text-xs font-bold transition-all flex items-center gap-1.5 disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-500 light:text-emerald-800 hover:bg-emerald-500/20 text-xs font-bold transition-all flex items-center gap-1.5 disabled:opacity-50"
               >
                 <Check className="w-3.5 h-3.5" />
                 {isBulkApproving
@@ -388,7 +388,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
                     <button
                       onClick={() => handleDecision(item, 'approve')}
                       disabled={busyId === item.id || isBulkApproving}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-xs font-bold disabled:opacity-50"
                     >
                       <Check className="w-3.5 h-3.5" /> Approve
                     </button>

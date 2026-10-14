@@ -341,7 +341,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
               onClick={load}
               disabled={isLoading || !remote}
               aria-label="Refresh"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${isLoading ? 'animate-spin' : ''}`}
@@ -350,7 +350,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
@@ -402,7 +402,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   <button
                     onClick={() => setRollOpen((open) => !open)}
                     aria-expanded={rollOpen}
-                    className="px-3 py-1 rounded-lg text-xs font-bold border transition-all bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] flex items-center gap-1.5"
+                    className="px-3 py-1 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg text-xs font-bold border transition-all bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] flex items-center gap-1.5"
                   >
                     <UserPlus className="w-3.5 h-3.5" />
                     {rollOpen ? 'Close' : 'Add a student'}
@@ -444,7 +444,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       <button
                         onClick={handleEnrol}
                         disabled={isEnrolling}
-                        className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-700 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
+                        className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 light:text-emerald-800 border border-emerald-500/30 hover:bg-emerald-500/20 text-xs font-bold transition-all disabled:opacity-50"
                       >
                         {isEnrolling ? 'Enrolling…' : 'Enrol'}
                       </button>
@@ -506,9 +506,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   </span>
                   <button
                     onClick={() => setClassId(null)}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                    className={`px-3 py-1 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg text-xs font-bold border transition-all ${
                       classId === null
-                        ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                        ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border-[rgb(var(--color-accent))]/30'
                         : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
                     }`}
                   >
@@ -519,9 +519,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       key={c.id}
                       onClick={() => setClassId(c.id)}
                       title={`${c.school} · ${c.students} student${c.students === 1 ? '' : 's'}`}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                      className={`px-3 py-1 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg text-xs font-bold border transition-all ${
                         classId === c.id
-                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border-[rgb(var(--color-accent))]/30'
                           : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
                       }`}
                     >
@@ -541,9 +541,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                     <button
                       key={w}
                       onClick={() => setDays(w)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                      className={`px-3 py-1 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg text-xs font-bold border transition-all ${
                         days === w
-                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border-[rgb(var(--color-accent))]/30'
                           : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
                       }`}
                     >
@@ -559,9 +559,9 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                     <button
                       key={d.id}
                       onClick={() => setDimension(d.id)}
-                      className={`px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                      className={`px-3 py-1 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg text-xs font-bold border transition-all ${
                         dimension === d.id
-                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] border-[rgb(var(--color-accent))]/30'
+                          ? 'bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))] light:text-[rgb(var(--color-accent-dark))] border-[rgb(var(--color-accent))]/30'
                           : 'bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100 text-[rgb(var(--color-text-muted))] border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))]'
                       }`}
                     >
@@ -625,7 +625,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                       ) : (
                         <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
                           <table className="w-full text-left text-sm min-w-[500px]">
-                            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
+                            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
                               <tr>
                                 <th className="px-4 py-2.5">
                                   {dimension === 'verb' ? 'Verb' : 'Topic'}
