@@ -49,3 +49,9 @@ export const formatRequestDate = (iso: string | null | undefined): string => {
 
 /** "1 seat" or "30 seats". */
 export const seatsPhrase = (seats: number): string => (seats === 1 ? '1 seat' : `${seats} seats`);
+
+/** "51 824 753 556", the way an ABN is printed. Anything that is not eleven digits is returned as it was. */
+export const formatAbn = (digits: string): string =>
+  /^\d{11}$/.test(digits)
+    ? `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`
+    : digits;

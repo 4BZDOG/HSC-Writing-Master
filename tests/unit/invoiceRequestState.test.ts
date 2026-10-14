@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import type { LicenceRequest, LicenceRequestStatus } from '../../services/licenceRequestService';
-import { formatRequestDate, seatsPhrase, selectInvoiceView } from '../../utils/invoiceRequestState';
+import {
+  formatAbn,
+  formatRequestDate,
+  seatsPhrase,
+  selectInvoiceView,
+} from '../../utils/invoiceRequestState';
 
 const request = (id: string, status: LicenceRequestStatus): LicenceRequest => ({
   id,
@@ -87,5 +92,15 @@ describe('seatsPhrase', () => {
   it('uses the singular for one seat only', () => {
     expect(seatsPhrase(1)).toBe('1 seat');
     expect(seatsPhrase(5)).toBe('5 seats');
+  });
+});
+
+describe('formatAbn', () => {
+  it('prints an ABN the way the tax invoice does', () => {
+    expect(formatAbn('51824753556')).toBe('51 824 753 556');
+  });
+
+  it('leaves anything that is not eleven digits as it was', () => {
+    expect(formatAbn('5182')).toBe('5182');
   });
 });

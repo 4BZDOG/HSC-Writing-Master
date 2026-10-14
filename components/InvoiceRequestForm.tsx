@@ -29,7 +29,12 @@ import {
   type InvoiceField,
   type InvoiceFormErrors,
 } from '../utils/invoiceRequestForm';
-import { formatRequestDate, seatsPhrase, selectInvoiceView } from '../utils/invoiceRequestState';
+import {
+  formatAbn,
+  formatRequestDate,
+  seatsPhrase,
+  selectInvoiceView,
+} from '../utils/invoiceRequestState';
 
 /**
  * Pay by invoice or purchase order, for a school that cannot pay by card.
@@ -216,7 +221,7 @@ const RequestDetails: React.FC<{ request: LicenceRequest }> = ({ request }) => (
     <Detail label="Name on the invoice" value={request.billingName} />
     <Detail label="Accounts email" value={request.billingEmail} />
     {request.poNumber && <Detail label="Purchase order" value={request.poNumber} />}
-    {request.abn && <Detail label="ABN" value={request.abn} />}
+    {request.abn && <Detail label="ABN" value={formatAbn(request.abn)} />}
   </dl>
 );
 
@@ -631,22 +636,18 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
         >
           <BodyText>
             The invoice for {seatsPhrase(request.seats)} was emailed to {request.billingEmail}.
-            {href ? (
-              <>
-                {' '}
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center font-bold text-indigo-500 light:text-indigo-700 underline underline-offset-2"
-                >
-                  View the invoice (opens in a new tab)
-                </a>
-              </>
-            ) : (
-              ' The link to pay it is not on this page yet, so check that email.'
-            )}
+            {href ? '' : ' The link to pay it is not on this page yet, so check that email.'}
           </BodyText>
+          {href && (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center text-xs font-bold text-indigo-500 light:text-indigo-700 underline underline-offset-2"
+            >
+              View the invoice (opens in a new tab)
+            </a>
+          )}
           <BodyText>
             Members get School access within five minutes of opening the app. Pay the invoice by the
             due date printed on it.
