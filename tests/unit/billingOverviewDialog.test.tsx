@@ -54,6 +54,8 @@ const overviewFrom = (
   subscriptions: billingService.summariseSubscriptions(rows, NOW),
   schools: [],
   schoolsError: null,
+  requests: [],
+  requestsError: null,
   webhook: { lastReceivedAt: at(-1), daysSinceLast: 1, silent: false },
   recentEvents: [{ id: 'evt_1', type: 'customer.subscription.updated', received_at: at(-1) }],
   ...over,

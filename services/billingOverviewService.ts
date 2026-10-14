@@ -3,10 +3,14 @@
  * Stripe is still reaching the app (schema §13).
  *
  * Read-only. Nothing here moves money or changes a plan; the webhook owns every
- * write. The reads need no new database function: admins already read every
- * subscription row ("Admins read all subscriptions"), and reviewers read the
- * webhook ledger. The one thing a plain select cannot do is get past PostgREST's
- * row cap, so the subscription read goes through `fetchAllRows`.
+ * write. The one write the overview can start, approving or declining a
+ * purchase-order request, is in `invoiceDecisionService.ts` and goes through
+ * api/issue-invoice.ts. The reads need no new database function: admins already
+ * read every subscription row ("Admins read all subscriptions"), reviewers read
+ * the webhook ledger, and admins read every purchase-order request
+ * ("Admins read all licence requests", schema §27). The one thing a plain select
+ * cannot do is get past PostgREST's row cap, so the big reads go through
+ * `fetchAllRows`.
  *
  * Money is deliberately absent. The display prices in `entitlements.ts` are
  * presentation strings, not Stripe amounts, and a total built from them would
@@ -44,6 +48,16 @@ export const WEBHOOK_SILENT_DAYS = 45;
 
 export const UPCOMING_WINDOW_DAYS = 30;
 export const RECENT_EVENT_LIMIT = 10;
+
+/**
+ * A purchase-order request waiting longer than this many working days is flagged.
+ * Working days are Monday to Friday; NSW public holidays are not excluded, so a
+ * request over a long weekend can be flagged a day early.
+ */
+export const INVOICE_WAIT_WORKING_DAYS = 3;
+
+const REQUEST_COLUMNS =
+  'id, school_id, seats, billing_name, billing_email, billing_address, abn, po_number, note, created_at, stripe_subscription_id, schools(name)';
 
 /** Statuses under which a subscription still grants its plan (matches resolve_stripe_plan). */
 const PAID_SUBSCRIPTION_STATUSES = ['active', 'trialing', 'past_due'];
@@ -139,6 +153,56 @@ export interface WebhookSummary {
   silent: boolean;
 }
 
+/** A `licence_requests` row as the overview reads it, with the school's name joined on. */
+export interface InvoiceRequestRow {
+  id: string;
+  school_id: string;
+  seats: number;
+  billing_name: string;
+  billing_email: string;
+  billing_address: {
+    line1?: string;
+    line2?: string | null;
+    city?: string;
+    state?: string;
+    postcode?: string;
+    country?: string;
+  } | null;
+  abn: string | null;
+  po_number: string | null;
+  note: string | null;
+  created_at: string;
+  stripe_subscription_id: string | null;
+  schools: { name: string } | null;
+}
+
+/** A pending purchase-order request, as the approval queue shows it. */
+export interface InvoiceRequestSummary {
+  id: string;
+  schoolName: string;
+  seats: number;
+  billingName: string;
+  billingEmail: string;
+  /** One line, in the order it prints on the invoice. */
+  billingAddress: string;
+  /** Printed as "51 824 753 556". Null when the request had none. */
+  abn: string | null;
+  poNumber: string | null;
+  note: string | null;
+  /** When the request arrived (ISO). */
+  requestedAt: string;
+  /** Working days since it arrived, in Sydney time. 0 is the day it came in. */
+  workingDaysWaited: number;
+  /** Waiting longer than `INVOICE_WAIT_WORKING_DAYS`. */
+  overdue: boolean;
+  /**
+   * A Stripe subscription an earlier, part-finished approval already made for
+   * this request. Approving again reuses it rather than making a second one, so
+   * the queue shows the id and says so.
+   */
+  subscriptionId: string | null;
+}
+
 export interface BillingOverview {
   asOf: string;
   stripeConfigured: boolean;
@@ -146,6 +210,9 @@ export interface BillingOverview {
   /** null when the school seat check could not run (see `schoolsError`). */
   schools: SchoolSeatIssue[] | null;
   schoolsError: string | null;
+  /** Pending purchase-order requests, oldest first. null when they could not be read (see `requestsError`). */
+  requests: InvoiceRequestSummary[] | null;
+  requestsError: string | null;
   webhook: WebhookSummary;
   recentEvents: BillingEventRow[];
 }
@@ -313,9 +380,84 @@ export const summariseWebhook = (
   };
 };
 
+const sydneyDay = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Australia/Sydney',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+/**
+ * Working days from `fromMs` to `toMs`, counted as calendar days in Sydney time.
+ * A day is counted when it is a Monday to Friday and comes after the day the
+ * request arrived, so a request made on Monday and read on Thursday has waited
+ * three working days. Sydney time, not the viewer's, so an admin in another
+ * timezone sees the same number. Zero when `toMs` is not after `fromMs`.
+ */
+export const workingDaysBetween = (fromMs: number, toMs: number): number => {
+  const dayStamp = (ms: number): number => {
+    const [y, m, d] = sydneyDay.format(ms).split('-').map(Number);
+    return Date.UTC(y, m - 1, d);
+  };
+  const end = dayStamp(toMs);
+  let count = 0;
+  for (let day = dayStamp(fromMs) + DAY_MS; day <= end; day += DAY_MS) {
+    const weekday = new Date(day).getUTCDay();
+    if (weekday !== 0 && weekday !== 6) count += 1;
+  }
+  return count;
+};
+
+/** "51 824 753 556" from the eleven stored digits. Anything else is shown as stored. */
+export const formatAbn = (abn: string | null): string | null => {
+  if (!abn) return null;
+  return /^\d{11}$/.test(abn) ? abn.replace(/^(\d{2})(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3 $4') : abn;
+};
+
+/** The billing address on one line, in the order it prints on the invoice. */
+const addressLine = (address: InvoiceRequestRow['billing_address']): string => {
+  if (!address) return 'No address recorded';
+  const locality = [address.city, address.state, address.postcode].filter(Boolean).join(' ');
+  return [address.line1, address.line2, locality].filter(Boolean).join(', ');
+};
+
+/**
+ * The pending queue, oldest first, so the request that has waited longest is the
+ * one at the top. Pure: `now` is passed in so a test can pin the working days.
+ */
+export const summariseRequests = (
+  rows: InvoiceRequestRow[],
+  now: Date
+): InvoiceRequestSummary[] => {
+  const nowMs = now.getTime();
+  return rows
+    .map((row) => ({ row, arrivedMs: parseMs(row.created_at) ?? nowMs }))
+    .sort((a, b) => a.arrivedMs - b.arrivedMs || a.row.id.localeCompare(b.row.id))
+    .map(({ row, arrivedMs }) => {
+      const workingDaysWaited = workingDaysBetween(arrivedMs, nowMs);
+      return {
+        id: row.id,
+        schoolName: row.schools?.name ?? 'School name not available',
+        seats: row.seats,
+        billingName: row.billing_name,
+        billingEmail: row.billing_email,
+        billingAddress: addressLine(row.billing_address),
+        abn: formatAbn(row.abn),
+        poNumber: row.po_number?.trim() || null,
+        note: row.note?.trim() || null,
+        requestedAt: row.created_at,
+        workingDaysWaited,
+        overdue: workingDaysWaited > INVOICE_WAIT_WORKING_DAYS,
+        subscriptionId: row.stripe_subscription_id,
+      };
+    });
+};
+
 /**
  * The one list the overview leads with: subscriptions that need a decision, then
  * over-seat schools, then a silent webhook. Each group keeps its own order.
+ * Purchase-order requests are not in it: they have their own group, which the
+ * page puts above this list and which carries its own buttons.
  */
 export const collectAttention = (
   overview: Pick<BillingOverview, 'subscriptions' | 'schools' | 'webhook'>
@@ -362,16 +504,29 @@ const loadRecentEvents = async (
 };
 
 /**
+ * The purchase-order requests still waiting for a decision. Every pending row
+ * is read, not a page of them, because a request left unseen is the thing the
+ * queue exists to prevent.
+ */
+const loadPendingRequests = (client: NonNullable<typeof supabase>): Promise<InvoiceRequestRow[]> =>
+  fetchAllRows<InvoiceRequestRow>(
+    () => client.from('licence_requests').select(REQUEST_COLUMNS).eq('status', 'pending'),
+    'Could not load invoice requests'
+  );
+
+/**
  * Fetch and summarise everything the overview shows. Subscriptions and webhook
  * events are required: without them there is nothing honest to show, so their
- * failure fails the whole load. School seats are an optional extra (schema §12),
- * so their failure is reported beside the section rather than instead of it.
+ * failure fails the whole load. School seats (schema §12) and purchase-order
+ * requests (schema §27) are optional extras, so their failure is reported beside
+ * their own section rather than instead of the whole page. A database that has
+ * not had §27 applied yet must still show its subscriptions.
  */
 export const loadBillingOverview = async (now: Date = new Date()): Promise<BillingOverview> => {
   const client = supabase;
   if (!client) throw new Error('Supabase is not configured.');
 
-  const [subscriptionRows, recentEvents, schoolResult] = await Promise.all([
+  const [subscriptionRows, recentEvents, schoolResult, requestResult] = await Promise.all([
     fetchAllRows<BillingSubscriptionRow>(
       () =>
         client
@@ -388,6 +543,13 @@ export const loadBillingOverview = async (now: Date = new Date()): Promise<Billi
         error: e instanceof Error ? e.message : 'Could not load schools.',
       })
     ),
+    loadPendingRequests(client).then(
+      (rows) => ({ rows, error: null as string | null }),
+      (e: unknown) => ({
+        rows: null as InvoiceRequestRow[] | null,
+        error: e instanceof Error ? e.message : 'Could not load invoice requests.',
+      })
+    ),
   ]);
 
   const subscriptions = summariseSubscriptions(subscriptionRows, now);
@@ -399,6 +561,8 @@ export const loadBillingOverview = async (now: Date = new Date()): Promise<Billi
     subscriptions,
     schools: schoolResult.rows ? summariseSchools(schoolResult.rows) : null,
     schoolsError: schoolResult.error,
+    requests: requestResult.rows ? summariseRequests(requestResult.rows, now) : null,
+    requestsError: requestResult.error,
     webhook,
     recentEvents,
   };
