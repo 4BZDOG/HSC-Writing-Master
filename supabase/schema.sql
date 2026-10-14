@@ -1762,6 +1762,20 @@ create table if not exists public.stripe_events (
   received_at    timestamptz not null default now()
 );
 
+-- processed_at is stamped once the handler has returned. A claim that is never
+-- stamped belongs to a handler that died midway (a Vercel timeout, an OOM, a
+-- deploy swap), and a redelivery takes it over once it is older than the lease
+-- (api/_lib/stripeLedger.ts). The DEFAULT exists only so that rows written
+-- before this column are stamped with the migration time and read as finished:
+-- without it, every historical event would look abandoned and be replayed. The
+-- default is then dropped, so the webhook's insert (which names no processed_at)
+-- leaves a new claim unfinished. Re-running this block changes nothing: the add
+-- skips the default on an existing column, and dropping an absent default is a no-op.
+alter table public.stripe_events
+  add column if not exists processed_at timestamptz default now();
+alter table public.stripe_events
+  alter column processed_at drop default;
+
 alter table public.stripe_events enable row level security;
 -- Service-role writes only; readable by reviewers for delivery debugging.
 drop policy if exists "Reviewers read stripe events" on public.stripe_events;
@@ -1775,6 +1789,64 @@ create policy "Reviewers read stripe events"
 -- plan that a later `deleted` already ended.
 alter table public.subscriptions
   add column if not exists last_event_at timestamptz;
+
+-- The seat picture a STAFF member needs for their own school, and nothing about
+-- the people in it. list_schools() above answers for every school at once, so it
+-- is no fit for this: it would hand a teacher every other school's licence. And
+-- a teacher cannot count their own school's members through RLS (profiles_read
+-- shows them only their own row and the students in their classes).
+--
+-- It takes NO school argument on purpose: the school is the caller's own
+-- profiles.school_id, so there is no id to guess and nothing to enumerate.
+-- Returns null for staff with no school (nothing to warn about) and refuses
+-- everyone else. `purchaser` tells the client whether the caller bought the
+-- licence, because only the purchaser can open the billing portal (the portal
+-- looks up profiles.stripe_customer_id).
+--
+-- Whether a member beyond the paid seats keeps the School plan is decided by
+-- caller_plan() (§17), has_unlimited_evaluations() (§14) and resolve_ai_quota()
+-- (above), none of which counts seats. The over-seat notice says so.
+create or replace function public.my_school_seats()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_user   uuid := auth.uid();
+  v_role   app_role;
+  v_school uuid;
+  v_result jsonb;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  select p.role, p.school_id into v_role, v_school
+    from public.profiles p
+   where p.id = v_user;
+
+  if v_role not in ('admin', 'teacher') then
+    raise exception 'Only staff can see their school''s seat count';
+  end if;
+  if v_school is null then
+    return null;
+  end if;
+
+  select jsonb_build_object(
+      'plan_status', s.plan_status,
+      'plan_seats',  s.plan_seats,
+      'members', (select count(*) from public.profiles m where m.school_id = s.id),
+      'purchaser', exists (
+        select 1 from public.subscriptions sub
+         where sub.user_id = v_user
+           and sub.id = s.stripe_subscription_id)
+    )
+    into v_result
+    from public.schools s
+   where s.id = v_school;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.my_school_seats() from public, anon;
+grant execute on function public.my_school_seats() to authenticated;
 
 -- =============================================================================
 -- §14 · Free-tier evaluation limit (server-side)
@@ -3694,6 +3766,84 @@ end; $$;
 
 revoke all on function public.get_progress_report(integer, uuid, uuid) from public, anon;
 grant execute on function public.get_progress_report(integer, uuid, uuid) to authenticated;
+
+-- =============================================================================
+-- §27 · Invoiced school licences (purchase orders)
+-- -----------------------------------------------------------------------------
+--     A school that pays by purchase order cannot use a Checkout page: the
+--     accounts office raises an invoice and pays it later. This table holds the
+--     REQUEST for one. Nothing in it grants access. A teacher or admin asks
+--     (api/request-invoice.ts); a platform admin approves (api/issue-invoice.ts),
+--     which creates a send_invoice subscription in Stripe. The existing webhook
+--     then applies the licence to the school exactly as it does for a card
+--     purchase, because the subscription carries the same metadata.
+--
+--     Written by the API with the service role ONLY. Authenticated users read
+--     their own requests (admins read all of them) and have no write policy, so
+--     a direct insert or update from a browser is refused by RLS. The grants
+--     below also withhold write privileges from the client roles, so a later
+--     policy added by mistake still cannot open the table to writes.
+--
+--     One pending request per school: the partial unique index is what stops a
+--     double-click, or two teachers at one school, from raising two invoices.
+--     Approved and declined rows do not count against it.
+-- =============================================================================
+
+create table if not exists public.licence_requests (
+  id                     uuid primary key default gen_random_uuid(),
+  requested_by           uuid references public.profiles (id) on delete set null,
+  school_id              uuid not null references public.schools (id) on delete cascade,
+  seats                  integer not null check (seats between 5 and 1000),
+  billing_name           text not null check (char_length(billing_name) between 1 and 150),
+  billing_email          text not null check (char_length(billing_email) between 3 and 254),
+  -- Shape (line1, city, state, postcode, country) is checked by the API, not here.
+  billing_address        jsonb not null check (jsonb_typeof(billing_address) = 'object'),
+  abn                    text check (abn is null or abn ~ '^[0-9]{11}$'),
+  po_number              text check (po_number is null or char_length(po_number) <= 60),
+  note                   text check (note is null or char_length(note) <= 1000),
+  status                 text not null default 'pending'
+                           check (status in ('pending', 'approved', 'declined', 'cancelled')),
+  decided_by             uuid references public.profiles (id) on delete set null,
+  decided_at             timestamptz,
+  decision_note          text check (decision_note is null or char_length(decision_note) <= 1000),
+  -- Stripe identifiers, written by api/issue-invoice.ts. The customer and the
+  -- subscription are recorded as soon as they exist, so a half-finished approval
+  -- can be seen and retried without raising a second invoice.
+  stripe_customer_id     text,
+  stripe_subscription_id text,
+  stripe_invoice_id      text,
+  hosted_invoice_url     text,
+  created_at             timestamptz not null default now(),
+  updated_at             timestamptz not null default now()
+);
+
+create unique index if not exists licence_requests_one_pending_idx
+  on public.licence_requests (school_id) where status = 'pending';
+
+-- The per-user cap (more than 3 requests in 24 hours) counts by requester.
+create index if not exists licence_requests_requester_idx
+  on public.licence_requests (requested_by, created_at);
+
+drop trigger if exists trg_licence_requests_updated on public.licence_requests;
+create trigger trg_licence_requests_updated before update on public.licence_requests
+  for each row execute function public.set_updated_at();
+
+alter table public.licence_requests enable row level security;
+
+drop policy if exists "Requesters read own licence requests" on public.licence_requests;
+create policy "Requesters read own licence requests"
+  on public.licence_requests for select
+  using (auth.uid() = requested_by);
+
+drop policy if exists "Admins read all licence requests" on public.licence_requests;
+create policy "Admins read all licence requests"
+  on public.licence_requests for select
+  using (public.is_admin());
+
+-- No insert/update/delete policy on purpose: the API writes with the service
+-- role, which bypasses RLS. The grants are narrowed to match.
+revoke all on public.licence_requests from anon, authenticated;
+grant select on public.licence_requests to authenticated;
 
 -- =============================================================================
 -- End of schema.

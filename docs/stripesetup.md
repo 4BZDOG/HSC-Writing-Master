@@ -77,7 +77,10 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 >
 > `STRIPE_WEBHOOK_SECRET` is mandatory once `VERCEL_ENV`/`NODE_ENV` is
 > `production`: without it the webhook refuses every event with a 500 (Stripe
-> retries, so nothing is lost once you set it). An unsigned production
+> retries, so nothing is lost once you set it). Preview deployments need the
+> same check: confirm that an unsigned request is refused there too, because the
+> production test above may not hold on a preview (see
+> `projectDocs/monetisation-review-2026-09.md` §23). An unsigned production
 > endpoint would let anyone POST a forged subscription event and grant
 > themselves a paid plan.
 
@@ -100,6 +103,8 @@ Copy `.env.example` to `.env.local` and fill in the values above. The app works 
 
 The webhook is how Stripe tells your app about subscription changes (new checkout, upgrades, cancellations, failed payments).
 
+Checkout return now confirms the first purchase itself: `/api/sync-checkout` asks Stripe about the session the browser came back with, and unlocks the plan straight away, without waiting for the webhook. The webhook is still **required**. It is the only thing that applies renewals, cancellations, failed payments and seat changes after the first payment, so a deployment without its endpoint unlocks purchases and then never learns that a subscription has ended.
+
 ### 4a — Create the webhook endpoint in Stripe
 
 1. Go to [Stripe Dashboard → Developers → Webhooks](https://dashboard.stripe.com/webhooks).
@@ -121,6 +126,18 @@ The webhook is how Stripe tells your app about subscription changes (new checkou
    - `invoice.payment_action_required` (3-D Secure: the bank wants the customer
      to confirm. Without this the challenge is silent and the subscription
      lapses with no warning shown.)
+
+   These six are exactly the events the handler acts on. Any other event type
+   is acknowledged and ignored, so there is no need to subscribe to more.
+   Which of them the plan itself depends on:
+   - **Required for the plan to be right:** `checkout.session.completed` (links
+     the customer to the profile) and `customer.subscription.created`,
+     `customer.subscription.updated` and `customer.subscription.deleted` (grant,
+     renew and end the plan and any School licence).
+   - **Optional:** `invoice.payment_failed` and `invoice.payment_action_required`
+     only raise the payment-problem banner. The plan keeps working during
+     Stripe's retries either way. Without them the plan is still correct, but
+     nobody is told a card has failed or needs confirming.
 
 5. Click **Add endpoint**.
 6. On the endpoint detail page, click **Reveal** under Signing secret and copy the `whsec_...` value.
@@ -220,7 +237,14 @@ The abridged snippet above is enough to take payments, but the full `§13`
 also creates:
 
 - **`stripe_events`** — the webhook's idempotency ledger. Stripe delivers each
-  event _at least_ once, so without this a redelivery is applied twice.
+  event _at least_ once, so without this a redelivery is applied twice. Its
+  `processed_at` column marks an event as applied. If the function is killed
+  part-way through an event, Stripe's next retry takes the event over after two
+  minutes; a delivery that arrives while the first attempt is still running is
+  answered `409` and retried. Rows from before the column are treated as already
+  applied, so re-applying the schema does not replay history. An event that was
+  left unfinished when you re-apply is treated the same way. If you know one
+  failed, resend it from the Stripe Dashboard's event log.
 - **`subscriptions.last_event_at`** — the ordering guard. Stripe does not order
   deliveries; without it a delayed `customer.subscription.updated` can arrive
   after a cancellation and resurrect the plan.
@@ -249,7 +273,7 @@ can't write their own usage row); CI runs it on every push.
    - **Success**: `4242 4242 4242 4242`, any future expiry, any CVC
    - **Decline**: `4000 0000 0000 0002`
 7. After successful payment, you should be redirected back to the app with a success toast.
-8. The webhook fires → updates your `profiles.stripe_plan` to `'plus'` → all gates unlock.
+8. The return confirms the purchase with Stripe (`/api/sync-checkout`) → `profiles.stripe_plan` becomes `'plus'` → all gates unlock. If that confirmation is not possible, the app waits for the webhook instead, as before.
 
 ### Verify the webhook worked
 
@@ -262,6 +286,22 @@ where id = 'your-user-uuid';
 ```
 
 You should see `stripe_plan = 'plus'` and a valid `plan_period_end`.
+
+### Read the billing overview (admin)
+
+Admin Tools → Billing → **Billing Overview** shows, without opening Stripe or Supabase: who is paying and on which
+plan, which subscriptions need a decision, what renews or ends in the next 7 and 30 days, and the last ten webhook
+events. It is read-only; change anything in Stripe or the billing portal.
+
+- It needs schema §13 (`subscriptions`, `stripe_events`) and, for school seats, §12 (`list_schools`). If a table is
+  missing, the panel says which section to re-apply.
+- The webhook is judged quiet after 45 days with paid subscriptions on the books. Annual-only deployments can
+  legitimately be quiet that long, so that item says so and asks you to check Stripe before assuming a fault.
+- A renewal is flagged as not recorded four days after its period ended, which is longer than Stripe's own
+  webhook retry window. A checkout still incomplete after a day is flagged as stalled.
+- The event list records only events the webhook accepted. A delivery it rejected appears in Stripe's
+  webhook log instead.
+- No money is shown. The app's display prices are presentation strings, not Stripe amounts.
 
 ---
 
@@ -309,13 +349,20 @@ User clicks "Upgrade"
         │ sets client_reference_id = user's Supabase UUID
         ▼
  Stripe Checkout (hosted by Stripe)
-        │ user pays
+        │ user pays, then Stripe returns the browser to ?checkout=success&session_id=…
         ▼
- POST /api/stripe-webhook
+ POST /api/sync-checkout            (on return; the only client input is the session id)
+        │ retrieves the session from Stripe; refuses unless it is this user's, paid, and a subscription
+        │ applies the subscription through api/_lib/subscriptionSync.ts (same code as the webhook)
+        ▼
+ profiles.stripe_plan = 'plus'
+        │
+        ▼
+ POST /api/stripe-webhook           (every later event: renewals, cancellations, failed payments)
         │ checkout.session.completed → links stripe_customer_id to profile
         │ customer.subscription.created → upserts subscription row + sets stripe_plan
         ▼
- profiles.stripe_plan = 'plus'
+ profiles.stripe_plan kept in step with Stripe
         │
         ▼
  getUserPlan() returns 'plus' → all gates unlock
@@ -329,6 +376,7 @@ User clicks "Upgrade"
 | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | Upgrade button redirects to `/#/upgrade-test`               | `STRIPE_SECRET_KEY` not set on server                                                         | Set it in Vercel env vars and redeploy                                                          |
 | Checkout works but plan doesn't update                      | Webhook not receiving events                                                                  | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
+| Paid, returned to the app, plan still locked                | `/api/sync-checkout` could not confirm the purchase (the server log says why, prefixed `[sync-checkout]`): usually a `STRIPE_*_PRICE_ID` missing on the server, or a server key from the other Stripe mode (test or live) | Fix the price ID or key named in the log. The webhook applies the purchase once its endpoint is registered and reachable |
 | Webhook returns 501                                         | `SUPABASE_SERVICE_ROLE_KEY` not set                                                           | Add it to Vercel env vars                                                                       |
 | Checkout/portal returns 503                                 | Only the `VITE_SUPABASE_*` pair is set                                                        | Add the unprefixed `SUPABASE_URL` / `SUPABASE_ANON_KEY`; the response body names them           |
 | Checkout returns 401 "User identity required"               | No server-side Supabase at all, so there is no signed-in identity to attach a subscription to | Set `SUPABASE_URL` / `SUPABASE_ANON_KEY` — billing cannot work without them                     |
@@ -375,7 +423,9 @@ plan_period_end / plan_cancel_at_period_end` and `subscriptions.seats` — all
 `add column if not exists`, safe to re-run). Re-applying also refreshes
 `list_schools()`, which is what puts the licence columns in front of an admin;
 until you do, the dashboard shows the licence as "unknown" and reads an end
-date as a renewal date.
+date as a renewal date. The same section adds `my_school_seats()`, which the
+over-seat notice for teachers and admins reads. Until it exists the notice stays
+hidden and nothing else changes.
 
 How it works: a teacher or admin picks a seat count and checks out; the
 webhook stores the seat quantity and stamps the licence onto **their
@@ -386,9 +436,106 @@ personal subscriptions). Seats are the billed quantity — compare
 `plan_seats` with the school's member count in the admin dashboard for
 true-ups.
 
+Three things an operator should know about how this behaves:
+
+- **Members beyond the paid seats keep School access.** Nothing counts seats at
+  sign-in (`caller_plan()`, `has_unlimited_evaluations()` and
+  `resolve_ai_quota()` all check the licence status alone). The seat count is a
+  billing fact, not an access gate. Staff are told when the school is over its
+  seats, and the purchaser can add seats from Manage subscription.
+- **A licence that starts or ends reaches members without a reload.** The app
+  re-reads the plan when a signed-in person returns to its tab or the connection
+  comes back, at most once every five minutes. Members see one notice when their
+  plan changes. Until then a member can still see the old plan.
+- **Only the purchaser can open Manage subscription.** The billing portal is
+  found through the purchaser's own Stripe customer id. Other staff in the school
+  are told who bought the licence instead of being offered a button that would
+  fail.
+
 **Important**: the buyer must belong to a school (Admin → Schools) _before_
 purchasing. `api/create-checkout` now refuses a school-price checkout from an
 account with no `school_id` and says so, rather than taking the money for N
 seats and licensing one person — the school row is not back-filled when an
 admin assigns them later, so the licence would stay attached to nothing until
 the subscription next updates.
+
+## Invoiced school licences (purchase orders)
+
+Many schools cannot pay by card. The accounts office raises a purchase order
+and pays an invoice later. This flow lets a teacher or admin ask for a licence
+to be invoiced, and lets a platform admin approve it.
+
+**The flow.**
+
+1. A teacher or admin attached to a school asks for an invoice: the number of
+   seats, the billing name and email, the billing address, and optionally the
+   ABN, the purchase order number and a note. `POST /api/request-invoice`
+   records the request. It moves no money and needs no Stripe.
+2. A platform admin approves or declines it. `POST /api/issue-invoice`
+   does this. A decline changes nothing in Stripe.
+3. Approval creates the Stripe objects. The customer is the requester's own,
+   or a new one linked to their profile. A subscription on the school price is
+   created with `collection_method: send_invoice` and 30 days to pay. Stripe
+   finalises the first invoice and emails it, with a hosted payment page. The
+   existing webhook then licenses the school, exactly as it does for a card
+   purchase. No webhook change is involved.
+
+Each school can have one pending request at a time, and an account can raise
+three requests in any 24 hours. Approval refuses when the school already holds
+a live licence, so the same seats are never invoiced twice.
+
+**Approval activates the licence at once.** Access is granted when the invoice
+is issued, not when it is paid, because a purchase order is a commitment. The
+member's plan is live as soon as the webhook has applied the subscription,
+moments after the admin approves. What ends it if the
+invoice is never paid is the subscription's status, so set Stripe's behaviour
+for unpaid invoices (below).
+
+**Stripe Dashboard settings** (the labels move from time to time, so look for
+the settings described):
+
+- **Unpaid invoices:** under Billing, choose what happens to a subscription
+  whose invoice is not paid. Either cancel it after a number of days, or mark it
+  unpaid. Either ends the licence in the app. Without a setting here, an unpaid
+  subscription may stay active for as long as its invoice stays open. A
+  `past_due` subscription keeps the licence through Stripe's retry window, as a
+  card does.
+- **Invoice details:** check the business name and ABN on the invoice template
+  (Billing → Invoices, or Branding). A tax invoice must show the supplier's ABN,
+  and the school's accounts office will ask for it.
+- **Payment methods:** enable the methods the accounts office will use on
+  invoices (bank transfer is the usual one for Australian schools) under
+  Settings → Payment methods. The hosted invoice page offers only those.
+- **Customer portal:** if the portal is set to show invoices, a teacher can find
+  the invoice there again.
+
+**Creating one by hand.** An operator can make the same subscription in the
+Dashboard (Billing → Subscriptions → Create): the school's customer, the school
+price with the seat count as quantity, collection method "send invoice", and
+metadata `supabase_user_id` set to the id of a teacher or admin who belongs to
+that school (copy it from `profiles` in Supabase). The webhook finds the school
+through that profile, so the profile must already have `school_id` set. If a
+request is still pending for the same school, decline it: approving it would
+refuse, because the school then holds a licence.
+
+**Turning it off.** Set `SCHOOL_INVOICE_ENABLED=false` on the API host (or
+`VITE_SCHOOL_INVOICE_ENABLED=false`, which the server also reads). Both request
+endpoints then answer 404, and no new approval can start. Pending requests stay
+in the table and can be declined later. Unset or `true` turns it back on.
+
+**Database.** `supabase/schema.sql` §27 adds the `licence_requests` table. It is
+`create … if not exists` throughout, so re-apply the schema to add it. Until you
+do, both endpoints answer with a "could not" message and nothing is written.
+
+**One licence per school.** A second school-price purchase is refused before any
+payment is taken, with a 409 that names the fix: ask whoever bought the licence
+to add seats through **Manage subscription**. A licence still set to end at the
+period boundary counts as held, because its buyer can resume it. A cancelled or
+unpaid licence does not, so the school can buy again. Plus purchases are never
+affected. If the licence columns have not been re-applied yet, the check is
+skipped and logged. If the lookup itself fails, the purchase is refused with a
+503, nothing is charged, and the buyer can retry.
+
+> Known gap: a licence whose first payment is waiting for 3-D Secure (status
+> `incomplete`) does not count as held yet, so a second purchase can still get
+> through during that window. See `projectDocs/monetisation-review-2026-09.md` §22.

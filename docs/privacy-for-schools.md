@@ -41,11 +41,23 @@ the Department's Information Security and third-party app assessment process).
 | Saved sample answers, contributed questions | Shared teaching content                     | `sample_answers` / `prompts` tables |
 | Streak & XP stats                           | Motivation features                         | `profiles` table                    |
 | Subscription plan (if paid)                 | Entitlements                                | `profiles` table (set by Stripe)    |
+| Invoice request: billing name, email, address, optional ABN and purchase order number | Issuing an invoice to the school's accounts office when it pays by purchase order | `licence_requests` table, and Stripe (customer record and invoice) |
 
 Note that `username` defaults to the local part of the login email, so for an
 `@education.nsw.gov.au` account it is typically the student's name.
 
 No analytics/advertising SDKs are bundled. No third-party trackers.
+
+**Billing contact details for an invoice.** A school that pays by purchase order
+gives a billing name, email address and postal address for the invoice, and may
+give an ABN, a purchase order number and a note. These are the accounts office's
+details, not a student's, and they are needed to issue and chase the invoice.
+They are kept in the `licence_requests` table, readable by the teacher who
+asked and by platform administrators, and they are passed to Stripe to create
+the customer the invoice is addressed to. Nothing else is done with them.
+The app does not yet delete these records automatically. The operator deletes
+them on a school's request, and sets how long they are kept, which should follow
+the school's accounts-retention needs.
 
 ## What the AI provider receives
 

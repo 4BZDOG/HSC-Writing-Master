@@ -23,6 +23,8 @@ import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
+import { usePlanFreshness } from './hooks/usePlanFreshness';
+import { applyPlanFields } from './utils/planFreshness';
 import { focusTrapCompanion } from './hooks/useFocusTrap';
 import { useDebounce } from './hooks/useDebounce';
 import { authService } from './services/authService';
@@ -48,16 +50,19 @@ import {
 } from './utils/permissions';
 import { isCourseDemandAvailable } from './services/courseDemandService';
 import {
+  checkoutSessionIdFrom,
   isEvalLimitReached,
   evalLimitMessage,
   refreshFreeEvalCount,
   requestUpgrade,
+  syncCheckoutSession,
   PLAN_LABELS,
 } from './services/entitlements';
 import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'lucide-react';
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
+import SeatOverageNotice from './components/SeatOverageNotice';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile, STORAGE_KEYS } from './utils/storageUtils';
 import {
@@ -892,6 +897,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {!isFocusMode && <BillingAlertBanner />}
+        {!isFocusMode && <SeatOverageNotice user={user} />}
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar
@@ -1323,6 +1329,24 @@ const App: React.FC = () => {
     void refreshFreeEvalCount();
   }, [user?.username, user?.role]);
 
+  // A licence that goes live or lapses on another device, or in a colleague's
+  // checkout, reaches this session when the person comes back to the tab (see
+  // utils/planFreshness.ts). Only the plan fields are merged, so anything newer
+  // the app holds survives. The free counter is re-read on a change because a
+  // lapsed licence leaves a local mirror the server never spent from.
+  usePlanFreshness({
+    user,
+    onChange: (refreshed) => {
+      setUser((current) =>
+        current && current.username === refreshed.username
+          ? applyPlanFields(current, refreshed)
+          : current
+      );
+      void refreshFreeEvalCount();
+    },
+    notify: showToast,
+  });
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const checkout = params.get('checkout');
@@ -1340,13 +1364,20 @@ const App: React.FC = () => {
       );
     };
     if (checkout === 'success') {
+      // Read before clearCheckoutParams strips it: the session id is what lets the
+      // server confirm this purchase itself instead of waiting on the webhook.
+      const sessionId = checkoutSessionIdFrom(params);
       clearCheckoutParams();
       showToast('Payment received — activating your subscription…', 'info');
       // Stripe redirects back faster than its webhook fires, so the profile is
-      // usually still 'free' on this first load. Poll until the webhook has
-      // written the plan (typically 2-10s), then unlock live — no re-login.
+      // usually still 'free' on this first load. Confirm the purchase, then poll
+      // until the plan is in the profile (typically 2-10s), and unlock live — no
+      // re-login.
       let cancelled = false;
       (async () => {
+        // Confirmed first, so the first refresh below already sees the plan. A
+        // pending or unreachable answer changes nothing: the poll is the fallback.
+        if (sessionId) await syncCheckoutSession(sessionId);
         for (let attempt = 0; attempt < 10 && !cancelled; attempt++) {
           const current = authService.getCurrentUser();
           if (current && current.role !== 'guest') {

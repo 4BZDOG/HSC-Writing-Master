@@ -6,6 +6,68 @@
 - **Changed.** Every lock chip names its feature, so a `PLAN_FEATURE_OVERRIDES` move reaches the chip, the tooltip and the prompt together.
 - **Fixed.** Billing failures show a customer sentence, not the server's operator text (a 503 misconfiguration used to reach the toast verbatim). Profile cards say "Cancelled" or "Payment due", not "Active"; admins are not told their access comes from a school licence; the portal button no longer flashes for perk holders. Paywall controls are 44px on a phone, and the 10px and 11px text a payer must read is 12px.
 - **Docs.** `projectDocs/paywall-surface-inventory.md` maps every place a paid feature is locked or advertised, and which audience is offered what.
+## [Unreleased] - 2026-10-14 (Checkout return confirms the purchase itself)
+
+- **Fixed.** A customer who paid could be stuck on "refresh if features stay locked" until the webhook landed, and
+  refreshing could not help. The return now calls `POST /api/sync-checkout` with the session id first. The server
+  asks Stripe about that session and applies the subscription, refusing anything that is not this account's, paid
+  and a live subscription. The poll is still the fallback.
+- **Changed.** The subscription-applying code moved from `api/stripe-webhook.ts` into `api/_lib/subscriptionSync.ts`,
+  shared with the new endpoint. The webhook's behaviour is unchanged, and its existing tests pass without edits.
+- **Operator.** Still needs the webhook for renewals, cancellations, failed payments and seat changes (see
+  `docs/stripesetup.md`, Step 4). No schema change and no new environment variable.
+- See `projectDocs/monetisation-review-2026-09.md` §31.
+
+## [Unreleased] - 2026-10-14 (Admin Billing overview)
+
+- **Added.** Admin Tools → Billing → "Billing Overview". Read-only: paying subscriptions by plan and seats, what
+  is ending or renewing in 7 and 30 days, and a "Needs attention" list (past due, unpaid, a renewal the webhook
+  never recorded, a checkout that never completed, schools over their seats, a quiet webhook). It also shows the
+  last ten webhook events. The page is in the lazy `admin` chunk; the reads are the existing RLS-gated tables,
+  paged past PostgREST's row cap. No SQL changed and no money figure is shown.
+- **Not done.** Revenue needs a price source of truth, because the app's display prices are not Stripe amounts.
+
+## [Unreleased] - 2026-10-14 (Schools can pay a licence by purchase order: server half)
+
+- **Added.** A teacher or admin attached to a school can request a School licence to be invoiced
+  (`POST /api/request-invoice`). A platform admin approves or declines it (`POST /api/issue-invoice`).
+  Approval creates a `send_invoice` subscription on the school price and sends the first invoice; the
+  existing webhook licenses the school without change. Requests live in `licence_requests`
+  (`supabase/schema.sql` §27), with RLS and no client write policy.
+- **Added.** `SCHOOL_INVOICE_ENABLED=false` turns both endpoints off (404). Default on.
+- **Operator.** Re-apply `supabase/schema.sql` for the new table. Set Stripe's unpaid-invoice behaviour
+  and the invoice payment methods as in `docs/stripesetup.md`, "Invoiced school licences".
+- **Learned.** The approval refuses on any failed read and never clamps seats. A failed invoice send is
+  not tolerated just because the invoice is open.
+
+## [Unreleased] - 2026-10-14 (A school licence reaches its members, and staff hear when it is outgrown)
+
+- **Changed.** A signed-in person's plan is re-read when they return to the tab or the connection comes back,
+  at most every five minutes (`PLAN_FRESHNESS_INTERVAL_MS`, `utils/planFreshness.ts`, `hooks/usePlanFreshness.ts`).
+  A licence that goes live or lapses reaches the other members of the school without a reload. An unchanged plan
+  is silent; a changed one updates the plan fields and is announced once, in the resolved-plan wording.
+- **Added.** `my_school_seats()` (schema §13, staff of their own school only, no member data) and the
+  `SeatOverageNotice` banner for teachers and admins when members exceed a live licence's seats. Only the
+  purchaser is offered Manage subscription; others are told who bought the licence. Dismissible per session.
+- **Operator.** Re-apply `supabase/schema.sql` to get `my_school_seats()`. Without it the notice stays hidden.
+  No new environment variables. Members beyond seats keep School access; seats are not enforced at sign-in.
+- **Found, not fixed.** `list_schools()` answers teachers for every school; `schools_read` lets every signed-in
+  account read every school's licence columns. See `projectDocs/monetisation-review-2026-09.md` §5.
+
+## [Unreleased] - 2026-10-14 (Stripe server hardening: one licence per school, no lost webhook events)
+
+- **Fixed.** A school could buy a second School licence, because the duplicate guard is per person. A school that
+  already holds a live licence now refuses a second purchase before any payment (409, `school_licence_held`).
+- **Fixed.** A webhook whose handler was killed mid-way lost its event: the claim stayed, and Stripe's retry was
+  acknowledged as a duplicate. A claim now counts as done only once stamped (`stripe_events.processed_at`). After a
+  two-minute lease a retry takes an abandoned claim over. Needs the schema §13 re-apply; without it the old
+  behaviour is unchanged.
+- **Fixed.** Checkout refused to check for an existing subscription or licence when that lookup failed, and went
+  ahead. Those lookups now refuse with 503. A licence that moved with its purchaser's school, and a cancellation
+  whose customer link was missing, are both fixed in the webhook.
+- **Open.** Two open Checkout Sessions can both complete, and an `incomplete` subscription holds nothing, so a second
+  purchase can still get through (monetisation review §21–§22). Unsigned webhooks may be accepted on preview
+  deployments (§23). See `projectDocs/monetisation-review-2026-09.md` §16–§27.
 
 ## [Unreleased] - 2026-10-14 (CI: the E2E suite runs in parallel)
 
