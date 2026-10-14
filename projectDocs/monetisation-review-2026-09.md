@@ -237,6 +237,38 @@ user could not see.
 **Fixed** with the same rule: a CTA that hands off dismisses the surface it was
 pressed from.
 
+### 16. The paywall said things the plan does not do — P1, fixed (`claude/paywall-ux`)
+
+The payment surfaces disagreed with the plan and with the server in five ways.
+Each is fixed on the branch; the full map is `projectDocs/paywall-surface-inventory.md`.
+
+- **"Unlimited" for a paid plan.** The prompt said "removes the limit entirely", the
+  comparison said "Unlimited", and the profile said "Unlimited marking", while the
+  same screens quoted a 300-call daily AI allowance. Paid evaluations now read
+  "No daily limit" and the AI allowance row is labelled as shared.
+- **Operator text reached customers.** A misconfigured deployment answers 503 with
+  a paragraph naming `STRIPE_SECRET_KEY` and `VITE_STRIPE_*`, and the toast showed
+  it verbatim. `utils/billingMessages.ts` now maps every billing failure to a
+  sentence that says whether anything was charged or changed. **The operator no
+  longer sees that text in the UI; check the function logs for a 503.**
+- **A dead CTA that implied a sign-up.** With no Plus price, the prompt's button
+  read "Keep me posted", did nothing but toast, and recorded nothing. It is gone;
+  the prompt states that Plus is not on sale.
+- **Locks that named the wrong plan.** Nine chips passed no feature and so read
+  "Plus" whatever the policy said; three tooltips typed out "the AI Content
+  Studio". A `PLAN_FEATURE_OVERRIDES` move would have split the chip, the tooltip
+  and the prompt. A static test now pins both.
+- **Profile and banner states.** A cancelled subscription was chipped "Active", an
+  admin was told their access came from "your school's licence", and a past-due
+  subscription showed no reason. The portal button flashed for perk holders while
+  the lookup was pending.
+
+### 17. The School seat picker was offered under "nothing to buy here" — P1, fixed (`claude/paywall-ux`)
+
+After checkout refused with 409 (a live subscription), the prompt said there was
+nothing to buy and then offered a seat picker. The picker is no longer drawn in
+that state. The same refusal would have blocked a seat purchase.
+
 ## 3. What was checked and found sound
 
 - **Enforcement is where it claims to be.** `api/_lib/planPolicy.ts` is honest
@@ -341,6 +373,22 @@ the review queue.
   (class-scoped analytics is the obvious candidate) rather than a code change.
 - **Nothing notices when a school outgrows its licence.** The dashboard shows
   the over-seat warning, but only to an admin who happens to open it.
+- **A teacher or admin whose school already holds a licence is still offered
+  "Buy N seats".** `SchoolLicencePanel` does not read whether the school is
+  licensed, and `stripePlan === 'school'` does not separate a member from a buyer.
+  Seat top-ups need a product decision before code (section 5, gap 1 of
+  `projectDocs/paywall-surface-inventory.md`).
+- **Displayed prices are typed into the environment, not read from Stripe.**
+  `PLAN_PRICING` comes from `VITE_PLUS_*_PRICE_DISPLAY` and `VITE_SCHOOL_SEAT_PRICE_DISPLAY`.
+  If one of them drifts from the Stripe Price, the prompt shows a different amount from the
+  one charged. Check each at every price change. Nothing in the UI states whether the
+  figures include GST; that needs a decision together with `STRIPE_AUTOMATIC_TAX`.
+- **The teacher's school-seat checkout return is untested.** Checkout-success polling
+  looks for `stripePlan` on the profile, and school seats are applied at sign-in. A
+  teacher may see "Your plan will unlock within a minute" and not unlock until they sign
+  in again. Needs a test-mode school checkout.
+- **There is no upgrade route in the header.** The first upgrade a student sees is always
+  inside a lock, the counter at zero, the profile or Compare plans.
 - ~~**`sampleAnswers` is the one UI-only gate with a real fix available**~~ —
   **done**, see §15 below. The other three (`advancedQuestions`, `pdfExport`,
   `examMode`) are honestly unfixable at that layer, for the reasons in

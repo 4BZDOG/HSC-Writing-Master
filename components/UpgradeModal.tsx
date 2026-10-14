@@ -508,12 +508,18 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               link for everyone else. Lives in its own component because the
               plan comparison shows the same panel: staff never see a locked
               control, so the prompt alone could not sell them a licence. */}
-          <SchoolLicencePanel
-            user={user}
-            showToast={showToast}
-            onDone={close}
-            className="mt-4 pt-4 border-t border-white/5 light:border-slate-300"
-          />
+          {/* Not drawn once checkout has refused because a subscription is live.
+              The server refuses a second subscription whatever its price, so a
+              seat picker under "there is nothing to buy here" contradicted the
+              line above it. */}
+          {!alreadySubscribed && (
+            <SchoolLicencePanel
+              user={user}
+              showToast={showToast}
+              onDone={close}
+              className="mt-4 pt-4 border-t border-white/5 light:border-slate-300"
+            />
+          )}
         </div>
       </div>
     </div>,

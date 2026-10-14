@@ -112,7 +112,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                working — Playwright reported the wrapper "intercepts pointer
                events" for every click on it. The only way out of the guide on
                a phone was "Start writing" at the bottom, or Escape. */
-            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
+            className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>
@@ -290,7 +290,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="t-label px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
+            className="t-label min-h-11 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
           >
             {tab === 'guide' ? 'Start writing' : 'Close'}
           </button>

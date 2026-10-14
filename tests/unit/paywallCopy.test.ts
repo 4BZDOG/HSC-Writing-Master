@@ -89,6 +89,15 @@ describe('paywall copy', () => {
     expect(message).toContain('${PLAN_LABELS.plus} removes the limit.');
   });
 
+  it('keeps the locked-question label on its light step, where amber-500 measured 2.2:1', () => {
+    // LockedQuestionNotice's "Analyse · 4 marks · Band 6 Plus" line is the only
+    // text on that card that says what is locked. amber-500 on the light card
+    // fails AA; the dark theme keeps the brighter step.
+    expect(read('components/Workspace.tsx')).toContain(
+      't-label text-amber-700 dark:text-amber-500 mb-3'
+    );
+  });
+
   it('says what is charged, when it renews and how to stop, in the prompt', () => {
     const prompt = read('components/UpgradeModal.tsx');
     expect(prompt).toContain('and renews automatically');

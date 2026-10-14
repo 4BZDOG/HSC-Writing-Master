@@ -123,7 +123,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             type="button"
             aria-label="Fewer seats"
             onClick={() => setSeats((s) => Math.max(SCHOOL_SEAT_LIMITS.min, s - 5))}
-            className="w-11 h-11 sm:w-8 sm:h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
+            className="shrink-0 w-11 h-11 sm:w-8 sm:h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
           >
             <Minus className="w-3.5 h-3.5" />
           </button>
@@ -134,7 +134,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             type="button"
             aria-label="More seats"
             onClick={() => setSeats((s) => Math.min(SCHOOL_SEAT_LIMITS.max, s + 5))}
-            className="w-11 h-11 sm:w-8 sm:h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
+            className="shrink-0 w-11 h-11 sm:w-8 sm:h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
