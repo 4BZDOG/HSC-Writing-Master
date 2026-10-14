@@ -374,7 +374,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
           maxLength={INVOICE_FIELD_LIMITS.name}
           disabled={submitting}
           {...ariaFor(fieldId('billingName'), errors.billingName, HINTS.billingName)}
-          className={inputClass(!!errors.billingName)}
+          className={inputClass(Boolean(errors.billingName))}
         />
       </Labelled>
 
@@ -393,7 +393,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
           autoComplete="email"
           disabled={submitting}
           {...ariaFor(fieldId('billingEmail'), errors.billingEmail, HINTS.billingEmail)}
-          className={inputClass(!!errors.billingEmail)}
+          className={inputClass(Boolean(errors.billingEmail))}
         />
       </Labelled>
 
@@ -415,7 +415,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
             maxLength={INVOICE_FIELD_LIMITS.addressLine}
             disabled={submitting}
             {...ariaFor(fieldId('line1'), errors.line1)}
-            className={inputClass(!!errors.line1)}
+            className={inputClass(Boolean(errors.line1))}
           />
         </Labelled>
 
@@ -429,7 +429,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
             maxLength={INVOICE_FIELD_LIMITS.addressLine}
             disabled={submitting}
             {...ariaFor(fieldId('line2'), errors.line2)}
-            className={inputClass(!!errors.line2)}
+            className={inputClass(Boolean(errors.line2))}
           />
         </Labelled>
 
@@ -443,7 +443,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
             maxLength={INVOICE_FIELD_LIMITS.city}
             disabled={submitting}
             {...ariaFor(fieldId('city'), errors.city)}
-            className={inputClass(!!errors.city)}
+            className={inputClass(Boolean(errors.city))}
           />
         </Labelled>
 
@@ -456,7 +456,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
               autoComplete="address-level1"
               disabled={submitting}
               {...ariaFor(fieldId('state'), errors.state)}
-              className={inputClass(!!errors.state)}
+              className={inputClass(Boolean(errors.state))}
             >
               <option value="">Choose</option>
               {AU_STATE_CODES.map((code) => (
@@ -483,7 +483,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
               maxLength={4}
               disabled={submitting}
               {...ariaFor(fieldId('postcode'), errors.postcode, HINTS.postcode)}
-              className={inputClass(!!errors.postcode)}
+              className={inputClass(Boolean(errors.postcode))}
             />
           </Labelled>
         </div>
@@ -505,7 +505,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
           onBlur={() => setAbnTouched(true)}
           disabled={submitting}
           {...ariaFor(fieldId('abn'), abnError, abnHint)}
-          className={inputClass(!!abnError)}
+          className={inputClass(Boolean(abnError))}
         />
       </Labelled>
 
@@ -524,7 +524,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
           maxLength={INVOICE_FIELD_LIMITS.poNumber}
           disabled={submitting}
           {...ariaFor(fieldId('poNumber'), errors.poNumber, HINTS.poNumber)}
-          className={inputClass(!!errors.poNumber)}
+          className={inputClass(Boolean(errors.poNumber))}
         />
       </Labelled>
 
@@ -542,7 +542,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
           rows={3}
           disabled={submitting}
           {...ariaFor(fieldId('note'), errors.note, HINTS.note)}
-          className={`${inputClass(!!errors.note)} resize-y`}
+          className={`${inputClass(Boolean(errors.note))} resize-y`}
         />
       </Labelled>
 
