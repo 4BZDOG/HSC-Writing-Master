@@ -109,7 +109,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                         <button
                           onClick={() => onMoveTopic(course.id, topic.id, 'up')}
                           disabled={index === 0}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
+                          className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-white hover:bg-indigo-600 light:hover:text-whitelight:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
                           title="Move up"
                         >
                           <ArrowUp className="w-4 h-4" />
@@ -117,7 +117,7 @@ const TopicReorderList = ({ courses, onMoveTopic }: TopicReorderListProps) => {
                         <button
                           onClick={() => onMoveTopic(course.id, topic.id, 'down')}
                           disabled={index === course.topics.length - 1}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-white hover:bg-indigo-600 light:hover:text-white light:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
+                          className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 flex items-center justify-center rounded-xl bg-white/5 light:bg-slate-100 border border-white/5 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-white hover:bg-indigo-600 light:hover:text-whitelight:hover:bg-indigo-600 light:hover:border-indigo-600 disabled:opacity-20 disabled:grayscale transition-all active:scale-90"
                           title="Move down"
                         >
                           <ArrowDown className="w-4 h-4" />
