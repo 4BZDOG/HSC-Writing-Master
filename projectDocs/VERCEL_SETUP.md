@@ -140,10 +140,10 @@ paid features render locked — but nothing can be bought, and the upgrade promp
 degrades to "Keep me posted". Everything below is what turns that into a
 purchase. See `docs/stripesetup.md` for creating the products themselves.
 
-**Billing needs Supabase configured first.** Both `/api/create-checkout` and
-`/api/customer-portal` go through the same auth gate as the AI proxy, and the
-webhook writes the plan onto a Supabase profile. Without an identity there is
-nothing to attach a subscription to.
+**Billing needs Supabase configured first.** `/api/create-checkout`,
+`/api/customer-portal` and `/api/sync-checkout` go through the same auth gate as
+the AI proxy, and the webhook writes the plan onto a Supabase profile. Without an
+identity there is nothing to attach a subscription to.
 
 | Variable                            | Value                     | Purpose                                                                                                                                           |
 | ----------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
