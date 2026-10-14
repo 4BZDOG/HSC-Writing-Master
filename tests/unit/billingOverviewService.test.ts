@@ -3,6 +3,9 @@ import {
   summariseSubscriptions,
   summariseSchools,
   summariseWebhook,
+  summariseRequests,
+  workingDaysBetween,
+  formatAbn,
   collectAttention,
   isMissingSchemaError,
   shortSubscriptionRef,
@@ -11,9 +14,11 @@ import {
   RENEWAL_GRACE_DAYS,
   STALLED_CHECKOUT_DAYS,
   WEBHOOK_SILENT_DAYS,
+  INVOICE_WAIT_WORKING_DAYS,
   type BillingSubscriptionRow,
   type BillingEventRow,
   type BillingIncidentRow,
+  type InvoiceRequestRow,
 } from '../../services/billingOverviewService';
 import type { SchoolRow } from '../../services/quotaService';
 import * as supabaseClient from '../../services/supabaseClient';
@@ -445,6 +450,156 @@ describe('collectAttention: the order the admin reads it in', () => {
   });
 });
 
+/** A purchase-order request row, as the overview reads it. */
+const request = (over: Partial<InvoiceRequestRow> & { id: string }): InvoiceRequestRow => ({
+  school_id: 'school_1',
+  seats: 30,
+  billing_name: 'Hillcrest High School',
+  billing_email: 'accounts@hillcrest.nsw.edu.au',
+  billing_address: {
+    line1: '1 Main Street',
+    line2: null,
+    city: 'Parramatta',
+    state: 'NSW',
+    postcode: '2150',
+    country: 'AU',
+  },
+  abn: '51824753556',
+  po_number: 'PO-2026-114',
+  note: null,
+  created_at: at(-1),
+  stripe_subscription_id: null,
+  schools: { name: 'Hillcrest High School' },
+  ...over,
+});
+
+describe('workingDaysBetween: the three-day rule counts working days, in Sydney', () => {
+  // 2026-10-12 is a Monday, 2026-10-16 a Friday and 2026-10-19 the next Monday.
+  const ms = (iso: string) => Date.parse(iso);
+
+  it('counts the days after the one a request arrived on, Monday to Friday only', () => {
+    // Monday to Thursday: Tuesday, Wednesday and Thursday.
+    expect(
+      workingDaysBetween(ms('2026-10-12T09:00:00+11:00'), ms('2026-10-15T09:00:00+11:00'))
+    ).toBe(3);
+    // Monday to Friday: four.
+    expect(
+      workingDaysBetween(ms('2026-10-12T09:00:00+11:00'), ms('2026-10-16T09:00:00+11:00'))
+    ).toBe(4);
+  });
+
+  it('skips the weekend: a Friday request read on Monday has waited one working day', () => {
+    expect(
+      workingDaysBetween(ms('2026-10-16T16:00:00+11:00'), ms('2026-10-19T09:00:00+11:00'))
+    ).toBe(1);
+  });
+
+  it('is zero on the day a request arrived, and zero when the clock is behind it', () => {
+    expect(
+      workingDaysBetween(ms('2026-10-14T08:00:00+11:00'), ms('2026-10-14T17:00:00+11:00'))
+    ).toBe(0);
+    expect(
+      workingDaysBetween(ms('2026-10-14T17:00:00+11:00'), ms('2026-10-14T08:00:00+11:00'))
+    ).toBe(0);
+  });
+
+  it('counts by the Sydney calendar day, not UTC, so a late-evening request is not a day early', () => {
+    // 23:30 on Monday in Sydney is 12:30 UTC on Monday. An hour later it is
+    // Tuesday in Sydney, so one working day has passed, whatever the viewer's zone.
+    expect(workingDaysBetween(ms('2026-10-12T12:30:00Z'), ms('2026-10-12T13:30:00Z'))).toBe(1);
+  });
+});
+
+describe('formatAbn: printed the way the ATO prints it', () => {
+  it('prints an eleven-digit ABN in four groups', () => {
+    expect(formatAbn('51824753556')).toBe('51 824 753 556');
+  });
+
+  it('shows anything else as stored, and nothing as nothing', () => {
+    expect(formatAbn(null)).toBeNull();
+    expect(formatAbn('not-an-abn')).toBe('not-an-abn');
+  });
+});
+
+describe('summariseRequests: the approval queue', () => {
+  it('lists the request that has waited longest first', () => {
+    const summaries = summariseRequests(
+      [
+        request({ id: 'req_newer', created_at: at(-1) }),
+        request({ id: 'req_older', created_at: at(-6) }),
+      ],
+      NOW
+    );
+
+    expect(summaries.map((s) => s.id)).toEqual(['req_older', 'req_newer']);
+  });
+
+  it('flags a request only once it has waited more than the working-day limit', () => {
+    expect(INVOICE_WAIT_WORKING_DAYS).toBe(3);
+    // Arrived Monday 12 October. Read on Thursday 15: three working days, not flagged.
+    const three = summariseRequests(
+      [request({ id: 'req_a', created_at: '2026-10-12T09:00:00+11:00' })],
+      new Date('2026-10-15T09:00:00+11:00')
+    )[0];
+    expect(three.workingDaysWaited).toBe(3);
+    expect(three.overdue).toBe(false);
+
+    // Read on Friday 16: four, flagged.
+    const four = summariseRequests(
+      [request({ id: 'req_a', created_at: '2026-10-12T09:00:00+11:00' })],
+      new Date('2026-10-16T09:00:00+11:00')
+    )[0];
+    expect(four.workingDaysWaited).toBe(4);
+    expect(four.overdue).toBe(true);
+  });
+
+  it('carries the billing details the approver checks, in the order the invoice prints them', () => {
+    const [s] = summariseRequests(
+      [
+        request({
+          id: 'req_a',
+          po_number: '  PO-2026-114  ',
+          billing_address: {
+            line1: '1 Main Street',
+            line2: 'Level 2',
+            city: 'Parramatta',
+            state: 'NSW',
+            postcode: '2150',
+          },
+        }),
+      ],
+      NOW
+    );
+
+    expect(s.billingAddress).toBe('1 Main Street, Level 2, Parramatta NSW 2150');
+    expect(s.abn).toBe('51 824 753 556');
+    expect(s.poNumber).toBe('PO-2026-114');
+    expect(s.billingEmail).toBe('accounts@hillcrest.nsw.edu.au');
+    expect(s.seats).toBe(30);
+  });
+
+  it('shows the optional fields as null when they were not given, and never invents a school name', () => {
+    const [s] = summariseRequests(
+      [request({ id: 'req_a', abn: null, po_number: '   ', note: '  ', schools: null })],
+      NOW
+    );
+
+    expect(s.abn).toBeNull();
+    expect(s.poNumber).toBeNull();
+    expect(s.note).toBeNull();
+    expect(s.schoolName).toBe('School name not available');
+  });
+
+  it('keeps the Stripe subscription a part-finished approval left behind', () => {
+    const [s] = summariseRequests(
+      [request({ id: 'req_a', stripe_subscription_id: 'sub_1Nabcdefghijk123456' })],
+      NOW
+    );
+
+    expect(s.subscriptionId).toBe('sub_1Nabcdefghijk123456');
+  });
+});
+
 describe('small helpers', () => {
   it('shortens a Stripe id to something findable in Stripe and not a secret', () => {
     expect(shortSubscriptionRef('sub_1Nabcdefghijk123456')).toBe('sub_…123456');
@@ -494,6 +649,25 @@ vi.mock('../../services/quotaService', async (importOriginal) => {
   return { ...actual, fetchSchools: vi.fn() };
 });
 
+const REQUESTS_LABEL = 'Could not load invoice requests';
+
+/**
+ * The paged reader serves both the subscription read and the request read, so a
+ * stub has to tell them apart by the label each call passes.
+ */
+const pagedReads = (subscriptions: unknown[], requests: unknown[] | Error = []): void => {
+  vi.mocked(supabaseClient.fetchAllRows).mockImplementation((async (
+    _buildQuery: unknown,
+    label: string
+  ) => {
+    if (label === REQUESTS_LABEL) {
+      if (requests instanceof Error) throw requests;
+      return requests;
+    }
+    return subscriptions;
+  }) as typeof supabaseClient.fetchAllRows);
+};
+
 describe('loadBillingOverview', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -501,7 +675,7 @@ describe('loadBillingOverview', () => {
   });
 
   it('summarises the rows it reads and reports a healthy overview', async () => {
-    vi.mocked(supabaseClient.fetchAllRows).mockResolvedValue([sub({ id: 'sub_ok' })]);
+    pagedReads([sub({ id: 'sub_ok' })]);
     eventsResult.value = {
       data: [{ id: 'evt_1', type: 'customer.subscription.updated', received_at: at(-1) }],
       error: null,
@@ -515,23 +689,41 @@ describe('loadBillingOverview', () => {
     expect(overview.webhook.silent).toBe(false);
     expect(overview.schools).toEqual([]);
     expect(overview.schoolsError).toBeNull();
+    expect(overview.requests).toEqual([]);
+    expect(overview.requestsError).toBeNull();
     expect(overview.recentEvents).toHaveLength(1);
   });
 
-  it('reads subscriptions through fetchAllRows, the paged reader, not a single capped select', async () => {
-    vi.mocked(supabaseClient.fetchAllRows).mockResolvedValue([]);
+  it('reads subscriptions and requests through fetchAllRows, the paged reader, not a single capped select', async () => {
+    pagedReads([]);
     vi.mocked(quotaService.fetchSchools).mockResolvedValue([]);
 
     await loadBillingOverview(NOW);
 
-    expect(supabaseClient.fetchAllRows).toHaveBeenCalledTimes(1);
-    expect(vi.mocked(supabaseClient.fetchAllRows).mock.calls[0][1]).toBe(
-      'Could not load subscriptions'
+    const labels = vi.mocked(supabaseClient.fetchAllRows).mock.calls.map((call) => call[1]);
+    expect(labels).toHaveLength(2);
+    expect(labels).toEqual(
+      expect.arrayContaining(['Could not load subscriptions', REQUESTS_LABEL])
     );
   });
 
+  it('lists the pending requests the summary built, the longest waiting first', async () => {
+    pagedReads(
+      [],
+      [
+        request({ id: 'req_new', created_at: at(-1) }),
+        request({ id: 'req_old', created_at: at(-5) }),
+      ]
+    );
+    vi.mocked(quotaService.fetchSchools).mockResolvedValue([]);
+
+    const overview = await loadBillingOverview(NOW);
+
+    expect(overview.requests?.map((r) => r.id)).toEqual(['req_old', 'req_new']);
+  });
+
   it('fails the whole load when the webhook ledger cannot be read', async () => {
-    vi.mocked(supabaseClient.fetchAllRows).mockResolvedValue([]);
+    pagedReads([]);
     vi.mocked(quotaService.fetchSchools).mockResolvedValue([]);
     eventsResult.value = {
       data: [],
@@ -542,7 +734,7 @@ describe('loadBillingOverview', () => {
   });
 
   it('keeps the rest of the overview when only the school seat check fails', async () => {
-    vi.mocked(supabaseClient.fetchAllRows).mockResolvedValue([sub({ id: 'sub_ok' })]);
+    pagedReads([sub({ id: 'sub_ok' })]);
     vi.mocked(quotaService.fetchSchools).mockRejectedValue(
       new Error('Could not load schools: function list_schools() does not exist')
     );
@@ -554,8 +746,24 @@ describe('loadBillingOverview', () => {
     expect(overview.subscriptions.live.total).toBe(1);
   });
 
+  it('keeps the subscriptions, and says so, when the request table is not in the database yet', async () => {
+    pagedReads(
+      [sub({ id: 'sub_ok' })],
+      new Error(
+        'Could not load invoice requests: relation "public.licence_requests" does not exist'
+      )
+    );
+    vi.mocked(quotaService.fetchSchools).mockResolvedValue([]);
+
+    const overview = await loadBillingOverview(NOW);
+
+    expect(overview.requests).toBeNull();
+    expect(overview.requestsError).toMatch(/licence_requests/);
+    expect(overview.subscriptions.live.total).toBe(1);
+  });
+
   it('reports Stripe as not configured in a build with no price IDs', async () => {
-    vi.mocked(supabaseClient.fetchAllRows).mockResolvedValue([]);
+    pagedReads([]);
     vi.mocked(quotaService.fetchSchools).mockResolvedValue([]);
 
     const overview = await loadBillingOverview(NOW);

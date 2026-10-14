@@ -8,12 +8,27 @@
 - **Added.** `billing_incidents` records a user holding two live subscriptions, a school licence replaced while live, and a customer mismatch. Nothing is cancelled or refunded automatically. The operator resolves each in the Stripe Dashboard (`docs/stripesetup.md`, "When a billing incident is open").
 - **Operator.** Re-apply schema §13: it adds `checkout_sessions` and `billing_incidents`. Until then checkout behaves as before. No environment variable changed. New open findings §34–§37 are recorded in `projectDocs/monetisation-review-2026-09.md`.
 
+## [Unreleased] - 2026-10-14 (Approve or decline purchase orders from the Billing overview)
+
+- **Added.** The Billing overview lists pending school invoice requests at the top of "Needs attention", oldest
+  first, with the billing details and the working days waited (over three is flagged). Approve opens a confirm step
+  that says what the call does, with the payment terms (14, 30, 45 or 60 days); Decline takes an optional note.
+  Both call `POST /api/issue-invoice` through `services/invoiceDecisionService.ts`.
+- **Changed.** While a decision call is in flight, the decision buttons, Refresh and the close control are disabled,
+  and Escape or the backdrop do not close the window. An answer that names a Stripe subscription, or no clear answer,
+  keeps Approve off until the request is read again.
+- **Operator.** Nothing to configure. The queue needs schema §27 (`licence_requests`); without it the overview says
+  the requests were not checked and loads the rest. See `docs/stripesetup.md`, "Deciding a request".
+- **Learned.** The confirm step's wording follows what `api/issue-invoice.ts` does, line for line, including that
+  a reused Stripe customer has its billing details replaced.
+
 ## [Unreleased] - 2026-10-14 (paywall: say what is charged, and match the plan)
 
 - **Changed.** The upgrade prompt states the amount, the renewal and how to stop. It no longer offers "Keep me posted" when nothing is on sale, and it offers no seat picker once checkout has refused because a subscription is live. Paid plans read "No daily limit", not "Unlimited", in the prompt, the comparison and the profile card. The comparison opens with its own header. The free counter at zero opens the daily-limit prompt.
 - **Changed.** Every lock chip names its feature, so a `PLAN_FEATURE_OVERRIDES` move reaches the chip, the tooltip and the prompt together.
 - **Fixed.** Billing failures show a customer sentence, not the server's operator text (a 503 misconfiguration used to reach the toast verbatim). Profile cards say "Cancelled" or "Payment due", not "Active"; admins are not told their access comes from a school licence; the portal button no longer flashes for perk holders. Paywall controls are 44px on a phone, and the 10px and 11px text a payer must read is 12px.
 - **Docs.** `projectDocs/paywall-surface-inventory.md` maps every place a paid feature is locked or advertised, and which audience is offered what.
+
 ## [Unreleased] - 2026-10-14 (Checkout return confirms the purchase itself)
 
 - **Fixed.** A customer who paid could be stuck on "refresh if features stay locked" until the webhook landed, and
