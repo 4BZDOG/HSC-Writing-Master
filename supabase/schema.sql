@@ -2207,11 +2207,17 @@ grant execute on function public.delete_my_account() to authenticated;
 --
 -- The order mirrors getUserPlan() in services/entitlements.ts exactly:
 --   1. admins hold the most permissive plan, so nothing is locked for them;
---   2. an explicit paid plan on the profile (written by the Stripe webhook);
---   3. membership of a school whose licence is live (past_due included — the
+--   2. membership of a school whose licence is live (past_due included — the
 --      same grace period the webhook and has_unlimited_evaluations honour);
+--   3. an explicit paid plan on the profile (written by the Stripe webhook);
 --   4. the teacher staff perk;
 --   5. free.
+--
+-- Steps 2 and 3 are a MAXIMUM, not a priority list: a live licence outranks a
+-- personal Plus. Before the Class & School reports (cohortReports, School-priced)
+-- the order did not matter, because both were Plus. A teacher who bought their
+-- own Plus and then joined a licensed school must hold School, or the cohort
+-- report is refused for them by the one check the browser cannot edit.
 --
 -- Idempotent: safe to re-run against an existing database.
 -- =============================================================================
@@ -2221,8 +2227,8 @@ returns text language sql stable security definer set search_path = public as $$
   select coalesce(
     (select case
         when p.role = 'admin' then 'school'
-        when coalesce(p.stripe_plan, 'free') in ('plus', 'school') then p.stripe_plan
         when coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due') then 'school'
+        when coalesce(p.stripe_plan, 'free') in ('plus', 'school') then p.stripe_plan
         when p.role = 'teacher' then 'plus'
         else 'free'
       end

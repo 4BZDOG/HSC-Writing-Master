@@ -89,10 +89,13 @@ describe('entitlement constants stay in sync', () => {
     const match = /create or replace function public\.caller_plan\(\)[\s\S]*?\$\$;/.exec(schemaSql);
     expect(match, 'caller_plan() not found in schema.sql').not.toBeNull();
     const body = match![0];
-    // admin → school, explicit paid plan, live school licence, teacher perk.
-    expect(body.indexOf("p.role = 'admin'")).toBeLessThan(body.indexOf('p.stripe_plan'));
-    expect(body.indexOf('p.stripe_plan')).toBeLessThan(body.indexOf('s.plan_status'));
-    expect(body.indexOf('s.plan_status')).toBeLessThan(body.indexOf("p.role = 'teacher'"));
+    // admin → school, live school licence, explicit paid plan, teacher perk.
+    // The licence comes BEFORE the personal plan: School outranks Plus, and a
+    // teacher with their own Plus inside a licensed school must hold School
+    // (the cohort reports are priced at School). Matches applySchoolPlan().
+    expect(body.indexOf("p.role = 'admin'")).toBeLessThan(body.indexOf('s.plan_status'));
+    expect(body.indexOf('s.plan_status')).toBeLessThan(body.indexOf('p.stripe_plan'));
+    expect(body.indexOf('p.stripe_plan')).toBeLessThan(body.indexOf("p.role = 'teacher'"));
     // The grace period must survive here too, or a past_due school is cut off
     // by the feature gate while the webhook still considers it paid.
     expect(body).toMatch(/past_due/);

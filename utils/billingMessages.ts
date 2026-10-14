@@ -21,7 +21,21 @@ export interface BillingFailure {
   error: string | null;
   /** The HTTP status, or null when the request never reached the server. */
   status: number | null;
+  /** The server's machine code, when it sent one (see BILLING_CODE). */
+  code?: string | null;
 }
+
+/**
+ * Refusals whose server sentence is already written for the customer, so it is
+ * shown as it is. These are the codes from api/create-checkout.ts. Kept as
+ * literals here because this module imports nothing; the names live in
+ * BILLING_CODE in services/entitlements.ts, and a test holds the two together.
+ */
+const SERVER_SENTENCE_CODES = new Set([
+  'school_licence_held', // "Your school already has a School licence…"
+  'school_role_required', // a student tried to buy a licence: a role refusal, not an outage
+  'account_lookup_failed', // a retryable check on the account, with its own sentence
+]);
 
 const UNAVAILABLE: Record<BillingAction, string> = {
   checkout:
@@ -42,8 +56,9 @@ const UNREACHABLE: Record<BillingAction, string> = {
 };
 
 export const billingErrorMessage = (action: BillingAction, failure: BillingFailure): string => {
-  const { status, error } = failure;
+  const { status, error, code } = failure;
   if (status === null) return UNREACHABLE[action];
+  if (code && SERVER_SENTENCE_CODES.has(code) && error) return error;
   if (status === 401) return 'Please sign in again, then try once more.';
   // 501 is the server saying nothing is for sale yet, and its sentence is
   // written for a customer ("No plans are available for purchase yet.").

@@ -44,12 +44,7 @@ const CriteriaSection: React.FC<CriteriaSectionProps> = ({
         {feedbackLocked && <PlusLockChip feature="fullFeedback" />}
       </SectionHeading>
     </div>
-    {feedbackLocked && (
-      <ContentLockOverlay
-        feature="fullFeedback"
-        message={`Detailed criterion feedback is part of ${planLabelForFeature('fullFeedback')}`}
-      />
-    )}
+    {feedbackLocked && <ContentLockOverlay feature="fullFeedback" />}
     <div
       className={`grid grid-cols-1 xl:grid-cols-2 gap-3 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
     >

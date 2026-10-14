@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check, Minus, Crown, Sparkles, School } from 'lucide-react';
 import {
+  describeAccess,
   PLAN_LABELS,
   PLAN_PRICING,
   monetisationEnabled,
@@ -8,7 +9,12 @@ import {
   getUserPlan,
   type Plan,
 } from '../services/entitlements';
-import { buildPlanComparison, COMPARED_PLANS, PLAN_TAGLINES } from '../utils/planComparison';
+import {
+  buildPlanComparison,
+  COMPARED_PLANS,
+  PLAN_AUDIENCES,
+  PLAN_TAGLINES,
+} from '../utils/planComparison';
 import SchoolLicencePanel, { hasSchoolRoute } from './SchoolLicencePanel';
 import { dailyResetTime } from '../utils/dailyReset';
 import type { User } from '../types';
@@ -103,6 +109,8 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
 }) => {
   const rows = buildPlanComparison();
   const currentPlan = getUserPlan(user ?? null);
+  // The free-plan route to the prompt. Empty for anyone the prompt would not sell to.
+  const upgradeCta = describeAccess('fullFeedback', user);
 
   return (
     <div>
@@ -131,6 +139,9 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))]">
                 {PLAN_LABELS[plan]}
               </h4>
+              <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] mt-0.5">
+                {PLAN_AUDIENCES[plan]}
+              </p>
               <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1">
                 {planPriceLine(plan)}
               </p>
@@ -219,7 +230,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
       {/* Nothing to upgrade to when nothing is for sale — the button would
           open a prompt the UpgradeModal now refuses to show. The table above
           already renders every feature as included in that state. */}
-      {showUpgradeCta && currentPlan === 'free' && monetisationEnabled() && (
+      {showUpgradeCta && upgradeCta.cta === 'upgrade' && (
         <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300">
           <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
             Your free markings reset every day at {dailyResetTime()}, and the free plan has no end
@@ -235,7 +246,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
             }}
             className="t-label min-h-11 shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
-            <Crown className="w-3.5 h-3.5" /> See {PLAN_LABELS.plus}
+            <Crown className="w-3.5 h-3.5" /> {upgradeCta.ctaLabel}
           </button>
         </div>
       )}

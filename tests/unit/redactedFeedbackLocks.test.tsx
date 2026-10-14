@@ -76,18 +76,21 @@ afterEach(cleanup);
 
 describe('redacted free-tier feedback is presented as locked', () => {
   /**
-   * One ContentLockOverlay renders one "Unlock with …" button, so counting
+   * One ContentLockOverlay renders one upgrade button, so counting
    * them counts the panels that actually carry the lock. Both redacted panels
    * are on screen here, so both overlays must be.
    */
   it('draws an unlock affordance for each redacted panel, not just one', () => {
     renderDisplay();
 
-    expect(
-      screen.getAllByRole('button', {
-        name: new RegExp(`unlock with ${planLabelForFeature('fullFeedback')}`, 'i'),
+    // The improved-answer section has its own upgrade button outside any
+    // overlay, so only the buttons inside an overlay count here.
+    const overlays = screen
+      .getAllByRole('button', {
+        name: new RegExp(`upgrade to ${planLabelForFeature('fullFeedback')}`, 'i'),
       })
-    ).toHaveLength(2);
+      .filter((button) => button.closest('.absolute.inset-0') !== null);
+    expect(overlays).toHaveLength(2);
   });
 
   it('locks the improvement path, not only the criteria breakdown', () => {

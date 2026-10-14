@@ -1,5 +1,24 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (Tiers by audience, and one answer for every lock)
+
+- **Changed.** Tiers are structured by buyer (`projectDocs/tier-structure.md`). The comparison gives each plan an audience line, and adds the class and school reports row and a payment row (card, or invoice against a purchase order where invoicing is on).
+- **Changed.** Every lock, chip, tooltip, overlay, prompt CTA and profile upgrade button reads from `describeAccess()`. The per-surface wording is gone. The prompt does not open for a feature the viewer already holds.
+- **Changed.** A student is never shown a School route; a student who presses a School lock is told their school provides it. A teacher is never offered Plus.
+- **Changed.** A teacher or admin whose school is already licensed is told so, with no seat picker. A teacher not attached to a school is told to ask an admin, with no checkout.
+- **Changed.** The billing paths carry the server's machine `code`. `school_licence_held` shows the server's sentence and no portal route. `school_role_required` and `account_lookup_failed` show their sentences.
+- **Added.** "Copy a note for your admin" for a teacher who cannot buy a licence (`components/ChampionKit.tsx`, `utils/licenceNote.ts`).
+- **Fixed.** The exam-mode lock shows on phones (a compact badge). The prompt header no longer runs a long title under the close button on a phone.
+- **Operator.** Re-apply `supabase/schema.sql` §17 (`caller_plan()`): the licence now outranks a personal plan. No new environment variable. `PLAN_FEATURE_OVERRIDES=cohortReports:plus` and `VITE_PLAN_FEATURE_OVERRIDES=cohortReports:plus` restore the earlier behaviour for teachers.
+- **Docs.** `projectDocs/tier-structure.md`, `docs/stripesetup.md` ("What each plan includes"), `.env.example`, `projectDocs/monetisation-review-2026-09.md` (§34–39, §5), `projectDocs/paywall-surface-inventory.md` (status note).
+
+## [Unreleased] - 2026-10-14 (Class & school reports are a School feature)
+
+- **Changed.** The Class report (a teacher's classes) and the School report (an administrator's school) are a School-tier feature (`cohortReports`). A teacher holds Plus as a staff perk, so a teacher with no licence now sees the report locked. The student's own progress report stays on Plus. Existing teachers on a deployment that upgrades without config will see this lock.
+- **Changed.** A teacher with their own Plus inside a licensed school now holds School, not Plus. The licence outranks the personal plan at sign-in and in `caller_plan()` (schema §17).
+- **Added.** `PLAN_FEATURE_OVERRIDES=cohortReports:plus` (and `VITE_` copy) restores the earlier behaviour.
+- **Docs.** `docs/stripesetup.md`, `.env.example`, `projectDocs/tier-structure.md`.
+
 ## [Unreleased] - 2026-10-14 (One open checkout per user, and billing incidents)
 
 - **Fixed.** Two Checkout Sessions could both stay payable for a day, so a second Upgrade press or a second tab could double-charge (monetisation review §21). Each account now has one payable session: the new one is recorded, and the one it displaces is expired. A double tap returns the same session. Sessions expire 31 to 36 minutes after creation.

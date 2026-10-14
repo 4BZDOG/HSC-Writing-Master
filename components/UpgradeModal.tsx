@@ -10,6 +10,8 @@ import {
   UPGRADE_REQUEST_EVENT,
   PremiumFeatureKey,
   ALREADY_SUBSCRIBED_STATUS,
+  BILLING_CODE,
+  describeAccess,
   createCheckoutUrl,
   createPortalUrl,
   planFeatureKeys,
@@ -26,6 +28,7 @@ import {
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import SchoolLicencePanel from './SchoolLicencePanel';
+import ChampionKit from './ChampionKit';
 import { dailyResetPhrase } from '../utils/dailyReset';
 import { billingErrorMessage } from '../utils/billingMessages';
 
@@ -59,14 +62,25 @@ const lockLabelFor = (feature?: PremiumFeatureKey): string =>
  * it. Without one it falls back to "Plus", which is right for every feature
  * this deployment prices at Plus and is the historical behaviour.
  */
-export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatureKey }> = ({
-  className = '',
-  feature,
-}) => (
+export const PlusLockChip: React.FC<{
+  className?: string;
+  feature?: PremiumFeatureKey;
+  /**
+   * On a phone, show the lock alone and keep the plan's name for screen readers.
+   * For a chip that sits in a 44px control, where the word would crowd the
+   * neighbouring buttons. The name is still in the accessible text.
+   */
+  compactOnPhone?: boolean;
+}> = ({ className = '', feature, compactOnPhone = false }) => (
   <span
     className={`t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-100 border border-amber-500/50 text-amber-800 dark:bg-amber-950 dark:border-amber-400/40 dark:text-amber-200 ${className}`}
   >
-    <Lock className="w-2.5 h-2.5" /> {lockLabelFor(feature)}
+    <Lock className="w-2.5 h-2.5" />{' '}
+    {compactOnPhone ? (
+      <span className="max-sm:sr-only">{lockLabelFor(feature)}</span>
+    ) : (
+      lockLabelFor(feature)
+    )}
   </span>
 );
 
@@ -77,15 +91,17 @@ export const PlusLockChip: React.FC<{ className?: string; feature?: PremiumFeatu
  */
 export const ContentLockOverlay: React.FC<{
   feature: PremiumFeatureKey;
-  message?: string;
   /**
    * Corner radius to match the container being covered. The overlay is
    * `inset-0`, so a radius smaller than its container's leaves the opaque
    * backdrop poking out past the container's rounded corners.
    */
   className?: string;
-}> = ({ feature, message, className = 'rounded-2xl' }) => {
+}> = ({ feature, className = 'rounded-2xl' }) => {
   const meta = PREMIUM_FEATURES[feature];
+  // The sentence and the button both come from the one answer for this viewer,
+  // so a student is offered an upgrade and a teacher is pointed at the school.
+  const access = describeAccess(feature);
   return (
     <div
       className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgb(var(--color-bg-surface))]/80 light:bg-white/80 backdrop-blur-sm ${className}`}
@@ -95,16 +111,21 @@ export const ContentLockOverlay: React.FC<{
           <Lock className="w-5 h-5 text-amber-500 light:text-amber-700" />
         </div>
         <p className="text-xs font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-          {message || meta?.title || 'Plus Feature'}
+          {meta?.title || 'Plus Feature'}
         </p>
-        <button
-          onClick={() =>
-            window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }))
-          }
-          className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
-        >
-          Unlock with {planLabelForFeature(feature)}
-        </button>
+        <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))]">
+          {access.explanation}
+        </p>
+        {access.cta !== 'none' && (
+          <button
+            onClick={() =>
+              window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }))
+            }
+            className="t-label min-h-11 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
+          >
+            {access.ctaLabel}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -137,6 +158,13 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
    * to find it, the CTA becomes that control.
    */
   const [alreadySubscribed, setAlreadySubscribed] = useState(false);
+  /**
+   * Set when checkout refuses because the school already holds a licence bought
+   * by someone else (409 with `school_licence_held`). The server's sentence says
+   * whom to ask. There is no purchase to make here, and no portal to open: the
+   * portal belongs to whoever bought the licence and would 404 for this caller.
+   */
+  const [licenceHeld, setLicenceHeld] = useState<string | null>(null);
 
   // A deployment may legitimately sell one billing period only — a school
   // pilot on annual invoicing, or a monthly launch with the annual price still
@@ -187,19 +215,23 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
         | undefined;
       const key = detail?.feature;
       if (key && key in PREMIUM_FEATURES) {
+        // Nobody is sold what they already hold. A teacher who presses a Plus
+        // control (their staff perk covers it) gets no prompt to read.
+        if (describeAccess(key, user).state === 'open') return;
         setFeature(key);
         setReason(detail?.reason ?? null);
       }
     };
     window.addEventListener(UPGRADE_REQUEST_EVENT, onRequest);
     return () => window.removeEventListener(UPGRADE_REQUEST_EVENT, onRequest);
-  }, []);
+  }, [user]);
 
   const close = useCallback(() => {
     setFeature(null);
     setReason(null);
     setIsRedirecting(false);
     setAlreadySubscribed(false);
+    setLicenceHeld(null);
   }, []);
   useEscapeKey(!!feature, close);
   // Tab stays inside the dialog while it is open, and focus returns to
@@ -222,20 +254,27 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       return;
     }
     setIsRedirecting(true);
-    const { url, error, status } = await createCheckoutUrl(plusPriceId);
+    const { url, error, status, code } = await createCheckoutUrl(plusPriceId);
     if (url) {
       window.location.href = url;
+      return;
+    }
+    // A 409 with a code is a different refusal. The licence belongs to someone
+    // else at the school, so the answer is their sentence, not the portal.
+    if (status === ALREADY_SUBSCRIBED_STATUS && code === BILLING_CODE.schoolLicenceHeld) {
+      setLicenceHeld(billingErrorMessage('checkout', { error, status, code }));
+      setIsRedirecting(false);
       return;
     }
     // Already subscribed: not an error the user can act on by trying again.
     // Swap the CTA to the billing portal, which is where plan and seat changes
     // actually happen, and say so in the prompt rather than only in a toast.
-    if (status === ALREADY_SUBSCRIBED_STATUS) {
+    if (status === ALREADY_SUBSCRIBED_STATUS && !code) {
       setAlreadySubscribed(true);
       setIsRedirecting(false);
       return;
     }
-    showToast(billingErrorMessage('checkout', { error, status }), 'error');
+    showToast(billingErrorMessage('checkout', { error, status, code }), 'error');
     setIsRedirecting(false);
   };
 
@@ -252,14 +291,13 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
 
   if (!feature) return null;
   const meta = PREMIUM_FEATURES[feature];
-  // Sell the plan that actually unlocks THIS feature, never a fixed "Plus".
-  // Nothing SHIPS at School any more — the AI Content Studio moved to Plus so
-  // the teacher staff perk would reach it — but a deployment can still price
-  // any gate at School through PLAN_FEATURE_OVERRIDES, and pitching such a gate
-  // as Plus leaves a teacher (who already holds Plus) exactly where they
-  // started.
-  const requiredPlan = lowestPlanForFeature(feature);
-  const sellsPlus = requiredPlan === 'plus';
+  // What this viewer is told, and what they are offered, comes from one place.
+  // A student is sold Plus; a teacher with no licence is pointed at the school
+  // (or at an admin); a role lock offers nothing, because paying would not help.
+  const access = describeAccess(feature, user);
+  const requiredPlan = access.planNeeded ?? lowestPlanForFeature(feature);
+  // Checkout is for a student or guest buying Plus, and only when a price is on sale.
+  const offersCheckout = access.cta === 'upgrade' && stripeReady;
   const perkKeys = planFeatureKeys(requiredPlan);
 
   /**
@@ -276,6 +314,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
    */
   const atDailyLimit = reason === 'dailyLimit';
   const headline = atDailyLimit ? "You've used today's free markings" : meta.title;
+  const eyebrow = access.planLabel ?? PLAN_LABELS[requiredPlan];
   /**
    * What the buyer agrees to, in the order they will wonder about it: the
    * amount, that it repeats, and how to stop. "Cancel anytime, no lock-in"
@@ -322,8 +361,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             <div className="w-14 h-14 shrink-0 rounded-2xl bg-white/25 backdrop-blur border border-white/40 flex items-center justify-center shadow-lg">
               <Crown className="w-7 h-7" />
             </div>
-            <div className="min-w-0">
-              <span className="t-label text-slate-900/80 block">{PLAN_LABELS[requiredPlan]}</span>
+            {/* Room for the close button: a long title must not run under it on a phone. */}
+            <div className="min-w-0 pr-10">
+              <span className="t-label text-slate-900/80 block">{eyebrow}</span>
               <h2
                 id="upgrade-modal-title"
                 className="text-xl font-black tracking-tight leading-tight"
@@ -337,15 +377,15 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
         <div className="p-6 overflow-y-auto custom-scrollbar">
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed mb-5">
             {blurb}{' '}
-            {!sellsPlus
-              ? `This is part of the ${PLAN_LABELS.school} plan — a licence covers everyone at your school.`
-              : stripeReady
-                ? atDailyLimit
-                  ? // "Unlock this" is wrong here: nothing is locked, they have
-                    // simply spent today's allowance and it returns tomorrow.
-                    `Everything below is included.`
-                  : `Upgrade to ${PLAN_LABELS.plus} to unlock this and everything below.`
-                : `This is part of ${PLAN_LABELS.plus} — plans are being finalised, so it isn't available on the free plan just yet.`}
+            {atDailyLimit
+              ? // "Unlock this" is wrong here: nothing is locked, they have
+                // simply spent today's allowance and it returns tomorrow.
+                stripeReady
+                ? `Everything below is included.`
+                : `${PLAN_LABELS.plus} is not on sale yet, so there is nothing to buy.`
+              : access.cta === 'upgrade' && !stripeReady
+                ? `${access.explanation} ${PLAN_LABELS.plus} is not on sale yet.`
+                : access.explanation}
           </p>
 
           {showBandHook && (
@@ -390,7 +430,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               price converts far worse than one that states it plainly. Only
               drawn when both periods are on sale; with one, a two-button
               toggle would offer a choice that does not exist. */}
-          {canChoosePeriod && sellsPlus && (
+          {canChoosePeriod && offersCheckout && (
             <div className="mb-5">
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -446,7 +486,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
           {/* One period on sale: still state the price. The rule above holds
               either way — the reason not to draw the toggle is that there is
               nothing to toggle, not that the price should be hidden. */}
-          {stripeReady && !canChoosePeriod && sellsPlus && (
+          {offersCheckout && !canChoosePeriod && (
             <div className="mb-5 px-4 py-3 rounded-xl bg-amber-400/20 border border-amber-400/40">
               <span className="t-label block text-[rgb(var(--color-text-muted))]">
                 {effectivePeriod === 'yearly' ? 'Yearly' : 'Monthly'}
@@ -466,7 +506,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 show a toast, so a student could press it and believe they had
                 asked to be told when Plus launches. Nothing records that. The
                 line above already says plans are not on sale yet. */}
-            {sellsPlus && stripeReady && (
+            {offersCheckout && !licenceHeld && (
               <button
                 onClick={alreadySubscribed ? handleManageSubscription : handleUpgrade}
                 disabled={isRedirecting}
@@ -479,25 +519,31 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                     ? 'Manage subscription'
                     : isGuest
                       ? 'Create an account'
-                      : 'Upgrade now'}
+                      : access.ctaLabel}
               </button>
             )}
             <button
               onClick={close}
-              className={`t-label min-h-11 ${sellsPlus && stripeReady ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all`}
+              className={`t-label min-h-11 ${offersCheckout && !licenceHeld ? '' : 'flex-1 '}px-5 py-3 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all`}
             >
               Maybe later
             </button>
           </div>
 
-          {alreadySubscribed ? (
+          {licenceHeld ? (
+            <p
+              role="status"
+              className="mt-3 text-center text-xs font-medium text-amber-500 light:text-amber-700 leading-relaxed"
+            >
+              {licenceHeld}
+            </p>
+          ) : alreadySubscribed ? (
             <p className="mt-3 text-center text-xs font-medium text-amber-500 light:text-amber-700 leading-relaxed">
               You already have a live subscription, so there is nothing to buy here. Change your
               plan or seat count in the billing portal.
             </p>
           ) : (
-            stripeReady &&
-            sellsPlus && (
+            offersCheckout && (
               <p className="mt-3 text-center text-xs leading-relaxed text-[rgb(var(--color-text-muted))]">
                 {chargeLine}
               </p>
@@ -512,7 +558,17 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               The server refuses a second subscription whatever its price, so a
               seat picker under "there is nothing to buy here" contradicted the
               line above it. */}
-          {!alreadySubscribed && (
+          {!alreadySubscribed &&
+            !licenceHeld &&
+            access.cta === 'ask-admin' &&
+            user?.role === 'teacher' && (
+              // A teacher with no school cannot buy, so the prompt hands them the
+              // words for the person who can, rather than a checkout that would refuse.
+              <div className="mt-4 pt-4 border-t border-white/5 light:border-slate-300">
+                <ChampionKit schoolName={user.schoolName} />
+              </div>
+            )}
+          {!alreadySubscribed && !licenceHeld && access.cta === 'buy-school' && (
             <SchoolLicencePanel
               user={user}
               showToast={showToast}

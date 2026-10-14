@@ -28,6 +28,10 @@
  *   - `pdfExport`, `examMode` — UI-only by nature. Both run entirely in the
  *     browser over data the user already has; there is no server call to
  *     refuse and nothing to withhold.
+ *   - `cohortReports` — UI-only, for the same reason as `pdfExport`: the Class
+ *     and School report PDFs are built in the browser from figures staff can
+ *     already read in-app (Class Insights and the cohort view stay open to
+ *     them). Gating the download is a tier decision, not a data-protection one.
  *
  * Kept in step with the client copy by `tests/unit/planPolicy.test.ts`. It
  * cannot simply import that module: this code runs in plain Node on Vercel,
@@ -49,7 +53,8 @@ export type PremiumFeatureKey =
   | 'fullFeedback'
   | 'sampleAnswers'
   | 'examMode'
-  | 'outcomeBriefing';
+  | 'outcomeBriefing'
+  | 'cohortReports';
 
 export const PLAN_ORDER: Plan[] = ['free', 'plus', 'school'];
 
@@ -68,6 +73,12 @@ const DEFAULT_FEATURE_MIN_PLAN: Record<PremiumFeatureKey, Plan> = {
   examMode: 'plus',
   aiContentStudio: 'plus',
   outcomeBriefing: 'plus',
+  // Class and School report PDFs. The UI-only kind, like `pdfExport`: the PDF is
+  // built in the browser from the class and school figures a staff member can
+  // already read on screen (Class Insights, the cohort view), so refusing the
+  // download here would protect nothing the app does not already show. The
+  // server copy exists so the two halves stay pinned by the same test.
+  cohortReports: 'school',
 };
 
 export const parseFeatureOverrides = (

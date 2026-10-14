@@ -1,6 +1,7 @@
 import React, { useSyncExternalStore } from 'react';
 import { Lock } from 'lucide-react';
 import {
+  describeAccess,
   freeEvalLimit,
   freeEvalsRemaining,
   PLAN_LABELS,
@@ -66,7 +67,7 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
         type="button"
         data-testid="free-eval-counter"
         title={title}
-        aria-label={`0 left today. See ${PLAN_LABELS.plus}.`}
+        aria-label={`0 left today. ${describeAccess('fullFeedback').ctaLabel}.`}
         onClick={() => requestUpgrade('fullFeedback', 'dailyLimit')}
         className={`${classes} min-h-11 sm:min-h-0 hover:brightness-110 transition-[filter] duration-150`}
       >

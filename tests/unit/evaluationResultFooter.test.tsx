@@ -18,6 +18,13 @@ vi.mock('../../services/entitlements', () => ({
   // The lock chip now names its feature, so it asks which plan unlocks it.
   lowestPlanForFeature: () => 'plus',
   requestUpgrade: vi.fn(),
+  // The locked rewrite names the one CTA the policy gives a free student.
+  describeAccess: () => ({
+    state: 'locked',
+    cta: 'upgrade',
+    ctaLabel: 'Upgrade to Band 6 Plus',
+    explanation: 'Band 6 Plus includes AI Answer Upgrades.',
+  }),
 }));
 vi.mock('../../pdf', () => ({ exportEvaluationPdf: vi.fn() }));
 

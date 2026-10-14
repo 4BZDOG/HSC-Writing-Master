@@ -107,6 +107,6 @@ describe('the answer upgrade is paywalled end to end', () => {
     expect(screen.queryByText('Use this version')).toBeNull();
     // …but the section itself stays, so the upgrade is reachable.
     expect(screen.getByText('Improved response')).toBeTruthy();
-    expect(screen.getByText('See what Plus unlocks')).toBeTruthy();
+    expect(screen.getByText('Upgrade to Band 6 Plus')).toBeTruthy();
   });
 });

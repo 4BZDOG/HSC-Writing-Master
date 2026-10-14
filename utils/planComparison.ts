@@ -1,6 +1,7 @@
 import {
   PREMIUM_FEATURES,
   planFeatureKeys,
+  schoolInvoicingEnabled,
   type Plan,
   type PremiumFeatureKey,
 } from '../services/entitlements';
@@ -76,6 +77,10 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
   pdfExport: {
     label: 'PDF report export',
     note: 'Marking reports you can keep, print or hand in',
+  },
+  cohortReports: {
+    label: 'Class & school reports',
+    note: 'Progress reports for a whole class or school, as PDFs',
   },
   aiContentStudio: {
     label: 'AI Content Studio',
@@ -210,7 +215,36 @@ export const buildPlanComparison = (): PlanRow[] => {
     },
   });
 
+  // How it is bought. School names the invoice route only where this deployment
+  // offers it, so the table never promises a purchase order the form cannot take.
+  rows.push({
+    id: 'payment',
+    label: 'Payment',
+    cells: {
+      ...emptyCells(),
+      free: { kind: 'text', text: 'Nothing to pay' },
+      plus: { kind: 'text', text: 'Card, monthly or yearly' },
+      school: {
+        kind: 'text',
+        text: schoolInvoicingEnabled()
+          ? 'Card, or invoice against a purchase order'
+          : 'Card, per seat',
+      },
+    },
+  });
+
   return rows;
+};
+
+/**
+ * Who each plan is FOR, in a few words, printed under its name. The tagline
+ * below says what it does; this says who should be looking at it, which is
+ * the question a buyer is actually asking.
+ */
+export const PLAN_AUDIENCES: Record<Plan, string> = {
+  free: 'To try it out',
+  plus: 'For your own HSC',
+  school: 'For a whole cohort',
 };
 
 /**
@@ -219,10 +253,10 @@ export const buildPlanComparison = (): PlanRow[] => {
  */
 export const PLAN_TAGLINES: Record<Plan, string> = {
   free: 'Enough to practise with, every day, at no cost.',
-  plus: 'The full marking toolkit for one student — and the authoring tools for one teacher.',
-  // What School adds over Plus is COVERAGE, not features: the authoring studio
-  // is a Plus feature that teachers already hold through the staff perk, so
-  // pitching School on "plus content authoring" sold something the buyer's
-  // staff had for nothing.
-  school: 'One licence covering every student and teacher in the school.',
+  // Not "the authoring tools for one teacher": the studio is role-gated, so a
+  // student who pays for Plus does not get it, and a teacher holds Plus anyway.
+  plus: 'The full marking toolkit for one person. Teacher accounts hold it as a staff perk.',
+  // What School adds over Plus is COVERAGE and the cohort reports. The studio
+  // is a Plus feature that teachers already hold, so it is not what School sells.
+  school: 'Plus for every student and teacher in the school, and the class and school reports.',
 };

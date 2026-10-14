@@ -49,6 +49,8 @@ vi.mock('../../services/licenceRequestService', async (importOriginal) => {
 import UserProfileModal from '../../components/UserProfileModal';
 import QuickStartModal from '../../components/QuickStartModal';
 
+// Attached to a school: the seat route, and the form beside it, are for staff
+// who belong to a school. A teacher with no school is asked to get attached first.
 const teacher = (): User =>
   ({
     username: 'ms-teacher',
@@ -56,6 +58,8 @@ const teacher = (): User =>
     role: 'teacher',
     stats: {},
     preferences: {},
+    schoolId: 'school-1',
+    schoolName: 'Hills High',
   }) as unknown as User;
 const student = (): User =>
   ({

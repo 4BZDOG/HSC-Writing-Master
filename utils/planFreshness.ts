@@ -29,6 +29,7 @@ export const planFingerprint = (user: User): string =>
     user.stripePlan ?? null,
     user.planPeriodEnd ?? null,
     user.planCancelAtPeriodEnd === true,
+    user.schoolId ?? null,
   ]);
 
 /**
@@ -92,9 +93,13 @@ export const applyPlanFields = (current: User, next: User): User => {
   delete copy.stripePlan;
   delete copy.planPeriodEnd;
   delete copy.planCancelAtPeriodEnd;
+  delete copy.schoolId;
+  delete copy.schoolName;
   if (next.stripePlan) copy.stripePlan = next.stripePlan;
   if (next.planPeriodEnd) copy.planPeriodEnd = next.planPeriodEnd;
   if (next.planCancelAtPeriodEnd) copy.planCancelAtPeriodEnd = next.planCancelAtPeriodEnd;
+  if (next.schoolId) copy.schoolId = next.schoolId;
+  if (next.schoolName) copy.schoolName = next.schoolName;
   return copy;
 };
 

@@ -29,7 +29,7 @@ import {
   type ChoiceOption,
   type ReportPeriod,
 } from '../utils/progressReportOptions';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import { isFeatureLocked, requestUpgrade, type PremiumFeatureKey } from '../services/entitlements';
 import { isCurriculumRemote } from '../services/curriculumService';
 import type { TeachingClass } from '../services/responseService';
 import type { ToastType } from '../hooks/useToast';
@@ -245,7 +245,11 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
   }, [dialogRef]);
 
   const [remote] = useState(() => isCurriculumRemote());
-  const locked = isFeatureLocked('pdfExport');
+  // A student's own report is a Plus feature. A class or school report is a School
+  // feature: a teacher holds Plus as a staff perk, and that does not cover it, so
+  // the cohort report stays locked for a teacher until a licence reaches them.
+  const lockedFeature: PremiumFeatureKey = isStudent ? 'pdfExport' : 'cohortReports';
+  const locked = isFeatureLocked(lockedFeature, user);
 
   const [period, setPeriod] = useState<ReportPeriod>(DEFAULT_PERIOD);
   const [courseId, setCourseId] = useState<string | null>(null);
@@ -413,7 +417,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
     // A locked plan is offered the upgrade rather than the file. The button is only
     // enabled when there is a report to print, so this never offers an upgrade for nothing.
     if (locked) {
-      requestUpgrade('pdfExport');
+      requestUpgrade(lockedFeature);
       return;
     }
     if (view.kind !== 'ready') return;
@@ -710,7 +714,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
                 <>
                   <FileDown className="w-4 h-4" aria-hidden="true" />
                   Download PDF
-                  {locked && <PlusLockChip feature="pdfExport" />}
+                  {locked && <PlusLockChip feature={lockedFeature} />}
                 </>
               )}
             </button>

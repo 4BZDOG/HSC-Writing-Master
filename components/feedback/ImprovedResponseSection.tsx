@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Columns2, RefreshCw, Zap } from 'lucide-react';
 import { BandConfig, getBandHex, renderFormattedText } from '../../utils/renderUtils';
 import { Prompt } from '../../types';
-import { planLabelForFeature, requestUpgrade } from '../../services/entitlements';
+import { describeAccess, planLabelForFeature, requestUpgrade } from '../../services/entitlements';
 import { PlusLockChip } from '../UpgradeModal';
 import LoadingIndicator from '../LoadingIndicator';
 import AiBusyOverlay from '../AiBusyOverlay';
@@ -197,7 +197,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
               onClick={() => requestUpgrade('answerUpgrades')}
               className={`${PRIMARY_ACTION} ${BAND_GROUND} mt-1`}
             >
-              See what Plus unlocks
+              {describeAccess('answerUpgrades').ctaLabel}
             </button>
           </div>
         )}
