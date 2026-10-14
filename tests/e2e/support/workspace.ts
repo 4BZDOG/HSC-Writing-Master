@@ -60,11 +60,12 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
     // its own behind the gate — and on the guest path gets there first. Unscoped
     // it is either the wrong checkbox or a strict-mode violation, depending on
     // which of the two wins the race.
-    // Bounded like every other action in this helper: an unbounded click waits
-    // for as long as the test has left, with no message to say what it waited on.
+    // Bounded at 30 s, so a click that cannot land fails loudly rather than hanging
+    // for the rest of the test. Not shorter: WebKit settles these slowly on a loaded
+    // runner, and a shorter bound fails a click that would have landed.
     const gate = page.getByRole('dialog').filter({ has: agree });
-    await gate.getByRole('checkbox').first().check({ timeout: 10_000 });
-    await agree.click({ timeout: 10_000 });
+    await gate.getByRole('checkbox').first().check({ timeout: 30_000 });
+    await agree.click({ timeout: 30_000 });
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
   // Dismiss the quick-start guide by firing ITS OWN button's handler, and
@@ -108,7 +109,7 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
     await guideDialog
       .getByRole('button', { name: /start writing|^close$/i })
       .last()
-      .dispatchEvent('click', undefined, { timeout: 10_000 });
+      .dispatchEvent('click', undefined, { timeout: 30_000 });
     // Loud, and at the point of the problem. A swallowed failure here reports
     // itself two minutes later as an unrelated click on an unrelated spec.
     await expect(guideDialog).toHaveCount(0, { timeout: 20_000 });
@@ -122,7 +123,7 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
   const importButton = page.getByRole('button', { name: /add \d+ syllabus(es)?/i });
   await importButton.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
   if (await importButton.count()) {
-    await importButton.first().click({ timeout: 10_000 });
+    await importButton.first().click();
     await importButton.waitFor({ state: 'hidden', timeout: 20_000 }).catch(() => {});
   }
 };
@@ -151,7 +152,7 @@ const openPicker = async (page: Page, trigger: Locator): Promise<boolean> => {
     // A click that times out is retried below like an empty list.
     await trigger
       .first()
-      .click({ timeout: 10_000 })
+      .click({ timeout: 30_000 })
       .catch(() => {});
     try {
       await option.waitFor({ state: 'visible', timeout: 5_000 });
@@ -198,12 +199,12 @@ const pickOpenableQuestion = async (page: Page): Promise<void> => {
     if (!(await openPicker(page, dotPointTrigger))) {
       await page.getByRole('option').first().waitFor({ state: 'visible', timeout: 10_000 });
     }
-    await page.getByRole('option').nth(index).click({ timeout: 10_000 });
+    await page.getByRole('option').nth(index).click({ timeout: 30_000 });
 
     if (await openPicker(page, questionTrigger)) {
       const selectable = page.getByRole('option', { disabled: false });
       if (await selectable.count()) {
-        await selectable.first().click({ timeout: 10_000 });
+        await selectable.first().click({ timeout: 30_000 });
         return;
       }
     }
@@ -246,7 +247,7 @@ export const openFirstQuestion = async (page: Page): Promise<void> => {
       // Still nothing after the re-opens: wait with the message that names it.
       await page.getByRole('option').first().waitFor({ state: 'visible', timeout: 10_000 });
     }
-    await page.getByRole('option').first().click({ timeout: 10_000 });
+    await page.getByRole('option').first().click({ timeout: 30_000 });
   }
   await pickOpenableQuestion(page);
   await expect(page.getByRole('heading', { name: /Writing Prompt/i })).toBeVisible({
