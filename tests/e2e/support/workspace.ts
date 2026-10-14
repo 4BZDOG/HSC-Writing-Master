@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
+import type { SavedAccount } from './savedSession';
 
 /**
  * Getting to a question, shared by every spec that needs one.
@@ -428,8 +429,46 @@ export const expandNavigator = async (page: Page): Promise<void> => {
   await page.waitForTimeout(700);
 };
 
-/** Sign in, clear the gates and open a question — the usual preamble. */
-export const openWorkspace = async (page: Page): Promise<void> => {
+/**
+ * Loads the workspace from a context created with the account's saved session
+ * (`test.use({ storageState: authFile(account) })`, see auth.setup.ts), in place
+ * of signing in and walking the gates and the picker.
+ *
+ * If the context was not given that state, the sign-in form is what shows, and
+ * this says so rather than waiting out a heading that will never come.
+ */
+export const openSavedWorkspace = async (page: Page, account: SavedAccount): Promise<void> => {
+  await page.goto('/');
+  const workspace = page.getByRole('heading', { name: /Writing Prompt/i });
+  const loginField = page.locator('#username');
+  await expect(
+    workspace.or(loginField),
+    `${account}: neither the workspace nor the sign-in form appeared`
+  ).toBeVisible({ timeout: 30_000 });
+  if (await loginField.isVisible()) {
+    throw new Error(
+      `${account}: this context has no saved session. Start the describe with ` +
+        `test.use({ storageState: authFile('${account}') }).`
+    );
+  }
+  await settleVerbRibbon(page);
+  const signedInAs = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('hsc-ai-auth-user-v2');
+    return raw ? (JSON.parse(raw) as { username?: string }).username : null;
+  });
+  expect(signedInAs, `the saved session is for ${signedInAs}, not ${account}`).toBe(account);
+};
+
+/**
+ * Sign in, clear the gates and open a question: the usual preamble. With
+ * `account`, the context must come from that account's saved session instead,
+ * and this only loads the workspace it left.
+ */
+export const openWorkspace = async (
+  page: Page,
+  options: { account?: SavedAccount } = {}
+): Promise<void> => {
+  if (options.account) return openSavedWorkspace(page, options.account);
   await signIn(page);
   await clearOnboarding(page);
   await openFirstQuestion(page);

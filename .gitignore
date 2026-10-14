@@ -17,6 +17,8 @@ coverage
 .nyc_output
 playwright-report
 test-results
+# Browser state the e2e setup project saves each run (tests/e2e/auth.setup.ts).
+playwright/.auth/
 dist-test
 
 # Environment files

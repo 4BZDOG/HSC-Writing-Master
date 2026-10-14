@@ -29,8 +29,14 @@ const matrixFor = (event: string): Leg[] =>
 const config = readFileSync('playwright.config.ts', 'utf8');
 const workflow = readFileSync('.github/workflows/build.yml', 'utf8');
 
-/** The project names declared in `playwright.config.ts`. */
-const configProjects = [...config.matchAll(/^\s{8}name: '([^']+)',/gm)].map((m) => m[1]);
+/**
+ * The project names declared in `playwright.config.ts`, less the setup projects.
+ * Those are not legs: each one runs as a dependency inside the leg of the browser
+ * it belongs to, so the matrix has no job of its own for them.
+ */
+const configProjects = [...config.matchAll(/^\s{8}name: '([^']+)',/gm)]
+  .map((m) => m[1])
+  .filter((name) => !name.startsWith('setup'));
 
 describe('the E2E matrix', () => {
   it('names exactly the projects the Playwright config declares', () => {

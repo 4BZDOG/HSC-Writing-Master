@@ -110,8 +110,36 @@ export default defineConfig({
      on every review round. See ALWAYS_PROJECTS below. */
   projects: (
     [
+      /* Sign the mock accounts in once and save the browser state the specs start
+         from (tests/e2e/auth.setup.ts). One setup per engine, because a CI leg
+         installs only its own browser: a WebKit leg cannot run the Chromium setup.
+         Each browser project below lists its engine's setup under `dependencies`, so
+         the setup runs inside that project's own job. The Supabase project has none:
+         its server is on another origin, so these states would not apply to it. */
+      {
+        name: 'setup',
+        testMatch: /.*\.setup\.ts/,
+        use: {
+          ...devices['Desktop Chrome'],
+          launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+            ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+            : {},
+        },
+      },
+      {
+        name: 'setup-firefox',
+        testMatch: /.*\.setup\.ts/,
+        use: { ...devices['Desktop Firefox'] },
+      },
+      {
+        name: 'setup-webkit',
+        testMatch: /.*\.setup\.ts/,
+        use: { ...devices['Desktop Safari'] },
+      },
+
       {
         name: 'chromium',
+        dependencies: ['setup'] as string[],
         use: {
           ...devices['Desktop Chrome'],
           launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
@@ -123,12 +151,14 @@ export default defineConfig({
 
       {
         name: 'firefox',
+        dependencies: ['setup-firefox'] as string[],
         use: { ...devices['Desktop Firefox'] },
         testIgnore: /contribution-loop|class-analytics-ranking/,
       },
 
       {
         name: 'webkit',
+        dependencies: ['setup-webkit'] as string[],
         use: { ...devices['Desktop Safari'] },
         testIgnore: /contribution-loop|class-analytics-ranking/,
       },
@@ -136,11 +166,13 @@ export default defineConfig({
       /* Test against mobile viewports. */
       {
         name: 'Mobile Chrome',
+        dependencies: ['setup'] as string[],
         use: { ...devices['Pixel 5'] },
         testIgnore: /contribution-loop|class-analytics-ranking/,
       },
       {
         name: 'Mobile Safari',
+        dependencies: ['setup-webkit'] as string[],
         use: { ...devices['iPhone 12'] },
         testIgnore: /contribution-loop|class-analytics-ranking/,
       },
@@ -164,7 +196,10 @@ export default defineConfig({
         testMatch: /contribution-loop|class-analytics-ranking/,
       },
     ] as const
-  ).filter((project) => !process.env.PW_FAST || FAST_PROJECTS.has(project.name)),
+  ).filter(
+    (project) =>
+      !process.env.PW_FAST || FAST_PROJECTS.has(project.name) || project.name.startsWith('setup')
+  ),
 
   webServer: webServers,
 });

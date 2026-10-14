@@ -4,6 +4,7 @@ import {
   clearOnboarding,
   openFirstQuestion,
   openQuestionWithOutcomes,
+  openSavedWorkspace,
   settleVerbRibbon,
   signIn,
 } from './workspace';
@@ -128,19 +129,28 @@ export const openFeedbackAfterMarking = async (page: Page): Promise<Locator> => 
  * hang without a message. The page's default timeout bounds those clicks for
  * the duration of this call, and one fresh attempt follows a failure. CI
  * retries failed tests as well.
+ *
+ * `savedSession` starts from the account's saved state instead, where the spec
+ * has `test.use({ storageState: authFile(account) })`. Only the first attempt
+ * does; a retry clears storage and walks the full preamble, as it always has.
  */
 export const openWorkspaceQuestion = async (
   page: Page,
   account: 'user' | 'admin',
-  outcomes = false
+  outcomes = false,
+  options: { savedSession?: boolean } = {}
 ): Promise<void> => {
   let firstFailure = '';
   for (let attempt = 1; attempt <= 2; attempt++) {
     page.setDefaultTimeout(30_000);
     try {
-      await signIn(page, account);
-      await clearOnboarding(page);
-      await openFirstQuestion(page);
+      if (options.savedSession && attempt === 1) {
+        await openSavedWorkspace(page, account);
+      } else {
+        await signIn(page, account);
+        await clearOnboarding(page);
+        await openFirstQuestion(page);
+      }
       if (outcomes) await openQuestionWithOutcomes(page);
       return;
     } catch (error) {
