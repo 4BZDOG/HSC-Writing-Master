@@ -1530,27 +1530,27 @@ function renderLine(
 
   const parts = processInlineFormatting(content, verbRegex, keywordRegex, onVerbClick);
 
-  const bulletElement = React.createElement(
+  if (!isListItem) {
+    return React.createElement('span', { key: lineIdx, className: 'block min-h-[1.5em]' }, parts);
+  }
+
+  // The marker and the words are side by side, not one run of inline text. As
+  // a single inline box a wrapped item came back to the left edge, under its
+  // bullet. As a fixed-width marker beside a words box, every line of the item
+  // starts at the words' edge. The first line is where it was: the same gutter,
+  // then the same words.
+  const bullet = React.createElement(
     'span',
-    { className: `inline-block ${listGutter} text-[rgb(var(--color-accent))]` },
+    { className: `flex-none ${listGutter} text-[rgb(var(--color-accent))]` },
     listMarker.endsWith('.') ? listMarker : '•'
   );
+  const words = React.createElement('span', { className: 'min-w-0 flex-1' }, parts);
 
-  const renderedLine = React.createElement(
-    'span',
-    { key: lineIdx, className: 'block min-h-[1.5em]' },
-    isListItem && bulletElement,
-    parts
+  return React.createElement(
+    'div',
+    { key: lineIdx, style: { paddingLeft: `${indentLevel * 10}px` } },
+    React.createElement('span', { className: 'flex min-h-[1.5em]' }, bullet, words)
   );
-
-  if (isListItem) {
-    return React.createElement(
-      'div',
-      { key: lineIdx, style: { paddingLeft: `${indentLevel * 10 + (isListItem ? 0 : 0)}px` } },
-      renderedLine
-    );
-  }
-  return renderedLine;
 }
 
 export const renderEditorHighlights = (

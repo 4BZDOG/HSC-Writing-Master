@@ -406,7 +406,7 @@ describe('the keyword matcher’s memo', () => {
 describe('list markers in prose', () => {
   it('keeps the default gutter for a question’s list', () => {
     const { container } = render(<div>{renderFormattedText('- first point')}</div>);
-    const marker = container.querySelector('span.inline-block');
+    const marker = container.querySelector('span.flex-none');
 
     expect(marker?.className).toContain('w-6');
     expect(marker?.className).toContain('mr-1');
@@ -415,7 +415,7 @@ describe('list markers in prose', () => {
 
   it('sets the briefing’s bullets in the tight gutter', () => {
     const { container } = render(<div>{renderBriefingText('- first point\n- second')}</div>);
-    const markers = Array.from(container.querySelectorAll('span.inline-block'));
+    const markers = Array.from(container.querySelectorAll('span.flex-none'));
 
     expect(markers.length).toBe(2);
     for (const marker of markers) {
@@ -423,6 +423,37 @@ describe('list markers in prose', () => {
       expect(marker.className).toContain('mr-1.5');
       expect(marker.className).not.toContain('w-6');
     }
+  });
+
+  /**
+   * A wrapped item must hang: its second line starts under its words, not under
+   * its bullet. That needs the bullet and the words to be two boxes side by side,
+   * because an inline bullet shares one run of text with the words and a wrap
+   * returns to the left edge. jsdom does no layout, so this pins the structure
+   * that the layout depends on, and the e2e screenshots check the rest.
+   */
+  it('hangs a wrapped item from its words, with the bullet in its own box', () => {
+    const { container } = render(
+      <div>{renderFormattedText('- a long point that would wrap at a narrow measure')}</div>
+    );
+    const marker = container.querySelector('span.flex-none')!;
+    const row = marker.parentElement!;
+    const words = marker.nextElementSibling!;
+
+    expect(row.className).toContain('flex');
+    expect(words.className).toContain('min-w-0');
+    expect(words.className).toContain('flex-1');
+    expect(words.textContent).toBe('a long point that would wrap at a narrow measure');
+    expect(marker.textContent).toBe('•');
+  });
+
+  it('leaves a line that is not a list item as a plain block', () => {
+    const { container } = render(<div>{renderFormattedText('A sentence, not a list.')}</div>);
+
+    expect(container.querySelector('span.flex-none')).toBeNull();
+    expect(container.querySelector('span.block.min-h-\\[1\\.5em\\]')?.textContent).toBe(
+      'A sentence, not a list.'
+    );
   });
 
   it('keeps the same words and the same list in both', () => {
