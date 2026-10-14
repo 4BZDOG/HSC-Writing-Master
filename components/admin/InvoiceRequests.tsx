@@ -159,8 +159,8 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
             <span className="break-words">{request.billingEmail}</span>
           </p>
         </div>
-        <p
-          className={`shrink-0 inline-flex items-center gap-1.5 px-2 py-1 rounded-md border text-xs font-bold ${
+        <span
+          className={`shrink-0 inline-flex items-center gap-1.5 px-2 py-1 rounded-full border text-xs font-bold ${
             request.overdue
               ? 'border-amber-500/40 bg-amber-500/10 light:bg-amber-50 light:border-amber-300 text-amber-400 light:text-amber-800'
               : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700'
@@ -172,7 +172,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
           {request.overdue && <TriangleAlert className="w-3.5 h-3.5" aria-hidden="true" />}
           {waitedLabel(request.workingDaysWaited)}
           {request.overdue ? ' · overdue' : ''}
-        </p>
+        </span>
       </div>
 
       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mt-3 text-xs">
@@ -387,7 +387,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
                 type="button"
                 disabled={busy}
                 onClick={() => onDecide(request, { action: 'approve', daysUntilDue })}
-                className={`${BUTTON_BASE} border-transparent bg-emerald-700 hover:bg-emerald-600 text-white disabled:!opacity-100`}
+                className={`${BUTTON_BASE} border-transparent bg-emerald-700 hover:bg-emerald-800 text-white disabled:!opacity-100`}
               >
                 {calling ? (
                   <>
@@ -461,7 +461,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
               onClick={() =>
                 onDecide(request, { action: 'decline', decisionNote: note.trim() || null })
               }
-              className={`${BUTTON_BASE} border-transparent bg-red-700 hover:bg-red-600 text-white disabled:!opacity-100`}
+              className={`${BUTTON_BASE} border-transparent bg-red-700 hover:bg-red-800 text-white disabled:!opacity-100`}
             >
               {calling ? (
                 <>
@@ -507,7 +507,7 @@ export const InvoiceRequestsGroup: React.FC<InvoiceRequestsProps> = ({
           <Receipt className="w-4 h-4" aria-hidden="true" />
           Invoice requests
           {waiting > 0 && (
-            <span className="text-xs font-bold tabular-nums px-2 py-0.5 rounded-md border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+            <span className="text-xs font-bold tabular-nums px-2 py-0.5 rounded-full border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700">
               {waiting} waiting
             </span>
           )}
