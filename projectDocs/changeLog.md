@@ -13,6 +13,21 @@
 - **Learned.** The approval refuses on any failed read and never clamps seats. A failed invoice send is
   not tolerated just because the invoice is open.
 
+## [Unreleased] - 2026-10-14 (Stripe server hardening: one licence per school, no lost webhook events)
+
+- **Fixed.** A school could buy a second School licence, because the duplicate guard is per person. A school that
+  already holds a live licence now refuses a second purchase before any payment (409, `school_licence_held`).
+- **Fixed.** A webhook whose handler was killed mid-way lost its event: the claim stayed, and Stripe's retry was
+  acknowledged as a duplicate. A claim now counts as done only once stamped (`stripe_events.processed_at`). After a
+  two-minute lease a retry takes an abandoned claim over. Needs the schema §13 re-apply; without it the old
+  behaviour is unchanged.
+- **Fixed.** Checkout refused to check for an existing subscription or licence when that lookup failed, and went
+  ahead. Those lookups now refuse with 503. A licence that moved with its purchaser's school, and a cancellation
+  whose customer link was missing, are both fixed in the webhook.
+- **Open.** Two open Checkout Sessions can both complete, and an `incomplete` subscription holds nothing, so a second
+  purchase can still get through (monetisation review §21–§22). Unsigned webhooks may be accepted on preview
+  deployments (§23). See `projectDocs/monetisation-review-2026-09.md` §16–§27.
+
 ## [Unreleased] - 2026-10-14 (CI: the E2E suite runs in parallel)
 
 - **Changed.** The E2E suite is one job per browser project instead of one long job, and no longer waits for

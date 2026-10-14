@@ -17,7 +17,12 @@
  * always check out with quantity 1 regardless of what the client sends.
  * School licences are also refused unless the buyer is a teacher or admin AND
  * is attached to a school — a licence with no school to attach to would cover
- * only the buyer, at N seats' price.
+ * only the buyer, at N seats' price. A school that already holds a live licence
+ * refuses a second one, whichever member asks (409, `code: school_licence_held`).
+ *
+ * A lookup that ERRORS refuses the purchase (503) before any session exists. The
+ * exception is a column the schema has not added yet: that is treated as "nothing
+ * to check", so a database that has not re-applied §13 behaves as it did before.
  *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
  * mock URL pointing to /#/upgrade-test so the client flow can be exercised
@@ -35,6 +40,16 @@ import {
 import { SCHOOL_SEAT_LIMITS } from './_lib/entitlements';
 import { verifyRequestAuth } from './_lib/auth';
 import { corsHeadersFor } from './_lib/cors';
+import { isMissingColumnError } from './_lib/stripeLedger';
+
+/**
+ * Stripe statuses in which a subscription or licence is still being paid for, so
+ * buying another would double-bill. `past_due` counts: Stripe is still retrying.
+ */
+const LIVE_STATUSES = ['active', 'trialing', 'past_due'];
+
+const LOOKUP_FAILED =
+  'We could not check your account just now, so no purchase was started. Please try again in a few minutes.';
 
 interface RequestLike {
   method?: string;
@@ -148,11 +163,24 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     let customerEmail: string | undefined;
     const supabase = getSupabaseAdmin();
     if (supabase) {
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('stripe_customer_id, role, school_id')
         .eq('id', auth.userId)
         .maybeSingle();
+      if (profileError && !isMissingColumnError(profileError)) {
+        // Without the profile we cannot tell who is buying, or whether they
+        // already have a customer to reuse. Refuse rather than guess.
+        console.error('[create-checkout] profile lookup failed:', profileError.message);
+        res.status(503).json({ error: LOOKUP_FAILED });
+        return;
+      }
+      if (profileError) {
+        // Billing columns not re-applied yet: carry on exactly as before.
+        console.warn(
+          '[create-checkout] profiles billing columns missing (schema §13 not re-applied).'
+        );
+      }
       if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
 
       // A school licence grants the plan to EVERY member of the buyer's
@@ -184,13 +212,20 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // portal by design — this is only a duplicate-purchase guard, not an
       // in-app switcher. Applies to both Plus and School because it keys on
       // the user, before the price is inspected.
-      const { data: existingSub } = await supabase
+      const { data: existingSub, error: existingSubError } = await supabase
         .from('subscriptions')
         .select('id, status')
         .eq('user_id', auth.userId)
-        .in('status', ['active', 'trialing', 'past_due'])
+        .in('status', LIVE_STATUSES)
         .limit(1)
         .maybeSingle();
+      // Fail closed: a lookup that errored says nothing about whether the user
+      // is already subscribed, and a guard that cannot see is no guard.
+      if (existingSubError) {
+        console.error('[create-checkout] subscription lookup failed:', existingSubError.message);
+        res.status(503).json({ error: LOOKUP_FAILED });
+        return;
+      }
       if (existingSub) {
         res.status(409).json({
           error:
@@ -221,6 +256,40 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
             'Ask an admin to add you to your school (Admin → Schools), then buy the seats.',
         });
         return;
+      }
+
+      // One licence per school. The guard above is per person, so two teachers at
+      // the same school would each pass it and each buy a licence: both are charged,
+      // and the webhook writes whichever event arrives last onto
+      // schools.stripe_subscription_id, leaving one licence paid for and invisible.
+      // A licence that is still being paid for holds the school. A cancelled or
+      // unpaid one does not, so the school can buy again. Plus is never checked here.
+      if (sellablePrices[priceId] === 'school') {
+        const { data: school, error: schoolError } = await supabase
+          .from('schools')
+          .select('stripe_subscription_id, plan_status')
+          .eq('id', profile?.school_id)
+          .maybeSingle();
+        if (schoolError && !isMissingColumnError(schoolError)) {
+          console.error('[create-checkout] school licence lookup failed:', schoolError.message);
+          res.status(503).json({ error: LOOKUP_FAILED });
+          return;
+        }
+        if (schoolError) {
+          // Licence columns not re-applied yet: there is nothing to hold, so carry on as before.
+          console.warn(
+            '[create-checkout] schools licence columns missing (schema §13 not re-applied) — ' +
+              'cannot check for an existing licence.'
+          );
+        } else if (school?.stripe_subscription_id && LIVE_STATUSES.includes(school.plan_status)) {
+          res.status(409).json({
+            code: 'school_licence_held',
+            error:
+              'Your school already has a School licence. Ask whoever bought it to add seats through ' +
+              '“Manage subscription”, or contact us if you need it moved.',
+          });
+          return;
+        }
       }
 
       // First checkout for this user: prefill their account email so the new
