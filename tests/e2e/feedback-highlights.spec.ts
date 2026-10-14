@@ -90,7 +90,7 @@ const setTheme = async (page: Page, theme: 'light' | 'dark') => {
 };
 
 /** The readings that paint a highlight: the accent verb, or a term on its emerald chip. */
-const HIGHLIGHT_CLASSES = ['text-emerald-400', 'text-emerald-800', 'color-accent'];
+const HIGHLIGHT_CLASSES = ['text-emerald-400', 'text-emerald-900', 'color-accent'];
 const isHighlight = (r: ContrastReading) => HIGHLIGHT_CLASSES.some((c) => r.classes.includes(c));
 
 test.describe('Highlights in marking feedback', () => {

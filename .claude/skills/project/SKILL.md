@@ -40,10 +40,19 @@ optional Claude engine via the admin AI Engine selector).
 
 ```bash
 npm run dev          # start Vite dev server
-npm run test:all     # lint + unit tests + type-check (run before pushing)
+npm run test:all     # lint + unit tests + type-check + build checks (run before pushing)
 npm run type-check   # fastest feedback loop
 npm run test:e2e     # Playwright e2e
+npm run check:build  # production build + the two chunk guards CI runs after it; removes dist/
 ```
+
+`check:build` exists because CI's build job runs two checks that `test:all`
+used to skip: `check:bundle` (no top-level read crosses a chunk cycle) and
+`check:eager-chunks` (no admin, PDF or provider chunk joined the first load).
+A shared module placed under `components/admin/` and imported by an eager
+component pulls the whole admin chunk into every student's first load, and it
+only shows in a production build. It is now part of `test:all` too; it takes
+about 20 seconds.
 
 Copy `.env.example` to `.env.local` for local setup. Husky + lint-staged run on
 commit — fix failures rather than using `--no-verify`.
