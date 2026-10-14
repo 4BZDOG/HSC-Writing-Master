@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (Approve or decline purchase orders from the Billing overview)
+
+- **Added.** The Billing overview lists pending school invoice requests at the top of "Needs attention", oldest
+  first, with the billing details and the working days waited (over three is flagged). Approve opens a confirm step
+  that says what the call does, with the payment terms (14, 30, 45 or 60 days); Decline takes an optional note.
+  Both call `POST /api/issue-invoice` through `services/invoiceDecisionService.ts`.
+- **Changed.** While a decision call is in flight, the decision buttons, Refresh and the close control are disabled,
+  and Escape or the backdrop do not close the window. An answer that names a Stripe subscription, or no clear answer,
+  keeps Approve off until the request is read again.
+- **Operator.** Nothing to configure. The queue needs schema §27 (`licence_requests`); without it the overview says
+  the requests were not checked and loads the rest. See `docs/stripesetup.md`, "Deciding a request".
+- **Learned.** The confirm step's wording follows what `api/issue-invoice.ts` does, line for line, including that
+  a reused Stripe customer has its billing details replaced.
+
 ## [Unreleased] - 2026-10-14 (Admin Billing overview)
 
 - **Added.** Admin Tools → Billing → "Billing Overview". Read-only: paying subscriptions by plan and seats, what
