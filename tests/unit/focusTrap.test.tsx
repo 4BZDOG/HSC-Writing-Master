@@ -294,6 +294,128 @@ describe('under StrictMode', () => {
   });
 });
 
+/**
+ * A dialog that closes and another that opens in the same tick are two hook
+ * instances, so nothing the closing one keeps can see the opening one. The
+ * focus restore has to look at who holds focus when it lands, or it takes focus
+ * out of the new dialog and drops it on the page behind.
+ */
+describe('close-then-open in the same tick', () => {
+  const twoFrames = () =>
+    new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    );
+
+  it('does not take focus back from the dialog that replaced the one that closed', async () => {
+    const Panel: React.FC<{ label: string; active: boolean; onNext: () => void }> = ({
+      label,
+      active,
+      onNext,
+    }) => {
+      const ref = useFocusTrap<HTMLDivElement>(active);
+      if (!active) return null;
+      return (
+        <div ref={ref} tabIndex={-1} role="dialog" aria-label={label}>
+          <button onClick={onNext}>{`${label} next`}</button>
+        </div>
+      );
+    };
+    const Swap = () => {
+      const [shown, setShown] = useState<'first' | 'second' | null>(null);
+      return (
+        <>
+          <button onClick={() => setShown('first')}>open first</button>
+          <Panel label="first" active={shown === 'first'} onNext={() => setShown('second')} />
+          <Panel label="second" active={shown === 'second'} onNext={() => setShown(null)} />
+        </>
+      );
+    };
+    render(<Swap />);
+    const opener = screen.getByText('open first');
+    opener.focus();
+    fireEvent.click(opener);
+    expect(document.activeElement).toBe(screen.getByText('first next'));
+
+    // One click: the first dialog closes and the second opens in the same tick.
+    fireEvent.click(screen.getByText('first next'));
+    expect(document.activeElement).toBe(screen.getByText('second next'));
+
+    await twoFrames();
+    expect(document.activeElement).toBe(screen.getByText('second next'));
+  });
+
+  it('still returns focus to its parent when a dialog opened inside another closes', async () => {
+    const Nested = () => {
+      const [outer, setOuter] = useState(false);
+      const [inner, setInner] = useState(false);
+      const outerRef = useFocusTrap<HTMLDivElement>(outer);
+      const innerRef = useFocusTrap<HTMLDivElement>(inner);
+      return (
+        <>
+          <button onClick={() => setOuter(true)}>open outer</button>
+          {outer && (
+            <div ref={outerRef} tabIndex={-1} role="dialog" aria-label="outer">
+              <button onClick={() => setInner(true)}>open inner</button>
+            </div>
+          )}
+          {inner && (
+            <div ref={innerRef} tabIndex={-1} role="dialog" aria-label="inner">
+              <button onClick={() => setInner(false)}>close inner</button>
+            </div>
+          )}
+        </>
+      );
+    };
+    render(<Nested />);
+    fireEvent.click(screen.getByText('open outer'));
+
+    const openInner = screen.getByText('open inner');
+    openInner.focus();
+    fireEvent.click(openInner);
+    expect(document.activeElement).toBe(screen.getByText('close inner'));
+
+    fireEvent.click(screen.getByText('close inner'));
+    await twoFrames();
+
+    // The outer dialog is still open and holds the control that opened the inner
+    // one, so that control gets the focus back.
+    expect(document.activeElement).toBe(screen.getByText('open inner'));
+  });
+
+  it('puts focus back into an open dialog when a dialog opened from outside it closes', async () => {
+    const Stray = () => {
+      const [inner, setInner] = useState(false);
+      const outerRef = useFocusTrap<HTMLDivElement>(true);
+      const innerRef = useFocusTrap<HTMLDivElement>(inner);
+      return (
+        <>
+          <button onClick={() => setInner(true)}>page opener</button>
+          <div ref={outerRef} tabIndex={-1} role="dialog" aria-label="outer">
+            <button>outer first</button>
+          </div>
+          {inner && (
+            <div ref={innerRef} tabIndex={-1} role="dialog" aria-label="inner">
+              <button onClick={() => setInner(false)}>close inner</button>
+            </div>
+          )}
+        </>
+      );
+    };
+    render(<Stray />);
+    const pageOpener = screen.getByText('page opener');
+    pageOpener.focus();
+    fireEvent.click(pageOpener);
+    expect(document.activeElement).toBe(screen.getByText('close inner'));
+
+    fireEvent.click(screen.getByText('close inner'));
+    await twoFrames();
+
+    // The page button is not inside the dialog still open, so focus does not go
+    // back to it; it goes to the open dialog rather than being dropped.
+    expect(document.activeElement).toBe(screen.getByText('outer first'));
+  });
+});
+
 describe('collapsed panels are unreachable', () => {
   it('marks a shut disclosure panel inert, and lifts it when opened', async () => {
     const { AccordionSection } = await import('../../components/ReferenceMaterials');
