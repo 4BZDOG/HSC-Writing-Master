@@ -1776,6 +1776,64 @@ create policy "Reviewers read stripe events"
 alter table public.subscriptions
   add column if not exists last_event_at timestamptz;
 
+-- The seat picture a STAFF member needs for their own school, and nothing about
+-- the people in it. list_schools() above answers for every school at once, so it
+-- is no fit for this: it would hand a teacher every other school's licence. And
+-- a teacher cannot count their own school's members through RLS (profiles_read
+-- shows them only their own row and the students in their classes).
+--
+-- It takes NO school argument on purpose: the school is the caller's own
+-- profiles.school_id, so there is no id to guess and nothing to enumerate.
+-- Returns null for staff with no school (nothing to warn about) and refuses
+-- everyone else. `purchaser` tells the client whether the caller bought the
+-- licence, because only the purchaser can open the billing portal (the portal
+-- looks up profiles.stripe_customer_id).
+--
+-- Whether a member beyond the paid seats keeps the School plan is decided by
+-- caller_plan() (§17), has_unlimited_evaluations() (§14) and resolve_ai_quota()
+-- (above), none of which counts seats. The over-seat notice says so.
+create or replace function public.my_school_seats()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_user   uuid := auth.uid();
+  v_role   app_role;
+  v_school uuid;
+  v_result jsonb;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  select p.role, p.school_id into v_role, v_school
+    from public.profiles p
+   where p.id = v_user;
+
+  if v_role not in ('admin', 'teacher') then
+    raise exception 'Only staff can see their school''s seat count';
+  end if;
+  if v_school is null then
+    return null;
+  end if;
+
+  select jsonb_build_object(
+      'plan_status', s.plan_status,
+      'plan_seats',  s.plan_seats,
+      'members', (select count(*) from public.profiles m where m.school_id = s.id),
+      'purchaser', exists (
+        select 1 from public.subscriptions sub
+         where sub.user_id = v_user
+           and sub.id = s.stripe_subscription_id)
+    )
+    into v_result
+    from public.schools s
+   where s.id = v_school;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.my_school_seats() from public, anon;
+grant execute on function public.my_school_seats() to authenticated;
+
 -- =============================================================================
 -- §14 · Free-tier evaluation limit (server-side)
 --
