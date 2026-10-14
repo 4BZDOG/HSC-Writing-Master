@@ -510,15 +510,16 @@ export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)]
  * keeps the two-level relationship the dark `/10` → `/20` pair has. The `text`
  * entries are `-900`, so contrast on either is far past AA.
  *
- * The dark `text` is `-300`, not `-400`: a `-400` label on its own `/10` wash
- * read 4.0:1 on red, 4.3 on orange and 4.5 on purple over the dark panels, which
- * is under AA for the `.t-label` chips that carry it. `-300` clears 4.7:1 on the
- * weakest of them.
+ * The dark `text` is `-300`, not `-400`. In the navigator a band label sits on
+ * two nested `/10` washes (the closed control and the row inside it), and at that
+ * depth `-400` read 4.0:1 on red, 4.3 on orange and 4.5 on purple over the dark
+ * panels, under AA for the `.t-label` chips that carry it. `-300` clears 6:1 on
+ * every band at that depth.
  *
  * `gradient` is the fill a chip or heading wears when it is painted in one, and
  * `solidText` sets its ink. Those two have to agree: `solidText` clears AA on
  * `solidBg`, and a gradient that starts at `-500` under the same white reads
- * 2.3–3.8:1, so the white-ink bands run their gradients on the solid's own step
+ * 2.3–4.0:1, so the white-ink bands run their gradients on the solid's own step
  * and one shade darker. Band 3 keeps its light gradient, because its ink is dark.
  * `bandColors.test.ts` measures every stop in both themes.
  *
