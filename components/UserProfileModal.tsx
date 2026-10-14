@@ -46,6 +46,7 @@ import {
   type BillingState,
   type Plan,
 } from '../services/entitlements';
+import { billingErrorMessage } from '../utils/billingMessages';
 import {
   BAND_FILL,
   BandProgressChart,
@@ -150,18 +151,45 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
    * a button that might 404 is a far smaller wrong than telling them they have
    * no subscription and hiding their only route to Stripe.
    */
-  const showPortal = isPaid && lookup.status !== 'none';
+  // Neither branch while the lookup is pending. The button used to show for the
+  // pending state and then vanish for a perk holder, so a teacher saw
+  // "Manage Subscription" flash up and go, which is the flicker the pending
+  // state exists to prevent.
+  const showPortal = isPaid && (lookup.status === 'found' || lookup.status === 'unknown');
   const perkPlan = isPaid && lookup.status === 'none';
+  /**
+   * The word beside the plan name. "Active" was printed for a subscription the
+   * customer had already cancelled and for one whose last payment had failed,
+   * so the chip contradicted the line under it.
+   */
+  const planChip = perkPlan
+    ? 'Included'
+    : billing?.status === 'past_due'
+      ? 'Payment due'
+      : endsAtPeriodEnd
+        ? 'Cancelled'
+        : 'Active';
+  /**
+   * What a holder without a subscription of their own is told. An admin holds
+   * School by role, not through anyone's licence, so "your school's licence"
+   * would describe a licence they have never had.
+   */
+  const perkText =
+    plan === 'school' && user.role !== 'admin'
+      ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
+      : plan === 'school'
+        ? 'Included with your admin account — there is nothing to pay and no subscription to manage.'
+        : 'Included with your account — there is nothing to pay and no subscription of your own to manage.';
 
   const handleManageBilling = async () => {
     setPortalLoading(true);
     setPortalError(null);
-    const { url, error } = await createPortalUrl();
+    const { url, error, status } = await createPortalUrl();
     setPortalLoading(false);
     if (url) {
       window.location.href = url;
     } else {
-      setPortalError(error ?? 'Could not open the billing portal. Please try again shortly.');
+      setPortalError(billingErrorMessage('portal', { error, status }));
     }
   };
 
@@ -186,7 +214,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
           </h3>
           {isPaid && (
             <span className="t-label px-2 py-0.5 rounded-full border border-amber-500/40 bg-amber-100 dark:bg-amber-400/15 text-amber-800 dark:text-amber-400">
-              {perkPlan ? 'Included' : 'Active'}
+              {planChip}
             </span>
           )}
         </div>
@@ -206,7 +234,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
               // would describe an app they are not using.
               'Every feature is available on this deployment — nothing is held back and there is nothing to buy.'
             : isPaid
-              ? `Unlimited marking, full criterion feedback and every ${PLAN_LABELS.plus} tool.` +
+              ? `Full marking, criterion-by-criterion feedback and every ${PLAN_LABELS.plus} tool.` +
                 (canAuthor
                   ? studioIncluded
                     ? ' The AI Content Studio is included.'
@@ -243,14 +271,13 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             className="mt-4 t-label min-h-11 sm:min-h-0 px-4 py-2 rounded-xl bg-surface-elevated dark:bg-white/5 text-secondary border border-slate-400 dark:border-white/10 shadow-sm can-hover:hover:bg-surface-inset dark:can-hover:hover:bg-white/10 transition-colors flex items-center gap-2 disabled:cursor-wait disabled:text-muted"
           >
             <ExternalLink className="w-3 h-3" aria-hidden="true" />
-            {portalLoading ? 'Opening...' : 'Manage Subscription'}
+            {portalLoading ? 'Opening…' : 'Manage subscription'}
           </button>
         )}
-        {perkPlan && (
-          <p className="mt-3 t-label text-muted leading-relaxed">
-            {plan === 'school'
-              ? 'Held through your school’s licence — there is nothing to pay and no subscription of your own to manage. Your school administrator handles the billing.'
-              : 'Included with your account — there is nothing to pay and no subscription of your own to manage.'}
+        {perkPlan && <p className="mt-3 t-label text-muted leading-relaxed">{perkText}</p>}
+        {showPortal && billing?.status === 'past_due' && (
+          <p className="mt-2 t-label text-amber-800 dark:text-amber-400 leading-relaxed">
+            Your last payment did not go through. Update your payment method to keep your access.
           </p>
         )}
         {isPaid && portalError && (

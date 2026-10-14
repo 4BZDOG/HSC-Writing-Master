@@ -63,6 +63,18 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
 
   const track = trackForRole(user.role);
   const plan = getUserPlan(user);
+  // The plan comparison is not a guide, so it does not wear the guide's header.
+  // "Quick start · 3 min read" over "Set your class up in five steps" told a
+  // person deciding whether to pay that they were reading a how-to.
+  const header =
+    tab === 'plans'
+      ? {
+          eyebrow: 'Plans',
+          timeToRead: '',
+          title: 'What each plan includes',
+          intro: 'Free, Band 6 Plus and School, compared on the access rules the app enforces.',
+        }
+      : track;
 
   const TABS: { id: QuickStartTab; label: string; icon: typeof Rocket }[] = [
     { id: 'guide', label: 'Getting started', icon: Rocket },
@@ -100,25 +112,27 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                working — Playwright reported the wrapper "intercepts pointer
                events" for every click on it. The only way out of the guide on
                a phone was "Start writing" at the bottom, or Escape. */
-            className="absolute top-4 right-4 p-2 rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
+            className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>
           <div className="relative z-10 pr-10">
             <span className="t-label text-white/85 flex items-center gap-2">
-              {track.eyebrow}
-              <span className="inline-flex items-center gap-1 text-white/85">
-                <Clock className="w-3 h-3" /> {track.timeToRead}
-              </span>
+              {header.eyebrow}
+              {header.timeToRead && (
+                <span className="inline-flex items-center gap-1 text-white/85">
+                  <Clock className="w-3 h-3" /> {header.timeToRead}
+                </span>
+              )}
             </span>
             <h2
               id="quickstart-title"
               className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1"
             >
-              {track.title}
+              {header.title}
             </h2>
             <p className="text-sm text-white/90 leading-relaxed mt-2 max-w-xl font-medium">
-              {track.intro}
+              {header.intro}
             </p>
           </div>
         </div>
@@ -276,7 +290,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="t-label px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
+            className="t-label min-h-11 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
           >
             {tab === 'guide' ? 'Start writing' : 'Close'}
           </button>

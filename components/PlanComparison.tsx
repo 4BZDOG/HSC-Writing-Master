@@ -71,7 +71,7 @@ const Cell: React.FC<{ cell: ReturnType<typeof buildPlanComparison>[0]['cells'][
     );
   return (
     <span
-      className={`text-[11px] font-bold ${
+      className={`text-xs font-bold ${
         cell.kind === 'partial'
           ? 'text-amber-500 light:text-amber-800'
           : 'text-[rgb(var(--color-text-primary))]'
@@ -121,7 +121,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               }`}
             >
               {isCurrent && (
-                <span className="t-label absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-400 light:bg-indigo-200/70 light:text-indigo-700">
+                <span className="t-label absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 light:bg-indigo-200/70 light:text-indigo-700">
                   Your plan
                 </span>
               )}
@@ -222,8 +222,8 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
       {showUpgradeCta && currentPlan === 'free' && monetisationEnabled() && (
         <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300">
           <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
-            Your free markings come back every day at {dailyResetTime()}, and the plan never
-            expires. Upgrade when you want the full feedback, not because you ran out of time.
+            Your free markings reset every day at {dailyResetTime()}, and the free plan has no end
+            date. Upgrade when you want the full feedback, not because you ran out of time.
           </p>
           <button
             onClick={() => {
@@ -233,7 +233,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               // very button that asked for it.
               onDone?.();
             }}
-            className="t-label shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
+            className="t-label min-h-11 shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3.5 h-3.5" /> See {PLAN_LABELS.plus}
           </button>

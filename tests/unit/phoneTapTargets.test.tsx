@@ -83,3 +83,54 @@ describe('the API usage pill on a phone', () => {
     expect(source('ApiMonitorDisplay.tsx')).toContain('min-h-11 sm:min-h-0 rounded-full');
   });
 });
+
+describe('the paywall on a phone', () => {
+  // The prompt, the plan comparison, the School route and the past-due banner
+  // are the surfaces a person is in when they are deciding whether to pay, so
+  // their controls get the same 44px floor as the rest of the app.
+  it('makes the upgrade prompt close button 44px at every width', () => {
+    expect(source('UpgradeModal.tsx')).toContain('absolute top-3 right-3 w-11 h-11');
+  });
+
+  it('makes the upgrade prompt’s Maybe later button 44px tall on a phone', () => {
+    expect(source('UpgradeModal.tsx')).toContain('t-label min-h-11 ');
+  });
+
+  it('makes the upgrade prompt’s primary button 44px tall on a phone', () => {
+    expect(source('UpgradeModal.tsx')).toContain('min-h-11 flex-1 px-5 py-3.5');
+  });
+
+  it('makes the seat stepper 44px below sm, and returns it to 32px from sm up', () => {
+    const stepper = 'w-11 h-11 sm:w-8 sm:h-8';
+    const count = source('SchoolLicencePanel.tsx').split(stepper).length - 1;
+    expect(count).toBe(2);
+  });
+
+  it('makes the Buy seats button and the enquiry route 44px tall', () => {
+    const panel = source('SchoolLicencePanel.tsx');
+    expect(panel).toContain('min-h-11 text-sm font-bold px-4 py-2.5');
+    expect(panel).toContain('inline-flex min-h-11 items-center justify-center text-xs');
+    expect(panel).toContain('className="min-h-11 text-xs font-bold');
+  });
+
+  it('makes the past-due banner’s dismiss control and update button 44px on a phone', () => {
+    const banner = source('BillingAlertBanner.tsx');
+    expect(banner).toContain('w-11 h-11 sm:w-8 sm:h-8');
+    expect(banner).toContain('min-h-11 sm:min-h-0 t-label');
+  });
+
+  it('makes the plan comparison’s upgrade button 44px tall', () => {
+    expect(source('PlanComparison.tsx')).toContain('t-label min-h-11 shrink-0');
+  });
+
+  it('keeps 10px and 11px text out of the paywall surfaces a person must read to pay', () => {
+    for (const file of [
+      'UpgradeModal.tsx',
+      'SchoolLicencePanel.tsx',
+      'PlanComparison.tsx',
+      'BillingAlertBanner.tsx',
+    ]) {
+      expect(source(file), file).not.toMatch(/text-\[1[01]px\]/);
+    }
+  });
+});

@@ -82,18 +82,19 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
   question,
 }) => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in px-4">
-    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-surface bg-white/70 dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-lg">
+    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-surface bg-surface-elevated dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-lg">
       <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
         <Lock className="w-7 h-7 text-amber-500" />
       </div>
-      <p className="t-label text-amber-500 mb-3">
+      {/* amber-500 is 2.2:1 on the light card; the light step clears 4.5:1. */}
+      <p className="t-label text-amber-700 dark:text-amber-500 mb-3">
         {verb} · {marks} {marks === 1 ? 'mark' : 'marks'} ·{' '}
         {planLabelForFeature('advancedQuestions')}
       </p>
       <h3 className="text-lg font-serif leading-relaxed text-slate-800 dark:text-slate-200 mb-6">
         {question}
       </h3>
-      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
+      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
         Higher-order questions — Analyse, Evaluate, Discuss — are part of{' '}
         {planLabelForFeature('advancedQuestions')}. Your free plan covers every question up to tier{' '}
         {freeTierLimits().maxQuestionTier}.

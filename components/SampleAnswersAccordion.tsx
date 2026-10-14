@@ -651,8 +651,8 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                             <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 max-w-sm">
                               It is written and marked. Exemplars above Band{' '}
                               {freeTierLimits().maxSampleBand} are part of{' '}
-                              {planLabelForFeature('sampleAnswers')}, so this one stays on the
-                              server until your plan covers it.
+                              {planLabelForFeature('sampleAnswers')}, so this one is held back until
+                              your plan covers it.
                             </p>
                             <button
                               onClick={() => requestUpgrade('sampleAnswers')}
@@ -1066,7 +1066,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             >
               <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
               <span className="hidden sm:inline">Generate</span>
-              {studioLocked && <PlusLockChip />}
+              {studioLocked && <PlusLockChip feature="aiContentStudio" />}
             </button>
           </>
         )}

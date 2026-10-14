@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import type { User } from '../../types';
 
 /**
  * What the upgrade prompt does when checkout is refused because the caller is
@@ -22,7 +23,7 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../services/entitlements')>();
   return {
     ...actual,
-    STRIPE_PRICE_IDS: { plus_monthly: 'price_m', plus_yearly: 'price_y', school: '' },
+    STRIPE_PRICE_IDS: { plus_monthly: 'price_m', plus_yearly: 'price_y', school: 'price_s' },
     createCheckoutUrl: (...args: unknown[]) => createCheckoutUrlMock(...args),
     createPortalUrl: (...args: unknown[]) => createPortalUrlMock(...args),
   };
@@ -66,6 +67,23 @@ describe('checkout refused as a duplicate subscription', () => {
     // as one — the prompt itself changes to say what is true.
     expect(showToast).not.toHaveBeenCalled();
     expect(screen.getByText(/already have a live subscription/i)).toBeTruthy();
+  });
+
+  it('offers a teacher no seat purchase once a subscription is live', async () => {
+    // The seat picker is a second purchase the same refusal would block, so it
+    // is not offered under "there is nothing to buy here" either.
+    const teacher = { username: 't', role: 'teacher', stats: {} } as unknown as User;
+    render(<UpgradeModal showToast={showToast} user={teacher} />);
+    fireEvent(
+      window,
+      new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature: 'fullFeedback' } })
+    );
+    expect(screen.getByRole('button', { name: /Buy \d+ seats/ })).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: /Upgrade now/i }));
+    await waitFor(() => screen.getByRole('button', { name: /Manage subscription/i }));
+
+    expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
   });
 
   it('opens the billing portal from that CTA rather than checkout again', async () => {
