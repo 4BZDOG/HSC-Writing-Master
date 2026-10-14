@@ -75,7 +75,6 @@ const FIELD_LABELS: Record<InvoiceField, string> = {
 };
 
 const HINTS: Partial<Record<InvoiceField, string>> = {
-  abn: ABN_HINT,
   billingName:
     'The school or accounts office, written as it should appear on the invoice. For example, Parramatta High School.',
   billingEmail: 'Where the invoice is sent. Use the address the accounts office reads.',
@@ -498,7 +497,7 @@ const InvoiceRequestForm: React.FC<InvoiceRequestFormProps> = ({ seats, classNam
         id={fieldId('abn')}
         label={FIELD_LABELS.abn}
         optional
-        hint={abnHint ?? HINTS.abn}
+        hint={abnHint ?? ABN_HINT}
         error={abnError}
       >
         <input

@@ -14,6 +14,10 @@ import type { User } from '../../types';
  * stubbed; the components are the real ones.
  */
 
+// Each test walks the whole profile route, which is slower than a unit test
+// when the machine is busy. A five-second timeout made it flaky under load.
+vi.setConfig({ testTimeout: 20000 });
+
 vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
 
 let priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: 'price_school' };
