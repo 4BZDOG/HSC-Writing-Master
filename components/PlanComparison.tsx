@@ -8,7 +8,12 @@ import {
   getUserPlan,
   type Plan,
 } from '../services/entitlements';
-import { buildPlanComparison, COMPARED_PLANS, PLAN_TAGLINES } from '../utils/planComparison';
+import {
+  buildPlanComparison,
+  COMPARED_PLANS,
+  PLAN_AUDIENCES,
+  PLAN_TAGLINES,
+} from '../utils/planComparison';
 import SchoolLicencePanel, { hasSchoolRoute } from './SchoolLicencePanel';
 import { dailyResetTime } from '../utils/dailyReset';
 import type { User } from '../types';
@@ -131,6 +136,9 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))]">
                 {PLAN_LABELS[plan]}
               </h4>
+              <p className="text-xs font-bold text-[rgb(var(--color-text-secondary))] mt-0.5">
+                {PLAN_AUDIENCES[plan]}
+              </p>
               <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1">
                 {planPriceLine(plan)}
               </p>

@@ -535,6 +535,26 @@ export const PLAN_PRICING = {
   schoolSeat: import.meta.env.VITE_SCHOOL_SEAT_PRICE_DISPLAY ?? 'A$4',
 } as const;
 
+/**
+ * Pure reading of the invoicing switch. A School licence can be invoiced
+ * against a purchase order only where a School price exists and the switch is
+ * not set to `false` (the default is on). Split out so the rule can be tested
+ * without touching the build-time environment.
+ */
+export const invoicedSchoolLicencesOn = (
+  schoolPriceId: string,
+  flag: string | undefined
+): boolean => !!schoolPriceId && flag !== 'false';
+
+/**
+ * Whether this deployment offers School by invoice (purchase order) as well as
+ * by card. Read at call time. The server's own switch is `SCHOOL_INVOICE_ENABLED`
+ * (api/_lib/schoolLicence.ts), which falls back to this same `VITE_` name, so one
+ * variable drives both halves when it is set in the build.
+ */
+export const schoolInvoicingEnabled = (): boolean =>
+  invoicedSchoolLicencesOn(STRIPE_PRICE_IDS.school, import.meta.env.VITE_SCHOOL_INVOICE_ENABLED);
+
 /** Contact for school/faculty licensing enquiries (shown in the upgrade prompt). */
 export const SCHOOL_CONTACT_EMAIL: string = import.meta.env.VITE_SCHOOL_CONTACT_EMAIL ?? '';
 
