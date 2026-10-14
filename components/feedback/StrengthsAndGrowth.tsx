@@ -62,7 +62,7 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
     (api/_lib/entitlements.ts replaces it with the upgrade
     placeholder), so it has to carry the same lock treatment as the
     criteria below. Without it a free user reads
-    "Upgrade to see this feedback." as if it were the marker's actual
+    an upgrade notice as if it were the marker's actual
     advice, with nothing to click. */}
     <section className="relative">
       <SectionHeading
@@ -73,13 +73,7 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
       >
         {feedbackLocked && <PlusLockChip feature="fullFeedback" />}
       </SectionHeading>
-      {feedbackLocked && (
-        <ContentLockOverlay
-          feature="fullFeedback"
-          message={`Your improvement path is part of ${planLabelForFeature('fullFeedback')}`}
-          className="rounded-panel"
-        />
-      )}
+      {feedbackLocked && <ContentLockOverlay feature="fullFeedback" className="rounded-panel" />}
       <ul
         className={`${FEEDBACK_CARD} p-5 sm:p-6 space-y-3.5 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
       >

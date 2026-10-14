@@ -35,6 +35,7 @@ import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useOwnAttemptHistory } from '../hooks/useOwnAttemptHistory';
 import {
+  describeAccess,
   getUserPlan,
   PLAN_LABELS,
   createPortalUrl,
@@ -98,6 +99,8 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
   // never authors, whatever they pay, so the studio is not part of what their
   // plan means to them.
   const canAuthor = canUseAiGeneration(user.role);
+  // The one upgrade this card may offer, read from the same answer as every lock.
+  const upgradeCta = describeAccess('fullFeedback', user);
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState<string | null>(null);
   // The profile's cached plan can't tell "renews" from "ends" — that lives on
@@ -240,7 +243,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
                     ? ' The AI Content Studio is included.'
                     : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`
                   : '')
-              : 'Limited daily evaluations and basic features. Upgrade to unlock everything.'}
+              : 'Limited daily evaluations and basic features, with the rest held back until you have a plan.'}
           {isPaid && user.stripePlan && periodEnd && (
             <span
               className={`block mt-1.5 t-label ${
@@ -288,7 +291,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
         {/* White on amber-700 is 5.0:1, where white on the old amber-to-orange
             gradient was 2.8:1 at its orange end. The dark theme takes dark ink
             instead, which is 5.0:1 on amber-600. */}
-        {!isPaid && selling && (
+        {!isPaid && selling && upgradeCta.cta === 'upgrade' && (
           <button
             onClick={() => {
               requestUpgrade('fullFeedback');
@@ -297,7 +300,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             className="mt-4 t-label min-h-11 sm:min-h-0 px-4 py-2 rounded-xl bg-amber-700 text-white shadow-sm dark:bg-amber-600 dark:text-slate-950 can-hover:hover:bg-amber-800 dark:can-hover:hover:bg-amber-500 active:scale-[0.98] transition-colors flex items-center gap-2"
           >
             <Crown className="w-3 h-3" aria-hidden="true" />
-            Upgrade to {PLAN_LABELS.plus}
+            {upgradeCta.ctaLabel}
           </button>
         )}
       </div>

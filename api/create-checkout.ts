@@ -50,6 +50,12 @@ const LIVE_STATUSES = ['active', 'trialing', 'past_due'];
 
 const LOOKUP_FAILED =
   'We could not check your account just now, so no purchase was started. Please try again in a few minutes.';
+/**
+ * Sent with every LOOKUP_FAILED 503. It tells the client this is a retryable
+ * refusal about the account, not a fault in billing, so it shows the sentence
+ * above instead of the generic "unavailable" one.
+ */
+const LOOKUP_FAILED_CODE = 'account_lookup_failed';
 
 interface RequestLike {
   method?: string;
@@ -172,7 +178,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         // Without the profile we cannot tell who is buying, or whether they
         // already have a customer to reuse. Refuse rather than guess.
         console.error('[create-checkout] profile lookup failed:', profileError.message);
-        res.status(503).json({ error: LOOKUP_FAILED });
+        res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
         return;
       }
       if (profileError) {
@@ -227,7 +233,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // is already subscribed, and a guard that cannot see is no guard.
       if (existingSubError) {
         console.error('[create-checkout] subscription lookup failed:', existingSubError.message);
-        res.status(503).json({ error: LOOKUP_FAILED });
+        res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
         return;
       }
       if (existingSub) {
@@ -276,7 +282,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
           .maybeSingle();
         if (schoolError && !isMissingColumnError(schoolError)) {
           console.error('[create-checkout] school licence lookup failed:', schoolError.message);
-          res.status(503).json({ error: LOOKUP_FAILED });
+          res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
           return;
         }
         if (schoolError) {

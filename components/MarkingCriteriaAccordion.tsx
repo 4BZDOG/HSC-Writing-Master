@@ -5,7 +5,12 @@ import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AlertCircle, BookOpen, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { generateRubricForPrompt } from '../services/geminiService';
-import { isFeatureLocked, planLabelForFeature, requestUpgrade } from '../services/entitlements';
+import {
+  describeAccess,
+  isFeatureLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import MathSymbolToolbar from './MathSymbolToolbar';
 import LadderRow, { ladderBandVars } from './LadderRow';
@@ -124,11 +129,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                 studioLocked ? () => requestUpgrade('aiContentStudio') : handleGenerateRubric
               }
               disabled={isGenerating}
-              title={
-                studioLocked
-                  ? `AI rubric drafting is part of ${planLabelForFeature('aiContentStudio')} — tap to learn more`
-                  : undefined
-              }
+              title={studioLocked ? describeAccess('aiContentStudio').explanation : undefined}
               className={studioLocked ? LADDER_TOOL_LOCKED : LADDER_TOOL}
             >
               {isGenerating ? (

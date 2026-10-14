@@ -56,8 +56,17 @@ import {
   type PremiumFeatureKey,
 } from '../../services/entitlements';
 
+// Staff are attached to a school: the seat purchase is for a school, and the
+// server refuses one for an account with no school. Students are never offered it.
 const asUser = (role: User['role']): User =>
-  ({ username: `a-${role}`, role, stats: {} }) as unknown as User;
+  ({
+    username: `a-${role}`,
+    role,
+    stats: {},
+    ...(role === 'teacher' || role === 'admin'
+      ? { schoolId: 'school-1', schoolName: 'Hills High' }
+      : {}),
+  }) as unknown as User;
 
 beforeEach(() => {
   createCheckoutUrlMock.mockReset();
@@ -116,22 +125,66 @@ describe('the plan comparison carries the School route', () => {
     expect(screen.getByRole('button', { name: `Buy ${SCHOOL_SEAT_LIMITS.min} seats` }));
   });
 
-  it('gives a student the enquiry route rather than a checkout they cannot complete', () => {
+  it('gives a student no School route at all, not even an enquiry link', () => {
+    // A student cannot buy a licence and a licence offered to them is an upsell
+    // aimed at the wrong person. Their answer is the "ask your school" line
+    // that describeAccess gives a School-priced lock.
     contactEmail = 'licensing@example.com';
     render(<PlanComparison user={asUser('user')} showToast={vi.fn()} />);
     expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
-    const enquiry = screen.getByRole('link', { name: /Ask about a school licence/i });
-    expect(enquiry.getAttribute('href')).toContain('mailto:licensing@example.com');
+    expect(screen.queryByRole('link', { name: /Ask about a school licence/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Ask about a school licence/i })).toBeNull();
   });
 
-  it('still answers a student when no contact address is configured', () => {
+  it('answers a teacher with no contact address configured, with a toast, not a dead end', () => {
+    priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: '' };
     const showToast = vi.fn();
-    render(<PlanComparison user={asUser('user')} showToast={showToast} />);
+    render(<PlanComparison user={asUser('teacher')} showToast={showToast} />);
     fireEvent.click(screen.getByRole('button', { name: /Ask about a school licence/i }));
     expect(showToast).toHaveBeenCalledWith(
       expect.stringMatching(/school licences are not on sale/i),
       'info'
     );
+  });
+
+  it('asks a teacher with no school to get added to one, and draws no seat picker', () => {
+    const teacher = { ...asUser('teacher'), schoolId: undefined, schoolName: undefined };
+    render(<PlanComparison user={teacher as User} showToast={vi.fn()} />);
+    expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
+    expect(screen.getByText(/ask an admin to add you to yours/i)).toBeTruthy();
+  });
+
+  it('says a school that is already covered is covered, and offers no second purchase', () => {
+    // Gap 1 of the paywall inventory: a second licence would be refused, so the
+    // route says who to ask instead of offering seats.
+    render(
+      <PlanComparison
+        user={{ ...asUser('teacher'), stripePlan: 'school' } as User}
+        showToast={vi.fn()}
+      />
+    );
+    expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
+    expect(screen.getByText(/ask whoever bought the licence/i)).toBeTruthy();
+  });
+
+  it('shows the server sentence, and no purchase, when a licence is already held', async () => {
+    // The server's 409 with `school_licence_held`. Its sentence says whom to ask.
+    // Showing a "Buy" button after that would send the buyer into the refusal again.
+    createCheckoutUrlMock.mockResolvedValue({
+      url: null,
+      error: 'Your school already has a School licence. Ask whoever bought it to add seats.',
+      status: 409,
+      code: 'school_licence_held',
+    });
+    render(<PlanComparison user={asUser('teacher')} showToast={vi.fn()} />);
+    fireEvent.click(
+      screen.getByRole('button', { name: `Buy ${SCHOOL_SEAT_LIMITS.default} seats` })
+    );
+    await waitFor(() =>
+      expect(screen.getByText(/Your school already has a School licence/)).toBeTruthy()
+    );
+    expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Manage subscription/i })).toBeNull();
   });
 
   it('offers nothing at all on a deployment that sells nothing', () => {

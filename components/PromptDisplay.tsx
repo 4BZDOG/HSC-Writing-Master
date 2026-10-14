@@ -3,7 +3,12 @@ import type { ToastType } from '../hooks/useToast';
 import { createPortal } from 'react-dom';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
-import { isFeatureLocked, planLabelForFeature, requestUpgrade } from '../services/entitlements';
+import {
+  describeAccess,
+  isFeatureLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import {
   Edit3,
@@ -375,11 +380,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   /** Run the real action, or sell the plan that unlocks it. */
   const studioAction = (action: () => void) => () =>
     studioLocked ? requestUpgrade('aiContentStudio') : action();
-  /** Append the reason to a control's tooltip when it is locked. */
+  /** A locked control's tooltip is the one sentence that says why. */
   const studioTitle = (title: string): string =>
-    studioLocked
-      ? `${title} — part of ${planLabelForFeature('aiContentStudio')}, tap to learn more`
-      : title;
+    studioLocked ? `${title} — ${describeAccess('aiContentStudio').explanation}` : title;
   /** Amber "locked" chrome, or nothing, for a control's className. */
   const studioChrome = studioLocked
     ? 'bg-amber-400/15 border border-amber-400/40 text-amber-500 light:text-amber-600'

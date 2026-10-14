@@ -9,7 +9,12 @@ import {
   SYLLABUS_TERM_SOURCE_LABEL,
   type SyllabusTermContext,
 } from '../utils/syllabusTermSource';
-import { isFeatureLocked, planLabelForFeature, requestUpgrade } from '../services/entitlements';
+import {
+  describeAccess,
+  isFeatureLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import LadderRow, { ladderBandVars } from './LadderRow';
 import {
   LADDER_EDGE_SHUT,
@@ -172,13 +177,10 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   // The plan is named, not the feature: a tooltip that says "the AI Content
   // Studio" where the chip beside it says "Band 6 Plus" is two answers to one
   // question, and it goes stale the moment a deployment moves the studio.
-  const studioPlan = planLabelForFeature('aiContentStudio');
-  const suggestTitle = studioLocked
-    ? `Suggest with AI — part of ${studioPlan}, tap to learn more`
-    : 'Suggest with AI';
-  const regenerateTitle = studioLocked
-    ? `Regenerate all — part of ${studioPlan}, tap to learn more`
-    : 'Regenerate all';
+  const studioLockedNote = describeAccess('aiContentStudio').explanation;
+  // The title is the accessible name of an icon-only control, so it keeps the action.
+  const suggestTitle = studioLocked ? `Suggest with AI — ${studioLockedNote}` : 'Suggest with AI';
+  const regenerateTitle = studioLocked ? `Regenerate all — ${studioLockedNote}` : 'Regenerate all';
 
   // One pill: a term button (which inserts it) and, for a curator, a remove button.
   // Two controls side by side, not one inside the other, so each is reached and

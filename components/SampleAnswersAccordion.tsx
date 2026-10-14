@@ -103,6 +103,7 @@ import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 import { freeTierLimits } from '../services/planPolicy';
 import {
+  describeAccess,
   isFeatureLocked,
   isSampleAnswerLocked,
   planLabelForFeature,
@@ -650,15 +651,14 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                             </p>
                             <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 max-w-sm">
                               It is written and marked. Exemplars above Band{' '}
-                              {freeTierLimits().maxSampleBand} are part of{' '}
-                              {planLabelForFeature('sampleAnswers')}, so this one is held back until
-                              your plan covers it.
+                              {freeTierLimits().maxSampleBand} are held back until your plan covers
+                              them. {describeAccess('sampleAnswers').explanation}
                             </p>
                             <button
                               onClick={() => requestUpgrade('sampleAnswers')}
                               className={`${SAMPLE_LOCKED_CTA} ${LOCK_CTA}`}
                             >
-                              Unlock with {planLabelForFeature('sampleAnswers')}
+                              {describeAccess('sampleAnswers').ctaLabel}
                             </button>
                           </div>
                         </div>
@@ -1058,7 +1058,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               }
               title={
                 studioLocked
-                  ? `AI sample-answer generation is part of ${planLabelForFeature('aiContentStudio')} — tap to learn more`
+                  ? describeAccess('aiContentStudio').explanation
                   : 'Add a sample answer with AI'
               }
               aria-label="Generate a sample answer"

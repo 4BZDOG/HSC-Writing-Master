@@ -66,7 +66,7 @@ describe('upgrade prompt with both billing periods priced', () => {
     openFor();
 
     fireEvent.click(screen.getByRole('button', { name: /monthly/i }));
-    fireEvent.click(screen.getByRole('button', { name: /upgrade now/i }));
+    fireEvent.click(screen.getByRole('button', { name: /upgrade to band 6 plus/i }));
 
     await waitFor(() => expect(createCheckoutUrlMock).toHaveBeenCalledWith('price_m'));
   });
@@ -80,7 +80,7 @@ describe('upgrade prompt with only the yearly price configured', () => {
   it('sells it rather than falling back to "Keep me posted"', () => {
     openFor();
 
-    expect(screen.getByRole('button', { name: /upgrade now/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /upgrade to band 6 plus/i })).toBeTruthy();
     expect(screen.queryByRole('button', { name: /keep me posted/i })).toBeNull();
   });
 
@@ -94,7 +94,7 @@ describe('upgrade prompt with only the yearly price configured', () => {
   it('checks out the one price that exists', async () => {
     openFor();
 
-    fireEvent.click(screen.getByRole('button', { name: /upgrade now/i }));
+    fireEvent.click(screen.getByRole('button', { name: /upgrade to band 6 plus/i }));
 
     await waitFor(() => expect(createCheckoutUrlMock).toHaveBeenCalledWith('price_y'));
   });
@@ -108,7 +108,7 @@ describe('upgrade prompt with only the monthly price configured', () => {
   it('checks out the monthly price even though yearly is the usual default', async () => {
     openFor();
 
-    fireEvent.click(screen.getByRole('button', { name: /upgrade now/i }));
+    fireEvent.click(screen.getByRole('button', { name: /upgrade to band 6 plus/i }));
 
     // The default billing period is 'yearly'; without falling back to what is
     // actually on sale this would have posted an empty priceId and been
@@ -145,7 +145,7 @@ describe('upgrade prompt when monetisation is switched off', () => {
     openFor();
 
     expect(screen.queryByRole('dialog')).toBeNull();
-    expect(screen.queryByRole('button', { name: /upgrade now/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /upgrade to band 6 plus/i })).toBeNull();
   });
 
   it('opens again once monetisation is back on', () => {
@@ -185,8 +185,8 @@ describe('upgrade prompt with no prices configured', () => {
     // nothing recorded it. The prompt now states the fact and offers no button
     // for it.
     expect(screen.queryByRole('button', { name: /keep me posted/i })).toBeNull();
-    expect(screen.queryByRole('button', { name: /upgrade now/i })).toBeNull();
-    expect(screen.getByText(/isn't available on the free plan just yet/i)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /upgrade to band 6 plus/i })).toBeNull();
+    expect(screen.getByText(/not on sale yet/i)).toBeTruthy();
     expect(screen.getByRole('button', { name: /maybe later/i })).toBeTruthy();
   });
 

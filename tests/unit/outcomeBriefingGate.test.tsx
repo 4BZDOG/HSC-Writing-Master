@@ -69,10 +69,10 @@ describe('outcome briefing paywall', () => {
     // that prices briefings at School must relabel this caption too.
     expect(
       screen.getByText(
-        new RegExp(`Outcome briefings are part of ${planLabelForFeature('outcomeBriefing')}`, 'i')
+        new RegExp(`${planLabelForFeature('outcomeBriefing')} includes Outcome Briefings`, 'i')
       )
     ).toBeTruthy();
-    expect(screen.getByRole('button', { name: /Unlock with/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Upgrade to Band 6 Plus/i })).toBeTruthy();
   });
 
   it('still shows the outcome’s own syllabus wording when locked', () => {

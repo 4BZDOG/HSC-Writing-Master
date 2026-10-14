@@ -73,6 +73,7 @@ import { getFocusAreas, splitDotPointDescription } from '../utils/dataManagerUti
 import FocusAreaEditorModal from './FocusAreaEditorModal';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import {
+  describeAccess,
   isFeatureLocked,
   isQuestionTierLocked,
   planLabelForFeature,
@@ -370,7 +371,7 @@ const ActionButton = ({
                 ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
                 : 'bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
     }`}
-    title={locked ? `${title} — part of ${planLabelForFeature('aiContentStudio')}` : title}
+    title={locked ? `${title} — ${describeAccess('aiContentStudio').explanation}` : title}
   >
     {Icon && <Icon className="w-4 h-4" />}
     {label && <span className="t-label hidden sm:inline whitespace-nowrap">{label}</span>}
@@ -1833,9 +1834,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                               : onGeneratePrompt
                           }
                           title={
-                            studioLocked
-                              ? `AI question generation is part of ${planLabelForFeature('aiContentStudio')} — tap to learn more`
-                              : undefined
+                            studioLocked ? describeAccess('aiContentStudio').explanation : undefined
                           }
                           className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 active:scale-[0.98] transition-all ${
                             studioLocked

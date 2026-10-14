@@ -710,7 +710,7 @@ const Editor = forwardRef<
                                 className="w-3 h-3 text-amber-300 sm:hidden"
                                 aria-hidden="true"
                               />
-                              <PlusLockChip feature="examMode" className="ml-0.5 max-sm:hidden" />
+                              <PlusLockChip feature="examMode" className="ml-0.5" />
                             </>
                           )}
                         </button>

@@ -435,11 +435,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
             </div>
 
             {briefingLocked && (
-              <ContentLockOverlay
-                feature="outcomeBriefing"
-                message={`Outcome briefings are part of ${planLabelForFeature('outcomeBriefing')}`}
-                className="rounded-xl"
-              />
+              <ContentLockOverlay feature="outcomeBriefing" className="rounded-xl" />
             )}
 
             <div className={`mt-3 min-h-[100px] ${briefingLocked ? 'select-none' : ''}`}>
