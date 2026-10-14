@@ -185,6 +185,10 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['subscription'] });
   } catch (e) {
     if (isUnknownSession(e)) {
+      // Usually a key from the other Stripe mode (test against live, or the reverse).
+      console.warn(
+        '[sync-checkout] Stripe does not know this checkout session. Check the server key is from the same mode (test or live) as the checkout.'
+      );
       res.status(403).json({ error: NOT_CONFIRMABLE });
       return;
     }
