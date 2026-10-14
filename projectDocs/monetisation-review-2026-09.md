@@ -340,7 +340,14 @@ the review queue.
   product decision about whether School should carry something of its own
   (class-scoped analytics is the obvious candidate) rather than a code change.
 - **Nothing notices when a school outgrows its licence.** The dashboard shows
-  the over-seat warning, but only to an admin who happens to open it.
+  the over-seat warning, but only to an admin who happens to open it. The admin
+  Billing overview now lists over-seat schools under "Needs attention", so the
+  answer is in one place; nothing still pushes it to an admin who does not open it.
+- **Revenue is not on the admin Billing overview.** The app's display prices
+  (`PLAN_PRICING`) are presentation strings, not Stripe amounts, so a total from
+  them would be a guess. A monthly-recurring figure needs a price source of truth
+  first (the Stripe Price amounts, read server-side, or a price table kept in step
+  with them).
 - ~~**`sampleAnswers` is the one UI-only gate with a real fix available**~~ —
   **done**, see §15 below. The other three (`advancedQuestions`, `pdfExport`,
   `examMode`) are honestly unfixable at that layer, for the reasons in

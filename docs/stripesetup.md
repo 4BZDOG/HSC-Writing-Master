@@ -263,6 +263,22 @@ where id = 'your-user-uuid';
 
 You should see `stripe_plan = 'plus'` and a valid `plan_period_end`.
 
+### Read the billing overview (admin)
+
+Admin Tools → Billing → **Billing Overview** shows, without opening Stripe or Supabase: who is paying and on which
+plan, which subscriptions need a decision, what renews or ends in the next 7 and 30 days, and the last ten webhook
+events. It is read-only; change anything in Stripe or the billing portal.
+
+- It needs schema §13 (`subscriptions`, `stripe_events`) and, for school seats, §12 (`list_schools`). If a table is
+  missing, the panel says which section to re-apply.
+- The webhook is judged quiet after 45 days with paid subscriptions on the books. Annual-only deployments can
+  legitimately be quiet that long, so that item says so and asks you to check Stripe before assuming a fault.
+- A renewal is flagged as not recorded four days after its period ended, which is longer than Stripe's own
+  webhook retry window. A checkout still incomplete after a day is flagged as stalled.
+- The event list records only events the webhook accepted. A delivery it rejected appears in Stripe's
+  webhook log instead.
+- No money is shown. The app's display prices are presentation strings, not Stripe amounts.
+
 ---
 
 ## Step 7 — Manage Subscriptions (Billing Portal)
