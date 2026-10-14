@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from '../../utils/adminChrome';
+import {
+  railTabClass,
+  SECTION_TITLE,
+  TOOL_HEAD,
+  TOOL_RAIL,
+  TOOL_WELL,
+} from '../../utils/adminChrome';
 
 /**
  * The staff tools' shared chrome. These are class strings, so the checks are on
@@ -31,5 +37,26 @@ describe('admin tool chrome', () => {
     expect(SECTION_TITLE).toContain('!normal-case');
     expect(SECTION_TITLE).toContain('!tracking-normal');
     expect(SECTION_TITLE).toContain('!text-sm');
+  });
+
+  describe('the rail tab', () => {
+    const TONE = 'bg-amber-500/10 text-amber-400';
+
+    it('stacks its icon over its label below md, so three tabs share a phone row', () => {
+      const tab = railTabClass(true, TONE);
+      expect(tab).toContain('flex-col');
+      expect(tab).toContain('md:flex-row');
+      expect(tab).toContain('min-w-0');
+      // The label is the 12px step on a phone; the 14px step is from md.
+      expect(tab).toContain('text-xs md:text-sm');
+      expect(tab).not.toContain('overflow-x');
+    });
+
+    it('takes the tab’s own tint when it is the current one, and the quiet treatment otherwise', () => {
+      expect(railTabClass(true, TONE)).toContain(TONE);
+      const idle = railTabClass(false, TONE);
+      expect(idle).not.toContain(TONE);
+      expect(idle).toContain('text-[rgb(var(--color-text-secondary))]');
+    });
   });
 });

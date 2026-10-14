@@ -472,8 +472,4 @@ export interface CommandTermInfo {
   genericMarkingGuide: string[];
   structuralKeywords: string[];
   exampleQuestion: string;
-  tailwind: {
-    color: string;
-    bg: string;
-  };
 }

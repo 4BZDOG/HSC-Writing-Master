@@ -37,3 +37,17 @@ export const TOOL_WELL = 'bg-surface-inset';
  *  is in. */
 export const SECTION_TITLE =
   't-section !normal-case !tracking-normal !text-sm text-slate-900 dark:text-white';
+
+/**
+ * A rail tab. Below `md` the rail is a row of equal columns and each tab is its icon
+ * above its label, as the Data Manager tabs are, so the longest label ("Data Browser")
+ * fits a 390px phone without a strip to scroll. From `md` the rail is a column and the
+ * icon sits beside the label. `tone` is the active tab's own tint; the inactive tabs share
+ * one quiet treatment.
+ */
+export const railTabClass = (active: boolean, tone: string): string =>
+  `min-w-0 flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 px-2 md:px-4 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-bold whitespace-nowrap transition-all duration-200 ${
+    active
+      ? tone
+      : 'text-[rgb(var(--color-text-secondary))] light:text-slate-600 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200'
+  }`;

@@ -1,36 +1,5 @@
 import { CommandTermInfo, PromptVerb } from '../types';
 
-const TIER_COLORS = [
-  {
-    color: 'text-red-300 light:text-red-700 print:text-red-700',
-    bg: 'bg-red-900/30 light:bg-red-100 print:bg-red-100',
-  }, // Tier 0 (fallback)
-  {
-    color: 'text-red-300 light:text-red-700 print:text-red-700',
-    bg: 'bg-red-900/30 light:bg-red-100 print:bg-red-100',
-  }, // Tier 1
-  {
-    color: 'text-orange-300 light:text-orange-700 print:text-orange-700',
-    bg: 'bg-orange-900/30 light:bg-orange-100 print:bg-orange-100',
-  }, // Tier 2
-  {
-    color: 'text-yellow-300 light:text-yellow-700 print:text-yellow-700',
-    bg: 'bg-yellow-900/30 light:bg-yellow-100 print:bg-yellow-100',
-  }, // Tier 3
-  {
-    color: 'text-green-300 light:text-green-700 print:text-green-700',
-    bg: 'bg-green-900/30 light:bg-green-100 print:bg-green-100',
-  }, // Tier 4
-  {
-    color: 'text-sky-300 light:text-sky-700 print:text-sky-700',
-    bg: 'bg-sky-900/30 light:bg-sky-100 print:bg-sky-100',
-  }, // Tier 5
-  {
-    color: 'text-purple-300 light:text-purple-700 print:text-purple-700',
-    bg: 'bg-purple-900/30 light:bg-purple-100 print:bg-purple-100',
-  }, // Tier 6
-];
-
 export const TIER_GROUPS = [
   {
     title: 'Remember & List',
@@ -96,7 +65,7 @@ export const tierShortLabel = (tier: number): string => {
   return group ? group.title.split(/[\s,&]+/)[0] : `Tier ${tier}`;
 };
 
-export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
+export const commandTermsList: CommandTermInfo[] = [
   // --- Tier 1: Remember & List ---
   {
     term: 'IDENTIFY',
@@ -845,10 +814,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
 ];
 
 export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
-  commandTermsList.map((term) => [
-    term.term,
-    { ...term, tailwind: TIER_COLORS[term.tier] } as CommandTermInfo,
-  ])
+  commandTermsList.map((term) => [term.term, term])
 );
 
 const fallbackTerm: CommandTermInfo = {
@@ -865,7 +831,6 @@ const fallbackTerm: CommandTermInfo = {
   bandDiscrimination:
     'This verb is not in the guide yet, so take what follows as general advice: answer exactly what was asked, and show the reasoning behind each claim.',
   genericMarkingGuide: ['1+ marks: Provides a clear, accurate answer to the question'],
-  tailwind: TIER_COLORS[3],
   structuralKeywords: ['because', 'therefore'],
   exampleQuestion: 'Explain the concept.',
 };
@@ -950,9 +915,9 @@ export const getCommandTermsForMarks = (
   // 11-12+: Tier 6
   const targetTier = Math.min(6, Math.ceil(marks / 2));
 
-  const idealMatches = commandTermsList
-    .filter((term) => marks >= term.markRange[0] && marks <= term.markRange[1])
-    .map((term) => ({ ...term, tailwind: TIER_COLORS[term.tier] }) as CommandTermInfo);
+  const idealMatches = commandTermsList.filter(
+    (term) => marks >= term.markRange[0] && marks <= term.markRange[1]
+  );
 
   if (idealMatches.length > 0) {
     const sortedMatches = idealMatches.sort((a, b) => {
@@ -987,11 +952,7 @@ export const getCommandTermsForMarks = (
     }
   });
 
-  const primaryTerm = {
-    ...closestTerm,
-    tailwind: TIER_COLORS[closestTerm.tier],
-  } as CommandTermInfo;
-  return { terms: [primaryTerm], primaryTerm: primaryTerm };
+  return { terms: [closestTerm], primaryTerm: closestTerm };
 };
 
 /**

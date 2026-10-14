@@ -5,7 +5,7 @@ import { useBackdropDismiss } from '../hooks/useBackdropDismiss';
 import { CourseOutcome } from '../types';
 import { explainOutcomeInContext } from '../services/geminiService';
 import { AICache } from '../services/aiCache';
-import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
+import { renderBriefingText, getBandConfig } from '../utils/renderUtils';
 import { AlertCircle, Target, X, Loader2, ChevronRight, RefreshCw } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -37,6 +37,13 @@ interface OutcomeDetailModalProps {
   verb?: PromptVerb;
   totalMarks?: number;
   breadcrumb?: string[];
+  /**
+   * Opens the command-verb sheet for this question, over this brief. Stacked
+   * rather than swapped: the sheet's focus trap and Escape handling take the
+   * top, and closing it hands focus back to the link here. Left out in exam
+   * mode, where the sheet is not offered.
+   */
+  onVerbSheet?: () => void;
 }
 
 /** Per-outcome state, so switching tabs never discards or refetches work. */
@@ -60,7 +67,7 @@ const BriefingText: React.FC<{ text: string }> = ({ text }) => {
     <div className="flex flex-col gap-4 animate-fade-in">
       {lead && (
         <div className="t-body text-[rgb(var(--color-text-secondary))]">
-          {renderFormattedText(lead)}
+          {renderBriefingText(lead)}
         </div>
       )}
       {sections.map((section) => (
@@ -68,7 +75,7 @@ const BriefingText: React.FC<{ text: string }> = ({ text }) => {
           <div className="min-w-0">
             <h4 className={headingClass}>{section.heading}</h4>
             <div className="mt-1 t-body text-[rgb(var(--color-text-secondary))]">
-              {renderFormattedText(section.body)}
+              {renderBriefingText(section.body)}
             </div>
           </div>
         </section>
@@ -87,6 +94,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   verb,
   totalMarks,
   breadcrumb,
+  onVerbSheet,
 }) => {
   useEscapeKey(isOpen, onClose);
   // Tab stays inside the dialog while it is open, and focus returns to
@@ -373,6 +381,19 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
                 <span className="t-label text-[rgb(var(--color-text-muted))]">
                   {totalMarks} {totalMarks === 1 ? 'mark' : 'marks'} · Band {targetBand}
                 </span>
+                {/* The verb's own sheet, for what the verb asks. A quiet text
+                    link, not a button: it is a way into more reading, and it
+                    sits where a student who wonders what EXPLAIN wants will
+                    look. */}
+                {onVerbSheet && (
+                  <button
+                    type="button"
+                    onClick={onVerbSheet}
+                    className="ml-auto min-h-11 sm:min-h-0 inline-flex items-center text-sm font-medium underline underline-offset-4 decoration-[rgb(var(--color-border-primary))] text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
+                  >
+                    What does {verbInfo?.term || verb} ask for?
+                  </button>
+                )}
               </div>
             ) : null}
           </div>

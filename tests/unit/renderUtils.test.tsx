@@ -4,6 +4,7 @@ import React from 'react';
 import {
   createKeywordRegex,
   getKeywordVariants,
+  renderBriefingText,
   renderEditorHighlights,
   renderFormattedText,
   textContainsKeyword,
@@ -394,5 +395,41 @@ describe('the keyword matcher’s memo', () => {
     // differently on the same text.
     expect(createKeywordRegex(['unit testing'])!.test(text)).toBe(true);
     expect(createKeywordRegex(['unit testing'])).not.toBe(first);
+  });
+});
+
+/**
+ * List markers. A question's list keeps the gutter it has always had; the
+ * outcome briefing sets its short lists with a tighter one, so the bullet is
+ * not a wide hole before each line.
+ */
+describe('list markers in prose', () => {
+  it('keeps the default gutter for a question’s list', () => {
+    const { container } = render(<div>{renderFormattedText('- first point')}</div>);
+    const marker = container.querySelector('span.inline-block');
+
+    expect(marker?.className).toContain('w-6');
+    expect(marker?.className).toContain('mr-1');
+    expect(marker?.className).not.toContain('min-w-[1em]');
+  });
+
+  it('sets the briefing’s bullets in the tight gutter', () => {
+    const { container } = render(<div>{renderBriefingText('- first point\n- second')}</div>);
+    const markers = Array.from(container.querySelectorAll('span.inline-block'));
+
+    expect(markers.length).toBe(2);
+    for (const marker of markers) {
+      expect(marker.className).toContain('min-w-[1em]');
+      expect(marker.className).toContain('mr-1.5');
+      expect(marker.className).not.toContain('w-6');
+    }
+  });
+
+  it('keeps the same words and the same list in both', () => {
+    const text = '1. Name the claim\n2. Give one example';
+    const { container: a } = render(<div>{renderFormattedText(text)}</div>);
+    const { container: b } = render(<div>{renderBriefingText(text)}</div>);
+
+    expect(b.textContent).toBe(a.textContent);
   });
 });
