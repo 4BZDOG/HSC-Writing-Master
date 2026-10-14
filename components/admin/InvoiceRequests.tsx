@@ -75,7 +75,7 @@ const TONE_BUTTON = {
 
 /** Every button here is 44px tall on a phone, as the other overview controls are. */
 const BUTTON_BASE =
-  'min-h-[44px] sm:min-h-0 px-4 py-2 sm:py-1.5 rounded-lg border text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2';
+  'min-h-[44px] sm:min-h-0 px-4 py-2 sm:py-1.5 rounded-lg border text-sm font-bold transition-all disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2';
 
 const SPINNER = <RefreshCw className="w-4 h-4 motion-safe:animate-spin" aria-hidden="true" />;
 
@@ -156,7 +156,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
           </p>
           <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-700 break-words">
             {countWord(request.seats, 'seat')} · {request.billingName} ·{' '}
-            <span className="break-all">{request.billingEmail}</span>
+            <span className="break-words">{request.billingEmail}</span>
           </p>
         </div>
         <p
@@ -216,9 +216,10 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
         </p>
       )}
       {hasSubscription && !settled && (
-        <p className="mt-3 text-xs text-amber-400 light:text-amber-800 break-all">
-          Stripe already holds subscription {request.subscriptionId} for this request, from an
-          earlier approval that did not finish.
+        <p className="mt-3 text-xs text-amber-400 light:text-amber-800 break-words">
+          Stripe already holds subscription{' '}
+          <span className="font-mono break-all">{request.subscriptionId}</span> for this request,
+          from an earlier approval that did not finish.
         </p>
       )}
     </>
@@ -249,7 +250,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
             Approved. Stripe has sent the invoice to {request.billingEmail}.
           </p>
           {answered.subscriptionId && (
-            <p className="mt-1 text-xs font-mono break-all text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+            <p className="mt-1 text-xs font-mono break-words text-[rgb(var(--color-text-secondary))] light:text-slate-700">
               Subscription {answered.subscriptionId}
             </p>
           )}
@@ -302,10 +303,11 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
         >
           <p className="text-sm font-semibold text-red-400 light:text-red-800">{failure.error}</p>
           {failure.kind === 'refused' && failure.subscriptionId && (
-            <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-800 break-all">
-              Stripe holds subscription {failure.subscriptionId} for this request. Check it in the
-              Stripe Dashboard, then use Refresh in this window to read the request again. Approve
-              stays off until then.
+            <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-800 break-words">
+              Stripe holds subscription{' '}
+              <span className="font-mono break-all">{failure.subscriptionId}</span> for this
+              request. Check it in the Stripe Dashboard, then use Refresh in this window to read the
+              request again. Approve stays off until then.
             </p>
           )}
         </div>
@@ -385,7 +387,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
                 type="button"
                 disabled={busy}
                 onClick={() => onDecide(request, { action: 'approve', daysUntilDue })}
-                className={`${BUTTON_BASE} border-transparent bg-emerald-700 hover:bg-emerald-600 text-white`}
+                className={`${BUTTON_BASE} border-transparent bg-emerald-700 hover:bg-emerald-600 text-white disabled:!opacity-100`}
               >
                 {calling ? (
                   <>
@@ -459,7 +461,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
               onClick={() =>
                 onDecide(request, { action: 'decline', decisionNote: note.trim() || null })
               }
-              className={`${BUTTON_BASE} border-transparent bg-red-700 hover:bg-red-600 text-white`}
+              className={`${BUTTON_BASE} border-transparent bg-red-700 hover:bg-red-600 text-white disabled:!opacity-100`}
             >
               {calling ? (
                 <>

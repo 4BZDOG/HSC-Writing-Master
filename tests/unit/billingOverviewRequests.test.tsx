@@ -196,9 +196,9 @@ describe('each request shows what the approver needs to check', () => {
     );
     await openDialog();
 
-    expect(
-      screen.getByText(/Stripe already holds subscription sub_1Nabcdefghijk123456/)
-    ).toBeTruthy();
+    expect(screen.getByText(/Stripe already holds subscription/)).toBeTruthy();
+    // The id sits in its own element, so it can break on its own on a phone.
+    expect(screen.getByText('sub_1Nabcdefghijk123456')).toBeTruthy();
   });
 });
 
