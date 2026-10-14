@@ -8,7 +8,9 @@
  *
  * Body: { sessionId: string } — the `session_id` Stripe appends to the success URL.
  * Returns:
- *   { status: 'active', plan }  the subscription is live and the plan is written;
+ *   { status: 'active', plan }  the subscription is live. The plan is written here, or a
+ *                               newer webhook event already holds it (the ordering guard
+ *                               then keeps that newer state);
  *   { status: 'pending' }       not confirmable yet (unpaid, still incomplete, or a
  *                               price this deployment does not sell). The client
  *                               polls, as it did before this endpoint existed.
