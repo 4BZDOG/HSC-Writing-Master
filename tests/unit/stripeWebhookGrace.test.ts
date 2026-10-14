@@ -111,13 +111,21 @@ const makeSupabaseMock = () => ({
     }),
     update: (values: Record<string, unknown>) => {
       if (table === 'stripe_events') return ledgerUpdate(values);
-      return {
-        eq: async () => {
-          if (failUpdates) return { error: { message: 'write failed' } };
-          updates.push({ table, values });
-          return { error: null };
-        },
+      // The customer link is conditional (.eq().is().select()), so the chain carries on
+      // until it is awaited, and a successful write reports one updated row.
+      const write = async () => {
+        if (failUpdates) return { data: null, error: { message: 'write failed' } };
+        updates.push({ table, values });
+        return { data: [{ id: 'user-1' }], error: null };
       };
+      const chain = {
+        eq: () => chain,
+        is: () => chain,
+        select: () => write(),
+        then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
+          write().then(resolve, reject),
+      };
+      return chain;
     },
     upsert: async (values: Record<string, unknown>) => {
       upserts.push({ table, values });
@@ -129,6 +137,8 @@ const makeSupabaseMock = () => ({
       }
       return {
         eq: () => ({
+          // The duplicate-subscription check counts live rows: none here.
+          in: async () => ({ data: [], error: null }),
           maybeSingle: async () =>
             columns === 'last_event_at'
               ? { data: { last_event_at: lastEventAt } }

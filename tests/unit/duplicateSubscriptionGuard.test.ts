@@ -45,8 +45,10 @@ const makeSupabaseMock = () => ({
       };
       return chain;
     }
-    // profiles: .select().eq().maybeSingle()
+    // profiles: .select().eq().maybeSingle(). Also the checkout_sessions record,
+    // which accepts the first session (no earlier one to displace).
     return {
+      insert: async () => ({ error: null }),
       select: () => ({
         eq: () => ({
           maybeSingle: async () => ({

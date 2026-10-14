@@ -19,6 +19,8 @@ let profileSchoolId: string | null = 'school-1';
 
 const makeSupabaseMock = () => ({
   from: (table: string) => ({
+    // checkout_sessions: the open-checkout record accepts the first session.
+    insert: async () => ({ error: null }),
     update: (values: Record<string, unknown>) => ({
       eq: async () => {
         updates.push({ table, values });

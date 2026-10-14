@@ -71,6 +71,14 @@ const makeSupabaseMock = () => ({
         }),
       };
     }
+    // The open-checkout record: nothing recorded yet, so the first session displaces none.
+    // Its own branch, so a profile-column error in these cases does not reach it.
+    if (table === 'checkout_sessions') {
+      return {
+        select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: null, error: null }) }) }),
+        insert: async () => ({ error: null }),
+      };
+    }
     // profiles: .select().eq().maybeSingle()
     return {
       select: () => ({
