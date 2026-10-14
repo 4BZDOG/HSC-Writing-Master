@@ -23,6 +23,8 @@ import { useSyllabusData } from './hooks/useSyllabusData';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
+import { usePlanFreshness } from './hooks/usePlanFreshness';
+import { applyPlanFields } from './utils/planFreshness';
 import { focusTrapCompanion } from './hooks/useFocusTrap';
 import { useDebounce } from './hooks/useDebounce';
 import { authService } from './services/authService';
@@ -1322,6 +1324,24 @@ const App: React.FC = () => {
     if (!user || user.role === 'guest') return;
     void refreshFreeEvalCount();
   }, [user?.username, user?.role]);
+
+  // A licence that goes live or lapses on another device, or in a colleague's
+  // checkout, reaches this session when the person comes back to the tab (see
+  // utils/planFreshness.ts). Only the plan fields are merged, so anything newer
+  // the app holds survives. The free counter is re-read on a change because a
+  // lapsed licence leaves a local mirror the server never spent from.
+  usePlanFreshness({
+    user,
+    onChange: (refreshed) => {
+      setUser((current) =>
+        current && current.username === refreshed.username
+          ? applyPlanFields(current, refreshed)
+          : current
+      );
+      void refreshFreeEvalCount();
+    },
+    notify: showToast,
+  });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
