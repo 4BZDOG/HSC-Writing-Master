@@ -7,11 +7,13 @@ import {
   isMissingSchemaError,
   shortSubscriptionRef,
   loadBillingOverview,
+  summariseIncidents,
   RENEWAL_GRACE_DAYS,
   STALLED_CHECKOUT_DAYS,
   WEBHOOK_SILENT_DAYS,
   type BillingSubscriptionRow,
   type BillingEventRow,
+  type BillingIncidentRow,
 } from '../../services/billingOverviewService';
 import type { SchoolRow } from '../../services/quotaService';
 import * as supabaseClient from '../../services/supabaseClient';
@@ -559,5 +561,60 @@ describe('loadBillingOverview', () => {
     const overview = await loadBillingOverview(NOW);
 
     expect(overview.stripeConfigured).toBe(false);
+  });
+});
+
+describe('summariseIncidents: open billing incidents', () => {
+  const incident = (id: string, kind: BillingIncidentRow['kind'], detectedAt: string) =>
+    ({
+      id,
+      kind,
+      user_id: 'user-1',
+      school_id: null,
+      subscription_ids: ['sub_a', 'sub_b'],
+      detail: 'x',
+      detected_at: detectedAt,
+    }) as BillingIncidentRow;
+  const now = new Date('2026-10-14T00:00:00Z');
+
+  it('reports nothing open, and no age, for an empty list', () => {
+    const s = summariseIncidents([], now);
+    expect(s.open).toBe(0);
+    expect(s.oldestOpenDays).toBeNull();
+    expect(s.items).toEqual([]);
+  });
+
+  it('counts each kind separately', () => {
+    const s = summariseIncidents(
+      [
+        incident('a', 'duplicate_subscription', '2026-10-10T00:00:00Z'),
+        incident('b', 'customer_mismatch', '2026-10-12T00:00:00Z'),
+        incident('c', 'duplicate_subscription', '2026-10-13T00:00:00Z'),
+      ],
+      now
+    );
+    expect(s.open).toBe(3);
+    expect(s.byKind).toEqual({
+      duplicate_subscription: 2,
+      duplicate_school_licence: 0,
+      customer_mismatch: 1,
+    });
+  });
+
+  it('puts the oldest open incident first and ages the page by it', () => {
+    const s = summariseIncidents(
+      [
+        incident('new', 'customer_mismatch', '2026-10-13T00:00:00Z'),
+        incident('old', 'duplicate_subscription', '2026-10-04T12:00:00Z'),
+      ],
+      now
+    );
+    expect(s.items.map((i) => i.id)).toEqual(['old', 'new']);
+    expect(s.oldestOpenDays).toBe(9);
+  });
+
+  it('never reports a negative age, even with a detection stamped after now', () => {
+    const s = summariseIncidents([incident('x', 'customer_mismatch', '2026-10-15T00:00:00Z')], now);
+    expect(s.oldestOpenDays).toBe(0);
   });
 });

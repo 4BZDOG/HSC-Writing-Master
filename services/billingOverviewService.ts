@@ -403,3 +403,80 @@ export const loadBillingOverview = async (now: Date = new Date()): Promise<Billi
     recentEvents,
   };
 };
+
+// ---------------------------------------------------------------------------
+// Billing incidents (schema §13, billing_incidents). The webhook writes them and an
+// operator resolves them in the Stripe Dashboard (docs/stripesetup.md). Read-only here.
+
+export interface BillingIncidentRow {
+  id: string;
+  kind: 'duplicate_subscription' | 'duplicate_school_licence' | 'customer_mismatch';
+  user_id: string | null;
+  school_id: string | null;
+  subscription_ids: string[];
+  detail: string;
+  detected_at: string;
+}
+
+export interface IncidentSummary {
+  open: number;
+  /** Open incidents per kind, so the page can say what sort of problem each one is. */
+  byKind: Record<BillingIncidentRow['kind'], number>;
+  /** Whole days the oldest open incident has waited, or null when none is open. */
+  oldestOpenDays: number | null;
+  /** Oldest first: the one that has waited longest is the one to look at first. */
+  items: BillingIncidentRow[];
+}
+
+/** Counts and orders the open incidents. Pure, so the page and the tests share one answer. */
+export const summariseIncidents = (rows: BillingIncidentRow[], now: Date): IncidentSummary => {
+  const items = [...rows].sort((a, b) => Date.parse(a.detected_at) - Date.parse(b.detected_at));
+  const byKind: IncidentSummary['byKind'] = {
+    duplicate_subscription: 0,
+    duplicate_school_licence: 0,
+    customer_mismatch: 0,
+  };
+  for (const row of items) {
+    if (row.kind in byKind) byKind[row.kind] += 1;
+  }
+  const oldest = items[0];
+  return {
+    open: items.length,
+    byKind,
+    oldestOpenDays: oldest
+      ? Math.max(0, Math.floor((now.getTime() - Date.parse(oldest.detected_at)) / DAY_MS))
+      : null,
+    items,
+  };
+};
+
+const BILLING_INCIDENT_COLUMNS =
+  'id, kind, user_id, school_id, subscription_ids, detail, detected_at';
+
+/**
+ * Every open incident, oldest first. Admins can read the table (the policy in schema
+ * §13). Before §13 is re-applied there are no incidents to show, so a missing table is
+ * an empty list rather than an error. Any other failure is thrown.
+ */
+export const loadOpenBillingIncidents = async (
+  now: Date = new Date()
+): Promise<IncidentSummary> => {
+  const client = supabase;
+  if (!client) throw new Error('Supabase is not configured.');
+  try {
+    const rows = await fetchAllRows<BillingIncidentRow>(
+      () =>
+        client
+          .from('billing_incidents')
+          .select(BILLING_INCIDENT_COLUMNS)
+          .is('resolved_at', null)
+          .order('detected_at', { ascending: true }),
+      'Could not load billing incidents'
+    );
+    return summariseIncidents(rows, now);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : '';
+    if (isMissingSchemaError(message)) return summariseIncidents([], now);
+    throw e;
+  }
+};
