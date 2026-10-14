@@ -71,7 +71,7 @@ describe('close buttons on a phone', () => {
   it('TopicSyllabusImportModal keeps the 36px chip and adds a 44px hit area', () => {
     const src = source('TopicSyllabusImportModal.tsx');
 
-    expect(src).toContain('relative shrink-0 w-9 h-9');
+    expect(src).toContain('relative z-20 shrink-0 w-9 h-9');
     expect(src).toContain("before:absolute before:-inset-1 before:content-['']");
     // Off from `sm`, so the desktop hit area is the one it was.
     expect(src).toContain('sm:before:content-none');

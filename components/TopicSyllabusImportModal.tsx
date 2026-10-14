@@ -269,11 +269,13 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
             </div>
             {/* The 44px target is a pseudo-element, not a min-size: this title is
                 long enough that a 44px box wraps it to two lines and pushes the
-                form down. `shrink-0` stops the row squeezing the 36px chip. */}
+                form down. `shrink-0` stops the row squeezing the 36px chip, and
+                `z-20` lifts the 4px overhang above the header's `relative z-10`
+                wrapper, which comes later in the DOM and would take those clicks. */}
             <button
               onClick={guard.requestClose}
               aria-label="Close"
-              className="relative shrink-0 w-9 h-9 rounded-lg before:absolute before:-inset-1 before:content-[''] sm:before:content-none bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="relative z-20 shrink-0 w-9 h-9 rounded-lg before:absolute before:-inset-1 before:content-[''] sm:before:content-none bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
