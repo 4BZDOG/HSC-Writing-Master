@@ -541,7 +541,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             background: cardHeaderWash(verbInfo.tier),
           }}
         >
-          <MeshOverlay opacity="opacity-20" />
+          {/* Matches the writing card's header grid (see Editor), so the pair
+              keeps one texture. */}
+          <MeshOverlay opacity="opacity-10" />
 
           <div ref={headerContentRef} className={CARD_HEADER_ROW}>
             {/* Left: Icon + Hero Title */}
@@ -815,7 +817,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         <button
                           onClick={studioAction(onGenerateScenario)}
                           disabled={isGeneratingScenario}
-                          className={`p-1.5 rounded-lg transition-colors ${
+                          className={`max-sm:size-11 p-1.5 rounded-lg transition-colors ${
                             studioChrome || 'text-indigo-400 hover:bg-indigo-500/10'
                           }`}
                           title={studioTitle('Regenerate Scenario')}
@@ -827,7 +829,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       )}
                       <button
                         onClick={() => setIsEditingScenario(true)}
-                        className="p-1.5 rounded-lg text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                        className="max-sm:size-11 p-1.5 rounded-lg text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                         title="Edit Scenario"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
@@ -835,7 +837,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <button
                         onClick={() => setIsUploadingImage((v) => !v)}
                         aria-expanded={isUploadingImage}
-                        className={`p-1.5 rounded-lg transition-colors ${
+                        className={`max-sm:size-11 p-1.5 rounded-lg transition-colors ${
                           isUploadingImage
                             ? 'text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10'
                             : 'text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
@@ -1195,7 +1197,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   aria-label={
                     hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
                   }
-                  className={`p-1.5 sm:p-2 rounded-lg border transition-all ${
+                  className={`max-sm:size-11 p-1.5 sm:p-2 rounded-lg border transition-all ${
                     hasOpenFlag
                       ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
                       : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'

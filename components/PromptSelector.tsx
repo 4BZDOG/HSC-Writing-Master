@@ -513,12 +513,22 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           label: y.label,
           disabled: !selectable,
           renderLabel: (
-            <div className={`flex items-center gap-3 ${selectable ? '' : 'opacity-60'}`}>
-              <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
+            <div className="flex items-center gap-3">
+              <div
+                className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course} ${selectable ? '' : 'opacity-60'}`}
+              >
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="min-w-0">
-                <span className="block font-medium leading-snug">{y.label}</span>
+                {/* The disabled cue is on the name (a dim tone) and the tile,
+                    not on the whole row: a note that says WHY the year cannot
+                    be picked is information, and at 60% it measured 2.9:1 in
+                    light. */}
+                <span
+                  className={`block font-medium leading-snug ${selectable ? '' : 'text-[rgb(var(--color-text-dim))]'}`}
+                >
+                  {y.label}
+                </span>
                 {/* Only on a row that can never be SELECTED. The trigger draws
                     the selected option's own label, so a note here would ride
                     up into the closed control and read as part of the year's

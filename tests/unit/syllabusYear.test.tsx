@@ -373,6 +373,10 @@ describe('choosing a year in the navigator', () => {
 
     const row = within(list).getByText('Year 11').closest('li') as HTMLElement;
     expect(within(row).getByText(/No content yet/i)).toBeTruthy();
+    // The note is information, so it is never faded. The disabled cue is on
+    // the name and the tile, which the note is not inside.
+    const note = within(row).getByText(/No content yet/i);
+    expect(note.closest('.opacity-60')).toBeNull();
     expect(row.getAttribute('aria-disabled')).toBe('true');
 
     fireEvent.click(row);

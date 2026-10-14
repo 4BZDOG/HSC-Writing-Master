@@ -80,7 +80,7 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
             onClick={onToggle}
             aria-expanded={open}
             aria-controls={panelId}
-            className="t-label order-2 ml-auto sm:order-3 sm:ml-0 shrink-0 inline-flex items-center gap-1.5 h-8 pl-2.5 pr-2 rounded-full border border-[rgb(var(--color-border-primary))] bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors motion-reduce:transition-none active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="t-label order-2 ml-auto sm:order-3 sm:ml-0 shrink-0 inline-flex items-center gap-1.5 h-11 sm:h-8 pl-2.5 pr-2 rounded-full border border-[rgb(var(--color-border-primary))] bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors motion-reduce:transition-none active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <PanelReadChip show={read && !open} />
             <ListOrdered className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
