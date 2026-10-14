@@ -462,6 +462,45 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
   keeps its plan. The portal does not offer pausing today, so this is open only if
   someone enables it.
 
+### 28. A licence reached the buyer, not the school — P1, fixed
+
+`applySchoolPlan` runs inside `refreshSession`, which runs at app load and on
+checkout return. The buyer unlocked at once. The other members of the school
+stayed locked until they reloaded, and a licence that lapsed left them showing
+paid controls that the server would then refuse.
+
+**Fixed** by `usePlanFreshness` (`hooks/usePlanFreshness.ts`), with the decisions
+in `utils/planFreshness.ts`. When a signed-in, non-guest person returns to the
+tab or the connection comes back, the session is re-read at most once every five
+minutes (`PLAN_FRESHNESS_INTERVAL_MS`), and never while a read is in flight. An
+unchanged plan is silent: no state update and no toast. A changed plan updates
+the plan fields of the copy the app holds (so stats and preferences are left
+alone), re-reads the free counter, and is announced once. The wording comes from
+the resolved plan, so a teacher whose licence lapses is told the licence ended,
+not that they have lost access they still hold.
+
+Not changed: a session refresh rewrites the profile's stats and preferences, as
+it did at load, so each throttled check writes once. A refresh that returns no
+session is ignored rather than treated as a sign-out, because a background check
+should not drop someone to the login screen mid-answer.
+
+### 29. Nothing told a school that it had outgrown its licence — P2, fixed in part
+
+The over-seat warning lived in `UsageDashboard`, which only an admin can open.
+`list_schools()` would have answered a teacher, but it returns every school at
+once, so it cannot be the teacher's source.
+
+**Fixed** by `my_school_seats()` (schema §13). It takes no school argument and
+answers only staff, for the caller's own school. It returns the plan status,
+the seat count, the member count and whether the caller bought the licence, and
+nothing about the people in it. `components/SeatOverageNotice.tsx` sits beside
+the payment alert. When members exceed seats on a live licence it says how many
+over, says that the extra people keep School access for now, and offers Manage
+subscription to the purchaser only. Other staff are told who bought the licence.
+
+Seats are still not enforced at sign-in. The notice says so, which is accurate;
+whether they should be is a product decision, recorded in §5.
+
 ## 5. Still open (not attempted here)
 
 - **Open findings from the server-hardening pass (§16 and onwards)**: §21 (two open
@@ -469,12 +508,10 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
   risks. §23 (unsigned preview webhooks) needs the operator to confirm the preview
   setup. §24–§26 are smaller. None of them is fixed.
 
-- **A licence going live mid-session does not reach other members until they
-  reload.** _(The one remaining item from the first pass's list.)_ `applySchoolPlan` runs inside `refreshSession`, which fires at app
-  load and on checkout return — so the buyer unlocks immediately, and everyone
-  else in their school keeps seeing locks until their next load. The divergence
-  is safe (the server is authoritative and the more generous of the two) but a
-  teacher who buys a licence mid-lesson has thirty students still locked out.
+- ~~**A licence going live mid-session does not reach other members until they
+  reload.**~~ — **done**, see §28. Members now re-read their plan when they return
+  to the tab, at most every five minutes. The divergence this bullet described
+  was safe (the server is authoritative); it is now also short.
 - **The School branch of the upgrade prompt is dead code under the shipped
   policy.** Nothing is priced at `school`, so `sellsPlus` is always true. Kept
   because `PLAN_FEATURE_OVERRIDES` can still reach it; worth deleting if that
@@ -483,8 +520,26 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
   is "Who it covers". That is honest, and it is also the whole pitch — worth a
   product decision about whether School should carry something of its own
   (class-scoped analytics is the obvious candidate) rather than a code change.
-- **Nothing notices when a school outgrows its licence.** The dashboard shows
-  the over-seat warning, but only to an admin who happens to open it.
+- ~~**Nothing notices when a school outgrows its licence.**~~ — **done**, see §29.
+  Staff are told the first time they open the app in a session. What is still
+  open is in the three bullets below.
+- **`list_schools()` answers teachers for every school.** It is gated on
+  `is_reviewer()` (admin or teacher), not on admin alone, so a teacher who calls
+  it directly receives every school's name, member count, pooled usage and
+  licence state. The dashboard hides the panel from teachers; the function does
+  not. Not changed here: it is outside the licence work and the fix is a
+  product decision (gate it on `is_admin()`, or leave it and accept that a
+  teacher sees the school list). The seat notice does not depend on it.
+- **Every signed-in account can read every school's licence columns.**
+  `schools_read` is `auth.uid() is not null` and nothing revokes column access,
+  so a student can select `stripe_subscription_id`, `plan_seats`, `plan_status`
+  and `plan_period_end` for every school through the REST API. The subscription
+  id is Stripe's handle for the school's licence. Narrow the policy to the
+  caller's own school, or column-grant the licence fields.
+- **Non-purchasing staff are told who to ask, not how to act.** The seat notice
+  names the purchaser's role but the app cannot say who the purchaser is, and
+  only the purchaser can open Manage subscription. Closing it needs either the
+  purchaser's name on the licence row or an admin-side seat request.
 - ~~**`sampleAnswers` is the one UI-only gate with a real fix available**~~ —
   **done**, see §15 below. The other three (`advancedQuestions`, `pdfExport`,
   `examMode`) are honestly unfixable at that layer, for the reasons in
