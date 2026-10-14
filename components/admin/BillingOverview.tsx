@@ -221,7 +221,7 @@ const AttentionSection: React.FC<{ overview: BillingOverview }> = ({ overview })
                   aria-hidden="true"
                 />
                 <div className="min-w-0">
-                  <p className="text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     {copy.title}
                   </p>
                   <p className="text-xs text-[rgb(var(--color-text-secondary))] light:text-slate-700 mt-0.5">
@@ -451,7 +451,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
   } else if (!overview && error) {
     body = (
       <div className={`p-5 rounded-xl ${TOOL_WELL} text-center`}>
-        <p className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+        <p className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
           {schemaMissing
             ? 'The billing tables are not in this database yet.'
             : 'Could not load billing data.'}
