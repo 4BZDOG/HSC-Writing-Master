@@ -142,4 +142,54 @@ describe('the feedback footer', () => {
       (screen.getByRole('button', { name: 'Back to my response' }) as HTMLButtonElement).disabled
     ).toBe(true);
   });
+
+  describe('the footer on a phone', () => {
+    // The footer was a wrapping row, so the caption took a band of its own and
+    // the two buttons stacked beneath it: about a sixth of a phone screen.
+    it('keeps both actions on one row that does not wrap', () => {
+      renderModal(base());
+
+      const back = screen.getByRole('button', { name: 'Back to my response' });
+      const use = screen.getByRole('button', { name: /Use this version/ });
+      const row = back.parentElement as HTMLElement;
+
+      expect(back.parentElement).toBe(use.parentElement);
+      expect(row.className).toContain('flex-nowrap');
+      expect(row.className).not.toContain('flex-wrap');
+      // Both share the row's width, and can shrink to it.
+      for (const button of [back, use]) {
+        expect(button.className).toContain('flex-1');
+        expect(button.className).toContain('min-w-0');
+      }
+    });
+
+    it('names what "Use this version" does through the button, not a separate line', () => {
+      renderModal(base());
+
+      const use = screen.getByRole('button', { name: /Use this version/ });
+      const describedBy = use.getAttribute('aria-describedby');
+      expect(describedBy).toBeTruthy();
+      expect(document.getElementById(describedBy!)?.textContent).toBe('Replaces your draft.');
+      // The button's own name stays the action, with the note as its description.
+      expect(use.textContent).toContain('Replaces your draft.');
+      expect(use.getAttribute('aria-label')).toBeNull();
+    });
+
+    it('shows the note as a line of its own only at the width where the footer has room', () => {
+      renderModal(base());
+
+      const note = document.getElementById(
+        screen.getByRole('button', { name: /Use this version/ }).getAttribute('aria-describedby')!
+      )!;
+      expect(note.className).toContain('hidden');
+      expect(note.className).toContain('sm:block');
+    });
+
+    it('has no note, and no description to point at, when there is no rewrite', () => {
+      renderModal(base({ revisedAnswer: '' }));
+
+      expect(screen.queryByText('Replaces your draft.')).toBeNull();
+      expect(screen.getByRole('button', { name: 'Back to my response' })).toBeTruthy();
+    });
+  });
 });

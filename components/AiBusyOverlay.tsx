@@ -65,14 +65,15 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
       className={`absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
-      {/* A soft accent bloom behind the card so it lifts off the blur rather
-          than floating on a flat grey pane. */}
+      {/* A soft accent bloom behind the card so it lifts off the veil rather
+          than floating on a flat pane. It is the app accent, not a fixed
+          indigo, so it moves with the theme like the wait's own ink. */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none opacity-40"
         style={{
           background:
-            'radial-gradient(ellipse 60% 45% at 50% 50%, rgba(99,102,241,0.18), transparent 70%)',
+            'radial-gradient(ellipse 60% 45% at 50% 50%, rgb(var(--color-accent) / 0.18), transparent 70%)',
         }}
       />
       <div className={`relative w-full ${maxWidth} animate-in`}>{children}</div>

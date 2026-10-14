@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup, fireEvent, within } from '@testing-library/react';
 import PromptDisplay from '../../components/PromptDisplay';
+import { explainOutcomeInContext } from '../../services/geminiService';
+import { AICache } from '../../services/aiCache';
 import { CourseOutcome, Prompt, PromptVerb } from '../../types';
 
 /**
@@ -135,6 +137,43 @@ describe('outcome chips in the prompt footer', () => {
 
     fireEvent.mouseLeave(chip);
     expect(screen.queryByRole('tooltip')).toBeNull();
+  });
+
+  it('names the preview as the chip’s description, but only while the preview is showing', () => {
+    render(<PromptDisplay {...props} />);
+    const chip = chipFor('SE-12-03');
+    expect(chip.getAttribute('aria-describedby')).toBeNull();
+
+    fireEvent.mouseEnter(chip);
+    const preview = screen.getByRole('tooltip');
+    expect(preview.id).toBeTruthy();
+    expect(chip.getAttribute('aria-describedby')).toBe(preview.id);
+
+    // A reference to a node that is not in the page would be a dangling one.
+    fireEvent.mouseLeave(chip);
+    expect(chip.getAttribute('aria-describedby')).toBeNull();
+  });
+
+  describe('the verb sheet from the full brief', () => {
+    beforeEach(() => {
+      vi.mocked(explainOutcomeInContext).mockResolvedValue(
+        '### What this outcome is asking for\nAssess the trade-offs.'
+      );
+      vi.spyOn(AICache, 'get').mockResolvedValue(undefined as never);
+      vi.spyOn(AICache, 'set').mockResolvedValue(undefined as never);
+    });
+
+    it('opens the verb sheet over the brief, without closing the brief', () => {
+      const onVerbClick = vi.fn();
+      render(<PromptDisplay {...props} onVerbClick={onVerbClick} />);
+
+      fireEvent.click(chipFor('SE-12-03'));
+      const brief = screen.getByRole('dialog', { name: 'SE-12-03' });
+      fireEvent.click(within(brief).getByRole('button', { name: 'What does ASSESS ask for?' }));
+
+      expect(onVerbClick).toHaveBeenCalledTimes(1);
+      expect(screen.getByRole('dialog', { name: 'SE-12-03' })).toBeTruthy();
+    });
   });
 
   it('keeps the preview on screen for a chip near the viewport edge', () => {

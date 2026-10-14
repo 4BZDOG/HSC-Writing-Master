@@ -6,6 +6,14 @@ import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import type { TipMove } from '../utils/strategyTip';
 import WordChip from './WordChip';
 
+/**
+ * Where the tip is drawn. The verb sheet reads it as a document: sentence-case
+ * subheads, the lead at body size. The writing area draws the same parts under
+ * the verb's row, smaller, with the tracked section heads it has always had.
+ * Only the type scale differs; the structure is one piece of markup.
+ */
+export type StrategyMovesVariant = 'sheet' | 'worked';
+
 interface StrategyMovesProps {
   /** The lead move first, then the steps that follow it. */
   method: TipMove[];
@@ -19,21 +27,43 @@ interface StrategyMovesProps {
   band: number;
   /** Given, each word is a chip that does something with it. Left out, the words are plain. */
   onInsertWord?: (word: string) => void;
+  /** Defaults to the verb sheet's scale. */
+  variant?: StrategyMovesVariant;
 }
 
 const sectionClass = 'py-4 first:pt-0 last:pb-0';
+
 /** Sentence case, not the tracked caps `.t-section` gives: these are the parts of
- *  one answer, and the caps read as a list of separate panels. */
-const subheadingClass = 'text-sm font-semibold text-[rgb(var(--color-text-primary))]';
+ *  one answer, and the caps read as a list of separate panels. The writing area
+ *  keeps `.t-section` because it sits in a smaller card with a caption above it.
+ *  A function, not a table: the prose constants it reads are imports, and an
+ *  import read at module init can sit on a chunk cycle. */
+const scaleFor = (variant: StrategyMovesVariant) =>
+  variant === 'worked'
+    ? {
+        Heading: 'h3' as const,
+        subheading: 't-section text-[rgb(var(--color-text-primary))]',
+        lead: 'pt-0.5 text-base leading-relaxed text-[rgb(var(--color-text-primary))]',
+        step: 'pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-secondary))]',
+        example: `${PROSE_FLOW} text-sm leading-relaxed`,
+        watch: `${PROSE_FLOW} text-sm leading-relaxed`,
+      }
+    : {
+        Heading: 'h4' as const,
+        subheading: 'text-sm font-semibold text-[rgb(var(--color-text-primary))]',
+        lead: 'pt-0.5 t-body text-[rgb(var(--color-text-primary))]',
+        step: 'pt-1 text-base leading-relaxed text-[rgb(var(--color-text-secondary))]',
+        example: `${PROSE_BLOCK} t-body`,
+        watch: `${PROSE_FLOW} text-base leading-relaxed`,
+      };
 
 /**
  * How a verb's tip is laid out, as the four parts a student works through:
  * Method, Words to use, Sentence shape and Watch for.
  *
- * This is the same reading of the tip as `HowToAnswer` (the caller derives the
- * parts with `splitMethodMoves` and `collectStrategyDetail`), drawn for a sheet
- * that is read rather than worked beside. It renders the sections without a
- * container, so the caller can put them in whichever card it needs.
+ * The caller derives the parts with `splitMethodMoves` and `collectStrategyDetail`.
+ * This renders the sections without a container, so the caller can put them in
+ * whichever card it needs.
  */
 const StrategyMoves: React.FC<StrategyMovesProps> = ({
   method,
@@ -42,15 +72,18 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
   watch,
   band,
   onInsertWord,
+  variant = 'sheet',
 }) => {
   const config = getBandConfig(band);
   const bandStyle = ladderBandVars(band);
+  const scale = scaleFor(variant);
+  const { Heading } = scale;
 
   return (
     <>
       {method.length > 0 && (
         <section className={sectionClass}>
-          <h4 className={subheadingClass}>Method</h4>
+          <Heading className={scale.subheading}>Method</Heading>
           <ol className="mt-3 flex flex-col">
             {method.map((move, i) => {
               const isLead = i === 0;
@@ -75,9 +108,7 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
                   </div>
                   <p
                     className={`min-w-0 font-serif ${PROSE_FLOW} ${
-                      isLead
-                        ? 'pt-0.5 t-body text-[rgb(var(--color-text-primary))]'
-                        : 'pt-1 text-base leading-relaxed text-[rgb(var(--color-text-secondary))]'
+                      isLead ? scale.lead : scale.step
                     } ${isLast ? '' : 'pb-4'}`}
                   >
                     {move.text}
@@ -91,7 +122,7 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
 
       {terms.length > 0 && (
         <section className={sectionClass}>
-          <h4 className={subheadingClass}>Words to use</h4>
+          <Heading className={scale.subheading}>Words to use</Heading>
           <div className="mt-3 flex flex-wrap gap-2">
             {terms.map((word) =>
               onInsertWord ? (
@@ -111,12 +142,12 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
 
       {examples.length > 0 && (
         <section className={sectionClass}>
-          <h4 className={subheadingClass}>Sentence shape</h4>
+          <Heading className={scale.subheading}>Sentence shape</Heading>
           <div className="mt-3 flex flex-col gap-3">
             {examples.map((text) => (
               <blockquote
                 key={text}
-                className={`border-l-2 border-[rgb(var(--color-border-primary))] pl-3 font-serif italic ${PROSE_BLOCK} t-body text-[rgb(var(--color-text-secondary))]`}
+                className={`border-l-2 border-[rgb(var(--color-border-primary))] pl-3 font-serif italic text-[rgb(var(--color-text-secondary))] ${scale.example}`}
               >
                 {text}
               </blockquote>
@@ -127,18 +158,18 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
 
       {watch.length > 0 && (
         <section className={sectionClass}>
-          <h4 className={`${subheadingClass} flex items-center gap-2`}>
+          <Heading className={`${scale.subheading} flex items-center gap-2`}>
             <AlertTriangle
               aria-hidden="true"
               className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400"
             />
             Watch for
-          </h4>
+          </Heading>
           <ul className="mt-3 flex flex-col gap-2">
             {watch.map((move) => (
               <li
                 key={move.text}
-                className={`font-serif ${PROSE_FLOW} text-base leading-relaxed text-[rgb(var(--color-text-secondary))]`}
+                className={`font-serif text-[rgb(var(--color-text-secondary))] ${scale.watch}`}
               >
                 {move.text}
               </li>

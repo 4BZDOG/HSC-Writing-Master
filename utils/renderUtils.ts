@@ -1390,7 +1390,8 @@ export const renderFormattedText = (
    * rather than asked, and a button in quoted prose would be a control that
    * does something to a different question.
    */
-  onVerbClick?: () => void
+  onVerbClick?: () => void,
+  options: FormattedTextOptions = {}
 ): React.ReactNode => {
   if (!text) return text;
 
@@ -1424,11 +1425,44 @@ export const renderFormattedText = (
       continue;
     }
 
-    processedLines.push(renderLine(line, lineIdx, verbRegex, keywordRegex, onVerbClick));
+    processedLines.push(
+      renderLine(
+        line,
+        lineIdx,
+        verbRegex,
+        keywordRegex,
+        onVerbClick,
+        LIST_GUTTER[options.listGutter ?? 'default']
+      )
+    );
   }
 
   return React.createElement(React.Fragment, null, processedLines);
 };
+
+/**
+ * Options for `renderFormattedText` that only some prose needs.
+ *
+ * `listGutter` is the width a list item's bullet or number is set in. The
+ * default is sized for a question's list, where a two-digit number has to clear
+ * its text. The outcome briefing's lists are short, and their bullets sat in a
+ * gutter wider than the words beside them, so they take `'tight'`.
+ */
+export interface FormattedTextOptions {
+  listGutter?: 'default' | 'tight';
+}
+
+const LIST_GUTTER = {
+  default: 'w-6 mr-1',
+  tight: 'min-w-[1em] mr-1.5',
+} as const;
+
+/**
+ * The outcome briefing, set with the tight list gutter. A named wrapper rather
+ * than a call site that passes four `undefined`s before its options.
+ */
+export const renderBriefingText = (text: string): React.ReactNode =>
+  renderFormattedText(text, undefined, undefined, undefined, { listGutter: 'tight' });
 
 /** One line of prose: rule, heading, list item or plain text. */
 function renderLine(
@@ -1436,7 +1470,8 @@ function renderLine(
   lineIdx: number,
   verbRegex: RegExp | null,
   keywordRegex: RegExp | null,
-  onVerbClick?: () => void
+  onVerbClick: (() => void) | undefined,
+  listGutter: string
 ): React.ReactNode {
   // Horizontal rule: --- or *** or ___
   if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
@@ -1484,7 +1519,7 @@ function renderLine(
 
   const bulletElement = React.createElement(
     'span',
-    { className: 'inline-block w-6 mr-1 text-[rgb(var(--color-accent))]' },
+    { className: `inline-block ${listGutter} text-[rgb(var(--color-accent))]` },
     listMarker.endsWith('.') ? listMarker : '•'
   );
 

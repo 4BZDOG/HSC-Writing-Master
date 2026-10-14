@@ -18,6 +18,14 @@ interface CriteriaSectionProps {
 }
 
 /**
+ * Whether the row at `index` is the last of an odd count, so that at `xl`, where
+ * rows pair up, it has no partner and should span the row. Pure, so the rule is
+ * tested without a layout.
+ */
+export const isLoneLastRow = (index: number, count: number): boolean =>
+  count % 2 === 1 && index === count - 1;
+
+/**
  * The criterion-by-criterion breakdown, as rungs of the mark ladder: each row's
  * gutter is the criterion's mark, and its body is the criterion, the meter and
  * what the marker said. From `xl` two rows sit side by side, which keeps a
@@ -48,7 +56,11 @@ const CriteriaSection: React.FC<CriteriaSectionProps> = ({
       {criteria.map((criterion, idx) => (
         <div
           key={idx}
-          className="CriteriaRow animate-fade-in-up-sm min-w-0"
+          // Two columns at xl: an odd count would leave the last card alone in
+          // a half-width cell, so that card takes the whole row instead.
+          className={`CriteriaRow animate-fade-in-up-sm min-w-0 ${
+            isLoneLastRow(idx, criteria.length) ? 'xl:col-span-2' : ''
+          }`}
           style={{ animationDelay: `${Math.min(idx, 8) * 60}ms` }}
         >
           <LadderRow
