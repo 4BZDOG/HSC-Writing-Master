@@ -431,7 +431,7 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
   cannot both displace the same session. A double tap returns the same session: the
   create call carries an idempotency key made from the user, the plan, the seats and a
   five-minute bucket, and `expires_at` comes from the same bucket. Sessions now live 31
-  minutes, not 24 hours. If the displaced session was paid and its subscription is still
+  to 36 minutes, not 24 hours. If the displaced session was paid and its subscription is still
   held, the new purchase is refused and its session released. A Stripe failure while
   expiring is logged and does not block the purchase, as the brief requires. The
   residual window that leaves is §35.
@@ -667,7 +667,7 @@ the commonest first-deployment mistake.
 - **Where**: `api/_lib/openCheckout.ts`, `expireDisplacedCheckout`.
 - **Scenario**: the expiry call fails with a server error, and the follow-up read shows
   the session still open. The purchase proceeds, by the brief's rule that housekeeping
-  must not block a purchase. Both sessions are payable for up to 31 minutes. If both
+  must not block a purchase. Both sessions are payable for up to 36 minutes. If both
   are paid, the incident catches it after the fact.
 - **Suggested fix**: a sweep that expires any recorded session whose displacement
   failed, or a retry on the next checkout. Not built.

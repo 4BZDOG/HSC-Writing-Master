@@ -328,7 +328,7 @@ device, expires the earlier session and gives a new one. A double tap returns
 the same session. Before this change, two sessions could both stay payable for
 a day, and a customer who paid both was charged twice.
 
-**Sessions expire after 31 minutes**, not Stripe's default of 24 hours, so a tab
+**Sessions expire after 31 to 36 minutes**, not Stripe's default of 24 hours, so a tab
 left open overnight cannot complete a purchase. The constants are
 `CHECKOUT_LIFE_MS` and `CHECKOUT_REQUEST_BUCKET_MS` in `api/_lib/openCheckout.ts`.
 Nothing here is an environment variable.

@@ -28,8 +28,8 @@
  * purchase as well: it can still become active for up to a day. The refusal says so.
  *
  * One open checkout per user. The session created here replaces the one recorded for
- * the user, which is expired (api/_lib/openCheckout.ts). Sessions expire 31 minutes
- * after creation, not after Stripe's 24-hour default. A double tap returns the same
+ * the user, which is expired (api/_lib/openCheckout.ts). Sessions expire 31 to 36
+ * minutes after creation, not after Stripe's 24-hour default. A double tap returns the same
  * session. A refused session is expired and never returned.
  *
  * Test-mode fallback: when Stripe is unconfigured the endpoint returns a
