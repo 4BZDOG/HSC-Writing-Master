@@ -272,6 +272,65 @@ After checkout refused with 409 (a live subscription), the prompt said there was
 nothing to buy and then offered a seat picker. The picker is no longer drawn in
 that state. The same refusal would have blocked a seat purchase.
 
+### 34. The Class and School reports were a Plus feature for every teacher — P1, changed (`claude/tiers-and-gating`)
+
+The Class report (a teacher's classes) and the School report (an administrator's school) were gated
+by Plus, which every teacher holds as a staff perk. A teacher with no licence could hand on a whole
+cohort's report at no cost, while the School plan was sold on coverage. They are now `cohortReports`,
+priced at School in both policy copies. The student's own progress report stays on Plus. Class
+Insights and the cohort view stay open to staff. See `projectDocs/tier-structure.md`.
+
+**Behaviour change for existing teachers.** On a deployment that upgrades without config, a teacher
+with no licence sees the report locked. `PLAN_FEATURE_OVERRIDES=cohortReports:plus` (with the `VITE_`
+copy) restores the earlier behaviour. The server copy is UI-only, as `pdfExport` is: the PDF is built
+in the browser from figures the teacher can already read.
+
+The School tier only means something if the licence outranks a personal plan, so the order was fixed
+too. A teacher with their own Plus inside a licensed school resolved to Plus and would have been locked
+out. `applySchoolPlan` now takes the higher of the two, and `caller_plan()` (schema §17) uses the same
+order. `supabase/tests/entitlement_tests.sql` pins it, and fails against the previous order.
+
+### 35. The same lock was worded five ways, and some offered the wrong button — P1, fixed
+
+Chips, overlays, tooltips and prompts each wrote their own sentence, and a teacher could be offered an
+upgrade to a plan that held nothing more than the one they had. `describeAccess(feature, user)` is the
+one answer: the state, why it is locked (plan or role), the single call to action, and one sentence.
+Every surface in the inventory reads from it. A student is offered Plus; a teacher with no licence is
+offered the school; a student is never offered a School licence; a teacher is never offered Plus; a
+role lock (the AI Content Studio for a student) is never an upgrade; the prompt does not open for a
+feature the viewer already holds. Pinned by `tests/unit/describeAccess.test.ts` (a table over audience,
+feature and deployment override) and `tests/unit/planWordingGuard.test.ts` (fails when a component,
+hook, util, service or page writes the plan name or an upgrade call to action as a literal, with an
+explicit, checked allowlist).
+
+### 36. A teacher whose school was already licensed was offered "Buy N seats" — P1, fixed (inventory gap 1)
+
+`SchoolLicencePanel` read nothing about the school. It now says a covered school is covered and who to
+ask. A teacher or admin not attached to a school is told to ask an admin, not offered a checkout the
+server would refuse. Students no longer see the School enquiry link in a Plus prompt or the comparison.
+
+### 37. A refused school purchase was shown as a portal route, an outage, or an operator's sentence — P1, fixed
+
+The server sends a machine `code` with its refusals. `school_licence_held` (409) shows the server's
+sentence with no purchase and no portal route, because the portal belongs to the licence's buyer and
+would 404 for anyone else. Only an uncoded 409 (a live subscription) keeps "Manage subscription".
+`school_role_required` (403) reads as the role refusal it is, and `account_lookup_failed` (503) is a
+retryable check on the account. Pinned by `tests/unit/billingCodes.test.ts`.
+
+### 38. A teacher who could not buy a licence had nothing to do next — P2, added
+
+`ChampionKit` gives a teacher with no school, or whose school licence is held by someone else, a
+"Copy a note for your admin" button. The note (`utils/licenceNote.ts`) says what the licence covers,
+the per-student price, how it is paid (an invoice only where invoicing is on) and the app's address.
+The result is announced to assistive technology. If the clipboard refuses, the note appears selected
+in a read-only box. Teachers only; an admin is told to attach their own account.
+
+### 39. The exam-mode lock was hidden below `sm` (inventory gap 6) — P2, fixed
+
+The lock chip on the exam button was `max-sm:hidden`, so a phone had an amber state and no word. It is
+now a compact badge on the 44px control: the lock alone, with the plan's name kept for screen readers,
+placed inside the button so it crowds nothing.
+
 ## 3. What was checked and found sound
 
 - **Enforcement is where it claims to be.** `api/_lib/planPolicy.ts` is honest
@@ -626,20 +685,16 @@ the commonest first-deployment mistake.
   reload.**~~ — **done**, see §28. Members now re-read their plan when they return
   to the tab, at most every five minutes. The divergence this bullet described
   was safe (the server is authoritative); it is now also short.
-- **The School branch of the upgrade prompt is dead code under the shipped
-  policy.** Nothing is priced at `school`, so `sellsPlus` is always true. Kept
-  because `PLAN_FEATURE_OVERRIDES` can still reach it; worth deleting if that
-  lever is ever dropped.
-- **Plus and School are feature-identical.** The comparison's only differing row
-  is "Who it covers". That is honest, and it is also the whole pitch — worth a
-  product decision about whether School should carry something of its own
-  (class-scoped analytics is the obvious candidate) rather than a code change.
-- **A teacher or admin whose school already holds a licence is still offered
-  "Buy N seats".** `SchoolLicencePanel` does not read whether the school is
-  licensed, and `stripePlan === 'school'` does not separate a member from a buyer.
-  The server now refuses a second licence for the same school (§16 on main), so the
-  button leads to a refusal. Seat top-ups need a product decision before the panel changes
-  (section 5, gap 1 of `projectDocs/paywall-surface-inventory.md`).
+- ~~**The School branch of the upgrade prompt is dead code under the shipped
+  policy.**~~ — **done**, see §34. The class and school reports are priced at
+  School, so the branch is live: staff reach the seat purchase, or the copy-a-note
+  kit when they cannot buy (§38).
+- ~~**Plus and School are feature-identical.**~~ — **done**, see §34. School
+  carries the class and school reports, and the comparison says who each plan is for
+  and how it is paid for (`projectDocs/tier-structure.md`).
+- ~~**A teacher or admin whose school already holds a licence is still offered
+  "Buy N seats".**~~ — **done**, see §36. A covered school is told it is covered and
+  who to ask. Seat top-ups are still a product decision, and they are not offered.
 - **Displayed prices are typed into the environment, not read from Stripe.**
   `PLAN_PRICING` comes from `VITE_PLUS_*_PRICE_DISPLAY` and `VITE_SCHOOL_SEAT_PRICE_DISPLAY`.
   If one of them drifts from the Stripe Price, the prompt shows a different amount from the

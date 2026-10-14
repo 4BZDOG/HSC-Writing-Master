@@ -1,5 +1,7 @@
 # Paywall surface inventory
 
+Status, after `claude/tiers-and-gating`: the wording in sections 3a–3d now comes from `describeAccess()` (see `projectDocs/tier-structure.md`), so the per-surface sentences quoted below are the old ones. Gaps 1 and 6 in section 5 are closed. The class and school reports (`cohortReports`) are a School feature, and rows 21, 36 and 37 describe the state before that. The guard `tests/unit/planWordingGuard.test.ts` keeps the wording in one place.
+
 Status: written on branch `claude/paywall-ux`, from the source as it stands after that branch's commits. Rows marked **(changed)** were altered by this branch; the rest read as they did on `origin/main`. File and line references are to this branch and will drift; the file names are the stable part.
 
 This is a factual map, not a plan. It exists so the next wave of paywall work can start from what each person actually sees, where the same fact is said in more than one place, and which locks are about the plan and which are about the role.
