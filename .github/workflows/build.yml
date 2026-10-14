@@ -298,6 +298,10 @@ jobs:
         run: npx playwright test --project="${{ matrix.project }}" --shard=${{ matrix.shard }}/${{ matrix.shards }}
         env:
           PW_SERVERS: ${{ matrix.servers }}
+          # Three workers, not the config's two. Two was chosen when one runner
+          # hosted three browsers and both dev servers; a leg now hosts one
+          # browser and one server, so there is CPU to spare on the 4-vCPU runner.
+          PW_WORKERS: 3
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
