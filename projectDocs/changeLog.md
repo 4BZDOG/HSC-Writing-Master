@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (Schools can ask for an invoice: the school's request screen)
+
+- **Added.** A teacher or admin at a school can ask for the licence to be invoiced. Under the School seat picker, behind a "Pay by invoice or purchase order" disclosure, the form takes the billing name, accounts email, an Australian address, and optionally the ABN, purchase order number and a note. Once sent, the panel shows the request: pending, approved (the invoice link), or declined (the administrator's note, and the form again). Students see one line that a teacher or admin can ask.
+- **Changed.** `SchoolLicencePanel` mounts the form and one sentence. Nothing else in the upgrade prompt or the comparison moved.
+- **Operator.** The app's copy of the switch is `VITE_SCHOOL_INVOICE_ENABLED`, read at build time. Set it to `false` and rebuild to hide the route in the app. The route is drawn only when `VITE_STRIPE_SCHOOL_PRICE_ID` is set. No schema change: this needs the `licence_requests` table from §27, which the server half already requires.
+- **Not done.** The approval queue (`claude/school-invoice-admin`), a notification when a request arrives, withdrawing a request, and showing a teacher a colleague's pending request before they send their own.
+- See `docs/stripesetup.md`, "Invoiced school licences (purchase orders)", and `projectDocs/monetisation-review-2026-09.md` §30.
+
 ## [Unreleased] - 2026-10-14 (paywall: say what is charged, and match the plan)
 
 - **Changed.** The upgrade prompt states the amount, the renewal and how to stop. It no longer offers "Keep me posted" when nothing is on sale, and it offers no seat picker once checkout has refused because a subscription is live. Paid plans read "No daily limit", not "Unlimited", in the prompt, the comparison and the profile card. The comparison opens with its own header. The free counter at zero opens the daily-limit prompt.
