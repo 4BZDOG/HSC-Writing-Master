@@ -541,7 +541,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             background: cardHeaderWash(verbInfo.tier),
           }}
         >
-          <MeshOverlay opacity="opacity-20" />
+          {/* Matches the writing card's header grid (see Editor), so the pair
+              keeps one texture. */}
+          <MeshOverlay opacity="opacity-10" />
 
           <div ref={headerContentRef} className={CARD_HEADER_ROW}>
             {/* Left: Icon + Hero Title */}
