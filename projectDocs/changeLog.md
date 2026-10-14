@@ -1,5 +1,34 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-14 (CI: the E2E suite runs in parallel)
+
+- **Changed.** The E2E suite is one job per browser project instead of one long job, and no longer waits for
+  lint to finish. A pull request's whole pipeline went from about 20 minutes to about 10, and a push to main
+  from 35–50 minutes to about 11 (the first 8-leg run on main took 10m39s). The legs come from
+  `scripts/e2eMatrix.mjs`; a gate job keeps the check name "E2E Tests"; each leg installs and caches only the
+  browser it launches. On CI the log now lists every test with its duration, and video is recorded only from the
+  first retry.
+- **Fixed.** `openWorkspaceQuestion` failed about one run in seven: the picker walk clicked a disabled question
+  (the free tier cannot open tiers above 3) and waited out its budget. It now skips questions the account cannot
+  open. Also fixed: a race in `class-analytics-ranking` that read the table while a spinner replaced it.
+- **Learned.** Bounding a WebKit click at 10 s in a shared helper made eight Mobile Safari tests fail on the
+  loaded runner; helper actions that run on WebKit keep at least 30 s.
+
+## [Unreleased] - 2026-10-14 (A toast's action is reachable by keyboard over a dialog)
+
+- **Fixed.** A toast with an action ("Undo", "Go to it") raised while a dialog was open could be pressed
+  with a mouse but not reached with Tab. The toast is portalled to `<body>` at `z-toast`, above the
+  improvement review, so it was on screen and on top; the focus trap only knew its own subtree and wrapped
+  Tab round the dialog's controls. `useFocusTrap` now takes a marked "companion" region into the cycle
+  (dialog controls, then the toast's, then round), and `App` marks the toast's mount with
+  `focusTrapCompanion`. No dialog changes.
+- **Not loosened.** Only a marked region is exempt: an unmarked portal, or the page behind, is still pulled
+  back into the dialog. A toast covered by a higher dialog (confirm, rename, flag sit above it) is skipped,
+  by asking the browser what is painted at its centre, so Tab never lands on a control nobody can see.
+- **Not done.** After the toast closes with focus on it, focus falls to `<body>` until the next Tab, which
+  the trap sends back into the dialog. The toast's countdown also still runs while focus is on it; it only
+  pauses for the mouse.
+
 ## [Unreleased] - 2026-10-13 (Light-theme surfaces, round 1, and guards for what slipped)
 
 - **Fixed.** The light theme's white slabs were redrawn on the depth ladder, as Plan-FrontendDesignReview

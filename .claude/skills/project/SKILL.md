@@ -54,6 +54,22 @@ component pulls the whole admin chunk into every student's first load, and it
 only shows in a production build. It is now part of `test:all` too; it takes
 about 20 seconds.
 
+### How CI runs the E2E suite
+
+CI runs one job per Playwright project, side by side, not one long job. The legs
+come from `scripts/e2eMatrix.mjs` (`node scripts/e2eMatrix.mjs pull_request`
+prints a PR's, `push` prints main's); a pull request runs Chromium, Mobile
+Safari and the Supabase project, and a push to main adds Firefox, desktop WebKit
+and Mobile Chrome. The slow WebKit pair is split into shards. A gate job keeps
+the check name **E2E Tests**, so anything waiting on that name still finds it.
+
+To run one leg locally: `npx playwright test --project=chromium` (add
+`--shard=1/2` for half of it). Only Chromium is installed in the development
+container, so WebKit and Firefox answers come from CI: a test that passes here
+can still fail on Mobile Safari, and a click that resolves in ~100 ms in
+Chromium can take much longer on a loaded WebKit runner, so do not put a short
+timeout on a helper action that WebKit runs (it broke eight tests once).
+
 Copy `.env.example` to `.env.local` for local setup. Husky + lint-staged run on
 commit — fix failures rather than using `--no-verify`.
 
