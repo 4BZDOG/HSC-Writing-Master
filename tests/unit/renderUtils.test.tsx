@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import React from 'react';
 import {
   createKeywordRegex,
@@ -7,6 +8,7 @@ import {
   renderBriefingText,
   renderEditorHighlights,
   renderFormattedText,
+  type FormattedTextOptions,
   textContainsKeyword,
 } from '../../utils/renderUtils';
 
@@ -400,30 +402,70 @@ describe('the keyword matcher’s memo', () => {
 });
 
 /**
- * List markers. A question's list keeps the gutter it has always had; the
- * outcome briefing sets its short lists with a tighter one, so the bullet is
- * not a wide hole before each line.
+ * List markers. The marker stays inline with its words, so a copied list reads
+ * "•first point" as it always has. A wrapped line hangs from the words: the
+ * gutter is set once in renderUtils, and the marker's box and the hang are both
+ * drawn from that one value.
  */
 describe('list markers in prose', () => {
-  it('keeps the default gutter for a question’s list', () => {
-    const { container } = render(<div>{renderFormattedText('- first point')}</div>);
-    const marker = container.querySelector('span.inline-block');
+  const markup = (text: string, options?: FormattedTextOptions) =>
+    renderToStaticMarkup(
+      <div>{renderFormattedText(text, undefined, undefined, undefined, options)}</div>
+    );
 
-    expect(marker?.className).toContain('w-6');
-    expect(marker?.className).toContain('mr-1');
-    expect(marker?.className).not.toContain('min-w-[1em]');
+  it('keeps the default gutter for a question’s list', () => {
+    expect(markup('- first point')).toContain('min-width:1.5rem;margin-right:0.25rem');
   });
 
   it('sets the briefing’s bullets in the tight gutter', () => {
-    const { container } = render(<div>{renderBriefingText('- first point\n- second')}</div>);
-    const markers = Array.from(container.querySelectorAll('span.inline-block'));
+    const html = markup('- first point\n- second', { listGutter: 'tight' });
 
-    expect(markers.length).toBe(2);
-    for (const marker of markers) {
-      expect(marker.className).toContain('min-w-[1em]');
-      expect(marker.className).toContain('mr-1.5');
-      expect(marker.className).not.toContain('w-6');
-    }
+    expect(html.match(/min-width:1em;margin-right:0\.375rem/g)?.length).toBe(2);
+    expect(html).not.toContain('min-width:1.5rem');
+  });
+
+  it('hangs a wrapped line by the gutter, from the same value the marker uses', () => {
+    expect(markup('- a long point')).toContain(
+      'padding-left:calc(1.5rem + 0.25rem);text-indent:calc(calc(1.5rem + 0.25rem) * -1)'
+    );
+    expect(markup('- a long point', { listGutter: 'tight' })).toContain(
+      'padding-left:calc(1em + 0.375rem);text-indent:calc(calc(1em + 0.375rem) * -1)'
+    );
+  });
+
+  it('keeps the marker inline with the words, with no flex wrapper', () => {
+    const { container } = render(<div>{renderFormattedText('- first point')}</div>);
+
+    expect(container.querySelector('.flex')).toBeNull();
+    // Copying or reading the list gives the marker and the words with no break
+    // between them, as the old inline markup did.
+    expect(container.textContent).toBe('•first point');
+  });
+
+  it('keeps a numbered marker inline with its words', () => {
+    const { container } = render(<div>{renderFormattedText('1. Name the claim')}</div>);
+
+    expect(container.textContent).toBe('1.Name the claim');
+  });
+
+  it('indents a nested item by its level, outside the hang', () => {
+    expect(markup('  - nested point')).toContain(
+      '<div style="padding-left:20px"><span class="block'
+    );
+  });
+
+  it('leaves a line that is not a list item as a plain block', () => {
+    const html = markup('A sentence, not a list.');
+
+    expect(html).toBe(
+      '<div><span class="block min-h-[1.5em]">A sentence, not a list.</span></div>'
+    );
+  });
+
+  it('resets the hang inside the words, so a fraction in an item is not pulled back', () => {
+    // Fractions are inline-flex, and the text-indent they would inherit would start
+    // their first line a gutter to the left.
+    expect(markup('- Work out \\frac{3}{4} of it')).toContain('<span style="text-indent:0">');
   });
 
   it('keeps the same words and the same list in both', () => {

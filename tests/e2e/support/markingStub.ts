@@ -6,8 +6,8 @@ import { Page } from '@playwright/test';
  * command verb is read back from the marking request, so the fixture follows
  * the question the workspace opened first.
  *
- * Kept here rather than in that spec so a second spec can reach the same
- * surfaces. That spec still carries its own copy, which is a follow-up.
+ * Shared by every spec that reaches the feedback modal, so the fixture and the
+ * answer it marks live in one place.
  */
 export const stubMarking = (page: Page) =>
   page.route('**/api/gemini', (route) => {

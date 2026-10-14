@@ -1467,10 +1467,17 @@ export interface FormattedTextOptions {
   listGutter?: 'default' | 'tight';
 }
 
+/**
+ * A list marker's box: at least `min` wide, then `gap` clear of the words. The
+ * marker takes these lengths, and so does the hang its wrapped lines keep
+ * (`min + gap`, where the words start), so the two come from one value.
+ */
 const LIST_GUTTER = {
-  default: 'w-6 mr-1',
-  tight: 'min-w-[1em] mr-1.5',
+  default: { min: '1.5rem', gap: '0.25rem' },
+  tight: { min: '1em', gap: '0.375rem' },
 } as const;
+
+type ListGutter = { min: string; gap: string };
 
 /**
  * The outcome briefing, set with the tight list gutter. A named wrapper rather
@@ -1486,7 +1493,7 @@ function renderLine(
   verbRegex: RegExp | null,
   keywordRegex: RegExp | null,
   onVerbClick: (() => void) | undefined,
-  listGutter: string
+  gutter: ListGutter
 ): React.ReactNode {
   // Horizontal rule: --- or *** or ___
   if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
@@ -1532,27 +1539,40 @@ function renderLine(
 
   const parts = processInlineFormatting(content, verbRegex, keywordRegex, onVerbClick);
 
-  const bulletElement = React.createElement(
+  if (!isListItem) {
+    return React.createElement('span', { key: lineIdx, className: 'block min-h-[1.5em]' }, parts);
+  }
+
+  // The marker stays inline with the words, so copying or reading the list gives
+  // "•first point", as it always has. The hang is CSS: the line is indented by
+  // the gutter and pulled back by it on its first line, so the marker sits in
+  // the gutter and a wrapped line starts where the words start.
+  const hang = `calc(${gutter.min} + ${gutter.gap})`;
+  const marker = React.createElement(
     'span',
-    { className: `inline-block ${listGutter} text-[rgb(var(--color-accent))]` },
+    {
+      className: 'inline-block text-[rgb(var(--color-accent))]',
+      style: { minWidth: gutter.min, marginRight: gutter.gap },
+    },
     listMarker.endsWith('.') ? listMarker : '•'
   );
+  // Reset for the words: text-indent is inherited, and a fraction or other
+  // block inside them would otherwise start pulled back by the same hang.
+  const words = React.createElement('span', { style: { textIndent: 0 } }, parts);
 
-  const renderedLine = React.createElement(
-    'span',
-    { key: lineIdx, className: 'block min-h-[1.5em]' },
-    isListItem && bulletElement,
-    parts
+  return React.createElement(
+    'div',
+    { key: lineIdx, style: { paddingLeft: `${indentLevel * 10}px` } },
+    React.createElement(
+      'span',
+      {
+        className: 'block min-h-[1.5em]',
+        style: { paddingLeft: hang, textIndent: `calc(${hang} * -1)` },
+      },
+      marker,
+      words
+    )
   );
-
-  if (isListItem) {
-    return React.createElement(
-      'div',
-      { key: lineIdx, style: { paddingLeft: `${indentLevel * 10 + (isListItem ? 0 : 0)}px` } },
-      renderedLine
-    );
-  }
-  return renderedLine;
 }
 
 export const renderEditorHighlights = (

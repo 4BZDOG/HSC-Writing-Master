@@ -19,11 +19,13 @@ import {
   setTheme,
   dismissAll,
   openWorkspaceQuestion,
+  openQuestionAtPath,
   openProfile,
   openVerbSheet,
   openOutcomeBrief,
   openFeedbackAfterMarking,
 } from './support/surfaces';
+import { questionPathPerTier } from './support/bandQuestions';
 
 /**
  * The light theme, held to the same standard as the dark one.
@@ -275,14 +277,12 @@ test.describe('light theme, past the first screen', () => {
  * are fixed, so it passes on main, and a regression in any of them fails here.
  *
  * What a green run does NOT show:
- *   - Bands 2-6. A header's ground follows the band of the question on screen,
- *     and the workspace opens on whichever question loads first, so these tests
- *     see one band. The ground for every band, in both themes, is pinned by
- *     tests/unit/cardHeaderWashContrast.test.ts, which reads the same table the
- *     app draws from. What it cannot see is a component that paints the header
- *     some other way, which is why the header itself is measured here too.
- *   - Anything not on the four surfaces below. The marking report is measured
- *     only through its feedback modal, in the feedback test.
+ *   - Anything not on the surfaces below. The marking report is measured only
+ *     through its feedback modal, in the feedback test.
+ *   - The bands are measured on the workspace's card headers, opened one per band
+ *     from the bundled curriculum (the every-band test below). The table of
+ *     grounds for every band is also pinned by tests/unit/cardHeaderWashContrast.test.ts,
+ *     which reads the same table the app draws from.
  */
 
 /** The surfaces the user's session reaches, measured in both themes. */
@@ -370,6 +370,57 @@ test.describe('text over gradients, the surfaces that shipped unseen', () => {
       if (problem) failing.push(problem);
       await dismissAll(page);
     }
+    expect(failing, 'text below its floor over a gradient').toEqual([]);
+  });
+
+  test('text over gradients meets AA in both themes: the card header of every band', async ({
+    page,
+  }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize(WIDE);
+    // A teacher, because the free account cannot open a question above tier 3: the
+    // workspace shows its locked notice in place of the card, so no header is drawn.
+    await signIn(page, 'teacher');
+    await clearOnboarding(page);
+
+    const paths = await questionPathPerTier(page);
+    // The bundled curriculum has a question at every tier. If it ever loses one, the
+    // run says so, rather than measuring five bands and passing.
+    for (let tier = 1; tier <= 6; tier++) {
+      expect(paths.has(tier), `the bundled curriculum has no question at tier ${tier}`).toBe(true);
+    }
+    // The first question is opened through the pickers, and only then are the bands
+    // reloaded into. A reload straight after the import can beat the curriculum's save
+    // to IndexedDB: the app then starts with no courses, drops the path and opens the
+    // import prompt again.
+    await openFirstQuestion(page);
+
+    const failing: string[] = [];
+    const headerColour = new Map<number, string>();
+    for (let tier = 1; tier <= 6; tier++) {
+      await openQuestionAtPath(page, paths.get(tier)!);
+      const root = page.locator('.rounded-t-surface-inner');
+      for (const theme of ['light', 'dark'] as const) {
+        await setTheme(page, theme);
+        await page.waitForTimeout(800);
+        await freezeAnimations(page);
+        if (theme === 'light') {
+          headerColour.set(
+            tier,
+            await root.first().evaluate((el) => getComputedStyle(el).backgroundColor)
+          );
+        }
+        const problem = await gradientFailures(page, `band ${tier} card header`, theme, root);
+        if (problem) failing.push(problem);
+      }
+    }
+
+    // A header that was not drawn in its own band would measure a neighbour's colour
+    // and look like a pass, so each band has to paint a colour no other band paints.
+    expect(
+      new Set(headerColour.values()).size,
+      `card header colours by band: ${JSON.stringify([...headerColour])}`
+    ).toBe(6);
     expect(failing, 'text below its floor over a gradient').toEqual([]);
   });
 });

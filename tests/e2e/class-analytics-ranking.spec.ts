@@ -406,16 +406,35 @@ const login = async (page: Page, persona: Persona) => {
   }
 };
 
-/** Dimension labels in the Class Insights table, top (weakest) first. */
-const rankedLabels = async (page: Page): Promise<string[]> => {
-  const cells = page.locator('table tbody tr td:first-child');
-  await expect(cells.first()).toBeVisible({ timeout: 20_000 });
-  const labels = await cells.allInnerTexts();
+/**
+ * Dimension labels in the Class Insights table, top (weakest) first, as they
+ * stand at this instant. Does not wait: a read taken straight after a dimension
+ * tab is clicked can land in the spinner that replaces the table while the new
+ * dimension loads, and returns nothing. Use `expect.poll` on this to wait for the
+ * result instead.
+ */
+const readRankedLabels = async (page: Page): Promise<string[]> => {
+  const labels = await page.locator('table tbody tr td:first-child').allInnerTexts();
   // A verb cell also carries a tier badge, which innerText concatenates with no
   // separator ("DESCRIBEB2"). Strip that trailing badge, not the whole label —
   // topic labels contain spaces and must survive intact.
   return labels.map((t) => t.trim().replace(/\s*B\d$/, ''));
 };
+
+/** The table's labels once it is on screen, for a read that is not after a tab click. */
+const rankedLabels = async (page: Page): Promise<string[]> => {
+  await expect(page.locator('table tbody tr td:first-child').first()).toBeVisible({
+    timeout: 20_000,
+  });
+  return readRankedLabels(page);
+};
+
+/**
+ * How long a read after a dimension tab may wait for its rows. The tab reloads the
+ * analytics, and the supabase-chromium leg runs on a loaded CI runner, so this is
+ * the wait for the result, not a deadline on the page.
+ */
+const RANKING_SETTLE_MS = 30_000;
 
 test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () => {
   test.setTimeout(90_000);
@@ -457,15 +476,13 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await openHeaderTool(page, /class insights/i);
     await page.getByRole('button', { name: /by topic/i }).click();
 
-    const topics = await rankedLabels(page);
     // Data visualisation loses the most marks (24.3%) despite NOT having the
     // highest band ≤ 3 rate — Intelligent systems does, at 100%, and ranks last.
-    expect(topics).toEqual([
-      'Data visualisation',
-      'Enterprise project',
-      'Data science',
-      'Intelligent systems',
-    ]);
+    // Polled, not read once: the tab swaps the table for a spinner while the topic
+    // analytics load, so a single read can find no rows at all.
+    await expect
+      .poll(() => readRankedLabels(page), { timeout: RANKING_SETTLE_MS })
+      .toEqual(['Data visualisation', 'Enterprise project', 'Data science', 'Intelligent systems']);
   });
 
   test('Student Progress tier bars track marks, so they do not draw a staircase', async ({
@@ -505,13 +522,16 @@ test.describe('Weakness ranking uses marks, not bands (stubbed Supabase)', () =>
     await openHeaderTool(page, /class insights/i);
     await page.getByRole('button', { name: /by student/i }).click();
 
-    // Heatmap: weakest student first, so Kayla leads and Chen is last.
+    // Heatmap: weakest student first, so Kayla leads and Chen is last. Polled for
+    // the same reason as the topic tab: the rows are reloaded after the click.
     const names = page.locator('table tbody tr td:first-child');
-    await expect(names.first()).toBeVisible({ timeout: 20_000 });
     // innerText concatenates the attempt count onto the username with no
     // separator ("demo.kayla14"), so strip the trailing digits.
-    const order = (await names.allInnerTexts()).map((t) => t.trim().replace(/\s*\d+$/, ''));
-    expect(order).toEqual(['demo.kayla', 'demo.olivia', 'demo.chen']);
+    await expect
+      .poll(async () => (await names.allInnerTexts()).map((t) => t.trim().replace(/\s*\d+$/, '')), {
+        timeout: RANKING_SETTLE_MS,
+      })
+      .toEqual(['demo.kayla', 'demo.olivia', 'demo.chen']);
 
     // Olivia's row is the point of the view: strong on tier 2, collapsed on tier 6.
     const olivia = page.locator('tr', { hasText: 'demo.olivia' });

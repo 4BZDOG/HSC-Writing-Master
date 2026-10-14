@@ -608,11 +608,15 @@ The interface has two type voices and one rule for choosing between them.
 
 **Caps mark a boundary. They never mark a caption, a value or a notice.**
 
-| Token        | Face  | Treatment                        | What wears it                                          |
-| ------------ | ----- | -------------------------------- | ------------------------------------------------------ |
-| `.t-display` | Inter | 900, italic, caps, `text-lg`+    | The product's name and the two workspace card headings |
-| `.t-section` | Inter | 900, italic, caps, 12px, tracked | A heading that divides a panel into named parts        |
-| `.t-label`   | Plex  | 500, sentence case, 12px         | Everything smaller: captions, stat names, chips        |
+| Token        | Face  | Treatment                        | What wears it                                                                           |
+| ------------ | ----- | -------------------------------- | --------------------------------------------------------------------------------------- |
+| `.t-display` | Inter | 900, italic, caps, `text-lg`+    | The product's name and the two workspace card headings                                  |
+| `.t-section` | Inter | 900, italic, caps, 12px, tracked | A heading that divides a panel into named parts: admin tools, import, the question card |
+| `.t-label`   | Plex  | 500, sentence case, 12px         | Everything smaller: captions, stat names, chips                                         |
+
+The workspace rail is not one of the `.t-section` surfaces. Its panel names are
+set by `PANEL_NAME` in `components/PanelDisclosure.tsx`: sentence case, bold, 16px,
+the same voice as the marking report's section headings.
 
 One level of heading wears the voice; the caption inside it never does. That is
 the whole rule, and it decides the cases that used to need a judgement call each
