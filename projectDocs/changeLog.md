@@ -8,6 +8,14 @@
 - **Added.** `billing_incidents` records a user holding two live subscriptions, a school licence replaced while live, and a customer mismatch. Nothing is cancelled or refunded automatically. The operator resolves each in the Stripe Dashboard (`docs/stripesetup.md`, "When a billing incident is open").
 - **Operator.** Re-apply schema §13: it adds `checkout_sessions` and `billing_incidents`. Until then checkout behaves as before. No environment variable changed. New open findings §34–§37 are recorded in `projectDocs/monetisation-review-2026-09.md`.
 
+## [Unreleased] - 2026-10-14 (Schools can ask for an invoice: the school's request screen)
+
+- **Added.** A teacher or admin at a school can ask for the licence to be invoiced. Under the School seat picker, behind a "Pay by invoice or purchase order" disclosure, the form takes the billing name, accounts email, an Australian address, and optionally the ABN, purchase order number and a note. Once sent, the panel shows the request: pending, approved (the invoice link), or declined (the administrator's note, and the form again). Students see one line that a teacher or admin can ask.
+- **Changed.** `SchoolLicencePanel` mounts the form and one sentence. Nothing else in the upgrade prompt or the comparison moved.
+- **Operator.** The app's copy of the switch is `VITE_SCHOOL_INVOICE_ENABLED`, read at build time. Set it to `false` and rebuild to hide the route in the app. The route is drawn only when `VITE_STRIPE_SCHOOL_PRICE_ID` is set. No schema change: this needs the `licence_requests` table from §27, which the server half already requires.
+- **Not done.** A notification when a request arrives, withdrawing a request, and showing a teacher a colleague's pending request before they send their own. The approval queue is in the Billing overview (see the entry below).
+- See `docs/stripesetup.md`, "Invoiced school licences (purchase orders)", and `projectDocs/monetisation-review-2026-09.md` §30.
+
 ## [Unreleased] - 2026-10-14 (Approve or decline purchase orders from the Billing overview)
 
 - **Added.** The Billing overview lists pending school invoice requests at the top of "Needs attention", oldest

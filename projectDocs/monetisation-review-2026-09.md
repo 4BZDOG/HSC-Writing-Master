@@ -612,12 +612,26 @@ is wrong:
 - **A failed send is not tolerated just because the invoice is open.** An open
   invoice may never have been emailed. Only a paid one needs no send.
 
+**The school's side is on `claude/school-invoice-client`.** The request form is
+`components/InvoiceRequestForm.tsx`, mounted under the School seat picker in
+`components/SchoolLicencePanel.tsx`. It shows the requester's own request in
+place of the form: pending, approved with the Stripe invoice link (https only),
+or declined with the administrator's note and the form again. Its rules are the
+server's: the switch, the length caps, the states list and the ABN check are
+pinned to `api/_lib/schoolLicence.ts` by tests. The reachability test starts on
+the profile's Settings tab, presses Compare Plans, and sends the form through to
+a recorded request.
+
 **What remains open:**
 
-- **The request screen, on the school's side.** The approval screen is built, so an
-  admin can now approve and decline from the Billing overview. The school's request
-  form and its Pending, Approved and Declined states are a separate change. Until it
-  lands, nothing in the app lets a school ask for an invoice.
+- ~~**The request and approval screens.**~~ **Done.** The school's request form is
+  under the School seat picker (above). The approval queue is the "Invoice requests"
+  group in the admin Billing overview. One gap remains, in the next bullet.
+- **A teacher cannot see a colleague's pending request until they send their own.**
+  The school's read is limited to the requester's own rows, and the summary of
+  someone else's request comes back only from the POST. The form therefore shows
+  the form again on a later open, not the summary. A read that returns the school's
+  pending request's summary (an RPC or a GET on the request endpoint) would close it.
 - **A near-simultaneous second approval.** The live-licence check reads the
   `schools` row, which the webhook writes a moment after the subscription is
   created. Two approvals for one school in that gap are both allowed. Closing it
@@ -629,8 +643,8 @@ is wrong:
   when a request is made. Closing this needs a notification route, which is a
   product decision (an email to the platform admins, or a daily digest).
 - **A requester cannot withdraw a request.** The table has a `cancelled` status, but
-  no endpoint sets it. A wrong request therefore blocks the school from asking again
-  until an admin declines it.
+  no endpoint sets it, and the form offers no withdraw either. A wrong request
+  therefore blocks the school from asking again until an admin declines it.
 - **Overdue-invoice wording.** The billing banner says "update your payment",
   which is wrong for an unpaid invoice. The overdue wording is not written.
 - **ABN on a reused customer.** The ABN is attached only when a customer is created.

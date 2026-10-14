@@ -25,6 +25,7 @@ const EXCLAIMED_LITERAL = /(['"`])[^'"`\n]*![^'"`\n]*\1/g;
 const PAYER_SURFACES = [
   'components/UpgradeModal.tsx',
   'components/SchoolLicencePanel.tsx',
+  'components/InvoiceRequestForm.tsx',
   'components/PlanComparison.tsx',
   'components/BillingAlertBanner.tsx',
   'utils/billingMessages.ts',

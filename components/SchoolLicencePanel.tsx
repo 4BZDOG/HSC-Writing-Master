@@ -12,6 +12,8 @@ import {
 } from '../services/entitlements';
 import type { User } from '../types';
 import { billingErrorMessage } from '../utils/billingMessages';
+import { invoicedLicencesEnabled } from '../services/licenceRequestService';
+import InvoiceRequestForm from './InvoiceRequestForm';
 
 /**
  * The School licence route: a seat purchase for staff, an enquiry link for
@@ -92,6 +94,12 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             Buying for a class or school? Ask about a school licence
           </button>
         )}
+        {invoicedLicencesEnabled() && (
+          <p className="mt-2 text-xs font-medium leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-600">
+            Invoices and purchase orders are accepted for school licences. A teacher or admin at the
+            school asks for one.
+          </p>
+        )}
       </div>
     );
   }
@@ -157,6 +165,13 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
         Everyone in your school gets {PLAN_LABELS.school} while the licence is active. Check that
         your school is set up in the app and that you are listed in it before you buy.
       </p>
+      {/* The card stays the headline; an invoice or purchase order is the second route. */}
+      {invoicedLicencesEnabled() && (
+        <InvoiceRequestForm
+          seats={seats}
+          className="mt-4 pt-4 border-t border-indigo-500/20 light:border-indigo-200"
+        />
+      )}
     </div>
   );
 };
