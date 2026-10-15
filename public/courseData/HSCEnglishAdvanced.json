@@ -698,6 +698,68 @@
                       }
                     ],
                     "scenario": "A student is interpreting the ending of an invented poem, 'Low Tide at Marrow Point', which uses images of waiting and a slow tide, and ends with the question 'Who will walk the flat sand with him?' on its own line after a pause."
+                  },
+                  {
+                    "id": "prompt-ea-78",
+                    "question": "Analyse how the representation of particular lives in your prescribed text enriches your understanding of the endurance of the human spirit. In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EAV-12-01",
+                      "EAV-12-06"
+                    ],
+                    "markerNotes": [
+                      "The strongest responses treat particular lives as the mechanism of the argument. They show how one man's ordinary, private life lets the reader feel endurance rather than only naming it.",
+                      "Be precise about what endures. Winston's diary, his memory of his mother and his feeling for Julia are the evidence, and the ending is the test those acts must survive.",
+                      "A stronger conclusion weighs the ending against the earlier acts rather than summarising the plot towards it."
+                    ],
+                    "commonStudentErrors": [
+                      "Treating endurance as heroic resistance and ignoring the ending, so Winston is described as a victor rather than as a man who has been broken.",
+                      "Summarising the plot from the arrest to Room 101 without linking any event to the human spirit.",
+                      "Asserting that Winston stays strong to the end, which contradicts the closing sentence of the novel.",
+                      "Describing the Ministry of Truth's rewriting work without explaining how it bears on Winston's particular life."
+                    ],
+                    "keywords": [
+                      "particular lives",
+                      "endurance of the human spirit",
+                      "prescribed text",
+                      "Winston Smith",
+                      "Julia",
+                      "Room 101",
+                      "Ministry of Truth",
+                      "the diary"
+                    ],
+                    "markingCriteria": "17-20 marks: Analyses skilfully how the representation of particular lives in their prescribed text enriches their understanding of the endurance of the human spirit; Presents a perceptive response supported by well-chosen textual references from the prescribed text; Writes a coherent and sustained response using language appropriate to audience, purpose and context\n13-16 marks: Analyses effectively how the representation of particular lives in their prescribed text enriches their understanding of the endurance of the human spirit; Presents a thoughtful response supported by relevant textual references from the prescribed text; Writes an organised response using language appropriate to audience, purpose and context\n9-12 marks: Explains how the representation of particular lives in their prescribed text enriches their understanding of the endurance of the human spirit; Presents a response supported by some textual references from the prescribed text; Writes a response using variable control of language appropriate to audience, purpose and context\n5-8 marks: Expresses limited understanding of how the representation of particular lives in their prescribed text enriches their understanding of the human spirit; Describes aspects of the prescribed text; Writes a response with limited control of language\n1-4 marks: Refers to the prescribed text in a minimal way; Attempts to compose a response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-78-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Orwell's Winston Smith is no hero in the conventional sense. He is a minor functionary at the Ministry of Truth, a man whose daily work is to rewrite the past so that the Party's predictions always appear correct. Nineteen Eighty-Four asks what a human spirit can keep when every record is being altered, and the representation of Winston's particular life answers that question more fully than a general account of oppression could. Through one ordinary and increasingly hunted man, the novel shows that endurance is not a loud defiance but a private and daily refusal, and that its survival depends on the parts of a self the Party cannot reach.\n\nThe diary is the first and clearest act of endurance. Winston buys a blank book from Mr Charrington's shop and writes in it, an act the Party would treat as thoughtcrime. The entry he makes, DOWN WITH BIG BROTHER, is politically useless on its own, yet Orwell lets it stand as proof that a mind has refused the Party's account of things. Here the particular life carries the concept. The spirit does not need an audience in order to endure. It needs only a private place to keep its record, and the notebook becomes the first measure of how much of himself Winston has kept.\n\nHis affair with Julia gives the novel a second form of endurance, one that concerns the body and the desire the Party seeks to regulate. Julia passes him a note saying I love you, and their meetings in the room above Mr Charrington's shop, which has no telescreen, create a space where Winston can be a particular man rather than a Party member. Orwell's choice is careful. The room feels safe only because the Party has not yet looked, and its discovery shows that the private world was always under watch. Julia is a useful counterpoint, since she wants pleasure and rule-breaking more than political rebellion. Endurance, the novel suggests, takes different forms in different people.\n\nThe memory of his mother is the most intimate form of endurance in the text. Winston recalls a rainy afternoon in childhood, shortly before she disappeared, when she played Snakes and Ladders with him by candlelight. He pushes the memory away by telling himself it is false, yet it returns. Orwell presents this as the spirit's inheritance: not ideas, which the Party can rewrite, but feelings and family that the state has no official record of. This is the particular life at its most human, a child's happiness held by a man who has been taught to distrust it.\n\nOrwell then tests that private endurance against the machinery of the Ministry of Love. Winston learns that O'Brien, whom he had trusted as a member of the Brotherhood, is a Party agent. In Room 101, where each prisoner meets his worst fear, Winston's fear is rats, and he asks that Julia be tortured instead of him. This is the novel's sharpest assessment of endurance. The spirit can hold out against pain for a long time, but it cannot hold out against the choice between its own body and the person it loves. Here the particular life becomes the means by which the Party breaks the reader's hope.\n\nThe final sentence, He loved Big Brother., forces the question of whether the spirit has endured at all. The scene is the Chestnut Tree Cafe, where Winston looks up at the enormous poster of Big Brother. His closeness with Julia has gone cold: when they meet again he feels nothing for her, and he lets a crowd separate them without trying to find her. Some readers take the ending as the Party's complete victory, since it has won his love as well as his obedience, and the text's details support that reading. Yet the novel also makes its reader feel the cost, because the diary, the memory and the affair are the evidence of a self that existed and was undone.\n\nWinston's life therefore enriches the concept of endurance in an uncomfortable way. Orwell does not give the reader a heroic survivor. He offers a man whose spirit persists in small acts until the state reaches the one place it cannot tolerate, which is the inner life of memory and desire. The endurance the novel represents is real but conditional, lasting only as long as the Party has not yet looked. In this sense Winston's particular life makes an abstract idea concrete, and it leaves the reader to decide whether a spirit that has been broken can still be called enduring.",
+                        "feedback": "Meets the top criteria row: the response analyses how Winston's particular life enriches the idea of endurance, with close reference to the diary, the room above Charrington's shop, the memory of his mother and the closing sentence. The conclusion is where the argument could sharpen further, by weighing the cost of the ending more precisely against the earlier acts.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-78-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Winston Smith, the central figure of Orwell's Nineteen Eighty-Four, lives in a society where the Party controls every part of life. Because the novel follows one man's life closely, the reader comes to understand how the Party affects an individual, and this helps us think about the endurance of the human spirit.\n\nWinston's first act of rebellion is his diary. He buys it from Mr Charrington's shop and writes in it, even though this is a crime. He writes DOWN WITH BIG BROTHER, which shows that he still has his own thoughts. This is a small act, but it shows that the human spirit can survive in private even when it is watched. The diary is the one place where Winston can be honest with himself, which matters in a world where every word can be overheard.\n\nWinston's relationship with Julia is another form of endurance. Julia gives him a note saying I love you and they meet in a room above the shop. The room has no telescreen, so they feel safe there. However, the room is a trap set by the Thought Police, and Winston is arrested. This shows that the private life Winston builds is always in danger.\n\nHis memories of his mother are also important. He remembers playing Snakes and Ladders with her when he was a child. He tries to push the memory away because he thinks it is false, but it keeps coming back. This suggests that feelings and family are harder for the Party to control than ideas.\n\nIn the Ministry of Love, Winston is tortured. He finds out that O'Brien is a Party agent and not a member of the Brotherhood. In Room 101 he is threatened with rats, his greatest fear, and he asks for Julia to be tortured instead. This is a painful moment, and it shows that the spirit has limits. Winston is forced to choose between himself and Julia, and the choice shows how far the Party can push him.\n\nAt the end of the novel, Winston is released and sits in the Chestnut Tree Cafe. He looks at the poster of Big Brother, and the last sentence says that he loved Big Brother. This means the Party has won. Winston has lost his feelings for Julia and has accepted the Party's control.\n\nIn conclusion, Winston's life shows the endurance of the human spirit in the early parts of the novel, but the ending shows that it can be broken.",
+                        "feedback": "Meets the middle criteria row: the response explains how Winston's life relates to endurance and refers to the diary, Julia and Room 101, but the references are thinner and the explanation leans on description of events. To lift it, each reference should be followed by an analytical step about what the representation shows about the human spirit.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-78-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In Nineteen Eighty-Four, Winston Smith lives under the control of the Party in Airstrip One. He works at the Ministry of Truth, changing old records, and in secret he keeps a diary. He begins a relationship with Julia, and they meet in a room above a shop. They are caught by the Thought Police. Winston is taken to the Ministry of Love, where he is tortured, and he finds out that O'Brien was a Party agent all along. In Room 101 he is threatened with rats, and he betrays Julia. At the end he sits in a cafe and loves Big Brother. The novel shows that the human spirit can be broken by the Party. Seeing what happens to Winston helps us understand the endurance of the human spirit, because it shows how much he lost. It is a sad story about a man who loses everything in the end.",
+                        "feedback": "Meets the lowest criteria row: the response describes events from the novel with minimal textual reference and little attempt to connect them to endurance. To lift it, the student should name one or two specific moments, such as the diary entry or the closing sentence, and say what each reveals about the spirit.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Paper 1, Section II — Texts and Human Experiences (20 marks). Allow about 45 minutes. The prescribed texts for Section II are: Prose Fiction — Anthony Doerr, All the Light We Cannot See; Amanda Lohrey, Vertigo; George Orwell, Nineteen Eighty-Four; Favel Parrett, Past the Shallows. Poetry — Rosemary Dobson, Rosemary Dobson Collected (Young Girl at a Window; Over the Hill; Summer’s End; The Conversation; Cock Crow; Amy Caroline; Canberra Morning); Kenneth Slessor, Selected Poems (Wild Grapes; Gulliver; Out of Time; Vesper-Song of the Reverend Samuel Marsden; William Street; Beach Burial). Drama — Jane Harrison, Rainbow’s End from Vivienne Cleven et al., Contemporary Indigenous Plays; Arthur Miller, The Crucible; William Shakespeare, The Merchant of Venice. Nonfiction — Tim Winton, The Boy Behind the Curtain (Havoc: A Life in Accidents; Betsy; Twice on Sundays; The Wait and the Flow; In the Shadow of the Hospital; The Demon Shark; Barefoot in the Temple of Art); Malala Yousafzai and Christina Lamb, I am Malala. Film — Stephen Daldry, Billy Elliot. Media — Ivan O’Mahoney, Go Back to Where You Came From (Series 1: Episodes 1, 2 and 3 and The Response); Lucy Walker, Waste Land. Your answer will be assessed on how well you: demonstrate understanding of human experiences in texts; analyse, explain and assess the ways human experiences are represented in texts; organise, develop and express ideas using language appropriate to audience, purpose and context.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "6"
                   }
                 ]
               },
@@ -1596,6 +1658,71 @@
                       }
                     ],
                     "scenario": "A seminar leader asks students to explain, in one short paragraph, what a second text adds to a first reading. The pair studied is the invented essay 'The Fence at Halloran Creek' and the invented short story 'The Last Ferry from Mollin Cove'. The essay describes repeated repair tasks, and the story's fog, bell and ferry keeper on the jetty create a mood of waiting."
+                  },
+                  {
+                    "id": "prompt-ea-75",
+                    "question": "To what extent has your perspective of the earlier text determined your interpretation and appreciation of the later text? In your response, make detailed reference to both of your prescribed texts.",
+                    "totalMarks": 20,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EAV-12-02",
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "A strong answer takes a position on the extent to which the earlier text determined the response, rather than summarising the play and the film in turn.",
+                      "The soliloquy is the mechanism by which Shakespeare's perspective is established, so the best answers test whether the film keeps or breaks that hold.",
+                      "Close reference to one or two lines of Richard III does more than a general claim that Richard is a villain.",
+                      "Describing the film's structure earns credit only when it is tied to the interpretation it produces."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the plot of the play and then the film in sequence, without saying how the first changed the response to the second.",
+                      "Treating Looking for Richard as a filmed stage production, which ignores its documentary frame and its interviews.",
+                      "Making the perspective a list of personal opinions about Shakespeare, with no reference to a scene or a line.",
+                      "Claiming the film is simply a more accessible version of the play, which misses the question's concern with interpretation and appreciation."
+                    ],
+                    "keywords": [
+                      "perspective of the earlier text",
+                      "interpretation and appreciation",
+                      "later text",
+                      "King Richard III",
+                      "Looking for Richard",
+                      "soliloquy",
+                      "documentary",
+                      "villain",
+                      "Shakespearean",
+                      "adaptation"
+                    ],
+                    "markingCriteria": "17-20 marks: Evaluates skilfully how a perspective of the earlier text determined an interpretation and appreciation of the later text; Demonstrates a well-informed understanding of context, language, form and ideas using well-selected and detailed references to the prescribed texts; Composes an insightful response using language appropriate to audience, purpose and form\n13-16 marks: Evaluates effectively how a perspective of the earlier text determined an interpretation and appreciation of the later text; Demonstrates an informed understanding of context, language, form and ideas using detailed references to the prescribed texts; Composes an effective response using language appropriate to audience, purpose and form\n9-12 marks: Evaluates how a perspective of the earlier text determined an interpretation and appreciation of the later text; Demonstrates a sound understanding of context, language, form and ideas using references to the prescribed texts; Composes a sound response using language appropriate to audience, purpose and form\n5-8 marks: Describes some aspects of the prescribed text(s); Demonstrates some understanding of context, language, form and ideas using limited textual references; Composes a limited response to the question\n1-4 marks: Attempts to describe aspects of the prescribed text(s); Attempts to compose a response to the question",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-75-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Shakespeare's King Richard III invites its audience into a villain's confidence from the first lines, and this shapes how any later text can be read. The perspective of the earlier text, as I came to it, is that of a schemer who explains himself directly to us. In the opening soliloquy Richard describes his body as \"Deformed, unfinish'd, sent before my time\", and by making that deformity the root of his resentment, Shakespeare gives a villain whose malice seems to grow from injury. This is a persuasive perspective, and I find that it has shaped my interpretation and appreciation of the later text, Al Pacino's Looking for Richard, more than I first expected.\n\nPacino's 1996 film is a hybrid. It was his first time directing, it runs 112 minutes, and it moves between scenes from the play, footage of actors including Kevin Spacey, Alec Baldwin and Winona Ryder rehearsing their roles, and interviews with Shakespeare scholars and ordinary people on the street. Because it is not a straightforward filming of the play, Looking for Richard is better understood as a documentary about the play's continuing life than as a plain adaptation. Its method asks the viewer to treat Richard as a role that must be worked out in rehearsal, and this is the habit the earlier text had already trained me to bring. When Richard declares that he is \"determined to prove a villain\", I hear the film's actors debating his motives, and I read Pacino's performance as an act of interpretation rather than imitation.\n\nThe earlier perspective, however, is not the whole story. The film presents Richard as something unfinished, a part that actors argue over, and its street interviews place the Shakespearean villain before ordinary people who give their own opinions of Shakespeare. Such scenes move the question from what Richard is to who decides what he means. Mark Leeper calls the film a pseudo-documentary about a production that may not exist, and finds Pacino self-indulgent, while Larsen on Film calls it brave, inventive and amusing. This division matters because it shows that the film does not hand down a settled reading of the play. Instead it offers a set of voices, and my appreciation depends on which of them I trust.\n\nThe play's own language sharpens this point. Richard's \"Unless to spy my shadow in the sun\" holds him at a distance from the court he wants, so the audience is always aware of a figure who stands apart from the society he means to dominate. The film keeps that distance by setting the actors' own discussion beside the scenes, so the viewer watches the role being built rather than simply received. It is in these moments of separation that the perspective of the earlier text is most tested. Where the play asks me to share Richard's wit, the documentary asks whether that sympathy comes from Shakespeare's craft or from the charisma of the performers.\n\nThe interviews deepen this. Kenneth Branagh, Derek Jacobi and Vanessa Redgrave appear as commentators on Shakespeare, so the film's authority rests partly on practitioners who speak from inside the profession rather than on the play alone. Their contributions test my reading of Richard as a witty schemer against other informed readings. Their presence makes the later text feel like a conversation with the earlier one rather than a replacement for it.\n\nTo a considerable extent, then, the perspective of the earlier text determined my interpretation and appreciation of the later text. The soliloquy taught me to hear Richard as witty, self-aware and dangerous, and Looking for Richard rewards that reading by making its own process of performance visible. Yet the film also refuses the earlier text the final word. By surrounding the Shakespearean villain with rehearsal, scholarship and street opinion, Pacino turns the play's meaning into something negotiated rather than received. My appreciation is shaped by King Richard III, but it is the film that makes me doubt whether the play ever spoke with one voice.",
+                        "feedback": "This meets the top criteria row: it evaluates the extent to which the earlier text shaped the response, reaches a qualified judgement, and attends closely to the film's structure. To lift it further, test one more specific line against one specific film sequence, so the claim about the film rests on a scene and not only on its method.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-75-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "King Richard III begins with Richard speaking directly to the audience, and this shaped how I read the film that followed. In the opening soliloquy he describes himself as \"Deformed, unfinish'd, sent before my time\", so the play presents a villain who is also a wounded outsider. I saw him as a schemer who wants us to admire his cleverness, and I carried that view into Looking for Richard.\n\nAl Pacino's Looking for Richard is a mix of performance and documentary. Pacino plays Richard, and the film includes scenes from the play alongside actors such as Kevin Spacey and Winona Ryder discussing their roles. There are also interviews with scholars and with people in the street who give their opinions on Shakespeare. Because of this, the film feels less like a version of the play and more like a study of it.\n\nMy perspective of the earlier text affected the way I read these scenes. When the actors talk about Richard, I assumed they were explaining the villain I already knew, so the film seemed to confirm my view. The street interviews were more surprising, because they show that Shakespeare's villain has a life outside the theatre. This made me think the film was about how audiences respond to the play rather than about Richard alone.\n\nHowever, the film also changed my view. The play presents Richard as clever and in control, but the documentary shows that the character is open to argument. Critics were divided about the film, and some felt it was too self-indulgent. This suggests that the film is not a clear answer to the play's meaning, but a way of asking what the play means today.\n\nOverall, the perspective of the earlier text shaped my understanding of the later text, but not completely. I appreciated the film more once I saw the actors debating the role, although it made me less certain of my first reading.",
+                        "feedback": "This sits in the middle criteria rows: it is sound and clearly organised, but it describes the play and the film more than it argues about them, and the references to the play are thin. To lift it, take a single line from the opening soliloquy and show how that line changes the reading of a particular film sequence.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-75-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Richard III is a play by Shakespeare about a king who is a villain. Richard is deformed and wants to be king, and he tells the audience his plans in a soliloquy. Looking for Richard is a film by Al Pacino about the play. It has actors, interviews and street scenes, and it is long and has many different parts, so it was hard to follow at first. My view of Richard from the play was that he was evil. When I watched the film I thought the actors were interesting. The earlier text changed how I understood the later one because I already knew the story, so the perspective of the earlier text was important for my interpretation and appreciation of the film.",
+                        "feedback": "This sits in the lowest criteria rows: it retells the play and the film in turn and asserts a connection without developing it. It has minimal reference and takes no position on how far the earlier text shaped the response. One quoted line, linked to one claim about the film, would move it up.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Paper 2, Section I — Module A: Textual Conversations (20 marks). Allow about 40 minutes. The Module A prescribed texts are: Shakespearean Drama and Film — William Shakespeare, King Richard III and Al Pacino, Looking for Richard. Prose Fiction and Film — Virginia Woolf, Mrs Dalloway and Stephen Daldry, The Hours. Prose Fiction and Prose Fiction — Albert Camus, The Stranger and Kamel Daoud, The Meursault Investigation. Poetry and Drama — John Donne, John Donne: A Selection of His Poetry (The Sunne Rising; The Apparition; A Valediction: forbidding mourning; This is my playes last scene; At the round earths imagin’d corners; If poysonous mineralls; Death be not proud; Hymne to God my God, in my sicknesse) and Margaret Edson, W;t. Poetry and Film — John Keats, The Complete Poems (La Belle Dame sans Merci; To Autumn; Bright star! would I were steadfast as thou art; Ode to a Nightingale; Ode on a Grecian Urn; When I have fears that I may cease to be; The Eve of St Agnes, XXIII) and Jane Campion, Bright Star. Poetry and Poetry — Sylvia Plath, Ariel (Daddy; Nick and the Candlestick; A Birthday Present; Lady Lazarus; Fever 103°; The Arrival of the Bee Box) and Ted Hughes, Birthday Letters (Fulbright Scholars; The Shot; A Picture of Otto; Fever; Red; The Bee God). Shakespearean Drama and Prose Fiction — William Shakespeare, The Tempest and Margaret Atwood, Hag-Seed. Your answer will be assessed on how well you: demonstrate understanding of how composers are influenced by another text’s concepts and values; evaluate the relationships between texts and contexts; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1"
                   }
                 ]
               }
@@ -2399,6 +2526,69 @@
                       }
                     ],
                     "scenario": "A teacher asks students to read the invented novel in this scenario, which is written for this task. Its chapters are fragmented and alternate between a diary and third-person narration, and students must identify its distinctive structures in a short written response. Its diary entries are dated but not always in order, and sometimes contradict the narration."
+                  },
+                  {
+                    "id": "prompt-ea-76",
+                    "question": "Evaluate how the artistry and integrity of your prescribed text has influenced your understanding of its literary value. In your response, make detailed reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EAV-12-01"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers tie artistry to a claim about value: they say why a technique makes the novel's ideas last, not simply that Dickens uses symbolism.",
+                      "Integrity is best handled through Pip's self-judgement, since the novel is honest about his snobbery and his debts.",
+                      "Use the ending as evidence: both the revision and what it leaves open bear on literary value.",
+                      "Keep the focus on the prescribed text and avoid turning the answer into a biography of Dickens."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing techniques such as first-person narration, symbolism and coincidence without saying what each does for the novel's value.",
+                      "Treating integrity as the moral goodness of characters rather than the honesty and coherence of the author's vision.",
+                      "Reading Miss Havisham's house as a symbol of revenge only, and missing the stopped clock and the decaying bridal dress as artistry.",
+                      "Calling the ending happy without quoting its final lines or acknowledging that it can be read in more than one way."
+                    ],
+                    "keywords": [
+                      "artistry and integrity",
+                      "literary value",
+                      "prescribed text",
+                      "Great Expectations",
+                      "Satis House",
+                      "Miss Havisham",
+                      "retrospective narration",
+                      "Estella",
+                      "ending"
+                    ],
+                    "markingCriteria": "17-20 marks: Evaluates skilfully how the artistry and integrity of the prescribed text has influenced an understanding of its literary value; Demonstrates a well-informed understanding of context, language, form and ideas using well-selected and detailed textual references; Composes an insightful response using language appropriate to audience, purpose and form\n13-16 marks: Evaluates effectively how the artistry and integrity of the prescribed text has influenced an understanding of its literary value; Demonstrates an informed understanding of context, language, form and ideas using detailed textual references; Composes an effective response using language appropriate to audience, purpose and form\n9-12 marks: Evaluates how the artistry and integrity of the prescribed text has influenced an understanding of its literary value; Demonstrates a sound understanding of context, language, form and ideas using textual references; Composes a sound response using language appropriate to audience, purpose and form\n5-8 marks: Describes some aspects of the understanding of the literary value of the prescribed text; Demonstrates some knowledge of the prescribed text with limited textual references; Composes a limited response\n1-4 marks: Attempts to describe some aspects of the prescribed text; Attempts to compose a response to the question",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-76-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "The artistry and integrity of Great Expectations are inseparable from its literary value. Dickens's craft gives the novel its memorable images and its shape, while his honesty about Pip's failings keeps those images from becoming decoration. In my view the prescribed text earns its place in the canon because its technique serves a moral vision that the reader can test, rather than because it is merely entertaining. This judgement rests on the retrospective narration, the symbolic house at the centre of the plot, and an ending that refuses to settle the moral account.\n\nThe novel's opening sentence, \"My father's family name being Pirrip\", introduces a narrator who is an adult looking back at a boy he no longer quite is. This retrospective narration is the first sign of artistry. The man can judge the child's snobbery and fear, yet he also remembers those feelings from the inside, so the reader is asked to hold sympathy and distance at once. The technique turns what could be a story of social climbing into a study of how memory edits a life, and that self-scrutiny is where I locate much of the novel's literary value.\n\nSatis House, the home Miss Havisham keeps, is the clearest example of Dickens's symbolic method. It is \"a large and dismal house barricaded against robbers\", and inside it a watch and a clock have \"stopped at twenty minutes to nine\". The stopped time is an image of arrested grief, and it is matched by the \"withered articles of bridal dress\" left to decay. The effect is cumulative because no object is offered as a mere detail; each returns to the same idea of a life frozen after betrayal. This is artistry at its most controlled, and it lifts a melodramatic premise into something the reader feels as a moral condition.\n\nThe integrity of the text appears in how Dickens treats Pip's own moral failures. Pip does not merely observe Estella's contempt for his hands; he absorbs it, and the narrator records the moment he becomes \"ashamed of my hands\". Later the adult Pip admits that he had \"deserted Joe\", a confession that gives the novel its moral weight. Dickens does not spare Pip through the reveal that Magwitch is his benefactor. Instead Magwitch's pride, \"I'm your second father\", forces Pip to confront the source of his expectations, and the novel refuses the comfort of a gentleman who is simply good. The value of this honesty is that the reader cannot retreat into an easy verdict on Pip.\n\nThe ending is where artistry and integrity meet most sharply. Estella's line \"And will continue friends apart\" and the closing sentence, in which Pip sees \"no shadow of another parting from her\", keep the reconciliation within the limits of friendship. The revision matters here: Bulwer-Lytton strongly urged Dickens to change the original ending, and Dickens rewrote it. Whatever the reasons, the final version declines to state a marriage. Readers still argue over whether Pip and Estella are united or merely at peace, and that argument is evidence of literary value, since the novel gives the reader a question rather than a verdict.\n\nI judge the novel's literary value to rest on the tension between its melodramatic machinery and its psychological honesty. Dickens allows comedy into the darkest material, and Wemmick's remark that his elderly father, the Aged, is \"in wonderful feather\" gives the London chapters a warmth the reader does not expect. These moments do not dilute the moral argument; they make it more persuasive, because the novel's ideas about class and debt are tested against people who take them more lightly as well as against those who suffer.\n\nTaken together, the artistry and integrity of Great Expectations have shaped my understanding of its literary value in a specific way. I first read the novel as a story of ambition, but the narrator's self-judgement, the carefully managed symbols and the open ending transform ambition into a study of guilt and dependence. That transformation, more than the plot, is the source of the text's lasting worth.",
+                        "feedback": "This meets the top criteria row: it evaluates how the narration, the symbolic house and the revised ending shape the novel's literary value, and it uses close textual reference throughout. To lift it, the answer could test its judgement against a second reading, such as the novel's humour or a contrary view of the ending.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ea-76-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "The artistry and integrity of Great Expectations make it a text with real literary value. Dickens uses a first-person narrator, and the opening line, \"My father's family name being Pirrip\", shows an adult looking back at himself as a boy. This gives the novel a double view, because the adult can judge the child's behaviour while still remembering how it felt from the inside.\n\nMiss Havisham's house is also important. Satis House is a dismal place, and a watch and a clock have \"stopped at twenty minutes to nine\". These objects suggest that time has stopped for her after she was betrayed. The bridal dress left to decay supports this idea. I think this is an effective use of symbols, and it makes the novel's melodrama more convincing.\n\nThe novel's integrity is shown in Pip's behaviour. Estella criticises his hands, and Pip becomes ashamed of them, which shows how class has changed him. Later he admits that he deserted Joe. Dickens does not hide Pip's faults, and this makes Pip a more believable character.\n\nThe ending also shows the text's integrity. Pip and Estella meet again and agree to remain friends, and Pip sees no shadow of another parting. Dickens changed this ending after Bulwer-Lytton urged him to, and readers still disagree about what it means. This uncertainty is one reason the novel has lasting value.\n\nOverall, the artistry and integrity of the prescribed text have shaped my understanding of its literary value. The narration, the symbols and the honest treatment of Pip all make the novel more than a story about a poor boy who becomes a gentleman.",
+                        "feedback": "This sits in the middle criteria rows: it is organised and reasonably controlled, but it moves between techniques by describing them and only briefly connects them to literary value. To lift it, choose one technique and argue how it changes the reader's view of Pip's guilt.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-76-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Great Expectations is a novel by Charles Dickens about a boy called Pip. He lives with his sister and Joe Gargery, and he meets a convict in a churchyard. Later he goes to Miss Havisham's house, which is called Satis House, and he meets Estella. Pip becomes ashamed of his hands and of Joe. At the end he meets Estella again and they agree to be friends. The novel has interesting characters and a strange house with stopped clocks. I think the artistry and integrity of the text make it important. Dickens's writing shows that Pip changes, so the novel has literary value.",
+                        "feedback": "This sits in the lowest criteria rows: it summarises the plot and names Satis House and the ending without evaluating them, and it has minimal textual reference. A single quoted line from Miss Havisham's house, used as evidence for a claim about literary value, would begin to meet the stem.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Paper 2, Section II — Module B: Critical Study of Literature (20 marks). Allow about 40 minutes. The Module B prescribed texts are: Prose Fiction — Jane Austen, Emma; Charles Dickens, Great Expectations; Kazuo Ishiguro, An Artist of the Floating World. Poetry — T S Eliot, T S Eliot: Selected Poems (The Love Song of J Alfred Prufrock; Preludes; Rhapsody on a Windy Night; The Hollow Men; Journey of the Magi); David Malouf, Earth Hour (Aquarius; Radiance; Ladybird; A Recollection of Starlings: Rome ’84; Eternal Moment at Poggia Madonna; Towards Midnight; Earth Hour; Aquarius II). Drama — Henrik Ibsen, A Doll’s House; Dylan Thomas, Under Milk Wood. Nonfiction — Edmund de Waal, The Hare with Amber Eyes; Vladimir Nabokov, Speak, Memory. Film — George Clooney, Good Night, and Good Luck. Media — Gillian Armstrong, Unfolding Florence. Shakespearean Drama — William Shakespeare, King Henry IV, Part 1. Your answer will be assessed on how well you: demonstrate an informed understanding of the ideas expressed in the text; evaluate the text’s distinctive language and stylistic qualities; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "2"
                   }
                 ]
               },
@@ -3979,6 +4169,68 @@
                       }
                     ],
                     "scenario": "A tutor compares an invented imaginative fable and an invented reflective diary, both written for this task, and both of which challenge a community's values. The fable's animals represent the town. Students must describe how the choice of form can affirm or challenge those values."
+                  },
+                  {
+                    "id": "prompt-ea-77",
+                    "question": "Craft a discursive or persuasive piece of writing that incorporates the ideas in the stimulus above.",
+                    "totalMarks": 20,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EAV-12-05",
+                      "EAV-12-03"
+                    ],
+                    "markerNotes": [
+                      "The strongest responses treat the stimulus as a live argument rather than a heading. They reach the question of whether inconvenience has value and then test that value against a concrete image.",
+                      "Craft is judged in the sentences. Look for images that carry the argument, such as the kneaded dough or the smudged ink, and for sentence length that is varied on purpose to control pace.",
+                      "A closing that answers the rhetorical question directly and returns to an opening image shows control of structure. A closing that restates the stimulus does not."
+                    ],
+                    "commonStudentErrors": [
+                      "Opening with a dictionary definition of convenience instead of engaging the stimulus in the first lines.",
+                      "Arguing that older technology is always better, so the piece becomes nostalgia rather than a discursive case.",
+                      "Listing examples of inconvenience one after another with no image or rhythm to hold them together.",
+                      "Keeping a formal essay voice throughout, with no sense of an audience being addressed."
+                    ],
+                    "keywords": [
+                      "time-saving inventions",
+                      "going back to basics",
+                      "benefits",
+                      "a life less convenient",
+                      "convenience",
+                      "imagery",
+                      "rhythm",
+                      "rhetorical question"
+                    ],
+                    "markingCriteria": "17-20 marks: Composes a sophisticated and engaging discursive or persuasive piece of writing that skilfully incorporates the ideas in the stimulus provided; Crafts language skilfully to compose a piece of discursive or persuasive writing that incorporates the ideas in the stimulus provided; Demonstrates skilful control of language and structure appropriate to audience, purpose, context and form\n13-16 marks: Composes an engaging discursive or persuasive piece of writing that effectively incorporates the ideas in the stimulus provided; Crafts language effectively to compose a piece of discursive or persuasive writing that incorporates the ideas in the stimulus provided; Demonstrates effective control of language and structure appropriate to audience, purpose, context and form\n9-12 marks: Composes a sound discursive or persuasive piece of writing that incorporates the ideas in the stimulus provided; Uses language competently to compose a piece of discursive or persuasive writing which references the stimulus provided; Demonstrates sound control of language and structure appropriate to audience, purpose, context and form\n5-8 marks: Composes a limited discursive or persuasive piece of writing that attempts to incorporate the ideas in the stimulus provided; Uses language variably to compose a piece of discursive or persuasive writing; Demonstrates variable control of language and structure\n1-4 marks: Attempts to compose a piece of discursive or persuasive writing; Demonstrates limited control of language",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ea-77-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Consider the kettle. For most of history, water in a home was carried, heated and poured by hand, and every cup of tea was the end of a slow chain of effort. Now the kettle clicks off by itself, and we barely notice the minutes it has returned to us. Yet we have been handed so many time-saving inventions that we have stopped asking what they have quietly taken. This piece argues that there is much to be said for going back to basics, and that a life less convenient might give back what the labour-saving devices cannot.\n\nBegin with bread. Anyone who has kneaded dough knows its resistance under the heel of the hand, and how it turns smooth only if you refuse to hurry. A loaf from a packet may be just as nourishing, but the person who bought it has skipped the waiting, and the waiting was where the attention lived. Convenience removes friction. Friction, it turns out, is where we learn that we can do something hard and come through it.\n\nConsider also the handwritten letter. Its ink smudges where a thumb has rested too long. Its crossings-out show a mind changing course in real time. The message I could send in ten seconds carries no such evidence of thought. The effort is part of what a message says, and when every reply costs nothing, very little of it is worth much.\n\nThose who doubt this will say that inconvenience is simply a cost, and that a sensible society removes costs wherever it can. That is true of some costs. Nobody wants to return to hauling water from the river, or to lose a week to a fever a doctor could have cured. But a cost is not the same as a challenge, and the two are easily confused. A challenge is chosen, bounded and returned with interest. Walking home rather than catching the train, reading a paper map on a Saturday morning, cooking one dish from scratch for a friend: these are not burdens. They are small, deliberate refusals to let the next button decide how my day feels.\n\nI accept that the argument can be overstated. A person who romanticises the hard life may forget how hard it was, and nostalgia is a poor guide to the past. The question is not whether the old world was better. It is whether we have let ease make our choices for us. When the easiest option is always selected, we stop learning which of our preferences are truly ours. Look at what is lost when everything arrives at once. Waiting for a bus, I used to watch the street. Now I hold a small glowing rectangle and the street passes unseen. Some inconvenience is a kind of attention, and attention is the raw material of thought.\n\nA life less convenient will not suit everyone, and I would not ask a night-shift nurse to hand-wash her linen. But the benefits of deliberate inconvenience are open to most of us in small doses. Choose the route that takes longer. Write the letter. Let the bread rise in its own time. Each choice returns a little of what the inventions took, because a person who has done a hard thing unaided learns something the easy path never shows.\n\nSo could there be benefits to leading a life less convenient? I believe there are, and they are not hidden. They are the slow ink, the stubborn dough, the walk that arrives late and somehow richer. The problem is not the inventions but the habit of spending their gifts unnoticed. Go back to basics, and notice. The minutes you save are worth less than the attention you can keep.",
+                        "feedback": "Meets the top criteria row: the piece engages the stimulus from its first lines, controls its structure through the kettle, bread and letter sequence, and uses a rhetorical question to close. To sharpen it, the middle section on the bus stop could be tightened so the final paragraph lands harder.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ea-77-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Modern life is full of inventions that save us time. Dishwashers, online shopping, microwave meals and navigation apps all promise that we will have more hours for the things we actually want to do. These inventions have clear benefits. Nobody wants to spend an afternoon washing dishes by hand or walking to the shops in the rain. However, there is much to be said for going back to basics, because some of the things we give up are worth keeping.\n\nTake cooking. When a meal is made from scratch, you have to plan, measure, chop and wait. This takes longer, but it teaches patience and gives a real sense of achievement. A packet meal does not offer the same reward. Similarly, a handwritten letter takes longer to write than an email, but the person receiving it can tell that you sat down and thought about them.\n\nSome people say that inconvenience is just wasted time and that sensible people should avoid it. I disagree. Inconvenience is not the same as hardship. Walking to school rather than being driven, or reading a paper map instead of following a phone, can make a day more interesting because you have to pay attention to where you are. When everything is easy, we stop noticing things.\n\nOf course, a life less convenient is not for everyone. Some people need time-saving devices to work, to look after family or to stay healthy. But most of us could choose a few inconvenient habits without much trouble. We could cook one meal a week from scratch, write one letter a month by hand, or take the longer route home to see something new.\n\nIn conclusion, the benefits of time-saving inventions are real, but they should not be the only thing we value. A life with a little less convenience can give us patience, attention and a closer connection to what we do.",
+                        "feedback": "Meets the middle criteria row: the piece engages the stimulus and holds a clear position, but it leans on description of everyday examples more than on argument. To lift it, each example should be followed by a step that explains why the inconvenience matters, and the closing should answer the question rather than summarise.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ea-77-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Inventions make life easier. We have dishwashers, phones and microwaves, and they save lots of time. Some people think we should go back to basics and live a life that is less convenient. I think this is a good idea because doing things the old way can be good for you. For example, you could cook dinner from scratch instead of buying it, or write letters by hand. These things take longer, but you learn something from them. So there might be benefits to living a less convenient life, even though the inventions are useful.",
+                        "feedback": "Meets the lowest criteria row: the piece attempts the stimulus but lists examples with little craft and no developed argument. To lift it, the student should use one or two images and a clear sense of audience, so that the stimulus idea shapes the sentences rather than sitting beside them.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes. Stimulus: ‘For all the benefits gained by time-saving inventions, there’s much to be said for going back to basics . . . So, could there be benefits to leading a life less convenient?’ — Jessica Powell, Worth the while. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "3"
                   }
                 ]
               },
