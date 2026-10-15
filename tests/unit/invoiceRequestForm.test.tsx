@@ -51,9 +51,15 @@ const ownRequest = (overrides: Partial<LicenceRequest> = {}): LicenceRequest => 
   ...overrides,
 });
 
-const open = async () => {
+const open = async ({ untilRead = true }: { untilRead?: boolean } = {}) => {
   fireEvent.click(screen.getByRole('button', { name: /Pay by invoice or purchase order/i }));
   await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  // The form only draws once the read has RESOLVED. Waiting for the call alone left
+  // a test that looked for a field a moment too early on a slow runner, with the
+  // "Checking for a request" line still on screen. A test about that line asks not to wait.
+  if (untilRead) {
+    await waitFor(() => expect(screen.queryByText(/Checking for a request/)).toBeNull());
+  }
 };
 
 /** Fills every required field with good values, so a test can change one thing. */
@@ -415,7 +421,7 @@ describe('the states a request can be in when the panel opens', () => {
     let resolve: (rows: LicenceRequest[]) => void = () => {};
     fetchMock.mockReturnValue(new Promise<LicenceRequest[]>((r) => (resolve = r)));
     render(<InvoiceRequestForm seats={30} />);
-    await open();
+    await open({ untilRead: false });
     expect(screen.getByText(/Checking for a request your school has already sent/)).toBeTruthy();
     expect(screen.queryByLabelText('Name on the invoice')).toBeNull();
     resolve([]);
