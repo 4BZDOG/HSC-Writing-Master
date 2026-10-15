@@ -11,10 +11,13 @@
  *     profile for grace-period UI (SCA challenge is handled the same way)
  *
  * Security: events are verified with the STRIPE_WEBHOOK_SECRET signing secret.
- * Outside production (no secret set), the body is trusted as-is so the
- * endpoint can be exercised with curl or Stripe CLI `stripe trigger`. In
- * production a missing secret is a hard 500: an unsigned endpoint lets anyone
- * POST a forged subscription event and grant themselves a paid plan.
+ * Only outside any deployment (no VERCEL_ENV, NODE_ENV not production: local
+ * dev and Vitest) is the body trusted as-is with no secret set, so the endpoint
+ * can be exercised with curl or Stripe CLI `stripe trigger`. On ANY deployment
+ * (production, preview or development; see isDeployedRuntime) a missing secret
+ * is a hard 500: an unsigned endpoint lets anyone POST a forged subscription
+ * event and grant themselves a paid plan. A preview is not exempt, because it
+ * can share the production database.
  *
  * Supabase writes use the service-role key (bypasses RLS) since webhook calls
  * have no user session.
@@ -22,7 +25,7 @@
 import {
   getStripe,
   getSupabaseAdmin,
-  isProductionRuntime,
+  isDeployedRuntime,
   isStripeConfigured,
   priceToPlan,
 } from './_lib/stripe';
@@ -115,17 +118,20 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       res.status(400).json({ error: `Webhook signature verification failed: ${msg}` });
       return;
     }
-  } else if (isProductionRuntime()) {
-    // An unsigned production endpoint would let anyone forge a subscription
-    // event and hand themselves a paid plan. Fail closed and stay loud —
-    // Stripe retries, so the events survive until the secret is configured.
+  } else if (isDeployedRuntime()) {
+    // An unsigned deployed endpoint would let anyone forge a subscription event
+    // and hand themselves a paid plan. That holds on a preview too, which can
+    // share production's database, so this is not limited to production. Fail
+    // closed and stay loud — Stripe retries, so the events survive until the
+    // secret is configured. (A `vercel dev` run also sets VERCEL_ENV, so it
+    // needs the secret too: `stripe listen` prints one.)
     console.error(
-      '[stripe-webhook] STRIPE_WEBHOOK_SECRET is not set in production — refusing unsigned events.'
+      '[stripe-webhook] STRIPE_WEBHOOK_SECRET is not set on a deployment — refusing unsigned events.'
     );
     res.status(500).json({ error: 'Webhook signing secret not configured.' });
     return;
   } else {
-    // No webhook secret outside production — trust the body (dev/test only).
+    // No webhook secret and no deployment: local dev and tests only — trust the body.
     console.warn('[stripe-webhook] STRIPE_WEBHOOK_SECRET not set — skipping signature check.');
     if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) {
       event = req.body as { type?: string; data?: { object?: Record<string, unknown> } };

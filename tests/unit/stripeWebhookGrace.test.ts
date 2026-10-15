@@ -161,6 +161,7 @@ vi.mock('../../api/_lib/stripe', () => ({
   resolveReturnBase: () => 'http://localhost:3000/',
   configuredPrices: () => ({ price_plus: 'plus' }),
   isProductionRuntime: () => isProduction(),
+  isDeployedRuntime: () => isProduction(),
 }));
 
 /** Toggled per-test so the production signature guard can be exercised. */
