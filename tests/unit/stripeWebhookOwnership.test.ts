@@ -87,6 +87,7 @@ vi.mock('../../api/_lib/stripe', () => ({
   resolveReturnBase: () => 'http://localhost:3000/',
   configuredPrices: () => ({ price_school: 'school', price_plus: 'plus' }),
   isProductionRuntime: () => false,
+  isDeployedRuntime: () => false,
 }));
 
 import handler from '../../api/stripe-webhook';

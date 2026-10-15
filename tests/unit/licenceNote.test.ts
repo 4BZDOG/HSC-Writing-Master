@@ -34,6 +34,16 @@ describe('buildLicenceNote', () => {
     );
   });
 
+  it('states the GST position beside the seat price, and says nothing when it is not known', () => {
+    expect(buildLicenceNote({ ...base, seatGst: 'incl. GST' })).toContain(
+      'A$4 per student a year incl. GST,'
+    );
+    expect(buildLicenceNote({ ...base, seatGst: '+ GST' })).toContain(
+      'A$4 per student a year + GST,'
+    );
+    expect(buildLicenceNote({ ...base, seatGst: null })).not.toMatch(/GST/);
+  });
+
   it('gives the address of the app', () => {
     expect(buildLicenceNote(base)).toContain('The app is at https://writing.example.edu.au/.');
   });

@@ -3,7 +3,6 @@ import { Check, Minus, Crown, Sparkles, School } from 'lucide-react';
 import {
   describeAccess,
   PLAN_LABELS,
-  PLAN_PRICING,
   monetisationEnabled,
   requestUpgrade,
   getUserPlan,
@@ -14,7 +13,9 @@ import {
   COMPARED_PLANS,
   PLAN_AUDIENCES,
   PLAN_TAGLINES,
+  planPriceLine,
 } from '../utils/planComparison';
+import { useLivePrices } from '../hooks/useLivePrices';
 import SchoolLicencePanel, { hasSchoolRoute } from './SchoolLicencePanel';
 import { dailyResetTime } from '../utils/dailyReset';
 import type { User } from '../types';
@@ -40,20 +41,6 @@ const PLAN_ICONS: Record<Plan, typeof Crown> = {
   plus: Crown,
   school: School,
 };
-
-/**
- * A FUNCTION, not a module-level object. Interpolating an imported value at
- * module scope is what shipped a blank page once (see services/planLimits.ts):
- * if the bundler puts this component and `entitlements` in chunks that import
- * each other, the read happens before the other chunk has initialised.
- * `npm run check:bundle` fails the build if that ever becomes true.
- */
-const planPriceLine = (plan: Plan): string =>
-  ({
-    free: 'Free, always',
-    plus: `${PLAN_PRICING.yearly}/year or ${PLAN_PRICING.monthly}/month`,
-    school: `${PLAN_PRICING.schoolSeat} per student, per year`,
-  })[plan];
 
 const Cell: React.FC<{ cell: ReturnType<typeof buildPlanComparison>[0]['cells'][Plan] }> = ({
   cell,
@@ -108,6 +95,10 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
   onDone,
 }) => {
   const rows = buildPlanComparison();
+  // The price lines are read at render, from the live prices when they have arrived.
+  // A FUNCTION call, not a module-level string: interpolating an imported value at
+  // module scope is what shipped a blank page once (see services/planLimits.ts).
+  const prices = useLivePrices();
   const currentPlan = getUserPlan(user ?? null);
   // The free-plan route to the prompt. Empty for anyone the prompt would not sell to.
   const upgradeCta = describeAccess('fullFeedback', user);
@@ -143,7 +134,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
                 {PLAN_AUDIENCES[plan]}
               </p>
               <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1">
-                {planPriceLine(plan)}
+                {planPriceLine(plan, prices)}
               </p>
               <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-2 font-medium">
                 {PLAN_TAGLINES[plan]}
