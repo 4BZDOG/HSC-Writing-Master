@@ -141,7 +141,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
           {isOpeningPortal ? 'Opening…' : 'Manage school licence'}
         </button>
         {portalError && (
-          <p className="mt-2 text-[11px] text-red-500 light:text-red-600">{portalError}</p>
+          <p className="mt-2 text-xs text-red-500 light:text-red-600">{portalError}</p>
         )}
         {/* Someone else bought the licence, so a teacher cannot buy it either: the
             note is the one thing they can send to the person who manages it. */}
