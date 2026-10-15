@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (HSC English 2025 Paper 2 and 2024–25 extended responses for Standard and Advanced)
+
+- **Added.** Eight 20-mark extended-response questions in `HSCEnglishStandard.json` and `HSCEnglishAdvanced.json`, each flagged `isPastHSC` with its year and question number. English Standard: 2025 Paper 2 Module A, Module B and Module C, and the 2025 Paper 1 Section II question on the endurance of the human spirit (`prompt-en-154`–`157`). English Advanced: 2024 Paper 2 Module A (Textual Conversations), Module B (Critical Study of Literature) and Module C (Craft of Writing), and the same 2025 Paper 1 Section II question (`prompt-ea-75`–`78`). English Advanced had no 20-mark question before. Stems, prescribed-text lists and NESA's five-band marking guidelines are copied from the papers.
+- **Changed.** These stems are generic ("your prescribed text"), so each is stored as DISCUSS (Module A and B, Section II) or CONSTRUCT (Module C), and the exemplars are written on one real prescribed text each: Pygmalion, A Midsummer Night's Dream, The Crucible, King Richard III with Looking for Richard, Great Expectations and Nineteen Eighty-Four. The two Module C exemplars are original pieces of writing on the paper's own stimulus.
+- **Left out.** The 2025 Advanced Paper 2 Module A and B questions (19 text-specific variants), the unseen-text short answers in Paper 1 Section I, and the Advanced 2025 Module C question (it depends on an image), because the paper text does not carry what they need.
+- **Note.** Every quotation in the exemplars is eight words or fewer and was checked against a full text where one is free (Project Gutenberg for Pygmalion, A Midsummer Night's Dream and Great Expectations); the Crucible, Richard III and Nineteen Eighty-Four quotations were checked against study-guide copies, so a teacher should check them against the printed text.
+
 ## [Unreleased] - 2026-10-15 (2024 and 2025 HSC Geography questions, exam profiles and a reference set)
 
 - **Added.** 20 written-response questions from the 2024 and 2025 HSC Geography papers (the current 2022 syllabus) in `HSCGeography.json`, as `prompt-geo-hsc-<year>-<number>`: parts worth 2–6 marks, the 12-mark part (2025 22(c)) and the 20-mark extended responses (2024 Q25–27, 2025 Q23). Each carries the paper's wording, NESA's marking criteria as the app's ladder, and exemplar answers at several marks, and is placed under the dot point it assesses. The chip reads "HSC 2024 · Q25".
