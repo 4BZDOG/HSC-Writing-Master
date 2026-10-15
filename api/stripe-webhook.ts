@@ -9,6 +9,9 @@
  *   - customer.subscription.created/updated/deleted — sync subscription state
  *   - invoice.payment_failed / invoice.payment_action_required — flag the
  *     profile for grace-period UI (SCA challenge is handled the same way)
+ *   - charge.dispute.created / charge.dispute.closed / charge.refunded — record a
+ *     billing incident and alert the operator. Nothing is cancelled or refunded,
+ *     and no plan changes (api/_lib/disputes.ts, schema §29)
  *
  * Security: events are verified with the STRIPE_WEBHOOK_SECRET signing secret.
  * Only outside any deployment (no VERCEL_ENV, NODE_ENV not production: local
@@ -30,6 +33,7 @@ import {
   priceToPlan,
 } from './_lib/stripe';
 import { claimEvent, markEventProcessed, releaseEvent } from './_lib/stripeLedger';
+import { handleChargeRefunded, handleDisputeClosed, handleDisputeCreated } from './_lib/disputes';
 import {
   applySubscriptionUpsert,
   eventStamp,
@@ -203,6 +207,20 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       case 'invoice.payment_failed':
       case 'invoice.payment_action_required':
         await handlePaymentFailed(supabase, obj, eventCreated);
+        break;
+
+      // A dispute has an evidence deadline, and a full refund may end a licence. Both
+      // are recorded and alerted for a person; neither changes a plan here.
+      case 'charge.dispute.created':
+        await handleDisputeCreated(supabase, stripe, obj);
+        break;
+
+      case 'charge.dispute.closed':
+        await handleDisputeClosed(supabase, obj);
+        break;
+
+      case 'charge.refunded':
+        await handleChargeRefunded(supabase, obj);
         break;
 
       default:

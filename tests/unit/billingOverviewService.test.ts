@@ -664,6 +664,8 @@ const pagedReads = (subscriptions: unknown[], requests: unknown[] | Error = []):
       if (requests instanceof Error) throw requests;
       return requests;
     }
+    // Open billing incidents (schema §13, §29) are read on their own, and this test has none.
+    if (label === 'Could not load billing incidents') return [];
     return subscriptions;
   }) as typeof supabaseClient.fetchAllRows);
 };
@@ -701,9 +703,13 @@ describe('loadBillingOverview', () => {
     await loadBillingOverview(NOW);
 
     const labels = vi.mocked(supabaseClient.fetchAllRows).mock.calls.map((call) => call[1]);
-    expect(labels).toHaveLength(2);
+    expect(labels).toHaveLength(3);
     expect(labels).toEqual(
-      expect.arrayContaining(['Could not load subscriptions', REQUESTS_LABEL])
+      expect.arrayContaining([
+        'Could not load subscriptions',
+        REQUESTS_LABEL,
+        'Could not load billing incidents',
+      ])
     );
   });
 
@@ -806,6 +812,8 @@ describe('summariseIncidents: open billing incidents', () => {
       duplicate_subscription: 2,
       duplicate_school_licence: 0,
       customer_mismatch: 1,
+      dispute: 0,
+      refund: 0,
     });
   });
 
