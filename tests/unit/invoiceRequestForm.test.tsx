@@ -57,8 +57,10 @@ const open = async () => {
 };
 
 /** Fills every required field with good values, so a test can change one thing. */
-const fillForm = () => {
-  fireEvent.change(screen.getByLabelText('Name on the invoice'), {
+const fillForm = async () => {
+  // `open` returns once the lookup has been called, not once its result has
+  // rendered; wait for the form so a slow runner does not read it too early.
+  fireEvent.change(await screen.findByLabelText('Name on the invoice'), {
     target: { value: 'Parramatta High School' },
   });
   fireEvent.change(screen.getByLabelText('Accounts email'), {
@@ -219,7 +221,7 @@ describe('sending the form', () => {
     } as SubmitInvoiceResult);
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    fillForm();
+    await fillForm();
     fireEvent.change(screen.getByLabelText('Purchase order number (optional)'), {
       target: { value: '  PO-2026-0412 ' },
     });
@@ -258,7 +260,7 @@ describe('sending the form', () => {
     submitMock.mockReturnValue(new Promise<SubmitInvoiceResult>((resolve) => (finish = resolve)));
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    fillForm();
+    await fillForm();
     fireEvent.click(sendButton());
 
     const busy = await screen.findByRole('button', { name: 'Sending request…' });
@@ -276,7 +278,7 @@ describe('sending the form', () => {
     submitMock.mockResolvedValue({ ok: false, error: sentence, status: 409 });
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    fillForm();
+    await fillForm();
     fireEvent.click(sendButton());
 
     const alert = await screen.findByRole('alert');
@@ -297,7 +299,7 @@ describe('sending the form', () => {
     } as SubmitInvoiceResult);
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    fillForm();
+    await fillForm();
     fireEvent.click(sendButton());
 
     await waitFor(() =>
