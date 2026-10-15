@@ -16,6 +16,7 @@ import {
   collectAttention,
   isMissingSchemaError,
   loadBillingOverview,
+  withoutIncident,
   type AttentionItem,
   type BillingOverview,
   type InvoiceRequestSummary,
@@ -36,6 +37,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import { InvoiceRequestsGroup } from './InvoiceRequests';
+import BillingIncidents from './BillingIncidents';
 import SeatEconomics from './SeatEconomics';
 
 interface BillingOverviewProps {
@@ -203,6 +205,7 @@ interface AttentionSectionProps {
   requestRows: ReturnType<typeof invoiceRequestRows>;
   deciding: string | null;
   onDecide: (request: InvoiceRequestSummary, decision: InvoiceDecision) => void;
+  onIncidentResolved: (id: string) => void;
 }
 
 const AttentionSection: React.FC<AttentionSectionProps> = ({
@@ -210,12 +213,20 @@ const AttentionSection: React.FC<AttentionSectionProps> = ({
   requestRows,
   deciding,
   onDecide,
+  onIncidentResolved,
 }) => {
   const items = collectAttention(overview);
-  // "Nothing needs attention" is only true when the purchase-order requests were
-  // read as well, and none of them is waiting.
+  // "Nothing needs attention" is only true when the purchase-order requests and the
+  // billing incidents were read as well, and none of them is waiting.
   const requestsChecked = overview.requests !== null;
-  const allClear = items.length === 0 && requestRows.length === 0 && requestsChecked;
+  const incidentsChecked = overview.incidents !== null;
+  const incidentsOpen = overview.incidents?.open ?? 0;
+  const allClear =
+    items.length === 0 &&
+    requestRows.length === 0 &&
+    requestsChecked &&
+    incidentsChecked &&
+    incidentsOpen === 0;
   return (
     <section aria-labelledby="billing-attention">
       <SectionHeading icon={<TriangleAlert className="w-3.5 h-3.5" />}>
@@ -226,6 +237,11 @@ const AttentionSection: React.FC<AttentionSectionProps> = ({
           <InvoiceRequestsGroup rows={requestRows} deciding={deciding} onDecide={onDecide} />
         </div>
       )}
+      <BillingIncidents
+        summary={overview.incidents ?? null}
+        error={overview.incidentsError ?? null}
+        onResolved={onIncidentResolved}
+      />
       {allClear ? (
         <div className="flex gap-3 p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 light:bg-emerald-50 light:border-emerald-300">
           <CircleCheck className="w-4 h-4 mt-0.5 shrink-0 text-emerald-400 light:text-emerald-800" />
@@ -449,6 +465,14 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
   const [deciding, setDeciding] = useState<string | null>(null);
   const decidingRef = useRef(false);
 
+  // A resolved incident leaves the page's copy at once, so the tally and the list agree
+  // before the next read.
+  const resolveIncident = useCallback((id: string) => {
+    setOverview((prev) =>
+      prev && prev.incidents ? { ...prev, incidents: withoutIncident(prev.incidents, id) } : prev
+    );
+  }, []);
+
   // A call in flight is not dismissed: closing would drop its answer, and the
   // answer may be an invoice that has just been sent.
   useEscapeKey(isOpen && deciding === null, onClose);
@@ -576,6 +600,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
           requestRows={requestRows}
           deciding={deciding}
           onDecide={decide}
+          onIncidentResolved={resolveIncident}
         />
         <ActiveSection overview={overview} />
         <ComingUpSection overview={overview} />
