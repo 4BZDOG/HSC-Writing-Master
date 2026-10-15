@@ -5617,6 +5617,697 @@
                       }
                     ],
                     "scenario": "Students are studying the invented 30-line free-verse poem about a grandchild's grief for a grandmother who stopped baking years before she died, written for this question. Its final stanza shifts from past tense to present tense, and the tin is described as still on the bench."
+                  },
+                  {
+                    "id": "prompt-en-140",
+                    "question": "How does your study of The Penguin Henry Lawson Short Stories inform your understanding of place and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers treat place as the pressure that shapes people and their practices, not as scenery, and they tie that directly to culture: the bushwoman’s labour, the hollow wood-heap, the pub as the centre of town life.",
+                      "Close reference works best when it names the scene and a local detail, such as the bark kitchen, the earthen floor called a ‘ground floor’, or the drover’s past as an ex-squatter, and then uses a short verbatim phrase from the text to anchor the point.",
+                      "An answer that uses The Drover’s Wife only for the snake will stay at the level of description. The strongest responses bring in The Union Buries Its Dead as a second culture of place and set the two against each other.",
+                      "Lawson’s own narrative voice is evidence. Note where the narrator frames Aboriginal characters through the language of the period, and where he deliberately omits the stock images of bush identity."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the snake episode in order without saying what it reveals about the bush as a place, so that the answer describes events and never reaches the question.",
+                      "Describing the husband as a romantic drover who roams free, without noting that he is an ex-squatter ruined by drought and that the story is really about the woman who stays behind.",
+                      "Calling The Union Buries Its Dead a story about union solidarity, and missing that drink undercuts that solidarity and that the title is ironic.",
+                      "Using the wattle and the sunset as evidence of a real Australian bush identity, when the narrator says he has left them out."
+                    ],
+                    "keywords": [
+                      "place",
+                      "culture",
+                      "The Drover’s Wife",
+                      "The Union Buries Its Dead",
+                      "bush",
+                      "isolation",
+                      "mateship",
+                      "unionism"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of place and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of place and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of place and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-140-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Henry Lawson does not present place as a picture to admire. In The Penguin Henry Lawson Short Stories, the bush is a condition that shapes the people who must live in it, and “The Drover’s Wife” makes that its central claim. The opening description insists on the emptiness of the land. It is “bush with no horizon”, flat, with no ranges in the distance and no undergrowth, and nothing relieves the eye except the darker green of a few sheoaks above a creek that is almost waterless. The house is built of “round timber, slabs, and stringy-bark”, and the bark kitchen is larger than the house itself. It is a material environment that decides how a family eats, sleeps and survives.\n\nThat environment is inseparable from the culture of the bush in the 1890s, and the central figure shows what that culture asks of a woman. The drover is an ex-squatter ruined by drought, away with sheep and leaving his wife to manage alone for months at a time. Lawson reveals the husband’s past through her memories: he once hired a railway sleeping compartment and put up at the best hotels when he took her to the city, and he bought her a buggy that was given up along with everything else. The legend of the free drover, the man who moves across the country, sits beside the reality of the woman who stays behind. Her work is continuous. She waits out a snake with the children on the kitchen table, beats out a grass fire with a green bough in her husband’s trousers, digs an overflow gutter to save the dam, and fires through the slabs at a mad bullock. Lawson makes competence the highest value of this place.\n\nThe snake episode shows the link between place and culture most clearly. The woman does not trust the house, because the snake may come up “through a crack in the rough slab floor”. She moves the children into the bark kitchen, which has an earthen floor, a floor the story calls a “ground floor”, and she keeps a “green sapling club” on the dresser beside her all night. The vocabulary here, with its dirt floors, wood-heaps and a shanty on the main road nineteen miles away, marks a specific way of living that a city reader would not know. The improvisation is not a quaint detail. It is the culture itself, a set of adjustments made to a place with almost no outside help.\n\nLawson also places other people in this landscape, and his narrative voice is part of the evidence. Four bushmen arrive in time to save her from the fire, which shows a community that exists at a distance and gathers in emergencies. When her last child is born, King Jimmy comes to help, promising to bring “my old woman”, and Black Mary arrives to attend the birth. The narrator, however, describes a stray man who had brought her wood as “the last of his tribe and a King”, a phrase that flatters and diminishes in one breath. The story records a place shared by settlers and Aboriginal people, and it shows how the period’s language assigns each of them a status.\n\n“The Union Buries Its Dead” locates the same culture in another part of the bush, on the Darling River, where social life runs through the pub. The funeral gathers at a corner pub, mourners pass the time dancing jigs to a piano in the bar parlour, and “drink, however, is stronger than unionism”, so that more than two-thirds of the funeral are too drunk to follow the hearse. The title’s claim is ironic, because the solidarity it names is undercut at each stage by drink and by men who “were all strangers to the corpse”. Lawson’s narrator also refuses the stock images of Australian bush identity. He has left out the wattle, “because it wasn’t there”, and he omits the “sad Australian sunset” because the sun was not going down at the time. Place, in this sketch, is what is actually there rather than what a nationalist legend requires.\n\nTaken together, the two stories show that Lawson’s sense of place cannot be separated from the culture that makes it. The bush is flat, empty and unforgiving, and the culture that survives it is practical, gendered and sometimes cruel. The woman who beats out the fire and shoots the bullock is the figure through whom Lawson makes the place visible, while the union sketch shows the other face of bush life, the pub and the drink and the mateship that is performed rather than lived. Both stories refuse to romanticise the land, and that refusal gives a more honest account of what it means to belong to it. In Lawson, place is not scenery. It is a set of pressures that form the people who inhabit it, and it is in those people that the culture of the bush is finally made.",
+                        "feedback": "This answer sits in the 17–20 row. It explains how the bush and the bushwoman’s labour shape a culture of place, and it uses detailed references across two stories, including the bark kitchen and the narrator’s framing of the Aboriginal characters. To lift it further, the Aboriginal references could be handled with more precision, and the claim that the union story is about a nationalist legend could be argued more fully.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-140-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "In The Penguin Henry Lawson Short Stories, place is shown mostly through the bush and the hard lives of the people in it. In “The Drover’s Wife” the country is flat and empty, with no horizon and only some stunted apple-trees and sheoaks near a creek that is almost dry. The woman lives in a two-roomed house made of slabs and bark, and the nearest shanty is nineteen miles away. This isolation tells us that the bush is a hard place, and it shapes how people behave there. They have to be practical and tough because there is little help nearby.\n\nThe snake is the main example of this. When the snake gets under the house, the woman moves the children into the kitchen and sits up with a stick all night. The kitchen has an earthen floor, which the story calls a “ground floor”, so the family has to adapt its home to the land. The woman is clearly capable, but Lawson also shows her anxiety. Her brother-in-law’s little son has died after a snake bite, and she has not heard from her husband for six months. The reader sees that she is dealing with fear and loneliness as well as with a snake.\n\nThe husband is an ex-squatter who had to give up what remained of his flock after a drought, so he now works as a drover. He once took his wife to the city, where they stayed in good hotels, but those days are over. The woman does work that would normally belong to a man. She fights a grass fire by beating it with a green bough, and she shoots a mad bullock through the cracks in the slabs. This shows that the bush rewards endurance, and that the culture of the bush depends on women doing hard physical labour as well as running the household.\n\nThe story also includes other people. Four bushmen arrive in time to help at the fire, and King Jimmy and Black Mary come to help during a difficult birth. These people show that there is a community in the bush, although the narrator describes one of the men in a way that reflects the attitudes of the time.\n\nIn “The Union Buries Its Dead”, the setting is the Darling River, and the pub is the main social space. Many of the mourners get too drunk to follow the hearse, so the union’s solidarity seems weaker than the title suggests. The narrator also says that he has left out the wattle because it was not there, which suggests that Lawson wants to avoid the usual images of Australian bush life. Overall, Lawson shows that place shapes the people in it, and the culture of the bush is based on hard work, isolation and mateship, although the stories also show its weaknesses.",
+                        "feedback": "This answer sits in the 9–12 row. It explains how the bush shapes the people in it and uses The Drover’s Wife competently, but the Union sketch section is brief and much of the response describes events rather than arguing a position. To lift it, each reference needed to be tied to a claim about place and culture, with more precise close reference.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-140-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In “The Drover’s Wife” a woman lives alone in the bush with her four children while her husband is away droving. One of the children yells that there is a snake, and the snake disappears under the house. The mother moves the children onto the kitchen table and sits up all night with a stick, waiting for the snake to come out. Her big dog, Alligator, is with them, and he is the one who grabs the snake. The snake is killed and the mother throws it into the fire. The eldest boy then says he will never go droving. The story shows that life in the bush is lonely and hard, and that the woman has to look after her family by herself. It also shows that she is strong and brave. The bush is a difficult place to live, and the story shows how people survive in it.",
+                        "feedback": "This answer sits in the 5–8 row. It retells the snake episode and calls the bush a hard place, but the reference to the text is limited and the response does not explain how place connects to culture. To lift it, the writer should choose two or three precise details, such as the earthen floor or the hollow wood-heap, and explain what each reveals about the bush.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(a) — Prose Fiction — Henry Lawson, The Penguin Henry Lawson Short Stories. The prescribed stories are: The Drover’s Wife; The Union Buries Its Dead; Shooting the Moon; Our Pipes; The Loaded Dog. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(a)"
+                  },
+                  {
+                    "id": "prompt-en-141",
+                    "question": "How does your study of Small Island inform your understanding of place and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Place in the novel is a set of expectations as well as a physical city. The strongest responses show the gap between Hortense’s picture of England and the London she actually finds, and they treat that gap as a cultural point, not only a personal one.",
+                      "The four narrators are a structural choice that the answer should use. Note how each narrator’s position changes what the reader sees of the same rooms, and link that to culture rather than to a list of who speaks.",
+                      "Close reference to the house at 21 Nevern Street in Earls Court makes the argument concrete. A response that names the house and what happens inside it is stronger than one that discusses ‘London’ in general terms.",
+                      "Put ‘Mother Country’, belonging and identity to work inside the argument. They should explain the characters’ choices, not sit as labels at the start of paragraphs."
+                    ],
+                    "commonStudentErrors": [
+                      "Treating Small Island as a simple story about racism without explaining how place produces that racism, such as the neighbours, the boarding house and the idea of the Empire.",
+                      "Mixing up the four narrators or attributing a view to Queenie or Bernard that the novel does not support.",
+                      "Describing Hortense’s England as pure fantasy without showing that her colonial education gave her the idea of England she brings with her.",
+                      "Inventing a scene inside the Nevern Street house, or quoting from memory, when the answer needs specific detail the writer has not checked."
+                    ],
+                    "keywords": [
+                      "place",
+                      "culture",
+                      "Small Island",
+                      "Mother Country",
+                      "Hortense",
+                      "Queenie",
+                      "belonging",
+                      "identity"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of place and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of place and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of place and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-141-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Andrea Levy’s Small Island treats place as something imagined before it is lived, and then as something that must be fought over. The novel, published in 2004, is set mostly in London in 1948, with flashbacks to earlier years, and it is narrated in turn by four characters, each giving a different view of the same rooms and the same city. Hortense, who comes from Jamaica and was raised under British colonial rule, arrives in England with a picture of London as the place where her education will finally be recognised. She hopes to become a teacher, and she is well-mannered and a little snobbish, which is part of the upbringing the colony gave her. Her England is shaped by what she was taught to admire, and so the place she was educated to love is not the place she finds.\n\nGilbert, her husband, shows the same gap from another side. He served in the RAF during the war and fought for what was called the “Mother Country”, the nation the Caribbean men believed was theirs to defend. When he returns to England as a civilian, he meets a cold reception rather than the welcome he expected. His desperation leads him to Queenie Bligh, whom he met during the war, and this is where the novel’s key setting comes in. Queenie’s house at 21 Nevern Street in Earls Court takes in Jamaican lodgers, and her neighbours disapprove. In this house, place is not a fixed idea but a negotiation about who is entitled to belong.\n\nQueenie is English and married to Bernard, who is away at the war when she first opens her house to servicemen. Bernard is reserved and awkward, and he has a streak of racism that shapes how he sees the people sharing his home. Queenie’s position is more complicated, because her decision is made in the circumstances of a wartime marriage that is strained. The novel’s four narrators, Hortense, Gilbert, Queenie and Bernard, give the reader four perspectives on the same rooms, and that structure makes place a matter of who is looking. Levy does not allow the reader one stable view of London.\n\nThe novel’s treatment of identity and belonging depends on this shifting perspective. Hortense’s manners do not protect her from the rejection she meets, and Gilbert’s clumsy good nature cannot win him the respect he expected from the country he fought for. The themes of race, identity, belonging and trauma are located in specific rooms, in neighbours who object to the lodgers, and in a husband whose prejudice is still shaped by the war. Culture is therefore carried in the house as well as in the nation.\n\nThe title of the novel invites a comparison between the two islands in the story, Jamaica and Britain, and Levy makes both of them small in different ways. Jamaica is small in the eyes of the empire that governs it, while Britain is small in the eyes of its colonial subjects, who discover that the nation they imagined is more limited than its myth. The flashbacks take the reader back to a Jamaican schoolroom where England was taught as the centre of the world, and forward into the post-war city where that lesson is tested. The movement between islands and decades makes place a historical relationship rather than a fixed location.\n\nLevy’s Small Island shows that Britain’s sense of itself as the Mother Country is a fiction that its colonial subjects were taught to believe. When the 1948 London of the novel meets the people it had educated, the fiction breaks down. Hortense’s disillusion, Gilbert’s rejection and Queenie’s quiet defiance together make place a site of contest. Culture, in the novel, is what people carry into a house and what that house forces them to renegotiate. Levy does not offer a comfortable resolution, and the London she describes is still divided about who belongs. Place, in the end, is where the novel’s argument about belonging is finally decided.",
+                        "feedback": "This answer sits in the 17–20 row. It explains how London and the Nevern Street house become sites where ideas about the Mother Country and about belonging are tested, and it refers closely to the four narrators and to the characters’ choices. To lift it further, it could make the link between Hortense’s colonial schooling and her picture of England more exact and test the claim about the four perspectives with a specific scene.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-141-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "In Small Island, Andrea Levy presents place mainly through London in 1948, and through the house at 21 Nevern Street in Earls Court. Hortense comes from Jamaica, and she has grown up with ideas about England that her colonial schooling gave her. She arrives expecting a better life and wants to become a teacher. Her husband Gilbert is a former RAF man, and he has also come to England with hopes built on his war service. The novel shows that these hopes are not met, because London is not the place they expected.\n\nQueenie is English and lives in the house with her husband Bernard. When Bernard went to war, Queenie opened her home to servicemen, and this is how she met Gilbert. Her neighbours do not approve of her taking Jamaican lodgers, so the house becomes a place where people argue about who is allowed to belong. Bernard is reserved and awkward, and he has a streak of racism. This shows that the prejudice in England is not only found in the streets but also inside private families and homes.\n\nThe novel is narrated in turn by four characters, which means the reader sees London from several different positions. This gives a sense of how the city feels different to different people. Hortense is polite and a little snobbish, and Gilbert is good-natured and clumsy. These qualities show how they try to fit into English life, and how difficult that is. Gilbert fought for Britain, so he expects to be welcomed, and the cold reception he meets is a shock to him. The novel is about race, identity, belonging and trauma, and all of these are connected to place.\n\nLevy’s novel shows that the idea of England as the Mother Country mattered to people from the Caribbean, but when they arrive the idea does not match reality. This is a key point about the novel and place. It also connects to culture because the characters bring their own culture with them and have to adapt to a new one that does not always welcome them.",
+                        "feedback": "This answer sits in the 9–12 row. It explains the setting and the characters with reasonable accuracy, but much of it describes who the characters are and what happens, and the argument about place is thin. To lift it, the writer needed to make each detail do work: what the house shows about prejudice, and what the narrators’ shifting views show about London.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-141-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In Small Island, Hortense and Gilbert move from Jamaica to London in 1948. Hortense is hoping for a better life and wants to be a teacher, and Gilbert has served in the RAF during the war. When they arrive, they find that England is not what they expected. They end up in the house of Queenie and Bernard. Queenie is English, and she takes in lodgers even though her neighbours disapprove. Bernard has a streak of racism, and Queenie is caught between her husband and her lodgers. The novel shows that place matters because London is not the same as the picture Hortense had of it, and it shows how people have to adapt to a new culture when they move to a new country.",
+                        "feedback": "This answer sits in the 5–8 row. It retells the basic situation and names the house and the characters, but the reference to the text is limited and the response only partly connects place to culture. To lift it, the writer should pick one or two specific details from the novel and explain what each shows about place and belonging.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(b) — Prose Fiction — Andrea Levy, Small Island. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(b)"
+                  },
+                  {
+                    "id": "prompt-en-142",
+                    "question": "How does your study of Contemporary Asian Australian Poets inform your understanding of family and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Strong answers treat family as the carrier of culture rather than as a topic, so each poem discussed should show a specific transmission: a story, a sacrifice, a gift or a name.",
+                      "Use the anthology's shifts of language as evidence. Bobis's movement from Bikol to Pilipino to English does real work when the argument is about inheritance.",
+                      "Keep the family figures distinct. The grandmother, grandfather, mother and son in these poems each carry a different cultural burden, and the answer that separates them is the one that reads closely."
+                    ],
+                    "commonStudentErrors": [
+                      "Writing that families are important to culture in general terms, without naming a poem or showing a specific family member at work.",
+                      "Presenting the poems as a list of migrant hardships rather than as an argument about how family shapes culture.",
+                      "Giving the grandmother's storytelling to the mother in Bobis's poem and so losing the poem's family inventory.",
+                      "Ignoring the son's position at the end of Mother and treating the poem as a story only about Saigon."
+                    ],
+                    "keywords": [
+                      "family",
+                      "culture",
+                      "Contemporary Asian Australian Poets",
+                      "Mother",
+                      "Translucent Jade",
+                      "This is where it begins",
+                      "storytelling",
+                      "migration",
+                      "inheritance"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of family and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of family and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of family and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-142-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Family is the place in Contemporary Asian Australian Poets where culture is first handed down, and the anthology shows how that inheritance is carried, strained and remade across the migrant generation. In the poems set for study, family is an archive of stories, a field of sacrifice and a source of names that the speaker must learn to read. Culture does not arrive in these poems as a fixed body of tradition. It reaches the speakers through the people closest to them, in languages that do not always agree with one another.\n\nMerlinda Bobis's This is where it begins makes this the clearest. The speaker asks where her urge to tell stories came from, and the poem tests several answers in turn: her grandmother's tales, her grandfather's teasing, her mother's scraps of Spanish, her father's gestures. The question is itself a family inventory. The poem opens in Bikol, moves into Pilipino and then English, so that its form enacts the layering of tongues within one household. The speaker concludes that storytelling is never a solitary act, because the storytellers who came before her live on inside her. Culture here is a voice passed down the family line, and the speaker's own writing is the latest link in that chain.\n\nFamily in Vuong Pham's poem Mother is shaped by war rather than by storytelling. The poem places the family's history in Saigon and the Fall of Saigon, and it shows a mother who wanted to teach in a high school. Instead she sewed garments for little pay so that her child could stay at school. Her sacrifice is the family's cultural cost, because the ambition she carried is set aside to secure a future in a new country. The poem then turns on the son's position. He now teaches English, so the work his mother wanted has passed to him in the language of his new country. The poem is also honest about the gap between his carefree childhood and the violence she had lived through, and that gap shows how migrant families carry memory unevenly. A reader who looks only at the son's career may miss how much of the mother's sacrifice is still carried in his work.\n\nMaureen Ten's Translucent Jade extends this into identity and naming. The grandfather gives the speaker a gift at her birth, and her mother gives her a name. The poem thus holds two strands of family, one rooted in Chinese culture and one lived in Australia. Her uncertainty about a culture she was not taught in full suggests the difficulty of inheriting it, a feeling close to being an imposter. The jade is a symbol of luck and belonging that she can hold but cannot yet read. Ten's poem is brief in its statements, yet dense with the gifts the speaker is still learning to interpret. Ten suggests that family transmits culture as an object or a name whose meaning must be recovered, not as a complete body of knowledge.\n\nTaken together, the three poems show that family is both the vehicle and the pressure point of culture. Bobis presents inheritance as a chain of storytellers, Pham shows its cost in migration, and Ten shows the uncertainty that comes when gifts are given before they are understood. Contemporary Asian Australian Poets gathers the writing of migrants, their children and refugees, and in these poems the family is where Asian heritage becomes Australian experience. The anthology argues that culture survives through family not by being preserved intact, but by being reshaped in each generation. The grandmother's tales become the poem, the mother's sacrifice becomes the son's teaching, and the grandfather's gift becomes a name the speaker must learn to say. That is an argument about family which is also an argument about culture.",
+                        "feedback": "This answer meets the 17-20 criteria row. It explains how the poems inform an understanding of family and culture, uses several detailed references across three poems, and organises the argument with control. To lift it further, the closing paragraph could test the anthology's claim against one poem that resists it, such as a poem with no family figure at all.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-142-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Contemporary Asian Australian Poets shows family as the place where culture is passed on, and also as the place where it is put under strain. Merlinda Bobis's poem This is where it begins shows the first of these. The speaker asks where her desire to tell stories came from. She lists her grandmother's tales, her grandfather's teasing, her mother's Spanish words and her father's gestures. The poem starts in Bikol, then moves into Pilipino and English, which reflects the mix of languages in her family. At the end the speaker says that storytelling is not something done alone, because the people who came before her are still with her. This shows that culture is handed down through family, and that the speaker is continuing a tradition she inherited.\n\nVuong Pham's poem Mother shows a different side of family. It is set in Saigon and refers to the Fall of Saigon, after which the family had to leave Vietnam. The mother wanted to be a high school teacher, but she had to sew clothes for little money so that her son could go to school. The son now teaches English, so he is doing the kind of work his mother had hoped to do. This means that family sacrifice has an effect on culture, because the son gets the chances his mother did not have. The poem also sets the son's happy childhood against the violence his mother lived through, which shows that the family experienced migration in different ways.\n\nBoth poems show that family is central to culture. Bobis shows storytelling passing down the family line, and Pham shows the cost of migration for a parent. Family helps people keep their identity, but it also changes when people move to a new country. Both poems also show family as a source of pride as well as hardship. The anthology is useful for this idea because it brings together many poets with migrant and refugee backgrounds, so the reader can compare how different families deal with culture and change. A reader who studies only one poem may see family as a source of comfort, but across the anthology it is also a source of loss and effort.",
+                        "feedback": "This answer meets the 9-12 criteria row. It explains how the poems connect family and culture, but the paragraphs lean towards description, with each poem's details given in turn before the argument is stated. To reach the 13-16 row, each paragraph should open with a claim about family and culture and use one poem's specific wording to test it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-142-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Vuong Pham's poem Mother, from Contemporary Asian Australian Poets, is about a mother and her son. The mother came from Vietnam after the war. She wanted to be a teacher, but she sewed clothes so she could pay for her son's school. Her son is now a teacher of English. This shows that family matters to culture, because the mother worked hard for her child and the child became a teacher. The poem also talks about the family's life in Saigon and the violence of the war. Family is important in this poem and in other poems in the anthology, which are written by migrants and their children. The poem is about the family's history and how it came to Australia. It shows the mother's hopes and the son's achievement, which ties family to a culture of effort and hard work.",
+                        "feedback": "This answer meets the 5-8 criteria row. It describes Mother and touches on family and culture, but the references are limited and the response is organised as a retelling. To move up, it needs an argument about how family shapes culture and at least two specific references to the poem.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(c) — Poetry — Adam Aitken, Kim Cheng Boey and Michelle Cahill (eds), Contemporary Asian Australian Poets. The prescribed poems are: Merlinda Bobis, This is where it begins; Miriam Wei Wei Lo, Home; Ouyang Yu, New Accents; Vuong Pham, Mother; Jaya Savige, Circular Breathing; Maureen Ten (Ten Ch’in Ü), Translucent Jade. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(c)"
+                  },
+                  {
+                    "id": "prompt-en-143",
+                    "question": "How does your study of Inside my Mother inform your understanding of place and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Strong answers separate place as a real location, such as Oombulgarri, from place as Country, the relationship a poem can carry through a tree, the soil or a grandmother's home.",
+                      "The best responses argue that Eckermann's view of place is built through the poems' images and the history behind them, rather than asserted.",
+                      "Link biography to the poems selectively. One sentence connecting the Stolen Generations to the search for Country does more than a paragraph of background."
+                    ],
+                    "commonStudentErrors": [
+                      "Treating Oombulgarri as a poem about a natural disaster or a drought, when its subject is the 2011 closure of an Aboriginal community.",
+                      "Reading Leaves as a poem about the seasons rather than about a tree that the speaker links to her father.",
+                      "Describing the poems in the order they appear in the book without linking any of them to place.",
+                      "Using the biography of Eckermann as the argument, without showing how it shapes what the poems do with place."
+                    ],
+                    "keywords": [
+                      "place",
+                      "culture",
+                      "Inside my Mother",
+                      "Oombulgarri",
+                      "Unearth",
+                      "Leaves",
+                      "Country",
+                      "Stolen Generations",
+                      "Key"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of place and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of place and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of place and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-143-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Place in Inside my Mother is never only scenery. Ali Cobby Eckermann writes place as the ground where Aboriginal culture has been damaged and where it still holds, so the land in these poems carries both loss and kinship. The poems on place move from a community that the state emptied, to soil that hides the dead, to a single tree that stands in for a father, and finally to a grandmother's illness. Read together, they show that culture is tied to Country in a way that official policy repeatedly tried to break, and the poems insist that the tie can be restored.\n\nThe clearest case of place as political fact is Oombulgarri. The poem takes its subject from a remote Aboriginal community on the Forrest River in the Kimberley, which the Western Australian government closed in 2011 after declaring it no longer viable. Services were withdrawn, power and water were cut, and residents were given until late that year to leave, although many had refused to go. A human rights organisation has since described the removal as a forced eviction. Eckermann writes the town as emptied out, and the poem's grief depends on a reader knowing this history, since the page does not explain it in full. Place here is a home that was made into a ghost town, and its connection to culture lies in the daily life of the community that the closure removed.\n\nUnearth turns from the town to the ground itself. Its speaker is a female persona who addresses the reader and invites them to dig up the soil, bringing up the bones of the dead. The excavation is a form of remembering, and the poem's images of a hot wind and warriors in the mirage place Aboriginal history inside the landscape rather than beside it. Eckermann presents an older culture as buried beneath a newer one that displaced it, and the act of digging argues that the past must be brought back into view. The poem closes with the line that there is blood on the truth, which places the violence back in the ground that holds the dead.\n\nTrance shows place in a more intimate register. An old woman prepares to enter a trance, and as the poem moves through its two sections she recalls a lover she misses. A trance is a state with links to older ritual practice, and the natural world offers her a kind of solace. Leaves narrows the lens to a lone tree on a ridge, which the speaker wonders may be her father because it stands like him. Here land becomes kin. Place is the way family survives in a landscape from which the speaker was once separated.\n\nThe connection to culture is sharpened by Eckermann's own history. She is a member of the Stolen Generations, grew up in an adoptive family, and identifies as a Yankunytjatjara and Kokatha woman. As a teenager she ran away to Ooldea without knowing of her connection to the place, and at 34, after the Bringing Them Home report, she met her birth mother. The poems that return to Country therefore come from a life in which place was lost before it could be learned.\n\nKey shifts from place to kinship. Across eleven stanzas it centres on a grandmother's illness and on the family and Country that surround her, so that family becomes a place in its own right. The relationship between the generations is held in the same ground as the land outside, and the poem treats the family home as a space where culture is kept and passed on.\n\nTaken together, the poems argue that place in Inside my Mother is inseparable from culture, because culture is held in Country and in family, and both can be broken by policy. Oombulgarri shows what the state can take, Unearth shows what the ground remembers, Trance and Leaves show how nature and land still speak to the speaker, and Key shows that place continues within the family. Eckermann's book does not offer a simple recovery. It offers a record of loss and a claim that the connection to Country endures, and that is how it informs an understanding of place and culture.",
+                        "feedback": "This answer meets the 17-20 criteria row. It explains how the poems inform an understanding of place and its connection to culture, and it moves from the closure at Oombulgarri to Unearth, Leaves and Key with a clear line of argument. To lift it further, the Trance paragraph could be developed more closely, since it currently carries less analysis than the others.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-143-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Ali Cobby Eckermann's Inside my Mother presents place as a site of loss and connection. The poem Oombulgarri is about an Aboriginal community in Western Australia that was closed by the government in 2011. Residents had to leave, and the town is now empty. The closure scattered a community, and the poem's voice shows how hard that was for those left behind. This shows a link between place and culture, because the town was a home for Aboriginal people and its closure removed their way of life. The poem also shows the poet's anger about what happened, and a reader needs to know the history to understand this.\n\nThe poem Unearth is about digging up the soil to find the bones of the dead. The speaker is a woman who asks the reader to dig with her. The poem refers to a hot wind and to warriors, and it ends with the line that there is blood on the truth. This shows that the land contains history and that the violence done to Aboriginal people is still present in the land. The poem is a call to remember, and it makes the reader part of the digging.\n\nThe poem Leaves describes a tree on a ridge that the speaker thinks might be her father. This shows that the land can connect people to family. The tree stands like the father, so the landscape becomes a kind of family member rather than a backdrop. Eckermann was a member of the Stolen Generations and grew up away from her family, so the poem is about finding her roots. She met her birth mother only as an adult, so her poems treat Country as something to return to.\n\nOverall, the poems show that place and culture are linked. Eckermann uses place to show history and family, and the poems are about Aboriginal people and their land. Her poems show that loss and connection are both part of the relationship between culture and place. The poems do not separate the speaker's own grief from the grief of the community.",
+                        "feedback": "This answer meets the 9-12 criteria row. It explains how place connects to culture across three poems, but the details are often stated rather than analysed, and the biographical sentences are not tied to the poems. To reach the 13-16 row, each poem should be read for how its images make place mean something, not just what happens in it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-143-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Ali Cobby Eckermann's Inside my Mother has poems about places. The poem Oombulgarri is about a town in Western Australia that was closed by the government, and the people had to leave. The poem Unearth is about digging in the soil and finding bones. This shows that the land has history. The poem Leaves is about a tree on a ridge that looks like a father. Eckermann was in the Stolen Generations, and she grew up away from her family. Place is important in her poems because it connects Aboriginal people to their culture and land. The poems show that these places matter to the poet and to her people. The poem Oombulgarri shows a town closed and emptied, and the poem Unearth shows land holding history that people have tried to forget.",
+                        "feedback": "This answer meets the 5-8 criteria row. It describes three poems with some reference to place and culture, and the organisation is a list of poem summaries. To move up, it needs a claim about how place connects to culture and sustained reference to what the poems do.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(d) — Poetry — Ali Cobby Eckermann, Inside my Mother. The prescribed poems are: Trance; Unearth; Oombulgarri; Eyes; Leaves; Key. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(d)"
+                  },
+                  {
+                    "id": "prompt-en-144",
+                    "question": "How does your study of Summer of the Seventeenth Doll inform your understanding of change and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Change here is the breakdown of a yearly cycle. The strongest answers show how each change (Nancy’s marriage, Pearl’s arrival, Roo’s injury, the proposal) threatens the layoff ritual, rather than listing them one after another.",
+                      "The culture is specific: cane cutting in Queensland, the Melbourne house, the layoff, mateship between men and a set of expectations about women. Name it precisely and argue what the play shows about it.",
+                      "The doll is a symbol to be read, not a plot point to be retold. Good answers say what the doll stands for and what its breaking means, without overclaiming who breaks it or how.",
+                      "Use stage detail, such as the Carlton house and the neighbour Bubba, as close reference, because the play’s staging is evidence of the culture it presents."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing Olive as a passive woman waiting for Roo, without noting that she chooses to refuse the proposal and wants her old freedom back.",
+                      "Treating the doll as a romantic gift and never linking it to the end of the layoff season, which is what the question asks about.",
+                      "Treating the cane fields as background, when they are the source of Roo’s injury and of the men’s way of life.",
+                      "Claiming the play ends with a marriage or with Olive leaving the group."
+                    ],
+                    "keywords": [
+                      "change",
+                      "culture",
+                      "Summer of the Seventeenth Doll",
+                      "seventeenth doll",
+                      "layoff",
+                      "mateship",
+                      "Olive",
+                      "Roo"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of change and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of change and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of change and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-144-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Ray Lawler’s Summer of the Seventeenth Doll presents change as the collapse of a settled cycle rather than as slow development. The play is set in Carlton, a Melbourne suburb, in the summer of 1953, and its characters have organised their lives around an annual arrangement. Roo and Barney cut cane in Queensland for most of the year, then return south for the layoff, about five months of partying and romance with Olive and her friend Nancy. Each season Roo brings Olive a doll, and this year’s is the seventeenth, which gives the play its title. The arrangement has held for years, and the play asks what happens when the people inside it begin to age.\n\nThe first changes are in the group itself. Nancy has married and left the arrangement, so Olive has to bring in Pearl, a poised and snobbish woman, to take Nancy’s place with Barney. Pearl makes him feel he is not good enough, and her presence changes the whole mood of the summer. Bubba, a young neighbour who has long envied the freedom of Olive and Nancy, stands at the edge of the group and shows how the life the older characters have built is admired and also threatened. The women in the Melbourne house have a life of their own, and the men must fit into it or be pushed out.\n\nRoo’s body carries the clearest sign of time. He has had a poor season in Queensland and hurt his back in the cane fields, so the physical labour that defines his place among the men is no longer something he can rely on. In this context Roo asks Olive to marry him and settle down. Olive refuses, because she wants her old life and her freedom back, and marriage is, to her, the opposite of the life she has. The proposal exposes the central contradiction of the summers. The arrangement offered permanence in the form of a yearly return, but it could never offer a future.\n\nThe culture of the play is organised around two worlds, the masculine world of the cane fields and the feminine world of the Melbourne house. Mateship between Roo and Barney gives the men their identity, but it depends on the seasonal break from ordinary life, and a quarrel that began in the cane fields now strains it. The friendship does not survive the quarrel, and the seventeenth doll is broken, which turns the emblem of the layoff into the emblem of its ending. The men’s culture cannot be sustained as an unchanging ritual once the people who perform it have changed.\n\nThe seasonal pattern also gives the characters their sense of time. Each summer is a fixed point, a few months in which the men are at home and the women can pretend that nothing has altered. The layoff is a holiday from the labour that otherwise defines the men, and it is also a holiday from the expectations of the city. Lawler makes the audience feel the pressure of that brief freedom. The arrangement depends on both sides agreeing not to look beyond the season, and the play is about what happens when someone finally does.\n\nThe play closes with the old pattern broken: the partnership between the men has failed, the doll is broken, and the summer cannot go back to what it was. The change in Lawler’s play is therefore not a single event but a series of losses: a marriage that does not happen, a friendship that cannot be repaired, and a summer that cannot be recovered. Lawler shows that the culture of the cane cutters and the Melbourne women was built on repetition, and that repetition is what time erodes. The change does not come from a choice any one character makes. It comes from injury, ageing, a new woman and a refused proposal, and the play is precise about the cost to the people who lived inside that Australian way of life.",
+                        "feedback": "This answer sits in the 17–20 row. It treats change as the breakdown of the layoff cycle, links each change to the culture of the cane fields and the Melbourne house, and reads the doll and the proposal closely. To lift it further, the discussion of who breaks the doll and how could be handled more carefully, since the sources disagree, and the link between Olive’s refusal and the women’s culture could be developed.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-144-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "In Summer of the Seventeenth Doll, Ray Lawler shows change through the yearly visit of two cane cutters to Melbourne. The play is set in Carlton in the summer of 1953, and it shows how the layoff has become a regular part of the lives of Roo and Barney. Every year they come back from Queensland and spend months with Olive and Nancy. The doll that Roo brings Olive each season is the seventeenth, and this suggests that the arrangement has lasted a long time. The title points to a tradition that is about to come to an end.\n\nNancy is no longer part of the group because she has married. Olive brings Pearl into the house to take her place with Barney. Pearl is more formal than the others and she is not as much fun, which changes the mood of the group. Bubba is a young neighbour who has always wanted to be like Olive and Nancy.\n\nRoo has had a bad season in Queensland and has hurt his back. He is not able to work in the cane fields as well as he once did, and this affects his position among the men. He asks Olive to marry him and settle down. Olive says no because she wants to keep her freedom, and the proposal shows that Roo wants a different life from the one the summers have given him. Change affects the men and the women in different ways.\n\nThe men’s friendship is also important. Roo and Barney have worked together for many years, and their mateship is the main reason the layoff exists. But the friendship is damaged by a quarrel that began in the cane fields, and it does not survive. The seventeenth doll is broken, and the group that gathered every year is no longer able to meet in the same way.\n\nThe play shows that the cycle of seasonal work and summer holidays cannot last forever. Lawler presents the culture of the cane cutters as a way of life that depends on men returning to the same women every year. When the characters change, the culture changes too, and the play is about the loss that comes from this.",
+                        "feedback": "This answer sits in the 9–12 row. It identifies the main changes and the characters involved with reasonable accuracy, but the response mostly describes what happens and makes only a few links to culture. To lift it, each change needed to be argued as a threat to the layoff ritual, with more specific close reference to the play.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-144-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Summer of the Seventeenth Doll is set in Melbourne in 1953. Roo and Barney are cane cutters who come back from Queensland each summer to stay with Olive and her friends. Roo brings Olive a doll each season, and this year it is the seventeenth. Things are different this year. Nancy has married, and Olive brings in another woman, Pearl, to take her place. Roo has had a bad season and hurt his back in the cane fields. He asks Olive to marry him, but she says no. In the end the men’s friendship breaks, the doll is broken and the layoff is over. The play shows how things change over time and how the people in it have to deal with that change.",
+                        "feedback": "This answer sits in the 5–8 row. It retells the main events and names the characters, but the reference to the text is limited and the response only briefly touches change and culture. To lift it, the writer should pick one or two specific changes and explain what each shows about the cycle of the summers.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(e) — Drama — Ray Lawler, Summer of the Seventeenth Doll. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(e)"
+                  },
+                  {
+                    "id": "prompt-en-145",
+                    "question": "How does your study of Pygmalion inform your understanding of change and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "A strong answer treats change as something done to Eliza and also something she does, and it tests Higgins's claim to have taught her against her own words in the fourth and fifth acts.",
+                      "Doolittle works best as a counterpoint. He shows that class can be bought or inherited, which sharpens the claim about culture rather than adding a second character summary.",
+                      "Close reference means naming the act and the exchange, not only the plot. A short, exact phrase from the text does more analytical work than a summary of Eliza's lessons.",
+                      "The best answers do not treat the ending as neat. Eliza's decision to marry Freddy is a choice made inside the limits of her culture, and a strong answer explains those limits."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the lessons in Higgins's house as if the change were complete from the first act, without tracing how Eliza's crisis in the fourth act tests it.",
+                      "Treating Eliza as Higgins's victim only, and missing that she names the terms of her own change in the final act.",
+                      "Drawing on the romance of the musical My Fair Lady rather than Shaw's concern with class and language.",
+                      "Describing Doolittle as comic relief without explaining what his attack on middle class morality reveals about culture."
+                    ],
+                    "keywords": [
+                      "Pygmalion",
+                      "change",
+                      "culture",
+                      "Bernard Shaw",
+                      "Eliza Doolittle",
+                      "Henry Higgins",
+                      "class",
+                      "phonetics"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of change and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of change and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of change and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-145-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "In Bernard Shaw's Pygmalion, change is never simply a matter of personal growth. It is shaped by the culture that decides who may speak, how they may speak and what authority their speech carries. Through Eliza Doolittle's transformation from a Covent Garden flower seller into a woman who can pass as a lady, the play shows that change in identity is possible yet tightly bound by the social order that judges it.\n\nThe play opens in the rain under the portico of St Paul's Church, where Henry Higgins, a phonetics professor, reads the accents of strangers and places each one by origin. His boast in the first act that he could make Eliza a duchess becomes a wager with Colonel Pickering, so that her speech turns into the stake in a bet between men. Language is the marker of culture here: Higgins locates people through their vowels, and the society he moves in treats that knowledge as a kind of authority. Eliza's change therefore begins as an experiment in which she is the subject rather than the agent.\n\nEliza's own motive is practical. She wants to speak correctly so that she can run a flower shop, and her lessons in vowels and phrasing are a means of entering a respectable trade. The change is also a performance that Higgins directs and tests. When he says he has taught her to speak properly, his language reveals that he regards her as the product of his training rather than as a person who has changed herself. Her pronunciation shifts, but the culture that rewards the shift still treats her origins as a fault.\n\nAlfred Doolittle, Eliza's father, gives the play its second view of change, and his concern is money rather than refinement. When an unexpected fortune lifts him into middle-class circumstances, he calls 'middle class morality' an excuse for never giving him anything. Doolittle shows that respectability is a set of social rules that can be adopted, resisted or exploited. Shaw places father and daughter side by side so that class appears to be a structure that rewards money more readily than it admits the poor.\n\nThe central tension in the play's treatment of change arrives in the fourth act, when Eliza tells Higgins, 'I sold flowers. I didn't sell myself.' The line is precise. Trade in the old world was poor, but it left her independent, whereas her new position depends on the approval of the men who taught her. Her transformation has removed her from the flower trade without admitting her to the upper class, so marriage becomes the only secure future left to her. The culture that rewards her refinement has also narrowed her choices. Doolittle's comic defiance is a reminder that the rules of respectability are written by people with money.\n\nIn the final act, set in Mrs Higgins's home, the change is complete in outward terms, yet the emotional ending is unsettled. Higgins admits that he will miss Eliza, saying 'I shall miss you, Eliza', and he credits her with having taught him something. The humility is brief, and the play leaves the reader to decide how genuine it is. Eliza's reply reframes the lesson of the play: the difference between a lady and a flower girl lies in 'not how she behaves, but how she's treated'. Class, she suggests, is a matter of recognition granted by others, which makes it a matter of culture rather than manner. Eliza then declares that she will marry Freddy and pursue a career in phonetics teaching.\n\nPygmalion therefore presents change as real but bounded. Eliza's speech and manners are complete enough to convince Higgins's world, yet they neither secure her independence nor dissolve the class culture that measures her. Shaw uses the flower seller's transformation to show that language is where individual change and cultural judgement meet. A close study of the play shows that the decisive question is not whether Eliza can change, but who holds the power to decide what that change is worth.",
+                        "feedback": "This answer meets the top descriptor because it explains how Eliza's change is shaped by class and by Higgins's ownership of her speech, and it anchors that argument in the first, fourth and final acts. Close reference is sustained throughout, and the short quotations do real analytical work. To lift it further, the final paragraph could test Shaw's ending more directly against the claim about culture rather than restating the conclusion.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-145-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Bernard Shaw's Pygmalion is a play about change, and in particular about how a person's speech can be altered by teaching while their social position stays fixed. Eliza Doolittle begins as a flower seller at Covent Garden. Henry Higgins, a phonetics professor, makes a wager with Colonel Pickering that he can pass her off as a lady, so the play starts with a question of language that leads directly to the class culture of the society around them.\n\nEliza's change is visible in her speech. She wants to speak properly so that she can run a flower shop, and Higgins drills her in vowels and manners until she can attend an embassy ball and be taken seriously. Higgins is proud of this and says he has taught her to speak properly. The change succeeds on the terms of the wager, but Shaw also shows that it is a performance, and Higgins treats Eliza as an experiment rather than as a person who has chosen to change herself.\n\nAlfred Doolittle represents another kind of change. He is interested in money rather than refinement, and when he comes into a fortune he becomes a man of middle-class means. He complains about 'middle class morality', which in his view is only an excuse for never giving him anything. Doolittle shows that respectability is a set of rules that can be taken up or exploited, so the class structure appears less natural than it seems.\n\nThe most important moment for Eliza comes in the fourth act, when she tells Higgins that she sold flowers but did not sell herself. This shows that she values her independence from the old world, even though that world was poor. Her new position as a lady has removed her from the flower trade without giving her a secure place in the upper classes, and she is left dependent on marriage for her future.\n\nIn the final act Higgins says he will miss her, and Eliza responds with a point about how people are treated. Her change of speech has not made her a lady in the eyes of the society she is trying to enter, and the play suggests that class is something other people recognise and grant. Eliza then declares her intention to marry Freddy and to pursue a career in phonetics teaching. Shaw's conclusion is that change in Pygmalion is real but limited by the culture that judges it.",
+                        "feedback": "This answer meets the competent descriptor. It explains the play's treatment of change and class with adequate references, but several paragraphs describe Higgins's lessons and Doolittle's remarks rather than arguing from them. Quotations are fewer and less developed, especially in the final-act paragraph. Tying Eliza's final words more closely to the culture that frames them would move it towards the effective descriptor.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-145-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In Pygmalion, Henry Higgins makes a bet with Colonel Pickering that he can teach Eliza Doolittle to speak like a lady. Eliza is a flower seller who wants to improve her speech so she can run a flower shop, and she takes lessons from Higgins at his home. Higgins teaches her to pronounce her words properly, and she is taken to an embassy ball, where she is presented in society. Her father, Alfred Doolittle, speaks about money and respectability. At the end, Eliza tells Higgins that she plans to marry Freddy. The play shows change in Eliza and class in English society, and it suggests that language is a way of being judged by others and by oneself. Higgins's pride in the result is clear throughout. This is a change of speech rather than a change of class.",
+                        "feedback": "This answer describes aspects of the plot and reaches for change and culture without a textual reference, which places it in the descriptor for describing the text with some reference to the question. To move it up, the student needs one precise reference to a scene, such as the fourth act, and an explanation of what that scene reveals about class.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(f) — Drama — Bernard Shaw, Pygmalion. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(f)"
+                  },
+                  {
+                    "id": "prompt-en-146",
+                    "question": "How does your study of Shafana and Aunt Sarrinah inform your understanding of change and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers hold the niece's change and the aunt's change side by side, so the reader sees that the same migration can produce different forms of faith.",
+                      "Culture needs to be a working concept: the word hijab, the private and public faith distinction, and the family's loan all show culture operating in the play.",
+                      "Avoid retelling the plot in order. Select the scenes that make the conflict concrete, such as the loan threat or the factory and credential material, and analyse what they reveal.",
+                      "Do not claim a resolution. A convincing answer describes the argument as still open as the play moves to its close and explains why that openness matters."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing Shafana's decision as simply a private religious act, without considering how it is also a public and cultural statement in a post-9/11 setting.",
+                      "Presenting Aunt Sarrinah as a figure who simply opposes her niece, without recognising the losses migration has imposed on her career.",
+                      "Misstating the characters' route, such as saying the family came straight to Australia rather than through New Delhi.",
+                      "Inventing an ending of reconciliation or defeat to support the argument."
+                    ],
+                    "keywords": [
+                      "Shafana and Aunt Sarrinah",
+                      "change",
+                      "culture",
+                      "Alana Valentine",
+                      "Aunt Sarrinah",
+                      "Shafana",
+                      "hijab",
+                      "migration"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of change and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of change and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of change and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-146-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "In Alana Valentine's Shafana and Aunt Sarrinah, change is the pressure that drives every exchange between a niece and her aunt. Both women are Afghan and devout Muslims, yet they have reached different understandings of faith because they have lived through different changes. The play argues that a chosen identity is always tested against the culture that formed it, and that migration can make the same faith look very different to two people of one family.\n\nShafana's change is inward and deliberate. After 9/11 she studies Islam more closely and resolves to wear a hijab, and she presents the decision as a deepening of a faith she already holds. She was born in Kabul, her family spent time in New Delhi, and she reached Australia as a teenager to join her aunt, while her parents were still in India. The hijab is therefore a public claim to a new identity in a country far from them. Her change is cultural as well as religious, because it makes her faith visible to others.\n\nSarrinah's change is harder, because migration has imposed it. She had worked as an engineer in Kabul, but in Australia she could not prove her qualifications. She found work in a factory, concealed the fact that her skills were outdated, and taught herself new software in secret. Her story shows that migration can strip away status and force a person to relearn a profession, and her view of faith is shaped by that loss.\n\nThe veil itself carries cultural meaning. Sarrinah notes that the word hijab is Arabic, and that Persians are not Arabs, so the garment belongs to a tradition she does not share. She describes her own faith as 'private and cultural', a view that keeps belief out of public display. For Sarrinah the hijab stands for a world she has left, and she fears that visible piety will expose her niece to prejudice in a country where Muslims are often judged as a group. Shafana's answer is that her faith shapes her whole life.\n\nThe play's central conflict is therefore a clash between two kinds of change. Shafana insists that her change is personal and authentic, while Sarrinah accepts that Muslims may differ but argues that fear should not decide the matter. When persuasion fails, Sarrinah threatens to demand repayment of a loan given to Shafana's parents, which would force Shafana to leave her studies. The argument shows that obligation, debt and belonging are bound together in a migrant household, and that a change in belief can threaten a young woman's education.\n\nShafana's scientific work offers a counterpoint. In rehearsing a presentation on deep-sea ecosystems, she argues that scientists must accept what she calls the 'veil of knowing'. Her science suggests that understanding can unfold beyond certainty, and her faith asks her to act before she can be certain of its consequences. The younger woman sees change as an act of trust, while her aunt sees it as a risk to be managed.\n\nSarrinah's memories of the escape through Pakistan extend the argument into history. On a bus, she pulled off her chador because she could not breathe, and a guard ordered her off. Her family was jailed and sent back to Afghanistan before smugglers they had paid secured their release. Migration for these women was shaped by violence before it was shaped by choice. News coverage of September 2001, which blurred ordinary Muslims with extremists, shows that public events shape private faith.\n\nShafana and Aunt Sarrinah therefore presents change as a product of both conviction and displacement. Shafana's chosen change tests the culture that formed her, and Sarrinah's imposed change reveals what migration takes away. The argument between them is still open as the play moves towards its closing exchange, which suggests that belonging in a new country is a continuing negotiation rather than a settled condition.",
+                        "feedback": "This answer meets the top descriptor because it argues that the niece's and aunt's changes expose different relationships between faith, migration and culture, and it supports that argument with specific references to the aunt's lost career, the loan threat and the hijab debate. The language is controlled and the structure moves from the younger woman to the elder. A lift would come from examining the dramatic choices more closely, such as the decision to stage the escape as a flashback rather than as present action.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-146-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Alana Valentine's Shafana and Aunt Sarrinah presents change as something that happens to people as well as something they choose. Shafana decides to wear a hijab and her aunt opposes the decision, so the two women's arguments show how a change in faith relates to the culture that formed them. The play is about a niece and an aunt, but it also addresses how migration changes the way faith is understood in a new country.\n\nShafana's change is a deliberate choice. Her study of Islam after 9/11 leads her to want a visible sign of her faith, and she tells her aunt that she wants to make real the change she has already felt inside. She was born in Kabul and reached Australia as a teenager, so her new identity is formed in a country that has not always welcomed Muslims. Her decision is a change in culture as well as belief, because it is public.\n\nSarrinah's change is different. In Kabul she worked as an engineer, but in Australia she had to work in a factory and conceal that her skills were out of date. She also taught herself new software in secret. These experiences show how migration can take away status, and her opposition to the hijab is partly a reaction to a life she has left behind. She regards her faith as private and cultural, which sets her against her niece's public display.\n\nThe conflict between the two women is cultural as well as personal. Sarrinah points out that the word hijab is Arabic, and she argues that Muslims do not all share one way of dressing. When her arguments fail, she threatens to demand repayment of a loan that would force Shafana to leave her studies. Valentine uses this pressure to show how family obligation, money and belief are tied together in a migrant household.\n\nSarrinah's memories of the escape through Pakistan remind the audience that change for these women was shaped by violence before it was shaped by choice. The play suggests that a person's faith may remain steady while their circumstances change, and the argument between the two women stays open as the play moves forward.",
+                        "feedback": "This answer meets the competent descriptor. It explains both women's changes and the family pressures with adequate reference, but the middle paragraphs lean towards summary of events. The argument about culture would be stronger if the answer explained why the hijab is a public sign rather than only stating that it is.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-146-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In Shafana and Aunt Sarrinah by Alana Valentine, Shafana decides that she wants to wear a hijab, and her aunt Sarrinah does not agree. Shafana was born in Kabul, and her family moved through New Delhi before she came to Australia as a teenager to join her aunt. She is a university student. Sarrinah was an engineer in Afghanistan, but in Australia she had to work in a factory because her qualifications were not recognised. The two women argue about the hijab, about religion and about money. At one point Sarrinah threatens to ask for repayment of a loan she gave to Shafana's parents, which would stop Shafana studying. The play shows how change affects the family and how the characters hold different ideas about culture and faith.",
+                        "feedback": "This answer describes the characters and their conflict with some reference to change, but it offers almost no textual reference and does not explain how the play shapes meaning. It sits in the descriptor for describing aspects of the text. A lift would come from one specific reference to the aunt's factory work or the loan threat, linked to culture.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(g) — Drama — Alana Valentine, Shafana and Aunt Sarrinah. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(g)"
+                  },
+                  {
+                    "id": "prompt-en-147",
+                    "question": "How does your study of Unpolished Gem inform your understanding of family and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Close reference should show the child's position within the family rather than list events. The grandmother's teaching and the mother's expectations give a precise way to do this.",
+                      "Culture here runs between generations, so a strong answer distinguishes what the grandmother passes on from what the mother demands and what Alice has to negotiate.",
+                      "The memoir is nonfiction, so comment on Pung's choices of what to show as shaping the reader's understanding of family.",
+                      "The best answers avoid a triumphant reading of the ending. They show respect for family that coexists with conflict and with independence."
+                    ],
+                    "commonStudentErrors": [
+                      "Summarising the memoir chronologically from childhood to adulthood without linking any event to the idea of family and culture.",
+                      "Treating the grandmother's stories as only a source of pride, and missing that inherited culture also places demands on Alice.",
+                      "Describing Alice as simply rebellious, rather than showing her as caught between her mother and grandmother.",
+                      "Calling the book a novel or a general migrant story rather than a memoir about specific people in one family."
+                    ],
+                    "keywords": [
+                      "Unpolished Gem",
+                      "family",
+                      "culture",
+                      "Alice Pung",
+                      "grandmother",
+                      "Footscray",
+                      "identity",
+                      "inheritance"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of family and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of family and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of family and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-147-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "In Alice Pung's Unpolished Gem, family is the main channel through which culture is handed down, and it is also the place where that culture is argued over. The memoir follows a Chinese-Cambodian family that survived the Khmer Rouge and settled in Footscray, in Melbourne's west, where Alice, the first of her family born in Australia, grows up. Because Pung writes nonfiction, the family she shows us is one she has chosen to arrange, and the arrangement tells us what she thinks family is: a set of people who carry a culture to one another, imperfectly, across generations. Understanding family, for Pung, means understanding inheritance, and inheritance means living between two worlds.\n\nThe grandmother, Huyen Thai, holds much of the family's past. She was forced to leave China after speaking out against the government, and she brings to Footscray both the memory of that loss and a strong sense of Chinese culture. Her bond with Alice is close, and through her stories and her teaching she passes on a heritage that Alice has never seen for herself. This is culture in its most intimate form, carried by voice from one generation to the next, and it gives Alice a sense of where she comes from that no school or suburb could supply.\n\nThe mother, Kien, carries a different part of the family's inheritance. She is practical and driven, shaped by the same history of survival, and the memoir presents her as a forceful presence whose expectations press hard on her daughter. Where the grandmother offers stories, the mother offers demands, and the two women's clashing ideas of how a household and a daughter should be run place Alice in the middle. Pung's decision to show these conflicts rather than smooth them over makes family a site of argument as well as affection. The father, Kuan, moves through the same household with his own losses, so that Alice grows up among adults who are each processing the past in a different way.\n\nFootscray gives the family's story its setting and its pressure. The suburb is where the family's customs meet school, English and Australian ideas of normality, and where Alice learns that what is ordinary at home may be strange outside it. Identity in the memoir is therefore formed less by the journey to Australia than by the daily negotiations of language, habit and belonging. Pung's reader sees the suburb as Alice does, as a place whose rules have to be learnt while the rules of home are still being obeyed.\n\nAs the memoir moves into adolescence, the weight of this inheritance grows heavier. The grandmother falls ill and dies, and Alice's depression deepens in the same period. The loss removes the person who gave her the strongest link to a world beyond Footscray, and it leaves her to face her mother's expectations without that ally. Pung shows that family obligation has real consequences for a young woman's mental health, and she does not present love for the family as a simple comfort.\n\nHer relationship with an Australian boyfriend brings the cultural argument into her private life. Her mother sees the differences between them as insurmountable, and Alice ends the relationship, heartbroken. The episode shows how family loyalty can cost a young woman something she values, and how a culture is protected by the people who fear what its loss would mean. Pung does not present the outcome as simple defeat. The memoir's closing movement suggests that Alice comes to a respect for her family's history while claiming a future of her own.\n\nUnpolished Gem therefore presents family as a living, argumentative record of culture. The grandmother's stories, the mother's demands and the daughter's position between them show three generations holding the same inheritance in different ways. Alice's final respect for her family does not erase the conflict, but it shows that she has learnt to hold inheritance and independence together.",
+                        "feedback": "This answer meets the top descriptor because it explains family as a relationship between generations and links the grandmother's teaching, the mother's expectations and the grandmother's death to the idea of culture. It uses specific detail and handles the memoir's form with care. To lift it, the answer could examine more closely how Pung's choice of what to include shapes the reader's view of family.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-147-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Alice Pung's Unpolished Gem presents family as the main way that culture is passed on. The memoir follows a Chinese-Cambodian family that survived the Khmer Rouge and settled in Footscray in Melbourne, where Alice is the first of her family born in Australia. Her understanding of family is shaped by inheritance and by the pressure of living between two worlds.\n\nThe grandmother, Huyen Thai, was forced to leave China after speaking out against the government. She forms a close bond with Alice and teaches her about Chinese culture, so she is the person who connects Alice to a heritage she has never seen. This shows that culture can be passed on through stories and teaching inside a family, and that it gives a child a sense of identity.\n\nAlice's mother, Kien, is shown as a forceful presence who argues with the grandmother about how the household and Alice should be run. Alice is caught between them, which shows that family can be a source of tension as well as comfort. Her father, Kuan, also lives with the losses of the past. Pung writes about these people honestly, and she does not make the family sound perfect.\n\nIn the later part of the memoir, the grandmother becomes ill and dies, and Alice's depression deepens. The loss shows how much Alice relied on her grandmother. Her relationship with an Australian boyfriend also shows the limits of her family's culture, because her mother sees the differences as insurmountable. Alice ends the relationship, and the memoir suggests that she eventually reaches a respect for her family while building an independent life.",
+                        "feedback": "This answer meets the competent descriptor. It covers the grandmother, the mother and Alice's position with adequate reference, but it moves through the memoir in sequence and explains less than it describes. The middle paragraphs would be stronger if each event were tied to an argument about culture and identity.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-147-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In Unpolished Gem, Alice Pung writes about her family, who are Chinese-Cambodian and moved to Melbourne after living through the Khmer Rouge. The family settles in Footscray, where Alice grows up. Her grandmother, Huyen Thai, teaches her about Chinese culture and they are very close. Her mother, Kien, argues with the grandmother, and Alice is caught between them. Her father is called Kuan. The grandmother dies later in the book, and Alice feels sad and depressed. In the end Alice ends a relationship with an Australian man, and the family stays important to her. This shows that family is important to culture in the memoir.",
+                        "feedback": "This answer lists family members and events from the memoir and mentions culture only in its final sentence, so it sits at the describing level rather than explaining how family shapes understanding of culture. It would move up by choosing one incident, such as the grandmother's stories, and explaining what it shows about inherited culture.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(h) — Nonfiction — Alice Pung, Unpolished Gem. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(h)"
+                  },
+                  {
+                    "id": "prompt-en-148",
+                    "question": "How does your study of One Night the Moon inform your understanding of change and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Strong answers take a clear line on how the film makes change visible, rather than retelling the search. The question asks how the study informs understanding of change, so the argument should trace what the settler refuses to change and what that refusal costs.",
+                      "Film references need to name the scene and the technique together, such as the circling camera in the search or the high register of the duet, and tie each one to what it shows about culture. A list of plot events earns little.",
+                      "Treat Albert as a holder of cultural knowledge that the settler refuses to acknowledge. Describing him as a helper leaves the cultural claim unsupported."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the search and the tragedy without linking any moment to change or to culture.",
+                      "Describing the duet as a happy partnership, when the two voices are kept apart and the harmony holds that difference.",
+                      "Making general claims about the camera (“the camera moves a lot”) without saying which character or scene the movement frames.",
+                      "Presenting the tracker as a helper who finds the child, which reduces his role to a function of the plot."
+                    ],
+                    "keywords": [
+                      "change",
+                      "culture",
+                      "One Night the Moon",
+                      "landscape",
+                      "tracker",
+                      "close-up",
+                      "soundtrack",
+                      "This Land is Mine"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of change and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of change and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of change and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-148-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "In Rachel Perkins’ One Night the Moon, a 57-minute musical made for television and set in the 1930s outback, change is less about the passing of years than about a settler family’s refusal to change its relationship with the land. The film asks how a newcomer’s claim to ownership collides with a culture that has always known how to read country, and it answers through the disappearance of a child, an Aboriginal tracker named Albert, and a soundtrack that keeps the two men’s voices apart. Change and culture are therefore inseparable in the text: the settler’s world is unsettled only when he is forced to face what Albert knows.\n\nThe film builds the settler’s position from its opening. Perkins begins with the mother, Rose, drawing her daughter away from a friendship with the tracker’s daughter, a moment that critic Fiona Probyn reads as the enforcement of segregation. When Emily follows the full moon into the hills, Jim refuses to let Albert direct the search, and the camera registers that resistance. In the search sequence it swiftly circles Jim as he walks in a straight line toward the hills, so that the man who claims the land moves across ground he cannot read. The circling movement is set against the stillness of the land, so the search becomes a contest between a man who surveys ground and a culture that reads it. Rose is the figure who changes. She seeks Albert’s help without her husband’s knowledge, and the film’s shift of focus from the tracker to the mother, a change director Rachel Perkins made during development, makes her grief the emotional centre. Her alliance with Albert is the only act of recognition the family manages, and it comes after her husband’s refusal has already failed.\n\nCulture is carried most clearly by music. The duet “This Land is Mine” is sung by the settler and Albert, and Probyn’s phrase “reconciling harmonies” describes how harmony holds the two voices apart rather than merging them. Jim sings in a high register that Probyn reads as desperation, and the two men’s views of belonging are brought into parallel without being fused. Probyn’s reading treats the duet as an argument rather than a resolution, so the listener is left holding both claims at once. At the end of the song a didgeridoo echoes, sounding the Indigenous knowledge the settler has tried to suppress. The score, by Paul Kelly, Kev Carmody and Mairead Hannan, makes the musical structure itself an argument about belonging, and the sound outlasts any single character’s claim.\n\nVisual technique reinforces the same argument. Bleach-bypass processing drains pink tones from the images, giving the Flinders Ranges a brooding quality, while time-lapse clouds roll over rocky outcrops. The settler is shown looking up at a ridge he cannot climb, a moment Probyn describes as hopeless. The camera often returns in close-up to Rose, wrapped in a shawl on the veranda and gazing across the land, so that the film keeps its attention on a face that knows what has been lost. Australian Screen Online describes the cinematography as sweeping and detail-focused, giving the audience empathy for both Albert and the landscape rather than for the family alone.\n\nThe ending turns the argument into consequence. Albert finds Emily’s body in the hills and returns it to her father, and Jim dies by suicide. The settler is last seen walking out of the front door with a rifle. Albert’s wife, Ruby Hunter, sings the funeral song, and Probyn notes that Albert’s own daughter is absent from the funeral, an absence she links to the Stolen Generations. The film does not offer reconciliation as a clean resolution. Change arrives too late for this family, and the cultural knowledge Jim ignored is the only thing that brings Emily back to the people who love her.\n\nIn the end, One Night the Moon shows that the land is not an object a settler can survey and own; it is a place read by people who have always known it. The change the film asks for is one of recognition, and its tragedy is that recognition comes only after the child is lost.",
+                        "feedback": "This answer meets the top row: it explains how the film informs an understanding of change and its connection to culture, and it supports each point with detailed reference to scenes, a shot, the duet and the ending. It is controlled throughout. To lift it further, the closing paragraph could weigh the film’s final image more closely against the argument rather than restating it.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-148-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "One Night the Moon is a film about how a settler family changes, or fails to change, its relationship with the land. Set in the 1930s outback, it shows Jim, the father, refusing to let the Aboriginal tracker Albert help search for his daughter Emily, and this refusal leads to tragedy. The director, Rachel Perkins, follows the settler family closely, but the film also gives Albert a presence through the land and through his knowledge.\n\nThe camera in the search sequence circles Jim as he walks toward the hills, which suggests that he is lost in a landscape he believes he owns. Emily follows the full moon into the hills, which gives the story its dark pull toward the bush. Rose, the mother, is the character who changes most. She goes to Albert for help without telling her husband, and later her grief is shown as she sits on the veranda with the camera on her face. These images show the audience how the family is affected by the disappearance.\n\nThe music is also important to the film’s culture. The song “This Land is Mine” is sung by Jim and Albert together, and the two voices are not the same. Jim sings higher and it sounds desperate. At the end there is a didgeridoo, which connects the song to Aboriginal culture. The film also uses bleach-bypass processing, which drains the colour from the pictures and makes the landscape look harsh, and time-lapse clouds over rocky outcrops add to the sense of a hostile place. This suggests that the land belongs to Aboriginal people as well, even though Jim wants to own it.\n\nThe ending is tragic. Albert finds Emily’s body and gives it to her father. Jim dies by suicide, and the settler is last seen walking out of the house with a rifle. Albert’s wife sings a funeral song. The film suggests that change comes too late for the family, and that the settler’s refusal to listen has consequences that cannot be undone. The ending is hard to watch because the film has shown the audience what Jim could have learned.",
+                        "feedback": "This answer sits in the row for explaining competently how the film informs an understanding of change, with adequate references to scenes and the song. It is sound and organised, but it describes more than it argues, and the cultural point about the didgeridoo is asserted rather than developed. To lift it, the answer should weigh the duet’s harmony against the settler’s refusal and explain what that tension reveals about change.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-148-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "One Night the Moon is a musical film about a girl named Emily who goes missing in the outback. Her father, Jim, does not want the Aboriginal tracker Albert to help look for her, and the mother, Rose, goes to Albert in secret. They find Emily dead and bring her back. The film has songs, and Jim and Albert sing This Land is Mine together. The camera follows the father across the hills and uses close-ups of the mother to show how sad she is. Albert knows the land, which shows that Aboriginal people have knowledge the family does not have. The ending is sad because Jim dies. The film shows that change is hard for people who do not listen to Aboriginal people.",
+                        "feedback": "This answer meets the row for describing aspects of the text with limited reference to the question. It retells the plot in order and gestures at change without developing it, and the cultural point is stated but not explained. To lift it, the answer needs one or two specific references to scenes or sound and a clear claim about what the film shows about culture.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(i) — Film — Rachel Perkins, One Night the Moon. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(i)"
+                  },
+                  {
+                    "id": "prompt-en-149",
+                    "question": "How does your study of The Castle inform your understanding of place and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Place needs to be argued as a cultural idea rather than as the family’s house. Strong answers ask what the film’s place includes, and what it leaves out, when it equates belonging with home ownership.",
+                      "Use the film’s own legal joke as evidence. Denuto’s argument about Mabo is comic because the case is about native title, and an answer that notices this has a stronger argument than one that retells the court scene.",
+                      "Name the technique and the scene together, such as the voice-over that opens the film and introduces the house, so the reference does real work in the argument."
+                    ],
+                    "commonStudentErrors": [
+                      "Equating place with the Kerrigan house and never asking whose land the house stands on or who else has a claim to it.",
+                      "Presenting Denuto’s Mabo argument as a legal success, when the film uses it for laughs and the failure is the point.",
+                      "Describing the film as a simple celebration of the battler with no critical reading of its ideology.",
+                      "Mentioning Mabo without identifying it as the High Court case about native title."
+                    ],
+                    "keywords": [
+                      "place",
+                      "culture",
+                      "The Castle",
+                      "Australian Dream",
+                      "battler",
+                      "voice-over",
+                      "Mabo",
+                      "house"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of place and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of place and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of place and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-149-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Rob Sitch’s The Castle (1997) makes a house the centre of its idea of place. The Kerrigan home at 3 Highview Crescent in Coolaroo, a Melbourne suburb, sits on a former landfill beside an airport runway, and the film’s comedy depends on the gap between that setting and the family’s pride in it. Darryl, who drives a tow truck, believes he lives in luxury, and the film asks what this sense of place means in a culture that has long equated belonging with owning a home. My view is that place in the film is a matter of identity rather than real estate, and that the laughter it invites hides an ideology the audience shares. Its opening voice-over and its courtroom scenes pull in opposite directions, and the tension between them is where the film’s cultural argument lies.\n\nThe film establishes the house as a castle through its domestic detail. A heavily customised, do-it-yourself home, with custom greyhound kennels, marks a home built by hand, and the opening voice-over narration, given by the youngest son, Dale, frames the family with affection. Matthew Mason reads that narration as the moment identity is tied to home ownership, and the family’s delight in simple things makes them the battlers that audiences laugh at from a superior position.\n\nThe threat to the house arrives as a compulsory acquisition notice. The government wants to take it for airport expansion at about $70,000, and the family refuses to accept that a home can be measured as a sum. Darryl hires Dennis Denuto, an inept lawyer whose argument rests on the “vibe” of the Constitution and on Mabo (No. 2). Mabo is the High Court decision that recognised native title, so the film makes a legal joke out of the most significant case about Indigenous land in recent Australian history. Denuto’s vagueness is comic, but it also exposes the gap between the film’s idea of property and the rights of those who were never recognised as owners.\n\nThat gap is the cultural point Jeanine Leane presses. She argues that the film treats the suburban backyard as sacred while sidelining Indigenous land rights, and she calls it a story for the propertied only. The argument is not that the Kerrigans are unsympathetic, but that the film’s sympathy has limits it does not examine. Mason, reading the same film, argues that its ideological excess lets viewers recognise their own entanglement with the Australian Dream. The two readings agree on the central problem: the Kerrigans’ attachment to the house is powerful and sympathetic, yet the film does not ask who else had a claim to that ground before the airport arrived.\n\nThe High Court sequence resolves the plot but not the problem. Lawrence Hammill, a retired QC played by Bud Tingwell, takes the family’s case pro bono and argues for their right to just terms. His argument for just terms rests on what the home means to the family, and the court rules for the Kerrigans. Mason reads this as the system working only at the personal level, a rescue made possible by one good man. Hammill’s argument turns the Kerrigans’ attachment into a principle of property law, which is the film’s most persuasive move and its most limited one. Leane reads it as a concession from a benevolent system that protects property rather than the land it was taken from.\n\nSound also shapes how the audience responds to the family. The soundtrack mixes a few original cues by Craig Harnath with library music, which gives the film a homely, unpolished sound that suits the Kerrigans’ own ideas of taste and keeps the audience on the family’s side.\n\nThe Castle presents place as a site of belonging that is also a site of exclusion. It makes the audience love the Kerrigans and laugh with them, but it also asks us to notice what that love has been built upon.",
+                        "feedback": "This answer meets the top row: it explains in a highly effective manner how the film informs an understanding of place and its connection to culture, drawing on detailed references to the voice-over, the Mabo argument and the High Court sequence. It takes a clear critical line and controls its structure well. To lift it further, the closing paragraph could test the Leane reading against Mason’s more closely rather than restating both.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-149-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "The Castle is a film about a family who love their house and are willing to fight for it. Set in Coolaroo, near a Melbourne airport, the house is central to the family’s identity. Darryl Kerrigan, a tow truck driver, believes he lives in a castle, and when the government compulsorily acquires it for about $70,000, the family refuses to leave. The film shows that place matters to Australians because of their homes.\n\nDale, the youngest son, narrates the film and introduces the family and the house, so the audience sees the place through his affection. His voice-over helps the audience like the family before any threat appears. The house has custom greyhound kennels and has been renovated by the family themselves, which shows how proud they are of it. Darryl’s lawyer, Dennis Denuto, argues about the vibe of the Constitution, and the joke is that his case is weak. He mentions Mabo, which is about native title, but he does not really understand it. This shows that the film is interested in the importance of property to ordinary Australians.\n\nLawrence Hammill, a retired QC, takes the case to the High Court for free. He argues about just terms under the Constitution and argues for the family’s right to just terms. The court agrees with the family. This ending is happy, and it suggests that the family wins because a kind man helps them. The film celebrates the Australian Dream of owning a home.\n\nThe music also helps make the audience feel the family’s warmth. The score uses library music along with some original cues, which gives the film a homely sound that suits the family.\n\nThe Castle presents the house as the centre of the Kerrigans’ sense of place. It is an enjoyable film, but it does not say much about who lived on the land before the airport was built. Audiences can laugh at the family without being challenged about their own ideas of home.",
+                        "feedback": "This answer sits in the row for explaining competently how the film informs an understanding of place and its connection to culture, with adequate references to the narration, the court case and the ending. It is organised and sound, but it describes more than it argues, and the final point is asserted rather than developed. To lift it, the answer should explain what the Mabo joke reveals about the film’s idea of place, and weigh that against the family’s happy ending.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-149-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The Castle is about a family called the Kerrigans who live near an airport in Melbourne. The government wants to buy their house for the airport, and Darryl gets a lawyer called Dennis Denuto. Denuto says something about the vibe of the Constitution and loses in court. Then a retired lawyer called Lawrence Hammill helps the family in the High Court and they win. The film is funny and shows Australian people who love their home. The house means a lot to the family, and the family is happy at the end. Dale narrates the film, which helps the audience like the family, and people still repeat its lines, which shows how well it has stayed in Australian culture.",
+                        "feedback": "This answer meets the row for describing aspects of the text with limited reference to the question. It retells the plot and mentions the house as a place, but the link to culture is only implied and there is no reference to a technique or a specific scene. To lift it, the answer should name one moment, such as the opening narration, and explain what it shows about the family’s idea of home.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(j) — Film — Rob Sitch, The Castle. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(j)"
+                  },
+                  {
+                    "id": "prompt-en-150",
+                    "question": "How does your study of Reindeer in my Saami Heart inform your understanding of change and its connection to culture? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-03"
+                    ],
+                    "markerNotes": [
+                      "Because the documentary's subject is a person, a strong answer makes change visible through her life: the boarding school, the move from nomadic life to settled living, and a later career in Northern Saami.",
+                      "Keep each claim tied to what the film presents about Tapio and the Saami. A marker rewards precise, supported points over vivid invented detail.",
+                      "Connect change to culture by showing what survives. Answers that argue culture adapts and continues, rather than simply being lost, reach the higher rows."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing Tapio's childhood as a story of loss only, without showing how her later writing in Northern Saami keeps culture alive.",
+                      "Writing about the film as if its subject were Australian Aboriginal culture; the subject is Saami culture in Sweden.",
+                      "Treating the Saami as a general Indigenous group and making no reference to the Swedish boarding school policy that shaped Tapio's childhood.",
+                      "Inventing scenes, camera techniques or narration to illustrate a point, and so losing the credibility of the rest of the answer."
+                    ],
+                    "keywords": [
+                      "change",
+                      "culture",
+                      "Reindeer in my Saami Heart",
+                      "Inghilda Tapio",
+                      "reindeer herding",
+                      "boarding school",
+                      "Northern Saami",
+                      "stolen generation",
+                      "assimilation"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains in a highly effective manner how the prescribed text informs an understanding of change and its connection to culture, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text informs an understanding of change and its connection to culture, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently how the prescribed text informs an understanding of change and its connection to culture, using adequate references to the prescribed text, and organises, develops and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the text with some reference to the question, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-150-1",
+                        "source": "AI",
+                        "mark": 16,
+                        "answer": "Janet Merewether's documentary Reindeer in my Saami Heart presents change as something a culture lives through rather than something that simply happens to it. Released in 2016 and made in English and Northern Saami, the film follows Inghilda Tapio, a writer, poet, performer and teacher whose life spans the decades in which Saami life in Sweden's Arctic Circle came under pressure from state policy. Through her, the film argues that change and culture are bound together. The forces that disrupted Tapio's childhood also gave her the means to speak for her people.\n\nTapio was born into a nomadic reindeer-herding family, and the change that defines her early life was institutional rather than personal. After the Second World War, nomadic children were sent to residential boarding schools in towns. At around the age of seven, Tapio was taken from her family's home, herds and parents for months at a time. The documentary places this removal within what it describes as Sweden's stolen generation, and the child who was isolated by the Swedish language and by unfamiliar school buildings and customs is the figure at the centre of its account. The removal is painful, yet Tapio's later life shows that it did not end her connection to her people. Her early schooling was a change imposed from outside, not a choice she made.\n\nHer adult life shows what culture can make of change. She went on to university, and she became a poet, performer and teacher who writes in both Northern Saami and Swedish. Her family still practises traditional reindeer herding, so the older way of life continues alongside the new one rather than being replaced by it. The film's title makes the same claim in miniature. Placing the reindeer inside a Saami heart suggests that culture is not kept in the landscape alone but carried in people, who can take it with them when they are moved, schooled or removed.\n\nThe film's own form repeats this argument. Screen Australia describes it as a visually innovative documentary that blends English and Northern Saami, so the minority language is heard in the film alongside English, the language of the wider world the film addresses. Merewether travelled north of the Arctic Circle three times to make the film, which gives its images a physical grounding in the places it describes. An Australian director brings a Saami writer's life to Australian viewers, and the film premiered at the Volvo Scandinavian Film Festival in Sydney in July 2016. Culture becomes visible across distance when change forces it into public view, and the documentary is one way of making that visible.\n\nChange in the film is also presented as ongoing rather than completed. An article about the film's release describes a Saami community that has survived centuries of assimilation attempts and now faces threats from mining, forestry and hydroelectric development. That context changes how a viewer reads Tapio's childhood. The removal to boarding school becomes an early instance of a longer contest over land and identity, and Tapio appears as a witness to a culture still negotiating its place in a changing region. The film's connection to culture is therefore not nostalgic. It is about survival under pressure. A viewer who knows that Saami communities face new pressures will see the childhood removal as part of a continuing story.\n\nThe film is strongest when it refuses to treat Saami culture as finished. The change Tapio lived through is not presented as the end of her people's culture but as the start of a new phase in its survival. The boarding school showed what change can take away: a daily life of moving with herds, and a family separated for months at a time. Her writing and teaching show what culture can make of change: a living language, a family still herding, and a voice that reaches people who might otherwise never hear it. The film suggests that the forces which tried to erase Saami culture did not succeed in silencing it, and that is the understanding of change and culture it offers.",
+                        "feedback": "This answer meets the 13-16 criteria row. It explains how the film informs an understanding of change and culture through Tapio's life, with detailed references to the boarding school, the languages and the continuing herding. It stops short of the top row because it cannot draw on the film's sequences, sound or camera work for close reference. To lift it further, the answer could develop a sharper analytical claim about how the film's blend of languages shapes what the audience understands about change.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-en-150-2",
+                        "source": "AI",
+                        "mark": 10,
+                        "answer": "Janet Merewether's documentary Reindeer in my Saami Heart is about Inghilda Tapio, a Saami writer and poet. The film was made in 2016 and uses English and Northern Saami. Tapio was born into a reindeer-herding family in Sweden. When she was about seven she was sent to a boarding school and was separated from her family for months at a time. The film describes this as part of Sweden's stolen generation. Tapio later went to university and became a poet and teacher. She writes in Northern Saami and Swedish. This shows that change affects culture, because the school took her away from her family, but she kept her connection to her culture.\n\nThe change in the film is shown through Tapio's life. Her early childhood was spent in a nomadic family, but after the war children were sent to schools in towns, so the way of life changed. Tapio was isolated by the Swedish language and by the school's customs. Her later life shows that culture can survive. Her family still practises reindeer herding. The title shows a connection to culture because the reindeer is inside a Saami heart, which means that the culture is inside the person. Coverage of the film also notes threats from mining and forestry to the Saami today, which shows that change is still going on.\n\nThe director, Janet Merewether, is Australian. She travelled north of the Arctic Circle to make the film, and the film premiered at a festival in Sydney in 2016. This means the film is about culture in another country, but it is also made for an Australian audience. Viewers can learn about the Saami from the film without having to know much about Sweden already. The film is also a portrait, which means it presents one life as evidence for a wider culture, and that is how it connects change to culture for the viewer.\n\nOverall the film shows change and culture. Tapio's childhood was affected by change, but her writing and teaching show that culture continues. The film therefore helps the viewer to understand how culture changes over time, and why people hold on to it.",
+                        "feedback": "This answer meets the 9-12 criteria row. It explains how the film informs an understanding of change and culture, but the paragraphs describe the film's facts in turn and the argument is less developed. To reach the 13-16 row, each paragraph should make a claim about change and culture and link it to one specific feature of the film.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-150-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Reindeer in my Saami Heart is a documentary by Janet Merewether about the Saami writer Inghilda Tapio. When Tapio was a child she was taken from her family and sent to a boarding school. This shows change, because her life changed a lot. Later she became a poet and teacher and wrote in Northern Saami. This shows that culture can still exist after change. The film is in English and Northern Saami. It shows change and culture in the life of one person, and it also shows something about the Saami people in general. The Saami live in Sweden's Arctic Circle, and the film was made by an Australian director for audiences in Australia. Tapio's life shows how a culture can keep going after its people have been moved and schooled away from home.",
+                        "feedback": "This answer meets the 5-8 criteria row. It describes Tapio's life with some reference to change and culture, and the answer is organised as a short retelling. To move up, it needs an argument about how change and culture connect and more specific reference to the film.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section I — Module A: Language, Identity and Culture (20 marks). Allow about 40 minutes. Question 1(k) — Media — Janet Merewether, Reindeer in my Saami Heart. Your answer will be assessed on how well you: demonstrate understanding of how ideas about language, identity and culture are expressed through texts; demonstrate understanding of how language is used to shape meaning about individuals and/or cultural groups; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "1(k)"
                   }
                 ]
               }
@@ -6700,6 +7391,69 @@
                       }
                     ],
                     "scenario": "Students are comparing their personal interpretations of the invented 24-line lighthouse poem (written for this question). One student's composition reads the final image, a lamp that turns on for no one, as a hopeful act of faith. A classmate reads the same image as a sign of loss."
+                  },
+                  {
+                    "id": "prompt-en-151",
+                    "question": "‘Literature does not just describe our world, it shapes and enriches our understanding of it.’ To what extent does your prescribed text reflect the ideas about literature in this statement? In your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EST-12-01",
+                      "EST-12-05"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers test the statement rather than simply agree with it: the play supports 'shapes' but qualifies 'enriches', so a decisive position on the extent of the claim is worth the most.",
+                      "Anchor the argument in Theseus's speech in Act 5, Scene 1, then move from it into the craftsmen and the lovers; repeating one quotation across paragraphs does not build an argument.",
+                      "The distinction between describing the world and shaping understanding of it is central. The craftsmen announce the Wall, the Lion and the Moonshine, and that naming is the description the statement sets aside.",
+                      "Short, exact quotations with scene and speaker given carry more weight than a long block quote."
+                    ],
+                    "commonStudentErrors": [
+                      "Treating Theseus as the author’s mouthpiece without noting that he is sceptical about imagination in the same scene.",
+                      "Retelling the plot of the lovers and the fairies without linking any event to the idea that literature shapes understanding.",
+                      "Claiming the play shows that literature always improves its audience, when the lovers wake believing they dreamed and the court laughs at the craftsmen.",
+                      "Attributing 'The best in this kind are but shadows' to a fairy or a craftsman rather than to Theseus."
+                    ],
+                    "keywords": [
+                      "literature",
+                      "shapes",
+                      "enriches",
+                      "understanding",
+                      "A Midsummer Night’s Dream",
+                      "imagination",
+                      "airy nothing",
+                      "Pyramus and Thisbe"
+                    ],
+                    "markingCriteria": "17-20 marks: Evaluates in a highly effective manner the extent to which the prescribed text reflects the ideas about literature in the statement, using relevant, detailed references to the prescribed text, and organises, develops and expresses ideas effectively using language appropriate to audience, purpose and form\n13-16 marks: Evaluates effectively the extent to which the prescribed text reflects the ideas about literature in the statement, using relevant references to the prescribed text, and organises, develops and expresses ideas competently using language appropriate to audience, purpose and form\n9-12 marks: Explains competently the extent to which the prescribed text reflects the ideas about literature in the statement, using adequate references to the prescribed text, and organises and expresses ideas adequately using language appropriate to audience, purpose and form\n5-8 marks: Describes aspects of the prescribed text with some reference to the statement provided, using limited reference to the prescribed text and attempting to organise a response in a limited way\n1-4 marks: Attempts to describe aspects of the text and attempts to organise a response in an elementary way",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-151-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "The statement claims that literature does more than describe the world: it shapes and enriches our understanding of it. A Midsummer Night’s Dream reflects this idea to a considerable extent, although it is more sceptical about the claim than the statement suggests. Shakespeare accepts that imagination gives form to what would otherwise remain unseen, but he also shows that the enrichment literature offers depends on an audience willing to be moved, and that a work which merely describes its subject shapes no one’s understanding at all.\n\nThe play’s clearest statement of the idea comes from Theseus in Act 5, Scene 1. Having heard the lovers describe their night in the wood, he groups together \"The lunatic, the lover, and the poet\" as people whose minds work through imagination. He then names the poet’s power directly: the poet’s pen \"Turns them to shapes\", giving to \"airy nothing\" \"A local habitation and a name\". This is almost the statement’s own claim. The poet does not copy the world but takes what is unknown or insubstantial and gives it a form that others can see, and in Theseus’s account that shaping is what literature is for.\n\nTheseus is sceptical in the same scene, however. Dismissing the lovers’ account, he says \"Such tricks hath strong imagination\", meaning that imagination can make people believe what they wish to believe. Imagination shapes understanding for good or ill, and the play never lets the audience forget the risk.\n\nThe craftsmen’s play tests the idea most directly. Peter Quince’s company of Nick Bottom, Francis Flute, Tom Snout, Snug and Robin Starveling rehearse Pyramus and Thisbe for the wedding, and the performance is clumsy. Snout announces that he is the Wall, Snug that he is the Lion, and Starveling, carrying a lantern, that he is Moonshine. This is description in its plainest form, and it does little to shape the court’s understanding of love and death; Hippolyta pronounces it \"the silliest stuff that ever I heard\" and the court laughs. Yet Theseus’s verdict is generous: \"The best in this kind are but shadows\", and the worst, he adds, are no worse \"if imagination amend them\". The craftsmen’s work is only as good as the imagination of those watching.\n\nThe lovers in the wood show the statement at work in another way. Oberon sends Puck with a flower that makes sleepers fall in love, and Puck applies it to Lysander, who wakes and loves Helena rather than Hermia. Helena’s own claim, \"Love looks not with the eyes\", suggests that the mind, not sight, shapes what we understand about love. The lovers’ understanding is changed by an enchantment, and that change is the play’s central concern. Literature, on this reading, enriches understanding by altering what its characters see and believe.\n\nTitania’s love for Bottom, while he wears a donkey’s head, is the fairy world’s version of the same process. Puck’s judgement on humanity, \"Lord, what fools these mortals be\", is delivered from outside the human world, and it invites the audience to look at Athens with the same sharpened eye. The fairies do not so much shape the humans as show them to themselves, and the audience leaves with a clearer picture of human folly than when it arrived.\n\nThe ending presses the question further. The lovers wake believing they dreamed, and Puck invites the audience to consider the whole play a dream. That closing suggestion is a strong version of the statement: literature shapes memory and understanding in the way a dream does, leaving an impression rather than a lesson. It is also a limit, because a dream fades, and the play does not claim its audience will be changed in any lasting way.\n\nOn balance, A Midsummer Night’s Dream reflects the statement to a considerable extent. It agrees that the poet shapes what is unknown, and it shows imagination reshaping how characters see one another. It disagrees, however, with the statement’s confidence. The play suggests that literature enriches understanding only when its audience supplies the imagination it lacks, and that much of what passes for art is mere description, as the craftsmen’s Wall and Lion demonstrate. The statement is right about the power of the poet’s pen, but the play insists that this power belongs as much to the audience as to the author.",
+                        "feedback": "This answer meets the highest descriptor: it takes a clear, qualified position on the extent to which the play reflects the statement and supports it with close reference to Theseus's speech, the craftsmen's play and the lovers' night in the wood. To lift it further, the final paragraph could test 'enriches' more directly by asking whether the lovers' return to Athens shows any lasting change.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-en-151-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "A Midsummer Night’s Dream reflects the statement that literature shapes understanding to a fair extent, because the play is about imagination and how it changes what people see. Theseus says the poet gives shapes to things unknown and gives airy nothing a local habitation and a name, which is close to the idea that literature shapes our understanding of the world. The play's story also follows people who see differently after a night in the wood. Puck applies a flower's juice to Lysander, and when the lovers wake they are confused about who they love. This shows that understanding can be changed, even if the lovers are not sure afterwards what they saw. Titania loves Bottom while he has a donkey's head, so the fairy world also shows that what people take to be real is not fixed.\n\nThe craftsmen provide a separate view of literature. They rehearse Pyramus and Thisbe for the wedding of Theseus and Hippolyta. Bottom plays Pyramus, Snout is the Wall and Snug is the Lion, and the performance is clumsy, so the court laughs at it. The clumsiness is the joke, but it also shows that a story needs an audience willing to supply what the performers lack. Theseus says that the best in this kind are but shadows, and that the worst are no worse if imagination amend them. This suggests the audience has to work to find meaning in the play. The statement says literature shapes understanding, and the craftsmen's play shows that this depends on the audience as well as the writing.\n\nThe lovers' confusion also shows that love is not a settled thing. Helena says that love looks not with the eyes, which suggests the mind shapes what we see. Puck calls the mortals fools, so the fairies see humans differently from the way the humans see themselves. Overall, the play reflects the statement because it shows imagination shaping what people understand. However, it does not say that literature always enriches people, since the craftsmen's play is poor and the lovers return to Athens without learning very much. So the play partly reflects the statement, though not completely.",
+                        "feedback": "This answer meets the competent descriptor: it connects the play to the statement and uses adequate references, but several paragraphs move from description to summary and the references to Theseus are brief. Holding a single claim about extent and returning to it in each paragraph would move it toward the effective descriptor.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-151-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In A Midsummer Night’s Dream, Hermia and Lysander flee into a wood to escape Athenian law, and Demetrius and Helena follow them. Puck applies a flower’s juice to Lysander, who then loves Helena instead of Hermia, and Oberon sorts out the confusion. Bottom gets a donkey’s head and Titania falls in love with him. Meanwhile the craftsmen perform Pyramus and Thisbe at the wedding of Theseus and Hippolyta, and the performance is very badly done. The play is about imagination, which connects it to the statement, because Theseus says the poet gives shape to airy nothing. The lovers wake and think they dreamed. The lovers’ night in the wood changes them, and the craftsmen’s play makes the court laugh. So the play shows that literature can shape how people see the world, and this is why it matters to understanding.",
+                        "feedback": "This answer meets the elementary descriptor: it retells the plot and names a link to imagination with minimal reference to the text, and the organisation is limited to a sequence of events. Choosing one passage, such as Theseus's speech, and explaining how it bears on the statement would move it toward the sound descriptor.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section II — Module B: Close Study of Literature (20 marks). Allow about 40 minutes. The Module B prescribed texts are: Prose Fiction — M T Anderson, Feed; Mark Haddon, The Curious Incident of the Dog in the Night-time. Poetry — Robert Gray, Coast Road (Journey, the North Coast; Flames and Dangling Wire; Harbour Dusk; Byron Bay: Winter; Description of a Walk; 24 Poems); Oodgeroo Noonuccal (The Past; China . . . Woman; Reed Flute Cave; Entombed Warriors; Visit to Sun Yat-Sen Memorial Hall; Sunrise on Huampu River; A Lake Within a Lake). Drama — Scott Rankin, Namatjira from Namatjira and Ngapartji Ngapartji; William Shakespeare, A Midsummer Night’s Dream. Nonfiction — Anna Funder, Stasiland. Film — Peter Weir, The Truman Show. Media — Simon Nasht, Frank Hurley: The Man Who Made History. Your answer will be assessed on how well you: demonstrate understanding of a text’s distinctive qualities and how these shape meaning; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "2"
                   }
                 ]
               },
@@ -7609,6 +8363,69 @@
                       }
                     ],
                     "scenario": "The invented piece about belonging described in the scenario was written by a student for a literary journal. It opens with a key to a house the writer no longer lives in, uses short first-person reflections, and closes with an unresolved question about whether it is healthy to keep objects that no longer open anything."
+                  },
+                  {
+                    "id": "prompt-en-152",
+                    "question": "Craft an imaginative piece of writing that explores at least ONE idea from the stimulus.",
+                    "totalMarks": 15,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EST-12-04",
+                      "EST-12-05"
+                    ],
+                    "markerNotes": [
+                      "The stronger pieces commit to one idea and let the stimulus carry it: the shadow that rises from the seedling gives the piece its time-frame without the writer explaining it.",
+                      "Control shows in repetition and sentence length chosen on purpose; a run of 'and' clauses or stacked adjectives reads as an accident of drafting.",
+                      "Avoid a moral the stimulus has not earned. The strongest endings stay with the image rather than stating the lesson.",
+                      "A single point of view and tense keeps the reader anchored in the scene."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the seedling and the watering can in detail but never saying what they mean, so the piece stays at the level of a caption for the picture.",
+                      "Ignoring the shadow, the fruit or the future figure and writing a generic garden scene that could have been drawn from any image.",
+                      "Stating the lesson outright ('patience is important') in the final line rather than letting the image carry it.",
+                      "Joining every event with 'and' or 'then' to create momentum, which flattens the control of language the criteria ask for."
+                    ],
+                    "keywords": [
+                      "seedling",
+                      "shadow",
+                      "watering can",
+                      "red fruit",
+                      "patience",
+                      "passage of time",
+                      "care for beginnings",
+                      "reward of long effort"
+                    ],
+                    "markingCriteria": "12-15 marks: Composes an engaging piece of imaginative writing that effectively explores at least ONE idea from the stimulus, crafts language effectively to do so, and demonstrates effective control of language and structure appropriate to audience, purpose, context and form\n8-11 marks: Composes a competent piece of imaginative writing that explores at least ONE idea from the stimulus, crafts language competently to do so, and demonstrates competent control of language and structure appropriate to audience, purpose, context and form\n4-7 marks: Composes a sound piece of writing that attempts to engage with the stimulus, uses language adequately and demonstrates variable control of language and structure appropriate to audience, purpose, context and form\n1-3 marks: Attempts to compose a piece of writing with some relevance to the stimulus",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-152-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Ilse kneels beside the seedling with the watering can held low, the way her father taught her, so the water soaks into the ground instead of running off down the slope. The seedling is so small she could hide it under a cupped hand. It has two leaves, pale as paper, and she waters it anyway, every morning, through the long dry weeks when nothing seems to happen.\n\nHer father used to say that care for beginnings is mostly waiting. He said it while he hoed the bean rows, and she did not understand him until she had planted things that took a full year to show themselves. Now she understands it in her knees. Patience is not the absence of work. It is work that refuses to be seen.\n\nWhen the sun shifts, she looks up, and the hillside has changed. Cast up the slope from the seedling is a shadow far too large for anything with so little root: a tree in full leaf, its crown wider than the fence, and inside the crown a woman reaching for fruit. A basket waits at the trunk, heavy with red fruit. It is the only colour on the whole hill. Everything else is grey, as if even the light has learned to be patient.\n\nIlse stands and stretches her back. The shadow is not a threat. It is a measure. It lengthens as the afternoon lengthens and shrinks back toward the seedling at noon, and each time it moves she sees that the tree is still growing, still waiting for someone to arrive. She wonders who the woman is. She wonders whether it will be her, or whether a stranger will one day stand beneath those branches with a basket and never know whose hands first wet this soil.\n\nThat night she sleeps badly. In her dream the seedling rises to meet her palm like a child reaching for a parent, and the shadow of the tree spreads across the valley until the passage of time becomes something she can walk through.\n\nBy morning the shadow has moved again. It has crept past the stones her father stacked, and the tree inside it looks no fuller than yesterday, though she knows it is. She refills the can at the trough and climbs back up. Kneeling once more, she tips the water in a thin, steady stream and watches it sink. A single drop catches the light, then vanishes into the dark earth. Nothing about this moment will be recorded. It will be done anyway.\n\nShe thinks of the woman in the shadow, arms full of fruit that she did not plant and does not need to understand. The reward of long effort, her father would have said, is that it is handed on without a receipt.\n\nIlse rises and lifts the can. The seedling’s two leaves tremble and settle. Above her, the shadow of the tree stretches across the whole hill, and in its branches a stranger lifts her hand to the red fruit, unhurried, as though the summers were always going to come.",
+                        "feedback": "This answer meets the highest descriptor: the shadow is sustained across every section as a way of showing time, the repetition in phrases such as 'It is a measure' and 'It will be done anyway' is deliberate, and the ending leaves the image to carry the idea. To lift it further, the shift from the father's saying to the present scene could be sharpened so that the movement between time-frames feels even more controlled.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-en-152-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Grandpa always said the best things take time, and when I was small I did not believe him. Every morning he knelt beside the little fig tree he had planted the spring I was born, tipping his watering can so the water soaked in slowly. Nothing seemed to happen. I would sit on the back step, kick my heels and ask when it would be a real tree.\n\n\"Patience,\" he would say, smiling as if he knew a secret.\n\nThe years went by, and the tree grew slowly and then all at once. By the time I was twelve it was taller than the shed, and in the afternoons its shadow covered half the lawn. I used to lie in that shade and think about how he had planted it for a future he would never see. At first it seemed a sad thing to do, planting something for people you will never meet.\n\nHe died the winter I turned fifteen, and I did not expect the tree to matter so much after that. In spring its leaves came back, and I found myself watering it on the mornings I could not sleep, as if the can were a way of talking to him.\n\nNow I am the one who kneels in the grass. Some mornings I look up at the shadow and imagine a child reaching for the red fruit long after I am gone, and I understand what he meant. The passage of time is not something you can watch happen. You can only keep showing up with the can, and trust that the shade will one day be there for someone else.",
+                        "feedback": "This answer meets the competent descriptor: it explores patience and the passage of time through a clear narrative anchored in the stimulus image. It leans on familiar phrasing and a closing moral the piece tells rather than shows, and the movement between sections is uneven. Tightening the final section and replacing stock phrases would move it toward the effective descriptor.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-152-3",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Mum said to water the plant, so Jess went outside after breakfast. It was a small green thing in a pot near the fence. She poured the water on it and some of it went everywhere. Then she went to school and did maths and forgot about it. When she came back it was still small. She supposed it might get bigger one day. The tree at the end of the street was big. Maybe this one would be too, but Jess was not sure and did not really mind. It was a plant, and that was all she could think to say about it.",
+                        "feedback": "This answer meets the lowest descriptor: it attempts to engage with the stimulus through the seedling and the watering, but the narrative is brief, the idea is not developed, and the shadow and the future figure are absent. Developing one idea, such as patience, through a sustained image would move it toward the sound descriptor.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Section III — Module C: The Craft of Writing, Question 3 (20 marks in all; part (a) is worth 15). Allow about 40 minutes for the whole question. Stimulus: a minimal illustration by Sergio Dulce, drawn in black line and flat grey with a single accent of red. In the foreground a small figure bends to water a tiny seedling with a watering can. Cast up the hillside from the seedling and the figure is a pale grey shadow: the shadow of a large tree in full leaf, and within it the shadow of a woman reaching up to pick red fruit, with a basket of red fruit at her side. Only the fruit is coloured. Ideas the image may suggest include patience, the passage of time, care for beginnings, imagining a future, and the reward of long effort. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "3(a)"
                   }
                 ]
               },
@@ -7723,6 +8540,66 @@
                       }
                     ],
                     "scenario": "A peer's invented feedback sheet on a classmate's 400-word short story uses terms such as 'strong imagery', 'nice tone' and 'the ending works well'. It gives no reference to the story's language features, and the writer is asking whether the feedback is useful for revision."
+                  },
+                  {
+                    "id": "prompt-en-153",
+                    "question": "Explain how ONE stylistic device you have used in part (a) was inspired by ONE of the prescribed texts in Module C.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EST-12-06"
+                    ],
+                    "markerNotes": [
+                      "Name the device precisely, then trace it through the piece rather than describing the piece in general.",
+                      "The link to Bradbury needs a concrete textual reference: a character, a setting or a moment from The Pedestrian, not a general claim that it is about loneliness.",
+                      "Explain what the device does differently in your own piece. The strongest answers show the inspiration and the adaptation together."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a device without showing where it appears in the part (a) piece.",
+                      "Summarising the plot of The Pedestrian in place of explaining how one element of it shaped the writing.",
+                      "Choosing a device the piece does not use, such as dialogue, when the piece is written as a single narrated voice."
+                    ],
+                    "keywords": [
+                      "stylistic device",
+                      "The Pedestrian",
+                      "Ray Bradbury",
+                      "shadow",
+                      "motif",
+                      "Leonard Mead",
+                      "passage of time",
+                      "imagery"
+                    ],
+                    "markingCriteria": "5 marks: Explains effectively the use of ONE stylistic device in part (a) and how ONE prescribed text from Module C inspired it, using relevant textual references and demonstrating effective control of language\n4 marks: Explains competently the use of ONE stylistic device in part (a) and how ONE prescribed text from Module C inspired it, using relevant textual references and demonstrating competent control of language\n3 marks: Explains the use of ONE stylistic device in part (a) and how ONE prescribed text from Module C inspired it, using some textual references and demonstrating sound control of language\n2 marks: Attempts to explain the use of ONE stylistic device in part (a) and how ONE prescribed text from Module C inspired it\n1 mark: Attempts to respond to the question",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-en-153-1",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In part (a), the device I worked hardest on is the shadow. It is cast up the hillside from the seedling, so it points forward to the future, and it recurs in each section, lengthening and shrinking with the sun to measure the passing of time. This was inspired by Ray Bradbury’s short story The Pedestrian, in which Leonard Mead walks an empty city in 2053 and sees only the shadows of people moving behind lit windows. Bradbury’s shadows show people shut away from one another and from the world outside, whereas my shadow shows the future that present care is still making. The recurring image is how I connect the patient gardener to the reward of long effort.",
+                        "feedback": "This answer meets the highest descriptor: it names one device, the sustained shadow image, traces it through the piece, and explains its inspiration from The Pedestrian with a concrete textual reference to Leonard Mead's walk through the empty city of 2053. To lift it further, it could show more precisely how the device changes meaning between the two texts, from isolation to hope.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-en-153-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "In my part (a) piece, the shadow of the tree is a repeated image. It grows and shrinks across the hill as the day passes, which shows time moving. Ray Bradbury’s The Pedestrian also uses shadows: Leonard Mead walks an empty city in 2053 and sees the shadows of people shut inside their houses. My shadow is more hopeful, because it shows the tree still growing and the future still coming.",
+                        "feedback": "This answer meets the sound descriptor: it identifies the shadow as a repeated image and links it to The Pedestrian with some textual reference, but the explanation of why the device was chosen is brief. Developing the comparison of what the shadow signals in each text would move it toward the competent descriptor.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-en-153-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "My story has a shadow that moves across the hill as the day goes on. Ray Bradbury’s The Pedestrian also has shadows in an empty city.",
+                        "feedback": "This answer meets the lowest descriptor: it attempts to respond to the question by naming a shadow and a text, but it does not explain how one inspired the other. Explaining what the shadow does in the piece, and how it relates to Bradbury's use of shadow, would move it toward the sound descriptor.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Section III — Module C: The Craft of Writing, Question 3(b) (5 marks). Refer to the piece you crafted for part (a). The sample answers below respond to a model part (a) piece, which is a present-tense story in which Ilse waters a seedling each morning while a shadow cast up the hillside shows a tree in full leaf and a woman picking red fruit. Its central image is that shadow, which lengthens and shrinks with the sun and carries the future, and the piece uses this recurring motif, with deliberate repetition, to explore patience, the passage of time and the reward of long effort. The Module C prescribed texts are: Prose Fiction — Ray Bradbury, The Pedestrian; Peter Carey, Report on the Shadow Industry; Catherine Cole, Home; Stephen King, Crouch End; Melissa Lucashenko, Dreamers. Nonfiction — Helen Garner, Dear Mrs Dunkley; George Orwell, The Sporting Spirit; Sylvia Plath, A Comparison; Sarah Vowell, What He Said There. Speeches — Linda Burney, First speech to the House of Representatives as Member for Barton; Steve Jobs, How to Live Before You Die; Paul Keating, Funeral Service of The Unknown Australian Soldier; J K Rowling, The Fringe Benefits of Failure and the Importance of Imagination. Poetry — Carol Chan, Popcorn; Robert Frost, Stopping By Woods on a Snowy Evening; Les Murray, An Absolutely Ordinary Rainbow; Judith Wright, The Surfer. Performance Poetry — Luka Lesson, May your pen grace the page. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "3(b)"
                   }
                 ]
               },

@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (2024 HSC English Standard Paper 2 questions, and HSC-style stems)
+
+- **Added.** The 14 questions of the 2024 HSC English Standard Paper 2 (Module A, 1(a)–1(k); Module B, Q2; Module C, Q3(a) and 3(b)) are in `HSCEnglishStandard.json` as `prompt-en-140`–`153`, each flagged `isPastHSC` with `hscYear: 2024` and its question number, so the "HSC 2024 · Q1(a)" chip shows. Stems and prescribed-text lists are copied from the NESA paper; each question has a marking guide, marker notes, common errors and a full/middle/bottom ladder of exemplars.
+- **Changed.** The Verb Gate has no HSC-faithful verb for these stems ("How does your study of…", "To what extent…", "Craft…"), so they are stored as DISCUSS (Module A), ASSESS (Module B), CONSTRUCT (3(a)) and EXPLAIN (3(b)). Tier 5 at 20 marks derives bands 17–20 / 13–16 / 9–12 / 5–8 / 1–4, which is NESA's own ladder for Modules A and B. Tier 4 at 15 marks derives four bands (12–15 / 8–11 / 4–7 / 1–3) against NESA's five (13–15 / 10–12 / 7–9 / 4–6 / 1–3), so 3(a)'s guide is NESA's wording on the app's ladder.
+- **Changed.** 104 existing English Standard and Advanced stems now read more like an HSC paper: "invented", "described in the scenario" and "in this scenario" are gone, instruction quantities are capitalised (ONE, TWO), Year 12 module stems point at "your prescribed text", and a 10-mark module stem carries "In your response, make close reference to your prescribed text." Verbs, marks, word counts and rationale clauses are untouched; no exemplar or marking guide changed.
+- **Note.** The exemplars for real prescribed texts were written from study guides and public-domain text, not from the printed editions. Each answer's unverified claims were stripped, but a teacher who has the texts should read them (especially 1(c), 1(d), 1(g), 1(h), 1(k)). The 1(k) exemplars are labelled 16 and 10 out of 20: no scene-level evidence could be checked, so none is a full-marks model.
+
 ## [Unreleased] - 2026-10-14 (Tiers by audience, and one answer for every lock)
 
 - **Changed.** Tiers are structured by buyer (`projectDocs/tier-structure.md`). The comparison gives each plan an audience line, and adds the class and school reports row and a payment row (card, or invoice against a purchase order where invoicing is on).
