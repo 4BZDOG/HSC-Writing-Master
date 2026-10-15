@@ -51,16 +51,21 @@ const ownRequest = (overrides: Partial<LicenceRequest> = {}): LicenceRequest => 
   ...overrides,
 });
 
-const open = async () => {
+const open = async ({ settled = true }: { settled?: boolean } = {}) => {
   fireEvent.click(screen.getByRole('button', { name: /Pay by invoice or purchase order/i }));
   await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+  // The lookup has been called, but the panel stays on its loading line until the
+  // promise settles and React re-renders. A slow runner read the form too early,
+  // so wait for it unless the test is about the loading line itself.
+  if (settled)
+    await waitFor(() =>
+      expect(screen.queryByText(/Checking for a request your school has already sent/)).toBeNull()
+    );
 };
 
 /** Fills every required field with good values, so a test can change one thing. */
-const fillForm = async () => {
-  // `open` returns once the lookup has been called, not once its result has
-  // rendered; wait for the form so a slow runner does not read it too early.
-  fireEvent.change(await screen.findByLabelText('Name on the invoice'), {
+const fillForm = () => {
+  fireEvent.change(screen.getByLabelText('Name on the invoice'), {
     target: { value: 'Parramatta High School' },
   });
   fireEvent.change(screen.getByLabelText('Accounts email'), {
@@ -221,7 +226,7 @@ describe('sending the form', () => {
     } as SubmitInvoiceResult);
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    await fillForm();
+    fillForm();
     fireEvent.change(screen.getByLabelText('Purchase order number (optional)'), {
       target: { value: '  PO-2026-0412 ' },
     });
@@ -260,7 +265,7 @@ describe('sending the form', () => {
     submitMock.mockReturnValue(new Promise<SubmitInvoiceResult>((resolve) => (finish = resolve)));
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    await fillForm();
+    fillForm();
     fireEvent.click(sendButton());
 
     const busy = await screen.findByRole('button', { name: 'Sending request…' });
@@ -278,7 +283,7 @@ describe('sending the form', () => {
     submitMock.mockResolvedValue({ ok: false, error: sentence, status: 409 });
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    await fillForm();
+    fillForm();
     fireEvent.click(sendButton());
 
     const alert = await screen.findByRole('alert');
@@ -299,7 +304,7 @@ describe('sending the form', () => {
     } as SubmitInvoiceResult);
     render(<InvoiceRequestForm seats={30} />);
     await open();
-    await fillForm();
+    fillForm();
     fireEvent.click(sendButton());
 
     await waitFor(() =>
@@ -417,7 +422,7 @@ describe('the states a request can be in when the panel opens', () => {
     let resolve: (rows: LicenceRequest[]) => void = () => {};
     fetchMock.mockReturnValue(new Promise<LicenceRequest[]>((r) => (resolve = r)));
     render(<InvoiceRequestForm seats={30} />);
-    await open();
+    await open({ settled: false });
     expect(screen.getByText(/Checking for a request your school has already sent/)).toBeTruthy();
     expect(screen.queryByLabelText('Name on the invoice')).toBeNull();
     resolve([]);
