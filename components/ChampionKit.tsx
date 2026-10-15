@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Copy } from 'lucide-react';
-import { PLAN_PRICING, schoolInvoicingEnabled } from '../services/entitlements';
+import { schoolInvoicingEnabled } from '../services/entitlements';
+import { useLivePrices } from '../hooks/useLivePrices';
 import { buildLicenceNote } from '../utils/licenceNote';
 
 /**
@@ -28,9 +29,11 @@ const ChampionKit: React.FC<{ schoolName?: string | null; className?: string }> 
 }) => {
   const [state, setState] = useState<KitState>('idle');
   const areaRef = useRef<HTMLTextAreaElement>(null);
+  const prices = useLivePrices();
   const note = buildLicenceNote({
     schoolName,
-    seatPrice: PLAN_PRICING.schoolSeat,
+    seatPrice: prices.schoolSeat,
+    seatGst: prices.schoolSeatGst,
     invoicing: schoolInvoicingEnabled(),
     appUrl: appAddress(),
   });

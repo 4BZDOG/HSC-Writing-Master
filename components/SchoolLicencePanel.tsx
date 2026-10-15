@@ -6,11 +6,11 @@ import {
   createCheckoutUrl,
   monetisationEnabled,
   PLAN_LABELS,
-  PLAN_PRICING,
   SCHOOL_CONTACT_EMAIL,
   SCHOOL_SEAT_LIMITS,
   STRIPE_PRICE_IDS,
 } from '../services/entitlements';
+import { useLivePrices } from '../hooks/useLivePrices';
 import type { User } from '../types';
 import { billingErrorMessage } from '../utils/billingMessages';
 import ChampionKit from './ChampionKit';
@@ -76,6 +76,8 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
   const [isBuyingSeats, setIsBuyingSeats] = useState(false);
   /** The server's sentence after it refused a purchase because a licence is held. */
   const [heldMessage, setHeldMessage] = useState<string | null>(null);
+  // Read before the early returns below, so the hook order never changes.
+  const prices = useLivePrices();
 
   if (!monetisationEnabled()) return null;
   if (!isStaff(user)) {
@@ -212,7 +214,8 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             <Plus className="w-3.5 h-3.5" />
           </button>
           <span className="t-label text-slate-400 light:text-slate-600 ml-1">
-            seats · {PLAN_PRICING.schoolSeat} per student a year
+            seats · {prices.schoolSeat} per student a year
+            {prices.schoolSeatGst ? ` ${prices.schoolSeatGst}` : ''}
           </span>
         </div>
         <button

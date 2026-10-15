@@ -18,7 +18,6 @@ import {
   lowestPlanForFeature,
   planLabelForFeature,
   STRIPE_PRICE_IDS,
-  PLAN_PRICING,
   FREE_DAILY_AI_CALLS,
   PAID_DAILY_AI_CALLS,
   monetisationEnabled,
@@ -26,6 +25,7 @@ import {
   type UpgradeReason,
 } from '../services/entitlements';
 import { useEscapeKey } from '../hooks/useEscapeKey';
+import { useLivePrices } from '../hooks/useLivePrices';
 import { useScrollLock } from '../hooks/useScrollLock';
 import SchoolLicencePanel from './SchoolLicencePanel';
 import ChampionKit from './ChampionKit';
@@ -165,6 +165,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
    * portal belongs to whoever bought the licence and would 404 for this caller.
    */
   const [licenceHeld, setLicenceHeld] = useState<string | null>(null);
+  // The prices as Stripe charges them, or the env text until they arrive.
+  const prices = useLivePrices();
 
   // A deployment may legitimately sell one billing period only — a school
   // pilot on annual invoicing, or a monthly launch with the annual price still
@@ -183,8 +185,8 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       ? 'yearly'
       : 'monthly';
   const plusPriceId = effectivePeriod === 'yearly' ? yearlyPrice : monthlyPrice;
-  const plusPriceDisplay =
-    effectivePeriod === 'yearly' ? PLAN_PRICING.yearly : PLAN_PRICING.monthly;
+  const plusPriceDisplay = effectivePeriod === 'yearly' ? prices.yearly : prices.monthly;
+  const plusGst = effectivePeriod === 'yearly' ? prices.yearlyGst : prices.monthlyGst;
   /**
    * A guest has no account for a subscription to attach to, so checkout cannot
    * work: /api/create-checkout answers 401 "Authentication required." — a
@@ -320,7 +322,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
    * amount, that it repeats, and how to stop. "Cancel anytime, no lock-in"
    * answered none of those, and a payment prompt has to answer all three.
    */
-  const chargeLine = `Charged ${plusPriceDisplay} ${effectivePeriod === 'yearly' ? 'a year' : 'a month'} and renews automatically. Cancel from your profile at any time, and your access runs to the end of the period you have paid for.`;
+  const chargeLine = `Charged ${plusPriceDisplay} ${effectivePeriod === 'yearly' ? 'a year' : 'a month'}${plusGst ? ` (${plusGst})` : ''} and renews automatically. Cancel from your profile at any time, and your access runs to the end of the period you have paid for.`;
   const blurb = atDailyLimit
     ? // The reset is stated in the reader's own clock. "Midnight" was read as
       // THEIR midnight; the boundary is a UTC day, which is mid-morning here.
@@ -444,10 +446,11 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 >
                   <span className="t-label block text-[rgb(var(--color-text-muted))]">Monthly</span>
                   <span className="block text-2xl font-black tracking-tight text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
-                    {PLAN_PRICING.monthly}
+                    {prices.monthly}
                     <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                       {' '}
                       /month
+                      {prices.monthlyGst ? ` ${prices.monthlyGst}` : ''}
                     </span>
                   </span>
                 </button>
@@ -464,17 +467,18 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                     Yearly <Zap className="w-3 h-3 text-amber-500 light:text-amber-700" />
                   </span>
                   <span className="block text-2xl font-black tracking-tight text-[rgb(var(--color-text-primary))] light:text-slate-900 mt-0.5">
-                    {PLAN_PRICING.yearly}
+                    {prices.yearly}
                     <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                       {' '}
                       /year
+                      {prices.yearlyGst ? ` ${prices.yearlyGst}` : ''}
                     </span>
                   </span>
                 </button>
               </div>
               {billingPeriod === 'yearly' && (
                 <p className="mt-2 text-center text-xs text-emerald-500 light:text-emerald-700">
-                  {PLAN_PRICING.yearlyNote}
+                  {prices.yearlyNote}
                   <span className="block mt-0.5 font-medium text-[rgb(var(--color-text-muted))]">
                     A year of marking for less than one hour of tutoring.
                   </span>
@@ -495,6 +499,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 {plusPriceDisplay}
                 <span className="text-xs font-bold text-[rgb(var(--color-text-muted))]">
                   {effectivePeriod === 'yearly' ? ' /year' : ' /month'}
+                  {plusGst ? ` ${plusGst}` : ''}
                 </span>
               </span>
             </div>
