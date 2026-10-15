@@ -68,7 +68,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-1",
-                    "question": "Explain how the language choices in the invented council notice shape the meaning a reader takes from it.",
+                    "question": "Explain how the language choices in the council notice shape the meaning a reader takes from it.",
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -123,7 +123,7 @@
                   },
                   {
                     "id": "prompt-en-2",
-                    "question": "Identify two language choices in the invented council notice that give it an authoritative influence on the reader.",
+                    "question": "Identify TWO language choices in the council notice that give it an authoritative influence on the reader.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -174,7 +174,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-3",
-                    "question": "Describe how the mode and medium of the invented story shape its meaning for a listener compared with a reader.",
+                    "question": "Describe how the mode and medium of the story shape its meaning for a listener compared with a reader.",
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -290,7 +290,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-5",
-                    "question": "Interpret how the figurative comparison in the invented line shapes the speaker's perspective on the old bridge.",
+                    "question": "Interpret how the figurative comparison in the line shapes the speaker's perspective on the old bridge.",
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
@@ -344,7 +344,7 @@
                   },
                   {
                     "id": "prompt-en-6",
-                    "question": "Identify two figurative elements in the invented line that shape the reader's experience of the old bridge.",
+                    "question": "Identify TWO figurative elements in the line that shape the reader's experience of the old bridge.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -395,7 +395,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-7",
-                    "question": "Discuss how close analysis of language and literary devices informs interpretations of a familiar text compared with the unfamiliar extract described in the scenario.",
+                    "question": "Discuss how close analysis of language and literary devices informs interpretations of a familiar text compared with the unfamiliar extract.",
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
@@ -622,7 +622,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-11",
-                    "question": "Compare the language forms, features and structures used in the two invented texts described in the scenario, identifying similarities and differences within and between them.",
+                    "question": "Compare the language forms, features and structures used in the two texts, identifying similarities and differences within and between them.",
                     "totalMarks": 7,
                     "verb": "COMPARE",
                     "linkedOutcomes": [
@@ -675,7 +675,7 @@
                   },
                   {
                     "id": "prompt-en-12",
-                    "question": "Outline how sentence structure changes between the opening and closing sections of the invented diary entry.",
+                    "question": "Outline how sentence structure changes between the opening and closing sections of the diary entry.",
                     "totalMarks": 3,
                     "verb": "OUTLINE",
                     "linkedOutcomes": [
@@ -795,7 +795,7 @@
                   },
                   {
                     "id": "prompt-en-14",
-                    "question": "Describe the features that distinguish a discursive text from a persuasive text, using one example from your own writing.",
+                    "question": "Describe the features that distinguish a discursive text from a persuasive text, using ONE example from your own writing.",
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -854,7 +854,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-15",
-                    "question": "Construct a short imaginative text of about 150 words that makes a thematic and stylistic connection with the invented poem described in the scenario. Follow your text with a brief rationale of about 60 words that identifies the connection.",
+                    "question": "Construct a short imaginative text of about 150 words that makes a thematic and stylistic connection with the poem. Follow your text with a brief rationale of about 60 words that identifies the connection.",
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -908,7 +908,7 @@
                   },
                   {
                     "id": "prompt-en-16",
-                    "question": "Distinguish between a thematic connection and a stylistic connection that a writer might make with the invented poem 'Last Train' described in the scenario.",
+                    "question": "Distinguish between a thematic connection and a stylistic connection that a writer might make with the poem 'Last Train'.",
                     "totalMarks": 3,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
@@ -967,7 +967,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-17",
-                    "question": "Construct a discursive paragraph of about 120 words for a community newsletter that explores at least two values or perspectives on keeping the library open late, including your own. Follow the paragraph with a rationale of about 40 words.",
+                    "question": "Construct a discursive paragraph of about 120 words for a community newsletter that explores at least TWO values or perspectives on keeping the library open late, including your own. Follow the paragraph with a rationale of about 40 words.",
                     "totalMarks": 5,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -1021,7 +1021,7 @@
                   },
                   {
                     "id": "prompt-en-18",
-                    "question": "Clarify the value at the centre of your newsletter paragraph on library hours, and show how two of your word choices make that value clear to the reader.",
+                    "question": "Clarify the value at the centre of your newsletter paragraph on library hours, and show how TWO of your word choices make that value clear to the reader.",
                     "totalMarks": 3,
                     "verb": "CLARIFY",
                     "linkedOutcomes": [
@@ -1193,7 +1193,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-21",
-                    "question": "Construct a revised version of the invented draft paragraph in the scenario for a Year 7 audience, showing the drafting, editing, revising and refining you have done. Follow the revised paragraph with a rationale of about 60 words that explains the purpose of your three most significant changes.",
+                    "question": "Construct a revised version of the draft paragraph for a Year 7 audience, showing the drafting, editing, revising and refining you have done. Follow the revised paragraph with a rationale of about 60 words that explains the purpose of your THREE most significant changes.",
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -1359,7 +1359,7 @@
                   },
                   {
                     "id": "prompt-en-24",
-                    "question": "Identify two items of metalanguage used in the invented paragraph in the scenario.",
+                    "question": "Identify TWO items of metalanguage used in the paragraph.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -1410,7 +1410,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-25",
-                    "question": "State two conventions of accurate punctuation that a writer should check before submitting a critical review.",
+                    "question": "State TWO conventions of accurate punctuation that a writer should check before submitting a critical review.",
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
@@ -1582,7 +1582,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-28",
-                    "question": "Analyse how the language features, text structures and stylistic choices in the invented interactive digital narrative described in the scenario influence the reader's experience of the story.",
+                    "question": "Analyse how the language features, text structures and stylistic choices in the interactive digital narrative influence the reader's experience of the story.",
                     "totalMarks": 8,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
@@ -1635,7 +1635,7 @@
                   },
                   {
                     "id": "prompt-en-29",
-                    "question": "Describe two stylistic choices in the invented digital narrative that influence the reader's sense of time.",
+                    "question": "Describe TWO stylistic choices in the digital narrative that influence the reader's sense of time.",
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -1748,7 +1748,7 @@
                   },
                   {
                     "id": "prompt-en-31",
-                    "question": "State two ways a recorded sound effect can shape meaning in a story that a printed panel cannot.",
+                    "question": "State TWO ways a recorded sound effect can shape meaning in a story that a printed panel cannot.",
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
@@ -1854,7 +1854,7 @@
                   },
                   {
                     "id": "prompt-en-33",
-                    "question": "Summarise how a composer adapts a text for different contexts and purposes, using the video series in the scenario as your example.",
+                    "question": "Summarise how a composer adapts a text for different contexts and purposes, using the video series as your example.",
                     "totalMarks": 4,
                     "verb": "SUMMARISE",
                     "linkedOutcomes": [
@@ -1912,7 +1912,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-34",
-                    "question": "Account for the impact that an intertextual reference has on the purpose, audience and content of a new text, using the invented short film described in the scenario.",
+                    "question": "Account for the impact that an intertextual reference has on the purpose, audience and content of a new text, using the short film.",
                     "totalMarks": 5,
                     "verb": "ACCOUNT",
                     "linkedOutcomes": [
@@ -1966,7 +1966,7 @@
                   },
                   {
                     "id": "prompt-en-35",
-                    "question": "Define intertextuality, and give one example of an intertextual reference from the invented short film described in the scenario.",
+                    "question": "Define intertextuality, and give ONE example of an intertextual reference from the short film.",
                     "totalMarks": 2,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
@@ -2017,7 +2017,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-36",
-                    "question": "Evaluate the values and assumptions represented and communicated in the invented chatbot story described in the scenario, reaching a judgement on whether its emerging mediums strengthen or limit them.",
+                    "question": "Evaluate the values and assumptions represented and communicated in the chatbot story, reaching a judgement on whether its emerging mediums strengthen or limit them.",
                     "totalMarks": 8,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
@@ -2070,7 +2070,7 @@
                   },
                   {
                     "id": "prompt-en-37",
-                    "question": "Describe two assumptions about young readers that are communicated through the rewards system in the chatbot story.",
+                    "question": "Describe TWO assumptions about young readers that are communicated through the rewards system in the chatbot story.",
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -2188,7 +2188,7 @@
                   },
                   {
                     "id": "prompt-en-39",
-                    "question": "Apply two conventions of the mystery genre to the opening paragraph in the scenario, showing how each convention shapes the reader's expectations.",
+                    "question": "Apply TWO conventions of the mystery genre to the opening paragraph, showing how each convention shapes the reader's expectations.",
                     "totalMarks": 4,
                     "verb": "APPLY",
                     "linkedOutcomes": [
@@ -2247,7 +2247,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-40",
-                    "question": "Construct a logical, ordered and cohesive argument of about 250 words in response to the ideas generated by the two invented texts in the scenario. Follow the argument with a rationale of about 60 words that explains how you ordered your points.",
+                    "question": "Construct a logical, ordered and cohesive argument of about 250 words in response to the ideas generated by the two texts. Follow the argument with a rationale of about 60 words that explains how you ordered your points.",
                     "totalMarks": 7,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -2301,7 +2301,7 @@
                   },
                   {
                     "id": "prompt-en-41",
-                    "question": "Justify the ordering of the argument in the scenario, showing how each point builds on the ideas generated by the two texts, and why this order is more effective for the reader than another arrangement.",
+                    "question": "Justify the ordering of the argument, showing how each point builds on the ideas generated by the two texts, and why this order is more effective for the reader than another arrangement.",
                     "totalMarks": 8,
                     "verb": "JUSTIFY",
                     "linkedOutcomes": [
@@ -2415,7 +2415,7 @@
                   },
                   {
                     "id": "prompt-en-43",
-                    "question": "Describe the values and perspective reflected in the invented editorial in the scenario, using at least two of its language choices as evidence.",
+                    "question": "Describe the values and perspective reflected in the editorial, using at least TWO of its language choices as evidence.",
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -2527,7 +2527,7 @@
                   },
                   {
                     "id": "prompt-en-45",
-                    "question": "Explain the processes you used to compose a text in one digital medium, and how the technology shaped each stage of the composition.",
+                    "question": "Explain the processes you used to compose a text in ONE digital medium, and how the technology shaped each stage of the composition.",
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -2631,7 +2631,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-47",
-                    "question": "Describe how Priya used two different processes or technologies to generate and investigate information for her podcast episode.",
+                    "question": "Describe how Priya used TWO different processes or technologies to generate and investigate information for her podcast episode.",
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -2811,7 +2811,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-50",
-                    "question": "Identify two textual forms or language features that shape meaning in a literary text you have studied, and state the effect of each on the reader.",
+                    "question": "Identify TWO textual forms or language features that shape meaning in a literary text you have studied, and state the effect of each on the reader.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -3133,7 +3133,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-56",
-                    "question": "Distinguish between two interpretations of the same literary text that arise from different perspectives, using textual evidence from each.",
+                    "question": "Distinguish between TWO interpretations of the same literary text that arise from different perspectives, using textual evidence from each.",
                     "totalMarks": 4,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
@@ -3527,7 +3527,7 @@
                   },
                   {
                     "id": "prompt-en-63",
-                    "question": "Apply the idea that a composed text can reflect a particular perspective to a short poem of your own, naming the perspective and one language feature that expresses it.",
+                    "question": "Apply the idea that a composed text can reflect a particular perspective to a short poem of your own, naming the perspective and ONE language feature that expresses it.",
                     "totalMarks": 4,
                     "verb": "APPLY",
                     "linkedOutcomes": [
@@ -3763,7 +3763,7 @@
                   },
                   {
                     "id": "prompt-en-67",
-                    "question": "Contrast how the language and forms of two texts you have studied present human experiences differently to readers.",
+                    "question": "Contrast how the language and forms of TWO texts you have studied present human experiences differently to readers.",
                     "totalMarks": 4,
                     "verb": "CONTRAST",
                     "linkedOutcomes": [
@@ -4096,7 +4096,7 @@
                   },
                   {
                     "id": "prompt-en-73",
-                    "question": "Identify two examples of evaluative language or metalanguage in a critical review you have studied, and state the judgement each one makes.",
+                    "question": "Identify TWO examples of evaluative language or metalanguage in a critical review you have studied, and state the judgement each one makes.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -4315,7 +4315,7 @@
                   },
                   {
                     "id": "prompt-en-77",
-                    "question": "Explain how a creative text you have read affirms or challenges a value represented across a range of texts, using one stylistic choice as evidence.",
+                    "question": "Explain how a creative text you have read affirms or challenges a value represented across a range of texts, using ONE stylistic choice as evidence.",
                     "totalMarks": 3,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -4497,7 +4497,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-80",
-                    "question": "Examine how the personal, social, cultural and historical contexts of a text you have studied shape its meaning.",
+                    "question": "Examine how the personal, social, cultural and historical contexts of your prescribed text shape its meaning.",
                     "totalMarks": 5,
                     "verb": "EXAMINE",
                     "linkedOutcomes": [
@@ -4608,7 +4608,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-82",
-                    "question": "Contrast how two texts you have studied use specific language features and forms to influence readers' perceptions of other people and of cultural perspectives.",
+                    "question": "Contrast how TWO of your prescribed texts use specific language features and forms to influence readers' perceptions of other people and of cultural perspectives.",
                     "totalMarks": 5,
                     "verb": "CONTRAST",
                     "linkedOutcomes": [
@@ -4661,7 +4661,7 @@
                   },
                   {
                     "id": "prompt-en-83",
-                    "question": "Interpret how a text you have studied uses its forms to influence your own perceptions of a group of people.",
+                    "question": "Interpret how your prescribed text uses its forms to influence your own perceptions of a group of people.",
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
@@ -4720,7 +4720,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-84",
-                    "question": "Describe how the mode and medium of a text you have studied shape meaning for its audience.",
+                    "question": "Describe how the mode and medium of your prescribed text shape meaning for its audience.",
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -4772,7 +4772,7 @@
                   },
                   {
                     "id": "prompt-en-85",
-                    "question": "Distinguish between how the spoken mode and the written mode of a text shape meaning for readers and listeners in a medium.",
+                    "question": "Distinguish between how the spoken mode and the written mode of your prescribed text shape meaning for readers and listeners in a medium.",
                     "totalMarks": 3,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
@@ -4831,7 +4831,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-86",
-                    "question": "Assess the extent to which an author's context and implicit cultural assumptions influence the perspectives and ideas in a text you have studied.",
+                    "question": "Assess the extent to which an author's context and implicit cultural assumptions influence the perspectives and ideas in your prescribed text. In your response, make close reference to your prescribed text.",
                     "totalMarks": 10,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
@@ -4883,7 +4883,7 @@
                   },
                   {
                     "id": "prompt-en-87",
-                    "question": "State two implicit cultural assumptions that an author's context might introduce into the perspectives and ideas of a text, with one example for each.",
+                    "question": "State TWO implicit cultural assumptions that an author's context might introduce into the perspectives and ideas of a text, with ONE example for each.",
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
@@ -4933,7 +4933,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-88",
-                    "question": "Evaluate how effectively the content of a text you have studied shapes the social, moral and ethical positions it represents.",
+                    "question": "Evaluate how effectively the content of your prescribed text shapes the social, moral and ethical positions it represents.",
                     "totalMarks": 6,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
@@ -4985,7 +4985,7 @@
                   },
                   {
                     "id": "prompt-en-89",
-                    "question": "Discuss how the content of a text you have studied presents a social or moral position that a reader may question.",
+                    "question": "Discuss how the content of your prescribed text presents a social or moral position that a reader may question.",
                     "totalMarks": 5,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
@@ -5049,7 +5049,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-90",
-                    "question": "Describe two language features and one text structure that the columnist uses to position readers in the opinion column described in the scenario.",
+                    "question": "Describe TWO language features and ONE text structure that the columnist uses to position readers in the opinion column.",
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -5226,7 +5226,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-93",
-                    "question": "Construct an argument paragraph of about 200 words that uses the three research sources in the scenario to support the claim that a regional town needs a public swimming pool, then write a short rationale explaining how you used the evidence.",
+                    "question": "Construct an argument paragraph of about 200 words that uses the three research sources to support the claim that a regional town needs a public swimming pool, then write a short rationale explaining how you used the evidence.",
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -5283,7 +5283,7 @@
                   },
                   {
                     "id": "prompt-en-94",
-                    "question": "Classify each of the four pieces of evidence in the scenario as statistical, anecdotal or expert opinion.",
+                    "question": "Classify each of the four pieces of evidence as statistical, anecdotal or expert opinion.",
                     "totalMarks": 3,
                     "verb": "CLASSIFY",
                     "linkedOutcomes": [
@@ -5344,7 +5344,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-95",
-                    "question": "Distinguish between the values and attitudes of the two letter writers in the scenario, using specific words or phrases from each letter.",
+                    "question": "Distinguish between the values and attitudes of the two letter writers, using specific words or phrases from each letter.",
                     "totalMarks": 4,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
@@ -5401,7 +5401,7 @@
                   },
                   {
                     "id": "prompt-en-96",
-                    "question": "Identify two perspectives on the wind farm that are represented in the two letters to the editor described in the scenario.",
+                    "question": "Identify TWO perspectives on the wind farm that are represented in the two letters to the editor.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -5452,7 +5452,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-97",
-                    "question": "Construct a 200-word interpretive response to the invented poem described in the scenario, supported by close textual analysis of at least three techniques, then write a short rationale explaining the interpretive choices you made.",
+                    "question": "Construct a 200-word interpretive response to the poem, supported by close textual analysis of at least THREE techniques, then write a short rationale explaining the interpretive choices you made.",
                     "totalMarks": 8,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -5565,7 +5565,7 @@
                   },
                   {
                     "id": "prompt-en-99",
-                    "question": "Demonstrate close textual analysis of the poem's final stanza by identifying one technique and explaining how its effect shapes the poem's final meaning.",
+                    "question": "Demonstrate close textual analysis of the poem's final stanza by identifying ONE technique and explaining how its effect shapes the poem's final meaning.",
                     "totalMarks": 3,
                     "verb": "DEMONSTRATE",
                     "linkedOutcomes": [
@@ -5638,7 +5638,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-100",
-                    "question": "Identify two techniques the narrator uses to position the reader to sympathise with Mira in the short story described in the scenario.",
+                    "question": "Identify TWO techniques the narrator uses to position the reader to sympathise with Mira in the short story.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -5799,7 +5799,7 @@
                   },
                   {
                     "id": "prompt-en-103",
-                    "question": "Define the term 'motif' and give one example of a motif in the diary entries described in the scenario.",
+                    "question": "Define the term 'motif' and give ONE example of a motif in the diary entries.",
                     "totalMarks": 2,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
@@ -5958,7 +5958,7 @@
                   },
                   {
                     "id": "prompt-en-106",
-                    "question": "Predict how a listener's personal response to the podcast would change if the nurse's recorded voice were replaced by the journalist's narration, giving two reasons.",
+                    "question": "Predict how a listener's personal response to the podcast would change if the nurse's recorded voice were replaced by the journalist's narration, giving TWO reasons.",
                     "totalMarks": 3,
                     "verb": "PREDICT",
                     "linkedOutcomes": [
@@ -6018,7 +6018,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-107",
-                    "question": "Discuss the relationship between the historical and personal context of the invented memoir and the way it represents the author's experience of a flood that destroyed her family's farm.",
+                    "question": "Discuss the relationship between the historical and personal context of the memoir and the way it represents the author's experience of a flood that destroyed her family's farm.",
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
@@ -6134,7 +6134,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-109",
-                    "question": "Critically analyse the ways the detective short story described in the scenario conforms to, or challenges, the conventions of the genre through its textual forms, language and stylistic choices.",
+                    "question": "Critically analyse the ways the detective short story conforms to, or challenges, the conventions of the genre through its textual forms, language and stylistic choices.",
                     "totalMarks": 8,
                     "verb": "CRITICALLY ANALYSE",
                     "linkedOutcomes": [
@@ -6244,7 +6244,7 @@
                   },
                   {
                     "id": "prompt-en-111",
-                    "question": "Outline two conventions of the detective genre that the story uses in its early chapters.",
+                    "question": "Outline TWO conventions of the detective genre that the story uses in its early chapters.",
                     "totalMarks": 3,
                     "verb": "OUTLINE",
                     "linkedOutcomes": [
@@ -6366,7 +6366,7 @@
                   },
                   {
                     "id": "prompt-en-113",
-                    "question": "Apply the three guidelines in the scenario to revise the invented opening sentence, showing one revision for each guideline and explaining the overall effect.",
+                    "question": "Apply the three guidelines to revise the opening sentence, showing ONE revision for each guideline and explaining the overall effect.",
                     "totalMarks": 4,
                     "verb": "APPLY",
                     "linkedOutcomes": [
@@ -6479,7 +6479,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-115",
-                    "question": "Discuss how at least two different interpretations of the lighthouse poem, derived from different perspectives, change the reader's understanding of the keeper's final winter.",
+                    "question": "Discuss how at least TWO different interpretations of the lighthouse poem, derived from different perspectives, change the reader's understanding of the keeper's final winter.",
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
@@ -6764,7 +6764,7 @@
                   },
                   {
                     "id": "prompt-en-120",
-                    "question": "Summarise the logical order of the four paragraphs in the student's draft described in the scenario, showing how each paragraph builds on the claim in the first paragraph.",
+                    "question": "Summarise the logical order of the four paragraphs in the student's draft, showing how each paragraph builds on the claim in the first paragraph.",
                     "totalMarks": 4,
                     "verb": "SUMMARISE",
                     "linkedOutcomes": [
@@ -6836,7 +6836,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-121",
-                    "question": "Appreciate the power of language to express the father's grief in the invented memoir extract described in the scenario, with reference to at least three language features.",
+                    "question": "Appreciate the power of language to express the father's grief in the memoir extract, with reference to at least THREE language features.",
                     "totalMarks": 8,
                     "verb": "APPRECIATE",
                     "linkedOutcomes": [
@@ -6891,7 +6891,7 @@
                   },
                   {
                     "id": "prompt-en-122",
-                    "question": "Describe two examples of figurative language in the memoir extract described in the scenario, and what each one shows about the kitchen.",
+                    "question": "Describe TWO examples of figurative language in the memoir extract, and what each one shows about the kitchen.",
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -6943,7 +6943,7 @@
                   },
                   {
                     "id": "prompt-en-123",
-                    "question": "State the central perspective the memoir extract expresses about grief, supported by one example from the extract.",
+                    "question": "State the central perspective the memoir extract expresses about grief, supported by ONE example from the extract.",
                     "totalMarks": 2,
                     "verb": "STATE",
                     "linkedOutcomes": [
@@ -6994,7 +6994,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-124",
-                    "question": "Examine how the forms and stylistic choices of the persuasive speech described in the scenario shape its persuasive power.",
+                    "question": "Examine how the forms and stylistic choices of the persuasive speech shape its persuasive power.",
                     "totalMarks": 6,
                     "verb": "EXAMINE",
                     "linkedOutcomes": [
@@ -7049,7 +7049,7 @@
                   },
                   {
                     "id": "prompt-en-125",
-                    "question": "Classify each of the four short passages in the scenario as imaginative, discursive, persuasive or reflective, giving one supporting feature for each.",
+                    "question": "Classify each of the four short passages as imaginative, discursive, persuasive or reflective, giving ONE supporting feature for each.",
                     "totalMarks": 3,
                     "verb": "CLASSIFY",
                     "linkedOutcomes": [
@@ -7114,7 +7114,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-126",
-                    "question": "Outline the four processes the student used to generate, investigate, clarify and organise ideas for the feature article described in the scenario.",
+                    "question": "Outline the four processes the student used to generate, investigate, clarify and organise ideas for the feature article.",
                     "totalMarks": 4,
                     "verb": "OUTLINE",
                     "linkedOutcomes": [
@@ -7283,7 +7283,7 @@
                   },
                   {
                     "id": "prompt-en-129",
-                    "question": "Differentiate between the genre conventions of the podcast script and the newspaper opinion column described in the scenario.",
+                    "question": "Differentiate between the genre conventions of the podcast script and the newspaper opinion column.",
                     "totalMarks": 4,
                     "verb": "DIFFERENTIATE",
                     "linkedOutcomes": [
@@ -7398,7 +7398,7 @@
                   },
                   {
                     "id": "prompt-en-131",
-                    "question": "Assess the effectiveness of the change in point of view in the classmate's bus-driver retelling described in the scenario, using the criteria of character development, tone and reader position.",
+                    "question": "Assess the effectiveness of the change in point of view in the classmate's bus-driver retelling, using the criteria of character development, tone and reader position.",
                     "totalMarks": 8,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
@@ -7453,7 +7453,7 @@
                   },
                   {
                     "id": "prompt-en-132",
-                    "question": "Identify the narrative point of view used in the original scene and in the retelling described in the scenario.",
+                    "question": "Identify the narrative point of view used in the original scene and in the retelling.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -7504,7 +7504,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-133",
-                    "question": "Construct a 200-word reflective piece that makes a thematic connection with the invented poem described in the scenario and reflects your own values about belonging, then write a short rationale explaining the connection.",
+                    "question": "Construct a 200-word reflective piece that makes a thematic connection with the poem and reflects your own values about belonging, then write a short rationale explaining the connection.",
                     "totalMarks": 7,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -7559,7 +7559,7 @@
                   },
                   {
                     "id": "prompt-en-134",
-                    "question": "Account for the values and perspectives reflected in the piece about belonging, including the writer's own, by referring to at least two stylistic choices.",
+                    "question": "Account for the values and perspectives reflected in the piece about belonging, including the writer's own, by referring to at least TWO stylistic choices.",
                     "totalMarks": 5,
                     "verb": "ACCOUNT",
                     "linkedOutcomes": [
@@ -7618,7 +7618,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-135",
-                    "question": "Define three items of metalanguage you could use to assess the meaning made in your own writing, giving one example of each from your draft.",
+                    "question": "Define THREE items of metalanguage used to assess the meaning made in your own writing, giving ONE example of each from your draft.",
                     "totalMarks": 3,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
@@ -7672,7 +7672,7 @@
                   },
                   {
                     "id": "prompt-en-136",
-                    "question": "Assess how well the metalanguage in the peer feedback described in the scenario reflects the meaning made in the writer's story, with reference to two examples.",
+                    "question": "Assess how well the metalanguage in the peer feedback reflects the meaning made in the writer's story, with reference to TWO examples.",
                     "totalMarks": 6,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
@@ -7732,7 +7732,7 @@
                 "prompts": [
                   {
                     "id": "prompt-en-137",
-                    "question": "Recommend revisions to the draft described in the scenario so that it better suits its audience of Year 9 students, explaining why each revision matters.",
+                    "question": "Recommend revisions to the draft so that it better suits its audience of Year 9 students, explaining why each revision matters.",
                     "totalMarks": 6,
                     "verb": "RECOMMEND",
                     "linkedOutcomes": [
@@ -7841,7 +7841,7 @@
                   },
                   {
                     "id": "prompt-en-139",
-                    "question": "Describe the stages the student moved through between the first draft and the final presented version of the speech described in the scenario.",
+                    "question": "Describe the stages the student moved through between the first draft and the final presented version of the speech.",
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
