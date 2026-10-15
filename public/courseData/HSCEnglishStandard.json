@@ -8395,7 +8395,7 @@
                       "care for beginnings",
                       "reward of long effort"
                     ],
-                    "markingCriteria": "12-15 marks: Composes an engaging piece of imaginative writing that effectively explores at least ONE idea from the stimulus, crafts language effectively to do so, and demonstrates effective control of language and structure appropriate to audience, purpose, context and form\n8-11 marks: Composes a competent piece of imaginative writing that explores at least ONE idea from the stimulus, crafts language competently to do so, and demonstrates competent control of language and structure appropriate to audience, purpose, context and form\n4-7 marks: Composes a sound piece of writing that attempts to engage with the stimulus, uses language adequately and demonstrates variable control of language and structure appropriate to audience, purpose, context and form\n1-3 marks: Attempts to compose a piece of writing with some relevance to the stimulus",
+                    "markingCriteria": "13-15 marks: Composes an engaging piece of imaginative writing that effectively explores at least ONE idea from the stimulus, crafts language effectively to do so, and demonstrates effective control of language and structure appropriate to audience, purpose, context and form\n10-12 marks: Composes a competent piece of imaginative writing that explores at least ONE idea from the stimulus, crafts language competently to do so, and demonstrates competent control of language and structure appropriate to audience, purpose, context and form\n7-9 marks: Composes a sound piece of imaginative writing that explores at least ONE idea from the stimulus, uses language adequately to do so, and demonstrates sound control of language and structure appropriate to audience, purpose, context and form\n4-6 marks: Composes a piece of writing that attempts to engage with the stimulus and demonstrates variable control of language and structure appropriate to audience, purpose, context and form\n1-3 marks: Attempts to compose a piece of writing with some relevance to the question",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-152-1",
@@ -8408,7 +8408,7 @@
                       {
                         "id": "sa-en-152-2",
                         "source": "AI",
-                        "mark": 9,
+                        "mark": 11,
                         "answer": "Grandpa always said the best things take time, and when I was small I did not believe him. Every morning he knelt beside the little fig tree he had planted the spring I was born, tipping his watering can so the water soaked in slowly. Nothing seemed to happen. I would sit on the back step, kick my heels and ask when it would be a real tree.\n\n\"Patience,\" he would say, smiling as if he knew a secret.\n\nThe years went by, and the tree grew slowly and then all at once. By the time I was twelve it was taller than the shed, and in the afternoons its shadow covered half the lawn. I used to lie in that shade and think about how he had planted it for a future he would never see. At first it seemed a sad thing to do, planting something for people you will never meet.\n\nHe died the winter I turned fifteen, and I did not expect the tree to matter so much after that. In spring its leaves came back, and I found myself watering it on the mornings I could not sleep, as if the can were a way of talking to him.\n\nNow I am the one who kneels in the grass. Some mornings I look up at the shadow and imagine a child reaching for the red fruit long after I am gone, and I understand what he meant. The passage of time is not something you can watch happen. You can only keep showing up with the can, and trust that the shade will one day be there for someone else.",
                         "feedback": "This answer meets the competent descriptor: it explores patience and the passage of time through a clear narrative anchored in the stimulus image. It leans on familiar phrasing and a closing moral the piece tells rather than shows, and the movement between sections is uneven. Tightening the final section and replacing stock phrases would move it toward the effective descriptor.",
                         "band": 3
@@ -8416,9 +8416,9 @@
                       {
                         "id": "sa-en-152-3",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 5,
                         "answer": "Mum said to water the plant, so Jess went outside after breakfast. It was a small green thing in a pot near the fence. She poured the water on it and some of it went everywhere. Then she went to school and did maths and forgot about it. When she came back it was still small. She supposed it might get bigger one day. The tree at the end of the street was big. Maybe this one would be too, but Jess was not sure and did not really mind. It was a plant, and that was all she could think to say about it.",
-                        "feedback": "This answer meets the lowest descriptor: it attempts to engage with the stimulus through the seedling and the watering, but the narrative is brief, the idea is not developed, and the shadow and the future figure are absent. Developing one idea, such as patience, through a sustained image would move it toward the sound descriptor.",
+                        "feedback": "This answer meets the 4-6 descriptor: it attempts to engage with the stimulus through the seedling and the watering, but the narrative is brief, the idea is not developed, and the shadow and the future figure are absent. Developing one idea, such as patience, through a sustained image would move it toward the sound descriptor.",
                         "band": 2
                       }
                     ],

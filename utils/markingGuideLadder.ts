@@ -67,6 +67,29 @@ export const guideLadderProblem = (
 };
 
 /**
+ * Null when a guide's rows are a well-formed ladder of ANY shape: highest row
+ * first, each row starting one mark below the one above, full marks at the top
+ * and 1 mark at the bottom. Then the style check.
+ *
+ * `guideLadderProblem` asks for the app's own ladder, which is right for a guide
+ * the app writes. A past-paper guide is NESA's, and NESA's ladders are not the
+ * app's: 11-12 / 8-10 / 5-7 / 3-4 / 1-2 for a 12-mark question, 13-15 / 10-12 /
+ * 7-9 / 4-6 / 1-3 for a 15-mark one, a merged "2-3 marks" row on a 6-mark one.
+ * Rewriting the rows to the app's would make a past paper's guide something its
+ * marker never wrote, so these are held to being a sound ladder and no more.
+ */
+export const guideStructureProblem = (text: string, totalMarks: number): string | null => {
+  const rows = guideRows(text);
+  if (rows.length === 0) return 'it has no mark rows';
+  if (rows[0].hi !== totalMarks) return `its top row reaches ${rows[0].hi}, not ${totalMarks}`;
+  for (let i = 1; i < rows.length; i++)
+    if (rows[i].hi !== rows[i - 1].lo - 1)
+      return `row ${i + 1} ends at ${rows[i].hi} but the row above starts at ${rows[i - 1].lo}`;
+  if (rows[rows.length - 1].lo !== 1) return 'its bottom row does not reach 1 mark';
+  return guideStyleProblem(text);
+};
+
+/**
  * HSC marking-guideline style.
  *
  * A NESA marking guideline is a short ladder of criteria, highest mark first.
