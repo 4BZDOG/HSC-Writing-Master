@@ -1234,11 +1234,18 @@ export const getStructureGuide = (mark: number): string => {
   return `${STRUCTURE_BY_MARK[m]} (Approx ${min}-${max}${m >= 10 ? '+' : ''} words)`;
 };
 
+/** The pace the HSC papers allow: 40 minutes for 20 marks, 75 for Business Studies' 40. */
+const HSC_MINUTES_PER_MARK = 1.8;
+
 /**
  * Recommended writing time (in seconds) for a question, derived from the verb's
  * NESA-aligned time range and the question's mark value. Interpolates linearly
  * between the verb's min/max time as the marks move from the verb's min to max.
- * Falls back to the standard HSC pace (marks * 1.8 min) when the verb is unknown.
+ *
+ * Past the verb's top mark the line is carried on at the standard HSC pace
+ * rather than flattened. A 20-mark DISCUSS (typical range 5-10) used to get the
+ * verb's ceiling, 18 minutes, against the 35-40 minutes the real paper allows
+ * for the same question; a question inside the verb's range is untouched.
  */
 export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo): number => {
   const [minTime, maxTime] = verbInfo.timeRange;
@@ -1252,6 +1259,7 @@ export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo
   } else {
     const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
     minutes = minTime + ratio * timeSpan;
+    if (totalMarks > maxMarks) minutes = maxTime + (totalMarks - maxMarks) * HSC_MINUTES_PER_MARK;
   }
 
   return Math.round(minutes * 60);

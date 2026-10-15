@@ -73,11 +73,22 @@ export const buildLlmSeedInstructions = () => ({
   IDS: 'Omit every "id" field on anything you write — the app generates them on import. Keep the ids that are already here on content you are not changing.',
   VERBS: {
     RULE: 'Every question\'s "verb" must be one of these, in UPPERCASE, exactly, and "totalMarks" must be an integer inside that verb\'s range. The verb decides the question\'s cognitive tier, its band ceiling, its colour and its time guide everywhere in the app.',
-    STEM: "The question stem must begin with, or prominently use, its verb and genuinely demand that verb's thinking: an EVALUATE question needs a judgement against criteria, not a description.",
+    STEM: "The question stem must begin with, or prominently use, its verb and genuinely demand that verb's thinking: an EVALUATE question needs a judgement against criteria, not a description. The exception is an exam-form stem (How…, Why…, What…, To what extent…), described in EXAM_STANDARD, whose verb is the nearest command term.",
     TYPICAL_MARKS: verbsByTier(),
   },
   DEPTH:
     'Write 2-4 questions for every dot point, each on a different verb and mark value, so a dot point can be practised from recall up to extended response. Across a topic: mostly 3-6 mark questions, some 2-mark recall questions, and at least one 7+ mark extended response on a tier 5-6 verb. Give most questions a "scenario": a realistic context paragraph (who, what, why — 2-4 sentences) the answer has to use.',
+  EXAM_STANDARD: {
+    RULE: 'Write the way a real HSC paper is written, not as a ladder of syllabus restatements. A real paper is short parts of 1-6 marks, each tied to a scenario, and one or two exam-length responses of 15-25 marks. Where real past questions are supplied, match their stem shape, mark values and marking-guide wording, and never copy their text.',
+    STEMS:
+      'One task in one or two sentences. Point at the scenario ("this business", "this advertisement", "these influences") rather than naming it or writing "in the scenario". Capitalise an instruction count (ONE, TWO). A stem must set a task of its own: do not repeat the dot point as the question.',
+    EXAM_FORM:
+      'A stem may open How…, Why…, What… or To what extent… as real stems do. "verb" still carries a command term, because the marker and the band ladder are built from it: EXPLAIN for How and Why parts, OUTLINE for "What is the purpose of…", INTERPRET for "What does … indicate", ASSESS for "To what extent".',
+    EXAM_LENGTH:
+      'Write one exam-length question (15-25 marks) for each topic, in the form the real paper uses (a business report, a "To what extent" or "How can" response). Give a 20-mark question a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY, RECOMMEND): Tier 5 is the tier whose five bands, 17-20 / 13-16 / 9-12 / 5-8 / 1-4, are the ones NESA marks 20-mark questions against, whatever verb the paper prints. Give it exemplars at 20, 12 and 5 marks.',
+    SCENARIOS:
+      'Use one short scenario per question or group of parts (who, what, why, two to four sentences). Label an invented business "Hypothetical:" and never state statistics, dates or events about a real business unless they are widely known and certain.',
+  },
   DOT_POINTS: {
     RULE: 'Each dot point "description" is the syllabus\'s own words and should begin with a command verb ("describe the OSI model…").',
     FOCUS_AREAS:

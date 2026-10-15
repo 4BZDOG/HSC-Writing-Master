@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getFullMarkWordRange, commandTermsList } from '../../data/commandTerms';
-import { guideLadderProblem } from '../../utils/markingGuideLadder';
+import { guideLadderProblem, guideStructureProblem } from '../../utils/markingGuideLadder';
 import { shippedCourses, questionsOf } from './support/shippedCourseData';
 
 /**
@@ -14,7 +14,8 @@ import { shippedCourses, questionsOf } from './support/shippedCourseData';
  *   this test with it. `LENGTH_TOLERANCE` is the one knob here if the content
  *   needs a grace margin while the band is being tuned.
  * - A marking guide has exactly the rows the app expects for the question's
- *   marks and verb tier, top row first. Guides written against a stale tier
+ *   marks and verb tier, top row first. A past paper's guide is NESA's own ladder
+ *   and need only be a well-formed one. Guides written against a stale tier
  *   table once failed this in about ninety questions.
  */
 
@@ -65,11 +66,12 @@ describe('shipped questions', () => {
     const bad: string[] = [];
     for (const q of questions) {
       const tier = tierOf.get(q.prompt.verb) ?? 4;
-      const problem = guideLadderProblem(
-        String(q.prompt.markingCriteria ?? ''),
-        q.prompt.totalMarks,
-        tier
-      );
+      const guide = String(q.prompt.markingCriteria ?? '');
+      // A past paper's guide is NESA's own ladder; it is held to being a sound
+      // ladder, not to the app's rows (see `guideStructureProblem`).
+      const problem = q.prompt.isPastHSC
+        ? guideStructureProblem(guide, q.prompt.totalMarks)
+        : guideLadderProblem(guide, q.prompt.totalMarks, tier);
       if (problem) bad.push(`${q.prompt.id}: ${problem}`);
     }
     expect(bad.slice(0, 10)).toEqual([]);
