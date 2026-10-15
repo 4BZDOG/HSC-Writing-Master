@@ -10,6 +10,7 @@
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { isMissingTableError } from './stripeLedger';
+import { notifyOperator } from './operatorAlert';
 
 type SB = SupabaseClient;
 
@@ -88,6 +89,17 @@ export async function recordIncident(supabase: SB, input: IncidentInput): Promis
     });
     if (!error) {
       console.error(`[stripe-webhook] BILLING INCIDENT (${input.kind}): ${detail}`);
+      // Only a new row alerts the operator; a deduped one was already announced. Awaited,
+      // and it never throws, so the outcome returned is the same either way.
+      await notifyOperator({
+        kind: 'billing_incident',
+        title: 'New billing incident',
+        lines: [
+          `Kind: ${input.kind}`,
+          ...(input.schoolId ? [`School: ${input.schoolId}`] : []),
+          'Open Admin → Billing overview.',
+        ],
+      });
       return 'recorded';
     }
     if (error.code === '23505') {

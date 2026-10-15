@@ -333,6 +333,121 @@ describe('checkSchoolLicenceReplaced', () => {
   });
 });
 
+describe('operator alert on a new incident', () => {
+  const HOOK = 'https://hooks.example.com/services/T000/B000/SECRETTOKEN';
+  let fetchMock: ReturnType<typeof vi.fn>;
+
+  const postedBody = (call = 0) =>
+    JSON.parse(String((fetchMock.mock.calls[call][1] as RequestInit).body)) as {
+      text: string;
+      content: string;
+    };
+
+  beforeEach(() => {
+    process.env.BILLING_ALERT_WEBHOOK_URL = HOOK;
+    fetchMock = vi.fn(async () => ({ ok: true, status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+  });
+
+  afterEach(() => {
+    delete process.env.BILLING_ALERT_WEBHOOK_URL;
+    vi.unstubAllGlobals();
+  });
+
+  it('alerts once when a new incident is recorded, naming its kind and school', async () => {
+    const outcome = await recordIncident(sb(), {
+      kind: 'duplicate_school_licence',
+      userId: 'teacher-2',
+      schoolId: 'school-1',
+      subscriptionIds: ['sub_a', 'sub_b'],
+      detail: 'Both are billed. Nothing has been cancelled or refunded.',
+    });
+
+    expect(outcome).toBe('recorded');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0][0]).toBe(HOOK);
+    const body = postedBody();
+    expect(body.text).toBe(
+      '[HSC billing] New billing incident\n' +
+        'Kind: duplicate_school_licence\n' +
+        'School: school-1\n' +
+        'Open Admin → Billing overview.'
+    );
+    expect(body.content).toBe(body.text);
+  });
+
+  it('leaves out the school line for an account-level incident, and carries no account detail', async () => {
+    db.subscriptions.push(liveSub('sub_a', 'user-1'), liveSub('sub_b', 'user-1'));
+    await checkDuplicateSubscriptions(sb(), 'user-1');
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const text = postedBody().text;
+    expect(text).toContain('Kind: duplicate_subscription');
+    expect(text).not.toContain('School:');
+    for (const secret of ['user-1', 'sub_a', 'sub_b', 'Nothing has been cancelled']) {
+      expect(text).not.toContain(secret);
+    }
+  });
+
+  it('sends no alert when an open incident of this kind is found again', async () => {
+    await recordIncident(sb(), { kind: 'customer_mismatch', userId: 'user-1', detail: 'x' });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    fetchMock.mockClear();
+
+    const again = await recordIncident(sb(), {
+      kind: 'customer_mismatch',
+      userId: 'user-1',
+      detail: 'x',
+    });
+    expect(again).toBe('already_open');
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('alerts once across a redelivered duplicate-subscription event', async () => {
+    db.subscriptions.push(liveSub('sub_a', 'user-1'), liveSub('sub_b', 'user-1'));
+    await checkDuplicateSubscriptions(sb(), 'user-1');
+    await checkDuplicateSubscriptions(sb(), 'user-1');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('sends no alert when the incident could not be written', async () => {
+    failIncidentInsert = {
+      code: '42P01',
+      message: 'relation "public.billing_incidents" does not exist',
+    };
+    const outcome = await recordIncident(sb(), {
+      kind: 'customer_mismatch',
+      userId: 'user-1',
+      detail: 'x',
+    });
+    expect(outcome).toBe('unavailable');
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('still records the incident, and returns the same outcome, when the alert is refused', async () => {
+    fetchMock.mockResolvedValueOnce({ ok: false, status: 500 });
+    const outcome = await recordIncident(sb(), {
+      kind: 'customer_mismatch',
+      userId: 'user-1',
+      detail: 'x',
+    });
+    expect(outcome).toBe('recorded');
+    expect(incidents()).toHaveLength(1);
+  });
+
+  it('records the incident and sends nothing when no webhook is configured', async () => {
+    delete process.env.BILLING_ALERT_WEBHOOK_URL;
+    const outcome = await recordIncident(sb(), {
+      kind: 'customer_mismatch',
+      userId: 'user-1',
+      detail: 'x',
+    });
+    expect(outcome).toBe('recorded');
+    expect(incidents()).toHaveLength(1);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
+
 describe('linkStripeCustomer', () => {
   it('links a profile that has no customer yet', async () => {
     db.profiles.push({ id: 'user-1', stripe_customer_id: null });
