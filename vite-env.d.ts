@@ -108,6 +108,11 @@ interface ImportMetaEnv {
   readonly VITE_PLUS_YEARLY_NOTE?: string;
   readonly VITE_SCHOOL_SEAT_PRICE_DISPLAY?: string;
   /**
+   * What one AI call costs, in AUD, for the admin Seat economics panel only. Unset
+   * shows calls without cost or margin. See projectDocs/seat-economics.md.
+   */
+  readonly VITE_AI_COST_PER_CALL_AUD?: string;
+  /**
    * Where school/faculty licensing enquiries go. Unset replaces the mailto
    * link with a "register interest" toast, so students never see a dead link.
    */
