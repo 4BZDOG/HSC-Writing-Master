@@ -8,8 +8,15 @@
  * The endpoint looks up the user's `stripe_customer_id` from the Supabase
  * profile. If the user has never checked out, it returns an error.
  *
+ * Body: { returnUrl?, scope?: 'personal' | 'school' }. `personal` (the default)
+ * opens the caller's own customer. `school` opens the customer behind the
+ * licence the caller's school holds, for a teacher or admin at that school. The
+ * school is always read from the caller's own profile, never from the body.
+ *
  * Test-mode fallback: when Stripe is unconfigured, returns a mock URL.
  */
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type Stripe from 'stripe';
 import {
   getStripe,
   getSupabaseAdmin,
@@ -20,6 +27,7 @@ import {
 } from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 import { corsHeadersFor } from './_lib/cors';
+import { readSchoolLicence } from './_lib/schoolLicence';
 
 interface RequestLike {
   method?: string;
@@ -75,6 +83,20 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
+  // Checked before anything else is read, so a misspelt scope is refused the
+  // same way whatever the deployment's Stripe state. Absent means personal, as
+  // it always has, so existing callers are unaffected.
+  const requestedScope = (req.body as { scope?: unknown } | undefined)?.scope;
+  if (
+    requestedScope !== undefined &&
+    requestedScope !== 'personal' &&
+    requestedScope !== 'school'
+  ) {
+    res.status(400).json({ error: 'The billing scope must be personal or school.' });
+    return;
+  }
+  const scope = requestedScope === 'school' ? 'school' : 'personal';
+
   // The client sends its own base URL because the Origin header loses the
   // base path on sub-path hosting (see resolveReturnBase in _lib/stripe.ts).
   const returnBase = resolveReturnBase(
@@ -107,22 +129,33 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select('stripe_customer_id')
-    .eq('id', auth.userId)
-    .single();
-
-  if (profileError || !profile?.stripe_customer_id) {
-    res.status(404).json({ error: 'No billing account found. Please subscribe first.' });
-    return;
-  }
-
   const stripe = getStripe()!;
+
+  let customerId: string;
+  if (scope === 'school') {
+    const school = await schoolPortalCustomer(supabase, stripe, auth.userId);
+    if (school.ok === false) {
+      res.status(school.status).json({ error: school.error });
+      return;
+    }
+    customerId = school.customerId;
+  } else {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('stripe_customer_id')
+      .eq('id', auth.userId)
+      .single();
+
+    if (profileError || !profile?.stripe_customer_id) {
+      res.status(404).json({ error: 'No billing account found. Please subscribe first.' });
+      return;
+    }
+    customerId = profile.stripe_customer_id;
+  }
 
   try {
     const session = await stripe.billingPortal.sessions.create({
-      customer: profile.stripe_customer_id,
+      customer: customerId,
       return_url: returnBase,
     });
 
@@ -137,3 +170,96 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     res.status(500).json({ error: 'Could not open the billing portal. Please try again.' });
   }
 }
+
+type SchoolPortalCustomer =
+  | { ok: true; customerId: string }
+  | { ok: false; status: number; error: string };
+
+/**
+ * The Stripe customer behind the licence the caller's school holds. The school
+ * comes from the caller's own profile, and only a teacher or admin with a school
+ * may open it: the same people who may buy a licence (api/request-invoice.ts).
+ *
+ * Fails closed. A failed read is a 503, never a guess at which customer to open.
+ * The subscriptions row is the first answer. It is written by the webhook, which
+ * can lag a purchase, so Stripe itself answers when the row is not there yet.
+ */
+const schoolPortalCustomer = async (
+  supabase: SupabaseClient,
+  stripe: Stripe,
+  userId: string
+): Promise<SchoolPortalCustomer> => {
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role, school_id')
+    .eq('id', userId)
+    .maybeSingle();
+  if (profileError) {
+    console.error('[customer-portal] profile read failed:', profileError.message);
+    return { ok: false, status: 503, error: 'Could not check your account. Please try again.' };
+  }
+  if (!profile || !['teacher', 'admin'].includes(profile.role as string)) {
+    return {
+      ok: false,
+      status: 403,
+      error: 'Only a teacher or admin can manage a school licence.',
+    };
+  }
+  const schoolId = profile.school_id as string | null;
+  if (!schoolId) {
+    return {
+      ok: false,
+      status: 403,
+      error:
+        'Your account is not attached to a school, so there is no school licence to manage. ' +
+        'Ask an admin to add you to your school (Admin → Schools).',
+    };
+  }
+
+  const school = await readSchoolLicence(supabase, schoolId);
+  if (school.ok === false) {
+    console.error('[customer-portal] school read failed:', school.error);
+    return { ok: false, status: 503, error: 'Could not check your school. Please try again.' };
+  }
+  const subscriptionId = school.school.stripe_subscription_id;
+  if (!subscriptionId) {
+    return { ok: false, status: 404, error: 'Your school does not have a licence to manage yet.' };
+  }
+
+  const { data: subscription, error: subscriptionError } = await supabase
+    .from('subscriptions')
+    .select('stripe_customer_id')
+    .eq('id', subscriptionId)
+    .maybeSingle();
+  if (subscriptionError) {
+    console.error('[customer-portal] subscription read failed:', subscriptionError.message);
+    return {
+      ok: false,
+      status: 503,
+      error: 'Could not check your school licence. Please try again.',
+    };
+  }
+  if (subscription?.stripe_customer_id) {
+    return { ok: true, customerId: subscription.stripe_customer_id as string };
+  }
+
+  // No row yet. Ask Stripe. Only the error's class is logged: a Stripe message
+  // can name the subscription or customer id, and those stay out of the log.
+  try {
+    const stripeSubscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const customer = stripeSubscription.customer;
+    if (typeof customer === 'string') return { ok: true, customerId: customer };
+    if (customer?.id) return { ok: true, customerId: customer.id };
+  } catch (e) {
+    console.error(
+      '[customer-portal] school subscription lookup failed:',
+      e instanceof Error ? e.name : 'unknown error'
+    );
+  }
+  return {
+    ok: false,
+    status: 404,
+    error:
+      'We could not find the billing account for your school licence. Please try again shortly.',
+  };
+};

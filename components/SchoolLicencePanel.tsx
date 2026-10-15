@@ -4,6 +4,7 @@ import type { ToastType } from '../hooks/useToast';
 import {
   BILLING_CODE,
   createCheckoutUrl,
+  createPortalUrl,
   monetisationEnabled,
   PLAN_LABELS,
   SCHOOL_CONTACT_EMAIL,
@@ -32,8 +33,10 @@ import InvoiceRequestForm from './InvoiceRequestForm';
  *
  * WHAT IT SAYS, IN ORDER OF THE ANSWER:
  *   1. The school is already covered (the caller's plan is a licence): say so,
- *      and send them to whoever bought it. No seat picker, because a second
- *      licence would be refused.
+ *      and offer the school's billing portal to any staff member. No seat
+ *      picker, because a second licence would be refused. The portal is opened
+ *      for the school (`scope: 'school'`), not the caller's own subscription, so
+ *      a colleague who did not buy the licence can still manage it.
  *   2. The server has refused a purchase because a licence is held: show its
  *      sentence, with no purchase button.
  *   3. The caller is not attached to a school: a licence would only cover them,
@@ -76,6 +79,8 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
   const [isBuyingSeats, setIsBuyingSeats] = useState(false);
   /** The server's sentence after it refused a purchase because a licence is held. */
   const [heldMessage, setHeldMessage] = useState<string | null>(null);
+  const [isOpeningPortal, setIsOpeningPortal] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
   // Read before the early returns below, so the hook order never changes.
   const prices = useLivePrices();
 
@@ -99,6 +104,22 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
 
   const isTeacher = user?.role === 'teacher';
 
+  /**
+   * Opens the portal for the school's licence. The server finds the customer
+   * from the school, so this works for any staff member, not only the buyer.
+   */
+  const openSchoolPortal = async () => {
+    setIsOpeningPortal(true);
+    setPortalError(null);
+    const { url, error, status } = await createPortalUrl('school');
+    if (url) {
+      window.location.href = url;
+      return;
+    }
+    setPortalError(billingErrorMessage('portal', { error, status }));
+    setIsOpeningPortal(false);
+  };
+
   if (heldMessage || schoolCovered(user)) {
     return (
       <div
@@ -111,8 +132,19 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
         <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
           {heldMessage ??
             `Your school already has a ${PLAN_LABELS.school} licence, so everyone in it has ${PLAN_LABELS.school}. ` +
-              'To add seats, ask whoever bought the licence. If that is you, use Manage subscription in your profile.'}
+              'To add seats, ask whoever bought the licence, or use Manage school licence below.'}
         </p>
+        <button
+          type="button"
+          disabled={isOpeningPortal}
+          onClick={openSchoolPortal}
+          className="mt-3 min-h-11 text-sm font-bold px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all disabled:opacity-60"
+        >
+          {isOpeningPortal ? 'Opening…' : 'Manage school licence'}
+        </button>
+        {portalError && (
+          <p className="mt-2 text-xs text-red-500 light:text-red-600">{portalError}</p>
+        )}
         {/* Someone else bought the licence, so a teacher cannot buy it either: the
             note is the one thing they can send to the person who manages it. */}
         {heldMessage && isTeacher && <ChampionKit schoolName={user?.schoolName} className="mt-3" />}
