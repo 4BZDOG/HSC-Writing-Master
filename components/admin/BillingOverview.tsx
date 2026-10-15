@@ -36,6 +36,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import { InvoiceRequestsGroup } from './InvoiceRequests';
+import SeatEconomics from './SeatEconomics';
 
 interface BillingOverviewProps {
   isOpen: boolean;
@@ -579,6 +580,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
         <ActiveSection overview={overview} />
         <ComingUpSection overview={overview} />
         <WebhookSection overview={overview} asOfMs={asOfMs} />
+        <SeatEconomics />
         <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
           Revenue is not shown. The app's display prices are not Stripe amounts, so a total would be
           a guess.

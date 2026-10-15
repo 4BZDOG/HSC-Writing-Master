@@ -4007,3 +4007,141 @@ grant execute on function public.list_schools() to authenticated;
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================
+
+-- =============================================================================
+-- §30 · School seat economics (admin-only usage report)
+-- -----------------------------------------------------------------------------
+--     Turns the per-user daily counters (§11, ai_usage) into the evidence the
+--     owner needs before choosing a pooled or lower school allowance: how many
+--     AI calls a paid seat really uses, and how heavy the heaviest members are.
+--
+--     It reports CALLS, not money. The database holds no price per call, so the
+--     client multiplies by a figure it is given (VITE_AI_COST_PER_CALL_AUD; see
+--     projectDocs/seat-economics.md). Calls are not split by model here.
+--
+--     MEMBERSHIP IS TODAY'S. A call is attributed to the school its caller
+--     belongs to NOW (profiles.school_id), for the whole window. A member who
+--     joined last week has earlier calls counted for the school; one who has
+--     since left is not counted at all. Membership history is not kept, so this
+--     is the best the schema can say.
+--
+--     Only live licences are reported (active, trialing, past_due: the same
+--     grace as resolve_ai_quota in §13). Read-only; nothing is written.
+-- =============================================================================
+
+create or replace function public.school_seat_usage(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 90);
+  v_result jsonb;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can read seat usage';
+  end if;
+
+  with licensed as (
+    select s.id, s.name, s.plan_seats as seats
+      from public.schools s
+     where s.plan_status in ('active', 'trialing', 'past_due')
+  ),
+  -- One row per member per UTC day, calls > 0 only. The day filter is the one
+  -- get_ai_usage_report (§11) uses: today and the v_days - 1 days before it.
+  member_days as (
+    select p.school_id, u.user_id, u.calls
+      from public.ai_usage u
+      join public.profiles p on p.id = u.user_id
+     where u.calls > 0
+       and u.day > (now() at time zone 'utc')::date - v_days
+       and p.school_id in (select l.id from licensed l)
+  ),
+  day_stats as (
+    select m.school_id,
+           count(distinct m.user_id)                             as active_users,
+           sum(m.calls)                                          as total_calls,
+           count(*)                                              as user_days,
+           percentile_cont(0.95) within group (order by m.calls) as p95,
+           max(m.calls)                                          as max_calls,
+           count(*) filter (where m.calls >= 100)                as over_100
+      from member_days m
+     group by m.school_id
+  ),
+  per_school as (
+    select l.id, l.name, l.seats,
+           (select count(*) from public.profiles p where p.school_id = l.id) as members,
+           coalesce(d.active_users, 0) as active_users,
+           coalesce(d.total_calls, 0)  as total_calls,
+           coalesce(d.user_days, 0)    as user_days,
+           coalesce(d.p95, 0)          as p95,
+           coalesce(d.max_calls, 0)    as max_calls,
+           coalesce(d.over_100, 0)     as over_100
+      from licensed l
+      left join day_stats d on d.school_id = l.id
+  ),
+  -- Totals come from the combined user-day rows, not an average of per-school
+  -- figures. A user belongs to one school, so summed distinct counts are exact.
+  combined as (
+    select coalesce(sum(seats), 0)                        as seats,
+           coalesce(sum(members), 0)                      as members,
+           coalesce(sum(active_users), 0)                 as active_users,
+           coalesce(sum(total_calls), 0)                  as total_calls,
+           coalesce(sum(user_days), 0)                    as user_days,
+           coalesce(sum(over_100), 0)                     as over_100,
+           coalesce(sum(greatest(seats - members, 0)), 0) as seats_unused
+      from per_school
+  )
+  select jsonb_build_object(
+    'days', v_days,
+    'schools', (
+      select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+        from (
+          select jsonb_build_object(
+                   'id', ps.id,
+                   'name', ps.name,
+                   'seats', ps.seats,
+                   'members', ps.members,
+                   'active_users', ps.active_users,
+                   'total_calls', ps.total_calls,
+                   'calls_per_seat_per_day',
+                     round(ps.total_calls::numeric / greatest(ps.seats, 1) / v_days, 2),
+                   'avg_calls_per_active_user_day',
+                     case when ps.user_days > 0
+                          then round(ps.total_calls::numeric / ps.user_days, 2) else 0 end,
+                   'p95_calls_per_user_day', round(ps.p95::numeric, 1),
+                   'max_calls_per_user_day', ps.max_calls,
+                   'user_days_over_100', ps.over_100,
+                   'seats_unused', greatest(ps.seats - ps.members, 0)
+                 ) as row_obj
+            from per_school ps
+        ) sub
+    ),
+    'totals', (
+      select jsonb_build_object(
+               'seats', c.seats,
+               'members', c.members,
+               'active_users', c.active_users,
+               'total_calls', c.total_calls,
+               'calls_per_seat_per_day',
+                 round(c.total_calls::numeric / greatest(c.seats, 1) / v_days, 2),
+               'avg_calls_per_active_user_day',
+                 case when c.user_days > 0
+                      then round(c.total_calls::numeric / c.user_days, 2) else 0 end,
+               'p95_calls_per_user_day', (
+                 select round(coalesce(percentile_cont(0.95) within group (order by md.calls), 0)::numeric, 1)
+                   from member_days md),
+               'max_calls_per_user_day', (
+                 select coalesce(max(md.calls), 0) from member_days md),
+               'user_days_over_100', c.over_100,
+               'seats_unused', c.seats_unused
+             )
+        from combined c
+    )
+  ) into v_result;
+
+  return v_result;
+end; $$;
+
+-- Admin-only, so the anonymous role is shut out and the client roles get
+-- EXECUTE only through the authenticated grant, which the is_admin() check then
+-- narrows to admins.
+revoke all on function public.school_seat_usage(integer) from public, anon;
+grant execute on function public.school_seat_usage(integer) to authenticated;
