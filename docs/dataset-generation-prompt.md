@@ -111,6 +111,9 @@ EXAM STANDARD
   a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY, RECOMMEND): Tier 5 derives the five
   bands NESA marks 20-mark questions against (17-20 / 13-16 / 9-12 / 5-8 / 1-4).
   Exemplars at 20, 12 and 5 marks.
+- NESA's own sample answers are short: a median of about 20 words for 1 mark, 33
+  for 2, 54 for 3, 74 for 4, 93 for 5, 125 for 6 and 200 for 8. Aim for those, up to
+  about a third more, rather than the top of the word band. (`docs/hsc-exam-profiles.md`)
 - One short scenario per question or group of parts. Label an invented business
   "Hypothetical:"; state nothing about a real business you are not certain of.
 

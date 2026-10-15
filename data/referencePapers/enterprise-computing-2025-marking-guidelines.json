@@ -1,0 +1,631 @@
+{
+  "course": "Enterprise Computing",
+  "year": 2025,
+  "kind": "marking-guidelines",
+  "questions": [
+    {
+      "number": "1",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Data visualisation — purpose of visualisation",
+      "outcomes": "EC-12-04",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Data visualisation — bias in data collection",
+      "outcomes": "EC-12-07",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "3",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Data science — ordinal data",
+      "outcomes": "EC-12-02",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "4",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Data science — data sampling",
+      "outcomes": "EC-12-05",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "5",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Data visualisation — data integrity",
+      "outcomes": "EC-12-03",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "6",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Enterprise project — impact of system implementation",
+      "outcomes": "EC-12-07",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "7",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Enterprise project — data collection",
+      "outcomes": "EC-12-02",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "8",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Intelligent systems — efficiency of intelligent systems",
+      "outcomes": "EC-12-06",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "9",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Intelligent systems — application in a range of enterprises",
+      "outcomes": "EC-12-02",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "10",
+      "multipleChoice": true,
+      "marks": 1,
+      "content": "Enterprise project — requirement tools",
+      "outcomes": "EC-12-08",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly matches each situation to the most appropriate tool"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11",
+      "marks": 2,
+      "content": "Intelligent systems — forward chaining",
+      "outcomes": "EC-12-01",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies true or false correctly for all FIVE checkboxes"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies true or false correctly for FOUR of the five checkboxes"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12",
+      "marks": 2,
+      "content": "Enterprise project — design and development tools",
+      "outcomes": "EC-12-09",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies true or false correctly for all FIVE checkboxes"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies true or false correctly for FOUR out of the five checkboxes"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13",
+      "marks": 3,
+      "content": "Data science — data dictionary",
+      "outcomes": "EC-12-01",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly completes ALL the dropdowns"
+        },
+        {
+          "marks": "2",
+          "text": "Correctly completes SIX dropdowns"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly completes THREE dropdowns"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14",
+      "marks": 3,
+      "content": "Data science — forms of alternate data",
+      "outcomes": "EC-12-10",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes how memes can be analysed to provide insights into the effectiveness of the advertising campaign"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how memes can be analysed to provide insights into the effectiveness of the advertising campaign"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The frequency and spread of memes can be quantified to gauge engagement and the advertising campaign’s viral impact. Technologies such as data mining tools can be used to identify patterns, trends, and the reach of memes, helping the company understand the campaign’s impact.",
+      "answersCouldInclude": [
+        "Memes can be analysed qualitatively to understand customer perceptions by examining their themes, tone and attitude."
+      ]
+    },
+    {
+      "number": "15(a)",
+      "marks": 2,
+      "content": "Data science — relational database",
+      "outcomes": "EC-12-02",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly completes ALL the dropdowns"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly completes FOUR of the dropdowns"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "15(b)",
+      "marks": 4,
+      "content": "Data science — SQL",
+      "outcomes": "EC-12-05",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a correct SQL query"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a SQL query that addresses most of the requirements"
+        },
+        {
+          "marks": "2",
+          "text": "Shows some understanding of the problem or SQL"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "SELECT      ProdN, SaleDate, TotalCost, LastN\nFROM        Customers, Products, Sales\nWHERE       Customers.CustID = Sales.CustID\n            AND Products.ProdID = Sales.ProdID\n            AND Products.Category = 'Electronics'\n            AND Sales.SaleDate < '17-01-2025'\nORDERBY SaleDate ASC",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "16(a)",
+      "marks": 4,
+      "content": "Intelligent systems — hardware",
+      "outcomes": "EC-12-03",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Describes hardware needed for the intelligent system ; Includes examples of specific types of sensors ; Outlines relevant hardware devices"
+        },
+        {
+          "marks": "3",
+          "text": "Includes at least ONE sensor"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE relevant hardware device ; OR ; Identifies relevant hardware devices"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Different types of sensors will be needed for the intelligent system and cameras can be used to collect visual information about the TV screens for quality assurance. Vibration and proximity sensors can be used to detect issues with the machinery, to potentially prevent a breakdown from occurring. Light sensors can be utilised to measure the brightness of the screens during the testing phase of manufacturing. All sensors will need to be connected to the intelligent system via a network. The networking hardware could include switches, routers, servers, and transmission media such as Wi-Fi and ethernet cables.",
+      "answersCouldInclude": [
+        "Temperature sensors – environment",
+        "Pressure sensors – adhesion of screens",
+        "Power regulation sensors"
+      ]
+    },
+    {
+      "number": "16(b)",
+      "marks": 4,
+      "content": "Intelligent systems — proliferation of expert systems",
+      "outcomes": "EC-12-08",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains potential benefits of introducing an expert system into the manufacturing process, with reference to Industry 4.0"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines potential benefits of introducing an expert system into the manufacturing process"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE potential benefit of introducing an expert system or ONE feature of Industry 4.0 ; OR ; Identifies potential benefits of introducing an expert system and/or features of Industry 4.0"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Integrating an expert system into the TV manufacturing line upgrade would bring several benefits, in line with Industry 4.0 concepts. The expert system would be able to predict when maintenance is needed, by analysing sensor data. The system would be able to alert staff before an issue arises, and therefore minimise downtime. Quality control of the TVs would be improved as the expert system would be able to find defects in the TVs better than a human could, by using algorithms and sensor data, as it can detect subtle issues and prevent defects reaching the end of the line. This links with Industry 4.0’s focus precision, reducing waste and improving product quality.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "17(a)",
+      "marks": 3,
+      "content": "Data science — data warehouse",
+      "outcomes": "EC-12-03",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how the use of data warehousing could benefit the coffee shop chain"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how the use of data warehousing could benefit the coffee shop chain ; OR ; Identifies features of data warehousing"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of data warehousing"
+        }
+      ],
+      "sampleAnswer": "The coffee shop chain can use data warehousing platforms to its benefit to store and process large volumes of data, expanding storage as needed, to handle high amounts of sales, demographic and other important data. By integrating a variety of data sources, the coffee shop chain can store both structured data and unstructured data in the one place. The data stored in the data warehouse would enable the coffee shop chain marketing team to identify seasonal trends and changes.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "17(b)",
+      "marks": 3,
+      "content": "Data visualisation — evolution of hardware",
+      "outcomes": "EC-12-03",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how the advancement of hardware can affect the processing of data from the data warehouse for the coffee shop chain"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how the advancement of hardware can affect the processing of data from the data warehouse for the coffee shop chain ; OR ; Identifies advancements in hardware that can affect the processing of data from the data warehouse"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The CPUs used in the data warehouse servers will allow the coffee shop chain to quickly process large amounts of sales and demographic data, enabling faster decision-making. Advancements in storage such as faster RAM and Solid-State Disk drives can provide more secure and efficient ways to store vast amounts of data.\n\nBetter communication media such as fibre optics enable quicker sharing and online processing of data, to ensure that the coffee shop chain can access the latest information from each branch in real-time.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "18",
+      "marks": 4,
+      "content": "Data science — spreadsheet features",
+      "outcomes": "EC-12-05",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Completes the spreadsheet, addressing all the requirements ; – allows input of driver’s name and number of days ; – allows input or selection of vehicle sizes ; automatically generates daily rate, discount and rental cost"
+        },
+        {
+          "marks": "3",
+          "text": "Completes the spreadsheet, addressing most of the requirements"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some correct information and an appropriate formula for the spreadsheet"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "[not reproducible as text]",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "19",
+      "marks": 3,
+      "content": "Enterprise project — prototypes",
+      "outcomes": "EC-12-11",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Designs a user interface suitable for registering an account, with features labelled"
+        },
+        {
+          "marks": "2",
+          "text": "Designs a user interface with some relevant features"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "[not reproducible as text]",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "20",
+      "marks": 3,
+      "content": "Data visualisation — spreadsheet features and visualisations",
+      "outcomes": "EC-12-04",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes spreadsheet features that can assist the marine biologist to better understand the datasets visually"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE spreadsheet feature that can assist the marine biologist to better understand the datasets visually ; OR ; Identifies spreadsheet features that can assist the marine biologist"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Spreadsheet features such as charts and graphs can help the marine biologist make informed decisions by visualising raw data, such as changes in water temperature. They can use this to predict the impact on fish populations. Conditional formatting highlights critical data, such as areas where populations are declining by using colours, making it easier to identify trends. Together, these features simplify data interpretation and enhance the presentation of future scenarios.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21",
+      "marks": 5,
+      "content": "Enterprise project — dataflow diagrams",
+      "outcomes": "EC-12-08",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Constructs a substantially correct data flow diagram including all relevant external entities, processes, data storage and data flows"
+        },
+        {
+          "marks": "4",
+          "text": "Constructs a data flow diagram that addresses most of the aspects of the system"
+        },
+        {
+          "marks": "3",
+          "text": "Constructs a data flow diagram that includes some aspects of the system"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a diagram that shows some understanding of the problem ; OR ; Identifies the key components of a data flow diagram"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "[not reproducible as text]",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "marks": 2,
+      "content": "Enterprise project — tools",
+      "outcomes": "EC-12-03",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines a tool that can be used by the project team to manage the project"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a suitable tool or a feature of project management"
+        }
+      ],
+      "sampleAnswer": "A Gantt chart can be utilised to organise project timing and development, define tasks to be completed, track and plan progress, and to map staff responsibilities.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "marks": 3,
+      "content": "Data visualisation — data security",
+      "outcomes": "EC-12-06",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies TWO methods that the company can use to maintain the security of the data"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines TWO methods that the company can use"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies ONE method that the company can use"
+        }
+      ],
+      "sampleAnswer": "Staff across the insurance company will be provided with different access levels to the data within the company. Supervisors will have greater access to customer and employee details. For example, supervisors can access historical data and finalise claims, whereas entry level staff may only see individual claim cases. This ensures employees only access data relevant to their roles.\n\nA customer can access their insurance claim from the cloud-based server. This will require a username and password to be entered and this would be encrypted during transmission. The data will not be understood if intercepted, ensuring privacy and security of customer data.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "marks": 3,
+      "content": "Data visualisation — evolution of software",
+      "outcomes": "EC-12-05",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes how advancements in software have empowered data analytics, with reference to the scenario"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE advancement in software that has empowered data analytics ; OR ; Identifies advancements in software that affect data analytics"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Advancements in software have transformed data analytics by enabling faster processing of large datasets, automation, real-time insights and enhanced visualisation. In the scenario, the company moved from static spreadsheets to dynamic dashboards, which will allow users to uncover patterns and trends that might have gone undetected in the past. These dashboards enable users to drill down into a specific area of interest without requiring programming skills. They also assist in improving decision-making by presenting trends, comparisons and key performance indicators clearly.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "marks": 4,
+      "content": "Data visualisation — user experience",
+      "outcomes": "EC-12-10",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains how the data visualisations provided could affect the management team’s user experience and understanding of employee productivity"
+        },
+        {
+          "marks": "3",
+          "text": "Describes how the data visualisations provided could affect the management team’s user experience and understanding of employee productivity"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how ONE feature of the data visualisations could affect the management team’s user experience and/or understanding of employee productivity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The data visualisations in the presentation enhance the management team’s user experience by making complex employee productivity data easier to understand. Features like clear graphs and charts allow management to quickly identify productivity trends and comparisons across departments, by tailoring the design to highlight key insights through the use of colour and appropriate graph types. The use of the heat map for staff attendance and punctuality patterns creates a real-time, dynamic representation of department staff absences across the company. The continuous updating, clarity and focus of the visualisations improve the team’s ability to act on the data effectively and in a timely manner.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24",
+      "marks": 5,
+      "content": "Enterprise project — changing nature of enterprise",
+      "outcomes": "EC-12-06",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Explains advantages and disadvantages to the company in using freelance work and offshore development for packaging design"
+        },
+        {
+          "marks": "4",
+          "text": "Outlines advantages and disadvantages to the company in using freelance work and offshore development for packaging design"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines some features of freelance work and/or offshore development"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies some features of freelance work and/or offshore development"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Offshore development can provide the company with access to a global talent pool, allowing it to find staff with specialised skills not readily available domestically for technical design work. It also offers significant cost savings, as labour in many regions is less expensive. However, communication barriers such as time zone differences and language challenges can lead to delays and misunderstandings.\n\nFreelance work offers the company flexibility and the ability to hire experts for short-term or specialised designs. This can reduce overhead costs and improve the efficiency of the company’s design workflow. On the other hand, freelancers may not be fully aligned with the company’s vision or work processes, which can affect the cohesion of major design projects.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "marks": 8,
+      "content": "Intelligent systems — applications of decision support systems — categories or decision-making",
+      "outcomes": "EC-12-07",
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Explains how intelligent systems can assist the different categories of decision-making ; Supports answer with relevant examples from the stimulus"
+        },
+        {
+          "marks": "6–7",
+          "text": "Describes how intelligent systems can assist the different categories of decision-making in enterprises ; Supports answer with some examples from the stimulus"
+        },
+        {
+          "marks": "4–5",
+          "text": "Shows an understanding of how intelligent systems can assist in decision-making ; Refers to one or more of the examples in the stimulus"
+        },
+        {
+          "marks": "2–3",
+          "text": "Identifies features of decision support systems and/or intelligent systems"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Intelligent systems enhance decision-making — structured, semi-structured and unstructured — by increasing speed and accuracy within enterprise systems. In finance, structured decision-making like loan approvals benefit from decision support systems (DSS) that apply predetermined rules to assess credit score, employment history and income. For example, a bank’s loan evaluation DSS can instantly approve or reject applications based on set criteria, while streamlining the process.\n\nSemi-structured decisions require both automated analysis and human judgment. In financial fraud detection, intelligent systems analyse transaction patterns using machine learning algorithms to flag anomalies such as unusual purchase locations or transactions. Fraud detection DSS provide suspicious activity data to analysts to make the final call. This system enables staff to prioritise cases based on risk levels and patterns identified by the software, improving both response time and detection accuracy.\n\nUnstructured decision-making relies on expert judgment and lacks a fixed process. In healthcare, unstructured decision-making assists doctors in diagnosing rare or complex conditions by analysing patient history, genetic data and clinical trials. Using machine learning and other AI, these systems suggest possible diagnoses or treatments based on related cases and datasets. While the final decision remains with the doctor, the system enhances clinical insight and supports informed judgement.",
+      "answersCouldInclude": []
+    }
+  ]
+}

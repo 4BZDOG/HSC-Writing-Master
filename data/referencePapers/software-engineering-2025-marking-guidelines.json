@@ -1,0 +1,661 @@
+{
+  "course": "Software Engineering",
+  "year": 2025,
+  "kind": "marking-guidelines",
+  "questions": [
+    {
+      "number": "1",
+      "marks": 1,
+      "content": "Software engineering project — implementation methods",
+      "outcomes": "SE-12-07",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Pilot",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "2",
+      "marks": 1,
+      "content": "Software engineering project — software development approaches",
+      "outcomes": "SE-12-09",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct item from each dropdown"
+        }
+      ],
+      "sampleAnswer": "Dropdown 1\nWaterfall\n\nDropdown 2\nAgile",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "3",
+      "marks": 1,
+      "content": "Software automation — machine learning training",
+      "outcomes": "SE 12-03",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Supervised learning",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "4",
+      "marks": 1,
+      "content": "Software engineering project — language-dependent optimisation",
+      "outcomes": "SE 12-08",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Language-dependent code optimisation",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "5",
+      "marks": 1,
+      "content": "Secure software architecture — API vulnerabilities",
+      "outcomes": "SE 12-04",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Exposure of more data than intended",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "6",
+      "marks": 1,
+      "content": "Programming for the web — web protocols",
+      "outcomes": "SE 12-04",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Ensuring that parties exchanging information are who they claim to be",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "7",
+      "marks": 1,
+      "content": "Programming for the web — CSS code fragment",
+      "outcomes": "SE 12-02",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Blue background, white text, border around the heading",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "8",
+      "marks": 1,
+      "content": "Secure software architecture — user action controls",
+      "outcomes": "SE 12-04",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct answer"
+        }
+      ],
+      "sampleAnswer": "Race conditions",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "9",
+      "marks": 1,
+      "content": "Programming for the web — ORM and SQL",
+      "outcomes": "SE 12-01",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Correctly matches each characteristic to the appropriate approach"
+        }
+      ],
+      "sampleAnswer": "Object Relational Mapping (ORM) | Structured Query Language (SQL)\nCode is focused on object manipulation | • |\nTables can be joined to enhance searching | • | •\nProgrammers can choose the language used to access the database | • |",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "10",
+      "marks": 1,
+      "content": "Secure software architecture — regulatory compliance",
+      "outcomes": "SE 12-05",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies ALL the items that are the goals of regulatory compliance in relation to software development"
+        }
+      ],
+      "sampleAnswer": "☐ Limiting the need for software updates\n• Protecting sensitive data from unauthorised access\n☐ Allowing developers to bypass security features when needed\n☐ Reducing the testing time required during software development\n• Ensuring software applications meet legal and industry standards",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "11",
+      "marks": 1,
+      "content": "Software automation — DevOps",
+      "outcomes": "SE 12-03",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies ALL the items that are key principles of DevOps"
+        }
+      ],
+      "sampleAnswer": "• Rapid feedback\n☐ Freedom from bias\n☐ Procedural fairness\n• Automation of repetitive tasks\n• Collaboration and shared ownership",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "12",
+      "marks": 2,
+      "content": "Software automation — logistic regression",
+      "outcomes": "SE 12-03",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Identifies true or false correctly for all SIX check boxes"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies true or false correctly for FOUR of the six checkboxes"
+        }
+      ],
+      "sampleAnswer": "• Identifying whether a received email is spam\n• Determining the outcome of a two-party election\n☐ Calculating house prices based on land size\n☐ Investigating the relationship between height and weight\n☐ Estimating the rate at which a contagious illness will spread\n• Working out if someone will be admitted to a university course",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13",
+      "marks": 2,
+      "content": "Secure software architecture — SAST and DAST",
+      "outcomes": "SE 12-04",
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly identifies the timing and source code access for each strategy"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly identifies the timing and source code access for ONE strategy ; OR ; Correctly identifies the timing for each strategy"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14",
+      "marks": 1,
+      "content": "Software engineering project — data structures",
+      "outcomes": "SE 12-02",
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct item from each dropdown"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "multipleChoice": true
+    },
+    {
+      "number": "15 (a)",
+      "marks": 3,
+      "content": "Software engineering project — data dictionary",
+      "outcomes": "SE-12-09",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Correctly completes ALL the dropdowns"
+        },
+        {
+          "marks": "2",
+          "text": "Correctly completes FIVE dropdowns"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly completes THREE dropdowns"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "15 (b)",
+      "marks": 3,
+      "content": "Software engineering project — testing and debugging",
+      "outcomes": "SE 12-08",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines TWO relevant software debugging tools"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE relevant software debugging tool ; OR ; Identifies TWO relevant software debugging tools"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Breakpoints can be added to specific lines of code to halt program execution, allowing the programmer to check the value of specific variables or to step through the program line by line. Debugging output statements can be added to the code to indicate that a certain section of code has been reached or to show the contents of a variable.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "16 (a)",
+      "marks": 3,
+      "content": "Programming for the web — load times",
+      "outcomes": "SE 12-06",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Compares the use of a PWA with an interactive website for the weather app"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines features of a PWA and/or an interactive website"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of a PWA or an interactive website"
+        }
+      ],
+      "sampleAnswer": "Both PWAs and interactive websites are platform-independent, allowing users to access the app on any device with a browser. PWAs can pre-cache updates to enable offline updates when a stable internet connection is not available but may not provide real time updates for the most recent changes to weather or warnings. Meanwhile, interactive websites require a constant internet connection to provide any updates.",
+      "answersCouldInclude": [
+        "Some PWAs prompt for initial installation or setup which might deter some users."
+      ]
+    },
+    {
+      "number": "16 (b)",
+      "marks": 3,
+      "content": "Programming for the web — interactive websites and PWAs",
+      "outcomes": "SE 12-03",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines TWO ways, other than the use of a PWA, to minimise the load time of the weather app"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE way, other than the use of a PWA, to minimise load time ; OR ; Identifies TWO ways, other than the use of a PWA, to minimise load time"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One way would be to provide the option to select lower resolution images or text only display. Another way would be to utilise caching as this would provide high speed access to commonly requested weather data.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "16 (c)",
+      "marks": 3,
+      "content": "Secure software architecture — privacy by design",
+      "outcomes": "SE 12-01",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes ONE way that the ‘privacy by design’ approach could be implemented in the weather app"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE feature of the ‘privacy by design’ approach"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of the ‘privacy by design’ approach"
+        }
+      ],
+      "sampleAnswer": "Embedded within the design of the weather app would be a process for regularly deleting identifiable data. For example, the app would likely record a person’s live location to deliver relevant weather details. The privacy by design approach would incorporate a regular process to delete these locations from cache.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "17",
+      "marks": 3,
+      "content": "Software engineering project — algorithm design",
+      "outcomes": "SE 12-09",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a substantially correct pseudocode algorithm"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a pseudocode algorithm that addresses some aspects of the problem"
+        },
+        {
+          "marks": "1",
+          "text": "Shows some understanding of the problem or pseudocode"
+        }
+      ],
+      "sampleAnswer": "BEGIN RiskRating\n      Total = 0\n      index = 0\n      REPEAT\n             Total = Total + Risks[index]\n             index = index + 1\n      UNTIL index = 10\n      IF Total > 35 THEN\n             Rating = “High”\n      ELSE\n             IF Total < 20 THEN\n                    Rating = “Low”\n             ELSE\n                    Rating = “Medium”\n             ENDIF\n      ENDIF\n      Display Rating\nEND RiskRating\n\nOR\n\nBEGIN RiskRating\n     Total = 0\n     index = 0\n     REPEAT\n            Total = Total + Risks[index]\n            index = index + 1\n     UNTIL index = 10\n     CASEWHERE Total is\n            > 35: Rating = “High”\n            < 20: Rating = “Low”\n            OTHERWISE: Rating = “Medium”\n     END CASE\n     Display Rating\nEND RiskRating\n\nOR\n\nBEGIN RiskRating\n     Total = 0\n     index = 0\n     REPEAT\n            Total = Total + Risks[index]\n            index = index + 1\n     UNTIL index = 10\n     IF Total > 35 THEN\n            Rating = “High”\n     ELSEIF Total < 20 THEN\n            Rating = “Low”\n     ELSE\n            Rating = “Medium”\n     ENDIF\n     Display Rating\nEND RiskRating",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "18",
+      "marks": 3,
+      "content": "Programming for the web — effect of big data on web architecture",
+      "outcomes": "SE 12-04",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how metadata and data mining can be used to prevent technical difficulties during the broadcast of the live event"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how metadata AND/OR data mining can be used to prevent broadcast technical difficulties"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of metadata or data mining"
+        }
+      ],
+      "sampleAnswer": "Metadata describes the content, structure and meaning of raw data, enabling more effective, accurate and efficient data mining. Data mining identifies user preferences and viewing patterns from large datasets, helping streaming services personalise recommendations and identify times of predicted high demand. Streaming service management uses this along with real-time user data to balance server loads and deliver smooth playback experiences.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "19",
+      "marks": 3,
+      "content": "Secure software architecture — developing secure code",
+      "outcomes": "SE 12-07",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides correct code for the problem"
+        },
+        {
+          "marks": "2",
+          "text": "Provides partially correct code that includes a correct selection structure OR password creation"
+        },
+        {
+          "marks": "1",
+          "text": "Shows some understanding of the scenario and Python programming"
+        }
+      ],
+      "sampleAnswer": "uName = input('What is your username?')\npassword = input('What is your password?')\npasswordP1 = uName[:3]\npasswordP1= passwordP1 + '123'\nif passwordP1 == password:\n      print ('Welcome!')\nelse:\n      print ('Incorrect password entered')",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "20",
+      "marks": 3,
+      "content": "Secure software architecture — session management",
+      "outcomes": "SE 12-06",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Describes how session management can affect code execution efficiency"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies some features of session management"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Efficient session management limits memory consumption by restricting session data size and lifetime. Excessive reading, writing or storing large objects increases input/output operations and slows code execution for the user. Removing sessions when they are no longer required is essential to prevent unnecessary resource consumption.",
+      "answersCouldInclude": [
+        "Reducing database and network bottlenecks – frequent access to session stores, especially in distributed environments, can cause latency",
+        "Preventing memory leaks – poor session handling, particularly in server-side storage, can lead to memory leaks, triggering more frequent garbage collection and degrading performance.",
+        "Enabling scalable, responsive systems – asynchronous or lazy cleanup can further optimise execution."
+      ]
+    },
+    {
+      "number": "21",
+      "marks": 4,
+      "content": "Programming for the web — SQL queries",
+      "outcomes": "SE-12-08",
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a correct SQL query that ; extracts ‘Pending’ and ‘Escalated’ jobs for the ‘Software’ and ‘Hardware’ categories ; counts the jobs for each status in each category ; outputs results in descending order"
+        },
+        {
+          "marks": "3",
+          "text": "Provides an SQL query that addresses most of the requirements of the problem"
+        },
+        {
+          "marks": "2",
+          "text": "Provides an SQL query that shows some understanding of the problem"
+        },
+        {
+          "marks": "1",
+          "text": "Shows some understanding of SQL or the problem"
+        }
+      ],
+      "sampleAnswer": "SELECT Category, Status, COUNT(JobID) AS Jobs\nFROM Issues\nWHERE (Status = ‘Pending’ OR Status = ‘Escalated’)\nGROUP BY Status, Category\nORDER BY Jobs DESC",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22",
+      "marks": 3,
+      "content": "Software engineering project — modelling tools",
+      "outcomes": "SE 12-06",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Constructs a correct class diagram that shows inheritance and removes redundant attributes from each class"
+        },
+        {
+          "marks": "2",
+          "text": "Constructs a class diagram that shows some understanding of the problem"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "[not reproducible as text]",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23 (a)",
+      "marks": 3,
+      "content": "Secure software architecture — social and ethical issues",
+      "outcomes": "SE 12-05",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines relevant social and ethical issues"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE relevant social or ethical issue ; OR ; Identifies relevant social and/or ethical issues"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies ONE relevant social or ethical issue"
+        }
+      ],
+      "sampleAnswer": "The website will need to ensure payment and address data is appropriately secured and accessible only to authorised personnel. It also needs to ensure that pages can be viewed in a wide variety of languages and that the information about dishes displayed is accurate and representative of the product.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23 (b)",
+      "marks": 3,
+      "content": "Programming for the web — server-side web programming",
+      "outcomes": "SE 12-01",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains why server-side web programming is needed to develop the website with examples from the scenario"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines some features of server-side web programming for developing the website with examples from the scenario"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a feature of server-side web programming and/or providing relevant examples from the scenario"
+        }
+      ],
+      "sampleAnswer": "Server-side development will need to be used to provide dynamic information to the front-end (website). There are many dynamic aspects to the website, including the menu which changes along with subscription information and order tracking information. Server-side scripting will need to be written to read the relevant information from storage (most likely, a database) and then provide this information to the front-end.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23 (c)",
+      "marks": 3,
+      "content": "Secure software architecture — fundamental software design security concepts",
+      "outcomes": "SE 12-04",
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides the correct response for ALL items"
+        },
+        {
+          "marks": "2",
+          "text": "Provides the correct response for THREE items"
+        },
+        {
+          "marks": "1",
+          "text": "Provides the correct response for ONE item"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24",
+      "marks": 5,
+      "content": "Software automation — safety of workers",
+      "outcomes": "SE 12-05",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive discussion of the impact of the safety monitoring system on workers with reference to the scenario"
+        },
+        {
+          "marks": "4",
+          "text": "Outlines both positive and negative ways, that the safety monitoring system can affect workers"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines some ways that the safety monitoring system can affect workers"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ONE way that the safety monitoring system can affect workers ; OR ; Identifies some ways that the safety monitoring system can affect workers"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The AI monitoring system can improve safety on site by reducing human error through real-time alerts and remote monitoring. It can also help supervisors track workers' compliance with PPE requirements and identify risky behaviours, potentially preventing accidents. However, some workers might feel their privacy is invaded, especially if the wearables continue monitoring during breaks or in private areas like bathrooms. There’s also a risk of the system misidentifying safe behaviour as unsafe, leading to unnecessary alerts or stress which could cause distractions at critical times. Additionally, the long-term data collection could be used to improve training, but workers may worry about how the data is stored or used.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "marks": 5,
+      "content": "Software automation — patterns in human behaviour",
+      "outcomes": "SE12-05",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Explains how the neural network supports the virtual personal assistant ; Includes one positive AND one negative impact of using the virtual personal assistant"
+        },
+        {
+          "marks": "4",
+          "text": "Explains how the neural network supports the virtual personal assistant ; OR ; Outlines how the neural network supports the assistant and includes one positive AND one negative impact of using the virtual personal assistant"
+        },
+        {
+          "marks": "3",
+          "text": "Outlines features of neural network AND/OR impacts of using the virtual personal assistant ; Outlines a feature of neural network OR an impact of using the virtual personal assistant"
+        },
+        {
+          "marks": "2",
+          "text": "OR ; Identifies features of neural network AND/OR impacts of using the virtual personal assistant"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Neural networks recognise natural language patterns to categorise common support queries, such as lost luggage, and use nodes to assist with processing. They assess language tone to gauge frustration or urgency, allowing the virtual personal assistant to recommend specific phrasing for customer service staff. For instance, calming language may be suggested for distressed customers. By tracking customer ratings and turnaround times, the neural network uses weightings to refine recommendations to prioritise high-frequency queries or improve suggestions for poorly rated interactions. While this system streamlines support processes and improves response accuracy, it may also impact the role of customer service staff. As the neural network learns from interactions, staff may rely more on its recommendations, potentially reducing their familiarity with emerging query trends or response strategies. Customers may come to expect faster, more precise service, raising the standard for human interactions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "marks": 5,
+      "content": "Software engineering project — design, construct and implement a solution",
+      "outcomes": "SE 12-07",
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a correct python program that addresses the following requirements: ; creates a list of unique randomly generated numbers ; processes the generated list correctly ; uses selection and looping structures ; provides correctly formatted output ; uses inbuilt python functions"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a substantially correct python program that addresses most of the requirements"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a python program that addresses some of the requirements"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a python program that addresses one requirement"
+        },
+        {
+          "marks": "1",
+          "text": "Shows some understanding of the problem"
+        }
+      ],
+      "sampleAnswer": "import random\n\nrandList = []\nfor x in range(15):\n   nextInt = random.randint(1,25)\n   while nextInt in randList:\n      nextInt = random.randint(1,25)\n   randList.append(nextInt)\n\npos = 0\nwhile pos < 25:\n  if pos in randList:\n      print (\"| X\", end=\" \")\n  else:\n      print (\"| \", end=\" \")\n  pos = pos + 1\n  if (pos % 5 == 0):\n      print(\"| \\n\")",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "marks": 6,
+      "content": "Software automation — respond to bias in AI video stimuli",
+      "outcomes": "SE 12-05",
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Explains how human bias could affect the usefulness of AI solutions ; Supports answer with reference to the video"
+        },
+        {
+          "marks": "5",
+          "text": "Describes how human bias could affect the usefulness of AI solutions ; Refers to a scenario(s) in the video"
+        },
+        {
+          "marks": "4",
+          "text": "Outlines how human bias could affect AI solutions ; Refers to the video"
+        },
+        {
+          "marks": "2–3",
+          "text": "Identifies some sources/examples of human bias ; AND/OR ; Identifies effects of human bias on AI solutions ; AND/OR ; Outlines how AI learns"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "AI develops its ability by analysing vast amounts of data. The quality of these data can be influenced by human bias, and in turn, affect the usefulness of AI solutions.\n\nHuman bias may be explicit or implicit. Explicit biases are intentional. For example, a researcher may favour male physicists and only collect pictures of male physicists for training an AI solution, as shown in the video. Implicit biases operate unconsciously and may be shaped by social and cultural factors. Whether the bias was explicit or implicit, the choice of male physicists would suggest to the AI solution that physicists are male.\n\nHuman bias can occur in various stages of the development of AI solutions. As shown in the photo library example, training data needs to be diverse and representative, otherwise AI solutions may produce inaccurate or unhelpful responses. The process of labelling training data may also introduce biases as people may have different interpretations of the same data. The video shows that if most people draw shoes in particular ways, certain types of shoes will not be recognised as a shoe.",
+      "answersCouldInclude": []
+    }
+  ]
+}
