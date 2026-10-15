@@ -1347,17 +1347,32 @@ create table if not exists public.school_ai_usage (
 alter table public.schools         enable row level security;
 alter table public.school_ai_usage enable row level security;
 
--- Any signed-in user can see the school list (the UI names "your school");
--- there is deliberately NO write policy — changes go through the admin RPCs.
+-- A signed-in user reads their OWN school's row, and admins read every row.
+-- There is deliberately NO write policy — changes go through the admin RPCs.
+--
+-- The policy is only half of it. The table grant is withdrawn and the two
+-- columns a member may see are granted back, so the Stripe ids, the licence
+-- state (§13) and the pool budget cannot be selected through the REST API by
+-- anyone, admins included. The admin dashboard gets them from list_schools()
+-- (§28). Service-role code bypasses RLS and grants alike, so the webhook and
+-- the API are unaffected. A select that names a withheld column, or `select *`,
+-- is refused outright rather than returning a partial row.
 drop policy if exists schools_read on public.schools;
 create policy schools_read on public.schools
-  for select using (auth.uid() is not null);
+  for select using (
+    public.is_admin()
+    or id = (select p.school_id from public.profiles p where p.id = auth.uid())
+  );
 
--- Pool usage: your own school's rows, or any row for reviewers.
+revoke all on public.schools from anon, authenticated;
+grant select (id, name) on public.schools to authenticated;
+
+-- Pool usage: your own school's rows, or any row for admins. A teacher was
+-- able to read another school's pooled usage, day by day, through this policy.
 drop policy if exists school_ai_usage_read on public.school_ai_usage;
 create policy school_ai_usage_read on public.school_ai_usage
   for select using (
-    public.is_reviewer()
+    public.is_admin()
     or school_id = (select school_id from public.profiles where id = auth.uid())
   );
 -- No insert/update policies: the only write path is consume_ai_quota().
@@ -3916,6 +3931,56 @@ create policy "Admins read all licence requests"
 -- role, which bypasses RLS. The grants are narrowed to match.
 revoke all on public.licence_requests from anon, authenticated;
 grant select on public.licence_requests to authenticated;
+
+-- =============================================================================
+-- §28 · list_schools() is for admins only
+--
+-- §12 gated list_schools() on is_reviewer() (admin OR teacher), and §13 kept that
+-- gate while adding the licence columns. So any teacher could call it and read
+-- every school's name, member count, pooled usage and licence state (plan_status,
+-- plan_seats, plan_period_end, plan_cancel_at_period_end). Both client callers
+-- are admin-only screens (the AI Usage Dashboard and the Billing overview, each
+-- mounted only for role admin), so no teacher surface needs it and no narrower
+-- teacher RPC is added. The definition below is the one that wins on every apply;
+-- the older ones in §12 and §13 are left as they were.
+--
+-- Since §12 withdrew the table grant on schools, this is the admin's only client
+-- route to the licence columns.
+--
+-- Idempotent: create or replace, and the grants are repeatable.
+-- =============================================================================
+
+create or replace function public.list_schools()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_result jsonb;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can list schools';
+  end if;
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'id', s.id,
+      'name', s.name,
+      'daily_ai_limit', s.daily_ai_limit,
+      'members', (select count(*) from public.profiles p where p.school_id = s.id),
+      'used_today', coalesce((
+        select u.calls from public.school_ai_usage u
+         where u.school_id = s.id and u.day = (now() at time zone 'utc')::date), 0),
+      'plan_status', s.plan_status,
+      'plan_seats', s.plan_seats,
+      'plan_period_end', s.plan_period_end,
+      'plan_cancel_at_period_end', s.plan_cancel_at_period_end
+    ) as row_obj
+    from public.schools s
+  ) sub;
+  return v_result;
+end; $$;
+
+revoke all on function public.list_schools() from public, anon;
+grant execute on function public.list_schools() to authenticated;
 
 -- =============================================================================
 -- End of schema.
