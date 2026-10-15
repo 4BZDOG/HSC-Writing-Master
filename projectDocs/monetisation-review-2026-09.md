@@ -531,7 +531,7 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
   `resolve_ai_quota()` or the webhook's plan write, which grant access only on `active`,
   `trialing` and `past_due`, so a held purchase grants nothing.
 
-### 23. Unsigned webhooks are accepted wherever `isProductionRuntime()` is false — P1 (P0 if the preview shares production data), open
+### 23. Unsigned webhooks are accepted wherever `isProductionRuntime()` is false — P1 (P0 if the preview shares production data), fixed in code; operator check remains
 
 - **Where**: `api/stripe-webhook.ts:112-137`. `isProductionRuntime()` (in `api/_lib/stripe.ts`)
   is `VERCEL_ENV === 'production' || NODE_ENV === 'production'`. Without a signing
@@ -545,6 +545,18 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
 - **Suggested fix**: refuse unsigned events whenever `VERCEL_ENV` is set, not only in
   production. `vercel dev` would then need the Stripe CLI secret. This changes preview
   behaviour, so it needs operator sign-off.
+- **Fixed (15 October, #366)**: `isDeployedRuntime()` (`VERCEL_ENV` set to anything, or
+  `NODE_ENV=production`) now decides, so the webhook answers 500 and writes nothing on
+  production, preview and `vercel dev`. Only a local `npm run dev` or Vitest, where neither
+  is set, still trusts the body. Tests run the real handler for each environment and fail
+  against the old gate. **Still to do:** post an unsigned event to a real preview URL and
+  confirm a 500; the tests run in process, not on Vercel.
+- **Related, not fixed**: `api/_lib/auth.ts` `isMisconfigured()` keys on
+  `NODE_ENV === 'production'` alone, so a preview with only half of its Supabase variables
+  may serve the AI proxy openly; and `isStripeMisconfigured()` and the mock-URL fallbacks in
+  `create-checkout.ts` and `customer-portal.ts` key on `isProductionRuntime()`, so a preview
+  with prices but no secret key sends the upgrade button to a mock URL (no plan is granted).
+  Moving `isDeployedRuntime()` to a dependency-free module would let `auth.ts` use it.
 
 ### 24. A checkout link overwrites an existing customer link — P2, fixed
 
@@ -574,7 +586,7 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
 - **Suggested fix**: refuse decreases below the member count in the portal's
   configuration, or flag the school to admins when the webhook writes a smaller seat count.
 
-### 26. Disputes and refunds are not handled — P2, open
+### 26. Disputes and refunds are not handled — P2, fixed (flag and alert only)
 
 - **Where**: `api/stripe-webhook.ts` (the `default:` branch, around line 196).
 - **Scenario**: a card dispute is opened. Stripe does not cancel the subscription, so
@@ -582,6 +594,13 @@ re-applied §13 behaves as before. Tests: `tests/unit/schoolLicenceDuplicateGuar
 - **Suggested fix**: first, a flag-only `charge.dispute.created` handler that writes a
   reviewer-visible row. Automatic cancellation is a product decision. If the handler is
   added, add the event to `docs/stripesetup.md` as well.
+- **Fixed (15 October, #370)**: `charge.dispute.created` / `closed` and `charge.refunded`
+  (full refunds) record a `dispute` or `refund` billing incident and alert the operator
+  with the evidence deadline (`api/_lib/disputes.ts`, schema §29). Nothing is cancelled or
+  refunded and no plan changes. The Billing overview lists open incidents and an admin
+  can mark them resolved. The three events must be enabled on the Stripe endpoint.
+  Known gap: `recordIncident`'s duplicate path rewrites the open row, so two disputes
+  arriving at once for one account can drop one id from the row (the alert still goes).
 
 ### 27. Checked and found sound (this pass)
 
@@ -833,11 +852,17 @@ the commonest first-deployment mistake.
 - ~~**A teacher or admin whose school already holds a licence is still offered
   "Buy N seats".**~~ — **done**, see §36. A covered school is told it is covered and
   who to ask. Seat top-ups are still a product decision, and they are not offered.
-- **Displayed prices are typed into the environment, not read from Stripe.**
-  `PLAN_PRICING` comes from `VITE_PLUS_*_PRICE_DISPLAY` and `VITE_SCHOOL_SEAT_PRICE_DISPLAY`.
-  If one of them drifts from the Stripe Price, the prompt shows a different amount from the
-  one charged. Check each at every price change. Nothing in the UI states whether the
-  figures include GST; that needs a decision together with `STRIPE_AUTOMATIC_TAX`.
+- ~~**Displayed prices are typed into the environment, not read from Stripe.**~~ — **done**
+  (15 October, #368). `GET /api/prices` reads the three Stripe prices and the screens show
+  them, with "incl. GST" or "+ GST" from the price's tax behaviour; the `VITE_*_PRICE_DISPLAY`
+  variables are now a fallback. Left: the "Save 38%" line (`VITE_PLUS_YEARLY_NOTE`) is still
+  typed by hand, and the School seat copy assumes a yearly price (the interval is read but
+  not checked). `STRIPE_AUTOMATIC_TAX` is still untested against a real account.
+- ~~**Any signed-in user could read every school's licence data.**~~ — **done** (15 October,
+  #369). `schools_read` is own school (or admin); `stripe_subscription_id`, `plan_seats` and
+  `daily_ai_limit` are withheld from the REST API; `list_schools()` is admin-only. Still open
+  from that pass: teachers can read Stripe event ids (`Reviewers read stripe events`), every
+  user's AI usage report, and their students' `stripe_customer_id` through `profiles_read`.
 - **The school-seat checkout return is untested.** The return now confirms the session
   before it polls (§31 on main), but school seats are applied at sign-in, and nothing
   shows that a teacher who buys seats unlocks without signing in again. Needs a

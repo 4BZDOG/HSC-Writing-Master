@@ -69,20 +69,23 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 | `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                          |
 | `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)                         |
 | `STRIPE_AUTOMATIC_TAX`         | `true` _(optional, default off)_ | Set to `true` to compute GST at checkout — requires a Stripe origin address (see Going Live step 6) |
+| `BILLING_ALERT_WEBHOOK_URL`    | `https://hooks.slack.com/…` _(optional)_ | An incoming-webhook URL (Slack, Discord or Mattermost). See "Operator alerts" below. Keep it secret; no `VITE_` prefix |
 
 > The price IDs are also the **allowlist**: `/api/create-checkout` refuses any
 > price that isn't one of these three, so a tampered client can't check out
 > against an unrelated price in your Stripe account. Set at least one, or
 > checkout returns 501 "No plans are available for purchase yet."
 >
-> `STRIPE_WEBHOOK_SECRET` is mandatory once `VERCEL_ENV`/`NODE_ENV` is
-> `production`: without it the webhook refuses every event with a 500 (Stripe
-> retries, so nothing is lost once you set it). Preview deployments need the
-> same check: confirm that an unsigned request is refused there too, because the
-> production test above may not hold on a preview (see
-> `projectDocs/monetisation-review-2026-09.md` §23). An unsigned production
-> endpoint would let anyone POST a forged subscription event and grant
-> themselves a paid plan.
+> `STRIPE_WEBHOOK_SECRET` is mandatory on **every deployment**: without it the
+> webhook refuses every event with a 500 (Stripe retries, so nothing is lost once
+> you set it). That includes Vercel previews (`VERCEL_ENV=preview`) and `vercel dev`
+> (`VERCEL_ENV=development`); only a local `npm run dev`, where `VERCEL_ENV` is
+> unset, still accepts unsigned requests. To check it, post an unsigned event to a
+> preview URL and confirm it answers 500, not 200 (see
+> `projectDocs/monetisation-review-2026-09.md` §23). An unsigned endpoint would let
+> anyone POST a forged subscription event and grant themselves a paid plan. A
+> preview that should receive Stripe events needs its own signing secret
+> (`stripe listen` prints one).
 
 ### Client-side variables (also set in Vercel, or in `.env.local` for dev)
 
@@ -92,6 +95,12 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 | `VITE_STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...` | Same value as `STRIPE_PLUS_YEARLY_PRICE_ID`  |
 
 > The `VITE_` prefix is required for Vite to include these in the browser bundle. They are just price IDs (not secrets) so this is safe.
+
+Optional, admin screens only:
+
+| Variable                     | Value                 | Notes                                                                                                                                  |
+| ---------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_AI_COST_PER_CALL_AUD`  | e.g. `0.004`          | Total monthly AI spend divided by total monthly AI calls. Turns on the cost and margin columns of the Billing overview's "Seat economics" panel. Read at build time, so redeploy after setting it |
 
 ### For local development
 
@@ -117,7 +126,7 @@ Checkout return now confirms the first purchase itself: `/api/sync-checkout` ask
 
    Replace `your-app.vercel.app` with your actual domain.
 
-4. Under **Events to send**, select these six:
+4. Under **Events to send**, select these nine:
    - `checkout.session.completed`
    - `customer.subscription.created`
    - `customer.subscription.updated`
@@ -126,14 +135,21 @@ Checkout return now confirms the first purchase itself: `/api/sync-checkout` ask
    - `invoice.payment_action_required` (3-D Secure: the bank wants the customer
      to confirm. Without this the challenge is silent and the subscription
      lapses with no warning shown.)
+   - `charge.dispute.created`, `charge.dispute.closed` and `charge.refunded`
+     (a chargeback has a hard evidence deadline; a full refund may end a licence.
+     Without these you learn of a dispute only from Stripe's email. See
+     "Disputes and refunds" below.)
 
-   These six are exactly the events the handler acts on. Any other event type
+   These nine are exactly the events the handler acts on. Any other event type
    is acknowledged and ignored, so there is no need to subscribe to more.
    Which of them the plan itself depends on:
    - **Required for the plan to be right:** `checkout.session.completed` (links
      the customer to the profile) and `customer.subscription.created`,
      `customer.subscription.updated` and `customer.subscription.deleted` (grant,
      renew and end the plan and any School licence).
+   - **Optional:** `charge.dispute.created`, `charge.dispute.closed` and
+     `charge.refunded` only record an incident and alert you; they never change a
+     plan.
    - **Optional:** `invoice.payment_failed` and `invoice.payment_action_required`
      only raise the payment-problem banner. The plan keeps working during
      Stripe's retries either way. Without them the plan is still correct, but
@@ -316,6 +332,8 @@ Logged-in paid users can manage their subscription from their **profile modal** 
 
 > Stripe hosts the portal UI, so nothing needs deploying. But **check what your portal configuration actually allows** before going live: the app sends users there for plan and seat changes in two places — `api/create-checkout` refuses a second concurrent subscription with "Use *Manage subscription* to change your plan or seats", and the upgrade prompt turns its own CTA into that portal link when it sees that refusal. If the portal cannot switch plans or update quantities, both messages point at a dead end.
 >
+**School licences.** Teachers and admins who belong to a school with a licence see **Manage school licence** on the School licence panel. It opens the portal for the customer behind the school's licence, found on the server from the caller's own school, so a colleague or an admin who did not buy the licence can use it. Students, and staff with no school, are refused. **Anyone who can open it can cancel the licence and change seats**, so check the portal settings below before staff use it. If only some staff should cancel, create a second portal configuration with cancellation off; the app does not yet choose between them (open decision, see the 15 October handoff).
+
 > In **Settings → Billing → Customer portal**, confirm that *Customers can switch plans* is on and that every price you sell is listed as a switchable product, and that *Customers can update quantities* is on (this is what lets a school top up seats). Cancellation, payment-method updates and invoice history are the parts that work without configuration.
 
 ---
@@ -356,8 +374,11 @@ you re-apply the schema, checkout behaves as it did before: nothing is
 recorded, no incident is written, and the log says so.
 
 **When a billing incident is open.** The webhook, and the return from Checkout,
-write a row to `billing_incidents` in three cases. Nothing is cancelled and
-nothing is refunded automatically. The row is for you to act on.
+write a row to `billing_incidents` in five cases. Nothing is cancelled and
+nothing is refunded automatically. The row is for you to act on. Open incidents
+show in **Admin → Billing overview**, each with a **Mark resolved** button and an
+optional note (schema §29; until you re-apply the schema the button is replaced by
+a line saying so).
 
 - `duplicate_subscription`: one account holds two live subscriptions. Stripe
   bills both, and the plan follows the one that runs longest. The listed
@@ -368,6 +389,8 @@ nothing is refunded automatically. The row is for you to act on.
   a purchase under another. The plan was applied to the account, but the link was
   not changed, so the billing portal still opens the first customer. The second
   customer's subscriptions cannot be managed from the app until you relink them.
+- `dispute`: a cardholder's bank opened a chargeback. See "Disputes and refunds".
+- `refund`: a charge was refunded in full. See "Disputes and refunds".
 
 Some of these are not errors. An invoiced licence (purchase order) is stamped with
 the id of the teacher who requested it, so a teacher who also holds a personal Plus
@@ -404,13 +427,62 @@ What to do:
 
 Logs carry the same findings under `[stripe-webhook] BILLING INCIDENT`.
 
+### Disputes and refunds
+
+Enable `charge.dispute.created`, `charge.dispute.closed` and `charge.refunded` on the
+webhook endpoint (Step 4a). Nothing is cancelled, refunded or re-planned
+automatically; the webhook records an incident and alerts you.
+
+- **A dispute is opened.** An incident of kind `dispute` is recorded with the amount,
+  reason, status, the **evidence deadline** and the Stripe dispute and charge ids, and
+  an alert says "Respond in Stripe by <date>". Respond in the Dashboard before that
+  date. If the database is behind the schema (§29), the alert is still sent.
+- **A dispute closes.** Won, or any close other than lost, resolves the incident
+  with the status as the note. **Lost** keeps it open and alerts you ("the funds
+  were withdrawn"); decide what follows, then mark it resolved.
+- **A charge is refunded in full.** An incident of kind `refund` is recorded and says
+  access is unchanged. If the refund ends the licence, cancel the subscription in
+  the Dashboard. Partial refunds are ignored.
+- The table allows one open incident per account (or school) and kind, so a second
+  dispute for the same account is added to the open row rather than a new one.
+
+### Operator alerts
+
+Set `BILLING_ALERT_WEBHOOK_URL` (server-side, no `VITE_` prefix) to a Slack, Discord
+or Mattermost incoming-webhook URL to be told without opening the admin. Unset, nothing
+is sent and nothing else changes. Alerts fire for a new invoice request, a new billing
+incident, a dispute and a full refund. Each message names the school (or its id),
+seats, PO number or amount and where to act. It never carries a billing email, ABN,
+address, note or any person's name or email. The alert waits at most 4 seconds and never
+changes what the requester or Stripe receives. Treat the URL like an API key and rotate
+it if it leaks. Redeploy after setting it.
+
+### Who can read school licence data
+
+After re-applying the schema (§12, §13 and §28), a signed-in user can read only their
+own school's row, and only `id`, `name`, `plan_status`, `plan_period_end` and
+`plan_cancel_at_period_end` (the app needs those to give members their School plan).
+`stripe_subscription_id`, `plan_seats` and `daily_ai_limit` are readable by nobody through
+the REST API, admins included; the admin screens read them through `list_schools()`,
+which is now admin-only (teachers are refused). A custom integration that runs
+`select *` on `schools` will fail with "permission denied": use `list_schools()` as an
+admin, or the service role.
+
+### Seat economics
+
+**Admin → Billing overview → Seat economics** (schema §30, `school_seat_usage()`) shows,
+per licensed school, calls per seat per day and the 95th percentile of calls per user per
+day, over 30 or 90 days. Set `VITE_AI_COST_PER_CALL_AUD` to see projected cost and margin
+per seat against the seat price. It changes no quota or price. How to read it and the
+decisions it informs are in `projectDocs/seat-economics.md`.
+
 ## Going Live (Production Checklist)
 
 When you're ready to accept real payments:
 
 1. **Switch to live keys**: Replace all `sk_test_` / `pk_test_` values with `sk_live_` / `pk_live_` from Stripe Dashboard (toggle off "Test mode").
 2. **Create a live webhook**: Same steps as Step 4a but with your production URL and live mode enabled.
-3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars. The app shows the prices from `VITE_PLUS_MONTHLY_PRICE_DISPLAY`, `VITE_PLUS_YEARLY_PRICE_DISPLAY` and `VITE_SCHOOL_SEAT_PRICE_DISPLAY`; it does not read them from Stripe, so check that each matches its live price.
+3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars. The app now reads the displayed prices from Stripe (`GET /api/prices`, cached for about 10 minutes, then up to 5 more at the CDN). Make each price a flat recurring AUD price and set its **tax behaviour** (inclusive or exclusive): the UI says "incl. GST" or "+ GST" from that setting and says nothing when it is unspecified. A tiered, metered, inactive or non-AUD price is left out and the screen falls back to `VITE_PLUS_MONTHLY_PRICE_DISPLAY`, `VITE_PLUS_YEARLY_PRICE_DISPLAY` or `VITE_SCHOOL_SEAT_PRICE_DISPLAY`, so keep those in line with Stripe. The "Save 38%" line still comes from `VITE_PLUS_YEARLY_NOTE`; update it by hand.
 4. **Update Vercel env vars**: Swap every test value for its live counterpart and redeploy.
 5. **Test with a real card**: Make a small real purchase, then cancel/refund it from the Stripe Dashboard.
 6. **Enable Stripe Tax** (optional): For Checkout to actually compute and add GST you must do **both** of the following — dashboard configuration alone does nothing for Checkout:
@@ -560,10 +632,11 @@ Three things an operator should know about how this behaves:
   re-reads the plan when a signed-in person returns to its tab or the connection
   comes back, at most once every five minutes. Members see one notice when their
   plan changes. Until then a member can still see the old plan.
-- **Only the purchaser can open Manage subscription.** The billing portal is
-  found through the purchaser's own Stripe customer id. Other staff in the school
-  are told who bought the licence instead of being offered a button that would
-  fail.
+- **Any teacher or admin in the school can open Manage school licence.** The
+  server finds the licence's Stripe customer from the caller's own school, so the
+  purchaser is no longer special. Whoever opens it can cancel the licence and
+  change seats (see Step 7). The seat-overage notice still tells non-purchasers to
+  ask the buyer.
 
 **Class & school reports are a School feature.** The Class report (a teacher's
 classes) and the School report (an administrator's school) are gated by the
