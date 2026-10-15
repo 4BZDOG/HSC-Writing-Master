@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (2020–2025 HSC Business Studies written-response questions, and HSC-style stems)
+
+- **Added.** 90 written-response questions from the 2020–2025 HSC Business Studies papers (the six papers on the current syllabus) in `HSCBusinessStudies.json`, as `prompt-bs-hsc-<year>-<number>`: 73 Section II parts (1–6 marks), 5 Section III business reports and 12 Section IV extended responses (20 marks). Each carries the paper's wording and scenario, NESA's marking criteria as the app's mark ladder, `isPastHSC`, `hscYear` and `hscQuestionNumber`, plus marker notes, common errors and a full/middle/bottom exemplar ladder. Each question sits on the dot point it assesses.
+- **Left out.** Three questions whose answer depends on a diagram or chart the text of the paper does not carry: 2022 21(c) (process layouts), 2024 21(b) (product diagram) and 2025 25 (Gantt chart).
+- **Changed.** 175 of the 348 existing stems now say "this business" where they named an invented one, drop "in the scenario", and capitalise instruction quantities (ONE, TWO). Verbs, marks, marking guides and exemplars are unchanged.
+- **Changed.** Stems that open "How…", "Why…" or "To what extent…" have no verb for the Verb Gate, so they are stored as EXPLAIN, OUTLINE, INTERPRET (Section II) and DISCUSS or ASSESS (the 20-mark questions). Tier 5 at 20 marks derives NESA's five bands (17–20 / 13–16 / 9–12 / 5–8 / 1–4), so every Section III and IV guide uses a Tier 5 verb even where the paper says "Explain" or "Evaluate".
+- **Note.** Section IV asks for real case studies. The exemplars use clearly labelled "Hypothetical:" businesses instead, because real-business facts could not be checked. The 20-mark marking-guideline bands of 13 questions (12 in Section IV, 1 in Section III) were re-cut by hand, because the PDF layout had put a bullet under the wrong mark band.
+
 ## [Unreleased] - 2026-10-15 (2024 HSC English Standard Paper 2 questions, and HSC-style stems)
 
 - **Added.** The 14 questions of the 2024 HSC English Standard Paper 2 (Module A, 1(a)–1(k); Module B, Q2; Module C, Q3(a) and 3(b)) are in `HSCEnglishStandard.json` as `prompt-en-140`–`153`, each flagged `isPastHSC` with `hscYear: 2024` and its question number, so the "HSC 2024 · Q1(a)" chip shows. Stems and prescribed-text lists are copied from the NESA paper; each question has a marking guide, marker notes, common errors and a full/middle/bottom ladder of exemplars.
