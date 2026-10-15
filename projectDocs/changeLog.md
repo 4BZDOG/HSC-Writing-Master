@@ -1,5 +1,11 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (Exam-length time guidance, an exam-standard report, and HSC-shaped generation rules)
+
+- **Fixed.** A question with more marks than its verb's typical range now gets the HSC pace (1.8 minutes a mark) beyond that range instead of the verb's ceiling. A 20-mark DISCUSS had 18 minutes against the 35–40 the paper allows; it now has 36. A question inside its verb's range is exactly as before (`getRecommendedTime`, `tests/unit/recommendedTime.test.ts`).
+- **Added.** `npm run content:report` prints, for every shipped course, how far it sits from the shape of a real paper: exam-length questions (15+ marks), 7–10 mark questions, stems that only restate their dot point, stems with no command term, and past-paper questions. `-- --list` names the questions behind each count. It reads `public/courseData` and changes nothing.
+- **Changed.** The LLM seed brief (`utils/llmSeedBrief.ts`) and `docs/dataset-generation-prompt.md` gain an EXAM_STANDARD section: one task per stem, point at the scenario, capitalised counts, exam-form stems (How…, Why…, To what extent…) with the command term to store for each, one exam-length question per topic, and Tier 5 for 20-mark questions because it derives NESA's five bands. The earlier "stem must begin with its verb" rule now allows the exam-form exception.
+
 ## [Unreleased] - 2026-10-15 (2020–2025 HSC Business Studies written-response questions, and HSC-style stems)
 
 - **Added.** 90 written-response questions from the 2020–2025 HSC Business Studies papers (the six papers on the current syllabus) in `HSCBusinessStudies.json`, as `prompt-bs-hsc-<year>-<number>`: 73 Section II parts (1–6 marks), 5 Section III business reports and 12 Section IV extended responses (20 marks). Each carries the paper's wording and scenario, NESA's marking criteria as the app's mark ladder, `isPastHSC`, `hscYear` and `hscQuestionNumber`, plus marker notes, common errors and a full/middle/bottom exemplar ladder. Each question sits on the dot point it assesses.

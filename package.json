@@ -35,6 +35,7 @@
     "check:deploy": "node scripts/checkDeployment.mjs",
     "content:canonicalise": "npx tsx scripts/canonicaliseCourseData.mts",
     "content:check": "npx tsx scripts/canonicaliseCourseData.mts --check",
+    "content:report": "npx tsx scripts/examStandardReport.mts",
     "samples:pdf": "node scripts/generatePdfSamples.mjs",
     "samples:demo-reports": "node scripts/generateDemoReports.mjs"
   },
