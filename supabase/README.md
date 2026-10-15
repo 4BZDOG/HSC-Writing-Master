@@ -395,6 +395,11 @@ The progress report's read (`get_progress_report()`, §26) has its own suite,
 course filter applied to every collection rather than only the totals, week 0 as
 the oldest week, and no draft text in the payload.
 
+The school read (`schools`, §12, narrowed in §12 and §28) has `supabase/tests/schools_privacy_tests.sql`:
+a student and a teacher read only their own school's id and name, nobody selects a
+licence column, `list_schools()` is admin-only, and an admin keeps the full picture
+through the RPC.
+
 **The RPCs are not the only way in.** Scoping a function does nothing if the
 table it reads is still readable directly — a `supabase.from(...).select(...)`
 in a browser console, with the anon key that ships in the bundle, skips every

@@ -162,7 +162,11 @@ export interface SchoolRow {
 /** Statuses under which a school licence is live (matches the webhook's grace rule). */
 export const LIVE_LICENCE_STATUSES = ['active', 'trialing', 'past_due'];
 
-/** Reviewer-gated: every school with member count and today's pooled usage. */
+/**
+ * Admin-only (schema §28): every school with member count and today's pooled
+ * usage. The licence columns are read only through here, because §12 withholds
+ * them from the REST API. Teachers never call it.
+ */
 export const fetchSchools = async (): Promise<SchoolRow[]> => {
   const { data, error } = await requireClient().rpc('list_schools');
   if (error) throw new Error(`Could not load schools: ${error.message}`);
