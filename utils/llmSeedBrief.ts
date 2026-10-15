@@ -86,6 +86,8 @@ export const buildLlmSeedInstructions = () => ({
       'A stem may open How…, Why…, What… or To what extent… as real stems do. "verb" still carries a command term, because the marker and the band ladder are built from it: EXPLAIN for How and Why parts, OUTLINE for "What is the purpose of…", INTERPRET for "What does … indicate", ASSESS for "To what extent".',
     EXAM_LENGTH:
       'Write one exam-length question (15-25 marks) for each topic, in the form the real paper uses (a business report, a "To what extent" or "How can" response). Give a 20-mark question a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY, RECOMMEND): Tier 5 is the tier whose five bands, 17-20 / 13-16 / 9-12 / 5-8 / 1-4, are the ones NESA marks 20-mark questions against, whatever verb the paper prints. Give it exemplars at 20, 12 and 5 marks.',
+    LENGTH_FLOOR:
+      'Match the verb tier to the length: 7-9 marks need Tier 3 or above, 10-14 marks Tier 4 or above, and 15 or more marks Tier 5 or above (DISCUSS, ASSESS, JUSTIFY, RECOMMEND; CONSTRUCT is allowed for a piece of writing). A lower-tier verb cannot show that many marks as bands, so the app raises it on import. To ask for a lower-order task at that length, split it into parts.',
     SAMPLE_LENGTH:
       "NESA's own sample answers are short: a median of about 20 words for 1 mark, 33 for 2, 54 for 3, 74 for 4, 93 for 5, 125 for 6 and 200 for 8. Aim for those figures, up to about a third more, rather than the top of the word band.",
     SCENARIOS:

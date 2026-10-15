@@ -12,6 +12,9 @@ import {
   getTargetBand,
   commandTermsList,
   TIER_GROUPS,
+  verbFitsLength,
+  liftVerbForLength,
+  lengthMismatchNote,
 } from '../data/commandTerms';
 import {
   X,
@@ -313,6 +316,12 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
   const markGradient = markTierConfig.gradient;
   const ceilingBand = getTargetBand(marks, activeVerb.tier);
   const outOfRange = marks < activeVerb.markRange[0] || marks > activeVerb.markRange[1];
+  // A pinned verb that cannot show this many marks as bands (Explain on 20) is
+  // raised when the question is built; saying so first keeps it a choice.
+  const lengthFix =
+    pinnedVerb && !verbFitsLength(pinnedVerb, marks)
+      ? liftVerbForLength(pinnedVerb, marks).verb
+      : null;
 
   // The verbs that suit this mark value lead, but only the closest few: at 5
   // marks sixteen of them qualify, which is three rows of identical grey chips
@@ -550,7 +559,25 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     </span>
                     <span className="t-label text-muted">Extended (20)</span>
                   </div>
-                  {outOfRange && (
+                  {pinnedVerb && lengthFix && (
+                    <div
+                      role="status"
+                      className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2"
+                    >
+                      <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5" />
+                      <div className="text-xs text-amber-300 light:text-amber-700 leading-relaxed">
+                        <p>{lengthMismatchNote(pinnedVerb, marks)}</p>
+                        <button
+                          type="button"
+                          onClick={() => setPinnedVerb(lengthFix)}
+                          className="mt-1.5 font-bold underline underline-offset-2 min-h-11 sm:min-h-0"
+                        >
+                          Use {lengthFix}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {outOfRange && !lengthFix && (
                     <div className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2">
                       <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5" />
                       <p className="text-xs text-amber-300 light:text-amber-700 leading-relaxed">

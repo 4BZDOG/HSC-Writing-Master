@@ -36,6 +36,8 @@ import {
   getExpectedTerms,
   getTargetBand,
   getTierTargetBand,
+  fitVerbsToLength,
+  liftVerbForLength,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
@@ -1285,7 +1287,9 @@ export const refineManualPrompt = async (
 ): Promise<Prompt> => {
   const { verb: pinnedVerb, includeScenario = true, pinnedOutcomes = [], dotPoint } = options;
 
-  const pinnedVerbInfo = pinnedVerb ? getCommandTermInfo(pinnedVerb) : null;
+  const pinnedVerbInfo = pinnedVerb
+    ? getCommandTermInfo(liftVerbForLength(pinnedVerb, targetMarks).verb)
+    : null;
 
   // A pinned verb is a decision, not a hint: it sets the band ceiling and the
   // rubric's cognitive demand, so it is stated as a rule and re-enforced on the
@@ -1393,7 +1397,7 @@ export const refineManualPrompt = async (
     totalMarks: targetMarks,
     // Same for a pinned verb: it decides the band ceiling every tier-coloured
     // surface reads from, so the model does not get to drift off it.
-    verb: (pinnedVerbInfo?.term ?? verb) as PromptVerb,
+    verb: liftVerbForLength((pinnedVerbInfo?.term ?? verb) as PromptVerb, targetMarks).verb,
     // Respect the caller's choice even if the model returns a stray scenario.
     scenario: includeScenario ? data.scenario : '',
     // Normalise here, not just on import: the manual composer puts this straight
@@ -1435,7 +1439,7 @@ export const generateNewPrompt = async (
   topicName: string,
   dotPoint: string,
   marks: number,
-  verbs: CommandTermInfo[],
+  requestedVerbs: CommandTermInfo[],
   outcomes: CourseOutcome[],
   scenarioType?: string,
   skillFocus?: string,
@@ -1443,6 +1447,9 @@ export const generateNewPrompt = async (
   includeScenario: boolean = true,
   focusItems: string[] = []
 ): Promise<Prompt> => {
+  // A verb that cannot show this many marks as bands (an Explain on 20 marks)
+  // is raised before the model sees it; see minimumTierForMarks.
+  const verbs = fitVerbsToLength(requestedVerbs, marks);
   const verbList = verbs.map((v) => v.term).join(', ');
   const primaryTier = Math.max(...verbs.map((v) => v.tier));
   const primaryVerb = verbs[0]?.term;
