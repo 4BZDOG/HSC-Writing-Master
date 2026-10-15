@@ -98,7 +98,7 @@
                   },
                   {
                     "id": "prompt-ea-2",
-                    "question": "Identify two language features in the invented brochure that shape meaning for an unfamiliar audience of international visitors, and state the effect of each.",
+                    "question": "Identify TWO language features in the brochure that shape meaning for an unfamiliar audience of international visitors, and state the effect of each.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -203,7 +203,7 @@
                   },
                   {
                     "id": "prompt-ea-4",
-                    "question": "Describe how the choice of a first-person narrator in a memoir you have studied gives readers access to a range of perspectives.",
+                    "question": "Describe how the choice of a first-person narrator in the memoir gives readers access to a range of perspectives.",
                     "totalMarks": 4,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -316,7 +316,7 @@
                   },
                   {
                     "id": "prompt-ea-6",
-                    "question": "Define the term aesthetic qualities, and give one example of how a writer creates an aesthetic quality in a text you have studied.",
+                    "question": "Define the term aesthetic qualities, and give ONE example of how a writer creates an aesthetic quality in a text you have studied.",
                     "totalMarks": 2,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
@@ -707,7 +707,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-13",
-                    "question": "Construct a creative or critical text that challenges one idea, value or perspective represented in a range of texts you have studied, then write a short rationale explaining your choices.",
+                    "question": "Construct a creative or critical text that challenges ONE idea, value or perspective represented in a range of texts you have studied, then write a short rationale explaining your choices.",
                     "totalMarks": 8,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -761,7 +761,7 @@
                   },
                   {
                     "id": "prompt-ea-14",
-                    "question": "Explain how a text you have studied affirms one value while challenging another, using a specific language feature.",
+                    "question": "Explain how a text you have studied affirms ONE value while challenging another, using a specific language feature.",
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -998,7 +998,7 @@
                   },
                   {
                     "id": "prompt-ea-18",
-                    "question": "Identify two ways a reader's context might change the meaning of a text the reader is studying, and link each to the author's intention.",
+                    "question": "Identify TWO ways a reader's context might change the meaning of your prescribed text, linking each to the author's intention.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
@@ -1723,7 +1723,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-31",
-                    "question": "Evaluate how effectively the textual form and language features of a pair of texts you have studied, 'The Fence at Halloran Creek' and 'Salt Road Diary', shape a reader's response.",
+                    "question": "Evaluate how effectively the textual form and language features of the essay 'The Fence at Halloran Creek' and the memoir 'Salt Road Diary' shape a reader's response.",
                     "totalMarks": 8,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
@@ -1834,7 +1834,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-33",
-                    "question": "Construct a sustained critical response, in two paragraphs, that affirms one value and challenges one perspective across a pair of texts you have studied, then add a brief rationale.",
+                    "question": "Construct a sustained critical response, in TWO paragraphs, that affirms ONE value and challenges ONE perspective across a pair of texts you have studied, then add a brief rationale.",
                     "totalMarks": 6,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -2110,7 +2110,7 @@
                   },
                   {
                     "id": "prompt-ea-38",
-                    "question": "Define the terms making connections and shaping meaning as they are used in the study of texts, and give one example of each from a text you have studied.",
+                    "question": "Define the terms making connections and shaping meaning as they are used in the study of texts, giving ONE example of each from your prescribed texts.",
                     "totalMarks": 3,
                     "verb": "DEFINE",
                     "linkedOutcomes": [
@@ -2179,7 +2179,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-39",
-                    "question": "Distinguish between the reader's role and the author's role in shaping the meaning of the invented novel in this scenario, giving one example of each.",
+                    "question": "Distinguish between the reader's role and the author's role in shaping the meaning of the novel, giving ONE example of each.",
                     "totalMarks": 4,
                     "verb": "DISTINGUISH",
                     "linkedOutcomes": [
@@ -2349,7 +2349,7 @@
                   },
                   {
                     "id": "prompt-ea-42",
-                    "question": "Describe two text structures that distinguish the narration of the invented novel in this scenario.",
+                    "question": "Describe TWO text structures that distinguish the narration of the novel.",
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
@@ -2617,7 +2617,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-47",
-                    "question": "Explain how language forms, features and structures are used to represent a range of perspectives in the invented novel in this scenario.",
+                    "question": "Explain how language forms, features and structures are used to represent a range of perspectives in the novel.",
                     "totalMarks": 6,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -2670,7 +2670,7 @@
                   },
                   {
                     "id": "prompt-ea-48",
-                    "question": "Interpret how the structure of the invented play in this scenario represents a range of perspectives on a single event.",
+                    "question": "Interpret how the structure of the play represents a range of perspectives on a single event.",
                     "totalMarks": 4,
                     "verb": "INTERPRET",
                     "linkedOutcomes": [
@@ -2783,7 +2783,7 @@
                   },
                   {
                     "id": "prompt-ea-50",
-                    "question": "Contrast the ways two invented texts in this scenario confirm and challenge the expectations of their genres.",
+                    "question": "Contrast the ways the two texts confirm and challenge the expectations of their genres.",
                     "totalMarks": 5,
                     "verb": "CONTRAST",
                     "linkedOutcomes": [
@@ -2842,7 +2842,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-51",
-                    "question": "Analyse how the context of an invented text shapes its social, moral and ethical perspectives.",
+                    "question": "Analyse how the context of the story shapes its social, moral and ethical perspectives.",
                     "totalMarks": 6,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
@@ -2896,7 +2896,7 @@
                   },
                   {
                     "id": "prompt-ea-52",
-                    "question": "Demonstrate how one ethical perspective in the invented story is shaped by the town's economic context.",
+                    "question": "Demonstrate how ONE ethical perspective in the story is shaped by the town's economic context.",
                     "totalMarks": 4,
                     "verb": "DEMONSTRATE",
                     "linkedOutcomes": [
@@ -3073,7 +3073,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-55",
-                    "question": "Construct a critical text that affirms or challenges the ideas, values and perspectives represented in the invented complex text in this scenario. Follow your text with a short rationale explaining your choices.",
+                    "question": "Construct a critical text that affirms or challenges the ideas, values and perspectives represented in the novel. Follow your text with a short rationale explaining your choices.",
                     "totalMarks": 8,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -3128,7 +3128,7 @@
                   },
                   {
                     "id": "prompt-ea-56",
-                    "question": "Explain how a critical response can challenge the values represented in a complex text, using one technique from the invented novel in this scenario.",
+                    "question": "Explain how a critical response can challenge the values represented in a complex text, using ONE technique from the novel.",
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -3187,7 +3187,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-57",
-                    "question": "Construct an informed personal response shaped by critical interpretations of the invented short novel in this scenario and close textual analysis. Follow your response with a short rationale.",
+                    "question": "Construct an informed personal response shaped by critical interpretations of the short novel and close textual analysis. Follow your response with a short rationale.",
                     "totalMarks": 8,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -3240,7 +3240,7 @@
                   },
                   {
                     "id": "prompt-ea-58",
-                    "question": "Appreciate the value of critical interpretations in shaping a personal response to the invented short novel in this scenario.",
+                    "question": "Appreciate the value of critical interpretations in shaping a personal response to the short novel.",
                     "totalMarks": 5,
                     "verb": "APPRECIATE",
                     "linkedOutcomes": [
@@ -3299,7 +3299,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-59",
-                    "question": "Justify your critical interpretation of the invented novel in this scenario through sustained argument and relevant textual analysis.",
+                    "question": "Justify your critical interpretation of the novel through sustained argument and relevant textual analysis.",
                     "totalMarks": 8,
                     "verb": "JUSTIFY",
                     "linkedOutcomes": [
@@ -3352,7 +3352,7 @@
                   },
                   {
                     "id": "prompt-ea-60",
-                    "question": "Clarify the difference between a critical interpretation and a plot summary, using one example from the invented novel in this scenario.",
+                    "question": "Clarify the difference between a critical interpretation and a plot summary, using ONE example from the novel.",
                     "totalMarks": 3,
                     "verb": "CLARIFY",
                     "linkedOutcomes": [
@@ -3423,7 +3423,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-61",
-                    "question": "Explain how the aesthetic qualities of the memoir fragment in this scenario, and the power of language within it, express ideas, perspectives and experiences.",
+                    "question": "Explain how the aesthetic qualities of the memoir fragment, and the power of language within it, express ideas, perspectives and experiences.",
                     "totalMarks": 6,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
@@ -3872,7 +3872,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-69",
-                    "question": "Construct an imaginative, discursive, persuasive or reflective text that affirms or challenges the ideas, values and perspectives represented in the invented short story in this scenario. Follow your text with a short rationale.",
+                    "question": "Construct an imaginative, discursive, persuasive or reflective text that affirms or challenges the ideas, values and perspectives represented in the short story. Follow your text with a short rationale.",
                     "totalMarks": 8,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
@@ -3988,7 +3988,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-71",
-                    "question": "Assess your own process of writing and the writing of others, using metalanguage to reflect on the drafts described in this scenario.",
+                    "question": "Assess your own process of writing and the writing of others, using metalanguage to reflect on the drafts.",
                     "totalMarks": 8,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
@@ -4042,7 +4042,7 @@
                   },
                   {
                     "id": "prompt-ea-72",
-                    "question": "Identify two items of metalanguage a writer could use to reflect on changes between drafts, such as tense.",
+                    "question": "Identify TWO items of metalanguage a writer could use to reflect on changes between drafts, such as tense.",
                     "totalMarks": 2,
                     "verb": "IDENTIFY",
                     "linkedOutcomes": [
