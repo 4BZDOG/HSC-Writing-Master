@@ -16,6 +16,8 @@ export interface LicenceNoteInput {
   schoolName?: string | null;
   /** The per-student price as shown to the buyer, for example "A$4". */
   seatPrice: string;
+  /** The GST words beside that price ("incl. GST", "+ GST"), or null to say nothing. */
+  seatGst?: string | null;
   /** Whether this deployment offers an invoice against a purchase order. */
   invoicing: boolean;
   /** The address of the app, as the admin would open it. */
@@ -25,16 +27,18 @@ export interface LicenceNoteInput {
 export const buildLicenceNote = ({
   schoolName,
   seatPrice,
+  seatGst,
   invoicing,
   appUrl,
 }: LicenceNoteInput): string => {
   const school = schoolName?.trim() ? schoolName.trim() : 'the school';
+  const seatTax = seatGst ? ` ${seatGst}` : '';
   const payment = invoicing
     ? 'It can be paid by card, or by invoice against a purchase order.'
     : 'It is paid by card.';
   return [
     'I would like the school to look at a School licence for the HSC Writing Master app.',
-    `It covers every student and teacher at ${school} for a year, at ${seatPrice} per student a year, ` +
+    `It covers every student and teacher at ${school} for a year, at ${seatPrice} per student a year${seatTax}, ` +
       'and it includes the class and school progress reports for staff.',
     payment,
     `The app is at ${appUrl}. A teacher or administrator whose account is attached to the school ` +

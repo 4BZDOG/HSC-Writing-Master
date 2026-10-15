@@ -10,6 +10,7 @@ import {
 // deployment actually enforces, overrides included — not the shipped default.
 import { freeTierLimits, monetisationEnabled } from '../services/planPolicy';
 import { FREE_DAILY_AI_CALLS, PAID_DAILY_AI_CALLS } from '../services/planLimits';
+import { fallbackPlanPrices, type PlanPriceText } from '../services/livePrices';
 
 /**
  * The Free / Plus / School comparison, DERIVED from the entitlement rules
@@ -259,4 +260,27 @@ export const PLAN_TAGLINES: Record<Plan, string> = {
   // What School adds over Plus is COVERAGE and the cohort reports. The studio
   // is a Plus feature that teachers already hold, so it is not what School sells.
   school: 'Plus for every student and teacher in the school, and the class and school reports.',
+};
+
+/** The text with its GST note after it, or the text alone when there is no note. */
+const withGst = (text: string, gst: string | null): string => (gst ? `${text} ${gst}` : text);
+
+/**
+ * The price line under a plan's name in the comparison cards. Takes the price
+ * text as an argument, so a live price can be shown; with nothing passed it is
+ * the env text, which is what the cards showed before live prices.
+ *
+ * A function, not a constant: the price text is read when it is called, never at
+ * module load, so a bundle that joins chunks in the wrong order cannot read it
+ * before its module has initialised (see services/planLimits.ts).
+ */
+export const planPriceLine = (plan: Plan, prices: PlanPriceText = fallbackPlanPrices()): string => {
+  if (plan === 'free') return 'Free, always';
+  if (plan === 'school') {
+    return withGst(`${prices.schoolSeat} per student, per year`, prices.schoolSeatGst);
+  }
+  // Monthly and yearly share one line. It says GST only when both prices agree on it.
+  const plusGst =
+    prices.yearlyGst && prices.yearlyGst === prices.monthlyGst ? prices.yearlyGst : null;
+  return withGst(`${prices.yearly}/year or ${prices.monthly}/month`, plusGst);
 };
