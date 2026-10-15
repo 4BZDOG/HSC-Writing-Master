@@ -215,6 +215,12 @@ export interface BillingOverview {
   requestsError: string | null;
   webhook: WebhookSummary;
   recentEvents: BillingEventRow[];
+  /**
+   * Open billing incidents (schema §13, §29), oldest first. Optional so a fixture can leave
+   * them out; null when they could not be read (see `incidentsError`).
+   */
+  incidents?: IncidentSummary | null;
+  incidentsError?: string | null;
 }
 
 /** One line of the "Needs attention" list. */
@@ -526,31 +532,39 @@ export const loadBillingOverview = async (now: Date = new Date()): Promise<Billi
   const client = supabase;
   if (!client) throw new Error('Supabase is not configured.');
 
-  const [subscriptionRows, recentEvents, schoolResult, requestResult] = await Promise.all([
-    fetchAllRows<BillingSubscriptionRow>(
-      () =>
-        client
-          .from('subscriptions')
-          .select(SUBSCRIPTION_COLUMNS)
-          .in('status', READ_SUBSCRIPTION_STATUSES),
-      'Could not load subscriptions'
-    ),
-    loadRecentEvents(client),
-    fetchSchools().then(
-      (rows) => ({ rows, error: null as string | null }),
-      (e: unknown) => ({
-        rows: null as SchoolRow[] | null,
-        error: e instanceof Error ? e.message : 'Could not load schools.',
-      })
-    ),
-    loadPendingRequests(client).then(
-      (rows) => ({ rows, error: null as string | null }),
-      (e: unknown) => ({
-        rows: null as InvoiceRequestRow[] | null,
-        error: e instanceof Error ? e.message : 'Could not load invoice requests.',
-      })
-    ),
-  ]);
+  const [subscriptionRows, recentEvents, schoolResult, requestResult, incidentResult] =
+    await Promise.all([
+      fetchAllRows<BillingSubscriptionRow>(
+        () =>
+          client
+            .from('subscriptions')
+            .select(SUBSCRIPTION_COLUMNS)
+            .in('status', READ_SUBSCRIPTION_STATUSES),
+        'Could not load subscriptions'
+      ),
+      loadRecentEvents(client),
+      fetchSchools().then(
+        (rows) => ({ rows, error: null as string | null }),
+        (e: unknown) => ({
+          rows: null as SchoolRow[] | null,
+          error: e instanceof Error ? e.message : 'Could not load schools.',
+        })
+      ),
+      loadPendingRequests(client).then(
+        (rows) => ({ rows, error: null as string | null }),
+        (e: unknown) => ({
+          rows: null as InvoiceRequestRow[] | null,
+          error: e instanceof Error ? e.message : 'Could not load invoice requests.',
+        })
+      ),
+      loadOpenBillingIncidents(now).then(
+        (summary) => ({ summary, error: null as string | null }),
+        (e: unknown) => ({
+          summary: null as IncidentSummary | null,
+          error: e instanceof Error ? e.message : 'Could not load billing incidents.',
+        })
+      ),
+    ]);
 
   const subscriptions = summariseSubscriptions(subscriptionRows, now);
   const webhook = summariseWebhook(recentEvents, subscriptions.live.total, now);
@@ -565,6 +579,8 @@ export const loadBillingOverview = async (now: Date = new Date()): Promise<Billi
     requestsError: requestResult.error,
     webhook,
     recentEvents,
+    incidents: incidentResult.summary,
+    incidentsError: incidentResult.error,
   };
 };
 
@@ -572,20 +588,29 @@ export const loadBillingOverview = async (now: Date = new Date()): Promise<Billi
 // Billing incidents (schema §13, billing_incidents). The webhook writes them and an
 // operator resolves them in the Stripe Dashboard (docs/stripesetup.md). Read-only here.
 
+export type BillingIncidentKind =
+  | 'duplicate_subscription'
+  | 'duplicate_school_licence'
+  | 'customer_mismatch'
+  | 'dispute'
+  | 'refund';
+
 export interface BillingIncidentRow {
   id: string;
-  kind: 'duplicate_subscription' | 'duplicate_school_licence' | 'customer_mismatch';
+  kind: BillingIncidentKind;
   user_id: string | null;
   school_id: string | null;
   subscription_ids: string[];
   detail: string;
   detected_at: string;
+  /** The school's name, joined on school_id. Null when the incident is not about a school. */
+  schools?: { name: string } | null;
 }
 
 export interface IncidentSummary {
   open: number;
   /** Open incidents per kind, so the page can say what sort of problem each one is. */
-  byKind: Record<BillingIncidentRow['kind'], number>;
+  byKind: Record<BillingIncidentKind, number>;
   /** Whole days the oldest open incident has waited, or null when none is open. */
   oldestOpenDays: number | null;
   /** Oldest first: the one that has waited longest is the one to look at first. */
@@ -599,6 +624,8 @@ export const summariseIncidents = (rows: BillingIncidentRow[], now: Date): Incid
     duplicate_subscription: 0,
     duplicate_school_licence: 0,
     customer_mismatch: 0,
+    dispute: 0,
+    refund: 0,
   };
   for (const row of items) {
     if (row.kind in byKind) byKind[row.kind] += 1;
@@ -615,7 +642,29 @@ export const summariseIncidents = (rows: BillingIncidentRow[], now: Date): Incid
 };
 
 const BILLING_INCIDENT_COLUMNS =
-  'id, kind, user_id, school_id, subscription_ids, detail, detected_at';
+  'id, kind, user_id, school_id, subscription_ids, detail, detected_at, schools(name)';
+
+/**
+ * The same summary without one incident, after it has been resolved. The page calls this so
+ * its tally drops the row at once, without waiting for a fresh read.
+ */
+export const withoutIncident = (summary: IncidentSummary, id: string): IncidentSummary =>
+  summariseIncidents(
+    summary.items.filter((row) => row.id !== id),
+    new Date()
+  );
+
+/**
+ * Closes one open incident, with an optional note. The database refuses a non-admin, an
+ * incident that is already closed, and a missing one; each arrives as the message text.
+ * A database without schema §29 has no such function, and the message says so.
+ */
+export const resolveBillingIncident = async (id: string, note: string | null): Promise<void> => {
+  const client = supabase;
+  if (!client) throw new Error('Supabase is not configured.');
+  const { error } = await client.rpc('resolve_billing_incident', { p_id: id, p_note: note });
+  if (error) throw new Error(error.message || 'Could not mark the incident resolved.');
+};
 
 /**
  * Every open incident, oldest first. Admins can read the table (the policy in schema
