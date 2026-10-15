@@ -880,6 +880,87 @@ export const extractCommandVerb = (text: string): CommandTermInfo | undefined =>
 };
 
 /**
+ * The lowest verb tier a question of this length can carry.
+ *
+ * A mark is only worth one band step while a question is short. Past about ten
+ * marks a low-tier verb stops being able to show it: at 20 marks an Explain
+ * (Tier 3) has three bands seven marks apart, so a 14 and a 20 read as the same
+ * result, where a Tier 5 verb gives NESA's own five bands (17-20 / 13-16 /
+ * 9-12 / 5-8 / 1-4). Real papers already write long questions with Discuss,
+ * Assess, Evaluate or "To what extent", so this makes the combination the
+ * papers avoid impossible to create instead of mending it afterwards.
+ *
+ * Below 7 marks there is no floor: Identify and Outline are real, common
+ * short-answer verbs and every mark is its own step there.
+ */
+export const minimumTierForMarks = (totalMarks: number): number => {
+  if (totalMarks >= 15) return 5;
+  if (totalMarks >= 10) return 4;
+  if (totalMarks >= 7) return 3;
+  return 1;
+};
+
+/**
+ * Composition verbs keep Tier 4 at any length. A 20-mark "Craft an imaginative
+ * piece" is marked on control of language and structure, not on argument, so
+ * lifting it to Discuss would change the task the student is set.
+ */
+const LENGTH_EXEMPT_VERBS: ReadonlySet<string> = new Set(['CONSTRUCT']);
+
+/** True when the verb is allowed to carry a question worth this many marks. */
+export const verbFitsLength = (verb: PromptVerb | string, totalMarks: number): boolean => {
+  const required = minimumTierForMarks(totalMarks);
+  const floor = LENGTH_EXEMPT_VERBS.has(String(verb).toUpperCase())
+    ? Math.min(required, 4)
+    : required;
+  return getCommandTermInfo(verb as PromptVerb).tier >= floor;
+};
+
+/** The verb a too-low-tier verb is raised to, by the tier the length needs. */
+const LENGTH_DEFAULT_VERB: Record<number, PromptVerb> = {
+  3: 'EXPLAIN' as PromptVerb,
+  4: 'ANALYSE' as PromptVerb,
+  5: 'DISCUSS' as PromptVerb,
+};
+
+/**
+ * Returns the verb unchanged when it fits the length, otherwise the default verb
+ * for the tier the length needs. `lifted` tells the caller to say so.
+ */
+export const liftVerbForLength = (
+  verb: PromptVerb,
+  totalMarks: number
+): { verb: PromptVerb; lifted: boolean } => {
+  if (verbFitsLength(verb, totalMarks)) return { verb, lifted: false };
+  const required = minimumTierForMarks(totalMarks);
+  return { verb: LENGTH_DEFAULT_VERB[required] ?? verb, lifted: true };
+};
+
+/**
+ * Keeps the verbs that can carry this many marks. If none can, the first verb is
+ * raised to the default for the length so a caller always has one to build on.
+ */
+export const fitVerbsToLength = (
+  verbs: CommandTermInfo[],
+  totalMarks: number
+): CommandTermInfo[] => {
+  const fitting = verbs.filter((v) => verbFitsLength(v.term, totalMarks));
+  if (fitting.length > 0 || verbs.length === 0) return fitting.length > 0 ? fitting : verbs;
+  return [getCommandTermInfo(liftVerbForLength(verbs[0].term, totalMarks).verb)];
+};
+
+/** Why a verb does not fit, in words a teacher can act on. */
+export const lengthMismatchNote = (verb: PromptVerb | string, totalMarks: number): string => {
+  const info = getCommandTermInfo(verb as PromptVerb);
+  const bands = bandMarkRanges(totalMarks, info.tier).length;
+  const { verb: lifted } = liftVerbForLength(verb as PromptVerb, totalMarks);
+  return (
+    `${info.term} can only show ${bands} band${bands === 1 ? '' : 's'} across ${totalMarks} marks, ` +
+    `so a few marks would read as the same result. Use ${lifted}, or split the question into parts.`
+  );
+};
+
+/**
  * The command term a question OPENS with, if it opens with one.
  *
  * The verb that governs a question is the one it leads with — "Explain the
@@ -916,7 +997,8 @@ export const getCommandTermsForMarks = (
   const targetTier = Math.min(6, Math.ceil(marks / 2));
 
   const idealMatches = commandTermsList.filter(
-    (term) => marks >= term.markRange[0] && marks <= term.markRange[1]
+    (term) =>
+      marks >= term.markRange[0] && marks <= term.markRange[1] && verbFitsLength(term.term, marks)
   );
 
   if (idealMatches.length > 0) {
