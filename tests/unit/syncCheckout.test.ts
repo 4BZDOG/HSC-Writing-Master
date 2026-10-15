@@ -172,6 +172,7 @@ vi.mock('../../api/_lib/stripe', () => ({
   resolveReturnBase: () => 'http://localhost:3000/',
   configuredPrices: () => ({ price_plus: 'plus', price_school: 'school' }),
   isProductionRuntime: () => false,
+  isDeployedRuntime: () => false,
 }));
 
 vi.mock('../../api/_lib/auth', () => ({

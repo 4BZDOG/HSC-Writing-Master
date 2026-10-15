@@ -69,6 +69,7 @@ vi.mock('../../api/_lib/stripe', () => ({
   priceToPlan: (id: string) => (id === 'price_school' ? 'school' : 'plus'),
   resolveReturnBase: () => 'http://localhost:3000/',
   isProductionRuntime: () => false,
+  isDeployedRuntime: () => false,
   configuredPrices: () => ({
     price_school: 'school',
     price_plus_yearly: 'plus',
