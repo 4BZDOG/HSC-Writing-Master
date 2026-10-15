@@ -22,6 +22,7 @@
 import { getSupabaseAdmin } from './_lib/stripe';
 import { verifyRequestAuth } from './_lib/auth';
 import { corsHeadersFor } from './_lib/cors';
+import { notifyOperator } from './_lib/operatorAlert';
 import {
   INVOICE_DISABLED_ERROR,
   LICENCE_REQUEST_COLUMNS,
@@ -222,6 +223,20 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     res.status(500).json({ error: 'Could not record the request. Please try again.' });
     return;
   }
+
+  // Tells the operator a request is waiting, so nobody has to open the queue to find it.
+  // Awaited, since the function is frozen after it responds. It never throws, and its
+  // outcome does not change the answer below.
+  await notifyOperator({
+    kind: 'invoice_request',
+    title: 'New invoice request',
+    lines: [
+      `School: ${school.school.name || schoolId}`,
+      `${details.seats} seats`,
+      ...(details.poNumber ? [`PO number: ${details.poNumber}`] : []),
+      'Open Admin → Billing overview → Invoice requests to approve or decline.',
+    ],
+  });
 
   res.status(201).json({ request: publicLicenceRequest(inserted as LicenceRequestRow) });
 }

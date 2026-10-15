@@ -169,6 +169,7 @@ const daysAgo = (days: number) => new Date(Date.now() - days * 24 * 60 * 60 * 10
 
 const liveSchool = {
   id: 'school-1',
+  name: 'Parramatta High School',
   stripe_subscription_id: null,
   plan_status: 'none',
 };
@@ -177,6 +178,7 @@ beforeEach(() => {
   delete process.env.SCHOOL_INVOICE_ENABLED;
   delete process.env.VITE_SCHOOL_INVOICE_ENABLED;
   delete process.env.ALLOWED_ORIGIN;
+  delete process.env.BILLING_ALERT_WEBHOOK_URL;
   insertError = null;
   beforeInsert = null;
   failingReads = new Set();
@@ -582,5 +584,162 @@ describe('request-invoice: CORS preflight parity with the billing endpoints', ()
     );
     expect(res.statusCode).toBe(403);
     expect(res.headers['Access-Control-Allow-Origin']).toBeUndefined();
+  });
+});
+
+describe('request-invoice: operator alert on a new request', () => {
+  const HOOK = 'https://hooks.example.com/services/T000/B000/SECRETTOKEN';
+  let fetchMock: ReturnType<typeof vi.fn>;
+
+  /** Everything the alert posted, as one string, for checking what it does not carry. */
+  const postedText = () => {
+    const init = fetchMock.mock.calls[0][1] as RequestInit;
+    return String(init.body);
+  };
+
+  beforeEach(() => {
+    process.env.BILLING_ALERT_WEBHOOK_URL = HOOK;
+    fetchMock = vi.fn(async () => ({ ok: true, status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    delete process.env.BILLING_ALERT_WEBHOOK_URL;
+    vi.unstubAllGlobals();
+  });
+
+  it('posts the school name, seat count, PO number and where to act, once', async () => {
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(201);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0][0]).toBe(HOOK);
+    const body = JSON.parse(postedText()) as { text: string; content: string };
+    expect(body.text).toContain('[HSC billing] New invoice request');
+    expect(body.text).toContain('School: Parramatta High School');
+    expect(body.text).toContain('30 seats');
+    expect(body.text).toContain('PO number: PO-7781');
+    expect(body.text).toContain('Open Admin → Billing overview → Invoice requests');
+    expect(body.content).toBe(body.text);
+  });
+
+  it('uses the school id when the school has no readable name', async () => {
+    tables.schools = [{ id: 'school-1', stripe_subscription_id: null, plan_status: 'none' }];
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(201);
+    expect(postedText()).toContain('School: school-1');
+  });
+
+  it('leaves out the PO number line when the teacher gave none', async () => {
+    const res = makeRes();
+    await requestInvoice(post({ ...validBody, poNumber: undefined }), res);
+    expect(res.statusCode).toBe(201);
+    expect(postedText()).not.toContain('PO number');
+  });
+
+  it('never carries the billing email, ABN, address, note or billing name', async () => {
+    const res = makeRes();
+    await requestInvoice(
+      post({
+        ...validBody,
+        billingName: 'Accounts Office Pty',
+        billingEmail: 'bursar@hush.example',
+      }),
+      res
+    );
+
+    expect(res.statusCode).toBe(201);
+    const text = postedText();
+    for (const secret of [
+      'bursar@hush.example',
+      'Accounts Office',
+      '51824753556',
+      '51 824 753 556',
+      '1 Test Street',
+      'For the Year 12 English team',
+      'teacher-1',
+    ]) {
+      expect(text).not.toContain(secret);
+    }
+  });
+
+  it('still answers 201, with the request stored, when the alert is refused', async () => {
+    fetchMock.mockResolvedValueOnce({ ok: false, status: 500 });
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(201);
+    expect(tables.licence_requests).toHaveLength(1);
+  });
+
+  it('still answers 201 when the alert cannot be reached at all', async () => {
+    fetchMock.mockRejectedValueOnce(new TypeError('fetch failed'));
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(201);
+    expect(res.body?.request).toBeDefined();
+    expect(tables.licence_requests).toHaveLength(1);
+  });
+
+  it('sends nothing when no webhook is configured', async () => {
+    delete process.env.BILLING_ALERT_WEBHOOK_URL;
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(201);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('sends no alert when the existing pending request is returned (200)', async () => {
+    tables.licence_requests = [
+      {
+        id: 'req-1',
+        requested_by: 'teacher-1',
+        school_id: 'school-1',
+        seats: 30,
+        billing_name: 'Parramatta High School',
+        billing_email: 'accounts@school.edu.au',
+        billing_address: address,
+        status: 'pending',
+        created_at: daysAgo(0.1),
+      },
+    ];
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('sends no alert when a parallel insert wins the race (23505, answered 200)', async () => {
+    beforeInsert = () => {
+      tables.licence_requests.push({
+        id: 'req-race',
+        requested_by: 'colleague-1',
+        school_id: 'school-1',
+        seats: 30,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+      });
+    };
+    insertError = { code: '23505', message: 'duplicate key' };
+    const res = makeRes();
+    await requestInvoice(post(), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('sends no alert when the request is refused before it is recorded', async () => {
+    const res = makeRes();
+    await requestInvoice(post({ ...validBody, seats: 3 }), res);
+
+    expect(res.statusCode).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

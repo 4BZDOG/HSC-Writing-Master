@@ -18,9 +18,10 @@ import { SCHOOL_SEAT_LIMITS } from './entitlements';
  */
 export const LIVE_LICENCE_STATUSES: readonly string[] = ['active', 'trialing', 'past_due'];
 
-/** The licence columns on `schools` (supabase/schema.sql §13). */
+/** The licence columns on `schools` (supabase/schema.sql §13), and the name for operator alerts. */
 export interface SchoolLicenceRow {
   id: string;
+  name?: string | null;
   stripe_subscription_id: string | null;
   plan_status: string | null;
 }
@@ -362,7 +363,7 @@ export const readSchoolLicence = async (
 ): Promise<{ ok: true; school: SchoolLicenceRow } | { ok: false; error: string }> => {
   const { data, error } = await supabase
     .from('schools')
-    .select('id, stripe_subscription_id, plan_status')
+    .select('id, name, stripe_subscription_id, plan_status')
     .eq('id', schoolId)
     .maybeSingle();
   if (error) return { ok: false, error: error.message };
