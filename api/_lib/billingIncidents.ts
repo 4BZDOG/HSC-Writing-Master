@@ -10,14 +10,16 @@
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { isMissingTableError } from './stripeLedger';
-import { notifyOperator } from './operatorAlert';
+import { notifyOperator, type OperatorAlert } from './operatorAlert';
 
 type SB = SupabaseClient;
 
 export type IncidentKind =
   | 'duplicate_subscription'
   | 'duplicate_school_licence'
-  | 'customer_mismatch';
+  | 'customer_mismatch'
+  | 'dispute'
+  | 'refund';
 
 export interface IncidentInput {
   kind: IncidentKind;
@@ -25,6 +27,12 @@ export interface IncidentInput {
   schoolId?: string;
   subscriptionIds?: string[];
   detail: string;
+  /**
+   * The alert sent when a new row is written. Left out, the generic "New billing incident"
+   * alert goes. A caller with its own deadline to state (a dispute) passes its own, so the
+   * operator gets one alert, not two.
+   */
+  alert?: OperatorAlert;
 }
 
 /**
@@ -91,15 +99,17 @@ export async function recordIncident(supabase: SB, input: IncidentInput): Promis
       console.error(`[stripe-webhook] BILLING INCIDENT (${input.kind}): ${detail}`);
       // Only a new row alerts the operator; a deduped one was already announced. Awaited,
       // and it never throws, so the outcome returned is the same either way.
-      await notifyOperator({
-        kind: 'billing_incident',
-        title: 'New billing incident',
-        lines: [
-          `Kind: ${input.kind}`,
-          ...(input.schoolId ? [`School: ${input.schoolId}`] : []),
-          'Open Admin → Billing overview.',
-        ],
-      });
+      await notifyOperator(
+        input.alert ?? {
+          kind: 'billing_incident',
+          title: 'New billing incident',
+          lines: [
+            `Kind: ${input.kind}`,
+            ...(input.schoolId ? [`School: ${input.schoolId}`] : []),
+            'Open Admin → Billing overview.',
+          ],
+        }
+      );
       return 'recorded';
     }
     if (error.code === '23505') {

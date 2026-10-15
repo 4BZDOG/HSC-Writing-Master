@@ -4004,6 +4004,70 @@ revoke all on function public.list_schools() from public, anon;
 grant execute on function public.list_schools() to authenticated;
 
 -- =============================================================================
+-- §29 · Disputes and refunds (billing incidents, the last two kinds)
+-- -----------------------------------------------------------------------------
+--     The webhook records two more findings for the operator. The table is §13's;
+--     this section widens it:
+--
+--       dispute  a card holder's bank opened a chargeback (charge.dispute.created).
+--                Stripe sets a deadline for the evidence, so the alert carries it.
+--                A 'won' close resolves the incident; a 'lost' close keeps it open,
+--                because the funds have gone and a person must decide what follows.
+--       refund   a charge was refunded in full (charge.refunded). Access is not
+--                changed. If the refund ends the licence, the operator cancels the
+--                subscription in Stripe.
+--
+--     Nothing here cancels, refunds or changes a plan. The webhook never does.
+--
+--     resolve_billing_incident() is the one write an admin makes to the table: the
+--     Billing overview's "Mark resolved" button. It is a security definer function
+--     that checks is_admin() itself, so the table keeps its read-only client grants.
+-- =============================================================================
+
+-- Widen the kind check. §13 creates the table with three kinds, and Postgres names
+-- its inline check billing_incidents_kind_check. Drop and re-add, so a re-run
+-- leaves exactly one constraint, with all five kinds.
+alter table public.billing_incidents
+  drop constraint if exists billing_incidents_kind_check;
+alter table public.billing_incidents
+  add constraint billing_incidents_kind_check
+  check (kind in (
+    'duplicate_subscription', 'duplicate_school_licence', 'customer_mismatch',
+    'dispute', 'refund'
+  ));
+
+-- Closes one open incident. Trims the note and keeps 1000 characters, so the
+-- table's own check is never the thing that refuses it. Returns the row's id.
+create or replace function public.resolve_billing_incident(
+  p_id   uuid,
+  p_note text default null
+)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare
+  v_id uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can resolve billing incidents';
+  end if;
+
+  update public.billing_incidents
+     set resolved_at     = now(),
+         resolution_note = left(nullif(btrim(coalesce(p_note, '')), ''), 1000)
+   where id = p_id
+     and resolved_at is null
+  returning id into v_id;
+
+  if v_id is null then
+    raise exception 'Incident not found or already resolved';
+  end if;
+  return v_id;
+end;
+$$;
+
+revoke all on function public.resolve_billing_incident(uuid, text) from public, anon;
+grant execute on function public.resolve_billing_incident(uuid, text) to authenticated;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================
