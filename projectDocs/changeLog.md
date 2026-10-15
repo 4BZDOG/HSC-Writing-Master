@@ -1,5 +1,11 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (Seed data playbook, a past-paper verifier and the Legal Studies reference set)
+
+- **Added.** `docs/seed-data-playbook.md` records what the October past-paper sessions learned for the next seed revision: which syllabus each course's seed follows and which papers apply, how a past paper gets in (download, extract, verify, map, build, exemplars, review, merge), the conventions that make a past question work (ids, provenance fields, verb choice, the Tier 5 ladder at 20 marks, the verb floor by length, exemplar lengths), the extraction mistakes to expect, a review checklist for model-written exemplars, the quotations a teacher still needs to check, and what is left.
+- **Added.** `scripts/verifyPastPaperExtract.mts` checks one year of extracted questions against the `pdftotext` text of NESA's paper and marking guidelines: every string must be word-for-word in the source, and each marking ladder must run from the question's marks down to 1. A bullet in the wrong band that still looks like a valid ladder is the one thing it cannot see, so read long guides against the PDF.
+- **Added.** `data/referencePapers/legal-studies-2020-2025-past-papers.json`: 111 written-response parts from the 2020–2025 Legal Studies papers (the 2011 syllabus), including the 25-mark Option essays, with marking ladders re-cut so the lowest rows read as NESA prints them. The Legal Studies seed follows the new 2025 syllabus, so these are calibration, not shippable questions.
+
 ## [Unreleased] - 2026-10-15 (A long question can no longer carry a verb that cannot show its marks as bands)
 
 - **Fixed.** A mark is only a band step while a question is short. At 20 marks an Explain (Tier 3) has three bands seven marks apart, so a 14 and a 20 read as the same result; a Tier 5 verb gives NESA's own five bands (17–20 / 13–16 / 9–12 / 5–8 / 1–4). Questions now have a verb floor by length: 7–9 marks need Tier 3 or above, 10–14 marks Tier 4 or above, and 15 or more marks Tier 5 or above. Below 7 marks there is no floor. CONSTRUCT keeps Tier 4 at any length, because a 20-mark writing task is marked on craft and lifting it to Discuss would change the task (`minimumTierForMarks`, `verbFitsLength`, `liftVerbForLength` in `data/commandTerms.ts`).

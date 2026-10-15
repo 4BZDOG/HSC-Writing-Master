@@ -23,18 +23,19 @@ optional Claude engine via the admin AI Engine selector).
 
 ## Where things live
 
-| Path                          | Purpose                                                                         |
-| ----------------------------- | ------------------------------------------------------------------------------- |
-| `App.tsx`                     | Top-level state (useImmer) and composition root                                 |
-| `components/`                 | UI — mostly modals, mounted via `AppModals.tsx`                                 |
-| `hooks/`                      | Custom hooks (`useModalManager`, `useGemini`, `useToast`…)                      |
-| `services/`                   | AI layer (`geminiService`, `aiCore` circuit breaker, `aiCache`), auth, Supabase |
-| `api/`                        | Vercel serverless proxy for AI calls + auth gate                                |
-| `utils/`                      | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions           |
-| `types.ts`                    | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt)             |
-| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it)                  |
-| `projectDocs/`                | Design spec, pedagogy rules (GoldStandard), system prompts                      |
-| `supabase/`                   | Schema, seed, and backend tests                                                 |
+| Path                          | Purpose                                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- |
+| `App.tsx`                     | Top-level state (useImmer) and composition root                                                     |
+| `components/`                 | UI — mostly modals, mounted via `AppModals.tsx`                                                     |
+| `hooks/`                      | Custom hooks (`useModalManager`, `useGemini`, `useToast`…)                                          |
+| `services/`                   | AI layer (`geminiService`, `aiCore` circuit breaker, `aiCache`), auth, Supabase                     |
+| `api/`                        | Vercel serverless proxy for AI calls + auth gate                                                    |
+| `utils/`                      | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions                               |
+| `types.ts`                    | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt)                                 |
+| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it)                                      |
+| `projectDocs/`                | Design spec, pedagogy rules (GoldStandard), system prompts                                          |
+| `docs/seed-data-playbook.md`  | Read before revising `public/courseData/`: past-paper pipeline, conventions, pitfalls, what is left |
+| `supabase/`                   | Schema, seed, and backend tests                                                                     |
 
 ## Commands
 
