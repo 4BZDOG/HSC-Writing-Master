@@ -954,13 +954,20 @@ export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
 };
 
 /**
- * Open the Stripe Billing Portal so the user can manage their subscription.
- * Returns the portal URL or null on failure.
+ * Whose subscription the portal opens. `personal` is the caller's own (the
+ * default). `school` is the licence their school holds, for staff at that school.
  */
-export const createPortalUrl = async (): Promise<BillingUrlResult> =>
+export type PortalScope = 'personal' | 'school';
+
+/**
+ * Open the Stripe Billing Portal so the user can manage their subscription.
+ * Returns the portal URL or null on failure. Only a `school` scope is sent: a
+ * personal request keeps the body it has always had.
+ */
+export const createPortalUrl = async (scope: PortalScope = 'personal'): Promise<BillingUrlResult> =>
   postBilling(
     '/api/customer-portal',
-    { returnUrl: checkoutReturnUrl() },
+    { returnUrl: checkoutReturnUrl(), ...(scope === 'school' ? { scope } : {}) },
     'Could not open the billing portal. Please try again shortly.'
   );
 
