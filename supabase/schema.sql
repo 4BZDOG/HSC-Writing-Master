@@ -1350,13 +1350,24 @@ alter table public.school_ai_usage enable row level security;
 -- A signed-in user reads their OWN school's row, and admins read every row.
 -- There is deliberately NO write policy — changes go through the admin RPCs.
 --
--- The policy is only half of it. The table grant is withdrawn and the two
--- columns a member may see are granted back, so the Stripe ids, the licence
--- state (§13) and the pool budget cannot be selected through the REST API by
--- anyone, admins included. The admin dashboard gets them from list_schools()
--- (§28). Service-role code bypasses RLS and grants alike, so the webhook and
--- the API are unaffected. A select that names a withheld column, or `select *`,
--- is refused outright rather than returning a partial row.
+-- The policy is only half of it. The table grant is withdrawn and only the
+-- columns a member needs are granted back, by column:
+--   * id, name: what the UI names ("your school") and what joins key on.
+--   * plan_status, plan_period_end, plan_cancel_at_period_end: a member's own
+--     school licence state, granted in §13 once those columns exist. They are
+--     granted there, not here, because this section runs first on a fresh
+--     database. applySchoolPlan() (services/authService.ts) reads them through
+--     an embedded `school:school_id (...)` select on sign-in, and a member holds
+--     the School plan on exactly these fields. The policy above still bounds
+--     them to the caller's own school.
+--   * WITHHELD from the REST API for everyone, admins included: stripe_subscription_id
+--     (the licence's Stripe handle), plan_seats (what the school was billed for),
+--     daily_ai_limit (the pool budget), and any column added to schools later
+--     unless it is granted on purpose. Admins get those from list_schools()
+--     (§28); the seat picture for staff comes from my_school_seats() (§13).
+-- Service-role code bypasses RLS and grants alike, so the webhook and the API
+-- are unaffected. A select that names a withheld column, or `select *`, is
+-- refused outright rather than returning a partial row.
 drop policy if exists schools_read on public.schools;
 create policy schools_read on public.schools
   for select using (
@@ -1621,6 +1632,15 @@ alter table public.schools
 -- `subscriptions.cancel_at_period_end` for the school row.
 alter table public.schools
   add column if not exists plan_cancel_at_period_end boolean not null default false;
+
+-- A member's own school licence state, granted back to the client (§12 withdrew
+-- the table grant). Only these three of the licence columns: stripe_subscription_id
+-- and plan_seats stay withheld, and daily_ai_limit (§12) too. applySchoolPlan()
+-- in services/authService.ts reads exactly these three on sign-in, through an
+-- embedded select, and a member's School plan depends on them; the schools_read
+-- policy keeps the read to the caller's own school. Repeatable on re-apply.
+grant select (plan_status, plan_period_end, plan_cancel_at_period_end)
+  on public.schools to authenticated;
 
 -- Supersedes §11's resolve_ai_quota with a LICENCE-aware version.
 --
@@ -3944,8 +3964,9 @@ grant select on public.licence_requests to authenticated;
 -- teacher RPC is added. The definition below is the one that wins on every apply;
 -- the older ones in §12 and §13 are left as they were.
 --
--- Since §12 withdrew the table grant on schools, this is the admin's only client
--- route to the licence columns.
+-- Since §12 and §13 withheld stripe_subscription_id, plan_seats and daily_ai_limit
+-- from the REST API, this is the admin's only client route to them. The three
+-- plan_* columns a member's own plan needs are readable through REST as well.
 --
 -- Idempotent: create or replace, and the grants are repeatable.
 -- =============================================================================

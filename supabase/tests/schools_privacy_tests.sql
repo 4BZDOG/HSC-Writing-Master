@@ -2,13 +2,14 @@
 -- Schools privacy tests — prove who may read a school and its licence, in the
 -- DATABASE, through the same role and JWT the REST API uses.
 --
--- schema.sql §12 and §28: a signed-in user reads only their own school's row,
--- and only its id and name; admins read every row; list_schools() is admin-only.
--- The licence columns (stripe_subscription_id, plan_*) and the pool budget are
--- withheld from the client roles altogether, admins included: an admin gets the
--- licence through list_schools(). Before this, every signed-in account read every
--- school's licence through the REST API, and every teacher could call
--- list_schools() for the lot.
+-- schema.sql §12, §13 and §28: a signed-in user reads only their own school's row,
+-- and only these columns: id, name, plan_status, plan_period_end and
+-- plan_cancel_at_period_end (a member's own plan depends on them at sign-in).
+-- Admins read every row. stripe_subscription_id, plan_seats and daily_ai_limit
+-- are withheld from the client roles altogether, admins included: an admin gets
+-- them through list_schools(). list_schools() is admin-only. Before this, every
+-- signed-in account read every school's licence through the REST API, and every
+-- teacher could call list_schools() for the lot.
 --
 -- Where this runs: same harness as rls_negative_tests.sql, in CI after the shim,
 -- the schema and the grants. The whole file is one transaction that rolls back,
@@ -115,10 +116,9 @@ declare
     '00000000-0000-0000-0000-00000000fa02',  -- teacher at school one
     '00000000-0000-0000-0000-00000000fa04'   -- admin
   ];
-  v_cols  text[] := array[
-    'stripe_subscription_id', 'plan_status', 'plan_seats',
-    'plan_period_end', 'plan_cancel_at_period_end', 'daily_ai_limit'
-  ];
+  -- Withheld from the REST API for everyone. The three plan_* columns a member's
+  -- own plan needs are granted (§13), so they are tested in their own block below.
+  v_cols  text[] := array['stripe_subscription_id', 'plan_seats', 'daily_ai_limit'];
   v_user  text;
   v_col   text;
   v_read  boolean;
@@ -142,7 +142,82 @@ begin
       end if;
     end loop;
   end loop;
-  raise notice 'PASS: no signed-in user, admins included, selects a licence column or pool budget';
+  raise notice 'PASS: no signed-in user, admins included, selects stripe_subscription_id, plan_seats or daily_ai_limit';
+end $$;
+
+-- ---- A member reads their own school's licence state on sign-in ---------------
+-- services/authService.ts applySchoolPlan() reads profiles with an embedded
+-- `school:school_id (name, plan_status, plan_period_end, plan_cancel_at_period_end)`.
+-- A SQL join is the same column privilege check, so this is the shape it runs as.
+-- Withholding these three would silently drop every member's School plan, because
+-- the read fails soft and the plan falls back to free.
+do $$
+declare
+  v_user  text;
+  v_users text[] := array[
+    '00000000-0000-0000-0000-00000000fa01',  -- student at school one
+    '00000000-0000-0000-0000-00000000fa02'   -- teacher at school one
+  ];
+  v_name   text;
+  v_status text;
+  v_end    timestamptz;
+  v_cancel boolean;
+  v_school uuid;
+begin
+  foreach v_user in array v_users loop
+    perform set_config('request.jwt.claims',
+      format('{"sub":"%s","role":"authenticated"}', v_user), true);
+    execute 'set role authenticated';
+    begin
+      select p.school_id, s.name, s.plan_status, s.plan_period_end, s.plan_cancel_at_period_end
+        into v_school, v_name, v_status, v_end, v_cancel
+        from public.profiles p
+        left join public.schools s on s.id = p.school_id
+       where p.id = v_user::uuid;
+    exception when insufficient_privilege then
+      execute 'reset role';
+      raise exception 'TEST FAILED: member % cannot read their own school''s licence state', v_user;
+    end;
+    execute 'reset role';
+
+    if v_school <> '00000000-0000-0000-0000-00000000fb01' or v_name <> 'Schools Privacy One'
+       or v_status <> 'active' or v_end is null or v_cancel is not false then
+      raise exception 'TEST FAILED: member % read the wrong school state (% / % / % / % / %)',
+        v_user, v_school, v_name, v_status, v_end, v_cancel;
+    end if;
+  end loop;
+  raise notice 'PASS: a member reads their own school''s plan_status, period end and cancel flag on sign-in';
+end $$;
+
+-- A teacher of a different school gets nothing for school one, even with the
+-- same embed: the row filter is the policy, not the column list.
+do $$
+declare
+  v_name        text;
+  v_count_other int;
+begin
+  perform set_config('request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-00000000fa03","role":"authenticated"}', true);
+  execute 'set role authenticated';
+  select s.name into v_name
+    from public.profiles p
+    left join public.schools s on s.id = p.school_id
+   where p.id = '00000000-0000-0000-0000-00000000fa03';
+  execute 'reset role';
+  if v_name <> 'Schools Privacy Two' then
+    raise exception 'TEST FAILED: a teacher of school two read %', v_name;
+  end if;
+  -- And school one's row is not visible to them by id, on the granted columns.
+  perform set_config('request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-00000000fa03","role":"authenticated"}', true);
+  execute 'set role authenticated';
+  select count(*) into v_count_other from public.schools
+   where id = '00000000-0000-0000-0000-00000000fb01';
+  execute 'reset role';
+  if v_count_other <> 0 then
+    raise exception 'TEST FAILED: a teacher of school two read school one''s row';
+  end if;
+  raise notice 'PASS: the sign-in embed reads only the caller''s own school';
 end $$;
 
 -- ---- A teacher sees their own school only, and cannot list every school ------
