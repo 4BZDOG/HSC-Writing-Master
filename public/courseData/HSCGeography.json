@@ -6831,6 +6831,67 @@
                       }
                     ],
                     "scenario": "Ashmere is a hypothetical port town where container terminals, migrant workers and imported goods have reshaped the waterfront over two decades. Tarrin Hollow, about 300 kilometres inland, has changed much less, with families still farming and selling into local markets."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-25",
+                    "question": "Examine how locational, environmental and global changes can affect ONE local economic enterprise you have studied.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "GE-11-02",
+                      "GE-11-03",
+                      "GE-11-04"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers treat the three kinds of change as linked rather than as three separate lists. Drought, for example, intensified competition for milk, and the enterprise responded by changing where it processed and sourced milk.",
+                      "Show the enterprise responding to change rather than simply being affected by it. The acquisitions and the record 2019 intake are the evidence to use, and both need to be tied back to the question.",
+                      "Name the enterprise and its origin in the first sentence, then keep to that one example throughout. Describing the wider dairy industry in general terms does not earn the marks for understanding of this enterprise."
+                    ],
+                    "commonStudentErrors": [
+                      "Treats 'local' as meaning the business stays in one district, so the Victorian acquisitions are never addressed.",
+                      "Describes drought in general terms without linking it to the enterprise's milk intake, costs or earnings.",
+                      "Lists global changes such as inflation or globalisation without naming a competitor, a sale or an event that affected the enterprise."
+                    ],
+                    "keywords": [
+                      "local economic enterprise",
+                      "locational",
+                      "environmental",
+                      "global changes",
+                      "drought",
+                      "milk supply",
+                      "market competition"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates a comprehensive understanding of a local economic enterprise; Provides a comprehensive examination of how locational, environmental and global changes can affect a local economic enterprise; Integrates relevant case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a sustained, logical and cohesive response using appropriate geographical information, terms and concepts\n13-16 marks: Demonstrates a thorough understanding of a local economic enterprise; Provides an examination of how changes can affect a local economic enterprise; Refers to relevant case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a logical response using appropriate geographical information and terms\n9-12 marks: Demonstrates a sound understanding of a local economic enterprise; Provides some examination of how changes can affect a local economic enterprise; Refers to case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a structured response using appropriate geographical information\n5-8 marks: Demonstrates some understanding of an economic enterprise/activity; May refer to case studies, illustrative examples and/or the Stimulus Booklet; Uses some geographical information\n1-4 marks: Demonstrates a basic understanding of an economic enterprise/activity",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-25-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Bega Cheese is a local economic enterprise whose origins lie in the Bega Valley on the New South Wales south coast, where a butter factory was established in 1899 and officially opened in 1900. Its history shows how locational changes, environmental changes and global changes can each reshape a local business, and how the enterprise has responded to them. The evidence suggests that the business has survived less because of its local roots than because it has changed where it processes milk and how it competes for it.\n\nLocational changes have been the company's most deliberate response. The original factory was rebuilt on its present site in 1924, but the company's growth since the late 2000s has come from beyond the valley. In April 2007 Bega Cheese acquired a 70 per cent stake in Tatura Milk Industries, a Victorian dairy company, and bought the remaining 30 per cent in December 2011. In 2009 it acquired the former Kraft cheese plant at Strathmerton, and in 2018 it bought the Koroit facility in western Victoria. Each purchase added processing capacity outside the Bega Valley and gave the enterprise access to milk produced in other districts. This matters for resilience. A business tied to one valley would have had few alternatives when local dairy farming came under pressure, whereas a network of sites across Victoria allowed it to keep sourcing milk when conditions in one district worsened.\n\nEnvironmental changes have tested the enterprise most directly through drought. In August 2018 Bega Cheese warned of 'increased pressure on dairy farmers as a result of drought and the rising cost of grain to feed their cattle', and its executive chairman, Barry Irvin, said that farmers were beginning 'to feel the genuine challenge of drought'. Drought reduces pasture and raises feed costs, so farms produce less milk or close, and processors must compete for a smaller supply. Reporting on the company's August 2019 results noted that the market had shrunk by 733 million litres, and the company cut its earnings guidance, with normalised EBITDA now expected at $113 million to $117 million rather than the $123 million to $130 million forecast at the half-year. The pressure was linked to the drought and to farmers leaving the industry.\n\nThe enterprise's response shows that environmental change does not always reduce a firm's activity. In the year to 30 June 2019 Bega increased its intake by 41 per cent to a record 1.06 billion litres. The company was winning milk from a shrinking market, but the cost of doing so reduced its earnings. Drought therefore intensified market competition for a scarce resource, and the processor with the most sites and the greatest capacity to pay for milk was best placed to benefit.\n\nGlobal changes have acted through competition and corporate restructuring. In 2018 the Canadian dairy giant Saputo and Fonterra were both seeking more milk, and Bega reported that the market 'remains highly competitive in terms of acquisition of milk'. The enterprise's own asset base also reflects global restructuring. The Strathmerton plant was bought from Kraft Foods, and the Koroit facility from Saputo, which was divesting it under terms worth $250 million. The Koroit purchase brought around 300 million litres a year under contract until mid-2020, giving Bega a secure milk supply for a period. Competition for milk is therefore shaped by the decisions of multinational firms and their asset sales, which a local enterprise cannot control and must respond to.\n\nOn balance, the enterprise's experience shows that a local economic enterprise is shaped by forces far beyond its valley. The Bega factory still anchors the company's origins, but its survival through drought and competition rested on its ability to move processing and secure milk across several districts, and on acquisitions made in response to the decisions of global firms. The changes were not simply threats. Drought and competition raised the company's intake in the short term even as they squeezed its earnings. The business is local in its origins but national and global in its exposure, and its future will depend on how well it secures milk in districts where farming itself may be shifting.",
+                        "feedback": "This answer meets the top row by showing a comprehensive understanding of one enterprise, an examination that links locational, environmental and global changes, and a sustained, cohesive argument ending in a judgement. To go further, it could weigh the trade-off between the gains from acquisitions and the costs of the Victorian expansion more explicitly.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-25-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Bega Cheese began as a dairy business in the Bega Valley in 1899 and has changed considerably since. Locational changes have been important. The company bought dairy plants in Victoria, including Tatura Milk Industries, a plant at Strathmerton and a facility at Koroit, so it is no longer confined to the valley, and this gives it a wider network for collecting milk. Environmental changes have also affected the business. Drought made feed more expensive for farmers and reduced the amount of milk available, so processors had to compete harder for supply. Bega warned of this in 2018 and cut its earnings guidance in 2019. Global changes matter too. Overseas firms such as Saputo and Fonterra were also looking for milk in 2018, and Saputo sold the Koroit plant to Bega. This shows that decisions made by large companies can affect a local firm. Overall, the business has responded to these pressures by expanding and competing for milk, although its earnings fell in 2019. It is therefore an example of how a local business must adapt to change from several directions.",
+                        "feedback": "This answer meets the middle row by explaining all three kinds of change and giving some examples, but the discussion is general and the links to the enterprise's performance are brief. To lift it, develop each change with its effect on milk intake and earnings and weigh how far the enterprise's own choices, rather than the changes alone, shaped the outcome.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-25-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Bega Cheese is a local economic enterprise that started in the Bega Valley. Drought is an environmental change that affects it because farmers produce less milk. Global companies also compete for milk, which can affect the business.",
+                        "feedback": "This answer shows some understanding of the enterprise and mentions relevant changes, but each is stated without development or example. To lift it, name a specific event or figure for each change and explain how it affected the enterprise.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you: demonstrate geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; refer to case studies, illustrative examples and the Stimulus Booklet where appropriate; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "25"
                   }
                 ]
               },
@@ -8389,6 +8450,65 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-24a",
+                    "question": "Describe ONE way that the operation of global networks can influence the role of world cities.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "GE-11-02",
+                      "GE-11-03",
+                      "GE-11-04"
+                    ],
+                    "markerNotes": [
+                      "The answer that describes an influence names the specific mechanism, such as the office networks of advanced producer services firms, rather than global networks in general.",
+                      "A real city is what separates describing from outlining. Placing the influence in a named world city shows how the network changes that city's role.",
+                      "One well-developed influence scores better than two or three brief ones, so choose the mechanism that can be explained fully in the space."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing global networks in general, such as the internet or air travel, without saying how they change the role of a city.",
+                      "Calling a city important or large without linking its status to its position in a global network.",
+                      "Giving two or three influences in a three-mark response, which leaves each one too brief to describe."
+                    ],
+                    "keywords": [
+                      "global networks",
+                      "world cities",
+                      "advanced producer services",
+                      "office networks",
+                      "connectivity"
+                    ],
+                    "markingCriteria": "3 marks: Describes ONE way global networks can influence the role of world cities\n2 marks: Outlines ONE way global networks could influence the role of world cities\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-24a-1",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "One way global networks influence world cities is through the office networks of advanced producer services firms in finance, management consultancy, accountancy, corporate law and advertising. London and New York form the core of this network and are the most highly connected of the world cities. This connectivity reinforces their role as centres of business decision-making.",
+                        "feedback": "Describes one way global networks influence world cities, supported by a real named example that is explained within the sentence. Keeping to one mechanism and explaining it fully is what makes this response describe rather than outline.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-24a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Global networks connect world cities, and firms in finance and corporate law link their offices across them. London and New York are linked this way, which strengthens their role as world cities.",
+                        "feedback": "Outlines one influence of global networks on world cities, but the link to the role of the city stays general. Naming a real city and explaining how the network changes its role would lift it to a description of the influence.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-24a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Global networks connect world cities such as London and New York.",
+                        "feedback": "Provides some relevant information about global networks and world cities without describing an influence. Stating one way a network changes a city's role would lift it to the next row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "24(a)"
                   }
                 ]
               },
@@ -10036,6 +10156,57 @@
                       }
                     ],
                     "scenario": "Hypothetical study of litter along a local creek reserve, not real data. Question 1: How many litter items are found in each 100 metre transect along the creek bank on each sampling day? Question 2: How has the council's spending on litter collection changed over the past decade?"
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-22b",
+                    "question": "Propose a geographical inquiry question that a geography student could investigate on a field trip to Aogashima Island.",
+                    "totalMarks": 2,
+                    "verb": "PROPOSE",
+                    "linkedOutcomes": [
+                      "GE-11-06",
+                      "GE-11-07"
+                    ],
+                    "markerNotes": [
+                      "A full-mark question names the island, a process and a human consequence, and could be investigated on site during a field trip rather than answered from a textbook.",
+                      "A question about the island's population or its tourist numbers does not require any geographical investigation of the place, so it is weaker than one linking landforms and people."
+                    ],
+                    "commonStudentErrors": [
+                      "Proposes a question with a single factual answer, such as how many people live on Aogashima Island.",
+                      "Proposes a question about Japan or volcanoes in general, so the field trip to Aogashima Island has no role in the inquiry.",
+                      "Writes a statement about the island rather than a question that could be investigated."
+                    ],
+                    "keywords": [
+                      "geographical inquiry question",
+                      "field trip",
+                      "Aogashima Island",
+                      "volcanic activity",
+                      "human settlement",
+                      "caldera",
+                      "Izu Islands"
+                    ],
+                    "markingCriteria": "2 marks: Proposes a valid geographical inquiry question on Aogashima Island\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-22b-1",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "A geographical inquiry question for a field trip to Aogashima Island is: How has volcanic activity, including the eruptions of the 1780s, shaped human settlement on the island?",
+                        "feedback": "This answer meets the top row by proposing a valid, investigable question on Aogashima Island that links a physical process with human settlement. The question is already precise, so no further development is needed.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-22b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Students could study the volcano on Aogashima Island.",
+                        "feedback": "This answer provides some relevant information about the island, but it does not propose an inquiry question. To lift it, turn the idea into a question that names the process and the people or land use it affects.",
+                        "band": 5
+                      }
+                    ],
+                    "scenario": "Refer to pages 2–3 of the Stimulus Booklet to answer parts (a)–(c).",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "22(b)"
                   }
                 ]
               },
@@ -13315,6 +13486,67 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-23",
+                    "question": "Explain the nature and complexity of ecosystem functioning.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top answers explain how energy and matter move through the system and why its parts depend on one another, rather than listing the components of an ecosystem.",
+                      "Complexity has to be shown working. Answers that explain how feedback loops, dynamic equilibrium or succession change the system go further than answers that only name them.",
+                      "A real named example gives the answer its weight, but the strongest responses return to the example in each paragraph to show what it reveals about how the system functions."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing the components of an ecosystem, such as producers, consumers, decomposers and climate, without explaining how energy and nutrients move between them.",
+                      "Describing an ecosystem as being in balance or stable, with no reference to dynamic equilibrium, change or feedback.",
+                      "Writing the case study as a string of facts about the reef that never returns to how its functioning works."
+                    ],
+                    "keywords": [
+                      "ecosystem functioning",
+                      "complexity",
+                      "energy flows",
+                      "nutrient cycles",
+                      "dynamic equilibrium",
+                      "feedback loops",
+                      "biodiversity",
+                      "resilience"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates comprehensive knowledge and understanding of the nature and complexity of ecosystem functioning; Provides a detailed explanation of the nature and complexity of ecosystem functioning; Integrates relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; Presents a sustained, logical and cohesive response using appropriate geographical ideas, terms and concepts\n13-16 marks: Demonstrates well-developed knowledge and understanding of the nature and complexity of ecosystem functioning; Provides an explanation of the nature and complexity of ecosystem functioning; Refers to relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; Presents a logical response using appropriate geographical terminology and concepts\n9-12 marks: Demonstrates sound knowledge and understanding of the nature and/or complexity of ecosystem functioning; Describes the nature and/or complexity of ecosystem functioning; Refers to examples, geographical information and the Stimulus Booklet where appropriate; Presents a structured response using appropriate geographical concepts\n5-8 marks: Demonstrates some knowledge and understanding of ecosystem functioning; May refer to examples, geographical information and/or the Stimulus Booklet; Uses some geographical terminology\n1-4 marks: Demonstrates a basic understanding of ecosystem functioning",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-23-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Ecosystem functioning is the way energy and matter move through a natural system and the way its living and non-living parts act on one another. Its complexity lies in the fact that these relationships are interlocking rather than linear, so a change in one component can ripple through the whole system. Ecosystems operate through dynamic equilibrium, feedback loops and interdependence, and the Great Barrier Reef off the coast of Queensland, Australia, shows this clearly. Its functioning depends on a partnership between coral and algae, and its vulnerability to warming water reveals how fragile that complexity can be.\n\nThe nature of ecosystem functioning begins with energy flows and the interactions between biotic and abiotic components. On the reef, the coral hosts microscopic algae within its tissue. Through photosynthesis, the algae provide the coral with most of its energy. Nutrient cycles operate within this partnership, because the algae help the coral by removing its waste and using it to produce food. Materials are therefore recycled within the reef rather than lost, which allows a dense community of animals to be supported in clear tropical water.\n\nComplexity also arises from biodiversity and interdependence. Many species of fish, invertebrates and algae share the reef and depend on one another for food and shelter, so a change affecting one group alters the conditions for others. Because the links are interlocking, the reef's functioning depends on the balance among its components rather than on any single species. This interdependence makes the system productive, but it also makes it sensitive.\n\nEcosystem functioning is also dynamic. The reef exists in a state of dynamic equilibrium in which processes continually adjust to changing conditions. Feedback loops can either stabilise or destabilise this balance. Negative feedback can support recovery, for example when surviving coral and algae recolonise damaged patches. Positive feedback can drive decline, because once coral cover is lost, less habitat remains for the species that maintain the system. The reef's functioning is therefore sensitive to thresholds, where a gradual change can produce a sudden shift.\n\nThe clearest modern test of this complexity is coral bleaching. Bleaching is usually triggered by heat stress caused by increased water temperatures and UV radiation, and rising ocean temperatures from climate change are identified as its primary cause. When the algae are lost, the coral's tissue becomes transparent and its white skeleton is exposed. Bleached corals are not automatically dead, but they are more at risk of starvation and disease, because the algae supply most of their energy. The loss of this partnership interrupts the energy flow that holds the reef together.\n\nThe reef has also been bleached repeatedly rather than once. The 2025 event was the sixth mass bleaching since 2016, and 2016-17 and 2024-25 were consecutive bleaching years. Back-to-back disturbances shorten the time available for recovery, so a reef may face the next event before it has rebuilt. Here the complexity of ecosystem functioning becomes a source of fragility. The diversity and interdependence that make the reef productive also mean that losing one component weakens many others, and repeated fluctuations in its functioning alter its vulnerability and resilience over time.\n\nSome elements of the reef show adaptation and change. Surviving corals can recolonise damaged areas, and different species respond differently to heat, so the community may shift in composition over time. Yet the speed of recent disturbances matters as much as these responses. If stressful conditions persist, the capacity for adaptation can be overwhelmed. Complexity therefore cuts both ways: it provides the redundancy and adaptability that support resilience, and it creates interdependencies that spread damage.\n\nIn conclusion, the nature of ecosystem functioning lies in energy flows, nutrient cycles and the interactions between biotic and abiotic components, operating through dynamic equilibrium and feedback loops. Its complexity lies in biodiversity, interdependence and the way natural systems combine to produce unique and sometimes fragile diversity. The Great Barrier Reef shows that these features are inseparable: the partnership that makes the reef productive is also what makes it vulnerable. Understanding ecosystem functioning therefore requires looking at relationships across the whole system rather than at single components.",
+                        "feedback": "Meets the top row by explaining the nature and complexity of ecosystem functioning in depth, with the reef integrated through every paragraph and a sustained, cohesive argument. What separates this from a strong answer is the way the example is used to test each idea.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-23-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Ecosystem functioning refers to how energy and nutrients move through an ecosystem and how its living and non-living parts interact. Its complexity comes from many interdependent relationships, so changes in one part can affect other parts through feedback loops.\n\nThe Great Barrier Reef off the coast of Queensland, Australia, is a useful example. Coral and algae depend on each other: the algae produce food through photosynthesis and provide most of the coral's energy. When the algae are lost, the coral's tissue becomes transparent and it is more prone to starvation and disease. This shows how the reef's functioning depends on a close partnership.\n\nComplexity is also shown by biodiversity. Many species share the reef and rely on it for food and shelter, so a loss in one group can affect the others. The reef has also suffered repeated bleaching events since 2016, which reduces its ability to recover between disturbances.\n\nIn summary, ecosystem functioning is complex because the components of a natural system are interdependent and respond to disturbance. The Great Barrier Reef shows how a partnership underpins a reef's functioning and how disturbance can weaken it.",
+                        "feedback": "Meets the row describing sound knowledge and a structured explanation, with examples referred to. Developing the explanation of feedback loops and dynamic equilibrium, and using the reef to show how they work, would lift it to the next row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-23-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Ecosystem functioning involves energy flows and nutrient cycles between the living and non-living parts of a system. Ecosystems are complex because species depend on one another. The Great Barrier Reef in Australia, for example, is affected by coral bleaching.",
+                        "feedback": "Demonstrates some knowledge and uses some terminology, but the ideas are stated rather than developed. Explaining how one relationship works, such as the link between the algae and the coral, would move it to the next row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23"
                   }
                 ]
               },
@@ -13707,6 +13939,66 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-18b",
+                    "question": "Explain ONE trend in global biodiversity.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-05"
+                    ],
+                    "markerNotes": [
+                      "The top answers explain the trend with a figure and a stated time span, then explain the mechanism behind it, rather than only describing the decline.",
+                      "Name the drivers in the order the IPBES assessment ranks them, with land and sea use first, and show how at least one of them produces the decline.",
+                      "A trend needs a direction over time; an answer that gives a single snapshot of species at risk does not explain a trend."
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that biodiversity is declining without giving a figure, a time span or a source for the trend.",
+                      "Confusing the 73 per cent figure with the number of species lost, when it measures the average size of monitored wildlife populations.",
+                      "Listing causes such as pollution and climate change without explaining how any one of them drives the decline."
+                    ],
+                    "keywords": [
+                      "global biodiversity",
+                      "trend",
+                      "population decline",
+                      "habitat loss",
+                      "land and sea use",
+                      "direct exploitation",
+                      "invasive alien species"
+                    ],
+                    "markingCriteria": "4 marks: Explains ONE trend in global biodiversity\n3 marks: Describes ONE trend in global biodiversity\n2 marks: Outlines ONE trend in global biodiversity\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-18b-1",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "One trend in global biodiversity is a steep decline in wildlife populations. The Living Planet Report 2024 found that the average size of monitored wildlife populations fell by 73 per cent between 1970 and 2020, so the average monitored population is now about a quarter of its former size. The main driver is changes in land and sea use, which cause habitat loss, according to the 2019 IPBES global assessment, which also lists direct exploitation, climate change, pollution and invasive alien species as drivers. Around one million animal and plant species are now threatened with extinction, so the trend is sustained rather than a short-term fluctuation.",
+                        "feedback": "Meets the top criteria: the trend is supported by a named report and figure, and the answer explains how habitat loss driven by land and sea use produces the decline. Explaining the mechanism in more depth, for example how fragmented habitat isolates populations, would be the next step.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-18b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Wildlife populations are declining sharply worldwide. The Living Planet Report 2024 recorded an average 73 per cent fall in monitored populations from 1970 to 2020, mainly due to habitat loss.",
+                        "feedback": "Meets the middle criteria: the trend is described with a figure and a cause, but the explanation of how the cause produces the decline is brief. Developing that link would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-18b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Global biodiversity is declining as human activity threatens many species.",
+                        "feedback": "Meets the bottom criteria: relevant information is given, but the trend is not explained. Naming a figure and a cause would develop it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "18(b)"
                   }
                 ]
               },
@@ -13875,6 +14167,68 @@
                       }
                     ],
                     "scenario": "Hypothetical degraded freshwater wetland in a catchment with a town upstream, cattle grazing on the banks, and a declining population of a wetland bird. The local council and landholders want a management plan that works at both the wetland and the catchment scales."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-26",
+                    "question": "Compare different strategies used to manage ecosystems in terms of their ecological sustainability.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "GE-12-04",
+                      "GE-12-03",
+                      "GE-12-05"
+                    ],
+                    "markerNotes": [
+                      "The top answers judge each strategy against the same criteria, such as whether its benefits last across generations and who carries its costs, rather than describing each strategy in turn.",
+                      "Strong answers tie each strategy to the threat it addresses, for example zoning to land and sea use and eradication to invasive species, and note which driver a strategy leaves untouched.",
+                      "Equity separates the top rows from the middle: an answer that weighs the costs to fishers, Indigenous custodians and other users makes a comparison rather than a list."
+                    ],
+                    "commonStudentErrors": [
+                      "Treating a strategy as sustainable because it protects one animal or plant, without checking its effects on the wider ecosystem or on the people who use it.",
+                      "Describing strategies in general terms, such as 'national parks protect animals', without naming a real place or program to support the point.",
+                      "Writing the comparison only in the conclusion, so the body paragraphs list strategies one after another with no measure of ecological sustainability."
+                    ],
+                    "keywords": [
+                      "ecosystems",
+                      "ecological sustainability",
+                      "intergenerational equity",
+                      "intragenerational equity",
+                      "precautionary approach",
+                      "biological diversity",
+                      "cool burning",
+                      "wilderness zoning"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates a comprehensive understanding of a range of ecosystem management strategies; Compares different management strategies in terms of their ecological sustainability; Integrates relevant case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a sustained, logical and cohesive response using appropriate geographical information, terms and concepts\n13-16 marks: Demonstrates a thorough understanding of different ecosystem management strategies; Provides some comparison of management strategies in terms of their sustainability; Refers to relevant case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a logical response using appropriate geographical information and terms\n9-12 marks: Demonstrates a sound understanding of ecosystem management strategies; Provides some comparison of management strategies; Refers to case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a structured response using appropriate geographical information\n5-8 marks: Outlines some management strategies for an ecosystem; May refer to case studies, illustrative examples and/or the Stimulus Booklet; Uses some geographical information\n1-4 marks: Demonstrates a basic understanding of ecosystem management strategies",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-26-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Ecosystems are managed through strategies that act on different threats, and their ecological sustainability depends on whether they protect biological diversity over many generations without shifting costs onto others. Three approaches show the range: early dry-season burning in West Arnhem Land, zoning in the Great Barrier Reef Marine Park and the eradication of introduced pests on Macquarie Island. Measured against the same criteria, they differ in how directly they tackle a threat, how long their benefits last and who carries their costs. The paragraphs that follow take each strategy in turn and then weigh them against one another.\n\nCool burning is the most adaptive of the three. Traditional owners in the Warddeken Indigenous Protected Area set fires early in the dry season, when the land is still moist and cooler, because low-intensity early fires release fewer greenhouse gases than high-intensity late dry-season fires. Regular early dry-season burn-offs now occur, and traditional owners have achieved the emission abatement targets set for 2005-2006 and 2006-2007, so the method has a measurable outcome. This matters because fire regimes are a long-term ecological driver, and a method that reduces the most damaging fires protects the vegetation and habitats that many species depend on. Its intergenerational equity lies in knowledge of when, where and how to burn being passed from one generation to the next. Its intragenerational equity is also strong, because Indigenous projects account for 70 per cent of the area registered under Australia's savanna fire management methods. Its limitation is that it manages fire rather than the broader drivers of change, such as climate change.\n\nZoning works through a different logic, separating use from protection. The zoning plan that became law on 1 July 2004 raised the highly protected, no-take share of the Great Barrier Reef Marine Park from less than 5 per cent to more than 33 per cent, protecting whole habitats rather than single species. Because it covers a share of the whole park rather than one site, it is a systematic response rather than an opportunistic one. The case for a closure of this size rests on the precautionary approach of the Rio Declaration, which states that 'lack of full scientific certainty shall not be used as a reason for postponing cost-effective measures to prevent environmental degradation'. Its intragenerational equity is weaker, however, because fishing industry officials complained that the new Green Zones were too extensive, and the costs fall on the fishers who lose access to the reef.\n\nEradication acts most directly on a single threat. IPBES ranks invasive alien species fifth of the five direct drivers of change in nature, behind changes in land and sea use, direct exploitation of organisms, climate change and pollution, so eradication targets a pressure that is not the largest globally. On Macquarie Island, however, rats preyed on seabird eggs and chicks, and rabbit overgrazing destroyed the breeding grounds of nesting seabirds. After a seven-year program, the island was declared pest-free in April 2014, and blue petrels have begun to breed there again after decades of not doing so. This outcome is durable where a threat can be removed completely and the island setting limits reinvasion, but it cannot be transferred to continental landscapes and it depends on continuing biosecurity. The lesson from Macquarie Island is therefore about the conditions under which eradication is worth its cost, not a template for every ecosystem.\n\nJudged on ecological sustainability, no single strategy is sufficient, because each addresses a different driver. The real test is not which strategy is most popular but which keeps its benefits across generations. Eradication gives the most decisive result but is limited to islands. Zoning gives the broadest protection of biological diversity but carries the greatest equity cost for users who lose access. Early burning combines long-term custodianship with local employment, but it cannot address climate change, which IPBES ranks third among the direct drivers. The Living Planet Report 2024 found that the average size of monitored wildlife populations fell by 73 per cent between 1970 and 2020, so the most sustainable approach pairs targeted action on the dominant threats with governance in which Indigenous custodians and local users share decisions.",
+                        "feedback": "Meets the top criteria: each strategy is measured against the same sustainability criteria, supported by named case studies, and the response closes with a judgement. The lift over the middle answer is the sustained comparison of equity and the explicit link between each strategy and the driver it addresses.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-26-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Ecosystems can be managed in several ways, and their ecological sustainability depends on whether benefits last and are shared fairly. Early burning in the Warddeken Indigenous Protected Area reduces the intensity of late dry-season wildfires, so fewer greenhouse gases are released, and the knowledge of when to burn is passed between generations. Traditional owners' achievement of emission targets for 2005-2006 and 2006-2007 gives the strategy a measurable outcome, but it manages fire rather than the causes of climate change.\n\nZoning in the Great Barrier Reef Marine Park separates use from protection. The 2004 zoning plan raised the highly protected, no-take share of the park from less than 5 per cent to more than 33 per cent, which protects whole habitats and the biological diversity within them. Its equity is weaker, because fishing industry officials complained that the new Green Zones were too extensive.\n\nEradication is the most decisive strategy because it removes a threat completely. On Macquarie Island, rats, mice and rabbits were removed, and the island was declared pest-free in April 2014, allowing blue petrels to breed there again. This works on an island but not on continents, and it targets invasive species, which IPBES ranks fifth of the five direct drivers of change in nature.\n\nOverall, eradication gives the clearest result, zoning the broadest protection and early burning the strongest custodianship. The most sustainable approach combines targeted action with local control.",
+                        "feedback": "Meets the middle criteria: the three strategies are described with named examples and some comparison, but the equity and driver links are touched on rather than developed. Carrying one of these comparisons through the body paragraphs would lift it to the top criteria.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-26-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Ecosystems are managed through strategies such as early dry-season burning in West Arnhem Land, zoning in the Great Barrier Reef Marine Park and eradicating pests on Macquarie Island. Each aims to protect biological diversity and each has some ecological benefit. Burning reduces wildfire, zoning limits fishing and pest removal helps seabirds. These strategies are all sustainable to some degree.",
+                        "feedback": "Meets the bottom criteria: the strategies are outlined with some geographical information, but no comparison is made. Stating what each strategy is measured against, such as the threat it addresses, would move it up.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you: demonstrate geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; refer to case studies, illustrative examples and the Stimulus Booklet where appropriate; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "26"
                   }
                 ]
               },
@@ -15108,6 +15462,66 @@
                       }
                     ],
                     "scenario": "Global sustainability efforts include the UN Sustainable Development Goals, the Paris Agreement and Indigenous benefit-sharing arrangements. Renewable energy costs have fallen sharply over the past decade, but the transfer of clean technology to lower-income countries remains uneven."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-20a",
+                    "question": "Describe the role of global forums in achieving global sustainability.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "GE-12-03",
+                      "GE-12-04",
+                      "GE-12-05"
+                    ],
+                    "markerNotes": [
+                      "A role is shown by what a forum does, such as bringing countries to agree on shared targets, rather than by naming the forum.",
+                      "Strong answers link the forum to a specific commitment, such as a stated temperature limit, so the idea of sustainability becomes concrete.",
+                      "The question asks how sustainability is achieved, so the answer should show the mechanism by which the forum moves countries towards it."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a global forum such as the Paris Agreement without saying what it commits countries to.",
+                      "Describing a forum as if it solves the problem itself, rather than as a place where countries agree on shared goals.",
+                      "Limiting sustainability to environmental issues and leaving out economic or social goals, such as those in the Sustainable Development Goals."
+                    ],
+                    "keywords": [
+                      "global forums",
+                      "global sustainability",
+                      "Paris Agreement",
+                      "climate change",
+                      "international cooperation",
+                      "Sustainable Development Goals"
+                    ],
+                    "markingCriteria": "3 marks: Describes the role of global forums in achieving global sustainability\n2 marks: Outlines the role of global forums in achieving global sustainability\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-20a-1",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Global forums such as the Paris Agreement advance global sustainability by bringing countries together to agree on shared targets. Adopted by all 196 Parties on 12 December 2015, the agreement commits nations to keeping warming well below 2 degrees Celsius and to striving for 1.5 degrees Celsius. Forums of this kind turn cooperation on climate change into shared goals that countries commit to.",
+                        "feedback": "Describes the role of a real global forum with a specific commitment that shows how it moves countries towards sustainability. Explaining how countries put those commitments into practice would develop the response further.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-20a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Global forums such as the Paris Agreement help countries work together on climate change. They allow nations to agree on shared targets that support global sustainability.",
+                        "feedback": "Outlines the role of global forums and names a real example, but does not explain what the forum does for sustainability. Stating what the agreement commits countries to would move it to a description of the role.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-20a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Global forums bring countries together to discuss sustainability issues such as climate change.",
+                        "feedback": "Provides some relevant information about global forums and sustainability without a real example. Naming a real forum and what it does would lift the response to the next row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "20(a)"
                   }
                 ]
               }
@@ -15345,6 +15759,66 @@
                       }
                     ],
                     "scenario": "Global wild-capture fisheries supply a large share of the world's seafood. The Food and Agriculture Organization reports that a significant share of assessed fish stocks are fished at levels above what can be sustained. The Marine Stewardship Council certifies fisheries that meet its standard for sustainable stocks and management."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-23c",
+                    "question": "Discuss the social impacts of the economic activity.",
+                    "totalMarks": 6,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "GE-12-04",
+                      "GE-12-03",
+                      "GE-12-05"
+                    ],
+                    "markerNotes": [
+                      "The top answer identifies social impacts in more than one dimension, such as livelihoods, identity and vulnerability, and links each to the economic activity named in its first sentence.",
+                      "Strong responses show how an impact arises from the activity, for example tourism employment or dependence on one export market, rather than listing outcomes.",
+                      "A balanced answer with both positive and negative impacts reads as a discussion. A one-sided list of benefits stays in the lower range."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing what the economic activity is, such as how wine is made, instead of its social impacts.",
+                      "Listing social impacts without explaining how the activity causes them.",
+                      "Giving only positive impacts, which leaves the discussion one-sided."
+                    ],
+                    "keywords": [
+                      "social impacts",
+                      "economic activity",
+                      "livelihoods",
+                      "tourism",
+                      "community identity",
+                      "export markets"
+                    ],
+                    "markingCriteria": "6 marks: Demonstrates a comprehensive understanding of the social impacts of the named economic activity\n5 marks: Demonstrates a thorough understanding of the social impacts of the named economic activity\n3-4 marks: Demonstrates a sound understanding of the social impacts of an economic activity\n2 marks: Demonstrates some understanding of the impacts of an economic activity/enterprise\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-23c-1",
+                        "source": "AI",
+                        "mark": 6,
+                        "answer": "Wine making in the Hunter Valley of New South Wales is the economic activity I have chosen, and it has both positive and negative social impacts. Its most visible benefit is livelihoods. Tourism built around the wineries employs more people in the Hunter than wine production does, and the cellar doors and hospitality of Pokolbin, a popular destination, sustain jobs and local towns. The valley's long winemaking history, with the first grapes planted in 1820, also gives its communities a strong community identity. However, the impacts are not evenly positive. Exports to China were a significant source of income until duties of 116 to 218 per cent, imposed in March 2021, made that market unviable. The duties were lifted in March 2024, but communities whose livelihoods depend on export markets remain exposed to decisions made far beyond the valley. When export income falls, the effects can reach local jobs in cellar doors, hospitality and the services that depend on them.",
+                        "feedback": "Demonstrates a comprehensive understanding of the social impacts of the named activity, with both benefits and vulnerabilities explained and tied to real evidence. To extend it, explain more fully how dependence on one export market affects particular groups within the communities.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-23c-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Wine making in the Hunter Valley supports many jobs in tourism, such as cellar doors and hospitality in Pokolbin, and gives local towns a sense of identity. However, reliance on export markets exposes these communities to events beyond the region. In 2021, China imposed heavy duties on Australian wine, which sharply reduced the income the industry earned from exports.",
+                        "feedback": "Shows a sound understanding of social impacts, with a named place and both a benefit and a vulnerability. To move up, explain how each impact arises and who experiences it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-23c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Wine making in the Hunter Valley provides jobs for people in the local area.",
+                        "feedback": "Provides some relevant information about wine making and jobs. To lift it, identify a social impact and explain how it arises.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Answer parts (b)–(c) with reference to an economic activity you have studied.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "23(c)"
                   }
                 ]
               }
@@ -15467,6 +15941,66 @@
                       }
                     ],
                     "scenario": "Car manufacturing is a major global economic activity. It is concentrated in East Asia, Europe and North America, with China the largest producer by volume. Assembly plants are often located near major markets, and components are made in specialist regions across several countries."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-23a",
+                    "question": "Describe internal linkages between people in ONE economic enterprise operating at a local scale.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top answers name each person's role and show how one role depends on another, such as the owner's work with the other workers, rather than listing who works at the enterprise.",
+                      "Keep the answer on the people and the links between them; a description of oyster growing or of the market does not show internal linkages.",
+                      "Tie each link to a specific task or flow, such as sharing oyster beds or handling harvested oysters, so the linkage is shown rather than asserted."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing the workers and their jobs without saying how they connect, for example 'Pete owns the shed and Deb works there'.",
+                      "Describing external linkages, such as suppliers or customers outside the enterprise, when the question asks for linkages between people inside it.",
+                      "Giving a general account of how oyster farms work instead of describing the people in the one enterprise named in the question."
+                    ],
+                    "keywords": [
+                      "internal linkages",
+                      "economic enterprise",
+                      "local scale",
+                      "division of labour",
+                      "interdependence",
+                      "owner-operator",
+                      "value chain"
+                    ],
+                    "markingCriteria": "4 marks: Demonstrates a thorough understanding of internal linkages between people in the economic enterprise\n3 marks: Demonstrates a sound understanding of internal linkages between people in the economic enterprise\n2 marks: Demonstrates an understanding of linkages in the economic enterprise\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-23a-1",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "The internal linkages at The River Oyster Shed, an economic enterprise operating at a local scale, run through its owner, Pete. Andrew works for Pete three days a week, and the two share the care of different oyster beds and work together on larger jobs such as oyster processing. Deb works in retail at the shed, receiving and selling oysters harvested by Pete and Andrew, so the stock passes from the water to the customer through three people. Each role depends on the others, which gives the enterprise its interdependence and division of labour.",
+                        "feedback": "Meets the top criteria: the answer shows specific links between three people, with the tasks and the flow of oysters from harvest to sale, and states the interdependence. Keeping the linkages central, rather than describing the enterprise itself, is what earns the full mark.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-23a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The River Oyster Shed is a local business where Pete is the owner and works with Andrew, who works there three days a week. Pete and Andrew share the care of oyster beds and some processing, and Deb works in retail, selling oysters the others harvest.",
+                        "feedback": "Meets the middle criteria: the people and some of the links are identified correctly, but the linkages are stated briefly and the flow from harvest to sale is not explained. Explaining how the workers depend on each other would lift it.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-23a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The River Oyster Shed has workers who are linked to the owner.",
+                        "feedback": "Meets the bottom criteria: the answer gives relevant information but describes no link between people. Naming one specific task that connects two people would develop it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "23(a)"
                   }
                 ]
               },
@@ -15583,6 +16117,128 @@
                       }
                     ],
                     "scenario": "In Ghana, the Cocoa Board (COCOBOD) regulates the marketing of cocoa and sets farmgate prices, while in Côte d'Ivoire the Conseil du Café-Cacao, a state-regulated body, sets a minimum farmgate price for farmers. Fairtrade and other certification schemes offer premiums to some producers, and international buyers have made commitments to address child labour in cocoa supply chains."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-23b",
+                    "question": "How has ONE market preference changed the nature of the economic activity?",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "GE-12-02",
+                      "GE-12-03",
+                      "GE-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top answers give a clear cause and effect: a change in consumer preference leads to a specific change in what is grown or how it is sold.",
+                      "Naming the activity in the first sentence and keeping to it makes the answer read as one coherent example.",
+                      "A dated export figure supports the change; a general claim that 'the market changed' does not show how the activity changed."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a preference for a product without naming the economic activity it changed.",
+                      "Naming the activity but giving no link to the preference, so the change is asserted rather than explained.",
+                      "Switching to a different economic activity partway through the answer."
+                    ],
+                    "keywords": [
+                      "market preference",
+                      "economic activity",
+                      "viticulture",
+                      "red wine",
+                      "grape varietals",
+                      "export market",
+                      "marketing"
+                    ],
+                    "markingCriteria": "3 marks: Provides cause and effect for how a market preference has changed the nature of the named economic activity\n2 marks: Shows understanding of a market preference and the changed nature of an economic activity\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-23b-1",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The economic activity is viticulture in Australia. A market preference for red wine in China has changed the nature of this economic activity: growers have planted more red grape varietals, such as shiraz and cabernet sauvignon, and marketing has been directed at Chinese buyers. Exports to China reached $500 million in the 12 months to end-2016 and $1.04 billion in the year to March 2018, so the preference changed what is grown and how the export market is served.",
+                        "feedback": "Gives clear cause and effect, from a preference for red wine to changes in planting and marketing, and supports the change with dated export figures. Explaining how the export figures reflect the preference more directly would sharpen the link.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-23b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "A preference for red wine in China has led Australian growers to plant more red grape varietals, so the nature of viticulture has changed.",
+                        "feedback": "Names the preference and the change in the activity, but the cause and effect is stated in one line without support or detail.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-23b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Chinese consumers like red wine, and Australia sells wine to China.",
+                        "feedback": "Relevant information only; it does not connect the preference to any change in the economic activity.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Answer parts (b)–(c) with reference to an economic activity you have studied.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "23(b)"
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-20b",
+                    "question": "Discuss the effect of ONE influence on the global economic activity identified.",
+                    "totalMarks": 5,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "GE-12-02",
+                      "GE-12-03",
+                      "GE-12-04"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers discuss the effect of the influence on the activity in both directions, so the response is a genuine discussion rather than a list of benefits.",
+                      "A named operation, with dates and quantities, gives the effect something concrete to rest on. The loaded delivery from Tom Price to Cape Lambert is a good example to use.",
+                      "Finish by weighing who gains from the change and who is left behind, so the discussion reaches a conclusion."
+                    ],
+                    "commonStudentErrors": [
+                      "Names the technology but never states its effect on the activity, for example by describing how autonomous trains work.",
+                      "Uses 'influence' and 'effect' as synonyms and never traces a chain of consequences from the technology to output, cost or competition.",
+                      "Writes about a second influence in the same answer, which breaks the requirement to focus on ONE."
+                    ],
+                    "keywords": [
+                      "global economic activity",
+                      "influence",
+                      "mining",
+                      "autonomous trains",
+                      "automation",
+                      "Pilbara",
+                      "Cape Lambert"
+                    ],
+                    "markingCriteria": "5 marks: Discusses the effect of ONE influence on a global economic activity\n4 marks: Explains the effect of ONE influence on a global economic activity\n3 marks: Outlines the effect of ONE influence on a global economic activity\n2 marks: Describes an influence on a global economic activity\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-20b-1",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Automation is the influence on global mining examined here, and the autonomous train operations of Rio Tinto in Western Australia's Pilbara show its effects. By July 2017 the company was running autonomous trains on 20 per cent of its network, and on 10 July 2018 an autonomous train carried around 28,000 tonnes of iron ore more than 280 kilometres from Tom Price to the port of Cape Lambert. The effect on the mining activity is largely positive. Automation can lower labour costs and improve the efficiency of moving ore, which lifts output and profit for the firm. However, automation requires large upfront investment in equipment and systems that smaller operators may struggle to fund, so the benefits can concentrate among firms with capital. The technology therefore strengthens the global economic activity overall while widening the gap between large and small operators.",
+                        "feedback": "This answer meets the top row by discussing the effect of one influence on a global economic activity, weighing both gains and costs with a named operation and figures. To lift it further, it could test the claim about labour costs against the evidence rather than asserting it.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-20b-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Automation has changed mining, for example through autonomous trains. Rio Tinto has used them to move iron ore from Tom Price to Cape Lambert in the Pilbara. This can make mining more efficient, but the technology is expensive, so its effects are mixed.",
+                        "feedback": "This answer meets the middle row by outlining the effect of one influence with a relevant example, but the effect is stated rather than explained. To lift it, explain how efficiency changes output or cost and who gains from that change.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-20b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Rio Tinto uses autonomous trains in Western Australia.",
+                        "feedback": "This answer provides some relevant information but does not describe an effect on the activity. To lift it, state what the technology changes for the mining activity.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Answer parts (b) and (c) with reference to a global economic activity you have studied.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "20(b)"
                   }
                 ]
               },
@@ -15699,6 +16355,66 @@
                       }
                     ],
                     "scenario": "Climate change is shifting the attractiveness of destinations, and reef tourism on the Great Barrier Reef depends on reef health. Some destinations have introduced visitor caps, and some tourism operators seek sustainability certification."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-20c",
+                    "question": "Compare TWO strategies for achieving sustainability in the global economic activity identified.",
+                    "totalMarks": 5,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-03",
+                      "GE-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top answers compare the two strategies against each other on the same measure: reprocessing tailings conserves a resource already disturbed, while electric equipment reduces emissions at the point of extraction.",
+                      "Name the one example in the first sentence and keep to it; an answer that switches between mines loses the comparison.",
+                      "Judge what each strategy does for the activity over time, not only what it does at one site, to earn the top row."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing two strategies in separate sentences with no comparison, such as 'Vale recycles tailings. Vale uses electric dredges.'",
+                      "Assuming electric equipment is sustainable in every case, without considering the energy source that powers it.",
+                      "Changing the example partway through, so that one strategy is illustrated with one mine and the other with a different mine."
+                    ],
+                    "keywords": [
+                      "global economic activity",
+                      "sustainability",
+                      "resource conservation",
+                      "tailings",
+                      "emissions reduction",
+                      "intergenerational equity"
+                    ],
+                    "markingCriteria": "5 marks: Provides a thorough comparison of TWO strategies for achieving sustainability in a global economic activity\n4 marks: Provides some comparison of TWO strategies for achieving sustainability in a global economic activity\n3 marks: Outlines TWO strategies for achieving sustainability in a global economic activity\n2 marks: Identifies TWO strategies or outlines ONE strategy for achieving sustainability in a global economic activity\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-20c-1",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "My example is Vale's Gelado tailings project at Carajás in Pará, Brazil, an iron mining operation within the global economic activity of mining. Its first strategy is reprocessing the tailings deposited in the Gelado dam since 1985, which the dredges remove and send to the plant to make pellet feed, so less new ore has to be mined. Its second strategy is all-electric dredges, which Vale says avoid CO2 emissions during extraction. Both strategies serve sustainability, but reprocessing does more for intergenerational equity because it extends the life of resources already disturbed, whereas electric dredges reduce emissions only as far as the power used to run them is cleaner. Both are strongest when combined with lower demand for new ore, since each reduces only one part of the activity's impact.",
+                        "feedback": "Meets the top criteria: the two strategies are compared on resource use and emissions, the example is named and kept throughout, and each strategy has a clear effect on the activity. The comparison is drawn across both measures rather than described separately for each.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-20c-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Vale's Gelado tailings project in Pará, Brazil, is an iron mining operation that reprocesses tailings deposited since 1985 into pellet feed, which reduces the need for new mining. The project also uses all-electric dredges, which avoid CO2 emissions during extraction. Both strategies reduce the environmental impact of iron mining.",
+                        "feedback": "Meets the middle criteria: both strategies are outlined with the example named, but they are not compared against each other. Setting one against the other on the same measure would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-20c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Vale's Gelado project in Pará, Brazil, is an iron mining operation that has adopted sustainability measures.",
+                        "feedback": "Meets the bottom criteria: the example is identified and sustainability is mentioned, but no strategy is named. Naming one strategy and its effect would develop it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Answer parts (b) and (c) with reference to a global economic activity you have studied.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "20(c)"
                   }
                 ]
               }
@@ -16290,6 +17006,67 @@
                       }
                     ],
                     "scenario": "Landcare was launched in Victoria in 1986 as a community movement in which local groups work on soil, water and vegetation on farms and public land. It has grown into a national network that relies heavily on volunteers, supported by government grants and corporate partners."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-21",
+                    "question": "With reference to TWO pillars of sustainability, evaluate the success of ONE initiative or project used in the management of rural and/or urban places.",
+                    "totalMarks": 6,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "GE-12-04",
+                      "GE-12-02",
+                      "GE-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top answers judge success against the pillars, rather than describing the initiative and then adding a sentence of opinion.",
+                      "Each pillar needs specific evidence, such as tonnes collected or the income effect on farmers, not general claims about sustainability.",
+                      "Acknowledging the limits of the evidence makes a judgement more secure, not weaker, provided the answer still reaches a clear view."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming the pillars of sustainability without showing how the initiative affects each one.",
+                      "Describing the initiative in detail and ending without a judgement of its success.",
+                      "Treating the program's stated purpose as proof that it worked."
+                    ],
+                    "keywords": [
+                      "pillars of sustainability",
+                      "initiative",
+                      "urban places",
+                      "environmental",
+                      "economic",
+                      "social",
+                      "recycling"
+                    ],
+                    "markingCriteria": "6 marks: Demonstrates an extensive understanding of sustainable management of a rural or urban place with reference to TWO pillars of sustainability; Makes a comprehensive judgement of the success of ONE initiative or project using the pillars of sustainability\n5 marks: Demonstrates a thorough understanding of sustainable management of a rural or urban place with reference to at least ONE pillar of sustainability; Makes a judgement of the success of ONE initiative or project using the pillars of sustainability\n3-4 marks: Demonstrates sound understanding of sustainable management of a rural or urban place; Outlines the sustainability of ONE initiative or project\n2 marks: Demonstrates a basic understanding of sustainable management or of an initiative or project\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-21-1",
+                        "source": "AI",
+                        "mark": 6,
+                        "answer": "The Green Exchange (Câmbio Verde) in Curitiba, the capital of Paraná state in southern Brazil, is a successful initiative in the management of urban places, judged here against the environmental, economic and social pillars of sustainability. The programme began in 1991 to remove trash from some of the city's poorest and least accessible areas, and residents trade recyclable materials for fresh produce at four kilograms of recyclables for one kilogram of food. Environmentally, it collects waste at scale, with an average of 2,800 tonnes a year reported in 2014, which supports recycling in neighbourhoods that would otherwise be neglected. Economically, it supports farmers. Small growers were not selling their cabbage, and some ran over good crops with tractors to make fertiliser, so the programme gave them a market for produce that would otherwise go to waste. Socially, an estimated 35,000 families take part each month, so poorer households gain regular access to fresh food. The figures are dated and the sources do not explain how the programme is funded, so the judgement is provisional. Even so, the initiative is a clear success on the environmental and economic pillars and a useful contribution on the social pillar.",
+                        "feedback": "Evaluates the initiative against the pillars with specific evidence and reaches a clear judgement, while stating where the evidence is limited. More current data on the programme's outcomes would make the judgement firmer.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-21-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The Green Exchange in Curitiba, Brazil, is a successful initiative for urban places because it deals with waste and supports farmers. Residents trade recyclable materials for fresh produce, at four kilograms of recyclables for one kilogram of food. It meets the environmental pillar by removing rubbish from poor areas and the economic pillar by giving growers a market for surplus cabbage.",
+                        "feedback": "Outlines the environmental and economic effects of the initiative with a clear example, but does not weigh its success or refer to the social pillar. Adding a judgement would lift it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-21-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Curitiba's Green Exchange lets people swap recycling for food.",
+                        "feedback": "Provides some relevant information about the initiative, with no reference to a pillar and no judgement of success.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The diagram shows the four pillars of sustainability.\nPillars of sustainability\nSocial Economic Environmental Cultural",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21"
                   }
                 ]
               }
@@ -16528,6 +17305,65 @@
                       }
                     ],
                     "scenario": "Parramatta is a real urban centre within the Sydney metropolitan area, used here as an example of an urban place located within a larger settlement. Its position on the Parramatta River is relevant to its identity."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-19a",
+                    "question": "Account for the identity of ONE place within a larger urban settlement.",
+                    "totalMarks": 4,
+                    "verb": "ACCOUNT",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top answers account for the identity: they explain how the place came to have it, not just list what the place looks like.",
+                      "Tracing a process such as gentrification gives the explanation its force; a list of cafes, murals and parks does not.",
+                      "Keep to ONE named place. An answer about a whole city or suburb misses the question's focus."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the features of a place, such as murals or cafes, without explaining how they formed its identity.",
+                      "Choosing a whole city or suburb rather than ONE place within the larger urban settlement.",
+                      "Describing a place's identity as fixed, with no account of how it changed over time."
+                    ],
+                    "keywords": [
+                      "identity",
+                      "place",
+                      "larger urban settlement",
+                      "neighbourhood",
+                      "gentrification",
+                      "bohemian"
+                    ],
+                    "markingCriteria": "4 marks: Accounts for the identity of ONE place within a larger urban settlement\n3 marks: Describes the identity of ONE place within a larger urban settlement\n2 marks: Outlines the identity of ONE place within a larger urban settlement\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-19a-1",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "The Plateau-Mont-Royal neighbourhood in Montreal shows how a place within a larger urban settlement develops a distinct identity over time. It was once a working-class district, and it became known for its bohemian character from the 1980s, when its reputation and proximity to McGill University drew artists, young professionals and students. That identity is now expressed through its arts institutions, including the National Theatre School of Canada and Les Grands Ballets Canadiens, and through its many creative organisations. The same identity has also driven gentrification, as rising rents dispersed many traditional residents and businesses to other parts of the city.",
+                        "feedback": "Accounts for the identity by tracing how it formed, from working-class origins to artists and then gentrification, and keeps to one named place throughout. Weighing the cost of the identity for displaced residents more fully would deepen the account.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-19a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The Plateau-Mont-Royal in Montreal has a strong arts identity. Artists and students are drawn to the neighbourhood and its bohemian character.",
+                        "feedback": "Outlines the identity of one named place, with one cause, but does not explain how the identity formed or how it has changed.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-19a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Plateau-Mont-Royal is a neighbourhood in Montreal with an arts scene.",
+                        "feedback": "Provides relevant information about the place but does not describe or explain its identity.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "19(a)"
                   }
                 ]
               },
@@ -16642,6 +17478,66 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-19b",
+                    "question": "Analyse how ONE place in a rural setting is linked to other places.",
+                    "totalMarks": 5,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-03"
+                    ],
+                    "markerNotes": [
+                      "Analysis means showing how the link works, for example how water stored in upstream dams or freight access sustains farm output, not simply naming a connection.",
+                      "Name the place and each place it is linked to precisely. Vague links such as 'it sells to other towns' stay in the lower range.",
+                      "A consequence of the link, such as dependence on distant catchments or markets, is what moves a response from describing to analysing."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a connection such as 'transport' without saying what flows along it or what it does for the place.",
+                      "Describing the place's features in general rather than the links between it and other places.",
+                      "Choosing a major city or a regional centre rather than a place in a rural setting."
+                    ],
+                    "keywords": [
+                      "rural setting",
+                      "place",
+                      "irrigation",
+                      "Burrinjuck Dam",
+                      "Blowering Dam",
+                      "intermodal freight",
+                      "export markets"
+                    ],
+                    "markingCriteria": "5 marks: Analyses how ONE place in a rural setting is linked to other places\n4 marks: Describes how ONE place in a rural setting is linked to other places\n3 marks: Outlines how ONE place in a rural setting is linked to other places\n2 marks: Identifies how ONE place in a rural setting is linked to other places\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-19b-1",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Griffith is a place in the rural setting of the Murrumbidgee Irrigation Area in the Riverina of New South Wales, and it is linked to other places through the water and freight that sustain its farming. Irrigation depends on water stored in Burrinjuck Dam on the Murrumbidgee River and Blowering Dam on the Tumut River, so the town's agriculture is tied to catchments far beyond the district. Its produce is in turn connected to distant markets through the WR Connect intermodal freight terminal, which the local council describes as providing the least-cost pathway to domestic and export markets. These links bring income and jobs, but they also create dependence. A drought in the upland catchments or a rise in freight costs passes directly into the farm incomes that the town relies on.",
+                        "feedback": "Analyses how one named place in a rural setting is linked to others, explaining the water and freight connections and the dependence they create. To extend it, weigh the advantages and risks of these links more fully, with a clearer example of one link at work.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-19b-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Griffith is linked to other places through irrigation water from Burrinjuck Dam on the Murrumbidgee River. Its produce also reaches markets through the WR Connect freight terminal. These links are what keep the district's irrigated farms operating.",
+                        "feedback": "Outlines two links for Griffith with a named example, but the links are listed rather than explained. Explain how each link works for the town to move up.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-19b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Griffith is a place in a rural setting that receives irrigation water from the Murrumbidgee River.",
+                        "feedback": "Provides some relevant information about Griffith's rural setting. Name a link to another place and explain what it carries.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "19(b)"
                   }
                 ]
               },
@@ -16992,6 +17888,65 @@
                       }
                     ],
                     "scenario": "Dhaka sits on a low-lying floodplain close to the major rivers of the Ganges-Brahmaputra-Meghna delta, and its waterways, such as the Buriganga River, are central to its transport and its layout."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-22a",
+                    "question": "Outline the character of this city.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "GE-12-01",
+                      "GE-12-02"
+                    ],
+                    "markerNotes": [
+                      "Top answers state the kind of city in the first sentence, then support its character with two or three real features of the place, such as a transport hub or a historic site.",
+                      "A three-mark answer needs a view of how the features combine into a character, not a list of facts. Naming features side by side stops at the middle range.",
+                      "Stay with the one city chosen for parts (a) to (c). Mixing in another city, or general statements about cities, weakens the real example the criteria reward."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing unrelated facts about the city, such as its population, without connecting them to its character.",
+                      "Describing the character in vague terms such as 'busy' or 'nice' with no named feature to support it.",
+                      "Writing a general description of large cities instead of the chosen city, so the answer has no real example."
+                    ],
+                    "keywords": [
+                      "character",
+                      "large city",
+                      "megacity",
+                      "urban landscape",
+                      "transport hub",
+                      "cultural heritage"
+                    ],
+                    "markingCriteria": "3 marks: Outlines the character of a suitable city\n2 marks: Identifies features of a suitable city\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-22a-1",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Tokyo, the capital of Japan, is a megacity of more than 14 million people, and its character blends modern and traditional features. Tokyo Station is a central transport hub for the Shinkansen high-speed network, while Senso-ji temple, founded in 645, and the Tokyo Skytree stand as contrasting parts of the urban landscape. This blend of cultural heritage and modern technology gives this large city a distinctive character.",
+                        "feedback": "Outlines the character of Tokyo with real features that are clearly linked to the question. To lift it further, explain what the contrast between heritage and new infrastructure says about the city, rather than setting the features side by side.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-22a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Tokyo is a large city of about 14 million people. It combines modern features, such as the Shinkansen hub at Tokyo Station, with historic sites such as Senso-ji temple, which was founded in 645.",
+                        "feedback": "Identifies relevant features of the city with a named example. To move up, tie the features together into an overall character rather than listing them.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-22a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Tokyo is a large city with more than 14 million people.",
+                        "feedback": "Provides some relevant information about the city. To lift it, name features that show what the city is like.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(a)"
                   }
                 ]
               },
@@ -17160,6 +18115,66 @@
                       }
                     ],
                     "scenario": "Dhaka's garment manufacturing is a major export industry, linking the city to buyers and markets in other countries. This question asks students to consider how that linkage has shaped the city's economy."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-24b",
+                    "question": "How has ONE urban dynamic of change influenced the location of residential land in a large city of the developed world?",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "GE-12-02",
+                      "GE-12-01",
+                      "GE-12-03"
+                    ],
+                    "markerNotes": [
+                      "Strong answers name one urban dynamic and explain its effect on where residential land is located, rather than describing apartments or suburbs in general.",
+                      "A place-based example with dates, such as the Castle Hill Showground site near the metro station, lets the explanation move from principle to evidence.",
+                      "Use 'urban consolidation' accurately, as redevelopment of established areas at higher density, and show how it links to the location of homes."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the growth of a suburb rather than the urban dynamic of change that shaped it.",
+                      "Names more than one dynamic, which fails the requirement to explain ONE.",
+                      "Confuses residential land with commercial or industrial land, so the location effect is never stated."
+                    ],
+                    "keywords": [
+                      "urban dynamic of change",
+                      "residential land",
+                      "large city of the developed world",
+                      "urban consolidation",
+                      "Showground Metro Station",
+                      "dwelling cap"
+                    ],
+                    "markingCriteria": "3 marks: Demonstrates an extensive understanding of how ONE urban dynamic of change influenced the location of residential land in a large city of the developed world\n2 marks: Demonstrates a sound understanding of the location of residential land and may make reference to an urban dynamic\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-24b-1",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Urban consolidation, the redevelopment of established areas at higher density, is the urban dynamic of change, and it has altered where residential land is located in Sydney, a large city of the developed world. Near Showground Metro Station, a 2019 proposal for about 450 apartments on the Castle Hill Showground site was followed by a 2023 amendment that removed the precinct's dwelling cap. Residential land now sits within minutes' walk of the metro.",
+                        "feedback": "This answer meets the top row by explaining one urban dynamic and tracing its effect on the location of residential land with a named Sydney example. To lift it further, it could explain why the location suits higher density, such as access to transport and services.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-24b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Urban consolidation has changed where homes are built in Sydney. New apartments near Castle Hill Showground have moved residential land closer to transport.",
+                        "feedback": "This answer shows a sound understanding of the location of residential land and refers to an urban dynamic, but the explanation is brief and the example is not dated or developed. To lift it, explain how the dynamic caused the change and name the place.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-24b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Sydney has a metro line, so people may live near it.",
+                        "feedback": "This answer provides some relevant information but does not name an urban dynamic of change or explain how it affected residential land. To lift it, name the dynamic and say what it did to where homes are located.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "24(b)"
                   }
                 ]
               },
@@ -17273,6 +18288,64 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-22b",
+                    "question": "Describe TWO challenges of living in this city.",
+                    "totalMarks": 5,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "GE-12-03",
+                      "GE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers name their city and state the challenge in the first sentence, so the example runs through every answer to the question.",
+                      "A specific measure, such as a congestion rate or average home size, shows the challenge rather than just naming it.",
+                      "Describing a challenge means showing its effect on residents, so explain what the crowding or small homes mean for daily living."
+                    ],
+                    "commonStudentErrors": [
+                      "Choosing a city of fewer than 5 million people, or a city in Australia, which the question does not allow.",
+                      "Describing general urban problems such as pollution or traffic without a specific example or statistic.",
+                      "Combining two challenges into one idea, such as 'housing and transport', rather than describing each one separately."
+                    ],
+                    "keywords": [
+                      "challenges of living",
+                      "large city",
+                      "overcrowding",
+                      "public transport",
+                      "housing"
+                    ],
+                    "markingCriteria": "5 marks: Describes TWO challenges of living in the city\n4 marks: Describes ONE challenge of living in the city and outlines ONE other\n3 marks: Outlines TWO challenges of living in the city\n2 marks: Outlines a challenge of living in the city OR Identifies challenges of living in the city\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-22b-1",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Tokyo is a large city, with about 14 million residents in its metropolis, and it presents two challenges of living there. The first is overcrowding on public transport. The Tōzai Line of the Tokyo Metro recorded a congestion rate of 199 per cent in fiscal 2018, just short of the 200 per cent level at which passengers come into contact with each other and feel considerable pressure. Commuters in the busiest hour therefore endure physical discomfort and stress. The second challenge is the limited size of housing. The average home in Tokyo measures about 65 square metres, the smallest of Japan's 47 prefectures, which leaves residents with little living space and storage.",
+                        "feedback": "Describes two challenges of living in the city, each supported by a specific measure and its effect on residents, within one named city. The response is strong because both challenges are developed rather than listed.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-22b-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Tokyo is a large city of about 14 million residents, and it has two challenges of living there: crowded trains and small homes. Trains on the Tōzai Line reached a congestion rate of 199 per cent in fiscal 2018. The average home in the city measures about 65 square metres.",
+                        "feedback": "Outlines two challenges of living in the city, with a figure for each, but neither is explained. Describing what the crowding and small homes mean for residents would move it to the next row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-22b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Living in a large city such as Tokyo brings problems, including crowded public transport.",
+                        "feedback": "Provides some relevant information about living in a large city without developing a challenge. Naming a second challenge and explaining the first would give it an outline of challenges.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(b)"
                   }
                 ]
               },
@@ -17387,6 +18460,129 @@
                       }
                     ],
                     "scenario": "Possible strategies include upgrading informal settlements, investing in public transport, and expanding water supply and sanitation. The large city may be one the student has studied, such as Dhaka, Mexico City or Jakarta."
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2024-27",
+                    "question": "Explain how the character of mega cities in the developing world influences responses to the challenges of living in them.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "GE-12-04",
+                      "GE-12-02",
+                      "GE-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top answers show how the character of mega cities produces particular responses, rather than describing the city and the responses as two separate topics.",
+                      "A named case study does real work here. The strongest answers use it to test each link in the argument, not only to illustrate a point.",
+                      "Judgement is what separates the top answers: they weigh which responses have worked, why, and where they fall short, instead of listing government and NGO responses."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing features of mega cities, such as population growth and density, then describing responses without linking any feature to a response.",
+                      "Treating the developing world as one place and making general claims with no named example.",
+                      "Presenting government redevelopment plans as successful without noting that most early plans were not carried through."
+                    ],
+                    "keywords": [
+                      "mega cities",
+                      "developing world",
+                      "character",
+                      "responses",
+                      "challenges",
+                      "informal settlements",
+                      "self-help",
+                      "NGOs"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates a comprehensive understanding of the character of mega cities in the developing world and responses to challenges of living in them; Provides a detailed explanation for how the character of mega cities influences the responses; Integrates relevant case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a sustained, logical and cohesive response using appropriate geographical information, terms and concepts\n13-16 marks: Demonstrates a thorough understanding of the character of mega cities in the developing world and responses to challenges of living in them; Provides an explanation for how the character of mega cities influences the responses; Refers to relevant case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a logical response using appropriate geographical information and terms\n9-12 marks: Demonstrates a sound understanding of the character of mega cities in the developing world and responses to challenges of living in them; Demonstrates some understanding of the link between the character of mega cities and the responses; Refers to case studies, illustrative examples and the Stimulus Booklet where appropriate; Presents a structured response using appropriate geographical information\n5-8 marks: Demonstrates some understanding of the character of mega cities and/or the responses to challenges of living in them; May refer to case studies, illustrative examples and/or the Stimulus Booklet; Uses some geographical information\n1-4 marks: Demonstrates a basic understanding of mega cities",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2024-27-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Mega cities in the developing world have a character of rapid growth, extreme density and large informal economies, and this character shapes the responses to the challenges of living in them. Scale is the central fact. Population growth outruns formal housing and services, so governments, NGOs and residents have each responded in different ways. The most durable responses are those that work with the character of the city rather than against it.\n\nThe first feature is scale. The United Nations defines a megacity as an urban area with 10 million or more inhabitants. It counts 33 megacities in 2025, up from 8 in 1975, and 19 of them are in Asia. Dhaka in Bangladesh, ranked second among the world's cities with almost 40 million residents, shows the pressure this creates. In 2016 UN-Habitat reported that one billion people, out of 1.6 billion without adequate shelter, lived in informal settlements, so informal housing is a common way of living in these cities rather than a marginal one. The UN expects the number of megacities to rise to 37 by 2050, so the pressure is growing rather than settling.\n\nThe second feature is density, and Dharavi in Mumbai is the clearest example. Dharavi covers just over 2.39 square kilometres and is often described as one of the most densely populated areas in the world. Its population is uncertain, with estimates ranging from about 300,000 to about one million. Its economy is largely informal and household-based. About 20 per cent of residents work in animal skin processing, tanneries and leather goods, and others run small enterprises in pottery, textiles and recycling. The informal economy gives the settlement its livelihoods, so any plan to move residents also threatens the work they depend on.\n\nGovernment responses have been ambitious but slow. Plans to redevelop Dharavi have been proposed since 1997, some modelled on the redevelopment of slums in Hong Kong, yet most early proposals failed for lack of financial or political support. In 2004 the cost was estimated at ₹5,000 crore, or US$520 million, and by 2023 authorities estimated the cost of a newer scheme at US$2.4 billion. In December 2024 the Adani Group received a tender from the Government of Maharashtra for the work. The size of the land and the number of households help explain the delays: a government response in a mega city cannot simply clear and rebuild without the people who already live and work there.\n\nNon-government responses work at a smaller and more practical scale. The alliance of SPARC, the National Slum Dwellers Federation and Mahila Milan organises women pavement dwellers in Mumbai, including in Dharavi. Mahila Milan was formed in the 1980s to help poor, mostly illiterate women understand why they could not obtain land. Its crisis credit scheme asks each person to contribute one or two rupees, so that anyone can borrow when needed, and each group makes its own lending decisions.\n\nSelf-help links the character of the city to the response most directly. In Dharavi, women joined Mahila Milan and asked for land to build permanent homes, and they designed and built houses to suit their budgets. This is the kind of response a dense, poor and fast-growing settlement makes necessary: when formal housing is out of reach and the state is slow, households pool savings and act for themselves. Such groups also give residents a collective voice when official plans are drawn up.\n\nThe responses have limits, and a strong answer says so. Savings groups cannot by themselves provide the water, sewerage and roads that a settlement of this size needs, and government plans can displace the communities they aim to help. Taken together, rapid growth, extreme density, large informal economies and limited formal capacity produce responses that are collective, incremental and built into the existing settlement. A strong answer also recognises that residents, not only planners, define what counts as improvement. Government investment in land and services remains essential, but the most durable responses combine it with community organisation that understands the city as it actually is.",
+                        "feedback": "Explains how the character of the city produces its responses, with a named case study used to test each link. The limits of the community responses are weighed, which is what a sustained judgement needs. A clearer comparison of outcomes, not only of plans, would make the evaluation firmer.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-27-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Mega cities in the developing world have a character of rapid growth, high density and large informal economies, and this character shapes the responses to the challenges of living in them. Growth outruns formal housing, so responses tend to be practical and collective as well as governmental.\n\nRapid growth is the first feature. The United Nations counts 33 megacities in 2025, and Dhaka in Bangladesh is ranked second among the world's cities with almost 40 million residents. In 2016 UN-Habitat reported that one billion people lived in informal settlements, which makes these settlements a common way of living in the city rather than an exception.\n\nDensity shapes the response, as Dharavi in Mumbai shows. The settlement covers about 2.39 square kilometres and is often described as one of the most densely populated areas in the world. About 20 per cent of its residents work in leather and tanning, and many households run small enterprises. Government redevelopment plans have been proposed since 1997, but most earlier proposals failed for lack of finance or political support.\n\nResponses have therefore often come from communities. The alliance of SPARC, the National Slum Dwellers Federation and Mahila Milan runs savings groups in which members contribute one or two rupees and can borrow when they need to. Women in Dharavi used this organisation to ask for land and to design and build homes to suit their budgets. These responses are not a full solution, since a savings group cannot deliver the infrastructure of a city this size, but they show how the character of mega cities produces self-help where formal responses are slow.\n\nIn conclusion, the character of mega cities in the developing world, marked by growth, density and informal economies, means responses must combine government investment with community action. Government plans have been slow and costly, so the most effective responses are likely to build on the settlements that already exist.",
+                        "feedback": "Shows a sound understanding of the character of mega cities and of the responses, with a named example and a link between density and self-help. The link to government action is brief, and developing it with evidence of outcomes would strengthen the answer.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2024-27-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Mega cities in the developing world have rapidly growing populations, and many people live in informal settlements. Governments and NGOs respond by providing housing and services, and residents often form savings groups to help themselves.",
+                        "feedback": "Identifies one feature of the character and one kind of response, but neither is developed, and no case study or link between them is given.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you: demonstrate geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; refer to case studies, illustrative examples and the Stimulus Booklet where appropriate; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2024,
+                    "hscQuestionNumber": "27"
+                  },
+                  {
+                    "id": "prompt-geo-hsc-2025-22c",
+                    "question": "Evaluate the effectiveness of TWO strategies to improve people’s quality of life in this city.",
+                    "totalMarks": 12,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "GE-12-04",
+                      "GE-12-02",
+                      "GE-12-03"
+                    ],
+                    "markerNotes": [
+                      "The gap between a strong answer and a middle one is judgement. Strong answers test each strategy against named criteria such as safety and daily life, and say where each works and where it falls short, rather than describing both and concluding that both were effective.",
+                      "Named, checkable detail carries the top range: a real rail network with its loop and sub-centres, or the 1981 change to the building code and the Kobe evidence. General claims such as 'good public transport' keep a response in the middle range.",
+                      "Both strategies should be weighed against each other as well as against the city. A conclusion that says which strategy matters more, and why, is what turns a summary into a detailed judgement."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing public transport and building regulation in turn, then stating that both were effective, without testing either against a criterion.",
+                      "Naming Tokyo but giving no line, station, building standard or event, so the strategy is never tied to the city.",
+                      "Treating crowding and building age as side points rather than limits on effectiveness, so the evaluation has no counter-argument."
+                    ],
+                    "keywords": [
+                      "quality of life",
+                      "strategies",
+                      "effectiveness",
+                      "urban planning",
+                      "public transport",
+                      "resilience",
+                      "disaster preparedness"
+                    ],
+                    "markingCriteria": "11-12 marks: Demonstrates comprehensive knowledge and understanding of TWO strategies to improve people’s quality of life in the city; Provides a detailed judgement about the effectiveness of strategies to improve people’s quality of life in the city; Integrates relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; Presents a sustained, logical and cohesive response using appropriate geographical ideas, terms and concepts\n8-10 marks: Demonstrates well-developed knowledge and understanding of TWO strategies to improve people's quality of life in the city; Provide some judgement about the effectiveness of strategies to improve people's quality of life in the city; Refers to relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; Presents a logical response using appropriate geographical terminology and concepts\n5-7 marks: Demonstrates sound knowledge and understanding of TWO strategies to improve people's quality of life in the city; Describes strategies for improving people's quality of life in the city; Refers to examples, geographical information and the Stimulus Booklet where appropriate; Presents a structured response using appropriate geographical concepts\n3-4 marks: Demonstrates some knowledge and understanding of people's quality of life; May refer to examples, geographical information and/or the Stimulus Booklet; Uses some geographical terminology\n1-2 marks: Demonstrates a basic understanding of quality of life",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-geo-hsc-2025-22c-1",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Tokyo, the capital of Japan and a metropolis of more than 14 million people, has pursued two strategies to improve quality of life: transit-based urban planning and earthquake-resistant building regulation. The effectiveness of each is uneven. The rail network makes everyday life easier for most residents but is strained by crowding, while seismic regulation offers the strongest protection in a disaster yet depends on how quickly older buildings are replaced. On balance, the rail strategy is more effective in improving daily life, while the seismic strategy is more essential for safety.\n\nThe first strategy is urban planning built around public transport. Tokyo's rail system has three layers: subways in the centre, private railways in the suburbs and JR lines that run through both. The radial private lines, linked by the Yamanote loop, helped create sub-centres where they intersect. Private operators built much of the station-area development, placing homes, shops and services close to stations. Rail carried a 51 per cent mode share in 2018, which reduces car dependence and gives residents access to work and services without a car.\n\nThe benefit, however, is limited by crowding. In fiscal 2018, eleven lines in greater Tokyo exceeded a congestion rate of 180 per cent, where 100 per cent means every seat is taken and standing passengers can hold a strap. Access gained through the network is partly offset by lost comfort and time on the busiest routes, so its effectiveness depends on how far the system can absorb peak demand.\n\nThe second strategy is earthquake-resistant building regulation, which builds resilience into the city and addresses disaster preparedness directly. Japan revised its Building Standard Law in 1981, adopting a two-phase design: one level to avoid loss of function in frequent shaking and one to ensure safety in rare, very strong shaking. When the Kobe earthquake struck in January 1995, post-1981 structures performed well, while many pre-1981 wooden and concrete buildings suffered heavy damage. The regulation therefore offers real protection to residents in a serious earthquake.\n\nIts effectiveness, however, depends on the age of the building stock. Buildings constructed before 1981 remain in use, and these were the most vulnerable in Kobe, so protection reaches residents only as fast as older buildings are retrofitted or replaced. Unlike rail, which is used every day, seismic regulation delivers its main benefit in a rare event.\n\nJudged against safety and daily quality of life, the two strategies complement each other. The rail network improves everyday life for the residents who use it, although crowding limits its gains. Seismic regulation provides the more critical protection for safety, although its gains depend on the slow replacement of older buildings. Overall, both strategies are effective in different ways: rail has the greater reach in daily life, and seismic regulation the greater value in a disaster.",
+                        "feedback": "Meets the top criteria: a detailed judgement of effectiveness for both named strategies, real Tokyo examples woven through, and a sustained, cohesive argument. To lift it further, test both strategies against equity, asking who is left out, rather than mainly against safety and daily life.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-22c-2",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "Tokyo, a city of more than 14 million people, has used two strategies to improve quality of life. The first is public transport. Tokyo's rail network combines subways, private railways and JR lines, and the private railways link the suburbs to the centre. The Yamanote loop connects many of these lines, which has helped people reach work and services. Rail carried a 51 per cent mode share in 2018, but crowding on the busiest lines is a problem at peak times.\n\nThe second strategy is earthquake-resistant building regulation. Japan revised its Building Standard Law in 1981 to strengthen buildings against earthquakes. When the 1995 Kobe earthquake struck, buildings designed to the newer standard performed much better than older ones, so the strategy improves safety. However, it only helps as older buildings are replaced.\n\nBoth strategies improve quality of life to some extent. Rail is more visible in everyday life, while seismic regulation matters most in an emergency.",
+                        "feedback": "Describes both strategies with relevant Tokyo examples in a structured response, but the evaluation is brief. To reach a detailed judgement, test each strategy against a named criterion such as safety or daily life and explain its limits.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-geo-hsc-2025-22c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Tokyo's rail network helps people reach work and services, and buildings designed to earthquake standards make the city safer.",
+                        "feedback": "Relevant but undeveloped: the answer refers to quality of life without explaining either strategy or what it achieved. Name each strategy, give one real example for each, and say what it changed.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(c)"
                   }
                 ]
               }

@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (2024 and 2025 HSC Geography questions, exam profiles and a reference set)
+
+- **Added.** 20 written-response questions from the 2024 and 2025 HSC Geography papers (the current 2022 syllabus) in `HSCGeography.json`, as `prompt-geo-hsc-<year>-<number>`: parts worth 2–6 marks, the 12-mark part (2025 22(c)) and the 20-mark extended responses (2024 Q25–27, 2025 Q23). Each carries the paper's wording, NESA's marking criteria as the app's ladder, and exemplar answers at several marks, and is placed under the dot point it assesses. The chip reads "HSC 2024 · Q25".
+- **Left out.** Questions that rest on a map, photograph or table in the Stimulus Booklet, which the text of the paper does not carry.
+- **Note.** The exemplars use real places (Bega Cheese, Tokyo, the Great Barrier Reef, Dharavi) and every figure in them was checked against a named source; anything that could not be confirmed was dropped rather than kept. A teacher should still read the 20-mark answers (2024 Q25 to Q27, 2025 Q23).
+- **Added.** `data/referencePapers/` holds the structure and marking guidelines of the 2025 Software Engineering and Enterprise Computing papers and the Geography 2024 and 2025 papers, and `docs/hsc-exam-profiles.md` records what a real paper in each course looks like (mark sizes, verbs, stimulus). The seed brief and generation prompt gain a sample-length rule.
+
 ## [Unreleased] - 2026-10-15 (Exam-length time guidance, an exam-standard report, and HSC-shaped generation rules)
 
 - **Fixed.** A question with more marks than its verb's typical range now gets the HSC pace (1.8 minutes a mark) beyond that range instead of the verb's ceiling. A 20-mark DISCUSS had 18 minutes against the 35–40 the paper allows; it now has 36. A question inside its verb's range is exactly as before (`getRecommendedTime`, `tests/unit/recommendedTime.test.ts`).
