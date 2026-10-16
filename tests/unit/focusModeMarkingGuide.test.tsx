@@ -51,7 +51,7 @@ const statePath = {
   promptId: 'p-focus',
 } as unknown as StatePath;
 
-const renderFocused = (current: Prompt) =>
+const renderFocused = (current: Prompt, userRole = 'user', isFocusMode = true) =>
   render(
     <Workspace
       courses={[] as Course[]}
@@ -72,8 +72,8 @@ const renderFocused = (current: Prompt) =>
       geminiHandlers={{} as never}
       modalHandlers={{} as never}
       syllabusHandlers={{ updateCourses: vi.fn() } as never}
-      userRole="user"
-      isFocusMode
+      userRole={userRole as never}
+      isFocusMode={isFocusMode}
       onToggleFocusMode={vi.fn()}
       writingMode="coach"
       onWritingModeChange={vi.fn()}
@@ -133,5 +133,51 @@ describe('the Syllabus Terms in Focus Mode', () => {
     renderFocused(prompt());
     fireEvent.click(termsToggle());
     expect(readSupportUsage('p-focus').opened).toContain('keywords');
+  });
+});
+
+describe('Focus Mode for a teacher or admin', () => {
+  // Focus Mode is for writing. The curation tools (generate or edit a scenario,
+  // regenerate terms, edit the marking guide, generate or load a sample answer)
+  // are put away for a teacher or admin exactly as they are for a student.
+  const richPrompt = () =>
+    prompt({
+      scenario: 'A school wants to move its records online.',
+      keywords: ['replication', 'helicase'],
+      markingCriteria: 'Band 2: describes the steps.',
+      sampleAnswers: [
+        { id: 's1', text: 'DNA unwinds, then copies.', band: 2, wordCount: 5 },
+      ] as never,
+    });
+
+  const buttonNames = () =>
+    screen
+      .getAllByRole('button')
+      .map(
+        (b) =>
+          b.getAttribute('aria-label') || b.getAttribute('title') || (b.textContent ?? '').trim()
+      )
+      .filter(Boolean)
+      .sort();
+
+  it('lays out the same controls as a student sees', () => {
+    renderFocused(richPrompt(), 'user');
+    const student = buttonNames();
+    cleanup();
+
+    for (const role of ['teacher', 'admin']) {
+      renderFocused(richPrompt(), role);
+      expect(buttonNames(), `${role} in Focus Mode`).toEqual(student);
+      cleanup();
+    }
+  });
+
+  it('still has those tools outside Focus Mode, so the comparison means something', () => {
+    renderFocused(richPrompt(), 'user', false);
+    const student = buttonNames();
+    cleanup();
+
+    renderFocused(richPrompt(), 'admin', false);
+    expect(buttonNames().length).toBeGreaterThan(student.length);
   });
 });
