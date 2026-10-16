@@ -63,6 +63,7 @@ import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
 import SeatOverageNotice from './components/SeatOverageNotice';
+import UpdateAvailableBanner from './components/UpdateAvailableBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
 import { loadUserProfile, STORAGE_KEYS } from './utils/storageUtils';
 import {
@@ -898,6 +899,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       >
         {!isFocusMode && <BillingAlertBanner />}
         {!isFocusMode && <SeatOverageNotice user={user} />}
+        {!isFocusMode && <UpdateAvailableBanner />}
 
         {!isFocusMode && isNavCollapsed && currentPrompt && (
           <SyllabusNavBar

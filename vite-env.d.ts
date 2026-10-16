@@ -136,3 +136,10 @@ interface ImportMeta {
  * (see LoginPage) so environments without the define fall back gracefully.
  */
 declare const __APP_VERSION__: string;
+
+/**
+ * Identifies this build (commit SHA in CI). `'dev'` outside production builds,
+ * which switches the update check off. Compared with `version.json` on the
+ * server to detect a newer deploy.
+ */
+declare const __BUILD_ID__: string;

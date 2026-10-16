@@ -1,6 +1,12 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { signIn, clearOnboarding, openFirstQuestion, openVerbRibbon } from './support/workspace';
+import {
+  signIn,
+  clearOnboarding,
+  openFirstQuestion,
+  openPanel,
+  openVerbRibbon,
+} from './support/workspace';
 import { freezeAnimations, measureContrast, describeReadings } from './support/contrast';
 
 /**
@@ -346,6 +352,76 @@ test.describe('accessibility (axe, WCAG 2.1 AA)', () => {
       // the workspace never opened and axe scanned a spinner.
       expect(passes.length, `${theme}: axe checked almost nothing`).toBeGreaterThan(10);
       expect(violations, `workspace, ${theme} theme:${describeViolations(violations)}`).toEqual([]);
+    }
+  });
+
+  test('the reference panels and the prompt card info modals have no violations, in both themes', async ({
+    page,
+  }) => {
+    // The surfaces reworked around the sample answers: Syllabus terms, Marking
+    // guide and Sample answers open (with one model answer expanded, which is
+    // where the band-coloured head and the "View marking criterion" button
+    // live), then the three dialogs reached from the prompt card. Scanning the
+    // workspace shut — as the test above does — never sees any of it.
+    await signIn(page);
+    await clearOnboarding(page);
+    await openFirstQuestion(page);
+    await openVerbRibbon(page);
+    for (const panel of [/syllabus terms/i, /marking guide|marking criteria/i, /sample answers/i]) {
+      await openPanel(page, panel);
+    }
+    const collapsedRow = page.locator('.sample-row button[aria-expanded="false"]');
+    if (await collapsedRow.count()) {
+      await collapsedRow.first().click();
+      await page.waitForTimeout(600);
+    }
+    await expect(
+      page.getByRole('button', { name: /view marking criterion/i }).first()
+    ).toBeVisible();
+
+    const dialogs: Array<[string, () => Promise<void>]> = [
+      [
+        'command verb guide',
+        () => page.locator('button[aria-label^="Open the command verb guide"]').first().click(),
+      ],
+      [
+        'reading outcomes',
+        () =>
+          page
+            .getByRole('button', { name: /read before you write/i })
+            .first()
+            .click(),
+      ],
+      ['flag this question', () => page.getByRole('button', { name: /flag/i }).first().click()],
+    ];
+
+    for (const theme of ['dark', 'light'] as const) {
+      const toggle = page.getByRole('button', {
+        name: new RegExp(`switch to ${theme} theme`, 'i'),
+      });
+      if (await toggle.count()) {
+        await toggle.first().click();
+        await page.waitForTimeout(800);
+      }
+      await freezeAnimations(page);
+      const open = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
+      expect(
+        open.violations,
+        `panels open, ${theme} theme:${describeViolations(open.violations)}`
+      ).toEqual([]);
+
+      for (const [label, trigger] of dialogs) {
+        await trigger();
+        await expect(page.getByRole('dialog').first()).toBeVisible();
+        await page.waitForTimeout(1200);
+        await freezeAnimations(page);
+        const { violations } = await new AxeBuilder({ page }).withTags(WCAG_AA).analyze();
+        expect(violations, `${label}, ${theme} theme:${describeViolations(violations)}`).toEqual(
+          []
+        );
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(500);
+      }
     }
   });
 });

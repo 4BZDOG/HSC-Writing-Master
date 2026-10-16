@@ -8,6 +8,7 @@ export default defineConfig({
     // Mirror vite.config.ts so components reading the app version don't hit a
     // bare identifier in the jsdom environment.
     __APP_VERSION__: JSON.stringify('0.0.0-test'),
+    __BUILD_ID__: JSON.stringify('test-build'),
   },
   test: {
     globals: true,
