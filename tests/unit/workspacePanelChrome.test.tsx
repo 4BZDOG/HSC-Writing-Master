@@ -14,6 +14,7 @@ import {
   CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
+  CARD_HEADER_CORNER,
   CARD_HEADER_ICON,
   CARD_HEADER_IDENTITY,
   CARD_HEADER_META_ROW,
@@ -21,6 +22,7 @@ import {
   CARD_HEADER_TITLE,
   CARD_HEADER_TITLE_BLOCK,
   CARD_HEADER_TRAY,
+  CARD_HEADER_ZOOM,
 } from '../../utils/cardChrome';
 import { Prompt, PromptVerb } from '../../types';
 
@@ -205,14 +207,34 @@ describe('the two headers are built from one vocabulary', () => {
     const prompt = renderPromptHeader();
     const editor = renderEditorHeader();
 
-    for (const { header } of [prompt, editor]) {
+    // The writing card's corner is the plain tray. The question card's is the
+    // tray's column form, because it also holds the reading size above the bar.
+    const corners = [
+      { header: prompt.header, corner: CARD_HEADER_CORNER },
+      { header: editor.header, corner: CARD_HEADER_TRAY },
+    ];
+    for (const { header, corner } of corners) {
       const tray = header.querySelector(`div[class*="self-stretch"]`);
-      expect(tray?.className).toContain(CARD_HEADER_TRAY);
-      expect(
-        tray?.innerHTML.includes(CARD_HEADER_BAR) || tray?.firstElementChild?.className
-      ).toBeTruthy();
-      expect(header.innerHTML).toContain(CARD_HEADER_BAR);
+      expect(tray?.className).toContain(corner);
+      // The bar is marked, and it is the LAST thing in the corner, on its floor.
+      const bar = tray?.querySelector('[data-card-bar]');
+      expect(bar?.className).toContain(CARD_HEADER_BAR);
+      expect(tray?.lastElementChild).toBe(bar);
     }
+  });
+
+  it('puts the reading size in the question card’s corner, above the stat bar', () => {
+    const { header, heading } = renderPromptHeader();
+    const corner = header.querySelector('div[class*="self-stretch"]') as HTMLElement;
+
+    const zoom = corner.querySelector('[role="group"][aria-label="Reading size"]');
+    expect(zoom).toBeTruthy();
+    expect(zoom?.className).toContain(CARD_HEADER_ZOOM);
+    expect(zoom?.querySelector('button[aria-label="Decrease reading size"]')).toBeTruthy();
+    expect(zoom?.querySelector('button[aria-label="Increase reading size"]')).toBeTruthy();
+    // Above the bar, not beside the title, and no longer in the footer.
+    expect(corner.firstElementChild).toBe(zoom);
+    expect(heading.parentElement?.querySelector('[aria-label="Reading size"]')).toBeNull();
   });
 
   it('keeps the writing tools out of the title row', () => {

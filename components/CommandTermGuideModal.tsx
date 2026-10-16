@@ -27,6 +27,7 @@ import {
 } from '../utils/ladderChrome';
 import LadderRow, { ladderBandVars } from './LadderRow';
 import StrategyMoves from './StrategyMoves';
+import QuestionExpectations from './QuestionExpectations';
 
 interface CommandTermGuideModalProps {
   isOpen: boolean;
@@ -182,15 +183,30 @@ const CommandTermGuideModal: React.FC<CommandTermGuideModalProps> = ({
         {/* The guide as a reading document, scrolling under the head. */}
         <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 pb-8">
           {hasQuestion && (
-            <p className="rounded-xl bg-[rgb(var(--color-bg-surface-inset))] px-4 py-3 text-sm leading-snug text-[rgb(var(--color-text-secondary))]">
-              <span className="font-semibold text-[rgb(var(--color-text-primary))]">
-                This question:
-              </span>{' '}
-              {marks} {marks === 1 ? 'mark' : 'marks'}. A full-mark answer reaches Band {band}.
-            </p>
+            <section aria-labelledby="command-term-question-heading">
+              <p
+                id="command-term-question-heading"
+                className="rounded-xl bg-[rgb(var(--color-bg-surface-inset))] px-4 py-3 text-sm leading-snug text-[rgb(var(--color-text-secondary))]"
+              >
+                <span className="font-semibold text-[rgb(var(--color-text-primary))]">
+                  This question:
+                </span>{' '}
+                {marks} {marks === 1 ? 'mark' : 'marks'}. A full-mark answer reaches Band {band}.
+              </p>
+              {/* What that means in practice, for these marks and this verb. The
+                  generic ranges below are for the verb across every question. */}
+              <div className="mt-4">
+                <QuestionExpectations verb={termInfo.term} marks={marks} band={band} />
+              </div>
+            </section>
           )}
 
-          <dl className="mt-5 flex flex-wrap gap-x-10 gap-y-4">
+          {hasQuestion && (
+            <p className="mt-6 t-label text-[rgb(var(--color-text-muted))]">
+              Across every {termInfo.term} question
+            </p>
+          )}
+          <dl className={`${hasQuestion ? 'mt-2' : 'mt-5'} flex flex-wrap gap-x-10 gap-y-4`}>
             <Stat label="Marks" value={termInfo.markRange.join('–')} band={bandConfig.text} />
             <Stat label="Minutes" value={termInfo.timeRange.join('–')} band={bandConfig.text} />
             <Stat label="Pages" value={termInfo.pageEstimate} band={bandConfig.text} />

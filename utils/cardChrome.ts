@@ -54,9 +54,16 @@ export const cardHeaderWash = (band: number): string =>
 
 /** The header box itself. Each card adds its own background — the band wash
  *  from `cardHeaderWash` on both cards, or the surface on the writing area in
- *  Exam Mode. */
+ *  Exam Mode.
+ *
+ *  `items-stretch`, not `items-start`: the row inside has to fill the shared
+ *  minimum height, or each corner bar sits at the bottom of ITS OWN row and the
+ *  two cards' bars land wherever their different content happens to end. It used
+ *  to work because both rows came out the same height; the question card's corner
+ *  gained a reading size above its bar, the rows differed, and the bars were 4px
+ *  apart. The headings stay top-aligned either way (see `CARD_HEADER_ROW`). */
 export const CARD_HEADER_BOX =
-  'px-4 sm:px-6 py-3 text-white flex justify-between items-start relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
+  'px-4 sm:px-6 py-3 text-white flex justify-between items-stretch relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 
 /**
  * The row inside it. TOP-aligned, and it must stay that way: the two headers
@@ -139,6 +146,34 @@ export const CARD_HEADER_TRAY =
   // makes shrinking actually possible: a flex item will not go below its
   // content's intrinsic width without it.
   'self-stretch flex flex-wrap items-end justify-end gap-x-3 gap-y-2 ml-auto min-w-0 shrink sm:shrink-0';
+
+/**
+ * The question card's corner: the reading size across the top and the stat bar on
+ * the floor, one column right-aligned. It is `CARD_HEADER_TRAY` with a second
+ * thing in it, so it keeps the tray's job (top-aligned row, bar level with the
+ * writing card's across the gap) and its shrink rules.
+ *
+ * Two rows cost a header 28px + 4px + the bar's 36px = 68px, inside the 72px the
+ * heading block already occupies, so the header stays at its ~92px and under the
+ * 96px ceiling `workspace-chrome.spec.ts` holds. On a phone the corner is a full
+ * row of its own (the title block has no room beside it) and runs as one line,
+ * reading size at the left and the bar at the right, rather than two 44px rows.
+ */
+export const CARD_HEADER_CORNER =
+  'self-stretch flex flex-col items-end justify-between gap-1 ml-auto min-w-0 shrink sm:shrink-0 max-sm:w-full max-sm:flex-row max-sm:items-center max-sm:justify-between max-sm:gap-3';
+
+/**
+ * The reading size control in that corner. The bar's own fill and border, one step
+ * smaller (28px against the bar's 36px, so the pair stack inside the heading's
+ * height), and 44px on a phone where its buttons are touch targets.
+ */
+export const CARD_HEADER_ZOOM =
+  'flex items-center gap-0.5 h-7 max-sm:h-11 px-0.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner';
+
+/** One of its two buttons. White on the band wash, like everything else in the
+ *  header; disabled at the end of the range, which WCAG 1.4.3 exempts. */
+export const CARD_HEADER_ZOOM_BUTTON =
+  'flex items-center justify-center h-6 w-7 max-sm:h-11 max-sm:w-11 rounded-lg text-white hover:bg-white/15 active:scale-[0.98] transition-colors touch-manipulation disabled:cursor-not-allowed disabled:text-white/50 disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70';
 
 /**
  * The dark pill bar in that corner: stat pills on the question card, the

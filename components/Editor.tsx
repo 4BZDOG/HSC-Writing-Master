@@ -655,7 +655,7 @@ const Editor = forwardRef<
                     so the whole bar fits a 360px screen: it scrolls there, and
                     nothing says so, so the focus-mode button at its end was
                     cut in half and easily never found. */}
-                <div className={`${CARD_HEADER_BAR} max-sm:px-1 gap-0 sm:gap-1`}>
+                <div data-card-bar className={`${CARD_HEADER_BAR} max-sm:px-1 gap-0 sm:gap-1`}>
                   {onWritingModeChange && (
                     <>
                       <div

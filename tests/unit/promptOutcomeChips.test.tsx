@@ -80,39 +80,57 @@ afterEach(() => {
 const chipFor = (code: string) => screen.getByRole('button', { name: new RegExp(code) });
 
 describe('outcome chips in the prompt footer', () => {
-  it('lays every chip out in one horizontal strip that scrolls rather than wraps', () => {
+  it('lays every chip out in a row that wraps, and never scrolls', () => {
     render(<PromptDisplay {...props} />);
 
-    const strip = chipFor('SE-12-01').parentElement as HTMLElement;
-    // All three chips share the one strip…
+    const row = chipFor('SE-12-01').parentElement as HTMLElement;
+    // All three chips share the one row, beside the brief button…
     outcomes.forEach((o) => {
-      expect(within(strip).getByRole('button', { name: new RegExp(o.code) })).toBeTruthy();
+      expect(within(row).getByRole('button', { name: new RegExp(o.code) })).toBeTruthy();
     });
-    // …laid out in a row that never wraps to a second line.
-    expect(strip.className).toContain('flex-nowrap');
-    expect(strip.className).toContain('overflow-x-auto');
-    expect(strip.className).not.toContain('flex-wrap');
+    expect(within(row).getByRole('button', { name: /read before you write/i })).toBeTruthy();
+    // …and the row WRAPS onto more lines when the card is narrow, instead of
+    // scrolling sideways. In two columns this card is ~490px, and the scrolling
+    // strip it replaced was left a few pixels: the second chip was clipped to
+    // "S…" with no scrollbar to find the rest of it.
+    expect(row.className).toContain('flex-wrap');
+    expect(row.className).not.toContain('flex-nowrap');
+    expect(row.className).not.toMatch(/overflow-(x-)?(auto|hidden|scroll)/);
   });
 
-  it('stops being a scroller when it has no chips to scroll', () => {
-    // It was a scroller unconditionally, and with nothing focusable inside it
-    // that is a WCAG failure (`scrollable-region-focusable`): the placeholder
-    // is 153px of text in a slot that narrows to about 100px, `scrollbar-hide`
-    // removes the scrollbar, and there is no chip to tab to — so a keyboard
-    // user cannot reach the end of the sentence at all. With chips it stays a
-    // scroller and needs no tabindex, because the chips are buttons.
-    //
-    // The e2e sweep (tests/e2e/accessibility.spec.ts) catches this too, but
-    // only at a viewport narrow enough for the strip to overflow — it went
-    // green over this very defect at 1400px. This one cannot drift with layout.
+  it('keeps every chip whole: one line, one height, and 44px on a phone', () => {
+    render(<PromptDisplay {...props} />);
+
+    const chips = [
+      screen.getByRole('button', { name: /read before you write/i }),
+      ...outcomes.map((o) => chipFor(o.code)),
+    ];
+    for (const chip of chips) {
+      // A code is never broken across lines, and never truncated with an ellipsis.
+      expect(chip.className).toContain('whitespace-nowrap');
+      expect(chip.className).not.toContain('truncate');
+      expect(chip.className).toContain('min-h-9');
+      expect(chip.className).toContain('max-sm:min-h-11');
+    }
+    // The flag beside them is a 44px target on a phone too.
+    expect(
+      screen.getByRole('button', { name: /flag this question for review/i }).className
+    ).toContain('max-sm:size-11');
+  });
+
+  it('says so in plain words, without a scroller, when no outcomes are linked', () => {
+    // The old strip was a scroller even with nothing in it, which is a WCAG
+    // failure (`scrollable-region-focusable`): 153px of text in a slot that
+    // narrowed to about 100px, no scrollbar, and nothing focusable inside to tab
+    // to. The row wraps now, so the sentence is never clipped at all.
     render(<PromptDisplay {...props} prompt={{ ...prompt, linkedOutcomes: [] }} />);
 
     const placeholder = screen.getByText(/no outcomes linked/i);
-    const strip = placeholder.parentElement as HTMLElement;
-    expect(strip.className).toContain('overflow-hidden');
-    expect(strip.className).not.toContain('overflow-x-auto');
-    // And the sentence ends in an ellipsis rather than a hard cut mid-word.
-    expect(placeholder.className).toContain('truncate');
+    const row = placeholder.parentElement as HTMLElement;
+    expect(row.className).toContain('flex-wrap');
+    expect(row.className).not.toMatch(/overflow-(x-)?(auto|scroll)/);
+    expect(placeholder.className).not.toContain('truncate');
+    expect(screen.queryByRole('button', { name: /read before you write/i })).toBeNull();
   });
 
   it('renders the hover preview outside the card, which clips its own overflow', () => {

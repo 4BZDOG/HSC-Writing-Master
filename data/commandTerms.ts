@@ -1305,6 +1305,14 @@ const STRUCTURE_BY_MARK: Record<number, string> = {
 };
 
 /**
+ * The structural expectation for a full-mark answer worth `mark` marks, without
+ * the word range. For a surface that states the length as a figure of its own
+ * (the question's "what the marker looks for" panel) and so must not say it twice.
+ */
+export const getStructureExpectation = (mark: number): string =>
+  STRUCTURE_BY_MARK[Math.max(1, Math.min(10, Math.round(mark || 1)))];
+
+/**
  * Returns the explicit structural requirements for a given mark based on NESA guidelines.
  * Used by the AI to generate accurately structured sample answers, and given to
  * the marker as what a full-mark answer looks like. The word range comes from
