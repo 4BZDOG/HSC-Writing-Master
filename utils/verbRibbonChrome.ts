@@ -708,7 +708,7 @@ export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
  *  button, and the card that holds it is `overflow-hidden`, so it would be clipped
  *  away on three sides. Inset is the shape this button can wear. */
 export const RIBBON_TIER_HEADER =
-  'w-full text-left grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 px-5 pt-4 pb-3.5 border-b relative cursor-pointer transition-[filter] can-hover:hover:brightness-110 active:brightness-95 touch-manipulation select-none ' +
+  'w-full text-left grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 px-5 pt-4 pb-2.5 border-b relative cursor-pointer transition-[filter] can-hover:hover:brightness-110 active:brightness-95 touch-manipulation select-none ' +
   // From `xl`, where the six cards share the row at about 189px each, the
   // header keeps the same two rows and drops to the card's own inset.
   'xl:px-4 ' +
@@ -789,7 +789,7 @@ export const RIBBON_TIER_BAND_IDLE = 'ribbon-tier-band';
  *  column is narrower. A one-line name leaves the rest of that floor empty and the
  *  heights still agree, which is the point of the floor. */
 export const RIBBON_TIER_HEADER_TITLE =
-  'col-span-2 row-start-2 min-h-[2.25rem] xl:min-h-[3.3rem] t-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
+  'col-span-2 row-start-2 min-h-[2.25rem] xl:min-h-[3.3rem] 2xl:min-h-[2.25rem] t-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
