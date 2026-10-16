@@ -62,7 +62,10 @@ import {
 // Studies typo). The bump makes browsers already at 2.14.0 sync again.
 // 2.16.0: Software Engineering and Enterprise Computing rebuilt from NESA's syllabus
 // (Year 11 and Year 12 as separate topics). Browsers already at 2.15.0 sync again.
-export const DATA_VERSION = '2.16.0';
+// 2.17.0: a student's draft no longer makes a shipped course count as edited, so the sync
+// can refresh it, and it carries the draft across. Browsers at 2.16.0 whose courses were
+// kept because of a draft sync again.
+export const DATA_VERSION = '2.17.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

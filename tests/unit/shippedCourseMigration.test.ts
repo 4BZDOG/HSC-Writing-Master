@@ -3,7 +3,12 @@ import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { syncShippedCourses } from '../../hooks/useSyllabusData';
 import { runMigrations, DATA_VERSION, RETIRED_SEED_COURSE_IDS } from '../../utils/storageUtils';
-import { hashCourse, isUnedited, stampShipped } from '../../utils/shippedCourseStamp';
+import {
+  carryPersonalFields,
+  hashCourse,
+  isUnedited,
+  stampShipped,
+} from '../../utils/shippedCourseStamp';
 import { analyzeAndSanitizeImportData } from '../../utils/dataManagerUtils';
 import type { Course } from '../../types';
 
@@ -40,6 +45,29 @@ const shippedCourse = (file: string): Course => {
     JSON.parse(readFileSync(join(SHIPPED, file), 'utf8'))
   );
   return (analysis.data as Course[])[0];
+};
+
+/** The first question of a course, by where it sits, so a test can write on it. */
+const firstPrompt = (c: Course) => c.topics[0].subTopics[0].dotPoints[0].prompts[0];
+
+/** A copy of `c` with a student's draft written on its first question. */
+const withDraft = (c: Course, draft = 'My first paragraph.', seconds = 240): Course => {
+  const topics = c.topics.map((topic, ti) => ({
+    ...topic,
+    subTopics: topic.subTopics.map((st, si) => ({
+      ...st,
+      dotPoints: st.dotPoints.map((dp, di) => ({
+        ...dp,
+        prompts:
+          ti === 0 && si === 0 && di === 0
+            ? dp.prompts.map((p, pi) =>
+                pi === 0 ? { ...p, userDraft: draft, draftElapsedSeconds: seconds } : p
+              )
+            : dp.prompts,
+      })),
+    })),
+  }));
+  return { ...c, topics };
 };
 
 /** Every shipped file, served by name, as the browser would fetch them. */
@@ -162,11 +190,72 @@ describe('the shipped-course fingerprint', () => {
     );
   });
 
+  it('hashes a course with no student state exactly as it always did, so stored stamps stay valid', () => {
+    // Pinned from the algorithm before drafts were left out of it.
+    expect(hashCourse(course('a', 'b'))).toBe('a1e79bb9');
+  });
+
+  it('does not count a student’s draft or writing time as an edit', () => {
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    expect(hashCourse(withDraft(modernHistory))).toBe(hashCourse(modernHistory));
+    expect(hashCourse(withDraft(modernHistory, 'A different draft.', 9))).toBe(
+      hashCourse(modernHistory)
+    );
+  });
+
+  it('still counts a change to the course itself, drafts or not', () => {
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    expect(hashCourse(withDraft({ ...modernHistory, name: 'Edited' }))).not.toBe(
+      hashCourse(modernHistory)
+    );
+  });
+
   it('treats a stamped copy as unedited only until its content changes', () => {
     const stamped = stampShipped(shippedCourse('HSCModernHistory.json'));
     expect(isUnedited(stamped)).toBe(true);
     expect(isUnedited({ ...stamped, name: 'Edited' })).toBe(false);
     expect(isUnedited(shippedCourse('HSCModernHistory.json'))).toBe(false);
+  });
+
+  it('keeps a stamped copy unedited when a student has written in it', () => {
+    const stamped = stampShipped(shippedCourse('HSCModernHistory.json'));
+    expect(isUnedited(withDraft(stamped))).toBe(true);
+    expect(isUnedited(withDraft({ ...stamped, name: 'Edited' }))).toBe(false);
+  });
+});
+
+describe('carrying a student’s words onto a newer course', () => {
+  it('puts each draft on the question with the same id, and changes neither input', () => {
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const from = withDraft(modernHistory);
+    const to = shippedCourse('HSCModernHistory.json');
+
+    const { course: carried, orphaned } = carryPersonalFields(from, to);
+
+    expect(orphaned).toBe(false);
+    expect(firstPrompt(carried).userDraft).toBe('My first paragraph.');
+    expect(firstPrompt(carried).draftElapsedSeconds).toBe(240);
+    expect(firstPrompt(to).userDraft).toBeUndefined();
+    expect(firstPrompt(from).userDraft).toBe('My first paragraph.');
+  });
+
+  it('says so when a draft has no question to go to', () => {
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const from = withDraft(modernHistory);
+    const to = withDraft(modernHistory); // same ids…
+    to.topics[0].subTopics[0].dotPoints[0].prompts = []; // …but that question is gone
+
+    expect(carryPersonalFields(from, to).orphaned).toBe(true);
+  });
+
+  it('returns the newer course untouched when there is nothing to carry', () => {
+    const to = shippedCourse('HSCModernHistory.json');
+    const { course: carried, orphaned } = carryPersonalFields(
+      shippedCourse('HSCModernHistory.json'),
+      to
+    );
+    expect(carried).toBe(to);
+    expect(orphaned).toBe(false);
   });
 });
 
@@ -218,5 +307,115 @@ describe('refreshing copies already in the library', () => {
     const backup = result.courses.find((c) => c.id === `${MODERN_HISTORY}-before-refresh`);
     expect(backup?.name).toBe('Mine (before refresh)');
     expect(backup?.shippedHash).toBeUndefined();
+  });
+
+  it('refreshes a copy a student has written in, and carries their draft across', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    // An older shipped version, stamped, with a draft on one of its questions. Before drafts
+    // were left out of the fingerprint this copy counted as edited and was kept forever.
+    const saved = [
+      withDraft(stampShipped({ ...modernHistory, name: 'HSC Modern History (older)' })),
+    ];
+
+    const result = await syncShippedCourses(saved);
+
+    const refreshed = result.courses.find((c) => c.id === MODERN_HISTORY)!;
+    expect(refreshed.name).toBe(modernHistory.name);
+    expect(refreshed.shippedHash).toBe(hashCourse(modernHistory));
+    expect(firstPrompt(refreshed).userDraft).toBe('My first paragraph.');
+    expect(firstPrompt(refreshed).draftElapsedSeconds).toBe(240);
+    expect(isUnedited(refreshed)).toBe(true);
+    expect(result.courses.map((c) => c.id)).not.toContain(`${MODERN_HISTORY}-before-refresh`);
+  });
+
+  it('leaves an up-to-date copy with a draft exactly as it is', async () => {
+    serveShipped();
+    const saved = [withDraft(stampShipped(shippedCourse('HSCModernHistory.json')))];
+
+    const result = await syncShippedCourses(saved);
+
+    expect(result.courses.find((c) => c.id === MODERN_HISTORY)).toBe(saved[0]);
+  });
+
+  it('keeps a backup beside the refreshed course when a draft has no question left', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    // An OLDER shipped version that still had a question a later rebuild merged away: it is
+    // part of what was shipped, so it is in the stamp. The student then wrote on it.
+    const addGone = (c: Course, draft?: string): Course => ({
+      ...c,
+      name: 'HSC Modern History (older)',
+      topics: c.topics.map((topic, ti) => ({
+        ...topic,
+        subTopics: topic.subTopics.map((st, si) => ({
+          ...st,
+          dotPoints: st.dotPoints.map((dp, di) =>
+            ti === 0 && si === 0 && di === 0
+              ? {
+                  ...dp,
+                  prompts: [
+                    ...dp.prompts,
+                    { ...dp.prompts[0], id: 'prompt-removed-in-a-rebuild', userDraft: draft },
+                  ],
+                }
+              : dp
+          ),
+        })),
+      })),
+    });
+    const stampedOlder = stampShipped(addGone(modernHistory));
+    // The same course as stamped, with the student's words written on the extra question.
+    const withWords: Course = {
+      ...stampedOlder,
+      topics: stampedOlder.topics.map((topic) => ({
+        ...topic,
+        subTopics: topic.subTopics.map((st) => ({
+          ...st,
+          dotPoints: st.dotPoints.map((dp) => ({
+            ...dp,
+            prompts: dp.prompts.map((p) =>
+              p.id === 'prompt-removed-in-a-rebuild'
+                ? { ...p, userDraft: 'Words on a question that was merged away.' }
+                : p
+            ),
+          })),
+        })),
+      })),
+    };
+    expect(isUnedited(withWords)).toBe(true);
+
+    const result = await syncShippedCourses([withWords]);
+
+    expect(result.courses.find((c) => c.id === MODERN_HISTORY)?.name).toBe(modernHistory.name);
+    const backup = result.courses.find((c) => c.id === `${MODERN_HISTORY}-before-refresh`);
+    expect(backup?.name).toBe('HSC Modern History (older) (before refresh)');
+    expect(JSON.stringify(backup)).toContain('Words on a question that was merged away.');
+  });
+
+  it('still keeps a copy edited beyond its drafts, with its drafts', async () => {
+    serveShipped();
+    const saved = [
+      withDraft({ ...stampShipped(shippedCourse('HSCModernHistory.json')), name: 'Mine' }),
+    ];
+
+    const result = await syncShippedCourses(saved);
+
+    const kept = result.courses.find((c) => c.id === MODERN_HISTORY)!;
+    expect(kept.name).toBe('Mine');
+    expect(firstPrompt(kept).userDraft).toBe('My first paragraph.');
+  });
+
+  it('carries a draft across when it replaces a legacy copy, and still keeps the backup', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const saved = [withDraft({ ...modernHistory, name: 'Mine' })];
+
+    const result = await syncShippedCourses(saved);
+
+    expect(firstPrompt(result.courses.find((c) => c.id === MODERN_HISTORY)!).userDraft).toBe(
+      'My first paragraph.'
+    );
+    expect(result.courses.map((c) => c.id)).toContain(`${MODERN_HISTORY}-before-refresh`);
   });
 });
