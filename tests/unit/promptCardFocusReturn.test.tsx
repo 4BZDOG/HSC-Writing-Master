@@ -181,7 +181,7 @@ describe('focus returns to the prompt card’s triggers', () => {
       const trigger = opener();
       activate(trigger);
 
-      const dialog = screen.getByRole('dialog', { name: 'Report a problem with this content' });
+      const dialog = screen.getByRole('dialog', { name: 'Flag this question' });
       fireEvent.click(within(dialog).getByRole('button', { name: 'Cancel' }));
 
       await waitFor(() => expect(document.activeElement).toBe(trigger));
@@ -191,9 +191,7 @@ describe('focus returns to the prompt card’s triggers', () => {
       render(<CardWithGuide />);
       const trigger = opener();
       activate(trigger);
-      expect(
-        screen.getByRole('dialog', { name: 'Report a problem with this content' })
-      ).toBeTruthy();
+      expect(screen.getByRole('dialog', { name: 'Flag this question' })).toBeTruthy();
 
       pressEscape();
 
