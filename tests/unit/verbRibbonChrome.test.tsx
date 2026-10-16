@@ -16,6 +16,7 @@ import {
   getTierScaleConfig,
 } from '../../utils/renderUtils';
 import tailwindConfig from '../../tailwind.config.js';
+import colors from 'tailwindcss/colors';
 import {
   RIBBON_DRAWER,
   RIBBON_FRAME,
@@ -68,8 +69,11 @@ import {
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_IDLE,
   RIBBON_TIER_ICON,
-  RIBBON_TIER_HEADER_LABEL,
-  RIBBON_TIER_HEADER_LABEL_IDLE,
+  RIBBON_TIER_ICON_IDLE,
+  RIBBON_TIER_ICON_SELECTED,
+  RIBBON_TIER_BAND,
+  RIBBON_TIER_BAND_IDLE,
+  RIBBON_TIER_BAND_SELECTED,
   RIBBON_TIER_HEADER_SELECTED,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE_IDLE,
@@ -1139,6 +1143,10 @@ describe('the drawer carries both themes', () => {
       // the fill is the same colour on a light and a dark card alike, so there is
       // no ground to partner. Its contrast is pinned for all six tiers below.
       if (name === 'RIBBON_TIER_HEADER_SELECTED') continue;
+      // The selected card's icon tile and band chip are white alpha over that same
+      // saturated header, so they are the same colour in both themes as well. They
+      // are pinned for contrast in the legibility block below.
+      if (name === 'RIBBON_TIER_ICON_SELECTED' || name === 'RIBBON_TIER_BAND_SELECTED') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -1206,7 +1214,7 @@ describe('the tier strip is legible and reachable', () => {
 
     const idle = screen.getByRole('button', { name: /Analyse & Apply Up to Band 4/i });
     expect(idle.className).toContain(RIBBON_TIER_HEADER_IDLE);
-    expect(RIBBON_TIER_HEADER_IDLE).toContain('band-wash');
+    expect(RIBBON_TIER_HEADER_IDLE).toContain('ribbon-tier-wash');
     // Tier 4's own config fill, in either theme.
     expect(idle.className).not.toContain('bg-green-500/10');
     expect(idle.className).not.toContain('light:bg-green-100');
@@ -1214,13 +1222,13 @@ describe('the tier strip is legible and reachable', () => {
     const current = screen.getByRole('button', { name: /Define & Describe Up to Band 2/i });
     expect(current.className).toContain(RIBBON_TIER_HEADER_SELECTED);
     expect(current.className).not.toContain('bg-gradient-to-r');
-    expect(current.className).not.toContain('band-wash');
+    expect(current.className).not.toContain('ribbon-tier-wash');
 
-    // The tint is a property of the card's own `--band-rgb`, so it comes off the
-    // one band palette and cannot be a second copy of it.
+    // The wash is a gradient of the card's own `--band-rgb`, so it comes off the one
+    // band palette and cannot be a second copy of it.
     const css = readFileSync('index.css', 'utf8');
     expect(css).toMatch(
-      /\.band-wash\s*\{\s*background-color:\s*rgb\(var\(--band-rgb\) \/ [\d.]+\);/
+      /\.ribbon-tier-wash\s*\{\s*background-image:\s*linear-gradient\([^)]*rgb\(var\(--band-rgb\) \/ [\d.]+\)/
     );
   });
 
@@ -1338,46 +1346,40 @@ describe('the tier strip is legible and reachable', () => {
  */
 describe('nothing in the drawer is dimmed below the floor', () => {
   /**
-   * The ceiling IS dimmed now — it is an annotation under the tier's name, not
-   * a second heading — and the whole point is that it is dimmed the way the
-   * rest of this file dims things.
-   *
-   * It used to carry `opacity-60` over the tier's own `text` colour, which
-   * measured 2.97:1 on tier 6 and worse below it: the tier tokens are already
-   * the darkest step `getBandConfig` offers, so there was nothing left to
-   * darken and the opacity was the whole defect. The step down is a COLOUR now,
-   * to the same `slate-600` pair the card's subtitle two lines below uses —
-   * measured on this card at 5.8:1, where `slate-500` reads 3.91:1 under the
-   * card's own `opacity-90`. Same shape as the three tests above it.
+   * The ceiling is a chip now, not a line of text under the name, and it is drawn
+   * in the tier's own colour like the rest of the card: the tint and the edge come
+   * from `.ribbon-tier-band` and the ink is the tier's text step. Nothing about it
+   * is dimmed with opacity (DesignSpec §2, rule 3), and its contrast is measured
+   * in both themes in the legibility block below.
    */
-  it('dims each card’s band ceiling by colour, never by opacity', () => {
+  it('draws each card’s ceiling as a chip in the tier’s own colour, never dimmed by opacity', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
     const header = screen.getByRole('button', { name: /Up to Band 6/i });
-    const label = header.querySelector('span') as HTMLElement;
-    expect(label.textContent).toBe('Up to Band 6');
-    expect(label.className).toContain(RIBBON_TIER_HEADER_LABEL_IDLE);
-    expect(RIBBON_TIER_HEADER_LABEL_IDLE).toContain('text-slate-600');
-    expect(RIBBON_TIER_HEADER_LABEL_IDLE).not.toMatch(/(^|\s)text-slate-500/);
-    expect(label.className).not.toMatch(/opacity-\d/);
+    const chip = header.querySelector(`[class*="${RIBBON_TIER_BAND}"]`) as HTMLElement;
+    expect(chip, 'the ceiling chip is in the header').toBeTruthy();
+    expect(chip.className).toContain(RIBBON_TIER_BAND_IDLE);
+    expect(chip.className).toContain(getTierScaleConfig(6).text);
+    expect(chip.className).not.toContain(RIBBON_TIER_BAND_SELECTED);
+    expect(chip.className).not.toMatch(/opacity-\d/);
+    expect(RIBBON_TIER_BAND).not.toMatch(/opacity-\d/);
+    expect(RIBBON_TIER_BAND_IDLE).not.toMatch(/opacity-\d/);
   });
 
   /**
-   * …and the card the reader is actually on is NOT dimmed.
-   *
-   * Its header is a saturated band fill under slate-950. The only steps down
-   * from that ink there are an alpha that reads differently on each of the six
-   * fills — the ink was what failed on tier 3's yellow — and an opacity
-   * DesignSpec §2 rule 3 keeps off readings. On that card the mono face and the
-   * weight separate the annotation from the name on their own.
+   * …and the card the reader is actually on carries its chip at full strength in
+   * the slate ink its solid header uses, on white alpha, so it reads the same on all
+   * six hues.
    */
-  it('leaves the selected card’s ceiling at full strength', () => {
+  it('leaves the selected card’s ceiling chip at full strength, in slate on the solid header', () => {
     render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
     const header = screen.getByRole('button', { name: /Define & Describe Up to Band 2/i });
-    const label = header.querySelector('span') as HTMLElement;
-    expect(label.className).not.toContain(RIBBON_TIER_HEADER_LABEL_IDLE);
-    expect(label.className).not.toMatch(/opacity-\d/);
+    const chip = header.querySelector(`[class*="${RIBBON_TIER_BAND}"]`) as HTMLElement;
+    expect(chip.className).toContain(RIBBON_TIER_BAND_SELECTED);
+    expect(chip.className).not.toContain(RIBBON_TIER_BAND_IDLE);
+    expect(chip.className).not.toMatch(/opacity-\d/);
+    expect(RIBBON_TIER_BAND_SELECTED).toContain('text-slate-950');
   });
 
   /**
@@ -1395,15 +1397,16 @@ describe('nothing in the drawer is dimmed below the floor', () => {
     expect(RIBBON_TIER_HEADER_TITLE).toContain('uppercase');
     expect(RIBBON_TIER_HEADER_TITLE).toContain('italic');
 
-    // …and the annotation is none of those, in the mono face.
-    expect(RIBBON_TIER_HEADER_LABEL).toContain('font-mono');
+    // …and the annotation is none of those, in the mono face: it is a figure.
+    expect(RIBBON_TIER_BAND).toContain('font-mono');
     for (const caps of ['t-display', 't-section', 'uppercase', 'italic']) {
-      expect(RIBBON_TIER_HEADER_LABEL, `the ceiling must not borrow \`${caps}\``).not.toContain(
-        caps
-      );
+      expect(RIBBON_TIER_BAND, `the ceiling must not borrow \`${caps}\``).not.toContain(caps);
     }
   });
 
+  // Headless on this surface: the term is already a heading beside its tier
+  // chip and the definition is the line above, so the brief must not say
+  // either of them a second time.
   // Headless on this surface: the term is already a heading beside its tier
   // chip and the definition is the line above, so the brief must not say
   // either of them a second time.
@@ -1703,8 +1706,9 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
     for (const card of cards) {
       expect(card.className).toContain('border');
       expect(card.className).not.toContain('border-2');
-      expect(card.className).toContain('band-edge');
-      expect(card.className).not.toContain('band-edge-strong');
+      // The edge is a colour, not a width: the selected card's is the statement
+      // (`band-edge-strong`) and the others' the whisper. Neither moves the box.
+      expect(card.className).toMatch(/\bband-edge(-strong)?\b/);
       expect(card.style.boxShadow).toBe('');
     }
     expect(container).toBeTruthy();
@@ -1940,12 +1944,14 @@ describe('the banner is a themed bar, light in the light theme', () => {
       });
     }
 
-    // The selected card's header is the band's own hue, flat, and carries the one
-    // ink `RIBBON_TIER_HEADER_SELECTED` names. The fill does not change with the
-    // theme, so the same six pairs answer for both. The title is 14px and the
-    // ceiling beneath it 12px: both need the full 4.5:1.
+    // The selected card's header is the band's own hue at full strength under the
+    // sheen `.ribbon-tier-solid` draws, and it carries the one ink
+    // `RIBBON_TIER_HEADER_SELECTED` names. The fill is the same in both themes, so the
+    // same pairs answer for both. The title is 14px and the ceiling chip 12px: both
+    // need the full 4.5:1. The sheen only lifts the fill, so the bare band hue is the
+    // worst point of the header, and that is what is measured.
     it('inks the selected header in slate-950 over every tier’s own hue, in both themes', () => {
-      expect(RIBBON_TIER_HEADER_SELECTED).toContain('bg-[rgb(var(--band-rgb))]');
+      expect(RIBBON_TIER_HEADER_SELECTED).toContain('ribbon-tier-solid');
       expect(RIBBON_TIER_HEADER_SELECTED).toContain('text-slate-950');
       expect(RIBBON_TIER_HEADER_SELECTED).not.toMatch(/bg-gradient|text-white|dark:/);
       for (const theme of ['dark', 'light'] as const) {
@@ -1955,10 +1961,145 @@ describe('the banner is a themed bar, light in the light theme', () => {
             ratio,
             `${theme}: the tier ${tier} header is ${ratio.toFixed(2)}:1 under slate-950`
           ).toBeGreaterThanOrEqual(4.5);
+          // The selected chip is white alpha over the same fill, which only lifts it.
+          const chip = mix('255 255 255', getBandRgb(tier), 0.35);
+          const chipRatio = contrast('2 6 23', chip);
+          expect(
+            chipRatio,
+            `${theme}: the tier ${tier} ceiling chip is ${chipRatio.toFixed(2)}:1 under slate-950`
+          ).toBeGreaterThanOrEqual(4.5);
         }
       }
     });
 
+    // The black shade `band-solid` adds at its foot takes purple to 4.4:1 under this
+    // ink, and the foot is where the name and its ceiling sit. So the selected header
+    // is its own class, which keeps the sheen and has no shade. Read back from the
+    // stylesheet, so the claim and the CSS cannot drift apart.
+    it('keeps the sheen on the selected header and puts no shade under its text', () => {
+      const css = readFileSync('index.css', 'utf8');
+      const dark = ruleBody(css, '.ribbon-tier-solid');
+      const light = ruleBody(css, "[data-theme='light'] .ribbon-tier-solid");
+      expect(dark, 'the selected header has no base rule').toBeTruthy();
+      expect(light, 'the selected header has no light rule').toBeTruthy();
+      // The fill itself is set once, on the base rule, and the light rule only
+      // strengthens the sheen over it.
+      expect(dark).toContain('background-color: rgb(var(--band-rgb))');
+      for (const body of [dark!, light!]) {
+        expect(body).toMatch(/rgb\(255 255 255 \/ [\d.]+\)/);
+        expect(body, 'a black shade would take purple under 4.5:1').not.toMatch(/rgb\(0 0 0/);
+      }
+    });
+
+    it('gives every fill the ribbon draws a light value as well as a dark one', () => {
+      const css = readFileSync('index.css', 'utf8');
+      for (const name of [
+        'ribbon-tier-solid',
+        'ribbon-tier-wash',
+        'ribbon-tier-tile',
+        'ribbon-tier-band',
+      ]) {
+        expect(ruleBody(css, `.${name}`), `.${name} has no dark rule`).toBeTruthy();
+        expect(
+          ruleBody(css, `[data-theme='light'] .${name}`),
+          `.${name} has no light rule`
+        ).toBeTruthy();
+      }
+      // The card's edge is firmer on white, as the sample rows' is.
+      expect(ruleBody(css, "[data-theme='light'] .ribbon-tier-card.band-edge")).toBeTruthy();
+      expect(ruleBody(css, "[data-theme='light'] .ribbon-tier-card.band-edge-strong")).toBeTruthy();
+    });
+
+    // The five unselected headers are a wash, and the wash is read at its strongest
+    // stop, which is the hover: a tap on a phone leaves `:hover` on, so the rest state
+    // is never the worst case. The title is the tier's text step, from the same
+    // config the chips use, so this is the ink the card is actually drawn with.
+    for (const theme of ['dark', 'light'] as const) {
+      it(`${theme}: each tier’s name and ceiling chip clear 4.5:1 on the unselected wash`, () => {
+        const css = readFileSync('index.css', 'utf8');
+        const surface = blockToken(css, theme, '--color-bg-surface');
+        const washSelector =
+          theme === 'dark'
+            ? '.ribbon-tier-wash:hover'
+            : "[data-theme='light'] .ribbon-tier-wash:hover";
+        const washMax = maxAlpha(ruleBody(css, washSelector)!);
+        const chipSelector =
+          theme === 'dark' ? '.ribbon-tier-band' : "[data-theme='light'] .ribbon-tier-band";
+        const chipAlpha = Number(
+          ruleBody(css, chipSelector)!.match(
+            /background-color:\s*rgb\(var\(--band-rgb\) \/ ([\d.]+)\)/
+          )![1]
+        );
+        // The chip sits at the right of the header, where the wash is at its weakest,
+        // so the wash behind it is taken at its REST strength, the stricter reading.
+        const washRest = Number(
+          ruleBody(
+            css,
+            theme === 'dark' ? '.ribbon-tier-wash' : "[data-theme='light'] .ribbon-tier-wash"
+          )!.match(/rgb\(var\(--band-rgb\) \/ ([\d.]+)\) 0%/)![1]
+        );
+        for (const tier of TIERS) {
+          const band = getBandRgb(tier);
+          const ink = textHex(theme, tier);
+          const titleGround = mix(band, surface, washMax);
+          const titleRatio = contrast(ink, titleGround);
+          expect(
+            titleRatio,
+            `${theme}: tier ${tier} name is ${titleRatio.toFixed(2)}:1 on the wash at its hover`
+          ).toBeGreaterThanOrEqual(4.5);
+          const chipGround = mix(band, mix(band, surface, washRest), chipAlpha);
+          const chipRatio = contrast(ink, chipGround);
+          expect(
+            chipRatio,
+            `${theme}: tier ${tier} ceiling chip is ${chipRatio.toFixed(2)}:1 on its tint`
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      });
+    }
+
+    // Each header's accessible name carries its ceiling in words, though the sighted
+    // reader sees the compact mark. The words are in the DOM, not in an aria-label, so
+    // the name is the same whichever way a screen reader reads the card.
+    it('names each ceiling in words for a screen reader, and shows the compact mark to everyone', () => {
+      render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      for (const group of TIER_GROUPS) {
+        const header = screen.getByRole('button', {
+          name: new RegExp(`${escapeRe(group.title)} Up to Band ${group.maxBand}$`, 'i'),
+        });
+        const chip = header.querySelector(`[class*="${RIBBON_TIER_BAND}"]`) as HTMLElement;
+        const visible = chip.querySelector('[aria-hidden="true"]') as HTMLElement;
+        const words = chip.querySelector('.sr-only') as HTMLElement;
+        expect(visible.textContent).toBe(`≤ B${group.maxBand}`);
+        expect(words.textContent).toBe(`Up to Band ${group.maxBand}`);
+      }
+    });
+
+    // Every header is the same two-row grid, and each piece says which row it is in,
+    // so the six names share a line and the six ceilings share a line whatever their
+    // length. The heights are measured in a browser (`verb-ribbon.spec.ts`); this
+    // pins the structure that makes them agree.
+    it('hangs every header off the same two rows, so names and ceilings share a line', () => {
+      render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      const headers = screen.getAllByRole('button', { name: /Up to Band \d/ });
+      expect(headers).toHaveLength(6);
+      for (const header of headers) {
+        expect(header.className).toContain(RIBBON_TIER_HEADER);
+        expect(header.className).toContain('grid-cols-[auto_minmax(0,1fr)]');
+        const icon = header.querySelector('[aria-hidden="true"]') as HTMLElement;
+        expect(icon.className).toContain('row-start-1');
+        expect(icon.className).toContain('col-start-1');
+        const chip = header.querySelector(`[class*="${RIBBON_TIER_BAND}"]`) as HTMLElement;
+        expect(chip.className).toContain('row-start-1');
+        expect(chip.className).toContain('col-start-2');
+        const title = header.querySelector('h4') as HTMLElement;
+        expect(title.className).toContain('row-start-2');
+        expect(title.className).toContain('col-span-2');
+        // Two lines reserved below `xl`, three from `xl`: the line counts the name can need.
+        expect(title.className).toContain('min-h-[2.25rem]');
+        expect(title.className).toContain('xl:min-h-[3.3rem]');
+        expect(title.className).toContain('line-clamp-3');
+      }
+    });
     // The light stage is lit in the tier's colour, and the colour is strong enough
     // to stop it reading as washed out. That is a trade against legibility, and
     // this is the half that holds it: the neutral inks over the pool of light at
@@ -2055,3 +2196,42 @@ const mix = (top: string, bottom: string, alpha: number): string => {
   const u = bottom.split(' ').map(Number);
   return t.map((v, i) => Math.round(v * alpha + u[i] * (1 - alpha))).join(' ');
 };
+
+/** The body of the first rule whose selector is exactly `selector`, or null. */
+const ruleBody = (css: string, selector: string): string | null => {
+  const escaped = escapeRe(selector);
+  const match = css.match(new RegExp(`(?:^|\\n)\\s*${escaped}\\s*\\{([^}]*)\\}`));
+  return match ? match[1] : null;
+};
+
+/** The highest alpha written in a rule body as `/ 0.26)`. */
+const maxAlpha = (body: string): number => {
+  const alphas = Array.from(body.matchAll(/\/ ([\d.]+)\)/g)).map((m) => Number(m[1]));
+  return Math.max(...alphas);
+};
+
+/** A token's value on the `:root` block (dark) or on `[data-theme='light']`. */
+const blockToken = (css: string, theme: 'dark' | 'light', name: string): string => {
+  const body = ruleBody(css, theme === 'dark' ? ':root' : "[data-theme='light']");
+  expect(body, `the ${theme} token block is not in index.css`).toBeTruthy();
+  const match = body!.match(new RegExp(`${escapeRe(name)}:\\s*([^;]+);`));
+  expect(match, `${name} is not defined for ${theme}`).toBeTruthy();
+  return match![1].trim();
+};
+
+/** The tier's text step as Tailwind resolves it, in the theme: `text-purple-300`
+ *  for dark, `light:text-purple-900` for light. */
+const textHex = (theme: 'dark' | 'light', tier: number): string => {
+  const text = getTierScaleConfig(tier).text;
+  const match =
+    theme === 'dark'
+      ? text.match(/(?:^|\s)text-([a-z]+)-(\d{3})(?=\s|$)/)
+      : text.match(/light:text-([a-z]+)-(\d{3})/);
+  expect(match, `tier ${tier} has no ${theme} text step`).toBeTruthy();
+  const [, name, step] = match!;
+  const hex = (colors as unknown as Record<string, Record<string, string>>)[name][step];
+  const n = parseInt(hex.slice(1), 16);
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+};
+
+const escapeRe = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

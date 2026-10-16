@@ -75,16 +75,18 @@ import {
   RIBBON_TIER_CARD,
   RIBBON_TIER_CARD_CURRENT,
   RIBBON_TIER_CARD_RECEDED,
+  RIBBON_TIER_BAND,
+  RIBBON_TIER_BAND_IDLE,
+  RIBBON_TIER_BAND_SELECTED,
   RIBBON_TIER_CARD_IDLE,
   RIBBON_TIER_HALO,
   RIBBON_TIER_HEADER,
   RIBBON_TIER_HEADER_IDLE,
-  RIBBON_TIER_HEADER_LABEL,
-  RIBBON_TIER_HEADER_LABEL_IDLE,
   RIBBON_TIER_HEADER_SELECTED,
-  RIBBON_TIER_HEADER_TEXT,
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_ICON,
+  RIBBON_TIER_ICON_IDLE,
+  RIBBON_TIER_ICON_SELECTED,
   RIBBON_TIER_SLOT,
   RIBBON_TIER_SUBTITLE,
   RIBBON_TIER_SUBTITLE_CURRENT,
@@ -1007,20 +1009,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                         style={{ '--band-rgb': getBandRgb(group.tier) } as React.CSSProperties}
                         className={RIBBON_TIER_SLOT}
                       >
+                        {/* The card's edge is the tier's own hue at a whisper, and at a statement on
+                        the selected card. Its fill is the band gradient on the selected card
+                        (`RIBBON_TIER_CARD_CURRENT`) and the neutral surface on the rest. */}
                         <div
                           className={`
                       ${RIBBON_TIER_CARD}
-                      band-edge
-                      ${isCurrentTier ? `${tierConfig.bg} light:bg-white` : RIBBON_TIER_CARD_IDLE}
+                      ${isCurrentTier ? 'band-edge-strong' : 'band-edge'}
+                      ${isCurrentTier ? '' : RIBBON_TIER_CARD_IDLE}
                       ${cardStyle}
                     `}
                         >
-                          {isCurrentTier && (
-                            <div
-                              className={`absolute inset-0 opacity-10 bg-gradient-to-br ${tierConfig.gradient} pointer-events-none`}
-                            />
-                          )}
-
                           {/* The mesh is for the card the reader is on. At 2% on the
                           other five it painted nothing anyone could see, and it
                           was five more composited layers on a page that is
@@ -1036,11 +1035,12 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       it are buttons already — so the shortcut lives on the
                       header, which has nothing interactive in it.
 
-                      The selected header is the band's own flat hue under
-                      slate-950, not the tier's gradient under `solidText`:
+                      The selected header is the band's own hue at full strength,
+                      under slate-950, not the tier's gradient under `solidText`:
                       white was under 4.5:1 on five of the six hues, and on
                       the light stage the gradients could not carry any single
-                      ink. See `RIBBON_TIER_HEADER_SELECTED`. */}
+                      ink. It has the mark ladder's sheen on it, and no shade
+                      under its text. See `RIBBON_TIER_HEADER_SELECTED`. */}
                           <button
                             type="button"
                             onClick={() => {
@@ -1050,49 +1050,34 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             title={`Show the ${group.title} verbs — up to Band ${group.maxBand}`}
                             className={`${RIBBON_TIER_HEADER} ${isCurrentTier ? RIBBON_TIER_HEADER_SELECTED : RIBBON_TIER_HEADER_IDLE}`}
                           >
-                            {/* A line icon in a tile, where there was a system
-                            emoji. On the selected card the tile is white
-                            alpha over the tier gradient — the same colour in
-                            both themes, so it needs no partner — and the glyph
-                            takes the card's `solidText`; on the others it is
-                            the neutral well the accordions use, and the glyph
-                            takes the tier's own text colour. */}
+                            {/* The icon tile: the app's own line icon, in row one at the left. On the selected
+                            card it is white alpha over the solid header, with a slate-950 glyph; on the
+                            others it is the tier's own tint, with the tier's text step as the glyph. */}
                             <div
-                              className={`${RIBBON_TIER_ICON} ${isCurrentTier ? 'bg-white/25 border-white/30' : `bg-white border-slate-300 dark:bg-black/20 dark:border-white/10 ${tierConfig.text}`}`}
+                              className={`${RIBBON_TIER_ICON} ${isCurrentTier ? RIBBON_TIER_ICON_SELECTED : `${RIBBON_TIER_ICON_IDLE} ${tierConfig.text}`}`}
                               aria-hidden="true"
                             >
-                              <TierIcon className="w-[18px] h-[18px] xl:w-4 xl:h-4" />
+                              <TierIcon className="w-4 h-4" />
                             </div>
-                            <div className={RIBBON_TIER_HEADER_TEXT}>
-                              {/* The NAME first, then what it costs you.
-                              The ceiling sat above as an eyebrow, so a reader
-                              scanning the six cards met "Band 1 ceiling",
-                              "Band 2 ceiling", "Band 3 ceiling" in a row
-                              before any of the words that tell them apart.
-                              This is also the order the card is spoken in. */}
-                              <h4
-                                className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? '' : tierConfig.text}`}
-                              >
-                                {group.title}
-                              </h4>
-                              {/* No opacity on either branch. Through `opacity-60`
-                              — on a card that is itself dimmed to 90% — the
-                              tier's own `-900` text measured 2.97:1 on tier 6
-                              and worse below it, and there was no darker step
-                              in the shared config to reach for. */}
-                              <span
-                                className={`${RIBBON_TIER_HEADER_LABEL} ${isCurrentTier ? '' : RIBBON_TIER_HEADER_LABEL_IDLE}`}
-                              >
-                                {/* "Up to Band 2", visibly. A bare "Band 2" under the
-                                name read as a target to anyone looking, and the
-                                header's own title already said "up to". */}
-                                Up to Band {group.maxBand}
-                                {/* It said "Band 2" on screen and "Band 2 ceiling" to
-                                a screen reader, because the limit was the whole
-                                meaning and only listeners were told it. "Up to"
-                                says it to everyone, so the hidden word went. */}
-                              </span>
-                            </div>
+                            {/* The NAME, which is what the button says first. It is in row two,
+                            across the header, and the header's floor reserves its lines so the
+                            six names sit on one baseline whatever their length. */}
+                            <h4
+                              className={`${RIBBON_TIER_HEADER_TITLE} ${isCurrentTier ? '' : tierConfig.text}`}
+                            >
+                              {group.title}
+                            </h4>
+                            {/* The ceiling, as a chip in row one at the right. The visible form is
+                            "≤ B2", which is the compact form of "Up to Band 2"; the words themselves
+                            are for a screen reader, and they are what the button's name reads as
+                            after the tier name. The chip is not a control. No opacity on either
+                            branch: see `RIBBON_TIER_BAND_IDLE`. */}
+                            <span
+                              className={`${RIBBON_TIER_BAND} ${isCurrentTier ? RIBBON_TIER_BAND_SELECTED : `${RIBBON_TIER_BAND_IDLE} ${tierConfig.text}`}`}
+                            >
+                              <span aria-hidden="true">≤ B{group.maxBand}</span>
+                              <span className="sr-only">Up to Band {group.maxBand}</span>
+                            </span>
                           </button>
 
                           {/* What this cognitive level actually asks of the writer. */}
@@ -1110,7 +1095,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       size. The strip is a flex row, so leaving the height to
                       the content makes every card as tall as the tallest one
                       for free. The scroll stays as the safety net. */}
-                          <div className="flex-1 overflow-y-auto p-4 custom-scrollbar relative z-10">
+                          <div className="flex-1 overflow-y-auto px-4 pb-4 pt-3 custom-scrollbar relative z-10">
                             <div className="flex flex-wrap gap-2 justify-center content-start">
                               {group.verbs.map((verb) => {
                                 const isSelected = verb.term === activeVerb;

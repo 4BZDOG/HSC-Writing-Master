@@ -1108,6 +1108,92 @@ a:focus-visible,
 }
 
 /*
+ * The verb ribbon's tier cards, in the two fills the mark ladder uses. The selected
+ * card's header is the band at full strength under slate-950; the other five headers
+ * are a quiet wash of their own band, and the wash is what the eye reads as "this is
+ * a different tier" without the saturation of the one selected. Both draw from
+ * `--band-rgb`, so the six tiers take their colour from the one palette.
+ *
+ * The selected header is `.ribbon-tier-solid` and not the shared `band-solid`. That
+ * class adds a black shade at its foot, and the foot is where the tier name and its
+ * ceiling sit: slate-950 on purple at that shade is 4.4:1, under the 4.5:1 floor for
+ * 14px text. The sheen is kept, and the shade is not. The light theme's sheen is a
+ * little stronger, as `.sample-row` has it, because a white card gives a saturated
+ * fill less to stand against.
+ */
+.ribbon-tier-solid {
+  background-color: rgb(var(--band-rgb));
+  background-image: linear-gradient(160deg, rgb(255 255 255 / 0.26) 0%, rgb(255 255 255 / 0) 60%);
+}
+[data-theme='light'] .ribbon-tier-solid {
+  background-image: linear-gradient(160deg, rgb(255 255 255 / 0.4) 0%, rgb(255 255 255 / 0) 60%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+}
+
+.ribbon-tier-wash {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.16) 0%,
+    rgb(var(--band-rgb) / 0.05) 100%
+  );
+}
+[data-theme='light'] .ribbon-tier-wash {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.2) 0%,
+    rgb(var(--band-rgb) / 0.06) 100%
+  );
+}
+/* Hover brightens the wash a step, on devices that can hover: a tap leaves
+   `:hover` on a phone, as `tier-lift` explains. The light rule is repeated because
+   it is more specific than the dark one and would otherwise win on the light theme. */
+@media (hover: hover) {
+  .ribbon-tier-wash:hover {
+    background-image: linear-gradient(
+      90deg,
+      rgb(var(--band-rgb) / 0.26) 0%,
+      rgb(var(--band-rgb) / 0.1) 100%
+    );
+  }
+  [data-theme='light'] .ribbon-tier-wash:hover {
+    background-image: linear-gradient(
+      90deg,
+      rgb(var(--band-rgb) / 0.3) 0%,
+      rgb(var(--band-rgb) / 0.12) 100%
+    );
+  }
+}
+
+/* A tier card's edge, firmer in the light theme where the card sits on white, as the
+   sample rows' edge is. The selected card's edge is `band-edge-strong`. */
+[data-theme='light'] .ribbon-tier-card.band-edge {
+  border-color: rgb(var(--band-rgb) / 0.6);
+}
+[data-theme='light'] .ribbon-tier-card.band-edge-strong {
+  border-color: rgb(var(--band-rgb) / 1);
+}
+
+/* The icon tile and the band chip on an unselected card: the band's own tint, with
+   its edge. The glyph and the chip's ink are the tier's text step, set at the call
+   site. On the selected card both are white alpha over the solid header instead. */
+.ribbon-tier-tile {
+  background-color: rgb(var(--band-rgb) / 0.16);
+  border-color: rgb(var(--band-rgb) / 0.45);
+}
+[data-theme='light'] .ribbon-tier-tile {
+  background-color: rgb(var(--band-rgb) / 0.14);
+  border-color: rgb(var(--band-rgb) / 0.7);
+}
+.ribbon-tier-band {
+  background-color: rgb(var(--band-rgb) / 0.16);
+  border-color: rgb(var(--band-rgb) / 0.5);
+}
+[data-theme='light'] .ribbon-tier-band {
+  background-color: rgb(var(--band-rgb) / 0.12);
+  border-color: rgb(var(--band-rgb) / 0.7);
+}
+
+/*
  * The verb ribbon's strip, faded into the drawer at both ends.
  *
  * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade
