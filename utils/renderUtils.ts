@@ -491,6 +491,30 @@ export const getBandInkRgb = (band: number): string => {
   const n = parseInt(hex.slice(1), 16);
   return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
 };
+/**
+ * The `-800` steps: one shade deeper than `BAND_HEX_INK`, for the one piece of
+ * tier-coloured text that sits on the verb ribbon's light stage TINT and not on a white
+ * cell, the current step's name. The tint is the tier's own hue at a few per cent, and
+ * the `-700` text on a strong tint measures under 4.5:1 for yellow and green; the
+ * `-800` text clears it with room, which is what lets the tint be a colour and not a
+ * whisper. The stat figures stay at `-700`, because they sit on white.
+ * Pinned by `tests/unit/verbRibbonChrome.test.tsx`.
+ */
+export const BAND_HEX_INK_DEEP: Record<number, string> = {
+  1: '#991b1b', // red-800
+  2: '#9a3412', // orange-800
+  3: '#854d0e', // yellow-800
+  4: '#166534', // green-800
+  5: '#1e40af', // blue-800
+  6: '#6b21a8', // purple-800
+};
+
+/** `getBandInkRgb`, for `BAND_HEX_INK_DEEP`. */
+export const getBandDeepInkRgb = (band: number): string => {
+  const hex = BAND_HEX_INK_DEEP[clampBand(band)];
+  const n = parseInt(hex.slice(1), 16);
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+};
 export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
 
 /**

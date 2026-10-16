@@ -111,8 +111,8 @@ BEHIND it, not on the token.** This is what makes a blanket find-and-replace
 the wrong tool — most white-alpha classes in this codebase are already correct:
 
 - **On a coloured gradient or a modal backdrop** — the editor header, the
-  score placard, the verb ribbon's tier tile and the icon tile on its selected
-  tier card, `bg-black/80` scrims. These are the same colour in both themes, so
+  score placard, the verb ribbon's tier tile, and the icon tile and band chip on
+  its selected tier card, `bg-black/80` scrims. These are the same colour in both themes, so
   `bg-white/20` and `border-white/20` are right as written and must be left
   alone.
 

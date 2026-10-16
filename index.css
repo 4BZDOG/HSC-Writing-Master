@@ -1078,11 +1078,11 @@ a:focus-visible,
   --stage-cell: 255 255 255;
   --stage-ink: 15 23 42;
   --stage-ink-2: 30 41 59;
-  --stage-ink-3: 71 85 105;
+  --stage-ink-3: 51 65 85;
   --stage-line: 15 23 42;
-  --aura-wash: 0.03;
-  --aura-1: 0.3;
-  --aura-2: 0.035;
+  --aura-wash: 0.12;
+  --aura-1: 0.4;
+  --aura-2: 0.12;
   --verb-glow: 0.4;
   --rule-glow: 0.6;
   --stage-glow: 0.6;
@@ -1100,10 +1100,14 @@ a:focus-visible,
 }
 .ribbon-stage-hue {
   --band-text: var(--band-rgb);
+  --band-label: var(--band-rgb);
   --stage-rule: transparent;
 }
 [data-theme='light'] .ribbon-stage-hue {
   --band-text: var(--band-ink);
+  /* The current step's name sits on the stage tint, not on a white cell, so it takes the
+     deeper `-800` shade: that is what lets the tint be a colour. */
+  --band-label: var(--band-ink-deep);
   /* The edge between the banner and the stage: the tier's own colour, so the white
      banner above a soft sheet is joined by the one thing that says whose tier it
      is. A property of the hue and not of the palette, because it reads
@@ -1112,6 +1116,20 @@ a:focus-visible,
   /* The stage's own edge, in the tier's hue and not slate, so the panel is tier-coloured
      where it meets the page and not only in its glow. */
   border-color: rgb(var(--band-rgb) / 0.7);
+}
+
+/* The ribbon's header bar, in the light theme: the tier's hue across it, strongest at the
+   left where the tile is, and a tier-coloured foot rule in place of the slate one. The
+   bar is inside the stage, so `--band-rgb` is there to read; with no verb chosen it is the
+   neutral hue and the bar is a quiet grey. Its text is slate on a tint of at most 18%, which
+   is far from the 4.5:1 floor. Nothing in the dark theme, where the bar is the stage. */
+[data-theme='light'] .ribbon-bar {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.2) 0%,
+    rgb(var(--band-rgb) / 0.05) 70%
+  );
+  box-shadow: inset 0 -2px 0 rgb(var(--band-rgb) / 0.55);
 }
 
 /*

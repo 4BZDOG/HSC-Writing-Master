@@ -187,7 +187,7 @@ export const RIBBON_FRAME = 'relative ribbon-stage';
  *  ribbon. The focus ring is inset, in a pair, because the root's `overflow-hidden`
  *  would clip an outside one: slate on the white bar, white on the dark one. */
 export const RIBBON_HEADER_BAR =
-  'relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left group/header ' +
+  'ribbon-bar relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left group/header ' +
   'bg-white dark:bg-white/0 shadow-[inset_0_-1px_0_rgb(15_23_42/0.12)] dark:shadow-none transition-colors duration-300 ' +
   'can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/[0.04] active:bg-slate-200 dark:active:bg-white/[0.07] ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/70';
@@ -816,7 +816,7 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
 export const RIBBON_VERB_CHIP =
-  't-label px-3 py-1.5 rounded-xl border touch-manipulation select-none ' +
+  't-label px-3 py-1.5 max-sm:min-h-11 rounded-xl border touch-manipulation select-none ' +
   'transition-[transform,background-color,border-color,color] duration-200 ease-out active:scale-95';
 
 /** The collapsible panel's motion, as a transition and not a state: the row track

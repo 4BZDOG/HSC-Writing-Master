@@ -11,7 +11,9 @@ import * as verbRibbonChrome from '../../utils/verbRibbonChrome';
 import {
   BAND_HEX,
   BAND_HEX_INK,
+  BAND_HEX_INK_DEEP,
   getBandInkRgb,
+  getBandDeepInkRgb,
   getBandRgb,
   getTierScaleConfig,
 } from '../../utils/renderUtils';
@@ -1597,10 +1599,25 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
     }
     // A press that sinks, on `transform` only, which the compositor owns.
     expect(RIBBON_VERB_CHIP).toContain('active:scale-95');
+    // A phone's thumb: the chip is 44px tall below `sm`, and its desktop size from `sm` up.
+    expect(RIBBON_VERB_CHIP).toContain('max-sm:min-h-11');
     expect(RIBBON_INK_STAIR_STEP).toContain('active:scale-[0.96]');
     expect(RIBBON_INK_STAIR_STEP).toContain('transition-transform');
     expect(RIBBON_HEADER_BAR).toContain('active:bg-slate-200');
     expect(RIBBON_HEADER_BAR).toContain('dark:active:bg-white/[0.07]');
+  });
+
+  it('tints the header bar with the tier in the light theme only', () => {
+    expect(RIBBON_HEADER_BAR).toContain('ribbon-bar');
+    const css = readFileSync('index.css', 'utf8');
+    const light = ruleBody(css, "[data-theme='light'] .ribbon-bar");
+    expect(light, 'the light bar has no rule').toBeTruthy();
+    // Drawn from the stage's hue at an alpha that leaves slate text far above 4.5:1
+    // (the strongest stop is 20% of the tier over white), with a tier-coloured foot.
+    expect(light).toMatch(/linear-gradient\([^)]*rgb\(var\(--band-rgb\) \/ 0\.2\) 0%/);
+    expect(light).toMatch(/box-shadow:\s*inset 0 -2px 0 rgb\(var\(--band-rgb\) \/ 0\.55\)/);
+    // No theme-less rule, so the dark bar keeps being the stage.
+    expect(css).not.toMatch(/^\.ribbon-bar\s*\{/m);
   });
 
   it('transitions only the properties it names, on curves that do not overshoot', () => {
@@ -2146,13 +2163,33 @@ describe('the banner is a themed bar, light in the light theme', () => {
           ['tint', washed],
           ['second pool', pool],
         ]) {
-          const ratio = contrast(getBandInkRgb(tier), ground);
+          // The current step's name, which is the one tier-coloured text on the tint:
+          // the deeper `-800` shade, as `--band-label` resolves it.
+          const ratio = contrast(getBandDeepInkRgb(tier), ground);
           expect(
             ratio,
             `tier ${tier} text over the ${where} is ${ratio.toFixed(2)}:1`
           ).toBeGreaterThanOrEqual(4.5);
         }
       }
+    });
+
+    it('the stage label shades are the -800 steps, a step deeper than the -700 figures', () => {
+      for (const tier of TIERS) {
+        const hex = BAND_HEX_INK_DEEP[tier];
+        expect(getBandDeepInkRgb(tier)).toBe(
+          [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(' ')
+        );
+        // Deeper than the figures' shade, or the tint could not have risen.
+        expect(contrast(getBandDeepInkRgb(tier), '255 255 255')).toBeGreaterThan(
+          contrast(getBandInkRgb(tier), '255 255 255')
+        );
+      }
+      const css = readFileSync('index.css', 'utf8');
+      expect(css).toMatch(/\.ribbon-stage-hue\s*\{[^}]*--band-label:\s*var\(--band-rgb\);/);
+      expect(css).toMatch(
+        /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--band-label:\s*var\(--band-ink-deep\);/
+      );
     });
 
     it('the light ink shades are the -700 steps, derived from one map', () => {

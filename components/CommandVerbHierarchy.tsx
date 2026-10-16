@@ -15,6 +15,7 @@ import {
 import {
   getBandHex,
   getBandInkRgb,
+  getBandDeepInkRgb,
   getBandName,
   getBandRgb,
   getTierScaleConfig,
@@ -437,6 +438,8 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   const bandRgb = activeTier ? getBandRgb(activeTier) : NEUTRAL_RGB;
   // The tier's hue as text, for the light stage (`--band-text` in index.css).
   const bandInkRgb = activeTier ? getBandInkRgb(activeTier) : NEUTRAL_INK_RGB;
+  // The deeper shade, for the current step's name, which sits on the stage tint.
+  const bandDeepInkRgb = activeTier ? getBandDeepInkRgb(activeTier) : NEUTRAL_INK_RGB;
 
   // The light the stage has just left, kept mounted while it fades out under the
   // new one fading in. The aura is keyed on the tier so the new light is a fresh
@@ -516,6 +519,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
           {
             '--band-rgb': bandRgb,
             '--band-ink': bandInkRgb,
+            '--band-ink-deep': bandDeepInkRgb,
             ...(activeTier ? { borderColor: 'rgb(var(--band-rgb) / 0.5)' } : {}),
           } as React.CSSProperties
         }
@@ -892,7 +896,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                             another, so only the current step keeps its name
                             below sm. */}
                           <span
-                            className={`${RIBBON_INK_STEP_LABEL} ${isCurrent ? 'text-[rgb(var(--band-text))]' : RIBBON_INK_STEP_LABEL_IDLE}`}
+                            className={`${RIBBON_INK_STEP_LABEL} ${isCurrent ? 'text-[rgb(var(--band-label))]' : RIBBON_INK_STEP_LABEL_IDLE}`}
                           >
                             {label}
                           </span>
