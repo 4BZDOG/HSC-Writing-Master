@@ -688,7 +688,12 @@ describe('the scoreboard states what the verb is worth, in telemetry', () => {
 
   it('draws its hairlines from a one-pixel gap over a lighter ground', () => {
     expect(RIBBON_INK_SCOREBOARD).toContain('gap-px');
-    expect(RIBBON_INK_SCOREBOARD).toContain('bg-[rgb(var(--stage-line)/0.1)]');
+    // The hairline's strength is a property of the palette: the same slate at 10% is a
+    // whisper on the dark stage and the light one wants it firmer, so it reads
+    // `--line-soft`, which the stylesheet sets per theme.
+    expect(RIBBON_INK_SCOREBOARD).toContain('bg-[rgb(var(--stage-line)/var(--line-soft))]');
+    expect(Number(stagePalette('dark')['--line-soft'])).toBe(0.1);
+    expect(Number(stagePalette('light')['--line-soft'])).toBeGreaterThan(0.1);
   });
 });
 
@@ -1889,7 +1894,7 @@ describe('the banner is a themed bar, light in the light theme', () => {
     // dark one, where the banner is the stage.
     expect(css).toMatch(/\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*transparent;/);
     expect(css).toMatch(
-      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*rgb\(var\(--band-rgb\)\s*\/\s*0\.85\);/
+      /\[data-theme='light'\]\s*\.ribbon-stage-hue\s*\{[^}]*--stage-rule:\s*rgb\(var\(--band-rgb\)\s*\/\s*1\);/
     );
   });
 

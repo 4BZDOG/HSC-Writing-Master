@@ -274,7 +274,7 @@ export const RIBBON_HEADER_CHEVRON_SHUT = 'text-slate-500 dark:text-slate-300';
  *  96px verb. */
 export const RIBBON_INK_HERO =
   'relative z-10 grid gap-8 lg:gap-10 px-5 sm:px-8 pt-4 pb-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start ' +
-  'shadow-[inset_0_2px_0_var(--stage-rule)]';
+  'shadow-[inset_0_3px_0_var(--stage-rule)]';
 
 /** The tier chip above the verb. Its words are the tier's, derived at the call
  *  site. Painted on the stage. */
@@ -362,7 +362,7 @@ export const RIBBON_INK_DEFINITION =
  *  `sm` — all four stats fit a phone this way, where the old tray hid "Terms"
  *  to make room — and four from there. */
 export const RIBBON_INK_SCOREBOARD =
-  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[rgb(var(--stage-line)/0.1)] bg-[rgb(var(--stage-line)/0.1)]';
+  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[rgb(var(--stage-line)/var(--line-soft))] bg-[rgb(var(--stage-line)/var(--line-soft))]';
 
 /** One scoreboard cell. A flat fill, a step lighter than the stage, so the
  *  hairlines between cells show. Painted on the stage. */
@@ -482,7 +482,7 @@ export const RIBBON_INK_CEILING =
  *  ceiling. Its chip is on the rail above, and the rule reaches up to it.
  *  Painted on the stage, under the columns. */
 export const RIBBON_INK_THRESHOLD_RULE =
-  'absolute -top-2 bottom-0 z-0 w-px -translate-x-1/2 border-r-2 border-dashed border-[rgb(var(--stage-line)/0.35)] pointer-events-none';
+  'absolute -top-2 bottom-0 z-0 w-px -translate-x-1/2 border-r-2 border-dashed border-[rgb(var(--stage-line)/var(--line-mid))] pointer-events-none';
 
 /** The scale rail above the staircase — the two sides the Deep Learning
  *  Threshold divides the ladder into, and the chip that names the gate.
