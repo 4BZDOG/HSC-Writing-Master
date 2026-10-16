@@ -33,6 +33,12 @@ export default defineConfig({
         statements: 62,
       },
     },
+    // CI runs the whole suite in parallel on a shared runner, and a render-heavy
+    // test can take several times its idle time there. Under that load several
+    // tests pass alone but hit the 5s default, so the budget is raised here
+    // rather than per test. Assertions are unchanged.
+    testTimeout: 15_000,
+    hookTimeout: 30_000,
     include: ['tests/unit/**/*.{test,spec}.{ts,tsx}'],
     exclude: ['node_modules/', 'dist/', '.idea', '.git', '.cache', 'tests/e2e/**'],
   },
