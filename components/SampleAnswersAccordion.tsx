@@ -82,7 +82,7 @@ import SampleAnswerEditorModal from './SampleAnswerEditorModal';
 import RecalibrateSamplesModal from './RecalibrateSamplesModal';
 import ConfirmationModal from './ConfirmationModal';
 import FlagContentModal from './FlagContentModal';
-import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
+import { READING_SIZE_DEFAULT, canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 import {
   ChevronDown,
   FileText,
@@ -914,7 +914,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   // Reading size is a workspace-wide setting when the parent supplies one, so
   // zooming the question also zooms the exemplars. The local state is only the
   // fallback for any standalone use of this card.
-  const [localFontSize, setLocalFontSize] = useState(15);
+  const [localFontSize, setLocalFontSize] = useState(READING_SIZE_DEFAULT);
   const fontSize = fontSizeProp ?? localFontSize;
   const setFontSize = onFontSizeChange ?? setLocalFontSize;
   const [isRecalibrating, setIsRecalibrating] = useState(false);

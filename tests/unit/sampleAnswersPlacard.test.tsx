@@ -22,6 +22,7 @@ import {
 import * as sampleAnswerChrome from '../../utils/sampleAnswerChrome';
 import { BAND_HEX, getBandConfig, getBandRgb } from '../../utils/renderUtils';
 import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
+import { READING_SIZE_DEFAULT } from '../../utils/readingSize';
 import type { Prompt, PromptVerb, SampleAnswer, UserRole } from '../../types';
 
 /**
@@ -509,7 +510,7 @@ describe('an open row: the picker, the page, then the actions', () => {
     expect(page.className).toBe(sampleAnswerChrome.SAMPLE_PAGE);
     expect(text.textContent).toContain('Page prose.');
     // The reading size is set inline, from the zoom control.
-    expect(text.style.fontSize).toBe('15px');
+    expect(text.style.fontSize).toBe(`${READING_SIZE_DEFAULT}px`);
     // The toolbar comes after the page in the document.
     expect(page.compareDocumentPosition(copy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
