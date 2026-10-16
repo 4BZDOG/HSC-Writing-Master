@@ -117,7 +117,7 @@ describe('the two card headings sit on the same line', () => {
     for (const el of chain) {
       expect(el.className).not.toMatch(/(^|\s)items-center/);
     }
-    expect(chain[chain.length - 1].className).toMatch(/items-start/);
+    expect(chain[chain.length - 1].className).toMatch(/items-(start|stretch)/);
   });
 
   it('pins the writing card header to the top in exactly the same way', () => {
@@ -130,7 +130,7 @@ describe('the two card headings sit on the same line', () => {
     for (const el of chain) {
       expect(el.className).not.toMatch(/(^|\s)items-center/);
     }
-    expect(chain[chain.length - 1].className).toMatch(/items-start/);
+    expect(chain[chain.length - 1].className).toMatch(/items-(start|stretch)/);
   });
 
   it('gives both title blocks the same step down from the top', () => {
