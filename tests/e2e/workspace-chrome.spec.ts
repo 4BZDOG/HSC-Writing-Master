@@ -404,3 +404,45 @@ test.describe('the live writing stats disclosure', () => {
     await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
   });
 });
+
+/**
+ * One column reads in the order a student works: the syllabus terms to weave in,
+ * then the marking guide that says what earns the marks, and the exemplars last,
+ * past everything a student reads while writing. The exemplars sit under the
+ * writing card only when the cards are side by side (Workspace's
+ * `exemplarsAtBottom`), so this is checked below the two-column breakpoint and
+ * on a phone, where a regression would put a finished answer ahead of the
+ * reference material it should follow.
+ */
+test.describe('the reference panels in one column', () => {
+  test.describe.configure({ timeout: 120_000 });
+
+  const PANELS = ['Syllabus terms', 'Marking guide', 'Sample answers'] as const;
+
+  for (const width of [1024, 390]) {
+    test(`read Syllabus terms, Marking guide, Sample answers at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 1000 });
+      await openWorkspace(page);
+      await openQuestionWithOutcomes(page);
+      await page.waitForTimeout(700);
+
+      const tops = await page.evaluate(
+        (names) => {
+          // Each panel's header is the button that opens it, named by its title.
+          const top = (name: string) => {
+            const btn = Array.from(document.querySelectorAll('button')).find((b) =>
+              (b.textContent ?? '').trim().startsWith(name)
+            );
+            return btn ? btn.getBoundingClientRect().top + window.scrollY : null;
+          };
+          return names.map((n) => ({ name: n, top: top(n) }));
+        },
+        PANELS as unknown as string[]
+      );
+
+      for (const { name, top } of tops) expect(top, `${name} is on the page`).not.toBeNull();
+      const order = [...tops].sort((a, b) => (a.top as number) - (b.top as number));
+      expect(order.map((t) => t.name)).toEqual([...PANELS]);
+    });
+  }
+});
