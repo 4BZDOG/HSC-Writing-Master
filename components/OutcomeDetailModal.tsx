@@ -25,6 +25,12 @@ import {
 } from '../utils/ladderChrome';
 import { ladderBandVars } from './LadderRow';
 import QuestionExpectations from './QuestionExpectations';
+import {
+  scrollLeftToReveal,
+  tabStripEdgeMask,
+  tabStripEdges,
+  type TabStripEdges,
+} from '../utils/tabStrip';
 
 interface OutcomeDetailModalProps {
   isOpen: boolean;
@@ -111,6 +117,8 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   // the whole point of them, and it must not re-bill every switch.
   const [explanations, setExplanations] = useState<Record<string, ExplanationState>>({});
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const tabStripRef = useRef<HTMLDivElement>(null);
+  const [tabEdges, setTabEdges] = useState<TabStripEdges>({ start: false, end: false });
   // Codes already requested this session. A ref, not derived from state, so
   // the guard is exact under StrictMode's double-invoked effects — reading
   // `explanations` here instead would make fetchExplanation change identity on
@@ -229,6 +237,44 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
     }
   };
 
+  // Which edges of the tab row have tabs behind them. Re-read on scroll, on a
+  // resize of the row and of the window, and when the set of tabs changes.
+  const measureTabStrip = useCallback(() => {
+    const strip = tabStripRef.current;
+    if (!strip) return;
+    const next = tabStripEdges(strip);
+    setTabEdges((prev) => (prev.start === next.start && prev.end === next.end ? prev : next));
+  }, []);
+
+  const tabCount = outcomes.length;
+  useEffect(() => {
+    if (!isOpen || tabCount < 2) return;
+    measureTabStrip();
+    window.addEventListener('resize', measureTabStrip);
+    const strip = tabStripRef.current;
+    const observer =
+      strip && typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measureTabStrip) : null;
+    if (strip) observer?.observe(strip);
+    return () => {
+      window.removeEventListener('resize', measureTabStrip);
+      observer?.disconnect();
+    };
+  }, [isOpen, tabCount, outcomeKey, measureTabStrip]);
+
+  // The active tab is kept in view. A key press or a tab click can land on one the
+  // row has scrolled past, and the browser's own scrolling does not leave the fade's
+  // width clear of it.
+  useEffect(() => {
+    const strip = tabStripRef.current;
+    const tab = tabRefs.current[activeCode];
+    if (!isOpen || !strip || !tab) return;
+    const left = scrollLeftToReveal(
+      { offsetLeft: tab.offsetLeft, offsetWidth: tab.offsetWidth },
+      { scrollLeft: strip.scrollLeft, clientWidth: strip.clientWidth }
+    );
+    if (left !== strip.scrollLeft) strip.scrollLeft = left;
+  }, [isOpen, activeCode, outcomeKey]);
+
   if (!isOpen || !activeOutcome) return null;
 
   const state: ExplanationState = explanations[activeOutcome.code] ?? { status: 'idle' };
@@ -296,9 +342,17 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               names a panel, because only that panel is in the page. */}
           {hasTabs && (
             <div
+              ref={tabStripRef}
               role="tablist"
               aria-label="Linked syllabus outcomes"
               onKeyDown={onTabKeyDown}
+              onScroll={measureTabStrip}
+              // The fade on any edge with tabs behind it: the cue that the row runs
+              // on. A mask, so it takes no colour from either theme's head.
+              style={{
+                maskImage: tabStripEdgeMask(tabEdges),
+                WebkitMaskImage: tabStripEdgeMask(tabEdges),
+              }}
               className="relative z-10 flex gap-1 mt-4 -mb-px overflow-x-auto scrollbar-none"
             >
               {outcomes.map((outcome, i) => {

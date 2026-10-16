@@ -82,6 +82,7 @@ import SampleAnswerEditorModal from './SampleAnswerEditorModal';
 import RecalibrateSamplesModal from './RecalibrateSamplesModal';
 import ConfirmationModal from './ConfirmationModal';
 import FlagContentModal from './FlagContentModal';
+import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 import {
   ChevronDown,
   FileText,
@@ -1036,8 +1037,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         <div className={SAMPLE_ZOOM}>
           <button
             type="button"
-            onClick={() => setFontSize(Math.max(12, fontSize - 2))}
-            disabled={fontSize <= 12}
+            onClick={() => setFontSize(stepReadingSize(fontSize, -1))}
+            disabled={!canStepReadingSize(fontSize, -1)}
             className={SAMPLE_ZOOM_BUTTON}
             title="Decrease text size"
           >
@@ -1046,8 +1047,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           <span className={SAMPLE_ZOOM_VALUE}>{fontSize}</span>
           <button
             type="button"
-            onClick={() => setFontSize(Math.min(32, fontSize + 2))}
-            disabled={fontSize >= 32}
+            onClick={() => setFontSize(stepReadingSize(fontSize, 1))}
+            disabled={!canStepReadingSize(fontSize, 1)}
             className={SAMPLE_ZOOM_BUTTON}
             title="Increase text size"
           >

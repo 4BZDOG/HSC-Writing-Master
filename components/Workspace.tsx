@@ -40,6 +40,7 @@ import {
 import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 import type { AppGeminiHandlers, AppModalHandlers } from '../hooks/appHandlerTypes';
+import { READING_SIZE_DEFAULT } from '../utils/readingSize';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
   useEffect(() => {
@@ -222,7 +223,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // ONE reading size for the whole workspace — question, writing surface and
   // exemplars. Every zoom control in the workspace writes to this value, so
   // there is a single setting rather than three that drift apart.
-  const [promptFontSize, setPromptFontSize] = useState(18);
+  const [promptFontSize, setPromptFontSize] = useState(READING_SIZE_DEFAULT);
 
   // Layout Sync State. Headers and footers are matched in both directions so
   // the chrome lines up, but the CARD height is one-way: the question prompt

@@ -53,6 +53,7 @@ import {
   CARD_HEADER_TRAY,
 } from '../utils/cardChrome';
 import HowToAnswer from './HowToAnswer';
+import { READING_SIZE_DEFAULT, canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 
 interface EditorProps {
   value: string;
@@ -224,7 +225,7 @@ const Editor = forwardRef<
     // be mirrored into local state that stopped following the parent as soon as
     // the student touched these buttons — so the prompt's zoom silently went
     // dead and the two cards drifted apart.
-    const internalFontSize = syncedFontSize || 18;
+    const internalFontSize = syncedFontSize || READING_SIZE_DEFAULT;
 
     const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
     const verbTier = verbInfo.tier;
@@ -755,16 +756,16 @@ const Editor = forwardRef<
                     </>
                   )}
                   <ToolbarButton
-                    onClick={() => handleManualResize(Math.max(12, internalFontSize - 2))}
+                    onClick={() => handleManualResize(stepReadingSize(internalFontSize, -1))}
                     icon={<ZoomOut className="w-4 h-4" />}
                     tooltip="Smaller text"
-                    disabled={internalFontSize <= 12}
+                    disabled={!canStepReadingSize(internalFontSize, -1)}
                   />
                   <ToolbarButton
-                    onClick={() => handleManualResize(Math.min(32, internalFontSize + 2))}
+                    onClick={() => handleManualResize(stepReadingSize(internalFontSize, 1))}
                     icon={<ZoomIn className="w-4 h-4" />}
                     tooltip="Larger text"
-                    disabled={internalFontSize >= 32}
+                    disabled={!canStepReadingSize(internalFontSize, 1)}
                   />
                   <div className="w-px h-4 bg-white/20 mx-0.5 max-sm:hidden" />
                   <ToolbarButton
