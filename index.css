@@ -1209,6 +1209,31 @@ a:focus-visible,
   background-color: rgb(var(--band-rgb) / 0.14);
   border-color: rgb(var(--band-rgb) / 0.7);
 }
+/*
+ * The verb definition row above the writing area: the tier's hue running in from a
+ * solid rule on the left edge, as the verb ribbon's cards wear it. `--band-rgb` is
+ * set on the row. The row's own ground is the writing well; this only adds the wash,
+ * so a missing `--band-rgb` leaves the plain well. The light theme's wash is firmer
+ * for the reason `.ribbon-tier-wash` gives. The text on it is `--color-text-primary`
+ * and `--color-text-secondary`, the two strongest inks, so a 30% tint of any of the
+ * six hues stays well over 4.5:1.
+ */
+.verb-brief {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.16) 0%,
+    rgb(var(--band-rgb) / 0.04) 80%
+  );
+  box-shadow: inset 4px 0 0 rgb(var(--band-rgb));
+}
+[data-theme='light'] .verb-brief {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.3) 0%,
+    rgb(var(--band-rgb) / 0.07) 80%
+  );
+}
+
 .ribbon-tier-band {
   background-color: rgb(var(--band-rgb) / 0.16);
   border-color: rgb(var(--band-rgb) / 0.5);

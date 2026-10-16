@@ -80,22 +80,31 @@ afterEach(() => {
 const chipFor = (code: string) => screen.getByRole('button', { name: new RegExp(code) });
 
 describe('outcome chips in the prompt footer', () => {
-  it('lays every chip out in a row that wraps, and never scrolls', () => {
+  it('lays every chip out in a grid that fills each line, and never scrolls', () => {
     render(<PromptDisplay {...props} />);
 
-    const row = chipFor('SE-12-01').parentElement as HTMLElement;
-    // All three chips share the one row, beside the brief button…
+    const grid = screen.getByRole('group', { name: /linked outcomes/i });
+    // All three chips share the one grid…
     outcomes.forEach((o) => {
-      expect(within(row).getByRole('button', { name: new RegExp(o.code) })).toBeTruthy();
+      expect(within(grid).getByRole('button', { name: new RegExp(o.code) })).toBeTruthy();
     });
-    expect(within(row).getByRole('button', { name: /read before you write/i })).toBeTruthy();
-    // …and the row WRAPS onto more lines when the card is narrow, instead of
-    // scrolling sideways. In two columns this card is ~490px, and the scrolling
+    // …in equal cells that wrap onto more lines when the card is narrow, instead
+    // of scrolling sideways. In two columns this card is ~490px, and the scrolling
     // strip it replaced was left a few pixels: the second chip was clipped to
     // "S…" with no scrollbar to find the rest of it.
-    expect(row.className).toContain('flex-wrap');
-    expect(row.className).not.toContain('flex-nowrap');
-    expect(row.className).not.toMatch(/overflow-(x-)?(auto|hidden|scroll)/);
+    expect(grid.className).toContain('grid');
+    expect(grid.className).toContain('auto-fill');
+    expect(grid.className).not.toMatch(/overflow-(x-)?(auto|hidden|scroll)/);
+
+    // The brief button and the tools are the row ABOVE the grid, not in it, so the
+    // flag can never be stranded beside a half-filled line of chips.
+    const brief = screen.getByRole('button', { name: /read before you write/i });
+    expect(grid.contains(brief)).toBe(false);
+    const actions = brief.parentElement as HTMLElement;
+    expect(
+      within(actions).getByRole('button', { name: /flag this question for review/i })
+    ).toBeTruthy();
+    expect(brief.className).toContain('flex-1');
   });
 
   it('keeps every chip whole: one line, one height, and 44px on a phone', () => {
@@ -122,15 +131,18 @@ describe('outcome chips in the prompt footer', () => {
     // The old strip was a scroller even with nothing in it, which is a WCAG
     // failure (`scrollable-region-focusable`): 153px of text in a slot that
     // narrowed to about 100px, no scrollbar, and nothing focusable inside to tab
-    // to. The row wraps now, so the sentence is never clipped at all.
+    // to. The sentence has the row's width now, so it is never clipped at all.
     render(<PromptDisplay {...props} prompt={{ ...prompt, linkedOutcomes: [] }} />);
 
     const placeholder = screen.getByText(/no outcomes linked/i);
-    const row = placeholder.parentElement as HTMLElement;
-    expect(row.className).toContain('flex-wrap');
-    expect(row.className).not.toMatch(/overflow-(x-)?(auto|scroll)/);
+    const slot = placeholder.parentElement as HTMLElement;
+    expect(slot.className).toContain('flex-1');
+    expect(slot.className).not.toMatch(/overflow-(x-)?(auto|scroll)/);
     expect(placeholder.className).not.toContain('truncate');
     expect(screen.queryByRole('button', { name: /read before you write/i })).toBeNull();
+    expect(screen.queryByRole('group', { name: /linked outcomes/i })).toBeNull();
+    // The flag stays, beside the sentence.
+    expect(screen.getByRole('button', { name: /flag this question for review/i })).toBeTruthy();
   });
 
   it('renders the hover preview outside the card, which clips its own overflow', () => {

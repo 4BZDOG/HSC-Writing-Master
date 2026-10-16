@@ -1,7 +1,8 @@
 import React, { useId, useMemo } from 'react';
 import { ChevronDown, ListOrdered } from 'lucide-react';
 import { getCommandTermInfo } from '../data/commandTerms';
-import { getBandRgb } from '../utils/renderUtils';
+import { getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
+import { tierIcon } from '../utils/verbTierIcon';
 import { PROSE_BLOCK } from '../utils/prose';
 import {
   collectStrategyDetail,
@@ -54,23 +55,38 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
 
   const hasBody = method.length > 0 || terms.length > 0 || examples.length > 0 || watch.length > 0;
 
-  // The row sits on the writing well, not on the paper above it. It used to be
-  // transparent, so over a white card it was a flat white strip wedged between
-  // the saturated header and the grey well, joined to each by a grey hairline.
-  // On the well token the strip and the writing area are one surface, and the
-  // only seam left is the band-coloured rule under the header — the card's
-  // own tier hue at low alpha, not a neutral line that reads as a gap.
+  const TierIcon = tierIcon(info.tier);
+  const bandConfig = getTierScaleConfig(info.tier);
+
+  // The row sits on the writing well, not on the paper above it, and wears the
+  // question's tier the way the verb ribbon's cards do: the tier's icon in a
+  // tinted tile, a wash of the tier hue running in from a solid rule on the left
+  // edge (`.verb-brief`). Without them it was a line of small print with nothing
+  // to say it was the verb the question is built on.
+  //
+  // One grid, two shapes. On a phone the tile, the verb and the button share the
+  // first line and the meaning takes the full width beneath, so it never wraps
+  // around a button. From `sm` the tile spans both lines, the verb and its
+  // meaning stack in the middle, and the button is centred on the right.
   return (
-    <div style={bandStyle} className="band-edge border-t bg-[rgb(var(--color-bg-surface-inset))]">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 sm:px-6 py-2.5">
-        <span className="t-label order-1 shrink-0 text-[rgb(var(--color-text-primary))]">
+    <div
+      style={bandStyle}
+      className="verb-brief band-edge border-t bg-[rgb(var(--color-bg-surface-inset))]"
+    >
+      <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 pl-5 pr-4 sm:pl-7 sm:pr-6 py-3">
+        <span
+          aria-hidden="true"
+          className={`ribbon-tier-tile row-start-1 sm:row-span-2 size-10 shrink-0 rounded-tile border flex items-center justify-center ${bandConfig.text}`}
+        >
+          <TierIcon className="w-5 h-5" />
+        </span>
+        <span className="t-label row-start-1 col-start-2 min-w-0 text-[rgb(var(--color-text-primary))]">
           {info.term}
         </span>
         {/* The meaning, in the reading face. It wraps rather than truncating:
-            it is the sentence a student most needs, and on a phone it takes a
-            line of its own under the verb and its button. */}
+            it is the sentence a student most needs. */}
         <p
-          className={`order-3 basis-full sm:order-2 sm:basis-auto sm:flex-1 min-w-0 font-serif ${PROSE_BLOCK} text-[13px] leading-snug text-[rgb(var(--color-text-muted))]`}
+          className={`row-start-2 col-span-3 sm:col-span-1 sm:col-start-2 min-w-0 font-serif ${PROSE_BLOCK} text-[13px] leading-snug text-[rgb(var(--color-text-secondary))]`}
         >
           {info.definition}
         </p>
@@ -80,7 +96,7 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
             onClick={onToggle}
             aria-expanded={open}
             aria-controls={panelId}
-            className="t-label order-2 ml-auto sm:order-3 sm:ml-0 shrink-0 inline-flex items-center gap-1.5 h-11 sm:h-8 pl-2.5 pr-2 rounded-full border border-[rgb(var(--color-border-primary))] bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors motion-reduce:transition-none active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="t-label row-start-1 col-start-3 sm:row-span-2 justify-self-end shrink-0 inline-flex items-center gap-1.5 h-11 sm:h-8 pl-2.5 pr-2 rounded-full border border-[rgb(var(--band-rgb)/0.7)] bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-primary))] shadow-sm hover:bg-[rgb(var(--band-rgb)/0.14)] transition-colors motion-reduce:transition-none active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <PanelReadChip show={read && !open} />
             <ListOrdered className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />

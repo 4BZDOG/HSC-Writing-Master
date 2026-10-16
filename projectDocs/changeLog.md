@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-16 (Focus Mode terms, the verb definition row and the prompt card's footer)
+
+- **Fixed.** Focus Mode had no Syllabus terms. It showed the Marking guide and the Sample answers and left the terms out, so a student on a phone who folded the page away to write lost the list of terms the marker rewards. The panel is now `SyllabusTermsPanel`, shared by the reference column and Focus Mode, and sits ahead of the guide as it does in one column.
+- **Changed.** The verb definition row above the writing area wears the tier: the verb ribbon's icon for the tier (now `utils/verbTierIcon.ts`, shared with the ribbon) in a tinted tile, a wash of the tier hue running in from a solid rule on the left (`.verb-brief`, firmer in the light theme), and a band-edged "How to answer" button. On a phone the meaning takes the full width under the verb and the button.
+- **Changed.** The prompt card's footer is two rows. The actions row has "Read before you write", which takes the row's width, and the wand and flag as square tiles of the same height and edge. Below it the outcome chips sit in an even grid with the ladder gradient fill, so a set of codes fills each line edge to edge. It costs a question with an outcomes row about 33px of card height; the one-line-question ceiling in `workspace-chrome.spec.ts` moves from 520 to 600 to match.
+- **Changed.** Focus Mode puts away the creation and curation tools for a teacher or admin as it does for a student: scenario generate and edit, the provenance editor, regenerate and suggest terms, editing the marking guide, and generate, recalibrate or load a sample answer. Permissions are unchanged; the panels are handed the student's role while Focus Mode is on (`panelRole` in `Workspace`).
+
 ## [Unreleased] - 2026-10-16 (A student's draft no longer stops a shipped course being refreshed)
 
 - **Fixed.** A shipped course a student had started writing in was never updated. The "unedited copy" test fingerprints the whole course, and a draft (`userDraft`, with `draftElapsedSeconds`) is stored inside that course, so one draft made the copy look edited and the sync kept it as it was. Students who had written in Software Engineering or Enterprise Computing before the NESA rebuild (2.16.0) were left on the old courses. `hashCourse` now leaves those two fields out, and a course with no draft hashes exactly as before, so stored stamps stay valid.

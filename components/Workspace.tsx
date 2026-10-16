@@ -13,7 +13,7 @@ import {
   SyllabusCrumb,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
-import ReferenceMaterials, { MarkingGuidePanel } from './ReferenceMaterials';
+import ReferenceMaterials, { MarkingGuidePanel, SyllabusTermsPanel } from './ReferenceMaterials';
 import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
@@ -217,6 +217,14 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // In Exam Mode the reference materials (syllabus terms, marking guide, grade
   // standards) are hidden — a student sitting an exam can't see the marking key.
   const isExamMode = writingMode === 'exam';
+
+  // Focus Mode is for writing, and for a teacher or admin too: the creation and
+  // curation tools (generate or edit a scenario, regenerate terms, edit the marking
+  // guide, generate, recalibrate or load a sample answer, the provenance editor)
+  // are put away exactly as they are for a student. The role the PANELS see is the
+  // student's here; `userRole` itself still decides permissions, so nothing about
+  // what the person may do changes, only what is laid out in front of them.
+  const panelRole: UserRole = isFocusMode && canCurateContent(userRole) ? 'user' : userRole;
 
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSuggestingOutcomes, setIsSuggestingOutcomes] = useState(false);
@@ -594,13 +602,42 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const markingGuideCard = (
     <MarkingGuidePanel
       prompt={currentPrompt}
-      userRole={userRole}
+      userRole={panelRole}
       onMarkingCriteriaChange={(mc) =>
         syllabusHandlers.updateCourses((d) =>
           findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
         )
       }
       courseOutcomes={courseOutcomes}
+    />
+  );
+
+  // Focus Mode's copy of the Syllabus Terms panel, ahead of the Marking Guide so
+  // the order matches the one-column page: terms, guide, sample answers. Without
+  // it a phone in Focus Mode had no list of terms at all.
+  const syllabusTermsCard = (
+    <SyllabusTermsPanel
+      prompt={currentPrompt}
+      topic={currentTopic}
+      dotPointText={currentDotPoint?.description}
+      subTopicName={currentSubTopic?.name}
+      userRole={panelRole}
+      onKeywordsChange={(kw) =>
+        syllabusHandlers.updateCourses((d) =>
+          findAndUpdateItem(d, statePath, (p) => (p.keywords = kw))
+        )
+      }
+      isEnriching={isEnriching}
+      onRegenerateKeywords={geminiHandlers.handleRegenerateKeywords}
+      isRegeneratingKeywords={geminiHandlers.isRegeneratingKeywords}
+      regenerateError={geminiHandlers.regenerateKeywordsError}
+      onSuggestKeywords={geminiHandlers.handleSuggestKeywords}
+      isSuggestingKeywords={geminiHandlers.isSuggestingKeywords}
+      suggestError={geminiHandlers.suggestKeywordsError}
+      userAnswer={userAnswer}
+      onAddWord={(word) => window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))}
+      courseOutcomes={courseOutcomes}
+      breadcrumb={crumbs.map((c) => c.label)}
     />
   );
 
@@ -622,17 +659,17 @@ const Workspace: React.FC<WorkspaceProps> = ({
       // text from a student so a response is the student's own writing, and
       // "Use" is that same act in one click — the button is not rendered
       // without this handler, and a student's workspace never supplies it.
-      onUseSampleAnswer={canCurateContent(userRole) ? (text) => setUserAnswer(text) : undefined}
+      onUseSampleAnswer={canCurateContent(panelRole) ? (text) => setUserAnswer(text) : undefined}
       onDeleteSampleAnswer={(id) => syllabusHandlers.handleDeleteSampleAnswer(statePath, id)}
       onUpdateSampleAnswer={(answer) =>
         syllabusHandlers.handleUpdateSampleAnswer(statePath, answer)
       }
       onContributeSampleAnswer={
-        isCurriculumRemote() && userRole !== 'guest'
+        isCurriculumRemote() && panelRole !== 'guest'
           ? (answer) => syllabusHandlers.handleContributeSampleAnswer(statePath, answer)
           : undefined
       }
-      userRole={userRole}
+      userRole={panelRole}
       onRecalibrate={(ids: string[], onProgress?: (done: number, total: number) => void) =>
         geminiHandlers.recalibrateSamples(currentPrompt, ids, onProgress)
       }
@@ -657,6 +694,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
       <>
         {/* Focus Mode has no left rail, so the Marking Guide — the other
           placard a student reaches for mid-answer — rides here, folded shut. */}
+        {isFocusMode && syllabusTermsCard}
         {isFocusMode && markingGuideCard}
         {sampleAnswersCard}
       </>
@@ -740,7 +778,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
               generateScenarioError={geminiHandlers.generateScenarioError}
               courseOutcomes={courseOutcomes}
               onOutcomeClick={() => {}}
-              userRole={userRole}
+              userRole={panelRole}
               onDismissEnrichError={() => geminiHandlers.setEnrichError(null)}
               onRunQualityCheck={handleRunQualityCheck}
               onSuggestOutcomes={handleSuggestOutcomes}
