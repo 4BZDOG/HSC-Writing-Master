@@ -51,7 +51,12 @@ import {
   regenerateTopicIds,
   recalculateSampleAnswerBands,
 } from '../utils/dataManagerUtils';
-import { hashCourse, isUnedited, stampShipped } from '../utils/shippedCourseStamp';
+import {
+  carryPersonalFields,
+  hashCourse,
+  isUnedited,
+  stampShipped,
+} from '../utils/shippedCourseStamp';
 
 type DiscoveredDocType = 'course' | 'topic';
 
@@ -115,7 +120,7 @@ const parseManifestEntries = (manifest: {
 /**
  * Brings a saved library up to the shipped courses. A shipped course the library
  * lacks is added. A saved copy the user has not edited is replaced by the newer
- * shipped version. An edited copy is kept. A copy saved before fingerprints
+ * shipped version, keeping the student's own drafts (writing in a course is not editing it). An edited copy is kept. A copy saved before fingerprints
  * existed cannot be checked for edits, so if its content differs from the shipped
  * version, it is kept as a backup course named "(before refresh)" and the shipped
  * version replaces it. `complete` is false when any shipped file could not be
@@ -153,21 +158,28 @@ export const syncShippedCourses = async (
       }
       pending.delete(course.id);
       const stamped = stampShipped(next);
+      // A refresh replaces the course but not the student's own words: their drafts and
+      // the time they have spent are carried onto the same questions in the newer copy.
+      const { course: carried, orphaned } = carryPersonalFields(course, stamped);
+      const backup = (): Course => ({
+        ...course,
+        id: `${course.id}-before-refresh`,
+        name: `${course.name} (before refresh)`,
+        supersededBy: course.id,
+      });
       if (course.shippedHash === undefined) {
         // Predates fingerprints. Identical content needs no backup.
-        if (hashCourse(course) !== stamped.shippedHash) {
-          backups.push({
-            ...course,
-            id: `${course.id}-before-refresh`,
-            name: `${course.name} (before refresh)`,
-            supersededBy: course.id,
-          });
-        }
-        courses.push(stamped);
+        if (hashCourse(course) !== stamped.shippedHash) backups.push(backup());
+        courses.push(carried);
       } else if (!isUnedited(course)) {
         courses.push(course);
+      } else if (course.shippedHash === stamped.shippedHash) {
+        courses.push(course);
       } else {
-        courses.push(course.shippedHash === stamped.shippedHash ? course : stamped);
+        courses.push(carried);
+        // A draft on a question the newer course no longer has has nowhere to go, so the
+        // old copy is kept beside the new one, as for a copy that predates fingerprints.
+        if (orphaned) backups.push(backup());
       }
     }
     for (const next of pending.values()) courses.push(stampShipped(next));
@@ -304,7 +316,7 @@ export const useSyllabusData = ({
           // missing are added here, and unedited copies are brought up to date. The
           // version only advances once that has worked, so a failed fetch is retried.
           let libraryReady = true;
-          if (isOlderThan(savedVersion, '2.16.0')) {
+          if (isOlderThan(savedVersion, '2.17.0')) {
             const synced = await syncShippedCourses(dataToLoad);
             dataToLoad = synced.courses;
             libraryReady = synced.complete;

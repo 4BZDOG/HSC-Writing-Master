@@ -1,5 +1,11 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-16 (A student's draft no longer stops a shipped course being refreshed)
+
+- **Fixed.** A shipped course a student had started writing in was never updated. The "unedited copy" test fingerprints the whole course, and a draft (`userDraft`, with `draftElapsedSeconds`) is stored inside that course, so one draft made the copy look edited and the sync kept it as it was. Students who had written in Software Engineering or Enterprise Computing before the NESA rebuild (2.16.0) were left on the old courses. `hashCourse` now leaves those two fields out, and a course with no draft hashes exactly as before, so stored stamps stay valid.
+- **Changed.** A refresh now carries each draft and its writing time onto the same question in the newer course (`carryPersonalFields`). If a draft sits on a question the newer course no longer has, the old copy is kept as "(before refresh)" beside the new one, so no words are lost. A copy a teacher has really edited is still kept as it is.
+- **Note.** `DATA_VERSION` 2.17.0 and the sync gate move together, so a browser already at 2.16.0, including those that were skipped because of a draft, syncs again on its next load. A copy that is already current is left untouched. Tests in `tests/unit/shippedCourseMigration.test.ts`.
+
 ## [Unreleased] - 2026-10-15 (Monetisation follow-ups: forged webhooks, alerts, disputes, privacy, school portal, live prices, seat economics)
 
 - **Fixed.** The Stripe webhook now refuses unsigned events on every deployment, not only production (#366). Before, a Vercel preview with no `STRIPE_WEBHOOK_SECRET` trusted the request body, so a forged `customer.subscription.updated` could grant a paid plan if the preview shared production data. `isDeployedRuntime()` (`VERCEL_ENV` set, or `NODE_ENV=production`) decides; `vercel dev` now needs a signing secret too. Check it on a real preview: an unsigned post should answer 500.
