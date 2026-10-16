@@ -18,6 +18,7 @@ import {
   LADDER_SOLID,
 } from '../utils/ladderChrome';
 import { ladderBandVars } from './LadderRow';
+import { useOpenCriterionRequest } from '../utils/ladderLink';
 import { questionCeilingBand } from '../utils/markingGuideParse';
 import { classifySyllabusTerms, type SyllabusTermContext } from '../utils/syllabusTermSource';
 import { PANEL_NAME, PanelReadChip, useOpenedOnce } from './PanelDisclosure';
@@ -199,6 +200,10 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
   // same figure, so the three headers of a question agree.
   const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
   const written = Boolean(prompt.markingCriteria?.trim());
+  // Bumped to open the panel from outside it: an exemplar's "View marking criterion".
+  // The guide's rows listen for the same request to scroll to the matching row.
+  const [openSignal, setOpenSignal] = useState(0);
+  useOpenCriterionRequest(prompt.id, () => setOpenSignal((n) => n + 1));
   return (
     <AccordionSection
       title="Marking guide"
@@ -211,6 +216,7 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
       hero
       resetKey={prompt.id}
       supportId="markingGuide"
+      forceOpenSignal={openSignal}
     >
       <MarkingCriteriaManager
         prompt={prompt}

@@ -136,6 +136,24 @@ export const LADDER_FOOTER = 'mt-3 flex flex-wrap items-center gap-2';
 export const LADDER_MODEL_ANSWER =
   't-label inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-full border border-slate-500 bg-white/80 text-slate-800 shadow-sm dark:border-white/30 dark:bg-black/30 dark:text-slate-100 can-hover:hover:bg-white dark:can-hover:hover:bg-black/50 transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
+/** A guide row while it is LINKED to the exemplar the student has open in the Sample
+ *  Answers panel: the row's outline in the band's full hue, a halo round it and a lift
+ *  of shadow, with a single settling pulse the moment it is linked (`ladder-linked` in
+ *  `index.css`, which is where the band alpha lives; the pulse is neutralised by the
+ *  reduced-motion rule there). It is added to the row alongside its own fill and edge,
+ *  and it is gone the moment the exemplar closes. Painted on the row's own border and
+ *  shadow. */
+export const LADDER_LINKED = 'ladder-linked';
+
+/** The badge that says why a linked row is lit: "Matches the model answer you are
+ *  reading". A white pill with slate ink in the light theme and a smoked one in the
+ *  dark, the same chip ground `LADDER_MODEL_ANSWER` uses, so it reads as a label on the
+ *  row and not as part of its fill. Painted on the row's band fill, which is strongest
+ *  at the gutter, so the ground is the white or black beneath it and the ink is the
+ *  slate pair on that ground. */
+export const LADDER_LINKED_BADGE =
+  't-label mb-2 inline-flex items-center gap-1.5 rounded-full border border-slate-500 bg-white/85 px-2.5 py-1 text-slate-900 dark:border-white/30 dark:bg-black/40 dark:text-white';
+
 /** The body's whole-area disclosure, for a row whose body is one control while it
  *  is shut. It takes the same 16px inset as `LADDER_BODY`, and it sits INSIDE that
  *  inset, so the control is the whole body and not a button floating in it. Its

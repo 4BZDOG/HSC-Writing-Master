@@ -428,36 +428,35 @@ describe('the disclosure is the whole of a shut row', () => {
   });
 });
 
-describe('an open row: the criterion, the picker, the page, then the actions', () => {
+describe('an open row: the picker, the page, then the actions', () => {
   const GUIDE = [
     '6 marks: Explains the membrane in detail, with a worked example',
     '4 marks: Explains the membrane with accurate detail',
     '2 marks: Identifies one feature of the membrane',
   ].join('\n');
 
-  it('opens with the criterion that earns the mark, from the guide, as its own labelled zone', () => {
+  it('does not repeat the guide’s criterion in the row: the paper’s head jumps to it instead', () => {
     renderPanel({
       defaultCollapsed: false,
       markingCriteria: GUIDE,
       sampleAnswers: [sample({ id: 'a', mark: 4 })],
     });
     fireEvent.click(disclosureFor(4));
-    const zone = screen.getByRole('group', { name: 'Marking criterion' });
-    expect(zone.textContent).toContain('Marking criterion');
-    expect(zone.textContent).toContain('4/6');
-    expect(zone.textContent).toContain('Explains the membrane with accurate detail');
-    // The head is the band's solid strip; the edge is the band's strong edge.
-    expect(zone.classList.contains(LADDER_EDGE_OPEN)).toBe(true);
+    expect(screen.queryByRole('group', { name: 'Marking criterion' })).toBeNull();
+    expect(rowOf(disclosureFor(4)).textContent).not.toContain(
+      'Explains the membrane with accurate detail'
+    );
+    expect(screen.getByRole('button', { name: 'View marking criterion for 4 marks' })).toBeTruthy();
   });
 
-  it('draws no criterion zone when the guide has no row for that level', () => {
+  it('draws no jump to the criterion when the guide has no row for that level', () => {
     renderPanel({
       defaultCollapsed: false,
       markingCriteria: '6 marks: Explains the membrane in detail',
       sampleAnswers: [sample({ id: 'a', mark: 4 })],
     });
     fireEvent.click(disclosureFor(4));
-    expect(screen.queryByRole('group', { name: 'Marking criterion' })).toBeNull();
+    expect(screen.queryByRole('button', { name: /view marking criterion/i })).toBeNull();
   });
 
   it('offers the level’s exemplars as a picker, and folds the tail behind "+N more"', () => {
@@ -560,16 +559,23 @@ describe('the Coach’s Tip and Feedback are neutral notes, folded by the reader
     sample({ id: 'a', mark: 6, quickTip: 'Tighten the opening.', feedback: 'Solid structure.' }),
   ];
 
-  it('draws each note with a rule and a glyph, and no band or tone fill', () => {
+  it('draws the Coach’s Tip with a rule and a glyph, and no band or tone fill', () => {
     renderPanel({ defaultCollapsed: false, sampleAnswers: noted });
     fireEvent.click(disclosureFor(6));
     const tip = screen.getByText("Coach's Tip").closest('.border-l-2') as HTMLElement;
-    const feedback = screen.getByText('Feedback').closest('.border-l-2') as HTMLElement;
-    for (const note of [tip, feedback]) {
-      expect(note.className).not.toMatch(/\b(bg|indigo|amber|emerald|sky|violet)-/);
-      expect(note.querySelector('svg')).toBeTruthy();
-    }
+    expect(tip.className).not.toMatch(/\b(bg|indigo|amber|emerald|sky|violet)-/);
+    expect(tip.querySelector('svg')).toBeTruthy();
     expect(tip.textContent).toContain('Tighten the opening.');
+  });
+
+  it('reads the feedback as the marker’s commentary itself: no second label, no rule, no tone fill', () => {
+    renderPanel({ defaultCollapsed: false, sampleAnswers: noted });
+    fireEvent.click(disclosureFor(6));
+    const feedback = document.querySelector('[data-note="feedback"]') as HTMLElement;
+    expect(feedback.textContent).toBe('Solid structure.');
+    expect(screen.queryByText('Feedback')).toBeNull();
+    expect(feedback.className).not.toMatch(/\b(bg|border|indigo|amber|emerald|sky|violet)-/);
+    expect(feedback.className).toContain('italic');
   });
 
   it('folds the notes away from the reader’s own toggle', () => {
@@ -786,5 +792,59 @@ describe('the panel’s chrome is pinned', () => {
     expect(LADDER_STACK).toBe('space-y-2');
     expect(LADDER_GUTTER).toContain('w-[4.5rem]');
     expect(LADDER_GUTTER).toContain('sm:w-20');
+  });
+});
+
+describe('the paper’s head and the light-theme boosts are wired to their stylesheet', () => {
+  const css = readFileSync('index.css', 'utf8');
+  const hooks = [
+    ['SAMPLE_ROW', 'sample-row'],
+    ['SAMPLE_PAGE', 'sample-paper'],
+    ['SAMPLE_PAGE_FOOT', 'sample-paper-foot'],
+    ['SAMPLE_COMMENTARY', 'sample-commentary'],
+    ['SAMPLE_COMMENTARY_HEAD', 'sample-commentary-head'],
+  ] as const;
+
+  it.each(hooks)(
+    '%s carries the %s hook, and index.css styles it in the light theme only',
+    (name, hook) => {
+      const value = sampleAnswerChrome[name] as string;
+      expect(value.split(/\s+/)).toContain(hook);
+      expect(css).toContain(`[data-theme='light'] .${hook}`);
+      // No rule for the hook sits outside the light theme, so the dark theme is untouched.
+      const bare = css
+        .split('\n')
+        .filter((line) => line.includes(`.${hook}`) && /\{\s*$/.test(line));
+      for (const line of bare) {
+        expect(line, `${hook} is styled outside the light theme: ${line}`).toContain(
+          "[data-theme='light']"
+        );
+      }
+    }
+  );
+
+  it('heads the paper with the band’s solid fill and sets no ink of its own on the bar', () => {
+    const bar = sampleAnswerChrome.SAMPLE_PAGE_BAR;
+    // The ink is the solid's own near-black; a text-* colour here would override it.
+    expect(bar).not.toMatch(/(^|\s)(dark:)?text-/);
+    expect(bar).not.toMatch(/(^|\s)(dark:)?bg-/);
+    expect(readFileSync('components/SampleAnswersAccordion.tsx', 'utf8')).toContain(
+      '${SAMPLE_PAGE_BAR} ${LADDER_SOLID}'
+    );
+  });
+
+  it('keeps every control on the solid head dark-inked, so it holds contrast on all six hues', () => {
+    for (const name of ['SAMPLE_PAGE_BAR_CHIP', 'SAMPLE_CRITERION_LINK'] as const) {
+      const value = sampleAnswerChrome[name];
+      expect(value, `${name} lost its dark ink`).toContain('text-slate-900');
+      expect(value, `${name} has a white ink that fails on yellow`).not.toMatch(/(^|\s)text-white/);
+      expect(value, `${name} lost its white ground`).toMatch(/bg-white\/(75|80)/);
+    }
+  });
+
+  it('gives the jump to the criterion a 44px target on a phone', () => {
+    const value = sampleAnswerChrome.SAMPLE_CRITERION_LINK;
+    expect(value).toMatch(/(^|\s)min-h-11(\s|$)/);
+    expect(value).toContain('sm:min-h-0');
   });
 });

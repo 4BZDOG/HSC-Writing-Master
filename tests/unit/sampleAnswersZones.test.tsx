@@ -3,15 +3,25 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup, within, act } from '@testing-library/react';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { KEYWORD_HIGHLIGHT_CLASS, VERB_HIGHLIGHT_CLASS } from '../../utils/renderUtils';
-import { LADDER_EDGE_OPEN } from '../../utils/ladderChrome';
-import { SAMPLE_PAGE, SAMPLE_ZONES } from '../../utils/sampleAnswerChrome';
+import { LADDER_SOLID } from '../../utils/ladderChrome';
+import {
+  SAMPLE_CRITERION_LINK,
+  SAMPLE_NOTE_TEXT,
+  SAMPLE_PAGE,
+  SAMPLE_PAGE_BAR,
+  SAMPLE_ZONES,
+} from '../../utils/sampleAnswerChrome';
+import { getBandRgb } from '../../utils/renderUtils';
+import { OPEN_CRITERION_EVENT, type OpenCriterionDetail } from '../../utils/ladderLink';
 import type { Prompt, PromptVerb, SampleAnswer, UserRole } from '../../types';
 
 /**
- * The open row is three labelled zones, read top to bottom: the criterion that earns
- * the mark, the answer on its paper, and the marker's commentary on the desk outside
- * the paper. These hold the order, the labels, the separation between the answer and
- * the commentary, and the highlighting the commentary now shares with the feedback.
+ * The open row is two labelled zones, read top to bottom: the answer on its paper, whose
+ * head is the band's solid bar, and the marker's commentary on the desk outside the paper.
+ * The marking criterion is no longer repeated inside the row: the paper's head carries a
+ * jump to it in the Marking Guide. These hold the order, the labels (the commentary has
+ * ONE), the separation between the answer and the commentary, the italics, and the
+ * highlighting the commentary shares with the feedback.
  */
 
 vi.mock('../../services/geminiService', () => ({
@@ -67,8 +77,9 @@ const renderOpen = (options: OpenOptions) => {
     />
   );
   const mark = options.mark ?? 4;
-  fireEvent.click(screen.getByRole('button', { name: new RegExp(`^${mark}/6 marks`) }));
-  const row = container.querySelector<HTMLElement>('[data-exemplar-row]')!;
+  const disclosure = screen.getByRole('button', { name: new RegExp(`^${mark}/6 marks`) });
+  fireEvent.click(disclosure);
+  const row = disclosure.closest<HTMLElement>('[data-exemplar-row]')!;
   return { container, row };
 };
 
@@ -92,19 +103,20 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe('the open row is three labelled zones, in reading order', () => {
-  it('names them criterion, answer and commentary, top to bottom', () => {
+describe('the open row is two labelled zones, in reading order', () => {
+  it('names them answer and commentary, top to bottom, and no longer repeats the criterion', () => {
     const { row } = renderOpen({
       sampleAnswers: [sample({ quickTip: TIP, feedback: FEEDBACK })],
     });
     const groups = within(row).getAllByRole('group');
     expect(groups.map((g) => g.getAttribute('aria-label'))).toEqual([
-      'Marking criterion',
       'Model answer',
       "Marker's commentary",
     ]);
+    expect(within(row).queryByRole('group', { name: 'Marking criterion' })).toBeNull();
+    // The criterion's own words are the guide's to print, not the exemplar row's.
+    expect(row.textContent).not.toContain('Explains the membrane with accurate detail');
     // Each zone's label is written on the zone itself, so it reads as a heading as well.
-    expect(zone(row, 'Marking criterion').textContent).toContain('Marking criterion');
     expect(zone(row, 'Model answer').textContent).toContain('Model answer');
     expect(zone(row, "Marker's commentary").textContent).toContain("Marker's commentary");
   });
@@ -116,13 +128,129 @@ describe('the open row is three labelled zones, in reading order', () => {
     expect(SAMPLE_ZONES).toContain('gap-4');
     const column = zone(row, 'Model answer').parentElement!;
     expect(column.className).toBe(SAMPLE_ZONES);
-    expect(zone(row, 'Marking criterion').parentElement).toBe(column);
     expect(zone(row, "Marker's commentary").parentElement).toBe(column);
   });
 
-  it('gives the criterion zone the strong band edge, as the guide’s own row has', () => {
+  it('heads the paper with the band’s solid bar, "Model answer · 4/6"', () => {
     const { row } = renderOpen({ sampleAnswers: [sample()] });
-    expect(zone(row, 'Marking criterion').classList.contains(LADDER_EDGE_OPEN)).toBe(true);
+    const paper = zone(row, 'Model answer').querySelector<HTMLElement>(`[class="${SAMPLE_PAGE}"]`)!;
+    const bar = paper.firstElementChild as HTMLElement;
+    expect(bar.className).toBe(`${SAMPLE_PAGE_BAR} ${LADDER_SOLID}`);
+    expect(bar.textContent).toContain('Model answer');
+    expect(bar.textContent).toContain('4/6');
+    // The bar reads the band from the row, so it is the band's solid, not a fixed colour.
+    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(2));
+  });
+
+  it('takes the bar’s colour from the band of the mark: a different band, a different colour', () => {
+    // EXPLAIN is tier 3: a 6/6 answer sits in a higher band than a 2/6 one.
+    const both = [sample({ id: 'top', mark: 6 }), sample({ id: 'low', mark: 2 })];
+    const top = renderOpen({ mark: 6, sampleAnswers: both }).row.style.getPropertyValue(
+      '--band-rgb'
+    );
+    cleanup();
+    const low = renderOpen({ mark: 2, sampleAnswers: both }).row.style.getPropertyValue(
+      '--band-rgb'
+    );
+    expect(top).toMatch(/^\d+ \d+ \d+$/);
+    expect(low).toMatch(/^\d+ \d+ \d+$/);
+    expect(low).not.toBe(top);
+  });
+});
+
+describe('the paper’s head jumps to the marking criterion in the Marking Guide', () => {
+  const heard = (): { details: OpenCriterionDetail[]; stop: () => void } => {
+    const details: OpenCriterionDetail[] = [];
+    const listener = (e: Event) => details.push((e as CustomEvent<OpenCriterionDetail>).detail);
+    window.addEventListener(OPEN_CRITERION_EVENT, listener);
+    return { details, stop: () => window.removeEventListener(OPEN_CRITERION_EVENT, listener) };
+  };
+
+  it('offers "View marking criterion" on the bar, with the list-check glyph, named for the mark', () => {
+    const { row } = renderOpen({ sampleAnswers: [sample()] });
+    const bar = (zone(row, 'Model answer').querySelector(`[class="${SAMPLE_PAGE}"]`) as HTMLElement)
+      .firstElementChild as HTMLElement;
+    const button = within(bar).getByRole('button', { name: 'View marking criterion for 4 marks' });
+    expect(button.className).toBe(SAMPLE_CRITERION_LINK);
+    expect(button.textContent).toBe('View marking criterion');
+    expect(button.querySelector('svg.lucide-list-checks')).toBeTruthy();
+    expect(button.getAttribute('type')).toBe('button');
+  });
+
+  it('asks the guide for the row at this mark, and nothing else', () => {
+    const { row } = renderOpen({ sampleAnswers: [sample()] });
+    const { details, stop } = heard();
+    try {
+      fireEvent.click(within(row).getByRole('button', { name: /view marking criterion/i }));
+    } finally {
+      stop();
+    }
+    expect(details).toEqual([{ promptId: 'p-zones', mark: 4 }]);
+  });
+
+  it('draws no jump when the guide has no row for the level', () => {
+    const { row } = renderOpen({
+      mark: 4,
+      sampleAnswers: [sample()],
+      markingCriteria: '6 marks: Explains the membrane in detail',
+    });
+    expect(within(row).queryByRole('button', { name: /view marking criterion/i })).toBeNull();
+  });
+
+  it('keeps the jump on a locked exemplar too: the criterion is the same', () => {
+    const { row } = renderOpen({
+      sampleAnswers: [sample({ answer: '', withheld: true })],
+    });
+    expect(within(row).getByRole('button', { name: /view marking criterion/i })).toBeTruthy();
+  });
+});
+
+describe('the marker’s commentary has one label, and is read in italics', () => {
+  it('names the commentary once: the feedback has no label of its own, and the tip keeps its own', () => {
+    const { row } = renderOpen({ sampleAnswers: [sample({ quickTip: TIP, feedback: FEEDBACK })] });
+    const commentary = zone(row, "Marker's commentary");
+    expect(within(commentary).getAllByText("Marker's commentary")).toHaveLength(1);
+    // No second heading for the same thing: no "Feedback" label beside the zone label.
+    expect(within(commentary).queryByText('Feedback')).toBeNull();
+    // The Coach's Tip is a different thing, so it is named.
+    expect(within(commentary).getAllByText("Coach's Tip")).toHaveLength(1);
+    // The fold toggle still reads Hide/Show Feedback.
+    expect(within(commentary).getByRole('button', { name: 'Hide Feedback' })).toBeTruthy();
+  });
+
+  it('puts the feedback directly under the one label, and the tip after it', () => {
+    const { row } = renderOpen({ sampleAnswers: [sample({ quickTip: TIP, feedback: FEEDBACK })] });
+    const commentary = zone(row, "Marker's commentary");
+    const feedback = commentary.querySelector<HTMLElement>('[data-note="feedback"]')!;
+    const tip = commentary.querySelector<HTMLElement>('[data-note="tip"]')!;
+    const label = within(commentary).getByText("Marker's commentary");
+    expect(feedback.textContent).toBe(FEEDBACK);
+    expect(label.compareDocumentPosition(feedback) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(feedback.compareDocumentPosition(tip) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('italicises the feedback and the tip, and keeps the answer upright', () => {
+    const { row } = renderOpen({ sampleAnswers: [sample({ quickTip: TIP, feedback: FEEDBACK })] });
+    const commentary = zone(row, "Marker's commentary");
+    expect(SAMPLE_NOTE_TEXT).toContain('italic');
+    const feedback = commentary.querySelector<HTMLElement>('[data-note="feedback"]')!;
+    expect(feedback.classList.contains('italic')).toBe(true);
+    const tipText = commentary.querySelector<HTMLElement>('[data-note="tip"] .italic')!;
+    expect(tipText.textContent).toContain('Explain how the membrane controls transport');
+    const paper = zone(row, 'Model answer').querySelector<HTMLElement>(`[class="${SAMPLE_PAGE}"]`)!;
+    expect(paper.querySelector('.italic')).toBeNull();
+  });
+
+  it('shows a commentary with only a tip, labelled once, and one with only feedback', () => {
+    const tipOnly = renderOpen({ sampleAnswers: [sample({ quickTip: TIP })] });
+    const tipCommentary = zone(tipOnly.row, "Marker's commentary");
+    expect(tipCommentary.querySelector('[data-note="feedback"]')).toBeNull();
+    expect(within(tipCommentary).getAllByText("Marker's commentary")).toHaveLength(1);
+    cleanup();
+    const feedbackOnly = renderOpen({ sampleAnswers: [sample({ feedback: FEEDBACK })] });
+    const feedbackCommentary = zone(feedbackOnly.row, "Marker's commentary");
+    expect(feedbackCommentary.querySelector('[data-note="tip"]')).toBeNull();
+    expect(within(feedbackCommentary).queryByText("Coach's Tip")).toBeNull();
   });
 });
 
@@ -131,11 +259,8 @@ describe('the answer and the commentary are kept apart', () => {
     const { row } = renderOpen({ sampleAnswers: [sample({ quickTip: TIP, feedback: FEEDBACK })] });
     const answer = zone(row, 'Model answer');
     const commentary = zone(row, "Marker's commentary");
-    const criterion = zone(row, 'Marking criterion');
     expect(answer.contains(commentary)).toBe(false);
     expect(commentary.contains(answer)).toBe(false);
-    expect(criterion.contains(answer)).toBe(false);
-    expect(criterion.contains(commentary)).toBe(false);
   });
 
   it('puts the exemplar on the paper, and keeps the notes off it', () => {
@@ -185,33 +310,40 @@ describe('the answer and the commentary are kept apart', () => {
   });
 });
 
-describe('the criterion zone and the commentary highlight the verb and the terms', () => {
+describe('the commentary highlights the verb and the terms, and keeps them legible in italics', () => {
   it('highlights the command verb and the syllabus term in the Coach’s Tip', () => {
     const { row } = renderOpen({ sampleAnswers: [sample({ quickTip: TIP })] });
-    const tipNote = within(zone(row, "Marker's commentary"))
-      .getByText("Coach's Tip")
-      .closest('.border-l-2') as HTMLElement;
+    const tipNote = zone(row, "Marker's commentary").querySelector<HTMLElement>(
+      '[data-note="tip"]'
+    )!;
     expect(highlighted(tipNote, VERB_HIGHLIGHT_CLASS)).toEqual(['Explain']);
     expect(highlighted(tipNote, KEYWORD_HIGHLIGHT_CLASS)).toContain('membrane');
   });
 
-  it('highlights the verb and the terms in the Feedback the same way', () => {
+  it('highlights the verb and the terms in the feedback the same way', () => {
     const { row } = renderOpen({ sampleAnswers: [sample({ feedback: FEEDBACK })] });
-    const feedbackNote = within(zone(row, "Marker's commentary"))
-      .getByText('Feedback')
-      .closest('.border-l-2') as HTMLElement;
-    expect(highlighted(feedbackNote, VERB_HIGHLIGHT_CLASS)).toEqual(['Explain']);
-    expect(highlighted(feedbackNote, KEYWORD_HIGHLIGHT_CLASS)).toContain('membrane');
+    const feedback = zone(row, "Marker's commentary").querySelector<HTMLElement>(
+      '[data-note="feedback"]'
+    )!;
+    expect(highlighted(feedback, VERB_HIGHLIGHT_CLASS)).toEqual(['Explain']);
+    expect(highlighted(feedback, KEYWORD_HIGHLIGHT_CLASS)).toContain('membrane');
   });
 
-  it('highlights the verb in the criterion the guide states for the level', () => {
-    const { row } = renderOpen({
-      mark: 4,
-      sampleAnswers: [sample()],
-      markingCriteria: '4 marks: Explains the membrane with accurate detail',
-    });
-    const criterion = zone(row, 'Marking criterion');
-    expect(highlighted(criterion, VERB_HIGHLIGHT_CLASS)).toEqual(['Explains']);
+  it('keeps the highlights inside the italic run, in the sans face that has a real italic at their weight', () => {
+    const { row } = renderOpen({ sampleAnswers: [sample({ feedback: FEEDBACK })] });
+    const feedback = zone(row, "Marker's commentary").querySelector<HTMLElement>(
+      '[data-note="feedback"]'
+    )!;
+    const term = Array.from(feedback.querySelectorAll('span')).find(
+      (n) => n.getAttribute('class') === KEYWORD_HIGHLIGHT_CLASS
+    )!;
+    expect(term.closest('.italic')).toBe(feedback);
+    // The highlights set their own weight, never a font family, so they inherit the note's
+    // sans face: Inter carries a real italic at every weight, where Newsreader's regular
+    // italic would drop a semibold term back to regular.
+    expect(KEYWORD_HIGHLIGHT_CLASS).toContain('font-semibold');
+    expect(feedback.className).not.toContain('font-serif');
+    expect(term.className).not.toContain('not-italic');
   });
 });
 
