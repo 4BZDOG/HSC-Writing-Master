@@ -871,8 +871,9 @@ a:focus-visible,
 [data-theme='light'] .sample-row.band-edge-strong {
   border-color: rgb(var(--band-rgb) / 1);
 }
-/* `:is()` keeps the stylesheet's tests (bandColors, feedbackChrome) finding the real
-   `.band-solid {` rule first: they read the first match of that text. */
+/* `:is()` keeps this selector from reading as the band-solid rule itself: the
+   stylesheet's tests (bandColors, feedbackChrome) read the first rule they find by
+   that name, and it has to be the real one further down. */
 [data-theme='light'] .sample-row > :is(.band-solid) {
   border-right-color: rgb(15 23 42 / 0.3);
 }
