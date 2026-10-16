@@ -5,27 +5,33 @@
     "outcomes": [
       {
         "code": "EST-11-01",
-        "description": "analyses the ways an author’s choice of language, form and structure shape meaning in texts of different modes and mediums"
+        "description": "analyses the ways an author’s choice of language, form and structure shape meaning in texts of different modes and mediums",
+        "year": "year11"
       },
       {
         "code": "EST-11-02",
-        "description": "explains the relationships between texts through context, form and language"
+        "description": "explains the relationships between texts through context, form and language",
+        "year": "year11"
       },
       {
         "code": "EST-11-03",
-        "description": "explains the ways context and values influence composition and audience response"
+        "description": "explains the ways context and values influence composition and audience response",
+        "year": "year11"
       },
       {
         "code": "EST-11-04",
-        "description": "composes texts, using language forms and features in new and different contexts"
+        "description": "composes texts, using language forms and features in new and different contexts",
+        "year": "year11"
       },
       {
         "code": "EST-11-05",
-        "description": "composes critical and creative texts for a range of audiences and purposes"
+        "description": "composes critical and creative texts for a range of audiences and purposes",
+        "year": "year11"
       },
       {
         "code": "EST-11-06",
-        "description": "explains own compositional processes and the ways choices of language, form and structure can shape meaning"
+        "description": "explains own compositional processes and the ways choices of language, form and structure can shape meaning",
+        "year": "year11"
       },
       {
         "code": "EST-12-01",

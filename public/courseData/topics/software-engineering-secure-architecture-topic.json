@@ -8,7 +8,7 @@
       "dotPoints": [
         {
           "id": "dp-1762984770472-toskgas",
-          "description": "Describe the benefits of developing secure software (data protection, minimising cyber attacks and vulnerabilities)",
+          "description": "Describe the benefits of developing secure software (data protection; minimising cyber attacks and vulnerabilities)",
           "prompts": [
             {
               "id": "prompt-1762991508614-xhoj2t7",
@@ -271,7 +271,7 @@
         },
         {
           "id": "dp-1762984770472-6jha1h3",
-          "description": "Interpret and apply fundamental software development steps to develop secure code (requirements definition, determining specifications, design, development, integration, testing and debugging, installation, maintenance)",
+          "description": "Interpret and apply fundamental software development steps to develop secure code (requirements definition; determining specifications; design; development; integration; testing and debugging; installation; maintenance)",
           "prompts": [
             {
               "id": "prompt-1762991959483-0lpors1",
@@ -662,7 +662,7 @@
       "dotPoints": [
         {
           "id": "dp-1762984770472-r8x6f6b",
-          "description": "Explore fundamental software design security concepts when developing programming code (confidentiality, integrity, availability, authentication, authorisation, accountability)",
+          "description": "Explore fundamental software design security concepts when developing programming code (confidentiality; integrity; availability; authentication; authorisation; accountability)",
           "prompts": [
             {
               "id": "prompt-1762992110731-js6oauo",
@@ -1272,7 +1272,7 @@
         },
         {
           "id": "dp-1762984770472-tfrvuf2",
-          "description": "Use and explain the ‘privacy by design’ approach in the development of software solutions (proactive not reactive approach, embed privacy into design, respect for user privacy)",
+          "description": "Use and explain the ‘privacy by design’ approach in the development of software solutions (proactive not reactive approach; embed privacy into design; respect for user privacy)",
           "prompts": [
             {
               "id": "prompt-1762992228798-w9b30kg",
@@ -1610,7 +1610,7 @@
         },
         {
           "id": "dp-1762984770472-jdbygoc",
-          "description": "Apply and evaluate strategies used by software developers to manage the security of programming code (code review, static application security testing (SAST), dynamic application security testing (DAST), vulnerability assessment, penetration testing)",
+          "description": "Apply and evaluate strategies used by software developers to manage the security of programming code (code review; static application security testing (SAST); dynamic application security testing (DAST); vulnerability assessment; penetration testing)",
           "prompts": [
             {
               "id": "prompt-1762992309900-9w6owlu",
@@ -2023,7 +2023,7 @@
         },
         {
           "id": "dp-1762984770472-ujbtmie",
-          "description": "Design, develop and implement code considering efficient execution for the user (memory management, session management, exception management)",
+          "description": "Design, develop and implement code considering efficient execution for the user (memory management; session management; exception management)",
           "prompts": [
             {
               "id": "prompt-1762992422009-8vunk0f",
@@ -2217,7 +2217,7 @@
         },
         {
           "id": "dp-1762984770472-i9mtydz",
-          "description": "Design, develop and implement secure code to minimise vulnerabilities in user action controls (broken authentication and session management, cross-site scripting (XSS) and cross-site request forgery (CSRF), invalid forwarding and redirecting, race conditions)",
+          "description": "Design, develop and implement secure code to minimise vulnerabilities in user action controls (broken authentication and session management; cross-site scripting (XSS) and cross-site request forgery (CSRF); invalid forwarding and redirecting; race conditions)",
           "prompts": [
             {
               "id": "prompt-1762992468619-s25vyqt",
@@ -2597,7 +2597,7 @@
       "dotPoints": [
         {
           "id": "dp-1762984770472-73m5rld",
-          "description": "Apply and describe the benefits of collaboration to develop safe and secure software (considering various points of view, delegating tasks based on expertise, quality of the solution)",
+          "description": "Apply and describe the benefits of collaboration to develop safe and secure software (considering various points of view; delegating tasks based on expertise; quality of the solution)",
           "prompts": [
             {
               "id": "prompt-1762992559552-xnx79zp",
@@ -2724,7 +2724,7 @@
         },
         {
           "id": "dp-1762984770472-afj91bc",
-          "description": "Investigate and explain the benefits to an enterprise of the implementation of safe and secure development practices (improved products or services, influence on future software development, improved work practices, productivity, business interactivity)",
+          "description": "Investigate and explain the benefits to an enterprise of the implementation of safe and secure development practices (improved products or services; influence on future software development; improved work practices; productivity; business interactivity)",
           "prompts": [
             {
               "id": "prompt-1762992608398-y9ca39d",
@@ -2849,7 +2849,7 @@
         },
         {
           "id": "dp-1762984770472-k72lrxk",
-          "description": "Evaluate the social, ethical and legal issues and ramifications that affect people and enterprises resulting from the development and implementation of safe and secure software (employment, data security, privacy, copyright, intellectual property, digital disruption)",
+          "description": "Evaluate the social, ethical and legal issues and ramifications that affect people and enterprises resulting from the development and implementation of safe and secure software (employment; data security; privacy; copyright; intellectual property; digital disruption)",
           "prompts": [
             {
               "id": "prompt-1762992648042-7iqw6vn",
