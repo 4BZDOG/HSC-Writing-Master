@@ -32,6 +32,18 @@ const tierHeaders = (page: import('@playwright/test').Page) =>
           shows: Math.round(name.clientHeight / lineHeight),
           clippedSideways: name.scrollWidth > name.clientWidth + 1,
           headerHeight: Math.round(b.getBoundingClientRect().height),
+          // The name's first line, the ceiling chip and the subtitle under the header.
+          nameTop: Math.round(name.getBoundingClientRect().top),
+          chipTop: Math.round(
+            (
+              b.querySelector('[class*="rounded-full"]') as HTMLElement | null
+            )?.getBoundingClientRect().top ?? -1
+          ),
+          subtitleTop: Math.round(
+            (
+              b.closest('.ribbon-tier-card')?.querySelector('p') as HTMLElement | null
+            )?.getBoundingClientRect().top ?? -1
+          ),
         };
       })
   );
@@ -69,6 +81,34 @@ test.describe('the verb ribbon’s tier cards', () => {
         headers.map((h) => [h.text, h.headerHeight])
       )}`
     ).toBe(1);
+  });
+
+  // Headings and ceilings share a line across the six cards, and each header is a
+  // control at least 44px tall. The rows are a two-row grid in the header, so the
+  // names, the chips and the subtitles agree by construction; this confirms it in a
+  // browser, where a line count or a font metric could still move them apart.
+  test('stand every name, ceiling chip and subtitle on one line, and every header at least 44px', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 1150 });
+    await openWorkspace(page);
+    await openVerbRibbon(page);
+
+    const headers = await tierHeaders(page);
+    expect(headers.length, 'the six tier cards').toBe(6);
+
+    for (const key of ['nameTop', 'chipTop', 'subtitleTop'] as const) {
+      const tops = new Set(headers.map((h) => h[key]));
+      expect(
+        tops.size,
+        `${key} differs across the cards: ${JSON.stringify(headers.map((h) => [h.text, h[key]]))}`
+      ).toBe(1);
+    }
+    for (const h of headers) {
+      expect(h.headerHeight, `"${h.text}" is a ${h.headerHeight}px control`).toBeGreaterThanOrEqual(
+        44
+      );
+    }
   });
 
   // The ribbon was dark in both themes: a dark banner, then a near-black stage,

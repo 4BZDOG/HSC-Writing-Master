@@ -591,14 +591,16 @@ export const RIBBON_STRIP_FRAME = 'relative';
 export const RIBBON_STRIP_FADE_START = 'strip-fade strip-fade-start';
 export const RIBBON_STRIP_FADE_END = 'strip-fade strip-fade-end';
 
-/** One tier card. Its border and fill come from the two constants below plus
- *  the tier config. Painted on the strip, which is painted on the drawer.
+/** One tier card. Its edge comes from `band-edge` (or `band-edge-strong` when it is
+ *  the selected tier, set at the call site), its fill from `RIBBON_TIER_CARD_IDLE`
+ *  or `RIBBON_TIER_CARD_CURRENT`. Painted on the strip, which is painted on the
+ *  drawer.
  *
- *  No fixed height: at a hard 256px the biggest tier had its last row of chips
- *  sliced by the card edge. The strip is a flex row, so leaving the height to
- *  the content makes every card as tall as the tallest for free. */
+ *  No minimum height. The strip is a flex row, so every card stretches to the
+ *  tallest one's height for free, and the tallest is set by its chips. A fixed
+ *  minimum on top of that only added empty space under the short cards. */
 export const RIBBON_TIER_CARD =
-  'flex-1 min-w-0 min-h-[256px] relative isolate overflow-hidden rounded-2xl border flex flex-col group/card';
+  'flex-1 min-w-0 relative isolate overflow-hidden rounded-2xl border flex flex-col group/card ribbon-tier-card';
 
 /** The cell a tier card sits in: the strip's flex item, which owns the width,
  *  the snap point and the position the auto-scroll measures, and which holds the
@@ -658,9 +660,10 @@ export const RIBBON_TIER_HALO =
 export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] dark:shadow-none';
 
 /** Added to the card whose tier the selected verb belongs to. All it states is
- *  the stacking order, `z-10`, above the receded cards at `z-0`: what marks the
- *  card as selected is its halo (`RIBBON_TIER_HALO`), its fill and its header
- *  gradient, which arrive from the tier config at the call site.
+ *  the stacking order, `z-10`, above the receded cards at `z-0`, and the card's
+ *  fill: `band-fill`, the mark ladder's own row fill, so the selected card is the
+ *  same band gradient as a Marking Guide row. What marks it as selected beyond that
+ *  is its halo (`RIBBON_TIER_HALO`) and its solid header (`RIBBON_TIER_HEADER_SELECTED`).
  *
  *  It no longer carries a border width, a transform or a shadow. `border-2` here
  *  and 1px on the others meant selecting a tier re-laid out the card's contents
@@ -668,7 +671,7 @@ export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] da
  *  is the same box in every state. And the selected card does not scale, for the
  *  reason measured earlier: a 5% scale on a 260px card overhangs 6.5px each side
  *  and takes the adjacent gaps to 9.5px against the row's 16px. */
-export const RIBBON_TIER_CARD_CURRENT = 'z-10';
+export const RIBBON_TIER_CARD_CURRENT = 'z-10 band-fill';
 
 /** Added to a card that is NOT the selected verb's tier, and to all six when
  *  no verb is selected. These cards hold 32 of the ribbon's 38 verb buttons,
@@ -687,166 +690,111 @@ export const RIBBON_TIER_CARD_CURRENT = 'z-10';
  *  leave the card enlarged. */
 export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
 
-/** A tier card's header, which is the "select this tier" control. The card
- *  cannot be a button itself — the verb chips inside it are buttons already —
- *  so the shortcut lives on the header. Painted on the tier's own fill, or on
- *  the tier gradient when it is the current tier.
+/** A tier card's header, which is the "select this tier" control. The card cannot
+ *  be a button itself — the verb chips inside it are buttons already — so the
+ *  shortcut lives on the header. Painted on the card: on the selected card's solid
+ *  fill, or on the idle card's wash (`RIBBON_TIER_HEADER_IDLE`).
  *
- *  It used to end `focus-visible:outline-none focus-visible:ring-white/50`,
- *  which suppressed the app-wide accent outline and replaced it with white
- *  alpha on `light:bg-amber-100`, `light:bg-green-100` and so on — white on
- *  amber-100 is not a ring, it is nothing, so a keyboard user in the light
- *  theme could not see which tier card had focus. The ring is now drawn inset,
- *  in a pair: the global outline (`index.css`) is the app's one focus
- *  treatment, but it is drawn OUTSIDE the button with a 2px offset, and the
- *  tier card that holds this header is `overflow-hidden` — it would be clipped
- *  away on three sides. Inset is the shape this particular button can wear. */
+ *  A two-row grid, placed by the children's own classes rather than by DOM order:
+ *  the icon tile and the band chip share row one, with the tile at the left and the
+ *  chip at the right; the name takes row two across both columns. So the chip is
+ *  read as the card's top-right corner and the name is still the first thing the
+ *  button says to a screen reader (`RIBBON_TIER_HEADER_TITLE` comes before
+ *  `RIBBON_TIER_BAND` in the markup). Every header is the same height, because the
+ *  name's row is floored to its line count (`RIBBON_TIER_HEADER_TITLE`) and the
+ *  header takes its height from its rows.
+ *
+ *  The focus ring is inset, in a pair: the global outline is drawn 2px OUTSIDE the
+ *  button, and the card that holds it is `overflow-hidden`, so it would be clipped
+ *  away on three sides. Inset is the shape this button can wear. */
 export const RIBBON_TIER_HEADER =
-  'w-full text-left px-6 py-4 border-b relative flex items-center gap-4 flex-shrink-0 cursor-pointer transition-[filter] can-hover:hover:brightness-110 active:brightness-95 touch-manipulation select-none ' +
+  'w-full text-left grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 px-5 pt-4 pb-3.5 border-b relative cursor-pointer transition-[filter] can-hover:hover:brightness-110 active:brightness-95 touch-manipulation select-none ' +
   // From `xl`, where the six cards share the row at about 189px each, the
-  // emoji stands above the name instead of beside it. Side by side, the name
-  // had 90px — less than "REMEMBER" set in the display face — and a word that
-  // cannot wrap was clipped mid-letter.
-  'xl:flex-col xl:items-start xl:gap-2 xl:px-4 ' +
+  // header keeps the same two rows and drops to the card's own inset.
+  'xl:px-4 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** The header's fill on the five cards that are not the selected tier — a faint
- *  tint of the tier's own hue, from the `--band-rgb` property each card already
- *  carries (`.band-wash` in `index.css`).
- *
- *  It was the tier config's `bg`: `-100` in the light theme, which is a solid
- *  pastel. Six of them side by side, over a pink brief and under a saturated
- *  selected card, is what made the ladder read as a sweet shop beside a page of
- *  white panels. The hue is still on every card — in the tint, the title, the
- *  chips and the border — and the saturated fill is left to the ONE card the
- *  reader is meant to be looking at. Painted on the card. The rule beneath it is
- *  a pair because the card is a theme surface. */
-export const RIBBON_TIER_HEADER_IDLE = 'band-wash border-slate-200 dark:border-white/5';
+/** The header on an unselected card: a wash of the tier's own hue
+ *  (`.ribbon-tier-wash` in `index.css`, from `--band-rgb`), with a neutral rule
+ *  under it. It was a solid `-100` pastel in the light theme, and six of those in a
+ *  row beside the saturated selected card read as a sweet shop. The rule is a pair
+ *  because the header sits on a theme surface. */
+export const RIBBON_TIER_HEADER_IDLE = 'ribbon-tier-wash border-slate-200 dark:border-white/5';
 
-/** The selected tier's header: the band's own hue, flat, under slate-950.
+/** The selected tier's header: the band at full strength, with the sheen the mark
+ *  ladder's gutter has (`.ribbon-tier-solid` in `index.css`), under slate-950.
  *
- *  It was the tier's gradient under the config's `solidText`, and no ink could
- *  carry that gradient. White measured 2.3–3.3:1 on the dark gradients and
- *  2.8–3.8:1 on the light red, orange and green ones; slate-950 cleared 4.5:1 on
- *  the dark gradients but fell to 3.0–4.0:1 on the light blue, purple and green.
- *  So the fill is the hue every tier already carries (`--band-rgb`, from
- *  `BAND_HEX`), and the ink is the one `band-solid` uses. slate-950 is 5.1:1 on
- *  the weakest of the six, purple, and 10.5:1 on yellow. `band-solid` itself is
- *  not used: its black shade takes purple to 4.4:1 at the far corner, under the
- *  floor for the 12px ceiling beneath the name. Pinned in
- *  tests/unit/verbRibbonChrome.test.tsx. The same in both themes, because the
- *  fill is. The title and the ceiling inherit this ink from the header. */
-export const RIBBON_TIER_HEADER_SELECTED =
-  'bg-[rgb(var(--band-rgb))] text-slate-950 border-white/10';
+ *  The ink is `slate-950` in both themes because the fill is the same colour in both
+ *  (DesignSpec §2, rule 2: a saturated fill on a coloured surface is not a theme
+ *  surface). It is 5.1:1 on the weakest hue, purple, at the header's foot, where the
+ *  name and its ceiling sit, and 10.5:1 on yellow. The title and the chip inherit
+ *  the ink from here rather than naming a colour of their own. Pinned in
+ *  `tests/unit/verbRibbonChrome.test.tsx`. */
+export const RIBBON_TIER_HEADER_SELECTED = 'ribbon-tier-solid text-slate-950 border-white/20';
 
-/** The icon tile in a tier card's header. It replaced a system emoji, which is
- *  the one thing in the workspace's chrome that is drawn by the operating system
- *  rather than by the app — a different picture on a school Chromebook, on a
- *  Mac and on a Windows laptop, in colours that belong to none of the six tiers.
- *  Every other panel in the workspace puts a line icon in a tile; the ladder now
- *  does too.
+/** The icon tile, a 32px square with the app's own line icon in it. It replaced a
+ *  system emoji, which is the one thing in the workspace's chrome drawn by the
+ *  operating system rather than by the app. It sits in row one, at the left.
  *
- *  Structure only. The fill is `bg-white/25 border-white/30` on the selected
- *  card, which is a saturated tier gradient (the same colour in both themes, so
- *  white alpha is right as written — DesignSpec §2), and a pair on the others,
- *  which are theme surfaces; both arrive at the call site. */
+ *  Its radius is `rounded-tile`, the role DesignSpec §3 gives an icon tile, so it
+ *  is a percentage and reads the same at every size. Structure only: the fill is
+ *  `RIBBON_TIER_ICON_SELECTED` or `RIBBON_TIER_ICON_IDLE`, chosen at the call site. */
 export const RIBBON_TIER_ICON =
-  'w-9 h-9 xl:w-8 xl:h-8 shrink-0 rounded-xl border flex items-center justify-center ' +
+  'row-start-1 col-start-1 w-8 h-8 shrink-0 rounded-tile border flex items-center justify-center ' +
   'transition-transform duration-300 ease-out can-hover:group-hover/card:scale-110';
 
-/** "Band 3 ceiling", UNDER the tier's title.
- *
- *  It sat above the title as an eyebrow, which put the consequence before the
- *  thing it is a consequence OF: a reader scanning six cards met "Band 1
- *  ceiling", "Band 2 ceiling", "Band 3 ceiling" down the row before any of the
- *  names that tell those numbers apart. The name leads now and the ceiling
- *  follows it, which is also the order the card is spoken in — "Define &
- *  Describe, Band 2 ceiling".
- *
- *  MONO, because it is the only thing in this header that is a figure.
- *  DesignSpec §4 gives JetBrains Mono to "marks, token counts, and system
- *  logs", and the ribbon's own scoreboard already sets its four numbers in it —
- *  so the face is not a new idea here, it is the one the ribbon uses whenever
- *  it states a number. It also puts the widest possible daylight between this
- *  line and the tracked-out Inter caps directly above it: different family,
- *  different weight, different case, no slant. Two lines that were both set in
- *  the same caps read as one two-line title rather than as a name and its
- *  annotation.
- *
- *  It used to add `opacity-60` on the five idle cards, and that was the whole
- *  of its contrast problem: `text-purple-900` on `bg-purple-100` is about 9:1
- *  and measured **2.97:1** through the opacity, on a card that is also dimmed
- *  to 90%. Dimming is a colour decision here rather than an opacity one — see
- *  `RIBBON_TIER_HEADER_LABEL_IDLE`. */
-export const RIBBON_TIER_HEADER_LABEL =
-  'font-mono text-xs font-medium tracking-tight block mt-1 truncate';
+/** The icon tile on the selected card: white alpha over the solid header, which is
+ *  the same colour in both themes, so it needs no partner (DesignSpec §2, rule 2).
+ *  It is translucent, so the band shows through it and the tile reads as part of
+ *  the header rather than a sticker on it. The glyph is `slate-950`. */
+export const RIBBON_TIER_ICON_SELECTED = 'bg-white/35 border-white/60 text-slate-950';
 
-/** The dimmed step for the ceiling on the five cards that are not selected.
- *
- *  It carried the tier's own `text` colour, the same one the title above it
- *  carries, so the name and its annotation were the same hue at the same
- *  strength and only the face told them apart. This drops it to the muted pair
- *  the card's own subtitle already uses two lines below — `slate-600` rather
- *  than `slate-500` for the reason recorded on `RIBBON_TIER_SUBTITLE_IDLE`:
- *  measured in the browser, slate-500 reads 3.91:1 under the card's `opacity-90`
- *  and slate-600 reads 5.8:1.
- *
- *  The CURRENT card is deliberately not dimmed. Its header is a saturated tier
- *  gradient, where the only ways down from `solidText` are an alpha that reads
- *  differently on every one of the six fills and an opacity DesignSpec §2 rule 3
- *  keeps off readings — and tier 3's yellow has already caught this codebase
- *  twice. It is also the one card the reader is meant to be reading. There, the
- *  mono face and the weight do the separating on their own. */
-export const RIBBON_TIER_HEADER_LABEL_IDLE =
-  'text-slate-600 dark:text-[rgb(var(--color-text-muted))]';
+/** The icon tile on an unselected card, where the glyph is the tier's text step.
+ *  Its fill is `.ribbon-tier-tile` in `index.css`. */
+export const RIBBON_TIER_ICON_IDLE = 'ribbon-tier-tile';
 
-/** The tier's title — the names the six cards are actually told apart by, so it
- *  leads the header, in the tracked-out caps the app gives a section's name
- *  everywhere else. The card IS a section of the ladder, and the six names are
- *  its headings.
+/** The band chip: the ceiling ("≤ B3") as a small pill in the card's top-right
+ *  corner. It replaced the mono "Up to Band N" line that sat under the name, which
+ *  took a row of its own on every card. It is a figure, so it is the mono face,
+ *  the one the ribbon's scoreboard sets its numbers in (DesignSpec §4).
  *
- *  Built from `.t-display` and the three utilities rather than from
- *  `.t-section`, which is the same voice at a fixed 12px and 0.16em. Those two
- *  numbers are right for a panel's name sitting alone on a row; here the line
- *  is a heading in a 260px card with an annotation under it, and at 0.16em the
- *  tracking was spending on air the width the WORDS needed — four of the six
- *  names went to two lines and "Remember & List" only just held one.
- *  `.t-section` sets its own size and wins the cascade over a `text-*` utility
- *  (see the note above `.t-label` in index.css), so it cannot be adjusted from
- *  a call site; `.t-display` carries only the face and the 900 weight, which is
- *  exactly the half worth sharing. Same voice, sized for this row.
+ *  Row one, at the right. The visible text is aria-hidden and a screen-reader-only
+ *  "Up to Band N" sits beside it, so the words survive for assistive technology
+ *  and for tests, while the sighted reader gets the compact form. Structure only:
+ *  the colour is `RIBBON_TIER_BAND_SELECTED` or `RIBBON_TIER_BAND_IDLE` plus the
+ *  tier's text step, chosen at the call site. */
+export const RIBBON_TIER_BAND =
+  'row-start-1 col-start-2 justify-self-end inline-flex items-center h-7 px-2.5 rounded-full border ' +
+  'font-mono text-xs font-semibold leading-none tabular-nums whitespace-nowrap';
+
+/** The band chip on the selected card: white alpha over the solid header, the same
+ *  in both themes, and `slate-950` ink, which is 8:1 or better over it. */
+export const RIBBON_TIER_BAND_SELECTED = 'bg-white/35 border-white/60 text-slate-950';
+
+/** The band chip on an unselected card: the tier's tint and edge
+ *  (`.ribbon-tier-band` in `index.css`), with the tier's text step at the call site. */
+export const RIBBON_TIER_BAND_IDLE = 'ribbon-tier-band';
+
+/** The tier's name, the words the six cards are told apart by. It leads the button
+ *  and is in row two, across both columns.
  *
- *  It WRAPS, where it once truncated: most of the six do not fit on one line at
- *  260px however it is set, and the strip used to show "Discuss, Assess & Jus…"
- *  and "Evaluate, Synthesise &…" — the one line that tells these six cards
- *  apart, ellipsised, at the top of the card.
+ *  Built from `.t-display` and the three utilities rather than from `.t-section`,
+ *  which sets its own size and tracking and cannot be adjusted from a call site.
+ *  The face and weight are shared; the size and tracking are sized for this row.
  *
- *  Clamped at THREE, which is what the longest actually needs. Two was measured
- *  at the 12px this line used to be and kept when the size went up, where it
- *  put the ellipsis straight back on "Evaluate, Synthesise & Create" — and the
- *  check that should have caught it only compared `scrollWidth`, which a
- *  vertical clamp never trips. Tracking cannot buy the line back either: the
- *  break is word-driven, and 0.02em through 0.06em all need the same three
- *  lines. So the block's floor takes the third line instead, which the cards
- *  can afford — they already end in empty space below their chips. */
+ *  It WRAPS, where it once truncated, and is clamped at THREE, which is what the
+ *  longest name needs at the xl column width. The floor reserves the lines the
+ *  card's own width can need, so one long name cannot push its own header out of
+ *  step with the five beside it: two lines below `xl`, three from `xl`, where the
+ *  column is narrower. A one-line name leaves the rest of that floor empty and the
+ *  heights still agree, which is the point of the floor. */
 export const RIBBON_TIER_HEADER_TITLE =
-  't-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
-
-/** The floor under the title-and-ceiling block, so a tier whose name wraps does
- *  not stand its header — and with it the subtitle and every chip below — out
- *  of step with the five beside it.
- *
- *  Three title lines, the gap, and the ceiling: 4.6rem. It is sized to the
- *  LONGEST name rather than the common case, because the whole job of this
- *  floor is that one card cannot push its own header out of line — and a floor
- *  that only fits five of the six names is a floor that does not do it. */
-export const RIBBON_TIER_HEADER_TEXT =
-  'min-w-0 min-h-[4.6rem] xl:min-h-[5rem] xl:w-full flex flex-col justify-center';
+  'col-span-2 row-start-2 min-h-[2.25rem] xl:min-h-[3.3rem] t-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
 export const RIBBON_TIER_SUBTITLE =
-  'px-6 xl:px-4 pt-3 text-[11px] font-medium leading-snug relative z-10';
+  'px-5 xl:px-4 pt-3 text-[11px] font-medium leading-snug relative z-10';
 
 /** The subtitle on the current tier's card, which is the one card the reader is
  *  meant to be reading. */
