@@ -102,3 +102,36 @@ describe('the Marking Guide in Focus Mode', () => {
     expect(readSupportUsage('p-focus').opened).toContain('markingGuide');
   });
 });
+
+describe('the Syllabus Terms in Focus Mode', () => {
+  // Focus Mode used to show the Marking Guide and the Sample Answers and left the
+  // Syllabus Terms out, so a student on a phone who folded the page away to write
+  // lost the list of terms the marker rewards.
+  const termsToggle = () => screen.getByRole('button', { name: /^syllabus terms/i });
+
+  it("shows the panel, with the question's own terms counted", () => {
+    renderFocused(prompt({ keywords: ['replication', 'helicase'] }));
+    expect(termsToggle().textContent).toMatch(/syllabus terms/i);
+    expect(termsToggle().textContent).toMatch(/2 supporting|key/i);
+  });
+
+  it('sits ahead of the Marking Guide and the Sample Answers, as in one column', () => {
+    renderFocused(prompt());
+    const order = [
+      termsToggle(),
+      guideToggle(),
+      screen.getByRole('button', { name: /^sample answers/i }),
+    ];
+    for (let i = 0; i < order.length - 1; i++) {
+      expect(
+        order[i].compareDocumentPosition(order[i + 1]) & Node.DOCUMENT_POSITION_FOLLOWING
+      ).toBeTruthy();
+    }
+  });
+
+  it('counts as opened in the report when the student opens it here', () => {
+    renderFocused(prompt());
+    fireEvent.click(termsToggle());
+    expect(readSupportUsage('p-focus').opened).toContain('keywords');
+  });
+});

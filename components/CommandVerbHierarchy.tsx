@@ -1,17 +1,8 @@
 import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
-import {
-  Brain,
-  ChevronDown,
-  Layers,
-  Link2,
-  NotebookPen,
-  Scale,
-  Search,
-  Trophy,
-  type LucideIcon,
-} from 'lucide-react';
+import { ChevronDown, Layers } from 'lucide-react';
+import { tierIcon } from '../utils/verbTierIcon';
 import {
   getBandHex,
   getBandInkRgb,
@@ -187,33 +178,6 @@ const AURA =
   // two pools above are the light; in the light theme they are pastels on a pale
   // sheet and need something under them to keep it from reading as washed out.
   'linear-gradient(rgb(var(--band-rgb) / var(--aura-wash)), rgb(var(--band-rgb) / var(--aura-wash)))';
-
-/**
- * The line icon each tier wears in its card header, in place of the system emoji
- * `TIER_GROUPS` carries for the generator modal.
- *
- * A function rather than a lookup table at module scope: a table would read the
- * imported icon components while this module initialises, which is the
- * `Cannot access 'X' before initialization` shape `npm run check:eager-reads`
- * exists to catch. `TIER_GROUPS` is not edited — the emoji is the generator's —
- * so the ribbon keys on the tier number, which is the ladder's own order.
- */
-const tierIcon = (tier: number): LucideIcon => {
-  switch (tier) {
-    case 1:
-      return Brain;
-    case 2:
-      return NotebookPen;
-    case 3:
-      return Link2;
-    case 4:
-      return Search;
-    case 5:
-      return Scale;
-    default:
-      return Trophy;
-  }
-};
 
 /** A percentage with trailing zeros trimmed, so tier 6 clips by `0%` rather
  *  than by `0.000%`. */

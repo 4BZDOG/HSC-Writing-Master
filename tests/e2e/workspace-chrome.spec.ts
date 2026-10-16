@@ -259,6 +259,14 @@ test.describe('workspace card chrome', () => {
    * taller than anything in it — which is what 620 was doing once the chrome
    * shrank. The empty writing surface must also not scroll: a scrollbar with
    * nothing to scroll to is the failure the floor guards against.
+   *
+   * The ceiling is 600 (it was 520, over a measured 517). The prompt card's footer
+   * is two rows now, the actions and then the outcome chips in an even grid, which
+   * costs a question with an outcome 33px, for a footer that no longer strands the
+   * flag or leaves a ragged right edge. Which question opens first also depends on
+   * the order the course library lands (measured here: 526 to 578 across the
+   * questions that can be first), so the margin has to cover the longest of them.
+   * 600 is still under the 620 that was the complaint.
    */
   test('a one-line question does not open a screenful of empty card', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 1000 });
@@ -280,7 +288,7 @@ test.describe('workspace card chrome', () => {
     });
 
     expect(card.height).not.toBeNull();
-    expect(card.height!).toBeLessThanOrEqual(520);
+    expect(card.height!).toBeLessThanOrEqual(600);
     expect(card.scrolls, 'an empty writing surface must not scroll').toBe(false);
   });
 
@@ -442,6 +450,38 @@ test.describe('the reference panels in one column', () => {
 
       for (const { name, top } of tops) expect(top, `${name} is on the page`).not.toBeNull();
       const order = [...tops].sort((a, b) => (a.top as number) - (b.top as number));
+      expect(order.map((t) => t.name)).toEqual([...PANELS]);
+    });
+  }
+
+  // Focus Mode folds the left rail away, so the three panels ride under the writing
+  // card instead. The Syllabus terms were the one it left out, which on a phone
+  // meant writing with no list of the terms the marker rewards.
+  for (const width of [1280, 390]) {
+    test(`Focus Mode keeps all three, in the same order, at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 1000 });
+      await openWorkspace(page);
+      await page
+        .getByRole('button', { name: /enter focus mode/i })
+        .first()
+        .click();
+      await page.waitForTimeout(900);
+
+      const names = await page.evaluate(
+        (wanted) => {
+          const found = wanted.map((name) => {
+            const btn = Array.from(document.querySelectorAll('button[aria-expanded]')).find((b) =>
+              (b.textContent ?? '').trim().startsWith(name)
+            );
+            return { name, top: btn ? btn.getBoundingClientRect().top + window.scrollY : null };
+          });
+          return found;
+        },
+        PANELS as unknown as string[]
+      );
+
+      for (const { name, top } of names) expect(top, `${name} is on the page`).not.toBeNull();
+      const order = [...names].sort((a, b) => (a.top as number) - (b.top as number));
       expect(order.map((t) => t.name)).toEqual([...PANELS]);
     });
   }

@@ -19,6 +19,7 @@ import {
   RefreshCw,
   AlertTriangle,
   BookOpen,
+  ChevronRight,
   Link2,
   Wand2,
   Award,
@@ -35,7 +36,7 @@ import {
   Landmark,
   ImagePlus,
 } from 'lucide-react';
-import { getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
+import { getBandRgb, getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
 import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTermSource';
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
@@ -136,6 +137,23 @@ const MeshOverlay = ({
 const FOOTER_CHIP =
   'inline-flex items-center rounded-lg border whitespace-nowrap max-w-full min-h-9 max-sm:min-h-11 transition-all touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
 
+/**
+ * The band fill the footer's chips share: the mark ladder's gradient (`.band-fill`) with
+ * a firm edge of the tier's own hue, read from `--band-rgb` on the footer. The ink is
+ * the tier's text step, as it was on the flat pastel these replace.
+ */
+const OUTCOME_FILL = 'band-fill border-[rgb(var(--band-rgb)/0.55)]';
+
+/**
+ * A tool button beside the brief button: the AI auto-link wand and the flag.
+ * Square, the chips' own height and radius, and a firm band-coloured edge, so the
+ * row of three reads as one set. They used to differ in fill, border and weight
+ * (a filled tile, a grey bordered one, a bordered label), which made the row look
+ * assembled from leftovers.
+ */
+const FOOTER_TOOL =
+  'shrink-0 flex items-center justify-center size-9 max-sm:size-11 rounded-lg border transition-all touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
+
 /** Half the preview panel's width (w-72), used to keep it on screen. */
 const OUTCOME_PREVIEW_HALF_WIDTH = 144;
 
@@ -201,13 +219,12 @@ const OutcomeChip: React.FC<{
         onFocus={show}
         onBlur={hide}
         className={`
-          t-label ${FOOTER_CHIP} gap-1.5 px-2.5
-          ${bandConfig.bg} ${bandConfig.border}
-          ${bandConfig.text} duration-300 cursor-pointer
-          hover:brightness-125 hover:shadow-lg
+          t-label ${FOOTER_CHIP} justify-center gap-1.5 px-2.5
+          ${OUTCOME_FILL} ${bandConfig.text} duration-300 cursor-pointer
+          hover:brightness-110 hover:shadow-lg
         `}
       >
-        <Target className="w-2.5 h-2.5 opacity-60" aria-hidden="true" />
+        <Target className="w-3 h-3 shrink-0 opacity-70" aria-hidden="true" />
         {outcome.code}
       </button>
       {anchor &&
@@ -1122,49 +1139,60 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           pinned to the bottom instead of scrolling out of reach when a long
           scenario overflows.
 
-          Everything here WRAPS, and nothing scrolls. This was one nowrap row of
-          label | scrolling chip strip | flag and reading size, and in two
-          columns, where this card is only ~490px, the strip was left a few
-          pixels: the second outcome chip was clipped to "S…" at the column edge
-          and could only be reached by scrolling a strip with no scrollbar. The
-          chips now flow onto as many lines as they need, so every code is read
-          in full at every width. The reading size left for the header (see the
-          card's corner), which is what freed the width the chips needed. */}
+          Two rows, and nothing scrolls. The first is the ACTIONS: the brief
+          button, which takes the row's width, and the two tools (the AI wand for
+          those who can use it, and the flag) as square tiles of the chips' own
+          height. The second is the OUTCOME chips, in a grid of equal cells, so a
+          set of codes fills each line edge to edge instead of leaving a ragged
+          right side with the flag stranded above it. It used to be one wrapping
+          row of mixed parts, with the flag pinned top-right, which on a phone
+          left the chips in a stair-step and the tools floating. A code is never
+          clipped: a cell is wide enough for the longest one the courses carry. */}
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
+            style={
+              {
+                minHeight: minFooterHeight || 52,
+                '--band-rgb': getBandRgb(verbInfo.tier),
+              } as React.CSSProperties
+            }
             className={`${CARD_FOOTER_BOX} relative z-10 flex items-center mt-auto`}
-            style={{ minHeight: minFooterHeight || 52 }}
           >
-            {/* Inner wrapper carries the row layout so its height stays
+            {/* Inner wrapper carries the layout so its height stays
               content-driven — the outer box is inflated by the synced
               minFooterHeight and cannot be measured. */}
-            <div ref={footerContentRef} className="w-full flex items-start gap-3">
-              <div className="flex flex-1 min-w-0 flex-wrap items-center gap-2">
+            <div ref={footerContentRef} className="w-full flex flex-col gap-2">
+              <div className="flex items-center gap-2">
                 {/* The whole label is the entry point, not just the chips. The
                   chips say WHICH outcomes apply; this says what opening them
                   gets you: what the marker is looking for in this question, and
                   a plain-English brief on the outcomes, worth reading before the
-                  first sentence is written. One chip, at every width: it was a
-                  40px icon tile beside a second bordered label, which was the
-                  widest thing in the row and said "link" twice. */}
+                  first sentence is written. */}
                 {linkedOutcomes.length > 0 ? (
                   <button
                     type="button"
                     onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
                     title="Open the outcome brief — what this question is assessing and what the marker is looking for"
-                    className={`${FOOTER_CHIP} gap-2 px-3 ${bandConfig.bg} ${bandConfig.border} ${bandConfig.text} text-xs font-bold hover:brightness-110`}
+                    className={`${FOOTER_CHIP} flex-1 min-w-0 justify-between gap-2 px-3 band-fill border-[rgb(var(--band-rgb)/0.85)] ${bandConfig.text} text-xs font-bold hover:brightness-110`}
                   >
-                    <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                    Read before you write
+                    <span className="inline-flex items-center gap-2">
+                      <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                      Read before you write
+                    </span>
+                    <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" aria-hidden="true" />
                   </button>
-                ) : examMode ? null : (
-                  // No `opacity`: a muted tone says "nothing to see" and stays
-                  // readable for whoever needs to read it.
-                  <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">
-                    <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                    No outcomes linked
-                  </span>
+                ) : (
+                  <div className="flex-1 min-w-0">
+                    {!examMode && (
+                      // No `opacity`: a muted tone says "nothing to see" and stays
+                      // readable for whoever needs to read it.
+                      <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">
+                        <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                        No outcomes linked
+                      </span>
+                    )}
+                  </div>
                 )}
                 {canGenerate && onSuggestOutcomes && !examMode && (
                   <button
@@ -1172,10 +1200,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     onClick={studioAction(onSuggestOutcomes)}
                     disabled={isSuggestingOutcomes}
                     aria-label="Auto-link outcomes with AI"
-                    className={`flex items-center justify-center size-9 max-sm:size-11 rounded-lg transition-all touch-manipulation ${
+                    className={`${FOOTER_TOOL} ${
                       studioChrome ||
-                      'bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'
-                    } ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
+                      'bg-[rgb(var(--color-accent))]/10 border-[rgb(var(--color-accent))]/40 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'
+                    } ${isSuggestingOutcomes ? 'animate-pulse' : ''}`}
                     title={studioTitle('Auto-link Outcomes with AI')}
                   >
                     <Wand2
@@ -1184,38 +1212,46 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     />
                   </button>
                 )}
-                {linkedOutcomes.map((outcome) => (
-                  <OutcomeChip
-                    key={outcome.code}
-                    outcome={outcome}
-                    bandConfig={bandConfig}
-                    onOpen={() => handleOutcomeClickInternal(outcome)}
+                <button
+                  type="button"
+                  onClick={() => setIsFlagModalOpen(true)}
+                  aria-label={
+                    hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
+                  }
+                  className={`${FOOTER_TOOL} ${
+                    hasOpenFlag
+                      ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25'
+                      : 'bg-[rgb(var(--color-bg-surface-light))] border-[rgb(var(--band-rgb)/0.45)] text-[rgb(var(--color-text-secondary))] hover:text-amber-600 hover:border-amber-500/60'
+                  }`}
+                  title={
+                    hasOpenFlag
+                      ? 'This question is flagged for review — click to view'
+                      : 'Something off about this question? Flag it for review'
+                  }
+                >
+                  <Flag
+                    className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}
+                    aria-hidden="true"
                   />
-                ))}
+                </button>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setIsFlagModalOpen(true)}
-                aria-label={
-                  hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
-                }
-                className={`shrink-0 flex items-center justify-center size-9 max-sm:size-11 rounded-lg border transition-all touch-manipulation ${
-                  hasOpenFlag
-                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
-                    : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
-                }`}
-                title={
-                  hasOpenFlag
-                    ? 'This question is flagged for review — click to view'
-                    : 'Something off about this question? Flag it for review'
-                }
-              >
-                <Flag
-                  className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}
-                  aria-hidden="true"
-                />
-              </button>
+              {linkedOutcomes.length > 0 && (
+                <div
+                  role="group"
+                  aria-label="Linked outcomes"
+                  className="grid grid-cols-[repeat(auto-fill,minmax(8.25rem,1fr))] gap-2"
+                >
+                  {linkedOutcomes.map((outcome) => (
+                    <OutcomeChip
+                      key={outcome.code}
+                      outcome={outcome}
+                      bandConfig={bandConfig}
+                      onOpen={() => handleOutcomeClickInternal(outcome)}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

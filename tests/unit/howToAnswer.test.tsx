@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
 import HowToAnswer from '../../components/HowToAnswer';
 import type { PromptVerb } from '../../types';
+import { tierIcon } from '../../utils/verbTierIcon';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 /**
  * The how-to-answer method card. Its verbs are chosen from the command-term
@@ -225,6 +228,45 @@ describe('HowToAnswer', () => {
     it('is absent when the verb offers no template', () => {
       render(<Harness verb={'DESCRIBE' as PromptVerb} initiallyOpen />);
       expect(within(card()!).queryByRole('heading', { name: /sentence shape/i })).toBeNull();
+    });
+  });
+
+  describe("the row's chrome", () => {
+    it("wears the tier's icon from the verb ribbon, in a tinted tile", () => {
+      const { container } = render(<Harness verb={'DESCRIBE' as PromptVerb} />);
+      const tile = container.querySelector('.ribbon-tier-tile') as HTMLElement;
+      expect(tile).toBeTruthy();
+      // Decorative: the verb is named in words beside it.
+      expect(tile.getAttribute('aria-hidden')).toBe('true');
+      expect(tile.querySelector('svg')).toBeTruthy();
+    });
+
+    it('takes the tier icon from the one function the ribbon uses', () => {
+      // Six distinct tiers, six icons: a verb is recognisably the same thing in the
+      // ribbon and above the writing area.
+      const icons = [1, 2, 3, 4, 5, 6].map((tier) => tierIcon(tier));
+      expect(new Set(icons).size).toBe(6);
+    });
+
+    it('draws the tier hue as a wash with a rule on the left, in both themes', () => {
+      const { container } = render(<Harness verb={'DESCRIBE' as PromptVerb} />);
+      const row = container.firstElementChild as HTMLElement;
+      expect(row.className).toContain('verb-brief');
+      expect(row.getAttribute('style')).toMatch(/--band-rgb/);
+
+      const css = readFileSync(resolve(__dirname, '../../index.css'), 'utf8');
+      expect(css).toMatch(/^\.verb-brief\s*\{[^}]*inset 4px 0 0 rgb\(var\(--band-rgb\)\)/m);
+      // The light theme's wash is its own, firmer rule.
+      expect(css).toMatch(/\[data-theme='light'\] \.verb-brief\s*\{[^}]*--band-rgb\) \/ 0\.3/);
+    });
+
+    it('lets the meaning take the full width under the verb on a phone', () => {
+      const { container } = render(<Harness verb={'DESCRIBE' as PromptVerb} />);
+      const meaning = container.querySelector('p') as HTMLElement;
+      expect(meaning.className).toContain('col-span-3');
+      expect(meaning.className).toContain('sm:col-span-1');
+      // The two strongest inks, so a 30% tint of any tier hue stays above 4.5:1.
+      expect(meaning.className).toContain('--color-text-secondary');
     });
   });
 });

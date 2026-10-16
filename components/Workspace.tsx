@@ -13,7 +13,7 @@ import {
   SyllabusCrumb,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
-import ReferenceMaterials, { MarkingGuidePanel } from './ReferenceMaterials';
+import ReferenceMaterials, { MarkingGuidePanel, SyllabusTermsPanel } from './ReferenceMaterials';
 import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
@@ -604,6 +604,35 @@ const Workspace: React.FC<WorkspaceProps> = ({
     />
   );
 
+  // Focus Mode's copy of the Syllabus Terms panel, ahead of the Marking Guide so
+  // the order matches the one-column page: terms, guide, sample answers. Without
+  // it a phone in Focus Mode had no list of terms at all.
+  const syllabusTermsCard = (
+    <SyllabusTermsPanel
+      prompt={currentPrompt}
+      topic={currentTopic}
+      dotPointText={currentDotPoint?.description}
+      subTopicName={currentSubTopic?.name}
+      userRole={userRole}
+      onKeywordsChange={(kw) =>
+        syllabusHandlers.updateCourses((d) =>
+          findAndUpdateItem(d, statePath, (p) => (p.keywords = kw))
+        )
+      }
+      isEnriching={isEnriching}
+      onRegenerateKeywords={geminiHandlers.handleRegenerateKeywords}
+      isRegeneratingKeywords={geminiHandlers.isRegeneratingKeywords}
+      regenerateError={geminiHandlers.regenerateKeywordsError}
+      onSuggestKeywords={geminiHandlers.handleSuggestKeywords}
+      isSuggestingKeywords={geminiHandlers.isSuggestingKeywords}
+      suggestError={geminiHandlers.suggestKeywordsError}
+      userAnswer={userAnswer}
+      onAddWord={(word) => window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))}
+      courseOutcomes={courseOutcomes}
+      breadcrumb={crumbs.map((c) => c.label)}
+    />
+  );
+
   const sampleAnswersCard = (
     <SampleAnswersAccordion
       prompt={currentPrompt}
@@ -657,6 +686,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
       <>
         {/* Focus Mode has no left rail, so the Marking Guide — the other
           placard a student reaches for mid-answer — rides here, folded shut. */}
+        {isFocusMode && syllabusTermsCard}
         {isFocusMode && markingGuideCard}
         {sampleAnswersCard}
       </>

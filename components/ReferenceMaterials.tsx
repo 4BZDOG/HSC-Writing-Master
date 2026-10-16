@@ -270,8 +270,17 @@ interface ReferenceMaterialsProps {
   breadcrumb?: string[];
 }
 
-const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
-  const { prompt, topic, userRole, courseOutcomes = [], dotPointText, subTopicName } = props;
+/**
+ * The Syllabus Terms panel. Built here once, for the reference rail and for Focus
+ * Mode, which has no rail: the two used to differ by this panel being missing from
+ * Focus Mode altogether, so a student on a phone who folded the page away to write
+ * lost the list of terms the marker rewards. It is the same component in both, so
+ * the two cannot drift apart again.
+ */
+export const SyllabusTermsPanel: React.FC<
+  Omit<ReferenceMaterialsProps, 'onMarkingCriteriaChange'>
+> = (props) => {
+  const { prompt, topic, dotPointText, subTopicName } = props;
   const topicName = topic?.name;
 
   // The Syllabus Terms panel was drawn in a fixed band 4 (green), beside a Marking
@@ -290,6 +299,31 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
     [prompt.keywords, prompt.question, prompt.scenario, dotPointText, subTopicName, topicName]
   );
 
+  return (
+    <AccordionSection
+      title="Syllabus terms"
+      subtitle={termsSubtitle}
+      icon={<Sparkles />}
+      band={ceilingBand}
+      hero
+      resetKey={prompt.id}
+      supportId="keywords"
+    >
+      <KeywordEditor
+        {...props}
+        topicName={topicName}
+        onRegenerate={props.onRegenerateKeywords}
+        isRegenerating={props.isRegeneratingKeywords}
+        onSuggest={props.onSuggestKeywords}
+        isSuggesting={props.isSuggestingKeywords}
+      />
+    </AccordionSection>
+  );
+};
+
+const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
+  const { prompt, userRole, courseOutcomes = [] } = props;
+
   // What's Assessed, Common mistakes and Grade Standards are off the workspace
   // for the time being, and the data behind them (linked outcomes,
   // `commonStudentErrors`, `markerNotes`, band descriptors) is left untouched so
@@ -297,24 +331,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
-      <AccordionSection
-        title="Syllabus terms"
-        subtitle={termsSubtitle}
-        icon={<Sparkles />}
-        band={ceilingBand}
-        hero
-        resetKey={prompt.id}
-        supportId="keywords"
-      >
-        <KeywordEditor
-          {...props}
-          topicName={topicName}
-          onRegenerate={props.onRegenerateKeywords}
-          isRegenerating={props.isRegeneratingKeywords}
-          onSuggest={props.onSuggestKeywords}
-          isSuggesting={props.isSuggestingKeywords}
-        />
-      </AccordionSection>
+      <SyllabusTermsPanel {...props} />
 
       <MarkingGuidePanel
         prompt={prompt}
