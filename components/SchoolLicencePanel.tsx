@@ -2,33 +2,47 @@ import React, { useState } from 'react';
 import { School, Minus, Plus } from 'lucide-react';
 import type { ToastType } from '../hooks/useToast';
 import {
+  BILLING_CODE,
   createCheckoutUrl,
+  createPortalUrl,
   monetisationEnabled,
   PLAN_LABELS,
-  PLAN_PRICING,
   SCHOOL_CONTACT_EMAIL,
   SCHOOL_SEAT_LIMITS,
   STRIPE_PRICE_IDS,
 } from '../services/entitlements';
+import { useLivePrices } from '../hooks/useLivePrices';
 import type { User } from '../types';
+import { billingErrorMessage } from '../utils/billingMessages';
+import ChampionKit from './ChampionKit';
+import { invoicedLicencesEnabled } from '../services/licenceRequestService';
+import InvoiceRequestForm from './InvoiceRequestForm';
 
 /**
- * The School licence route: a seat purchase for staff, an enquiry link for
- * everyone else.
+ * The School licence route for STAFF: a seat purchase, or the reason there is
+ * none to make.
  *
- * WHY THIS IS A COMPONENT AND NOT A BLOCK INSIDE THE UPGRADE PROMPT. It used
- * to be exactly that, and it was unreachable. The seat picker is shown only to
- * teachers and admins, and the upgrade prompt only opens when a control is
- * LOCKED — but a teacher resolves to Plus through the staff perk and an admin
- * to School by role, so neither of them ever has a locked control to press.
- * Every feature this deployment prices at Plus is therefore open to the only
- * two roles allowed to buy a licence, and the only in-app route to the School
- * plan sat behind a door they could not open. `VITE_STRIPE_SCHOOL_PRICE_ID`
- * could be set and configured correctly and no school could buy anything.
+ * WHY THIS IS A COMPONENT AND NOT A BLOCK INSIDE THE UPGRADE PROMPT. A teacher
+ * holds Plus as a staff perk and an admin holds School by role, so neither
+ * meets a Plus lock. The plan comparison is where staff arrive, so the route
+ * renders there as well as in the prompt for a School-priced feature.
  *
- * So it lives here, and renders in BOTH places: the upgrade prompt (where a
- * student who hit a lock can still ask about a licence) and the plan
- * comparison (which is where staff actually arrive — Profile → Compare plans).
+ * WHO SEES IT. Teachers and admins only. A student is never shown a School
+ * route: they cannot buy one, and a licence offered to them is an upsell aimed at
+ * the wrong person. Their answer is in describeAccess ("ask your school").
+ *
+ * WHAT IT SAYS, IN ORDER OF THE ANSWER:
+ *   1. The school is already covered (the caller's plan is a licence): say so,
+ *      and offer the school's billing portal to any staff member. No seat
+ *      picker, because a second licence would be refused. The portal is opened
+ *      for the school (`scope: 'school'`), not the caller's own subscription, so
+ *      a colleague who did not buy the licence can still manage it.
+ *   2. The server has refused a purchase because a licence is held: show its
+ *      sentence, with no purchase button.
+ *   3. The caller is not attached to a school: a licence would only cover them,
+ *      so the route is "ask an admin", not a checkout the server would refuse.
+ *   4. No School price in this deployment: the enquiry route.
+ *   5. Otherwise the seat picker.
  */
 
 interface SchoolLicencePanelProps {
@@ -39,14 +53,19 @@ interface SchoolLicencePanelProps {
   className?: string;
 }
 
-/** Staff buy seats; everyone else asks. Mirrored server-side in create-checkout. */
-const canBuySeats = (user?: User | null): boolean =>
-  !!STRIPE_PRICE_IDS.school && (user?.role === 'teacher' || user?.role === 'admin');
+const isStaff = (user?: User | null): boolean => user?.role === 'teacher' || user?.role === 'admin';
+
+/**
+ * A licence already covers this person's school. `stripePlan === 'school'` is
+ * set at sign-in only from a live licence (or this account's own purchase), so
+ * it answers "is the school covered" without a round trip.
+ */
+const schoolCovered = (user?: User | null): boolean => user?.stripePlan === 'school';
 
 /**
  * True when there is a School route worth drawing at all. A deployment that
  * sells nothing has no licence to offer; every other deployment has at least
- * the enquiry route.
+ * the enquiry route for staff.
  */
 export const hasSchoolRoute = (): boolean => monetisationEnabled();
 
@@ -58,54 +77,143 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
 }) => {
   const [seats, setSeats] = useState<number>(SCHOOL_SEAT_LIMITS.default);
   const [isBuyingSeats, setIsBuyingSeats] = useState(false);
+  /** The server's sentence after it refused a purchase because a licence is held. */
+  const [heldMessage, setHeldMessage] = useState<string | null>(null);
+  const [isOpeningPortal, setIsOpeningPortal] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
+  // Read before the early returns below, so the hook order never changes.
+  const prices = useLivePrices();
 
   if (!monetisationEnabled()) return null;
+  if (!isStaff(user)) {
+    // A student cannot buy a licence, so they get no route here. The one sentence
+    // that says how schools pay is kept for them, because it offers nothing to do.
+    return invoicedLicencesEnabled() ? (
+      <p
+        className={`text-center text-xs font-medium leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-600 ${className}`}
+      >
+        Invoices and purchase orders are accepted for school licences. A teacher or admin at the
+        school asks for one.
+      </p>
+    ) : null;
+  }
 
-  const buying = canBuySeats(user);
+  const wrap = (children: React.ReactNode) => (
+    <div className={`text-center ${className}`}>{children}</div>
+  );
 
-  // Students, parents and schools that cannot pay by card need a human
-  // conversation rather than a checkout. With no contact address configured
-  // there is still something honest to say, so the route is never a dead end.
-  if (!buying) {
+  const isTeacher = user?.role === 'teacher';
+
+  /**
+   * Opens the portal for the school's licence. The server finds the customer
+   * from the school, so this works for any staff member, not only the buyer.
+   */
+  const openSchoolPortal = async () => {
+    setIsOpeningPortal(true);
+    setPortalError(null);
+    const { url, error, status } = await createPortalUrl('school');
+    if (url) {
+      window.location.href = url;
+      return;
+    }
+    setPortalError(billingErrorMessage('portal', { error, status }));
+    setIsOpeningPortal(false);
+  };
+
+  if (heldMessage || schoolCovered(user)) {
+    return (
+      <div
+        role="status"
+        className={`rounded-2xl bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-200 p-4 ${className}`}
+      >
+        <span className="t-label text-indigo-400 light:text-indigo-600 flex items-center gap-2 mb-2">
+          <School className="w-3.5 h-3.5" aria-hidden="true" /> School licence
+        </span>
+        <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
+          {heldMessage ??
+            `Your school already has a ${PLAN_LABELS.school} licence, so everyone in it has ${PLAN_LABELS.school}. ` +
+              'To add seats, ask whoever bought the licence, or use Manage school licence below.'}
+        </p>
+        <button
+          type="button"
+          disabled={isOpeningPortal}
+          onClick={openSchoolPortal}
+          className="mt-3 min-h-11 text-sm font-bold px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all disabled:opacity-60"
+        >
+          {isOpeningPortal ? 'Opening…' : 'Manage school licence'}
+        </button>
+        {portalError && (
+          <p className="mt-2 text-xs text-red-500 light:text-red-600">{portalError}</p>
+        )}
+        {/* Someone else bought the licence, so a teacher cannot buy it either: the
+            note is the one thing they can send to the person who manages it. */}
+        {heldMessage && isTeacher && <ChampionKit schoolName={user?.schoolName} className="mt-3" />}
+      </div>
+    );
+  }
+
+  if (!user?.schoolId) {
     return (
       <div className={`text-center ${className}`}>
-        {SCHOOL_CONTACT_EMAIL ? (
-          <a
-            href={`mailto:${SCHOOL_CONTACT_EMAIL}?subject=${encodeURIComponent('School / class licence enquiry')}`}
-            className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-          >
-            Buying for a class or school? Ask about a school licence
-          </a>
-        ) : (
-          <button
-            type="button"
-            onClick={() => {
-              showToast(
-                'School licensing is coming — ask your school admin to register interest.',
-                'info'
-              );
-              onDone?.();
-            }}
-            className="text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-          >
-            Buying for a class or school? Ask about a school licence
-          </button>
+        <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
+          {user?.role === 'admin'
+            ? `Add your account to a school (Admin → Schools) before you buy seats, so the licence covers your school.`
+            : `A ${PLAN_LABELS.school} licence covers everyone in a school, so ask an admin to add you to yours. Then you can buy the seats.`}
+        </p>
+        {isTeacher && (
+          <div className="mt-3 flex justify-center">
+            <ChampionKit />
+          </div>
         )}
       </div>
+    );
+  }
+
+  if (!STRIPE_PRICE_IDS.school) {
+    return wrap(
+      SCHOOL_CONTACT_EMAIL ? (
+        <a
+          href={`mailto:${SCHOOL_CONTACT_EMAIL}?subject=${encodeURIComponent('School / class licence enquiry')}`}
+          className="inline-flex min-h-11 items-center justify-center text-xs font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+        >
+          Ask about a school licence
+        </a>
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            showToast(
+              'School licences are not on sale in the app yet. Speak to your school about a licence.',
+              'info'
+            );
+            onDone?.();
+          }}
+          className="min-h-11 text-xs font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+        >
+          Ask about a school licence
+        </button>
+      )
     );
   }
 
   const startCheckout = async () => {
     if (isBuyingSeats) return;
     setIsBuyingSeats(true);
-    const { url, error } = await createCheckoutUrl(STRIPE_PRICE_IDS.school, seats);
+    const { url, error, status, code } = await createCheckoutUrl(STRIPE_PRICE_IDS.school, seats);
     if (url) {
       window.location.href = url;
       return;
     }
+    // Someone else at the school holds the licence. The server's sentence says
+    // whom to ask, and there is nothing for this button to do any more.
+    if (code === BILLING_CODE.schoolLicenceHeld && error) {
+      setHeldMessage(error);
+      setIsBuyingSeats(false);
+      return;
+    }
     // Stay put on failure: the seat count the buyer chose is still on screen,
-    // and the message says what to do next.
-    showToast(error ?? 'Could not start the school checkout. Please try again.', 'error');
+    // and the message says what happened to the money.
+    showToast(billingErrorMessage('school-checkout', { error, status, code }), 'error');
     setIsBuyingSeats(false);
   };
 
@@ -122,7 +230,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             type="button"
             aria-label="Fewer seats"
             onClick={() => setSeats((s) => Math.max(SCHOOL_SEAT_LIMITS.min, s - 5))}
-            className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
+            className="shrink-0 w-11 h-11 sm:w-8 sm:h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
           >
             <Minus className="w-3.5 h-3.5" />
           </button>
@@ -133,27 +241,37 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             type="button"
             aria-label="More seats"
             onClick={() => setSeats((s) => Math.min(SCHOOL_SEAT_LIMITS.max, s + 5))}
-            className="w-8 h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 hover:text-white light:hover:text-slate-700 transition-colors"
+            className="shrink-0 w-11 h-11 sm:w-8 sm:h-8 rounded-xl bg-white/5 light:bg-white border border-white/10 light:border-slate-200 flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-700 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
           </button>
-          <span className="t-label text-slate-400 ml-1">
-            seats · {PLAN_PRICING.schoolSeat}/student/yr
+          <span className="t-label text-slate-400 light:text-slate-600 ml-1">
+            seats · {prices.schoolSeat} per student a year
+            {prices.schoolSeatGst ? ` ${prices.schoolSeatGst}` : ''}
           </span>
         </div>
         <button
           type="button"
           disabled={isBuyingSeats}
           onClick={startCheckout}
-          className="t-label px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all disabled:opacity-60"
+          className="min-h-11 text-sm font-bold px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all disabled:opacity-60"
         >
           {isBuyingSeats ? 'Redirecting…' : `Buy ${seats} seats`}
         </button>
       </div>
-      <p className="mt-2.5 text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500 leading-relaxed">
-        Everyone in your school gets {PLAN_LABELS.school} while the licence is active. Make sure
-        your school is set up (and you're in it) before purchasing.
+      {/* Read before paying, so it is full size: this is the line that says who
+          gets the licence and what has to be true first. */}
+      <p className="mt-2.5 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 leading-relaxed">
+        Everyone in your school gets {PLAN_LABELS.school} while the licence is active. Check that
+        your school is set up in the app and that you are listed in it before you buy.
       </p>
+      {/* The card stays the headline; an invoice or purchase order is the second route. */}
+      {invoicedLicencesEnabled() && (
+        <InvoiceRequestForm
+          seats={seats}
+          className="mt-4 pt-4 border-t border-indigo-500/20 light:border-indigo-200"
+        />
+      )}
     </div>
   );
 };

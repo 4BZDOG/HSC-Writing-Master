@@ -163,3 +163,19 @@ export const priceToPlan = (priceId: string): 'plus' | 'school' | 'free' =>
  */
 export const isProductionRuntime = (): boolean =>
   process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
+
+/**
+ * True when this process is ANY deployment: a Vercel production, preview or
+ * development environment (VERCEL_ENV set to any value), or a self-hosted
+ * production run. Use this, not isProductionRuntime(), to decide whether an
+ * unsigned webhook or another dev-only shortcut must be refused.
+ *
+ * The two differ on a preview. A Vercel preview (VERCEL_ENV=preview) is not
+ * "production", so isProductionRuntime() is false there, but it runs the same
+ * code against real data whenever it shares the production Supabase project.
+ * A forged event accepted on a preview grants the same paid plan as one
+ * accepted in production. Local dev and Vitest have no VERCEL_ENV and do not
+ * set NODE_ENV to production, so they stay false.
+ */
+export const isDeployedRuntime = (): boolean =>
+  Boolean(process.env.VERCEL_ENV) || process.env.NODE_ENV === 'production';

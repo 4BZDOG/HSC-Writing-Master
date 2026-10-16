@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import {
   Activity,
   BarChart3,
+  CreditCard,
   Database,
   Gauge,
   HardDrive,
@@ -21,6 +22,7 @@ import {
   HEADER_MENU_ITEM,
   HEADER_MENU_ITEM_HINT,
   HEADER_MENU_PANEL,
+  HEADER_MENU_STATUS,
   HEADER_TELEMETRY,
 } from '../utils/headerChrome';
 import { StorageStatus } from '../utils/storageUtils';
@@ -113,10 +115,7 @@ const ToolItem: React.FC<{
         {hint && <span className={HEADER_MENU_ITEM_HINT}>{hint}</span>}
       </span>
       {status && (
-        <span
-          id={statusId}
-          className="t-label ml-auto shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/30 light:border-indigo-200 text-indigo-300 light:text-indigo-700 whitespace-nowrap"
-        >
+        <span id={statusId} className={HEADER_MENU_STATUS}>
           <span
             className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"
             aria-hidden="true"
@@ -362,6 +361,15 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
                   icon={KeyRound}
                   label="Runtime AI Keys (paste a key to test models)"
                   onSelect={() => runTool(onOpenRuntimeKeys)}
+                />
+              </ToolGroup>
+            )}
+            {isSystemAdmin(user.role) && (
+              <ToolGroup label="Billing">
+                <ToolItem
+                  icon={CreditCard}
+                  label="Billing Overview (subscriptions, renewals, webhook)"
+                  onSelect={() => runTool(() => openModal('billingOverview'))}
                 />
               </ToolGroup>
             )}

@@ -162,7 +162,7 @@ export const InstrumentMetric = ({
   colorClass: string;
 }) => (
   <div className="flex flex-col px-3 md:px-5 border-r border-white/5 light:border-slate-200 last:border-r-0">
-    <MicroLabel className="text-white/50 light:text-slate-500 whitespace-nowrap">
+    <MicroLabel className="text-white/50 light:text-slate-600 whitespace-nowrap">
       {label}
     </MicroLabel>
     <span className={`text-2xl font-black tracking-tighter tabular-nums ${colorClass}`}>
@@ -172,7 +172,7 @@ export const InstrumentMetric = ({
 );
 
 const AUDIT_BTN_BASE =
-  't-label px-3.5 h-10 rounded-xl border transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:hover:bg-transparent';
+  't-label px-3.5 h-11 sm:h-10 rounded-xl border transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-30 disabled:grayscale disabled:hover:bg-transparent';
 
 /**
  * One batch action, carrying the colour of the gap it repairs.
@@ -258,9 +258,9 @@ export const FilterRow = ({
       disabled={empty}
       title={empty ? `${title ?? label} — none found` : title}
       aria-pressed={active}
-      className={`t-label shrink-0 md:w-full flex items-center gap-2.5 pl-2.5 pr-3 h-9 rounded-lg border text-left whitespace-nowrap transition-colors ${
+      className={`t-label shrink-0 md:w-full flex items-center gap-2.5 pl-2.5 pr-3 h-11 sm:h-9 rounded-lg border text-left whitespace-nowrap transition-colors ${
         empty
-          ? 'border-transparent text-slate-600 light:text-slate-400 cursor-default'
+          ? 'border-transparent text-slate-600 light:text-slate-500 cursor-default'
           : active
             ? palette.badge
             : 'border-transparent text-slate-400 light:text-slate-600 hover:bg-white/5 light:hover:bg-slate-100'
@@ -271,7 +271,7 @@ export const FilterRow = ({
         className={`w-1.5 h-1.5 rounded-full shrink-0 ${empty ? 'bg-slate-700 light:bg-slate-300' : palette.dot}`}
       />
       <span className="flex-1 min-w-0 truncate">{label}</span>
-      <span className="tabular-nums shrink-0 opacity-80">{count}</span>
+      <span className="tabular-nums shrink-0">{count}</span>
     </button>
   );
 };

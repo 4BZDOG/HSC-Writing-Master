@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page, Locator } from '@playwright/test';
 import {
   signIn,
   clearOnboarding,
@@ -7,7 +7,6 @@ import {
   typeAnswer,
   openPanel,
   expandNavigator,
-  openQuestionWithOutcomes,
 } from './support/workspace';
 import {
   freezeAnimations,
@@ -15,6 +14,18 @@ import {
   remeasureTagged,
   describeReadings,
 } from './support/contrast';
+import { measureGradientContrast, describeGradientReadings } from './support/gradientContrast';
+import {
+  setTheme,
+  dismissAll,
+  openWorkspaceQuestion,
+  openQuestionAtPath,
+  openProfile,
+  openVerbSheet,
+  openOutcomeBrief,
+  openFeedbackAfterMarking,
+} from './support/surfaces';
+import { questionPathPerTier } from './support/bandQuestions';
 
 /**
  * The light theme, held to the same standard as the dark one.
@@ -49,18 +60,6 @@ const PARITY_TOLERANCE = 0.5;
 /** Contrast is a property of the DOM, not the viewport, but the workspace only
  *  lays both cards out side by side above this width. */
 const WIDE = { width: 1400, height: 900 };
-
-const setTheme = async (page: Page, theme: 'light' | 'dark') => {
-  const toggle = page.getByRole('button', { name: new RegExp(`switch to ${theme} theme`, 'i') });
-  if (await toggle.count()) {
-    await toggle.first().click();
-    // The theme swap animates the surfaces it touches.
-    await page.waitForTimeout(800);
-  }
-  await expect
-    .poll(() => page.evaluate(() => document.documentElement.getAttribute('data-theme')))
-    .toBe(theme === 'light' ? 'light' : null);
-};
 
 test.describe('light theme', () => {
   test.describe.configure({ timeout: 120_000 });
@@ -188,23 +187,13 @@ const STATES: {
     },
   },
   {
-    // The reference rail's disclosures. "What's Assessed" holds the outcome
-    // rows, one of which dimmed its own action to `opacity-70` until the pass
-    // that added this state.
+    // The reference rail's disclosures: the syllabus terms and the marking
+    // guide. ("What's Assessed", "Common mistakes" and "Grade Standards" are off
+    // the rail for now — add them back here when they return.)
     name: 'the reference panels open',
-    // Not the free tier, and not for a role reason this time. "What's Assessed"
-    // renders only when the question links an outcome, and in the bundled
-    // curriculum the questions that link outcomes are mostly Tier 4+ — which the
-    // free plan locks. So the panel was unreachable as `user` in the most literal way:
-    // the questions that would have produced it cannot be selected.
-    //
-    // This state spent a long time asking for that panel, getting a silent
-    // return from `openPanel`, and measuring only the one beside it.
-    as: 'admin',
     reach: async (page) => {
-      await openQuestionWithOutcomes(page);
-      await openPanel(page, /what's assessed/i);
       await openPanel(page, /syllabus terms/i);
+      await openPanel(page, /marking guide/i);
     },
   },
   // NOT here, and honestly out of reach: the writing clock's urgency tones.
@@ -272,4 +261,166 @@ test.describe('light theme, past the first screen', () => {
       }
     });
   }
+});
+
+/**
+ * Text over gradients, on the surfaces that shipped unseen.
+ *
+ * `measureContrast` above skips any text whose background is an image, so the
+ * band headers, the verb sheet and the marking report went unmeasured for a long
+ * time, and white text on them read 1.9-2.8:1. These tests measure the same text
+ * against every ground its paint can show, worst case, in both themes (the
+ * arithmetic is in tests/e2e/support/gradientMath.ts and is unit-tested).
+ *
+ * The guard is strict and is NOT ratcheted: a failure fails the run. It found the
+ * band headers' white labels, the Plus chip and the feedback highlights; those
+ * are fixed, so it passes on main, and a regression in any of them fails here.
+ *
+ * What a green run does NOT show:
+ *   - Anything not on the surfaces below. The marking report is measured only
+ *     through its feedback modal, in the feedback test.
+ *   - The bands are measured on the workspace's card headers, opened one per band
+ *     from the bundled curriculum (the every-band test below). The table of
+ *     grounds for every band is also pinned by tests/unit/cardHeaderWashContrast.test.ts,
+ *     which reads the same table the app draws from.
+ */
+
+/** The surfaces the user's session reaches, measured in both themes. */
+const SESSION_SURFACES: {
+  name: string;
+  /** Opens the surface on the workspace and returns its root. */
+  reach: (page: Page) => Promise<Locator>;
+}[] = [
+  {
+    // The writing card's header and the prompt card's header: both are
+    // `CARD_HEADER_BOX` on the workspace.
+    name: 'workspace card headers',
+    reach: async (page) => page.locator('.rounded-t-surface-inner'),
+  },
+  { name: 'verb sheet', reach: openVerbSheet },
+  { name: 'outcome brief', reach: openOutcomeBrief },
+  {
+    name: 'profile head',
+    reach: async (page) => (await openProfile(page)).locator('header').first(),
+  },
+];
+
+/** Measures one surface and returns its failing runs, as one message, or nothing. */
+const gradientFailures = async (page: Page, name: string, theme: string, root: Locator) => {
+  const report = await measureGradientContrast(root);
+  // A run that measured nothing passes silently, and a run that never reached a
+  // gradient proves nothing about gradients.
+  if (report.readings.length <= 3) return `${name}, ${theme}: nothing was measured`;
+  if (report.gradientReadings === 0) {
+    return `${name}, ${theme}: no text was measured over a gradient, so the gradient path did not run`;
+  }
+  const failures = report.readings.filter((r) => r.ratio < r.floor);
+  if (!failures.length) return null;
+  return (
+    `${name}, ${theme} theme: ${failures.length} of ${report.readings.length} run(s) fall below ` +
+    `their floor over a gradient (${report.unassessed.length} could not be read)\n` +
+    describeGradientReadings(failures)
+  );
+};
+
+test.describe('text over gradients, the surfaces that shipped unseen', () => {
+  test.skip(
+    ({ browserName, isMobile }) => browserName !== 'chromium' || !!isMobile,
+    'chromium desktop only'
+  );
+
+  test('text over gradients meets AA in both themes: the workspace and its sheets', async ({
+    page,
+  }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize(WIDE);
+    // One session for every surface: the outcome brief needs a question that
+    // links outcomes, and the header, sheet and profile are fine on it too.
+    await openWorkspaceQuestion(page, 'user', true);
+
+    // Every failing run in both themes is collected before anything is asserted,
+    // so one run reports all of them.
+    const failing: string[] = [];
+    for (const theme of ['light', 'dark'] as const) {
+      await setTheme(page, theme);
+      for (const surface of SESSION_SURFACES) {
+        const root = await surface.reach(page);
+        await page.waitForTimeout(800);
+        await freezeAnimations(page);
+        const problem = await gradientFailures(page, surface.name, theme, root);
+        if (problem) failing.push(problem);
+        await dismissAll(page);
+      }
+    }
+    expect(failing, 'text below its floor over a gradient').toEqual([]);
+  });
+
+  test('text over gradients meets AA in both themes: the feedback modal', async ({ page }) => {
+    test.setTimeout(240_000);
+    await page.setViewportSize(WIDE);
+    await openWorkspaceQuestion(page, 'admin');
+
+    const failing: string[] = [];
+    for (const theme of ['light', 'dark'] as const) {
+      await setTheme(page, theme);
+      const root = await openFeedbackAfterMarking(page);
+      await page.waitForTimeout(800);
+      await freezeAnimations(page);
+      const problem = await gradientFailures(page, 'feedback modal after marking', theme, root);
+      if (problem) failing.push(problem);
+      await dismissAll(page);
+    }
+    expect(failing, 'text below its floor over a gradient').toEqual([]);
+  });
+
+  test('text over gradients meets AA in both themes: the card header of every band', async ({
+    page,
+  }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize(WIDE);
+    // A teacher, because the free account cannot open a question above tier 3: the
+    // workspace shows its locked notice in place of the card, so no header is drawn.
+    await signIn(page, 'teacher');
+    await clearOnboarding(page);
+
+    const paths = await questionPathPerTier(page);
+    // The bundled curriculum has a question at every tier. If it ever loses one, the
+    // run says so, rather than measuring five bands and passing.
+    for (let tier = 1; tier <= 6; tier++) {
+      expect(paths.has(tier), `the bundled curriculum has no question at tier ${tier}`).toBe(true);
+    }
+    // The first question is opened through the pickers, and only then are the bands
+    // reloaded into. A reload straight after the import can beat the curriculum's save
+    // to IndexedDB: the app then starts with no courses, drops the path and opens the
+    // import prompt again.
+    await openFirstQuestion(page);
+
+    const failing: string[] = [];
+    const headerColour = new Map<number, string>();
+    for (let tier = 1; tier <= 6; tier++) {
+      await openQuestionAtPath(page, paths.get(tier)!);
+      const root = page.locator('.rounded-t-surface-inner');
+      for (const theme of ['light', 'dark'] as const) {
+        await setTheme(page, theme);
+        await page.waitForTimeout(800);
+        await freezeAnimations(page);
+        if (theme === 'light') {
+          headerColour.set(
+            tier,
+            await root.first().evaluate((el) => getComputedStyle(el).backgroundColor)
+          );
+        }
+        const problem = await gradientFailures(page, `band ${tier} card header`, theme, root);
+        if (problem) failing.push(problem);
+      }
+    }
+
+    // A header that was not drawn in its own band would measure a neighbour's colour
+    // and look like a pass, so each band has to paint a colour no other band paints.
+    expect(
+      new Set(headerColour.values()).size,
+      `card header colours by band: ${JSON.stringify([...headerColour])}`
+    ).toBe(6);
+    expect(failing, 'text below its floor over a gradient').toEqual([]);
+  });
 });

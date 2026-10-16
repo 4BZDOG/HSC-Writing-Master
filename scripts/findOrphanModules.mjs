@@ -63,6 +63,11 @@ const ENTRY_POINTS = new Set(
  */
 const KNOWN_UNIMPORTED = [
   // e.g. { file: 'utils/example.ts', reason: 'Loaded by URL at runtime.' },
+  {
+    file: 'data/performanceBands.ts',
+    reason:
+      "NESA's general band descriptors, kept for the Grade Standards panel, which is off the workspace rail for now.",
+  },
 ];
 
 const walk = (dir, test) => {
@@ -104,8 +109,7 @@ const imported = new Set();
 // real importer and the easiest shape to miss. Missing it would report a live
 // module as dead, which is the failure that matters: a false negative leaves
 // dead code, a false positive deletes working code.
-const SPECIFIER =
-  /(?:from\s*|import\s*\(\s*|require\s*\(\s*|import\s+)['"]([^'"]+)['"]/g;
+const SPECIFIER = /(?:from\s*|import\s*\(\s*|require\s*\(\s*|import\s+)['"]([^'"]+)['"]/g;
 
 for (const file of importerFiles) {
   const src = readFileSync(file, 'utf8');

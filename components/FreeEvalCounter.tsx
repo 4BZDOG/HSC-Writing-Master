@@ -1,6 +1,13 @@
 import React, { useSyncExternalStore } from 'react';
 import { Lock } from 'lucide-react';
-import { freeEvalLimit, freeEvalsRemaining, subscribeEvalCount } from '../services/entitlements';
+import {
+  describeAccess,
+  freeEvalLimit,
+  freeEvalsRemaining,
+  PLAN_LABELS,
+  requestUpgrade,
+  subscribeEvalCount,
+} from '../services/entitlements';
 import { dailyResetPhrase } from '../utils/dailyReset';
 
 /**
@@ -42,28 +49,36 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
         ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
         : 'bg-white/5 light:bg-slate-100 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-600';
 
+  // The reset is stated in the reader's own clock. The boundary is a UTC
+  // day, which is 10am AEST for the students this is built for — see
+  // utils/dailyReset.ts.
+  const title =
+    remaining === 0
+      ? `You have used all ${limit} free markings for today. Your next one is at ${dailyResetPhrase()}.`
+      : `Free plan: ${remaining} of ${limit} daily markings left. Resets at ${dailyResetPhrase()}.`;
+  const classes = `t-label inline-flex items-center gap-1 px-2 py-1 rounded-lg border flex-shrink-0 tabular-nums ${tone} ${className}`;
+
+  if (remaining === 0) {
+    // At zero the counter is the one place the limit is stated, so it is also
+    // the place a student can act on it. It used to be a dead label: the only
+    // route to the prompt was waiting for the Evaluate button to be refused.
+    return (
+      <button
+        type="button"
+        data-testid="free-eval-counter"
+        title={title}
+        aria-label={`0 left today. ${describeAccess('fullFeedback').ctaLabel}.`}
+        onClick={() => requestUpgrade('fullFeedback', 'dailyLimit')}
+        className={`${classes} min-h-11 sm:min-h-0 hover:brightness-110 transition-[filter] duration-150`}
+      >
+        <Lock className="w-2.5 h-2.5" aria-hidden="true" /> 0 left today
+      </button>
+    );
+  }
+
   return (
-    <span
-      data-testid="free-eval-counter"
-      title={
-        // The reset is stated in the reader's own clock. The boundary is a UTC
-        // day, which is 10am AEST for the students this is built for — see
-        // utils/dailyReset.ts.
-        remaining === 0
-          ? `You have used all ${limit} free markings for today. Your next one is at ${dailyResetPhrase()}.`
-          : `Free plan: ${remaining} of ${limit} daily markings left. Resets at ${dailyResetPhrase()}.`
-      }
-      className={`t-label inline-flex items-center gap-1 px-2 py-1 rounded-lg border flex-shrink-0 tabular-nums ${tone} ${className}`}
-    >
-      {remaining === 0 ? (
-        <>
-          <Lock className="w-2.5 h-2.5" aria-hidden="true" /> 0 left today
-        </>
-      ) : (
-        <>
-          {remaining}/{limit} left
-        </>
-      )}
+    <span data-testid="free-eval-counter" title={title} className={classes}>
+      {remaining}/{limit} left
     </span>
   );
 };

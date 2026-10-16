@@ -408,6 +408,14 @@ export interface User {
    * it stops.
    */
   planCancelAtPeriodEnd?: boolean;
+  /**
+   * The school the user belongs to (profiles.school_id) and its name, read at
+   * sign-in with the licence. Session state only: no column of its own. Absent
+   * for anyone not attached to a school, which is what separates "ask your admin"
+   * from "buy seats" for a teacher.
+   */
+  schoolId?: string;
+  schoolName?: string;
 }
 
 export interface BackgroundTask {
@@ -472,8 +480,4 @@ export interface CommandTermInfo {
   genericMarkingGuide: string[];
   structuralKeywords: string[];
   exampleQuestion: string;
-  tailwind: {
-    color: string;
-    bg: string;
-  };
 }

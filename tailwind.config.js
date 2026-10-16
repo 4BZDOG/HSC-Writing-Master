@@ -48,10 +48,16 @@ export default {
       //   agreement         │ 980  │ user agreement / consent modal
       //   status-banner     │ 1000 │ API status (blocked) banner
       //   recalibrate       │ 1200 │ sample recalibration modal
-      //   improvement       │ 1300 │ improvement review modal
+      //   improvement       │ 1300 │ improvement review modal — takes the whole
+      //                     │      │   phone screen. A toast raised while it is
+      //                     │      │   open must sit above it, not under it
       //   toast             │ 1350 │ toast notifications — over every modal a
-      //                     │      │   toast can be raised from, so "Undo" and
-      //                     │      │   export failures are seen, not buried
+      //                     │      │   toast can be raised from, the improvement
+      //                     │      │   review included, so "Undo" and export
+      //                     │      │   failures are seen, not buried. It covers
+      //                     │      │   the top of that review on a phone for the
+      //                     │      │   toast's few seconds; the alternative was
+      //                     │      │   a notice that cannot be seen at all
       //   loading           │ 2000 │ global full-screen loading overlay
       //   profile           │ 2000 │ co-tier: user profile modal
       //   focus-editor      │ 2100 │ focus-area editor modal
@@ -214,13 +220,29 @@ export default {
         // `fadeIn` end at opacity 1 and stay there. It replays by `key`, not
         // by iteration count, so it costs nothing between question changes.
         'tier-ignite': 'tierIgnite 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        // The same event on the current step's DOT. It cannot share
-        // `tier-ignite`: that flare is shaped for a bar — it stretches 2.4x
-        // vertically and not at all horizontally, which on a `rounded-full`
-        // child draws a teardrop rather than a halo, and holds it for 900ms.
-        // A circle needs a uniform scale. Same duration and same curve, so the
-        // dot and its band still read as one ignition.
-        'dot-bloom': 'dotBloom 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        // A line drawing itself in from its left end: the verb's rule under the
+        // ribbon's poster-scale heading, and the ceiling across its staircase.
+        // Keyed on the verb or the tier at the call site, so it replays when the
+        // question changes and not otherwise.
+        'rule-draw': 'ruleDraw 600ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        // A staircase building itself, one column after another from the left.
+        // The delay is per column and inline, so the stagger is a property of
+        // the column's position and not of a class; `both` so a column waiting
+        // for its turn holds at the first frame instead of showing at full height
+        // and then collapsing to start.
+        'stair-rise': 'stairRise 650ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        // The ribbon's verb changing under a reader's thumb. A new verb arrives
+        // from a dim, low start rather than from nothing: the old block is
+        // unmounted the instant a chip is tapped, and a fade from `opacity: 0`
+        // leaves the stage visibly empty for the first frames of the swap. This
+        // starts at 0.3 and 6px down and settles in 320ms, so the word reads as
+        // refreshed rather than blinked. `translate3d` so Safari puts it on the
+        // compositor from frame one.
+        'verb-swap': 'verbSwap 320ms cubic-bezier(0.22, 1, 0.36, 1) both',
+        // The other half of a cross-fade: the ribbon's outgoing light. Same
+        // duration and curve as `fade-in`, so the two opacities sum to one all
+        // the way across and the stage never dips toward black between tiers.
+        'fade-out': 'fadeOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         // All keyframes animate only transform/opacity so they stay on the
@@ -273,35 +295,44 @@ export default {
         // no motion the flare runs once, instantly, and lands on its last
         // frame. Ending anywhere but `opacity: 0` would burn a permanent bloom
         // into the spectrum for exactly those readers.
+        // The peak stays inside the column's own box and at half strength. It was
+        // 0.85 and scaled to 2.4x the column, so on the staircase it read as a solid
+        // slab of the tier's hex that overhung the stage for a beat, and on first
+        // load it fired after the rest of the staircase had settled.
         tierIgnite: {
           '0%': { opacity: '0', transform: 'scaleX(0.4) scaleY(1)' },
-          '30%': { opacity: '0.85', transform: 'scaleX(1) scaleY(2.4)' },
+          '30%': { opacity: '0.5', transform: 'scaleX(1) scaleY(1)' },
           '100%': { opacity: '0', transform: 'scaleX(1) scaleY(1)' },
         },
-        // The dot's halo. Uniform `scale`, so a circle stays a circle:
-        // `tierIgnite` is `scaleY(2.4)` with no matching `scaleX`, which is a
-        // bar segment lighting up and a vertical teardrop on anything
-        // `rounded-full`.
-        //
-        // Three frames, the same shape as `tierIgnite`, for a reason that is
-        // easy to lose: the shared curve is an easeOutExpo, so a two-frame
-        // `0.7 → 0` fade is all but over by 120ms. Measured in the browser at
-        // that instant, a two-frame halo sat at opacity 0.28 while the bar's
-        // flare beside it was still at 0.81 — one event, read as a flicker
-        // and a bloom. Rising to a peak at 30% puts the two on one rhythm.
-        //
-        // The scales look large and are not. The halo is `inset-0` inside a
-        // `w-4 h-4 border-2` dot, so its box is the dot's PADDING box — 12px
-        // inside a 16px dot — and nothing shows at all until it passes 16/12.
-        // Measured: 23.2px dot, 38.2px halo at the peak, both inside the
-        // `ring-4` the current dot already wears.
-        //
-        // The same rule as `tierIgnite` binds the last frame and for the same
-        // reason — it is the resting state, `opacity: 0`.
-        dotBloom: {
-          '0%': { opacity: '0', transform: 'scale(1)' },
-          '30%': { opacity: '0.65', transform: 'scale(2.2)' },
-          '100%': { opacity: '0', transform: 'scale(3)' },
+        // The final frame IS the resting state, for the reason `tierIgnite`'s
+        // comment gives: the reduced-motion block runs an animation once,
+        // instantly, and leaves it on its last frame. A line that ended at
+        // `scaleX(0)` would be invisible for exactly the readers who asked for
+        // no motion; this one ends full length. `both` fills backwards too, so
+        // the delay-free start frame holds before the first paint.
+        ruleDraw: {
+          '0%': { transform: 'scaleX(0)' },
+          '100%': { transform: 'scaleX(1)' },
+        },
+        // Same rule for the last frame: the resting state, full height. Growing
+        // from the foot of the column (`origin-bottom` at the call site).
+        stairRise: {
+          '0%': { transform: 'scaleY(0)' },
+          '100%': { transform: 'scaleY(1)' },
+        },
+        // Ends at the resting state (opacity 1, no offset) like every other
+        // keyframe here, so the reduced-motion block's instant run leaves the
+        // verb exactly where it would have been.
+        verbSwap: {
+          '0%': { opacity: '0.3', transform: 'translate3d(0, 6px, 0)' },
+          '100%': { opacity: '1', transform: 'translate3d(0, 0, 0)' },
+        },
+        // The one exception to "ends at rest": this is a LEAVING layer, which
+        // the call site unmounts when the cross-fade is over. Its reduced-motion
+        // run lands on opacity 0 and the same unmount removes it.
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
         },
       },
     },
@@ -309,6 +340,14 @@ export default {
   plugins: [
     function ({ addVariant }) {
       addVariant('light', '[data-theme="light"] &');
+      // Hover that only exists where a pointer can hover. On a touch screen a tap
+      // leaves `:hover` stuck on the element until the next tap elsewhere, so a
+      // hover style is not a hint there, it is a state the control is left in:
+      // iOS Safari kept tier cards at 1.02 scale and columns at 125% brightness
+      // after a tap, and then animated them back when the selection moved. This
+      // wraps the rule in `@media (hover: hover)`, which iPhones report false.
+      // Compose it as `can-hover:hover:*` or `can-hover:group-hover/step:*`.
+      addVariant('can-hover', '@media (hover: hover)');
     },
   ],
 };

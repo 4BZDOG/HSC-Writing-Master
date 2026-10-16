@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
-import { parseStrategyTip, type TipSegment } from '../utils/strategyTip';
+import { groupStrategyMoves, parseStrategyTip, type TipDetail } from '../utils/strategyTip';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
 import type { PromptVerb } from '../types';
 
@@ -51,31 +51,6 @@ import type { PromptVerb } from '../types';
  * carries the information instead of a label announcing it.
  */
 
-/** What a point can introduce: never another point. */
-type TipDetail = Exclude<TipSegment, { kind: 'point' }>;
-
-/** A point, together with the example or term list it introduces. */
-interface TipMove {
-  text: string;
-  detail: TipDetail[];
-}
-
-/**
- * Re-groups flat segments into moves. `parseStrategyTip` already knows that a
- * line following one that ends in a colon belongs to it; this attaches it.
- */
-const groupTip = (segments: TipSegment[]): TipMove[] => {
-  const moves: TipMove[] = [];
-  for (const segment of segments) {
-    if (segment.kind === 'point') {
-      moves.push({ text: segment.text, detail: [] });
-    } else if (moves.length > 0) {
-      moves[moves.length - 1].detail.push(segment);
-    }
-  }
-  return moves;
-};
-
 interface StrategyBriefProps {
   verb: PromptVerb;
   /**
@@ -95,24 +70,44 @@ interface StrategyBriefProps {
    * sake.
    */
   lead?: 'definition' | 'none';
+  /**
+   * What the brief is set on.
+   *
+   * - `surface` — the page's own surface, in whichever theme is on. Every ink
+   *   colour is a theme token, so it reads on white and on near-black alike.
+   * - `ink` — the verb ribbon's stage, which has a palette of its own in both
+   *   themes (`.ribbon-stage` in `index.css`). The theme tokens are wrong there:
+   *   the stage's ground is not the page's, so `--color-text-muted` is not a
+   *   reading on it in either theme, and the tier's `text` class swaps to its
+   *   `-900` step under the light theme whatever the ground is. So `ink` reads
+   *   the stage's own properties — `--stage-ink-*` for the neutrals and
+   *   `--band-text` for the tier's hue, which is the bright `-500` on the dark
+   *   stage and the `-700` on the light one — and only works inside it.
+   */
+  tone?: 'surface' | 'ink';
   className?: string;
 }
 
 /** The detail hanging off a move: a template to copy, or the words to use. */
-const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string }> = ({ detail, accent }) => (
+const MoveDetail: React.FC<{
+  detail: TipDetail[];
+  accent: string;
+  secondary: string;
+  size: string;
+}> = ({ detail, accent, secondary, size }) => (
   <>
     {detail.map((segment, i) =>
       segment.kind === 'example' ? (
         <p
           key={i}
-          className={`font-serif italic ${PROSE_FLOW} border-l-2 border-current/20 pl-3 text-[rgb(var(--color-text-secondary))] mt-2 text-xs leading-relaxed`}
+          className={`font-serif italic ${PROSE_FLOW} border-l-2 border-current/20 pl-3 ${secondary} mt-2 ${size} leading-relaxed`}
         >
           {segment.text}
         </p>
       ) : (
         // The words themselves, set apart by spacing and colour rather than
         // boxed into chips: they are words to write, not controls to press.
-        <p key={i} className={`font-serif flex flex-wrap ${accent} mt-2 gap-x-3.5 gap-y-1 text-xs`}>
+        <p key={i} className={`font-serif flex flex-wrap ${accent} mt-2 gap-x-3.5 gap-y-1 ${size}`}>
           {segment.items.map((item) => (
             <span key={item}>{item}</span>
           ))}
@@ -122,16 +117,52 @@ const MoveDetail: React.FC<{ detail: TipDetail[]; accent: string }> = ({ detail,
   </>
 );
 
+/** The brief's colours for each ground, in one place so the two cannot drift
+ *  into using different structure. */
+const PALETTES = {
+  surface: {
+    secondary: 'text-[rgb(var(--color-text-secondary))]',
+    primary: 'text-[rgb(var(--color-text-primary))]',
+    muted: 'text-[rgb(var(--color-text-muted))]',
+    rule: 'border-[rgb(var(--color-border-secondary))]',
+    divider: 'bg-[rgb(var(--color-border-secondary))]',
+    // The sizes it has always had: this surface sits in a panel beside prose
+    // set at the same 12–13px, and is read at a glance.
+    lead: 'text-[13px]',
+    check: 'text-xs',
+    detail: 'text-xs',
+  },
+  ink: {
+    secondary: 'text-[rgb(var(--stage-ink-3))]',
+    primary: 'text-[rgb(var(--stage-ink-2))]',
+    muted: 'text-[rgb(var(--stage-ink-3))]',
+    rule: 'border-[rgb(var(--stage-line)/0.25)]',
+    divider: 'bg-[rgb(var(--stage-line)/0.2)]',
+    // A step up on each. The ink tone is the verb ribbon's stage, where the
+    // method for answering a verb is the most useful thing on screen and sits
+    // beside a 96px heading and an 18px definition: at 12–13px it was the
+    // smallest type in the hero and read as a footnote to it.
+    lead: 'text-base',
+    check: 'text-sm',
+    detail: 'text-sm',
+  },
+} as const;
+
 const StrategyBrief: React.FC<StrategyBriefProps> = ({
   verb,
   lead: leadMode = 'none',
+  tone = 'surface',
   className = '',
 }) => {
   const info = useMemo(() => getCommandTermInfo(verb), [verb]);
-  const moves = useMemo(() => groupTip(parseStrategyTip(info.tip)), [info.tip]);
+  const moves = useMemo(() => groupStrategyMoves(parseStrategyTip(info.tip)), [info.tip]);
   // The question's own tier colour, the same hue the writing surface, the verb
   // ribbon and the question card are already painted in.
-  const accent = useMemo(() => getBandConfig(info.tier).text, [info.tier]);
+  const accent = useMemo(
+    () => (tone === 'ink' ? 'text-[rgb(var(--band-text))]' : getBandConfig(info.tier).text),
+    [info.tier, tone]
+  );
+  const palette = PALETTES[tone];
 
   const [lead, ...checks] = moves;
   const showDefinition = leadMode === 'definition';
@@ -141,36 +172,46 @@ const StrategyBrief: React.FC<StrategyBriefProps> = ({
       {showDefinition && (
         <>
           <p
-            className={`font-serif ${PROSE_BLOCK} text-[rgb(var(--color-text-secondary))] text-[13px] leading-relaxed`}
+            className={`font-serif ${PROSE_BLOCK} ${palette.secondary} ${palette.lead} leading-relaxed`}
           >
             {info.definition}
           </p>
-          <div aria-hidden="true" className="h-px bg-[rgb(var(--color-border-secondary))] my-3" />
+          <div aria-hidden="true" className={`h-px ${palette.divider} my-3`} />
         </>
       )}
 
       {lead && (
         <>
           <p
-            className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-primary))] text-[13px] leading-relaxed`}
+            className={`font-serif ${PROSE_FLOW} ${palette.primary} ${palette.lead} leading-relaxed`}
           >
             {lead.text}
           </p>
-          <MoveDetail detail={lead.detail} accent={accent} />
+          <MoveDetail
+            detail={lead.detail}
+            accent={accent}
+            secondary={palette.secondary}
+            size={palette.detail}
+          />
 
           {/* The checks on the method above, not more instructions beside it.
               Indented past the lead's left edge and set a step down in size and
               tone, which is the whole of what marks them as subordinate. */}
           {checks.length > 0 && (
-            <div className="border-l-2 border-[rgb(var(--color-border-secondary))] mt-2.5 pl-3 space-y-1.5">
+            <div className={`border-l-2 ${palette.rule} mt-2.5 pl-3 space-y-1.5`}>
               {checks.map((move, i) => (
                 <div key={i}>
                   <p
-                    className={`font-serif ${PROSE_FLOW} text-[rgb(var(--color-text-muted))] leading-relaxed text-xs`}
+                    className={`font-serif ${PROSE_FLOW} ${palette.muted} leading-relaxed ${palette.check}`}
                   >
                     {move.text}
                   </p>
-                  <MoveDetail detail={move.detail} accent={accent} />
+                  <MoveDetail
+                    detail={move.detail}
+                    accent={accent}
+                    secondary={palette.secondary}
+                    size={palette.detail}
+                  />
                 </div>
               ))}
             </div>

@@ -3,24 +3,35 @@
  * output: it must be deterministic (a reseed cannot silently change the demo),
  * and it must never contradict the app's own band logic (seeded data that
  * disagrees with getBandForMark would read as a bug in the marking engine).
- * These tests pin both.
+ * These tests pin both. They also pin the two-course, two-class roster: each
+ * student draws only from the courses they study, and the classes agree with
+ * the students' enrolments and with who is allowed to see whom.
  */
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
   ARCHETYPES,
+  DEMO_CLASSES,
+  DEMO_CLASS_NAME,
+  DEMO_PLAN_STUDENT_HISTORY,
   DEMO_STUDENTS,
   DEMO_USAGE_MODEL_IDS,
   demoUsageModels,
+  DemoCohort,
   DemoPromptRef,
+  DemoStudentSpec,
   generateCohort,
   mulberry32,
   latestPerPrompt,
   promptPoolFromCourse,
   tierOfPrompt,
 } from '../../utils/demoCohort';
-import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
+import { DEMO_CORPORA } from '../../data/demoDrafts';
+import { commandTerms, getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
 import { EvaluationResponseSchema } from '../../services/aiSchemas';
 import { AI_MODELS, getModelByProviderModel } from '../../services/aiModels';
+import type { PromptVerb, UserStats } from '../../types';
 
 const POOL: DemoPromptRef[] = [
   {
@@ -67,6 +78,51 @@ const POOL: DemoPromptRef[] = [
   },
 ];
 
+// ----------------------------------------------------------------------------
+// The real question banks, read the way supabase/demoSeed.mjs reads them
+// ----------------------------------------------------------------------------
+
+const COURSE_DIR = resolve(__dirname, '../../public/courseData');
+const ENTERPRISE_FILE = 'HSCEnterpriseComputing09122025.json';
+const SOFTWARE_FILE = 'HSCSoftwareEngineering09122025.json';
+
+const loadCourse = (file: string) => {
+  const parsed = JSON.parse(readFileSync(resolve(COURSE_DIR, file), 'utf8'));
+  return Array.isArray(parsed) ? parsed[0] : parsed;
+};
+
+const ENTERPRISE_POOL = promptPoolFromCourse(loadCourse(ENTERPRISE_FILE), 'enterprise');
+const SOFTWARE_POOL = promptPoolFromCourse(loadCourse(SOFTWARE_FILE), 'software');
+/** Both banks, in the order the seed loads them. */
+const BANK = [...ENTERPRISE_POOL, ...SOFTWARE_POOL];
+
+const courseById = new Map(BANK.map((p) => [p.id, p.course]));
+const promptById = new Map(BANK.map((p) => [p.id, p]));
+
+const PLAN_HISTORY = DEMO_PLAN_STUDENT_HISTORY;
+const ALL_HISTORY = [...DEMO_STUDENTS, ...PLAN_HISTORY];
+
+/** A student as they were before the course split: no courses, no classes. */
+const untagged = (s: DemoStudentSpec): DemoStudentSpec => ({
+  username: s.username,
+  displayName: s.displayName,
+  archetype: s.archetype,
+});
+
+/** Cohort output without the wall-clock field, so two runs compare on content. */
+const contentOf = (c: DemoCohort) => ({
+  attempts: c.attempts,
+  dailyCalls: c.dailyCalls,
+  stats: Object.fromEntries(Object.entries(c.stats).map(([k, s]) => [k, withoutClock(s)])),
+});
+const withoutClock = (s: UserStats): UserStats => ({ ...s, lastActive: 0 });
+
+const attemptsOf = (c: DemoCohort, username: string) =>
+  c.attempts.filter((a) => a.username === username);
+
+/** The bank-wide cohort, generated once: the real-bank tests read from it. */
+const bankCohort = generateCohort({ prompts: BANK, students: ALL_HISTORY });
+
 describe('mulberry32', () => {
   it('is deterministic for a given seed', () => {
     const a = mulberry32(42);
@@ -99,6 +155,31 @@ describe('generateCohort determinism', () => {
     expect(strip(a)).toEqual(strip(b));
   });
 
+  it('produces identical content across runs over the real two-course bank', () => {
+    const a = contentOf(generateCohort({ prompts: BANK, students: ALL_HISTORY }));
+    const b = contentOf(generateCohort({ prompts: BANK, students: ALL_HISTORY }));
+    expect(a).toEqual(b);
+  });
+
+  it('draws an unset volume scale exactly as a scale of 1', () => {
+    // The scale is applied before the jitter. At 1 it must consume the same PRNG
+    // calls as no scale at all, or every existing student's work would move.
+    const aisha = DEMO_STUDENTS[0];
+    const unset = generateCohort({ prompts: BANK, students: [aisha] });
+    const one = generateCohort({ prompts: BANK, students: [{ ...aisha, volumeScale: 1 }] });
+    expect(contentOf(one)).toEqual(contentOf(unset));
+  });
+
+  it('never drops below one attempt a week, however small the scale', () => {
+    const aisha = DEMO_STUDENTS[0];
+    const tiny = generateCohort({
+      prompts: BANK,
+      students: [{ ...aisha, volumeScale: 0.01 }],
+    });
+    const weeks = new Set(tiny.attempts.map((a) => Math.floor(a.daysAgo / 7)));
+    expect(weeks.size).toBe(10);
+  });
+
   it('changes shape when the seed changes', () => {
     const a = generateCohort({ prompts: POOL, seed: 1 });
     const b = generateCohort({ prompts: POOL, seed: 2 });
@@ -117,6 +198,224 @@ describe('generateCohort determinism', () => {
       c.attempts.filter((x) => x.username === u);
     for (const s of base) {
       expect(only(b, s.username)).toEqual(only(a, s.username));
+    }
+  });
+});
+
+describe('course split', () => {
+  it('stamps the course key onto every question, and only when one is given', () => {
+    expect(SOFTWARE_POOL.every((p) => p.course === 'software')).toBe(true);
+    expect(ENTERPRISE_POOL.every((p) => p.course === 'enterprise')).toBe(true);
+    const untaggedPool = promptPoolFromCourse(loadCourse(SOFTWARE_FILE));
+    expect(untaggedPool.length).toBe(SOFTWARE_POOL.length);
+    expect(untaggedPool.every((p) => !('course' in p))).toBe(true);
+  });
+
+  it('gives every question a unique id across both banks, since legacy_id is the join key', () => {
+    expect(new Set(BANK.map((p) => p.id)).size).toBe(BANK.length);
+  });
+
+  it('draws a single-course student only from the course they study', () => {
+    for (const s of ALL_HISTORY.filter((x) => x.courses?.length === 1)) {
+      const theirs = attemptsOf(bankCohort, s.username);
+      expect(theirs.length, s.username).toBeGreaterThan(0);
+      for (const a of theirs) {
+        expect(s.courses, `${s.username} drew from ${courseById.get(a.promptId)}`).toContain(
+          courseById.get(a.promptId)
+        );
+      }
+    }
+  });
+
+  it('gives a two-course student work in both courses, roughly evenly split', () => {
+    const twoCourse = ALL_HISTORY.filter((s) => s.courses?.length === 2);
+    expect(twoCourse.map((s) => s.username).sort()).toEqual([
+      'demo.ethan',
+      'demo.hana',
+      'demo.plus',
+    ]);
+    for (const s of twoCourse) {
+      const theirs = attemptsOf(bankCohort, s.username);
+      const enterprise = theirs.filter((a) => courseById.get(a.promptId) === 'enterprise').length;
+      const share = enterprise / theirs.length;
+      expect(share, s.username).toBeGreaterThan(0.3);
+      expect(share, s.username).toBeLessThan(0.7);
+    }
+  });
+
+  it('keeps the Enterprise cohort exactly as it was before Software Engineering was added', () => {
+    // Before the split, the twelve drew from the Enterprise bank with no course
+    // tags. Restricting them to their course over the whole bank must reproduce
+    // that run attempt for attempt, so no Enterprise student's work has moved.
+    const enterprise = DEMO_STUDENTS.slice(0, 12);
+    const before = generateCohort({ prompts: ENTERPRISE_POOL, students: enterprise.map(untagged) });
+    const after = generateCohort({ prompts: BANK, students: DEMO_STUDENTS });
+    for (const s of enterprise) {
+      expect(attemptsOf(after, s.username)).toEqual(attemptsOf(before, s.username));
+      expect(after.dailyCalls[s.username]).toEqual(before.dailyCalls[s.username]);
+      expect(withoutClock(after.stats[s.username])).toEqual(withoutClock(before.stats[s.username]));
+    }
+  });
+
+  it('leaves the earlier students untouched when the Software students are appended', () => {
+    const base = generateCohort({ prompts: BANK, students: DEMO_STUDENTS.slice(0, 12) });
+    const full = generateCohort({ prompts: BANK, students: DEMO_STUDENTS });
+    for (const s of DEMO_STUDENTS.slice(0, 12)) {
+      expect(attemptsOf(full, s.username)).toEqual(attemptsOf(base, s.username));
+    }
+  });
+
+  it('draws from every question of an untagged pool, whatever courses a student lists', () => {
+    // A course-agnostic pool (the fixtures, the older tests) is eligible for
+    // every student, so a course-restricted student still has questions to draw.
+    const sofia = DEMO_STUDENTS.find((s) => s.username === 'demo.sofia')!;
+    const generated = generateCohort({ prompts: POOL, students: [sofia] });
+    expect(generated.attempts.length).toBeGreaterThan(0);
+    const ids = new Set(POOL.map((p) => p.id));
+    for (const a of generated.attempts) expect(ids.has(a.promptId)).toBe(true);
+  });
+
+  it('refuses a student with no questions in their courses', () => {
+    const sofia = DEMO_STUDENTS.find((s) => s.username === 'demo.sofia')!;
+    expect(() => generateCohort({ prompts: ENTERPRISE_POOL, students: [sofia] })).toThrow(
+      /no questions for demo\.sofia in courses software/
+    );
+  });
+
+  it('refuses an empty course list rather than drawing from everything', () => {
+    const sofia = DEMO_STUDENTS.find((s) => s.username === 'demo.sofia')!;
+    expect(() => generateCohort({ prompts: BANK, students: [{ ...sofia, courses: [] }] })).toThrow(
+      /lists no courses/
+    );
+  });
+
+  it('refuses a question tagged with a course it has no demo writing for', () => {
+    const stray: DemoPromptRef = { ...POOL[0], id: 'stray', course: 'history' };
+    expect(() =>
+      generateCohort({ prompts: [stray], students: [untagged(DEMO_STUDENTS[0])], weeks: 1 })
+    ).toThrow(/no demo writing for course "history"/);
+  });
+});
+
+describe('two classes', () => {
+  const enterprise = DEMO_CLASSES.find((c) => c.key === 'enterprise')!;
+  const software = DEMO_CLASSES.find((c) => c.key === 'software')!;
+
+  it('keeps the Enterprise class name for existing consumers', () => {
+    expect(DEMO_CLASS_NAME).toBe('Year 12 Enterprise Computing (Demo)');
+    expect(enterprise.name).toBe(DEMO_CLASS_NAME);
+  });
+
+  it('runs two Year 12 classes, each for its own course', () => {
+    expect(enterprise).toMatchObject({ year: 12, course: 'enterprise' });
+    expect(software).toMatchObject({ year: 12, course: 'software' });
+    expect(software.name).toBe('Year 12 Software Engineering (Demo)');
+  });
+
+  it('has Ms Bennett own the Enterprise class, with Mr Okafor as co-teacher', () => {
+    expect(enterprise.ownerUsername).toBe('demo.teacher');
+    expect(enterprise.coTeacherUsername).toBe('demo.coteacher');
+  });
+
+  it('has Mr Okafor own the Software class alone', () => {
+    expect(software.ownerUsername).toBe('demo.coteacher');
+    expect(software.coTeacherUsername).toBeUndefined();
+  });
+
+  it('keys and names each class uniquely', () => {
+    expect(new Set(DEMO_CLASSES.map((c) => c.key)).size).toBe(DEMO_CLASSES.length);
+    expect(new Set(DEMO_CLASSES.map((c) => c.name)).size).toBe(DEMO_CLASSES.length);
+  });
+
+  it('enrols each cohort student in exactly the classes whose course they study', () => {
+    for (const s of DEMO_STUDENTS) {
+      const expected = DEMO_CLASSES.filter((c) => s.courses?.includes(c.course)).map((c) => c.key);
+      expect(s.classKeys, s.username).toEqual(expected);
+    }
+  });
+
+  it('names only classes that exist', () => {
+    const keys = new Set(DEMO_CLASSES.map((c) => c.key));
+    for (const s of DEMO_STUDENTS) {
+      for (const k of s.classKeys ?? []) expect(keys.has(k), `${s.username} → ${k}`).toBe(true);
+    }
+  });
+
+  it('shows Ms Bennett her own class and not the Software students', () => {
+    // A teacher sees the classes they own or co-teach, and the students in them.
+    const visibleTo = (staff: string) => {
+      const keys = DEMO_CLASSES.filter(
+        (c) => c.ownerUsername === staff || c.coTeacherUsername === staff
+      ).map((c) => c.key);
+      return DEMO_STUDENTS.filter((s) => s.classKeys?.some((k) => keys.includes(k)));
+    };
+    const bennett = visibleTo('demo.teacher');
+    const okafor = visibleTo('demo.coteacher');
+
+    const softwareOnly = DEMO_STUDENTS.filter((s) => s.courses?.every((c) => c === 'software'));
+    expect(softwareOnly.length).toBe(4);
+    for (const s of softwareOnly) expect(bennett.map((b) => b.username)).not.toContain(s.username);
+
+    // Mr Okafor owns the Software class and co-teaches Enterprise: he sees all.
+    expect(okafor.map((s) => s.username).sort()).toEqual(
+      DEMO_STUDENTS.map((s) => s.username).sort()
+    );
+    expect(bennett.length).toBe(
+      DEMO_STUDENTS.filter((s) => s.classKeys?.includes('enterprise')).length
+    );
+  });
+});
+
+describe('roster', () => {
+  it('has twelve Enterprise students, then six Software students, in that order', () => {
+    expect(DEMO_STUDENTS).toHaveLength(18);
+    for (const s of DEMO_STUDENTS.slice(0, 12)) expect(s.courses).toEqual(['enterprise']);
+    for (const s of DEMO_STUDENTS.slice(12)) expect(s.courses).toContain('software');
+  });
+
+  it('has exactly two cohort students who study both courses', () => {
+    const both = DEMO_STUDENTS.filter((s) => s.courses?.length === 2).map((s) => s.username);
+    expect(both.sort()).toEqual(['demo.ethan', 'demo.hana']);
+  });
+
+  it('keeps usernames unique across the cohort and the plan-state history', () => {
+    const names = ALL_HISTORY.map((s) => s.username);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  it('labels every student as a demo, in their display name', () => {
+    for (const s of ALL_HISTORY) expect(s.displayName, s.username).toContain('(Demo');
+  });
+
+  it('gives the Software class a spread of archetypes, not one kind of student', () => {
+    const software = DEMO_STUDENTS.filter((s) => s.classKeys?.includes('software'));
+    expect(new Set(software.map((s) => s.archetype)).size).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe('newcomer', () => {
+  it('starts only in the most recent week', () => {
+    expect(ARCHETYPES.newcomer.startWeek).toBe(9);
+  });
+
+  it('gives each newcomer one or two attempts, all within the last seven days', () => {
+    const newcomers = DEMO_STUDENTS.filter((s) => s.archetype === 'newcomer');
+    expect(newcomers.length).toBeGreaterThan(0);
+    for (const s of newcomers) {
+      const theirs = attemptsOf(bankCohort, s.username);
+      expect(theirs.length, s.username).toBeGreaterThanOrEqual(1);
+      expect(theirs.length, s.username).toBeLessThanOrEqual(2);
+      for (const a of theirs) {
+        expect(a.daysAgo).toBeGreaterThanOrEqual(0);
+        expect(a.daysAgo).toBeLessThanOrEqual(6);
+      }
+    }
+  });
+
+  it('gives a newcomer no streak longer than the days they were active', () => {
+    for (const s of DEMO_STUDENTS.filter((x) => x.archetype === 'newcomer')) {
+      const days = new Set(attemptsOf(bankCohort, s.username).map((a) => a.daysAgo)).size;
+      expect(bankCohort.stats[s.username].streakDays).toBeLessThanOrEqual(days);
     }
   });
 });
@@ -155,6 +454,28 @@ describe('band integrity', () => {
       const tier = tierOfPrompt(prompt);
       const ceiling = getBandForMark(prompt.totalMarks, prompt.totalMarks, tier);
       expect(attempt.band).toBeLessThanOrEqual(ceiling);
+    }
+  });
+
+  it('holds across the real two-course bank', () => {
+    for (const attempt of bankCohort.attempts) {
+      const prompt = promptById.get(attempt.promptId)!;
+      expect(attempt.mark).toBeGreaterThanOrEqual(1);
+      expect(attempt.mark).toBeLessThanOrEqual(prompt.totalMarks);
+      expect(attempt.band).toBe(
+        getBandForMark(attempt.mark, prompt.totalMarks, tierOfPrompt(prompt))
+      );
+    }
+  });
+
+  it('knows every question verb, so no question falls back to a default tier', () => {
+    // getCommandTermInfo quietly returns a fallback for an unknown verb, which
+    // would give a Software question an Enterprise-shaped ceiling without a word.
+    for (const p of BANK) {
+      expect(p.verb, p.id).toBeDefined();
+      expect(commandTerms.has(p.verb!.toUpperCase() as PromptVerb), `${p.id}: ${p.verb}`).toBe(
+        true
+      );
     }
   });
 });
@@ -203,12 +524,40 @@ describe('evaluation payloads', () => {
     }
   });
 
+  it('satisfies the schema for both courses over the real bank', () => {
+    for (const { evaluation } of bankCohort.attempts) {
+      expect(() => EvaluationResponseSchema.parse(evaluation)).not.toThrow();
+    }
+  });
+
   it('always carries feedback the UI can render', () => {
     for (const { evaluation } of cohort.attempts) {
       expect(evaluation.overallFeedback.length).toBeGreaterThan(20);
       expect(evaluation.strengths.length).toBeGreaterThan(0);
       expect(evaluation.improvements.length).toBeGreaterThan(0);
       expect(evaluation.criteria.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('writing corpus', () => {
+  it('keeps Software Engineering writing free of Enterprise vocabulary', () => {
+    const sw = DEMO_CORPORA.software;
+    const prose = [
+      ...Object.values(sw.drafts),
+      ...Object.values(sw.feedback),
+      ...Object.values(sw.improvements),
+    ]
+      .flat()
+      .join(' ');
+    expect(prose).not.toMatch(/enterprise|business|organisation|manager/i);
+  });
+
+  it('gives every band tier at least two drafts in each course', () => {
+    for (const corpus of Object.values(DEMO_CORPORA)) {
+      for (const tier of ['low', 'mid', 'high'] as const) {
+        expect(corpus.drafts[tier].length).toBeGreaterThanOrEqual(2);
+      }
     }
   });
 });
@@ -240,8 +589,9 @@ describe('cohort shape', () => {
     }
   });
 
-  it('keeps every student working through to the most recent week', () => {
-    for (const s of DEMO_STUDENTS) {
+  it('keeps every established student working through to the most recent week', () => {
+    // A newcomer joins in the last week by design, so is exempt here (see `newcomer`).
+    for (const s of DEMO_STUDENTS.filter((x) => ARCHETYPES[x.archetype].startWeek === undefined)) {
       const theirs = cohort.attempts.filter((a) => a.username === s.username);
       expect(Math.min(...theirs.map((a) => a.daysAgo))).toBeLessThan(14);
       expect(Math.max(...theirs.map((a) => a.daysAgo))).toBeGreaterThan(55);
@@ -341,6 +691,54 @@ describe('cohort shape', () => {
     expect(stats.lastActive).toBeLessThanOrEqual(Date.now());
     expect(stats.averageBand).toBe(0);
     expect(stats.questionsAnswered).toBe(0);
+  });
+});
+
+describe('plan-state history', () => {
+  it('gives Sam and Ava a history, and leaves Ben without one', () => {
+    expect(PLAN_HISTORY.map((s) => s.username)).toEqual(['demo.free', 'demo.plus']);
+    for (const username of ['demo.free', 'demo.plus']) {
+      expect(attemptsOf(bankCohort, username).length, username).toBeGreaterThan(0);
+    }
+    // Ben is not in the history at all, so the generator cannot give him any.
+    expect(PLAN_HISTORY.some((s) => s.username === 'demo.capped')).toBe(false);
+    expect(attemptsOf(bankCohort, 'demo.capped')).toHaveLength(0);
+  });
+
+  it('gives Ava work in both courses, and Sam work only in Enterprise', () => {
+    const courses = (u: string) =>
+      new Set(attemptsOf(bankCohort, u).map((a) => courseById.get(a.promptId)));
+    expect([...courses('demo.plus')].sort()).toEqual(['enterprise', 'software']);
+    expect([...courses('demo.free')]).toEqual(['enterprise']);
+  });
+
+  it('gives Ava a strong history and Sam an improving one', () => {
+    const shareOf = (u: string) => {
+      const xs = attemptsOf(bankCohort, u);
+      return (
+        xs.reduce((s, a) => s + a.mark / promptById.get(a.promptId)!.totalMarks, 0) / xs.length
+      );
+    };
+    expect(shareOf('demo.plus')).toBeGreaterThan(0.8);
+
+    const sam = attemptsOf(bankCohort, 'demo.free');
+    const early = sam.filter((a) => a.daysAgo > 42);
+    const late = sam.filter((a) => a.daysAgo < 21);
+    const avg = (xs: typeof sam) => xs.reduce((s, a) => s + a.band, 0) / xs.length;
+    expect(avg(late)).toBeGreaterThan(avg(early));
+  });
+
+  it('gives Sam a lighter history than Aisha, at about half the volume', () => {
+    const sam = attemptsOf(bankCohort, 'demo.free').length;
+    const aisha = attemptsOf(bankCohort, 'demo.aisha').length;
+    expect(sam).toBeLessThan(aisha * 0.75);
+    expect(sam).toBeGreaterThanOrEqual(10); // at least one attempt every week
+    expect(sam).toBeLessThanOrEqual(30);
+  });
+
+  it('keeps the plan-state accounts out of the cohort roster', () => {
+    const cohortNames = new Set(DEMO_STUDENTS.map((s) => s.username));
+    for (const s of PLAN_HISTORY) expect(cohortNames.has(s.username)).toBe(false);
   });
 });
 
@@ -449,7 +847,7 @@ describe('demoUsageModels', () => {
 
 describe('archetypes', () => {
   it('names every archetype used by the roster', () => {
-    for (const s of DEMO_STUDENTS) {
+    for (const s of ALL_HISTORY) {
       expect(ARCHETYPES[s.archetype]).toBeDefined();
     }
   });

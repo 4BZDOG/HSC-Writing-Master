@@ -92,7 +92,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
           <button
             type="button"
             onClick={reset}
-            className="t-label flex items-center gap-1 px-2 py-1 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/20 light:border-red-300 hover:bg-red-500 hover:text-white transition-all flex-shrink-0"
+            className="t-label flex items-center gap-1 px-2 py-1 min-h-11 sm:min-h-0 rounded-lg bg-red-500/10 light:bg-red-50 text-red-400 light:text-red-700 border border-red-500/20 light:border-red-300 hover:bg-red-600 hover:text-white transition-all flex-shrink-0"
             title="Show every question again"
           >
             <RotateCcw className="w-3 h-3" />
@@ -154,7 +154,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
                   aria-pressed={filter.unattemptedOnly}
                   className={`t-label flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all ${
                     filter.unattemptedOnly
-                      ? 'bg-emerald-500 text-white border-emerald-400 shadow-sm'
+                      ? 'bg-emerald-700 text-white border-emerald-400 shadow-sm'
                       : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-emerald-400 light:text-emerald-700 border-white/10 light:border-slate-300 hover:border-emerald-500/40'
                   }`}
                 >
@@ -173,7 +173,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
                     // the fill is what says pressed, and an amber-tinted OFF
                     // state read as half-on.
                     filter.pastHscOnly
-                      ? 'bg-amber-500 text-white border-amber-400 shadow-sm'
+                      ? 'bg-amber-500 text-slate-900 border-amber-400 shadow-sm'
                       : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
                   }`}
                 >

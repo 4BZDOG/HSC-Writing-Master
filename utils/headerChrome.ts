@@ -17,9 +17,18 @@
  * override (see DesignSpec §2, "Which variant to write in new code").
  */
 
-/** The bar itself — a glass rail. Content scrolls under a translucent surface
- *  rather than behind an opaque wall, which is the point of §1's glassmorphism.
- *  Painted on the page background and `AnimatedBackground` beneath it.
+/** The bar itself. Dark keeps the glass: a near-black rail at 70% with a blur, so
+ *  scrolled content softens behind it rather than meeting an opaque wall, which
+ *  is the point of §1's glassmorphism. Painted on the page background and
+ *  `AnimatedBackground` beneath it.
+ *
+ *  Light is paper. It was `bg-white/80` with the same blur, and over scrolled
+ *  content that let the verb ribbon's type ghost through the wordmark: 20% of
+ *  whatever sits beneath, blurred, is still enough to read as a second line of
+ *  "BAND 6". So the light rail is the paper rung itself, opaque, with the
+ *  hairline and `shadow-sm` doing the separating a translucent edge used to do.
+ *  It also drops the blur in light, which is one fewer backdrop layer repainting
+ *  under the reader's thumb on iOS (see the WebKit notes in `index.css`).
  *
  *  `border-slate-300`, where it was `slate-200`. Its dark partner is white at
  *  10% over a near-black page, which is the edge the rail is actually read by
@@ -29,7 +38,7 @@
  *  tuned on one ground cannot be carried to the other unchanged. */
 export const HEADER_BAR =
   'sticky top-0 z-header h-16 flex items-center ' +
-  'bg-white/80 dark:bg-[rgb(var(--color-bg-surface))]/70 backdrop-blur-2xl ' +
+  'bg-surface dark:bg-[rgb(var(--color-bg-surface))]/70 dark:backdrop-blur-2xl ' +
   'border-b border-slate-300 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
 
@@ -133,9 +142,15 @@ export const HEADER_SUBLABEL =
 /** The square controls that stay on the rail whatever the role: the tools
  *  trigger, help and the theme toggle. On the rail, so they carry the pair; the
  *  resting fill is gone because a glass surface does not need a chip behind
- *  every icon. */
+ *  every icon.
+ *
+ *  44px on a phone, which is the touch target; it was 40px everywhere, and a
+ *  thumb is the only input there. From `sm` up the pointer is precise and 40px
+ *  stays, so the rail is no taller or wider on a laptop than it was. The bar is
+ *  a fixed 64px, so the 44px square fits with ten pixels either side and does
+ *  not change the header's height at any width. */
 export const HEADER_ACTION =
-  'w-10 h-10 flex items-center justify-center rounded-xl transition-colors ' +
+  'w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-xl transition-colors ' +
   'text-slate-500 hover:text-slate-900 hover:bg-slate-100 ' +
   'dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10';
 
@@ -144,40 +159,61 @@ export const HEADER_ACTION =
  *  `aria-expanded` alone says it only to a screen reader. On the rail. */
 export const HEADER_ACTION_OPEN = 'bg-slate-100 text-slate-900 dark:bg-white/10 dark:text-white';
 
-/** The tools popover itself. Not on the rail — it floats over the page in a
+/** The tools popover itself. Not on the rail: it floats over the page in a
  *  portal, so it paints an opaque surface of its own rather than borrowing the
- *  bar's glass; a translucent menu over live content is unreadable. */
+ *  bar's glass, because a translucent menu over live content is unreadable.
+ *
+ *  It is a strip lying on the paper, which is the ladder's `surface-elevated`
+ *  (248) rather than a second white. On a white card that step is too small to
+ *  carry the menu's edge, so the edge is `slate-300` and the shadow is the lifted
+ *  step, `shadow-lg`, which is what says it floats. */
 export const HEADER_MENU_PANEL =
   'fixed z-popover w-64 p-1.5 rounded-2xl shadow-lg animate-fade-in text-left ' +
-  'bg-white border border-slate-200 ' +
-  'dark:bg-[rgb(var(--color-bg-surface-elevated))] dark:border-white/10';
+  'bg-surface-elevated border border-slate-300 ' +
+  'dark:border-white/10';
 
 /** One tool inside the popover. Painted on `HEADER_MENU_PANEL`.
+ *
+ *  Its hover is `surface-inset`, one rung into the panel, because a hover on
+ *  the 248 panel that is itself a step of 241 was not visible at all. Hover is
+ *  `can-hover:` so a tap on a phone does not leave the row highlighted, and the
+ *  row is 44px on a phone, which is the touch target.
  *
  *  `text-left` here as well as on the panel: a `<button>` does not inherit
  *  `text-align` — the user-agent sheet sets it to `center` — so the panel's
  *  own `text-left` never reached the rows, and every two-line tool name sat
  *  centred under a left-aligned group label. */
 export const HEADER_MENU_ITEM =
-  'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-xs font-bold transition-colors ' +
-  'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10';
+  'w-full flex items-center gap-3 px-3 py-2 min-h-11 sm:min-h-0 rounded-xl text-left text-xs font-bold transition-colors ' +
+  'text-slate-700 can-hover:hover:bg-surface-inset dark:text-slate-200 dark:can-hover:hover:bg-white/10 ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** The parenthetical half of a tool's name, carried as a second line so the
  *  full string can stay the `title` and the accessible name without the panel
- *  having to be wide enough to show it in one. Painted on the panel. */
+ *  having to be wide enough to show it in one. Painted on the panel, and on the
+ *  item's hover, so it is `slate-600`: `slate-500` was 4.1:1 on that hover, and
+ *  this is 11px text. */
 export const HEADER_MENU_ITEM_HINT =
-  'block mt-0.5 text-[11px] font-medium leading-snug text-slate-500 dark:text-slate-400';
+  'block mt-0.5 text-[11px] font-medium leading-snug text-slate-600 dark:text-slate-400';
 
 /** The storage-mode row at the foot of the popover, and the rule above it.
  *  Painted on the panel. */
 export const HEADER_MENU_FOOTER =
-  'mt-1 pt-2 px-3 pb-1 border-t border-slate-200 dark:border-white/10';
+  'mt-1 pt-2 px-3 pb-1 border-t border-slate-300 dark:border-white/10';
 
 /** Storage mode, in the popover's footer. Mono because DesignSpec §4 gives
  *  system state to JetBrains Mono, and this is the one fact the deleted status
  *  pill carried that was worth keeping: which store the work is going to.
  *  Painted on the panel. */
-export const HEADER_TELEMETRY = 't-label font-mono text-slate-500 dark:text-slate-400';
+export const HEADER_TELEMETRY = 't-label font-mono text-slate-600 dark:text-slate-400';
+
+/** A tool's live state ("Running"), on its row. Painted on the panel. The light
+ *  side is a tint one step deeper than the dark side's alpha wash, because a
+ *  `/10` wash of indigo is invisible on white (DesignSpec §2 rule 1). */
+export const HEADER_MENU_STATUS =
+  't-label ml-auto shrink-0 flex items-center gap-1.5 px-2 py-0.5 rounded-lg whitespace-nowrap ' +
+  'bg-indigo-100 border border-indigo-200 text-indigo-800 ' +
+  'dark:bg-indigo-500/10 dark:border-indigo-500/30 dark:text-indigo-300';
 
 /** The storage alarm, and the only thing in this file that renders
  *  conditionally. Storage is where a student's work lives; if it has failed,

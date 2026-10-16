@@ -1,5 +1,353 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-15 (Monetisation follow-ups: forged webhooks, alerts, disputes, privacy, school portal, live prices, seat economics)
+
+- **Fixed.** The Stripe webhook now refuses unsigned events on every deployment, not only production (#366). Before, a Vercel preview with no `STRIPE_WEBHOOK_SECRET` trusted the request body, so a forged `customer.subscription.updated` could grant a paid plan if the preview shared production data. `isDeployedRuntime()` (`VERCEL_ENV` set, or `NODE_ENV=production`) decides; `vercel dev` now needs a signing secret too. Check it on a real preview: an unsigned post should answer 500.
+- **Added.** Operator alerts (#365). With `BILLING_ALERT_WEBHOOK_URL` set (Slack, Discord or Mattermost incoming webhook), a new invoice request, a new billing incident, a dispute and a full refund each send one short message. No billing email, ABN, address, note or person's name is ever sent; the alert waits at most 4 seconds and cannot change the response.
+- **Added.** Disputes and refunds are recorded (#370). `charge.dispute.created` / `closed` and `charge.refunded` (full refunds) write a `dispute` or `refund` billing incident and alert with the evidence deadline. Nothing is cancelled or refunded and no plan changes. The Billing overview lists open incidents with a **Mark resolved** button (schema §29, `resolve_billing_incident()`). Enable the three events on the Stripe endpoint.
+- **Changed.** School staff can open their school's billing portal (#367). `POST /api/customer-portal` takes `scope: 'school'`, and the School licence panel shows **Manage school licence** to teachers and admins of a licensed school, whoever bought it. The server finds the customer from the caller's own school. Anyone who can open it can cancel the licence; see the owner decision in the handoff.
+- **Fixed.** A signed-in user could read every school's Stripe subscription id, licence state and AI limit, and any teacher could read every school's licence and member counts (#369). Members now read only their own school's `id`, `name` and plan status, period end and cancel flag; `stripe_subscription_id`, `plan_seats` and `daily_ai_limit` are withheld from the REST API; `list_schools()` and other schools' pool usage are admin-only. **Re-apply `supabase/schema.sql` (§12, §13, §28).**
+- **Changed.** Prices come from Stripe (#368). `GET /api/prices` reads the three configured prices and the screens show them with "incl. GST" or "+ GST" taken from the Stripe price's tax behaviour (nothing is said when it is unspecified). The `VITE_*_PRICE_DISPLAY` variables are now only a fallback.
+- **Added.** A Seat economics panel in the Billing overview (#371, schema §30). Per licensed school it shows calls per seat per day and the 95th percentile per user per day over 30 or 90 days, and, with `VITE_AI_COST_PER_CALL_AUD` set, projected cost and margin per seat. It changes no quota or price. `projectDocs/seat-economics.md` explains how to read it.
+
+## [Unreleased] - 2026-10-15 (Seed data playbook, a past-paper verifier and the Legal Studies reference set)
+
+- **Added.** `docs/seed-data-playbook.md` records what the October past-paper sessions learned for the next seed revision: which syllabus each course's seed follows and which papers apply, how a past paper gets in (download, extract, verify, map, build, exemplars, review, merge), the conventions that make a past question work (ids, provenance fields, verb choice, the Tier 5 ladder at 20 marks, the verb floor by length, exemplar lengths), the extraction mistakes to expect, a review checklist for model-written exemplars, the quotations a teacher still needs to check, and what is left.
+- **Added.** `scripts/verifyPastPaperExtract.mts` checks one year of extracted questions against the `pdftotext` text of NESA's paper and marking guidelines: every string must be word-for-word in the source, and each marking ladder must run from the question's marks down to 1. A bullet in the wrong band that still looks like a valid ladder is the one thing it cannot see, so read long guides against the PDF.
+- **Added.** `data/referencePapers/legal-studies-2020-2025-past-papers.json`: 111 written-response parts from the 2020–2025 Legal Studies papers (the 2011 syllabus), including the 25-mark Option essays, with marking ladders re-cut so the lowest rows read as NESA prints them. The Legal Studies seed follows the new 2025 syllabus, so these are calibration, not shippable questions.
+
+## [Unreleased] - 2026-10-15 (A long question can no longer carry a verb that cannot show its marks as bands)
+
+- **Fixed.** A mark is only a band step while a question is short. At 20 marks an Explain (Tier 3) has three bands seven marks apart, so a 14 and a 20 read as the same result; a Tier 5 verb gives NESA's own five bands (17–20 / 13–16 / 9–12 / 5–8 / 1–4). Questions now have a verb floor by length: 7–9 marks need Tier 3 or above, 10–14 marks Tier 4 or above, and 15 or more marks Tier 5 or above. Below 7 marks there is no floor. CONSTRUCT keeps Tier 4 at any length, because a 20-mark writing task is marked on craft and lifting it to Discuss would change the task (`minimumTierForMarks`, `verbFitsLength`, `liftVerbForLength` in `data/commandTerms.ts`).
+- **Changed.** The rule is applied where questions are created: the AI generator and the manual composer raise a verb that does not fit before the model sees it (the composer says so and offers the replacement in one tap); `getCommandTermsForMarks` offers only fitting verbs; imported and stored questions are raised on load (`validateAndFixCourses`, `repairPromptFields`); and the seed brief and `docs/dataset-generation-prompt.md` state the floor. The ladder code is unchanged. All shipped questions already satisfy the rule, and a test keeps it so (`tests/unit/verbLength.test.ts`).
+- **Note.** An imported or stored question whose verb is raised keeps its stem, so "Explain…" on 20 marks is stored as DISCUSS. That is how the Business Studies and English past papers are already stored.
+
+## [Unreleased] - 2026-10-15 (HSC English 2025 Paper 2 and 2024–25 extended responses for Standard and Advanced)
+
+- **Added.** Eight 20-mark extended-response questions in `HSCEnglishStandard.json` and `HSCEnglishAdvanced.json`, each flagged `isPastHSC` with its year and question number. English Standard: 2025 Paper 2 Module A, Module B and Module C, and the 2025 Paper 1 Section II question on the endurance of the human spirit (`prompt-en-154`–`157`). English Advanced: 2024 Paper 2 Module A (Textual Conversations), Module B (Critical Study of Literature) and Module C (Craft of Writing), and the same 2025 Paper 1 Section II question (`prompt-ea-75`–`78`). English Advanced had no 20-mark question before. Stems, prescribed-text lists and NESA's five-band marking guidelines are copied from the papers.
+- **Changed.** These stems are generic ("your prescribed text"), so each is stored as DISCUSS (Module A and B, Section II) or CONSTRUCT (Module C), and the exemplars are written on one real prescribed text each: Pygmalion, A Midsummer Night's Dream, The Crucible, King Richard III with Looking for Richard, Great Expectations and Nineteen Eighty-Four. The two Module C exemplars are original pieces of writing on the paper's own stimulus.
+- **Left out.** The 2025 Advanced Paper 2 Module A and B questions (19 text-specific variants), the unseen-text short answers in Paper 1 Section I, and the Advanced 2025 Module C question (it depends on an image), because the paper text does not carry what they need.
+- **Note.** Every quotation in the exemplars is eight words or fewer and was checked against a full text where one is free (Project Gutenberg for Pygmalion, A Midsummer Night's Dream and Great Expectations); the Crucible, Richard III and Nineteen Eighty-Four quotations were checked against study-guide copies, so a teacher should check them against the printed text.
+
+## [Unreleased] - 2026-10-15 (2024 and 2025 HSC Geography questions, exam profiles and a reference set)
+
+- **Added.** 20 written-response questions from the 2024 and 2025 HSC Geography papers (the current 2022 syllabus) in `HSCGeography.json`, as `prompt-geo-hsc-<year>-<number>`: parts worth 2–6 marks, the 12-mark part (2025 22(c)) and the 20-mark extended responses (2024 Q25–27, 2025 Q23). Each carries the paper's wording, NESA's marking criteria as the app's ladder, and exemplar answers at several marks, and is placed under the dot point it assesses. The chip reads "HSC 2024 · Q25".
+- **Left out.** Questions that rest on a map, photograph or table in the Stimulus Booklet, which the text of the paper does not carry.
+- **Note.** The exemplars use real places (Bega Cheese, Tokyo, the Great Barrier Reef, Dharavi) and every figure in them was checked against a named source; anything that could not be confirmed was dropped rather than kept. A teacher should still read the 20-mark answers (2024 Q25 to Q27, 2025 Q23).
+- **Added.** `data/referencePapers/` holds the structure and marking guidelines of the 2025 Software Engineering and Enterprise Computing papers and the Geography 2024 and 2025 papers, and `docs/hsc-exam-profiles.md` records what a real paper in each course looks like (mark sizes, verbs, stimulus). The seed brief and generation prompt gain a sample-length rule.
+
+## [Unreleased] - 2026-10-15 (Exam-length time guidance, an exam-standard report, and HSC-shaped generation rules)
+
+- **Fixed.** A question with more marks than its verb's typical range now gets the HSC pace (1.8 minutes a mark) beyond that range instead of the verb's ceiling. A 20-mark DISCUSS had 18 minutes against the 35–40 the paper allows; it now has 36. A question inside its verb's range is exactly as before (`getRecommendedTime`, `tests/unit/recommendedTime.test.ts`).
+- **Added.** `npm run content:report` prints, for every shipped course, how far it sits from the shape of a real paper: exam-length questions (15+ marks), 7–10 mark questions, stems that only restate their dot point, stems with no command term, and past-paper questions. `-- --list` names the questions behind each count. It reads `public/courseData` and changes nothing.
+- **Changed.** A past paper's marking guide is NESA's own ladder, so the shipped-data check now holds it to being a sound ladder (highest row first, no gaps, full marks down to 1) instead of the app's derived rows (`guideStructureProblem`). NESA's 12-mark (11–12 / 8–10 / 5–7 / 3–4 / 1–2), 15-mark (13–15 / 10–12 / 7–9 / 4–6 / 1–3) and merged-row guides can now be stored as written. English 2024 Q3(a) is restored to its five NESA rows, and its exemplars are re-marked 15, 11 and 5 to sit in them. Generated guides are still held to the app's ladder.
+- **Changed.** The LLM seed brief (`utils/llmSeedBrief.ts`) and `docs/dataset-generation-prompt.md` gain an EXAM_STANDARD section: one task per stem, point at the scenario, capitalised counts, exam-form stems (How…, Why…, To what extent…) with the command term to store for each, one exam-length question per topic, and Tier 5 for 20-mark questions because it derives NESA's five bands. The earlier "stem must begin with its verb" rule now allows the exam-form exception.
+
+## [Unreleased] - 2026-10-15 (2020–2025 HSC Business Studies written-response questions, and HSC-style stems)
+
+- **Added.** 90 written-response questions from the 2020–2025 HSC Business Studies papers (the six papers on the current syllabus) in `HSCBusinessStudies.json`, as `prompt-bs-hsc-<year>-<number>`: 73 Section II parts (1–6 marks), 5 Section III business reports and 12 Section IV extended responses (20 marks). Each carries the paper's wording and scenario, NESA's marking criteria as the app's mark ladder, `isPastHSC`, `hscYear` and `hscQuestionNumber`, plus marker notes, common errors and a full/middle/bottom exemplar ladder. Each question sits on the dot point it assesses.
+- **Left out.** Three questions whose answer depends on a diagram or chart the text of the paper does not carry: 2022 21(c) (process layouts), 2024 21(b) (product diagram) and 2025 25 (Gantt chart).
+- **Changed.** 175 of the 348 existing stems now say "this business" where they named an invented one, drop "in the scenario", and capitalise instruction quantities (ONE, TWO). Verbs, marks, marking guides and exemplars are unchanged.
+- **Changed.** Stems that open "How…", "Why…" or "To what extent…" have no verb for the Verb Gate, so they are stored as EXPLAIN, OUTLINE, INTERPRET (Section II) and DISCUSS or ASSESS (the 20-mark questions). Tier 5 at 20 marks derives NESA's five bands (17–20 / 13–16 / 9–12 / 5–8 / 1–4), so every Section III and IV guide uses a Tier 5 verb even where the paper says "Explain" or "Evaluate".
+- **Note.** Section IV asks for real case studies. The exemplars use clearly labelled "Hypothetical:" businesses instead, because real-business facts could not be checked. The 20-mark marking-guideline bands of 13 questions (12 in Section IV, 1 in Section III) were re-cut by hand, because the PDF layout had put a bullet under the wrong mark band.
+
+## [Unreleased] - 2026-10-15 (2024 HSC English Standard Paper 2 questions, and HSC-style stems)
+
+- **Added.** The 14 questions of the 2024 HSC English Standard Paper 2 (Module A, 1(a)–1(k); Module B, Q2; Module C, Q3(a) and 3(b)) are in `HSCEnglishStandard.json` as `prompt-en-140`–`153`, each flagged `isPastHSC` with `hscYear: 2024` and its question number, so the "HSC 2024 · Q1(a)" chip shows. Stems and prescribed-text lists are copied from the NESA paper; each question has a marking guide, marker notes, common errors and a full/middle/bottom ladder of exemplars.
+- **Changed.** The Verb Gate has no HSC-faithful verb for these stems ("How does your study of…", "To what extent…", "Craft…"), so they are stored as DISCUSS (Module A), ASSESS (Module B), CONSTRUCT (3(a)) and EXPLAIN (3(b)). Tier 5 at 20 marks derives bands 17–20 / 13–16 / 9–12 / 5–8 / 1–4, which is NESA's own ladder for Modules A and B. Tier 4 at 15 marks derives four bands (12–15 / 8–11 / 4–7 / 1–3) against NESA's five (13–15 / 10–12 / 7–9 / 4–6 / 1–3), so 3(a)'s guide is NESA's wording on the app's ladder.
+- **Changed.** 104 existing English Standard and Advanced stems now read more like an HSC paper: "invented", "described in the scenario" and "in this scenario" are gone, instruction quantities are capitalised (ONE, TWO), Year 12 module stems point at "your prescribed text", and a 10-mark module stem carries "In your response, make close reference to your prescribed text." Verbs, marks, word counts and rationale clauses are untouched; no exemplar or marking guide changed.
+- **Note.** The exemplars for real prescribed texts were written from study guides and public-domain text, not from the printed editions. Each answer's unverified claims were stripped, but a teacher who has the texts should read them (especially 1(c), 1(d), 1(g), 1(h), 1(k)). The 1(k) exemplars are labelled 16 and 10 out of 20: no scene-level evidence could be checked, so none is a full-marks model.
+
+## [Unreleased] - 2026-10-14 (Tiers by audience, and one answer for every lock)
+
+- **Changed.** Tiers are structured by buyer (`projectDocs/tier-structure.md`). The comparison gives each plan an audience line, and adds the class and school reports row and a payment row (card, or invoice against a purchase order where invoicing is on).
+- **Changed.** Every lock, chip, tooltip, overlay, prompt CTA and profile upgrade button reads from `describeAccess()`. The per-surface wording is gone. The prompt does not open for a feature the viewer already holds.
+- **Changed.** A student is never shown a School route; a student who presses a School lock is told their school provides it. A teacher is never offered Plus.
+- **Changed.** A teacher or admin whose school is already licensed is told so, with no seat picker. A teacher not attached to a school is told to ask an admin, with no checkout.
+- **Changed.** The billing paths carry the server's machine `code`. `school_licence_held` shows the server's sentence and no portal route. `school_role_required` and `account_lookup_failed` show their sentences.
+- **Added.** "Copy a note for your admin" for a teacher who cannot buy a licence (`components/ChampionKit.tsx`, `utils/licenceNote.ts`).
+- **Fixed.** The exam-mode lock shows on phones (a compact badge). The prompt header no longer runs a long title under the close button on a phone.
+- **Operator.** Re-apply `supabase/schema.sql` §17 (`caller_plan()`): the licence now outranks a personal plan. No new environment variable. `PLAN_FEATURE_OVERRIDES=cohortReports:plus` and `VITE_PLAN_FEATURE_OVERRIDES=cohortReports:plus` restore the earlier behaviour for teachers.
+- **Docs.** `projectDocs/tier-structure.md`, `docs/stripesetup.md` ("What each plan includes"), `.env.example`, `projectDocs/monetisation-review-2026-09.md` (§34–39, §5), `projectDocs/paywall-surface-inventory.md` (status note).
+
+## [Unreleased] - 2026-10-14 (Class & school reports are a School feature)
+
+- **Changed.** The Class report (a teacher's classes) and the School report (an administrator's school) are a School-tier feature (`cohortReports`). A teacher holds Plus as a staff perk, so a teacher with no licence now sees the report locked. The student's own progress report stays on Plus. Existing teachers on a deployment that upgrades without config will see this lock.
+- **Changed.** A teacher with their own Plus inside a licensed school now holds School, not Plus. The licence outranks the personal plan at sign-in and in `caller_plan()` (schema §17).
+- **Added.** `PLAN_FEATURE_OVERRIDES=cohortReports:plus` (and `VITE_` copy) restores the earlier behaviour.
+- **Docs.** `docs/stripesetup.md`, `.env.example`, `projectDocs/tier-structure.md`.
+
+## [Unreleased] - 2026-10-14 (One open checkout per user, and billing incidents)
+
+- **Fixed.** Two Checkout Sessions could both stay payable for a day, so a second Upgrade press or a second tab could double-charge (monetisation review §21). Each account now has one payable session: the new one is recorded, and the one it displaces is expired. A double tap returns the same session. Sessions expire 31 to 36 minutes after creation.
+- **Fixed.** A personal subscription whose first payment is outstanding (`incomplete`, for example a 3-D Secure step) holds that customer's new purchase for 45 minutes after its last update, the window in which the bank prompt can be answered. A school licence in that state does not hold the school (§22, §36). Nothing that grants access reads `incomplete`.
+- **Fixed.** A profile already linked to one Stripe customer is no longer overwritten by another. The plan is still applied, and the mismatch is recorded (§24).
+- **Added.** `billing_incidents` records a user holding two live subscriptions, a school licence replaced while live, and a customer mismatch. Nothing is cancelled or refunded automatically. The operator resolves each in the Stripe Dashboard (`docs/stripesetup.md`, "When a billing incident is open").
+- **Operator.** Re-apply schema §13: it adds `checkout_sessions` and `billing_incidents`. Until then checkout behaves as before. No environment variable changed. New open findings §34–§37 are recorded in `projectDocs/monetisation-review-2026-09.md`.
+
+## [Unreleased] - 2026-10-14 (Schools can ask for an invoice: the school's request screen)
+
+- **Added.** A teacher or admin at a school can ask for the licence to be invoiced. Under the School seat picker, behind a "Pay by invoice or purchase order" disclosure, the form takes the billing name, accounts email, an Australian address, and optionally the ABN, purchase order number and a note. Once sent, the panel shows the request: pending, approved (the invoice link), or declined (the administrator's note, and the form again). Students see one line that a teacher or admin can ask.
+- **Changed.** `SchoolLicencePanel` mounts the form and one sentence. Nothing else in the upgrade prompt or the comparison moved.
+- **Operator.** The app's copy of the switch is `VITE_SCHOOL_INVOICE_ENABLED`, read at build time. Set it to `false` and rebuild to hide the route in the app. The route is drawn only when `VITE_STRIPE_SCHOOL_PRICE_ID` is set. No schema change: this needs the `licence_requests` table from §27, which the server half already requires.
+- **Not done.** A notification when a request arrives, withdrawing a request, and showing a teacher a colleague's pending request before they send their own. The approval queue is in the Billing overview (see the entry below).
+- See `docs/stripesetup.md`, "Invoiced school licences (purchase orders)", and `projectDocs/monetisation-review-2026-09.md` §30.
+
+## [Unreleased] - 2026-10-14 (Approve or decline purchase orders from the Billing overview)
+
+- **Added.** The Billing overview lists pending school invoice requests at the top of "Needs attention", oldest
+  first, with the billing details and the working days waited (over three is flagged). Approve opens a confirm step
+  that says what the call does, with the payment terms (14, 30, 45 or 60 days); Decline takes an optional note.
+  Both call `POST /api/issue-invoice` through `services/invoiceDecisionService.ts`.
+- **Changed.** While a decision call is in flight, the decision buttons, Refresh and the close control are disabled,
+  and Escape or the backdrop do not close the window. An answer that names a Stripe subscription, or no clear answer,
+  keeps Approve off until the request is read again.
+- **Operator.** Nothing to configure. The queue needs schema §27 (`licence_requests`); without it the overview says
+  the requests were not checked and loads the rest. See `docs/stripesetup.md`, "Deciding a request".
+- **Learned.** The confirm step's wording follows what `api/issue-invoice.ts` does, line for line, including that
+  a reused Stripe customer has its billing details replaced.
+
+## [Unreleased] - 2026-10-14 (paywall: say what is charged, and match the plan)
+
+- **Changed.** The upgrade prompt states the amount, the renewal and how to stop. It no longer offers "Keep me posted" when nothing is on sale, and it offers no seat picker once checkout has refused because a subscription is live. Paid plans read "No daily limit", not "Unlimited", in the prompt, the comparison and the profile card. The comparison opens with its own header. The free counter at zero opens the daily-limit prompt.
+- **Changed.** Every lock chip names its feature, so a `PLAN_FEATURE_OVERRIDES` move reaches the chip, the tooltip and the prompt together.
+- **Fixed.** Billing failures show a customer sentence, not the server's operator text (a 503 misconfiguration used to reach the toast verbatim). Profile cards say "Cancelled" or "Payment due", not "Active"; admins are not told their access comes from a school licence; the portal button no longer flashes for perk holders. Paywall controls are 44px on a phone, and the 10px and 11px text a payer must read is 12px.
+- **Docs.** `projectDocs/paywall-surface-inventory.md` maps every place a paid feature is locked or advertised, and which audience is offered what.
+
+## [Unreleased] - 2026-10-14 (Checkout return confirms the purchase itself)
+
+- **Fixed.** A customer who paid could be stuck on "refresh if features stay locked" until the webhook landed, and
+  refreshing could not help. The return now calls `POST /api/sync-checkout` with the session id first. The server
+  asks Stripe about that session and applies the subscription, refusing anything that is not this account's, paid
+  and a live subscription. The poll is still the fallback.
+- **Changed.** The subscription-applying code moved from `api/stripe-webhook.ts` into `api/_lib/subscriptionSync.ts`,
+  shared with the new endpoint. The webhook's behaviour is unchanged, and its existing tests pass without edits.
+- **Operator.** Still needs the webhook for renewals, cancellations, failed payments and seat changes (see
+  `docs/stripesetup.md`, Step 4). No schema change and no new environment variable.
+- See `projectDocs/monetisation-review-2026-09.md` §31.
+
+## [Unreleased] - 2026-10-14 (Admin Billing overview)
+
+- **Added.** Admin Tools → Billing → "Billing Overview". Read-only: paying subscriptions by plan and seats, what
+  is ending or renewing in 7 and 30 days, and a "Needs attention" list (past due, unpaid, a renewal the webhook
+  never recorded, a checkout that never completed, schools over their seats, a quiet webhook). It also shows the
+  last ten webhook events. The page is in the lazy `admin` chunk; the reads are the existing RLS-gated tables,
+  paged past PostgREST's row cap. No SQL changed and no money figure is shown.
+- **Not done.** Revenue needs a price source of truth, because the app's display prices are not Stripe amounts.
+
+## [Unreleased] - 2026-10-14 (Schools can pay a licence by purchase order: server half)
+
+- **Added.** A teacher or admin attached to a school can request a School licence to be invoiced
+  (`POST /api/request-invoice`). A platform admin approves or declines it (`POST /api/issue-invoice`).
+  Approval creates a `send_invoice` subscription on the school price and sends the first invoice; the
+  existing webhook licenses the school without change. Requests live in `licence_requests`
+  (`supabase/schema.sql` §27), with RLS and no client write policy.
+- **Added.** `SCHOOL_INVOICE_ENABLED=false` turns both endpoints off (404). Default on.
+- **Operator.** Re-apply `supabase/schema.sql` for the new table. Set Stripe's unpaid-invoice behaviour
+  and the invoice payment methods as in `docs/stripesetup.md`, "Invoiced school licences".
+- **Learned.** The approval refuses on any failed read and never clamps seats. A failed invoice send is
+  not tolerated just because the invoice is open.
+
+## [Unreleased] - 2026-10-14 (A school licence reaches its members, and staff hear when it is outgrown)
+
+- **Changed.** A signed-in person's plan is re-read when they return to the tab or the connection comes back,
+  at most every five minutes (`PLAN_FRESHNESS_INTERVAL_MS`, `utils/planFreshness.ts`, `hooks/usePlanFreshness.ts`).
+  A licence that goes live or lapses reaches the other members of the school without a reload. An unchanged plan
+  is silent; a changed one updates the plan fields and is announced once, in the resolved-plan wording.
+- **Added.** `my_school_seats()` (schema §13, staff of their own school only, no member data) and the
+  `SeatOverageNotice` banner for teachers and admins when members exceed a live licence's seats. Only the
+  purchaser is offered Manage subscription; others are told who bought the licence. Dismissible per session.
+- **Operator.** Re-apply `supabase/schema.sql` to get `my_school_seats()`. Without it the notice stays hidden.
+  No new environment variables. Members beyond seats keep School access; seats are not enforced at sign-in.
+- **Found, not fixed.** `list_schools()` answers teachers for every school; `schools_read` lets every signed-in
+  account read every school's licence columns. See `projectDocs/monetisation-review-2026-09.md` §5.
+
+## [Unreleased] - 2026-10-14 (Stripe server hardening: one licence per school, no lost webhook events)
+
+- **Fixed.** A school could buy a second School licence, because the duplicate guard is per person. A school that
+  already holds a live licence now refuses a second purchase before any payment (409, `school_licence_held`).
+- **Fixed.** A webhook whose handler was killed mid-way lost its event: the claim stayed, and Stripe's retry was
+  acknowledged as a duplicate. A claim now counts as done only once stamped (`stripe_events.processed_at`). After a
+  two-minute lease a retry takes an abandoned claim over. Needs the schema §13 re-apply; without it the old
+  behaviour is unchanged.
+- **Fixed.** Checkout refused to check for an existing subscription or licence when that lookup failed, and went
+  ahead. Those lookups now refuse with 503. A licence that moved with its purchaser's school, and a cancellation
+  whose customer link was missing, are both fixed in the webhook.
+- **Open.** Two open Checkout Sessions can both complete, and an `incomplete` subscription holds nothing, so a second
+  purchase can still get through (monetisation review §21–§22). Unsigned webhooks may be accepted on preview
+  deployments (§23). See `projectDocs/monetisation-review-2026-09.md` §16–§27.
+
+## [Unreleased] - 2026-10-14 (CI: the E2E suite runs in parallel)
+
+- **Changed.** The E2E suite is one job per browser project instead of one long job, and no longer waits for
+  lint to finish. A pull request's whole pipeline went from about 20 minutes to about 10, and a push to main
+  from 35–50 minutes to about 11 (the first 8-leg run on main took 10m39s). The legs come from
+  `scripts/e2eMatrix.mjs`; a gate job keeps the check name "E2E Tests"; each leg installs and caches only the
+  browser it launches. On CI the log now lists every test with its duration, and video is recorded only from the
+  first retry.
+- **Fixed.** `openWorkspaceQuestion` failed about one run in seven: the picker walk clicked a disabled question
+  (the free tier cannot open tiers above 3) and waited out its budget. It now skips questions the account cannot
+  open. Also fixed: a race in `class-analytics-ranking` that read the table while a spinner replaced it.
+- **Learned.** Bounding a WebKit click at 10 s in a shared helper made eight Mobile Safari tests fail on the
+  loaded runner; helper actions that run on WebKit keep at least 30 s.
+
+## [Unreleased] - 2026-10-14 (A toast's action is reachable by keyboard over a dialog)
+
+- **Fixed.** A toast with an action ("Undo", "Go to it") raised while a dialog was open could be pressed
+  with a mouse but not reached with Tab. The toast is portalled to `<body>` at `z-toast`, above the
+  improvement review, so it was on screen and on top; the focus trap only knew its own subtree and wrapped
+  Tab round the dialog's controls. `useFocusTrap` now takes a marked "companion" region into the cycle
+  (dialog controls, then the toast's, then round), and `App` marks the toast's mount with
+  `focusTrapCompanion`. No dialog changes.
+- **Not loosened.** Only a marked region is exempt: an unmarked portal, or the page behind, is still pulled
+  back into the dialog. A toast covered by a higher dialog (confirm, rename, flag sit above it) is skipped,
+  by asking the browser what is painted at its centre, so Tab never lands on a control nobody can see.
+- **Not done.** After the toast closes with focus on it, focus falls to `<body>` until the next Tab, which
+  the trap sends back into the dialog. The toast's countdown also still runs while focus is on it; it only
+  pauses for the mouse.
+
+## [Unreleased] - 2026-10-13 (Light-theme surfaces, round 1, and guards for what slipped)
+
+- **Fixed.** The light theme's white slabs were redrawn on the depth ladder, as Plan-FrontendDesignReview
+  "A third pass" (findings 77–86) records: the writing card's seams and marking veil (**#318**); the
+  profile and progress report (**#319**); the signed-out and reader shells, and the Delete button, which was
+  white on white because its class was never defined (**#320**); the staff tools (**#321**).
+- **Fixed.** The verb sheet and outcome brief were redrawn as band-washed reading sheets, with band text
+  held to AA in all six bands (**#322**). The feedback PDF prints the screen's band ink, meters and
+  words-kept figure, and band text on paper clears 4.5:1 (**#323**).
+- **Changed.** The marking report was rebuilt around the mark and the next step, and its band placard
+  carries ink, not white, where white fell under AA (**#324**).
+- **Not on `main` yet.** The improvement review and its revision default of 0 of 6 (**#325**) are on
+  `claude/ui-improvement-review`.
+- **Changed.** The shared admin chrome moved from `components/admin/` to `utils/adminChrome.ts`. The first CI
+  build failed with the staff bundle in the first load (1,922 kB against a 1,900 kB ceiling); this is the fix.
+- **Added.** `npm run check:build` runs `vite build`, `check:bundle` and `check:eager-chunks`, then removes
+  `dist/`. It is in `test:all`, which never ran the build checks before.
+- **Added.** Text over gradients is measured in `light-theme.spec.ts`, against every colour a gradient paints,
+  in both themes. The arithmetic is in `tests/e2e/support/gradientMath.ts`, with unit tests.
+- **Added.** `light-stark-surfaces.spec.ts` walks computed styles in eight light states and fails a white
+  painted slab on a white parent with no edge. Its one allow-list entry is the Plus paywall veil.
+- **Fixed.** The guards' first run found two defects still on `main`: the Compare Plans header row
+  had no rule (`PlanComparison.tsx`), and the feedback's syllabus terms and command verb were under
+  4.5:1 on the modal's wash. The terms are emerald-900 in light and the verb is sky-800 in light.
+  The gradient guard also skipped the card headers' ground for a while, so it now reads it.
+
+## [Unreleased] - 2026-10-09 (Verb ribbon animations: smoother on a phone)
+
+- **Fixed.** The ribbon's animations were reported glitchy on an iPhone 15 in Safari. No iPhone was
+  to hand, so the causes were taken from what WebKit and a throttled Chromium could show, and each
+  was removed rather than tuned:
+  - **A mask on the tier strip** (the edge fade) made Safari re-mask the scrolling cards on every
+    frame of a swipe. The fades are now two small overlays in the drawer's own colour.
+  - **A mask and a permanent layer on the stage and all six cards** (`clip-stable`), and a
+    **`mix-blend-mode`** on the mesh texture. Both are gone from the ribbon; the mesh is plain, and
+    the aura and mesh round themselves so the corners stay clean.
+  - **A 700ms `transition-all` with an overshoot curve on every tier card**, which re-painted the
+    card's border width, a blurred shadow and its fill together on each selection. The selected
+    tier's ring, edge and glow are now one overlay that fades with `opacity`, and the card is the
+    same box in every state.
+  - **A 48px `text-shadow` on the 96px verb**, re-rastered on every chip tap. It is now a soft
+    gradient behind the word.
+  - **A `box-shadow` on the stage** and an aura sized to it, both re-painted on every frame of the
+    open and close. The glow is a small sibling layer and the aura and mesh are a fixed size.
+- **Fixed.** The ribbon's banner was a dark slab in the light theme, the same as in the dark one,
+  above a page of white panels with light headers. The header bar is now themed: white with dark ink
+  in the light theme, and unchanged in the dark theme. Its tier tile, selected-verb chip, miniature
+  staircase and chevron each have a light and a dark form. The stage below it is still dark in both
+  themes, because that is the hero. The ribbon's neutral edge is a themed pair so that a shut ribbon
+  has a visible edge on a white page.
+- **Fixed.** The ribbon's stage was a near-black slab in the light theme too: 440px of the page's
+  darkest colour between a white banner and a white drawer, reported as abrasive. The light theme now
+  has a stage palette of its own: a soft slate-50 ground, white scoreboard cells, dark ink, the tier's
+  own colour for the light behind the verb and as a faint tint over the whole stage, full-strength
+  staircase columns, a tier-coloured edge under the banner, and the tier's darker `-700` shade for
+  figures and the current step's name. It was first drawn in pastels and read as washed out, so the
+  tints, glows, columns and chips are stronger; how strong is limited by legibility, and a test holds
+  the dark and neutral inks at 4.5:1 over the light at its brightest. The dark theme is the stage exactly as it was. Lightening the
+  dark ground was not an option, because the tier colours stop being legible on anything much lighter
+  than the current near-black.
+- **Changed.** The stage's colours now come from one table of custom properties in `index.css`
+  (`.ribbon-stage`), one set of values per theme, and the ribbon's class strings no longer name any
+  ground or ink of their own. A unit test reads the table back and measures the contrast of every
+  pair in both themes.
+- **Fixed.** On a phone a tap left `:hover` stuck: cards stayed enlarged and staircase columns
+  stayed bright until the next tap elsewhere. Hover styles now only exist where a pointer can hover
+  (a new `can-hover:` variant).
+- **Changed.** The ribbon answers a finger on the first frame: chips, steps and the header press in
+  on touch; double-tap-to-zoom is off across the ribbon (`touch-action: manipulation`); a long press
+  no longer selects a label.
+- **Changed.** Tier changes no longer dip the stage to black. The outgoing light and glow cross-fade
+  with the incoming ones; a new verb arrives from a dim, low start rather than from nothing.
+- **Changed.** The panel opens and closes on the iOS sheet curve and on two named properties instead
+  of `transition-all`; the staircase waits for the panel to be mostly open before it builds, so the
+  moment is seen rather than spent behind the clip.
+- **Changed.** The tier strip no longer fights the reader: it is placed instantly when the ribbon
+  opens, and tapping another chip on a card already in view no longer slides the strip. A flick at
+  either end bounces in the strip and does not chain to the page.
+- **Measured.** Production build, Chromium with the 4x CPU throttle, iPhone 15 profile, against the
+  previous build: area repainted by a verb-chip tap fell from about 10-12.7 megapixels to about 4.5;
+  by opening the ribbon from 35.4 to 19.4; by closing it from 26.7 to 17.3. Total paint time over a
+  fixed sequence of seven interactions fell 34% and layer-tree rebuilds 49%. In real WebKit 26 (the
+  Playwright build, not an iPhone), the stage previously carried 8 masked elements, 2 blended ones
+  and a masked strip, and now carries none. These numbers are about work done, not about what an
+  iPhone's GPU does with it.
+- **Held by tests.** The unit tests pin the new structure and the rules above (no ungated hover, no
+  `transition-all`, no overshoot, no mask or blend on the ribbon). A new end-to-end spec,
+  `verb-ribbon-touch.spec.ts`, runs on the phone projects, including real WebKit: tapping moves the
+  selection and the strip follows it, nothing is left hovered, the panel folds and unfolds, and the
+  stage carries no mask or blend and answers a tap without a zoom.
+
+## [Unreleased] - 2026-10-08 (Verb ribbon becomes the hero)
+
+- **Changed.** The command verb ribbon is now the one loud surface in the workspace, where the
+  previous change had made it match the panels around it. It explains the fact that sets a student's
+  ceiling — the command verb caps the band — and now shows it: the verb is set at poster scale
+  (Inter 900 italic, up to 96px, sized to the word), lit in its tier's colour, with a ceiling
+  staircase beside it.
+- **New.** The staircase replaces the flat spectrum bar and its dot row. Six columns rise from tier
+  1 to tier 6; the ones the verb lets a student reach stand in their tier colours, and the ones
+  above the ceiling are hatched and dashed. A dashed line marks the ceiling and the Deep Learning
+  Threshold stays as the gate between tiers 3 and 4. Each column is a button for that tier, a much
+  larger target than the old dots. When the verb changes, the verb's rule and the ceiling draw in,
+  the column flares once, and the light re-tints; nothing loops.
+- **Changed.** The stage is dark in both themes, so in the light theme the ribbon reads as a lit
+  slab above a white drawer of tier cards, and in the dark theme as a spotlit stage. The stats are a
+  scoreboard under the staircase, and all four now show on a phone (the old tray hid "Terms").
+- **Changed.** Shut, the header is a dark bar with the tier's tile, a miniature staircase lit to the
+  tier, and the selected verb. The strategy brief is set a step larger on the stage.
+- **Fixed.** The end-to-end tests located the Evaluate button with a loose pattern that the
+  "Evaluate, Synthesise & Create" tier card also matched once its emoji became an icon. They now use
+  one shared pattern that matches only the button.
+- **Held by tests.** Everything painted on the stage is named `RIBBON_INK_*` and checked: no
+  light/dark variant, no theme token, nothing dimmed with opacity, no text tone the dark ground
+  cannot carry. The design spec has a section on the hero.
+
+## [Unreleased] - 2026-10-08 (Verb ribbon joins the panel family)
+
+- **Changed.** The command verb ribbon now looks like the other reference panels in the workspace.
+  It was the one panel drawn separately: its own glass bar, gradient hairlines above and below it,
+  a sentence-case title, a chevron in a circle, and an open state with no surface behind it. It now
+  wears the shared panel surface and the accordions' header row — the same height, icon tile, title
+  voice and chevron — and opens onto a body with the same padding and rule.
+- **Changed.** The selected verb's brief is a quiet card with the tier shown once, by a rule down
+  its left edge (the same device as the breadcrumb bar), instead of a full-width wash of the tier
+  colour with a blurred blob, a mesh and a large icon tile. The stat tray is a recessed well, one
+  radius tighter than the card around it.
+- **Changed.** The six tier cards keep their colour but lose the candy: idle headers take a faint
+  tint of the tier instead of a solid pastel fill, so the saturated header belongs to the one tier
+  being read. The system emoji are replaced by line icons in tiles, so the ladder looks the same on
+  a Chromebook, a Mac and a Windows laptop. Idle cards no longer paint a mesh and a gradient nobody
+  could see.
+- **Fixed.** The strip's edge fades ended in the page colour, which would have been a grey smear on
+  a white panel in the light theme. They are now a mask on the strip itself, 1rem wide, with 1rem of
+  side padding so the selected card is never faded at rest and its ring is no longer clipped.
+- **Fixed.** The spectrum's five boundary gaps are cut in the panel's own surface rather than the
+  page colour. The strip is now explicitly positioned, so the selected tier is centred correctly in
+  every browser.
+- **Phones and tablets.** The header title keeps its whole name at 390px (and at 360px) by easing
+  its tracking, with the header height lock unchanged. Below 1024px the stat tray sits under the
+  verb's text rather than squeezing beside it, so "Terms" no longer wraps onto a row of its own.
+
 ## [Unreleased] - 2026-10-08 (Software Engineering and Enterprise Computing rebuilt from NESA)
 
 - **Added.** Year 11 content for Software Engineering (Programming fundamentals, The object-oriented

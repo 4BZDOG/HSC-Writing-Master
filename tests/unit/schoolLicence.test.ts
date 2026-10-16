@@ -19,6 +19,8 @@ let profileSchoolId: string | null = 'school-1';
 
 const makeSupabaseMock = () => ({
   from: (table: string) => ({
+    // checkout_sessions: the open-checkout record accepts the first session.
+    insert: async () => ({ error: null }),
     update: (values: Record<string, unknown>) => ({
       eq: async () => {
         updates.push({ table, values });
@@ -67,6 +69,7 @@ vi.mock('../../api/_lib/stripe', () => ({
   priceToPlan: (id: string) => (id === 'price_school' ? 'school' : 'plus'),
   resolveReturnBase: () => 'http://localhost:3000/',
   isProductionRuntime: () => false,
+  isDeployedRuntime: () => false,
   configuredPrices: () => ({
     price_school: 'school',
     price_plus_yearly: 'plus',

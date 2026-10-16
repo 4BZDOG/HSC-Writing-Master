@@ -35,8 +35,15 @@ import {
   InlineSpan,
   MM_PER_PT,
 } from './types';
+import type { TableLayout } from './reportBlocks';
 import { wrapRich } from './wrapRich';
 import { spansToText } from './inline';
+import {
+  gridMinimumHeight,
+  isReportKind,
+  measureReportBlock,
+  splitGridLayout,
+} from './reportGeometry';
 
 export const getPageDimensions = (size: PageSizeName): PageDimensions => PAGE_DIMENSIONS[size];
 
@@ -49,7 +56,7 @@ export const MASTHEAD_SUB_GAP_MM = 1.4;
 
 /** Question-card type sizes, shared by the measurer and the drawer. */
 export const QUESTION_EYEBROW_PT = 8;
-export const QUESTION_SUB_PT = 7.5;
+export const QUESTION_SUB_PT = 8;
 /** Between the syllabus trail and the question it orients. */
 export const QUESTION_SUB_GAP_MM = 1.8;
 
@@ -251,6 +258,24 @@ export const measureBlock = (
     };
   }
 
+  // The progress report's own blocks (result strip, chart, bar list). Their
+  // geometry is resolved in `reportGeometry`, once, and stored for the drawer.
+  if (isReportKind(block.kind)) {
+    const measured = measureReportBlock(block, measurer, columnWidth, pScale);
+    return {
+      ...block,
+      wrapped: [],
+      padTopMm: padTop,
+      padBottomMm: padBottom,
+      frameInsetTopMm,
+      frameInsetBottomMm,
+      lineHeightMm: 0,
+      textIndentMm: 0,
+      reportLayout: measured.layout,
+      height: padTop + measured.height + padBottom,
+    };
+  }
+
   // The masthead: the report's name over its subtitle, with the name/class/date
   // rules in the right-hand half.
   if (block.kind === 'masthead') {
@@ -378,6 +403,10 @@ export const measureBlock = (
   }
   const labelExtraMm = meterHeight(block, pScale);
 
+  // A panel is inset on BOTH sides: the text starts `textIndentMm` in from the
+  // frame's left edge and must stop as far short of its right one, or a line
+  // runs into the frame.
+  const bodyWidth = columnWidth - textIndentMm * (block.panel ? 2 : 1);
   const wrapped: string[][] = [];
   const wrappedRich: (InlineSpan[][] | null)[] = [];
   let body = 0;
@@ -387,14 +416,14 @@ export const measureBlock = (
       // Wrapped in the styles it will be DRAWN in, and the plain lines derived
       // from that wrap rather than measured separately — two wraps of the same
       // paragraph would disagree the moment a bold term sat near a line end.
-      const richLines = wrapRich(run.spans, columnWidth - textIndentMm, fontPt, measurer);
+      const richLines = wrapRich(run.spans, bodyWidth, fontPt, measurer);
       wrappedRich.push(richLines);
       wrapped.push(richLines.map(spansToText));
       body += richLines.length * runLineHeight(measurer, run, pScale);
       continue;
     }
     const lines = healOrphanPunctuation(
-      measurer.wrap(run.text, columnWidth - textIndentMm, fontPt, run.style ?? 'normal')
+      measurer.wrap(run.text, bodyWidth, fontPt, run.style ?? 'normal')
     );
     wrappedRich.push(null);
     wrapped.push(lines);
@@ -542,6 +571,47 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
   return out;
 };
 
+/** A table or heatmap's measured layout, or null for any other block. */
+const gridOf = (b: MeasuredBlock): TableLayout | null => {
+  const layout = b.reportLayout;
+  return (b.kind === 'table' || b.kind === 'heatmap') &&
+    (layout?.kind === 'table' || layout?.kind === 'heatmap')
+    ? layout
+    : null;
+};
+
+/**
+ * Split a table between rows so its head fits `available` mm (see
+ * `splitGridLayout`). Both halves keep the block's own top padding on the head and
+ * bottom padding on the tail, as a split paragraph does.
+ */
+const splitGridAt = (
+  b: MeasuredBlock,
+  available: number
+): [MeasuredBlock, MeasuredBlock] | null => {
+  const layout = gridOf(b);
+  if (!layout) return null;
+  const parts = splitGridLayout(layout, available - b.padTopMm);
+  if (!parts) return null;
+  const [headLayout, tailLayout] = parts;
+  const head: MeasuredBlock = {
+    ...b,
+    reportLayout: headLayout,
+    padBottomMm: 0,
+    frameInsetBottomMm: 0,
+    height: b.padTopMm + headLayout.height,
+  };
+  const tail: MeasuredBlock = {
+    ...b,
+    id: `${b.id}-cont`,
+    reportLayout: tailLayout,
+    padTopMm: 0,
+    frameInsetTopMm: 0,
+    height: tailLayout.height + b.padBottomMm,
+  };
+  return [head, tail];
+};
+
 /**
  * Split breakable blocks that are taller than a full column into column-sized
  * fragments so prose never overflows the footer / page edge. Non-breakable or
@@ -550,6 +620,12 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
 export const splitOversized = (blocks: MeasuredBlock[], columnHeight: number): MeasuredBlock[] => {
   const out: MeasuredBlock[] = [];
   for (const b of blocks) {
+    // A table splits where the page ends, in the flow (flowSpanBand), not here: cutting
+    // it into column-sized pieces up front put a header in the middle of a page.
+    if (gridOf(b)) {
+      out.push(b);
+      continue;
+    }
     const fits = b.height <= columnHeight + 1e-6;
     const canSplit = b.breakable && b.lineHeightMm > 0 && b.wrapped.length === 1;
 
@@ -705,6 +781,7 @@ export const splitToFit = (
   b: MeasuredBlock,
   available: number
 ): [MeasuredBlock, MeasuredBlock] | null => {
+  if (gridOf(b)) return available > 0 ? splitGridAt(b, available) : null;
   if (!b.breakable || b.lineHeightMm <= 0 || b.runs.length !== 1) return null;
   // Splitting the first half of a bound pair would put the break inside the
   // pair by another route.
@@ -741,28 +818,43 @@ const requiredHeight = (blocks: MeasuredBlock[], i: number): number => {
     // A breakable body only has to bring its minimum head along; demanding the
     // whole paragraph sends the heading to the next column over prose that
     // would have split happily beneath it.
-    if (next && next.kind !== 'spacer') required += minimumHeight(next);
+    if (next && next.kind !== 'spacer') required += chainMinimum(blocks, i + 1);
   } else if (block.keepWithNext && next) {
     // A bound pair travels whole — the sentence a student wrote and the
     // sentence it became are one thought, and a column boundary between them
     // makes the reader hold the first half in their head while their eye
     // travels. Its partner may still split internally once it lands.
-    required += minimumHeight(next);
+    required += chainMinimum(blocks, i + 1);
   }
   return required;
 };
 
+/**
+ * The least room a block starting at `j` needs, counting any run of
+ * `keepWithNext` blocks that bind it to the one after: a heatmap's legend stands
+ * over its table, so the legend's own space and the table's minimum travel
+ * together, and a heading above the legend moves with them.
+ */
+const chainMinimum = (blocks: MeasuredBlock[], j: number): number => {
+  const b = blocks[j];
+  if (!b.keepWithNext || !blocks[j + 1]) return minimumHeight(b);
+  return b.height + chainMinimum(blocks, j + 1);
+};
+
 /** The least room a block can be placed in: its full height unless it splits. */
-const minimumHeight = (b: MeasuredBlock): number =>
-  b.breakable && b.runs.length === 1 && (b.kind === 'paragraph' || b.kind === 'criterion')
+const minimumHeight = (b: MeasuredBlock): number => {
+  const grid = gridOf(b);
+  if (grid) return b.padTopMm + gridMinimumHeight(grid);
+  return b.breakable && b.runs.length === 1 && (b.kind === 'paragraph' || b.kind === 'criterion')
     ? Math.min(b.height, b.padTopMm + MIN_HEAD_LINES * b.lineHeightMm + (b.labelExtraMm ?? 0))
     : b.height;
+};
 
 /**
  * The height of a heading and everything it introduces, up to the next heading.
  *
  * A section is a unit to a reader even though it is many blocks to the engine.
- * Next Steps printing its heading and one tick box at the foot of a column,
+ * Areas for Growth printing its heading and one tick box at the foot of a column,
  * with the other three arriving at the head of the next one above an unrelated
  * card, is correct column-major flow and reads as a rendering fault: three
  * orphaned checkboxes under nothing.
@@ -907,11 +999,14 @@ const flowSpanBand = (
         block = growToFit(block, geo.columnHeight - cursor, geo.columnHeight, pScale);
       }
       const required = block === blocks[i] ? requiredHeight(blocks, i) : block.height;
-      if (cursor + required <= geo.columnHeight + 1e-6 || atTop) {
+      if (cursor + required <= geo.columnHeight + 1e-6) {
         placements.push({ block, page, column: 0, top: cursor });
         cursor += block.height;
         break;
       }
+      // Too tall for the room left: split it where the page ends, if it can split
+      // here. A block that cannot split and cannot fit a page either is placed at
+      // the top whole (as before) rather than looping.
       const split = splitToFit(block, geo.columnHeight - cursor);
       if (split) {
         placements.push({ block: split[0], page, column: 0, top: cursor });
@@ -921,6 +1016,11 @@ const flowSpanBand = (
         cursor = 0;
         block = split[1];
         continue;
+      }
+      if (atTop) {
+        placements.push({ block, page, column: 0, top: cursor });
+        cursor += block.height;
+        break;
       }
       recordDepth();
       page += 1;
@@ -980,10 +1080,10 @@ const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page:
     if (ordered[k].block.kind === 'heading' || ordered[k].block.keepWithNext) continue;
     // Nor inside a list. The flow keeps a short section whole
     // (`sectionHeight`), and this pass then undid it: the most even cut on a
-    // one-page report fell between the first and second of three Next Steps,
+    // one-page report fell between the first and second of three growth points,
     // so the heading and one tick box sat at the foot of the left column and
     // the other two headed the right one, above Criteria Breakdown.
-    // (A checklist, not the What Changed pairs: those are list items too, and
+    // (A checklist, not the improved-response pairs: those are list items too, and
     // the cut between one pair and the next is exactly where they may break.)
     if (sameChecklist(ordered[k].block, ordered[k + 1].block)) continue;
     // A spacer at the head of the new column would print as a gap.

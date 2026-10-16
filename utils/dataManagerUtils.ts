@@ -18,6 +18,7 @@ import {
   getCommandTermInfo,
   extractCommandVerb,
   leadingCommandVerb,
+  liftVerbForLength,
 } from '../data/commandTerms';
 import { generateId } from './idUtils';
 import { buildLlmSeedInstructions } from './llmSeedBrief';
@@ -433,20 +434,23 @@ const dropRetiredPromptFields = <T extends object>(prompt: T): T => {
 const repairPromptFields = <T extends { verb?: PromptVerb; question: string; totalMarks?: number }>(
   prompt: T
 ): T & { verb: PromptVerb; totalMarks: number } => {
-  const verb =
+  const written =
     normalizeVerb(prompt.verb) ??
     // The verb the question opens with governs it; the most demanding verb
     // anywhere in the text only when it opens with something else.
     leadingCommandVerb(prompt.question)?.term ??
     extractCommandVerb(prompt.question)?.term ??
     ('EXPLAIN' as PromptVerb);
-  const termInfo = getCommandTermInfo(verb);
+  const termInfo = getCommandTermInfo(written);
   const totalMarks =
     typeof prompt.totalMarks === 'number' &&
     Number.isFinite(prompt.totalMarks) &&
     prompt.totalMarks >= 1
       ? Math.round(prompt.totalMarks)
       : termInfo.markRange[0];
+  // A verb too low-tier to show this many marks as bands (Explain on 20 marks)
+  // is raised to the length's default; see minimumTierForMarks.
+  const verb = liftVerbForLength(written, totalMarks).verb;
   if (verb === prompt.verb && totalMarks === prompt.totalMarks) {
     return prompt as T & { verb: PromptVerb; totalMarks: number };
   }
@@ -1021,6 +1025,9 @@ export const validateAndFixCourses = (courses: Course[]): Course[] => {
             if (detected && detected.term !== verb) {
               verb = detected.term;
             }
+            // A stem's own verb can be too low-tier for the length ("Explain" on 20
+            // marks); the stored verb is raised to the length's default.
+            verb = liftVerbForLength(verb, prompt.totalMarks).verb;
             return { ...prompt, verb };
           }),
         })),

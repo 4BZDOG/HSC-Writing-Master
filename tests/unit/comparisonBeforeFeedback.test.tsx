@@ -82,11 +82,26 @@ describe('the comparison shown before the feedback summary', () => {
 
   it('keeps the old footer when opened FROM the feedback summary', () => {
     // No continueLabel: this is a detour off the summary, so "Use this version"
-    // is the primary action and there is nothing to continue to.
+    // is the primary action and "Back to feedback" is the way out beside it.
     renderReview();
 
     expect(screen.queryByText('See my full feedback')).toBeNull();
     expect(screen.getByText(/saved to this question/)).toBeTruthy();
     expect(screen.getByText('Use this version')).toBeTruthy();
+    expect(screen.getByText('Back to feedback')).toBeTruthy();
+  });
+
+  /**
+   * One primary action per footer. Here the primary is the way forward, so the
+   * band's solid fill goes to "See my full feedback", and "Use this version"
+   * sits beside it as a secondary action.
+   */
+  it('makes the way forward the one primary action in the footer', () => {
+    renderReview({ continueLabel: 'See my full feedback' });
+
+    const forward = screen.getByText('See my full feedback').closest('button')!;
+    const apply = screen.getByText('Use this version').closest('button')!;
+    expect(forward.className).toContain('band-solid');
+    expect(apply.className).not.toContain('band-solid');
   });
 });

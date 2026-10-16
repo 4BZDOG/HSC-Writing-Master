@@ -1347,17 +1347,43 @@ create table if not exists public.school_ai_usage (
 alter table public.schools         enable row level security;
 alter table public.school_ai_usage enable row level security;
 
--- Any signed-in user can see the school list (the UI names "your school");
--- there is deliberately NO write policy — changes go through the admin RPCs.
+-- A signed-in user reads their OWN school's row, and admins read every row.
+-- There is deliberately NO write policy — changes go through the admin RPCs.
+--
+-- The policy is only half of it. The table grant is withdrawn and only the
+-- columns a member needs are granted back, by column:
+--   * id, name: what the UI names ("your school") and what joins key on.
+--   * plan_status, plan_period_end, plan_cancel_at_period_end: a member's own
+--     school licence state, granted in §13 once those columns exist. They are
+--     granted there, not here, because this section runs first on a fresh
+--     database. applySchoolPlan() (services/authService.ts) reads them through
+--     an embedded `school:school_id (...)` select on sign-in, and a member holds
+--     the School plan on exactly these fields. The policy above still bounds
+--     them to the caller's own school.
+--   * WITHHELD from the REST API for everyone, admins included: stripe_subscription_id
+--     (the licence's Stripe handle), plan_seats (what the school was billed for),
+--     daily_ai_limit (the pool budget), and any column added to schools later
+--     unless it is granted on purpose. Admins get those from list_schools()
+--     (§28); the seat picture for staff comes from my_school_seats() (§13).
+-- Service-role code bypasses RLS and grants alike, so the webhook and the API
+-- are unaffected. A select that names a withheld column, or `select *`, is
+-- refused outright rather than returning a partial row.
 drop policy if exists schools_read on public.schools;
 create policy schools_read on public.schools
-  for select using (auth.uid() is not null);
+  for select using (
+    public.is_admin()
+    or id = (select p.school_id from public.profiles p where p.id = auth.uid())
+  );
 
--- Pool usage: your own school's rows, or any row for reviewers.
+revoke all on public.schools from anon, authenticated;
+grant select (id, name) on public.schools to authenticated;
+
+-- Pool usage: your own school's rows, or any row for admins. A teacher was
+-- able to read another school's pooled usage, day by day, through this policy.
 drop policy if exists school_ai_usage_read on public.school_ai_usage;
 create policy school_ai_usage_read on public.school_ai_usage
   for select using (
-    public.is_reviewer()
+    public.is_admin()
     or school_id = (select school_id from public.profiles where id = auth.uid())
   );
 -- No insert/update policies: the only write path is consume_ai_quota().
@@ -1607,6 +1633,15 @@ alter table public.schools
 alter table public.schools
   add column if not exists plan_cancel_at_period_end boolean not null default false;
 
+-- A member's own school licence state, granted back to the client (§12 withdrew
+-- the table grant). Only these three of the licence columns: stripe_subscription_id
+-- and plan_seats stay withheld, and daily_ai_limit (§12) too. applySchoolPlan()
+-- in services/authService.ts reads exactly these three on sign-in, through an
+-- embedded select, and a member's School plan depends on them; the schools_read
+-- policy keeps the read to the caller's own school. Repeatable on re-apply.
+grant select (plan_status, plan_period_end, plan_cancel_at_period_end)
+  on public.schools to authenticated;
+
 -- Supersedes §11's resolve_ai_quota with a LICENCE-aware version.
 --
 -- §11 grants the 300-call floor on `profiles.stripe_plan` alone, which the
@@ -1762,6 +1797,20 @@ create table if not exists public.stripe_events (
   received_at    timestamptz not null default now()
 );
 
+-- processed_at is stamped once the handler has returned. A claim that is never
+-- stamped belongs to a handler that died midway (a Vercel timeout, an OOM, a
+-- deploy swap), and a redelivery takes it over once it is older than the lease
+-- (api/_lib/stripeLedger.ts). The DEFAULT exists only so that rows written
+-- before this column are stamped with the migration time and read as finished:
+-- without it, every historical event would look abandoned and be replayed. The
+-- default is then dropped, so the webhook's insert (which names no processed_at)
+-- leaves a new claim unfinished. Re-running this block changes nothing: the add
+-- skips the default on an existing column, and dropping an absent default is a no-op.
+alter table public.stripe_events
+  add column if not exists processed_at timestamptz default now();
+alter table public.stripe_events
+  alter column processed_at drop default;
+
 alter table public.stripe_events enable row level security;
 -- Service-role writes only; readable by reviewers for delivery debugging.
 drop policy if exists "Reviewers read stripe events" on public.stripe_events;
@@ -1775,6 +1824,130 @@ create policy "Reviewers read stripe events"
 -- plan that a later `deleted` already ended.
 alter table public.subscriptions
   add column if not exists last_event_at timestamptz;
+
+-- The seat picture a STAFF member needs for their own school, and nothing about
+-- the people in it. list_schools() above answers for every school at once, so it
+-- is no fit for this: it would hand a teacher every other school's licence. And
+-- a teacher cannot count their own school's members through RLS (profiles_read
+-- shows them only their own row and the students in their classes).
+--
+-- It takes NO school argument on purpose: the school is the caller's own
+-- profiles.school_id, so there is no id to guess and nothing to enumerate.
+-- Returns null for staff with no school (nothing to warn about) and refuses
+-- everyone else. `purchaser` tells the client whether the caller bought the
+-- licence, because only the purchaser can open the billing portal (the portal
+-- looks up profiles.stripe_customer_id).
+--
+-- Whether a member beyond the paid seats keeps the School plan is decided by
+-- caller_plan() (§17), has_unlimited_evaluations() (§14) and resolve_ai_quota()
+-- (above), none of which counts seats. The over-seat notice says so.
+create or replace function public.my_school_seats()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_user   uuid := auth.uid();
+  v_role   app_role;
+  v_school uuid;
+  v_result jsonb;
+begin
+  if v_user is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  select p.role, p.school_id into v_role, v_school
+    from public.profiles p
+   where p.id = v_user;
+
+  if v_role not in ('admin', 'teacher') then
+    raise exception 'Only staff can see their school''s seat count';
+  end if;
+  if v_school is null then
+    return null;
+  end if;
+
+  select jsonb_build_object(
+      'plan_status', s.plan_status,
+      'plan_seats',  s.plan_seats,
+      'members', (select count(*) from public.profiles m where m.school_id = s.id),
+      'purchaser', exists (
+        select 1 from public.subscriptions sub
+         where sub.user_id = v_user
+           and sub.id = s.stripe_subscription_id)
+    )
+    into v_result
+    from public.schools s
+   where s.id = v_school;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.my_school_seats() from public, anon;
+grant execute on function public.my_school_seats() to authenticated;
+
+-- One open Checkout Session per user (monetisation review §21).
+--
+-- Each user's most recent Checkout Session that may still be paid. api/create-checkout
+-- swaps its new session into this row and expires the one it displaces, so a second
+-- Upgrade press, or a second tab, cannot leave two payable sessions for one person.
+-- One row per user is the point: the swap is a compare-and-set on session_id, so two
+-- concurrent checkouts cannot both believe they displaced the same session. The
+-- logic lives in api/_lib/openCheckout.ts.
+--
+-- Written and read by the API with the service role ONLY. RLS is on with no policy,
+-- so a browser session reads nothing and writes nothing even if a grant is added by
+-- mistake; the grant is withdrawn as well. Nothing here is shown to a user.
+create table if not exists public.checkout_sessions (
+  user_id      uuid primary key references public.profiles (id) on delete cascade,
+  session_id   text not null,               -- Stripe Checkout Session id (cs_…)
+  recorded_at  timestamptz not null default now()
+);
+
+alter table public.checkout_sessions enable row level security;
+revoke all on public.checkout_sessions from anon, authenticated;
+
+-- Billing incidents: things the webhook saw that the customer and the operator both
+-- need to know about, and that no code should decide alone. An incident never cancels
+-- a subscription and never refunds anything; it sits here until an operator resolves it
+-- in the Stripe Dashboard and sets resolved_at (docs/stripesetup.md, "When a billing
+-- incident is open").
+--
+--   duplicate_subscription    one user holds more than one live subscription (§21, §22)
+--   duplicate_school_licence  a school's licence was replaced while another was still live
+--   customer_mismatch        a profile already linked to one Stripe customer was offered
+--                            another; the plan was still applied (§24)
+--
+-- Written by the webhook with the service role. Admins read them (the Billing overview);
+-- nothing else does. One OPEN incident per user and kind, and one per school and kind,
+-- so a redelivered webhook cannot pile up copies of the same finding.
+create table if not exists public.billing_incidents (
+  id                uuid primary key default gen_random_uuid(),
+  kind              text not null
+                      check (kind in ('duplicate_subscription', 'duplicate_school_licence', 'customer_mismatch')),
+  user_id           uuid references public.profiles (id) on delete set null,
+  school_id         uuid references public.schools (id) on delete set null,
+  subscription_ids  text[] not null default '{}',
+  detail            text not null check (char_length(detail) between 1 and 1000),
+  detected_at       timestamptz not null default now(),
+  resolved_at       timestamptz,
+  resolution_note   text check (resolution_note is null or char_length(resolution_note) <= 1000)
+);
+
+create unique index if not exists billing_incidents_open_user_idx
+  on public.billing_incidents (user_id, kind)
+  where resolved_at is null and user_id is not null;
+create unique index if not exists billing_incidents_open_school_idx
+  on public.billing_incidents (school_id, kind)
+  where resolved_at is null and school_id is not null;
+
+alter table public.billing_incidents enable row level security;
+
+drop policy if exists "Admins read billing incidents" on public.billing_incidents;
+create policy "Admins read billing incidents"
+  on public.billing_incidents for select
+  using (public.is_admin());
+
+-- No insert/update/delete policy on purpose: the webhook writes with the service role.
+revoke all on public.billing_incidents from anon, authenticated;
+grant select on public.billing_incidents to authenticated;
 
 -- =============================================================================
 -- §14 · Free-tier evaluation limit (server-side)
@@ -2069,11 +2242,17 @@ grant execute on function public.delete_my_account() to authenticated;
 --
 -- The order mirrors getUserPlan() in services/entitlements.ts exactly:
 --   1. admins hold the most permissive plan, so nothing is locked for them;
---   2. an explicit paid plan on the profile (written by the Stripe webhook);
---   3. membership of a school whose licence is live (past_due included — the
+--   2. membership of a school whose licence is live (past_due included — the
 --      same grace period the webhook and has_unlimited_evaluations honour);
+--   3. an explicit paid plan on the profile (written by the Stripe webhook);
 --   4. the teacher staff perk;
 --   5. free.
+--
+-- Steps 2 and 3 are a MAXIMUM, not a priority list: a live licence outranks a
+-- personal Plus. Before the Class & School reports (cohortReports, School-priced)
+-- the order did not matter, because both were Plus. A teacher who bought their
+-- own Plus and then joined a licensed school must hold School, or the cohort
+-- report is refused for them by the one check the browser cannot edit.
 --
 -- Idempotent: safe to re-run against an existing database.
 -- =============================================================================
@@ -2083,8 +2262,8 @@ returns text language sql stable security definer set search_path = public as $$
   select coalesce(
     (select case
         when p.role = 'admin' then 'school'
-        when coalesce(p.stripe_plan, 'free') in ('plus', 'school') then p.stripe_plan
         when coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due') then 'school'
+        when coalesce(p.stripe_plan, 'free') in ('plus', 'school') then p.stripe_plan
         when p.role = 'teacher' then 'plus'
         else 'free'
       end
@@ -3381,6 +3560,651 @@ $$;
 
 revoke all on function public.withheld_sample_answers() from public;
 grant execute on function public.withheld_sample_answers() to anon, authenticated;
+
+-- =============================================================================
+-- §26 · Progress report — one payload for a class, a school, or a roster
+-- -----------------------------------------------------------------------------
+--     The progress report (projectDocs/Plan-ProgressReportPdf.md) needs, for a
+--     teacher or an administrator, the numbers the Class Insights and cohort
+--     screens already show — totals, by verb, by course, by topic, by student,
+--     by student and verb, a weekly trend and, for a school, by class — in one
+--     round trip, narrowed by the same class and course the user picked.
+--
+--     WHO IS COUNTED. Reviewers only. Scope is per ANSWER, not per student. An
+--     answer counts for the caller when the answering student is enrolled as a
+--     'student' in a class the caller can see (can_view_class: the owner, a
+--     co-teacher, or an admin), and that class's course_id is NULL or is the
+--     answer's own course. So a teacher sees a student's answers in the courses
+--     of the classes the teacher teaches them in; a class with no course set shows
+--     all of that student's answers. A named class (p_class_id) narrows this to
+--     that class alone. An admin with no class named sees every answer. A teacher
+--     with no classes sees nothing, and naming a class the caller does not teach
+--     is refused, as visible_student_ids() refuses it.
+--
+--     Counts and averages only. No draft text and no evaluation JSON are read.
+--     The rows are the latest marked answer per question, from `responses`, as
+--     on the Class Insights screen, so the report and the screen agree. The course
+--     filter runs through prompts -> dot_points -> sub_topics -> topics -> courses
+--     and is applied to EVERY collection, not only the totals.
+--
+--     Shape notes for the client:
+--       * `students` in byClass counts students with a marked answer in scope
+--         (active), not everyone enrolled.
+--       * byClass is present only when no class is named. A student in several
+--         classes is counted in each of them, so those rows can sum to more than
+--         the totals.
+--       * byStudentWeek (per student, per week) is added to the brief's list: the
+--         per-student sparkline and band change need it, and `weekly` is cohort-wide.
+--       * Week 0 is the OLDEST week in the window, as in §20.
+--
+--     The window is analytics_window_start(), clamped to 1–365 days like every
+--     other analytics RPC. `days` and `weeks` are echoed back so the client can
+--     label the report without repeating the clamp.
+--
+--     A CLASS STUDIES ONE COURSE. This RPC reads `classes.course_id` (§19, the
+--     course a class studies; its own column comment is unchanged). A student can
+--     take two courses, so the per-answer rule above is what keeps a Software class
+--     from counting that student's Enterprise answers:
+--       * a named class whose course_id is set makes that course the effective
+--         course filter. If p_course_id is also given and differs, the result is
+--         EMPTY (the totals and every collection), not the unfiltered report.
+--       * byClass counts each class only within its own course_id, so a student
+--         in two classes of two courses is counted once per course. A class with
+--         a null course_id keeps the old rule: every answer of its students.
+--       * `classCourse` says which course a named class is bound to (null when it
+--         is not, or when no class is named), so the client can explain the scope.
+--     With no class named, p_course_id alone applies on top of the per-answer rule.
+-- =============================================================================
+
+create or replace function public.get_progress_report(
+  p_days      integer default 90,
+  p_class_id  uuid default null,
+  p_course_id uuid default null
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 90), 1), 365);
+  v_weeks  integer := ceil(v_days::numeric / 7)::int;
+  v_since  timestamptz := public.analytics_window_start(v_days);
+  v_all    boolean;
+  v_result jsonb;
+  v_class_course      uuid;
+  v_class_course_name text;
+  v_course            uuid;
+  v_mismatch          boolean := false;
+begin
+  if not public.is_reviewer() then
+    raise exception 'Only admins/teachers can view the progress report';
+  end if;
+
+  -- An admin with no class named keeps the whole-school view. Otherwise the scope
+  -- is per answer, below. A named class is still checked here: visible_student_ids()
+  -- refuses a class the caller does not teach, and that refusal is what callers see.
+  v_all := public.is_admin() and p_class_id is null;
+  if p_class_id is not null then
+    perform public.visible_student_ids(p_class_id);
+  end if;
+
+  -- The course a named class studies (classes.course_id), or nothing when no class
+  -- is named or the class has no course. Read after visible_student_ids(), so a
+  -- class the caller does not teach is refused before anything is read from it.
+  if p_class_id is not null then
+    select c.course_id, co.name into v_class_course, v_class_course_name
+      from public.classes c
+      left join public.courses co on co.id = c.course_id
+     where c.id = p_class_id;
+  end if;
+  -- A bound class fixes the course. A different p_course_id asks for something the
+  -- class does not study, so it matches nothing rather than widening the report.
+  v_course   := coalesce(v_class_course, p_course_id);
+  v_mismatch := v_class_course is not null and p_course_id is not null
+                and p_course_id <> v_class_course;
+
+  -- One scan of the scoped answers, shared by every collection below. The
+  -- materialised CTE is read once however many times the select list refers to it.
+  with scoped as materialized (
+    select r.user_id,
+           r.created_at,
+           r.overall_band                                       as band,
+           r.overall_mark::numeric / nullif(p.total_marks, 0)   as mark_frac,
+           coalesce(nullif(btrim(p.verb), ''), 'Unspecified')   as verb,
+           c.id                                                 as course_id,
+           coalesce(nullif(btrim(c.name), ''), 'Uncategorised') as course_name,
+           t.id                                                 as topic_id,
+           coalesce(nullif(btrim(t.name), ''), 'Uncategorised') as topic_name,
+           least(v_weeks - 1,
+                 floor(extract(epoch from (r.created_at - v_since)) / 604800)::int) as week
+      from public.responses r
+      join public.prompts p    on p.id = r.prompt_id
+      join public.dot_points d on d.id = p.dot_point_id
+      join public.sub_topics s on s.id = d.sub_topic_id
+      join public.topics t     on t.id = s.topic_id
+      join public.courses c    on c.id = t.course_id
+     where r.created_at >= v_since
+       and r.overall_band is not null
+       and not v_mismatch
+       and (v_course is null or c.id = v_course)
+       -- Per answer: a class the caller can see, in which this student is enrolled,
+       -- whose course is none or this answer's course. A named class narrows it.
+       and (v_all or exists (
+             select 1
+               from public.class_members m
+               join public.classes k on k.id = m.class_id
+              where m.user_id = r.user_id
+                and m.role = 'student'
+                and (p_class_id is null or k.id = p_class_id)
+                and (k.course_id is null or k.course_id = c.id)
+                and public.can_view_class(k.id)
+           ))
+  )
+  select jsonb_build_object(
+      'days', v_days,
+      'weeks', v_weeks,
+      'totals', (
+        select jsonb_build_object(
+          'attempts', count(*),
+          'active_students', count(distinct s.user_id),
+          'avg_band', round(avg(s.band)::numeric, 2),
+          'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3),
+          'first_attempt_at', min(s.created_at),
+          'last_attempt_at', max(s.created_at)
+        )
+          from scoped s
+      ),
+
+      -- One row per command verb ('Unspecified' when the question has none).
+      'byVerb', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'label'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'label', s.verb,
+              'attempts', count(*),
+              'students', count(distinct s.user_id),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.verb
+          ) sub
+      ),
+
+      'byCourse', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'label'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'course_id', s.course_id,
+              'label', s.course_name,
+              'attempts', count(*),
+              'students', count(distinct s.user_id),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.course_id, s.course_name
+          ) sub
+      ),
+
+      -- One row per topic. `course` is the course it belongs to, so two topics
+      -- that share a name in different courses stay apart.
+      'byTopic', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'label', row_obj->>'course'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'topic_id', s.topic_id,
+              'course_id', s.course_id,
+              'course', s.course_name,
+              'label', s.topic_name,
+              'attempts', count(*),
+              'students', count(distinct s.user_id),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.topic_id, s.topic_name, s.course_id, s.course_name
+          ) sub
+      ),
+
+      -- One row per student with at least one marked answer in scope — the same
+      -- roster the Class Insights screen shows. Names are returned to the caller
+      -- as the screen does; the client decides whether to print them.
+      'byStudent', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'username'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'username', pr.username,
+              'display_name', pr.display_name,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3),
+              'last_active', max(s.created_at)
+            ) as row_obj
+              from scoped s
+              join public.profiles pr on pr.id = s.user_id
+             group by pr.id, pr.username, pr.display_name
+          ) sub
+      ),
+
+      'byStudentVerb', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'username', row_obj->>'verb'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'username', pr.username,
+              'verb', s.verb,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+              join public.profiles pr on pr.id = s.user_id
+             group by pr.id, pr.username, s.verb
+          ) sub
+      ),
+
+      'byStudentWeek', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'username', (row_obj->>'week')::int), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'username', pr.username,
+              'week', s.week,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+              join public.profiles pr on pr.id = s.user_id
+             group by pr.id, pr.username, s.week
+          ) sub
+      ),
+
+      -- The cohort's own weekly trend. Only weeks with answers appear; the client
+      -- fills the gaps.
+      'weekly', (
+        select coalesce(jsonb_agg(row_obj order by (row_obj->>'week')::int), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'week', s.week,
+              'attempts', count(*),
+              'avg_band', round(avg(s.band)::numeric, 2),
+              'avg_mark_frac', round(avg(s.mark_frac)::numeric, 3)
+            ) as row_obj
+              from scoped s
+             group by s.week
+          ) sub
+      )
+    )
+    -- byClass is only meaningful across classes, so it is absent when one is named.
+    || (
+      case when p_class_id is null then jsonb_build_object('byClass', (
+        select coalesce(jsonb_agg(row_obj order by row_obj->>'name', row_obj->>'class_id'), '[]'::jsonb)
+          from (
+            select jsonb_build_object(
+              'class_id', c.id,
+              'name', c.name,
+              'year', c.year,
+              'course', co.name,
+              'students', count(distinct x.user_id),
+              'attempts', count(x.user_id),
+              'avg_band', round(avg(x.band)::numeric, 2),
+              'avg_mark_frac', round(avg(x.mark_frac)::numeric, 3)
+            ) as row_obj
+              from public.classes c
+              left join (
+                select m.class_id, s.user_id, s.band, s.mark_frac, s.course_id
+                  from scoped s
+                  join public.class_members m
+                    on m.user_id = s.user_id and m.role = 'student'
+              ) x on x.class_id = c.id
+                 and (c.course_id is null or x.course_id = c.course_id)
+              left join public.courses co on co.id = c.course_id
+             where public.can_view_class(c.id)
+             group by c.id, c.name, c.year, c.course_id, co.name
+          ) sub
+      )) else '{}'::jsonb end
+    )
+    || jsonb_build_object(
+      'classCourse', case when v_class_course is null then null
+                          else jsonb_build_object('course_id', v_class_course,
+                                                  'name', v_class_course_name) end
+    )
+  into v_result;
+
+  return v_result;
+end; $$;
+
+revoke all on function public.get_progress_report(integer, uuid, uuid) from public, anon;
+grant execute on function public.get_progress_report(integer, uuid, uuid) to authenticated;
+
+-- =============================================================================
+-- §27 · Invoiced school licences (purchase orders)
+-- -----------------------------------------------------------------------------
+--     A school that pays by purchase order cannot use a Checkout page: the
+--     accounts office raises an invoice and pays it later. This table holds the
+--     REQUEST for one. Nothing in it grants access. A teacher or admin asks
+--     (api/request-invoice.ts); a platform admin approves (api/issue-invoice.ts),
+--     which creates a send_invoice subscription in Stripe. The existing webhook
+--     then applies the licence to the school exactly as it does for a card
+--     purchase, because the subscription carries the same metadata.
+--
+--     Written by the API with the service role ONLY. Authenticated users read
+--     their own requests (admins read all of them) and have no write policy, so
+--     a direct insert or update from a browser is refused by RLS. The grants
+--     below also withhold write privileges from the client roles, so a later
+--     policy added by mistake still cannot open the table to writes.
+--
+--     One pending request per school: the partial unique index is what stops a
+--     double-click, or two teachers at one school, from raising two invoices.
+--     Approved and declined rows do not count against it.
+-- =============================================================================
+
+create table if not exists public.licence_requests (
+  id                     uuid primary key default gen_random_uuid(),
+  requested_by           uuid references public.profiles (id) on delete set null,
+  school_id              uuid not null references public.schools (id) on delete cascade,
+  seats                  integer not null check (seats between 5 and 1000),
+  billing_name           text not null check (char_length(billing_name) between 1 and 150),
+  billing_email          text not null check (char_length(billing_email) between 3 and 254),
+  -- Shape (line1, city, state, postcode, country) is checked by the API, not here.
+  billing_address        jsonb not null check (jsonb_typeof(billing_address) = 'object'),
+  abn                    text check (abn is null or abn ~ '^[0-9]{11}$'),
+  po_number              text check (po_number is null or char_length(po_number) <= 60),
+  note                   text check (note is null or char_length(note) <= 1000),
+  status                 text not null default 'pending'
+                           check (status in ('pending', 'approved', 'declined', 'cancelled')),
+  decided_by             uuid references public.profiles (id) on delete set null,
+  decided_at             timestamptz,
+  decision_note          text check (decision_note is null or char_length(decision_note) <= 1000),
+  -- Stripe identifiers, written by api/issue-invoice.ts. The customer and the
+  -- subscription are recorded as soon as they exist, so a half-finished approval
+  -- can be seen and retried without raising a second invoice.
+  stripe_customer_id     text,
+  stripe_subscription_id text,
+  stripe_invoice_id      text,
+  hosted_invoice_url     text,
+  created_at             timestamptz not null default now(),
+  updated_at             timestamptz not null default now()
+);
+
+create unique index if not exists licence_requests_one_pending_idx
+  on public.licence_requests (school_id) where status = 'pending';
+
+-- The per-user cap (more than 3 requests in 24 hours) counts by requester.
+create index if not exists licence_requests_requester_idx
+  on public.licence_requests (requested_by, created_at);
+
+drop trigger if exists trg_licence_requests_updated on public.licence_requests;
+create trigger trg_licence_requests_updated before update on public.licence_requests
+  for each row execute function public.set_updated_at();
+
+alter table public.licence_requests enable row level security;
+
+drop policy if exists "Requesters read own licence requests" on public.licence_requests;
+create policy "Requesters read own licence requests"
+  on public.licence_requests for select
+  using (auth.uid() = requested_by);
+
+drop policy if exists "Admins read all licence requests" on public.licence_requests;
+create policy "Admins read all licence requests"
+  on public.licence_requests for select
+  using (public.is_admin());
+
+-- No insert/update/delete policy on purpose: the API writes with the service
+-- role, which bypasses RLS. The grants are narrowed to match.
+revoke all on public.licence_requests from anon, authenticated;
+grant select on public.licence_requests to authenticated;
+
+-- =============================================================================
+-- §28 · list_schools() is for admins only
+--
+-- §12 gated list_schools() on is_reviewer() (admin OR teacher), and §13 kept that
+-- gate while adding the licence columns. So any teacher could call it and read
+-- every school's name, member count, pooled usage and licence state (plan_status,
+-- plan_seats, plan_period_end, plan_cancel_at_period_end). Both client callers
+-- are admin-only screens (the AI Usage Dashboard and the Billing overview, each
+-- mounted only for role admin), so no teacher surface needs it and no narrower
+-- teacher RPC is added. The definition below is the one that wins on every apply;
+-- the older ones in §12 and §13 are left as they were.
+--
+-- Since §12 and §13 withheld stripe_subscription_id, plan_seats and daily_ai_limit
+-- from the REST API, this is the admin's only client route to them. The three
+-- plan_* columns a member's own plan needs are readable through REST as well.
+--
+-- Idempotent: create or replace, and the grants are repeatable.
+-- =============================================================================
+
+create or replace function public.list_schools()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_result jsonb;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can list schools';
+  end if;
+  select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+    into v_result
+  from (
+    select jsonb_build_object(
+      'id', s.id,
+      'name', s.name,
+      'daily_ai_limit', s.daily_ai_limit,
+      'members', (select count(*) from public.profiles p where p.school_id = s.id),
+      'used_today', coalesce((
+        select u.calls from public.school_ai_usage u
+         where u.school_id = s.id and u.day = (now() at time zone 'utc')::date), 0),
+      'plan_status', s.plan_status,
+      'plan_seats', s.plan_seats,
+      'plan_period_end', s.plan_period_end,
+      'plan_cancel_at_period_end', s.plan_cancel_at_period_end
+    ) as row_obj
+    from public.schools s
+  ) sub;
+  return v_result;
+end; $$;
+
+revoke all on function public.list_schools() from public, anon;
+grant execute on function public.list_schools() to authenticated;
+
+-- =============================================================================
+-- §29 · Disputes and refunds (billing incidents, the last two kinds)
+-- -----------------------------------------------------------------------------
+--     The webhook records two more findings for the operator. The table is §13's;
+--     this section widens it:
+--
+--       dispute  a card holder's bank opened a chargeback (charge.dispute.created).
+--                Stripe sets a deadline for the evidence, so the alert carries it.
+--                A 'won' close resolves the incident; a 'lost' close keeps it open,
+--                because the funds have gone and a person must decide what follows.
+--       refund   a charge was refunded in full (charge.refunded). Access is not
+--                changed. If the refund ends the licence, the operator cancels the
+--                subscription in Stripe.
+--
+--     Nothing here cancels, refunds or changes a plan. The webhook never does.
+--
+--     resolve_billing_incident() is the one write an admin makes to the table: the
+--     Billing overview's "Mark resolved" button. It is a security definer function
+--     that checks is_admin() itself, so the table keeps its read-only client grants.
+-- =============================================================================
+
+-- Widen the kind check. §13 creates the table with three kinds, and Postgres names
+-- its inline check billing_incidents_kind_check. Drop and re-add, so a re-run
+-- leaves exactly one constraint, with all five kinds.
+alter table public.billing_incidents
+  drop constraint if exists billing_incidents_kind_check;
+alter table public.billing_incidents
+  add constraint billing_incidents_kind_check
+  check (kind in (
+    'duplicate_subscription', 'duplicate_school_licence', 'customer_mismatch',
+    'dispute', 'refund'
+  ));
+
+-- Closes one open incident. Trims the note and keeps 1000 characters, so the
+-- table's own check is never the thing that refuses it. Returns the row's id.
+create or replace function public.resolve_billing_incident(
+  p_id   uuid,
+  p_note text default null
+)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare
+  v_id uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can resolve billing incidents';
+  end if;
+
+  update public.billing_incidents
+     set resolved_at     = now(),
+         resolution_note = left(nullif(btrim(coalesce(p_note, '')), ''), 1000)
+   where id = p_id
+     and resolved_at is null
+  returning id into v_id;
+
+  if v_id is null then
+    raise exception 'Incident not found or already resolved';
+  end if;
+  return v_id;
+end;
+$$;
+
+revoke all on function public.resolve_billing_incident(uuid, text) from public, anon;
+grant execute on function public.resolve_billing_incident(uuid, text) to authenticated;
+
+-- =============================================================================
+-- §30 · School seat economics (admin-only usage report)
+-- -----------------------------------------------------------------------------
+--     Turns the per-user daily counters (§11, ai_usage) into the evidence the
+--     owner needs before choosing a pooled or lower school allowance: how many
+--     AI calls a paid seat really uses, and how heavy the heaviest members are.
+--
+--     It reports CALLS, not money. The database holds no price per call, so the
+--     client multiplies by a figure it is given (VITE_AI_COST_PER_CALL_AUD; see
+--     projectDocs/seat-economics.md). Calls are not split by model here.
+--
+--     MEMBERSHIP IS TODAY'S. A call is attributed to the school its caller
+--     belongs to NOW (profiles.school_id), for the whole window. A member who
+--     joined last week has earlier calls counted for the school; one who has
+--     since left is not counted at all. Membership history is not kept, so this
+--     is the best the schema can say.
+--
+--     Only live licences are reported (active, trialing, past_due: the same
+--     grace as resolve_ai_quota in §13). Read-only; nothing is written.
+-- =============================================================================
+
+create or replace function public.school_seat_usage(p_days integer default 30)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days   integer := least(greatest(coalesce(p_days, 30), 1), 90);
+  v_result jsonb;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can read seat usage';
+  end if;
+
+  with licensed as (
+    select s.id, s.name, s.plan_seats as seats
+      from public.schools s
+     where s.plan_status in ('active', 'trialing', 'past_due')
+  ),
+  -- One row per member per UTC day, calls > 0 only. The day filter is the one
+  -- get_ai_usage_report (§11) uses: today and the v_days - 1 days before it.
+  member_days as (
+    select p.school_id, u.user_id, u.calls
+      from public.ai_usage u
+      join public.profiles p on p.id = u.user_id
+     where u.calls > 0
+       and u.day > (now() at time zone 'utc')::date - v_days
+       and p.school_id in (select l.id from licensed l)
+  ),
+  day_stats as (
+    select m.school_id,
+           count(distinct m.user_id)                             as active_users,
+           sum(m.calls)                                          as total_calls,
+           count(*)                                              as user_days,
+           percentile_cont(0.95) within group (order by m.calls) as p95,
+           max(m.calls)                                          as max_calls,
+           count(*) filter (where m.calls >= 100)                as over_100
+      from member_days m
+     group by m.school_id
+  ),
+  per_school as (
+    select l.id, l.name, l.seats,
+           (select count(*) from public.profiles p where p.school_id = l.id) as members,
+           coalesce(d.active_users, 0) as active_users,
+           coalesce(d.total_calls, 0)  as total_calls,
+           coalesce(d.user_days, 0)    as user_days,
+           coalesce(d.p95, 0)          as p95,
+           coalesce(d.max_calls, 0)    as max_calls,
+           coalesce(d.over_100, 0)     as over_100
+      from licensed l
+      left join day_stats d on d.school_id = l.id
+  ),
+  -- Totals come from the combined user-day rows, not an average of per-school
+  -- figures. A user belongs to one school, so summed distinct counts are exact.
+  combined as (
+    select coalesce(sum(seats), 0)                        as seats,
+           coalesce(sum(members), 0)                      as members,
+           coalesce(sum(active_users), 0)                 as active_users,
+           coalesce(sum(total_calls), 0)                  as total_calls,
+           coalesce(sum(user_days), 0)                    as user_days,
+           coalesce(sum(over_100), 0)                     as over_100,
+           coalesce(sum(greatest(seats - members, 0)), 0) as seats_unused
+      from per_school
+  )
+  select jsonb_build_object(
+    'days', v_days,
+    'schools', (
+      select coalesce(jsonb_agg(row_obj order by row_obj->>'name'), '[]'::jsonb)
+        from (
+          select jsonb_build_object(
+                   'id', ps.id,
+                   'name', ps.name,
+                   'seats', ps.seats,
+                   'members', ps.members,
+                   'active_users', ps.active_users,
+                   'total_calls', ps.total_calls,
+                   'calls_per_seat_per_day',
+                     round(ps.total_calls::numeric / greatest(ps.seats, 1) / v_days, 2),
+                   'avg_calls_per_active_user_day',
+                     case when ps.user_days > 0
+                          then round(ps.total_calls::numeric / ps.user_days, 2) else 0 end,
+                   'p95_calls_per_user_day', round(ps.p95::numeric, 1),
+                   'max_calls_per_user_day', ps.max_calls,
+                   'user_days_over_100', ps.over_100,
+                   'seats_unused', greatest(ps.seats - ps.members, 0)
+                 ) as row_obj
+            from per_school ps
+        ) sub
+    ),
+    'totals', (
+      select jsonb_build_object(
+               'seats', c.seats,
+               'members', c.members,
+               'active_users', c.active_users,
+               'total_calls', c.total_calls,
+               'calls_per_seat_per_day',
+                 round(c.total_calls::numeric / greatest(c.seats, 1) / v_days, 2),
+               'avg_calls_per_active_user_day',
+                 case when c.user_days > 0
+                      then round(c.total_calls::numeric / c.user_days, 2) else 0 end,
+               'p95_calls_per_user_day', (
+                 select round(coalesce(percentile_cont(0.95) within group (order by md.calls), 0)::numeric, 1)
+                   from member_days md),
+               'max_calls_per_user_day', (
+                 select coalesce(max(md.calls), 0) from member_days md),
+               'user_days_over_100', c.over_100,
+               'seats_unused', c.seats_unused
+             )
+        from combined c
+    )
+  ) into v_result;
+
+  return v_result;
+end; $$;
+
+-- Admin-only, so the anonymous role is shut out and the client roles get
+-- EXECUTE only through the authenticated grant, which the is_admin() check then
+-- narrows to admins.
+revoke all on function public.school_seat_usage(integer) from public, anon;
+grant execute on function public.school_seat_usage(integer) to authenticated;
+
 -- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.

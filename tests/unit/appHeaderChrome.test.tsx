@@ -99,7 +99,7 @@ const openTools = (): HTMLElement => {
   return trigger;
 };
 
-/** The eight admin/moderator tools, by the labels the e2e specs select on. */
+/** The nine admin/moderator tools, by the labels the e2e specs select on. */
 const ADMIN_TOOLS = [
   'Data Vault (Import/Export/Reorder)',
   'Content Audit Studio',
@@ -109,6 +109,7 @@ const ADMIN_TOOLS = [
   'Internal Database Health',
   'AI Usage Dashboard (monitor & adjust quotas)',
   'Runtime AI Keys (paste a key to test models)',
+  'Billing Overview (subscriptions, renewals, webhook)',
 ];
 
 describe('the header wears the shared vocabulary', () => {
@@ -160,10 +161,24 @@ describe('the header wears the shared vocabulary', () => {
  * it, and white-alpha on a gradient reads the same in both themes.
  */
 describe('the bar carries both themes', () => {
-  it('paints its own background in light and in dark', () => {
-    expect(HEADER_BAR).toContain('bg-white/80');
-    expect(HEADER_BAR).toContain('dark:bg-[rgb(var(--color-bg-surface))]/70');
-    expect(HEADER_BAR).toContain('backdrop-blur-2xl');
+  it('is paper in light and glass in dark', () => {
+    // A translucent light bar let the ribbon's type ghost through the wordmark
+    // when the page scrolled, so the light rail is the opaque paper rung. The
+    // dark rail keeps its translucent glass and its blur.
+    const tokens = HEADER_BAR.split(/\s+/);
+    expect(tokens).toContain('bg-surface');
+    expect(tokens).not.toContain('bg-white/80');
+    expect(tokens).not.toContain('backdrop-blur-2xl');
+    expect(tokens).toContain('dark:bg-[rgb(var(--color-bg-surface))]/70');
+    expect(tokens).toContain('dark:backdrop-blur-2xl');
+  });
+
+  it('keeps the rail controls at the 44px phone touch target', () => {
+    // 40px from `sm` up, where a pointer is the input. The bar is 64px, so the
+    // larger square does not change the header's height at any width.
+    expect(HEADER_ACTION).toContain('w-11 h-11');
+    expect(HEADER_ACTION).toContain('sm:w-10 sm:h-10');
+    expect(HEADER_BAR).toContain('h-16');
   });
 
   it('no longer hangs a full-bleed gradient across the whole bar', () => {
@@ -434,7 +449,7 @@ describe('the admin tools stay behind the role gate', () => {
     }
   });
 
-  it('shows an admin all eight, under a trigger labelled for the role', () => {
+  it('shows an admin all nine, under a trigger labelled for the role', () => {
     renderHeader('admin');
 
     expect(openTools().getAttribute('aria-label')).toBe('Admin tools');
@@ -443,7 +458,7 @@ describe('the admin tools stay behind the role gate', () => {
     }
   });
 
-  it('shows a teacher the moderation three and none of the system-admin five', () => {
+  it('shows a teacher the moderation three and none of the system-admin six', () => {
     renderHeader('teacher');
 
     expect(openTools().getAttribute('aria-label')).toBe('Teaching tools');

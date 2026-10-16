@@ -3,8 +3,13 @@
 // =============================================================================
 // Creates the demo accounts and the accumulated history behind them, so every
 // feature that depends on ongoing use has something to show: Class Insights,
-// Student Progress and its band-trend sparkline, the student roster, the Usage
+// Student Progress and its band-trend sparkline, the progress reports (student,
+// class and school, with their course drill-down), the student roster, the Usage
 // Dashboard, the Review Queue, quota states, XP/levels/streaks.
+//
+// Two Year 12 classes share one school: the Enterprise class (Ms Bennett, with
+// Mr Okafor as co-teacher) and the Software class (Mr Okafor alone). Some
+// students take both courses and sit in both classes.
 //
 // Run AFTER supabase/seed.mjs — the cohort attaches its attempts to the
 // curriculum that script imports, and refuses to run if the question bank is
@@ -41,6 +46,22 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const COURSE_DATA_DIR = join(ROOT, 'public', 'courseData');
 
+/**
+ * The course file each demo course is loaded from. The keys are the `course`
+ * values in utils/demoCohort.ts (DEMO_CLASSES and the students' `courses`).
+ */
+const COURSE_FILES = {
+  enterprise: 'HSCEnterpriseComputing09122025.json',
+  software: 'HSCSoftwareEngineering09122025.json',
+};
+
+/**
+ * Demo class names that are no longer used. The Software class was once named
+ * "Year 11 …"; a database seeded then keeps that class, with its enrolments, beside
+ * the current one unless it is removed by name. Both runs and resets remove these.
+ */
+const RETIRED_CLASS_NAMES = ['Year 11 Software Engineering (Demo)'];
+
 const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, DEMO_ACCOUNT_PASSWORD } = process.env;
 const RESET = process.argv.includes('--reset');
 
@@ -70,6 +91,10 @@ const die = (message) => {
   console.error(`\n✗ ${message}`);
   process.exit(1);
 };
+
+/** True when the error means the table itself is absent (a database that predates it). */
+const isMissingTable = (error) =>
+  error?.code === '42P01' || /does not exist/i.test(error?.message ?? '');
 
 // ---------------------------------------------------------------------------
 // Loading the cohort generator
@@ -126,8 +151,8 @@ const assertDemoEnvironment = async () => {
 // ---------------------------------------------------------------------------
 
 /**
- * The five staff/plan-state accounts. The twelve students come from
- * DEMO_STUDENTS in utils/demoCohort.ts.
+ * The staff accounts. The cohort's students come from DEMO_STUDENTS in
+ * utils/demoCohort.ts; the classes they sit in come from DEMO_CLASSES there.
  *
  * `aiQuota` is a deliberate cap: demo accounts do make real AI calls (so a live
  * marking run works in a pitch) but a shared password plus an uncapped budget
@@ -148,7 +173,7 @@ const STAFF_ACCOUNTS = [
     role: 'teacher',
     aiQuota: 60,
     stripePlan: 'school',
-    note: 'Class Insights, Student Progress, Review Queue, authoring tools',
+    note: 'owns the Enterprise class — reports cover that class only',
   },
   {
     username: 'demo.coteacher',
@@ -156,14 +181,17 @@ const STAFF_ACCOUNTS = [
     role: 'teacher',
     aiQuota: 40,
     stripePlan: 'school',
-    note: 'second marker — shows the reviewer role is not a single account',
+    note: 'owns the Software class and co-teaches Enterprise — reports cover both',
   },
 ];
 
 /**
- * Plan-state students. These sit alongside the twelve cohort students and exist
- * to make the paywall and quota states reachable without waiting for a real
- * user to hit them.
+ * Plan-state accounts. They exist to make the paywall and quota states reachable
+ * without waiting for a real user to hit them. Sam (free) and Ava (plus) also have
+ * work behind them (DEMO_PLAN_STUDENT_HISTORY in utils/demoCohort.ts); Ben (capped)
+ * has none, which is the state his account shows.
+ *
+ * `classKeys` is their class enrolment. The cohort students carry their own.
  */
 const PLAN_STATE_STUDENTS = [
   {
@@ -172,6 +200,7 @@ const PLAN_STATE_STUDENTS = [
     role: 'student',
     aiQuota: 10,
     stripePlan: 'free',
+    classKeys: ['enterprise'],
     note: 'free tier — locked tier 4-6 questions, blurred high-band samples, summary-only feedback',
   },
   {
@@ -180,7 +209,8 @@ const PLAN_STATE_STUDENTS = [
     role: 'student',
     aiQuota: 30,
     stripePlan: 'plus',
-    note: 'Band 6 Plus — the unlocked comparison for the free tier',
+    classKeys: ['enterprise', 'software'],
+    note: 'Band 6 Plus, two courses of history — the unlocked comparison, and PDF export',
   },
   {
     username: 'demo.capped',
@@ -188,8 +218,9 @@ const PLAN_STATE_STUDENTS = [
     role: 'student',
     aiQuota: 5,
     stripePlan: 'free',
+    classKeys: ['enterprise'],
     exhaustQuota: true,
-    note: 'at the daily cap — makes the 429 path and quota warnings demonstrable',
+    note: 'at the daily cap, no history — makes the 429 path and the empty report state demonstrable',
   },
 ];
 
@@ -331,15 +362,15 @@ const upsertSchool = async (name) => {
 };
 
 /**
- * The demo class, owned by the demo teacher.
+ * A demo class, with its owner and year.
  *
  * Written directly rather than through `create_class()`: that RPC is admin-only
  * and resolves `auth.uid()`, which a service-role script has no session for.
  * Returns null when the table does not exist yet, so the seed still completes
  * against a database that predates schema §19 instead of aborting.
  */
-const upsertClass = async ({ schoolId, name, ownerId }) => {
-  if (!ownerId) throw new Error('upsertClass: the demo teacher has no id');
+const upsertClass = async ({ schoolId, name, year, ownerId, courseId }) => {
+  if (!ownerId) throw new Error(`upsertClass: the owner of "${name}" has no id`);
 
   const { data: existing, error: selErr } = await db
     .from('classes')
@@ -349,12 +380,11 @@ const upsertClass = async ({ schoolId, name, ownerId }) => {
     .maybeSingle();
 
   if (selErr) {
-    // 42P01 = undefined_table. Anything else is a real failure worth raising.
-    if (selErr.code === '42P01' || /does not exist/i.test(selErr.message)) return null;
+    if (isMissingTable(selErr)) return null;
     throw new Error(`class lookup failed: ${selErr.message}`);
   }
 
-  const row = { school_id: schoolId, name, owner_id: ownerId, year: 12 };
+  const row = { school_id: schoolId, name, owner_id: ownerId, year, course_id: courseId ?? null };
   if (existing) {
     const { error } = await db.from('classes').update(row).eq('id', existing.id);
     if (error) throw new Error(`class update failed: ${error.message}`);
@@ -363,6 +393,35 @@ const upsertClass = async ({ schoolId, name, ownerId }) => {
   const { data, error } = await db.from('classes').insert(row).select('id').single();
   if (error) throw new Error(`class insert failed: ${error.message}`);
   return data.id;
+};
+
+/**
+ * The seeded course rows for each demo course key. seed.mjs writes a course's JSON
+ * id as its `legacy_id`, so that is the key. A failed or empty lookup is a note,
+ * not an abort: the class it would bind is then left unbound.
+ */
+const loadCourseRowIds = async (legacyIds) => {
+  const rows = new Map();
+  for (const [courseKey, legacyId] of legacyIds) {
+    const { data, error } = await db
+      .from('courses')
+      .select('id')
+      .eq('legacy_id', legacyId)
+      .order('created_at', { ascending: true })
+      .limit(1);
+    if (error) {
+      console.log(
+        `  note: could not look up the ${courseKey} course (${error.message}); its class is not bound to it`
+      );
+    } else if (!data?.length) {
+      console.log(
+        `  note: no ${courseKey} course row (legacy_id ${legacyId}); its class is not bound to it`
+      );
+    } else {
+      rows.set(courseKey, data[0].id);
+    }
+  }
+  return rows;
 };
 
 /** Maps the course JSON's prompt `legacy_id`s onto the seeded rows' UUIDs. */
@@ -404,7 +463,26 @@ const insertChunked = async (table, rows, options) => {
  * than an accumulation. Ordered child-first; most tables would cascade from the
  * profile delete, but being explicit keeps the intent readable.
  */
-const resetDemoData = async (usernames) => {
+const resetDemoData = async (usernames, { schoolName, classNames }) => {
+  // The demo classes are removed by name, inside the demo school. Their owners'
+  // profile deletes would cascade to them too, but naming them keeps the reset
+  // explicit about what it removes. Their enrolments go with them.
+  const { data: school, error: schoolErr } = await db
+    .from('schools')
+    .select('id')
+    .eq('name', schoolName)
+    .maybeSingle();
+  if (schoolErr) throw new Error(`school lookup failed: ${schoolErr.message}`);
+  if (school) {
+    const { error } = await db
+      .from('classes')
+      .delete()
+      .eq('school_id', school.id)
+      .in('name', classNames);
+    // A database that predates schema §19 has no classes to remove.
+    if (error && !isMissingTable(error)) throw new Error(`classes reset failed: ${error.message}`);
+  }
+
   const { data: profiles } = await db.from('profiles').select('id').in('username', usernames);
   const ids = (profiles ?? []).map((p) => p.id);
   if (!ids.length) return 0;
@@ -543,8 +621,9 @@ async function main() {
 
   const {
     DEMO_SCHOOL_NAME,
-    DEMO_CLASS_NAME,
+    DEMO_CLASSES,
     DEMO_STUDENTS,
+    DEMO_PLAN_STUDENT_HISTORY,
     ARCHETYPES,
     generateCohort,
     promptPoolFromCourse,
@@ -552,36 +631,70 @@ async function main() {
     demoUsageModels,
   } = await loadCohortModule();
 
+  for (const spec of DEMO_CLASSES) {
+    if (!COURSE_FILES[spec.course]) {
+      die(`${spec.name} studies "${spec.course}", which has no entry in COURSE_FILES.`);
+    }
+  }
+
+  // Every demo account, cohort and plan-state alike, so a reset removes all of them.
   const allUsernames = [
-    ...STAFF_ACCOUNTS.map((a) => a.username),
-    ...PLAN_STATE_STUDENTS.map((a) => a.username),
-    ...DEMO_STUDENTS.map((s) => s.username),
+    ...new Set([
+      ...STAFF_ACCOUNTS.map((a) => a.username),
+      ...PLAN_STATE_STUDENTS.map((a) => a.username),
+      ...DEMO_STUDENTS.map((s) => s.username),
+      ...DEMO_PLAN_STUDENT_HISTORY.map((s) => s.username),
+    ]),
   ];
 
   if (RESET) {
-    const removed = await resetDemoData(allUsernames);
+    const removed = await resetDemoData(allUsernames, {
+      schoolName: DEMO_SCHOOL_NAME,
+      classNames: [...DEMO_CLASSES.map((c) => c.name), ...RETIRED_CLASS_NAMES],
+    });
     console.log(`✓ reset: removed ${removed} existing demo account(s) and their data`);
   }
 
   // --- curriculum -----------------------------------------------------------
-  const raw = await readFile(join(COURSE_DATA_DIR, 'HSCEnterpriseComputing09122025.json'), 'utf8');
-  const parsed = JSON.parse(raw);
-  const course = Array.isArray(parsed) ? parsed[0] : parsed;
-  const pool = promptPoolFromCourse(course);
-  if (!pool.length) die('No questions found in the course file.');
+  // Both courses, each stamped with its course key so the cohort can draw each
+  // student's questions from the courses they study. A course with nothing in the
+  // database is skipped with a note (its class, and any student who studies only
+  // it, are left out); if no course is usable at all, the seed stops.
+  const pool = [];
+  const courseLegacyIds = new Map();
+  for (const [courseKey, file] of Object.entries(COURSE_FILES)) {
+    const raw = await readFile(join(COURSE_DATA_DIR, file), 'utf8');
+    const parsed = JSON.parse(raw);
+    const course = Array.isArray(parsed) ? parsed[0] : parsed;
+    courseLegacyIds.set(courseKey, course.id);
+    pool.push(...promptPoolFromCourse(course, courseKey));
+  }
+  if (!pool.length) die('No questions found in the course files.');
 
   const promptIds = await loadPromptIdMap();
   const seeded = pool.filter((p) => promptIds.has(p.id));
   if (!seeded.length) {
     die(
-      `None of the ${pool.length} questions in the course file exist in the ` +
+      `None of the ${pool.length} questions in the course files exist in the ` +
         'database. Run `node supabase/seed.mjs` first.'
     );
   }
-  if (seeded.length < pool.length) {
-    console.log(`  note: ${pool.length - seeded.length} question(s) not in the database; skipped`);
+  for (const courseKey of Object.keys(COURSE_FILES)) {
+    const total = pool.filter((p) => p.course === courseKey).length;
+    const inDb = seeded.filter((p) => p.course === courseKey).length;
+    if (inDb === 0) {
+      console.log(`  note: no ${courseKey} question is in the database; that course is skipped`);
+    } else if (inDb < total) {
+      console.log(`  note: ${total - inDb} ${courseKey} question(s) not in the database; skipped`);
+    }
   }
-  console.log(`✓ curriculum: ${seeded.length} question(s) available to the cohort`);
+  const usableCourses = new Set(seeded.map((p) => p.course));
+  console.log(`✓ curriculum: ${seeded.length} question(s) across ${usableCourses.size} course(s)`);
+
+  // Each class is bound to the course row it studies (classes.course_id), so its
+  // report counts that course only. A course row that cannot be found leaves its
+  // class unbound, which is the old behaviour, and the seed says so.
+  const courseRowIds = await loadCourseRowIds(courseLegacyIds);
 
   // --- school + accounts ----------------------------------------------------
   const schoolId = await upsertSchool(DEMO_SCHOOL_NAME);
@@ -606,47 +719,92 @@ async function main() {
   }
   console.log(`✓ accounts: ${userIds.size} (password from DEMO_ACCOUNT_PASSWORD)`);
 
-  // --- class + enrolment ----------------------------------------------------
+  // --- classes + enrolment --------------------------------------------------
   // Since schema §19 the analytics RPCs are scoped to the classes a teacher
   // teaches, and a teacher with no class sees nothing. So the demo has to enrol
-  // its cohort or the whole point of seeding it is invisible.
-  const classId = await upsertClass({
-    schoolId,
-    name: DEMO_CLASS_NAME,
-    ownerId: userIds.get('demo.teacher'),
-  });
-  if (classId) {
-    const members = [
-      ...DEMO_STUDENTS.map((s) => ({ user_id: userIds.get(s.username), role: 'student' })),
-      // The plan-state students sit in the class too, so a paywall demo has the
-      // same cohort context as everyone else.
-      ...PLAN_STATE_STUDENTS.map((s) => ({ user_id: userIds.get(s.username), role: 'student' })),
-      { user_id: userIds.get('demo.coteacher'), role: 'co_teacher' },
-    ]
-      .filter((m) => m.user_id)
-      .map((m) => ({ ...m, class_id: classId }));
+  // its cohort or the whole point of seeding it is invisible. Each class has its
+  // own owner: Ms Bennett's Enterprise class (with Mr Okafor as co-teacher) and
+  // Mr Okafor's Software class, which Ms Bennett does not teach.
+  const enrolled = [...DEMO_STUDENTS, ...PLAN_STATE_STUDENTS];
+  // Retired names go before anything is written, so an old class cannot linger
+  // beside its replacement with its enrolments still attached.
+  const { error: retiredErr } = await db
+    .from('classes')
+    .delete()
+    .eq('school_id', schoolId)
+    .in('name', RETIRED_CLASS_NAMES);
+  if (retiredErr && !isMissingTable(retiredErr)) {
+    throw new Error(`retired class removal failed: ${retiredErr.message}`);
+  }
+  const classIds = new Map();
+  let classesTableMissing = false;
+  for (const spec of DEMO_CLASSES) {
+    if (!usableCourses.has(spec.course)) {
+      console.log(`  note: ${spec.name} skipped — ${spec.course} has no questions in the database`);
+      continue;
+    }
+    const classId = await upsertClass({
+      schoolId,
+      name: spec.name,
+      year: spec.year,
+      ownerId: userIds.get(spec.ownerUsername),
+      courseId: courseRowIds.get(spec.course) ?? null,
+    });
+    if (!classId) {
+      classesTableMissing = true;
+      break;
+    }
+    classIds.set(spec.key, classId);
+  }
 
-    await insertChunked('class_members', members, { onConflict: 'class_id,user_id' });
-    console.log(`✓ class: ${DEMO_CLASS_NAME} — ${members.length} member(s) enrolled`);
-  } else {
+  const enrolmentSize = new Map();
+  if (classesTableMissing) {
     console.log(
       '  note: no `classes` table (database predates schema §19); skipped enrolment.\n' +
         '        Class Insights will be empty for the demo teacher until §19 is applied.'
     );
+  } else {
+    for (const spec of DEMO_CLASSES) {
+      const classId = classIds.get(spec.key);
+      if (!classId) continue;
+      const members = [
+        ...enrolled
+          .filter((s) => s.classKeys?.includes(spec.key))
+          .map((s) => ({ user_id: userIds.get(s.username), role: 'student' })),
+        ...(spec.coTeacherUsername
+          ? [{ user_id: userIds.get(spec.coTeacherUsername), role: 'co_teacher' }]
+          : []),
+      ]
+        .filter((m) => m.user_id)
+        .map((m) => ({ ...m, class_id: classId }));
+
+      await insertChunked('class_members', members, { onConflict: 'class_id,user_id' });
+      const students = members.filter((m) => m.role === 'student').length;
+      enrolmentSize.set(spec.key, students);
+      console.log(`✓ class: ${spec.name} — ${students} student(s), owner ${spec.ownerUsername}`);
+    }
   }
 
   // --- cohort history -------------------------------------------------------
-  const cohort = generateCohort({ prompts: seeded });
+  // The cohort and the two plan-state accounts with work behind them. A student
+  // who studies only an unusable course is left out of the history.
+  const usable = (s) => !s.courses || s.courses.some((c) => usableCourses.has(c));
+  const historySpecs = [...DEMO_STUDENTS, ...DEMO_PLAN_STUDENT_HISTORY].filter(usable);
+  const cohort = generateCohort({ prompts: seeded, students: historySpecs });
 
-  // `response_events` is append-only by design — no unique key to upsert on — so
-  // a plain re-run would stack a second copy of the whole history on top of the
-  // first and double every band trend. Clear the demo cohort's own events first
-  // so `demo:seed` is genuinely idempotent, not just `demo:reseed`. Scoped to
-  // demo user ids, so it can never touch anyone else's history.
-  const cohortIds = DEMO_STUDENTS.map((s) => userIds.get(s.username)).filter(Boolean);
-  if (cohortIds.length) {
-    const { error } = await db.from('response_events').delete().in('user_id', cohortIds);
-    if (error) throw new Error(`clearing previous demo events failed: ${error.message}`);
+  // A plain re-run must leave exactly this run's history, not this run stacked on
+  // the last one, so `demo:seed` is genuinely idempotent, not just `demo:reseed`.
+  // `response_events` is append-only by design — no unique key to upsert on — so it
+  // is cleared and rewritten. `responses` and the usage tables are upserts, which
+  // would keep rows the new roster no longer produces (a student who now writes less
+  // keeps the old answers), so they are cleared too. Scoped to demo user ids, so it
+  // can never touch anyone else's history.
+  const historyIds = historySpecs.map((s) => userIds.get(s.username)).filter(Boolean);
+  if (historyIds.length) {
+    for (const table of ['response_events', 'responses', 'ai_usage', 'ai_model_usage']) {
+      const { error } = await db.from(table).delete().in('user_id', historyIds);
+      if (error) throw new Error(`clearing previous demo ${table} failed: ${error.message}`);
+    }
   }
 
   // responses: the LATEST attempt per (student, prompt) — the table's documented
@@ -677,11 +835,12 @@ async function main() {
   await insertChunked('response_events', eventRows);
 
   console.log(
-    `✓ history: ${responseRows.length} response(s), ${eventRows.length} event(s) over 10 weeks`
+    `✓ history: ${responseRows.length} response(s), ${eventRows.length} event(s) over 10 weeks, ` +
+      `across ${historySpecs.length} student(s)`
   );
 
   // --- profile stats --------------------------------------------------------
-  for (const student of DEMO_STUDENTS) {
+  for (const student of historySpecs) {
     const { error } = await db
       .from('profiles')
       .update({ stats: cohort.stats[student.username] })
@@ -769,16 +928,34 @@ async function main() {
   }
 
   // --- summary --------------------------------------------------------------
+  const classKeysOf = (username) => enrolled.find((s) => s.username === username)?.classKeys ?? [];
+
   console.log('\nDemo accounts (password from DEMO_ACCOUNT_PASSWORD):');
   for (const a of [...STAFF_ACCOUNTS, ...PLAN_STATE_STUDENTS]) {
     console.log(`  ${emailFor(a.username).padEnd(30)} ${a.role.padEnd(8)} — ${a.note}`);
   }
+  console.log(
+    `  ${'demo-<first name>@demo.invalid'.padEnd(30)} student  — the ${DEMO_STUDENTS.length} cohort students (listed below)`
+  );
+
+  console.log('\nClasses:');
+  for (const spec of DEMO_CLASSES) {
+    if (!classIds.has(spec.key)) continue;
+    const co = spec.coTeacherUsername ? `, co-teacher ${spec.coTeacherUsername}` : '';
+    console.log(
+      `  ${spec.name} — owner ${spec.ownerUsername}${co}, ` +
+        `${enrolmentSize.get(spec.key) ?? 0} enrolled`
+    );
+  }
+
   console.log('\nCohort:');
-  for (const s of DEMO_STUDENTS) {
+  for (const s of historySpecs) {
     const stats = cohort.stats[s.username];
+    const courses = (s.courses ?? ['all']).join(' + ');
+    const classes = classKeysOf(s.username).join(' + ') || 'none';
     console.log(
       `  ${emailFor(s.username).padEnd(30)} ${String(stats.questionsAnswered).padStart(3)} attempts, ` +
-        `avg band ${stats.averageBand} — ${ARCHETYPES[s.archetype].note}`
+        `avg band ${stats.averageBand}, ${courses}; class ${classes} — ${ARCHETYPES[s.archetype].note}`
     );
   }
   console.log('\nDone. Re-run with --reset to refresh from scratch.');

@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useSyncExternalStore } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode, StatePath } from '../types';
 import Editor from './Editor';
 import DraftCheck from './DraftCheck';
+import { insertIntoDraft } from '../utils/insertIntoDraft';
 import WritingMetricsDashboard from './WritingMetricsDashboard';
 import EvaluationResultModal from './EvaluationResultModal';
 import ImprovementReviewModal from './ImprovementReviewModal';
@@ -16,6 +17,7 @@ import {
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import { getReadinessChroma } from '../utils/draftReadiness';
+import { getBandRgb } from '../utils/renderUtils';
 import ReadinessMeter from './ReadinessMeter';
 import {
   freeEvalsRemaining,
@@ -34,6 +36,16 @@ const IS_APPLE =
   typeof navigator !== 'undefined' &&
   /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || '');
 const SUBMIT_SHORTCUT = IS_APPLE ? '⌘ ↵' : 'Ctrl ↵';
+
+/** How the Evaluate button is painted: its fill, its lift, its edge, and, for a
+ *  band fill, the band whose `--band-rgb` the fill is drawn from. */
+interface EvaluateSurface {
+  surface: string;
+  shadow: string;
+  border: string;
+  text?: string;
+  bandRgb?: string;
+}
 
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
@@ -143,7 +155,11 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // single provisional completeness signal (see utils/draftReadiness.ts) — it
   // feeds both the editor's progress meter and the Evaluate button's accent, so
   // the two can never tell a student two different stories about the same draft.
-  const { insights, readiness } = useWritingMetrics(debouncedUserAnswer, currentPrompt, syllabus);
+  const { insights, readiness, wordCount, keywordStats } = useWritingMetrics(
+    debouncedUserAnswer,
+    currentPrompt,
+    syllabus
+  );
 
   // The Evaluate button's accent tracks draft READINESS, never a predicted band.
   //
@@ -173,11 +189,13 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // explicitly: a solid border in the accent hue, and a coloured drop shadow (the
   // band's own `glow`, or indigo's inset-highlighted shadow) that lifts it off
   // the bar rather than the flat `shadow-lg` that vanished against a dark footer.
-  const buttonConfig = useMemo(() => {
+  const buttonConfig = useMemo((): EvaluateSurface => {
     // The calm indigo default — the button's resting accent, and what it keeps
     // in every neutral/exam/disabled case so colour is never mistaken for a mark.
-    const neutralConfig = {
-      gradient: 'from-indigo-600 to-indigo-500',
+    // White on `indigo-600` is 6.3:1; the lighter `indigo-500` end it used to
+    // run to was 4.47:1, under the 4.5:1 floor, so the gradient stops at `indigo-600`.
+    const neutralConfig: EvaluateSurface = {
+      surface: 'bg-gradient-to-r from-indigo-700 to-indigo-600',
       shadow:
         'shadow-[0_4px_16px_-4px_rgba(79,70,229,0.65),inset_0_1px_0_0_rgba(255,255,255,0.25)] hover:shadow-[0_8px_24px_-4px_rgba(79,70,229,0.85),inset_0_1px_0_0_rgba(255,255,255,0.3)]',
       border: 'border-indigo-400/70 light:border-indigo-500',
@@ -187,15 +205,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     // Neutral while empty/barely-started, and always neutral in Exam Mode.
     if (readiness.isNeutral || isExamMode) return neutralConfig;
 
-    // Substance to evaluate, coach mode: borrow the readiness palette. The band
-    // config drives the gradient, border and text; its `glow` becomes the raised
-    // coloured drop shadow so the button keeps the same pressable lift.
+    // Substance to evaluate, coach mode: the band's own fill, drawn flat from
+    // `--band-rgb` as `band-solid`. That class carries its ink, which clears AA
+    // on all six hues, where the white this button used to set did not (3.1:1
+    // on red in the dark theme). Its `glow` becomes the raised coloured drop
+    // shadow so the button keeps the same pressable lift.
     const { config } = getReadinessChroma(readiness.chromaLevel);
     return {
-      gradient: config.gradient,
+      surface: 'band-solid',
       shadow: `shadow-lg ${config.glow} hover:shadow-xl motion-reduce:transition-none`,
       border: config.border,
-      text: config.solidText,
+      bandRgb: getBandRgb(readiness.chromaLevel),
     };
   }, [readiness.isNeutral, readiness.chromaLevel, isExamMode]);
 
@@ -252,7 +272,14 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     // it keeps the intent legible at the call site, and stops a stale cached
     // result from re-opening the review after a downgrade.
     if (upgradesLocked) return null;
-    if (geminiHandlers.improvement) return geminiHandlers.improvement;
+    // Full marks have no next mark to lift to. The marker hands back the answer
+    // the student already wrote, so there is nothing to compare and no "Compare"
+    // to offer on the feedback. The same gate stops marking from opening it
+    // (`useGemini`).
+    if (evaluationResult && evaluationResult.overallMark >= currentPrompt.totalMarks) return null;
+    if (geminiHandlers.improvement) {
+      return { ...geminiHandlers.improvement, keyChanges: [] as string[] };
+    }
     if (!evaluationResult?.revisedAnswer) return null;
 
     const raw = evaluationResult.revisedAnswer;
@@ -274,6 +301,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           : getBandForMark(mark, currentPrompt.totalMarks, commandTermInfo.tier),
       originalAnswer: evaluatedAnswer,
       originalMark: evaluationResult.overallMark,
+      // What the marker says it changed and why, when the rewrite came with a
+      // list. The improve path has none, so the margin simply omits the block.
+      keyChanges: typeof raw === 'object' && Array.isArray(raw.keyChanges) ? raw.keyChanges : [],
     };
   }, [
     upgradesLocked,
@@ -365,8 +395,15 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ? 'Write a response first, then evaluate'
               : `Evaluate your response (${shortcutName})${evalCounterTitle}`
         }
+        // 44px tall on a phone, the touch target a thumb needs; the footer it sits
+        // in is the height of this button, so it grows with it and no further.
+        style={
+          buttonConfig.bandRgb
+            ? ({ '--band-rgb': buttonConfig.bandRgb } as React.CSSProperties)
+            : undefined
+        }
         className={`
-          group px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm tracking-tight
+          group px-4 py-2 sm:px-5 sm:py-2.5 min-h-11 sm:min-h-0 rounded-xl font-black text-xs sm:text-sm tracking-tight
           transition-all duration-300 flex items-center gap-2 flex-shrink-0 border
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400
           focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]
@@ -375,7 +412,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border-white/15 light:border-slate-300 shadow-inner'
               : !userAnswer.trim()
                 ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border-white/10 light:border-slate-400 opacity-50'
-                : `bg-gradient-to-r ${buttonConfig.gradient} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
+                : `${buttonConfig.surface} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
           }
         `}
       >
@@ -391,10 +428,11 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
               }`}
             />
-            {/* The white only belongs on the indigo fill. Applied
-              unconditionally it painted the DISABLED label white too — legible
-              against the dark footer, invisible against the light theme's pale
-              grey one. Unset, the label inherits the button's own colour. */}
+            {/* The label's colour is the fill's own: white on the indigo default,
+              and the band's ink on the band fill (`band-solid`), so it is unset
+              there. Applied unconditionally, the white painted the DISABLED label
+              too — legible against the dark footer, invisible against the light
+              theme's pale grey one. Unset, the label inherits the button's colour. */}
             <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
             {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
                 Windows and ChromeOS machines most NSW schools issue, where
@@ -433,10 +471,6 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           everything below it. */}
       <div className="relative group flex flex-col">
         <div className="flex flex-col relative shadow-lg rounded-surface">
-          <div className="clip-stable absolute inset-0 z-[30] pointer-events-none rounded-surface overflow-hidden">
-            {isEvaluating && <EvaluationProgressBar />}
-          </div>
-
           <Editor
             ref={editorRef}
             value={userAnswer}
@@ -467,6 +501,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             writingMode={writingMode}
             onWritingModeChange={onWritingModeChange}
             footerAction={evaluateAction}
+            // The marking wait is laid inside the card, under its header,
+            // rather than over the whole box. See Editor for why the header
+            // stays uncovered and the border never sits under the veil.
+            busyOverlay={isEvaluating ? <EvaluationProgressBar /> : undefined}
             blockPaste={blockPaste}
             draftSaved={draftSaved}
           />
@@ -516,7 +554,14 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           the two gaps looked close enough alike to read as a mistake rather
           than two different relationships. */}
       <div className="flex flex-col gap-4">
-        {!isExamMode && <DraftCheck insights={insights} />}
+        {!isExamMode && (
+          <DraftCheck
+            insights={insights}
+            wordCount={wordCount}
+            missingTerms={keywordStats.missedInPriority}
+            onInsertTerm={insertIntoDraft}
+          />
+        )}
 
         <WritingMetricsDashboard
           userAnswer={debouncedUserAnswer}
@@ -590,10 +635,17 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           targetBand={reviewSubject.band}
           targetMark={reviewSubject.mark}
           originalMark={reviewSubject.originalMark}
+          keyChanges={reviewSubject.keyChanges}
           // The marker's own advice, beside the edits that act on it. Withheld
           // where the plan redacts it, rather than listing the placeholder.
           markerAsked={isFeedbackLocked() ? undefined : evaluationResult?.improvements}
-          onApply={applyRevision}
+          // Applying the rewrite ends the feedback as well. The marks were for the
+          // draft the student has just replaced, and closing the review would
+          // otherwise bring the summary straight back over the writing surface.
+          onApply={(text) => {
+            applyRevision(text);
+            geminiHandlers.resetEvaluation();
+          }}
         />
       )}
     </div>

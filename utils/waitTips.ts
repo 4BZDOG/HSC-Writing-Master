@@ -1,4 +1,5 @@
 import type { AiTaskType } from '../components/LoadingIndicator';
+import { HSC_RESULTS_FACTS } from '../data/hscResultsFacts';
 
 /**
  * Something worth reading while the AI works.
@@ -14,6 +15,9 @@ import type { AiTaskType } from '../components/LoadingIndicator';
  * the marking prompts also follow — a tip that disagreed with the marker would
  * be worse than no tip. Keep each one to a sentence or two: it is read in a
  * glance, and it rotates.
+ *
+ * These are the ADVICE notes. The HSC numbers (data/hscResultsFacts.ts) rotate
+ * alongside them through `waitNotes()`, which is what a wait actually shows.
  */
 export const WAIT_TIPS: Record<AiTaskType, readonly string[]> = {
   evaluation: [
@@ -40,12 +44,37 @@ export const WAIT_TIPS: Record<AiTaskType, readonly string[]> = {
     'Outcomes say what a student can do by the end of the course. Dot points say what they learn on the way.',
     'The command verbs here follow the NESA glossary of key words.',
     '“Critically” in front of a verb asks for more depth and questioning, not more length.',
-    'A Band 6 in the HSC is a mark of 90 or above.',
   ],
   default: [
     'The command verbs here follow the NESA glossary of key words.',
-    'A Band 6 in the HSC is a mark of 90 or above.',
     '“Explain” is cause and effect. Words like because, therefore and as a result are the joints of the answer.',
     'A specific example does more work than a general claim. Name the case, the figure or the text.',
   ],
+};
+
+/** One note on a wait: a piece of advice about the task, or a number from the published HSC results. */
+export type WaitNote =
+  | { kind: 'advice'; text: string }
+  | { kind: 'fact'; text: string; year: number };
+
+/**
+ * The notes a wait rotates through, in order: advice and HSC numbers
+ * alternating, so neither a run of verbs nor a run of statistics reaches the
+ * reader on its own.
+ *
+ * A function rather than a module constant, on purpose: it reads the facts,
+ * and `npm run check:eager-reads` holds the line against reading an import
+ * while the module is still initialising.
+ */
+export const waitNotes = (task: AiTaskType): WaitNote[] => {
+  const advice = WAIT_TIPS[task].map((text): WaitNote => ({ kind: 'advice', text }));
+  const facts = HSC_RESULTS_FACTS.map(
+    (fact): WaitNote => ({ kind: 'fact', text: fact.text, year: fact.year })
+  );
+  const notes: WaitNote[] = [];
+  for (let i = 0; i < Math.max(advice.length, facts.length); i++) {
+    if (i < advice.length) notes.push(advice[i]);
+    if (i < facts.length) notes.push(facts[i]);
+  }
+  return notes;
 };

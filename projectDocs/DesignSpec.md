@@ -111,17 +111,20 @@ BEHIND it, not on the token.** This is what makes a blanket find-and-replace
 the wrong tool — most white-alpha classes in this codebase are already correct:
 
 - **On a coloured gradient or a modal backdrop** — the editor header, the
-  score placard, the verb ribbon's tier tile and detail-card icon,
-  `bg-black/80` scrims. These are the same colour in both themes, so
+  score placard, the verb ribbon's tier tile and the icon tile on its selected
+  tier card, `bg-black/80` scrims. These are the same colour in both themes, so
   `bg-white/20` and `border-white/20` are right as written and must be left
   alone.
 
-  This example used to read "the ribbon header", and that surface is gone —
-  the verb ribbon's header was a full-bleed tier gradient until it became a
-  glass rail, and its tier colour now lives on a 36px tile and a 2px
-  underline. The rule is unchanged; only the illustration moved. Check what a
-  class is painted on, not what this list happened to name when it was
-  written.
+  This example has moved three times. It used to read "the ribbon header", and
+  that surface is gone — the verb ribbon's header was a full-bleed tier gradient,
+  then a glass rail, then the same row every accordion wears, and is now a themed
+  banner — light in the light theme, dark in the dark — over a dark stage (see
+  "The hero" in §3), with its tier colour on a 32px tile. It
+  later named the ribbon's detail-card icon, which went when that card stopped
+  being a wash of the tier. The rule is unchanged; only the illustration moved.
+  Check what a class is painted on, not what this list happened to name when it
+  was written.
 
 - **On a theme surface** — anything over `--color-bg-surface`, a `bg-white`
   card, or a `slate-100/200` track. Here white-alpha is invisible in light
@@ -194,6 +197,24 @@ valid and existing components are **not** being migrated, because `App.tsx`
 maintains both the `.dark` class and `[data-theme='light']`. Expect to meet
 both idioms; write the new one.
 
+**4. Three guards cover what rules 0–3 cannot see.** Each was added after a
+round-1 defect that no committed test could have caught:
+
+- **`npm run check:build`** (in `test:all`) runs `vite build` and the two chunk
+  checks CI runs after it. A staff-only module imported by an eager component
+  joined the first load and failed CI while every unit test passed.
+- **Text over gradients** (`light-theme.spec.ts`, "text over gradients"). The
+  solid-background sweep skips text on an image, so white text on the band and
+  amber gradients (1.9–2.8:1) was never measured. The guard measures each run
+  against every colour its gradient can paint, worst case, in both themes. It is
+  not ratcheted. It found the band headers' white labels, the Plus chip and the
+  feedback highlights, and those were fixed in the components, not in the guard.
+- **Stark surfaces** (`light-stark-surfaces.spec.ts`). A painted surface over
+  20,000 px², within 1.08:1 of white, on a white parent, with no border or
+  shadow and no 1.1:1 step, is a defect: the white slab on the white page that
+  rule 0 describes. It walks computed styles and hit-tests, not pixels, so it is
+  deterministic and names the element.
+
 ## 3. Component Patterns
 
 ### Layering & Hierarchy
@@ -230,6 +251,32 @@ state as if it were a DOM state.
 
 Both concerns arbitrate by stack, matching `useEscapeKey`: only the topmost
 surface acts, because dialogs do open over each other.
+
+### The question card's corner and foot
+
+Two rules, both from the two-column layout, where the question card is only ~490px
+wide at 1280.
+
+- **The foot wraps; it never scrolls.** The brief button ("Read before you write"),
+  the AI auto-link wand and the outcome chips are one `flex-wrap` row, with the flag
+  fixed at the right. It was a nowrap row with a horizontally scrolling chip strip in
+  the middle, and at 1280 the strip was left a few pixels: the second outcome code
+  was clipped to "S…" with no scrollbar to find the rest. Every chip shares
+  `FOOTER_CHIP` (36px, 44px below `sm`, `whitespace-nowrap`), so a code is whole or it
+  moves to the next line. `workspace-chrome.spec.ts` checks every footer button is
+  inside the card, uncut and unscrolled at 1600, 1440, 1280, 1024 and 390.
+- **The reading size lives in the heading's corner.** `CARD_HEADER_CORNER` stacks it
+  (`CARD_HEADER_ZOOM`, 28px) over the stat bar on the header's floor, so the bar is
+  still level with the writing card's across the gap, and the header stays under the
+  96px ceiling. On a phone the corner is one 44px row, reading size left and bar
+  right. In the header it is reachable in Focus Mode, where a footer with no linked
+  outcomes is not drawn at all. The bar is found by `data-card-bar`, not by position.
+
+The info sheets opened from the card take their facts from existing data:
+`QuestionExpectations` states a question's word range (`getFullMarkWordRange`), time
+(`getRecommendedTime`, the figure the metrics strip counts down from) and what a
+full-mark answer holds (`getStructureExpectation`). It is in the outcome brief and the
+verb guide, and is not repeated by either.
 
 ### Radius
 
@@ -279,6 +326,161 @@ Band glows (`getBandConfig().glow`) are part of the colour system, not this
 scale, and keep their own coloured shadows. Three modal shells keep a bespoke
 `shadow-[0_64px_128px…]`: a deliberately deep shadow no step on this scale
 provides.
+
+### The hero
+
+One surface in the application is allowed to be louder than the rest, and it is
+the verb ribbon (`components/CommandVerbHierarchy.tsx`). It explains the single
+fact that decides a student's ceiling — **the command verb caps the band** — and
+the design makes that fact the picture: the verb is set at poster scale, and a
+staircase of six tier columns shows how far it lets a response climb.
+
+**The ribbon is still the loudest surface, on purpose.** A workspace where every
+panel is loud has no hero, only noise. The accordions, the tier cards and everything
+else stay calm so that this one does not have to compete with them.
+
+**Three reference panels are secondary heroes, and the ribbon outranks them.** The
+Syllabus Terms, Marking Guide and Sample Answers panels are where a student does the
+reading that the ribbon sends them to, so they are drawn richer than a calm
+accordion. They are not drawn like the ribbon. The ribbon owns the display type,
+the staircase and the stage; a panel owns a solid tile, a wash, a fill and a lit
+edge, and nothing it draws is larger than the ribbon's verb.
+
+All three read the question's ceiling band (`questionCeilingBand` in
+`utils/markingGuideParse.ts`), so their headers agree with each other and with the
+guide's rows beside them. The panels are `AccordionSection` with `hero`, and the
+treatment is stated in `utils/ladderChrome.ts`:
+
+| Element   | Secondary hero                                                                                                 | Why                                                                                                                                                               |
+| --------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Gutter    | Solid band fill (`solidBg`), the figure as mark over total ("5/6") in mono numerals, in the band's `solidText` | A figure has to read against a full band, not against a wash. Every pair is held at AA by `bandColors.test.ts`                                                    |
+| Row fill  | `band-fill`: the band at 18% from the gutter, fading to 7% at the right, with a faint top sheen                | A pale wash let the gutter carry all the colour. The alpha is the limit: the verb highlight is sky text on the fill, and it must hold 4.5:1 on the strongest tint |
+| Header    | `band-header-wash`: the band at 16%, fading to the band's own hue at zero alpha (not `transparent`)            | Safari takes `transparent` through grey on a gradient                                                                                                             |
+| Icon tile | 40px solid tile with `band-glow`, so the first thing the eye lands on in the header                            | The tile is the one solid thing in an otherwise tinted header                                                                                                     |
+| Open      | `band-lit`: the panel's edge at 50% of the band, and a soft tier glow beneath it                               | The open panel is the one being read, so it says so. It is on the panel root and `PANEL_SURFACE` stays the root's class                                           |
+| Motion    | None added. The existing transition on the panel is neutralised by `prefers-reduced-motion`                    | A lit edge is a state, not an animation                                                                                                                           |
+
+The band reaches every part of a hero through `--band-rgb`, set once on the panel
+root, so no colour is written at a call site. The lit edge is written `:root .band-lit`
+because the panel's dark-theme border is a `.dark .` selector with two classes of
+specificity, and one class would lose to it.
+
+What makes it a different object, and not a bigger panel:
+
+| Decision | The hero                                                                                                    | Why                                                                                                  |
+| -------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Rank     | `rounded-surface` (32px), the workspace cards' radius                                                       | Panels are 20px. The radius says this is a card, not reference material                              |
+| Ground   | A **stage with its own palette per theme**: near-black in the dark theme, a soft slate-50 tint in the light | A spotlit stage in the dark theme; a lit sheet, not a black slab, in the light one                   |
+| Banner   | The header bar is **themed**: white in the light theme, the stage itself in dark                            | A dark bar among white panels is the one defect a contrast audit cannot see (see below)              |
+| Light    | The tier's own hue, from one custom property (`--band-rgb`), as an aura and edge                            | The six tier colours carry meaning, so the accent is not a free choice and changes with the question |
+| Type     | The verb in Inter 900 italic caps, up to 96px, sized to the word                                            | The display voice that already names the product, at the one place it is the subject                 |
+| Picture  | A ceiling staircase: lit columns up to the verb's tier, hatched ones above                                  | "Locked" is hatched and dashed — present and out of reach — and the dashed line is the ceiling       |
+| Motion   | One orchestrated moment on a change of verb, and responses to input                                         | A line draws in, a flare crosses one column, the aura cross-fades. Nothing loops                     |
+
+**The banner follows the theme.** The header bar (`RIBBON_HEADER_*`) used to be
+part of the stage, so in the light theme the ribbon opened with a dark slab above
+a page of white panels whose headers are all light. Its text was perfectly
+legible, so no contrast check could object — which is the defect
+`tests/e2e/light-theme.spec.ts` warns about by name. It is an ordinary themed bar
+now: opaque white with dark ink in the light theme (which also hides the part of
+the aura that would tint it), see-through with white ink in the dark theme, where
+the stage's light falling through it is the look. The tier is still on the 32px
+tile, the selected-verb chip and the miniature staircase, each with a pair for the
+unlit bars, the neutral tile and the chevron. The banner is held to the usual rule
+for a themed surface — every colour has a `dark:` partner. The root's neutral edge
+is a pair too (`border-slate-300 dark:border-white/15`), because a shut ribbon
+sits on the page, where white at 15% is invisible.
+
+**The stage has a palette for each theme, written down once.** Under the banner it
+was a near-black slab (`#070b14`) in both themes, which in the light theme was a
+440px block of the page's darkest colour between a white banner and a white
+drawer, and read as abrasive. The obvious fix, lightening the ground, does not
+work: the tier hues are the `-500` steps and stop clearing 4.5:1 beyond about
+`#0f172a` (purple is 4.5 there, 3.7 on slate-800), so the stage could only ever
+have become a shade less black. So the light theme has its own palette — slate-50
+ground, white scoreboard cells, slate-900/800/600 ink, the tier's `-700` shade for
+text (`BAND_HEX_INK`, 4.8:1 at the lowest) and the tier's own colour drawn strongly
+rather than in pastels — the light behind the verb, a faint tint over the whole
+stage, full-strength columns, and a tier-coloured edge under the banner — and the
+dark theme is the stage exactly as it was. How strong the light can be is a
+trade against legibility, and `tests/unit/verbRibbonChrome.test.tsx` holds it:
+the neutral inks must still clear 4.5:1 over the light at its brightest.
+
+The palette is a table of custom properties, `.ribbon-stage` in `index.css`
+(`--stage-ground`, `--stage-ink`, `--stage-line` …, plus the alphas, because the
+tint that glows on near-black is a pastel on near-white and wants a different
+strength). Everything painted on the stage is named `RIBBON_INK_*` in
+`utils/verbRibbonChrome.ts`, and its class strings draw from the table and name no
+colour of their own, so a theme is decided in one place and cannot drift between
+two. `tests/unit/verbRibbonChrome.test.tsx` holds it:
+
+1. **No `light:` or `dark:` partner in a class string.** The palette switches the
+   theme. (The mesh overlay is switched off in the light theme, where its white
+   strokes paint nothing, and the root's neutral edge is the one themed class.)
+2. **No ground, ink or hairline named outright.** No `text-white`, no hex, no
+   `--color-*`. A component that sits on both a themed surface and the stage takes
+   a `tone` (`StrategyBrief tone="ink"`), which reads the stage's properties.
+3. **Nothing dimmed with `opacity`.** De-emphasis is a colour.
+4. **Measured, in both themes, from the table itself.** The test reads the two
+   palettes out of `index.css` and checks every pair: the three neutral inks on the
+   ground and on a scoreboard cell, all six tier hues as text on both, and the
+   chip's ink over its own tint, each at 4.5:1. A palette that fails is a failing
+   test, not a screenshot someone has to look at. The dark palette is also pinned
+   to the values it shipped with.
+
+`tests/e2e/verb-ribbon.spec.ts` reads the computed colours of the banner and the
+stage in both themes in a real browser, and `light-theme.spec.ts` audits the stage's
+text now that its ground is flat in the light theme too.
+
+**The aura is a sibling of the content, never an ancestor of any text.** The e2e
+contrast sweep returns `unassessable` for any text whose background chain meets a
+gradient. With the light a sibling, every text node's nearest background is the
+flat ground and the audit can measure it.
+
+**Geometry is one scale.** Band `i` owns `[(i-1)/6, i/6]` of the staircase; its
+step is centred there and is one sixth wide less a gutter, so the column, its
+numeral, its name and the Deep Learning Threshold at 50% agree by construction.
+Tier 1's column is 28% of the tallest, not a sixth: a sliver cannot carry its
+numeral or be hit with a thumb.
+
+**The verb is sized to the word.** `ribbonVerbSize` steps down for longer verbs
+and for the two-word ones, which wrap. All thirty-eight were measured against
+their column at 1920, 1440, 1280, 1024, 820, 390 and 360px, and none overflows;
+if a verb is added or a breakpoint moves, that measurement is the thing to repeat.
+
+**Motion on a phone.** The hero is the one surface that animates a lot, and
+iOS Safari is where that is felt first, so it is built to a stricter rule than
+the rest of the app. `tests/unit/verbRibbonChrome.test.tsx` and
+`tests/e2e/verb-ribbon-touch.spec.ts` (which runs on the phone projects, real
+WebKit included) hold it:
+
+- **Animate `transform` and `opacity`, and nothing else.** A selection is marked
+  by a halo overlay that fades (`RIBBON_TIER_HALO`), not by a transition on the
+  card's border width, shadow and fill. Name the properties a transition covers;
+  `transition-all` and overshoot curves (`cubic-bezier(0.34, 1.56, …)`) are out.
+- **No `mask-image` on anything that scrolls or moves**, and no `clip-stable` on
+  the stage or its cards (a permanent layer plus an opaque mask). A scroller's
+  edge fade is two overlays in the container's own colour, ending in the SAME
+  colour at zero alpha rather than `transparent`, which Safari takes through grey.
+- **No `mix-blend-mode`.** It renders everything beneath it offscreen and blends it
+  back, every frame anything beneath it changes. The shared `MeshOverlay` takes
+  `plain` for surfaces that animate.
+- **No big blur on something that is re-created.** A glow behind a word, or under
+  the stage, is a radial gradient in a sibling, not a `text-shadow` or a
+  `box-shadow`. A shadow is painted from the box it belongs to, so one on a box
+  that is resizing is re-rastered every frame.
+- **A layer that must survive a resize has a fixed size.** The aura and mesh are
+  top-anchored and 80rem tall, and the stage clips them; `inset-0` on a box that
+  changes height repaints the layer on every frame of the change.
+- **Hover is `can-hover:`**, a variant wrapping `@media (hover: hover)`. On a
+  touch screen a tap leaves `:hover` on the element, so a bare `hover:` is a state
+  the control is left in. Press feedback is `active:` on `transform`.
+- **Touch targets are `touch-manipulation`** (no double-tap zoom) and `select-none`.
+- **A cross-fade is two layers.** Re-keying an element takes the old one away on
+  the same frame the new one starts from nothing, which dips to the ground. The
+  outgoing layer stays for the length of the fade (`RIBBON_INK_AURA_LEAVING`).
+- **Do not move what the reader is touching.** The strip is placed instantly when
+  the ribbon opens, and is not re-centred under a tap on a card already in view.
 
 ## 4. Typography
 
@@ -432,11 +634,15 @@ The interface has two type voices and one rule for choosing between them.
 
 **Caps mark a boundary. They never mark a caption, a value or a notice.**
 
-| Token        | Face  | Treatment                        | What wears it                                          |
-| ------------ | ----- | -------------------------------- | ------------------------------------------------------ |
-| `.t-display` | Inter | 900, italic, caps, `text-lg`+    | The product's name and the two workspace card headings |
-| `.t-section` | Inter | 900, italic, caps, 12px, tracked | A heading that divides a panel into named parts        |
-| `.t-label`   | Plex  | 500, sentence case, 12px         | Everything smaller: captions, stat names, chips        |
+| Token        | Face  | Treatment                        | What wears it                                                                           |
+| ------------ | ----- | -------------------------------- | --------------------------------------------------------------------------------------- |
+| `.t-display` | Inter | 900, italic, caps, `text-lg`+    | The product's name and the two workspace card headings                                  |
+| `.t-section` | Inter | 900, italic, caps, 12px, tracked | A heading that divides a panel into named parts: admin tools, import, the question card |
+| `.t-label`   | Plex  | 500, sentence case, 12px         | Everything smaller: captions, stat names, chips                                         |
+
+The workspace rail is not one of the `.t-section` surfaces. Its panel names are
+set by `PANEL_NAME` in `components/PanelDisclosure.tsx`: sentence case, bold, 16px,
+the same voice as the marking report's section headings.
 
 One level of heading wears the voice; the caption inside it never does. That is
 the whole rule, and it decides the cases that used to need a judgement call each

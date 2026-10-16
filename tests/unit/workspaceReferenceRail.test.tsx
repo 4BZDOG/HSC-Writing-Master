@@ -1,11 +1,13 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import ReferenceMaterials, { AccordionSection } from '../../components/ReferenceMaterials';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { Prompt, CourseOutcome, PromptVerb, SampleAnswer, Topic } from '../../types';
 import { isTwoColumnWidth, TWO_COLUMN_BREAKPOINT } from '../../utils/layoutConstants';
 import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
+import { getBandRgb } from '../../utils/renderUtils';
+import { questionCeilingBand } from '../../utils/markingGuideParse';
 
 /**
  * Ordering and communication contract for the workspace's left reference rail
@@ -68,8 +70,58 @@ const sectionTitles = () =>
     (el) => (el.textContent ?? '').trim().split('\n')[0]
   );
 
+describe('ReferenceMaterials: the reference headers are lit in the question’s band', () => {
+  // EVALUATE is Tier 6, so a 6-mark question's ceiling is Band 6. Syllabus Terms was
+  // drawn in a fixed band 4 for every question, beside a guide in the question's own
+  // band; these pin that both panels now read the same figure.
+  const evaluate = { verb: 'EVALUATE' as PromptVerb, totalMarks: 6 };
+
+  it('draws Syllabus Terms and the Marking Guide in the same band, the question’s ceiling', () => {
+    const { container } = render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt(evaluate)}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    const [terms, guide] = Array.from(container.firstElementChild!.children) as HTMLElement[];
+    const ceiling = questionCeilingBand(6, 'EVALUATE' as PromptVerb);
+    expect(ceiling).not.toBe(4);
+    expect(terms.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(ceiling));
+    expect(guide.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(ceiling));
+  });
+
+  it('counts the key terms the question names, and the supporting ones beside them', () => {
+    // "mRNA" and "tRNA" are named in the question; "start codon" is not, so it is supporting.
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({ ...evaluate, keywords: ['mRNA', 'tRNA', 'start codon'] })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    expect(screen.getByText('2 key · 1 supporting')).toBeTruthy();
+  });
+
+  it('says there are no terms yet, rather than a count of nothing', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({ ...evaluate, keywords: [] })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+      />
+    );
+    expect(screen.getByText('No terms yet')).toBeTruthy();
+  });
+});
+
 describe('ReferenceMaterials rail', () => {
-  it('orders the panels so standards are read before the criteria', () => {
+  // What's Assessed, Common mistakes and Grade Standards are off the rail for
+  // now; what remains is the terms, then the marking guide.
+  it('carries only the Syllabus Terms and Marking Guide panels', () => {
     render(
       <ReferenceMaterials
         {...railProps}
@@ -79,10 +131,29 @@ describe('ReferenceMaterials rail', () => {
       />
     );
     const titles = sectionTitles();
-    expect(titles[0]).toMatch(/What's Assessed/i);
-    expect(titles[1]).toMatch(/Syllabus Terms/i);
-    expect(titles[2]).toMatch(/Grade Standards/i);
-    expect(titles[3]).toMatch(/Marking Guide/i);
+    expect(titles).toHaveLength(2);
+    expect(titles[0]).toMatch(/Syllabus Terms/i);
+    expect(titles[1]).toMatch(/Marking Guide/i);
+  });
+
+  it('does not render the hidden panels, even when their data is present', () => {
+    render(
+      <ReferenceMaterials
+        {...railProps}
+        prompt={prompt({
+          commonStudentErrors: ['Confusing transcription with replication'],
+          markerNotes: ['Credit explicit mention of start codons'],
+        })}
+        topic={topic()}
+        courseOutcomes={OUTCOMES}
+        userRole="admin"
+      />
+    );
+    expect(screen.queryByText(/What's Assessed/i)).toBeNull();
+    expect(screen.queryByText(/Common mistakes/i)).toBeNull();
+    expect(screen.queryByText(/Grade Standards/i)).toBeNull();
+    expect(screen.queryByText(OUTCOMES[0].description)).toBeNull();
+    expect(screen.queryByText(/Confusing transcription/)).toBeNull();
   });
 
   // The exemplars moved out of the rail entirely — they now dock beneath the
@@ -98,56 +169,6 @@ describe('ReferenceMaterials rail', () => {
     );
     expect(screen.queryByText(/Sample Answers/i)).toBeNull();
   });
-
-  it('marks every outcome with the target icon', () => {
-    const { container } = render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    // One per outcome row, plus the panel's own heading icon.
-    const targets = container.querySelectorAll('.lucide-target');
-    expect(targets.length).toBeGreaterThanOrEqual(OUTCOMES.length + 1);
-  });
-
-  it('names every linked outcome and opens its briefing on click', async () => {
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-        breadcrumb={['Biology', 'Heredity', 'Synthesis', 'Dot point']}
-      />
-    );
-    // The count moved out of the title and into the `subtitle` prop that
-    // AccordionSection already had for it — the title is the panel's name, and
-    // it now renders in the display voice, where a middle-dot meta string was
-    // the loudest thing on the rail. See DesignSpec §4, "Headings".
-    expect(screen.getByText(/^What's Assessed$/i)).toBeTruthy();
-    expect(screen.getByText(/^2 outcomes$/i)).toBeTruthy();
-    // The description is spelled out in the rail, not hidden behind a chip.
-    expect(screen.getByText(OUTCOMES[0].description)).toBeTruthy();
-
-    fireEvent.click(screen.getByText('BI-12-01'));
-    const dialog = await screen.findByRole('dialog');
-    expect(within(dialog).getAllByText('BI-12-01').length).toBeGreaterThan(0);
-  });
-
-  it('omits the outcomes panel entirely when nothing is linked', () => {
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt({ linkedOutcomes: [] })}
-        topic={topic()}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    expect(screen.queryByText(/What's Assessed/i)).toBeNull();
-  });
 });
 
 describe('SampleAnswersAccordion', () => {
@@ -162,19 +183,20 @@ describe('SampleAnswersAccordion', () => {
     sampleAnswers: [{ id: 's1', answer: 'A model response.', mark: 6, band: 6, source: 'AI' }],
   } as Partial<Prompt>);
 
-  // Folded by default, and its controls live in the header — reachable whether
-  // the panel is open or shut.
+  // Folded by default. Its tools and its rows live in the body, so nothing of them is
+  // on screen until the panel is opened.
   it('starts folded, and unfolds from the header', () => {
     render(<SampleAnswersAccordion {...sampleProps} prompt={withSamples} />);
     const header = screen.getByRole('button', { name: /Sample Answers/i });
     expect(header.getAttribute('aria-expanded')).toBe('false');
     expect(screen.queryByText(/6\/6 Marks/i)).toBeNull();
-    // Reading size is part of the header chrome, not the folded-away body.
-    expect(screen.getByTitle(/Increase text size/i)).toBeTruthy();
+    expect(screen.queryByTitle(/Increase text size/i)).toBeNull();
 
     fireEvent.click(header);
     expect(header.getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByText(/6\/6 Marks/i)).toBeTruthy();
+    // Reading size is in the body's tools row, which a student sees once it is open.
+    expect(screen.getByTitle(/Increase text size/i)).toBeTruthy();
   });
 
   it('keeps the AI actions for staff and hides them from students', () => {
@@ -185,6 +207,7 @@ describe('SampleAnswersAccordion', () => {
         onRecalibrate={vi.fn().mockResolvedValue(undefined)}
       />
     );
+    fireEvent.click(screen.getByRole('button', { name: /Sample Answers/i }));
     expect(screen.queryByRole('button', { name: /Generate/i })).toBeNull();
     expect(screen.queryByTitle(/Recalibrate all samples/i)).toBeNull();
     unmount();
@@ -197,6 +220,7 @@ describe('SampleAnswersAccordion', () => {
         onRecalibrate={vi.fn().mockResolvedValue(undefined)}
       />
     );
+    fireEvent.click(screen.getByRole('button', { name: /Sample Answers/i }));
     expect(screen.getByRole('button', { name: /Generate/i })).toBeTruthy();
     expect(screen.getByTitle(/Recalibrate samples with AI/i)).toBeTruthy();
   });
@@ -259,54 +283,12 @@ describe('panel chrome consistency', () => {
       </>
     );
     const panels = Array.from(document.querySelectorAll('button[aria-expanded]'));
-    expect(panels.length).toBe(5);
+    expect(panels.length).toBe(3);
     // Screen readers get the same story from all of them, exemplars included.
     for (const panel of panels) {
       expect(panel.getAttribute('aria-expanded')).toMatch(/true|false/);
       expect(panel.getAttribute('aria-controls')).toBeTruthy();
     }
-  });
-
-  // A DESCRIBE question reaches Band 2 at most. The ladder above it is still
-  // shown — that is how a student learns what the verb holds back — but it no
-  // longer reads as if every rung were on offer.
-  it('marks the top band a question can reach, and says why the rungs above are out of reach', () => {
-    const ladder = {
-      ...topic(),
-      performanceBandDescriptors: [
-        { band: 3, shortLabel: 'Developing', description: 'Basic understanding.' },
-        { band: 2, shortLabel: 'Limited', description: 'Elementary understanding.' },
-        { band: 1, shortLabel: 'Elementary', description: 'Minimal understanding.' },
-      ],
-    } as unknown as Topic;
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt({ verb: 'DESCRIBE' as PromptVerb, totalMarks: 4 })}
-        topic={ladder}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    expect(screen.getByText('This question reaches Band 2')).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
-    expect(screen.getAllByText('Top band for this question')).toHaveLength(1);
-    expect(screen.getAllByText(/Beyond what a describe question can reach/)).toHaveLength(1);
-  });
-
-  // Only the seeded demo topics carried descriptors, so on an imported or
-  // library topic the panel vanished. It falls back to NESA's general set.
-  it('shows Grade Standards on a topic with no descriptors of its own', () => {
-    render(
-      <ReferenceMaterials
-        {...railProps}
-        prompt={prompt()}
-        topic={{ ...topic(), performanceBandDescriptors: undefined } as unknown as Topic}
-        courseOutcomes={OUTCOMES}
-      />
-    );
-    fireEvent.click(screen.getByRole('button', { name: /Grade Standards/i }));
-    expect(screen.getByText('Band 6')).toBeTruthy();
-    expect(screen.getByText('Band 1')).toBeTruthy();
   });
 
   it('says the Marking Guide is not written yet rather than naming a band over nothing', () => {
@@ -318,7 +300,8 @@ describe('panel chrome consistency', () => {
         courseOutcomes={OUTCOMES}
       />
     );
-    expect(screen.getByText('Not written yet')).toBeTruthy();
+    // The marks lead the line, so the phrase is read within it rather than alone.
+    expect(screen.getByText(/Not written yet/)).toBeTruthy();
   });
 
   it('does not head the Marking Guide twice', () => {
@@ -357,35 +340,13 @@ describe('panel chrome consistency', () => {
         />
       );
 
-      expect(readSupportUsage('p1').available).toEqual([
-        'outcomes',
-        'keywords',
-        'gradeStandards',
-        'markingGuide',
-      ]);
+      expect(readSupportUsage('p1').available).toEqual(['keywords', 'markingGuide']);
       expect(readSupportUsage('p1').opened).toEqual([]);
 
       fireEvent.click(screen.getByRole('button', { name: /Marking Guide/i }));
 
       expect(readSupportUsage('p1').opened).toEqual(['markingGuide']);
-      expect(readSupportUsage('p1').skipped).toEqual(['outcomes', 'keywords', 'gradeStandards']);
-    });
-
-    it('records the outcome briefing when a student opens one', async () => {
-      resetSupportEngagement();
-      render(
-        <ReferenceMaterials
-          {...railProps}
-          prompt={prompt()}
-          topic={topic()}
-          courseOutcomes={OUTCOMES}
-        />
-      );
-
-      fireEvent.click(screen.getByText('BI-12-01'));
-      await screen.findByRole('dialog');
-
-      expect(readSupportUsage('p1').opened).toContain('outcomeBriefing');
+      expect(readSupportUsage('p1').skipped).toEqual(['keywords']);
     });
   });
 });
@@ -398,7 +359,7 @@ describe('panel chrome consistency', () => {
 describe('band-3 header icon badges use their matched text colour, not white-on-yellow', () => {
   it('AccordionSection (ReferenceMaterials rail)', () => {
     render(
-      <AccordionSection title="Grade Standards" icon={<span />} band={3} defaultOpen={true}>
+      <AccordionSection title="Marking Guide" icon={<span />} band={3} defaultOpen={true}>
         content
       </AccordionSection>
     );
@@ -429,8 +390,10 @@ describe('band-3 header icon badges use their matched text colour, not white-on-
         defaultCollapsed={false}
       />
     );
-    const badge = document.querySelector('button .rounded-xl') as HTMLElement;
+    // Sample Answers is a hero, so its tile is the 40px one, not the ordinary `rounded-xl`.
+    const badge = document.querySelector('button .w-10.h-10') as HTMLElement;
+    // The tile is the band's own hue with the dark ink `band-solid` sets, never white.
     expect(badge.className).not.toContain('text-white');
-    expect(badge.className).toContain('text-yellow-950');
+    expect(badge.className).toContain('band-solid');
   });
 });

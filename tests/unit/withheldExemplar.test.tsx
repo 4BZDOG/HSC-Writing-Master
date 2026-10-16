@@ -73,12 +73,13 @@ describe('an exemplar the server withheld', () => {
     // The band and the mark: enough for a student to judge whether it is worth
     // paying for, which is the entire argument for keeping the row.
     expect(screen.getByText(/A Band \d exemplar at 14\/15/)).toBeTruthy();
-    expect(screen.getByRole('button', { name: /unlock with/i })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /upgrade to band 6 plus/i })).toBeTruthy();
   });
 
   it('leaves an exemplar it did send alone', () => {
     renderWith([sample({ mark: 6 })]);
-    expect(screen.getByText(/PROSE THAT WAS PAID FOR/)).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /unlock with/i })).toBeNull();
+    // The prose is on the page and in the shut row's preview, so there are two.
+    expect(screen.getAllByText(/PROSE THAT WAS PAID FOR/).length).toBeGreaterThan(0);
+    expect(screen.queryByRole('button', { name: /upgrade to band 6 plus/i })).toBeNull();
   });
 });

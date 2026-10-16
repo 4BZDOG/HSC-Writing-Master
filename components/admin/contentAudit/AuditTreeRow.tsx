@@ -184,16 +184,16 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
         className={`transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'}`}
       >
         {isSelected ? (
-          <CheckSquare className="w-4 h-4 text-indigo-400" />
+          <CheckSquare className="w-4 h-4 text-indigo-400 light:text-indigo-700" />
         ) : (
-          <Square className="w-4 h-4 text-slate-500" />
+          <Square className="w-4 h-4 text-slate-400 light:text-slate-600" />
         )}
       </button>
       <button
         onClick={() => onToggleExpand(node.id)}
         aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
         tabIndex={-1}
-        className="p-1 text-slate-500"
+        className="p-1 text-slate-400 light:text-slate-600"
       >
         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
       </button>
@@ -204,14 +204,14 @@ const FacultyRow: React.FC<AuditTreeRowProps> = ({
       >
         {node.label}
       </span>
-      <span className="t-label text-slate-500 light:text-slate-600 whitespace-nowrap">
+      <span className="t-label text-slate-400 light:text-slate-600 whitespace-nowrap">
         {courseCount} course{courseCount === 1 ? '' : 's'}
       </span>
       <div className="flex-1 min-w-0 hidden lg:flex items-center justify-end pr-5">
         <BranchGapSummary stats={node.stats} />
       </div>
       <CoverageMeter covered={node.stats.coveredDotPoints} total={node.stats.totalDotPoints} />
-      <div className="flex items-center gap-5 ml-4 text-[10px] font-bold text-slate-500 font-mono">
+      <div className="flex items-center gap-5 ml-4 text-[10px] font-bold text-slate-400 light:text-slate-600 font-mono">
         <div className="w-12 text-right" title={`${node.stats.questions} questions`}>
           {node.stats.questions} Q
         </div>
@@ -248,9 +248,9 @@ const BranchRow: React.FC<AuditTreeRowProps> = (props) => {
         className={`mr-3 transition-all ${isSelected ? 'opacity-100 scale-110' : 'opacity-60 group-hover:opacity-100'}`}
       >
         {isSelected ? (
-          <CheckSquare className="w-4 h-4 text-indigo-400" />
+          <CheckSquare className="w-4 h-4 text-indigo-400 light:text-indigo-700" />
         ) : (
-          <Square className="w-4 h-4 text-slate-500" />
+          <Square className="w-4 h-4 text-slate-400 light:text-slate-600" />
         )}
       </button>
       <button
@@ -258,7 +258,7 @@ const BranchRow: React.FC<AuditTreeRowProps> = (props) => {
         aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${node.label}`}
         aria-hidden={!hasChildren}
         tabIndex={-1}
-        className={`mr-2 p-1 text-slate-500 ${hasChildren ? 'visible' : 'invisible'}`}
+        className={`mr-2 p-1 text-slate-400 light:text-slate-600 ${hasChildren ? 'visible' : 'invisible'}`}
       >
         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
       </button>
@@ -293,7 +293,7 @@ const BranchRow: React.FC<AuditTreeRowProps> = (props) => {
         <CoverageMeter covered={node.stats.coveredDotPoints} total={node.stats.totalDotPoints} />
       )}
       {node.type !== 'prompt' && (
-        <div className="flex items-center gap-5 ml-4 text-[10px] font-bold text-slate-500 font-mono">
+        <div className="flex items-center gap-5 ml-4 text-[10px] font-bold text-slate-400 light:text-slate-600 font-mono">
           <div className="w-12 text-right" title={`${node.stats.questions} questions`}>
             {node.stats.questions} Q
           </div>

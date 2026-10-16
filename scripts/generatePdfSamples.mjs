@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // scripts/generatePdfSamples.mjs
 //
-// Render the marking-feedback PDF for a set of realistic fixtures, so a change
-// to the exporter can be LOOKED AT rather than reasoned about. The unit tests
-// pin what the layout engine computes; they cannot tell anyone whether the page
-// reads well, and every design regression this exporter has had was invisible
-// to them.
+// Render the marking-feedback and progress-report PDFs for a set of realistic
+// fixtures, so a change to the exporters can be LOOKED AT rather than reasoned
+// about. The unit tests pin what the layout engine computes; they cannot tell
+// anyone whether the page reads well, and every design regression these
+// exporters have had was invisible to them. Progress reports render for all
+// three audiences (student, class, school) and for the anonymised variant.
 //
 //   npm run samples:pdf              # -> .pdf-samples/*.pdf
 //   npm run samples:pdf -- --png     # also rasterise (needs poppler's pdftoppm)

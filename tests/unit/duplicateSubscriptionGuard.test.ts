@@ -14,7 +14,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // The subscription row the mocked `subscriptions` lookup should report for the
 // caller — null means "no live subscription", i.e. the happy path.
-let existingSubscription: { id: string; status: string } | null = null;
+interface SubscriptionFixture {
+  id: string;
+  status: string;
+  last_event_at?: string | null;
+  updated_at?: string | null;
+}
+let existingSubscription: SubscriptionFixture | null = null;
 /** Role the mocked profile lookup returns. */
 let profileRole = 'student';
 const sessionCreateMock = vi.fn();
@@ -22,11 +28,10 @@ const sessionCreateMock = vi.fn();
 const makeSupabaseMock = () => ({
   from: (table: string) => {
     if (table === 'subscriptions') {
-      // The guard chains .select().eq().in(statuses).limit().maybeSingle().
-      // Honour the .in() status filter so the mock actually models what
-      // Postgres would return: a row is only "found" when its status is one
-      // the guard asked for — this is what makes the `canceled` case below a
-      // real exclusion test rather than one that passes by construction.
+      // The guard reads .select().eq().in(statuses).limit() and awaits the rows.
+      // Honour the .in() status filter so the mock actually models what Postgres
+      // would return: a row is only "found" when its status is one the guard asked
+      // for. That is what makes the `canceled` case below a real exclusion test.
       let allowed: string[] = [];
       const chain = {
         select: () => chain,
@@ -36,17 +41,21 @@ const makeSupabaseMock = () => ({
           return chain;
         },
         limit: () => chain,
-        maybeSingle: async () => ({
-          data:
-            existingSubscription && allowed.includes(existingSubscription.status)
-              ? existingSubscription
-              : null,
-        }),
+        then: (resolve: (v: unknown) => unknown, reject: (e: unknown) => unknown) =>
+          Promise.resolve({
+            data:
+              existingSubscription && allowed.includes(existingSubscription.status)
+                ? [existingSubscription]
+                : [],
+            error: null,
+          }).then(resolve, reject),
       };
       return chain;
     }
-    // profiles: .select().eq().maybeSingle()
+    // profiles: .select().eq().maybeSingle(). Also the checkout_sessions record,
+    // which accepts the first session (no earlier one to displace).
     return {
+      insert: async () => ({ error: null }),
       select: () => ({
         eq: () => ({
           maybeSingle: async () => ({
@@ -162,5 +171,81 @@ describe('create-checkout: duplicate-subscription guard', () => {
 
     expect(res.statusCode).toBe(200);
     expect(sessionCreateMock).toHaveBeenCalledOnce();
+  });
+});
+
+/** An ISO timestamp this many minutes before now. */
+const minutesAgo = (minutes: number) => new Date(Date.now() - minutes * 60_000).toISOString();
+
+describe('create-checkout: an incomplete subscription holds only inside the 3-D Secure window', () => {
+  it('holds a purchase while the awaiting-payment subscription was last written inside the window', async () => {
+    existingSubscription = {
+      id: 'sub_3ds',
+      status: 'incomplete',
+      last_event_at: minutesAgo(10),
+      updated_at: minutesAgo(10),
+    };
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body?.error).toContain('still waiting for your bank');
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('does not hold once the subscription has been quiet past the window, so a retry is allowed', async () => {
+    existingSubscription = {
+      id: 'sub_3ds',
+      status: 'incomplete',
+      last_event_at: minutesAgo(46),
+      updated_at: minutesAgo(46),
+    };
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(sessionCreateMock).toHaveBeenCalledOnce();
+  });
+
+  it('does not hold an incomplete subscription with no timestamp at all', async () => {
+    existingSubscription = {
+      id: 'sub_3ds',
+      status: 'incomplete',
+      last_event_at: null,
+      updated_at: null,
+    };
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(sessionCreateMock).toHaveBeenCalledOnce();
+  });
+
+  it('uses updated_at when last_event_at is absent, so a recent write still holds', async () => {
+    existingSubscription = {
+      id: 'sub_3ds',
+      status: 'incomplete',
+      last_event_at: null,
+      updated_at: minutesAgo(5),
+    };
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+
+    expect(res.statusCode).toBe(409);
+    expect(sessionCreateMock).not.toHaveBeenCalled();
+  });
+
+  it('still holds an active subscription regardless of its timestamps', async () => {
+    existingSubscription = {
+      id: 'sub_live',
+      status: 'active',
+      last_event_at: minutesAgo(10 * 24 * 60),
+      updated_at: minutesAgo(10 * 24 * 60),
+    };
+    const res = makeRes();
+    await checkoutHandler(post({ priceId: 'price_plus_monthly' }), res);
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body?.error).toContain('Manage subscription');
   });
 });

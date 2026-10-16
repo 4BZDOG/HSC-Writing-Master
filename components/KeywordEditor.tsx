@@ -9,8 +9,30 @@ import {
   SYLLABUS_TERM_SOURCE_LABEL,
   type SyllabusTermContext,
 } from '../utils/syllabusTermSource';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { TERM_CHIP_HOVER, TERM_CHIP_RESTING } from '../utils/termChrome';
+import {
+  describeAccess,
+  isFeatureLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
+import LadderRow, { ladderBandVars } from './LadderRow';
+import {
+  LADDER_EDGE_SHUT,
+  LADDER_EMPTY,
+  LADDER_SOLID,
+  LADDER_STACK,
+  LADDER_TOOL_ICON,
+  LADDER_TOOL_INPUT,
+  LADDER_TOOL_LOCKED_ICON,
+} from '../utils/ladderChrome';
+import {
+  TERM_PILL_DOT,
+  TERM_PILL_FRAME,
+  TERM_PILL_MAIN,
+  TERM_PILL_OPEN,
+  TERM_PILL_QUIET_COVERED,
+  TERM_PILL_REMOVE,
+} from '../utils/termChrome';
 
 interface KeywordEditorProps {
   prompt: Prompt;
@@ -32,6 +54,16 @@ interface KeywordEditorProps {
   subTopicName?: string;
   topicName?: string;
 }
+
+/** The icon-only tools in the toolbar: the guide's `LADDER_TOOL_ICON`, with the
+ *  plan's lock in amber when the plan withholds the AI, and the disabled state in
+ *  colour rather than opacity. */
+const toolIconClass = (locked: boolean): string =>
+  `${LADDER_TOOL_ICON} ${
+    locked
+      ? LADDER_TOOL_LOCKED_ICON
+      : 'text-slate-600 dark:text-slate-300 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white'
+  } disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500`;
 
 const KeywordEditor: React.FC<KeywordEditorProps> = ({
   prompt,
@@ -58,15 +90,9 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   // plan lock as the rest of the authoring surface. Role decides whether the
   // buttons exist; plan decides whether they fire.
   const studioLocked = isFeatureLocked('aiContentStudio');
-  // Shared chrome for the two AI buttons, so a locked pair reads as one amber
-  // set rather than two differently-styled controls.
-  const studioButtonClasses = studioLocked
-    ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
-    : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/30';
 
-  // Colour used terms in the question's TARGET band — the same predefined band
-  // colour the writing area and metrics use — so "a term is in your answer"
-  // reads as "you're building toward this band".
+  // Colour the groups in the question's TARGET band, the same band the guide and
+  // the exemplars are drawn in, so the panel's header, its rows and the guide agree.
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
   const targetBand = useMemo(
     () => getTargetBand(prompt.totalMarks, verbInfo.tier),
@@ -96,7 +122,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   };
 
   const usageMap = useMemo(() => {
-    // Shares the highlighter's matcher, so a chip ticks exactly when the term
+    // Shares the highlighter's matcher, so a pill is covered exactly when the term
     // lights up in the writing area — never one without the other.
     const map = new Map<string, boolean>();
     keywords.forEach((kw) => map.set(kw, textContainsKeyword(userAnswer, kw)));
@@ -104,9 +130,9 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   }, [userAnswer, keywords]);
 
   // Which terms the question and its syllabus name themselves (vs supporting
-  // terms the AI added around them), and which level names each — the chip says
-  // so, because "named in the question" and "named in the topic" are not the
-  // same claim on a student's answer.
+  // terms the AI added around them), and which level names each — the pill's
+  // title says so, because "named in the question" and "named in the topic" are
+  // not the same claim on a student's answer.
   const syllabusContext = useMemo<SyllabusTermContext>(
     () => ({
       question: prompt.question,
@@ -121,14 +147,10 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
     () => classifySyllabusTerms(keywords, syllabusContext),
     [keywords, syllabusContext]
   );
-  const hasSyllabusSourced = syllabusMap.size > 0;
 
-  // The two groups, kept apart rather than concatenated. They used to be one
-  // list ordered syllabus-first, which put the authoritative terms in front but
-  // left the boundary between "must use" and "could use" to be inferred from a
-  // change of chip colour partway along a wrapping row — and on a row that
-  // wraps, that boundary lands in a different place at every panel width.
-  // Splitting them lets a rule state it once, in the same place every time.
+  // The two groups, kept apart rather than concatenated, so the rule for which is
+  // which is stated once. Each group that has a term gets its own row on the
+  // ladder; a group with none gets no row.
   const syllabusKeywords = useMemo(
     () => keywords.filter((kw) => syllabusMap.get(kw)),
     [keywords, syllabusMap]
@@ -141,216 +163,197 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
   const isLoading = isEnriching || isSuggesting || isRegenerating;
   const error = regenerateError || suggestError;
 
-  const usedCount = useMemo(() => Array.from(usageMap.values()).filter(Boolean).length, [usageMap]);
   const total = keywords.length;
-  const allUsed = total > 0 && usedCount === total;
-
-  // "2/9 used" counted a term the question is built on and one that would
-  // merely strengthen an answer as the same tick — the one distinction the
-  // panel below it spends two groups and a rule making. Where both groups
-  // exist the chip counts them apart; where they don't, there is nothing to
-  // separate and it stays the single number it has always been.
+  const usedCount = useMemo(() => Array.from(usageMap.values()).filter(Boolean).length, [usageMap]);
+  // The key terms and the supporting terms, each counted against itself: the
+  // question's own terms are a Band 6 answer's floor, and a supporting term only
+  // strengthens it, so one tick is not the same claim as the other.
   const keyUsed = useMemo(
     () => syllabusKeywords.filter((kw) => usageMap.get(kw)).length,
     [syllabusKeywords, usageMap]
   );
-  const splitCount = syllabusKeywords.length > 0 && supportingKeywords.length > 0;
-  const countLabel = splitCount
-    ? `${keyUsed}/${syllabusKeywords.length} key · ${usedCount - keyUsed}/${supportingKeywords.length} more`
-    : `${usedCount}/${total} used`;
+  const supportingUsed = usedCount - keyUsed;
 
-  // One chip, rendered into either group. It was inline in a single `.map`
-  // before the groups were split; nothing about the chip itself changed.
-  const renderKeyword = (kw: string) => {
-    const isUsed = usageMap.get(kw);
+  // The plan is named, not the feature: a tooltip that says "the AI Content
+  // Studio" where the chip beside it says "Band 6 Plus" is two answers to one
+  // question, and it goes stale the moment a deployment moves the studio.
+  const studioLockedNote = describeAccess('aiContentStudio').explanation;
+  // The title is the accessible name of an icon-only control, so it keeps the action.
+  const suggestTitle = studioLocked ? `Suggest with AI — ${studioLockedNote}` : 'Suggest with AI';
+  const regenerateTitle = studioLocked ? `Regenerate all — ${studioLockedNote}` : 'Regenerate all';
+
+  // One pill: a term button (which inserts it) and, for a curator, a remove button.
+  // Two controls side by side, not one inside the other, so each is reached and
+  // announced on its own.
+  const renderPill = (kw: string, group: 'key' | 'supporting') => {
+    const isUsed = usageMap.get(kw) === true;
     const source = syllabusMap.get(kw);
-    const fromSyllabus = !!source;
 
-    // Use tier-based coloring if used, or a neutral state if not.
-    // Syllabus-sourced (not-yet-used) terms carry a faint emerald ring —
-    // the same hue they highlight in — so they read as the authoritative
-    // must-use terms even before they appear in the answer.
-    const styleClass = isUsed
-      ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border} shadow-sm`
-      : fromSyllabus
-        ? 'bg-emerald-50/60 dark:bg-emerald-500/[0.07] text-emerald-700 dark:text-emerald-300 border-emerald-300/70 dark:border-emerald-500/30 hover:border-emerald-400 dark:hover:border-emerald-500/50'
-        : `${TERM_CHIP_RESTING} ${TERM_CHIP_HOVER}`;
+    // A covered key term is the band's solid pair, the colour the gutter wears. A
+    // covered supporting term keeps the quiet ground and takes the band's edge and
+    // ink. An uncovered term is neutral in both groups.
+    const frameState = isUsed
+      ? group === 'key'
+        ? `${LADDER_SOLID} border-transparent`
+        : `${TERM_PILL_QUIET_COVERED} ${bandConfig.text}`
+      : TERM_PILL_OPEN;
 
     return (
-      <button
-        key={kw}
-        onClick={() => onAddWord && onAddWord(kw)}
-        title={
-          source
-            ? `Named in ${SYLLABUS_TERM_SOURCE_LABEL[source]} — a must-use term`
-            : 'Supporting term — click to add it to your answer'
-        }
-        className={`
-          group relative inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-semibold tracking-tight transition-all duration-300 border
-          ${styleClass}
-          hover:scale-[1.02] active:scale-[0.98]
-        `}
-      >
-        {isUsed ? (
-          <Check className="w-3 h-3" strokeWidth={3} />
-        ) : fromSyllabus ? (
-          <BookMarked className="w-3 h-3 shrink-0 opacity-70" />
-        ) : (
-          <div
-            className={`w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600 group-hover:bg-indigo-400 transition-colors`}
-          />
-        )}
-        <span>{kw}</span>
+      <span key={kw} className={`${TERM_PILL_FRAME} ${frameState}`}>
+        <button
+          type="button"
+          onClick={() => onAddWord?.(kw)}
+          title={
+            source
+              ? `Named in ${SYLLABUS_TERM_SOURCE_LABEL[source]} — a must-use term`
+              : 'Supporting term — click to add it to your answer'
+          }
+          className={TERM_PILL_MAIN}
+        >
+          {isUsed ? (
+            <Check className="w-3 h-3 shrink-0" strokeWidth={3} aria-hidden="true" />
+          ) : (
+            <span className={TERM_PILL_DOT} aria-hidden="true" />
+          )}
+          <span>{kw}</span>
+        </button>
         {canCurate && (
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              handleRemoveKeyword(kw);
-            }}
-            className="ml-1 p-0.5 rounded-full hover:bg-red-500/10 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
+          <button
+            type="button"
+            onClick={() => handleRemoveKeyword(kw)}
+            title={`Remove ${kw}`}
+            aria-label={`Remove ${kw}`}
+            className={TERM_PILL_REMOVE}
           >
-            <X className="w-2.5 h-2.5" strokeWidth={3} />
-          </div>
+            <X className="w-3 h-3" strokeWidth={3} aria-hidden="true" />
+          </button>
         )}
-      </button>
+      </span>
     );
   };
 
+  const caption =
+    syllabusKeywords.length > 0
+      ? `Weave the key terms into a Band ${targetBand} response.`
+      : `Use these to strengthen a Band ${targetBand} response.`;
+
+  const emptyLine = canCurate
+    ? canGenerate
+      ? 'No syllabus terms yet — add one above, or start with AI Suggest.'
+      : 'No syllabus terms yet — add one above.'
+    : 'No syllabus terms for this question yet. Your teacher can add them.';
+
   return (
-    <div className="space-y-5">
-      {total > 0 && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
-              Weave these terms in for a{' '}
-              <span className={`font-bold ${bandConfig.text}`}>Band {targetBand}</span> response.
-            </p>
-            <span
-              className={`t-label shrink-0 px-2.5 py-1 rounded-full border ${
-                allUsed
-                  ? `${bandConfig.bg} ${bandConfig.text} ${bandConfig.border}`
-                  : 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
-              }`}
-              title={
-                splitCount
-                  ? 'Terms detected in your response so far — the ones the question names, then the rest'
-                  : 'Terms detected in your response so far'
-              }
-            >
-              {countLabel}
-            </span>
-          </div>
-          {/* `-700`, not `-600`. DesignSpec §2 rule 1: a light step is one stop
-              deeper than its dark counterpart looks. Measured on white by
-              `tests/e2e/light-theme.spec.ts` once that suite could actually
-              reach this panel — `emerald-600` is 3.77:1 against a 4.5 floor,
-              and `emerald-700` clears it. */}
-          {hasSyllabusSourced && (
-            <p className="flex items-center gap-1.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400/80">
-              <BookMarked className="w-3 h-3 shrink-0" />
-              Terms with this mark are named in the question itself or the syllabus it comes from.
-            </p>
-          )}
-        </div>
-      )}
-      {keywords.length === 0 ? (
-        <div className="w-full py-4 text-center border-2 border-dashed border-slate-200 dark:border-white/5 rounded-2xl">
-          <span className="t-label font-medium text-slate-400">No syllabus terms defined</span>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {syllabusKeywords.length > 0 && (
-            <div
-              role="group"
-              aria-label="Named in the question or syllabus"
-              className="flex flex-wrap gap-2"
-            >
-              {syllabusKeywords.map(renderKeyword)}
-            </div>
-          )}
-
-          {/* The boundary between the terms a Band 6 answer has to contain and
-              the ones that would strengthen it. Rendered only when both groups
-              exist — with one of them empty there is nothing to delineate, and
-              a rule across a single group would claim a distinction the panel
-              is not making. The label sits IN the rule rather than above the
-              group, so the boundary and its name are one device: the terms
-              above it are already named twice, by the lead sentence and by the
-              legend under it, and a third heading there would be the accessory
-              to take off. Screen readers get the same split from the two
-              groups' `aria-label`s, so the rule itself is decoration to them. */}
-          {syllabusKeywords.length > 0 && supportingKeywords.length > 0 && (
-            <div className="flex items-center gap-3" aria-hidden="true">
-              <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-              <span className="t-label shrink-0 text-slate-500 dark:text-slate-400">
-                Supporting terms
-              </span>
-              <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-            </div>
-          )}
-
-          {supportingKeywords.length > 0 && (
-            <div role="group" aria-label="Supporting terms" className="flex flex-wrap gap-2">
-              {supportingKeywords.map(renderKeyword)}
-            </div>
-          )}
-        </div>
-      )}
-
+    <div className="flex flex-col gap-3">
+      {/* The curator's toolbar, in the guide's family: a slim input and the same icon
+          tools the guide's Edit uses. A student cannot add or generate terms, so
+          there is no toolbar for them at all. */}
       {canCurate && (
-        <div className="flex gap-2">
-          <form onSubmit={handleAddKeyword} className="flex-1 relative">
+        <div className="flex items-center gap-2">
+          <form onSubmit={handleAddKeyword} className="flex flex-1 min-w-0 items-center gap-2">
             <input
               type="text"
               value={newKeyword}
               onChange={(e) => setNewKeyword(e.target.value)}
-              placeholder="Add new term..."
-              className="w-full bg-slate-100/50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl py-2 px-4 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500/50 outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600"
+              placeholder="Add new term…"
+              aria-label="New syllabus term"
+              autoComplete="off"
+              className={LADDER_TOOL_INPUT}
             />
             <button
               type="submit"
               disabled={!newKeyword.trim()}
               aria-label="Add term"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-indigo-500 dark:hover:text-white disabled:opacity-0 transition-colors"
+              title="Add term"
+              className={`${toolIconClass(false)} shrink-0`}
             >
-              <Plus className="w-4 h-4" strokeWidth={2.5} />
+              <Plus className="w-4 h-4" strokeWidth={2.5} aria-hidden="true" />
             </button>
           </form>
           {canGenerate && (
-            <div className="flex gap-1.5">
+            <div className="flex items-center gap-1 shrink-0">
               <button
+                type="button"
                 onClick={studioLocked ? () => requestUpgrade('aiContentStudio') : onSuggest}
                 disabled={isLoading}
-                className={`p-2 rounded-xl border transition-all shadow-sm active:scale-90 ${studioButtonClasses}`}
-                title={
-                  studioLocked
-                    ? 'Suggest with AI — part of the AI Content Studio, tap to learn more'
-                    : 'Suggest with AI'
-                }
+                aria-label={suggestTitle}
+                title={suggestTitle}
+                className={toolIconClass(studioLocked)}
               >
-                <Sparkles className={`w-4 h-4 ${isSuggesting ? 'animate-pulse' : ''}`} />
+                <Sparkles
+                  className={`w-4 h-4 ${isSuggesting ? 'animate-pulse' : ''}`}
+                  aria-hidden="true"
+                />
               </button>
               <button
+                type="button"
                 onClick={studioLocked ? () => requestUpgrade('aiContentStudio') : onRegenerate}
                 disabled={isLoading}
-                className={`p-2 rounded-xl border transition-all shadow-sm active:scale-90 ${studioButtonClasses}`}
-                title={
-                  studioLocked
-                    ? 'Regenerate all — part of the AI Content Studio, tap to learn more'
-                    : 'Regenerate all'
-                }
+                aria-label={regenerateTitle}
+                title={regenerateTitle}
+                className={toolIconClass(studioLocked)}
               >
-                <RefreshCw className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`w-4 h-4 ${isRegenerating ? 'animate-spin' : ''}`}
+                  aria-hidden="true"
+                />
               </button>
             </div>
           )}
         </div>
       )}
 
+      {total > 0 && <p className="t-label text-slate-600 dark:text-slate-400">{caption}</p>}
+
+      {total === 0 ? (
+        <div className={`${LADDER_EMPTY} ${LADDER_EDGE_SHUT}`} style={ladderBandVars(targetBand)}>
+          <BookMarked className={`w-8 h-8 mx-auto mb-2 ${bandConfig.text}`} aria-hidden="true" />
+          {/* The line is the only thing this state says, so it is a pair, on both grounds. */}
+          <p className="t-label text-slate-700 dark:text-slate-300">{emptyLine}</p>
+        </div>
+      ) : (
+        <div className={LADDER_STACK}>
+          {syllabusKeywords.length > 0 && (
+            // The key terms: the question's ceiling band, solid, as the guide's gutters are.
+            <LadderRow
+              band={targetBand}
+              markLabel={String(keyUsed)}
+              total={syllabusKeywords.length}
+              bandCaption="Key terms"
+            >
+              <div
+                role="group"
+                aria-label="Named in the question or syllabus"
+                className="flex flex-wrap gap-2"
+              >
+                {syllabusKeywords.map((kw) => renderPill(kw, 'key'))}
+              </div>
+            </LadderRow>
+          )}
+          {supportingKeywords.length > 0 && (
+            // The supporting terms: the same band, quiet, so the two rows read as one ladder.
+            <LadderRow
+              quiet
+              band={targetBand}
+              markLabel={String(supportingUsed)}
+              total={supportingKeywords.length}
+              bandCaption="Supporting"
+            >
+              <div role="group" aria-label="Supporting terms" className="flex flex-wrap gap-2">
+                {supportingKeywords.map((kw) => renderPill(kw, 'supporting'))}
+              </div>
+            </LadderRow>
+          )}
+        </div>
+      )}
+
       {error && (
-        <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 text-[10px] font-medium text-red-600 dark:text-red-400 flex items-center gap-2 animate-fade-in">
-          <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
-          {error}
+        <div
+          role="alert"
+          className="p-3 rounded-xl border border-red-600/40 bg-red-500/10 t-label text-red-800 dark:border-red-400/40 dark:text-red-300 flex items-start gap-2 animate-fade-in"
+        >
+          <AlertCircle className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+          <span>{error}</span>
         </div>
       )}
     </div>

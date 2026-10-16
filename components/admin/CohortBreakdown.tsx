@@ -97,7 +97,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={title}
-          className="h-8 rounded-lg flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded-lg flex items-center justify-center text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 bg-black/20 light:bg-slate-100"
         >
           —
         </div>
@@ -109,7 +109,7 @@ const HeatCell: React.FC<{ frac: number | null; attempts: number; title: string 
       <td className="p-0.5">
         <div
           title={`${title} · no marks recorded on these questions`}
-          className="h-8 rounded-lg flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-black/20 light:bg-slate-100"
+          className="h-8 rounded-lg flex items-center justify-center text-[10px] italic text-[rgb(var(--color-text-dim))] light:text-slate-600 bg-black/20 light:bg-slate-100"
         >
           n/a
         </div>
@@ -274,11 +274,11 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
 
   return (
     <section>
-      <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+      <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
         <Activity className="w-3.5 h-3.5" />
         Cohort activity
       </h3>
-      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 bg-black/10 light:bg-slate-50">
+      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 bg-black/10 light:bg-surface">
         <svg
           viewBox={`0 0 ${VOL_W} ${VOL_H}`}
           width="100%"
@@ -340,7 +340,7 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
             question being asked. `aria-live` is deliberately absent — this
             duplicates what the svg's own label already gives a screen reader,
             and announcing every day the pointer crosses would be noise. */}
-        <div className="flex justify-between mt-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 tabular-nums">
+        <div className="flex justify-between mt-1 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 tabular-nums">
           <span>{days === 365 ? '1 year ago' : `${days} days ago`}</span>
           <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-600">
             {hovered ? (
@@ -377,7 +377,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
 
   if (rows.length === 0) {
     return (
-      <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 italic py-4">
+      <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 italic py-4">
         No marked responses from your classes in this window yet. Students appear here once they
         have work marked and are enrolled in a class you teach.
       </p>
@@ -388,13 +388,13 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
     <div className="space-y-6">
       {/* Tier heatmap */}
       <section>
-        <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+        <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
           <Grid3x3 className="w-3.5 h-3.5" />
           Marks achieved by student and verb group
         </h3>
-        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto">
+        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
           <table className="w-full text-left text-sm min-w-[620px]">
-            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600">
+            <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
               <tr>
                 <th className="px-3 py-2.5">Student</th>
                 {COGNITIVE_TIERS.map((t) => (
@@ -414,7 +414,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                     <span className="text-[rgb(var(--color-text-primary))] light:text-slate-800 font-semibold">
                       {row.username}
                     </span>
-                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 tabular-nums">
+                    <span className="ml-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 tabular-nums">
                       {row.attempts}
                     </span>
                   </td>
@@ -440,7 +440,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                   <td className="px-3 py-1.5 text-right font-mono text-xs font-bold tabular-nums text-[rgb(var(--color-text-primary))] light:text-slate-900">
                     {formatMarkFrac(row.markFrac)}
                   </td>
-                  <td className="px-3 py-1.5 text-right font-mono text-[10px] tabular-nums text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                  <td className="px-3 py-1.5 text-right font-mono text-[10px] tabular-nums text-[rgb(var(--color-text-muted))] light:text-slate-600">
                     B{formatBand(row.avgBand)}
                   </td>
                 </tr>
@@ -448,7 +448,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
           Share of available marks, darker is stronger; weakest student first. Read across a row for
           one student&rsquo;s profile, down a column for where the class thins out. A student strong
           on B1&ndash;B3 and weak on B4&ndash;B6 can hold a mid-table overall band, which is what
@@ -461,7 +461,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
 
       {/* Per-student trajectories */}
       <section>
-        <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3 flex items-center gap-2">
+        <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
           <TrendingUp className="w-3.5 h-3.5" />
           Weekly trajectories
         </h3>
@@ -481,11 +481,11 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
                   <span
                     className={`text-[10px] font-bold tabular-nums shrink-0 ${
                       delta == null
-                        ? 'text-[rgb(var(--color-text-dim))] light:text-slate-500'
+                        ? 'text-[rgb(var(--color-text-dim))] light:text-slate-600'
                         : delta > 0.02
-                          ? 'text-emerald-500'
+                          ? 'text-emerald-500 light:text-emerald-700'
                           : delta < -0.02
-                            ? 'text-red-500'
+                            ? 'text-red-500 light:text-red-700'
                             : 'text-[rgb(var(--color-text-muted))]'
                     }`}
                   >
@@ -503,7 +503,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
             );
           })}
         </div>
-        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+        <p className="mt-2 text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
           Weekly mark share, oldest week at the left, every panel on the same 0&ndash;100% scale so
           the shapes are comparable. The change is first recorded week to last. A flat line at high
           volume is the case worth chasing: working hard, not improving.
@@ -512,7 +512,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
 
       <ActivityChart cohort={cohort} days={days} />
 
-      <p className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 flex items-start gap-1.5">
+      <p className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 flex items-start gap-1.5">
         <Users className="w-3 h-3 mt-0.5 shrink-0" />
         <span>
           Aggregated server-side and scoped to the classes you teach — counts and averages only,

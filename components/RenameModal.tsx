@@ -128,10 +128,11 @@ const RenameModal: React.FC<RenameModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
+        {/* The head is a strip on the paper, so it takes the elevated rung. */}
+        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface))] light:bg-surface-elevated flex-shrink-0">
           <div
             className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
             style={{
@@ -147,7 +148,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Rename {targetType}
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500 truncate max-w-xs">
+                <p className="text-sm text-[rgb(var(--color-text-muted))] truncate max-w-xs">
                   "{initialName}"
                 </p>
               </div>
@@ -155,7 +156,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="w-9 h-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-light hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
@@ -163,7 +164,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="p-6 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+          <div className="p-6 bg-[rgb(var(--color-bg-surface))]">
             <label
               htmlFor="rename-input"
               className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
@@ -184,7 +185,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
                   }
                 }}
                 rows={6}
-                className={`block w-full resize-y bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-xl shadow-sm py-3 px-4 font-mono text-[13px] leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
+                className={`block w-full resize-y bg-[rgb(var(--color-bg-surface-light))] light:bg-surface-inset border rounded-xl shadow-sm py-3 px-4 font-mono text-[13px] leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
                 autoFocus
               />
             ) : (
@@ -193,13 +194,13 @@ const RenameModal: React.FC<RenameModalProps> = ({
                 id="rename-input"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
+                className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-surface-inset border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
                 autoFocus
                 onFocus={(e) => e.target.select()}
               />
             )}
             {multiline && (
-              <p className="mt-2 text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))]">
                 Line breaks are kept. Put the statement on the first line and its focus areas
                 underneath — one per line, or as a bulleted list — and only the statement is used as
                 the label. Cmd/Ctrl + Enter saves.
@@ -208,17 +209,17 @@ const RenameModal: React.FC<RenameModalProps> = ({
             {error && <p className="text-red-400 light:text-red-600 text-xs mt-2">{error}</p>}
 
             {focusAreaChange && (
-              <div className="mt-4 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 animate-fade-in">
-                <p className="t-label flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
+              <div className="mt-4 p-4 rounded-xl bg-amber-500/10 light:bg-amber-100/60 border border-amber-500/30 light:border-amber-300 animate-fade-in">
+                <p className="t-label flex items-center gap-2 text-amber-600 light:text-amber-700 dark:text-amber-400 mb-2">
                   <AlertTriangle className="w-3.5 h-3.5" /> This changes the focus areas
                 </p>
-                <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mb-3">
+                <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mb-3">
                   Focus areas are read from this dot point's wording, and questions are narrowed to
                   them.
                 </p>
-                <div className="space-y-1.5 mb-3 text-[11px]">
+                <div className="space-y-1.5 mb-3 text-xs">
                   <div className="flex flex-wrap items-baseline gap-1.5">
-                    <span className="font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 w-12 shrink-0">
+                    <span className="font-bold text-[rgb(var(--color-text-muted))] w-12 shrink-0">
                       Now
                     </span>
                     <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-700">
@@ -226,7 +227,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
                     </span>
                   </div>
                   <div className="flex flex-wrap items-baseline gap-1.5">
-                    <span className="font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 w-12 shrink-0">
+                    <span className="font-bold text-[rgb(var(--color-text-muted))] w-12 shrink-0">
                       After
                     </span>
                     <span className="text-[rgb(var(--color-text-secondary))] light:text-slate-700">
@@ -241,8 +242,8 @@ const RenameModal: React.FC<RenameModalProps> = ({
                     onChange={(e) => setKeepFocusAreas(e.target.checked)}
                     className="w-4 h-4 accent-amber-500"
                   />
-                  <span className="flex items-center gap-1.5 text-[11px] font-bold text-[rgb(var(--color-text-primary))] light:text-slate-800">
-                    <Target className="w-3 h-3 text-emerald-500" />
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-[rgb(var(--color-text-primary))]">
+                    <Target className="w-3 h-3 text-emerald-500 light:text-emerald-700" />
                     Keep the focus areas I have now
                   </span>
                 </label>
@@ -250,7 +251,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
             )}
           </div>
 
-          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3">
+          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-elevated border-t border-[rgb(var(--color-border-secondary))] light:border-slate-300 flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
@@ -261,7 +262,7 @@ const RenameModal: React.FC<RenameModalProps> = ({
             <button
               type="submit"
               disabled={isButtonDisabled}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Save Changes
             </button>

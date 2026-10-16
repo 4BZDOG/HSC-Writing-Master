@@ -54,11 +54,11 @@ const HUE = '(?:slate|gray|zinc|neutral|stone)';
  */
 const EXEMPT = new Map<string, string>([
   [
-    'components/admin/contentAudit/AuditPieces.tsx:text-slate-600 light:text-slate-400',
+    'components/admin/contentAudit/AuditPieces.tsx:text-slate-600 light:text-slate-500',
     'the `empty` branch of a filter button that is `disabled` in the same expression — WCAG 1.4.3',
   ],
   [
-    'components/admin/contentAudit/AuditPieces.tsx:light:text-slate-400',
+    'components/admin/contentAudit/AuditPieces.tsx:light:text-slate-500',
     'the same element, seen by the pale-ink check rather than the pair check',
   ],
   [
@@ -91,8 +91,14 @@ const findPairs = (): Pair[] => {
   // `(?<![-:\w])` keeps us off `hover:text-…`, `group-hover/x:text-…` and the
   // tail of a longer utility — those are separate decisions with their own
   // direction, and a hover state is allowed to go either way.
-  const withDark = new RegExp(`(?<![-:\\w])text-${HUE}-(\\d{2,3})\\s+dark:text-${HUE}-(\\d{2,3})`, 'g');
-  const withLight = new RegExp(`(?<![-:\\w])text-${HUE}-(\\d{2,3})\\s+light:text-${HUE}-(\\d{2,3})`, 'g');
+  const withDark = new RegExp(
+    `(?<![-:\\w])text-${HUE}-(\\d{2,3})\\s+dark:text-${HUE}-(\\d{2,3})`,
+    'g'
+  );
+  const withLight = new RegExp(
+    `(?<![-:\\w])text-${HUE}-(\\d{2,3})\\s+light:text-${HUE}-(\\d{2,3})`,
+    'g'
+  );
 
   for (const file of ROOTS.flatMap(walk)) {
     if (file.includes('.test.')) continue;
@@ -158,7 +164,6 @@ describe('a theme pair points the right way', () => {
     ).toEqual([]);
   });
 
-
   /**
    * The other half of the same fault, which the pair check above cannot see.
    *
@@ -192,9 +197,7 @@ describe('a theme pair points the right way', () => {
   it('keeps its exemptions honest', () => {
     // An exemption that no longer matches anything is a comment pretending to
     // be a rule, and the next person reads it as coverage.
-    const all = new Set(
-      [...findPairs(), ...findLightInk()].map((p) => `${p.file}:${p.text}`)
-    );
+    const all = new Set([...findPairs(), ...findLightInk()].map((p) => `${p.file}:${p.text}`));
     for (const key of EXEMPT.keys()) {
       expect(all.has(key), `the exemption \`${key}\` no longer matches any pair — delete it`).toBe(
         true

@@ -13,12 +13,11 @@ import {
   SyllabusCrumb,
 } from '../types';
 import PromptDisplay from './PromptDisplay';
-import ReferenceMaterials, { AccordionSection } from './ReferenceMaterials';
-import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import { ListChecks, Lock } from 'lucide-react';
+import ReferenceMaterials, { MarkingGuidePanel } from './ReferenceMaterials';
+import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import {
   cardHeightCap,
@@ -33,6 +32,7 @@ import SampleAnswersAccordion from './SampleAnswersAccordion';
 import { isCurriculumRemote } from '../services/curriculumService';
 import { isOverlayOpen } from '../hooks/useEscapeKey';
 import {
+  describeAccess,
   isQuestionTierLocked,
   planLabelForFeature,
   requestUpgrade,
@@ -83,27 +83,28 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
   question,
 }) => (
   <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in px-4">
-    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-surface bg-white/70 dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-lg">
+    <div className="clip-stable max-w-xl w-full text-center p-10 rounded-surface bg-surface-elevated dark:bg-[rgb(var(--color-bg-surface))]/60 border border-amber-400/30 shadow-lg">
       <div className="w-14 h-14 mx-auto mb-6 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
         <Lock className="w-7 h-7 text-amber-500" />
       </div>
-      <p className="t-label text-amber-500 mb-3">
+      {/* amber-500 is 2.2:1 on the light card; the light step clears 4.5:1. */}
+      <p className="t-label text-amber-700 dark:text-amber-500 mb-3">
         {verb} · {marks} {marks === 1 ? 'mark' : 'marks'} ·{' '}
         {planLabelForFeature('advancedQuestions')}
       </p>
       <h3 className="text-lg font-serif leading-relaxed text-slate-800 dark:text-slate-200 mb-6">
         {question}
       </h3>
-      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
-        Higher-order questions — Analyse, Evaluate, Discuss — are part of{' '}
-        {planLabelForFeature('advancedQuestions')}. Your free plan covers every question up to tier{' '}
+      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+        {describeAccess('advancedQuestions').explanation} Analyse, Evaluate and Discuss are the
+        higher-order questions. Your free plan covers every question up to tier{' '}
         {freeTierLimits().maxQuestionTier}.
       </p>
       <button
         onClick={() => requestUpgrade('advancedQuestions')}
-        className="t-label px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
+        className="t-label px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
       >
-        Unlock with {planLabelForFeature('advancedQuestions')}
+        {describeAccess('advancedQuestions').ctaLabel}
       </button>
     </div>
   </div>
@@ -587,38 +588,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
     );
   }
 
+  // The same panel as the reference rail's. Focus Mode has no rail, so it is
+  // built here from the shared `MarkingGuidePanel` and cannot drift from it.
   const markingGuideCard = (
-    <AccordionSection
-      title="Marking Guide"
-      // The same panel as the reference rail's, and it has to say the same
-      // things. This copy — the one Focus Mode shows, with no rail to hold the
-      // other — still read "Top level: Band 2" over an empty guide, and it
-      // carried no `supportId`: a student who read the guide in Focus Mode was
-      // told in their report that they had written without opening it.
-      subtitle={
-        currentPrompt.markingCriteria?.trim()
-          ? `Written to Band ${getBandForMark(currentPrompt.totalMarks, currentPrompt.totalMarks, getCommandTermInfo(currentPrompt.verb).tier)}`
-          : 'Not written yet'
+    <MarkingGuidePanel
+      prompt={currentPrompt}
+      userRole={userRole}
+      onMarkingCriteriaChange={(mc) =>
+        syllabusHandlers.updateCourses((d) =>
+          findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
+        )
       }
-      icon={<ListChecks />}
-      band={5}
-      resetKey={currentPrompt.id}
-      supportId="markingGuide"
-    >
-      <MarkingCriteriaManager
-        prompt={currentPrompt}
-        markingCriteria={currentPrompt.markingCriteria || ''}
-        onSave={(mc) =>
-          syllabusHandlers.updateCourses((d) =>
-            findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
-          )
-        }
-        band={5}
-        userRole={userRole}
-        courseOutcomes={courseOutcomes}
-        embedded
-      />
-    </AccordionSection>
+      courseOutcomes={courseOutcomes}
+    />
   );
 
   const sampleAnswersCard = (
@@ -867,6 +849,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
           isOpen={isGuideOpen}
           onClose={() => setIsGuideOpen(false)}
           termInfo={getCommandTermInfo(currentPrompt.verb)}
+          marks={currentPrompt.totalMarks}
+          band={getTargetBand(
+            currentPrompt.totalMarks,
+            getCommandTermInfo(currentPrompt.verb).tier
+          )}
         />
       </div>
     </div>

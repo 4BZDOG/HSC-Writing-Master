@@ -1,6 +1,14 @@
 // pdf/index.ts — public surface for the client-side vector-PDF exporter.
 
 export { exportEvaluationPdf, sanitizeFilename } from './exportEvaluation';
+export {
+  exportProgressReportPdf,
+  progressReportFilename,
+  progressReportNotices,
+} from './exportProgressReport';
+export type { ExportProgressReportOptions } from './exportProgressReport';
+export { buildReportBlocks, reportAccent } from './buildReportBlocks';
+export type { ProgressReport } from './reportModel';
 export type { ExportEvaluationOptions } from './exportEvaluation';
 export { buildEvaluationBlocks, bandColor, COLORS } from './buildBlocks';
 export type { EvaluationExportData } from './buildBlocks';

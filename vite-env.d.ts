@@ -93,6 +93,11 @@ interface ImportMetaEnv {
   /** Per-seat school licence price. Unset keeps school sales enquiry-only. */
   readonly VITE_STRIPE_SCHOOL_PRICE_ID?: string;
   /**
+   * `false` hides the purchase-order route for school licences. The server
+   * reads the same name (or SCHOOL_INVOICE_ENABLED) and answers 404 to match.
+   */
+  readonly VITE_SCHOOL_INVOICE_ENABLED?: string;
+  /**
    * PRESENTATION prices only — the amount charged always comes from the
    * Stripe Price object. They exist so a price change needs a redeploy rather
    * than a release, which also means nothing stops them drifting from what
@@ -102,6 +107,11 @@ interface ImportMetaEnv {
   readonly VITE_PLUS_YEARLY_PRICE_DISPLAY?: string;
   readonly VITE_PLUS_YEARLY_NOTE?: string;
   readonly VITE_SCHOOL_SEAT_PRICE_DISPLAY?: string;
+  /**
+   * What one AI call costs, in AUD, for the admin Seat economics panel only. Unset
+   * shows calls without cost or margin. See projectDocs/seat-economics.md.
+   */
+  readonly VITE_AI_COST_PER_CALL_AUD?: string;
   /**
    * Where school/faculty licensing enquiries go. Unset replaces the mailto
    * link with a "register interest" toast, so students never see a dead link.

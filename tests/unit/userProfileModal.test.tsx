@@ -210,6 +210,32 @@ describe('preference switches', () => {
     openSettings();
     expect(screen.queryByRole('switch', { name: /auto-save/i })).toBeNull();
   });
+
+  /**
+   * The drawn track is 32px tall; the control is 44px, so a thumb on a phone lands
+   * on the switch and not on the gap beside it.
+   */
+  it('keeps every switch a 44px target, with the drawn track inside it', () => {
+    renderModal();
+    openSettings();
+    for (const sw of screen.getAllByRole('switch')) {
+      expect(sw.className.split(/\s+/)).toEqual(expect.arrayContaining(['h-11', 'w-14']));
+    }
+  });
+});
+
+describe('the data panel on a phone', () => {
+  it('sets the delete confirmation at 16px, so iOS does not zoom on focus', () => {
+    renderModal();
+    openSettings();
+    fireEvent.click(screen.getByRole('button', { name: /delete my account/i }));
+    const input = document.getElementById('delete-confirm') as HTMLInputElement;
+    expect(input).toBeTruthy();
+    const classes = input.className.split(/\s+/);
+    expect(classes).toContain('text-base');
+    expect(classes).toContain('sm:text-sm');
+    expect(classes).not.toContain('text-sm');
+  });
 });
 
 describe('what the header says', () => {

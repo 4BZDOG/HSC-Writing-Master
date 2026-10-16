@@ -52,6 +52,15 @@ interface ComboboxOption {
    * the step below it.
    */
   renderSelected?: React.ReactNode;
+  /**
+   * The chosen node wraps onto more than one line, so the closed control must
+   * not hold it to one. By default the control truncates whatever it shows to
+   * a single `nowrap` line, which is right for a name and clips a question that
+   * has been laid out in two lines. A node that sets this owns its own overflow
+   * (a `line-clamp`, or a wrap), and says so here rather than relying on its
+   * text to opt out of the control's `nowrap` one element at a time.
+   */
+  multiline?: boolean;
   marks?: number;
   verb?: PromptVerb;
   isNew?: boolean;
@@ -76,6 +85,12 @@ interface ComboboxProps {
   onChange: (id: string) => void;
   label: React.ReactNode;
   placeholder?: string;
+  /**
+   * What the options are, plural, for the search field's count: "Search 10
+   * courses". A bare count reads as a truncated word. The field only appears at
+   * `SEARCH_THRESHOLD` options and up, so the plural is the one it shows.
+   */
+  optionNoun?: string;
   disabled?: boolean;
   color?: ComboboxColor;
   /**
@@ -238,6 +253,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   emptyAction,
   appearance = 'filled',
   caption,
+  optionNoun = 'options',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -540,25 +556,33 @@ const Combobox: React.FC<ComboboxProps> = ({
         disabled={disabled}
         className={`${baseInputStyles} ${stateStyles}`}
         // The chosen value truncates inside — a dot point runs to 376px in a
-        // 188px control on a phone — so the whole of it lives here. `label`
-        // rather than `renderLabel`: the latter is a node, and this is the
-        // plain string it was built from.
+        // 188px control on a phone — so the whole of it lives here, unless the
+        // option says `multiline`. `label` rather than `renderLabel` in the
+        // title: the latter is a node, and this is the plain string it was built from.
         title={selectedOption ? selectedOption.label : placeholder}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
         aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
       >
-        <span className={`flex items-center truncate w-full ${selectedOption ? 'font-bold' : ''}`}>
+        <span
+          className={`flex items-center w-full ${selectedOption?.multiline ? 'min-w-0' : 'truncate'} ${selectedOption ? 'font-bold' : ''}`}
+        >
           {selectedOption?.isNew && <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />}
-          <span className="truncate w-full block">
+          <span
+            className={
+              selectedOption?.multiline
+                ? 'min-w-0 w-full block whitespace-normal'
+                : 'truncate w-full block'
+            }
+          >
             {selectedOption
               ? selectedOption.renderSelected || selectedOption.renderLabel || selectedOption.label
               : placeholder}
           </span>
         </span>
         {caption && selectedOption && !isOpen && (
-          <span className="t-label hidden sm:inline shrink-0 ml-3 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+          <span className="t-label hidden sm:inline shrink-0 ml-3 text-[rgb(var(--color-text-muted))]">
             {caption}
           </span>
         )}
@@ -591,12 +615,14 @@ const Combobox: React.FC<ComboboxProps> = ({
                   aria-expanded={isOpen}
                   aria-controls={listboxId}
                   aria-activedescendant={`${listboxId}-opt-${highlightedIndex}`}
-                  aria-label={`Search ${options.length} options`}
+                  aria-label={`Search ${options.length} ${optionNoun}`}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={`Search ${options.length}…`}
-                  className="w-full bg-transparent py-3 pl-10 pr-9 text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
+                  placeholder={`Search ${options.length} ${optionNoun}`}
+                  // 16px below `sm`: iOS zooms the page into any input set smaller,
+                  // and the zoom does not come back out on its own.
+                  className="w-full bg-transparent py-3 pl-10 pr-9 text-base sm:text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
                 />
                 {query && (
                   <button

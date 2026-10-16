@@ -14,6 +14,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 import createCheckout from '../../api/create-checkout';
 import customerPortal from '../../api/customer-portal';
+import syncCheckout from '../../api/sync-checkout';
 
 const ALLOWED = 'https://app.example.com';
 
@@ -53,11 +54,12 @@ afterEach(() => {
   else process.env.ALLOWED_ORIGIN = savedAllowedOrigin;
 });
 
-// Both billing endpoints share the exact same CORS/OPTIONS preamble, so the
+// The billing endpoints share the exact same CORS/OPTIONS preamble, so the
 // contract is asserted against each in turn.
 const endpoints: Array<{ name: string; handler: typeof createCheckout }> = [
   { name: 'create-checkout', handler: createCheckout },
   { name: 'customer-portal', handler: customerPortal },
+  { name: 'sync-checkout', handler: syncCheckout },
 ];
 
 for (const { name, handler } of endpoints) {

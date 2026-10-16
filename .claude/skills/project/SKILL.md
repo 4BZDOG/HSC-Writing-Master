@@ -23,27 +23,53 @@ optional Claude engine via the admin AI Engine selector).
 
 ## Where things live
 
-| Path                          | Purpose                                                                         |
-| ----------------------------- | ------------------------------------------------------------------------------- |
-| `App.tsx`                     | Top-level state (useImmer) and composition root                                 |
-| `components/`                 | UI — mostly modals, mounted via `AppModals.tsx`                                 |
-| `hooks/`                      | Custom hooks (`useModalManager`, `useGemini`, `useToast`…)                      |
-| `services/`                   | AI layer (`geminiService`, `aiCore` circuit breaker, `aiCache`), auth, Supabase |
-| `api/`                        | Vercel serverless proxy for AI calls + auth gate                                |
-| `utils/`                      | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions           |
-| `types.ts`                    | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt)             |
-| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it)                  |
-| `projectDocs/`                | Design spec, pedagogy rules (GoldStandard), system prompts                      |
-| `supabase/`                   | Schema, seed, and backend tests                                                 |
+| Path                          | Purpose                                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- |
+| `App.tsx`                     | Top-level state (useImmer) and composition root                                                     |
+| `components/`                 | UI — mostly modals, mounted via `AppModals.tsx`                                                     |
+| `hooks/`                      | Custom hooks (`useModalManager`, `useGemini`, `useToast`…)                                          |
+| `services/`                   | AI layer (`geminiService`, `aiCore` circuit breaker, `aiCache`), auth, Supabase                     |
+| `api/`                        | Vercel serverless proxy for AI calls + auth gate                                                    |
+| `utils/`                      | Pure helpers — IDs, storage/migrations, Zod schemas, IDB transactions                               |
+| `types.ts`                    | Shared domain types (Course → Topic → SubTopic → DotPoint → Prompt)                                 |
+| `public/courseData/`, `data/` | Syllabus JSON content and manifest (public/ so builds ship it)                                      |
+| `projectDocs/`                | Design spec, pedagogy rules (GoldStandard), system prompts                                          |
+| `docs/seed-data-playbook.md`  | Read before revising `public/courseData/`: past-paper pipeline, conventions, pitfalls, what is left |
+| `supabase/`                   | Schema, seed, and backend tests                                                                     |
 
 ## Commands
 
 ```bash
 npm run dev          # start Vite dev server
-npm run test:all     # lint + unit tests + type-check (run before pushing)
+npm run test:all     # lint + unit tests + type-check + build checks (run before pushing)
 npm run type-check   # fastest feedback loop
 npm run test:e2e     # Playwright e2e
+npm run check:build  # production build + the two chunk guards CI runs after it; removes dist/
 ```
+
+`check:build` exists because CI's build job runs two checks that `test:all`
+used to skip: `check:bundle` (no top-level read crosses a chunk cycle) and
+`check:eager-chunks` (no admin, PDF or provider chunk joined the first load).
+A shared module placed under `components/admin/` and imported by an eager
+component pulls the whole admin chunk into every student's first load, and it
+only shows in a production build. It is now part of `test:all` too; it takes
+about 20 seconds.
+
+### How CI runs the E2E suite
+
+CI runs one job per Playwright project, side by side, not one long job. The legs
+come from `scripts/e2eMatrix.mjs` (`node scripts/e2eMatrix.mjs pull_request`
+prints a PR's, `push` prints main's); a pull request runs Chromium, Mobile
+Safari and the Supabase project, and a push to main adds Firefox, desktop WebKit
+and Mobile Chrome. The slow WebKit pair is split into shards. A gate job keeps
+the check name **E2E Tests**, so anything waiting on that name still finds it.
+
+To run one leg locally: `npx playwright test --project=chromium` (add
+`--shard=1/2` for half of it). Only Chromium is installed in the development
+container, so WebKit and Firefox answers come from CI: a test that passes here
+can still fail on Mobile Safari, and a click that resolves in ~100 ms in
+Chromium can take much longer on a loaded WebKit runner, so do not put a short
+timeout on a helper action that WebKit runs (it broke eight tests once).
 
 Copy `.env.example` to `.env.local` for local setup. Husky + lint-staged run on
 commit — fix failures rather than using `--no-verify`.

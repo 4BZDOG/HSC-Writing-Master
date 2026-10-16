@@ -19,6 +19,12 @@ import { supabase } from './supabaseClient';
 import { isCurriculumRemote } from './curriculumService';
 import { resolvePromptRowId, resolvePromptRowIds } from './contributionService';
 import type { EvaluationResult, UserFeedback } from '../types';
+import {
+  REPORT_HISTORY_LIMIT,
+  toOwnAttempts,
+  type OwnAttempt,
+  type OwnEventRow,
+} from '../utils/profileHistory';
 
 // --- Class analytics (reviewer-facing read path over persisted responses) ----
 
@@ -255,6 +261,251 @@ export const fetchStudentProgress = async (
   // `trend` is absent on a database that predates the history table — treat it
   // as empty rather than undefined so the UI can rely on the array.
   return { ...progress, trend: progress.trend ?? [] };
+};
+
+/**
+ * The caller's OWN attempt history, newest first, for the profile's charts.
+ *
+ * Reads `response_events` (append-only, no draft text) for the signed-in user.
+ * The `response_events_read` policy admits the row owner as well as reviewers
+ * (`can_view_student`), so a student can read their own history and nobody
+ * else's. The question's verb and marks come off the embedded `prompts` row.
+ *
+ * Not the reviewer RPC `fetchStudentProgress`: that one is gated to reviewers,
+ * and a student's own profile must not depend on it.
+ *
+ * Resolves to `null` when there is no online account to read from (local mode, or
+ * a guest with no session), so the profile can say so rather than draw an empty
+ * chart that reads as "no attempts". Throws on a failed read, for the same reason.
+ *
+ * The `supabase` check comes first and short-circuits the mode check, so a caller
+ * in local mode never reaches `isCurriculumRemote`.
+ */
+export const fetchMyAttemptHistory = async (limit = 200): Promise<OwnAttempt[] | null> => {
+  if (!supabase || !isCurriculumRemote()) return null;
+  const userId = await currentUserId();
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from('response_events')
+    .select('mark, band, word_count, created_at, prompts(verb, total_marks)')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(Math.max(1, Math.trunc(limit)));
+  if (error) throw new Error(error.message);
+  return toOwnAttempts((data ?? []) as unknown as OwnEventRow[]);
+};
+
+/**
+ * The caller's OWN attempt history for the progress report: the same rows as
+ * `fetchMyAttemptHistory`, but with each question's course and topic embedded,
+ * and a larger default limit so a report covers a whole term.
+ *
+ * `fetchMyAttemptHistory` stays as it is. The profile reads on every open and
+ * does not need the extra joins, so it does not pay for them.
+ *
+ * Resolves to `null` for the same reasons (local mode, no session), and throws on
+ * a failed read. A question RLS hides, or a course it hides, arrives as null and
+ * maps to null `course`/`topic` fields rather than failing the read.
+ */
+export const fetchMyReportHistory = async (
+  limit = REPORT_HISTORY_LIMIT
+): Promise<OwnAttempt[] | null> => {
+  if (!supabase || !isCurriculumRemote()) return null;
+  const userId = await currentUserId();
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from('response_events')
+    .select(
+      'mark, band, word_count, created_at, prompts(verb,total_marks,dot_points(sub_topics(topics(name,courses(id,legacy_id,name)))))'
+    )
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(Math.max(1, Math.trunc(limit)));
+  if (error) throw new Error(error.message);
+  return toOwnAttempts((data ?? []) as unknown as OwnEventRow[], { curriculum: true });
+};
+
+// --- Progress report (schema §26) -------------------------------------------
+
+/** Mean measures over one group of answers. Null where nothing in the group carries the figure. */
+export interface ProgressReportMetrics {
+  attempts: number;
+  students: number;
+  avg_band: number | null;
+  /** Mean share of the marks on offer (0–1). */
+  avg_mark_frac: number | null;
+}
+
+/** The whole scope: every answer the report covers, counted once per question. */
+export interface ProgressReportTotals {
+  attempts: number;
+  active_students: number;
+  avg_band: number | null;
+  avg_mark_frac: number | null;
+  /** Earliest and latest answer in scope, ISO, or null when there are none. */
+  first_attempt_at: string | null;
+  last_attempt_at: string | null;
+}
+
+export interface ProgressReportLabelRow extends ProgressReportMetrics {
+  /** A command verb, a course name, or a topic name, as the database holds it. */
+  label: string;
+}
+
+export interface ProgressReportCourseRow extends ProgressReportMetrics {
+  course_id: string | null;
+  label: string;
+}
+
+export interface ProgressReportTopicRow extends ProgressReportMetrics {
+  topic_id: string | null;
+  course_id: string | null;
+  /** The course the topic sits in. */
+  course: string;
+  label: string;
+}
+
+/** One student with at least one marked answer in scope. */
+export interface ProgressReportStudentRow {
+  username: string;
+  display_name: string;
+  attempts: number;
+  avg_band: number | null;
+  avg_mark_frac: number | null;
+  /** ISO timestamp of the student's latest answer in scope. */
+  last_active: string | null;
+}
+
+/** One week of the cohort's trend. Week 0 is the oldest. */
+export interface ProgressReportWeekRow {
+  week: number;
+  attempts: number;
+  avg_band: number | null;
+  avg_mark_frac: number | null;
+}
+
+/** One class the caller can see. Present in the payload only when no class is named. */
+export interface ProgressReportClassRow extends ProgressReportMetrics {
+  class_id: string;
+  name: string;
+  year: number | null;
+  /** The course the class studies, or null. A course-bound class counts only that course. */
+  course?: string | null;
+}
+
+/** The course a named class is bound to (`classes.course_id`), when it is bound. */
+export interface ProgressReportClassCourse {
+  course_id: string;
+  name: string;
+}
+
+/**
+ * The shape `get_progress_report()` returns (schema §26). Counts and averages
+ * only: no draft text and no evaluation JSON.
+ *
+ * `byStudentWeek` is not in the brief's list but is needed for each student's
+ * sparkline and band change; `weekly` is the cohort-wide series only.
+ */
+export interface ProgressReportPayload {
+  /** The window actually used, after the 1–365 clamp. */
+  days: number;
+  /** The number of week buckets the window covers. */
+  weeks: number;
+  totals: ProgressReportTotals;
+  byVerb: ProgressReportLabelRow[];
+  byCourse: ProgressReportCourseRow[];
+  byTopic: ProgressReportTopicRow[];
+  byStudent: ProgressReportStudentRow[];
+  byStudentVerb: CohortVerbRow[];
+  byStudentWeek: CohortWeekRow[];
+  weekly: ProgressReportWeekRow[];
+  /** Present only when no class was named. */
+  byClass?: ProgressReportClassRow[];
+  /**
+   * The course a named class studies, or null when no class is named or the class
+   * has no course. When set, that course is the report's only course: a different
+   * course filter gives an empty report (schema §26).
+   */
+  classCourse?: ProgressReportClassCourse | null;
+}
+
+/**
+ * The database has no `get_progress_report()` (it predates schema §26). The
+ * report can still be built from the student's own data, and the teacher or
+ * school report says it needs the database updated. A type rather than a message
+ * match, so the UI does not parse strings.
+ */
+export class ProgressReportUnavailableError extends Error {
+  constructor(message = 'The progress report needs the database to be updated (schema §26).') {
+    super(message);
+    this.name = 'ProgressReportUnavailableError';
+  }
+}
+
+/** PostgREST's "no such function" (PGRST202), or Postgres' undefined_function (42883). */
+const isMissingProgressRpc = (error: { code?: string; message?: string }): boolean =>
+  error.code === 'PGRST202' ||
+  error.code === '42883' ||
+  /could not find the function/i.test(error.message ?? '');
+
+/** Adds `p_course_id` ONLY when a course is selected, for the same reason as `withClass`. */
+const withCourse = <T extends object>(args: T, courseId?: string | null): T =>
+  courseId ? ({ ...args, p_course_id: courseId } as T) : args;
+
+const EMPTY_PROGRESS_TOTALS: ProgressReportTotals = {
+  attempts: 0,
+  active_students: 0,
+  avg_band: null,
+  avg_mark_frac: null,
+  first_attempt_at: null,
+  last_attempt_at: null,
+};
+
+/** Fills the arrays the builders read, so a partial payload cannot put `undefined` in a report. */
+const normaliseProgressPayload = (raw: unknown): ProgressReportPayload => {
+  const p = (raw ?? {}) as Partial<ProgressReportPayload>;
+  return {
+    days: typeof p.days === 'number' ? p.days : 0,
+    weeks: typeof p.weeks === 'number' ? p.weeks : 0,
+    totals: { ...EMPTY_PROGRESS_TOTALS, ...(p.totals ?? {}) },
+    byVerb: p.byVerb ?? [],
+    byCourse: p.byCourse ?? [],
+    byTopic: p.byTopic ?? [],
+    byStudent: p.byStudent ?? [],
+    byStudentVerb: p.byStudentVerb ?? [],
+    byStudentWeek: p.byStudentWeek ?? [],
+    weekly: p.weekly ?? [],
+    ...(Array.isArray(p.byClass) ? { byClass: p.byClass } : {}),
+    classCourse: p.classCourse ?? null,
+  };
+};
+
+/**
+ * The progress report's aggregates for a teacher or an administrator, over the
+ * last `days` days (clamped 1–365 on the server).
+ *
+ * `classId` and `courseRowId` are sent ONLY when set. `courseRowId` is the
+ * course's DATABASE uuid: the caller resolves an app course id with
+ * `resolveCourseRowId()` first. Scope is the server's, as for `fetchClassCohort`.
+ *
+ * Throws `ProgressReportUnavailableError` on a database without schema §26, and an
+ * `Error` with a readable message for any other failure.
+ */
+export const fetchProgressReport = async (
+  days = 90,
+  classId?: string | null,
+  courseRowId?: string | null
+): Promise<ProgressReportPayload> => {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await supabase.rpc(
+    'get_progress_report',
+    withCourse(withClass({ p_days: days }, classId), courseRowId)
+  );
+  if (error) {
+    if (isMissingProgressRpc(error)) throw new ProgressReportUnavailableError();
+    throw new Error(`Could not build the progress report: ${error.message}`);
+  }
+  return normaliseProgressPayload(data);
 };
 
 export interface ResponsePersistInput {

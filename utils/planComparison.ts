@@ -1,6 +1,7 @@
 import {
   PREMIUM_FEATURES,
   planFeatureKeys,
+  schoolInvoicingEnabled,
   type Plan,
   type PremiumFeatureKey,
 } from '../services/entitlements';
@@ -9,6 +10,7 @@ import {
 // deployment actually enforces, overrides included — not the shipped default.
 import { freeTierLimits, monetisationEnabled } from '../services/planPolicy';
 import { FREE_DAILY_AI_CALLS, PAID_DAILY_AI_CALLS } from '../services/planLimits';
+import { fallbackPlanPrices, type PlanPriceText } from '../services/livePrices';
 
 /**
  * The Free / Plus / School comparison, DERIVED from the entitlement rules
@@ -76,6 +78,10 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
   pdfExport: {
     label: 'PDF report export',
     note: 'Marking reports you can keep, print or hand in',
+  },
+  cohortReports: {
+    label: 'Class & school reports',
+    note: 'Progress reports for a whole class or school, as PDFs',
   },
   aiContentStudio: {
     label: 'AI Content Studio',
@@ -153,7 +159,11 @@ export const buildPlanComparison = (): PlanRow[] => {
     {
       id: 'evaluations',
       label: 'Marked evaluations',
-      note: 'Full AI marking of an answer you have written',
+      // The paid cell says "No daily limit", not "Unlimited": marking is not
+      // metered for paid plans (has_unlimited_evaluations), but every AI call,
+      // marking included, still draws on the daily allowance in the row below.
+      // "Unlimited" next to "300 calls" was a promise the table broke itself.
+      note: 'Full AI marking of an answer you have written. Paid plans share the daily AI allowance below.',
       cells: {
         free: monetisationEnabled()
           ? { kind: 'text', text: `${freeTierLimits().evalLimit} per day` }
@@ -161,8 +171,8 @@ export const buildPlanComparison = (): PlanRow[] => {
             // marking in that state (api/gemini.ts skips consume_evaluation),
             // so quoting a daily cap here would invent one.
             { kind: 'text', text: 'Unlimited' },
-        plus: { kind: 'text', text: 'Unlimited' },
-        school: { kind: 'text', text: 'Unlimited' },
+        plus: { kind: 'text', text: 'No daily limit' },
+        school: { kind: 'text', text: 'No daily limit' },
       },
     },
     {
@@ -206,7 +216,36 @@ export const buildPlanComparison = (): PlanRow[] => {
     },
   });
 
+  // How it is bought. School names the invoice route only where this deployment
+  // offers it, so the table never promises a purchase order the form cannot take.
+  rows.push({
+    id: 'payment',
+    label: 'Payment',
+    cells: {
+      ...emptyCells(),
+      free: { kind: 'text', text: 'Nothing to pay' },
+      plus: { kind: 'text', text: 'Card, monthly or yearly' },
+      school: {
+        kind: 'text',
+        text: schoolInvoicingEnabled()
+          ? 'Card, or invoice against a purchase order'
+          : 'Card, per seat',
+      },
+    },
+  });
+
   return rows;
+};
+
+/**
+ * Who each plan is FOR, in a few words, printed under its name. The tagline
+ * below says what it does; this says who should be looking at it, which is
+ * the question a buyer is actually asking.
+ */
+export const PLAN_AUDIENCES: Record<Plan, string> = {
+  free: 'To try it out',
+  plus: 'For your own HSC',
+  school: 'For a whole cohort',
 };
 
 /**
@@ -215,10 +254,33 @@ export const buildPlanComparison = (): PlanRow[] => {
  */
 export const PLAN_TAGLINES: Record<Plan, string> = {
   free: 'Enough to practise with, every day, at no cost.',
-  plus: 'The full marking toolkit for one student — and the authoring tools for one teacher.',
-  // What School adds over Plus is COVERAGE, not features: the authoring studio
-  // is a Plus feature that teachers already hold through the staff perk, so
-  // pitching School on "plus content authoring" sold something the buyer's
-  // staff had for nothing.
-  school: 'One licence covering every student and teacher in the school.',
+  // Not "the authoring tools for one teacher": the studio is role-gated, so a
+  // student who pays for Plus does not get it, and a teacher holds Plus anyway.
+  plus: 'The full marking toolkit for one person. Teacher accounts hold it as a staff perk.',
+  // What School adds over Plus is COVERAGE and the cohort reports. The studio
+  // is a Plus feature that teachers already hold, so it is not what School sells.
+  school: 'Plus for every student and teacher in the school, and the class and school reports.',
+};
+
+/** The text with its GST note after it, or the text alone when there is no note. */
+const withGst = (text: string, gst: string | null): string => (gst ? `${text} ${gst}` : text);
+
+/**
+ * The price line under a plan's name in the comparison cards. Takes the price
+ * text as an argument, so a live price can be shown; with nothing passed it is
+ * the env text, which is what the cards showed before live prices.
+ *
+ * A function, not a constant: the price text is read when it is called, never at
+ * module load, so a bundle that joins chunks in the wrong order cannot read it
+ * before its module has initialised (see services/planLimits.ts).
+ */
+export const planPriceLine = (plan: Plan, prices: PlanPriceText = fallbackPlanPrices()): string => {
+  if (plan === 'free') return 'Free, always';
+  if (plan === 'school') {
+    return withGst(`${prices.schoolSeat} per student, per year`, prices.schoolSeatGst);
+  }
+  // Monthly and yearly share one line. It says GST only when both prices agree on it.
+  const plusGst =
+    prices.yearlyGst && prices.yearlyGst === prices.monthlyGst ? prices.yearlyGst : null;
+  return withGst(`${prices.yearly}/year or ${prices.monthly}/month`, plusGst);
 };

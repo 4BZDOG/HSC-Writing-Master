@@ -54,7 +54,6 @@ const renderDisplay = () =>
       result={result}
       prompt={prompt}
       userAnswer="Caching stores data."
-      onUseRevisedAnswer={vi.fn()}
       onImproveAnswer={vi.fn()}
       onCompareImprovement={vi.fn()}
       isImproving={false}
@@ -107,7 +106,7 @@ describe('the answer upgrade is paywalled end to end', () => {
     expect(screen.queryByText('See the edits')).toBeNull();
     expect(screen.queryByText('Use this version')).toBeNull();
     // …but the section itself stays, so the upgrade is reachable.
-    expect(screen.getByText('Improved Response')).toBeTruthy();
-    expect(screen.getByText('See what Plus unlocks')).toBeTruthy();
+    expect(screen.getByText('Improved response')).toBeTruthy();
+    expect(screen.getByText('Upgrade to Band 6 Plus')).toBeTruthy();
   });
 });

@@ -112,7 +112,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Edit Sample Answer
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                <p className="text-sm text-muted">
                   Manually adjust the answer details and performance level.
                 </p>
               </div>
@@ -120,9 +120,9 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
+              <X className="w-4 h-4 text-muted group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
@@ -130,10 +130,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           <div>
-            <label
-              htmlFor="answer-text"
-              className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2"
-            >
+            <label htmlFor="answer-text" className="block text-sm font-bold text-muted mb-2">
               Answer Text
             </label>
             <textarea
@@ -141,16 +138,13 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
               value={answerText}
               onChange={(e) => setAnswerText(e.target.value)}
               rows={10}
-              className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition font-serif leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900"
+              className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition font-serif leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label
-                htmlFor="mark-input"
-                className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3"
-              >
+              <label htmlFor="mark-input" className="block text-sm font-bold text-muted mb-3">
                 Mark ({`out of ${prompt.totalMarks}`})
               </label>
               <div className="flex items-center gap-4">
@@ -161,7 +155,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                   onChange={(e) => handleMarkChange(parseInt(e.target.value, 10) || 0)}
                   min="0"
                   max={prompt.totalMarks}
-                  className="w-24 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-3 px-4 text-center text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
+                  className="w-24 bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-3 px-4 text-center text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
                 />
                 <div className="h-1.5 flex-1 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
                   <div
@@ -173,9 +167,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-3">
-                Performance Band
-              </label>
+              <label className="block text-sm font-bold text-muted mb-3">Performance Band</label>
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3, 4, 5, 6].map((b) => {
                   const isSelected = band === b;
@@ -193,13 +185,13 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                           : `Band ${b}`
                       }
                       className={`
-                                    w-9 h-10 rounded-lg text-sm font-black transition-all duration-200
+                                    w-11 h-11 sm:w-9 sm:h-10 rounded-lg text-sm font-black transition-all duration-200
                                     ${
                                       isSelected
                                         ? `${bConfig.solidBg} ${bConfig.solidText} shadow-lg scale-110 z-10 border border-white/20 light:border-white/40 ${isCappedOut ? 'ring-2 ring-amber-500/60' : ''}`
                                         : isCappedOut
                                           ? 'bg-white/[0.02] light:bg-slate-100 text-slate-500 cursor-not-allowed line-through'
-                                          : 'bg-white/5 light:bg-slate-100 text-slate-500 light:text-slate-500 hover:bg-white/10 light:hover:bg-slate-200 hover:text-slate-300 light:hover:text-slate-600'
+                                          : 'bg-white/5 light:bg-slate-100 text-muted hover:bg-white/10 light:hover:bg-slate-200 hover:text-slate-300 light:hover:text-slate-600'
                                     }
                                 `}
                     >
@@ -209,12 +201,12 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                 })}
               </div>
               {band > tierMaxBand ? (
-                <p className="t-label mt-2 text-amber-400 light:text-amber-600 flex items-center gap-1.5">
+                <p className="t-label mt-2 text-amber-400 light:text-amber-700 flex items-center gap-1.5">
                   <AlertCircle className="w-3 h-3" /> Above the Band {tierMaxBand} cap for '
                   {prompt.verb}' — recalibration will lower it
                 </p>
               ) : (
-                <p className="t-label mt-2 text-slate-500 light:text-slate-500 flex items-center gap-1.5">
+                <p className="t-label mt-2 text-muted flex items-center gap-1.5">
                   <Award className="w-3 h-3" /> Manually overridable up to Band {tierMaxBand} (
                   {`'${prompt.verb}'`} verb cap)
                 </p>
@@ -224,8 +216,8 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
 
           {error && (
             <div className="p-4 rounded-xl border border-red-500/50 light:border-red-200 bg-red-500/10 light:bg-red-50 flex items-start gap-3 animate-fade-in">
-              <AlertCircle className="w-5 h-5 text-red-400 light:text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-red-300 light:text-red-600">{error}</p>
+              <AlertCircle className="w-5 h-5 text-red-400 light:text-red-700 flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-red-300 light:text-red-700">{error}</p>
             </div>
           )}
         </div>
@@ -234,13 +226,13 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
         <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 flex items-center justify-end gap-3 flex-shrink-0">
           <button
             onClick={onClose}
-            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+            className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
+            className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
           >
             <Save className="w-4 h-4" />
             Save Changes

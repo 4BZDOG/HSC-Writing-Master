@@ -5,29 +5,33 @@ import KeywordEditor from '../../components/KeywordEditor';
 import { Prompt, PromptVerb } from '../../types';
 
 /**
- * The two groups in the Syllabus Terms panel, and the rule between them.
+ * The two groups in the Syllabus Terms panel, and the row each one draws.
  *
  * The terms a Band 6 answer HAS to contain and the ones that would merely
  * strengthen it were one wrapping row of chips, ordered syllabus-first. The
  * boundary was real but had to be inferred from a change of chip colour
- * partway along the row — and on a row that wraps, that change lands at a
- * different place at every panel width, sometimes mid-row and sometimes at the
- * start of one.
+ * partway along the row. The panel now draws each group as its own row on the
+ * mark ladder, with its count in the gutter, so the boundary is the gutter.
  *
- * What is pinned here is the part a person cannot check by looking once: that
- * the rule appears when there are two groups to separate and NOT when there is
- * only one, and that a screen reader gets the same split from the groups
- * themselves rather than from a decorative line it cannot see.
- *
- * What decides the split is `classifySyllabusTerms`, tested on its own in
- * `syllabusTermSource.test.ts`. Pinned here is that the panel reads EVERY level
- * of the question's context through it, not just the dot point it started with:
- * a term the question's own stem names belongs above the rule.
+ * What is pinned here is the part a person cannot check by looking once: that a
+ * group gets a row only when it has a term, and that a screen reader gets the
+ * split from the groups themselves. What decides the split is
+ * `classifySyllabusTerms`, tested on its own in `syllabusTermSource.test.ts`.
+ * Pinned here is that the panel reads EVERY level of the question's context
+ * through it, not just the dot point it started with: a term the question's own
+ * stem names belongs in the key row.
  */
 
 vi.mock('../../services/geminiService', () => ({}));
 
 afterEach(cleanup);
+
+/** A group's ladder row: the group is the body's child, the body the row's child. */
+const rowOf = (group: HTMLElement): HTMLElement => group.parentElement!.parentElement!;
+
+/** The gutter's figure, read as the reader sees it: "2/3". */
+const figureOf = (row: HTMLElement): string =>
+  row.querySelector('[class*="font-mono"]')?.textContent ?? '';
 
 const DOT_POINT =
   'Assess the risks and hazards of a fieldwork investigation, and the controls that manage them.';
@@ -96,32 +100,35 @@ describe('Syllabus Terms: the two groups and the rule between them', () => {
     expect(within(supporting as HTMLElement).getByText('Likelihood')).toBeTruthy();
   });
 
-  it('draws the rule only when there are two groups to separate', () => {
+  it('gives each group its own row, counted in the gutter, when both exist', () => {
     renderEditor(['Risk', 'Mitigation']);
-    // The label lives in the rule, so finding it is finding the rule. The
-    // group's own accessible name is matched exactly, so it cannot stand in.
-    expect(screen.getByText('Supporting terms')).toBeTruthy();
+    const keyRow = rowOf(syllabusGroup() as HTMLElement);
+    const supportRow = rowOf(supportingGroup() as HTMLElement);
+    // The gutter names the group and counts it: 0 of the 1 key term is used yet.
+    expect(within(keyRow).getByText('Key terms')).toBeTruthy();
+    expect(figureOf(keyRow)).toBe('0/1');
+    expect(within(supportRow).getByText('Supporting')).toBeTruthy();
+    expect(figureOf(supportRow)).toBe('0/1');
   });
 
-  it('draws no rule when every term is named', () => {
+  it('draws no supporting row when every term is named', () => {
     renderEditor(['Risk', 'Hazard']);
     expect(syllabusGroup()).not.toBeNull();
     expect(supportingGroup()).toBeNull();
-    expect(screen.queryByText('Supporting terms')).toBeNull();
+    expect(screen.queryByText('Supporting')).toBeNull();
   });
 
-  it('draws no rule when no term is named anywhere', () => {
+  it('draws no key row when no term is named anywhere', () => {
     renderEditor(['Mitigation', 'Likelihood']);
     expect(syllabusGroup()).toBeNull();
     expect(supportingGroup()).not.toBeNull();
-    // One group needs no boundary — a rule across it would claim a distinction
-    // the panel is not making.
-    expect(screen.queryByText('Supporting terms')).toBeNull();
+    // A row for a group that has no terms would claim a group the panel is not drawing.
+    expect(screen.queryByText('Key terms')).toBeNull();
   });
 
   it('keeps the empty state, which belongs to neither group', () => {
     renderEditor([]);
-    expect(screen.getByText(/no syllabus terms defined/i)).toBeTruthy();
+    expect(screen.getByText(/no syllabus terms for this question yet/i)).toBeTruthy();
     expect(syllabusGroup()).toBeNull();
     expect(supportingGroup()).toBeNull();
   });
@@ -170,11 +177,11 @@ describe('Syllabus Terms: every level of the question’s context', () => {
 });
 
 /**
- * The coverage chip counts the two groups apart.
+ * The gutter counts the two groups apart.
  *
  * "2/9 used" counted a term the question is built on and one that would merely
- * strengthen an answer as the same tick — the one distinction the panel below
- * it spends two groups and a rule making.
+ * strengthen an answer as the same tick — the one distinction the panel spends
+ * two rows making. Each row's figure counts its own group.
  */
 describe('Syllabus Terms: the coverage chip', () => {
   const TESTING: Context = {
@@ -200,18 +207,21 @@ describe('Syllabus Terms: the coverage chip', () => {
       />
     );
 
-  it('splits the count when the question has terms of both kinds', () => {
+  it('counts the key terms and the supporting ones in their own gutters', () => {
     renderWithAnswer(
       ['automated unit testing', 'manual ad-hoc testing', 'regression testing'],
       'I used automated unit testing throughout.',
       TESTING
     );
-    expect(screen.getByText('1/2 key · 0/1 more')).toBeTruthy();
+    expect(figureOf(rowOf(syllabusGroup() as HTMLElement))).toBe('1/2');
+    expect(figureOf(rowOf(supportingGroup() as HTMLElement))).toBe('0/1');
   });
 
-  it('keeps the single number when there is only one group', () => {
-    // Nothing here is named by the question, so there is nothing to separate.
+  it('counts a single group against itself, under the name of that group', () => {
+    // Nothing here is named by the question, so there is only a supporting row.
     renderWithAnswer(['regression testing', 'test scripts'], 'Nothing relevant.', TESTING);
-    expect(screen.getByText('0/2 used')).toBeTruthy();
+    const row = rowOf(supportingGroup() as HTMLElement);
+    expect(figureOf(row)).toBe('0/2');
+    expect(within(row).getByText('Supporting')).toBeTruthy();
   });
 });

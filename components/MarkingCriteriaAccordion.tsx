@@ -1,14 +1,43 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useId, useCallback } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
-import { renderFormattedText, getBandConfig, getBandRgb } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
-import { AlertCircle, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
-import { formatMarkingCriteria } from '../utils/dataManagerUtils';
+import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
+import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { AlertCircle, BookOpen, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { generateRubricForPrompt } from '../services/geminiService';
-import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
+import {
+  describeAccess,
+  isFeatureLocked,
+  planLabelForFeature,
+  requestUpgrade,
+} from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
 import MathSymbolToolbar from './MathSymbolToolbar';
+import LadderRow, { ladderBandVars } from './LadderRow';
+import {
+  LADDER_CRITERION,
+  LADDER_EDGE_SHUT,
+  LADDER_EMPTY,
+  LADDER_FALLBACK,
+  LADDER_FILL,
+  LADDER_MODEL_ANSWER,
+  LADDER_STACK,
+  LADDER_TOOL,
+  LADDER_TOOL_ICON,
+  LADDER_TOOL_LOCKED,
+} from '../utils/ladderChrome';
+import {
+  criterionForMark,
+  exemplarMarkForItem,
+  isBandLabelled,
+  parseMarkingCriteria,
+} from '../utils/markingGuideParse';
+import {
+  requestOpenExemplar,
+  useLinkedExemplar,
+  useOpenCriterionRequest,
+} from '../utils/ladderLink';
+import { PANEL_NAME } from './PanelDisclosure';
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -20,13 +49,6 @@ interface MarkingCriteriaAccordionProps {
   /** Rendered inside an AccordionSection, which supplies the card, the title
    *  and the band line. */
   embedded?: boolean;
-}
-
-interface MarkingCriteriaItem {
-  markLabel: string;
-  markRange: [number, number];
-  description: string;
-  band: number;
 }
 
 const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
@@ -62,115 +84,63 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
   const maxBandConfig = useMemo(() => getBandConfig(maxPossibleBand), [maxPossibleBand]);
 
-  const parsedCriteria: MarkingCriteriaItem[] = useMemo(() => {
-    const formattedCriteria = formatMarkingCriteria(markingCriteria);
-    if (!formattedCriteria) return [];
+  // The rows of the guide, highest mark first. The parser lives in
+  // utils/markingGuideParse so the Sample Answers panel can read the same rows.
+  const parsedCriteria = useMemo(
+    () => parseMarkingCriteria(markingCriteria, prompt.totalMarks, commandTermInfo.tier),
+    [markingCriteria, prompt.totalMarks, commandTermInfo.tier]
+  );
+  const sampleAnswers = prompt.sampleAnswers ?? [];
 
-    const items: MarkingCriteriaItem[] = [];
+  // The exemplar the student has open in the Sample Answers panel, if any, and the
+  // guide row that holds its mark: that row is drawn as linked, with a ring and a
+  // badge. The hook reads the last announcement for this question on mount, so a
+  // guide that mounts after the exemplar opened still shows the link.
+  const linkedMark = useLinkedExemplar(prompt.id);
+  const rowFor = useCallback(
+    (mark: number) =>
+      criterionForMark(
+        parsedCriteria,
+        mark,
+        getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier)
+      ),
+    [parsedCriteria, prompt.totalMarks, commandTermInfo.tier]
+  );
+  const linkedItem = useMemo(
+    () => (linkedMark === null ? undefined : rowFor(linkedMark)),
+    [linkedMark, rowFor]
+  );
 
-    // Normalize: strip markdown bold, mid-line bullets → newlines
-    let normalizedText = formattedCriteria.replace(/\*\*/g, '');
-    normalizedText = normalizedText.replace(/ • /g, '\n- ');
+  // The rows' elements by position, so an exemplar's "View marking criterion" can
+  // bring the matching row into view and move focus to it.
+  const rowId = useId();
+  const rowEls = useRef(new Map<number, HTMLDivElement>());
+  const jumpTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(jumpTimer.current), []);
 
-    const lines = normalizedText.split('\n');
-    let currentItem: MarkingCriteriaItem | null = null;
-
-    // Regex 1: "[Marks] marks:" or "[Marks]:" at START of line (with optional bullet/pipe prefix)
-    // Matches: "5 marks:", "3-4 marks:", "5:", "3–4 marks -", "• 5 marks:", etc.
-    const startMarkRegex = new RegExp(
-      '^[-•*|]?\\s*(\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*(?:marks?)?\\s*[:|.\\-)]+\\s*(.*)',
-      'i'
-    );
-
-    // Regex 2: Point breakdown style "Descriptor... ([Mark] mark)" anywhere in
-    // line. The third group keeps whatever follows the bracket — a row written
-    // as "Band 6 (7-8 marks): Comprehensive analysis…" used to be stored as the
-    // words before the bracket alone, silently discarding the actual criteria.
-    const endMarkRegex = new RegExp(
-      '(.*?)\\((\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*marks?\\)\\s*[:.\\-–]?\\s*(.*)',
-      'i'
-    );
-
-    // Regex 3: "Band N:" or "Band N-M:" pattern (AI sometimes uses band labels)
-    const bandStartRegex = new RegExp(
-      '^[-•*]?\\s*band\\s+(\\d+(?:\\s*[-–]\\s*\\d+)?)\\s*[:|.\\-)]+\\s*(.*)',
-      'i'
-    );
-
-    lines.forEach((line) => {
-      const cleanLine = line.trim();
-      if (!cleanLine || cleanLine.match(new RegExp('^[|\\-]+$'))) return;
-
-      const startMatch = cleanLine.match(startMarkRegex);
-      const endMatch = cleanLine.match(endMarkRegex);
-      const bandMatch = cleanLine.match(bandStartRegex);
-
-      if (startMatch && startMatch[1]) {
-        if (currentItem) items.push(currentItem);
-        const range = parseMarkRange(startMatch[1].trim());
-        currentItem = {
-          markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
-          markRange: range,
-          description: startMatch[2].trim(),
-          band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
-        };
-      } else if (bandMatch) {
-        if (currentItem) items.push(currentItem);
-        const bandNums = bandMatch[1].match(/\d+/g)?.map(Number) || [1];
-        const topBand = Math.max(...bandNums);
-        // The mark this band starts at on THIS question — tier-aware, like every
-        // other band figure in the app. The old inline `(band / 6) * totalMarks`
-        // ignored the verb's ceiling, so a Tier-2 question's rows were placed
-        // against marks it can never award.
-        const bandMark = markForBand(topBand, prompt.totalMarks, commandTermInfo.tier);
-        // Then the band that mark ACTUALLY earns here, which is what both the
-        // label and the colour are read from. A question with fewer marks than
-        // bands cannot award the bottom of the range — a 4-mark Evaluate runs
-        // Band 6 down to Band 3 — so a row an author wrote as "Band 2:" was
-        // painting orange at mark 1 while the exemplar at that same mark sat
-        // yellow at Band 3. Where the authored band IS reachable this is a
-        // no-op and the row keeps the number it was written with.
-        const rowBand = getBandForMark(bandMark, prompt.totalMarks, commandTermInfo.tier);
-        currentItem = {
-          markLabel: `Band ${rowBand}`,
-          markRange: [bandMark, bandMark],
-          description: bandMatch[2].trim(),
-          band: rowBand,
-        };
-      } else if (endMatch) {
-        if (currentItem) items.push(currentItem);
-        const range = parseMarkRange(endMatch[2].trim());
-        const before = endMatch[1].replace(/^[-•*]\s*/, '').trim();
-        const after = (endMatch[3] || '').trim();
-        // Prefer the criteria that follow the bracket; fall back to the label
-        // before it when the row is written as "Describes both features (2 marks)".
-        const desc = after || before;
-
-        // Stays the current item rather than being closed off, so wrapped or
-        // continuation lines beneath it are appended instead of dropped.
-        currentItem = {
-          markLabel: range[0] === range[1] ? `${range[0]}` : `${range[0]}–${range[1]}`,
-          markRange: range,
-          description: desc,
-          band: getBandForMark(range[1], prompt.totalMarks, commandTermInfo.tier),
-        };
-      } else if (currentItem) {
-        currentItem.description += ' ' + cleanLine;
-      }
-    });
-
-    if (currentItem) items.push(currentItem);
-
-    return items.sort((a, b) => b.markRange[1] - a.markRange[1]);
-  }, [markingCriteria, prompt.totalMarks, commandTermInfo.tier]);
-
-  function parseMarkRange(str: string): [number, number] {
-    const numbers = str.match(new RegExp('(\\d+)', 'g'));
-    if (!numbers) return [0, 0];
-    const nums = numbers.map(Number);
-    if (nums.length === 1) return [nums[0], nums[0]];
-    return [Math.min(...nums), Math.max(...nums)];
-  }
+  useOpenCriterionRequest(prompt.id, (mark) => {
+    const target = rowFor(mark);
+    const index = target ? parsedCriteria.indexOf(target) : -1;
+    const el = index >= 0 ? rowEls.current.get(index) : undefined;
+    if (!el) return;
+    const reduceMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const bringIntoView = () => {
+      el.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+      el.focus({ preventScroll: true });
+    };
+    // The panel that holds the guide opens on the same request, and it grows over half
+    // a second. While it is still shut the row has no position to scroll to, so the
+    // jump waits for the panel to finish opening.
+    const panelIsShut = el.closest('[inert]') !== null;
+    window.clearTimeout(jumpTimer.current);
+    if (panelIsShut) {
+      jumpTimer.current = window.setTimeout(bringIntoView, reduceMotion ? 50 : 560);
+    } else {
+      bringIntoView();
+    }
+  });
 
   const handleSave = () => {
     onSave(editText);
@@ -201,65 +171,61 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   // Embedded, the enclosing AccordionSection already supplies the card, the
   // title and the band line — leaving this component's own header to announce
   // "Marking Criteria" directly beneath a panel headed "Marking Guide". Only
-  // the curator controls still need a home, in the same slim row the exemplars
-  // panel uses.
+  // the curator controls still need a home, as a toolbar in the same family as
+  // the exemplars' tools.
   const curatorControls = canCurate ? (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-2">
       {!isEditing ? (
         <>
           {canGenerate && (
             <button
+              type="button"
               onClick={
                 studioLocked ? () => requestUpgrade('aiContentStudio') : handleGenerateRubric
               }
               disabled={isGenerating}
-              title={
-                studioLocked
-                  ? 'AI rubric drafting is part of the AI Content Studio — tap to learn more'
-                  : undefined
-              }
-              className={`t-label flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all shadow-sm hover:shadow-lg ${
-                studioLocked
-                  ? 'bg-amber-400/15 border-amber-400/40 text-amber-500 light:text-amber-600'
-                  : 'bg-white dark:bg-white/5 border-slate-300 dark:border-white/10 hover:border-indigo-500/30 text-indigo-600 dark:text-indigo-400'
-              }`}
+              title={studioLocked ? describeAccess('aiContentStudio').explanation : undefined}
+              className={studioLocked ? LADDER_TOOL_LOCKED : LADDER_TOOL}
             >
               {isGenerating ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
               ) : (
-                <Sparkles className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
               )}
               AI Draft
               {studioLocked && <PlusLockChip feature="aiContentStudio" />}
             </button>
           )}
           <button
+            type="button"
             onClick={() => {
               setEditText(markingCriteria);
               setIsEditing(true);
             }}
             title="Edit criteria"
             aria-label="Edit criteria"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all"
+            className={`${LADDER_TOOL_ICON} text-slate-600 dark:text-slate-300 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white`}
           >
-            <Edit3 className="w-4 h-4" />
+            <Edit3 className="w-4 h-4" aria-hidden="true" />
           </button>
         </>
       ) : (
-        <div className="flex gap-1.5">
+        <div className="flex items-center gap-1">
           <button
+            type="button"
             onClick={handleCancel}
             aria-label="Cancel edit"
-            className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+            className={`${LADDER_TOOL_ICON} text-red-600 dark:text-red-400`}
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
           <button
+            type="button"
             onClick={handleSave}
             aria-label="Save"
-            className="p-1.5 rounded-lg text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20"
+            className={`${LADDER_TOOL_ICON} text-green-700 dark:text-green-400`}
           >
-            <Save className="w-4 h-4" />
+            <Save className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       )}
@@ -283,8 +249,8 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               <ListChecks className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="t-section text-slate-900 dark:text-white">Marking Criteria</h3>
-              <p className="text-[10px] text-slate-600 dark:text-slate-400 font-medium">
+              <h3 className={`${PANEL_NAME} text-slate-900 dark:text-white`}>Marking criteria</h3>
+              <p className="t-label text-slate-600 dark:text-slate-400">
                 Top Level: Band {maxPossibleBand}
               </p>
             </div>
@@ -295,17 +261,18 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
 
       <div className={embedded ? '' : 'p-4 bg-slate-50/30 dark:bg-black/20'}>
         {generateError && (
-          <div className="mb-3 p-3 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-500/20 text-[10px] font-medium text-red-600 dark:text-red-400 flex items-center justify-between gap-2 animate-fade-in">
+          <div className="mb-3 p-3 rounded-xl border border-red-600/40 bg-red-500/10 t-label text-red-800 dark:border-red-400/40 dark:text-red-300 flex items-center justify-between gap-2 animate-fade-in">
             <span className="flex items-center gap-2">
-              <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+              <AlertCircle className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
               {generateError}
             </span>
             <button
+              type="button"
               onClick={() => setGenerateError(null)}
               aria-label="Dismiss"
-              className="p-1 rounded-lg hover:bg-red-500/10 transition-colors"
+              className={`${LADDER_TOOL_ICON} text-red-800 dark:text-red-300`}
             >
-              <X className="w-3 h-3" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         )}
@@ -326,60 +293,78 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
             />
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className={LADDER_STACK}>
             {parsedCriteria.length > 0 ? (
               parsedCriteria.map((item, idx) => {
-                const itemConfig = getBandConfig(item.band);
+                // The row's exemplar, if the question has one at this level. The
+                // chip only says that one exists; the Sample Answers panel decides
+                // what it shows.
+                const exemplarMark = exemplarMarkForItem(
+                  item,
+                  sampleAnswers,
+                  prompt.totalMarks,
+                  commandTermInfo.tier
+                );
                 return (
-                  // Both halves of the row are painted from the SAME band
-                  // config, so the ladder is a ladder in whichever theme is on.
-                  // What used to break it was the config itself, not this
-                  // markup: the light tint was a `-50` shade on a white panel —
-                  // about a 2% difference — so in light mode every level showed
-                  // its coloured border and no fill at all, while dark mode's
-                  // alpha wash read correctly. Fixed at source in
-                  // `getBandConfig`; see the note there before reaching for a
-                  // local override here.
-                  <div
+                  // The shared ladder row, so the guide and the exemplars draw one
+                  // gutter, one radius and one type scale. A band-labelled row is
+                  // drawn at the mark its band starts at, so its figure is a mark
+                  // over the total like every other row, and the band goes in the
+                  // caption. The band's colour is read from `getBandConfig` inside
+                  // LadderRow, the one place a band's fill and ink come from.
+                  <LadderRow
                     key={idx}
-                    // `band-edge` in place of the token, here and on the mark
-                    // column's divider. Same reason as the Grade Standards
-                    // ladder this panel sits beside: a saturated outline drawn
-                    // around this band's own pale wash, once for the row and
-                    // again for the internal seam, so a criteria list read as
-                    // a stack of hard-edged boxes rather than a ladder. The
-                    // comment above records the fill being fixed at source;
-                    // this is the other half of the same row.
-                    style={{ '--band-rgb': getBandRgb(item.band) } as React.CSSProperties}
-                    className={`flex items-stretch rounded-xl border band-edge ${itemConfig.bg} overflow-hidden group shadow-sm transition-all`}
+                    id={`${rowId}-criterion-${idx}`}
+                    rowRef={(el) => {
+                      if (el) rowEls.current.set(idx, el);
+                      else rowEls.current.delete(idx);
+                    }}
+                    linked={item === linkedItem}
+                    band={item.band}
+                    markLabel={isBandLabelled(item) ? String(item.markRange[0]) : item.markLabel}
+                    total={prompt.totalMarks}
+                    footer={
+                      exemplarMark !== undefined ? (
+                        <button
+                          type="button"
+                          onClick={() => requestOpenExemplar(prompt.id, exemplarMark)}
+                          aria-label={`See the model answer for ${exemplarMark} ${exemplarMark === 1 ? 'mark' : 'marks'}`}
+                          className={LADDER_MODEL_ANSWER}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+                          Model answer
+                        </button>
+                      ) : undefined
+                    }
                   >
-                    <div
-                      className={`w-14 flex flex-col items-center justify-center p-2 border-r band-edge ${itemConfig.bg} flex-shrink-0`}
-                    >
-                      <span className={`text-lg font-bold ${itemConfig.text} leading-none`}>
-                        {item.markLabel}
-                      </span>
-                    </div>
-                    <div className="flex-1 p-3 t-body text-slate-600 dark:text-slate-300 font-serif">
+                    <div className={LADDER_CRITERION}>
                       {renderFormattedText(item.description, prompt.keywords, prompt.verb)}
                     </div>
-                  </div>
+                  </LadderRow>
                 );
               })
             ) : markingCriteria ? (
+              // A guide that did not split into rows, shown as one block. It is drawn as
+              // a row's shape with no gutter, in the same band edge and fill, so it reads
+              // as this question's ladder and not as a stray box.
               <div
-                className={`p-4 rounded-xl border ${maxBandConfig.border} bg-white dark:bg-black/20 t-body text-slate-600 dark:text-slate-300 font-serif shadow-sm`}
+                className={`${LADDER_FALLBACK} ${LADDER_EDGE_SHUT} ${LADDER_FILL}`}
+                style={ladderBandVars(maxPossibleBand)}
               >
                 {renderFormattedText(markingCriteria, prompt.keywords, prompt.verb)}
               </div>
             ) : (
-              <div className="py-8 px-4 text-center border-2 border-dashed border-slate-300 dark:border-white/10 rounded-xl">
-                {/* A pair, where it was a bare `text-slate-400` — a dark-theme
-                    tone with no light partner, measuring 2.56:1 on the white
-                    panel behind it. It is also the only thing this state says,
-                    so it is the one reading on the surface that has to be
-                    legible. DesignSpec §2. */}
-                <p className="t-label text-slate-600 dark:text-slate-400">
+              <div
+                className={`${LADDER_EMPTY} ${LADDER_EDGE_SHUT}`}
+                style={ladderBandVars(maxPossibleBand)}
+              >
+                <ListChecks
+                  className={`w-8 h-8 mx-auto mb-2 ${maxBandConfig.text}`}
+                  aria-hidden="true"
+                />
+                {/* The line is the only thing this state says, so it is the one reading
+                    on the surface that has to be legible: a pair, on both grounds. */}
+                <p className="t-label text-slate-700 dark:text-slate-300">
                   {canCurate
                     ? canGenerate
                       ? 'No marking criteria yet — add them with Edit, or start one with AI Draft.'

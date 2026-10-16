@@ -9,9 +9,12 @@ import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { AccordionSection } from '../../components/ReferenceMaterials';
 import { BookOpen } from 'lucide-react';
 import { PANEL_ROW_MIN_H, PANEL_SURFACE } from '../../utils/panelStyles';
+import { PANEL_NAME } from '../../components/PanelDisclosure';
 import {
+  CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
+  CARD_HEADER_CORNER,
   CARD_HEADER_ICON,
   CARD_HEADER_IDENTITY,
   CARD_HEADER_META_ROW,
@@ -19,6 +22,7 @@ import {
   CARD_HEADER_TITLE,
   CARD_HEADER_TITLE_BLOCK,
   CARD_HEADER_TRAY,
+  CARD_HEADER_ZOOM,
 } from '../../utils/cardChrome';
 import { Prompt, PromptVerb } from '../../types';
 
@@ -113,7 +117,7 @@ describe('the two card headings sit on the same line', () => {
     for (const el of chain) {
       expect(el.className).not.toMatch(/(^|\s)items-center/);
     }
-    expect(chain[chain.length - 1].className).toMatch(/items-start/);
+    expect(chain[chain.length - 1].className).toMatch(/items-(start|stretch)/);
   });
 
   it('pins the writing card header to the top in exactly the same way', () => {
@@ -126,7 +130,7 @@ describe('the two card headings sit on the same line', () => {
     for (const el of chain) {
       expect(el.className).not.toMatch(/(^|\s)items-center/);
     }
-    expect(chain[chain.length - 1].className).toMatch(/items-start/);
+    expect(chain[chain.length - 1].className).toMatch(/items-(start|stretch)/);
   });
 
   it('gives both title blocks the same step down from the top', () => {
@@ -203,14 +207,34 @@ describe('the two headers are built from one vocabulary', () => {
     const prompt = renderPromptHeader();
     const editor = renderEditorHeader();
 
-    for (const { header } of [prompt, editor]) {
+    // The writing card's corner is the plain tray. The question card's is the
+    // tray's column form, because it also holds the reading size above the bar.
+    const corners = [
+      { header: prompt.header, corner: CARD_HEADER_CORNER },
+      { header: editor.header, corner: CARD_HEADER_TRAY },
+    ];
+    for (const { header, corner } of corners) {
       const tray = header.querySelector(`div[class*="self-stretch"]`);
-      expect(tray?.className).toContain(CARD_HEADER_TRAY);
-      expect(
-        tray?.innerHTML.includes(CARD_HEADER_BAR) || tray?.firstElementChild?.className
-      ).toBeTruthy();
-      expect(header.innerHTML).toContain(CARD_HEADER_BAR);
+      expect(tray?.className).toContain(corner);
+      // The bar is marked, and it is the LAST thing in the corner, on its floor.
+      const bar = tray?.querySelector('[data-card-bar]');
+      expect(bar?.className).toContain(CARD_HEADER_BAR);
+      expect(tray?.lastElementChild).toBe(bar);
     }
+  });
+
+  it('puts the reading size in the question card’s corner, above the stat bar', () => {
+    const { header, heading } = renderPromptHeader();
+    const corner = header.querySelector('div[class*="self-stretch"]') as HTMLElement;
+
+    const zoom = corner.querySelector('[role="group"][aria-label="Reading size"]');
+    expect(zoom).toBeTruthy();
+    expect(zoom?.className).toContain(CARD_HEADER_ZOOM);
+    expect(zoom?.querySelector('button[aria-label="Decrease reading size"]')).toBeTruthy();
+    expect(zoom?.querySelector('button[aria-label="Increase reading size"]')).toBeTruthy();
+    // Above the bar, not beside the title, and no longer in the footer.
+    expect(corner.firstElementChild).toBe(zoom);
+    expect(heading.parentElement?.querySelector('[aria-label="Reading size"]')).toBeNull();
   });
 
   it('keeps the writing tools out of the title row', () => {
@@ -220,6 +244,36 @@ describe('the two headers are built from one vocabulary', () => {
     // The reading-size controls are in the tray, not beside the title.
     expect(tray?.querySelector('button[aria-label="Smaller text"]')).toBeTruthy();
     expect(heading.parentElement?.querySelector('button[aria-label="Smaller text"]')).toBeNull();
+  });
+});
+
+/**
+ * The feet of the pair. The writing card's footer and the prompt's footer were
+ * two translucent insets laid over two different greys, so the chips on one
+ * sat on a white the other did not share. They take one ground and one rule
+ * now, and this is what holds them to it.
+ */
+describe('the two card feet share one ground and rule', () => {
+  const footerOf = (container: HTMLElement) =>
+    container.querySelector('[class*="rounded-b-surface-inner"]') as HTMLElement;
+
+  it('builds the writing card footer from the shared footer vocabulary', () => {
+    const { container } = render(
+      <Editor value="" onChange={vi.fn()} verb={'DESCRIBE' as PromptVerb} writingMode="coach" />
+    );
+    expect(footerOf(container).className).toContain(CARD_FOOTER_BOX);
+  });
+
+  it('builds the question card footer from the same vocabulary', () => {
+    const { container } = render(<PromptDisplay {...promptProps} />);
+    expect(footerOf(container).className).toContain(CARD_FOOTER_BOX);
+  });
+
+  it('gives the shared footer a ladder ground in both themes, never white', () => {
+    expect(CARD_FOOTER_BOX).toContain('bg-[rgb(var(--color-bg-surface-inset))]');
+    expect(CARD_FOOTER_BOX).not.toMatch(/(^|\s)bg-white(\s|$)/);
+    expect(CARD_FOOTER_BOX).not.toContain('light:bg-white');
+    expect(CARD_FOOTER_BOX).not.toContain('border-white/10');
   });
 });
 
@@ -235,21 +289,24 @@ describe('the panels below the cards share one surface', () => {
 
   it('dresses the draft check the same way', () => {
     const { container } = render(
-      <DraftCheck insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]} />
+      <DraftCheck
+        insights={[{ id: 'i1', tone: 'info', message: 'Add a second point.' }]}
+        wordCount={20}
+      />
     );
     expect(surfaceOf(container)).toContain(PANEL_SURFACE);
   });
 
   /**
-   * A panel's NAME takes the section voice; the line under it is its caption.
-   *
-   * `DraftCheck` set both in `.t-label`, with a comment claiming the others did
-   * the same — they do not. On a phone all five panels stack in one column, and
-   * it was the only one labelling itself differently.
+   * A panel's NAME takes the heading voice (`PANEL_NAME`); the line under it is its
+   * caption. On a phone the panels stack in one column, so a panel that named
+   * itself in a different voice would be the one that stood out. The rail used to
+   * set its names in `.t-section`, the tracked italic caps, and this test pinned
+   * that; it now pins the sentence-case heading the marking report uses.
    */
   it('gives every panel in the column the same name treatment', () => {
     const named = [
-      render(<DraftCheck insights={[]} />).container,
+      render(<DraftCheck insights={[]} wordCount={0} />).container,
       render(
         <SampleAnswersAccordion
           prompt={prompt()}
@@ -263,8 +320,14 @@ describe('the panels below the cards share one surface', () => {
     ];
 
     for (const container of named) {
-      const name = container.querySelector('button span.t-section');
-      expect(name, 'a panel whose name is not set in the section voice').toBeTruthy();
+      // `block` picks the name out: the draft check's ring also carries a bold span.
+      const name = container.querySelector('button span.block.font-bold');
+      expect(name, 'a panel whose name is not set in the heading voice').toBeTruthy();
+      for (const token of PANEL_NAME.split(' ')) {
+        expect(name!.className).toContain(token);
+      }
+      expect(name!.className).not.toContain('t-section');
+      expect(name!.className).not.toContain('uppercase');
     }
   });
 
@@ -290,7 +353,7 @@ describe('the panels below the cards share one surface', () => {
         render(<WritingMetricsDashboard userAnswer="" prompt={prompt()} onAddWord={vi.fn()} />)
           .container,
       ],
-      ['draft check', render(<DraftCheck insights={[]} />).container],
+      ['draft check', render(<DraftCheck insights={[]} wordCount={0} />).container],
       [
         'exemplars',
         render(

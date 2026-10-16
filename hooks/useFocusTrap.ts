@@ -15,7 +15,8 @@ import { useEffect, useRef } from 'react';
  * misses:
  *
  *   1. Move focus INTO the dialog when it opens.
- *   2. Keep Tab and Shift+Tab inside it while it is open.
+ *   2. Keep Tab and Shift+Tab inside it while it is open — and inside the
+ *      layers deliberately painted above it (see `focusTrapCompanion`).
  *   3. Put focus BACK where it came from when it closes. Without this a
  *      keyboard user is returned to `<body>` and has to tab from the top of
  *      the page to reach the control they just used.
@@ -86,6 +87,135 @@ const focusableWithin = (container: HTMLElement): HTMLElement[] =>
   Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(isReachable);
 
 /**
+ * Marks a region OUTSIDE the dialog that its Tab cycle should include.
+ *
+ * Spread it onto the mount of anything that is painted above the dialog and
+ * holds controls a keyboard user needs: today, the toast. The toast is portalled
+ * to <body> at z-toast, above the improvement review, so a mouse user can press
+ * its "Undo" — but it is not inside the dialog, and a trap that only knows its
+ * own subtree wraps Tab straight past it. The control was on screen, on top, and
+ * unreachable.
+ *
+ * It is an attribute and not a registration so that the mount stays a plain
+ * element, and so no dialog has to know a toast exists: the dialogs are
+ * untouched, and the cycle they get is "my controls, then the companion's".
+ */
+export const FOCUS_TRAP_COMPANION_ATTRIBUTE = 'data-focus-trap-companion';
+export const focusTrapCompanion = { [FOCUS_TRAP_COMPANION_ATTRIBUTE]: '' } as const;
+
+/**
+ * Is this control painted on top, as opposed to sitting under a scrim?
+ *
+ * The toast ranks below the confirm, rename and flag dialogs (z 2200 against
+ * 1350), so a toast raised over one of those is hidden by it. Offering its
+ * buttons to Tab there would put focus on a control nobody can see, and Enter
+ * would press "Undo" blind. Asking the browser what is actually painted at the
+ * control's centre answers that without this hook needing to know the z-index
+ * ladder, or which modal is open.
+ *
+ * Where there is no layout engine (jsdom reports an empty rectangle, and has no
+ * `elementFromPoint`) the safe answer is "assume it is on top", for the reason
+ * `isReachable` gives: a cycle that occasionally offers one control too many
+ * still keeps the dialog's own controls trapped.
+ */
+const isPaintedOnTop = (control: HTMLElement, region: HTMLElement): boolean => {
+  if (typeof document.elementFromPoint !== 'function') return true;
+  const box = control.getBoundingClientRect();
+  if (box.width === 0 && box.height === 0) return true;
+  const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+  return !!hit && region.contains(hit);
+};
+
+/**
+ * The companion regions, and the controls in them that Tab can land on.
+ *
+ * Read afresh on every Tab rather than cached: a toast appears and expires
+ * while the dialog stays open, and the cycle must follow it. A region inside
+ * the dialog is skipped — its controls are already the dialog's own — and so is
+ * one that contains it, which would otherwise swallow the dialog's controls.
+ */
+const companionsOutside = (
+  container: HTMLElement
+): { regions: HTMLElement[]; stops: HTMLElement[] } => {
+  const regions = Array.from(
+    document.querySelectorAll<HTMLElement>(`[${FOCUS_TRAP_COMPANION_ATTRIBUTE}]`)
+  ).filter((region) => !container.contains(region) && !region.contains(container));
+  const stops = regions.flatMap((region) =>
+    focusableWithin(region).filter((control) => isPaintedOnTop(control, region))
+  );
+  return { regions, stops };
+};
+
+/**
+ * The element that had focus before the first dialog of the current run opened.
+ *
+ * A dialog can hand off to another from one of its own controls: the profile's
+ * Terms link closes the profile and opens the legal reader in the same click. The
+ * second dialog then captures that control as its opener, and the first dialog's
+ * unmount removes it, so the restore finds a detached node and leaves focus on
+ * <body>. This page element is where focus belongs once the run ends. It is set
+ * by the first dialog to open, kept while any dialog is open, and cleared by the
+ * restore that runs with no dialog left.
+ */
+let runOpener: HTMLElement | null = null;
+
+/** The surface of the topmost dialog that is still mounted, if any dialog is open. */
+const topmostContainer = (): HTMLElement | null => {
+  for (let i = trapStack.length - 1; i >= 0; i--) {
+    const el = trapStack[i].container();
+    if (el) return el;
+  }
+  return null;
+};
+
+/**
+ * Hands focus back to the opener one frame after a dialog closes, unless a
+ * dialog that is still open has taken focus.
+ *
+ * The check is made when the frame lands, against the stack as it is then, and
+ * not when the close happened. That matters for the close-then-open case: a
+ * dialog closes and another opens in the same tick, so the new one is a separate
+ * hook instance, and no cancel kept on the closing one can see it. By the time
+ * the frame runs, the new dialog is on top and holds focus, and restoring to the
+ * page behind would take focus straight back out of it.
+ *
+ * So while a dialog is open whose surface does not hold the opener, that dialog
+ * keeps focus; if focus has nonetheless fallen out of it, it goes to its first
+ * control. A dialog opened from inside a still-open one holds its opener, so
+ * closing it returns focus to its parent exactly as before. StrictMode's double
+ * effect run is the same case: the dialog is open when the frame lands, and it
+ * holds focus.
+ *
+ * `preventScroll` is load-bearing, not decoration. `useScrollLock` has just
+ * unpinned <body> and put the viewport back at the exact offset it captured when
+ * the modal opened; a plain `.focus()` here immediately scrolls the opener into
+ * view and undoes that, so closing any dialog nudged the page by however far the
+ * opener sat from the scroll anchor. Nothing is stranded offscreen by
+ * suppressing it: the position being restored is the one the opener was clicked
+ * at.
+ *
+ * Re-checked as well that the opener is still in the document: a dialog that
+ * deletes the row which opened it leaves a detached node behind, and focusing
+ * that puts focus nowhere at all.
+ */
+const restoreFocus = (opener: HTMLElement | null) => {
+  const top = topmostContainer();
+  if (top && !top.contains(opener)) {
+    if (!top.contains(document.activeElement)) {
+      (focusableWithin(top)[0] ?? top).focus?.({ preventScroll: true });
+    }
+    return;
+  }
+  // A detached opener falls back to the page element that began the run, if it is
+  // still there (see runOpener).
+  const target = opener && document.contains(opener) ? opener : runOpener;
+  if (target && document.contains(target)) {
+    target.focus?.({ preventScroll: true });
+  }
+  if (trapStack.length === 0) runOpener = null;
+};
+
+/**
  * Trap focus inside the returned element while `active`.
  *
  * Put the ref on the dialog surface itself (the element carrying
@@ -136,6 +266,11 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
     const opener = openerRef.current;
     const previouslyFocused = opener && !container?.contains(opener) ? opener : null;
 
+    // Kept while the run lasts. Replaced when it is missing, detached (a run that
+    // ended without its restore), or the body, which is never a place to return to.
+    const reusable = !runOpener || runOpener === document.body || !runOpener.isConnected;
+    if (reusable) runOpener = previouslyFocused;
+
     const entry: TrapEntry = { container: () => containerRef.current };
     trapStack.push(entry);
 
@@ -162,33 +297,57 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
       const el = containerRef.current;
       if (!el) return;
       const focusable = focusableWithin(el);
-      if (focusable.length === 0) {
-        // Nothing to land on — keep focus on the dialog rather than letting
-        // Tab wander off into the page underneath.
-        e.preventDefault();
-        el.focus?.();
-        return;
-      }
+      const { regions, stops } = companionsOutside(el);
 
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      // The dialog's own stops. With no controls at all the dialog itself is
+      // the only place to stand, so keep focus on it rather than letting Tab
+      // wander off into the page underneath.
+      const own = focusable.length > 0 ? focusable : [el];
+      const first = own[0];
+      const last = own[own.length - 1];
+      const companionFirst = stops[0];
+      const companionLast = stops[stops.length - 1];
       const activeEl = document.activeElement;
+      const forward = !e.shiftKey;
 
-      // Focus outside the dialog entirely (a click on the page behind, a
-      // programmatic focus from a toast) — pull it back rather than letting
-      // the wrap-around logic silently no-op.
-      if (!el.contains(activeEl)) {
+      const inDialog = el.contains(activeEl);
+      const inCompanion = regions.some((region) => region.contains(activeEl));
+
+      // Focus outside the dialog and outside any companion (a click on the
+      // page behind, a stray programmatic focus) — pull it back rather than
+      // letting the wrap-around logic silently no-op. Only a region the app
+      // has marked as a companion is exempt: that is a deliberate hand-off to a
+      // layer painted above the dialog, not an escape.
+      if (!inDialog && !inCompanion) {
         e.preventDefault();
-        (e.shiftKey ? last : first).focus();
+        (forward ? first : last).focus?.();
         return;
       }
 
-      if (e.shiftKey && activeEl === first) {
+      /**
+       * The cycle is the dialog's controls, then each companion's, then round
+       * to the start. Only the edges are intercepted; between two controls in
+       * the same region the browser's own Tab order is left to do its work
+       * (radio groups, a control that moves focus itself).
+       */
+      let target: HTMLElement | null = null;
+      if (inDialog) {
+        if (focusable.length === 0) {
+          target = (forward ? companionFirst : companionLast) ?? el;
+        } else if (forward && activeEl === last) {
+          target = companionFirst ?? first;
+        } else if (!forward && activeEl === first) {
+          target = companionLast ?? last;
+        }
+      } else if (forward && (!companionLast || activeEl === companionLast)) {
+        target = first;
+      } else if (!forward && (!companionFirst || activeEl === companionFirst)) {
+        target = last;
+      }
+
+      if (target) {
         e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && activeEl === last) {
-        e.preventDefault();
-        first.focus();
+        target.focus?.();
       }
     };
 
@@ -209,25 +368,12 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
        * thing this restore exists to prevent, and invisible in a unit test
        * where nothing else re-renders. One frame later the tree has settled.
        *
-       * Re-checked at that point rather than trusting the earlier check: a
-       * dialog that deletes the row which opened it leaves a detached node
-       * behind, and focusing that puts focus nowhere at all.
-       *
-       * `preventScroll` is load-bearing, not decoration. `useScrollLock` has
-       * just unpinned <body> and put the viewport back at the exact offset it
-       * captured when the modal opened; a plain `.focus()` here immediately
-       * scrolls the opener into view and undoes that, so closing any dialog
-       * nudged the page by however far the opener sat from the scroll anchor.
-       * Nothing is stranded offscreen by suppressing it: the position being
-       * restored is the one the opener was clicked at.
+       * Whether the frame still hands focus back is decided when it lands, by
+       * `restoreFocus`, not here: see there for the close-then-open case.
        */
-      const restore = () => {
-        if (previouslyFocused && document.contains(previouslyFocused)) {
-          previouslyFocused.focus?.({ preventScroll: true });
-        }
-      };
-      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(restore);
-      else restore();
+      if (typeof requestAnimationFrame === 'function') {
+        requestAnimationFrame(() => restoreFocus(previouslyFocused));
+      } else restoreFocus(previouslyFocused);
     };
   }, [active]);
 

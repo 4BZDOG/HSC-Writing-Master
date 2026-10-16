@@ -1,14 +1,21 @@
 import React from 'react';
 import { Check, Minus, Crown, Sparkles, School } from 'lucide-react';
 import {
+  describeAccess,
   PLAN_LABELS,
-  PLAN_PRICING,
   monetisationEnabled,
   requestUpgrade,
   getUserPlan,
   type Plan,
 } from '../services/entitlements';
-import { buildPlanComparison, COMPARED_PLANS, PLAN_TAGLINES } from '../utils/planComparison';
+import {
+  buildPlanComparison,
+  COMPARED_PLANS,
+  PLAN_AUDIENCES,
+  PLAN_TAGLINES,
+  planPriceLine,
+} from '../utils/planComparison';
+import { useLivePrices } from '../hooks/useLivePrices';
 import SchoolLicencePanel, { hasSchoolRoute } from './SchoolLicencePanel';
 import { dailyResetTime } from '../utils/dailyReset';
 import type { User } from '../types';
@@ -22,6 +29,11 @@ import type { ToastType } from '../hooks/useToast';
  * Two layouts from one data source: a comparison table from `sm` up, and a
  * stack of per-plan cards below it, because a three-column table on a phone
  * is unreadable and most students are on a phone.
+ *
+ * Ladder: this sits inside a paper body. Plan cards and the stacked rows are
+ * wells cut into it, the table's head row is a strip, and the plan the user is
+ * on takes a tint one step deeper than a surface wash so it still registers on
+ * paper.
  */
 
 const PLAN_ICONS: Record<Plan, typeof Crown> = {
@@ -30,33 +42,32 @@ const PLAN_ICONS: Record<Plan, typeof Crown> = {
   school: School,
 };
 
-/**
- * A FUNCTION, not a module-level object. Interpolating an imported value at
- * module scope is what shipped a blank page once (see services/planLimits.ts):
- * if the bundler puts this component and `entitlements` in chunks that import
- * each other, the read happens before the other chunk has initialised.
- * `npm run check:bundle` fails the build if that ever becomes true.
- */
-const planPriceLine = (plan: Plan): string =>
-  ({
-    free: 'Free, always',
-    plus: `${PLAN_PRICING.yearly}/year or ${PLAN_PRICING.monthly}/month`,
-    school: `${PLAN_PRICING.schoolSeat} per student, per year`,
-  })[plan];
-
 const Cell: React.FC<{ cell: ReturnType<typeof buildPlanComparison>[0]['cells'][Plan] }> = ({
   cell,
 }) => {
+  // The ticks are the table's only signal for "included", so they are graphics
+  // that carry meaning and need 3:1 on the paper. Emerald-500 is 2.5:1 there;
+  // the light step is the one that clears it.
   if (cell.kind === 'yes')
-    return <Check className="w-4 h-4 text-emerald-500 mx-auto" aria-label="Included" />;
+    return (
+      <Check
+        className="w-4 h-4 text-emerald-500 light:text-emerald-700 mx-auto"
+        aria-label="Included"
+      />
+    );
   if (cell.kind === 'no')
-    return <Minus className="w-4 h-4 text-slate-600 mx-auto" aria-label="Not included" />;
+    return (
+      <Minus
+        className="w-4 h-4 text-[rgb(var(--color-text-dim))] mx-auto"
+        aria-label="Not included"
+      />
+    );
   return (
     <span
-      className={`text-[11px] font-bold ${
+      className={`text-xs font-bold ${
         cell.kind === 'partial'
-          ? 'text-amber-500'
-          : 'text-[rgb(var(--color-text-primary))] light:text-slate-900'
+          ? 'text-amber-500 light:text-amber-800'
+          : 'text-[rgb(var(--color-text-primary))]'
       }`}
     >
       {cell.text}
@@ -84,7 +95,13 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
   onDone,
 }) => {
   const rows = buildPlanComparison();
+  // The price lines are read at render, from the live prices when they have arrived.
+  // A FUNCTION call, not a module-level string: interpolating an imported value at
+  // module scope is what shipped a blank page once (see services/planLimits.ts).
+  const prices = useLivePrices();
   const currentPlan = getUserPlan(user ?? null);
+  // The free-plan route to the prompt. Empty for anyone the prompt would not sell to.
+  const upgradeCta = describeAccess('fullFeedback', user);
 
   return (
     <div>
@@ -98,25 +115,28 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               key={plan}
               className={`p-4 rounded-2xl border relative ${
                 isCurrent
-                  ? 'bg-indigo-500/10 light:bg-indigo-50 border-indigo-500/40 light:border-indigo-300'
-                  : 'bg-white/[0.03] light:bg-slate-50 border-white/5 light:border-slate-200'
+                  ? 'bg-indigo-500/10 light:bg-indigo-100/60 border-indigo-500/40 light:border-indigo-400'
+                  : 'bg-white/[0.03] light:bg-surface-inset border-white/5 light:border-slate-300'
               }`}
             >
               {isCurrent && (
-                <span className="t-label absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-400 light:text-indigo-600">
+                <span className="t-label absolute top-3 right-3 px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 light:bg-indigo-200/70 light:text-indigo-700">
                   Your plan
                 </span>
               )}
               <Icon
-                className={`w-5 h-5 mb-2 ${plan === 'free' ? 'text-slate-400' : plan === 'plus' ? 'text-amber-500' : 'text-indigo-400'}`}
+                className={`w-5 h-5 mb-2 ${plan === 'free' ? 'text-slate-400 light:text-slate-600' : plan === 'plus' ? 'text-amber-500 light:text-amber-700' : 'text-indigo-400 light:text-indigo-600'}`}
               />
-              <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))] light:text-slate-900">
+              <h4 className="text-sm font-black text-[rgb(var(--color-text-primary))]">
                 {PLAN_LABELS[plan]}
               </h4>
-              <p className="text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
-                {planPriceLine(plan)}
+              <p className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] mt-0.5">
+                {PLAN_AUDIENCES[plan]}
               </p>
-              <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 mt-2 font-medium">
+              <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1">
+                {planPriceLine(plan, prices)}
+              </p>
+              <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-2 font-medium">
                 {PLAN_TAGLINES[plan]}
               </p>
             </div>
@@ -125,11 +145,11 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
       </div>
 
       {/* Comparison table — sm and up */}
-      <div className="hidden sm:block overflow-x-auto custom-scrollbar rounded-2xl border border-white/5 light:border-slate-200">
+      <div className="hidden sm:block overflow-x-auto custom-scrollbar rounded-2xl border border-white/5 light:border-slate-300">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white/[0.03] light:bg-slate-50">
-              <th className="t-label px-4 py-3 text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <tr className="bg-white/[0.03] light:bg-surface-elevated border-b border-white/5 light:border-slate-300">
+              <th className="t-label px-4 py-3 text-[rgb(var(--color-text-muted))]">
                 What you get
               </th>
               {COMPARED_PLANS.map((plan) => (
@@ -138,8 +158,8 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
                   scope="col"
                   className={`t-label px-4 py-3 text-center ${
                     plan === currentPlan
-                      ? 'text-indigo-400 light:text-indigo-600'
-                      : 'text-[rgb(var(--color-text-muted))] light:text-slate-500'
+                      ? 'text-indigo-400 light:text-indigo-700'
+                      : 'text-[rgb(var(--color-text-muted))]'
                   }`}
                 >
                   {PLAN_LABELS[plan]}
@@ -149,13 +169,13 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="border-t border-white/5 light:border-slate-200">
+              <tr key={row.id} className="border-t border-white/5 light:border-slate-300">
                 <th scope="row" className="px-4 py-3 font-normal">
-                  <span className="block text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+                  <span className="block text-xs font-bold text-[rgb(var(--color-text-primary))]">
                     {row.label}
                   </span>
                   {row.note && (
-                    <span className="block text-[10px] text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-0.5 font-medium">
+                    <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
                       {row.note}
                     </span>
                   )}
@@ -163,7 +183,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
                 {COMPARED_PLANS.map((plan) => (
                   <td
                     key={plan}
-                    className={`px-4 py-3 text-center ${plan === currentPlan ? 'bg-indigo-500/5 light:bg-indigo-50/50' : ''}`}
+                    className={`px-4 py-3 text-center ${plan === currentPlan ? 'bg-indigo-500/5 light:bg-indigo-100/50' : ''}`}
                   >
                     <Cell cell={row.cells[plan]} />
                   </td>
@@ -179,15 +199,15 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
         {rows.map((row) => (
           <div
             key={row.id}
-            className="p-3 rounded-2xl bg-white/[0.03] light:bg-slate-50 border border-white/5 light:border-slate-200"
+            className="p-3 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
           >
-            <span className="block text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
+            <span className="block text-xs font-bold text-[rgb(var(--color-text-primary))]">
               {row.label}
             </span>
             <div className="mt-2 grid grid-cols-3 gap-2">
               {COMPARED_PLANS.map((plan) => (
                 <div key={plan} className="text-center">
-                  <span className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                  <span className="t-label block text-[rgb(var(--color-text-muted))] mb-1">
                     {PLAN_LABELS[plan]}
                   </span>
                   <Cell cell={row.cells[plan]} />
@@ -201,11 +221,11 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
       {/* Nothing to upgrade to when nothing is for sale — the button would
           open a prompt the UpgradeModal now refuses to show. The table above
           already renders every feature as included in that state. */}
-      {showUpgradeCta && currentPlan === 'free' && monetisationEnabled() && (
-        <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-50 border border-amber-400/20 light:border-amber-200">
-          <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-600 leading-relaxed">
-            Your free markings come back every day at {dailyResetTime()}, and the plan never
-            expires. Upgrade when you want the full feedback, not because you ran out of time.
+      {showUpgradeCta && upgradeCta.cta === 'upgrade' && (
+        <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300">
+          <p className="text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
+            Your free markings reset every day at {dailyResetTime()}, and the free plan has no end
+            date. Upgrade when you want the full feedback, not because you ran out of time.
           </p>
           <button
             onClick={() => {
@@ -215,9 +235,9 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               // very button that asked for it.
               onDone?.();
             }}
-            className="t-label shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
+            className="t-label min-h-11 shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
           >
-            <Crown className="w-3.5 h-3.5" /> See {PLAN_LABELS.plus}
+            <Crown className="w-3.5 h-3.5" /> {upgradeCta.ctaLabel}
           </button>
         </div>
       )}

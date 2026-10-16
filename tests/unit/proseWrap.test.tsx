@@ -28,7 +28,6 @@ const SURFACES = [
   'components/CommandTermGuideModal.tsx',
   'components/OutcomeDetailModal.tsx',
   'components/DraftCheck.tsx',
-  'components/ReferenceMaterials.tsx',
   'components/CommandVerbHierarchy.tsx',
   'utils/verbRibbonChrome.ts',
 ];

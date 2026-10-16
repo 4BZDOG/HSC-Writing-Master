@@ -258,39 +258,68 @@ const persistProfileState = async (userId: string, user: User): Promise<void> =>
 };
 
 /**
- * School seat licence: members of a school with an active licence hold the
- * 'school' plan (webhook keeps schools.plan_status in sync; past_due keeps
- * the plan — same grace rule as personal subscriptions). Runs as a SEPARATE
- * soft query so a database that predates the licence columns degrades to
- * "no school plan" instead of failing the whole sign-in.
+ * School seat licence and school membership, read in one soft query.
+ *
+ * A member of a school with a live licence holds the 'school' plan (the webhook
+ * keeps schools.plan_status in sync; past_due keeps the plan, the same grace rule
+ * as personal subscriptions). The query runs as a SEPARATE soft read so a
+ * database that predates the licence columns degrades to "no school plan"
+ * instead of failing the whole sign-in.
+ *
+ * It also carries WHICH school the user belongs to (`schoolId`, `schoolName`).
+ * The client cannot otherwise tell "attached to an unlicensed school" from "no
+ * school at all", and the two get different routes: a teacher at an unlicensed
+ * school can buy seats, a teacher with no school has to ask an admin to add
+ * them. Same query, not a second round trip.
+ *
+ * The plan is the HIGHER of the personal plan and the licence, not whichever
+ * arrived first. A teacher with their own Plus in a licensed school holds School:
+ * the licence is what covers the cohort reports, and Plus does not. Mirrors
+ * caller_plan() (schema §17), which the server enforces with the same order.
  */
-const applySchoolPlan = async (userId: string, user: User): Promise<User> => {
-  // A personal paid plan already covers everything the school plan grants.
-  if (user.stripePlan && user.stripePlan !== 'free') return user;
+export const applySchoolPlan = async (userId: string, user: User): Promise<User> => {
   try {
     const { data, error } = await supabase!
       .from('profiles')
-      .select('school:school_id (plan_status, plan_period_end, plan_cancel_at_period_end)')
+      .select(
+        'school_id, school:school_id (name, plan_status, plan_period_end, plan_cancel_at_period_end)'
+      )
       .eq('id', userId)
       .maybeSingle();
     if (error || !data) return user;
     const school = (Array.isArray(data.school) ? data.school[0] : data.school) as {
+      name?: string;
       plan_status?: string;
       plan_period_end?: string | null;
       plan_cancel_at_period_end?: boolean | null;
     } | null;
-    if (school && ['active', 'trialing', 'past_due'].includes(school.plan_status ?? '')) {
-      return {
-        ...user,
-        stripePlan: 'school',
-        ...(school.plan_period_end ? { planPeriodEnd: school.plan_period_end } : {}),
-        // Carried so the profile can tell "renews then" from "stops then". A
-        // database that predates the column returns undefined, which reads as
-        // "renewing" — the behaviour before this existed.
-        ...(school.plan_cancel_at_period_end === true ? { planCancelAtPeriodEnd: true } : {}),
-      };
-    }
-    return user;
+    const schoolId = typeof data.school_id === 'string' ? data.school_id : undefined;
+    const schoolName = typeof school?.name === 'string' ? school.name : undefined;
+
+    // Replace, rather than spread, so a school the user has since left is not
+    // carried forward by a stale session copy.
+    const next: User = { ...user };
+    delete next.schoolId;
+    delete next.schoolName;
+    if (schoolId) next.schoolId = schoolId;
+    if (schoolName) next.schoolName = schoolName;
+
+    const licensed = ['active', 'trialing', 'past_due'].includes(school?.plan_status ?? '');
+    // Already at School by a personal plan: nothing above it to resolve to.
+    if (!licensed || user.stripePlan === 'school') return next;
+
+    // The licence outranks a personal Plus, so its renewal date replaces the
+    // personal one. Cleared when the licence has none, rather than left to show
+    // the personal subscription's date against the school's plan.
+    delete next.planPeriodEnd;
+    delete next.planCancelAtPeriodEnd;
+    next.stripePlan = 'school';
+    if (school?.plan_period_end) next.planPeriodEnd = school.plan_period_end;
+    // Carried so the profile can tell "renews then" from "stops then". A
+    // database that predates the column returns undefined, which reads as
+    // "renewing" — the behaviour before this existed.
+    if (school?.plan_cancel_at_period_end === true) next.planCancelAtPeriodEnd = true;
+    return next;
   } catch {
     return user;
   }

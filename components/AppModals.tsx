@@ -20,6 +20,8 @@ import ManualPromptModal from './ManualPromptModal';
 import ManifestImportModal from './ManifestImportModal';
 import QuickStartModal from './QuickStartModal';
 import LegalDocumentModal from './LegalDocumentModal';
+import ProgressReportModal from './ProgressReportModal';
+import { visibleCourses } from '../utils/courseVisibility';
 import {
   reconcileImportedTopicIds,
   mergeTopicContents,
@@ -50,6 +52,9 @@ import type {
  * admin chunk into every student's first load for a modal they can never open.
  */
 const DatabaseDashboard = lazy(() => import('./admin/DatabaseDashboard'));
+// The same rule as the Database Manager: a system-admin surface, and out of the
+// eager graph, so a student never fetches the billing figures they cannot open.
+const BillingOverview = lazy(() => import('./admin/BillingOverview'));
 
 interface AppModalsProps {
   activeModals: Set<string>;
@@ -127,6 +132,12 @@ const AppModals: React.FC<AppModalsProps> = ({
    * counted zero empty syllabus points, and silently skipped the offer in
    * exactly the case the offer is for.
    */
+  // The progress report's course picker offers what the navigator shows this role.
+  const reportCourses = React.useMemo(
+    () => (user ? visibleCourses(courses, user.role) : []),
+    [courses, user]
+  );
+
   const coursesRef = React.useRef(courses);
   coursesRef.current = courses;
 
@@ -372,6 +383,15 @@ const AppModals: React.FC<AppModalsProps> = ({
         </Suspense>
       )}
 
+      {user && isSystemAdmin(user.role) && (
+        <Suspense fallback={null}>
+          <BillingOverview
+            isOpen={isModalOpen('billingOverview')}
+            onClose={() => closeModal('billingOverview')}
+          />
+        </Suspense>
+      )}
+
       <SyllabusImportModal
         isOpen={isModalOpen('fullSyllabusImport')}
         onClose={() => closeModal('fullSyllabusImport')}
@@ -536,6 +556,21 @@ const AppModals: React.FC<AppModalsProps> = ({
             closeModal('userProfile');
             modalHandlers.openModal('legalDocuments');
           }}
+          /* Hands off to the report's options, as the three rows above do. */
+          onOpenProgressReport={() => {
+            closeModal('userProfile');
+            modalHandlers.openModal('progressReport');
+          }}
+        />
+      )}
+
+      {user && (
+        <ProgressReportModal
+          isOpen={isModalOpen('progressReport')}
+          onClose={() => closeModal('progressReport')}
+          user={user}
+          courses={reportCourses}
+          showToast={showToast}
         />
       )}
 

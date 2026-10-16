@@ -43,7 +43,7 @@ const AiErrorNotice: React.FC<AiErrorNoticeProps> = ({
               <button
                 type="button"
                 onClick={onRetry}
-                className="text-xs font-bold text-white bg-red-600/60 hover:bg-red-600 px-3 py-1.5 rounded-lg hover:scale-105 active:scale-[0.98] transition-transform"
+                className="min-h-11 sm:min-h-0 text-xs font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg hover:scale-105 active:scale-[0.98] transition-transform"
               >
                 Try again
               </button>
@@ -52,7 +52,7 @@ const AiErrorNotice: React.FC<AiErrorNoticeProps> = ({
               <button
                 type="button"
                 onClick={onDismiss}
-                className="text-xs font-bold text-red-300 light:text-red-600 hover:text-white light:hover:text-red-800 px-3 py-1.5 rounded-lg hover:scale-105 active:scale-[0.98] transition-transform"
+                className="min-h-11 sm:min-h-0 text-xs font-bold text-red-300 light:text-red-700 hover:text-white light:hover:text-red-800 px-3 py-1.5 rounded-lg hover:scale-105 active:scale-[0.98] transition-transform"
               >
                 Dismiss
               </button>

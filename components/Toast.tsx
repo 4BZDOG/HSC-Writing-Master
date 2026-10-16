@@ -29,7 +29,7 @@ interface ToastProps {
  * already measure 8:1 and better. Gated by tests/e2e/light-theme.spec.ts,
  * which is what caught the sky one.
  */
-const toastConfig = {
+export const toastConfig = {
   success: {
     containerClass: 'bg-[rgb(var(--color-bg-surface))]/90 border-emerald-500/30',
     iconColor: 'text-emerald-700 dark:text-emerald-400',
@@ -142,7 +142,7 @@ const Toast: React.FC<ToastProps> = ({
                 onClose();
                 action.onClick();
               }}
-              className={`mt-2.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${config.iconBg} ${config.iconColor} border-current/25 hover:brightness-125`}
+              className={`min-h-11 sm:min-h-0 mt-2.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${config.iconBg} ${config.iconColor} border-current/25 hover:brightness-125`}
             >
               {action.label}
             </button>
@@ -154,7 +154,7 @@ const Toast: React.FC<ToastProps> = ({
           onClick={onClose}
           aria-label="Close notification"
           className="
-            flex-shrink-0 p-1.5 rounded-lg -mt-1 -mr-1
+            flex-shrink-0 flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-1.5 rounded-lg -mt-1 -mr-1
             text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]
             hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200
           "

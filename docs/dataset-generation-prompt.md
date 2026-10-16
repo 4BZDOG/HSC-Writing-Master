@@ -95,6 +95,33 @@ OUTPUT SHAPE (exactly this structure; omit all id fields — the app generates t
   ]
 }
 
+EXAM STANDARD
+- Write the way a real HSC paper is written, not as a ladder of syllabus
+  restatements: short parts of 1-6 marks, each tied to a scenario, and one or two
+  exam-length responses of 15-25 marks. Where real past questions are supplied,
+  match their stem shape, mark values and marking-guide wording; never copy them.
+- A stem is one task in one or two sentences. Point at the scenario ("this
+  business", "this advertisement") instead of naming it or writing "in the
+  scenario". Capitalise an instruction count (ONE, TWO). Never repeat the dot
+  point as the question.
+- A stem may open How…, Why…, What… or To what extent…. "verb" still carries a
+  command term: EXPLAIN for How and Why parts, OUTLINE for "What is the purpose
+  of…", INTERPRET for "What does … indicate", ASSESS for "To what extent".
+- Write one exam-length question (15-25 marks) per topic. Give a 20-mark question
+  a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY, RECOMMEND): Tier 5 derives the five
+  bands NESA marks 20-mark questions against (17-20 / 13-16 / 9-12 / 5-8 / 1-4).
+  Exemplars at 20, 12 and 5 marks.
+- Match the verb tier to the length: 7-9 marks need Tier 3 or above, 10-14 marks
+  Tier 4 or above, 15 or more marks Tier 5 or above (DISCUSS, ASSESS, JUSTIFY,
+  RECOMMEND; CONSTRUCT is allowed for a piece of writing). A lower-tier verb cannot
+  show that many marks as bands, so the app raises it on import; to ask for a
+  lower-order task at that length, split it into parts.
+- NESA's own sample answers are short: a median of about 20 words for 1 mark, 33
+  for 2, 54 for 3, 74 for 4, 93 for 5, 125 for 6 and 200 for 8. Aim for those, up to
+  about a third more, rather than the top of the word band. (`docs/hsc-exam-profiles.md`)
+- One short scenario per question or group of parts. Label an invented business
+  "Hypothetical:"; state nothing about a real business you are not certain of.
+
 DOT POINT RULES
 - Every dot point description MUST begin with a command verb from the VERB LIST
   (lowercase reads naturally, e.g. "describe the OSI model…").

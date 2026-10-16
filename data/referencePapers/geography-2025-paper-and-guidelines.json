@@ -1,0 +1,359 @@
+{
+  "year": 2025,
+  "skipped": [
+    {"number": "1–15", "reason": "Section I multiple-choice; not extracted (brief)."}
+  ],
+  "questions": [
+    {
+      "number": "16(a)",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "sources": ["Source F"],
+      "stem": "Complete the précis map using Source F.",
+      "stimulus": "Refer to Source F on page 3 of the Stimulus Booklet to answer parts (a) and (b).\nKEY\nIndustrial Forest Community green space\nResidential Agriculture Major road",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Correctly completes a précis map using the key"},
+        {"marks": "2", "text": "Correctly completes some parts of a précis map using the key"},
+        {"marks": "1", "text": "Shows some understanding of précis map construction using the key"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "16(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source F"],
+      "stem": "Describe how a précis map of the Freiburg area could be useful for geographers.",
+      "stimulus": "Refer to Source F on page 3 of the Stimulus Booklet to answer parts (a) and (b).",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Describes the use of a précis map of the Freiburg area for geographers"},
+        {"marks": "2", "text": "Outlines the use of a précis map for geographers"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "A précis map of Freiburg would be useful for geographers as they can see the land use patterns of the city, such as the amount of residential land, industrial land or forest. Seeing the land use enables them to help with informing planning decisions and sustainability initiatives.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "17(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source F"],
+      "stem": "Outline ONE issue with using Site 1 as a fieldwork location.",
+      "stimulus": "Refer to the information below and Source F on page 3 of the Stimulus Booklet to answer parts (a) and (b).\nStudents are investigating the interaction between residential areas and the Black Forest with a focus on the boundary between them. They are looking to conduct fieldwork at a number of sites.\nTwo proposed sites are Site 1 (AR 2631) and Site 2 (AR 2632) on Source F.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "2", "text": "Outlines ONE issue with Site 1 as a fieldwork location"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "One issue with Site 1 is that it isn’t located on the boundary between the Black Forest and the residential area. This limits the data that can be collected on the study’s focus on the interaction between these two areas.",
+      "answersCouldInclude": [
+        "Safety when collecting data due to main road",
+        "Ethical practices associated with private property."
+      ]
+    },
+    {
+      "number": "17(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source F"],
+      "stem": "Justify ONE fieldwork method for collecting geographical data at Site 2.",
+      "stimulus": "Refer to the information below and Source F on page 3 of the Stimulus Booklet to answer parts (a) and (b).\nStudents are investigating the interaction between residential areas and the Black Forest with a focus on the boundary between them. They are looking to conduct fieldwork at a number of sites.\nTwo proposed sites are Site 1 (AR 2631) and Site 2 (AR 2632) on Source F.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Justifies ONE fieldwork method for collecting geographical data at Site 2"},
+        {"marks": "2", "text": "Outlines ONE fieldwork method for collecting geographical data at Site 2"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Students could take photographs of the boundary at Site 2. The photographs could provide data on positive and negative, human and natural, impacts near the boundary.",
+      "answersCouldInclude": [
+        "Interviews/surveys residents",
+        "Observations of interactions",
+        "Quadrant sampling",
+        "Soil testing",
+        "Vegetation identification."
+      ]
+    },
+    {
+      "number": "18(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source E", "Source F"],
+      "stem": "Outline ONE value of the Black Forest ecosystem that can be seen in Source E on page 2 or Source F on page 3 of the Stimulus Booklet.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "2", "text": "Outlines a value of the Black Forest ecosystem seen in Source E OR Source F"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "The Black Forest ecosystem has recreational value with Source E showing people enjoying the tourist activity of hiking.",
+      "answersCouldInclude": [
+        "Source F shows riding with the bike paths there."
+      ]
+    },
+    {
+      "number": "18(b)",
+      "section": "II",
+      "marks": 4,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Explain ONE trend in global biodiversity.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "4", "text": "Explains ONE trend in global biodiversity"},
+        {"marks": "3", "text": "Describes ONE trend in global biodiversity"},
+        {"marks": "2", "text": "Outlines ONE trend in global biodiversity"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "One trend in global biodiversity is the rapid decline in wildlife populations, with a dramatic decrease especially in the last 50 years. This trend is driven by habitat loss, climate change, pollution, overexploitation, and invasive species. Habitat destruction, particularly from agriculture and urbanisation, fragments ecosystems, making it difficult for species to survive resulting in population decline. Climate change makes these effects worse by altering habitats and food sources.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "19(a)",
+      "section": "II",
+      "marks": 4,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Account for the identity of ONE place within a larger urban settlement.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "4", "text": "Accounts for the identity of ONE place within a larger urban settlement"},
+        {"marks": "3", "text": "Describes the identity of ONE place within a larger urban settlement"},
+        {"marks": "2", "text": "Outlines the identity of ONE place within a larger urban settlement"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "The Plateau-Mont-Royal neighbourhood in Montreal has developed a vibrant arts scene, colourful murals, and historic architecture. It evolved from a working-class area to a trendy neighbourhood, due to its proximity to the city centre, attracting artists, young professionals, and tourists. The area’s mix of cafes, boutiques, and green spaces like Parc La Fontaine, contribute to this identity, and make it a lively and culturally rich part of this French-speaking city.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "19(b)",
+      "section": "II",
+      "marks": 5,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Analyse how ONE place in a rural setting is linked to other places.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "5", "text": "Analyses how ONE place in a rural setting is linked to other places"},
+        {"marks": "4", "text": "Describes how ONE place in a rural setting is linked to other places"},
+        {"marks": "3", "text": "Outlines how ONE place in a rural setting is linked to other places"},
+        {"marks": "2", "text": "Identifies how ONE place in a rural setting is linked to other places"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Mudgee in central western NSW is linked to other places through various connections. Its agricultural products, particularly wine, are exported to major urban centres like Sydney and Melbourne, leading to economic growth, jobs and population increase. The town is also connected through transportation networks, including the Castlereagh Highway, which facilitate trade and tourism. Additionally, Mudgee’s cultural links are strengthened through regional events like the Mudgee Food and Wine Festival, attracting visitors from across Australia. Environmental links, such as the Goulburn River, support local agriculture and regional water systems. These connections help shape Mudgee’s identity and development.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "20(a)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Describe the role of global forums in achieving global sustainability.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Describes the role of global forums in achieving global sustainability"},
+        {"marks": "2", "text": "Outlines the role of global forums in achieving global sustainability"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Global forums help international collaboration by creating time and space to discuss issues and set shared sustainability goals. They provide a platform for countries to align policies, share best practices, and commit to environmental targets to address issues like climate change and poverty reduction.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "20(b)",
+      "section": "II",
+      "marks": 5,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Discuss the effect of ONE influence on the global economic activity identified.",
+      "stimulus": "Answer parts (b) and (c) with reference to a global economic activity you have studied.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "5", "text": "Discusses the effect of ONE influence on a global economic activity"},
+        {"marks": "4", "text": "Explains the effect of ONE influence on a global economic activity"},
+        {"marks": "3", "text": "Outlines the effect of ONE influence on a global economic activity"},
+        {"marks": "2", "text": "Describes an influence on a global economic activity"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Activity: Mining\nTechnology advances significantly influence global mining operations. Innovations in automation, remote sending and AI can improve efficiency of production and resource use resulting in higher profits and growth in the activity. However, these innovations have high initial costs and investment which favour larger mining companies in less regulated countries.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "20(c)",
+      "section": "II",
+      "marks": 5,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Compare TWO strategies for achieving sustainability in the global economic activity identified.",
+      "stimulus": "Answer parts (b) and (c) with reference to a global economic activity you have studied.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "5", "text": "Provides a thorough comparison of TWO strategies for achieving sustainability in a global economic activity"},
+        {"marks": "4", "text": "Provides some comparison of TWO strategies for achieving sustainability in a global economic activity"},
+        {"marks": "3", "text": "Outlines TWO strategies for achieving sustainability in a global economic activity"},
+        {"marks": "2", "text": "Identifies TWO strategies or outlines ONE strategy for achieving sustainability in a global economic activity"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "One strategy for sustainability in the mining industry is utilising more efficient technologies to recycle materials, such as metals and minerals, to reduce the need for new extraction and therefore reduce resource use. This helps conserve natural resources and lowers environmental impact. Another strategy is reducing energy consumption by using renewable energy sources like solar or wind power in mining operations. Both approaches aim to minimise environmental harm, but recycling focuses on resource conservation, while energy reduction targets lowering emissions and energy costs.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21",
+      "section": "II",
+      "marks": 6,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "With reference to TWO pillars of sustainability, evaluate the success of ONE initiative or project used in the management of rural and/or urban places.",
+      "stimulus": "The diagram shows the four pillars of sustainability.\nPillars of sustainability\nSocial Economic Environmental Cultural",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "6", "text": "Demonstrates an extensive understanding of sustainable management of a rural or urban place with reference to TWO pillars of sustainability ; Makes a comprehensive judgement of the success of ONE initiative or project using the pillars of sustainability"},
+        {"marks": "5", "text": "Demonstrates a thorough understanding of sustainable management of a rural or urban place with reference to at least ONE pillar of sustainability ; Makes a judgement of the success of ONE initiative or project using the pillars of sustainability"},
+        {"marks": "3–4", "text": "Demonstrates sound understanding of sustainable management of a rural or urban place ; Outlines the sustainability of ONE initiative or project"},
+        {"marks": "2", "text": "Demonstrates a basic understanding of sustainable management or of an initiative or project"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "The Green Exchange in the regional centre of Curitiba, Brazil has proven to be a successful initiative in sustainably managing an urban setting. Environmentally, the program reduces illegal dumping and increases recycling by allowing residents to exchange recyclable materials for fresh produce. Economically, it supports regional agriculture by creating a market for local farmers and reducing reliance on large industry. The program overall therefore supports the area to thrive economically and improve urban cleanliness.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "III",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Outline the character of this city.",
+      "stimulus": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.",
+      "assessedOn": [
+        "apply geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "3", "text": "Outlines the character of a suitable city"},
+        {"marks": "2", "text": "Identifies features of a suitable city"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Tokyo is a dynamic and densely populated city that blends advanced technology with tradition. Known for its efficiency, cleanliness, and safety, it offers a unique mix of modern skyscrapers, historic temples, and vibrant street life. Despite its fast pace, Tokyo maintains a strong sense of community, making it both a global business hub and a culturally rich, liveable city.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "III",
+      "marks": 5,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Describe TWO challenges of living in this city.",
+      "stimulus": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.",
+      "assessedOn": [
+        "apply geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "5", "text": "Describes TWO challenges of living in the city"},
+        {"marks": "4", "text": "Describes ONE challenge of living in the city and outlines ONE other"},
+        {"marks": "3", "text": "Outlines TWO challenges of living in the city"},
+        {"marks": "2", "text": "Outlines a challenge of living in the city OR Identifies challenges of living in the city"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "One major challenge of living in Tokyo is the difficulty faced by families and low-income individuals in finding suitable housing due to the high cost and limited size of housing. In central areas like Minato, monthly rent for a one-bedroom apartment can exceed 200 000 JPY. Due to land scarcity, many residents live in units under 25 square metres with minimal storage and living space. Another significant challenge is overcrowding, especially on public transport. Train lines like the Tozai line often run at over 200% capacity during peak hours, meaning passengers are packed in with no personal space. This daily stress impacts physical comfort and mental health, particularly for older adults and people with disabilities.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "III",
+      "marks": 12,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Evaluate the effectiveness of TWO strategies to improve people’s quality of life in this city.",
+      "stimulus": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.",
+      "assessedOn": [
+        "apply geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "11–12", "text": "Demonstrates comprehensive knowledge and understanding of TWO strategies to improve people’s quality of life in the city ; Provides a detailed judgement about the effectiveness of strategies to improve people’s quality of life in the city ; Integrates relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response ; Presents a sustained, logical and cohesive response using appropriate geographical ideas, terms and concepts"},
+        {"marks": "8–10", "text": "Demonstrates well-developed knowledge and understanding of TWO strategies to improve people's quality of life in the city ; Provide some judgement about the effectiveness of strategies to improve people's quality of life in the city ; Refers to relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response ; Presents a logical response using appropriate geographical terminology and concepts"},
+        {"marks": "5–7", "text": "Demonstrates sound knowledge and understanding of TWO strategies to improve people's quality of life in the city ; Describes strategies for improving people's quality of life in the city ; Refers to examples, geographical information and the Stimulus Booklet where appropriate ; Presents a structured response using appropriate geographical concepts"},
+        {"marks": "3–4", "text": "Demonstrates some knowledge and understanding of people's quality of life ; May refer to examples, geographical information and/or the Stimulus Booklet ; Uses some geographical terminology"},
+        {"marks": "1–2", "text": "Demonstrates a basic understanding of quality of life"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Wellbeing strategies such as: social infrastructure and services, mixed income development, walkable cities, community initiatives",
+        "Urban planning strategies such as: housing, greenspace, public transport, congestion reduction, recycling, air quality improvement, stormwater, sanitation",
+        "Economic development strategies such as: employment schemes, local business support, micro-credit and other NGO support, incubator hubs",
+        "Resilience strategies such as: climate change adaptations, disaster preparedness, crime prevention",
+        "Evaluation could be conducted via criteria such as safety, equity, quality of daily life and environmental health."
+      ]
+    },
+    {
+      "number": "23",
+      "section": "IV",
+      "marks": 20,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Explain the nature and complexity of ecosystem functioning.",
+      "stimulus": "",
+      "assessedOn": [
+        "apply geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "17–20", "text": "Demonstrates comprehensive knowledge and understanding of the nature and complexity of ecosystem functioning ; Provides a detailed explanation of the nature and complexity of ecosystem functioning ; Integrates relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response ; Presents a sustained, logical and cohesive response using appropriate geographical ideas, terms and concepts"},
+        {"marks": "13–16", "text": "Demonstrates well-developed knowledge and understanding of the nature and complexity of ecosystem functioning ; Provides an explanation of the nature and complexity of ecosystem functioning ; Refers to relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response ; Presents a logical response using appropriate geographical terminology and concepts"},
+        {"marks": "9–12", "text": "Demonstrates sound knowledge and understanding of the nature and/or complexity of ecosystem functioning ; Describes the nature and/or complexity of ecosystem functioning ; Refers to examples, geographical information and the Stimulus Booklet where appropriate ; Presents a structured response using appropriate geographical concepts"},
+        {"marks": "5–8", "text": "Demonstrates some knowledge and understanding of ecosystem functioning ; May refer to examples, geographical information and/or the Stimulus Booklet ; Uses some geographical terminology"},
+        {"marks": "1–4", "text": "Demonstrates a basic understanding of ecosystem functioning"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Nature of ecosystem functioning may include:",
+        "abiotic and biotic interactions",
+        "spatial patterns",
+        "energy flows and nutrient cycles",
+        "dynamic equilibrium and feedback loops",
+        "relationships between natural systems.",
+        "Aspects of ecosystem complexity may include:",
+        "adaptation and change such as succession",
+        "biodiversity and interdependence",
+        "differing combinations of natural systems/spheres resulting in unique and/or fragile diversity",
+        "fluctuations in functioning resulting in altered or different vulnerability and resilience."
+      ]
+    }
+  ]
+}

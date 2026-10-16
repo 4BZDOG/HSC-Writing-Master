@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 /**
  * Getting to a question, shared by every spec that needs one.
@@ -27,6 +27,27 @@ export const signIn = async (
   await page.click('button[type=submit]');
 };
 
+/**
+ * The accessible name of the writing card's Evaluate button, for
+ * `getByRole('button', { name: EVALUATE_BUTTON })`.
+ *
+ * It is not simply `/^Evaluate/`, which used to be enough. The verb ribbon's top
+ * tier is called "Evaluate, Synthesise & Create", and its header button is
+ * named after it — formerly behind a system emoji, so the name began with a
+ * trophy and no prefix match could reach it; now behind an `aria-hidden` icon,
+ * so the name begins with the word. Both buttons are in the document whenever a
+ * question is open (the ribbon is only inert while shut, and Playwright does not
+ * treat `inert` as hidden), and a locator that matches two is a strict-mode
+ * failure rather than a choice.
+ *
+ * Not `exact: true` either. On a desktop viewport the button carries its
+ * keyboard hint, so its name is "Evaluate Ctrl ↵" and an exact match finds
+ * nothing; on a phone the hint is hidden and the name is just "Evaluate". What
+ * tells the two buttons apart on both is that the tier header is "Evaluate" and
+ * then a COMMA, so the pattern is the word at the start, not followed by one.
+ */
+export const EVALUATE_BUTTON = /^Evaluate(?!,)/;
+
 /** The charter gate, then the quick-start guide, then the bundled curriculum. */
 export const clearOnboarding = async (page: Page): Promise<void> => {
   // The gate animates in after the mock login's deliberate delay, so wait for
@@ -39,9 +60,12 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
     // its own behind the gate — and on the guest path gets there first. Unscoped
     // it is either the wrong checkbox or a strict-mode violation, depending on
     // which of the two wins the race.
+    // Bounded at 30 s, so a click that cannot land fails loudly rather than hanging
+    // for the rest of the test. Not shorter: WebKit settles these slowly on a loaded
+    // runner, and a shorter bound fails a click that would have landed.
     const gate = page.getByRole('dialog').filter({ has: agree });
-    await gate.getByRole('checkbox').first().check();
-    await agree.click();
+    await gate.getByRole('checkbox').first().check({ timeout: 30_000 });
+    await agree.click({ timeout: 30_000 });
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
   // Dismiss the quick-start guide by firing ITS OWN button's handler, and
@@ -85,7 +109,7 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
     await guideDialog
       .getByRole('button', { name: /start writing|^close$/i })
       .last()
-      .dispatchEvent('click');
+      .dispatchEvent('click', undefined, { timeout: 30_000 });
     // Loud, and at the point of the problem. A swallowed failure here reports
     // itself two minutes later as an unrelated click on an unrelated spec.
     await expect(guideDialog).toHaveCount(0, { timeout: 20_000 });
@@ -104,46 +128,128 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
   }
 };
 
-/**
- * Walk the syllabus picker down to a question, taking the first option at each
- * level. Deliberately data-agnostic: the bundled curriculum can change without
- * this needing to know any ids.
- */
-export const openFirstQuestion = async (page: Page): Promise<void> => {
-  for (const placeholder of [
-    'Select Course...',
-    'Select Topic...',
-    'Select Sub-Topic...',
-    'Select Dot Point...',
-    'Select Question...',
-  ]) {
-    const trigger = page.locator('button[aria-haspopup="listbox"]', { hasText: placeholder });
-    if (!(await trigger.count())) continue; // already chosen for us
+/** A picker's trigger, found by the placeholder or the label it now shows. */
+const pickerNamed = (page: Page, text: string): Locator =>
+  page.locator('button[aria-haspopup="listbox"]', { hasText: text });
 
-    // Open the picker, and re-open it if the list came up empty.
-    //
-    // The options are populated from the curriculum import that `clearOnboarding`
-    // has just kicked off, so a picker opened in the gap between "the trigger
-    // exists" and "the courses are in IndexedDB" renders no options at all —
-    // and a single `waitFor` on a list that will never fill just burns its
-    // timeout. Re-opening is what actually re-reads the data. This surfaced
-    // once `clearOnboarding` stopped spending 38 seconds on swallowed waits,
-    // which had been hiding the race by accident.
-    const option = page.getByRole('option').first();
-    for (let attempt = 0; attempt < 3; attempt++) {
-      await trigger.first().click();
-      try {
-        await option.waitFor({ state: 'visible', timeout: 5_000 });
-        break;
-      } catch {
-        // Shut the empty list before trying again, or the next click re-opens
-        // onto the same stale popup.
-        await page.keyboard.press('Escape').catch(() => {});
+/**
+ * Opens a picker and waits for its options. Re-opens it if the list came up
+ * empty, and returns false when nothing showed, so the caller decides whether
+ * that is an error.
+ *
+ * The options are populated from the curriculum import that `clearOnboarding`
+ * has just kicked off, so a picker opened in the gap between "the trigger
+ * exists" and "the courses are in IndexedDB" renders no options at all — and a
+ * single `waitFor` on a list that will never fill just burns its timeout.
+ * Re-opening is what actually re-reads the data.
+ */
+const openPicker = async (page: Page, trigger: Locator): Promise<boolean> => {
+  const option = page.getByRole('option').first();
+  for (let attempt = 0; attempt < 3; attempt++) {
+    // Bounded, because an unbounded click waits for the picker to be "stable"
+    // for as long as the test has left. Under load it can stay in motion for
+    // minutes, and the test hung that way twice with no assertion to say why.
+    // A click that times out is retried below like an empty list.
+    await trigger
+      .first()
+      .click({ timeout: 30_000 })
+      .catch(() => {});
+    try {
+      await option.waitFor({ state: 'visible', timeout: 5_000 });
+      return true;
+    } catch {
+      // Shut the empty list before trying again, or the next click re-opens
+      // onto the same stale popup.
+      await page.keyboard.press('Escape').catch(() => {});
+    }
+  }
+  return false;
+};
+
+/**
+ * How many dot points the walk tries before it gives up. Every dot point in the
+ * bundled curriculum has a question, and most have one a free account can open,
+ * so the walk seldom needs more than its first.
+ */
+const DOT_POINTS_TO_TRY = 8;
+
+/**
+ * Walk the dot point and question pickers down to a question this account can
+ * open.
+ *
+ * A free account sees the questions above its tier ceiling, but disabled, and
+ * the list is sorted by tier. A dot point whose questions are all above the
+ * ceiling (Business Studies' first one, two tier-5 questions) therefore puts a
+ * disabled option first. Clicking that waits for an enabled state that never
+ * comes, and the first attempt timed out on it about one run in ten. The second
+ * attempt cleared storage, the course list came back in another order, and it
+ * passed, which is why it looked like a flake. The course at the top of the
+ * picker is not the same from run to run, so neither is the first dot point.
+ *
+ * So this takes the first option that is enabled, and when a dot point has none,
+ * closes the question list and takes the next dot point.
+ */
+const pickOpenableQuestion = async (page: Page): Promise<void> => {
+  const questionTrigger = pickerNamed(page, 'Select Question...');
+
+  for (let index = 0; index < DOT_POINTS_TO_TRY; index++) {
+    // The dot point may already be taken (the app selects the first one for a
+    // path that stops short of it), so the picker is found by position, not label.
+    const dotPointTrigger = await dotPointPicker(page);
+    if (!(await openPicker(page, dotPointTrigger))) {
+      await page.getByRole('option').first().waitFor({ state: 'visible', timeout: 10_000 });
+    }
+    await page.getByRole('option').nth(index).click({ timeout: 30_000 });
+
+    if (await openPicker(page, questionTrigger)) {
+      const selectable = page.getByRole('option', { disabled: false });
+      if (await selectable.count()) {
+        await selectable.first().click({ timeout: 30_000 });
+        return;
       }
     }
-    await option.waitFor({ state: 'visible', timeout: 10_000 });
-    await option.click();
+    // Nothing here this account can open: close the list before the next dot point.
+    await page.keyboard.press('Escape').catch(() => {});
   }
+  throw new Error(
+    `none of the first ${DOT_POINTS_TO_TRY} dot points in the picker has a question this account can open`
+  );
+};
+
+/**
+ * The dot-point picker: the nearest picker above the question picker, skipping
+ * the focus refinement that can sit between the two. Before a dot point is taken
+ * there is no question picker yet, so the dot-point picker is the last one. Its
+ * own label changes as soon as a dot point is taken, so the position is what
+ * stays put.
+ */
+const dotPointPicker = async (page: Page): Promise<Locator> => {
+  const pickers = page.locator('button[aria-haspopup="listbox"]');
+  const labels = await pickers.allTextContents();
+  const question = labels.findIndex((label) => label.includes('Select Question...'));
+  const above = question < 0 ? labels.length : question;
+  for (let i = above - 1; i >= 0; i--) {
+    if (!labels[i].includes('Refine Scope...')) return pickers.nth(i);
+  }
+  throw new Error('no dot-point picker on the page');
+};
+
+/**
+ * Walk the syllabus picker down to a question this account can open, taking the
+ * first option at each level that is open to it. Deliberately data-agnostic: the
+ * bundled curriculum can change without this needing to know any ids.
+ */
+export const openFirstQuestion = async (page: Page): Promise<void> => {
+  for (const placeholder of ['Select Course...', 'Select Topic...', 'Select Sub-Topic...']) {
+    const trigger = pickerNamed(page, placeholder);
+    if (!(await trigger.count())) continue; // already chosen for us
+    if (!(await openPicker(page, trigger))) {
+      // Still nothing after the re-opens: wait with the message that names it.
+      await page.getByRole('option').first().waitFor({ state: 'visible', timeout: 10_000 });
+    }
+    await page.getByRole('option').first().click({ timeout: 30_000 });
+  }
+  await pickOpenableQuestion(page);
   await expect(page.getByRole('heading', { name: /Writing Prompt/i })).toBeVisible({
     timeout: 20_000,
   });
@@ -375,10 +481,24 @@ export const openQuestionWithOutcomes = async (page: Page): Promise<void> => {
   const marker = page.getByRole('button', { name: /Read before you write/i });
   const reopen = page.getByTitle(/Open the syllabus navigator/i);
 
+  // The label is drawn only once the course's outcome list has loaded, and that
+  // lags the first question by a second or two. Checking once, with no wait, and
+  // then walking the whole syllabus is how a question that already links
+  // outcomes was missed on a first run, so the label gets its moment first.
+  const shown = (ms: number) =>
+    marker
+      .first()
+      .waitFor({ state: 'visible', timeout: ms })
+      .then(
+        () => true,
+        () => false
+      );
+  if (await shown(15_000)) return;
+
   for (let dotPoint = 1; dotPoint < 10; dotPoint += 1) {
     if (await marker.count()) return;
 
-    await reopen.click();
+    await reopen.click({ timeout: 10_000 });
     await page.waitForTimeout(600);
 
     // The dot-point picker is the second-last combobox; the question is last.
@@ -399,7 +519,7 @@ export const openQuestionWithOutcomes = async (page: Page): Promise<void> => {
     const questions = page.getByRole('option');
     await questions.first().waitFor({ state: 'visible', timeout: 8_000 });
     await questions.first().click();
-    await page.waitForTimeout(900);
+    if (await shown(3_000)) return;
   }
 
   await expect(

@@ -55,7 +55,6 @@ const renderDisplay = () =>
       result={result}
       prompt={prompt}
       userAnswer="Caching keeps data in memory so latency falls."
-      onUseRevisedAnswer={vi.fn()}
       onImproveAnswer={vi.fn()}
       isImproving={false}
       improveAnswerError={null}
@@ -63,14 +62,28 @@ const renderDisplay = () =>
   );
 
 describe('the marking summary', () => {
-  it('highlights syllabus terms in the coach’s tip, like every other piece of prose', () => {
+  it('highlights syllabus terms in the next-step note, like every other piece of prose', () => {
     const { container } = renderDisplay();
 
-    const tip = screen.getByText("Coach's Tip").closest('div')?.parentElement;
-    const highlighted = container.querySelectorAll('.text-emerald-400, .light\\:text-emerald-800');
+    // The tip is the note under "Your next step", not a card of its own any more.
+    const tip = screen.getByText('Your next step').closest('section');
+    const highlighted = container.querySelectorAll('.text-emerald-400, .light\\:text-emerald-900');
     expect(tip?.textContent).toContain('latency');
     // The formatter wraps a matched term in its own span; plain text would not.
     expect(highlighted.length).toBeGreaterThan(0);
+  });
+
+  it('puts the next step directly under the question, before the rewrite and the criteria', () => {
+    const { container } = renderDisplay();
+
+    // The question's keywords are wrapped in their own spans, so it is read as the heading.
+    const question = container.querySelector('h2') as HTMLElement;
+    const next = screen.getByText('Your next step');
+    const criteria = screen.getByText('Criteria breakdown');
+    // Question, then next step, then the evidence and the criteria further down.
+    expect(question.compareDocumentPosition(next) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(next.compareDocumentPosition(criteria) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(container.querySelector('[data-report="reading"]')).not.toBeNull();
   });
 
   it('shows each criterion as a proportion, not only as arithmetic', () => {
@@ -85,18 +98,19 @@ describe('the marking summary', () => {
     const { container } = renderDisplay();
     const rows = container.querySelectorAll('.CriteriaRow');
 
+    // The mark sits in the ladder gutter, so the number is read from the title.
     expect(rows).toHaveLength(2);
-    expect(rows[0].textContent).toMatch(/^1Analysis/);
-    expect(rows[1].textContent).toMatch(/^2Terminology/);
+    expect(rows[0].querySelector('h4')?.textContent).toMatch(/^1Analysis/);
+    expect(rows[1].querySelector('h4')?.textContent).toMatch(/^2Terminology/);
   });
 
   it('still renders every section of the report', () => {
     renderDisplay();
 
-    expect(screen.getByText("Marker's Commentary")).toBeTruthy();
-    expect(screen.getByText('Strong Evidence')).toBeTruthy();
-    expect(screen.getByText('Areas for Growth')).toBeTruthy();
-    expect(screen.getByText('Criteria Breakdown')).toBeTruthy();
+    expect(screen.getByText("Marker's commentary")).toBeTruthy();
+    expect(screen.getByText('Strong evidence')).toBeTruthy();
+    expect(screen.getByText('Areas for growth')).toBeTruthy();
+    expect(screen.getByText('Criteria breakdown')).toBeTruthy();
   });
 });
 

@@ -1,36 +1,5 @@
 import { CommandTermInfo, PromptVerb } from '../types';
 
-const TIER_COLORS = [
-  {
-    color: 'text-red-300 light:text-red-700 print:text-red-700',
-    bg: 'bg-red-900/30 light:bg-red-100 print:bg-red-100',
-  }, // Tier 0 (fallback)
-  {
-    color: 'text-red-300 light:text-red-700 print:text-red-700',
-    bg: 'bg-red-900/30 light:bg-red-100 print:bg-red-100',
-  }, // Tier 1
-  {
-    color: 'text-orange-300 light:text-orange-700 print:text-orange-700',
-    bg: 'bg-orange-900/30 light:bg-orange-100 print:bg-orange-100',
-  }, // Tier 2
-  {
-    color: 'text-yellow-300 light:text-yellow-700 print:text-yellow-700',
-    bg: 'bg-yellow-900/30 light:bg-yellow-100 print:bg-yellow-100',
-  }, // Tier 3
-  {
-    color: 'text-green-300 light:text-green-700 print:text-green-700',
-    bg: 'bg-green-900/30 light:bg-green-100 print:bg-green-100',
-  }, // Tier 4
-  {
-    color: 'text-sky-300 light:text-sky-700 print:text-sky-700',
-    bg: 'bg-sky-900/30 light:bg-sky-100 print:bg-sky-100',
-  }, // Tier 5
-  {
-    color: 'text-purple-300 light:text-purple-700 print:text-purple-700',
-    bg: 'bg-purple-900/30 light:bg-purple-100 print:bg-purple-100',
-  }, // Tier 6
-];
-
 export const TIER_GROUPS = [
   {
     title: 'Remember & List',
@@ -96,7 +65,7 @@ export const tierShortLabel = (tier: number): string => {
   return group ? group.title.split(/[\s,&]+/)[0] : `Tier ${tier}`;
 };
 
-export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
+export const commandTermsList: CommandTermInfo[] = [
   // --- Tier 1: Remember & List ---
   {
     term: 'IDENTIFY',
@@ -845,10 +814,7 @@ export const commandTermsList: Omit<CommandTermInfo, 'tailwind'>[] = [
 ];
 
 export const commandTerms = new Map<PromptVerb, CommandTermInfo>(
-  commandTermsList.map((term) => [
-    term.term,
-    { ...term, tailwind: TIER_COLORS[term.tier] } as CommandTermInfo,
-  ])
+  commandTermsList.map((term) => [term.term, term])
 );
 
 const fallbackTerm: CommandTermInfo = {
@@ -865,7 +831,6 @@ const fallbackTerm: CommandTermInfo = {
   bandDiscrimination:
     'This verb is not in the guide yet, so take what follows as general advice: answer exactly what was asked, and show the reasoning behind each claim.',
   genericMarkingGuide: ['1+ marks: Provides a clear, accurate answer to the question'],
-  tailwind: TIER_COLORS[3],
   structuralKeywords: ['because', 'therefore'],
   exampleQuestion: 'Explain the concept.',
 };
@@ -915,6 +880,87 @@ export const extractCommandVerb = (text: string): CommandTermInfo | undefined =>
 };
 
 /**
+ * The lowest verb tier a question of this length can carry.
+ *
+ * A mark is only worth one band step while a question is short. Past about ten
+ * marks a low-tier verb stops being able to show it: at 20 marks an Explain
+ * (Tier 3) has three bands seven marks apart, so a 14 and a 20 read as the same
+ * result, where a Tier 5 verb gives NESA's own five bands (17-20 / 13-16 /
+ * 9-12 / 5-8 / 1-4). Real papers already write long questions with Discuss,
+ * Assess, Evaluate or "To what extent", so this makes the combination the
+ * papers avoid impossible to create instead of mending it afterwards.
+ *
+ * Below 7 marks there is no floor: Identify and Outline are real, common
+ * short-answer verbs and every mark is its own step there.
+ */
+export const minimumTierForMarks = (totalMarks: number): number => {
+  if (totalMarks >= 15) return 5;
+  if (totalMarks >= 10) return 4;
+  if (totalMarks >= 7) return 3;
+  return 1;
+};
+
+/**
+ * Composition verbs keep Tier 4 at any length. A 20-mark "Craft an imaginative
+ * piece" is marked on control of language and structure, not on argument, so
+ * lifting it to Discuss would change the task the student is set.
+ */
+const LENGTH_EXEMPT_VERBS: ReadonlySet<string> = new Set(['CONSTRUCT']);
+
+/** True when the verb is allowed to carry a question worth this many marks. */
+export const verbFitsLength = (verb: PromptVerb | string, totalMarks: number): boolean => {
+  const required = minimumTierForMarks(totalMarks);
+  const floor = LENGTH_EXEMPT_VERBS.has(String(verb).toUpperCase())
+    ? Math.min(required, 4)
+    : required;
+  return getCommandTermInfo(verb as PromptVerb).tier >= floor;
+};
+
+/** The verb a too-low-tier verb is raised to, by the tier the length needs. */
+const LENGTH_DEFAULT_VERB: Record<number, PromptVerb> = {
+  3: 'EXPLAIN' as PromptVerb,
+  4: 'ANALYSE' as PromptVerb,
+  5: 'DISCUSS' as PromptVerb,
+};
+
+/**
+ * Returns the verb unchanged when it fits the length, otherwise the default verb
+ * for the tier the length needs. `lifted` tells the caller to say so.
+ */
+export const liftVerbForLength = (
+  verb: PromptVerb,
+  totalMarks: number
+): { verb: PromptVerb; lifted: boolean } => {
+  if (verbFitsLength(verb, totalMarks)) return { verb, lifted: false };
+  const required = minimumTierForMarks(totalMarks);
+  return { verb: LENGTH_DEFAULT_VERB[required] ?? verb, lifted: true };
+};
+
+/**
+ * Keeps the verbs that can carry this many marks. If none can, the first verb is
+ * raised to the default for the length so a caller always has one to build on.
+ */
+export const fitVerbsToLength = (
+  verbs: CommandTermInfo[],
+  totalMarks: number
+): CommandTermInfo[] => {
+  const fitting = verbs.filter((v) => verbFitsLength(v.term, totalMarks));
+  if (fitting.length > 0 || verbs.length === 0) return fitting.length > 0 ? fitting : verbs;
+  return [getCommandTermInfo(liftVerbForLength(verbs[0].term, totalMarks).verb)];
+};
+
+/** Why a verb does not fit, in words a teacher can act on. */
+export const lengthMismatchNote = (verb: PromptVerb | string, totalMarks: number): string => {
+  const info = getCommandTermInfo(verb as PromptVerb);
+  const bands = bandMarkRanges(totalMarks, info.tier).length;
+  const { verb: lifted } = liftVerbForLength(verb as PromptVerb, totalMarks);
+  return (
+    `${info.term} can only show ${bands} band${bands === 1 ? '' : 's'} across ${totalMarks} marks, ` +
+    `so a few marks would read as the same result. Use ${lifted}, or split the question into parts.`
+  );
+};
+
+/**
  * The command term a question OPENS with, if it opens with one.
  *
  * The verb that governs a question is the one it leads with — "Explain the
@@ -950,9 +996,10 @@ export const getCommandTermsForMarks = (
   // 11-12+: Tier 6
   const targetTier = Math.min(6, Math.ceil(marks / 2));
 
-  const idealMatches = commandTermsList
-    .filter((term) => marks >= term.markRange[0] && marks <= term.markRange[1])
-    .map((term) => ({ ...term, tailwind: TIER_COLORS[term.tier] }) as CommandTermInfo);
+  const idealMatches = commandTermsList.filter(
+    (term) =>
+      marks >= term.markRange[0] && marks <= term.markRange[1] && verbFitsLength(term.term, marks)
+  );
 
   if (idealMatches.length > 0) {
     const sortedMatches = idealMatches.sort((a, b) => {
@@ -987,11 +1034,7 @@ export const getCommandTermsForMarks = (
     }
   });
 
-  const primaryTerm = {
-    ...closestTerm,
-    tailwind: TIER_COLORS[closestTerm.tier],
-  } as CommandTermInfo;
-  return { terms: [primaryTerm], primaryTerm: primaryTerm };
+  return { terms: [closestTerm], primaryTerm: closestTerm };
 };
 
 /**
@@ -1262,6 +1305,14 @@ const STRUCTURE_BY_MARK: Record<number, string> = {
 };
 
 /**
+ * The structural expectation for a full-mark answer worth `mark` marks, without
+ * the word range. For a surface that states the length as a figure of its own
+ * (the question's "what the marker looks for" panel) and so must not say it twice.
+ */
+export const getStructureExpectation = (mark: number): string =>
+  STRUCTURE_BY_MARK[Math.max(1, Math.min(10, Math.round(mark || 1)))];
+
+/**
  * Returns the explicit structural requirements for a given mark based on NESA guidelines.
  * Used by the AI to generate accurately structured sample answers, and given to
  * the marker as what a full-mark answer looks like. The word range comes from
@@ -1273,11 +1324,18 @@ export const getStructureGuide = (mark: number): string => {
   return `${STRUCTURE_BY_MARK[m]} (Approx ${min}-${max}${m >= 10 ? '+' : ''} words)`;
 };
 
+/** The pace the HSC papers allow: 40 minutes for 20 marks, 75 for Business Studies' 40. */
+const HSC_MINUTES_PER_MARK = 1.8;
+
 /**
  * Recommended writing time (in seconds) for a question, derived from the verb's
  * NESA-aligned time range and the question's mark value. Interpolates linearly
  * between the verb's min/max time as the marks move from the verb's min to max.
- * Falls back to the standard HSC pace (marks * 1.8 min) when the verb is unknown.
+ *
+ * Past the verb's top mark the line is carried on at the standard HSC pace
+ * rather than flattened. A 20-mark DISCUSS (typical range 5-10) used to get the
+ * verb's ceiling, 18 minutes, against the 35-40 minutes the real paper allows
+ * for the same question; a question inside the verb's range is untouched.
  */
 export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo): number => {
   const [minTime, maxTime] = verbInfo.timeRange;
@@ -1291,6 +1349,7 @@ export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo
   } else {
     const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
     minutes = minTime + ratio * timeSpan;
+    if (totalMarks > maxMarks) minutes = maxTime + (totalMarks - maxMarks) * HSC_MINUTES_PER_MARK;
   }
 
   return Math.round(minutes * 60);

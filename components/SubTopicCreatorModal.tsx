@@ -88,7 +88,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                   Add New Sub-Topic
                 </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                <p className="text-sm text-muted">
                   {destination ? `Adding to "${destination}".` : 'Create a new syllabus sub-topic.'}
                 </p>
               </div>
@@ -96,9 +96,9 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-9 h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
             >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
+              <X className="w-4 h-4 text-muted group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
         </div>
@@ -119,12 +119,12 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                 id="subtopic-name"
                 value={newItemName}
                 onChange={(e) => setNewItemName(e.target.value)}
-                className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${validationError ? 'border-red-500 ring-1 ring-red-500' : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]'}`}
+                className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${validationError ? 'border-red-500 ring-1 ring-red-500' : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]'}`}
                 placeholder="e.g., Inquiry Question 1"
                 autoFocus
               />
               {validationError && (
-                <p className="text-red-400 light:text-red-600 text-xs mt-2">{validationError}</p>
+                <p className="text-red-400 light:text-red-700 text-xs mt-2">{validationError}</p>
               )}
             </div>
 
@@ -149,7 +149,7 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
                     <Sparkles className="w-4 h-4 text-[rgb(var(--color-accent))] flex-shrink-0" />
                     Generate dot points with AI
                   </span>
-                  <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     AI will suggest syllabus dot points for this sub-topic based on the course and
                     topic context.
                   </p>
@@ -163,14 +163,14 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isButtonDisabled}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Add Sub-Topic
             </button>

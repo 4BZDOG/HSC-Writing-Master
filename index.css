@@ -54,6 +54,11 @@ html {
   --color-bg-surface-light: 51 65 85;
   --color-accent-dark: 2 132 199;
   --color-accent-glow: 56 189 248;
+  /* The accent as TEXT. `--color-accent` is a fill colour first: white reads on
+     it, and as ink it fails on the tinted grounds it is set on (sky-500 is
+     3.74:1 on the hovered drop zone). sky-400 clears 4.5:1 on the lightest
+     dark surface, and the light partner is set below. */
+  --color-accent-ink: 56 189 248;
   --color-border-primary: 71 85 105;
   --color-border-accent: 14 165 233;
   --color-danger: 239 68 68;
@@ -143,6 +148,10 @@ html {
   --color-bg-surface-light: 215 222 233;
   --color-accent-dark: 7 89 133;
   --color-accent-glow: 14 165 233;
+  /* sky-800, one stop below `--color-accent` (sky-700). The fill step is the
+     right ink for a button, but as text on a tinted wash sky-700 measured 3.78:1
+     on the verb overlay (accent at 20%) and 4.38:1 on the hovered drop zone. */
+  --color-accent-ink: 7 89 133;
   --color-border-primary: 148 163 184;
   --color-border-accent: 2 132 199;
   --color-danger: 220 38 38;
@@ -362,6 +371,20 @@ body.ai-busy .aurora {
 }
 
 /*
+ * The HSC results strip (components/HscResultsCard) draws in once, segment by
+ * segment, from the left. Its end state is the drawing, so the reduced-motion
+ * block below, which runs every animation to its last frame, leaves it correct.
+ */
+@keyframes hsc-strip-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/*
  * Sign-in ambience.
  *
  * The auth screens used to paint an opaque `--color-bg-base` panel over the
@@ -442,6 +465,15 @@ body.ai-busy .aurora {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* The duration rule above makes an animation instant, but it leaves its DELAY
+     alone — and the verb ribbon's staircase staggers its columns by delay, with
+     `both` fill so each waits at its first frame. Left in, a reader who asked for
+     no motion would still wait up to a third of a second for the last column to
+     appear. No motion should also mean no waiting. */
+  .animate-stair-rise {
+    animation-delay: 0ms !important;
   }
 }
 
@@ -681,64 +713,36 @@ a:focus-visible,
 }
 
 /*
- * The tier cards' lift, and why it is a class here rather than `scale-*` at
- * the call site.
+ * The tier cards' hover lift, and why it is a class here rather than `scale-*`
+ * at the call site.
  *
- * `transform` is ONE property. `.clip-stable` above sets it to
- * `translateZ(0)` to force the compositing layer up front, and it is declared
- * after `@tailwind utilities` at equal specificity (0,1,0) — so on any element
- * carrying both, it beats every `scale-*` utility. `RIBBON_TIER_CARD` begins
- * with `clip-stable`, and that is why the strip's `scale-110` on the current
- * card and `scale-90` on the other five had never applied. Probed in
- * Chromium:
+ * It used to be a pair of classes that existed to out-rank `.clip-stable`, whose
+ * `transform: translateZ(0)` beat every `scale-*` utility at equal specificity
+ * (so `scale-90` had never applied, and the one scale that did fire was
+ * `hover:scale-95`, which shrank a hovered card). The cards no longer carry
+ * `.clip-stable`: that class is a permanent compositing layer plus an opaque
+ * `-webkit-mask-image`, and on six cards that were also running a 700ms
+ * `transition-all` with an overshoot curve it was the heaviest thing on the
+ * ribbon in Safari. With it gone nothing else claims `transform` on a card, so
+ * this is the only rule that does.
  *
- *     scale-90 alone         -> matrix(0.9, 0, 0, 0.9, 0, 0)
- *     clip-stable scale-90   -> matrix(1, 0, 0, 1, 0, 0)
+ * THE LIFT ONLY EXISTS WHERE A POINTER CAN HOVER. On a touch screen a tap leaves
+ * `:hover` stuck on the card until the next tap elsewhere, so the card the
+ * reader had just tapped sat at 1.02 and then animated back when the selection
+ * moved away. Inside `@media (hover: hover)` an iPhone never sees it.
  *
- * All six cards computed the identity matrix, all six tops sat on the same y,
- * and every gap was exactly the strip's own 16px. The one scale that DID fire
- * was `hover:scale-95` at (0,2,0), which shrank a hovered card by 5% and
- * dropped its top 7.88px — the inverse of what it was written to do, back
- * when idle cards were meant to sit at 90 and grow toward the reader.
- *
- * `.clip-stable` itself is not the thing to change: it is on ~50 cards across
- * the app and carries a mask that `tests/unit/cornerStroke.test.ts` pins. So
- * these classes compose the promotion hint and the scale into a single
- * declaration and sit AFTER it, where equal specificity resolves on source
- * order alone — no `!important`, and no other `clip-stable` surface moves.
- *
- * Two classes rather than one with a modifier, because a hovered CURRENT card
- * must not pick up the idle hover: `.tier-lift:hover` at (0,2,0) would beat
- * `.tier-lift-current` at (0,1,0). Only one of the two is ever on a card.
- *
- * THE CURRENT CARD DOES NOT SCALE, and that is the point of it having a class
- * of its own now. It was `scale(1.05)` for exactly one release, and measuring
- * the result is what settled it: a 5% scale on a 260px card overhangs 6.5px
- * each side, so the selected card's two adjacent gaps read 9.5px against the
- * row's 16px and its top sat 7.84px above its neighbours. That is the same
- * ragged-row artefact the strip was being fixed for — smaller, and deliberate,
- * but the same shape — and it cannot be tuned away: any horizontal scale eats
- * the gap it grows into, and reserving the space in layout would shift the
- * whole row every time the selection moved.
- *
- * So the emphasis is carried by things that cost no geometry: a 2px tier
- * border against the others' 1px, and the tier-hued ring and glow drawn as a
- * `box-shadow`, which paints outside the box without displacing anything. All
- * six cards now sit on one y with 16px between every pair, selected or not.
- *
- * The hover keeps its 1.02. It is transient, self-explanatory while the cursor
- * is on the card, and 2.6px a side is under the eye's threshold for a row this
- * wide — where the selected card's offset was permanent and had to be read
- * against five neighbours at once.
+ * The selected card is not lifted at all — it is marked by its halo (see
+ * `RIBBON_TIER_HALO`), which costs no geometry — so only the receded cards carry
+ * the class. 1.02 is 2.6px a side on a 260px card, which is under the eye's
+ * threshold for a row this wide; it is a hover, so it is gone with the cursor.
  */
 .tier-lift {
-  transform: translateZ(0) scale(1);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.tier-lift:hover {
-  transform: translateZ(0) scale(1.02);
-}
-.tier-lift-current {
-  transform: translateZ(0) scale(1);
+@media (hover: hover) {
+  .tier-lift:hover {
+    transform: scale(1.02);
+  }
 }
 
 /*
@@ -778,6 +782,353 @@ a:focus-visible,
 }
 .band-edge-strong {
   border-color: rgb(var(--band-rgb) / 0.85);
+}
+
+/*
+ * A band-coloured TINT, for a header that has to say which tier it belongs to
+ * without becoming a wall of that colour.
+ *
+ * The verb ribbon's five idle tier headers took the tier config's `bg`: a solid
+ * `-100` pastel in the light theme. Six of those in a row — plus a saturated
+ * selected card among them — read as a sweet shop next to the white panels
+ * around it, which was most of why the ladder looked like it came from another
+ * product. A tint at the same per-card `--band-rgb` the border already uses
+ * keeps the hue on every card and leaves the saturation to the one that is
+ * selected. One alpha serves both themes for the reason `.band-edge` gives: a
+ * 10% wash of a hue reads as a soft tint on near-black and on white alike.
+ */
+.band-wash {
+  background-color: rgb(var(--band-rgb) / 0.1);
+}
+
+/*
+ * The mark ladder's row fill (`LADDER_FILL`): the band as a gradient, strongest
+ * where the solid gutter meets it and fading into the panel to the right.
+ *
+ * `band-wash` is a flat 10%, which read as a pale wash on the guide's rows and let
+ * the gutter carry all the colour. The row is now the band at a real strength, so
+ * it is the second thing the eye reads after the figure. The alpha is a property
+ * per theme because the same tint is a rich deep one on near-black and a pastel on
+ * white (DesignSpec §2 rule 1). The dark theme's 18% is as strong as the verb's sky
+ * ink allows: at 20% the verb's worst pixel fell to 4.48:1 on a band 6 row, under the
+ * 4.5:1 AA floor for 16px text. The light theme's 20% lands between its own `-100`
+ * and `-200` steps.
+ *
+ * The top highlight is white, not a band colour: it is a sheen on the row, the one
+ * thing the design lets a neutral do, and it is the same white in both themes.
+ */
+.band-fill {
+  --band-fill-alpha: 0.18;
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / var(--band-fill-alpha)) 0%,
+    rgb(var(--band-rgb) / 0.07) 90%
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 1px 2px 0 rgb(0 0 0 / 0.08);
+}
+[data-theme='light'] .band-fill {
+  --band-fill-alpha: 0.2;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    0 1px 2px 0 rgb(15 23 42 / 0.08);
+}
+
+/*
+ * The Sample Answers rows, in the LIGHT theme only.
+ *
+ * On a white panel the shared ladder fill is faint: a 20% band wash fading to 7%, an
+ * edge at 35% and a hairline shadow, so an open row's zones (the paper, its foot, the
+ * commentary) had little to separate them from each other or from the panel. These
+ * rules, scoped to the classes `utils/sampleAnswerChrome.ts` adds to the Sample Answers
+ * rows alone, give the row a steeper band gradient with a sheen across its top, a
+ * firmer edge, a seam that is darker than the gutter's own fill, and a deeper shadow;
+ * and give the paper, its foot and the commentary each a gradient and a rule of their
+ * own. The Marking Guide's rows do not carry `sample-row`, so its look is unchanged.
+ *
+ * Every rule is under `[data-theme='light']`, so the dark theme is exactly what it was.
+ * The body's text starts about 90px in from the left edge, where the gradient is still
+ * under 28% of the band; slate-700 on a 28% red, orange or yellow measures 6:1 or more.
+ */
+[data-theme='light'] .sample-row {
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 0.55) 0%, rgb(255 255 255 / 0) 38%),
+    linear-gradient(
+      90deg,
+      rgb(var(--band-rgb) / 0.32) 0%,
+      rgb(var(--band-rgb) / 0.14) 45%,
+      rgb(var(--band-rgb) / 0.05) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.8),
+    0 1px 2px 0 rgb(15 23 42 / 0.14),
+    0 6px 14px -8px rgb(var(--band-rgb) / 0.55);
+}
+[data-theme='light'] .sample-row.band-edge {
+  border-color: rgb(var(--band-rgb) / 0.65);
+}
+[data-theme='light'] .sample-row.band-edge-strong {
+  border-color: rgb(var(--band-rgb) / 1);
+}
+/* `:is()` keeps this selector from reading as the band-solid rule itself: the
+   stylesheet's tests (bandColors, feedbackChrome) read the first rule they find by
+   that name, and it has to be the real one further down. */
+[data-theme='light'] .sample-row > :is(.band-solid) {
+  border-right-color: rgb(15 23 42 / 0.3);
+}
+[data-theme='light'] .sample-paper {
+  border-color: rgb(71 85 105);
+  background-image: linear-gradient(
+    180deg,
+    rgb(255 255 255) 0%,
+    rgb(248 250 252) 60%,
+    rgb(238 242 247) 100%
+  );
+  box-shadow:
+    0 1px 0 rgb(255 255 255) inset,
+    0 2px 4px rgb(15 23 42 / 0.12),
+    0 10px 22px -10px rgb(15 23 42 / 0.4);
+}
+[data-theme='light'] .sample-paper-foot {
+  border-top-color: rgb(var(--band-rgb) / 0.7);
+  background-image: linear-gradient(
+    180deg,
+    rgb(var(--band-rgb) / 0.16) 0%,
+    rgb(var(--band-rgb) / 0.05) 100%
+  );
+}
+[data-theme='light'] .sample-commentary {
+  border-top: 1px solid rgb(var(--band-rgb) / 0.45);
+  border-right: 1px solid rgb(var(--band-rgb) / 0.45);
+  border-bottom: 1px solid rgb(var(--band-rgb) / 0.45);
+  background-image: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.75) 0%,
+    rgb(255 255 255 / 0.35) 100%
+  );
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.1);
+}
+[data-theme='light'] .sample-commentary-head {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgb(var(--band-rgb) / 0.55);
+}
+
+/*
+ * A Marking Guide row LINKED to the exemplar the student has open (`LADDER_LINKED`):
+ * the row's outline in the band's full hue, a halo outside it and a lift of shadow,
+ * with one settling pulse as it lights. `:root` adds the second class that wins the
+ * tie with `[data-theme='light'] .band-fill`'s shadow, as `.band-lit` does below. The
+ * pulse is an ordinary animation, so the reduced-motion block above stills it, and the
+ * outline and halo, which are the state, stay.
+ */
+@keyframes ladder-linked-pulse {
+  from {
+    box-shadow:
+      0 0 0 2px rgb(var(--band-rgb) / 1),
+      0 0 0 14px rgb(var(--band-rgb) / 0),
+      0 10px 24px -10px rgb(var(--band-rgb) / 0.7);
+  }
+  to {
+    box-shadow:
+      0 0 0 2px rgb(var(--band-rgb) / 1),
+      0 0 0 5px rgb(var(--band-rgb) / 0.3),
+      0 10px 24px -10px rgb(var(--band-rgb) / 0.7);
+  }
+}
+:root .ladder-linked {
+  border-color: rgb(var(--band-rgb) / 1);
+  box-shadow:
+    0 0 0 2px rgb(var(--band-rgb) / 1),
+    0 0 0 5px rgb(var(--band-rgb) / 0.3),
+    0 10px 24px -10px rgb(var(--band-rgb) / 0.7);
+  animation: ladder-linked-pulse 0.9s ease-out 1;
+}
+
+/*
+ * The hero panels (DesignSpec §3, "Secondary heroes"): a header wash, a glowing
+ * icon tile and, while open, a lit edge with a tier glow beneath the panel.
+ *
+ * Each one reads `--band-rgb`, which the panel root sets from the question's
+ * ceiling band, so the three panels of a question share one colour. The wash ends
+ * at the band's own hue with zero alpha, not at `transparent`, which Safari takes
+ * through grey on a gradient.
+ *
+ * The lit state is written `:root .band-lit` on purpose. The panel's dark-theme
+ * border (`dark:border-white/20`) is a `.dark .` selector, which has two classes of
+ * specificity, and one class here would lose to it in the dark theme and the lit
+ * edge would never show there. `:root` adds the second class, and this block sits
+ * after the utilities, so at equal specificity it is the later rule that wins.
+ *
+ * Nothing here moves. The one transition is the panel's own `transition-all`, which
+ * the reduced-motion rule above already neutralises.
+ */
+.band-solid {
+  background-color: rgb(var(--band-rgb));
+  background-image: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.22) 0%,
+    rgb(255 255 255 / 0) 55%,
+    rgb(0 0 0 / 0.08) 100%
+  );
+  color: rgb(2 6 23);
+}
+.band-header-wash {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / 0.16) 0%,
+    rgb(var(--band-rgb) / 0) 75%
+  );
+}
+.band-glow {
+  box-shadow: 0 6px 18px -6px rgb(var(--band-rgb) / 0.75);
+}
+:root .band-lit {
+  border-color: rgb(var(--band-rgb) / 0.5);
+  box-shadow:
+    0 1px 2px 0 rgb(0 0 0 / 0.05),
+    0 16px 36px -18px rgb(var(--band-rgb) / 0.8);
+}
+
+/*
+ * The verb ribbon's stage palette, one table for both themes.
+ *
+ * The stage under the banner was a near-black slab (#070b14) in BOTH themes. In
+ * the light theme that is a 440px block of the page's one darkest colour between
+ * a white banner and a white drawer, and it was reported as abrasive. It cannot be
+ * softened by lightening the ground: the tier hues are the `-500` steps, and they
+ * stop clearing 4.5:1 beyond about #0f172a (purple is 4.5 there, 3.7 on slate-800).
+ * So in the light theme the stage is a soft light ground with dark ink and the
+ * tier's `-700` shade for text, and the dark theme is exactly what it was.
+ *
+ * Every colour on the stage is drawn from these properties, so the class strings in
+ * `utils/verbRibbonChrome.ts` carry no theme at all and the two palettes are
+ * written down in one place, here, where `tests/unit/verbRibbonChrome.test.tsx`
+ * reads them back and measures the contrast of every pair in both themes.
+ *
+ * Triplets, so a caller can draw them at an alpha. The alphas are properties too,
+ * because the same tint that glows on near-black is a pastel on near-white and
+ * wants a different strength: `--aura-*` (the light behind the verb),
+ * `--chip-*` (the tier chip), `--col-*` (the staircase's columns), `--hatch-*` (the
+ * columns above the ceiling), the glows, and `--aura-wash`, a faint tint of the
+ * tier's colour over the whole light stage so it is not a neutral sheet.
+ *
+ * `.ribbon-stage` is on the ribbon's wrapper, so the stage and the glow beneath it
+ * share the table. `.ribbon-stage-hue` is on the stage itself, where `--band-rgb`
+ * and `--band-ink` are set inline: a custom property that reads another is
+ * resolved on the element that declares it, and so has to be declared where its
+ * source is.
+ */
+.ribbon-stage {
+  --stage-ground: 7 11 20;
+  --stage-cell: 11 19 34;
+  --stage-ink: 255 255 255;
+  --stage-ink-2: 241 245 249;
+  --stage-ink-3: 203 213 225;
+  --stage-line: 255 255 255;
+  --aura-wash: 0;
+  --aura-1: 0.42;
+  --aura-2: 0.16;
+  --verb-glow: 0.32;
+  --rule-glow: 0.7;
+  --stage-glow: 0.5;
+  --chip-fill: 0.22;
+  --chip-edge: 0.65;
+  --col-lo: 0.18;
+  --col-hi: 0.62;
+  --col-cur-lo: 0.35;
+  --col-cur-hi: 1;
+  --col-glow: 0.7;
+  --hatch-fill: 0.13;
+  --hatch-edge: 0.3;
+}
+[data-theme='light'] .ribbon-stage {
+  --stage-ground: 248 250 252;
+  --stage-cell: 255 255 255;
+  --stage-ink: 15 23 42;
+  --stage-ink-2: 30 41 59;
+  --stage-ink-3: 71 85 105;
+  --stage-line: 15 23 42;
+  --aura-wash: 0.03;
+  --aura-1: 0.3;
+  --aura-2: 0.035;
+  --verb-glow: 0.28;
+  --rule-glow: 0.45;
+  --stage-glow: 0.45;
+  --chip-fill: 0.2;
+  --chip-edge: 0.7;
+  --col-lo: 0.5;
+  --col-hi: 1;
+  --col-cur-lo: 0.65;
+  --col-cur-hi: 1;
+  --col-glow: 0.5;
+  --hatch-fill: 0.11;
+  --hatch-edge: 0.32;
+}
+.ribbon-stage-hue {
+  --band-text: var(--band-rgb);
+  --stage-rule: transparent;
+}
+[data-theme='light'] .ribbon-stage-hue {
+  --band-text: var(--band-ink);
+  /* The edge between the banner and the stage: the tier's own colour, so the white
+     banner above a soft sheet is joined by the one thing that says whose tier it
+     is. A property of the hue and not of the palette, because it reads
+     `--band-rgb`. Nothing in the dark theme, where the banner is the stage. */
+  --stage-rule: rgb(var(--band-rgb) / 0.85);
+}
+
+/*
+ * The verb ribbon's strip, faded into the drawer at both ends.
+ *
+ * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade
+ * is what replaced it. It is two small gradient overlays rather than a
+ * `mask-image` on the scroller, which it used to be, and the reason is Safari:
+ * a mask on a scrolling box makes the browser render the whole scroller through
+ * a mask layer, and on iOS that is what turns a flick into a stutter — every
+ * frame of the swipe re-masks the cards under the reader's thumb. Two static
+ * gradients sit still while the cards slide under them.
+ *
+ * They end in the DRAWER's own colour, which is why they are safe here when the
+ * old overlays were not: the drawer is opaque in both themes and its fill is
+ * the surface token (white in the light theme, which the token resolves to), so
+ * there is no page colour to get wrong. The far stop is the same colour at zero
+ * alpha rather than `transparent`, which Safari interpolates through grey.
+ *
+ * Two rems of ramp. The strip carries 1rem of side padding (`RIBBON_STRIP`), so
+ * at rest the first and last cards sit just clear of their ramp and only a card
+ * being scrolled past an edge is faded — never the selected one, flush at an
+ * end. From `xl` the six tiers sit side by side, nothing scrolls, and there is no
+ * edge to fade toward.
+ */
+.strip-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 30;
+  width: 2rem;
+  pointer-events: none;
+}
+.strip-fade-start {
+  left: 0;
+  background-image: linear-gradient(
+    to right,
+    rgb(var(--color-bg-surface)),
+    rgb(var(--color-bg-surface) / 0)
+  );
+}
+.strip-fade-end {
+  right: 0;
+  background-image: linear-gradient(
+    to left,
+    rgb(var(--color-bg-surface)),
+    rgb(var(--color-bg-surface) / 0)
+  );
+}
+@media (min-width: 1280px) {
+  .strip-fade {
+    display: none;
+  }
 }
 
 /*

@@ -16,7 +16,7 @@ describe('DraftCheck', () => {
   // Shut on arrival, like every panel under the writing area, and opened by a
   // deliberate click.
   it('folds and unfolds like the panels around it', () => {
-    render(<DraftCheck insights={INSIGHTS} />);
+    render(<DraftCheck insights={INSIGHTS} wordCount={90} />);
     const header = screen.getByRole('button', { name: /Draft check/i });
     expect(header.getAttribute('aria-expanded')).toBe('false');
     expect(header.getAttribute('aria-controls')).toBeTruthy();
@@ -32,7 +32,7 @@ describe('DraftCheck', () => {
   // says so — that is the only thing distinguishing "not read yet" from
   // "read and put away".
   it('marks itself read once it has been opened and shut again', () => {
-    render(<DraftCheck insights={INSIGHTS} />);
+    render(<DraftCheck insights={INSIGHTS} wordCount={90} />);
     const header = screen.getByRole('button', { name: /Draft check/i });
 
     expect(screen.queryByText(/^Read$/i)).toBeNull();
@@ -45,33 +45,39 @@ describe('DraftCheck', () => {
     expect(screen.getByText(/^Read$/i)).toBeTruthy();
   });
 
-  it('says what is waiting inside while it is folded', () => {
-    render(<DraftCheck insights={INSIGHTS} defaultCollapsed />);
-    // One warning and one info are two things to do. Counting warnings alone
-    // used to report "1 to work on" over a list of two.
-    expect(screen.getByText(/2 to work on/i)).toBeTruthy();
+  it('says how many checks are clear while it is folded', () => {
+    // Length and structure need work; the sentence check is already clear. The
+    // header carries that news while the list itself is shut.
+    render(<DraftCheck insights={INSIGHTS} wordCount={90} defaultCollapsed />);
+    expect(screen.getByText('1 of 3 checks clear')).toBeTruthy();
   });
 
-  it('counts praise as nothing to work on', () => {
+  it('counts a draft with nothing to fix as all checks clear', () => {
     render(
       <DraftCheck
         insights={[{ id: 'all-good', tone: 'positive', message: 'Looking strong.' }]}
+        wordCount={40}
         defaultCollapsed
       />
     );
-    expect(screen.getByText(/Nothing to fix yet/i)).toBeTruthy();
+    expect(screen.getByText('All checks clear')).toBeTruthy();
   });
 
   // The tinted cards each note used to sit in were amber, emerald and sky —
   // Tiers 3, 4 and 5 — directly under a writing surface painted in the
-  // question's own tier hue. Colour as fill belongs to the band system.
-  it('marks tone with a rule and a glyph, never a fill', () => {
-    const { container } = render(<DraftCheck insights={INSIGHTS} defaultCollapsed={false} />);
-    const notes = Array.from(container.querySelectorAll('li'));
-    expect(notes.length).toBe(2);
-    for (const note of notes) {
-      expect(note.className).toContain('border-l-2');
-      expect(note.className).not.toMatch(/\bbg-(amber|emerald|sky)-/);
+  // question's own tier hue. Colour as fill belongs to the band system: a row
+  // is marked by its glyph, its word and a stroke.
+  it('marks status with a glyph and a word, never a fill', () => {
+    const { container } = render(
+      <DraftCheck insights={INSIGHTS} wordCount={90} defaultCollapsed={false} />
+    );
+    const rows = Array.from(container.querySelectorAll('li'));
+    expect(rows.length).toBe(3);
+    for (const row of rows) {
+      expect(row.querySelector('svg')).not.toBeNull();
+      for (const el of Array.from(row.querySelectorAll('[class]'))) {
+        expect(el.getAttribute('class')).not.toMatch(/\bbg-(amber|emerald|sky)-/);
+      }
     }
   });
 
@@ -80,7 +86,7 @@ describe('DraftCheck', () => {
   // while the student was typing — and the one moment it could say what it is
   // for was the one moment it was absent.
   it('rests on a blank draft rather than disappearing', () => {
-    const { container } = render(<DraftCheck insights={[]} />);
+    const { container } = render(<DraftCheck insights={[]} wordCount={0} />);
 
     expect(container.firstChild).not.toBeNull();
     expect(screen.getByText('Draft check')).toBeTruthy();
@@ -90,7 +96,7 @@ describe('DraftCheck', () => {
   // Nothing behind it, so it must not offer to open: a disclosure that
   // discloses nothing is a dead control with a chevron on it.
   it('is not a disclosure while it is resting', () => {
-    render(<DraftCheck insights={[]} />);
+    render(<DraftCheck insights={[]} wordCount={0} />);
 
     const row = screen.getByText('Draft check').closest('button') as HTMLButtonElement;
     expect(row.disabled).toBe(true);
@@ -100,7 +106,7 @@ describe('DraftCheck', () => {
   // Zero is a RESULT — "I read your draft and found nothing to fix". There is
   // no draft yet.
   it('shows no count until there is something to count', () => {
-    render(<DraftCheck insights={[]} />);
+    render(<DraftCheck insights={[]} wordCount={0} />);
     expect(screen.queryByText('0')).toBeNull();
     expect(screen.getByText('—')).toBeTruthy();
   });

@@ -410,15 +410,9 @@ const ModalContext = createContext<ModalState | null>(null);
 
 ### Recommendation
 
-Extract shared theme/design constants to `theme.ts`:
-
-```typescript
-export const TIER_COLORS = {
-  course: { bg: 'bg-blue-500', text: 'text-blue-100' },
-  topic: { bg: 'bg-purple-500', text: 'text-purple-100' },
-  // ...
-};
-```
+Tier and band colours are now set in one place, `getBandConfig()` in
+`utils/renderUtils.ts`, so there is no separate colour table to extract. The
+unused `TIER_COLORS` table that this section pointed at was removed in #331.
 
 ---
 

@@ -58,6 +58,7 @@ const STEPS = [
   { file: 'supabase/tests/rls_negative_tests.sql', what: 'RLS negative tests', tests: true },
   { file: 'supabase/tests/entitlement_tests.sql', what: 'entitlement tests', tests: true },
   { file: 'supabase/tests/class_roll_tests.sql', what: 'class roll tests', tests: true },
+  { file: 'supabase/tests/progress_report_tests.sql', what: 'progress report tests', tests: true },
 ];
 
 const psql = (args, over = env) => spawnSync('psql', args, { env: over, encoding: 'utf8' });

@@ -1,25 +1,29 @@
-import React, { useId, useState, useMemo } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import { Prompt, Topic, UserRole, CourseOutcome } from '../types';
 import KeywordEditor from './KeywordEditor';
 import MarkingCriteriaManager from './MarkingCriteriaAccordion';
-import OutcomeDetailModal from './OutcomeDetailModal';
-import { ChevronDown, GraduationCap, Sparkles, Award, ListChecks, Target, Eye } from 'lucide-react';
-import { getBandConfig, getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
-import { NESA_PERFORMANCE_BAND_DESCRIPTORS } from '../data/performanceBands';
-import { canCurateContent } from '../utils/permissions';
+import { ChevronDown, Sparkles, ListChecks } from 'lucide-react';
+import { getBandConfig } from '../utils/renderUtils';
 import {
   PANEL_HEADER_CLOSED,
   PANEL_HEADER_OPEN,
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
 } from '../utils/panelStyles';
-import { PROSE_FLOW } from '../utils/prose';
-import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
-import { isFeatureLocked, planLabelForFeature } from '../services/entitlements';
-import { PlusLockChip } from './UpgradeModal';
+import {
+  HERO_HEAD_WASH,
+  HERO_LIT,
+  HERO_TILE,
+  LADDER_EDGE_SHUT,
+  LADDER_SOLID,
+} from '../utils/ladderChrome';
+import { ladderBandVars } from './LadderRow';
+import { useOpenCriterionRequest } from '../utils/ladderLink';
+import { questionCeilingBand } from '../utils/markingGuideParse';
+import { classifySyllabusTerms, type SyllabusTermContext } from '../utils/syllabusTermSource';
+import { PANEL_NAME, PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { useSupportResource } from '../hooks/useSupportResource';
-import { markSupportOpened, type SupportResourceId } from '../utils/supportEngagement';
+import type { SupportResourceId } from '../utils/supportEngagement';
 
 interface AccordionSectionProps {
   title: string;
@@ -33,6 +37,22 @@ interface AccordionSectionProps {
   resetKey?: string;
   /** Which of the question's supports this panel is, for the feedback report. */
   supportId?: SupportResourceId;
+  /** Opens the section each time this number CHANGES to a truthy value, so a
+   *  sibling can open it from outside without owning its state. The value at
+   *  mount is not a change, so it does not open the section; `defaultOpen` is
+   *  what opens one on arrival. */
+  forceOpenSignal?: number;
+  /** Mounts the children only while the section is open. A body whose rows run
+   *  work on mount (the exemplars run text metrics for every row) should not do
+   *  that for a section nobody has opened. Off by default, so every other caller
+   *  keeps its children mounted and its state across a fold. */
+  lazy?: boolean;
+  /** Draws the section as a SECONDARY hero (DesignSpec §3): a band-washed header,
+   *  a solid icon tile with a glow and, while open, a lit edge with a tier glow
+   *  beneath. `band` is the colour it is lit in, so a hero takes the question's
+   *  ceiling band and the three reference panels of a question agree. Off by
+   *  default, so every other section keeps its calm header. */
+  hero?: boolean;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -44,49 +64,86 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   band = 6,
   resetKey,
   supportId,
+  forceOpenSignal,
+  lazy = false,
+  hero = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const bandConfig = useMemo(() => getBandConfig(band), [band]);
+  // The signal as last seen, kept as state and compared during render (the
+  // React pattern for a prop that resets state), so a change opens the section
+  // in the same render rather than one frame after it.
+  const [seenSignal, setSeenSignal] = useState(forceOpenSignal);
+  if (forceOpenSignal !== seenSignal) {
+    setSeenSignal(forceOpenSignal);
+    if (forceOpenSignal) setIsOpen(true);
+  }
+  const bandConfig = getBandConfig(band);
   const panelId = useId();
   const opened = useOpenedOnce(isOpen, resetKey);
   // `resetKey` is the prompt id everywhere this panel is used for a question.
   useSupportResource(resetKey, supportId, isOpen);
 
   return (
-    <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        className={`w-full ${PANEL_ROW_MIN_H} py-3.5 px-5 flex items-center justify-between transition-all group ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED}`}
+    <div
+      // The band reaches the panel's own header, body divider and lit edge through
+      // `--band-rgb`. Set only on a hero, so an ordinary section draws none of it.
+      style={hero ? ladderBandVars(band) : undefined}
+      className={`${PANEL_SURFACE} mb-3 last:mb-0 ${hero && isOpen ? HERO_LIT : ''}`}
+    >
+      {/* The header row is a wrapper around the disclosure, which carries the shared
+          row height and the tint. The hero's wash sits on this row, behind the title. */}
+      <div
+        className={`group flex items-stretch ${PANEL_ROW_MIN_H} transition-all ${isOpen ? PANEL_HEADER_OPEN : PANEL_HEADER_CLOSED} ${hero ? HERO_HEAD_WASH : ''}`}
       >
-        <div className="flex items-center gap-4">
-          <div
-            className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
-          >
-            {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
-          </div>
-          <span className="text-left">
-            <span
-              // The panel's NAME, so it takes the section treatment; the
-              // subtitle under it stays `.t-label`, which is what makes the
-              // pair read as a heading and its caption rather than two labels.
-              className={`t-section block ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
-            >
-              {title}
-            </span>
-            {subtitle && (
-              <span className="t-label block text-slate-600 dark:text-slate-400">{subtitle}</span>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          // The name and its caption stand 36px tall, so a plain header pads 12px
+          // either side to clear the shared 61px line the rest of the column stands
+          // on. A hero is 40px at its tile, so it trims its padding to 10px.
+          className={`flex-1 min-w-0 ${hero ? 'py-2.5' : 'py-3'} px-5 flex items-center justify-between`}
+        >
+          <div className="flex items-center gap-4">
+            {hero ? (
+              <div className={`${HERO_TILE} ${LADDER_SOLID}`}>
+                {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-5 h-5' })}
+              </div>
+            ) : (
+              <div
+                className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
+              >
+                {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
+              </div>
             )}
-          </span>
-        </div>
-        <div className="flex items-center gap-2.5 flex-shrink-0">
-          <PanelReadChip show={opened && !isOpen} />
-          <ChevronDown
-            className={`w-4 h-4 text-slate-400 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
-          />
-        </div>
-      </button>
+            <span className="text-left">
+              <span
+                // The panel's NAME, in the heading voice; the subtitle under it
+                // stays `.t-label`, which is what makes the pair read as a heading
+                // and its caption rather than two labels. A hero's name is in the
+                // primary ink whether it is open or not: it is the panel's
+                // identity, not a state.
+                className={`${PANEL_NAME} ${hero || isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
+              >
+                {title}
+              </span>
+              {subtitle && (
+                <span
+                  className={`t-label block ${hero ? 'text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-400'}`}
+                >
+                  {subtitle}
+                </span>
+              )}
+            </span>
+          </div>
+          <div className="flex items-center gap-2.5 flex-shrink-0">
+            <PanelReadChip show={opened && !isOpen} />
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-500 ${hero ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400'} ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
+            />
+          </div>
+        </button>
+      </div>
 
       {/* A grid-rows transition rather than a max-height one. The old
           `max-h-[2000px]` was a guess at how tall the content could get, and
@@ -105,13 +162,86 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
         className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <div className="p-5 pt-0 border-t border-slate-300 dark:border-white/10">
-            <div className="mt-5">{children}</div>
+          <div
+            className={
+              hero
+                ? `p-5 pt-0 border-t ${LADDER_EDGE_SHUT}`
+                : 'p-5 pt-0 border-t border-slate-300 dark:border-white/10'
+            }
+          >
+            <div className="mt-5">{!lazy || isOpen ? children : null}</div>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+interface MarkingGuidePanelProps {
+  prompt: Prompt;
+  userRole: UserRole;
+  onMarkingCriteriaChange: (criteria: string) => void;
+  courseOutcomes?: CourseOutcome[];
+}
+
+/**
+ * The Marking Guide panel. It is built here once, for the reference rail and for
+ * Focus Mode, which have no other shared parent: both had their own copy of this
+ * composition, and the two had already drifted apart.
+ */
+export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
+  prompt,
+  userRole,
+  onMarkingCriteriaChange,
+  courseOutcomes = [],
+}) => {
+  // The question's own ceiling, not a fixed band: the hero's tile takes this
+  // question's tier hue, and the Sample Answers and Syllabus Terms panels read the
+  // same figure, so the three headers of a question agree.
+  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
+  const written = Boolean(prompt.markingCriteria?.trim());
+  // Bumped to open the panel from outside it: an exemplar's "View marking criterion".
+  // The guide's rows listen for the same request to scroll to the matching row.
+  const [openSignal, setOpenSignal] = useState(0);
+  useOpenCriterionRequest(prompt.id, () => setOpenSignal((n) => n + 1));
+  return (
+    <AccordionSection
+      title="Marking guide"
+      // The marks lead, so the header says what the guide is FOR before it says
+      // where it is written to. It used to say "Top level: Band 2" over an empty
+      // panel, as though a guide existed and topped out there.
+      subtitle={`${prompt.totalMarks} marks · ${written ? `Written to Band ${ceilingBand}` : 'Not written yet'}`}
+      icon={<ListChecks />}
+      band={ceilingBand}
+      hero
+      resetKey={prompt.id}
+      supportId="markingGuide"
+      forceOpenSignal={openSignal}
+    >
+      <MarkingCriteriaManager
+        prompt={prompt}
+        markingCriteria={prompt.markingCriteria || ''}
+        onSave={onMarkingCriteriaChange}
+        band={ceilingBand}
+        userRole={userRole}
+        courseOutcomes={courseOutcomes}
+        embedded
+      />
+    </AccordionSection>
+  );
+};
+
+/**
+ * The Syllabus Terms header's count: how many of the question's terms the question
+ * or the syllabus it comes from names (the must-use ones), against the terms the AI
+ * added around them. It is the same split `KeywordEditor` draws its two groups from,
+ * so the number in the header and the groups below it cannot disagree.
+ */
+const termCountLabel = (keywords: string[], context: SyllabusTermContext): string => {
+  if (keywords.length === 0) return 'No terms yet';
+  const sources = classifySyllabusTerms(keywords, context);
+  const key = keywords.filter((kw) => sources.get(kw)).length;
+  return `${key} key · ${keywords.length - key} supporting`;
 };
 
 interface ReferenceMaterialsProps {
@@ -141,135 +271,44 @@ interface ReferenceMaterialsProps {
 }
 
 const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
-  const { prompt, topic, userRole, courseOutcomes = [], breadcrumb } = props;
+  const { prompt, topic, userRole, courseOutcomes = [], dotPointText, subTopicName } = props;
+  const topicName = topic?.name;
 
-  // Second, fuller entry point to the outcome briefing. The chips in the prompt
-  // footer are a quick reminder of WHICH outcomes apply; this panel spells out
-  // what each one asks for and offers the in-context explanation by name, so a
-  // student can read it before attempting an answer rather than discovering it
-  // by chance.
-  const [selectedOutcome, setSelectedOutcome] = useState<CourseOutcome | null>(null);
-  const briefingLocked = isFeatureLocked('outcomeBriefing');
-  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
-  const tierConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
-  const canCurate = canCurateContent(userRole);
-  const commonMistakes = useMemo(
-    () => (prompt.commonStudentErrors || []).map((s) => s.trim()).filter(Boolean),
-    [prompt.commonStudentErrors]
-  );
-  const markerNotes = useMemo(
-    () => (prompt.markerNotes || []).map((s) => s.trim()).filter(Boolean),
-    [prompt.markerNotes]
-  );
-  const linkedOutcomes = useMemo(
-    () => courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code)),
-    [courseOutcomes, prompt.linkedOutcomes]
-  );
-  // The topic's own descriptors when it has them, and NESA's general band
-  // descriptors when it does not. Only the three seeded demo topics carried a
-  // set, so on any topic imported or loaded from the shared library the Grade
-  // Standards panel was simply absent — the one panel that says what each band
-  // means, missing without a word on exactly the courses teachers add.
-  const bandDescriptors = useMemo(
+  // The Syllabus Terms panel was drawn in a fixed band 4 (green), beside a Marking
+  // Guide in the question's own band: a visible mismatch in one column. It is the
+  // question's ceiling now, like the guide and the exemplars.
+  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
+  const termsSubtitle = useMemo(
     () =>
-      topic?.performanceBandDescriptors?.length
-        ? topic.performanceBandDescriptors
-        : NESA_PERFORMANCE_BAND_DESCRIPTORS,
-    [topic?.performanceBandDescriptors]
+      termCountLabel(prompt.keywords ?? [], {
+        question: prompt.question,
+        scenario: prompt.scenario,
+        dotPointText,
+        subTopicName,
+        topicName,
+      }),
+    [prompt.keywords, prompt.question, prompt.scenario, dotPointText, subTopicName, topicName]
   );
-  const maxPossibleBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, verbInfo.tier),
-    [prompt.totalMarks, verbInfo.tier]
-  );
+
+  // What's Assessed, Common mistakes and Grade Standards are off the workspace
+  // for the time being, and the data behind them (linked outcomes,
+  // `commonStudentErrors`, `markerNotes`, band descriptors) is left untouched so
+  // they can return.
 
   return (
     <div className="flex flex-col gap-1 animate-fade-in">
-      {linkedOutcomes.length > 0 && (
-        <AccordionSection
-          title="What's Assessed"
-          subtitle={`${linkedOutcomes.length} outcome${linkedOutcomes.length === 1 ? '' : 's'}`}
-          icon={<Target />}
-          band={verbInfo.tier}
-          resetKey={prompt.id}
-          supportId="outcomes"
-        >
-          <div className="space-y-2.5">
-            {/* The briefing is easy to miss: nothing about a row of outcome
-                statements says the app will explain them for THIS question. It
-                is named here, and priced here — a student should learn what it
-                is and that it is a Plus feature in the same breath, not by
-                tapping and hitting a wall. */}
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-              Read these before you start writing — they are the standards this question is marked
-              against. Tap any outcome for a briefing on what it wants from this question.
-            </p>
-            {briefingLocked && (
-              <p className="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400">
-                <PlusLockChip feature="outcomeBriefing" />
-                Briefings are part of {planLabelForFeature('outcomeBriefing')} — the outcomes
-                themselves are always free to read.
-              </p>
-            )}
-            {linkedOutcomes.map((outcome) => (
-              <button
-                key={outcome.code}
-                onClick={() => {
-                  setSelectedOutcome(outcome);
-                  markSupportOpened(prompt.id, 'outcomeBriefing');
-                }}
-                // `band-edge` twice, from one `--band-rgb` set here and
-                // inherited by the glyph inside. Same fault as the Grade
-                // Standards ladder below and the criteria rows beside it: a
-                // fully saturated outline — solid `-600` in the light theme —
-                // drawn around this tier's own pale wash, once for the row and
-                // again for the 20px target in it, so two of the loudest edges
-                // on the panel belonged to its quietest content. It is worse
-                // here than on that ladder, because every row takes its colour
-                // from the QUESTION's verb tier rather than its own: the hue is
-                // identical down the list and so distinguishes nothing. The
-                // fill and the outcome code say what these are; the edge only
-                // has to close the shape.
-                style={{ '--band-rgb': getBandRgb(verbInfo.tier) } as React.CSSProperties}
-                className={`w-full text-left rounded-2xl border band-edge ${tierConfig.bg} p-4 transition-all hover:shadow-lg hover:brightness-110 active:scale-[0.98] group/outcome-row`}
-              >
-                <div className="flex items-center gap-2 mb-1.5">
-                  {/* The same target that heads the panel and marks every
-                      outcome chip on the question card, so an outcome is
-                      recognisable as one wherever it appears. */}
-                  <span
-                    className={`w-5 h-5 shrink-0 rounded-lg flex items-center justify-center border band-edge ${tierConfig.bg}`}
-                    aria-hidden="true"
-                  >
-                    <Target className={`w-3 h-3 ${tierConfig.text}`} />
-                  </span>
-                  <span className={`t-label ${tierConfig.text}`}>{outcome.code}</span>
-                  <span className="t-label ml-auto flex items-center gap-1.5 text-slate-600 dark:text-slate-400 group-hover/outcome-row:text-slate-900 dark:group-hover/outcome-row:text-white transition-colors">
-                    <Sparkles className="w-3 h-3" />
-                    Explain for this question
-                    {briefingLocked && <PlusLockChip feature="outcomeBriefing" />}
-                  </span>
-                </div>
-                <p
-                  className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
-                >
-                  {outcome.description}
-                </p>
-              </button>
-            ))}
-          </div>
-        </AccordionSection>
-      )}
-
       <AccordionSection
-        title="Syllabus Terms"
+        title="Syllabus terms"
+        subtitle={termsSubtitle}
         icon={<Sparkles />}
-        band={4}
+        band={ceilingBand}
+        hero
         resetKey={prompt.id}
         supportId="keywords"
       >
         <KeywordEditor
           {...props}
-          topicName={topic?.name}
+          topicName={topicName}
           onRegenerate={props.onRegenerateKeywords}
           isRegenerating={props.isRegeneratingKeywords}
           onSuggest={props.onSuggestKeywords}
@@ -277,219 +316,16 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
         />
       </AccordionSection>
 
-      {/* What goes wrong here.
-
-          Two audiences in one panel, which is why the rule is in the middle of
-          it. `commonStudentErrors` is written about students and is useful TO
-          them ("Confusing the roles of the template and coding strands").
-          `markerNotes` is written to a marker — "Credit explicit mention of…",
-          "Higher marks awarded for…" — so it sits behind `canCurate`, in the
-          same device the Syllabus Terms panel uses for its own boundary: a rule
-          that names what is below it rather than a second heading above it.
-
-          Deliberately NOT numbered. These are a set of pitfalls a marker sees
-          again and again, not a sequence anyone works through in order, and a
-          01/02/03 down the side would claim an order the content does not have.
-
-          Band 2 is the caution end of the app's own ramp rather than a
-          hand-picked amber, and it makes no claim about the question — the same
-          use of `band` as chrome the Syllabus Terms panel already makes. */}
-      {(commonMistakes.length > 0 || (canCurate && markerNotes.length > 0)) && (
-        <AccordionSection
-          title="Common mistakes"
-          icon={<Eye />}
-          band={2}
-          resetKey={prompt.id}
-          supportId="commonMistakes"
-        >
-          <div className="space-y-3">
-            {commonMistakes.length > 0 && (
-              <>
-                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 leading-snug">
-                  What students most often get wrong on this question.
-                </p>
-                <ul className="space-y-2">
-                  {commonMistakes.map((mistake) => (
-                    <li key={mistake} className="flex items-start gap-2.5">
-                      <span
-                        className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-slate-400 dark:bg-slate-500"
-                        aria-hidden="true"
-                      />
-                      <span
-                        className={`text-[11px] ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
-                      >
-                        {mistake}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-
-            {canCurate && markerNotes.length > 0 && (
-              <>
-                {commonMistakes.length > 0 && (
-                  <div className="flex items-center gap-3" aria-hidden="true">
-                    <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                    <span className="t-label shrink-0 text-slate-500 dark:text-slate-400">
-                      What the marker looks for
-                    </span>
-                    <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
-                  </div>
-                )}
-                <ul
-                  className="space-y-2"
-                  role="group"
-                  aria-label="What the marker looks for — visible to teachers"
-                >
-                  {markerNotes.map((note) => (
-                    <li key={note} className="flex items-start gap-2.5">
-                      <span
-                        className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-indigo-400/70"
-                        aria-hidden="true"
-                      />
-                      <span
-                        className={`text-[11px] ${PROSE_FLOW} leading-relaxed text-slate-700 dark:text-slate-300`}
-                      >
-                        {note}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
-        </AccordionSection>
-      )}
-
-      {bandDescriptors.length > 0 && (
-        <AccordionSection
-          title="Grade Standards"
-          subtitle={`This question reaches Band ${maxPossibleBand}`}
-          icon={<GraduationCap />}
-          band={6}
-          resetKey={prompt.id}
-          supportId="gradeStandards"
-        >
-          <div className="space-y-4">
-            {[...bandDescriptors]
-              .sort((a, b) => b.band - a.band)
-              .map((descriptor) => {
-                const bConfig = getBandConfig(descriptor.band);
-                // All six bands are shown — it is a ladder, and seeing the rungs
-                // above is how a student learns what the verb holds back — but
-                // they used to be shown as equals, so on a DESCRIBE question
-                // (Band 2 at most) a student read four descriptors they could
-                // not earn, in full colour, before reaching their own. The rungs
-                // above this question's ceiling now step back and say why, and
-                // the ceiling itself says it is the top.
-                const aboveCeiling = descriptor.band > maxPossibleBand;
-                const isCeiling = descriptor.band === maxPossibleBand;
-                return (
-                  <div
-                    key={descriptor.band}
-                    // `band-edge` rather than `bConfig.border`, and the same
-                    // on the icon tile inside it. Six descriptors is a LADDER,
-                    // and the token draws a fully saturated outline — solid
-                    // `-600` in the light theme — around this band's own `-100`
-                    // wash. Rendered, that made the outline the loudest thing
-                    // on a row whose whole content is a pale tint, six times
-                    // over, with a second saturated edge on every icon tile.
-                    // The edge closes the shape; the fill, the eyebrow and the
-                    // award glyph are what say which band it is. Softened to
-                    // 35% of the same hue, from the same `--band-rgb` the verb
-                    // ribbon's strip uses.
-                    style={{ '--band-rgb': getBandRgb(descriptor.band) } as React.CSSProperties}
-                    className={`relative rounded-2xl border band-edge p-4 group/descriptor transition-all ${
-                      // Out of reach steps back by losing its FILL, not its ink:
-                      // a 60% wash over the text put it under AA on white.
-                      aboveCeiling ? 'bg-transparent' : `${bConfig.bg} shadow-sm hover:shadow-lg`
-                    } ${isCeiling ? 'ring-2 ring-offset-0 ring-[rgb(var(--band-rgb)/0.45)]' : ''}`}
-                  >
-                    <div className="flex gap-4 items-start">
-                      <div
-                        className={`p-2 rounded-xl ${bConfig.iconBg} border band-edge shadow-inner`}
-                      >
-                        <Award className={`w-4 h-4 ${bConfig.text} shrink-0`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                          <span className={`t-label ${bConfig.text}`}>Band {descriptor.band}</span>
-                          {/* The band's word ("Outstanding", "Sound") sits on a
-                              tinted card in both themes, so it cannot afford a
-                              muted tone AND an opacity on top: at 8px that
-                              landed under every readability floor the rest of
-                              the app respects. */}
-                          <span className="t-label text-slate-600 dark:text-slate-300">
-                            • {descriptor.shortLabel}
-                          </span>
-                          {isCeiling && (
-                            <span
-                              className={`t-label ml-auto shrink-0 px-2 py-0.5 rounded-lg border band-edge ${bConfig.text}`}
-                            >
-                              Top band for this question
-                            </span>
-                          )}
-                        </div>
-                        <p
-                          className={`text-[11px] ${PROSE_FLOW} text-slate-700 dark:text-slate-300 leading-relaxed font-serif`}
-                        >
-                          {descriptor.description}
-                        </p>
-                        {aboveCeiling && (
-                          <p className="mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
-                            Beyond what a {prompt.verb.toLowerCase()} question can reach.
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </AccordionSection>
-      )}
-
-      <AccordionSection
-        title="Marking Guide"
-        // It said "Top level: Band 2" over an empty panel, as though a guide
-        // existed and topped out there.
-        subtitle={
-          prompt.markingCriteria?.trim() ? `Written to Band ${maxPossibleBand}` : 'Not written yet'
-        }
-        icon={<ListChecks />}
-        band={5}
-        resetKey={prompt.id}
-        supportId="markingGuide"
-      >
-        <MarkingCriteriaManager
-          prompt={prompt}
-          markingCriteria={prompt.markingCriteria || ''}
-          onSave={props.onMarkingCriteriaChange}
-          band={5}
-          userRole={userRole}
-          courseOutcomes={courseOutcomes}
-          embedded
-        />
-      </AccordionSection>
+      <MarkingGuidePanel
+        prompt={prompt}
+        userRole={userRole}
+        onMarkingCriteriaChange={props.onMarkingCriteriaChange}
+        courseOutcomes={courseOutcomes}
+      />
 
       {/* The exemplars used to sit here, under the Marking Guide. They are now
           docked beneath the student's own writing, where the comparison that
           makes them useful actually happens — see Workspace. */}
-
-      {selectedOutcome && (
-        <OutcomeDetailModal
-          isOpen={!!selectedOutcome}
-          onClose={() => setSelectedOutcome(null)}
-          outcomes={linkedOutcomes}
-          initialCode={selectedOutcome.code}
-          question={prompt.question}
-          tier={verbInfo.tier}
-          verb={prompt.verb}
-          totalMarks={prompt.totalMarks}
-          breadcrumb={breadcrumb}
-        />
-      )}
     </div>
   );
 };

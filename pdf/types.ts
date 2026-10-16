@@ -1,5 +1,6 @@
 import type { ToastType } from '../hooks/useToast';
 import type { IconName } from './icons';
+import type { ReportBlockData, ReportBlockLayout } from './reportBlocks';
 // pdf/types.ts
 //
 // Shared types for the client-side vector-PDF exporter. These deliberately
@@ -39,7 +40,22 @@ export interface InlineSpan {
   style: FontStyle;
   /** RGB triple 0-255. Absent means "the block's colour". */
   color?: [number, number, number];
+  /**
+   * A syllabus term or the command verb. Drawn with a continuous underline, so
+   * the highlight survives greyscale and a colour-blind reader — the screen's
+   * wash does not survive a printer, and colour alone is not a mark on paper.
+   */
+  underline?: boolean;
 }
+
+/**
+ * The underline under a highlighted span, in em. Set as a rule, not a border:
+ * it has to read under 9pt body type without outweighing the bold beside it.
+ */
+export const INLINE_UNDERLINE = {
+  offsetEm: 0.16,
+  thicknessEm: 0.06,
+};
 
 /**
  * Geometry of the result strip, shared by the measurer (layout) and the drawer
@@ -155,7 +171,129 @@ export const BAND_SCALE = {
   heightBaseMm: 2.4,
   gapBaseMm: 1.8,
   segmentGapBaseMm: 0.8,
-  labelPt: 5.5,
+  // The ends are what say where the scale starts and stops. At 5.5pt they were
+  // the smallest type on the page, which is the wrong place to make them hard.
+  labelPt: 6.5,
+};
+
+/**
+ * The progress report's result strip: 4–5 cells across the full width, each with
+ * a display label, a large value and an optional hint. Hairline dividers between
+ * the cells, so the strip reads as one instrument rather than five boxes.
+ */
+export const STAT_STRIP = {
+  padXBaseMm: 4,
+  padYBaseMm: 3.4,
+  labelPt: 6.8,
+  valuePt: 21,
+  /** A value that will not fit its cell shrinks, but not below this. */
+  valueMinPt: 11,
+  hintPt: 7,
+  labelGapBaseMm: 1.5,
+  valueGapBaseMm: 1,
+  dividerWeightBaseMm: 0.25,
+  hintMaxLines: 2,
+  radiusBaseMm: 1.8,
+};
+
+/**
+ * The progress chart: the band ladder on the y axis, time on the x axis. Six
+ * bands with a gridline at each, the line and points in the band they reached,
+ * and a dashed average. Heights are base mm, scaled like everything else.
+ */
+export const LINE_CHART = {
+  plotHeightBaseMm: 56,
+  /** Room for "6  Outstanding" beside the plot; widened, never narrowed, to fit. */
+  gutterMinBaseMm: 27,
+  gutterGapBaseMm: 2.2,
+  /** Space above the plot. */
+  topInsetBaseMm: 4,
+  /**
+   * The right-hand margin the dashed average's label sits in. Reserved on every
+   * chart, so the plots of different reports line up with one another.
+   */
+  averageGutterBaseMm: 22,
+  /** Space inside the plot edges, so a point on the first or last day is not clipped. */
+  edgeInsetBaseMm: 3,
+  rightInsetBaseMm: 2,
+  labelPt: 6.8,
+  xLabelPt: 7,
+  xLabelGapBaseMm: 1.8,
+  captionPt: 7.2,
+  captionGapBaseMm: 2.6,
+  pointRadiusBaseMm: 1.05,
+  lineWeightBaseMm: 0.55,
+  gridWeightBaseMm: 0.15,
+  axisWeightBaseMm: 0.3,
+  averageWeightBaseMm: 0.35,
+  averageLabelPt: 7,
+  /** The y range in band units: a band sits mid-row, and 1 and 6 are not on the edges. */
+  bandMin: 0.5,
+  bandMax: 6.5,
+};
+
+/**
+ * The bar list: one row per item, a label in its column, a track filled to the
+ * share of marks earned, and the value in its own right-aligned column. An item
+ * with no attempts keeps an empty dashed track, so "not attempted" is drawn, not
+ * left blank.
+ */
+export const BAR_LIST = {
+  rowHeightBaseMm: 6.4,
+  labelWidthBaseMm: 54,
+  valueWidthBaseMm: 34,
+  gapBaseMm: 3,
+  barHeightBaseMm: 2.6,
+  labelPt: 8,
+  valuePt: 7.8,
+  /** A bar on fewer answers than this is drawn in a lighter tint, and the About notes say so. */
+  lowCount: 3,
+  /** The tint a low-count bar is drawn in: 0.55 toward paper, so about 45% of the band colour. */
+  lowCountTintMix: 0.55,
+};
+
+/**
+ * The progress report's tables and the tier heatmap. A row is measured to its
+ * tallest cell, never less than `minRowBaseMm`, so rows breathe; a table splits
+ * between rows, and every fragment repeats the header (and the group heading a
+ * page carries on from). `MIN_HEAD_ROWS` and `MIN_TAIL_ROWS` are the orphan and
+ * widow rules: a heading never stands over fewer rows than that at a page foot,
+ * and a page never begins with fewer.
+ */
+export const TABLE = {
+  padXBaseMm: 1.6,
+  padYBaseMm: 1.3,
+  minRowBaseMm: 6.6,
+  headerPt: 6.2,
+  headerLineFactor: 1.35,
+  headerGapBaseMm: 1.8,
+  headerRuleWeightBaseMm: 0.3,
+  bodyPt: 8,
+  bodyLineFactor: 1.25,
+  subPt: 6.8,
+  subLineFactor: 1.3,
+  subGapBaseMm: 0.2,
+  maxNameLines: 2,
+  rowRuleWeightBaseMm: 0.15,
+  zebraTintMix: 0.955,
+  barHeightBaseMm: 1.5,
+  barGapBaseMm: 1.6,
+  sparkHeightBaseMm: 4.4,
+  sparkInsetBaseMm: 0.8,
+  sparkDotBaseMm: 0.5,
+  chipPt: 6.6,
+  chipHeightBaseMm: 3.6,
+  chipPadXBaseMm: 1.6,
+  chipTintMix: 0.8,
+  groupPt: 6.8,
+  groupHeightBaseMm: 7.6,
+  heatInsetBaseMm: 0.5,
+  heatTintMix: 0.82,
+  heatPt: 7.6,
+  /** A heading may stand over at least this many body rows at a page foot. */
+  MIN_HEAD_ROWS: 2,
+  /** A page may begin with at least this many body rows of a split table. */
+  MIN_TAIL_ROWS: 2,
 };
 
 /**
@@ -207,7 +345,17 @@ export type BlockKind =
   | 'listItem'
   | 'criterion'
   | 'divider'
-  | 'spacer';
+  | 'spacer'
+  /** Progress report: the result strip (see STAT_STRIP). */
+  | 'statStrip'
+  /** Progress report: progress over time on the band ladder (see LINE_CHART). */
+  | 'lineChart'
+  /** Progress report: horizontal bars, one per row (see BAR_LIST). */
+  | 'barList'
+  /** Progress report: a table of rows and columns, splitting by whole rows (see TABLE). */
+  | 'table'
+  /** Progress report: students by command-verb tier, each cell shaded by its share (see TABLE). */
+  | 'heatmap';
 
 /**
  * A measured-but-not-yet-placed unit of content. `buildBlocks` produces these
@@ -230,6 +378,12 @@ export interface ContentBlock {
   breakable?: boolean;
   /** Accent colour for rules / bars associated with the block. */
   accent?: [number, number, number];
+  /**
+   * The band colour where it is TEXT — a mark, a chip, an eyebrow label. The
+   * ink step, because the fill step fails 4.5:1 on paper for several bands.
+   * Absent means the block has no band text; `accent` stays the fill.
+   */
+  inkAccent?: [number, number, number];
   /**
    * Proportion earned, drawn as a filled track under the block's label. The
    * chip states it in numerals; this makes a column of criteria comparable at
@@ -318,6 +472,12 @@ export interface ContentBlock {
   /** Draw dashed Name / Class / Date rules in the block's right-hand half. */
   fields?: boolean;
   /**
+   * The data a progress-report block kind draws (`statStrip`, `lineChart`,
+   * `barList`). One typed field rather than a field per kind; see
+   * `pdf/reportBlocks.ts`. Absent on every block the marking report builds.
+   */
+  report?: ReportBlockData;
+  /**
    * Never let a column or page break fall between this block and the next.
    *
    * A diff pair is one thought in two blocks: the sentence the student wrote and
@@ -384,6 +544,12 @@ export interface MeasuredBlock extends ContentBlock {
    * and drawing use the same number as the measurement did.
    */
   labelExtraMm?: number;
+  /**
+   * Every coordinate a progress-report block is drawn at, computed when it was
+   * measured (see `pdf/reportGeometry.ts`). The drawer reads these; it never
+   * re-derives a position from the payload.
+   */
+  reportLayout?: ReportBlockLayout;
 }
 
 /**

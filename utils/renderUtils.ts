@@ -463,6 +463,34 @@ export const getBandRgb = (band: number): string => {
   return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
 };
 export const getBandHexDark = (band: number): string => BAND_HEX_DARK[clampBand(band)];
+
+/**
+ * The six tier hues as TEXT on a light ground: the `-700` step of each.
+ *
+ * `BAND_HEX` is the `-500` step, which is right for a fill and for text on a dark
+ * ground and wrong for text on a pale one: on near-white it measures 1.9:1 for
+ * yellow, 2.3 for green, 2.8 for orange and 3.7 for red. The `-700` steps clear
+ * 4.5:1 on white and on slate-50 for all six (4.8 at the lowest, yellow), which is
+ * what the verb ribbon's light-theme stage needs for its figures and its current
+ * step's name. Not `-600`, which `BAND_HEX_DARK` is: yellow, green and orange all
+ * miss 4.5 there. Pinned by `tests/unit/bandColors.test.ts`.
+ */
+export const BAND_HEX_INK: Record<number, string> = {
+  1: '#b91c1c', // red-700
+  2: '#c2410c', // orange-700
+  3: '#a16207', // yellow-700
+  4: '#15803d', // green-700
+  5: '#1d4ed8', // blue-700
+  6: '#7e22ce', // purple-700
+};
+
+/** `getBandRgb`, for `BAND_HEX_INK`: the tier's text hue on a light ground, as an
+ *  `r g b` triplet so CSS can draw it at an alpha. */
+export const getBandInkRgb = (band: number): string => {
+  const hex = BAND_HEX_INK[clampBand(band)];
+  const n = parseInt(hex.slice(1), 16);
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+};
 export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)];
 
 /**
@@ -482,6 +510,19 @@ export const getBandName = (band: number): string => BAND_NAMES[clampBand(band)]
  * keeps the two-level relationship the dark `/10` → `/20` pair has. The `text`
  * entries are `-900`, so contrast on either is far past AA.
  *
+ * The dark `text` is `-300`, not `-400`. In the navigator a band label sits on
+ * two nested `/10` washes (the closed control and the row inside it), and at that
+ * depth `-400` read 4.0:1 on red, 4.3 on orange and 4.5 on purple over the dark
+ * panels, under AA for the `.t-label` chips that carry it. `-300` clears 6:1 on
+ * every band at that depth.
+ *
+ * `gradient` is the fill a chip or heading wears when it is painted in one, and
+ * `solidText` sets its ink. Those two have to agree: `solidText` clears AA on
+ * `solidBg`, and a gradient that starts at `-500` under the same white reads
+ * 2.3–4.0:1, so the white-ink bands run their gradients on the solid's own step
+ * and one shade darker. Band 3 keeps its light gradient, because its ink is dark.
+ * `bandColors.test.ts` measures every stop in both themes.
+ *
  * `print:` stays at `-50`/`-100`: paper is white too, but a printed tint is
  * ink, and the printed report leans on the border and the band NUMBER rather
  * than on fill.
@@ -492,9 +533,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-purple-500/10 light:bg-purple-100 print:bg-purple-50',
       solidBg: 'bg-purple-600 light:bg-purple-700',
       border: 'border-purple-500/50 light:border-purple-600 print:border-purple-200',
-      text: 'text-purple-400 light:text-purple-900 print:text-purple-800',
+      text: 'text-purple-300 light:text-purple-900 print:text-purple-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-purple-500 to-purple-400 light:from-purple-700 light:to-purple-600',
+      gradient: 'from-purple-700 to-purple-600',
       glow: 'shadow-purple-500/25 light:shadow-purple-500/20',
       iconBg: 'bg-purple-500/20 light:bg-purple-200 print:bg-purple-100',
       ring: 'ring-purple-500/30 light:ring-purple-600/30',
@@ -503,9 +544,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-blue-500/10 light:bg-blue-100 print:bg-blue-50',
       solidBg: 'bg-blue-600 light:bg-blue-700',
       border: 'border-blue-500/50 light:border-blue-600 print:border-blue-200',
-      text: 'text-blue-400 light:text-blue-900 print:text-blue-800',
+      text: 'text-blue-300 light:text-blue-900 print:text-blue-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-blue-500 to-blue-400 light:from-blue-700 light:to-blue-600',
+      gradient: 'from-blue-700 to-blue-600',
       glow: 'shadow-blue-500/25 light:shadow-blue-500/20',
       iconBg: 'bg-blue-500/20 light:bg-blue-200 print:bg-blue-100',
       ring: 'ring-blue-500/30 light:ring-blue-600/30',
@@ -518,9 +559,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       // 5.02:1 and matches what the light theme already used.
       solidBg: 'bg-green-700 light:bg-green-700',
       border: 'border-green-500/50 light:border-green-600 print:border-green-200',
-      text: 'text-green-400 light:text-green-900 print:text-green-800',
+      text: 'text-green-300 light:text-green-900 print:text-green-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-green-500 to-green-400 light:from-green-700 light:to-green-600',
+      gradient: 'from-green-800 to-green-700',
       glow: 'shadow-green-500/25 light:shadow-green-500/20',
       iconBg: 'bg-green-500/20 light:bg-green-200 print:bg-green-100',
       ring: 'ring-green-500/30 light:ring-green-600/30',
@@ -529,7 +570,7 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-yellow-500/10 light:bg-amber-100 print:bg-yellow-50',
       solidBg: 'bg-yellow-500 light:bg-amber-500',
       border: 'border-yellow-500/50 light:border-amber-600 print:border-yellow-200',
-      text: 'text-yellow-400 light:text-amber-900 print:text-yellow-800',
+      text: 'text-yellow-300 light:text-amber-900 print:text-yellow-800',
       // Band 3 is the one band whose solid fill is too light for white text, so
       // it inverts: dark text on a light fill. `-900` was half a step short of
       // that being true. Measured in the browser on the three chips that wear
@@ -557,9 +598,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       // band's pairing computed, in bandColors.test.ts.
       solidBg: 'bg-orange-700 light:bg-orange-700',
       border: 'border-orange-500/50 light:border-orange-600 print:border-orange-200',
-      text: 'text-orange-400 light:text-orange-900 print:text-orange-800',
+      text: 'text-orange-300 light:text-orange-900 print:text-orange-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-orange-500 to-orange-400 light:from-orange-600 light:to-orange-500',
+      gradient: 'from-orange-800 to-orange-700',
       glow: 'shadow-orange-500/25 light:shadow-orange-500/20',
       iconBg: 'bg-orange-500/20 light:bg-orange-200 print:bg-orange-100',
       ring: 'ring-orange-500/30 light:ring-orange-600/30',
@@ -568,9 +609,9 @@ export const getBandConfig = (bandOrTier: number): BandConfig => {
       bg: 'bg-red-500/10 light:bg-red-100 print:bg-red-50',
       solidBg: 'bg-red-600 light:bg-red-600',
       border: 'border-red-500/50 light:border-red-600 print:border-red-200',
-      text: 'text-red-400 light:text-red-900 print:text-red-800',
+      text: 'text-red-300 light:text-red-900 print:text-red-800',
       solidText: 'text-white print:text-white',
-      gradient: 'from-red-500 to-red-400 light:from-red-600 light:to-red-500',
+      gradient: 'from-red-700 to-red-600',
       glow: 'shadow-red-500/25 light:shadow-red-500/20',
       iconBg: 'bg-red-500/20 light:bg-red-200 print:bg-red-100',
       ring: 'ring-red-500/30 light:ring-red-600/30',
@@ -598,10 +639,13 @@ export const getTierBandConfig = (tier: number): BandConfig =>
  * colours. That component is gone; this is the scale it meant.
  *
  * Use this when displaying the tier LADDER itself (tier cards, tier pickers,
- * the cognitive timeline) where every tier must be visually distinct. The
- * band-target mapping above collapses Tiers 5 and 6 into the same purple and
- * shifts Tier 1 to orange, because several tiers share a target band — right
- * for colouring a question, wrong for telling tiers apart.
+ * the cognitive timeline) where every tier must be visually distinct.
+ *
+ * Today the two agree for every tier 1–6: `getTierTargetBand` returns the tier
+ * itself, so Tier 5 is Band 5 and Tier 1 is Band 1. The split is kept so a call
+ * site says which of the two it means. If a tier ever targets a different band
+ * from its own number, this is the one that keeps the tiers apart, and
+ * `getTierBandConfig` is the one that colours a question at that tier.
  */
 export const getTierScaleConfig = (tier: number): BandConfig =>
   getBandConfig(Math.max(1, Math.min(6, Math.round(tier))));
@@ -695,10 +739,32 @@ export const cleanMarkdown = (text: string): string => {
  *   stay layout-neutral (no padding/margins/font-weight changes) or the
  *   overlay drifts out of alignment with the real text.
  */
+// The light inks are one step deeper than the body pair needs, because the
+// highlight sits on a tinted wash (a feedback modal's band wash, or the emerald
+// tint itself) and emerald-800 measured 4.45:1 on the modal's worst ground.
 export const KEYWORD_HIGHLIGHT_CLASS =
-  'font-semibold text-emerald-400 light:text-emerald-800 bg-emerald-500/10 light:bg-emerald-600/10 rounded-[0.3em] px-[0.15em] box-decoration-clone print:bg-transparent print:text-emerald-800';
+  'font-semibold text-emerald-400 light:text-emerald-900 bg-emerald-500/10 light:bg-emerald-600/10 rounded-[0.3em] px-[0.15em] box-decoration-clone print:bg-transparent print:text-emerald-800';
 export const VERB_HIGHLIGHT_CLASS =
-  'font-black text-[rgb(var(--color-accent))] underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
+  'font-black text-[rgb(var(--color-accent))] light:text-sky-800 underline decoration-2 underline-offset-[3px] decoration-[rgb(var(--color-accent))]/40';
+/**
+ * The command verb inside a diff run (an added or a cut passage). That run is
+ * already underlined or struck through, so the verb keeps its colour and weight
+ * and drops its own underline — two rules under one word read as a smear.
+ *
+ * The run sits on a green or rose wash, and in the dark theme the accent (sky-500)
+ * drops to 4.0:1 on the emerald wash. The glow step (sky-400) clears 4.5:1 there.
+ * The light accent (sky-800) already clears it on the light wash, so only dark moves.
+ */
+export const VERB_HIGHLIGHT_IN_MARK_CLASS =
+  'font-black text-[rgb(var(--color-accent))] light:text-sky-800 dark:text-[rgb(var(--color-accent-glow))]';
+/**
+ * A syllabus term in a LIST of terms (the "terms the revision added" chips), as
+ * opposed to a term inside a sentence. The same emerald as KEYWORD_HIGHLIGHT_CLASS
+ * so a term reads as one kind of thing wherever it appears, with the chip's own
+ * edge and padding because it stands alone.
+ */
+export const KEYWORD_CHIP_CLASS =
+  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold text-emerald-400 light:text-emerald-900 bg-emerald-500/10 light:bg-emerald-600/10 border border-emerald-500/25 light:border-emerald-600/25';
 /**
  * …and the same verb where it OPENS the command-verb guide.
  *
@@ -720,8 +786,10 @@ export const VERB_TRIGGER_CLASS =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgb(var(--color-accent))]';
 export const KEYWORD_OVERLAY_CLASS =
   'bg-emerald-500/20 light:bg-emerald-500/25 text-emerald-400 light:text-emerald-900 rounded-[0.2em] box-decoration-clone';
+// The ink is the accent as text, not the fill step: on the 20% wash it was
+// sky-700 at 3.78:1 in the light theme. See `--color-accent-ink` in index.css.
 export const VERB_OVERLAY_CLASS =
-  'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent))] rounded-[0.2em] box-decoration-clone';
+  'bg-[rgb(var(--color-accent))]/20 text-[rgb(var(--color-accent-ink))] rounded-[0.2em] box-decoration-clone';
 
 /**
  * Coordination-ellipsis sources for a multi-word keyword. Syllabus text often
@@ -782,6 +850,13 @@ const coordinationEllipsisSources = (keyword: string): string[] => {
  */
 const KEY_SEPARATOR = '\u0000';
 
+/**
+ * Straight and curly apostrophes are one character to a reader. Word processors
+ * curl them as a student types and the model writes either, so "Newton's" in the
+ * syllabus has to find "Newton’s" in an answer, and the other way round.
+ */
+const apostropheInsensitive = (escaped: string): string => escaped.replace(/['’]/g, "['’]");
+
 const keywordRegexSource = memoise(500, (key: string): string | null => {
   const words = key.split(KEY_SEPARATOR).filter(Boolean);
   const allVariants = new Set<string>();
@@ -796,8 +871,13 @@ const keywordRegexSource = memoise(500, (key: string): string | null => {
   // renderers split on this regex and rely on odd indices being the matches.
   const alternatives = sortedWords.map((v) => {
     const lead = /^\w/.test(v) ? '\\b' : '';
-    const tail = /\w$/.test(v) ? '\\b' : '';
-    return lead + escapeRegExp(v) + tail;
+    const wordEnds = /\w$/.test(v);
+    // A possessive belongs to the term it follows: "W3C's standard" is one term
+    // with its 's, not a chip on "W3C" with a stray "'s" beside it. The `\b` after
+    // the s stops it taking "'sx". Only ever widens the match, never adds one, so
+    // `textContainsKeyword` (which only asks whether there is a match) is unchanged.
+    const possessive = wordEnds ? "\\b(?:['’]s\\b)?" : '';
+    return lead + apostropheInsensitive(escapeRegExp(v)) + possessive;
   });
   // Elliptical coordinated forms are regex sources (lookaheads), not literal
   // variants — appended after the literals so a full contiguous phrase always
@@ -810,6 +890,35 @@ export const createKeywordRegex = (words: string[]) => {
   if (!words || words.length === 0) return null;
   const source = keywordRegexSource(words.join(KEY_SEPARATOR));
   return source ? new RegExp(source, 'gi') : null;
+};
+
+/**
+ * The matcher for a question's command verb: what the highlight paints in prose.
+ *
+ * Two things a plain `createKeywordRegex([verb])` gets wrong for a command verb.
+ *
+ * The verb is stored in capitals ("ANALYSE"), and the variant builder reads an
+ * all-capital word of four letters or fewer as an acronym and makes no inflections
+ * for it. So a short command verb would light up its own bare form and nothing
+ * else: "DRAW" would miss "drawing" and "drawn". Lower-casing it first takes that
+ * path away. The regex is case-insensitive either way, so only the derivation changes.
+ *
+ * A compound command term ("CRITICALLY ANALYSE") is matched whole, and its command
+ * word on its own as well. A marker who writes "analysing the sources" in feedback on
+ * that question is naming the command, and "critically" has no meaning apart from it.
+ *
+ * What it deliberately does NOT match is the noun a verb shares a stem with:
+ * "analysis" is not a form of ANALYSE, so the content of an answer ("the analysis
+ * above") never lights up as the instruction.
+ */
+export const createVerbRegex = (verb: string | null | undefined): RegExp | null => {
+  if (typeof verb !== 'string') return null;
+  const lower = verb.trim().toLowerCase();
+  if (!lower) return null;
+  const words = [lower];
+  const head = lower.split(/\s+/).pop();
+  if (head && head !== lower) words.push(head);
+  return createKeywordRegex(words);
 };
 
 /**
@@ -983,80 +1092,135 @@ const processInlineFormatting = (
 
     // 5. Keyword/Verb Highlighting (Leaf nodes)
     if (verbRegex || keywordRegex) {
-      let nodes: React.ReactNode[] = [segment];
-
-      if (verbRegex) {
-        nodes = nodes.flatMap((n, outer) => {
-          if (typeof n !== 'string') return n;
-          const parts = n.split(verbRegex);
-          return parts.map((part, i) => {
-            // Odd indices are the captured matches. Using verbRegex.test() here
-            // would be stateful (/g regex, lastIndex carries over) and drop every
-            // other match — index parity is the reliable, stateless check.
-            if (i % 2 === 1) {
-              // A button in flowing prose, when there is a guide to open. It
-              // inherits the paragraph's type and keeps the highlight's own
-              // colour and underline, so the word reads as it always did and
-              // simply becomes pressable.
-              return onVerbClick
-                ? React.createElement(
-                    'button',
-                    {
-                      key: `v${path}.${outer}.${i}`,
-                      type: 'button',
-                      onClick: onVerbClick,
-                      className: VERB_TRIGGER_CLASS,
-                      // The matched text, not the canonical verb: the question
-                      // may say "Analysing", and "What a Analysing question
-                      // asks for" is neither grammatical nor what a reader
-                      // pressed. Naming the word and then the purpose keeps
-                      // both, and works for every inflection the matcher finds.
-                      'aria-label': `${part}: what this command verb asks for`,
-                    },
-                    part
-                  )
-                : React.createElement(
-                    'span',
-                    { key: `v${path}.${outer}.${i}`, className: VERB_HIGHLIGHT_CLASS },
-                    part
-                  );
-            }
-            return part;
-          });
-        });
-      }
-
-      if (keywordRegex) {
-        nodes = nodes.flatMap((n, outer) => {
-          if (typeof n !== 'string') return n;
-          const parts = n.split(keywordRegex);
-          return parts.map((part, i) => {
-            // Odd indices are the matched keywords (see verb branch above).
-            if (i % 2 === 1) {
-              // The key carries the OUTER node index as well as the index
-              // within this split. `nodes` already holds several segments by the
-              // time the keyword pass runs (the verb pass split it), and each is
-              // split independently — so a bare `k-${i}` collides the moment two
-              // segments both match at the same position. React then warns and
-              // may duplicate or omit the highlighted spans.
-              return React.createElement(
-                'span',
-                { key: `k${path}.${outer}.${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
-                part
-              );
-            }
-            return part;
-          });
-        });
-      }
-
-      return nodes;
+      return highlightPlainRun(segment, path, verbRegex, keywordRegex, {
+        className: VERB_HIGHLIGHT_CLASS,
+        onVerbClick,
+      });
     }
 
     return [segment];
   };
 
   return processRecursively(text, '0');
+};
+
+/**
+ * The highlight pass over ONE run of plain text: the command verb first, then the
+ * syllabus terms over whatever the verb left as text.
+ *
+ * Shared by `processInlineFormatting` (prose, once its markdown is split out) and
+ * `renderHighlightedText` (a bare run, such as one segment of a revision's diff),
+ * so every surface paints the same matches in the same way.
+ */
+const highlightPlainRun = (
+  text: string,
+  path: string,
+  verbRegex: RegExp | null,
+  keywordRegex: RegExp | null,
+  verbStyle: {
+    className?: string;
+    /** Present when the command verb should open its guide — see VERB_TRIGGER_CLASS. */
+    onVerbClick?: () => void;
+  }
+): React.ReactNode[] => {
+  let nodes: React.ReactNode[] = [text];
+
+  if (verbRegex) {
+    nodes = nodes.flatMap((n, outer) => {
+      if (typeof n !== 'string') return n;
+      const parts = n.split(verbRegex);
+      return parts.map((part, i) => {
+        // Odd indices are the captured matches. Using verbRegex.test() here
+        // would be stateful (/g regex, lastIndex carries over) and drop every
+        // other match — index parity is the reliable, stateless check.
+        if (i % 2 === 1) {
+          // A button in flowing prose, when there is a guide to open. It
+          // inherits the paragraph's type and keeps the highlight's own
+          // colour and underline, so the word reads as it always did and
+          // simply becomes pressable.
+          return verbStyle.onVerbClick
+            ? React.createElement(
+                'button',
+                {
+                  key: `v${path}.${outer}.${i}`,
+                  type: 'button',
+                  onClick: verbStyle.onVerbClick,
+                  className: VERB_TRIGGER_CLASS,
+                  // The matched text, not the canonical verb: the question
+                  // may say "Analysing", and "What a Analysing question
+                  // asks for" is neither grammatical nor what a reader
+                  // pressed. Naming the word and then the purpose keeps
+                  // both, and works for every inflection the matcher finds.
+                  'aria-label': `${part}: what this command verb asks for`,
+                },
+                part
+              )
+            : React.createElement(
+                'span',
+                {
+                  key: `v${path}.${outer}.${i}`,
+                  className: verbStyle.className ?? VERB_HIGHLIGHT_CLASS,
+                },
+                part
+              );
+        }
+        return part;
+      });
+    });
+  }
+
+  if (keywordRegex) {
+    nodes = nodes.flatMap((n, outer) => {
+      if (typeof n !== 'string') return n;
+      const parts = n.split(keywordRegex);
+      return parts.map((part, i) => {
+        // Odd indices are the matched keywords (see verb branch above).
+        if (i % 2 === 1) {
+          // The key carries the OUTER node index as well as the index
+          // within this split. `nodes` already holds several segments by the
+          // time the keyword pass runs (the verb pass split it), and each is
+          // split independently — so a bare `k-${i}` collides the moment two
+          // segments both match at the same position. React then warns and
+          // may duplicate or omit the highlighted spans.
+          return React.createElement(
+            'span',
+            { key: `k${path}.${outer}.${i}`, className: KEYWORD_HIGHLIGHT_CLASS },
+            part
+          );
+        }
+        return part;
+      });
+    });
+  }
+
+  return nodes;
+};
+
+/**
+ * A bare run of text, highlighted the way `renderFormattedText` highlights prose
+ * — with none of its line, list or markdown handling.
+ *
+ * For text that is already a fragment of something else: one segment of a
+ * revision's diff, or one edit in the margin. Running those through
+ * `renderFormattedText` would read a leading "1." or "#" in a fragment as list or
+ * heading syntax, and wrap every run in a block.
+ *
+ * `inMark` is for a run that already sits under an underline or a strike-through
+ * (the words a revision added or cut). See VERB_HIGHLIGHT_IN_MARK_CLASS.
+ */
+export const renderHighlightedText = (
+  text: string,
+  keywords?: string[],
+  commandVerb?: PromptVerb,
+  inMark = false
+): React.ReactNode[] => {
+  if (!text) return [];
+  const keywordRegex = createKeywordRegex(keywords || []);
+  const verbRegex = createVerbRegex(commandVerb);
+  if (!verbRegex && !keywordRegex) return [text];
+  return highlightPlainRun(text, 'h', verbRegex, keywordRegex, {
+    className: inMark ? VERB_HIGHLIGHT_IN_MARK_CLASS : VERB_HIGHLIGHT_CLASS,
+  });
 };
 
 type TableAlign = 'left' | 'center' | 'right';
@@ -1241,12 +1405,13 @@ export const renderFormattedText = (
    * rather than asked, and a button in quoted prose would be a control that
    * does something to a different question.
    */
-  onVerbClick?: () => void
+  onVerbClick?: () => void,
+  options: FormattedTextOptions = {}
 ): React.ReactNode => {
   if (!text) return text;
 
   const keywordRegex = createKeywordRegex(keywords || []);
-  const verbRegex = commandVerb ? createKeywordRegex([commandVerb]) : null;
+  const verbRegex = createVerbRegex(commandVerb);
 
   // Strip $...$ inline-math delimiters first — Gemini reaches for them out
   // of habit even though this app's own shorthand never uses them, and
@@ -1275,11 +1440,51 @@ export const renderFormattedText = (
       continue;
     }
 
-    processedLines.push(renderLine(line, lineIdx, verbRegex, keywordRegex, onVerbClick));
+    processedLines.push(
+      renderLine(
+        line,
+        lineIdx,
+        verbRegex,
+        keywordRegex,
+        onVerbClick,
+        LIST_GUTTER[options.listGutter ?? 'default']
+      )
+    );
   }
 
   return React.createElement(React.Fragment, null, processedLines);
 };
+
+/**
+ * Options for `renderFormattedText` that only some prose needs.
+ *
+ * `listGutter` is the width a list item's bullet or number is set in. The
+ * default is sized for a question's list, where a two-digit number has to clear
+ * its text. The outcome briefing's lists are short, and their bullets sat in a
+ * gutter wider than the words beside them, so they take `'tight'`.
+ */
+export interface FormattedTextOptions {
+  listGutter?: 'default' | 'tight';
+}
+
+/**
+ * A list marker's box: at least `min` wide, then `gap` clear of the words. The
+ * marker takes these lengths, and so does the hang its wrapped lines keep
+ * (`min + gap`, where the words start), so the two come from one value.
+ */
+const LIST_GUTTER = {
+  default: { min: '1.5rem', gap: '0.25rem' },
+  tight: { min: '1em', gap: '0.375rem' },
+} as const;
+
+type ListGutter = { min: string; gap: string };
+
+/**
+ * The outcome briefing, set with the tight list gutter. A named wrapper rather
+ * than a call site that passes four `undefined`s before its options.
+ */
+export const renderBriefingText = (text: string): React.ReactNode =>
+  renderFormattedText(text, undefined, undefined, undefined, { listGutter: 'tight' });
 
 /** One line of prose: rule, heading, list item or plain text. */
 function renderLine(
@@ -1287,7 +1492,8 @@ function renderLine(
   lineIdx: number,
   verbRegex: RegExp | null,
   keywordRegex: RegExp | null,
-  onVerbClick?: () => void
+  onVerbClick: (() => void) | undefined,
+  gutter: ListGutter
 ): React.ReactNode {
   // Horizontal rule: --- or *** or ___
   if (/^[\s]*[-*_]{3,}[\s]*$/.test(line)) {
@@ -1333,27 +1539,40 @@ function renderLine(
 
   const parts = processInlineFormatting(content, verbRegex, keywordRegex, onVerbClick);
 
-  const bulletElement = React.createElement(
+  if (!isListItem) {
+    return React.createElement('span', { key: lineIdx, className: 'block min-h-[1.5em]' }, parts);
+  }
+
+  // The marker stays inline with the words, so copying or reading the list gives
+  // "•first point", as it always has. The hang is CSS: the line is indented by
+  // the gutter and pulled back by it on its first line, so the marker sits in
+  // the gutter and a wrapped line starts where the words start.
+  const hang = `calc(${gutter.min} + ${gutter.gap})`;
+  const marker = React.createElement(
     'span',
-    { className: 'inline-block w-6 mr-1 text-[rgb(var(--color-accent))]' },
+    {
+      className: 'inline-block text-[rgb(var(--color-accent))]',
+      style: { minWidth: gutter.min, marginRight: gutter.gap },
+    },
     listMarker.endsWith('.') ? listMarker : '•'
   );
+  // Reset for the words: text-indent is inherited, and a fraction or other
+  // block inside them would otherwise start pulled back by the same hang.
+  const words = React.createElement('span', { style: { textIndent: 0 } }, parts);
 
-  const renderedLine = React.createElement(
-    'span',
-    { key: lineIdx, className: 'block min-h-[1.5em]' },
-    isListItem && bulletElement,
-    parts
+  return React.createElement(
+    'div',
+    { key: lineIdx, style: { paddingLeft: `${indentLevel * 10}px` } },
+    React.createElement(
+      'span',
+      {
+        className: 'block min-h-[1.5em]',
+        style: { paddingLeft: hang, textIndent: `calc(${hang} * -1)` },
+      },
+      marker,
+      words
+    )
   );
-
-  if (isListItem) {
-    return React.createElement(
-      'div',
-      { key: lineIdx, style: { paddingLeft: `${indentLevel * 10 + (isListItem ? 0 : 0)}px` } },
-      renderedLine
-    );
-  }
-  return renderedLine;
 }
 
 export const renderEditorHighlights = (
@@ -1364,7 +1583,7 @@ export const renderEditorHighlights = (
   if (!text) return null;
 
   const keywordRegex = createKeywordRegex(keywords || []);
-  const verbRegex = verb ? createKeywordRegex([verb]) : null;
+  const verbRegex = createVerbRegex(verb);
 
   const processSegment = (segment: string): React.ReactNode[] => {
     let nodes: React.ReactNode[] = [segment];

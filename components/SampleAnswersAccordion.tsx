@@ -1,23 +1,79 @@
-import React, { useId, useState, useMemo, useEffect } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
-import {
-  renderFormattedText,
-  getBandConfig,
-  getBandRgb,
-  getTierScaleConfig,
-  cleanMarkdown,
-} from '../utils/renderUtils';
+import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { AccordionSection } from './ReferenceMaterials';
+import { LadderRowGutter, ladderBandVars } from './LadderRow';
 import {
-  PANEL_HEADER_CLOSED,
-  PANEL_HEADER_OPEN,
-  PANEL_ROW_MIN_H,
-  PANEL_SURFACE,
-} from '../utils/panelStyles';
-import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
-import { useSupportResource } from '../hooks/useSupportResource';
-import type { SyllabusKeywordContext } from '../services/geminiService';
+  LADDER_DISCLOSURE,
+  LADDER_EDGE_OPEN,
+  LADDER_EDGE_SHUT,
+  LADDER_FILL,
+  LADDER_NOTE,
+  LADDER_NOTE_GLYPH,
+  LADDER_NOTE_LABEL,
+  LADDER_PANE,
+  LADDER_ROW,
+  LADDER_SOLID,
+  LADDER_STACK,
+} from '../utils/ladderChrome';
+import {
+  criterionForMark,
+  parseMarkingCriteria,
+  questionCeilingBand,
+  type MarkingCriteriaItem,
+} from '../utils/markingGuideParse';
+import {
+  announceLinkedExemplar,
+  clearLinkedExemplar,
+  nearestExemplarMark,
+  requestOpenCriterion,
+  useOpenExemplarRequest,
+} from '../utils/ladderLink';
+import {
+  SAMPLE_ACTION,
+  SAMPLE_ACTION_DIVIDER,
+  SAMPLE_ACTION_GROUP,
+  SAMPLE_ACTION_ICON,
+  SAMPLE_ACTIONS,
+  SAMPLE_AI_BUTTON,
+  SAMPLE_ANSWER,
+  SAMPLE_CAROUSEL,
+  SAMPLE_CAROUSEL_BUTTON,
+  SAMPLE_CAROUSEL_COUNT,
+  SAMPLE_COMMENTARY,
+  SAMPLE_COMMENTARY_HEAD,
+  SAMPLE_CRITERION_LINK,
+  SAMPLE_EMPTY,
+  SAMPLE_LOCKED,
+  SAMPLE_LOCKED_CTA,
+  SAMPLE_NOTE_TEXT,
+  SAMPLE_NOTE_TOGGLE,
+  SAMPLE_PAGE,
+  SAMPLE_PAGE_BAR,
+  SAMPLE_PAGE_BAR_CHIP,
+  SAMPLE_PAGE_BAR_FIGURE,
+  SAMPLE_PAGE_FOOT,
+  SAMPLE_PAGE_TEXT,
+  SAMPLE_PICKER,
+  SAMPLE_PICKER_MORE,
+  SAMPLE_PICKER_ROW,
+  SAMPLE_PICKER_TAB,
+  SAMPLE_PICKER_TAB_IDLE,
+  SAMPLE_ROW_FIGURE,
+  SAMPLE_ROW_HEAD,
+  SAMPLE_ROW_META,
+  SAMPLE_ROW,
+  SAMPLE_ROW_PREVIEW,
+  SAMPLE_TOOLS,
+  SAMPLE_ZONES,
+  SAMPLE_ZOOM,
+  SAMPLE_ZOOM_BUTTON,
+  SAMPLE_ZOOM_VALUE,
+  ZONE_FIGURE,
+  ZONE_LABEL,
+} from '../utils/sampleAnswerChrome';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
 import SampleAnswerRevisionModal from './SampleAnswerRevisionModal';
 import SampleAnswerEditorModal from './SampleAnswerEditorModal';
@@ -28,8 +84,6 @@ import {
   ChevronDown,
   FileText,
   Sparkles,
-  Award,
-  Edit3,
   Repeat,
   Trash2,
   Pencil,
@@ -37,7 +91,6 @@ import {
   ChevronRight,
   User as UserIcon,
   BookOpen,
-  Layers,
   Zap,
   Copy,
   Check,
@@ -49,32 +102,25 @@ import {
   UploadCloud,
   Flag,
   Lock,
+  ListChecks,
+  MessageSquareQuote,
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 import { freeTierLimits } from '../services/planPolicy';
 import {
+  describeAccess,
   isFeatureLocked,
   isSampleAnswerLocked,
   planLabelForFeature,
   requestUpgrade,
 } from '../services/entitlements';
 import { PlusLockChip } from './UpgradeModal';
-
-// --- Shared Internal Components ---
+import type { SyllabusKeywordContext } from '../services/geminiService';
 
 /** Words in an exemplar, counted the way the live word guide counts a draft. */
 const countWords = (text: string | undefined): number =>
   (text || '').trim().split(/\s+/).filter(Boolean).length;
-
-const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} light:opacity-[0.08] pointer-events-none mix-blend-overlay z-0 transition-opacity duration-500`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v12M0 1h12' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
 
 interface GroupedSampleAnswers {
   mark: number;
@@ -85,8 +131,6 @@ interface GroupedSampleAnswers {
 
 /** Exemplar chips shown at a mark level before the rest fold behind "+N more". */
 const VISIBLE_VARIANTS = 4;
-
-const wordCountOf = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
 
 /**
  * Provenance, in one word — the single thing that most distinguishes two
@@ -117,31 +161,72 @@ const byTrustworthiness = (a: SampleAnswer, b: SampleAnswer): number => {
   return rank(a) - rank(b) || (a.id > b.id ? 1 : a.id < b.id ? -1 : 0);
 };
 
+/** The shape every header chip shares. Their tone is theirs, below. */
+const CHIP = 't-label inline-flex items-center gap-1 px-2 py-0.5 rounded-full border';
+
 /**
- * Where an exemplar came from — and, for an AI one, whether it was written from
- * scratch or lifted from a student's own response. A "Student + AI" sample
- * carries the student's structure and voice, so it is read (and trusted)
- * differently from a clean-room AI exemplar, and gets its own colour and icon
- * pair rather than being filed under the same grey "AI Model" chip.
+ * The tone of each source. A source is not a band, so these name the palette
+ * directly, and they stay with the one component that draws them. Every ink is
+ * tuned for its own ground: the light ink is the deeper step, because the band wash
+ * under the row is the lighter ground.
  */
-const SourceBadge: React.FC<{ source?: string; derivedFromStudent?: boolean }> = ({
-  source,
-  derivedFromStudent,
-}) => {
+const SOURCE_TONE: Record<'student' | 'official' | 'upgrade' | 'ai', string> = {
+  student:
+    'border-blue-600/40 bg-blue-500/10 text-blue-800 dark:border-blue-400/40 dark:text-blue-300',
+  official:
+    'border-amber-600/50 bg-amber-500/10 text-amber-800 dark:border-amber-400/40 dark:text-amber-300',
+  upgrade:
+    'border-violet-600/40 bg-violet-500/10 text-violet-800 dark:border-violet-400/40 dark:text-violet-300',
+  ai: 'border-slate-400 bg-white/70 text-slate-700 dark:border-white/15 dark:bg-white/5 dark:text-slate-300',
+};
+
+/**
+ * The upgrade's amber. Amber is the plan's colour throughout the app, and a lock is a
+ * state of the exemplar and not a band, so it is drawn here, with the component
+ * that shows the lock, and not in the neutral chrome. Each ink is the deeper step on
+ * the light ground, as the source tones are.
+ */
+const AI_LOCKED =
+  'flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 shadow-sm dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300 t-label transition-[box-shadow] duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
+
+/** The upgrade button's fill, added to the chrome's shape on the locked card. */
+const LOCK_CTA = 'bg-gradient-to-r from-amber-400 to-orange-500 shadow-lg';
+
+/** The hover of the destructive action, "Delete": red, on a device that hovers, so a tap
+ *  does not leave it red. Red is also Band 1's hue, which is why it is drawn here with
+ *  the other semantic accents and not in the neutral chrome. */
+const DANGER_HOVER = 'can-hover:hover:text-red-700 dark:can-hover:hover:text-red-400';
+
+/** An exemplar's icon action while it is flagged for review: the flag's amber. */
+const FLAG_ACTIVE =
+  'flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 sm:p-1.5 rounded-lg text-amber-800 bg-amber-500/10 dark:text-amber-300 dark:bg-amber-400/10 transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+
+/** Where an exemplar came from — and, for an AI one, whether it was written from
+ *  scratch or lifted from a student's own response. A "Student + AI" sample
+ *  carries the student's structure and voice, so it is read (and trusted)
+ *  differently from a clean-room AI exemplar, and gets its own tone rather than
+ *  being filed under the same grey "AI Model" chip. */
+const SourceBadge: React.FC<
+  Pick<SampleAnswer, 'source' | 'derivedFromStudent'> & {
+    /** On the model answer's solid band head, where the tinted tones would sit on a
+     *  colour of their own: a white pill with slate ink holds its contrast on all six. */
+    onSolid?: boolean;
+  }
+> = ({ source, derivedFromStudent, onSolid = false }) => {
   const isUser = source === 'USER';
   const isHsc = source === 'HSC_EXEMPLAR';
   const isUpgrade = source === 'AI' && !!derivedFromStudent;
 
-  const config = isUser
-    ? 'bg-blue-500/10 text-blue-500 border-blue-500/20'
+  const tone = isUser
+    ? SOURCE_TONE.student
     : isHsc
-      ? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+      ? SOURCE_TONE.official
       : isUpgrade
-        ? 'bg-violet-500/10 text-violet-500 dark:text-violet-400 border-violet-500/25'
-        : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-white/5 dark:text-slate-400 dark:border-white/10';
+        ? SOURCE_TONE.upgrade
+        : SOURCE_TONE.ai;
 
   const Icon = isUser ? UserIcon : isHsc ? BookOpen : Sparkles;
-  const label = isUser ? 'Student' : isHsc ? 'Official' : isUpgrade ? 'Student + AI' : 'AI Model';
+  const label = sourceLabel({ source, derivedFromStudent });
   const title = isUpgrade
     ? "A student's own response, rewritten by the AI to reach the next mark"
     : isUser
@@ -151,24 +236,35 @@ const SourceBadge: React.FC<{ source?: string; derivedFromStudent?: boolean }> =
         : 'Written by the AI from the question and rubric';
 
   return (
-    <span
-      title={title}
-      className={`t-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${config}`}
-    >
+    <span title={title} className={`${CHIP} ${onSolid ? SAMPLE_PAGE_BAR_CHIP : tone}`}>
       {isUpgrade ? (
         <span className="inline-flex items-center gap-0.5">
-          <UserIcon className="w-2.5 h-2.5" />
-          <Sparkles className="w-2.5 h-2.5" />
+          <UserIcon className="w-2.5 h-2.5" aria-hidden="true" />
+          <Sparkles className="w-2.5 h-2.5" aria-hidden="true" />
         </span>
       ) : (
-        <Icon className="w-2.5 h-2.5" />
+        <Icon className="w-2.5 h-2.5" aria-hidden="true" />
       )}
       {label}
     </span>
   );
 };
 
-const CarouselAccordionItem: React.FC<{
+/**
+ * One mark level, drawn as a ladder row: the same gutter, edge and wash as the
+ * Marking Guide's row for the same mark, so the two panels line up when they are
+ * open side by side.
+ *
+ * Shut, the whole body is one disclosure button: the source, the length and the
+ * opening of the exemplar. Open, the body is two labelled zones read top to bottom:
+ * the answer on its paper with the exemplar selector above it (the paper's head is
+ * the band's solid bar, with a jump to the criterion in the Marking Guide), and the
+ * marker's commentary, which sits outside the paper on the desk.
+ *
+ * While a row is open it tells the Marking Guide so, and the guide lights the
+ * criterion this mark answers to. The criterion itself is not repeated here.
+ */
+interface ExemplarRowProps {
   group: GroupedSampleAnswers;
   prompt: Prompt;
   isOpen: boolean;
@@ -182,7 +278,11 @@ const CarouselAccordionItem: React.FC<{
   onFlag: (sample: SampleAnswer) => void;
   canModify: boolean;
   fontSize: number;
-}> = React.memo(
+  /** The guide's row for this level, when the guide has one. */
+  criterion?: MarkingCriteriaItem;
+}
+
+const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
   ({
     group,
     prompt,
@@ -196,6 +296,7 @@ const CarouselAccordionItem: React.FC<{
     onFlag,
     canModify,
     fontSize,
+    criterion,
   }) => {
     const [isContributing, setIsContributing] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -206,12 +307,35 @@ const CarouselAccordionItem: React.FC<{
     // worth reading first — and keeps the rest one click away rather than
     // spending four rows of chips on near-identical AI variations.
     const [showAllVariants, setShowAllVariants] = useState(false);
+    // The disclosure's body, the notes' body and the picker's ids: the disclosure
+    // names the first by aria-controls, the picker's tabs and the paper name each other.
+    const bodyId = useId();
+    const notesId = useId();
+    const pickerId = useId();
+    const paperId = useId();
+    // The tabs by index, so the arrow keys can move focus with the selection.
+    const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+    // The "Copied" confirmation's timer. It is cleared when the row unmounts, so it
+    // cannot set state on a row that has gone.
+    const copiedTimer = useRef<number | undefined>(undefined);
+    useEffect(() => () => window.clearTimeout(copiedTimer.current), []);
     // Stepping past the fold with the header arrows opens the strip rather
     // than leaving the reader on an exemplar no chip is highlighting.
     const visibleVariants =
       showAllVariants || currentIndex >= VISIBLE_VARIANTS
         ? group.answers
         : group.answers.slice(0, VISIBLE_VARIANTS);
+
+    // An open row is the exemplar the student is reading, so the Marking Guide is told
+    // which mark that is and lights its criterion. The cleanup runs when the row shuts,
+    // when the panel folds (the rows unmount) and when the question changes.
+    const promptId = prompt.id;
+    const groupMark = group.mark;
+    useEffect(() => {
+      if (!isOpen) return undefined;
+      announceLinkedExemplar(promptId, groupMark);
+      return () => clearLinkedExemplar(promptId, groupMark);
+    }, [isOpen, promptId, groupMark]);
 
     useEffect(() => {
       if (currentIndex >= group.answers.length && group.answers.length > 0) {
@@ -221,9 +345,9 @@ const CarouselAccordionItem: React.FC<{
 
     const currentSample = group.answers[currentIndex];
     const safeAnswer = currentSample?.answer || '';
-    // Band number AND colour both come from the Verb Gate (getBandForMark)
-    // — so a Band 5 is always blue, Band 4 green, Band 6 purple, and this
-    // placard mirrors the Marking Guide exactly.
+    // Band number AND colour both come from the Verb Gate (getBandForMark) —
+    // so a Band 5 is always blue, and this row mirrors the Marking Guide's row
+    // for the same mark exactly.
     const displayBand = group.calculatedBand;
     // The server's word where it has one, the client's rule otherwise.
     //
@@ -236,16 +360,22 @@ const CarouselAccordionItem: React.FC<{
     const locked = Boolean(currentSample?.withheld) || isSampleAnswerLocked(displayBand);
     const bandConfig = useMemo(() => getBandConfig(displayBand), [displayBand]);
     const metrics = useAnswerMetrics(safeAnswer, prompt.keywords);
+    // The opening of the exemplar, cleaned the way Use and Copy clean it, and
+    // never drawn for a locked one.
+    const preview = useMemo(
+      () => (locked || !safeAnswer ? '' : cleanMarkdown(safeAnswer)),
+      [locked, safeAnswer]
+    );
 
     if (!currentSample) return null;
 
-    const handleNext = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    // The carousel's buttons are siblings of the disclosure, not children of it, so
+    // a press here never reaches the row's toggle and needs no `stopPropagation`.
+    const handleNext = () => {
       setCurrentIndex((prev) => (prev + 1) % group.answers.length);
     };
 
-    const handlePrev = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    const handlePrev = () => {
       setCurrentIndex((prev) => (prev - 1 + group.answers.length) % group.answers.length);
     };
 
@@ -255,9 +385,16 @@ const CarouselAccordionItem: React.FC<{
     };
 
     const handleCopy = async () => {
-      await navigator.clipboard.writeText(cleanMarkdown(currentSample.answer));
+      try {
+        await navigator.clipboard.writeText(cleanMarkdown(currentSample.answer));
+      } catch {
+        // The browser refused the clipboard, so nothing was copied and nothing
+        // should say "Copied". The text is still on the page to select by hand.
+        return;
+      }
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      window.clearTimeout(copiedTimer.current);
+      copiedTimer.current = window.setTimeout(() => setIsCopied(false), 2000);
     };
 
     const handleContribute = () => {
@@ -267,386 +404,465 @@ const CarouselAccordionItem: React.FC<{
       Promise.resolve(onContribute(currentSample)).finally(() => setIsContributing(false));
     };
 
+    // The selector is a tablist, so it takes the arrow keys, Home and End, and only the
+    // selected tab sits in the tab order. Moving the selection moves focus with it.
+    const handleTabKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const last = visibleVariants.length - 1;
+      const next =
+        event.key === 'ArrowRight'
+          ? currentIndex >= last
+            ? 0
+            : currentIndex + 1
+          : event.key === 'ArrowLeft'
+            ? currentIndex <= 0
+              ? last
+              : currentIndex - 1
+            : event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? last
+                : null;
+      if (next === null) return;
+      event.preventDefault();
+      setCurrentIndex(next);
+      tabRefs.current[next]?.focus();
+    };
+
+    const flagged = currentSample.contentFlag?.status === 'open';
+    const hasPicker = group.answers.length > 1;
+    const hiddenVariants = group.answers.length - visibleVariants.length;
+
     return (
       <div
-        className={`group border-b border-slate-100 dark:border-white/10 last:border-0 transition-all duration-500 ${isOpen ? bandConfig.bg : ''}`}
+        data-exemplar-row
+        style={ladderBandVars(displayBand)}
+        className={`${LADDER_ROW} ${isOpen ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT} ${LADDER_FILL} ${SAMPLE_ROW}`}
       >
-        <button
-          onClick={onToggle}
-          className={`w-full py-4 px-6 flex items-center justify-between transition-all duration-300 relative overflow-hidden`}
-        >
-          {/* Collapsed rows carry a faint wash of their band colour so the
-              performance ladder reads at a glance before anything is opened. */}
-          <div
-            className={`absolute inset-0 bg-gradient-to-r ${bandConfig.gradient} pointer-events-none transition-opacity duration-500 ${
-              isOpen ? 'opacity-0' : 'opacity-[0.12] dark:opacity-[0.15] group-hover:opacity-[0.2]'
-            }`}
-          />
-          {/* Indicator Bar — always in band colour, full strength when open */}
-          <div
-            className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${bandConfig.solidBg} ${isOpen ? 'opacity-100' : 'opacity-40'}`}
-          />
+        <LadderRowGutter
+          band={displayBand}
+          markLabel={String(group.mark)}
+          total={prompt.totalMarks}
+          edge={isOpen ? 'open' : 'shut'}
+        />
 
-          <div className="flex items-center gap-5">
-            {/* Band Badge - Styled with tier colors */}
-            <div
-              className={`
-                flex flex-col items-center justify-center w-14 h-14 rounded-2xl border transition-all duration-500 relative overflow-hidden
-                ${
-                  isOpen
-                    ? `${bandConfig.bg} ${bandConfig.border} shadow-lg scale-105`
-                    : `bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 group-hover:border-slate-300 dark:group-hover:border-white/20`
-                }
-            `}
+        <div className="flex-1 min-w-0 flex flex-col">
+          {/* The header line. The disclosure is the whole of it while the row is
+              shut, and the carousel's arrows are its siblings while it is open,
+              so no button is ever inside another. Open, the source, the length and
+              the lock move to the paper, which is where the answer is labelled. */}
+          <div className="flex items-stretch">
+            <button
+              type="button"
+              onClick={onToggle}
+              aria-expanded={isOpen}
+              aria-controls={bodyId}
+              data-exemplar-mark={group.mark}
+              className={`${LADDER_DISCLOSURE} flex-1 min-w-0`}
             >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} ${isOpen ? 'opacity-15' : 'opacity-5 group-hover:opacity-10'}`}
-              />
-              <span
-                className={`t-label mb-0.5 relative z-10 ${isOpen ? bandConfig.text : 'text-slate-500 dark:text-slate-400'}`}
-              >
-                Band
+              {/* The mark is in the gutter, but a screen reader reads the row from
+                  its disclosure, so the mark is named here as well. */}
+              <span className="sr-only">
+                {group.mark}/{prompt.totalMarks} marks,{' '}
               </span>
-              <span className={`text-2xl font-black leading-none relative z-10 ${bandConfig.text}`}>
-                {displayBand}
-              </span>
-            </div>
-
-            <div className="text-left">
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-sm font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}
-                >
-                  {group.mark}/{prompt.totalMarks} marks
+              <span className={SAMPLE_ROW_HEAD}>
+                <span className={SAMPLE_ROW_META}>
+                  {!isOpen && (
+                    <SourceBadge
+                      source={currentSample.source}
+                      derivedFromStudent={currentSample.derivedFromStudent}
+                    />
+                  )}
+                  {/* The flag stays in the header whether the row is open or shut, so it
+                      is seen at a glance. */}
+                  {flagged && (
+                    <span
+                      title={`Flagged for review: ${currentSample.contentFlag?.reason}`}
+                      className={`${CHIP} border-amber-600/50 bg-amber-500/10 text-amber-800 dark:border-amber-400/40 dark:text-amber-300`}
+                    >
+                      <Flag className="w-2.5 h-2.5 fill-current" aria-hidden="true" /> Flagged
+                    </span>
+                  )}
+                  {!isOpen &&
+                    (locked ? (
+                      <span
+                        className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
+                      >
+                        <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
+                      </span>
+                    ) : (
+                      <span className={SAMPLE_ROW_FIGURE}>
+                        {countWords(currentSample.answer)} words
+                      </span>
+                    ))}
+                  {hasPicker && (
+                    <span className={SAMPLE_ROW_FIGURE}>{group.answers.length} exemplars</span>
+                  )}
                 </span>
-                {/* Its length, because the first thing a student does with an
-                    exemplar is hold their own draft up against it, and the word
-                    guide under their draft counts in the same unit. */}
-                {!locked && (
-                  <span className="t-label text-slate-500 dark:text-slate-400 tabular-nums">
-                    {countWords(currentSample.answer)} words
-                  </span>
-                )}
-                {group.answers.length > 1 && (
-                  <span className="t-label flex items-center gap-1 text-slate-400 bg-slate-200/50 dark:bg-white/10 px-1.5 py-0.5 rounded-lg">
-                    <Layers className="w-2.5 h-2.5" /> {group.answers.length}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2 mt-1.5 opacity-90">
-                <SourceBadge
-                  source={currentSample.source}
-                  derivedFromStudent={currentSample.derivedFromStudent}
+                <ChevronDown
+                  aria-hidden="true"
+                  className={`mt-0.5 w-4 h-4 shrink-0 text-slate-600 dark:text-slate-300 transition-transform duration-500 ${isOpen ? 'rotate-180' : ''}`}
                 />
-                {currentSample.contentFlag?.status === 'open' && (
-                  <span
-                    className="t-label inline-flex items-center gap-1 px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-500 border-amber-500/30"
-                    title={`Flagged for review: ${currentSample.contentFlag.reason}`}
-                  >
-                    <Flag className="w-2.5 h-2.5 fill-current" /> Flagged
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
+              </span>
+              {!isOpen && preview && <span className={SAMPLE_ROW_PREVIEW}>{preview}</span>}
+            </button>
 
-          <div className="flex items-center gap-4">
-            {isOpen && group.answers.length > 1 && (
-              <div
-                className="flex items-center gap-1 bg-white dark:bg-black/20 rounded-lg p-0.5 border border-slate-200 dark:border-white/10 shadow-sm"
-                onClick={(e) => e.stopPropagation()}
-              >
+            {isOpen && hasPicker && (
+              <div className={SAMPLE_CAROUSEL}>
                 <button
+                  type="button"
                   onClick={handlePrev}
                   aria-label="Previous sample"
-                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
+                  className={SAMPLE_CAROUSEL_BUTTON}
                 >
-                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <ChevronLeft className="w-3.5 h-3.5" aria-hidden="true" />
                 </button>
                 {/* "2 of 3", not a bare "2": the position is meaningless
                     without the total, and a batch of exemplars now arrives
                     several at a time. */}
-                <span className="text-[11px] font-bold px-1 text-center text-slate-600 dark:text-slate-300 tabular-nums">
+                <span className={SAMPLE_CAROUSEL_COUNT}>
                   {currentIndex + 1}/{group.answers.length}
                 </span>
                 <button
+                  type="button"
                   onClick={handleNext}
                   aria-label="Next sample"
-                  className="p-1 hover:bg-slate-100 dark:hover:bg-white/10 rounded-lg text-slate-500 transition-colors"
+                  className={SAMPLE_CAROUSEL_BUTTON}
                 >
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </button>
               </div>
             )}
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-500 ${isOpen ? 'rotate-180 text-slate-600 dark:text-white' : 'text-slate-400'}`}
-            />
           </div>
-        </button>
 
-        {/* Smooth Expansion Animation Container */}
-        <div
-          inert={!isOpen}
-          className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-        >
-          <div className="overflow-hidden">
-            <div className="px-6 pb-6 relative">
-              {/* A locked exemplar is a locked exemplar, not a blurred one.
-                  This was `blur-sm` over the real prose, which the server had
-                  already sent — one class removed in the inspector and the
-                  library was free. schema.sql §25 stops sending it, so there is
-                  nothing here to blur: the card says which band it is, that it
-                  exists, and what covers it. */}
-              {locked ? (
-                <div className="rounded-2xl border border-dashed border-amber-400/30 bg-amber-400/[0.04] light:bg-amber-50/60 px-6 py-8 flex flex-col items-center text-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center">
-                    <Lock className="w-5 h-5 text-amber-500" />
-                  </div>
-                  <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                    A Band {displayBand} exemplar at {group.mark}/{prompt.totalMarks}
-                  </p>
-                  <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 max-w-sm">
-                    It is written and marked. Exemplars above Band {freeTierLimits().maxSampleBand}{' '}
-                    are part of {planLabelForFeature('sampleAnswers')}, so this one stays on the
-                    server until your plan covers it.
-                  </p>
-                  <button
-                    onClick={() => requestUpgrade('sampleAnswers')}
-                    className="t-label px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
-                  >
-                    Unlock with {planLabelForFeature('sampleAnswers')}
-                  </button>
-                </div>
-              ) : (
-                <div
-                  // The exemplar's own container, and the fourth place this band
-                  // is stated inside one strip: the 56px mark tile says it, the
-                  // strip's wash says it, the left rail says it, and then a
-                  // fully opaque `orange-600` rectangle — 719x286 of it, measured
-                  // — is drawn around the prose. Nothing about the answer itself
-                  // is orange, so the loudest line in the panel belonged to the
-                  // one part of it with no band content. `band-edge` keeps the
-                  // container closed and lets the three cues that ARE about the
-                  // band carry it.
-                  style={{ '--band-rgb': getBandRgb(displayBand) } as React.CSSProperties}
-                  className={`relative rounded-2xl bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))] border band-edge overflow-hidden shadow-inner`}
-                >
-                  {/* Which exemplar, of the several at this mark.
-                      The arrows in the header can step through them, but they
-                      say nothing about what is being stepped through: "2 of 5"
-                      turns five distinct exemplars into a shuffle, and a student
-                      reads all five to find out that four were AI variations on
-                      the same shape. Naming each one by where it came from and
-                      how long it is makes the choice a choice — most students
-                      want the Official one and one contrast, not the set. */}
-                  {group.answers.length > 1 && (
-                    <div className="px-4 pt-4">
-                      <p className="t-label text-slate-500 dark:text-slate-400 mb-2">
-                        {group.answers.length} exemplars at {group.mark}/{prompt.totalMarks}
-                      </p>
-                      <div
-                        className="flex flex-wrap gap-1.5"
-                        role="tablist"
-                        aria-label="Exemplars at this mark"
-                      >
-                        {visibleVariants.map((sample, i) => {
-                          const isCurrent = i === currentIndex;
-                          return (
-                            <button
-                              key={sample.id}
-                              role="tab"
-                              aria-selected={isCurrent}
-                              onClick={() => setCurrentIndex(i)}
-                              className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border transition-all ${
-                                isCurrent
-                                  ? `${bandConfig.solidBg} ${bandConfig.solidText} border-transparent shadow-sm`
-                                  : 'bg-white dark:bg-white/5 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20'
-                              }`}
-                            >
-                              {sourceLabel(sample)}
-                              <span className={isCurrent ? 'opacity-70' : 'opacity-60'}>
-                                {' · '}
-                                {wordCountOf(sample.answer)}w
-                              </span>
-                            </button>
-                          );
-                        })}
-                        {group.answers.length > visibleVariants.length && (
+          {/* The open part. `inert` while shut, so nothing in it is reachable
+              from the keyboard or read out while the row is closed. */}
+          <div
+            id={bodyId}
+            inert={!isOpen}
+            className={`grid transition-[grid-template-rows,opacity] duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+          >
+            <div className="overflow-hidden min-h-0">
+              <div className={LADDER_PANE}>
+                <div className={SAMPLE_ZONES}>
+                  {/* Zone one: the answer. The selector sits above the paper because it
+                      chooses which paper is shown, and the paper is the centre of the
+                      row. The paper is headed by the band's solid bar, and its foot holds
+                      the metrics and the actions, so they belong to the answer. */}
+                  <div role="group" aria-label="Model answer" className={SAMPLE_ANSWER}>
+                    {hasPicker && (
+                      <div className={SAMPLE_PICKER_ROW}>
+                        <div
+                          role="tablist"
+                          aria-label="Exemplars at this mark"
+                          className={SAMPLE_PICKER}
+                          onKeyDown={handleTabKey}
+                        >
+                          {visibleVariants.map((sample, i) => {
+                            const isCurrent = i === currentIndex;
+                            return (
+                              <button
+                                key={sample.id}
+                                ref={(el) => {
+                                  tabRefs.current[i] = el;
+                                }}
+                                id={`${pickerId}-tab-${i}`}
+                                type="button"
+                                role="tab"
+                                aria-selected={isCurrent}
+                                tabIndex={isCurrent ? 0 : -1}
+                                onClick={() => setCurrentIndex(i)}
+                                className={`${SAMPLE_PICKER_TAB} ${
+                                  isCurrent
+                                    ? `${LADDER_SOLID} border-transparent shadow-sm`
+                                    : SAMPLE_PICKER_TAB_IDLE
+                                }`}
+                              >
+                                {sourceLabel(sample)}{' '}
+                                <span className="font-normal tabular-nums">
+                                  · {countWords(sample.answer)}w
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {hiddenVariants > 0 && (
                           <button
+                            type="button"
                             onClick={() => setShowAllVariants(true)}
-                            className="px-2.5 py-1 rounded-lg text-[10px] font-bold border border-dashed border-slate-300 dark:border-white/15 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                            className={SAMPLE_PICKER_MORE}
                           >
-                            +{group.answers.length - visibleVariants.length} more
+                            +{hiddenVariants} more
                           </button>
                         )}
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Controls Bar */}
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 border-b border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/[0.02]">
-                    <AnswerMetricsDisplay
-                      metrics={metrics}
-                      showLabel={false}
-                      className="opacity-100 scale-95 origin-left"
-                      band={displayBand}
-                    />
-
-                    <div className="flex items-center gap-2 ml-auto">
-                      {/* "Use" writes the exemplar straight into the student's
-                        draft, which is the one thing the writing surface refuses
-                        to let a student do by hand: paste is blocked there so a
-                        response is the student's own writing. A button that did
-                        the same job in one click left the front door locked and
-                        the window open. It is handed down only to a curator, who
-                        moves exemplars through the editor as part of the job —
-                        for a student the exemplar stays something to read and
-                        compare against. */}
-                      {onUseSample && (
-                        <button
-                          onClick={handleUseSample}
-                          title="Load this exemplar into the writing surface"
-                          className="t-label px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/30 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all flex items-center gap-1.5"
-                        >
-                          <Copy className="w-3 h-3" /> Use
-                        </button>
-                      )}
-                      <button
-                        onClick={handleCopy}
-                        className="t-label px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
-                      >
-                        {isCopied ? (
-                          <Check className="w-3 h-3" />
-                        ) : (
-                          <FileText className="w-3 h-3" />
+                    <div
+                      id={paperId}
+                      role={hasPicker ? 'tabpanel' : undefined}
+                      aria-labelledby={hasPicker ? `${pickerId}-tab-${currentIndex}` : undefined}
+                      className={SAMPLE_PAGE}
+                    >
+                      {/* The paper's head: the band's solid bar, the same bold heading the
+                          criterion used to carry. The length, the source and the lock are
+                          named once: in the header while the row is shut, and here while it
+                          is open. The open body stays mounted through its collapse, so this
+                          bar would otherwise repeat the header's figures. The jump to the
+                          criterion is drawn only when the guide has a row for this level. */}
+                      <div className={`${SAMPLE_PAGE_BAR} ${LADDER_SOLID}`}>
+                        <span className="flex items-center gap-2">
+                          <span className={ZONE_LABEL}>Model answer</span>
+                          <span className={ZONE_FIGURE} aria-hidden="true">
+                            ·
+                          </span>
+                          <span className={ZONE_FIGURE}>
+                            {group.mark}/{prompt.totalMarks}
+                          </span>
+                        </span>
+                        {isOpen &&
+                          (locked ? (
+                            <span className={`${CHIP} ${SAMPLE_PAGE_BAR_CHIP}`}>
+                              <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
+                            </span>
+                          ) : (
+                            <>
+                              <span className={SAMPLE_PAGE_BAR_FIGURE}>
+                                {countWords(currentSample.answer)} words
+                              </span>
+                              <SourceBadge
+                                source={currentSample.source}
+                                derivedFromStudent={currentSample.derivedFromStudent}
+                                onSolid
+                              />
+                            </>
+                          ))}
+                        {criterion && (
+                          <button
+                            type="button"
+                            onClick={() => requestOpenCriterion(prompt.id, group.mark)}
+                            aria-label={`View marking criterion for ${group.mark} ${group.mark === 1 ? 'mark' : 'marks'}`}
+                            title="Open this level in the Marking Guide"
+                            className={SAMPLE_CRITERION_LINK}
+                          >
+                            <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                            View marking criterion
+                          </button>
                         )}
-                        {isCopied ? 'Copied' : 'Copy'}
-                      </button>
-                      {onContribute && (
-                        <button
-                          onClick={handleContribute}
-                          disabled={isContributing}
-                          title="Submit this sample answer to the shared library for review"
-                          className="t-label px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/30 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-all flex items-center gap-1.5 disabled:opacity-50"
-                        >
-                          <UploadCloud className="w-3 h-3" />{' '}
-                          {isContributing ? 'Submitting…' : 'Submit'}
-                        </button>
-                      )}
-                      <button
-                        onClick={() => onFlag(currentSample)}
-                        className={`p-1.5 rounded-lg transition-all ${
-                          currentSample.contentFlag?.status === 'open'
-                            ? 'text-amber-500 bg-amber-50 dark:bg-amber-500/10'
-                            : 'text-slate-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20'
-                        }`}
-                        title={
-                          currentSample.contentFlag?.status === 'open'
-                            ? 'This sample is flagged for review — click to view'
-                            : 'Something off about this sample? Flag it for review'
-                        }
-                      >
-                        <Flag
-                          className={`w-3.5 h-3.5 ${currentSample.contentFlag?.status === 'open' ? 'fill-current' : ''}`}
-                        />
-                      </button>
-                      {canModify && <div className="w-px h-4 bg-slate-300 dark:bg-white/10 mx-1" />}
-                      {canModify && (
+                      </div>
+
+                      {locked ? (
+                        // A locked exemplar is a locked exemplar, not a blurred one.
+                        // schema.sql §25 stops sending the prose, so there is nothing
+                        // here to blur: the card says which band it is, that it exists,
+                        // and what covers it.
+                        <div className="p-3 sm:p-4">
+                          <div className={SAMPLE_LOCKED}>
+                            <div className="w-10 h-10 rounded-tile flex items-center justify-center border border-amber-500/40 bg-amber-400/15">
+                              <Lock
+                                className="w-5 h-5 text-amber-700 dark:text-amber-400"
+                                aria-hidden="true"
+                              />
+                            </div>
+                            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                              A Band {displayBand} exemplar at {group.mark}/{prompt.totalMarks}
+                            </p>
+                            <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 max-w-sm">
+                              It is written and marked. Exemplars above Band{' '}
+                              {freeTierLimits().maxSampleBand} are held back until your plan covers
+                              them. {describeAccess('sampleAnswers').explanation}
+                            </p>
+                            <button
+                              onClick={() => requestUpgrade('sampleAnswers')}
+                              className={`${SAMPLE_LOCKED_CTA} ${LOCK_CTA}`}
+                            >
+                              {describeAccess('sampleAnswers').ctaLabel}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
                         <>
-                          <button
-                            onClick={() => onRevise(currentSample)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all"
-                            title="Revise with AI"
-                          >
-                            <Repeat className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => onEdit(currentSample)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-all"
-                            title="Edit manually"
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => onDelete(currentSample.id)}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
+                          {/* The exemplar, in the reading face at the shared size. */}
+                          <div className={SAMPLE_PAGE_TEXT} style={{ fontSize: `${fontSize}px` }}>
+                            {renderFormattedText(
+                              currentSample.answer,
+                              prompt.keywords,
+                              prompt.verb
+                            )}
+                          </div>
+
+                          <div className={SAMPLE_PAGE_FOOT}>
+                            <div className={SAMPLE_ACTIONS}>
+                              {/* The word count is in the paper's bar, so the metrics show
+                                  the keywords only. */}
+                              <AnswerMetricsDisplay
+                                metrics={metrics}
+                                showLabel={false}
+                                showWords={false}
+                              />
+
+                              <div className={SAMPLE_ACTION_GROUP}>
+                                {/* "Use" writes the exemplar straight into the student's
+                                    draft, which is the one thing the writing surface refuses
+                                    to let a student do by hand: paste is blocked there so a
+                                    response is the student's own writing. It is handed down
+                                    only to a curator, who moves exemplars through the editor
+                                    as part of the job — for a student the exemplar stays
+                                    something to read and compare against. */}
+                                {onUseSample && (
+                                  <button
+                                    type="button"
+                                    onClick={handleUseSample}
+                                    title="Load this exemplar into the writing surface"
+                                    className={SAMPLE_ACTION}
+                                  >
+                                    <Copy className="w-3 h-3" aria-hidden="true" /> Use
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={handleCopy}
+                                  className={SAMPLE_ACTION}
+                                >
+                                  {isCopied ? (
+                                    <Check className="w-3 h-3" aria-hidden="true" />
+                                  ) : (
+                                    <FileText className="w-3 h-3" aria-hidden="true" />
+                                  )}
+                                  {isCopied ? 'Copied' : 'Copy'}
+                                </button>
+                                {onContribute && (
+                                  <button
+                                    type="button"
+                                    onClick={handleContribute}
+                                    disabled={isContributing}
+                                    title="Submit this sample answer to the shared library for review"
+                                    className={SAMPLE_ACTION}
+                                  >
+                                    <UploadCloud className="w-3 h-3" aria-hidden="true" />
+                                    {isContributing ? 'Submitting…' : 'Submit'}
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => onFlag(currentSample)}
+                                  className={flagged ? FLAG_ACTIVE : SAMPLE_ACTION_ICON}
+                                  title={
+                                    flagged
+                                      ? 'This sample is flagged for review — click to view'
+                                      : 'Something off about this sample? Flag it for review'
+                                  }
+                                >
+                                  <Flag
+                                    className={`w-3.5 h-3.5 ${flagged ? 'fill-current' : ''}`}
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                                {canModify && (
+                                  <>
+                                    <span className={SAMPLE_ACTION_DIVIDER} aria-hidden="true" />
+                                    <button
+                                      type="button"
+                                      onClick={() => onRevise(currentSample)}
+                                      className={SAMPLE_ACTION_ICON}
+                                      title="Revise with AI"
+                                    >
+                                      <Repeat className="w-3.5 h-3.5" aria-hidden="true" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => onEdit(currentSample)}
+                                      className={SAMPLE_ACTION_ICON}
+                                      title="Edit manually"
+                                    >
+                                      <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => onDelete(currentSample.id)}
+                                      className={`${SAMPLE_ACTION_ICON} ${DANGER_HOVER}`}
+                                      title="Delete"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
+                                    </button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </>
                       )}
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <div
-                    className="p-6 font-serif leading-loose text-slate-700 dark:text-slate-300 whitespace-pre-wrap transition-all duration-200"
-                    style={{ fontSize: `${fontSize}px`, lineHeight: 1.6 }}
-                  >
-                    {renderFormattedText(currentSample.answer, prompt.keywords, prompt.verb)}
-                  </div>
-                </div>
-              )}
-
-              {/* Feedback and Coach's Tip — collapsible */}
-              {(currentSample.quickTip || currentSample.feedback) && (
-                <div className="mt-3">
-                  <button
-                    onClick={() => setFeedbackExpanded((prev) => !prev)}
-                    className="t-label flex items-center gap-1.5 text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-secondary))] transition-colors mb-2"
-                  >
-                    <ChevronDown
-                      className={`w-3 h-3 transition-transform duration-200 ${feedbackExpanded ? '' : '-rotate-90'}`}
-                    />
-                    {feedbackExpanded ? 'Hide Feedback' : 'Show Feedback'}
-                  </button>
-                  <div
-                    inert={!feedbackExpanded}
-                    className={`grid transition-all duration-300 ease-in-out ${feedbackExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-                  >
-                    <div className="overflow-hidden space-y-3">
-                      {currentSample.quickTip && (
-                        <div
-                          className={`px-4 py-3 rounded-xl border border-indigo-100 dark:border-indigo-500/20 bg-indigo-50 dark:bg-indigo-900/10 flex items-start gap-3`}
+                  {/* Zone two: the marker's commentary. It sits outside the paper, on the
+                      desk, with a solid band bar down its edge. Its one label is the head
+                      below: the feedback is the commentary, so it carries no label of its
+                      own, and only the Coach's Tip, which is a different thing, is named.
+                      The notes fold away from the reader's own toggle. A locked exemplar
+                      shows no notes: the lock covers the commentary as much as the text. */}
+                  {!locked && (currentSample.quickTip || currentSample.feedback) && (
+                    <div
+                      role="group"
+                      aria-label="Marker's commentary"
+                      className={`${SAMPLE_COMMENTARY} ${LADDER_EDGE_OPEN}`}
+                    >
+                      <div className={SAMPLE_COMMENTARY_HEAD}>
+                        <span className={`flex items-center gap-2 ${ZONE_LABEL}`}>
+                          <MessageSquareQuote className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                          Marker's commentary
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setFeedbackExpanded((prev) => !prev)}
+                          aria-expanded={feedbackExpanded}
+                          aria-controls={notesId}
+                          className={SAMPLE_NOTE_TOGGLE}
                         >
-                          <div className="mt-0.5 p-1 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 shrink-0">
-                            <Lightbulb className="w-3 h-3" />
-                          </div>
-                          <div>
-                            <p className="t-label text-indigo-600 dark:text-indigo-400 mb-1">
-                              Coach's Tip
-                            </p>
-                            <p className="text-xs text-indigo-900 dark:text-indigo-200/90 leading-relaxed font-medium">
-                              {currentSample.quickTip}
-                            </p>
+                          <ChevronDown
+                            aria-hidden="true"
+                            className={`w-3 h-3 transition-transform duration-200 ${feedbackExpanded ? '' : '-rotate-90'}`}
+                          />
+                          {feedbackExpanded ? 'Hide Feedback' : 'Show Feedback'}
+                        </button>
+                      </div>
+                      <div
+                        id={notesId}
+                        inert={!feedbackExpanded}
+                        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${feedbackExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                      >
+                        <div className="overflow-hidden min-h-0">
+                          <div className="flex flex-col gap-3 pb-1">
+                            {currentSample.feedback && (
+                              <div data-note="feedback" className={SAMPLE_NOTE_TEXT}>
+                                {renderFormattedText(
+                                  currentSample.feedback,
+                                  prompt.keywords,
+                                  prompt.verb
+                                )}
+                              </div>
+                            )}
+                            {currentSample.quickTip && (
+                              <div data-note="tip" className={LADDER_NOTE}>
+                                <Lightbulb className={LADDER_NOTE_GLYPH} aria-hidden="true" />
+                                <div className="min-w-0">
+                                  <p className={LADDER_NOTE_LABEL}>Coach's Tip</p>
+                                  <div className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
+                                    {renderFormattedText(
+                                      currentSample.quickTip,
+                                      prompt.keywords,
+                                      prompt.verb
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
-                      )}
-
-                      {currentSample.feedback && (
-                        <div className="px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-500/20 flex items-start gap-3">
-                          <div className="mt-0.5 p-1 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 shrink-0">
-                            <BookOpen className="w-3 h-3" />
-                          </div>
-                          <div>
-                            <p className="t-label text-amber-600 dark:text-amber-400 mb-1">
-                              Feedback
-                            </p>
-                            <p className="text-xs text-amber-800 dark:text-amber-200/80 leading-relaxed">
-                              {renderFormattedText(
-                                currentSample.feedback,
-                                prompt.keywords,
-                                prompt.verb
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                      )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -670,11 +886,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   onFontSizeChange,
 }) => {
   const [openGroupMark, setOpenGroupMark] = useState<number | null>(null);
-  // Folded by default, like the Marking Guide and Grade Standards it sits with.
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
-  const panelId = useId();
-  const opened = useOpenedOnce(!isCollapsed, prompt.id);
-  useSupportResource(prompt.id, 'sampleAnswers', !isCollapsed);
+  // Bumped to open the panel from outside it: a guide row's "Model answer", or a
+  // batch of exemplars that has just been generated. AccordionSection opens on a
+  // change to this number, so the panel never has to own its own open state here.
+  const [openSignal, setOpenSignal] = useState(0);
+  // The level a cross-link asked for, which the next render focuses and brings into
+  // view. A ref and not state: it is a one-shot instruction, not something to draw.
+  const pendingFocusMark = useRef<number | null>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [revisionTarget, setRevisionTarget] = useState<SampleAnswer | null>(null);
   const [editorTarget, setEditorTarget] = useState<SampleAnswer | null>(null);
@@ -697,17 +916,13 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const canGenerate = canUseAiGeneration(userRole);
   const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const tier = commandTermInfo.tier;
 
-  const maxPossibleBand = useMemo(
-    () => getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier),
-    [prompt.totalMarks, commandTermInfo.tier]
-  );
-
-  // Placard chrome uses the verb's tier identity (matches the prompt and
-  // writing surface); the band ceiling stays numeric in the subtitle.
-  const maxBandConfig = useMemo(
-    () => getTierScaleConfig(commandTermInfo.tier),
-    [commandTermInfo.tier]
+  // The question's own ceiling, as the Marking Guide and Syllabus Terms have it:
+  // the header is drawn in this band, so the three reference headers agree.
+  const ceilingBand = useMemo(
+    () => questionCeilingBand(prompt.totalMarks, prompt.verb),
+    [prompt.totalMarks, prompt.verb]
   );
 
   const groupedAnswers = useMemo(() => {
@@ -717,33 +932,77 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         groups[sa.mark] = {
           mark: sa.mark,
           answers: [],
-          calculatedBand: getBandForMark(sa.mark, prompt.totalMarks, commandTermInfo.tier),
+          calculatedBand: getBandForMark(sa.mark, prompt.totalMarks, tier),
         };
       }
       groups[sa.mark].answers.push(sa);
     });
     Object.values(groups).forEach((g) => g.answers.sort(byTrustworthiness));
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
-  }, [prompt.sampleAnswers, prompt.totalMarks, prompt.verb, commandTermInfo.tier]);
+  }, [prompt.sampleAnswers, prompt.totalMarks, tier]);
+
+  // The marks already on the question, for the revision dialog. A fresh array per
+  // render would hand that dialog a new prop every time the panel re-renders.
+  const existingMarks = useMemo(() => groupedAnswers.map((g) => g.mark), [groupedAnswers]);
+
+  // The guide's rows, read with the same parser the Marking Guide draws them with,
+  // so the criterion a row names is the criterion the guide shows at that level.
+  const guideRows = useMemo(
+    () => parseMarkingCriteria(prompt.markingCriteria ?? '', prompt.totalMarks, tier),
+    [prompt.markingCriteria, prompt.totalMarks, tier]
+  );
 
   const totalSamples = groupedAnswers.reduce((sum, g) => sum + g.answers.length, 0);
 
   /**
-   * The folded card's second line.
-   *
-   * The exemplar TOTAL, not just the level count: eleven models spread over
-   * three levels and three models over three levels are very different things
-   * to walk into, and this used to describe both as "3 performance levels".
-   *
-   * Built once rather than inline, so the `title` that makes it readable when
-   * it truncates is the same string it renders. On a phone the line wants
-   * 195px in a 138px row, and the part that gets cut is the band ceiling on
-   * the end.
+   * The header's second line: the question's marks, then the exemplar TOTAL and the
+   * level count, the same way the Marking Guide's line states its band. Eleven models
+   * over three levels and three models over three levels are very different things
+   * to walk into, and the marks say which ladder they are on.
    */
-  const exemplarSummary =
-    (groupedAnswers.length > 0
-      ? `${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'} · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'}`
-      : 'No models yet') + ` · Band ceiling ${maxPossibleBand}`;
+  const subtitle =
+    groupedAnswers.length > 0
+      ? `${prompt.totalMarks} marks · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'} · ${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'}`
+      : `${prompt.totalMarks} marks · No exemplars yet`;
+
+  /** Opens the panel, then the row at `mark`. The one way both an outside request
+   *  and a freshly generated exemplar open the panel, so they cannot drift. */
+  const openLevel = (mark: number) => {
+    setOpenSignal((n) => n + 1);
+    setOpenGroupMark(mark);
+  };
+
+  // A guide row's "Model answer" asks for its level. The nearest level stands in
+  // when the mark does not match one exactly, so the panel opens somewhere sensible.
+  useOpenExemplarRequest(prompt.id, (requested) => {
+    const target = nearestExemplarMark(
+      groupedAnswers.map((g) => g.mark),
+      requested
+    );
+    if (target === undefined) return;
+    pendingFocusMark.current = target;
+    openLevel(target);
+  });
+
+  // After a cross-link has opened its level, bring that row into view and move
+  // focus to its disclosure. It runs after every render, but acts only on the one
+  // request in the ref, and clears it on the first attempt, so a later render
+  // cannot steal focus from wherever the student has gone since.
+  useEffect(() => {
+    const mark = pendingFocusMark.current;
+    if (mark === null) return;
+    pendingFocusMark.current = null;
+    const disclosure = bodyRef.current?.querySelector<HTMLButtonElement>(
+      `[data-exemplar-mark="${mark}"]`
+    );
+    if (!disclosure) return;
+    const row = disclosure.closest<HTMLElement>('[data-exemplar-row]') ?? disclosure;
+    const reduceMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    row.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+    disclosure.focus({ preventScroll: true });
+  });
 
   const handleRecalibrate = async (
     sampleIds: string[],
@@ -760,179 +1019,130 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     }
   };
 
-  return (
-    <div className={`${PANEL_SURFACE} mb-3 last:mb-0`}>
-      {/* Header: the disclosure on the left, the panel's own controls on the
-          right. Reading size, "Generate" and "Recalibrate" used to live in a
-          strip inside the body, which meant a student had to open the panel to
-          make the exemplars readable and a teacher had to open it to add one.
-          They belong in the chrome, where a panel's controls are expected — and
-          where they stay reachable while it is folded.
-
-          Access is decided per control: the zoom is a reading aid everybody
-          gets, while the two AI actions are gated on `canUseAiGeneration` and
-          are simply not rendered for a student or a guest. */}
-      <div
-        className={`w-full flex items-stretch relative overflow-hidden transition-all ${
-          isCollapsed ? '' : PANEL_HEADER_OPEN
-        }`}
-      >
-        <div
-          className={`absolute inset-0 opacity-[0.03] bg-gradient-to-r ${maxBandConfig.gradient} pointer-events-none`}
-        />
-
-        <button
-          onClick={() => setIsCollapsed((c) => !c)}
-          aria-expanded={!isCollapsed}
-          aria-controls={panelId}
-          className={`flex-1 min-w-0 ${PANEL_ROW_MIN_H} py-3.5 pl-5 pr-3 flex items-center gap-4 text-left transition-all group relative z-10 ${
-            isCollapsed ? PANEL_HEADER_CLOSED : ''
-          }`}
-        >
-          <div
-            className={`w-8 h-8 shrink-0 rounded-xl flex items-center justify-center border transition-all duration-500 ${
-              isCollapsed
-                ? 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'
-                : `${maxBandConfig.solidBg} border-white/20 ${maxBandConfig.solidText} shadow-lg`
-            }`}
+  const body = (
+    <div ref={bodyRef} className="flex flex-col gap-3">
+      {/* The tools: reading size for everybody, and the AI actions for staff only,
+          in the Marking Guide's slim row so the two bodies open the same way. */}
+      <div className={SAMPLE_TOOLS}>
+        <div className={SAMPLE_ZOOM}>
+          <button
+            type="button"
+            onClick={() => setFontSize(Math.max(12, fontSize - 2))}
+            disabled={fontSize <= 12}
+            className={SAMPLE_ZOOM_BUTTON}
+            title="Decrease text size"
           >
-            <Bookmark className="w-4 h-4" />
-          </div>
-          <div className="text-left min-w-0">
-            <span
-              // The panel's own name, so it takes the section voice like every
-              // other panel heading on the workspace. The exemplar count under
-              // it stays `.t-label` — a caption for this heading, not another.
-              className={`t-section block ${
-                isCollapsed
-                  ? 'text-slate-500 dark:text-slate-400'
-                  : 'text-slate-900 dark:text-white'
-              }`}
-            >
-              Sample Answers
-            </span>
-            <span
-              title={exemplarSummary}
-              className={`t-label block truncate ${maxBandConfig.text}`}
-            >
-              {exemplarSummary}
-            </span>
-          </div>
-          <div className="flex items-center gap-2.5 shrink-0 ml-auto">
-            <PanelReadChip show={opened && isCollapsed} />
-            <ChevronDown
-              className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 ${
-                isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
-              }`}
-            />
-          </div>
-        </button>
-
-        <div className="flex items-center gap-2 pl-2 pr-4 relative z-10 shrink-0">
-          <div className="flex items-center gap-0.5 bg-white dark:bg-black/20 p-0.5 rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
-            <button
-              onClick={() => setFontSize(Math.max(12, fontSize - 2))}
-              disabled={fontSize <= 12}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
-              title="Decrease text size"
-            >
-              <ZoomOut className="w-3.5 h-3.5" />
-            </button>
-            <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 w-5 text-center select-none">
-              {fontSize}
-            </span>
-            <button
-              onClick={() => setFontSize(Math.min(32, fontSize + 2))}
-              disabled={fontSize >= 32}
-              className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 disabled:opacity-40"
-              title="Increase text size"
-            >
-              <ZoomIn className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {canGenerate && (
-            <>
-              {onRecalibrate && (
-                <button
-                  onClick={() => setIsRecalibratePickerOpen(true)}
-                  disabled={isRecalibrating || !prompt.sampleAnswers?.length}
-                  className={`
-                    p-2 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10
-                    text-slate-500 hover:text-indigo-500 disabled:opacity-50 transition-all
-                    ${isRecalibrating ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 border-indigo-200' : ''}
-                  `}
-                  title="Recalibrate samples with AI — choose which ones"
-                >
-                  <RefreshCw className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`} />
-                </button>
-              )}
-              <button
-                onClick={
-                  studioLocked
-                    ? () => requestUpgrade('aiContentStudio')
-                    : () => setIsGeneratorOpen(true)
-                }
-                title={
-                  studioLocked
-                    ? `AI sample-answer generation is part of ${planLabelForFeature('aiContentStudio')} — tap to learn more`
-                    : 'Add a sample answer with AI'
-                }
-                aria-label="Generate a sample answer"
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold shadow-sm hover:shadow-lg transition-all ${
-                  studioLocked
-                    ? 'bg-amber-400/10 border-amber-400/40 text-amber-600 dark:text-amber-400'
-                    : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-indigo-500/30 text-slate-600 dark:text-slate-300'
-                }`}
-              >
-                <Zap className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden sm:inline">Generate</span>
-                {studioLocked && <PlusLockChip />}
-              </button>
-            </>
-          )}
+            <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
+          </button>
+          <span className={SAMPLE_ZOOM_VALUE}>{fontSize}</span>
+          <button
+            type="button"
+            onClick={() => setFontSize(Math.min(32, fontSize + 2))}
+            disabled={fontSize >= 32}
+            className={SAMPLE_ZOOM_BUTTON}
+            title="Increase text size"
+          >
+            <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
+          </button>
         </div>
+
+        {canGenerate && (
+          <>
+            {onRecalibrate && (
+              <button
+                type="button"
+                onClick={() => setIsRecalibratePickerOpen(true)}
+                disabled={isRecalibrating || !prompt.sampleAnswers?.length}
+                className={`${SAMPLE_AI_BUTTON} px-2.5`}
+                title="Recalibrate samples with AI — choose which ones"
+              >
+                <RefreshCw
+                  className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`}
+                  aria-hidden="true"
+                />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={
+                studioLocked
+                  ? () => requestUpgrade('aiContentStudio')
+                  : () => setIsGeneratorOpen(true)
+              }
+              title={
+                studioLocked
+                  ? describeAccess('aiContentStudio').explanation
+                  : 'Add a sample answer with AI'
+              }
+              aria-label="Generate a sample answer"
+              className={studioLocked ? AI_LOCKED : SAMPLE_AI_BUTTON}
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+              <span className="hidden sm:inline">Generate</span>
+              {studioLocked && <PlusLockChip feature="aiContentStudio" />}
+            </button>
+          </>
+        )}
       </div>
 
-      {/* Folded away means not rendered — a card with several exemplars, each
-          running its own metrics, should not keep working out of sight. */}
-      {!isCollapsed && (
-        <div id={panelId}>
-          {groupedAnswers.length > 0 ? (
-            groupedAnswers.map((group) => (
-              <CarouselAccordionItem
-                key={group.mark}
-                group={group}
-                prompt={prompt}
-                isOpen={openGroupMark === group.mark}
-                onToggle={() =>
-                  setOpenGroupMark((prev) => (prev === group.mark ? null : group.mark))
-                }
-                onUseSample={onUseSampleAnswer}
-                onRevise={(sa) => setRevisionTarget(sa)}
-                onEdit={(sa) => setEditorTarget(sa)}
-                onDelete={(id) => setDeleteTargetId(id)}
-                onContribute={onContributeSampleAnswer}
-                onFlag={(sa) => setFlagTarget(sa)}
-                canModify={canCurate}
-                fontSize={fontSize}
-              />
-            ))
-          ) : (
-            <div className="py-12 flex flex-col items-center text-center">
-              <FileText className="w-8 h-8 text-slate-500 mb-3" />
-              <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
-                No model responses available yet.
-              </p>
-              {canCurate && (
-                <p className="text-[10px] text-slate-400 mt-1">
-                  Click generate to create exemplary answers.
-                </p>
-              )}
-            </div>
+      {groupedAnswers.length > 0 ? (
+        <div className={LADDER_STACK}>
+          {groupedAnswers.map((group) => (
+            <ExemplarRow
+              key={group.mark}
+              group={group}
+              prompt={prompt}
+              isOpen={openGroupMark === group.mark}
+              onToggle={() => setOpenGroupMark((prev) => (prev === group.mark ? null : group.mark))}
+              onUseSample={onUseSampleAnswer}
+              onRevise={(sa) => setRevisionTarget(sa)}
+              onEdit={(sa) => setEditorTarget(sa)}
+              onDelete={(id) => setDeleteTargetId(id)}
+              onContribute={onContributeSampleAnswer}
+              onFlag={(sa) => setFlagTarget(sa)}
+              canModify={canCurate}
+              fontSize={fontSize}
+              criterion={criterionForMark(guideRows, group.mark, group.calculatedBand)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className={SAMPLE_EMPTY}>
+          <FileText
+            className="w-8 h-8 mb-2 text-slate-600 dark:text-slate-300"
+            aria-hidden="true"
+          />
+          <p className="t-label text-slate-700 dark:text-slate-300">
+            No model responses available yet.
+          </p>
+          {canCurate && (
+            <p className="t-label text-slate-700 dark:text-slate-300">
+              Click generate to create exemplary answers.
+            </p>
           )}
         </div>
       )}
+    </div>
+  );
+
+  return (
+    <>
+      {/* Lazy: a folded panel mounts none of its rows, so the text metrics each
+          row runs happen only while the panel is on screen. */}
+      <AccordionSection
+        title="Sample answers"
+        subtitle={subtitle}
+        icon={<Bookmark />}
+        band={ceilingBand}
+        hero
+        defaultOpen={!defaultCollapsed}
+        resetKey={prompt.id}
+        supportId="sampleAnswers"
+        forceOpenSignal={openSignal}
+        lazy
+      >
+        {body}
+      </AccordionSection>
 
       <SampleAnswerGeneratorModal
         isOpen={isGeneratorOpen}
@@ -943,8 +1153,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           // Open the panel behind the modal as the batch lands. A teacher who
           // just generated five exemplars into a folded card had nothing to
           // show for it but a toast, and the panel defaults to folded.
-          setIsCollapsed(false);
-          setOpenGroupMark(answer.mark);
+          openLevel(answer.mark);
           onSampleAnswerGenerated(answer);
         }}
       />
@@ -965,7 +1174,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           prompt={prompt}
           syllabus={syllabus}
           sampleToRevise={revisionTarget}
-          existingMarks={groupedAnswers.map((g) => g.mark)}
+          existingMarks={existingMarks}
           onRevisionComplete={(sa) => {
             onSampleAnswerGenerated(sa);
             setRevisionTarget(null);
@@ -1022,7 +1231,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         confirmButtonText="Delete"
         isDestructive
       />
-    </div>
+    </>
   );
 };
 

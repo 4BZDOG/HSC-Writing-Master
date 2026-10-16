@@ -4,10 +4,12 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
 import { TIER_GROUPS } from '../../data/commandTerms';
+import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import {
-  RIBBON_SPECTRUM_SCALE_RAIL,
+  RIBBON_INK_SCALE_RAIL,
+  RIBBON_TIER_HALO,
   RIBBON_TIER_SUBTITLE,
-  RIBBON_TIMELINE_THRESHOLD_CHIP,
+  RIBBON_INK_THRESHOLD_CHIP,
 } from '../../utils/verbRibbonChrome';
 
 /**
@@ -25,13 +27,43 @@ afterEach(cleanup);
 
 const getToggle = () => screen.getByRole('button', { name: /command verb hierarchy reference/i });
 
+/**
+ * jsdom has no layout, so every box is 0×0 and the auto-scroll — which reads the
+ * strip's width and each cell's offset — has nothing to work from. This gives
+ * the strip the geometry of a phone: a 393px viewport over six 260px cells with
+ * a 16px gap and 16px of padding, 1600px of scrollable width in all.
+ */
+const stubStripGeometry = () => {
+  const define = (name: string, get: (el: HTMLElement) => number) => {
+    const original = Object.getOwnPropertyDescriptor(HTMLElement.prototype, name);
+    Object.defineProperty(HTMLElement.prototype, name, {
+      configurable: true,
+      get() {
+        return get(this as HTMLElement);
+      },
+    });
+    return () => {
+      if (original) Object.defineProperty(HTMLElement.prototype, name, original);
+      else delete (HTMLElement.prototype as unknown as Record<string, unknown>)[name];
+    };
+  };
+  const restores = [
+    define('scrollWidth', () => 1600),
+    define('clientWidth', () => 393),
+    define('offsetWidth', () => 260),
+    define('offsetLeft', (el) => {
+      const parent = el.parentElement;
+      return parent ? 16 + Array.from(parent.children).indexOf(el) * 276 : 0;
+    }),
+  ];
+  return { restore: () => restores.forEach((restore) => restore()) };
+};
+
 /** The scale rail, matched by its exact class so a stray utility appended at
  *  the call site fails here rather than quietly widening what these assert. */
 const rail = (container: HTMLElement): HTMLElement => {
-  const found = container.querySelector(
-    `[class="${RIBBON_SPECTRUM_SCALE_RAIL}"]`
-  ) as HTMLElement | null;
-  expect(found, 'the scale rail is not wearing RIBBON_SPECTRUM_SCALE_RAIL').toBeTruthy();
+  const found = container.querySelector(`[class="${RIBBON_INK_SCALE_RAIL}"]`) as HTMLElement | null;
+  expect(found, 'the scale rail is not wearing RIBBON_INK_SCALE_RAIL').toBeTruthy();
   return found as HTMLElement;
 };
 
@@ -168,27 +200,36 @@ describe('CommandVerbHierarchy', () => {
    */
   it('draws the tier edge at two strengths, from one colour per card', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'ANALYSE' as PromptVerb} />);
-    const cards = Array.from(container.querySelectorAll('[class*="snap-center"]')) as HTMLElement[];
-    expect(cards).toHaveLength(6);
+    const slots = Array.from(container.querySelectorAll('[class*="snap-center"]')) as HTMLElement[];
+    expect(slots).toHaveLength(6);
 
-    // Every card carries its own band colour, and none carries a literal: the
-    // property is derived from BAND_HEX, which stays the only copy.
-    for (const card of cards) {
-      expect(card.style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
+    // Every cell carries its own band colour, and none carries a literal: the
+    // property is derived from BAND_HEX, which stays the only copy. It is set on
+    // the cell so it reaches the card and the halo alike.
+    for (const slot of slots) {
+      expect(slot.style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
     }
-    expect(new Set(cards.map((c) => c.style.getPropertyValue('--band-rgb'))).size).toBe(6);
+    expect(new Set(slots.map((c) => c.style.getPropertyValue('--band-rgb'))).size).toBe(6);
 
-    const current = cards.filter((c) => c.className.includes('band-edge-strong'));
-    const rest = cards.filter((c) => !c.className.includes('band-edge-strong'));
-    expect(current).toHaveLength(1);
-    expect(rest).toHaveLength(5);
-    for (const c of rest) expect(c.className).toContain('band-edge');
+    // The whisper: every card, selected or not, keeps the soft edge.
+    const cards = slots.map((slot) => slot.firstElementChild as HTMLElement);
+    for (const card of cards) expect(card.className).toContain('band-edge');
 
-    // The selected card's emphasis paints OUTSIDE its border box — a ring and
-    // a glow — so it can be the strongest thing in the row without moving a
-    // neighbour. That is the whole reason the scale was dropped.
-    expect(current[0].style.boxShadow).toContain('var(--band-rgb)');
-    for (const c of rest) expect(c.style.boxShadow).toBe('');
+    // The statement: the selected tier's halo carries a 2px edge at 85% of the
+    // same hue, and it is up on exactly one card. It paints OUTSIDE the card's
+    // border box — a ring and a glow — so it can be the strongest thing in the
+    // row without moving a neighbour. That is the whole reason the scale was
+    // dropped; and it is a layer of its own, faded with `opacity`, so selecting a
+    // tier does not re-paint the card.
+    const halos = slots.map((slot) => slot.lastElementChild as HTMLElement);
+    for (const halo of halos) expect(halo.className).toContain(RIBBON_TIER_HALO);
+    const up = halos.filter((halo) => halo.className.includes('opacity-100'));
+    expect(up).toHaveLength(1);
+    expect(halos.indexOf(up[0])).toBe(3);
+    for (const halo of halos.filter((h) => h !== up[0])) {
+      expect(halo.className).toContain('opacity-0');
+    }
+    for (const card of cards) expect(card.style.boxShadow).toBe('');
   });
 
   it('lets a keyboard user select a tier from the card header', () => {
@@ -212,18 +253,104 @@ describe('CommandVerbHierarchy', () => {
   // page alone: it scrolled the WINDOW down to the ribbon, dragging the reader
   // away from the question they had just chosen. Only the strip may move.
   it('scrolls its own strip rather than the page when the tier changes', () => {
-    const scrollIntoView = vi.fn();
-    const scrollTo = vi.fn();
-    Element.prototype.scrollIntoView = scrollIntoView;
-    (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+    const geometry = stubStripGeometry();
+    try {
+      const scrollIntoView = vi.fn();
+      const scrollTo = vi.fn();
+      Element.prototype.scrollIntoView = scrollIntoView;
+      (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
 
-    render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
-    scrollTo.mockClear();
+      render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      scrollTo.mockClear();
 
-    fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
+      fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
 
-    expect(scrollIntoView).not.toHaveBeenCalled();
-    expect(scrollTo).toHaveBeenCalled();
+      expect(scrollIntoView).not.toHaveBeenCalled();
+      // A glide, because the reader changed tier and is watching the strip.
+      expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'smooth' });
+    } finally {
+      geometry.restore();
+    }
+  });
+
+  // The strip used to glide to centre on EVERY selection, including three that
+  // are not the reader's to see: it slid across a panel that was still unfolding
+  // (invisible work competing with the open), and it re-centred a card the reader
+  // had just tapped a chip on, under a finger that had only just lifted. On a
+  // phone both read as the strip fighting the thumb.
+  describe('does not make the strip fight the reader', () => {
+    it('puts the strip in place instantly the first time it has a position', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+        render(<CommandVerbHierarchy currentVerb={'SYNTHESISE' as PromptVerb} />);
+
+        expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'auto' });
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('puts it in place instantly when the ribbon has only just been opened', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+        // Shut beneath the breadcrumb, with a verb already chosen.
+        render(
+          <CommandVerbHierarchy currentVerb={'SYNTHESISE' as PromptVerb} defaultOpen={false} />
+        );
+        expect(scrollTo).not.toHaveBeenCalled();
+
+        fireEvent.click(getToggle());
+        expect(scrollTo).toHaveBeenCalledTimes(1);
+        expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'auto' });
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('leaves the strip where it is when a chip is tapped on a card already in full view', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+        // Tier 2's cell spans 292–552; with the strip scrolled to 200 the
+        // viewport is 200–593, so the card is wholly in view but not centred.
+        strip.scrollLeft = 200;
+        scrollTo.mockClear();
+
+        fireEvent.click(screen.getByRole('button', { name: 'DEFINE' }));
+        expect(scrollTo, 'a tap on a visible card moved the strip').not.toHaveBeenCalled();
+
+        // A different TIER is a different matter: that is a move the reader
+        // made on purpose, and the strip follows it.
+        fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
+        expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'smooth' });
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('does not scroll at all when the strip is already where it would be sent', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+        render(<CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />);
+        // Tier 1 goes to 0, which is where the strip starts.
+        expect(scrollTo).not.toHaveBeenCalled();
+      } finally {
+        geometry.restore();
+      }
+    });
   });
 
   // Verbs arrive from model output and from stored prompts in whatever case
@@ -260,6 +387,7 @@ describe('CommandVerbHierarchy', () => {
   });
 
   it('honours prefers-reduced-motion when it scrolls the strip', () => {
+    const geometry = stubStripGeometry();
     const scrollTo = vi.fn();
     (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
     const matchMedia = vi.fn().mockReturnValue({ matches: true });
@@ -274,6 +402,7 @@ describe('CommandVerbHierarchy', () => {
       expect(scrollTo).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'auto' }));
     } finally {
       (window as unknown as { matchMedia: unknown }).matchMedia = original;
+      geometry.restore();
     }
   });
 
@@ -351,9 +480,13 @@ describe('CommandVerbHierarchy', () => {
       expect(screen.getByText('HSC Command Verb Hierarchy').className).toContain('truncate');
     });
 
+    // The floor is the accordions' own row height, not a number of its own: the
+    // ribbon's header stands on the same whole pixel as the panels it sits above,
+    // and a 60px bar among 61px rows was the exact break `panelStyles` records.
     it('carries a floor height that no verb can shrink', () => {
       render(<CommandVerbHierarchy currentVerb={'STATE' as PromptVerb} />);
-      expect(header().className).toMatch(/min-h-\[\d+px\]/);
+      expect(header().className).toContain(PANEL_ROW_MIN_H);
+      expect(PANEL_ROW_MIN_H).toMatch(/^min-h-\[[\d.]+rem\]$/);
     });
 
     /**
@@ -379,7 +512,7 @@ describe('CommandVerbHierarchy', () => {
 
       render(<CommandVerbHierarchy currentVerb={'DIFFERENTIATE' as PromptVerb} />);
       expect(geometry(header().className)).toBe(shortest);
-      expect(shortest).toContain('min-h-[60px]');
+      expect(shortest).toContain(PANEL_ROW_MIN_H);
     });
   });
 });
@@ -450,7 +583,7 @@ describe('the spectrum says its level in words', () => {
     render(<CommandVerbHierarchy />);
 
     const cue = screen.getByRole('status');
-    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.textContent).toBe('Choose a command verb to see what it caps.');
     expect(cue.textContent).not.toMatch(/Tier \d/);
     expect(cue.textContent).not.toMatch(/Band/);
   });
@@ -503,7 +636,7 @@ describe('the spectrum says its level in words', () => {
     const { container } = render(<CommandVerbHierarchy />);
 
     const cue = screen.getByRole('status');
-    expect(cue.textContent).toBe('Choose a command verb to light the spectrum.');
+    expect(cue.textContent).toBe('Choose a command verb to see what it caps.');
     // The rail still names the gate and its two sides — those describe the
     // ladder, which exists before anything is picked. What must not appear is
     // a claim about where the reader stands on it, which is exactly what the
@@ -529,12 +662,15 @@ describe('the spectrum says its level in words', () => {
     expect(cue.className).toContain('sr-only');
     expect(cue.className).not.toMatch(/min-h-\[/);
 
-    // And the dot row no longer depends on which labels render: five of the six
+    // And the staircase no longer depends on which names render: five of the six
     // are `hidden` below `sm`, so a row sized by its content was a different
-    // height — and put its dots in different places — at every tier.
+    // height — and put its columns in different places — at every tier. Its
+    // height is a sum of two custom properties instead, so it is the same for
+    // every verb at every width.
     const row = screen.getByRole('button', { name: /Show tier 1 verbs/i })
       .parentElement as HTMLElement;
-    expect(row.className).toMatch(/(^|\s)h-\d+/);
+    expect(row.className).toContain('h-[calc(var(--plot)+1.5rem+var(--label))]');
+    expect(row.className).not.toMatch(/(^|\s)h-\d+(\s|$)/);
   });
 });
 /**
@@ -629,12 +765,12 @@ describe('the scale rail restores the arc, derived', () => {
 
     expect(rail(container).className).not.toContain('absolute');
     expect(rail(container).className).not.toMatch(/-top-/);
-    expect(RIBBON_SPECTRUM_SCALE_RAIL).not.toMatch(/-top-/);
+    expect(RIBBON_INK_SCALE_RAIL).not.toMatch(/-top-/);
     // The chip is positioned, but inside the rail and at the same 50% the
     // spectrum's threshold notch and the dashed rule both take from
     // DEEP_LEARNING_TIER — so the three cannot drift apart.
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('absolute');
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).toContain('left-1/2');
-    expect(RIBBON_TIMELINE_THRESHOLD_CHIP).not.toMatch(/-top-/);
+    expect(RIBBON_INK_THRESHOLD_CHIP).toContain('absolute');
+    expect(RIBBON_INK_THRESHOLD_CHIP).toContain('left-1/2');
+    expect(RIBBON_INK_THRESHOLD_CHIP).not.toMatch(/-top-/);
   });
 });

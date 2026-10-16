@@ -27,7 +27,8 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
       <div className="px-6 md:px-8 py-5 md:py-6 border-b border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))]/30 flex-shrink-0 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-bold text-[rgb(var(--color-text-primary))] flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-amber-500" /> Conflict Resolution
+            <AlertTriangle className="w-5 h-5 text-amber-500 light:text-amber-700" /> Conflict
+            Resolution
           </h3>
           <p className="text-sm text-[rgb(var(--color-text-secondary))] mt-1">
             {conflicts.length} items already exist.
@@ -45,13 +46,13 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
         <div className="flex justify-end gap-3 mb-4">
           <button
             onClick={() => handleResolveAll('merge')}
-            className="text-xs font-bold text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg border border-blue-500/20 transition-all flex items-center gap-2"
+            className="text-xs font-bold text-blue-400 light:text-blue-700 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg border border-blue-500/20 transition-all flex items-center gap-2"
           >
             <GitMerge className="w-3.5 h-3.5" /> Merge All
           </button>
           <button
             onClick={() => handleResolveAll('skip')}
-            className="text-xs font-bold text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/20 transition-all flex items-center gap-2"
+            className="text-xs font-bold text-amber-400 light:text-amber-700 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg border border-amber-500/20 transition-all flex items-center gap-2"
           >
             <SkipForward className="w-3.5 h-3.5" /> Skip All
           </button>
@@ -98,7 +99,7 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
                     <button
                       onClick={() => handleResolutionChange(course.id, 'skip')}
                       aria-pressed={action === 'skip'}
-                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'skip' ? 'bg-amber-500 text-white shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
+                      className={`flex-1 sm:flex-none justify-center px-3 py-2 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${action === 'skip' ? 'bg-amber-500 text-slate-900 shadow-sm' : 'text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'}`}
                     >
                       <SkipForward className="w-3 h-3" /> Skip
                     </button>
@@ -106,9 +107,13 @@ const ConflictResolutionView = ({ conflicts, onResolve, onBack }: ConflictResolu
                 </div>
                 <div className="mt-3 text-xs opacity-80">
                   {action === 'merge' ? (
-                    <span className="text-blue-400">Update existing course with new content.</span>
+                    <span className="text-blue-400 light:text-blue-700">
+                      Update existing course with new content.
+                    </span>
                   ) : (
-                    <span className="text-amber-400">Ignore imported data for this course.</span>
+                    <span className="text-amber-400 light:text-amber-700">
+                      Ignore imported data for this course.
+                    </span>
                   )}
                 </div>
               </div>

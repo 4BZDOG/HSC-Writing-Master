@@ -119,7 +119,7 @@ const AiQuotaPanel: React.FC = () => {
 
   return (
     <div className="mt-4 pt-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
-      <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 flex items-center gap-2">
+      <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-2 flex items-center gap-2">
         <Gauge className="w-3.5 h-3.5" />
         Daily AI Quotas
       </div>
@@ -175,7 +175,7 @@ const AiQuotaPanel: React.FC = () => {
       <div className="space-y-1.5">
         {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
           <label key={role} className="flex items-center justify-between gap-2">
-            <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500">
+            <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
               {QUOTA_ROLE_LABELS[role]}
             </span>
             <input
@@ -198,7 +198,7 @@ const AiQuotaPanel: React.FC = () => {
       </button>
 
       <div className="mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200">
-        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-500 block mb-1.5">
+        <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600 block mb-1.5">
           Per-user override (beats the group limit)
         </span>
         <div className="flex gap-1.5">
@@ -231,7 +231,7 @@ const AiQuotaPanel: React.FC = () => {
           <button
             onClick={() => handleSetOverride(true)}
             disabled={isBusy}
-            className="t-label flex-1 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
+            className="t-label flex-1 py-1.5 rounded-lg bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-white light:hover:text-slate-800 transition-all disabled:opacity-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300"
           >
             Clear
           </button>
@@ -276,8 +276,8 @@ const ApiMonitorDisplay: React.FC = () => {
         <button
           onClick={() => setIsExpanded(true)}
           className="
-            flex items-center gap-4 px-4 py-2 rounded-full
-            bg-[rgb(var(--color-bg-surface-elevated))]/80 light:bg-white/90 backdrop-blur-md
+            flex items-center gap-4 px-4 py-2 min-h-11 sm:min-h-0 rounded-full
+            bg-[rgb(var(--color-bg-surface-elevated))]/80 light:bg-surface-elevated/95 backdrop-blur-md
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:border-[rgb(var(--color-border-accent))]/60
             transition-all duration-300 animate-fade-in
@@ -301,7 +301,7 @@ const ApiMonitorDisplay: React.FC = () => {
         <div
           className="
             w-72 p-5 rounded-2xl
-            bg-[rgb(var(--color-bg-surface-elevated))]/90 light:bg-white/95 backdrop-blur-xl
+            bg-[rgb(var(--color-bg-surface-elevated))]/90 light:bg-surface-elevated/95 backdrop-blur-xl
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg animate-fade-in-up ring-1 ring-[rgb(var(--color-accent))]/10
           "
@@ -326,7 +326,7 @@ const ApiMonitorDisplay: React.FC = () => {
 
           <div className="space-y-3">
             <div className="bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 rounded-xl p-3 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
-              <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2 flex items-center gap-2">
+              <div className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-2 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                 Current Session
               </div>
@@ -350,7 +350,7 @@ const ApiMonitorDisplay: React.FC = () => {
 
             <div className="px-3 pt-1">
               <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600">
                   Lifetime Calls
                 </span>
                 <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600">
@@ -358,7 +358,7 @@ const ApiMonitorDisplay: React.FC = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500">
+                <span className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600">
                   Lifetime Tokens
                 </span>
                 <span className="font-mono text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600">

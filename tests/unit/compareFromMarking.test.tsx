@@ -51,7 +51,6 @@ const renderDisplay = (
       result={evaluation}
       prompt={prompt}
       userAnswer="Caching keeps data in memory."
-      onUseRevisedAnswer={vi.fn()}
       onImproveAnswer={vi.fn()}
       onCompareImprovement={onCompareImprovement}
       isImproving={false}
@@ -82,6 +81,6 @@ describe('comparing the marking rewrite', () => {
 
     expect(screen.queryByText('See the edits')).toBeNull();
     // The rest of the section is still there — only the control goes.
-    expect(screen.getByText('Use this version')).toBeTruthy();
+    expect(screen.getByText('Regenerate')).toBeTruthy();
   });
 });

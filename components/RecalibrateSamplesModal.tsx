@@ -59,7 +59,7 @@ const QuickPick: React.FC<{
   <button
     onClick={() => onPick(ids)}
     disabled={disabled}
-    className="t-label px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-[rgb(var(--color-text-muted))] light:text-slate-600 border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
+    className="min-h-11 sm:min-h-0 t-label px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-muted border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
   >
     {label}
   </button>
@@ -155,7 +155,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 Recalibrate Sample Answers
               </h2>
-              <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 truncate">
+              <p className="text-xs text-muted truncate">
                 Re-mark against the rubric — choose which ones
               </p>
             </div>
@@ -164,16 +164,14 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
             onClick={onClose}
             disabled={isRunning}
             aria-label="Close"
-            className="w-9 h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))]/30 light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-40"
+            className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))]/30 light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-40"
           >
-            <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
+            <X className="w-4 h-4 text-muted" />
           </button>
         </div>
 
         <div className="px-6 py-3 border-b border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 flex flex-wrap items-center gap-2 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50">
-          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mr-1">
-            Select
-          </span>
+          <span className="t-label text-muted mr-1">Select</span>
           <QuickPick
             label="All"
             ids={rows.map((r) => r.sample.id)}
@@ -197,7 +195,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
 
         <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           {rows.length === 0 && (
-            <p className="py-10 text-center text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <p className="py-10 text-center text-xs text-muted">
               This question has no sample answers to recalibrate.
             </p>
           )}
@@ -226,7 +224,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                     <span className={`text-xs font-bold ${config.text}`}>
                       {sample.mark}/{prompt.totalMarks}
                     </span>
-                    <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                    <span className="t-label text-muted">
                       Band {derivedBand}
                       {sample.source === 'AI' && sample.derivedFromStudent
                         ? ' · Student + AI'
@@ -238,14 +236,14 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                     </span>
                     {mismatched && (
                       <span
-                        className="t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                        className="t-label inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-amber-500/15 text-amber-800 dark:text-amber-400 border border-amber-500/30"
                         title={`Stored as Band ${sample.band}, but ${sample.mark}/${prompt.totalMarks} is Band ${derivedBand} on this question`}
                       >
                         <AlertTriangle className="w-2.5 h-2.5" /> Band {sample.band} stored
                       </span>
                     )}
                   </div>
-                  <p className="text-[11px] leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-serif">
+                  <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-serif">
                     {preview(sample.answer)}
                   </p>
                 </div>
@@ -257,11 +255,11 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
         <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 flex flex-wrap items-center justify-between gap-3">
           {isRunning && progress ? (
             <div className="flex-1 min-w-[12rem]">
-              <div className="flex items-center justify-between text-[11px] mb-1.5">
+              <div className="flex items-center justify-between text-xs mb-1.5">
                 <span className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
                   Recalibrating…
                 </span>
-                <span className="font-mono text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                <span className="font-mono text-muted">
                   {progress.done} of {progress.total}
                 </span>
               </div>
@@ -280,7 +278,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
               </div>
             </div>
           ) : (
-            <p className="text-[11px] text-[rgb(var(--color-text-muted))] light:text-slate-500">
+            <p className="text-xs text-muted">
               {/* Recalibration is marking, and the server meters it as such. */}
               {selected.length === 0
                 ? 'Pick the answers you want re-marked.'
@@ -291,14 +289,14 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
             <button
               onClick={onClose}
               disabled={isRunning}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] transition disabled:opacity-40"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted hover:text-[rgb(var(--color-text-primary))] transition disabled:opacity-40"
             >
               Cancel
             </button>
             <button
               onClick={handleRun}
               disabled={isRunning || selected.length === 0}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-sky-500 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-40 flex items-center gap-2"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-sky-700 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-40 flex items-center gap-2"
             >
               {isRunning ? (
                 <>

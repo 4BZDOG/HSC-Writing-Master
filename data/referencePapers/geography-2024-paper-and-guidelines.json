@@ -1,0 +1,338 @@
+{
+  "year": 2024,
+  "skipped": [],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "sources": ["Source D"],
+      "stem": "Using Source D on page 2 of the Stimulus Booklet complete the cross-section.",
+      "stimulus": "The diagram shows a cross-section of Aogashima Island.\nHeight above sea level (m)\n300\n250\n200\n150\n100\n50\n0\nA B C D",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "2", "text": "Correctly completes the cross-section"},
+        {"marks": "1", "text": "Shows some understanding of a cross-section"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": [],
+      "stem": "Calculate the vertical exaggeration of the cross-section.",
+      "stimulus": "The diagram shows a cross-section of Aogashima Island.\nHeight above sea level (m)\n300\n250\n200\n150\n100\n50\n0\nA B C D",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "2", "text": "Correctly calculates the vertical exaggeration"},
+        {"marks": "1", "text": "Shows some understanding of vertical exaggeration"}
+      ],
+      "sampleAnswer": "VS\nVE = HS\n\n1:2500\n= 1:20 000\n\n=8",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source D"],
+      "stem": "Identify and locate an example of a human feature on Aogashima Island in Source D.",
+      "stimulus": "Refer to pages 2–3 of the Stimulus Booklet to answer parts (a)–(c).",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "2", "text": "Names and correctly locates one example of a human feature in Source D"},
+        {"marks": "1", "text": "Identifies one example of a human feature OR Correctly locates one example of a human feature"}
+      ],
+      "sampleAnswer": "Human feature: walking track\nGrid reference: 494900",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Propose a geographical inquiry question that a geography student could investigate on a field trip to Aogashima Island.",
+      "stimulus": "Refer to pages 2–3 of the Stimulus Booklet to answer parts (a)–(c).",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "2", "text": "Proposes a valid geographical inquiry question on Aogashima Island"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "How has volcanic activity influenced human settlement on the island?",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source D", "Source G"],
+      "stem": "Using Source D and Source G, give TWO reasons why it is important to protect ecosystems on Aogashima Island.",
+      "stimulus": "Refer to pages 2–3 of the Stimulus Booklet to answer parts (a)–(c).",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Provides TWO reasons why it is important to protect ecosystems with reference to the information provided"},
+        {"marks": "2", "text": "Outlines why it is important to protect ecosystems on Aogashima Island"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Utility value is the ability of ecosystems to satisfy the economic wants of humans. This island is home to endangered birds and would attract birdwatchers as tourists to visit and boost the island’s economy. The fact some species of birds are endangered also means it is important they are protected from human impacts, such as road use, to maintain genetic diversity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22(d)",
+      "section": "II",
+      "marks": 4,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": [],
+      "stem": "Explain the biogeographical process shown.",
+      "stimulus": "Stages of a biogeographical process on a volcanic island are shown.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "4", "text": "Demonstrates a thorough understanding of a biogeographical process shown"},
+        {"marks": "3", "text": "Demonstrates a sound understanding of a biogeographical process shown"},
+        {"marks": "2", "text": "Demonstrates an understanding of a biogeographical process that could have occurred"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "A biogeographical process shown is succession. As shown in the diagram, this involves lava hardening to form a new surface. Lichen carried by wind initially help to build up the soil. As more soil forms and can hold water, larger plants can grow and over many years a mature community is established.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "marks": 4,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Describe internal linkages between people in ONE economic enterprise operating at a local scale.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "4", "text": "Demonstrates a thorough understanding of internal linkages between people in the economic enterprise"},
+        {"marks": "3", "text": "Demonstrates a sound understanding of internal linkages between people in the economic enterprise"},
+        {"marks": "2", "text": "Demonstrates an understanding of linkages in the economic enterprise"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Economic enterprise: The River Oyster Shed\n\nPete is the owner and main link to the other employees at The River Oyster Shed. Andrew works for Pete three days a week; Pete and Andrew sometimes share looking after different oyster beds and sometimes do larger projects like oyster processing together. Deb works in retail at the shed sometimes, receiving and selling harvested oysters from Pete and Andrew.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "How has ONE market preference changed the nature of the economic activity?",
+      "stimulus": "Answer parts (b)–(c) with reference to an economic activity you have studied.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Provides cause and effect for how a market preference has changed the nature of the named economic activity"},
+        {"marks": "2", "text": "Shows understanding of a market preference and the changed nature of an economic activity"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Economic activity: Viticulture\n\nPreference for red wines in China has led to wine producing regions growing more grapes for red wines, for example Australian wine companies during the 2010s increased their production of red wine grape varietals such as shiraz and cabernet sauvignon and built their marketing efforts (including social media campaigns) towards China.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "marks": 6,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Discuss the social impacts of the economic activity.",
+      "stimulus": "Answer parts (b)–(c) with reference to an economic activity you have studied.",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "6", "text": "Demonstrates a comprehensive understanding of the social impacts of the named economic activity"},
+        {"marks": "5", "text": "Demonstrates a thorough understanding of the social impacts of the named economic activity"},
+        {"marks": "3–4", "text": "Demonstrates a sound understanding of the social impacts of an economic activity"},
+        {"marks": "2", "text": "Demonstrates some understanding of the impacts of an economic activity/enterprise"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Wine making leads to a range of good and bad social impacts. Wine is a positive part of many cultures around the world, providing joy and happiness to many, in consuming wine and also visiting wineries. However, it also leads to social problems such as alcoholism and high crime rates. Wine making provides strong identity and livelihoods, including through tourism for many regions such as the Hunter Valley. It can leave communities economically exposed though, during industry down cycles such as during the 2021 trade tensions with China.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Describe ONE way that the operation of global networks can influence the role of world cities.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Describes ONE way global networks can influence the role of world cities"},
+        {"marks": "2", "text": "Outlines ONE way global networks could influence the role of world cities"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Global networks allow world cities to show economic authority by connecting them to each other and other urban centres, as they are the key nodes on the global communication network. Having this position allows cities such as New York to host major companies as they can use the network connections to communicate business decisions around their region and the world.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "How has ONE urban dynamic of change influenced the location of residential land in a large city of the developed world?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "3", "text": "Demonstrates an extensive understanding of how ONE urban dynamic of change influenced the location of residential land in a large city of the developed world"},
+        {"marks": "2", "text": "Demonstrates a sound understanding of the location of residential land and may make reference to an urban dynamic"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "The urban dynamic of urban consolidation results in high density residential land being located closer to key business and commercial hubs and key infrastructure in Sydney. This can occur in previous brownfield sites used for commercial or industrial purposes such as at Castle Hill Showground where apartment buildings replace low density housing and commercial/industrial land.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "marks": 6,
+      "kind": "written",
+      "needsStimulus": true,
+      "sources": ["Source C"],
+      "stem": "Using Source C on page 1 of the Stimulus Booklet and the extract, account for the changing role of regional centres.",
+      "stimulus": "An extract from a 2016 Australian Parliamentary report is shown.\n“Regional capitals serve as hubs for larger regional areas. They provide their own communities and those in smaller surrounding communities access to education, jobs . . . opportunities for cultural participation along with a host of other amenities that are essential to support strong and vibrant communities . . .”\n© Australian Government",
+      "assessedOn": [],
+      "criteria": [
+        {"marks": "6", "text": "Demonstrates comprehensive understanding of reasons for the changing role of regional centres with clear links to the stimulus"},
+        {"marks": "5", "text": "Demonstrates a thorough understanding of reasons for the changing role of regional centres linked to the stimulus"},
+        {"marks": "3–4", "text": "Demonstrates a sound understanding of the changing role of regional centres and may reference the stimulus"},
+        {"marks": "2", "text": "Demonstrates some understanding of regional centres and/or their role"},
+        {"marks": "1", "text": "Provides some relevant information"}
+      ],
+      "sampleAnswer": "Regional centres share key infrastructure and services such as the provision of education through University Hubs which draw in residents from the wider area. They are also absorbing residents who are leaving small towns as they have a lack of investment and people to sustain the local economy. This has led to the demise of key services in small towns, resulting in a further changing role of regional centres to provide this for their regions. Regional centres also enable a higher quality of services and access to jobs, shown by RUN jobs increasing to 11 300 from 2015 to 2018 (Source C) as resources are pooled to provide support for the larger regional area as shown in the quote.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "III",
+      "marks": 20,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Examine how locational, environmental and global changes can affect ONE local economic enterprise you have studied.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "refer to case studies, illustrative examples and the Stimulus Booklet where appropriate",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "17–20", "text": "Demonstrates a comprehensive understanding of a local economic enterprise ; Provides a comprehensive examination of how locational, environmental and global changes can affect a local economic enterprise ; Integrates relevant case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a sustained, logical and cohesive response using appropriate geographical information, terms and concepts"},
+        {"marks": "13–16", "text": "Demonstrates a thorough understanding of a local economic enterprise ; Provides an examination of how changes can affect a local economic enterprise ; Refers to relevant case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a logical response using appropriate geographical information and terms"},
+        {"marks": "9–12", "text": "Demonstrates a sound understanding of a local economic enterprise ; Provides some examination of how changes can affect a local economic enterprise ; Refers to case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a structured response using appropriate geographical information"},
+        {"marks": "5–8", "text": "Demonstrates some understanding of an economic enterprise/activity ; May refer to case studies, illustrative examples and/or the Stimulus Booklet ; Uses some geographical information"},
+        {"marks": "1–4", "text": "Demonstrates a basic understanding of an economic enterprise/activity"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Changing locational factors such as improved transport connections to supply and markets",
+        "Changing environmental factors such as worsening environmental constraints, climate change, and change in human impacts on the environment such as pollution and ecological sustainability",
+        "Effect of global changes in the economic activity on the enterprise, such as inflation, increased transport costs, changing consumer preferences and increased expectations for sustainability."
+      ]
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "marks": 20,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Compare different strategies used to manage ecosystems in terms of their ecological sustainability.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "refer to case studies, illustrative examples and the Stimulus Booklet where appropriate",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "17–20", "text": "Demonstrates a comprehensive understanding of a range of ecosystem management strategies ; Compares different management strategies in terms of their ecological sustainability ; Integrates relevant case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a sustained, logical and cohesive response using appropriate geographical information, terms and concepts"},
+        {"marks": "13–16", "text": "Demonstrates a thorough understanding of different ecosystem management strategies ; Provides some comparison of management strategies in terms of their sustainability ; Refers to relevant case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a logical response using appropriate geographical information and terms"},
+        {"marks": "9–12", "text": "Demonstrates a sound understanding of ecosystem management strategies ; Provides some comparison of management strategies ; Refers to case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a structured response using appropriate geographical information"},
+        {"marks": "5–8", "text": "Outlines some management strategies for an ecosystem ; May refer to case studies, illustrative examples and/or the Stimulus Booklet ; Uses some geographical information"},
+        {"marks": "1–4", "text": "Demonstrates a basic understanding of ecosystem management strategies"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Management strategies such as:",
+        "– seasonal occupation",
+        "– fire stick farming and cool burning",
+        "– custodianship of land and multi-generational knowledge",
+        "– sustainable harvesting",
+        "– wilderness areas/zoning",
+        "– rehabilitation",
+        "– endangered species management",
+        "– ranger programs",
+        "– pest/weed management",
+        "Comparison of ecological sustainability such as:",
+        "– intragenerational equity",
+        "– intergenerational equity",
+        "– the precautionary approach",
+        "– biological diversity",
+        "This could be demonstrated through ecosystems such as:",
+        "– intertidal wetlands",
+        "– coastal dunes",
+        "– coniferous forests",
+        "– coral reefs",
+        "– alpine ecosystems."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "III",
+      "marks": 20,
+      "kind": "written",
+      "needsStimulus": false,
+      "sources": [],
+      "stem": "Explain how the character of mega cities in the developing world influences responses to the challenges of living in them.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate geographical knowledge and understanding relevant to the question",
+        "communicate ideas and information using geographical terms and concepts appropriately",
+        "refer to case studies, illustrative examples and the Stimulus Booklet where appropriate",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {"marks": "17–20", "text": "Demonstrates a comprehensive understanding of the character of mega cities in the developing world and responses to challenges of living in them ; Provides a detailed explanation for how the character of mega cities influences the responses ; Integrates relevant case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a sustained, logical and cohesive response using appropriate geographical information, terms and concepts"},
+        {"marks": "13–16", "text": "Demonstrates a thorough understanding of the character of mega cities in the developing world and responses to challenges of living in them ; Provides an explanation for how the character of mega cities influences the responses ; Refers to relevant case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a logical response using appropriate geographical information and terms"},
+        {"marks": "9–12", "text": "Demonstrates a sound understanding of the character of mega cities in the developing world and responses to challenges of living in them ; Demonstrates some understanding of the link between the character of mega cities and the responses ; Refers to case studies, illustrative examples and the Stimulus Booklet where appropriate ; Presents a structured response using appropriate geographical information"},
+        {"marks": "5–8", "text": "Demonstrates some understanding of the character of mega cities and/or the responses to challenges of living in them ; May refer to case studies, illustrative examples and/or the Stimulus Booklet ; Uses some geographical information"},
+        {"marks": "1–4", "text": "Demonstrates a basic understanding of mega cities"}
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Responses should focus on how the character of mega cities influences the responses to the challenges of living in them.",
+        "Character:",
+        "– rapidly growing population",
+        "– high density population",
+        "– poor governance",
+        "– a lack of infrastructure",
+        "– primate cities for their country or regional area",
+        "Responses:",
+        "– government responses",
+        "– NGO responses",
+        "– self-help projects",
+        "– informal economies."
+      ]
+    }
+  ]
+}

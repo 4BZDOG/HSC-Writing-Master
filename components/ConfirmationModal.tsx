@@ -38,9 +38,16 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   };
 
   const iconColor = isDestructive ? 'rgb(var(--color-danger))' : 'rgb(var(--color-accent))';
+  // Solid fills, not the accent gradient: the accent is sky-500 in the dark
+  // theme, and white on it is 2.8:1. Indigo-600 is the app's primary action
+  // (see AUTH_PRIMARY_BUTTON), and red-600 carries white at 4.8:1. The
+  // destructive colour used to be `bg-gradient-danger`, which no stylesheet
+  // defines, so the button had no fill and white text on white paper.
+  // The hover steps darken too: white is 3.8:1 on red-500 and 4.5:1 on
+  // indigo-500, so a pointer on the button used to drop below AA.
   const confirmButtonClass = isDestructive
-    ? 'bg-gradient-danger text-white'
-    : 'bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-white';
+    ? 'bg-red-600 hover:bg-red-700 text-white'
+    : 'bg-indigo-600 hover:bg-indigo-700 text-white';
 
   // Portalled to <body>. This dialog is opened from inside cards that carry
   // `clip-stable` (a translateZ compositing hint), and a transformed ancestor
@@ -70,7 +77,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       }}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6">
@@ -94,7 +101,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           </div>
         </div>
 
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3">
+        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-elevated border-t border-[rgb(var(--color-border-secondary))] light:border-slate-300 flex justify-end gap-3">
           <button
             onClick={onClose}
             className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"

@@ -101,17 +101,21 @@ export const sanitizeFilename = (name: string): string => {
   return (base || 'export') + '.pdf';
 };
 
-const makeExportId = (): string => `HSC-${Date.now().toString(36).toUpperCase()}`;
+export const makeExportId = (): string => `HSC-${Date.now().toString(36).toUpperCase()}`;
 
-const formatDate = (d = new Date()): string =>
-  d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+/**
+ * The footer date in house style (en-AU, so "11 Oct 2026"). The locale is pinned
+ * rather than left to the browser, so an export reads the same on any machine.
+ */
+export const formatDate = (d = new Date()): string =>
+  d.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' });
 
 /** Small async yield so the export overlay/progress UI can repaint. */
-const repaint = () => new Promise<void>((r) => setTimeout(r, 0));
+export const repaint = () => new Promise<void>((r) => setTimeout(r, 0));
 
 const footerReserve = (pScale: number) => 8 * pScale;
 
-const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
+export const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
   computeGeometry({
     size: pageSize,
     columnsPerPage: COLUMNS_PER_PAGE,
@@ -125,13 +129,38 @@ const geometryFor = (pageSize: PageSizeName, pScale: number): ColumnGeometry =>
 // ---------------------------------------------------------------------------
 
 /**
+ * The three steps of a criterion's meter, by the ratio the screen uses.
+ *
+ * The screen's CriterionMeter switches on the same two thresholds (see METER in
+ * pdf/types), so a criterion that reads as "fair" on screen is "fair" on paper.
+ */
+export const meterStep = (ratio: number): 'strong' | 'fair' | 'weak' | 'none' => {
+  if (ratio >= METER.strongRatio) return 'strong';
+  if (ratio >= METER.fairRatio) return 'fair';
+  return ratio > 0 ? 'weak' : 'none';
+};
+
+/**
+ * How far each step is mixed towards paper. Lightness is the difference the
+ * page can keep: a greyscale printer turns the hue into a grey, and three greys
+ * of the same bar are three steps. The weakest also takes a hairline outline,
+ * so it is still a bar in a printer that drops the tint altogether.
+ */
+const METER_TINT: Record<'strong' | 'fair' | 'weak', number> = {
+  strong: 0,
+  fair: 0.4,
+  weak: 0.72,
+};
+
+/**
  * A filled proportion track — marks earned against marks available.
  *
  * One colour, the band's, because attainment is what the band colour means in
- * this report; the FILL LENGTH carries the judgement, so it survives a
- * greyscale printer and a colour-blind reader alike. It used to switch between
- * emerald, indigo and rose by ratio, which put three more meanings on three
- * colours that already meant other things elsewhere on the page.
+ * this report. The fill's LENGTH carries the judgement, so it survives any
+ * printer; its TONE carries the step (see `meterStep`), which is a lightness
+ * difference, not a hue one. It used to switch between emerald, indigo and rose
+ * by ratio, which put three more meanings on three colours that already meant
+ * other things elsewhere on the page.
  */
 const drawMeter = (
   doc: JsPdfLike,
@@ -144,12 +173,20 @@ const drawMeter = (
 ): void => {
   const h = METER.heightBaseMm * pScale;
   const ratio = meter.max > 0 ? Math.max(0, Math.min(1, meter.value / meter.max)) : 0;
+  const step = meterStep(ratio);
 
-  doc.setFillColor(COLORS.rule[0], COLORS.rule[1], COLORS.rule[2]);
+  doc.setFillColor(COLORS.track[0], COLORS.track[1], COLORS.track[2]);
   doc.roundedRect(x, y, width, h, h / 2, h / 2, 'F');
-  if (ratio > 0) {
-    doc.setFillColor(accent[0], accent[1], accent[2]);
-    doc.roundedRect(x, y, Math.max(width * ratio, h), h, h / 2, h / 2, 'F');
+  if (step === 'none') return;
+
+  const fill = tint(accent, METER_TINT[step]);
+  const fillW = Math.max(width * ratio, h);
+  doc.setFillColor(fill[0], fill[1], fill[2]);
+  doc.roundedRect(x, y, fillW, h, h / 2, h / 2, 'F');
+  if (step === 'weak') {
+    doc.setDrawColor(accent[0], accent[1], accent[2]);
+    doc.setLineWidth(0.2 * pScale);
+    doc.roundedRect(x, y, fillW, h, h / 2, h / 2, 'S');
   }
 };
 
@@ -273,7 +310,7 @@ const drawPanel = (
   doc.roundedRect(xLeft, top, width, height, r, r, 'FD');
 };
 
-const drawBlock = (
+export const drawBlock = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
   block: MeasuredBlock,
@@ -542,7 +579,7 @@ const drawQuestionCard = (
     x: ex,
     y: eyeBase,
     fontPt: eyePt,
-    color: accent,
+    color: block.inkAccent ?? accent,
   });
 
   const right = [block.eyebrow, block.eyebrowChip].filter(Boolean).join('  ·  ');
@@ -667,7 +704,7 @@ const drawScoreSummary = (
     y: bodyTop + ascentMm(markPt),
     fontPt: markPt,
     style: 'bold',
-    color: accent,
+    color: block.inkAccent ?? accent,
   });
 
   // Cell 2 — the band, named, over its ladder.
@@ -765,7 +802,7 @@ const drawCriterion = (
       y: labelBaseline,
       fontPt: labelPt,
       style: 'bold',
-      color: accent,
+      color: block.inkAccent ?? accent,
       align: 'right',
     });
   }
@@ -830,7 +867,7 @@ export class PdfExportError extends Error {
   }
 }
 
-const STAGE_MESSAGE: Record<PdfExportError['stage'], string> = {
+export const STAGE_MESSAGE: Record<PdfExportError['stage'], string> = {
   engine: 'The PDF engine could not be loaded. Check your connection and try again.',
   layout: 'This report could not be laid out. Try again, or export without the student response.',
   render: 'The PDF could not be drawn. Try again, or export without the improved response.',

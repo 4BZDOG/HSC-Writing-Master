@@ -365,14 +365,14 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {isAnalysing ? (
               <div
                 role="status"
-                className="flex items-center gap-2 justify-center text-sky-400 bg-sky-500/10 py-2 px-4 rounded-lg border border-sky-500/20"
+                className="flex items-center gap-2 justify-center text-sky-400 light:text-sky-700 bg-sky-500/10 py-2 px-4 rounded-lg border border-sky-500/20"
               >
                 <Loader2 className="w-4 h-4 animate-spin" />
                 <span className="text-sm font-medium">Analysing {fileName ?? 'file'}…</span>
               </div>
             ) : (
               fileName && (
-                <div className="flex items-center gap-2 justify-center text-emerald-400 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
+                <div className="flex items-center gap-2 justify-center text-emerald-400 light:text-emerald-800 bg-emerald-500/10 py-2 px-4 rounded-lg border border-emerald-500/20">
                   <CheckCircle className="w-4 h-4" />
                   <span className="text-sm font-medium">Selected: {fileName}</span>
                 </div>
@@ -381,7 +381,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
             {error && (
               <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-center">
-                <p className="text-sm text-red-400 font-medium">{error}</p>
+                <p className="text-sm text-red-400 light:text-red-700 font-medium">{error}</p>
               </div>
             )}
 
@@ -390,7 +390,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             <div className="bg-[rgb(var(--color-bg-surface))]/50 border border-[rgb(var(--color-border-secondary))] rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-center sm:text-left">
                 <h4 className="text-sm font-bold text-[rgb(var(--color-text-primary))] flex items-center justify-center sm:justify-start gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-400" /> AI Generation Template
+                  <Sparkles className="w-4 h-4 text-purple-400 light:text-purple-700" /> AI
+                  Generation Template
                 </h4>
                 <p className="text-xs text-[rgb(var(--color-text-muted))] mt-1">
                   Use this schema to generate compatible content with LLMs.
@@ -415,7 +416,9 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {/* Left Column: Selection Tree */}
             <div className="flex flex-col md:h-full border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))]">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))] flex items-center justify-between">
-                <h4 className="t-section text-[rgb(var(--color-text-muted))]">Select Content</h4>
+                <h4 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))]">
+                  Select Content
+                </h4>
                 <div className="flex gap-2">
                   <button
                     onClick={selectAll}
@@ -446,7 +449,9 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             {/* Right Column: Settings */}
             <div className="flex flex-col md:h-full md:overflow-y-auto custom-scrollbar bg-[rgb(var(--color-bg-surface))]/30">
               <div className="px-4 py-3 bg-[rgb(var(--color-bg-surface-elevated))]/50 border-b border-[rgb(var(--color-border-secondary))]">
-                <h4 className="t-section text-[rgb(var(--color-text-muted))]">Configuration</h4>
+                <h4 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))]">
+                  Configuration
+                </h4>
               </div>
 
               <div className="p-6 space-y-6">
@@ -463,7 +468,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                 {importedCourses.length > 0 && (
                   <div className="space-y-3">
                     <h5 className="text-sm font-bold text-[rgb(var(--color-text-primary))] flex items-center gap-2">
-                      <GitMerge className="w-4 h-4 text-purple-400" /> Merge Strategy
+                      <GitMerge className="w-4 h-4 text-purple-400 light:text-purple-700" /> Merge
+                      Strategy
                     </h5>
                     {importedCourses.map((course) => {
                       if (!selectedIds.has(course.id)) return null;
@@ -506,7 +512,8 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
 
                 <div className="space-y-3 pt-4 border-t border-[rgb(var(--color-border-secondary))]/50">
                   <h5 className="text-sm font-bold text-[rgb(var(--color-text-primary))] flex items-center gap-2">
-                    <Award className="w-4 h-4 text-amber-400" /> Bulk Attributes
+                    <Award className="w-4 h-4 text-amber-400 light:text-amber-700" /> Bulk
+                    Attributes
                   </h5>
                   <label className="flex items-center justify-between cursor-pointer p-3 rounded-lg bg-[rgb(var(--color-bg-surface))] border border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-accent))]/50 transition-colors">
                     <span className="text-xs font-medium text-[rgb(var(--color-text-secondary))]">
@@ -573,7 +580,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
             <div className="bg-[rgb(var(--color-bg-surface))] p-4 rounded-xl border border-[rgb(var(--color-border-secondary))]">
               <label className="flex items-center justify-between cursor-pointer mb-4">
                 <div className="flex items-center gap-2 text-sm font-bold text-[rgb(var(--color-text-primary))]">
-                  <Award className="w-4 h-4 text-amber-400" />
+                  <Award className="w-4 h-4 text-amber-400 light:text-amber-700" />
                   <span>Past HSC Metadata</span>
                 </div>
                 <input
