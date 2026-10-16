@@ -1139,9 +1139,9 @@ a:focus-visible,
 }
 [data-theme='light'] .ribbon-tier-wash {
   background-image: linear-gradient(
-    90deg,
-    rgb(var(--band-rgb) / 0.2) 0%,
-    rgb(var(--band-rgb) / 0.06) 100%
+    135deg,
+    rgb(var(--band-rgb) / 0.4) 0%,
+    rgb(var(--band-rgb) / 0.14) 100%
   );
 }
 /* Hover brightens the wash a step, on devices that can hover: a tap leaves
@@ -1157,9 +1157,9 @@ a:focus-visible,
   }
   [data-theme='light'] .ribbon-tier-wash:hover {
     background-image: linear-gradient(
-      90deg,
-      rgb(var(--band-rgb) / 0.3) 0%,
-      rgb(var(--band-rgb) / 0.12) 100%
+      135deg,
+      rgb(var(--band-rgb) / 0.5) 0%,
+      rgb(var(--band-rgb) / 0.2) 100%
     );
   }
 }
