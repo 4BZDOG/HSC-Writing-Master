@@ -40,7 +40,7 @@ import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTer
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
-import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { getCommandTermInfo, getRecommendedTime, getTargetBand } from '../data/commandTerms';
 import { naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import {
@@ -55,7 +55,9 @@ import {
   CARD_HEADER_ROW,
   CARD_HEADER_TITLE,
   CARD_HEADER_TITLE_BLOCK,
-  CARD_HEADER_TRAY,
+  CARD_HEADER_CORNER,
+  CARD_HEADER_ZOOM,
+  CARD_HEADER_ZOOM_BUTTON,
 } from '../utils/cardChrome';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
@@ -124,6 +126,19 @@ const MeshOverlay = ({
   />
 );
 
+/** The reading size's range, in px. The sample answers use the same floor. */
+const MIN_FONT_SIZE = 12;
+const MAX_FONT_SIZE = 48;
+
+/**
+ * A chip in the card's footer: the "Read before you write" button and each
+ * outcome code. One height (36px, 44px on a phone) so a row of them, or two rows
+ * once they wrap, reads as one set, and `whitespace-nowrap` so a code is never
+ * broken across lines. Callers add the band colours and their own padding.
+ */
+const FOOTER_CHIP =
+  'inline-flex items-center rounded-lg border whitespace-nowrap max-w-full min-h-9 max-sm:min-h-11 transition-all touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
+
 /** Half the preview panel's width (w-72), used to keep it on screen. */
 const OUTCOME_PREVIEW_HALF_WIDTH = 144;
 
@@ -189,14 +204,13 @@ const OutcomeChip: React.FC<{
         onFocus={show}
         onBlur={hide}
         className={`
-          t-label flex items-center gap-1 px-2.5 py-1 rounded-lg whitespace-nowrap flex-shrink-0
-          ${bandConfig.bg} border ${bandConfig.border}
-          ${bandConfig.text} transition-all duration-300 cursor-pointer
+          t-label ${FOOTER_CHIP} gap-1.5 px-2.5
+          ${bandConfig.bg} ${bandConfig.border}
+          ${bandConfig.text} duration-300 cursor-pointer
           hover:brightness-125 hover:shadow-lg
-          active:scale-[0.98]
         `}
       >
-        <Target className="w-2.5 h-2.5 opacity-60" />
+        <Target className="w-2.5 h-2.5 opacity-60" aria-hidden="true" />
         {outcome.code}
       </button>
       {anchor &&
@@ -421,6 +435,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     ];
   }, [prompt.keywords, prompt.question, prompt.scenario, syllabus]);
   const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  // The suggested time the card states, from the one function the metrics strip
+  // and the verb guide use, so the three never quote different numbers.
+  const suggestedMinutes = useMemo(
+    () => Math.max(1, Math.round(getRecommendedTime(prompt.totalMarks, verbInfo) / 60)),
+    [prompt.totalMarks, verbInfo]
+  );
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
     () => getTargetBand(prompt.totalMarks, verbInfo.tier),
@@ -654,33 +674,85 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               </div>
             </div>
 
-            {/* The question's stats, docked in the bottom-right corner — the
-              twin of the writing card's tool bar across the gap: same tray,
-              same height, same fill. */}
-            <div className={CARD_HEADER_TRAY}>
-              <div className={`t-label ${CARD_HEADER_BAR} gap-1.5`}>
+            {/* The corner: reading size across the top, the question's stats
+              docked on the floor. The stats are the twin of the writing card's
+              tool bar across the gap (same height, same fill, level with it)
+              and the reading size sits over them, in the corner a student's
+              eye goes to for "make this bigger". It used to live in the footer
+              beside the outcome chips, which is the row that ran out of width
+              in two columns, and it vanished with that row in Focus Mode. */}
+            <div className={CARD_HEADER_CORNER}>
+              <div role="group" aria-label="Reading size" className={CARD_HEADER_ZOOM}>
+                <button
+                  type="button"
+                  onClick={() => onFontSizeChange(Math.max(MIN_FONT_SIZE, fontSize - 2))}
+                  disabled={fontSize <= MIN_FONT_SIZE}
+                  // Icon-only, so it needs a name of its own: `title` is a
+                  // tooltip, and not every screen reader treats one as the
+                  // accessible name.
+                  aria-label="Decrease reading size"
+                  className={CARD_HEADER_ZOOM_BUTTON}
+                  title="Decrease font size"
+                >
+                  <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
+                </button>
+                <span
+                  className="t-label font-mono tabular-nums text-white min-w-[2.25ch] text-center select-none"
+                  aria-live="polite"
+                >
+                  {fontSize}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onFontSizeChange(Math.min(MAX_FONT_SIZE, fontSize + 2))}
+                  disabled={fontSize >= MAX_FONT_SIZE}
+                  aria-label="Increase reading size"
+                  className={CARD_HEADER_ZOOM_BUTTON}
+                  title="Increase font size"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
+                </button>
+              </div>
+
+              <div data-card-bar className={`t-label ${CARD_HEADER_BAR} gap-1.5`}>
                 {/* First to go when the row is tight: the suggested time is
-                  the least load-bearing of the three (the metrics strip runs a
-                  countdown on the same number), and the question card is at
-                  its narrowest exactly where the corner has least room. */}
+                  the least load-bearing of the three, and the question card is
+                  at its narrowest exactly where the corner has least room. It
+                  is the same number the writing metrics strip counts down from
+                  and the verb guide quotes. */}
                 <span
                   className="hidden 2xl:flex items-center gap-1 opacity-90"
                   title="Suggested time for a question worth these marks"
                 >
-                  <Clock className="w-3 h-3 text-white/70" /> {Math.round(prompt.totalMarks * 1.5)}{' '}
-                  min
+                  <Clock className="w-3 h-3 text-white/70" /> {suggestedMinutes} min
                 </span>
                 <span className="hidden 2xl:block w-px h-2.5 bg-white/20"></span>
                 <span className="flex items-center gap-1 opacity-90">
                   <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} Marks
                 </span>
                 <span className="w-px h-2.5 bg-white/20"></span>
-                <span
-                  className="flex items-center gap-1 font-bold"
-                  title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}.`}
-                >
-                  <Target className="w-3 h-3 text-white/70" /> Band {targetBand}
-                </span>
+                {examMode ? (
+                  <span
+                    className="flex items-center gap-1 font-bold"
+                    title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}.`}
+                  >
+                    <Target className="w-3 h-3 text-white/70" /> Band {targetBand}
+                  </span>
+                ) : (
+                  // The tooltip says what the band is for; a phone has no hover,
+                  // so the same chip opens the verb guide, where the question's
+                  // own marks, length and time are laid out.
+                  <button
+                    type="button"
+                    onClick={onVerbClick}
+                    aria-label={`Band ${targetBand} is the target. See what ${prompt.verb} asks for`}
+                    title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}. Open the guide.`}
+                    className="flex items-center gap-1 font-bold rounded-lg -mx-1 px-1 max-sm:min-h-11 hover:bg-white/10 active:scale-[0.98] transition-colors touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    <Target className="w-3 h-3 text-white/70" aria-hidden="true" /> Band{' '}
+                    {targetBand}
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -1049,9 +1121,18 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         </div>
 
         {/* Outcomes Footer - "The Evidence". A sibling of the scroll region, not
-          a child of it, so the syllabus link, outcome chips and zoom controls
-          stay pinned to the bottom instead of scrolling out of reach when a
-          long scenario overflows. */}
+          a child of it, so the brief button, the outcome chips and the flag stay
+          pinned to the bottom instead of scrolling out of reach when a long
+          scenario overflows.
+
+          Everything here WRAPS, and nothing scrolls. This was one nowrap row of
+          label | scrolling chip strip | flag and reading size, and in two
+          columns, where this card is only ~490px, the strip was left a few
+          pixels: the second outcome chip was clipped to "S…" at the column edge
+          and could only be reached by scrolling a strip with no scrollbar. The
+          chips now flow onto as many lines as they need, so every code is read
+          in full at every width. The reading size left for the header (see the
+          card's corner), which is what freed the width the chips needed. */}
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
@@ -1061,86 +1142,40 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {/* Inner wrapper carries the row layout so its height stays
               content-driven — the outer box is inflated by the synced
               minFooterHeight and cannot be measured. */}
-            <div
-              ref={footerContentRef}
-              className="w-full flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-3"
-            >
-              {/* On phones: label and the flag/zoom controls share the first row
-                and the outcome chips wrap to a full-width second row — two rows,
-                not three. The label may shrink (`min-w-0`) to keep it that way.
-                From sm up it is one row: label | chips | controls. */}
-              <div className="order-1 flex items-center gap-2 sm:gap-4 min-w-0 flex-shrink-0">
+            <div ref={footerContentRef} className="w-full flex items-start gap-3">
+              <div className="flex flex-1 min-w-0 flex-wrap items-center gap-2">
                 {/* The whole label is the entry point, not just the chips. The
                   chips say WHICH outcomes apply; this says what opening them
-                  gets you — a plain-English brief on what the markers want,
-                  worth reading before the first sentence is written. */}
+                  gets you: what the marker is looking for in this question, and
+                  a plain-English brief on the outcomes, worth reading before the
+                  first sentence is written. One chip, at every width: it was a
+                  40px icon tile beside a second bordered label, which was the
+                  widest thing in the row and said "link" twice. */}
                 {linkedOutcomes.length > 0 ? (
                   <button
+                    type="button"
                     onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
-                    title="Open the outcome brief — what this question is assessing, in plain English"
-                    // A resting edge, not a hover-only one. This is a text
-                    // button in a footer of icon buttons and chips, and with
-                    // nothing drawn around it until the pointer arrived it read
-                    // as a caption — on a touch screen, where there is no
-                    // hover at all, it never read as anything else.
-                    className={`flex items-center gap-2 sm:gap-3 group/link rounded-xl pr-2.5 sm:pr-3.5 pl-2 py-1.5 transition-all border ${bandConfig.bg} ${bandConfig.border} hover:brightness-110 active:scale-[0.98]`}
+                    title="Open the outcome brief — what this question is assessing and what the marker is looking for"
+                    className={`${FOOTER_CHIP} gap-2 px-3 ${bandConfig.bg} ${bandConfig.border} ${bandConfig.text} text-xs font-bold hover:brightness-110`}
                   >
-                    {/* Decorative icon tile — the inline Sparkles carries the
-                      "there is something to read here" cue on its own, so the
-                      tile is dropped on phones to buy the row its 44px. */}
-                    <div
-                      className={`
-                                  hidden sm:block p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
-                                  ${bandConfig.bg} ${bandConfig.border} group-hover/link:scale-110
-                              `}
-                    >
-                      <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
-                    </div>
-                    {/* One line, at every width.
-                      This was an eyebrow reading "Before you write" stacked
-                      over "What's assessed" — and the eyebrow was `hidden
-                      xl:block`, because it is the widest element in a footer
-                      row that is tight on a phone and tighter still in the
-                      two-column layout, where this card is only ~380px. So
-                      below 1280px the copy that earns the click was simply
-                      gone. Folding the timing into the label says both things
-                      in one line that is narrower than the pair it replaces,
-                      and it survives on a phone.
-
-                      The glyph is the one the outcome dialog opens on, so the
-                      button and the thing it opens are marked the same. It was
-                      a Sparkles, which said "AI" about a panel whose first
-                      screenful is NESA's own syllabus wording. */}
-                    <span
-                      className={`text-xs font-bold ${bandConfig.text} flex items-center gap-1.5 text-left`}
-                    >
-                      <Target className="w-3 h-3 shrink-0" />
-                      Read before you write
-                    </span>
+                    <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    Read before you write
                   </button>
                 ) : examMode ? null : (
-                  <div className="flex items-center gap-3 group/link">
-                    <div
-                      className={`
-                                  p-2.5 rounded-xl border shadow-sm backdrop-blur-sm transition-all duration-300
-                                  ${bandConfig.bg} ${bandConfig.border} group-hover/link:scale-110
-                              `}
-                    >
-                      <Link2 className={`w-4 h-4 ${bandConfig.text}`} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="t-label text-slate-600 dark:text-slate-400 leading-none mb-1">
-                        Syllabus
-                      </span>
-                      <span className={`t-label ${bandConfig.text}`}>Outcome Link</span>
-                    </div>
-                  </div>
+                  // No `opacity`: a muted tone says "nothing to see" and stays
+                  // readable for whoever needs to read it.
+                  <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">
+                    <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    No outcomes linked
+                  </span>
                 )}
                 {canGenerate && onSuggestOutcomes && !examMode && (
                   <button
+                    type="button"
                     onClick={studioAction(onSuggestOutcomes)}
                     disabled={isSuggestingOutcomes}
-                    className={`p-2 rounded-lg transition-all ${
+                    aria-label="Auto-link outcomes with AI"
+                    className={`flex items-center justify-center size-9 max-sm:size-11 rounded-lg transition-all touch-manipulation ${
                       studioChrome ||
                       'bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'
                     } ${isSuggestingOutcomes ? 'animate-pulse' : 'hover:scale-110'}`}
@@ -1148,99 +1183,42 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   >
                     <Wand2
                       className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`}
+                      aria-hidden="true"
                     />
                   </button>
                 )}
+                {linkedOutcomes.map((outcome) => (
+                  <OutcomeChip
+                    key={outcome.code}
+                    outcome={outcome}
+                    bandConfig={bandConfig}
+                    onOpen={() => handleOutcomeClickInternal(outcome)}
+                  />
+                ))}
               </div>
 
-              {/* One horizontal strip, never a stack. The chips used to take a
-                full-width row of their own beneath the label, which cost the
-                footer a whole extra row for two or three short codes. They now
-                sit inline between the label and the controls and SCROLL
-                sideways when a question links more outcomes than the card is
-                wide — the row height stays fixed either way. Below sm they
-                still drop to their own row, where there is no width to share. */}
-              <div
-                className={`order-3 sm:order-2 w-full sm:w-auto sm:flex-1 min-w-0 flex flex-nowrap items-center gap-2 py-0.5 ${
-                  // Scrolls only when it HOLDS something to scroll. It was
-                  // always a scroller, and with no outcomes linked that left a
-                  // sentence 153px wide clipped inside 102px, with
-                  // `scrollbar-hide` removing the scrollbar and nothing
-                  // focusable inside to tab to — so the only way to read the
-                  // end of "No specific outcomes linked." was a mouse wheel.
-                  // With chips it stays a scroller and needs no tabindex: the
-                  // chips are buttons, so tabbing through them scrolls it.
-                  linkedOutcomes.length > 0 ? 'overflow-x-auto scrollbar-hide' : 'overflow-hidden'
+              <button
+                type="button"
+                onClick={() => setIsFlagModalOpen(true)}
+                aria-label={
+                  hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
+                }
+                className={`shrink-0 flex items-center justify-center size-9 max-sm:size-11 rounded-lg border transition-all touch-manipulation ${
+                  hasOpenFlag
+                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
+                    : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
                 }`}
+                title={
+                  hasOpenFlag
+                    ? 'This question is flagged for review — click to view'
+                    : 'Something off about this question? Flag it for review'
+                }
               >
-                {linkedOutcomes.length > 0 ? (
-                  linkedOutcomes.map((outcome) => (
-                    <OutcomeChip
-                      key={outcome.code}
-                      outcome={outcome}
-                      bandConfig={bandConfig}
-                      onOpen={() => handleOutcomeClickInternal(outcome)}
-                    />
-                  ))
-                ) : examMode ? null : (
-                  // No `opacity` on this one: a muted tone AND a 60% wash on
-                  // top put it under 2.5:1 in the light theme. The tone alone
-                  // says "nothing to see" and stays readable for whoever needs
-                  // to read it.
-                  // `truncate` rather than `whitespace-nowrap`: where the slot
-                  // really is too narrow, an ellipsis says the sentence was cut
-                  // where a hard clip mid-word just looks broken.
-                  <span className="text-xs text-[rgb(var(--color-text-muted))] italic font-medium truncate">
-                    No outcomes linked
-                  </span>
-                )}
-              </div>
-
-              <div className="order-2 sm:order-3 flex items-center gap-2 ml-auto flex-shrink-0">
-                <button
-                  onClick={() => setIsFlagModalOpen(true)}
-                  aria-label={
-                    hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
-                  }
-                  className={`max-sm:size-11 p-1.5 sm:p-2 rounded-lg border transition-all ${
-                    hasOpenFlag
-                      ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:bg-amber-500/25'
-                      : 'bg-black/10 light:bg-slate-200/50 border-white/10 light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-amber-500'
-                  }`}
-                  title={
-                    hasOpenFlag
-                      ? 'This question is flagged for review — click to view'
-                      : 'Something off about this question? Flag it for review'
-                  }
-                >
-                  <Flag className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`} />
-                </button>
-
-                <div className="flex items-center gap-1 bg-black/10 light:bg-slate-200/50 backdrop-blur-xl p-1 rounded-lg border border-white/10 light:border-slate-300 shadow-inner">
-                  <button
-                    onClick={() => onFontSizeChange(Math.max(12, fontSize - 2))}
-                    // Icon-only, so it needs a name of its own: `title` is a
-                    // tooltip, and not every screen reader treats one as the
-                    // accessible name.
-                    aria-label="Decrease reading size"
-                    className="p-1 sm:p-1.5 max-sm:size-11 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
-                    title="Decrease font size"
-                  >
-                    <ZoomOut className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="text-[10px] font-mono font-bold text-[rgb(var(--color-text-muted))] w-6 text-center select-none">
-                    {fontSize}
-                  </span>
-                  <button
-                    onClick={() => onFontSizeChange(Math.min(48, fontSize + 2))}
-                    aria-label="Increase reading size"
-                    className="p-1 sm:p-1.5 max-sm:size-11 text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-white/10 light:hover:bg-black/5 rounded-lg transition-colors"
-                    title="Increase font size"
-                  >
-                    <ZoomIn className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
+                <Flag
+                  className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}
+                  aria-hidden="true"
+                />
+              </button>
             </div>
           </div>
         )}

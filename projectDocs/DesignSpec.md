@@ -252,6 +252,32 @@ state as if it were a DOM state.
 Both concerns arbitrate by stack, matching `useEscapeKey`: only the topmost
 surface acts, because dialogs do open over each other.
 
+### The question card's corner and foot
+
+Two rules, both from the two-column layout, where the question card is only ~490px
+wide at 1280.
+
+- **The foot wraps; it never scrolls.** The brief button ("Read before you write"),
+  the AI auto-link wand and the outcome chips are one `flex-wrap` row, with the flag
+  fixed at the right. It was a nowrap row with a horizontally scrolling chip strip in
+  the middle, and at 1280 the strip was left a few pixels: the second outcome code
+  was clipped to "S…" with no scrollbar to find the rest. Every chip shares
+  `FOOTER_CHIP` (36px, 44px below `sm`, `whitespace-nowrap`), so a code is whole or it
+  moves to the next line. `workspace-chrome.spec.ts` checks every footer button is
+  inside the card, uncut and unscrolled at 1600, 1440, 1280, 1024 and 390.
+- **The reading size lives in the heading's corner.** `CARD_HEADER_CORNER` stacks it
+  (`CARD_HEADER_ZOOM`, 28px) over the stat bar on the header's floor, so the bar is
+  still level with the writing card's across the gap, and the header stays under the
+  96px ceiling. On a phone the corner is one 44px row, reading size left and bar
+  right. In the header it is reachable in Focus Mode, where a footer with no linked
+  outcomes is not drawn at all. The bar is found by `data-card-bar`, not by position.
+
+The info sheets opened from the card take their facts from existing data:
+`QuestionExpectations` states a question's word range (`getFullMarkWordRange`), time
+(`getRecommendedTime`, the figure the metrics strip counts down from) and what a
+full-mark answer holds (`getStructureExpectation`). It is in the outcome brief and the
+verb guide, and is not repeated by either.
+
 ### Radius
 
 Radius is chosen by ROLE, from `theme.extend.borderRadius` in
