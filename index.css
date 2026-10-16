@@ -973,6 +973,35 @@ a:focus-visible,
   );
   color: rgb(2 6 23);
 }
+/*
+ * The model answer's head (`SAMPLE_PAGE_BAR`) is the band solid with its darkest corner
+ * shaded to 4% black, not the shared 8%. At 8% Band 6's purple takes the slate-950 ink to
+ * 4.41:1, under AA; at 4% every band clears 4.5:1 at the corner. It is scoped to the bar,
+ * so the shared gradient (and the gutter, which is centred text) is unchanged.
+ *
+ * The bar is also a size container, so the criterion jump can shorten its label
+ * (`.sample-criterion-*` below) by the width of the head and not the viewport.
+ */
+.sample-page-bar {
+  container-type: inline-size;
+  background-image: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.22) 0%,
+    rgb(255 255 255 / 0) 55%,
+    rgb(0 0 0 / 0.04) 100%
+  );
+}
+.sample-criterion-short {
+  display: none;
+}
+@container (max-width: 30rem) {
+  .sample-criterion-full {
+    display: none;
+  }
+  .sample-criterion-short {
+    display: inline;
+  }
+}
 .band-header-wash {
   background-image: linear-gradient(
     90deg,

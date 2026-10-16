@@ -20,6 +20,7 @@ import {
   LADDER_EMPTY,
   LADDER_FALLBACK,
   LADDER_FILL,
+  LADDER_LINKED,
   LADDER_MODEL_ANSWER,
   LADDER_STACK,
   LADDER_TOOL,
@@ -50,6 +51,20 @@ interface MarkingCriteriaAccordionProps {
    *  and the band line. */
   embedded?: boolean;
 }
+
+/**
+ * Plays a linked row's pulse again. The pulse is a CSS animation, and it runs once each
+ * time the row takes it: a row that is already linked keeps its finished animation, so a
+ * jump to it from the exemplar would not show anything. Clearing the animation and reading
+ * layout before restoring it starts it from the top, and clearing the inline value hands
+ * it back to the stylesheet, so nothing is left behind on the row.
+ */
+const replayLinkedPulse = (row: HTMLElement): void => {
+  if (!row.classList.contains(LADDER_LINKED)) return;
+  row.style.animation = 'none';
+  void row.offsetWidth;
+  row.style.animation = '';
+};
 
 const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   prompt,
@@ -129,6 +144,9 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
     const bringIntoView = () => {
       el.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
       el.focus({ preventScroll: true });
+      // Reduced motion keeps the row still: its pulse is stilled by the stylesheet, and
+      // there is nothing to replay.
+      if (!reduceMotion) replayLinkedPulse(el);
     };
     // The panel that holds the guide opens on the same request, and it grows over half
     // a second. While it is still shut the row has no position to scroll to, so the

@@ -5,6 +5,8 @@ import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { KEYWORD_HIGHLIGHT_CLASS, VERB_HIGHLIGHT_CLASS } from '../../utils/renderUtils';
 import { LADDER_SOLID } from '../../utils/ladderChrome';
 import {
+  SAMPLE_CRITERION_LABEL_FULL,
+  SAMPLE_CRITERION_LABEL_SHORT,
   SAMPLE_CRITERION_LINK,
   SAMPLE_NOTE_TEXT,
   SAMPLE_PAGE,
@@ -172,7 +174,11 @@ describe('the paper’s head jumps to the marking criterion in the Marking Guide
       .firstElementChild as HTMLElement;
     const button = within(bar).getByRole('button', { name: 'View marking criterion for 4 marks' });
     expect(button.className).toBe(SAMPLE_CRITERION_LINK);
-    expect(button.textContent).toBe('View marking criterion');
+    // Two labels, one shown at a time by the head's width (index.css); the name is the aria-label.
+    const full = button.querySelector(`.${SAMPLE_CRITERION_LABEL_FULL}`);
+    const short = button.querySelector(`.${SAMPLE_CRITERION_LABEL_SHORT}`);
+    expect(full?.textContent).toBe('View marking criterion');
+    expect(short?.textContent).toBe('Criterion');
     expect(button.querySelector('svg.lucide-list-checks')).toBeTruthy();
     expect(button.getAttribute('type')).toBe('button');
   });

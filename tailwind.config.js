@@ -61,7 +61,7 @@ export default {
       //   loading           │ 2000 │ global full-screen loading overlay
       //   profile           │ 2000 │ co-tier: user profile modal
       //   focus-editor      │ 2100 │ focus-area editor modal
-      //   critical          │ 2200 │ confirmation / rename / flag — out-ranks all
+      //   critical          │ 2200 │ confirmation / rename — out-ranks all
       //
       // NOT in this scale (deliberately kept as local values):
       //   • AiBusyOverlay's `z` prop (default standard `z-50`, one call site

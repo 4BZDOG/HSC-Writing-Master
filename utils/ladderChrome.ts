@@ -138,7 +138,8 @@ export const LADDER_MODEL_ANSWER =
 
 /** A guide row while it is LINKED to the exemplar the student has open in the Sample
  *  Answers panel: the row's outline in the band's full hue, a halo round it and a lift
- *  of shadow, with a single settling pulse the moment it is linked (`ladder-linked` in
+ *  of shadow, with a single settling pulse the moment it is linked, and again each time
+ *  the exemplar's "View marking criterion" brings it into view (`ladder-linked` in
  *  `index.css`, which is where the band alpha lives; the pulse is neutralised by the
  *  reduced-motion rule there). It is added to the row alongside its own fill and edge,
  *  and it is gone the moment the exemplar closes. Painted on the row's own border and
