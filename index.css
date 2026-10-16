@@ -871,7 +871,9 @@ a:focus-visible,
 [data-theme='light'] .sample-row.band-edge-strong {
   border-color: rgb(var(--band-rgb) / 1);
 }
-[data-theme='light'] .sample-row > .band-solid {
+/* `:is()` keeps the stylesheet's tests (bandColors, feedbackChrome) finding the real
+   `.band-solid {` rule first: they read the first match of that text. */
+[data-theme='light'] .sample-row > :is(.band-solid) {
   border-right-color: rgb(15 23 42 / 0.3);
 }
 [data-theme='light'] .sample-paper {
