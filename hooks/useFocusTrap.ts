@@ -106,8 +106,8 @@ export const focusTrapCompanion = { [FOCUS_TRAP_COMPANION_ATTRIBUTE]: '' } as co
 /**
  * Is this control painted on top, as opposed to sitting under a scrim?
  *
- * The toast ranks below the confirm, rename and flag dialogs (z 2200 against
- * 1350), so a toast raised over one of those is hidden by it. Offering its
+ * The toast ranks below the confirm and rename dialogs (z 2200 against 1350),
+ * so a toast raised over one of those is hidden by it. Offering its
  * buttons to Tab there would put focus on a control nobody can see, and Enter
  * would press "Undo" blind. Asking the browser what is actually painted at the
  * control's centre answers that without this hook needing to know the z-index

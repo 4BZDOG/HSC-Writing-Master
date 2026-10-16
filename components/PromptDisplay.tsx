@@ -65,6 +65,7 @@ import AiBusyOverlay from './AiBusyOverlay';
 import FlagContentModal from './FlagContentModal';
 import { TERM_CHIP_RESTING } from '../utils/termChrome';
 import { withIndefiniteArticle } from '../utils/grammar';
+import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -125,10 +126,6 @@ const MeshOverlay = ({
     }}
   />
 );
-
-/** The reading size's range, in px. The sample answers use the same floor. */
-const MIN_FONT_SIZE = 12;
-const MAX_FONT_SIZE = 48;
 
 /**
  * A chip in the card's footer: the "Read before you write" button and each
@@ -685,8 +682,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <div role="group" aria-label="Reading size" className={CARD_HEADER_ZOOM}>
                 <button
                   type="button"
-                  onClick={() => onFontSizeChange(Math.max(MIN_FONT_SIZE, fontSize - 2))}
-                  disabled={fontSize <= MIN_FONT_SIZE}
+                  onClick={() => onFontSizeChange(stepReadingSize(fontSize, -1))}
+                  disabled={!canStepReadingSize(fontSize, -1)}
                   // Icon-only, so it needs a name of its own: `title` is a
                   // tooltip, and not every screen reader treats one as the
                   // accessible name.
@@ -704,8 +701,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </span>
                 <button
                   type="button"
-                  onClick={() => onFontSizeChange(Math.min(MAX_FONT_SIZE, fontSize + 2))}
-                  disabled={fontSize >= MAX_FONT_SIZE}
+                  onClick={() => onFontSizeChange(stepReadingSize(fontSize, 1))}
+                  disabled={!canStepReadingSize(fontSize, 1)}
                   aria-label="Increase reading size"
                   className={CARD_HEADER_ZOOM_BUTTON}
                   title="Increase font size"

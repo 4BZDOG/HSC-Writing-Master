@@ -44,6 +44,8 @@ import {
   SAMPLE_CAROUSEL_COUNT,
   SAMPLE_COMMENTARY,
   SAMPLE_COMMENTARY_HEAD,
+  SAMPLE_CRITERION_LABEL_FULL,
+  SAMPLE_CRITERION_LABEL_SHORT,
   SAMPLE_CRITERION_LINK,
   SAMPLE_EMPTY,
   SAMPLE_LOCKED,
@@ -80,6 +82,7 @@ import SampleAnswerEditorModal from './SampleAnswerEditorModal';
 import RecalibrateSamplesModal from './RecalibrateSamplesModal';
 import ConfirmationModal from './ConfirmationModal';
 import FlagContentModal from './FlagContentModal';
+import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 import {
   ChevronDown,
   FileText,
@@ -645,7 +648,14 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                             className={SAMPLE_CRITERION_LINK}
                           >
                             <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                            View marking criterion
+                            {/* Both labels are in the DOM; the head's width picks one. The
+                                aria-label above names the full jump at every width. */}
+                            <span className={SAMPLE_CRITERION_LABEL_FULL}>
+                              View marking criterion
+                            </span>
+                            <span className={SAMPLE_CRITERION_LABEL_SHORT} aria-hidden="true">
+                              Criterion
+                            </span>
                           </button>
                         )}
                       </div>
@@ -1027,8 +1037,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         <div className={SAMPLE_ZOOM}>
           <button
             type="button"
-            onClick={() => setFontSize(Math.max(12, fontSize - 2))}
-            disabled={fontSize <= 12}
+            onClick={() => setFontSize(stepReadingSize(fontSize, -1))}
+            disabled={!canStepReadingSize(fontSize, -1)}
             className={SAMPLE_ZOOM_BUTTON}
             title="Decrease text size"
           >
@@ -1037,8 +1047,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
           <span className={SAMPLE_ZOOM_VALUE}>{fontSize}</span>
           <button
             type="button"
-            onClick={() => setFontSize(Math.min(32, fontSize + 2))}
-            disabled={fontSize >= 32}
+            onClick={() => setFontSize(stepReadingSize(fontSize, 1))}
+            disabled={!canStepReadingSize(fontSize, 1)}
             className={SAMPLE_ZOOM_BUTTON}
             title="Increase text size"
           >

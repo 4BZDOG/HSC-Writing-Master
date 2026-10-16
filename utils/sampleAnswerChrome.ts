@@ -133,9 +133,11 @@ export const SAMPLE_PAGE =
  *  jump to its criterion, on the band's solid fill (`LADDER_SOLID`, added at the call
  *  site), the same bold heading the criterion zone used to carry. The ink is the
  *  solid's own near-black, which holds AA on all six hues in both themes, so no colour
- *  is set here beyond the hairline beneath it. Painted on the band's solid fill. */
+ *  is set here beyond the hairline beneath it. `sample-page-bar` in `index.css` shades
+ *  its darkest corner less than the shared solid does, and makes the head a size
+ *  container for the jump's label. Painted on the band's solid fill. */
 export const SAMPLE_PAGE_BAR =
-  'flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-slate-900/25 px-4 py-2.5 sm:px-6 dark:border-black/40';
+  'sample-page-bar flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-slate-900/25 px-4 py-2.5 sm:px-6 dark:border-black/40';
 
 /** A figure on the paper's head (the word count): a caption-sized tabular figure. It
  *  sets no colour, so it takes the solid's near-black ink. Painted on the band's solid
@@ -156,6 +158,17 @@ export const SAMPLE_PAGE_BAR_CHIP =
  *  phone, which is the touch target. Painted on the band's solid fill. */
 export const SAMPLE_CRITERION_LINK =
   't-label ml-auto inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-full border border-slate-900/45 bg-white/80 text-slate-900 shadow-sm dark:border-slate-900/45 dark:bg-white/80 dark:text-slate-900 can-hover:hover:bg-white dark:can-hover:hover:bg-white transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/70 dark:focus-visible:ring-slate-900/70';
+
+/** The full visible label of the criterion jump, shown above 480px of head. The button's
+ *  `aria-label` names it in full for every width, so a screen reader is not given the
+ *  short label. Painted on the white pill. */
+export const SAMPLE_CRITERION_LABEL_FULL = 'sample-criterion-full';
+
+/** The short visible label, shown when the head is 480px or narrower (`index.css`
+ *  swaps the two in a container query, which a viewport breakpoint cannot do for a
+ *  column that sits in a rail). It is the word the label names, so it stays in the
+ *  full accessible name. Painted on the white pill. */
+export const SAMPLE_CRITERION_LABEL_SHORT = 'sample-criterion-short';
 
 /** The paper's foot: the keyword figure and the actions, on a strip attached to the
  *  paper's bottom edge, so the toolbar belongs to the answer and not to the commentary
