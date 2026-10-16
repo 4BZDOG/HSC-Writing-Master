@@ -20,7 +20,7 @@ import {
   RIBBON_MINI_STAIR,
 } from '../../utils/verbRibbonChrome';
 import * as sampleAnswerChrome from '../../utils/sampleAnswerChrome';
-import { getBandConfig, getBandRgb } from '../../utils/renderUtils';
+import { BAND_HEX, getBandConfig, getBandRgb } from '../../utils/renderUtils';
 import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
 import type { Prompt, PromptVerb, SampleAnswer, UserRole } from '../../types';
 
@@ -846,5 +846,50 @@ describe('the paper’s head and the light-theme boosts are wired to their style
     const value = sampleAnswerChrome.SAMPLE_CRITERION_LINK;
     expect(value).toMatch(/(^|\s)min-h-11(\s|$)/);
     expect(value).toContain('sm:min-h-0');
+  });
+
+  it('shortens the jump’s label where the head is 480px or narrower, and keeps the full name', () => {
+    expect(sampleAnswerChrome.SAMPLE_PAGE_BAR.split(/\s+/)).toContain('sample-page-bar');
+    // The head is the size container. The swap is a container query, not a viewport one,
+    // because the panel sits in a column that the viewport's width does not measure.
+    expect(/\.sample-page-bar\s*\{([^}]*)\}/.exec(css)?.[1]).toContain(
+      'container-type: inline-size'
+    );
+    expect(css).toMatch(/\.sample-criterion-short\s*\{\s*display:\s*none;\s*\}/);
+    expect(css).toMatch(
+      /@container \(max-width: 30rem\)\s*\{\s*\.sample-criterion-full\s*\{\s*display:\s*none;\s*\}\s*\.sample-criterion-short\s*\{\s*display:\s*inline;\s*\}\s*\}/
+    );
+  });
+
+  it('shades the head’s darkest corner so the ink clears AA on every band there', () => {
+    // `band-solid`'s own corner is shaded 8% black, which takes Band 6's purple under the
+    // slate-950 ink to 4.41:1. The head's rule shades less, and this reads that back.
+    const luminance = ([r, g, b]: number[]): number => {
+      const [R, G, B] = [r, g, b].map((v) => {
+        const c = v / 255;
+        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+    };
+    const contrastOf = (a: number[], b: number[]): number => {
+      const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (hi + 0.05) / (lo + 0.05);
+    };
+    const shade = Number(
+      /rgb\(0 0 0 \/ ([\d.]+)\) 100%/.exec(/\.sample-page-bar\s*\{([^}]*)\}/.exec(css)![1])![1]
+    );
+    const ink = /color:\s*rgb\((\d+) (\d+) (\d+)\)/
+      .exec(/\.band-solid\s*\{([^}]*)\}/.exec(css)![1])!
+      .slice(1)
+      .map(Number);
+    expect(ink).toEqual([2, 6, 23]);
+    for (const [band, hex] of Object.entries(BAND_HEX)) {
+      const n = parseInt(hex.slice(1), 16);
+      const base = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      const corner = base.map((c) => c * (1 - shade));
+      expect(contrastOf(ink, corner), `band ${band} at the head's corner`).toBeGreaterThanOrEqual(
+        4.5
+      );
+    }
   });
 });

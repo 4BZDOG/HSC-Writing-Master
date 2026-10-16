@@ -44,6 +44,8 @@ import {
   SAMPLE_CAROUSEL_COUNT,
   SAMPLE_COMMENTARY,
   SAMPLE_COMMENTARY_HEAD,
+  SAMPLE_CRITERION_LABEL_FULL,
+  SAMPLE_CRITERION_LABEL_SHORT,
   SAMPLE_CRITERION_LINK,
   SAMPLE_EMPTY,
   SAMPLE_LOCKED,
@@ -645,7 +647,14 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                             className={SAMPLE_CRITERION_LINK}
                           >
                             <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                            View marking criterion
+                            {/* Both labels are in the DOM; the head's width picks one. The
+                                aria-label above names the full jump at every width. */}
+                            <span className={SAMPLE_CRITERION_LABEL_FULL}>
+                              View marking criterion
+                            </span>
+                            <span className={SAMPLE_CRITERION_LABEL_SHORT} aria-hidden="true">
+                              Criterion
+                            </span>
                           </button>
                         )}
                       </div>

@@ -369,6 +369,61 @@ describe('an exemplar’s "View marking criterion" takes the student to the guid
     }
   });
 
+  /** Records the inline animation of `row` each time layout is read on it during `press`. */
+  const readsOf = (row: HTMLElement, press: () => void): string[] => {
+    const seen: string[] = [];
+    const spy = vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function (
+      this: HTMLElement
+    ) {
+      if (this === row) seen.push(this.style.animation);
+      return 0;
+    });
+    try {
+      press();
+    } finally {
+      spy.mockRestore();
+    }
+    return seen;
+  };
+
+  it('plays the linked pulse again when the jump brings an already-lit row into view', () => {
+    renderBoth(prompt);
+    fireEvent.click(guideToggle());
+    fireEvent.click(samplesToggle());
+    fireEvent.click(levelOf(4));
+    const row = guideRowFor('4');
+    expect(row.className).toContain('ladder-linked');
+
+    const seen = readsOf(row, () => fireEvent.click(jumpButton()));
+    // The animation is cleared, the layout is read so the clear takes, and the stylesheet's
+    // pulse is handed back: the row starts its pulse again from the top.
+    expect(seen).toContain('none');
+    expect(row.style.animation).toBe('');
+  });
+
+  it('does not replay the pulse for a student who prefers reduced motion', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn().mockImplementation(() => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }))
+    );
+    try {
+      renderBoth(prompt);
+      fireEvent.click(guideToggle());
+      fireEvent.click(samplesToggle());
+      fireEvent.click(levelOf(4));
+      const row = guideRowFor('4');
+      const seen = readsOf(row, () => fireEvent.click(jumpButton()));
+      expect(seen).not.toContain('none');
+      expect(row.style.animation).toBe('');
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('answers a request made from outside the exemplar row, by name and by mark', () => {
     renderBoth(prompt);
     fireEvent.click(guideToggle());
