@@ -1070,6 +1070,8 @@ a:focus-visible,
   --col-glow: 0.7;
   --hatch-fill: 0.13;
   --hatch-edge: 0.3;
+  --line-soft: 0.1;
+  --line-mid: 0.35;
 }
 [data-theme='light'] .ribbon-stage {
   --stage-ground: 248 250 252;
@@ -1081,18 +1083,20 @@ a:focus-visible,
   --aura-wash: 0.03;
   --aura-1: 0.3;
   --aura-2: 0.035;
-  --verb-glow: 0.28;
-  --rule-glow: 0.45;
-  --stage-glow: 0.45;
-  --chip-fill: 0.2;
-  --chip-edge: 0.7;
-  --col-lo: 0.5;
+  --verb-glow: 0.4;
+  --rule-glow: 0.6;
+  --stage-glow: 0.6;
+  --chip-fill: 0.3;
+  --chip-edge: 0.9;
+  --col-lo: 0.6;
   --col-hi: 1;
-  --col-cur-lo: 0.65;
+  --col-cur-lo: 0.75;
   --col-cur-hi: 1;
-  --col-glow: 0.5;
-  --hatch-fill: 0.11;
-  --hatch-edge: 0.32;
+  --col-glow: 0.65;
+  --hatch-fill: 0.2;
+  --hatch-edge: 0.55;
+  --line-soft: 0.28;
+  --line-mid: 0.55;
 }
 .ribbon-stage-hue {
   --band-text: var(--band-rgb);
@@ -1104,7 +1108,10 @@ a:focus-visible,
      banner above a soft sheet is joined by the one thing that says whose tier it
      is. A property of the hue and not of the palette, because it reads
      `--band-rgb`. Nothing in the dark theme, where the banner is the stage. */
-  --stage-rule: rgb(var(--band-rgb) / 0.85);
+  --stage-rule: rgb(var(--band-rgb) / 1);
+  /* The stage's own edge, in the tier's hue and not slate, so the panel is tier-coloured
+     where it meets the page and not only in its glow. */
+  border-color: rgb(var(--band-rgb) / 0.7);
 }
 
 /*
