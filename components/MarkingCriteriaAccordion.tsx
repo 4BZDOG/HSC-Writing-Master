@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useId, useCallback } from 'react';
 import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
@@ -27,11 +27,16 @@ import {
   LADDER_TOOL_LOCKED,
 } from '../utils/ladderChrome';
 import {
+  criterionForMark,
   exemplarMarkForItem,
   isBandLabelled,
   parseMarkingCriteria,
 } from '../utils/markingGuideParse';
-import { requestOpenExemplar } from '../utils/ladderLink';
+import {
+  requestOpenExemplar,
+  useLinkedExemplar,
+  useOpenCriterionRequest,
+} from '../utils/ladderLink';
 import { PANEL_NAME } from './PanelDisclosure';
 
 interface MarkingCriteriaAccordionProps {
@@ -86,6 +91,56 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
     [markingCriteria, prompt.totalMarks, commandTermInfo.tier]
   );
   const sampleAnswers = prompt.sampleAnswers ?? [];
+
+  // The exemplar the student has open in the Sample Answers panel, if any, and the
+  // guide row that holds its mark: that row is drawn as linked, with a ring and a
+  // badge. The hook reads the last announcement for this question on mount, so a
+  // guide that mounts after the exemplar opened still shows the link.
+  const linkedMark = useLinkedExemplar(prompt.id);
+  const rowFor = useCallback(
+    (mark: number) =>
+      criterionForMark(
+        parsedCriteria,
+        mark,
+        getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier)
+      ),
+    [parsedCriteria, prompt.totalMarks, commandTermInfo.tier]
+  );
+  const linkedItem = useMemo(
+    () => (linkedMark === null ? undefined : rowFor(linkedMark)),
+    [linkedMark, rowFor]
+  );
+
+  // The rows' elements by position, so an exemplar's "View marking criterion" can
+  // bring the matching row into view and move focus to it.
+  const rowId = useId();
+  const rowEls = useRef(new Map<number, HTMLDivElement>());
+  const jumpTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(jumpTimer.current), []);
+
+  useOpenCriterionRequest(prompt.id, (mark) => {
+    const target = rowFor(mark);
+    const index = target ? parsedCriteria.indexOf(target) : -1;
+    const el = index >= 0 ? rowEls.current.get(index) : undefined;
+    if (!el) return;
+    const reduceMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const bringIntoView = () => {
+      el.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+      el.focus({ preventScroll: true });
+    };
+    // The panel that holds the guide opens on the same request, and it grows over half
+    // a second. While it is still shut the row has no position to scroll to, so the
+    // jump waits for the panel to finish opening.
+    const panelIsShut = el.closest('[inert]') !== null;
+    window.clearTimeout(jumpTimer.current);
+    if (panelIsShut) {
+      jumpTimer.current = window.setTimeout(bringIntoView, reduceMotion ? 50 : 560);
+    } else {
+      bringIntoView();
+    }
+  });
 
   const handleSave = () => {
     onSave(editText);
@@ -259,6 +314,12 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                   // LadderRow, the one place a band's fill and ink come from.
                   <LadderRow
                     key={idx}
+                    id={`${rowId}-criterion-${idx}`}
+                    rowRef={(el) => {
+                      if (el) rowEls.current.set(idx, el);
+                      else rowEls.current.delete(idx);
+                    }}
+                    linked={item === linkedItem}
                     band={item.band}
                     markLabel={isBandLabelled(item) ? String(item.markRange[0]) : item.markLabel}
                     total={prompt.totalMarks}

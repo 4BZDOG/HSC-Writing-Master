@@ -1,4 +1,5 @@
 import React from 'react';
+import { BookOpen } from 'lucide-react';
 import { getBandConfig, getBandRgb } from '../utils/renderUtils';
 import {
   LADDER_BODY,
@@ -14,6 +15,8 @@ import {
   LADDER_GUTTER_MARK_MEDIUM,
   LADDER_GUTTER_TOTAL,
   LADDER_GUTTER_TOTAL_LONG,
+  LADDER_LINKED,
+  LADDER_LINKED_BADGE,
   LADDER_ROW,
   LADDER_SOLID,
 } from '../utils/ladderChrome';
@@ -118,6 +121,14 @@ export interface LadderRowProps {
   edge?: LadderEdge;
   /** The quiet row: the band's wash in place of its full fill, with a quiet gutter. */
   quiet?: boolean;
+  /** The row is the criterion of the exemplar the student has open: it is outlined in
+   *  its band, haloed, and carries a badge that says so. */
+  linked?: boolean;
+  /** The row's DOM id, for the jump from an exemplar to its criterion. */
+  id?: string;
+  /** The row's element, so the guide can scroll to it and move focus to it. A row
+   *  that takes a ref is also focusable by script (not by Tab). */
+  rowRef?: React.Ref<HTMLDivElement>;
 }
 
 const LadderRow: React.FC<LadderRowProps> = ({
@@ -129,10 +140,25 @@ const LadderRow: React.FC<LadderRowProps> = ({
   footer,
   edge = 'shut',
   quiet = false,
+  linked = false,
+  id,
+  rowRef,
 }) => (
   <div
+    id={id}
+    ref={rowRef}
+    tabIndex={rowRef ? -1 : undefined}
+    data-linked={linked ? 'true' : undefined}
     style={ladderBandVars(band)}
-    className={`${LADDER_ROW} ${edgeClass(edge)} ${quiet ? LADDER_FILL_QUIET : LADDER_FILL}`}
+    className={[
+      LADDER_ROW,
+      edgeClass(edge),
+      quiet ? LADDER_FILL_QUIET : LADDER_FILL,
+      linked ? LADDER_LINKED : '',
+      rowRef ? 'focus:outline-none' : '',
+    ]
+      .filter(Boolean)
+      .join(' ')}
   >
     <LadderRowGutter
       band={band}
@@ -143,6 +169,12 @@ const LadderRow: React.FC<LadderRowProps> = ({
       quiet={quiet}
     />
     <div className={LADDER_BODY}>
+      {linked && (
+        <p className={LADDER_LINKED_BADGE}>
+          <BookOpen className="w-3 h-3 shrink-0" aria-hidden="true" />
+          Matches the model answer you are reading
+        </p>
+      )}
       {children}
       {footer && <div className={LADDER_FOOTER}>{footer}</div>}
     </div>

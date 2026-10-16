@@ -6,7 +6,6 @@ import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { AccordionSection } from './ReferenceMaterials';
 import { LadderRowGutter, ladderBandVars } from './LadderRow';
 import {
-  LADDER_CRITERION,
   LADDER_DISCLOSURE,
   LADDER_EDGE_OPEN,
   LADDER_EDGE_SHUT,
@@ -25,7 +24,13 @@ import {
   questionCeilingBand,
   type MarkingCriteriaItem,
 } from '../utils/markingGuideParse';
-import { nearestExemplarMark, useOpenExemplarRequest } from '../utils/ladderLink';
+import {
+  announceLinkedExemplar,
+  clearLinkedExemplar,
+  nearestExemplarMark,
+  requestOpenCriterion,
+  useOpenExemplarRequest,
+} from '../utils/ladderLink';
 import {
   SAMPLE_ACTION,
   SAMPLE_ACTION_DIVIDER,
@@ -39,6 +44,7 @@ import {
   SAMPLE_CAROUSEL_COUNT,
   SAMPLE_COMMENTARY,
   SAMPLE_COMMENTARY_HEAD,
+  SAMPLE_CRITERION_LINK,
   SAMPLE_EMPTY,
   SAMPLE_LOCKED,
   SAMPLE_LOCKED_CTA,
@@ -46,6 +52,8 @@ import {
   SAMPLE_NOTE_TOGGLE,
   SAMPLE_PAGE,
   SAMPLE_PAGE_BAR,
+  SAMPLE_PAGE_BAR_CHIP,
+  SAMPLE_PAGE_BAR_FIGURE,
   SAMPLE_PAGE_FOOT,
   SAMPLE_PAGE_TEXT,
   SAMPLE_PICKER,
@@ -56,16 +64,14 @@ import {
   SAMPLE_ROW_FIGURE,
   SAMPLE_ROW_HEAD,
   SAMPLE_ROW_META,
+  SAMPLE_ROW,
   SAMPLE_ROW_PREVIEW,
   SAMPLE_TOOLS,
   SAMPLE_ZONES,
   SAMPLE_ZOOM,
   SAMPLE_ZOOM_BUTTON,
   SAMPLE_ZOOM_VALUE,
-  ZONE_CRITERION,
-  ZONE_CRITERION_BODY,
   ZONE_FIGURE,
-  ZONE_HEAD,
   ZONE_LABEL,
 } from '../utils/sampleAnswerChrome';
 import SampleAnswerGeneratorModal from './SampleAnswerGeneratorModal';
@@ -200,10 +206,13 @@ const FLAG_ACTIVE =
  *  carries the student's structure and voice, so it is read (and trusted)
  *  differently from a clean-room AI exemplar, and gets its own tone rather than
  *  being filed under the same grey "AI Model" chip. */
-const SourceBadge: React.FC<Pick<SampleAnswer, 'source' | 'derivedFromStudent'>> = ({
-  source,
-  derivedFromStudent,
-}) => {
+const SourceBadge: React.FC<
+  Pick<SampleAnswer, 'source' | 'derivedFromStudent'> & {
+    /** On the model answer's solid band head, where the tinted tones would sit on a
+     *  colour of their own: a white pill with slate ink holds its contrast on all six. */
+    onSolid?: boolean;
+  }
+> = ({ source, derivedFromStudent, onSolid = false }) => {
   const isUser = source === 'USER';
   const isHsc = source === 'HSC_EXEMPLAR';
   const isUpgrade = source === 'AI' && !!derivedFromStudent;
@@ -227,7 +236,7 @@ const SourceBadge: React.FC<Pick<SampleAnswer, 'source' | 'derivedFromStudent'>>
         : 'Written by the AI from the question and rubric';
 
   return (
-    <span title={title} className={`${CHIP} ${tone}`}>
+    <span title={title} className={`${CHIP} ${onSolid ? SAMPLE_PAGE_BAR_CHIP : tone}`}>
       {isUpgrade ? (
         <span className="inline-flex items-center gap-0.5">
           <UserIcon className="w-2.5 h-2.5" aria-hidden="true" />
@@ -247,10 +256,13 @@ const SourceBadge: React.FC<Pick<SampleAnswer, 'source' | 'derivedFromStudent'>>
  * open side by side.
  *
  * Shut, the whole body is one disclosure button: the source, the length and the
- * opening of the exemplar. Open, the body is three labelled zones read top to
- * bottom: the criterion that earns the mark (a solid head over the band wash), the
- * answer on its paper with the exemplar selector above it, and the marker's
- * commentary, which sits outside the paper on the desk.
+ * opening of the exemplar. Open, the body is two labelled zones read top to bottom:
+ * the answer on its paper with the exemplar selector above it (the paper's head is
+ * the band's solid bar, with a jump to the criterion in the Marking Guide), and the
+ * marker's commentary, which sits outside the paper on the desk.
+ *
+ * While a row is open it tells the Marking Guide so, and the guide lights the
+ * criterion this mark answers to. The criterion itself is not repeated here.
  */
 interface ExemplarRowProps {
   group: GroupedSampleAnswers;
@@ -313,6 +325,17 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
       showAllVariants || currentIndex >= VISIBLE_VARIANTS
         ? group.answers
         : group.answers.slice(0, VISIBLE_VARIANTS);
+
+    // An open row is the exemplar the student is reading, so the Marking Guide is told
+    // which mark that is and lights its criterion. The cleanup runs when the row shuts,
+    // when the panel folds (the rows unmount) and when the question changes.
+    const promptId = prompt.id;
+    const groupMark = group.mark;
+    useEffect(() => {
+      if (!isOpen) return undefined;
+      announceLinkedExemplar(promptId, groupMark);
+      return () => clearLinkedExemplar(promptId, groupMark);
+    }, [isOpen, promptId, groupMark]);
 
     useEffect(() => {
       if (currentIndex >= group.answers.length && group.answers.length > 0) {
@@ -413,7 +436,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
       <div
         data-exemplar-row
         style={ladderBandVars(displayBand)}
-        className={`${LADDER_ROW} ${isOpen ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT} ${LADDER_FILL}`}
+        className={`${LADDER_ROW} ${isOpen ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT} ${LADDER_FILL} ${SAMPLE_ROW}`}
       >
         <LadderRowGutter
           band={displayBand}
@@ -521,36 +544,9 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
             <div className="overflow-hidden min-h-0">
               <div className={LADDER_PANE}>
                 <div className={SAMPLE_ZONES}>
-                  {/* Zone one: what the guide asks for at this level. It is the guide's
-                      own row, lifted out: the band's solid head, then the criterion on
-                      the band wash. Nothing is drawn when the guide has no row. */}
-                  {criterion && (
-                    <div
-                      role="group"
-                      aria-label="Marking criterion"
-                      className={`${ZONE_CRITERION} ${LADDER_EDGE_OPEN}`}
-                    >
-                      <div className={`${ZONE_HEAD} ${LADDER_SOLID}`}>
-                        <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                        <span className={ZONE_LABEL}>Marking criterion</span>
-                        <span className={ZONE_FIGURE} aria-hidden="true">
-                          ·
-                        </span>
-                        <span className={ZONE_FIGURE}>
-                          {group.mark}/{prompt.totalMarks}
-                        </span>
-                      </div>
-                      <div className={ZONE_CRITERION_BODY}>
-                        <div className={LADDER_CRITERION}>
-                          {renderFormattedText(criterion.description, prompt.keywords, prompt.verb)}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Zone two: the answer. The selector sits above the paper because it
+                  {/* Zone one: the answer. The selector sits above the paper because it
                       chooses which paper is shown, and the paper is the centre of the
-                      row. The paper is labelled on its own top edge, and its foot holds
+                      row. The paper is headed by the band's solid bar, and its foot holds
                       the metrics and the actions, so they belong to the answer. */}
                   <div role="group" aria-label="Model answer" className={SAMPLE_ANSWER}>
                     {hasPicker && (
@@ -607,30 +603,51 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       aria-labelledby={hasPicker ? `${pickerId}-tab-${currentIndex}` : undefined}
                       className={SAMPLE_PAGE}
                     >
-                      {/* The length, the source and the lock are named once: in the
-                          header while the row is shut, and here on the paper while it is
-                          open. The open body stays mounted through its collapse, so
-                          this bar would otherwise repeat the header's figures. */}
-                      <div className={SAMPLE_PAGE_BAR}>
-                        <span className={ZONE_LABEL}>Model answer</span>
+                      {/* The paper's head: the band's solid bar, the same bold heading the
+                          criterion used to carry. The length, the source and the lock are
+                          named once: in the header while the row is shut, and here while it
+                          is open. The open body stays mounted through its collapse, so this
+                          bar would otherwise repeat the header's figures. The jump to the
+                          criterion is drawn only when the guide has a row for this level. */}
+                      <div className={`${SAMPLE_PAGE_BAR} ${LADDER_SOLID}`}>
+                        <span className="flex items-center gap-2">
+                          <span className={ZONE_LABEL}>Model answer</span>
+                          <span className={ZONE_FIGURE} aria-hidden="true">
+                            ·
+                          </span>
+                          <span className={ZONE_FIGURE}>
+                            {group.mark}/{prompt.totalMarks}
+                          </span>
+                        </span>
                         {isOpen &&
                           (locked ? (
-                            <span
-                              className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
-                            >
+                            <span className={`${CHIP} ${SAMPLE_PAGE_BAR_CHIP}`}>
                               <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
                             </span>
                           ) : (
                             <>
-                              <span className={SAMPLE_ROW_FIGURE}>
+                              <span className={SAMPLE_PAGE_BAR_FIGURE}>
                                 {countWords(currentSample.answer)} words
                               </span>
                               <SourceBadge
                                 source={currentSample.source}
                                 derivedFromStudent={currentSample.derivedFromStudent}
+                                onSolid
                               />
                             </>
                           ))}
+                        {criterion && (
+                          <button
+                            type="button"
+                            onClick={() => requestOpenCriterion(prompt.id, group.mark)}
+                            aria-label={`View marking criterion for ${group.mark} ${group.mark === 1 ? 'mark' : 'marks'}`}
+                            title="Open this level in the Marking Guide"
+                            className={SAMPLE_CRITERION_LINK}
+                          >
+                            <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                            View marking criterion
+                          </button>
+                        )}
                       </div>
 
                       {locked ? (
@@ -777,10 +794,12 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                     </div>
                   </div>
 
-                  {/* Zone three: the marker's commentary. It sits outside the paper, on
-                      the desk, with a solid band bar down its edge. The notes fold away
-                      from the reader's own toggle. A locked exemplar shows no notes: the
-                      lock covers the commentary as much as the text. */}
+                  {/* Zone two: the marker's commentary. It sits outside the paper, on the
+                      desk, with a solid band bar down its edge. Its one label is the head
+                      below: the feedback is the commentary, so it carries no label of its
+                      own, and only the Coach's Tip, which is a different thing, is named.
+                      The notes fold away from the reader's own toggle. A locked exemplar
+                      shows no notes: the lock covers the commentary as much as the text. */}
                   {!locked && (currentSample.quickTip || currentSample.feedback) && (
                     <div
                       role="group"
@@ -813,29 +832,23 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       >
                         <div className="overflow-hidden min-h-0">
                           <div className="flex flex-col gap-3 pb-1">
+                            {currentSample.feedback && (
+                              <div data-note="feedback" className={SAMPLE_NOTE_TEXT}>
+                                {renderFormattedText(
+                                  currentSample.feedback,
+                                  prompt.keywords,
+                                  prompt.verb
+                                )}
+                              </div>
+                            )}
                             {currentSample.quickTip && (
-                              <div className={LADDER_NOTE}>
+                              <div data-note="tip" className={LADDER_NOTE}>
                                 <Lightbulb className={LADDER_NOTE_GLYPH} aria-hidden="true" />
                                 <div className="min-w-0">
                                   <p className={LADDER_NOTE_LABEL}>Coach's Tip</p>
                                   <div className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
                                     {renderFormattedText(
                                       currentSample.quickTip,
-                                      prompt.keywords,
-                                      prompt.verb
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                            {currentSample.feedback && (
-                              <div className={LADDER_NOTE}>
-                                <BookOpen className={LADDER_NOTE_GLYPH} aria-hidden="true" />
-                                <div className="min-w-0">
-                                  <p className={LADDER_NOTE_LABEL}>Feedback</p>
-                                  <div className={`mt-1 ${SAMPLE_NOTE_TEXT}`}>
-                                    {renderFormattedText(
-                                      currentSample.feedback,
                                       prompt.keywords,
                                       prompt.verb
                                     )}

@@ -1,12 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
+import { readFileSync } from 'node:fs';
 import { render, screen, fireEvent, cleanup, act, within } from '@testing-library/react';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
 import { MarkingGuidePanel } from '../../components/ReferenceMaterials';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
-import { requestOpenExemplar } from '../../utils/ladderLink';
 import {
-  LADDER_CRITERION,
+  requestOpenCriterion,
+  requestOpenExemplar,
+  resetLinkedExemplars,
+} from '../../utils/ladderLink';
+import {
   LADDER_DISCLOSURE,
   LADDER_EDGE_SHUT,
   LADDER_GUTTER,
@@ -107,11 +111,13 @@ const gutterIn = (scope: HTMLElement, mark: string): HTMLElement => {
 beforeEach(() => {
   Element.prototype.scrollIntoView = vi.fn();
   resetSupportEngagement();
+  resetLinkedExemplars();
 });
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
 
 describe('a mark draws the same gutter in the guide and in the exemplars', () => {
@@ -164,32 +170,227 @@ describe('a mark draws the same gutter in the guide and in the exemplars', () =>
   });
 });
 
-describe('the note quotes the criterion the guide prints for that mark', () => {
-  it('quotes the same criterion as the guide row, word for word', () => {
+/** The guide's row for a mark: the parent of its gutter, which is the ladder row. */
+const guideRowFor = (mark: string): HTMLElement =>
+  gutterIn(screen.getByTestId('guide'), mark).parentElement as HTMLElement;
+
+/** The guide's rows that are lit as linked to the open exemplar, by their gutter mark. */
+const linkedGuideMarks = (): string[] =>
+  Array.from(screen.getByTestId('guide').querySelectorAll<HTMLElement>('[data-linked="true"]')).map(
+    (row) => row.querySelector('[class*="font-mono"]')!.firstChild!.textContent!
+  );
+
+describe('the exemplar no longer repeats the criterion; the guide lights the one it answers to', () => {
+  it('draws no criterion block in the open exemplar row', () => {
     const prompt = makePrompt('p-quote', [sample(5)]);
     renderBoth(prompt, { defaultCollapsed: false });
-    fireEvent.click(guideToggle());
     fireEvent.click(levelOf(5));
-
-    // The criterion's words are split across spans where the command verb is marked, so
-    // the comparison is of the whole criterion block, not of one text node.
-    const guideBlock = Array.from(
-      screen.getByTestId('guide').querySelectorAll<HTMLElement>(`[class="${LADDER_CRITERION}"]`)
-    ).find((el) => el.textContent?.includes('with accurate examples'));
-    const note = screen
-      .getByRole('group', { name: 'Marking criterion' })
-      .querySelector(`[class="${LADDER_CRITERION}"]`) as HTMLElement;
-    expect(guideBlock).toBeTruthy();
-    expect(note).toBeTruthy();
-    expect(note.textContent).toBe(guideBlock!.textContent);
+    expect(screen.queryByRole('group', { name: 'Marking criterion' })).toBeNull();
+    expect(screen.getByTestId('samples').textContent).not.toContain('with accurate examples');
   });
 
-  it('draws no note for a level the guide has no row for', () => {
+  it('lights the guide row that holds the open exemplar’s mark, with a badge that says why', () => {
+    const prompt = makePrompt('p-link', [sample(5), sample(3)]);
+    renderBoth(prompt, { defaultCollapsed: false });
+    expect(linkedGuideMarks()).toEqual([]);
+
+    fireEvent.click(levelOf(5));
+    expect(linkedGuideMarks()).toEqual(['5']);
+    const row = guideRowFor('5');
+    expect(row.className).toContain('ladder-linked');
+    expect(within(row).getByText('Matches the model answer you are reading')).toBeTruthy();
+    // Only that row: every other row is as it was.
+    expect(guideRowFor('3').className).not.toContain('ladder-linked');
+    expect(screen.getAllByText('Matches the model answer you are reading')).toHaveLength(1);
+  });
+
+  it('moves the light to the next row when the student opens another level', () => {
+    renderBoth(makePrompt('p-move', [sample(5), sample(3)]), { defaultCollapsed: false });
+    fireEvent.click(levelOf(5));
+    fireEvent.click(levelOf(3));
+    expect(linkedGuideMarks()).toEqual(['3']);
+  });
+
+  it('clears the light when the exemplar row closes', () => {
+    renderBoth(makePrompt('p-clear', [sample(5)]), { defaultCollapsed: false });
+    fireEvent.click(levelOf(5));
+    expect(linkedGuideMarks()).toEqual(['5']);
+    fireEvent.click(levelOf(5));
+    expect(linkedGuideMarks()).toEqual([]);
+    expect(screen.queryByText('Matches the model answer you are reading')).toBeNull();
+  });
+
+  it('clears the light when the whole Sample Answers panel is folded', () => {
+    renderBoth(makePrompt('p-fold', [sample(5)]), { defaultCollapsed: false });
+    fireEvent.click(levelOf(5));
+    expect(linkedGuideMarks()).toEqual(['5']);
+    fireEvent.click(samplesToggle());
+    expect(linkedGuideMarks()).toEqual([]);
+  });
+
+  it('lights a guide that mounts AFTER the exemplar was opened', () => {
+    const prompt = makePrompt('p-late', [sample(4)]);
+    render(
+      <SampleAnswersAccordion
+        prompt={prompt}
+        onSampleAnswerGenerated={vi.fn()}
+        onDeleteSampleAnswer={vi.fn()}
+        onUpdateSampleAnswer={vi.fn()}
+        userRole="user"
+        defaultCollapsed={false}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /^4\/6 marks/ }));
+    // The guide arrives now, after the event has gone by.
+    render(
+      <div data-testid="guide">
+        <MarkingGuidePanel prompt={prompt} userRole="user" onMarkingCriteriaChange={vi.fn()} />
+      </div>
+    );
+    expect(linkedGuideMarks()).toEqual(['4']);
+  });
+
+  it('does not light a guide for a different question', () => {
+    const open = makePrompt('p-open', [sample(4)]);
+    const other = makePrompt('p-other', [sample(4)]);
+    render(
+      <SampleAnswersAccordion
+        prompt={open}
+        onSampleAnswerGenerated={vi.fn()}
+        onDeleteSampleAnswer={vi.fn()}
+        onUpdateSampleAnswer={vi.fn()}
+        userRole="user"
+        defaultCollapsed={false}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /^4\/6 marks/ }));
+    render(
+      <div data-testid="guide">
+        <MarkingGuidePanel prompt={other} userRole="user" onMarkingCriteriaChange={vi.fn()} />
+      </div>
+    );
+    expect(linkedGuideMarks()).toEqual([]);
+  });
+
+  it('lights the one row of a range that holds the exemplar’s mark', () => {
+    const prompt = makePrompt('p-range', [sample(4)]);
+    prompt.markingCriteria = [
+      '5–6 marks: Explains the membrane in detail, with a worked example',
+      '3–4 marks: Describes the membrane with some accuracy',
+      '1–2 marks: Identifies one feature of the membrane',
+    ].join('\n');
+    renderBoth(prompt, { defaultCollapsed: false });
+    fireEvent.click(levelOf(4));
+    const lit = screen.getByTestId('guide').querySelectorAll('[data-linked="true"]');
+    expect(lit).toHaveLength(1);
+    expect(lit[0].textContent).toContain('Describes the membrane with some accuracy');
+  });
+
+  it('lights nothing when the guide has no row for the level', () => {
     const prompt = makePrompt('p-none', [sample(4)]);
     prompt.markingCriteria = '6 marks: Explains the membrane in detail';
     renderBoth(prompt, { defaultCollapsed: false });
     fireEvent.click(levelOf(4));
-    expect(screen.queryByRole('group', { name: 'Marking criterion' })).toBeNull();
+    expect(linkedGuideMarks()).toEqual([]);
+  });
+
+  it('settles the pulse once and respects reduced motion: the ring is a state, the pulse an animation', () => {
+    const css = readFileSync('index.css', 'utf8');
+    expect(css).toMatch(/\.ladder-linked\s*\{[^}]*animation:\s*ladder-linked-pulse [^;]*\b1;/s);
+    // The global reduced-motion rule stills every animation's duration.
+    expect(css).toMatch(
+      /@media \(prefers-reduced-motion: reduce\)\s*\{\s*\*,[^}]*animation-duration: 0\.01ms !important/s
+    );
+  });
+});
+
+describe('an exemplar’s "View marking criterion" takes the student to the guide’s row', () => {
+  const prompt = makePrompt('p-jump', [sample(6), sample(4), sample(1)]);
+  const jumpButton = (mark = 4) =>
+    within(screen.getByTestId('samples')).getByRole('button', {
+      name: `View marking criterion for ${mark} marks`,
+    });
+
+  it('opens the shut guide, brings the row into view and moves focus to it', () => {
+    vi.useFakeTimers();
+    renderBoth(prompt);
+    fireEvent.click(samplesToggle());
+    fireEvent.click(levelOf(4));
+    expect(guideToggle().getAttribute('aria-expanded')).toBe('false');
+
+    fireEvent.click(jumpButton());
+    expect(guideToggle().getAttribute('aria-expanded')).toBe('true');
+
+    // The guide grows over half a second, so the scroll waits for it to finish.
+    expect(document.activeElement).not.toBe(guideRowFor('4'));
+    act(() => {
+      vi.advanceTimersByTime(700);
+    });
+    expect(document.activeElement).toBe(guideRowFor('4'));
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+      block: 'nearest',
+      behavior: 'smooth',
+    });
+  });
+
+  it('scrolls and focuses at once when the guide is already open', () => {
+    renderBoth(prompt);
+    fireEvent.click(guideToggle());
+    fireEvent.click(samplesToggle());
+    fireEvent.click(levelOf(4));
+    fireEvent.click(jumpButton());
+    expect(guideToggle().getAttribute('aria-expanded')).toBe('true');
+    expect(document.activeElement).toBe(guideRowFor('4'));
+    // The row it focuses is the row that is lit.
+    expect(guideRowFor('4').getAttribute('data-linked')).toBe('true');
+  });
+
+  it('scrolls without animation when the student prefers reduced motion', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn().mockImplementation(() => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }))
+    );
+    try {
+      renderBoth(prompt);
+      fireEvent.click(guideToggle());
+      fireEvent.click(samplesToggle());
+      fireEvent.click(levelOf(4));
+      fireEvent.click(jumpButton());
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+        block: 'nearest',
+        behavior: 'auto',
+      });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('answers a request made from outside the exemplar row, by name and by mark', () => {
+    renderBoth(prompt);
+    fireEvent.click(guideToggle());
+    act(() => requestOpenCriterion('p-jump', 4));
+    expect(document.activeElement).toBe(guideRowFor('4'));
+  });
+
+  it('ignores a request for a question that is not on screen', () => {
+    renderBoth(prompt);
+    act(() => requestOpenCriterion('some-other-question', 4));
+    expect(guideToggle().getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(document.body);
+  });
+
+  it('leaves focus where the student has gone once the jump has been made', () => {
+    renderBoth(prompt);
+    fireEvent.click(guideToggle());
+    act(() => requestOpenCriterion('p-jump', 4));
+    const toggle = samplesToggle();
+    toggle.focus();
+    fireEvent.click(guideToggle());
+    expect(document.activeElement).not.toBe(guideRowFor('4'));
   });
 });
 

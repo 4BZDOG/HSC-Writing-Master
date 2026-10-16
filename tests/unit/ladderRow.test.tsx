@@ -13,6 +13,8 @@ import {
   LADDER_GUTTER_MARK,
   LADDER_GUTTER_MARK_LONG,
   LADDER_GUTTER_MARK_MEDIUM,
+  LADDER_LINKED,
+  LADDER_LINKED_BADGE,
   LADDER_ROW,
   LADDER_STACK,
 } from '../../utils/ladderChrome';
@@ -291,5 +293,66 @@ describe('LadderRowGutter on its own', () => {
     render(<LadderRowGutter band={3} markLabel="3" total={6} bandCaption={false} />);
     expect(screen.queryByText('Band 3')).toBeNull();
     expect(screen.getByText('3')).toBeTruthy();
+  });
+});
+
+describe('LadderRow linked state', () => {
+  const rowOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+
+  it('is plain by default: no ring, no badge, not focusable', () => {
+    const { container } = render(
+      <LadderRow band={4} markLabel="4">
+        <p>criterion text</p>
+      </LadderRow>
+    );
+    const row = rowOf(container);
+    expect(row.className).not.toContain(LADDER_LINKED);
+    expect(row.getAttribute('data-linked')).toBeNull();
+    expect(row.hasAttribute('tabindex')).toBe(false);
+    expect(screen.queryByText(/matches the model answer/i)).toBeNull();
+    // No stray space from an empty class slot.
+    expect(row.className).toBe(row.className.trim().replace(/\s+/g, ' '));
+  });
+
+  it('rings the row in its own band and says why, when linked', () => {
+    const { container } = render(
+      <LadderRow band={5} markLabel="5" total={6} linked>
+        <p>criterion text</p>
+      </LadderRow>
+    );
+    const row = rowOf(container);
+    expect(row.className).toContain(LADDER_LINKED);
+    // It keeps its own fill and edge: the link is added to the row, not swapped for them.
+    expect(row.className).toContain(LADDER_FILL);
+    expect(row.className).toContain(LADDER_EDGE_SHUT);
+    expect(row.getAttribute('data-linked')).toBe('true');
+    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(5));
+    const badge = screen.getByText('Matches the model answer you are reading');
+    expect(badge.className).toContain(LADDER_LINKED_BADGE);
+    // The badge leads the body, above the criterion it explains.
+    const text = screen.getByText('criterion text');
+    expect(badge.compareDocumentPosition(text) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(badge.parentElement).toBe(text.parentElement);
+  });
+
+  it('hands its element to a ref and can be focused by script, but is not in the tab order', () => {
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <LadderRow band={4} markLabel="4" id="row-4" rowRef={ref}>
+        <p>criterion text</p>
+      </LadderRow>
+    );
+    expect(ref.current).toBeTruthy();
+    expect(ref.current!.id).toBe('row-4');
+    expect(ref.current!.tabIndex).toBe(-1);
+    ref.current!.focus();
+    expect(document.activeElement).toBe(ref.current);
+  });
+
+  it('keeps the badge’s ink a pair that holds on its white and smoked grounds', () => {
+    expect(LADDER_LINKED_BADGE).toContain('text-slate-900');
+    expect(LADDER_LINKED_BADGE).toContain('dark:text-white');
+    expect(LADDER_LINKED_BADGE).toMatch(/bg-white\/85/);
+    expect(LADDER_LINKED_BADGE).toContain('dark:bg-black/40');
   });
 });
