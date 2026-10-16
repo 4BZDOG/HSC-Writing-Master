@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent, waitFor, within } from '@testing-library/react';
 import type { CourseOutcome } from '../../types';
 
 /**
@@ -22,6 +22,7 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
 
 import OutcomeDetailModal from '../../components/OutcomeDetailModal';
 import { AICache } from '../../services/aiCache';
+import { getCommandTermInfo, getStructureExpectation } from '../../data/commandTerms';
 
 const EC02: CourseOutcome = {
   code: 'EC-02',
@@ -80,6 +81,55 @@ describe('OutcomeDetailModal', () => {
     renderModal();
     const dialog = screen.getByRole('dialog', { name: 'EC-02' });
     expect(dialog.getAttribute('aria-modal')).toBe('true');
+  });
+
+  it('opens with the purpose it was opened for, above the outcome code', () => {
+    renderModal();
+    expect(screen.getByText(/Read before you write · Outcome 1 of 2/)).toBeTruthy();
+  });
+
+  describe('what the marker is looking for', () => {
+    it('is set out before the AI briefing, from the verb and marks alone', () => {
+      renderModal();
+      const heading = screen.getByRole('heading', { name: 'What the marker is looking for' });
+      const briefing = screen.getByRole('heading', {
+        name: 'How this outcome shows up in your answer',
+      });
+      // Document order: it comes first, so it is there when the briefing is slow,
+      // locked or fails.
+      expect(
+        heading.compareDocumentPosition(briefing) & Node.DOCUMENT_POSITION_FOLLOWING
+      ).toBeTruthy();
+      // And it needs no AI call to be there.
+      expect(explainOutcomeInContext).not.toHaveBeenCalledWith(QUESTION, expect.anything());
+    });
+
+    it('says what the verb means, and how long a full-mark answer runs and takes', () => {
+      renderModal();
+      const section = screen
+        .getByRole('heading', { name: 'What the marker is looking for' })
+        .closest('section') as HTMLElement;
+      const evaluate = getCommandTermInfo('EVALUATE');
+      expect(section.textContent).toContain(evaluate.definition);
+      // 6 marks: the one length the app states anywhere (`getFullMarkWordRange`).
+      expect(within(section).getByText('140–220 words')).toBeTruthy();
+      expect(within(section).getByText(/^about \d+ min$/)).toBeTruthy();
+      expect(section.textContent).toContain(getStructureExpectation(6));
+      expect(section.textContent).toContain('Your paper’s own marking guidelines win');
+    });
+
+    it('is left out when the question has no verb or marks to read it from', () => {
+      render(
+        <OutcomeDetailModal
+          isOpen
+          onClose={vi.fn()}
+          outcomes={[EC02]}
+          initialCode="EC-02"
+          question={QUESTION}
+        />
+      );
+      expect(screen.queryByRole('heading', { name: 'What the marker is looking for' })).toBeNull();
+    });
   });
 
   it('names a panel only from the selected tab, because only that panel is in the page', () => {

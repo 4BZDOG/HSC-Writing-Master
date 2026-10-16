@@ -24,6 +24,7 @@ import {
   LADDER_TOOL,
 } from '../utils/ladderChrome';
 import { ladderBandVars } from './LadderRow';
+import QuestionExpectations from './QuestionExpectations';
 
 interface OutcomeDetailModalProps {
   isOpen: boolean;
@@ -234,6 +235,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   const hasTabs = outcomes.length > 1;
   const year = activeOutcome.year ? yearShortLabel(activeOutcome.year) : null;
   const caption = [
+    'Read before you write',
     hasTabs ? `Outcome ${activeIndex + 1} of ${outcomes.length}` : 'Syllabus outcome',
     year,
   ]
@@ -410,6 +412,21 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
               {activeOutcome.description}
             </p>
           </section>
+
+          {/* What the marker is looking for, from the verb and the marks alone.
+              It is written before the AI briefing on purpose: it is free, it
+              needs no call, and it is still there when the briefing is locked
+              or fails to load. */}
+          {verb && totalMarks ? (
+            <section className={sectionClass} aria-labelledby="outcome-marker-heading">
+              <h3 id="outcome-marker-heading" className={headingClass}>
+                What the marker is looking for
+              </h3>
+              <div className="mt-2.5">
+                <QuestionExpectations verb={verb} marks={totalMarks} band={targetBand} standalone />
+              </div>
+            </section>
+          ) : null}
 
           {/* The briefing. */}
           <section

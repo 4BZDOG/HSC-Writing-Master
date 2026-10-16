@@ -38,9 +38,27 @@ describe('CommandTermGuideModal', () => {
     expect(screen.getByText(/4 marks\. A full-mark answer reaches Band 3\./)).toBeTruthy();
   });
 
+  it('says what this question needs: its length, its time and what a full-mark answer holds', () => {
+    renderGuide({ marks: 4, band: 3 });
+    // 4 marks: 80–120 words is the one length the app states for it.
+    expect(screen.getByText('80–120 words')).toBeTruthy();
+    expect(screen.getByText(/^about \d+ min$/)).toBeTruthy();
+    expect(screen.getByText('A full-mark answer:')).toBeTruthy();
+    // The verb's own ranges are named as the verb's, so the two sets of figures
+    // are not mistaken for one another.
+    expect(screen.getByText('Across every EXPLAIN question')).toBeTruthy();
+  });
+
+  it('does not restate the band: the box above it already does', () => {
+    renderGuide({ marks: 4, band: 3 });
+    expect(screen.queryByText('Full marks reach')).toBeNull();
+  });
+
   it('says nothing about a question when it is opened without one', () => {
     renderGuide();
     expect(screen.queryByText(/A full-mark answer reaches/)).toBeNull();
+    expect(screen.queryByText('A full-mark answer:')).toBeNull();
+    expect(screen.queryByText(/Across every/)).toBeNull();
   });
 
   it('shows each figure once: the tier and the band ceiling are not repeated as stats', () => {

@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { openWorkspace } from './support/workspace';
+import { openWorkspace, openQuestionWithOutcomes } from './support/workspace';
 
 /**
  * The two workspace cards read as a pair, and stay that way.
@@ -29,9 +29,11 @@ const chrome = (page: Page) =>
       const h3 = heading(text);
       const header = h3?.closest('[class*="rounded-t-"]') as HTMLElement | null;
       if (!h3 || !header) return null;
-      // The tray is the only `self-stretch` box in the header; the bar is what
-      // it holds — stat pills on the question, writing tools on the response.
-      const bar = header.querySelector('div[class*="self-stretch"] > div') as HTMLElement | null;
+      // The bar docked in the corner: stat pills on the question, writing tools
+      // on the response. Marked `data-card-bar` because the question card's corner
+      // holds a second thing now (the reading size, above the bar), so "the
+      // first child of the corner" is no longer the bar.
+      const bar = header.querySelector('[data-card-bar]') as HTMLElement | null;
       return {
         headerHeight: round(header.getBoundingClientRect().height),
         headingTop: round(h3.getBoundingClientRect().top),
@@ -142,6 +144,113 @@ test.describe('workspace card chrome', () => {
     await page.waitForTimeout(700);
     const stacked = await chrome(page);
     expect(stacked.response!.headingTop).toBeGreaterThan(stacked.prompt!.headingTop + 100);
+  });
+
+  /**
+   * The question card's footer used to be one nowrap row with a scrolling chip
+   * strip in the middle. In two columns the card is ~490px, the strip was left a
+   * few pixels, and the second outcome chip was clipped to "S…" with no
+   * scrollbar. The chips wrap now, and the reading size left for the heading's
+   * corner. Geometry again, because only a browser can say where a wrapped chip
+   * lands.
+   */
+  test('the question footer never clips a chip, and the reading size has its own corner', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 });
+    await openWorkspace(page);
+    await openQuestionWithOutcomes(page);
+
+    // 1600 and 1440 and 1280 are the two-column widths (1280 is the card at its
+    // narrowest); 1024 is the single column; 390 is a phone.
+    for (const width of [1600, 1440, 1280, 1024, 390]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.waitForTimeout(700);
+
+      const m = await page.evaluate(() => {
+        const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
+          h.textContent?.includes('Writing Prompt')
+        ) as HTMLElement;
+        const card = h3.closest('[class*="rounded-surface"]') as HTMLElement;
+        const header = h3.closest('[class*="rounded-t-"]') as HTMLElement;
+        const footer = card.querySelector('[class*="rounded-b-"]') as HTMLElement;
+        const box = (el: Element) => {
+          const r = el.getBoundingClientRect();
+          return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, h: r.height };
+        };
+        const zoom = header.querySelector('[role="group"][aria-label="Reading size"]')!;
+        const bar = header.querySelector('[data-card-bar]')!;
+        const verbChip = header.querySelector('button[aria-label^="Open the command verb guide"]');
+        const buttons = Array.from(footer.querySelectorAll('button'));
+        return {
+          card: box(card),
+          header: box(header),
+          zoom: box(zoom),
+          bar: box(bar),
+          heading: box(h3),
+          verbChip: verbChip ? box(verbChip) : null,
+          zoomButtons: Array.from(zoom.querySelectorAll('button')).map((b) => box(b).h),
+          footerButtons: buttons.map((b) => ({
+            name: b.getAttribute('aria-label') ?? b.textContent?.trim() ?? '',
+            ...box(b),
+            // Text that overflows its own box is text cut off.
+            clipped: b.scrollWidth > b.clientWidth + 1,
+          })),
+          // Nothing in the footer is a scroller, so nothing in it can be hidden.
+          footerScrolls: [footer, ...Array.from(footer.querySelectorAll('*'))].some(
+            (el) =>
+              el.scrollWidth > el.clientWidth + 1 &&
+              /(auto|scroll|hidden)/.test(getComputedStyle(el).overflowX) &&
+              el.clientWidth > 0
+          ),
+        };
+      });
+      const at = `at ${width}px`;
+      const overlaps = (
+        a: { left: number; right: number; top: number; bottom: number },
+        b: typeof a
+      ) =>
+        a.left < b.right - 1 &&
+        a.right > b.left + 1 &&
+        a.top < b.bottom - 1 &&
+        a.bottom > b.top + 1;
+
+      // Every chip is whole and inside the card.
+      expect(m.footerButtons.length, `footer has chips ${at}`).toBeGreaterThanOrEqual(3);
+      for (const b of m.footerButtons) {
+        expect(b.left, `${b.name} inside the card's left edge ${at}`).toBeGreaterThanOrEqual(
+          m.card.left
+        );
+        expect(b.right, `${b.name} inside the card's right edge ${at}`).toBeLessThanOrEqual(
+          m.card.right
+        );
+        expect(b.clipped, `${b.name} text not cut off ${at}`).toBe(false);
+      }
+      expect(m.footerScrolls, `no hidden overflow in the footer ${at}`).toBe(false);
+
+      // The reading size is in the heading's top-right corner: inside the header,
+      // against its right edge, above the stat bar, clear of the title and verb.
+      expect(m.zoom.top, `reading size inside the header ${at}`).toBeGreaterThanOrEqual(
+        m.header.top
+      );
+      expect(m.zoom.bottom).toBeLessThanOrEqual(m.header.bottom);
+      expect(overlaps(m.zoom, m.bar), `reading size clear of the stat bar ${at}`).toBe(false);
+      expect(overlaps(m.zoom, m.heading), `reading size clear of the title ${at}`).toBe(false);
+      if (m.verbChip) {
+        expect(overlaps(m.zoom, m.verbChip), `reading size clear of the verb ${at}`).toBe(false);
+      }
+      if (width >= 640) {
+        // Above the bar and level with its right edge, in the corner.
+        expect(m.zoom.bottom, `reading size above the bar ${at}`).toBeLessThanOrEqual(m.bar.top);
+        expect(Math.abs(m.zoom.right - m.bar.right)).toBeLessThanOrEqual(1);
+      } else {
+        // A phone's touch targets are 44px: the reading size's buttons and the
+        // footer's own.
+        for (const h of m.zoomButtons) expect(h).toBeGreaterThanOrEqual(44);
+        for (const b of m.footerButtons)
+          expect(b.h, `${b.name} 44px ${at}`).toBeGreaterThanOrEqual(44);
+      }
+    }
   });
 
   /**
