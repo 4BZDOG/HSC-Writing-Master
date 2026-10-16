@@ -7,6 +7,32 @@ const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'ut
   version: string;
 };
 
+/**
+ * One id per build, shared by the bundle (`__BUILD_ID__`) and the
+ * `version.json` file published next to it. The running app compares the two
+ * to notice that a newer deploy exists (see hooks/useUpdateAvailable.ts).
+ * CI supplies the commit SHA; a local build falls back to a timestamp.
+ */
+const BUILD_ID = (
+  process.env.GITHUB_SHA ||
+  process.env.VERCEL_GIT_COMMIT_SHA ||
+  `t${Date.now().toString(36)}`
+).slice(0, 12);
+
+function buildVersionFile(): Plugin {
+  return {
+    name: 'build-version-file',
+    apply: 'build',
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'version.json',
+        source: JSON.stringify({ build: BUILD_ID }),
+      });
+    },
+  };
+}
+
 // Dev-only middleware that mirrors the Vercel serverless proxy (api/gemini.ts)
 // so `npm run dev` can call /api/gemini without running `vercel dev`. The key
 // is read server-side from the environment and never exposed to the client.
@@ -225,13 +251,14 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
     },
-    plugins: [react(), fetchUrlDevProxy(), geminiDevProxy(env), apiDevProxy()],
+    plugins: [react(), buildVersionFile(), fetchUrlDevProxy(), geminiDevProxy(env), apiDevProxy()],
     define: {
       // Only expose VITE_* variables (Vite's secure env approach).
       // API keys must never be in the bundle — they go through /api/gemini.
       // The package.json version, so UI surfaces (login footer) never show a
       // stale hard-coded number.
       __APP_VERSION__: JSON.stringify(pkg.version),
+      __BUILD_ID__: JSON.stringify(mode === 'production' ? BUILD_ID : 'dev'),
     },
     resolve: {
       alias: {
