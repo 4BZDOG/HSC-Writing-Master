@@ -35,6 +35,7 @@ import {
   SAMPLE_ACTION,
   SAMPLE_ACTION_DIVIDER,
   SAMPLE_ACTION_GROUP,
+  SAMPLE_ACTION_PHONE_ICON,
   SAMPLE_ACTION_ICON,
   SAMPLE_ACTIONS,
   SAMPLE_AI_BUTTON,
@@ -47,6 +48,7 @@ import {
   SAMPLE_CRITERION_LABEL_FULL,
   SAMPLE_CRITERION_LABEL_SHORT,
   SAMPLE_CRITERION_LINK,
+  SAMPLE_DISCLOSURE_OPEN,
   SAMPLE_EMPTY,
   SAMPLE_LOCKED,
   SAMPLE_LOCKED_CTA,
@@ -66,6 +68,7 @@ import {
   SAMPLE_ROW_FIGURE,
   SAMPLE_ROW_HEAD,
   SAMPLE_ROW_META,
+  SAMPLE_ROW_SUMMARY,
   SAMPLE_ROW,
   SAMPLE_ROW_PREVIEW,
   SAMPLE_TOOLS,
@@ -446,6 +449,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
           markLabel={String(group.mark)}
           total={prompt.totalMarks}
           edge={isOpen ? 'open' : 'shut'}
+          phoneGutter={isOpen ? 'strip' : 'narrow'}
         />
 
         <div className="flex-1 min-w-0 flex flex-col">
@@ -460,7 +464,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
               aria-expanded={isOpen}
               aria-controls={bodyId}
               data-exemplar-mark={group.mark}
-              className={`${LADDER_DISCLOSURE} flex-1 min-w-0`}
+              className={isOpen ? SAMPLE_DISCLOSURE_OPEN : `${LADDER_DISCLOSURE} flex-1 min-w-0`}
             >
               {/* The mark is in the gutter, but a screen reader reads the row from
                   its disclosure, so the mark is named here as well. */}
@@ -469,6 +473,14 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
               </span>
               <span className={SAMPLE_ROW_HEAD}>
                 <span className={SAMPLE_ROW_META}>
+                  {/* On a phone the open header is the row's summary, since the paper's
+                      own bar is reduced to its source and the criterion link. */}
+                  {isOpen && (
+                    <span className={SAMPLE_ROW_SUMMARY}>
+                      {group.mark}/{prompt.totalMarks} · Band {displayBand}
+                      {locked ? '' : ` · ${countWords(currentSample.answer)} words`}
+                    </span>
+                  )}
                   {!isOpen && (
                     <SourceBadge
                       source={currentSample.source}
@@ -545,7 +557,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
             className={`grid transition-[grid-template-rows,opacity] duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
           >
             <div className="overflow-hidden min-h-0">
-              <div className={LADDER_PANE}>
+              <div className={isOpen ? `${LADDER_PANE} max-sm:px-0 max-sm:pt-0` : LADDER_PANE}>
                 <div className={SAMPLE_ZONES}>
                   {/* Zone one: the answer. The selector sits above the paper because it
                       chooses which paper is shown, and the paper is the centre of the
@@ -613,7 +625,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                           bar would otherwise repeat the header's figures. The jump to the
                           criterion is drawn only when the guide has a row for this level. */}
                       <div className={`${SAMPLE_PAGE_BAR} ${LADDER_SOLID}`}>
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center gap-2 max-sm:hidden">
                           <span className={ZONE_LABEL}>Model answer</span>
                           <span className={ZONE_FIGURE} aria-hidden="true">
                             ·
@@ -629,7 +641,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                             </span>
                           ) : (
                             <>
-                              <span className={SAMPLE_PAGE_BAR_FIGURE}>
+                              <span className={`${SAMPLE_PAGE_BAR_FIGURE} max-sm:hidden`}>
                                 {countWords(currentSample.answer)} words
                               </span>
                               <SourceBadge
@@ -723,22 +735,27 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                                     type="button"
                                     onClick={handleUseSample}
                                     title="Load this exemplar into the writing surface"
-                                    className={SAMPLE_ACTION}
+                                    aria-label="Use"
+                                    className={`${SAMPLE_ACTION} ${SAMPLE_ACTION_PHONE_ICON}`}
                                   >
-                                    <Copy className="w-3 h-3" aria-hidden="true" /> Use
+                                    <Copy className="w-3 h-3" aria-hidden="true" />
+                                    <span className="max-sm:hidden">Use</span>
                                   </button>
                                 )}
                                 <button
                                   type="button"
                                   onClick={handleCopy}
-                                  className={SAMPLE_ACTION}
+                                  aria-label={isCopied ? 'Copied' : 'Copy'}
+                                  className={`${SAMPLE_ACTION} ${SAMPLE_ACTION_PHONE_ICON}`}
                                 >
                                   {isCopied ? (
                                     <Check className="w-3 h-3" aria-hidden="true" />
                                   ) : (
                                     <FileText className="w-3 h-3" aria-hidden="true" />
                                   )}
-                                  {isCopied ? 'Copied' : 'Copy'}
+                                  <span className="max-sm:hidden">
+                                    {isCopied ? 'Copied' : 'Copy'}
+                                  </span>
                                 </button>
                                 {onContribute && (
                                   <button
@@ -746,10 +763,13 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                                     onClick={handleContribute}
                                     disabled={isContributing}
                                     title="Submit this sample answer to the shared library for review"
-                                    className={SAMPLE_ACTION}
+                                    aria-label={isContributing ? 'Submitting' : 'Submit'}
+                                    className={`${SAMPLE_ACTION} ${SAMPLE_ACTION_PHONE_ICON}`}
                                   >
                                     <UploadCloud className="w-3 h-3" aria-hidden="true" />
-                                    {isContributing ? 'Submitting…' : 'Submit'}
+                                    <span className="max-sm:hidden">
+                                      {isContributing ? 'Submitting…' : 'Submit'}
+                                    </span>
                                   </button>
                                 )}
                                 <button
@@ -817,7 +837,9 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       className={`${SAMPLE_COMMENTARY} ${LADDER_EDGE_OPEN}`}
                     >
                       <div className={SAMPLE_COMMENTARY_HEAD}>
-                        <span className={`flex items-center gap-2 ${ZONE_LABEL}`}>
+                        <span
+                          className={`flex items-center gap-2 whitespace-nowrap max-sm:tracking-normal ${ZONE_LABEL}`}
+                        >
                           <MessageSquareQuote className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                           Marker's commentary
                         </span>
@@ -1041,6 +1063,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             disabled={!canStepReadingSize(fontSize, -1)}
             className={SAMPLE_ZOOM_BUTTON}
             title="Decrease text size"
+            aria-label="Decrease text size"
           >
             <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
@@ -1051,6 +1074,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
             disabled={!canStepReadingSize(fontSize, 1)}
             className={SAMPLE_ZOOM_BUTTON}
             title="Increase text size"
+            aria-label="Increase text size"
           >
             <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
@@ -1063,7 +1087,8 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 type="button"
                 onClick={() => setIsRecalibratePickerOpen(true)}
                 disabled={isRecalibrating || !prompt.sampleAnswers?.length}
-                className={`${SAMPLE_AI_BUTTON} px-2.5`}
+                className={`${SAMPLE_AI_BUTTON} sm:px-2.5`}
+                aria-label="Recalibrate samples with AI"
                 title="Recalibrate samples with AI — choose which ones"
               >
                 <RefreshCw
@@ -1085,7 +1110,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                   : 'Add a sample answer with AI'
               }
               aria-label="Generate a sample answer"
-              className={studioLocked ? AI_LOCKED : SAMPLE_AI_BUTTON}
+              className={studioLocked ? AI_LOCKED : `${SAMPLE_AI_BUTTON} sm:px-3`}
             >
               <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
               <span className="hidden sm:inline">Generate</span>
@@ -1145,6 +1170,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         icon={<Bookmark />}
         band={ceilingBand}
         hero
+        phoneFlush
         defaultOpen={!defaultCollapsed}
         resetKey={prompt.id}
         supportId="sampleAnswers"

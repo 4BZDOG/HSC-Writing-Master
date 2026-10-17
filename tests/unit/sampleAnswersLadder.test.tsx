@@ -133,8 +133,18 @@ describe('a mark draws the same gutter in the guide and in the exemplars', () =>
     const band = getBandForMark(5, 6, TIER);
     expect(guideGutter.textContent).toBe(`5/6Band ${band}`);
     expect(sampleGutter.textContent).toBe(`5/6Band ${band}`);
-    // The same classes, so the same width, radius, type and band wash.
-    expect(sampleGutter.className).toBe(guideGutter.className);
+    // The same classes, so the same width, radius, type and band wash. The one difference
+    // is the phone's narrower gutter (a `max-sm:` override of the same width), which the
+    // guide does not draw; from `sm` the two are identical.
+    const withoutPhoneOverrides = (className: string) =>
+      className
+        .split(' ')
+        .filter((token) => !token.startsWith('max-sm:'))
+        .join(' ');
+    expect(withoutPhoneOverrides(sampleGutter.className)).toBe(
+      withoutPhoneOverrides(guideGutter.className)
+    );
+    expect(sampleGutter.className).toContain('max-sm:w-14');
     expect(sampleGutter.style.getPropertyValue('--band-rgb')).toBe(
       guideGutter.style.getPropertyValue('--band-rgb')
     );
