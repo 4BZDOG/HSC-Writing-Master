@@ -110,11 +110,19 @@ export const LADDER_GUTTER_CAPTION = 't-label text-center whitespace-nowrap';
  *  keep the full gutter. Painted on the band's solid fill. */
 export const LADDER_GUTTER_NARROW = `${LADDER_GUTTER} max-sm:w-14 max-sm:px-0.5`;
 
-/** A STRIP gutter, for a phone only: 4px, the band's colour down the left edge of an open
- *  row that is full-bleed on a phone. Its figure and caption are read by a screen reader
- *  and not drawn. From `sm` it is `LADDER_GUTTER`'s width. Painted on the band's solid
- *  fill. */
-export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-1 max-sm:px-0`;
+/** A STRIP gutter, for a phone only: no width at all, for an open row that is full-bleed
+ *  on a phone. Its figure and caption are read by a screen reader and not drawn. The
+ *  band's colour down the row's left edge is the row's own edge, widened to 4px by
+ *  `LADDER_ROW_ACCENT_PHONE`: a 4px solid strip was clipped by the row's 12px corners,
+ *  so it stopped short of the top and bottom while the edge curled on past it. An edge
+ *  follows the corners. From `sm` it is `LADDER_GUTTER`'s width. */
+export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-0 max-sm:px-0 max-sm:border-r-0`;
+
+/** The open row's band edge on a phone: the row's left edge (`ladder-ring`) at 4px, in
+ *  the row's own edge colour, the 85% `LADDER_EDGE_OPEN`. It goes with
+ *  `LADDER_GUTTER_STRIP`, which gives up the width it took. Painted over the row's left
+ *  4px, where the full-bleed paper has only its margin. */
+export const LADDER_ROW_ACCENT_PHONE = 'max-sm:[--ladder-ring-left:4px]';
 
 /** The inset of a row's text from its gutter, on a phone only. The row is full width
  *  on a phone, so the 16px a desktop row keeps is 8px there. At 6px the text sat tight

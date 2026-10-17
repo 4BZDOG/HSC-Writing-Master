@@ -805,6 +805,9 @@ a:focus-visible,
   position: absolute;
   inset: 0;
   border: 1px solid;
+  /* An open exemplar on a phone widens its left edge to 4px to carry the band
+     (`LADDER_ROW_ACCENT_PHONE`); every other row keeps the 1px edge. */
+  border-left-width: var(--ladder-ring-left, 1px);
   border-color: inherit;
   border-radius: inherit;
   pointer-events: none;

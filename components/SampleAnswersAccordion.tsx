@@ -15,6 +15,7 @@ import {
   LADDER_NOTE_LABEL,
   LADDER_PANE,
   LADDER_ROW,
+  LADDER_ROW_ACCENT_PHONE,
   LADDER_SOLID,
   LADDER_STACK,
 } from '../utils/ladderChrome';
@@ -442,7 +443,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
       <div
         data-exemplar-row
         style={ladderBandVars(displayBand)}
-        className={`${LADDER_ROW} ${isOpen ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT} ${LADDER_FILL} ${SAMPLE_ROW}`}
+        className={`${LADDER_ROW} ${isOpen ? `${LADDER_EDGE_OPEN} ${LADDER_ROW_ACCENT_PHONE}` : LADDER_EDGE_SHUT} ${LADDER_FILL} ${SAMPLE_ROW}`}
       >
         <LadderRowGutter
           band={displayBand}
