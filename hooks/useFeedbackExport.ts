@@ -80,6 +80,9 @@ export function useFeedbackExport({
           // Empty while locked (see `revisedText`), which takes the improved
           // response AND the change list built from it out of the file.
           revisedAnswer: revisedText || undefined,
+          // The reasons for the edits belong to the rewrite, so they go only with
+          // it: the same condition that takes the rewrite out of the file.
+          keyChanges: revisedText ? view.keyChanges : [],
           exemplarBand,
           exemplarMark,
           wordCount,

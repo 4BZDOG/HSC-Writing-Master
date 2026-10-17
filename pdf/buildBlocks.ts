@@ -137,6 +137,13 @@ export interface EvaluationExportData {
   improvements: string[];
   criteria: { criterion: string; mark: number; maxMark: number; feedback: string }[];
   revisedAnswer?: string;
+  /**
+   * The edits the marker says it made to reach the improved response, and why
+   * each earns credit — 2 to 4 short lines, in the marker's words. Printed first
+   * in "What changed". The caller passes them only when the rewrite itself is
+   * shown: a reason for an edit the reader cannot see is worse than none.
+   */
+  keyChanges?: string[];
   exemplarBand?: number;
   /** What the improved response is worth — one mark above the student's own. */
   exemplarMark?: number;
@@ -680,22 +687,56 @@ export const buildEvaluationBlocks = (
     // engine, and a word-level ROW is a fragment with its sense removed. Each
     // row is marked − / + in the gutter as well as coloured, so the page
     // survives a greyscale printer — which is most school printers.
-    if (data.studentAnswer?.trim()) {
-      const stats = summariseDiff(diffWords(data.studentAnswer, data.revisedAnswer));
-      const changes = sentenceChanges(data.studentAnswer, data.revisedAnswer);
+    // The marker's reasons lead the section. They are the one part a reader can
+    // take in without comparing two texts, so they come before the word count
+    // and the pairs, and they survive when the pairs cannot be drawn.
+    const keyChanges = (data.keyChanges ?? []).map((s) => s.trim()).filter(Boolean);
+    const studentText = data.studentAnswer?.trim() ? data.studentAnswer : '';
+    const stats = studentText ? summariseDiff(diffWords(studentText, data.revisedAnswer)) : null;
+    const changes = studentText ? sentenceChanges(studentText, data.revisedAnswer) : [];
+    const hasEdits = stats !== null && stats.added + stats.removed > 0;
 
-      if (stats.added + stats.removed > 0) {
-        // The rule the user reads as "the rewrite ends here".
-        blocks.push({ ...divider(COLORS.rule), fullWidth: true });
+    // Nothing to compare and no reasons to give: the section has nothing to say.
+    if (hasEdits || keyChanges.length > 0) {
+      // The rule the user reads as "the rewrite ends here".
+      blocks.push({ ...divider(COLORS.rule), fullWidth: true });
 
-        // With no rows to draw, the section is a single sentence — so it spans
-        // the page rather than sitting in a narrow column with the heading
-        // beside it and the sentence wrapping awkwardly in the other.
-        const holistic = changes.length === 0;
+      // With no rows to draw, the section is a single sentence — so it spans
+      // the page rather than sitting in a narrow column with the heading
+      // beside it and the sentence wrapping awkwardly in the other.
+      const holistic = changes.length === 0;
+      blocks.push({
+        ...heading('Improved response: what changed', 'swap'),
+        fullWidth: holistic,
+      });
+
+      if (keyChanges.length > 0) {
+        // A sub-heading, not a section heading: it names the list under it.
         blocks.push({
-          ...heading('Improved response: what changed', 'swap'),
+          kind: 'paragraph',
+          id: nid('chgwhy'),
           fullWidth: holistic,
+          runs: [run('Why these edits earn the mark', 8.5, { style: 'bold', color: COLORS.slate })],
+          keepWithNext: true,
+          basePadTop: 1,
+          basePadBottom: 1.5,
         });
+        keyChanges.forEach((change) =>
+          blocks.push({
+            kind: 'listItem',
+            id: nid('chgwhy-item'),
+            fullWidth: holistic,
+            // The feedback's own voice: the marker's prose, with its terms and
+            // verb underlined as they are in the commentary above.
+            runs: [richRun(change, 9, { color: COLORS.body, lineHeightFactor: 1.35 }, feedback)],
+            accent: COLORS.slate,
+            breakable: true,
+            basePadBottom: 1.6,
+          })
+        );
+      }
+
+      if (stats && hasEdits) {
         // The screen's own summary, from the same statistic: the share of the
         // student's words the rewrite keeps, and how far the count moves. A count
         // of rewritten sentences reads as a rewrite of everything, whatever the
@@ -778,9 +819,13 @@ export const buildEvaluationBlocks = (
             ],
             basePadBottom: 1.6,
           });
-          // A long revision rewrites most of the answer; past a point the list
-          // stops being a revision aid and becomes a second copy of the rewrite.
-          const MAX_PRINTED_CHANGES = 5;
+          // The cap is for a list that would become a second copy of the
+          // rewrite, and a rewrite that is a one-band edit keeps 60-85% of the
+          // student's words, so it rarely gets there. Eight pairs is the most a
+          // printed revision aid needs. A lower cap sent the student back up the
+          // page to read the rest while the bottom of the page was still blank,
+          // which costs more than the length it saves.
+          const MAX_PRINTED_CHANGES = 8;
           changes.slice(0, MAX_PRINTED_CHANGES).forEach((change) => {
             // One block per side, not one block with two runs: a single run is
             // what the layout engine can split at a column boundary, and a
