@@ -839,22 +839,6 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
 
   return (
     <>
-      {isFocusMode && (
-        <button
-          onClick={() => setIsFocusMode(false)}
-          title="Exit focus mode (Esc)"
-          className="fixed top-4 left-1/2 -translate-x-1/2 z-header-pill flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-lg hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
-        >
-          <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-            <Minimize className="w-3.5 h-3.5 text-white" />
-          </span>
-          <span className="t-label whitespace-nowrap">Focus Mode</span>
-          <kbd className="text-[9px] font-bold px-1.5 py-0.5 rounded-lg bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
-            ESC
-          </kbd>
-        </button>
-      )}
-
       {/* The app's first tab stop, and until now a keyboard user had nothing
           like it: the header put up to five controls between the page loading
           and the writing surface, on every single load, and <header> was the
@@ -901,8 +885,33 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       <main
         id="main-content"
         tabIndex={-1}
-        className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-16 sm:pt-16' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
+        className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-2' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
+        {isFocusMode && (
+          // The way out of Focus Mode, as a row above the cards. It is not pinned
+          // to the window: a fixed pill sat over the question text and the card
+          // toolbar as either scrolled beneath it, at 390px and at 1440px alike.
+          // In the flow it cannot cover a control, and it scrolls away with the
+          // page. Escape and the card's own Normal button also exit, so the pill
+          // is never the only way out.
+          <button
+            type="button"
+            onClick={() => setIsFocusMode(false)}
+            aria-label="Exit focus mode"
+            title="Exit focus mode (Esc)"
+            className="mx-auto max-sm:min-h-11 shrink-0 flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-lg hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
+          >
+            <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <Minimize className="w-3.5 h-3.5 text-white" />
+            </span>
+            <span className="t-label whitespace-nowrap">Focus Mode</span>
+            {/* There is no Escape key on a phone, so the hint is a desktop-only
+                affordance. */}
+            <kbd className="max-sm:hidden text-[9px] font-bold px-1.5 py-0.5 rounded-lg bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
+              ESC
+            </kbd>
+          </button>
+        )}
         {!isFocusMode && <BillingAlertBanner />}
         {!isFocusMode && <SeatOverageNotice user={user} />}
         {!isFocusMode && <UpdateAvailableBanner />}

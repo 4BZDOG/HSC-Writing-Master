@@ -111,14 +111,16 @@ describe('HowToAnswer', () => {
       expect(items[1].textContent).toContain('Make each difference unmistakable and precise.');
     });
 
-    it('sets the lead at reading size and the later steps a step down', () => {
+    it('sets every step at the same size and ink, the lead included', () => {
       render(<Harness verb={'DISTINGUISH' as PromptVerb} initiallyOpen />);
 
       const items = Array.from(card()!.querySelectorAll('ol > li'));
       const lead = items[0].querySelector('p') as HTMLElement;
       const step = items[1].querySelector('p') as HTMLElement;
-      expect(lead.className).toContain('text-base');
+      expect(lead.className).toContain('text-sm');
       expect(step.className).toContain('text-sm');
+      expect(lead.className).toContain('text-[rgb(var(--color-text-primary))]');
+      expect(step.className).toContain('text-[rgb(var(--color-text-primary))]');
     });
 
     it('takes the question tier colour through the band system, not a literal', () => {

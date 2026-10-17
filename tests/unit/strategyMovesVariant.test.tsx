@@ -55,10 +55,10 @@ describe('StrategyMoves', () => {
     expect(sheetSteps).toBe(2);
   });
 
-  it('sets the lead at body size and the later steps a step down only in the worked variant', () => {
+  it('sets every step at one size in the worked variant, and keeps the sheet lead larger', () => {
     const { container, unmount } = render(<StrategyMoves {...parts} variant="worked" />);
     const workedItems = Array.from(container.querySelectorAll('ol > li p'));
-    expect(workedItems[0].className).toContain('text-base');
+    expect(workedItems[0].className).toContain('text-sm');
     expect(workedItems[1].className).toContain('text-sm');
     unmount();
 

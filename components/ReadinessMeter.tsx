@@ -6,6 +6,11 @@ interface ReadinessMeterProps {
   /** Drop the word label and show just the bar + percentage, for tight rows. */
   compact?: boolean;
   className?: string;
+  /** Replaces the track's width classes, so the footer can let the bar take the
+   *  row on a phone and return to a fixed length from `lg`. */
+  barClassName?: string;
+  /** Hides or shows the word label at a width the footer chooses. */
+  labelClassName?: string;
 }
 
 /**
@@ -26,7 +31,7 @@ interface ReadinessMeterProps {
  * so body-text contrast is never affected.
  */
 const ReadinessMeter: React.FC<ReadinessMeterProps> = React.memo(
-  ({ readiness, compact = false, className = '' }) => {
+  ({ readiness, compact = false, className = '', barClassName, labelClassName = '' }) => {
     // Colour from chromaLevel (capped at the question's target band); the % and
     // label come from score/label (the uncapped completeness progression).
     const { score, label, chromaLevel } = readiness;
@@ -39,7 +44,9 @@ const ReadinessMeter: React.FC<ReadinessMeterProps> = React.memo(
         // print:hidden — a live pre-submission signal has no place on paper.
       >
         {!compact && (
-          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 whitespace-nowrap">
+          <span
+            className={`t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 whitespace-nowrap ${labelClassName}`}
+          >
             {label}
           </span>
         )}
@@ -50,7 +57,9 @@ const ReadinessMeter: React.FC<ReadinessMeterProps> = React.memo(
           aria-valuemin={0}
           aria-valuemax={100}
           aria-label={`Draft readiness: ${label}, ${score}%`}
-          className="relative h-1.5 w-16 sm:w-20 rounded-full overflow-hidden bg-slate-200/80 dark:bg-white/10 shrink-0"
+          className={`relative h-1.5 rounded-full overflow-hidden bg-slate-200/80 dark:bg-white/10 ${
+            barClassName ?? 'w-16 sm:w-20 shrink-0'
+          }`}
         >
           {/* Fill: the band-config gradient for levels 1–6, slate for level 0.
               A short transition keeps the climb smooth; reduced-motion turns it

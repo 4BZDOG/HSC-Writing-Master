@@ -43,16 +43,24 @@ const scaleFor = (variant: StrategyMovesVariant) =>
     ? {
         Heading: 'h3' as const,
         subheading: 't-section text-[rgb(var(--color-text-primary))]',
-        lead: 'pt-0.5 text-base leading-relaxed text-[rgb(var(--color-text-primary))]',
-        step: 'pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-secondary))]',
-        example: `${PROSE_FLOW} text-sm leading-relaxed`,
-        watch: `${PROSE_FLOW} text-sm leading-relaxed`,
+        // Every step is the same size and ink. The lead used to be set larger and
+        // darker than the steps after it, which read as two kinds of text in one
+        // list; the numbered badge is the only thing that marks the order now.
+        // The measure caps the text, not the card: the card takes the row's width
+        // and a line of this serif stops at about 70 letters. The cap is in `ch`
+        // (52ch at 14px is about 70 letters in Newsreader; 70ch would be about 95).
+        lead: `pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-primary))] max-w-[52ch]`,
+        step: `pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-primary))] max-w-[52ch]`,
+        badge: { lead: 'h-6 w-6 text-xs', step: 'h-6 w-6 text-xs' },
+        example: `${PROSE_FLOW} text-sm leading-relaxed max-w-[52ch]`,
+        watch: `${PROSE_FLOW} text-sm leading-relaxed max-w-[52ch]`,
       }
     : {
         Heading: 'h4' as const,
         subheading: 'text-sm font-semibold text-[rgb(var(--color-text-primary))]',
         lead: 'pt-0.5 t-body text-[rgb(var(--color-text-primary))]',
         step: 'pt-1 text-base leading-relaxed text-[rgb(var(--color-text-secondary))]',
+        badge: { lead: 'h-7 w-7 text-sm', step: 'h-6 w-6 text-xs' },
         example: `${PROSE_BLOCK} t-body`,
         watch: `${PROSE_FLOW} text-base leading-relaxed`,
       };
@@ -94,7 +102,7 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
                     <span
                       style={bandStyle}
                       className={`band-edge flex items-center justify-center rounded-full border font-mono font-bold tabular-nums ${config.text} ${
-                        isLead ? 'h-7 w-7 text-sm' : 'h-6 w-6 text-xs'
+                        isLead ? scale.badge.lead : scale.badge.step
                       }`}
                     >
                       {i + 1}
