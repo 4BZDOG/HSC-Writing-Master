@@ -15,13 +15,13 @@ import { PlusLockChip } from './UpgradeModal';
 import MathSymbolToolbar from './MathSymbolToolbar';
 import LadderRow, { ladderBandVars } from './LadderRow';
 import {
-  LADDER_CRITERION,
+  LADDER_READING,
   LADDER_EDGE_SHUT,
   LADDER_EMPTY,
   LADDER_FALLBACK,
   LADDER_FILL,
   LADDER_LINKED,
-  LADDER_MODEL_ANSWER,
+  LADDER_LINK,
   LADDER_STACK,
   LADDER_TOOL,
   LADDER_TOOL_ICON,
@@ -210,7 +210,8 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               ) : (
                 <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
               )}
-              AI Draft
+              {/* On a phone the tool is its icon alone, and the name stays for a screen reader. */}
+              <span className="max-sm:sr-only">AI Draft</span>
               {studioLocked && <PlusLockChip feature="aiContentStudio" />}
             </button>
           )}
@@ -341,13 +342,18 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                     band={item.band}
                     markLabel={isBandLabelled(item) ? String(item.markRange[0]) : item.markLabel}
                     total={prompt.totalMarks}
+                    // A row's criterion is always shown, like a closed exemplar's preview, so
+                    // the narrow gutter (56px on a phone) gives the text the width.
+                    phoneGutter="narrow"
                     footer={
                       exemplarMark !== undefined ? (
                         <button
                           type="button"
                           onClick={() => requestOpenExemplar(prompt.id, exemplarMark)}
                           aria-label={`See the model answer for ${exemplarMark} ${exemplarMark === 1 ? 'mark' : 'marks'}`}
-                          className={LADDER_MODEL_ANSWER}
+                          // On a phone the link is a small text link, and on a band's wash
+                          // in the dark theme its ink is light (the slate-900 is the solid's).
+                          className={`${LADDER_LINK} max-sm:dark:text-slate-100`}
                         >
                           <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
                           Model answer
@@ -355,7 +361,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                       ) : undefined
                     }
                   >
-                    <div className={LADDER_CRITERION}>
+                    <div className={LADDER_READING}>
                       {renderFormattedText(item.description, prompt.keywords, prompt.verb)}
                     </div>
                   </LadderRow>

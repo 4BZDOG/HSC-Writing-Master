@@ -19,6 +19,8 @@
  * `tests/unit/sampleAnswersPlacard.test.tsx` holds the rules that follow.
  */
 
+import { LADDER_LINK, LADDER_READING, LADDER_TOOL } from './ladderChrome';
+
 /** The body's tools row: reading size on the left-hand side of it, the AI actions
  *  beside it, all pushed to the right. It is the Marking Guide's curator row in the
  *  same slim form, so the two bodies open with the same line. It wraps, so on a
@@ -47,8 +49,7 @@ export const SAMPLE_ZOOM_VALUE =
  *  Guide's AI Draft button in shape, so the two AI controls read the same way on
  *  either panel. On a phone it is a plain 44px icon with no box, so it sits in the same
  *  slim line as the zoom; the box comes back from `sm`. Painted on the panel body. */
-export const SAMPLE_AI_BUTTON =
-  'flex items-center justify-center gap-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:py-1.5 sm:rounded-lg sm:border sm:border-slate-300 sm:bg-white sm:shadow-sm dark:sm:border-white/10 dark:sm:bg-white/5 text-slate-700 dark:text-slate-200 sm:text-slate-700 dark:sm:text-slate-200 can-hover:hover:shadow-lg can-hover:hover:border-slate-400 dark:can-hover:hover:border-white/25 t-label transition-[box-shadow,border-color] duration-200 touch-manipulation active:scale-[0.98] disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+export const SAMPLE_AI_BUTTON = LADDER_TOOL;
 
 /** The disclosure of an OPEN row, which replaces the shut disclosure's padding. Desktop
  *  (from `sm`) it is a compact line of 28px or so, holding only the row's flag and its
@@ -83,8 +84,7 @@ export const SAMPLE_ROW_FIGURE =
 /** The exemplar's opening, shown on a shut row so a student can tell two exemplars
  *  apart before opening either. It is the reading face, clamped to two lines, and it
  *  is not drawn for a locked exemplar. Painted on the row's band wash. */
-export const SAMPLE_ROW_PREVIEW =
-  'mt-2 line-clamp-2 font-serif text-sm leading-relaxed text-slate-700 dark:text-slate-300 break-words';
+export const SAMPLE_ROW_PREVIEW = `mt-2 line-clamp-2 break-words ${LADDER_READING}`;
 
 /** The previous and next controls for a level with several exemplars, with the "N/M"
  *  between them. These sit beside the disclosure, as siblings of it, so they are
@@ -175,8 +175,7 @@ export const SAMPLE_PAGE_BAR_CHIP =
  *  solid in both themes, so the dark partners restate the light ones. On a phone the head
  *  is a thin strip, so the jump is a small underlined text link there, 44px tall as the
  *  touch target. Painted on the band's solid fill. */
-export const SAMPLE_CRITERION_LINK =
-  't-label ml-auto inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 text-slate-900 underline underline-offset-2 sm:no-underline sm:rounded-full sm:border sm:border-slate-900/45 sm:bg-white/80 sm:px-3 sm:py-1.5 sm:shadow-sm dark:sm:border-slate-900/45 dark:sm:bg-white/80 dark:text-slate-900 can-hover:hover:bg-white sm:can-hover:hover:bg-white dark:can-hover:hover:bg-white transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/70 dark:focus-visible:ring-slate-900/70';
+export const SAMPLE_CRITERION_LINK = `${LADDER_LINK} ml-auto`;
 
 /** The full visible label of the criterion jump, shown above 480px of head. The button's
  *  `aria-label` names it in full for every width, so a screen reader is not given the

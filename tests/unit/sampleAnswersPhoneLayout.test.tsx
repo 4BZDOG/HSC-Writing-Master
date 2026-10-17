@@ -108,14 +108,17 @@ describe('the Sample Answers gutter on a phone', () => {
     expect(tokensOf(gutterOfLevel(3))).toContain('w-[4.5rem]');
   });
 
-  it('leaves the Marking Guide and the default gutter at the full width on every size', () => {
+  it('gives the Marking Guide the same narrow gutter as a closed exemplar, and no strip', () => {
+    // Its criteria are always shown, so it takes the narrow gutter on a phone, as a closed
+    // exemplar does. It is never a strip: that is for an open exemplar only.
     render(<MarkingGuidePanel prompt={prompt} userRole="user" onMarkingCriteriaChange={vi.fn()} />);
     const guideGutters = Array.from(document.querySelectorAll<HTMLElement>('.border-r')).filter(
       (el) => el.className.includes('w-[4.5rem]')
     );
     expect(guideGutters.length).toBeGreaterThan(0);
     for (const gutter of guideGutters) {
-      expect(tokensOf(gutter).some((token) => token.startsWith('max-sm:'))).toBe(false);
+      expect(tokensOf(gutter)).toContain('max-sm:w-14');
+      expect(tokensOf(gutter)).not.toContain('max-sm:w-1');
     }
   });
 

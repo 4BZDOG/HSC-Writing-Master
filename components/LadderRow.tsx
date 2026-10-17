@@ -68,10 +68,11 @@ export interface LadderRowGutterProps {
   quiet?: boolean;
   /** How the gutter reads on a phone only; from `sm` it is always the full gutter.
    *  `'full'` (the default) is the gutter every caller has. `'narrow'` is 56px with the
-   *  figure and caption set smaller, so a closed row's preview gets the width. `'strip'`
-   *  is a 4px band-coloured edge with the figure and caption read by a screen reader
-   *  only, for an open row that is full-bleed on a phone. Only the Sample Answers panel
-   *  passes it. */
+   *  figure and caption set smaller, so a row whose body is always shown (a guide
+   *  criterion, a closed exemplar's preview, a term group) gets the width. `'strip'` is
+   *  a 4px band-coloured edge with the figure and caption read by a screen reader only,
+   *  for an open exemplar that is full-bleed on a phone. The Sample Answers, Marking
+   *  Guide and Syllabus Terms panels pass it, so the three ladders read alike. */
   phoneGutter?: 'full' | 'narrow' | 'strip';
 }
 
@@ -163,6 +164,8 @@ export interface LadderRowProps {
   /** The row's element, so the guide can scroll to it and move focus to it. A row
    *  that takes a ref is also focusable by script (not by Tab). */
   rowRef?: React.Ref<HTMLDivElement>;
+  /** The gutter's phone form, passed through to `LadderRowGutter`. */
+  phoneGutter?: LadderRowGutterProps['phoneGutter'];
 }
 
 const LadderRow: React.FC<LadderRowProps> = ({
@@ -177,6 +180,7 @@ const LadderRow: React.FC<LadderRowProps> = ({
   linked = false,
   id,
   rowRef,
+  phoneGutter,
 }) => (
   <div
     id={id}
@@ -201,6 +205,7 @@ const LadderRow: React.FC<LadderRowProps> = ({
       bandCaption={bandCaption}
       edge={edge}
       quiet={quiet}
+      phoneGutter={phoneGutter}
     />
     <div className={LADDER_BODY}>
       {linked && (
