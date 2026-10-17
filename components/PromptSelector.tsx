@@ -134,7 +134,31 @@ interface PromptSelectorProps {
    * available." tells a returning student their courses do not exist.
    */
   isLoading?: boolean;
+  /**
+   * Whether the curation rows (Add, Rename, Delete, Generate…) are showing on a
+   * phone. Owned by the caller, because the toggle that sets it sits in the
+   * navigator's foot beside "Hide navigator", which the caller renders. From
+   * `sm` up the rows always show, whatever this says.
+   */
+  curationOpenOnPhone?: boolean;
 }
+
+/**
+ * The width every curation group takes from `lg`, where a row is horizontal.
+ * Each level's pickers end where its group begins, so they share one right edge
+ * instead of ending wherever the group's own width leaves them. Right-aligned
+ * inside, so a sparser row leaves its gap on the left.
+ *
+ * Sized per role, to the widest group THAT role sees. One width for everyone was
+ * the admin's course row (seven buttons, four of them labelled), and it left a
+ * teacher, whose widest row has four icons, a 380px gap between every picker and
+ * its buttons. The buttons' labels show only from `2xl`, where there is room for
+ * them, so below that every group is a row of icons and the column stays narrow.
+ */
+const curationGroupWidth = (canCreateTree: boolean): string =>
+  canCreateTree
+    ? 'lg:w-[20rem] 2xl:w-[33rem] lg:shrink-0'
+    : 'lg:w-[11rem] 2xl:w-[19rem] lg:shrink-0';
 
 // Static lookup map for Tailwind classes to ensure they are not purged.
 // The five journey levels use clearly separated hues (blue → purple → teal →
@@ -358,7 +382,9 @@ const ActionButton = ({
 }) => (
   <button
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
-    className={`relative p-2 ${label ? 'sm:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-[0.98] border flex items-center gap-1.5 ${
+    // 44px tall and wide on a phone, the touch floor the rest of the app keeps;
+    // it steps down to the 32px it was from `sm`, where a pointer is the input.
+    className={`relative p-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 ${label ? '2xl:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-[0.98] border flex items-center justify-center gap-1.5 ${
       locked
         ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-800'
         : variant === 'danger'
@@ -372,9 +398,13 @@ const ActionButton = ({
                 : 'bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
     }`}
     title={locked ? `${title} — ${describeAccess('aiContentStudio').explanation}` : title}
+    // An icon-only button has no visible name, and its title alone is a weak one.
+    // The visible label when there is one, so the name matches what is read on
+    // screen; the label itself only shows from `2xl`.
+    aria-label={label ?? title}
   >
     {Icon && <Icon className="w-4 h-4" />}
-    {label && <span className="t-label hidden sm:inline whitespace-nowrap">{label}</span>}
+    {label && <span className="t-label hidden 2xl:inline whitespace-nowrap">{label}</span>}
     {locked && (
       <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 text-slate-900 flex items-center justify-center shadow-sm">
         <Lock className="w-2.5 h-2.5" />
@@ -407,9 +437,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   newlyAddedIds,
   userRole,
   isLoading = false,
+  curationOpenOnPhone = false,
 }) => {
   const [focusEditorOpen, setFocusEditorOpen] = useState(false);
   const canCurate = canCurateContent(userRole);
+  // Below `sm` the curation rows show only while the phone toggle is on; from
+  // `sm` up they are always laid out. `sm:flex` restores the row whatever the
+  // toggle says, so nothing is removed from desktop.
+  const curationRowVisibility = `${curationOpenOnPhone ? 'flex' : 'hidden'} sm:flex`;
   const canGenerate = canUseAiGeneration(userRole);
   const isAdmin = isSystemAdmin(userRole);
   // Courses and topics are the shared skeleton everyone navigates, so creating
@@ -417,6 +452,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   // teacher still curates everything below a topic, and can ASK for a course
   // that doesn't exist yet through the request link under the course picker.
   const canCreateTree = canCreateCurriculum(userRole);
+  const CURATION_GROUP_WIDTH = curationGroupWidth(canCreateTree);
   // Only offered to people who cannot simply ADD the course themselves, and
   // only when there is a backend to record it in — a local-only session has
   // nowhere to put the request and would be promising something it can't keep.
@@ -469,27 +505,43 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const courseOptions = useMemo(
     () =>
-      courses.map((c) => ({
-        id: c.id,
-        label: c.name,
-        isNew: newlyAddedIds.has(c.id),
-        renderLabel: (
+      courses.map((c) => {
+        // One row, two renderings. The closed control also carries the meta
+        // chips (Draft, Ready) below `sm`, where they take the width the name
+        // needs; `inTrigger` hides them there and nowhere else, so the open
+        // list still shows them on a phone.
+        const row = (inTrigger: boolean) => (
           <div className="flex items-center gap-3">
             <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
               <Book className="w-4 h-4" />
             </div>
             <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
             {canCreateTree && c.status === 'draft' && (
-              <span className="t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0">
+              <span
+                className={`t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0 ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
+              >
                 Draft
               </span>
             )}
             {/* Both years together: the question is "is this course ready to
                 show someone", and it is not ready if half of it is empty. */}
-            {canCurate && <CoverageChip coverage={questionCoverage(c)} label={c.name} />}
+            {canCurate && (
+              <CoverageChip
+                coverage={questionCoverage(c)}
+                label={c.name}
+                className={inTrigger ? 'hidden sm:inline-flex' : ''}
+              />
+            )}
           </div>
-        ),
-      })),
+        );
+        return {
+          id: c.id,
+          label: c.name,
+          isNew: newlyAddedIds.has(c.id),
+          renderLabel: row(false),
+          renderSelected: row(true),
+        };
+      }),
     [courses, newlyAddedIds, canCurate, canCreateTree]
   );
 
@@ -568,11 +620,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const topicOptions = useMemo(
     () =>
-      yearTopics.map((t) => ({
-        id: t.id,
-        label: t.name,
-        isNew: newlyAddedIds.has(t.id),
-        renderLabel: (
+      yearTopics.map((t) => {
+        // As the course row: the counts are hidden in the closed control below `sm`.
+        const row = (inTrigger: boolean) => (
           <div className="flex items-center gap-3">
             <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.topic}`}>
               <Layers className="w-4 h-4" />
@@ -581,17 +631,30 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {/* How much is inside, so the list says where the depth is before
                 anyone opens a topic to find out. */}
             {t.subTopics?.length > 0 && (
-              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))]">
+              <span
+                className={`t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
+              >
                 {t.subTopics.length} sub-topic{t.subTopics.length === 1 ? '' : 's'}
               </span>
             )}
             {/* Per topic, so a half-finished course says WHICH half. */}
             {canCurate && (
-              <CoverageChip coverage={questionCoverage({ topics: [t] })} label={t.name} />
+              <CoverageChip
+                coverage={questionCoverage({ topics: [t] })}
+                label={t.name}
+                className={inTrigger ? 'hidden sm:inline-flex' : ''}
+              />
             )}
           </div>
-        ),
-      })),
+        );
+        return {
+          id: t.id,
+          label: t.name,
+          isNew: newlyAddedIds.has(t.id),
+          renderLabel: row(false),
+          renderSelected: row(true),
+        };
+      }),
     [yearTopics, newlyAddedIds, canCurate]
   );
 
@@ -599,25 +662,29 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     () =>
       selectedTopic?.subTopics?.map((st) => {
         const questionCount = st.dotPoints.reduce((n, dp) => n + (dp.prompts?.length ?? 0), 0);
+        const row = (inTrigger: boolean) => (
+          <div className="flex items-center gap-3">
+            {/* Teal, from LEVEL_TILE: this tile was hand-written as indigo
+                while the picker, the rail and levelColors all said teal. */}
+            <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.subTopic}`}>
+              <FolderOpen className="w-4 h-4" />
+            </div>
+            <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
+            <span
+              className={`t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
+            >
+              {questionCount > 0
+                ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
+                : 'No questions yet'}
+            </span>
+          </div>
+        );
         return {
           id: st.id,
           label: st.name,
           isNew: newlyAddedIds.has(st.id),
-          renderLabel: (
-            <div className="flex items-center gap-3">
-              {/* Teal, from LEVEL_TILE: this tile was hand-written as indigo
-                  while the picker, the rail and levelColors all said teal. */}
-              <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.subTopic}`}>
-                <FolderOpen className="w-4 h-4" />
-              </div>
-              <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
-              <span className="t-label flex-shrink-0 text-[rgb(var(--color-text-muted))]">
-                {questionCount > 0
-                  ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
-                  : 'No questions yet'}
-              </span>
-            </div>
-          ),
+          renderLabel: row(false),
+          renderSelected: row(true),
         };
       }) || [],
     [selectedTopic, newlyAddedIds]
@@ -1103,56 +1170,62 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <StepHeader icon={BookOpen} label="Course" colorKey={LEVEL_HUE.course} />
           )}
           <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
-            <div className="flex-1 w-full">
-              <Combobox
-                label={null}
-                options={courseOptions}
-                optionNoun="courses"
-                value={statePath.courseId || ''}
-                onChange={(id) =>
-                  onPathChange({
-                    courseId: id,
-                    topicId: undefined,
-                    subTopicId: undefined,
-                    dotPointId: undefined,
-                    promptId: undefined,
-                    selectedSubItems: undefined,
-                  })
-                }
-                disabled={isLoading}
-                placeholder={isLoading ? 'Loading courses…' : 'Select Course...'}
-                color="blue"
-                appearance="quiet"
-                caption="Course"
-                emptyAction={
-                  canRequestCourse
-                    ? {
-                        label: "Can't find it? Request this course",
-                        onAction: (query) => onRequestCourse?.(query),
-                      }
-                    : undefined
-                }
-              />
-            </div>
-            {/* The year sits beside the course because that is what it belongs
-                to: one course name, two syllabuses. Everything below reads from
-                whichever is chosen here. */}
-            {selectedCourse && (
-              <div className="w-full lg:w-[230px] flex-shrink-0 animate-fade-in">
+            {/* Course and year share one column, so the year is the picker that
+                ends at the curation group's edge, as every other row's does. */}
+            <div className="flex-1 w-full min-w-0 flex flex-col lg:flex-row gap-4 lg:items-center">
+              <div className="flex-1 w-full min-w-0">
                 <Combobox
                   label={null}
-                  options={yearOptions}
-                  optionNoun="years"
-                  value={syllabusYear}
-                  onChange={handleYearChange}
-                  placeholder="Select Year..."
+                  options={courseOptions}
+                  optionNoun="courses"
+                  value={statePath.courseId || ''}
+                  onChange={(id) =>
+                    onPathChange({
+                      courseId: id,
+                      topicId: undefined,
+                      subTopicId: undefined,
+                      dotPointId: undefined,
+                      promptId: undefined,
+                      selectedSubItems: undefined,
+                    })
+                  }
+                  disabled={isLoading}
+                  placeholder={isLoading ? 'Loading courses…' : 'Select Course...'}
                   color="blue"
                   appearance="quiet"
+                  caption="Course"
+                  emptyAction={
+                    canRequestCourse
+                      ? {
+                          label: "Can't find it? Request this course",
+                          onAction: (query) => onRequestCourse?.(query),
+                        }
+                      : undefined
+                  }
                 />
               </div>
-            )}
+              {/* The year sits beside the course because that is what it belongs
+                to: one course name, two syllabuses. Everything below reads from
+                whichever is chosen here. */}
+              {selectedCourse && (
+                <div className="w-full lg:w-[230px] flex-shrink-0 animate-fade-in">
+                  <Combobox
+                    label={null}
+                    options={yearOptions}
+                    optionNoun="years"
+                    value={syllabusYear}
+                    onChange={handleYearChange}
+                    placeholder="Select Year..."
+                    color="blue"
+                    appearance="quiet"
+                  />
+                </div>
+              )}
+            </div>
             {canCurate && (
-              <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
+              <div
+                className={`${curationRowVisibility} items-center gap-2 gap-y-2 flex-wrap justify-end ${CURATION_GROUP_WIDTH}`}
+              >
                 {/* Creating a course, and the AI import that builds one, are
                     both admin-only (canCreateCurriculum). A teacher who needs a
                     course that isn't here uses the request link below the
@@ -1286,7 +1359,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 />
               </div>
               {canCurate && (
-                <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
+                <div
+                  className={`${curationRowVisibility} items-center gap-2 gap-y-2 flex-wrap justify-end ${CURATION_GROUP_WIDTH}`}
+                >
                   {selectedTopic ? (
                     <>
                       {canCreateTree && (
@@ -1487,7 +1562,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 />
               </div>
               {canCurate && (
-                <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
+                <div
+                  className={`${curationRowVisibility} items-center gap-2 gap-y-2 flex-wrap justify-end ${CURATION_GROUP_WIDTH}`}
+                >
                   {selectedSubTopic ? (
                     <>
                       <ActionButton
@@ -1555,7 +1632,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               {/* Main Dot Point Selector - Grows to take most space */}
               <div className="flex-[3] w-full min-w-0">
                 <Combobox
-                  label={isDotPointSelected && hasSubItems ? 'Syllabus Point' : null}
+                  label={isDotPointSelected && hasSubItems ? 'Syllabus point' : null}
                   options={dotPointOptions}
                   optionNoun="dot points"
                   value={statePath.dotPointId || ''}
@@ -1570,7 +1647,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   color="pink"
                   appearance="quiet"
                   // Beside the focus picker the step already has a label above
-                  // it, lined up with "Active Focus"; a caption too would say
+                  // it, lined up with "Focus"; a caption too would say
                   // it twice.
                   caption={isDotPointSelected && hasSubItems ? undefined : 'Syllabus point'}
                 />
@@ -1580,12 +1657,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               {selectedDotPoint && hasSubItems && (
                 <div className="flex-1 w-full lg:min-w-[240px] animate-fade-in">
                   <Combobox
-                    label="Active Focus"
+                    label="Focus"
                     options={subItemOptions}
                     optionNoun="sub-points"
                     value={activeFocusCount > 0 ? 'MULTIPLE' : ''}
                     onChange={handleSubItemToggle}
-                    placeholder="Refine Scope..."
+                    placeholder="All of this syllabus point"
                     color="green"
                     appearance="quiet"
                   />
@@ -1594,7 +1671,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
               {/* Admin Actions */}
               {canCurate && (
-                <div className="flex items-center gap-2 pt-2 lg:pt-0 flex-wrap justify-end lg:self-center">
+                <div
+                  className={`${curationRowVisibility} items-center gap-2 pt-2 lg:pt-0 flex-wrap justify-end lg:self-center ${CURATION_GROUP_WIDTH}`}
+                >
                   {selectedDotPoint ? (
                     <>
                       {/* Focus areas are read out of syllabus prose by a
@@ -1605,7 +1684,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       {onUpdateFocusAreas && (
                         <button
                           onClick={() => setFocusEditorOpen(true)}
-                          className={`p-2 rounded-lg border transition-all shadow-sm ${
+                          className={`inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 rounded-lg border transition-all shadow-sm ${
                             focusAreasOverridden
                               ? 'bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border-emerald-500/40'
                               : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/20 hover:bg-emerald-700 hover:text-white'
@@ -1625,8 +1704,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       {hasSubItems && activeFocusCount > 0 && (
                         <button
                           onClick={() => onPathChange({ selectedSubItems: undefined })}
-                          className="p-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+                          className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
                           title="Reset Focus"
+                          aria-label="Reset focus"
                         >
                           <RotateCcw className="w-4 h-4" />
                         </button>
@@ -1780,7 +1860,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 />
               </div>
               {canCurate && (
-                <div className="flex items-center gap-2 gap-y-2 flex-wrap justify-end">
+                <div
+                  className={`${curationRowVisibility} items-center gap-2 gap-y-2 flex-wrap justify-end ${CURATION_GROUP_WIDTH}`}
+                >
                   {selectedPrompt ? (
                     <>
                       {canGenerate && (
