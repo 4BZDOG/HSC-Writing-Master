@@ -154,6 +154,15 @@ const OUTCOME_FILL = 'band-fill border-[rgb(var(--band-rgb)/0.55)]';
 const FOOTER_TOOL =
   'shrink-0 flex items-center justify-center size-9 max-sm:size-11 rounded-lg border transition-all touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
 
+/**
+ * The marks and the band as chips on the header's meta line, on a phone only. The
+ * verb chip's ground, edge and type, without its underline: these are facts, and
+ * only the verb opens its guide by looking like it does. From `sm` they are the
+ * corner bar's pills.
+ */
+const PHONE_STAT_CHIP =
+  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
+
 /** Half the preview panel's width (w-72), used to keep it on screen. */
 const OUTCOME_PREVIEW_HALF_WIDTH = 144;
 
@@ -609,7 +618,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   own at any laptop width. And a "Band 2 ceiling" caption sat
                   here saying what the BAND pill in the corner already says —
                   its tooltip says it in full. */}
-                <div className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:row-start-2`}>
+                {/* Below `sm` this line runs to the card's right edge and also
+                    carries the marks and the band, which the corner bar holds from
+                    `sm`. The bar used to share this grid row on a phone, with
+                    nothing to stop the two meeting: "CRITICALLY EVALUATE" beside
+                    "12 Marks | Band 6" ran under the bar at 390px, and "IDENTIFY"
+                    did at 320px. On one wrapping line the stats move down a line
+                    instead. */}
+                <div
+                  className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:col-end-4 max-sm:row-start-2 max-sm:gap-x-1.5 max-sm:gap-y-0`}
+                >
                   <button
                     onClick={onVerbClick}
                     disabled={examMode}
@@ -689,6 +707,35 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       {pastHsc.text}
                     </button>
                   )}
+                  <span className={`${PHONE_STAT_CHIP} sm:hidden`}>
+                    <Award className="w-3 h-3 text-white/70" aria-hidden="true" />
+                    {prompt.totalMarks} Marks
+                  </span>
+                  {examMode ? (
+                    <span
+                      className={`${PHONE_STAT_CHIP} font-bold sm:hidden`}
+                      title={`A full-mark response to this ${prompt.verb} question reaches Band ${targetBand}.`}
+                    >
+                      <Target className="w-3 h-3 text-white/70" aria-hidden="true" />
+                      Band {targetBand}
+                    </span>
+                  ) : (
+                    // 44px tall, as the bar's band button is on a phone, with the
+                    // chip drawn inside it.
+                    <button
+                      type="button"
+                      onClick={onVerbClick}
+                      aria-label={`Band ${targetBand} is the target. See what ${prompt.verb} asks for`}
+                      className="sm:hidden inline-flex items-center min-h-11 touch-manipulation group/band focus-visible:outline-none"
+                    >
+                      <span
+                        className={`${PHONE_STAT_CHIP} font-bold group-active/band:scale-[0.98] group-focus-visible/band:ring-2 group-focus-visible/band:ring-white/70`}
+                      >
+                        <Target className="w-3 h-3 text-white/70" aria-hidden="true" />
+                        Band {targetBand}
+                      </span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -735,7 +782,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
 
               <div
                 data-card-bar
-                className={`t-label ${CARD_HEADER_BAR} gap-1.5 max-sm:col-start-2 max-sm:col-end-4 max-sm:row-start-2 max-sm:justify-self-end`}
+                // From `sm` only: on a phone the marks and band are chips on the
+                // meta line (see there).
+                className={`t-label ${CARD_HEADER_BAR} gap-1.5 max-sm:hidden`}
               >
                 {/* First to go when the row is tight: the suggested time is
                   the least load-bearing of the three, and the question card is
