@@ -6,7 +6,7 @@ import EvaluationProgressBar from '../../components/EvaluationProgressBar';
 import AiWaitGlyph, { WAIT_INK } from '../../components/AiWaitGlyph';
 import WaitNoteFigure from '../../components/WaitNoteFigure';
 import { emitEvalProgress } from '../../services/aiCore';
-import { waitNotes } from '../../utils/waitTips';
+import { VERB_TIPS, WAIT_TIPS, waitNotes } from '../../utils/waitTips';
 import type { AiTaskType } from '../../components/LoadingIndicator';
 import { HSC_RESULTS_FACTS } from '../../data/hscResultsFacts';
 import { acquireAiBusy } from '../../utils/aiBusySignal';
@@ -185,6 +185,142 @@ describe('EvaluationProgressBar', () => {
     expect(bar.className).toContain('bg-[rgb(var(--color-accent))]');
     expect(bar.className).not.toContain('indigo');
     expect(container.innerHTML).not.toMatch(/6366f1|99,\s*102,\s*241/i);
+  });
+});
+
+describe('the command verb tip', () => {
+  const adviceTexts = (task: AiTaskType, verb?: string): string[] =>
+    waitNotes(task, verb)
+      .filter((note) => note.kind === 'advice')
+      .map((note) => note.text);
+
+  it('shows the describe tip first, and no other verb’s tip', () => {
+    render(<EvaluationProgressBar verb="DESCRIBE" />);
+    expect(document.querySelector('blockquote')?.textContent).toBe(VERB_TIPS.describe);
+
+    const texts = adviceTexts('evaluation', 'DESCRIBE');
+    expect(texts[0]).toBe(VERB_TIPS.describe);
+    const otherVerbTips = Object.entries(VERB_TIPS)
+      .filter(([verb]) => verb !== 'describe')
+      .map(([, tip]) => tip);
+    for (const tip of otherVerbTips) expect(texts).not.toContain(tip);
+  });
+
+  it('gives an unknown verb only the general tips', () => {
+    expect(adviceTexts('evaluation', 'FROBNICATE')).toEqual(WAIT_TIPS.evaluation);
+    expect(adviceTexts('evaluation')).toEqual(WAIT_TIPS.evaluation);
+    const texts = adviceTexts('evaluation', 'FROBNICATE');
+    for (const tip of Object.values(VERB_TIPS)) expect(texts).not.toContain(tip);
+  });
+
+  it('matches the verb case-insensitively and ignores surrounding space', () => {
+    expect(adviceTexts('evaluation', '  describe ')[0]).toBe(VERB_TIPS.describe);
+    expect(adviceTexts('evaluation', 'Justify')[0]).toBe(VERB_TIPS.justify);
+    expect(adviceTexts('evaluation', 'CRITICALLY   ANALYSE')[0]).toBe(
+      VERB_TIPS['critically analyse']
+    );
+  });
+
+  it('does not match keys inherited from the object prototype', () => {
+    expect(adviceTexts('evaluation', 'constructor')).toEqual(WAIT_TIPS.evaluation);
+    expect(adviceTexts('evaluation', 'toString')).toEqual(WAIT_TIPS.evaluation);
+  });
+
+  it('leaves the other tasks’ notes alone whatever verb is passed', () => {
+    expect(waitNotes('generation', 'DESCRIBE')).toEqual(waitNotes('generation'));
+    expect(waitNotes('enrichment', 'DESCRIBE')).toEqual(waitNotes('enrichment'));
+  });
+
+  it('keeps the advice and HSC numbers interleaved with a verb tip leading', () => {
+    const notes = waitNotes('evaluation', 'IDENTIFY');
+    expect(notes[0].kind).toBe('advice');
+    expect(notes[1].kind).toBe('fact');
+    expect(notes[2].kind).toBe('advice');
+  });
+
+  it('keys every verb tip in lower case, so lookups have one spelling', () => {
+    for (const key of Object.keys(VERB_TIPS)) expect(key).toBe(key.toLowerCase());
+  });
+
+  it('gives each verb its own tip text, so one verb’s wording never appears under another', () => {
+    // 'account' and 'account for' are the same verb under two spellings, so they
+    // share one tip; every other key has its own sentence.
+    const tips = Object.entries(VERB_TIPS).filter(([verb]) => verb !== 'account for');
+    const unique = new Set(tips.map(([, tip]) => tip));
+    expect(unique.size).toBe(tips.length);
+  });
+});
+
+describe('EvaluationProgressBar on a phone', () => {
+  const originalScrollIntoView = Element.prototype.scrollIntoView;
+  const originalMatchMedia = window.matchMedia;
+
+  afterEach(() => {
+    Element.prototype.scrollIntoView = originalScrollIntoView;
+    window.matchMedia = originalMatchMedia;
+  });
+
+  /** Gives the content block (and every other element) one fixed viewport rect. */
+  const placeOnScreen = (top: number, bottom: number): void => {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top,
+      bottom,
+      left: 0,
+      right: 390,
+      width: 390,
+      height: bottom - top,
+      x: 0,
+      y: top,
+      toJSON: () => ({}),
+    } as DOMRect);
+  };
+
+  it('brings its heading out from under the header, centring the content block', () => {
+    placeOnScreen(-300, 200);
+    const seen: Element[] = [];
+    Element.prototype.scrollIntoView = vi.fn(function (this: Element) {
+      seen.push(this);
+    });
+
+    render(<EvaluationProgressBar />);
+
+    expect(seen).toHaveLength(1);
+    // The content block holds the heading and bar; the veil does not, so
+    // centring the veil (taller than the screen) would not show the heading.
+    expect(seen[0].contains(screen.getByText('Marking your response'))).toBe(true);
+    expect(seen[0].getAttribute('role')).toBeNull();
+  });
+
+  it('scrolls smoothly, unless the reader asks for reduced motion', () => {
+    placeOnScreen(-300, 200);
+    const scroll = vi.fn();
+    Element.prototype.scrollIntoView = scroll;
+
+    const { unmount } = render(<EvaluationProgressBar />);
+    expect(scroll).toHaveBeenLastCalledWith({ block: 'center', behavior: 'smooth' });
+    unmount();
+
+    window.matchMedia = vi
+      .fn()
+      .mockReturnValue({ matches: true }) as unknown as typeof window.matchMedia;
+    render(<EvaluationProgressBar />);
+    expect(scroll).toHaveBeenLastCalledWith({ block: 'center', behavior: 'auto' });
+  });
+
+  it('leaves a loader that is already clear of the header where it is', () => {
+    placeOnScreen(200, 600);
+    const scroll = vi.fn();
+    Element.prototype.scrollIntoView = scroll;
+
+    render(<EvaluationProgressBar />);
+    expect(scroll).not.toHaveBeenCalled();
+  });
+
+  it('does not throw where scrollIntoView is missing', () => {
+    placeOnScreen(-300, 200);
+    Element.prototype.scrollIntoView =
+      undefined as unknown as typeof Element.prototype.scrollIntoView;
+    expect(() => render(<EvaluationProgressBar />)).not.toThrow();
   });
 });
 

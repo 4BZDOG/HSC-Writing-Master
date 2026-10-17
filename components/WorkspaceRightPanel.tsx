@@ -504,7 +504,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             // The marking wait is laid inside the card, under its header,
             // rather than over the whole box. See Editor for why the header
             // stays uncovered and the border never sits under the veil.
-            busyOverlay={isEvaluating ? <EvaluationProgressBar /> : undefined}
+            busyOverlay={
+              isEvaluating ? <EvaluationProgressBar verb={currentPrompt.verb} /> : undefined
+            }
             blockPaste={blockPaste}
             draftSaved={draftSaved}
           />
