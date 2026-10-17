@@ -217,6 +217,13 @@ const pickOpenableQuestion = async (page: Page): Promise<void> => {
 };
 
 /**
+ * The focus picker's trigger text: "All of this syllabus point" with no focus
+ * areas chosen, or the count once some are ("1 focus area", "2 focus areas").
+ * The count is why the dot-point picker cannot skip it by one fixed string.
+ */
+const FOCUS_PICKER_LABEL = /^(All of this syllabus point|\d+ focus areas?)$/;
+
+/**
  * The dot-point picker: the nearest picker above the question picker, skipping
  * the focus refinement that can sit between the two. Before a dot point is taken
  * there is no question picker yet, so the dot-point picker is the last one. Its
@@ -229,7 +236,7 @@ const dotPointPicker = async (page: Page): Promise<Locator> => {
   const question = labels.findIndex((label) => label.includes('Select Question...'));
   const above = question < 0 ? labels.length : question;
   for (let i = above - 1; i >= 0; i--) {
-    if (!labels[i].includes('All of this syllabus point')) return pickers.nth(i);
+    if (!FOCUS_PICKER_LABEL.test(labels[i].trim())) return pickers.nth(i);
   }
   throw new Error('no dot-point picker on the page');
 };

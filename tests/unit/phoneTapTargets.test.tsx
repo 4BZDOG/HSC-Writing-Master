@@ -79,8 +79,12 @@ describe('close buttons on a phone', () => {
 });
 
 describe('the API usage pill on a phone', () => {
-  it('is 44px tall below sm', () => {
-    expect(source('ApiMonitorDisplay.tsx')).toContain('min-h-11 sm:min-h-0 rounded-full');
+  // Below sm the closed chip is a 44px round button holding the bolt alone, and the
+  // counts are hidden there (they moved into its aria-label). From sm it is the chip.
+  it('is a 44px round button below sm, and the full chip from sm', () => {
+    const chip = source('ApiMonitorDisplay.tsx');
+    expect(chip).toContain('h-11 w-11 p-0 sm:h-auto sm:w-auto sm:px-4 sm:py-2 rounded-full');
+    expect(chip.split('max-sm:hidden').length - 1).toBe(3);
   });
 });
 

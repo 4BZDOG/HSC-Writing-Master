@@ -273,10 +273,14 @@ const ApiMonitorDisplay: React.FC = () => {
   return (
     <div className="fixed bottom-4 right-4 z-overlay-status select-none font-sans">
       {!isExpanded ? (
+        // On a phone the chip is a 44px round button holding the bolt alone: its
+        // two counts sat over the content beneath it at 390px. The counts stay in
+        // the aria-label, so a screen reader still gets them.
         <button
           onClick={() => setIsExpanded(true)}
+          aria-label={`Show API usage details: ${sessionCalls} requests, ${formatTokens(sessionTokens)} tokens`}
           className="
-            flex items-center gap-4 px-4 py-2 min-h-11 sm:min-h-0 rounded-full
+            flex items-center justify-center gap-4 h-11 w-11 p-0 sm:h-auto sm:w-auto sm:px-4 sm:py-2 rounded-full
             bg-[rgb(var(--color-bg-surface-elevated))]/80 light:bg-surface-elevated/95 backdrop-blur-md
             border border-[rgb(var(--color-border-accent))]/30 light:border-slate-300
             shadow-lg hover:shadow-[rgb(var(--color-accent))]/20 hover:border-[rgb(var(--color-border-accent))]/60
@@ -288,12 +292,12 @@ const ApiMonitorDisplay: React.FC = () => {
           title="Show API Usage Details"
         >
           <div className="flex items-center gap-1.5 text-xs font-bold">
-            <Zap className="w-3.5 h-3.5" />
-            <span className="font-mono">{sessionCalls}</span>
+            <Zap className="w-3.5 h-3.5" aria-hidden="true" />
+            <span className="font-mono max-sm:hidden">{sessionCalls}</span>
           </div>
-          <div className="w-px h-3 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300" />
-          <div className="flex items-center gap-1.5 text-xs font-bold">
-            <Hash className="w-3.5 h-3.5" />
+          <div className="max-sm:hidden w-px h-3 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300" />
+          <div className="max-sm:hidden flex items-center gap-1.5 text-xs font-bold">
+            <Hash className="w-3.5 h-3.5" aria-hidden="true" />
             <span className="font-mono">{formatTokens(sessionTokens)}</span>
           </div>
         </button>

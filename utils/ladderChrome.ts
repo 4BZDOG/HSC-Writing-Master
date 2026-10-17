@@ -123,12 +123,11 @@ export const LADDER_GUTTER_NARROW = `${LADDER_GUTTER} max-sm:w-14 max-sm:px-0.5`
 export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-1 max-sm:px-0`;
 
 /** The inset of a row's text from its gutter, on a phone only. The row is full width
- *  on a phone, so the 16px a desktop row keeps is 6px there. With the narrow gutter that
- *  leaves the criterion and the exemplar's preview a 270px column at 390px (the row's
- *  own 1px border comes off the 272px it would otherwise have). The top and bottom keep
- *  `p-4`. From `sm` it is `p-4`. Shared by the guide's rows and the exemplar's shut
- *  disclosure, so the two read the same width. */
-export const LADDER_ROW_PHONE_INSET = 'max-sm:px-1.5';
+ *  on a phone, so the 16px a desktop row keeps is 8px there. At 6px the text sat tight
+ *  against the gutter's divider at 390px. 8px clears the divider and costs only 4px of
+ *  width on each side. The top and bottom keep `p-4`. From `sm` it is `p-4`. Shared by
+ *  the guide's rows and the exemplar's shut disclosure, so the two read the same width. */
+export const LADDER_ROW_PHONE_INSET = 'max-sm:px-2';
 
 /** The body beside the gutter: the row's content. It takes `min-w-0` so a long
  *  unbroken word wraps rather than pushing the gutter out of the row. The inset is
@@ -259,12 +258,14 @@ export const LADDER_EMPTY = 'py-8 px-4 text-center rounded-xl border-2 border-da
 export const LADDER_TOOL =
   't-label inline-flex items-center justify-center gap-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:px-3 sm:py-1.5 sm:rounded-lg sm:border sm:border-slate-300 sm:bg-white sm:shadow-sm dark:sm:border-white/10 dark:sm:bg-white/5 text-slate-700 dark:text-slate-200 can-hover:hover:shadow-lg can-hover:hover:border-slate-400 dark:can-hover:hover:border-white/25 transition-[box-shadow,border-color] duration-200 touch-manipulation active:scale-[0.98] disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** An icon-only panel tool: "Edit", "Save", "Cancel", the notice's dismiss. It is
- *  44px on a phone, where a 24px icon is too small to hit, and returns to its own
- *  size from `sm`. The ink is the caller's, so a destructive or a confirming icon can
- *  take its own colour. Painted on the panel body. */
+/** An icon-only panel tool: "Edit", "Save", "Cancel", the notice's dismiss, the syllabus
+ *  terms' add and AI actions. It is 44px on a phone, where a 24px icon is too small to
+ *  hit. From `sm` it is 30px square, the height of `LADDER_TOOL` beside it: a 28px icon
+ *  button sat a couple of pixels short of the pill tools in the same toolbar. The ink is
+ *  the caller's, so a destructive or a confirming icon can take its own colour. Painted
+ *  on the panel body. */
 export const LADDER_TOOL_ICON =
-  'flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-1.5 rounded-lg transition-colors duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60 can-hover:hover:bg-slate-900/5 dark:can-hover:hover:bg-white/10';
+  'flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:h-[30px] sm:w-[30px] p-1.5 rounded-lg transition-colors duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60 can-hover:hover:bg-slate-900/5 dark:can-hover:hover:bg-white/10';
 
 /** A hero panel's header: the band at 16% fading to nothing from left to right,
  *  over the header row. It reads `--band-rgb` (set on the panel root) and the
