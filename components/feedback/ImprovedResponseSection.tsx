@@ -85,7 +85,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
         toneBg={exemplarConfig.bg}
       >
         {revisedText && !atCeiling && (
-          <span className="t-label ml-auto text-slate-600 dark:text-slate-400 tabular-nums">
+          <span className="t-label ml-auto whitespace-nowrap text-slate-600 dark:text-slate-400 tabular-nums">
             {gapWords} · Band {exemplarBand}
           </span>
         )}

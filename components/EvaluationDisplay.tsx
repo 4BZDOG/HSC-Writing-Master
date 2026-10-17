@@ -262,8 +262,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
 
       {/* The top of the report is two columns from `xl`, and one column below it. The
           DOM order is the phone order, so a keyboard or a screen reader meets the mark
-          before the words, the same as a student on a phone does. */}
-      <div className="flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-start xl:gap-x-8">
+          before the words, the same as a student on a phone does.
+
+          The first row is `auto` and the second `1fr`. The reading column spans both,
+          and with two auto rows the grid shared its extra height between them, so the
+          placard's row grew and left a blank band under it before the goal card. A
+          flexible second row takes all of that height instead, and the right column
+          stacks without a gap. */}
+      <div className="flex flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:grid-rows-[auto_1fr] xl:items-start xl:gap-x-8">
         {/* The mark. Stated here and only here: every other surface says what it means
             in words and points back to this. */}
         <div
@@ -339,7 +345,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         </div>
 
         {/* The goal and the figures beside the rewrite on a desktop, and after it on a phone. */}
-        <div className="flex flex-col gap-4 min-w-0 xl:col-start-2 xl:row-start-2">
+        <div
+          className="flex flex-col gap-4 min-w-0 xl:col-start-2 xl:row-start-2"
+          data-report="figures"
+        >
           <BandGoalCard
             currentBand={result.overallBand}
             maxBand={maxBand}

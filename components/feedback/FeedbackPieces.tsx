@@ -156,7 +156,9 @@ export const SectionHeading: React.FC<{
   toneBg?: string;
   children?: React.ReactNode;
 }> = ({ icon: Icon, label, tone = 'text-slate-600 dark:text-slate-400', toneBg, children }) => (
-  <div className="flex items-center gap-3 mb-4 min-w-0">
+  // Wraps, so an aside (the rewrite's "one mark higher · Band 2") drops to a line of
+  // its own on a phone instead of being squeezed into two ragged lines beside the title.
+  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-4 min-w-0">
     <div className={`${FEEDBACK_TILE} ${toneBg ?? 'bg-slate-100 dark:bg-white/10'} ${tone}`}>
       <Icon className="w-3.5 h-3.5" />
     </div>

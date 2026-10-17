@@ -137,6 +137,23 @@ test.describe('marking report column', () => {
       const clipped = await findClippedText(page, MAIN);
       expect(clipped, `${width}: clipped text\n${describeClipped(clipped)}`).toEqual([]);
       expect(l!.docWidth, `${width}: horizontal overflow`).toBeLessThanOrEqual(width);
+      // The goal card sits under the placard at the column's own gap. With two auto
+      // rows the reading column's height was shared between them, and a blank band
+      // opened under the placard whenever the reading column was the taller — which
+      // a real rewrite and commentary always make it. This stub's feedback is short,
+      // so the reading column is stretched to stand in for them.
+      const stackGap = await page.evaluate(() => {
+        const reading = document.querySelector<HTMLElement>('[data-report="reading"]');
+        const placard = document.querySelector('[data-report="placard"]');
+        const figures = document.querySelector('[data-report="figures"]');
+        if (!reading || !placard || !figures) return null;
+        reading.style.minHeight = '1600px';
+        const gap = figures.getBoundingClientRect().top - placard.getBoundingClientRect().bottom;
+        reading.style.minHeight = '';
+        return gap;
+      });
+      expect(stackGap, `${width}: right column not found`).not.toBeNull();
+      expect(stackGap!, `${width}: gap under the placard`).toBeLessThanOrEqual(25);
     }
   });
 });
