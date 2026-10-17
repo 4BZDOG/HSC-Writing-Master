@@ -5,6 +5,11 @@ interface CoverageChipProps {
   coverage: CoverageCount;
   /** Spelt out for the tooltip, e.g. "HSC Biology". */
   label: string;
+  /**
+   * Extra classes for the caller's layout — the picker hides the chip on a phone
+   * when it is the closed control's, so the name gets the width.
+   */
+  className?: string;
 }
 
 /**
@@ -20,7 +25,7 @@ interface CoverageChipProps {
  * Curators only. A student choosing a course cannot act on it, and a half-built
  * course reads to them as a broken one.
  */
-const CoverageChip: React.FC<CoverageChipProps> = ({ coverage, label }) => {
+const CoverageChip: React.FC<CoverageChipProps> = ({ coverage, label, className = '' }) => {
   // Nothing to cover is not 0% — an empty topic has no coverage to report, and
   // showing "0%" would mark it as neglected rather than unwritten.
   if (coverage.dotPoints === 0) return null;
@@ -37,7 +42,7 @@ const CoverageChip: React.FC<CoverageChipProps> = ({ coverage, label }) => {
 
   return (
     <span
-      className={`flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${tone}`}
+      className={`flex-shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full border ${tone} ${className}`}
       title={
         complete
           ? `${label}: every one of its ${coverage.dotPoints} syllabus points has a question.`

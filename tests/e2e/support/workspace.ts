@@ -229,7 +229,7 @@ const dotPointPicker = async (page: Page): Promise<Locator> => {
   const question = labels.findIndex((label) => label.includes('Select Question...'));
   const above = question < 0 ? labels.length : question;
   for (let i = above - 1; i >= 0; i--) {
-    if (!labels[i].includes('Refine Scope...')) return pickers.nth(i);
+    if (!labels[i].includes('All of this syllabus point')) return pickers.nth(i);
   }
   throw new Error('no dot-point picker on the page');
 };

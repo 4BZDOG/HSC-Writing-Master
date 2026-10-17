@@ -58,7 +58,7 @@ import {
   syncCheckoutSession,
   PLAN_LABELS,
 } from './services/entitlements';
-import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp } from 'lucide-react';
+import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp, Pencil } from 'lucide-react';
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
 import BillingAlertBanner from './components/BillingAlertBanner';
@@ -273,6 +273,12 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // The syllabus navigator folds into a breadcrumb once a question is chosen so
   // the screen belongs to the writing; "Change" re-opens it.
   const [isNavExpanded, setIsNavExpanded] = useState(true);
+  // A phone shows the navigator's curation rows only while a curator has asked
+  // for them (the toggle beside "Hide navigator"): they are most of the height
+  // of the navigator there, and a teacher rarely edits on a phone. Lives here,
+  // not in PromptSelector, because the toggle is rendered beside a button this
+  // file owns.
+  const [isEditingSyllabus, setIsEditingSyllabus] = useState(false);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   /**
    * The audit studio can be closed while one of its batches is still running,
@@ -1025,21 +1031,45 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   newlyAddedIds={newlyAddedIds}
                   userRole={user.role}
                   isLoading={!isReady}
+                  curationOpenOnPhone={isEditingSyllabus}
                 />
               </div>
 
-              {currentPrompt && (
-                <div className="-mt-2 flex justify-end">
-                  <button
-                    onClick={() => setIsNavExpanded(false)}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
-                    title="Collapse the navigator and focus on your response"
-                  >
-                    <ChevronUp className="w-3.5 h-3.5" />
-                    {/* What it does for the reader, not what it turns into:
-                        "Collapse to breadcrumb" named the mechanism. */}
-                    Hide navigator
-                  </button>
+              {/* The foot of the navigator. The phone-only edit toggle sits
+                  beside "Hide navigator", and it has to render with NO question
+                  chosen too: that is when a curator most needs the rows, and
+                  "Hide navigator" is absent then. */}
+              {(currentPrompt || canCurateContent(user.role)) && (
+                <div className="-mt-2 flex items-center justify-end gap-2">
+                  {canCurateContent(user.role) && (
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingSyllabus((v) => !v)}
+                      aria-pressed={isEditingSyllabus}
+                      // Hidden from `sm` up, where the curation rows are always
+                      // shown and a toggle would do nothing.
+                      className={`sm:hidden flex items-center gap-2 min-h-11 px-3 py-1.5 rounded-lg border transition-all text-xs font-bold ${
+                        isEditingSyllabus
+                          ? 'bg-blue-500/15 text-blue-300 light:text-blue-700 border-blue-500/30'
+                          : 'bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))]'
+                      }`}
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                      {isEditingSyllabus ? 'Done editing' : 'Edit syllabus'}
+                    </button>
+                  )}
+                  {currentPrompt && (
+                    <button
+                      onClick={() => setIsNavExpanded(false)}
+                      className="flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg bg-white/5 light:bg-slate-100 text-[rgb(var(--color-text-secondary))] border border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-200 hover:text-[rgb(var(--color-text-primary))] transition-all text-xs font-bold"
+                      title="Collapse the navigator and focus on your response"
+                    >
+                      <ChevronUp className="w-3.5 h-3.5" />
+                      {/* What it does for the reader, not what it turns into:
+                          "Collapse to breadcrumb" named the mechanism. */}
+                      Hide navigator
+                    </button>
+                  )}
                 </div>
               )}
             </div>
