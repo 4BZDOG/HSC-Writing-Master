@@ -51,6 +51,7 @@ import {
 import {
   EvaluationResponseSchema,
   GeneratedPromptResponseSchema,
+  ImprovedAnswerResponseSchema,
   SampleAnswerResponseSchema,
   QualityCheckResponseSchema,
   validateAiResponse,
@@ -341,8 +342,9 @@ ${buildMarkerNotesBlock(prompt)}
                        - **Focus**: Target the ONE thing that lifts them to the next mark/band.
                     6. **Revised Answer**: Lift the STUDENT'S answer into the NEXT BAND — not merely one mark. The mark each band starts at on this question is:
 ${bandLadder}
-                       So award your mark, read the band it falls in, and rewrite the answer to reach the first mark of the band ABOVE it. If their mark already sits in ${ceilingBandLabel} — the highest band this question can award, set by the command verb's tier — aim at full marks (${prompt.totalMarks}/${prompt.totalMarks}) instead, and if the response already achieves full marks, return an empty string for revisedAnswer.
+                       So award your mark, read the band it falls in, and rewrite the answer to reach the first mark of the band ABOVE it. If their mark already sits in ${ceilingBandLabel} — the highest band this question can award, set by the command verb's tier — aim at full marks (${prompt.totalMarks}/${prompt.totalMarks}) instead, and if the response already achieves full marks, return \`{"text": "", "keyChanges": []}\` for revisedAnswer.
 ${buildUpgradeStyleRules(answer, revisionCeiling)}
+                       Put the rewritten answer in \`revisedAnswer.text\`. In \`revisedAnswer.keyChanges\`, list 2 to 4 short lines (each at most 20 words), one per edit that earned the extra mark(s). Each line says WHAT was changed and WHY that change earns credit against the rubric or the command verb, written to the student in plain British English — for example: "Named the mechanism (pre-attentive processing) — an EXPLAIN answer needs the how, not just the what." If the rewrite is empty, \`keyChanges\` is empty too.
 
                     ### OUTPUT FORMAT (JSON)
                     Return valid JSON adhering to the schema.
@@ -384,7 +386,14 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
               required: ['criterion', 'mark', 'maxMark', 'feedback'],
             },
           },
-          revisedAnswer: { type: Type.STRING },
+          revisedAnswer: {
+            type: Type.OBJECT,
+            properties: {
+              text: { type: Type.STRING },
+              keyChanges: { type: Type.ARRAY, items: { type: Type.STRING } },
+            },
+            required: ['text', 'keyChanges'],
+          },
         },
         required: [
           'overallMark',
@@ -454,6 +463,10 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
     data.revisedAnswer = cleanFreeTextAnswer(data.revisedAnswer);
   } else if (data.revisedAnswer) {
     data.revisedAnswer.text = cleanFreeTextAnswer(data.revisedAnswer.text);
+    // A rewrite with no text has nothing its "what changed" lines could describe.
+    data.revisedAnswer.keyChanges = data.revisedAnswer.text
+      ? cleanKeyChanges(data.revisedAnswer.keyChanges)
+      : [];
   }
 
   // Single source of truth for the band: derive it deterministically from the
@@ -467,6 +480,11 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
 };
 
 // ... (keep remaining functions like improveAnswer, enrichPromptDetails, etc.) ...
+const IMPROVEMENT_EMPTY_MESSAGE =
+  'The improvement came back empty. This sometimes happens under heavy load — please try again.';
+const IMPROVEMENT_GARBLED_MESSAGE =
+  'The improvement came back in a form the app could not read. Please try again.';
+
 /**
  * Lifts a student's marked answer into the NEXT BAND by editing what they wrote
  * rather than replacing it.
@@ -483,12 +501,17 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
  * held by {@link getUpgradeCharCeiling}, which clamps to the student's own
  * length regardless of the target, so the brief can move without the scope
  * moving with it.
+ *
+ * The rewrite comes back as JSON with `keyChanges` — the "what changed and why"
+ * lines the review modal shows beside it. A provider that ignores the requested
+ * schema answers in plain prose instead, so that is still accepted as the
+ * rewrite itself, with no change list.
  */
 export const improveAnswer = async (
   answer: string,
   prompt: Prompt,
   evaluation: EvaluationResult
-): Promise<{ text: string; mark: number; band: number }> => {
+): Promise<{ text: string; mark: number; band: number; keyChanges: string[] }> => {
   const termInfo = getCommandTermInfo(prompt.verb);
   const { targetMark, targetBand } = getNextLevelTarget(
     evaluation.overallMark,
@@ -539,22 +562,50 @@ export const improveAnswer = async (
                        ${answer}
                        <<<STUDENT_RESPONSE_END>>>
 
-                       Return only the improved answer text — no preamble, no mark, no commentary.`,
+                       Return JSON with two fields:
+                       - \`text\`: the improved answer only — no preamble, no mark, no commentary.
+                       - \`keyChanges\`: 2 to 4 short lines (each at most 20 words), one per edit that earned the next band, tied to "What the marker said was missing" where it fits. Each line says WHAT was changed and WHY that change earns credit against the rubric or the command verb, written to the student in plain British English — for example: "Named the mechanism (pre-attentive processing) — an EXPLAIN answer needs the how, not just the what."`,
         },
       ],
     },
+    config: {
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: Type.OBJECT,
+        properties: {
+          text: { type: Type.STRING },
+          keyChanges: { type: Type.ARRAY, items: { type: Type.STRING } },
+        },
+        required: ['text', 'keyChanges'],
+      },
+    },
   };
   const response = await generateContentWithRetry(request);
-  const text = cleanFreeTextAnswer(response.text || '');
+  const raw = response.text || '';
+  const parsed = ImprovedAnswerResponseSchema.safeParse(safeJsonParse<unknown>(raw));
+
+  let text: string;
+  let keyChanges: string[];
+  if (parsed.success) {
+    text = cleanFreeTextAnswer(parsed.data.text);
+    keyChanges = cleanKeyChanges(parsed.data.keyChanges);
+  } else {
+    // Checked AFTER cleaning, so a JSON object wrapped in a code fence is caught
+    // too. Saving a broken object as the student's answer would put braces and
+    // quotes into their draft, so it is refused — and said to be unreadable, not
+    // empty, because it was not.
+    text = cleanFreeTextAnswer(raw);
+    if (text.startsWith('{')) throw new Error(IMPROVEMENT_GARBLED_MESSAGE);
+    keyChanges = [];
+  }
+
   // An empty rewrite is a failed call, not a result. Returning it saved a blank
   // exemplar into the question's library (where it could evict a real one) and
   // opened a review of nothing.
   if (!text) {
-    throw new Error(
-      'The improvement came back empty. This sometimes happens under heavy load — please try again.'
-    );
+    throw new Error(IMPROVEMENT_EMPTY_MESSAGE);
   }
-  return { text, mark: targetMark, band: targetBand };
+  return { text, mark: targetMark, band: targetBand, keyChanges };
 };
 
 /**
@@ -1120,6 +1171,22 @@ const cleanFreeTextAnswer = (raw: string): string => {
   text = text.replace(/^(?:\*\*)?\d+\s*\/\s*\d+(?:\s*marks?)?(?:\*\*)?[ \t]*\n+/i, '');
 
   return text.trim();
+};
+
+/**
+ * The "what changed and why" lines, tidied the same way whichever path produced
+ * them. The prompt asks for 2 to 4 short lines, but the model is not trusted to
+ * keep to that: a blank entry would show as an empty bullet, and a long list
+ * would bury the edits the student needs to read.
+ */
+const MAX_KEY_CHANGES = 4;
+const cleanKeyChanges = (raw: unknown): string[] => {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((line): line is string => typeof line === 'string')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, MAX_KEY_CHANGES);
 };
 
 /**

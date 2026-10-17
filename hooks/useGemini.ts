@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { MARKING_TOAST_SLOT, type ShowToast } from './useToast';
+import type { ShowToast } from './useToast';
 import { Draft } from 'immer';
 import {
   Course,
@@ -31,7 +31,8 @@ import { authService } from '../services/authService';
 import { applyEvaluation } from '../utils/progression';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { getFocusAreas } from '../utils/dataManagerUtils';
-import { getBandForMark, getCommandTermInfo, getNextLevelTarget } from '../data/commandTerms';
+import { getCommandTermInfo } from '../data/commandTerms';
+import { rewriteTarget } from '../components/feedback/rewriteText';
 import { generateId } from '../utils/idUtils';
 import {
   addAndPruneSampleAnswers,
@@ -60,6 +61,8 @@ export interface AnswerImprovement {
   band: number;
   originalAnswer: string;
   originalMark: number;
+  /** What the rewrite changed and why, in the marker's words (may be empty). */
+  keyChanges: string[];
 }
 
 type PreviewNode = SyllabusPreviewNode;
@@ -298,37 +301,26 @@ export const useGemini = ({
                 : (result.revisedAnswer?.text ?? '');
 
             if (result.revisedAnswer && revisedText.trim()) {
-              // The marker is briefed to lift the answer into the next band, so
-              // that is what the saved exemplar is worth unless the model said
-              // otherwise in the structured form.
-              const nextLevel = getNextLevelTarget(
+              // What the rewrite is worth: the mark the marker was briefed to
+              // reach, and its band derived from that mark. Shared with the
+              // report and the review header, so the saved exemplar cannot
+              // disagree with what the student was shown.
+              const target = rewriteTarget(
+                result.revisedAnswer,
                 result.overallMark,
                 prompt.totalMarks,
                 getCommandTermInfo(prompt.verb).tier
               );
-              const revisedMark =
-                typeof result.revisedAnswer === 'object'
-                  ? result.revisedAnswer.mark
-                  : nextLevel.targetMark;
-
-              const revisedBand =
-                typeof result.revisedAnswer === 'object' && result.revisedAnswer.band
-                  ? result.revisedAnswer.band
-                  : getBandForMark(
-                      revisedMark,
-                      prompt.totalMarks,
-                      getCommandTermInfo(prompt.verb).tier
-                    );
               const aiSample: SampleAnswer = {
                 id: generateId('sa'),
                 answer: revisedText,
-                mark: revisedMark,
-                band: revisedBand,
+                mark: target.mark,
+                band: target.band,
                 source: 'AI',
                 // A lift of THIS student's response, not an exemplar written
                 // from scratch — the library badges the two differently.
                 derivedFromStudent: true,
-                feedback: `This Band ${revisedBand} revision scores ${revisedMark}/${prompt.totalMarks}. It demonstrates the cognitive demand of '${prompt.verb}' at this level — ${revisedBand >= 5 ? 'providing sophisticated analysis with specific terminology and clear cause-effect reasoning' : revisedBand >= 3 ? 'explaining key concepts with adequate detail but lacking the depth or specificity of higher bands' : 'identifying basic elements with limited development or connection to the scenario'}.`,
+                feedback: `This Band ${target.band} revision scores ${target.mark}/${prompt.totalMarks}. It demonstrates the cognitive demand of '${prompt.verb}' at this level — ${target.band >= 5 ? 'providing sophisticated analysis with specific terminology and clear cause-effect reasoning' : target.band >= 3 ? 'explaining key concepts with adequate detail but lacking the depth or specificity of higher bands' : 'identifying basic elements with limited development or connection to the scenario'}.`,
               };
               p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
             }
@@ -360,18 +352,9 @@ export const useGemini = ({
             setImprovementReviewLeadsToFeedback(true);
             setShowImprovementReview(true);
           }
-          const elapsed2 = Math.round((Date.now() - evalStart) / 1000);
-          // A rounded "in 0s" reads as a fault; a mark that came back inside a
-          // second is simply quick.
-          const took = elapsed2 < 1 ? 'in under a second' : `in ${elapsed2}s`;
-          // Keyed, so the Undo raised when the student then puts the rewrite
-          // in their draft takes this slot instead of queueing behind it.
-          showToast(
-            `Marking complete ${took}. Results auto-saved to library.`,
-            'success',
-            undefined,
-            MARKING_TOAST_SLOT
-          );
+          // No "marking complete" toast here. The result modal opens on this
+          // same render and its header already says "Auto-Saved to Library"; a
+          // toast on top of it covered that header and the close button on a phone.
         }
 
         // Bookkeeping, fire-and-forget: a student waiting 40s for a mark must
@@ -460,7 +443,7 @@ export const useGemini = ({
         // ceiling band the student already occupies, and a target that must
         // never land at or below the mark they already earned.
         const improved = await gemini.improveAnswer(originalAnswer, prompt, evaluation);
-        const { text, mark: targetMark, band: targetBand } = improved;
+        const { text, mark: targetMark, band: targetBand, keyChanges } = improved;
 
         // Auto-Save Logic for the specific improved answer
         updateCourses((draft) => {
@@ -490,6 +473,7 @@ export const useGemini = ({
             band: targetBand,
             originalAnswer,
             originalMark: evaluation.overallMark,
+            keyChanges,
           });
           setShowImprovementReview(true);
           // The feedback modal renders the exemplar from `evaluationResult`, so
@@ -499,7 +483,7 @@ export const useGemini = ({
             prev
               ? {
                   ...prev,
-                  revisedAnswer: { text, mark: targetMark, band: targetBand, keyChanges: [] },
+                  revisedAnswer: { text, mark: targetMark, band: targetBand, keyChanges },
                 }
               : prev
           );

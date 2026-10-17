@@ -297,7 +297,9 @@ export interface EvaluationResult {
     | string
     | {
         text: string;
-        mark: number;
+        // Optional: the structured form the prompt asks for omits the mark, and the
+        // marker's target is then derived from the mark ladder (see rewriteTarget).
+        mark?: number;
         band?: number;
         keyChanges: string[];
       };
