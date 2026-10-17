@@ -116,6 +116,13 @@ interface ComboboxProps {
    * and a stack of answers does not say which question each one answered.
    */
   caption?: string;
+  /**
+   * What the closed control reads when the answer is not one option: a
+   * multi-pick behind a single-select control ("3 focus areas"). It is shown
+   * as a chosen value, in the value's ink and weight, not as the placeholder,
+   * which reads as "nothing chosen yet".
+   */
+  summary?: string;
 }
 
 const colorStyles: Record<
@@ -254,6 +261,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   appearance = 'filled',
   caption,
   optionNoun = 'options',
+  summary,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -518,10 +526,10 @@ const Combobox: React.FC<ComboboxProps> = ({
   if (isOpen) {
     // Open State: Diffused "Bloom" glow
     stateStyles = `${theme.glow} bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white text-white light:text-slate-900`;
-  } else if (selectedOption) {
+  } else if (selectedOption || summary) {
     // Closed but Selected: use the option's tier colour when available so the
     // button chrome matches the tier-coloured renderLabel inside it.
-    if (selectedOption.tier !== undefined) {
+    if (selectedOption?.tier !== undefined) {
       const tc = getTierScaleConfig(selectedOption.tier);
       stateStyles = `${tc.bg} ${tc.border} text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm`;
     } else if (appearance === 'quiet') {
@@ -559,14 +567,14 @@ const Combobox: React.FC<ComboboxProps> = ({
         // 188px control on a phone — so the whole of it lives here, unless the
         // option says `multiline`. `label` rather than `renderLabel` in the
         // title: the latter is a node, and this is the plain string it was built from.
-        title={selectedOption ? selectedOption.label : placeholder}
+        title={selectedOption ? selectedOption.label : (summary ?? placeholder)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
         aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
       >
         <span
-          className={`flex items-center w-full ${selectedOption?.multiline ? 'min-w-0' : 'truncate'} ${selectedOption ? 'font-bold' : ''}`}
+          className={`flex items-center w-full ${selectedOption?.multiline ? 'min-w-0' : 'truncate'} ${selectedOption || summary ? 'font-bold' : ''}`}
         >
           {selectedOption?.isNew && <Sparkles className="w-4 h-4 text-yellow-400 mr-2" />}
           <span
@@ -578,10 +586,10 @@ const Combobox: React.FC<ComboboxProps> = ({
           >
             {selectedOption
               ? selectedOption.renderSelected || selectedOption.renderLabel || selectedOption.label
-              : placeholder}
+              : (summary ?? placeholder)}
           </span>
         </span>
-        {caption && selectedOption && !isOpen && (
+        {caption && (selectedOption || summary) && !isOpen && (
           <span className="t-label hidden sm:inline shrink-0 ml-3 text-[rgb(var(--color-text-muted))]">
             {caption}
           </span>

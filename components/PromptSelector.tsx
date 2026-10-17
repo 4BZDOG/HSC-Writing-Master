@@ -1662,16 +1662,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     optionNoun="sub-points"
                     // Combobox is single-select, so nothing is "chosen" here: the
                     // selected focus areas are the pills below and the check marks in
-                    // the list. The trigger states the count itself. A value that
-                    // matched no option (the old 'MULTIPLE') read as "All of this
-                    // syllabus point" even with focus areas chosen.
+                    // the list. The trigger states the count itself, as a chosen
+                    // value. A value that matched no option (the old 'MULTIPLE')
+                    // read as "All of this syllabus point" even with focus areas chosen.
                     value=""
                     onChange={handleSubItemToggle}
-                    placeholder={
+                    summary={
                       activeFocusCount > 0
                         ? `${activeFocusCount} focus area${activeFocusCount === 1 ? '' : 's'}`
-                        : 'All of this syllabus point'
+                        : undefined
                     }
+                    placeholder="All of this syllabus point"
                     color="green"
                     appearance="quiet"
                   />
