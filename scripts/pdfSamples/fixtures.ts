@@ -11,6 +11,8 @@
 // under-full page and the overflowing one.
 
 import type { EvaluationExportData } from '../../pdf/buildBlocks';
+import { getBandForMark, getCommandTermInfo, getNextLevelTarget } from '../../data/commandTerms';
+import type { PromptVerb } from '../../types';
 
 import {
   ALL_REPORT_SECTIONS,
@@ -33,8 +35,29 @@ import {
 import type { OwnAttempt } from '../../utils/profileHistory';
 import type { ReportCourseFilter, ReportOptions } from '../../utils/progressReport';
 
-/** The common case: a 6-mark EXPLAIN at Band 4, response + rewrite + notes. */
-export const typicalBand4: EvaluationExportData = {
+/**
+ * The bands the app gives a marking, computed with the functions it calls rather
+ * than typed in. A hand-typed band drifts from what a real export shows: these
+ * samples once printed "Band 4" for an EXPLAIN, which tops out at Band 3, and an
+ * improved response one band BELOW the response it improves.
+ *
+ * `overallBand` is what `geminiService` derives; `targetBand` is the question's
+ * ceiling (`useFeedbackView`); `exemplarMark` and `exemplarBand` are the rewrite's
+ * target, from `getNextLevelTarget`, which is also what the marker was briefed with.
+ */
+const bandsFor = (verb: PromptVerb, overallMark: number, totalMarks: number) => {
+  const tier = getCommandTermInfo(verb).tier;
+  const next = getNextLevelTarget(overallMark, totalMarks, tier);
+  return {
+    overallBand: getBandForMark(overallMark, totalMarks, tier),
+    targetBand: getBandForMark(totalMarks, totalMarks, tier),
+    exemplarMark: next.targetMark,
+    exemplarBand: next.targetBand,
+  };
+};
+
+/** The common case: a 6-mark EXPLAIN at Band 2 (tier 3 tops out at 3), response + rewrite + notes. */
+export const typicalBand2: EvaluationExportData = {
   question:
     'Explain how a well-designed data visualisation can be more effective at highlighting significant results than a raw table of data.',
   verb: 'EXPLAIN',
@@ -44,8 +67,7 @@ export const typicalBand4: EvaluationExportData = {
   studentAnswer:
     'A data visualisation is better than a table because it is easier to look at. When you have thousands of numbers in a table it is really hard to see what is going on, but a graph shows you straight away. For example if sea levels are rising you can see the line going up on a line chart which is much clearer than reading the numbers.\n\nVisualisations also use colour which helps. If you make the important part red then people will look at that first. Tables are all the same colour so nothing stands out. This means the audience can understand the data quicker and the person presenting can tell a story with the data instead of just showing numbers.',
   overallMark: 4,
-  overallBand: 4,
-  targetBand: 6,
+  ...bandsFor('EXPLAIN', 4, 6),
   overallFeedback:
     'A **sound** response that identifies the two central ideas — visual encoding draws attention, and a chart is processed faster than a table. Where it falls short of the higher bands is precision: the answer asserts that a graph is "easier to look at" without explaining *why* pre-attentive visual processing makes that true. The sea-level example is well chosen but under-developed; it names the visual (a rising line) without connecting it to the significance of the result. Use the syllabus terminology — **highlighting results**, **simplifying understanding**, **storytelling** — as the scaffolding of each paragraph rather than as words dropped in at the end.',
   quickTip:
@@ -85,9 +107,12 @@ export const typicalBand4: EvaluationExportData = {
     },
   ],
   revisedAnswer:
-    "A well-designed **data visualisation** is more effective than a raw table because it encodes values in visual channels — position, length and colour — that the human visual system processes pre-attentively, before conscious reading begins. A policymaker scanning a line chart of sea levels perceives the trend in a fraction of a second; the same reader working through a table of ten thousand numbers must hold each value in working memory and construct the trend themselves. This is **simplifying understanding**: the chart has already done the reader's arithmetic.\n\nVisual encoding also allows the designer to control emphasis, which is the basis of **highlighting results**. Rendering the post-1990 segment of the sea-level line in red against a muted historical series makes the acceleration — not merely the rise — the first thing the audience sees. A table is uniform by construction, so every figure competes equally for attention and the significant result is buried among the insignificant ones.\n\nTogether these properties support **storytelling**: the designer sequences what the audience notices first, second and third, guiding them to a defensible conclusion. A table presents evidence; a visualisation presents an argument built from that evidence, which is why it is the more effective vehicle for communicating significant results.",
-  exemplarBand: 6,
-  exemplarMark: 6,
+    'A data visualisation is better than a table because it encodes values in position and colour, which the eye processes before conscious reading begins. When you have thousands of numbers in a table it is hard to see what is going on, but a graph shows you the trend straight away. For example if sea levels are rising, the line on a line chart climbs sharply after 1990, which is much clearer than reading the numbers.\n\nVisualisations also use colour to direct attention, which is the basis of highlighting results. If the important part is drawn in red then people will see it first. Tables are uniform, so no figure stands out from the rest. This is simplifying understanding: the audience grasps the data more quickly, and the presenter can tell a story with it instead of just showing numbers.',
+  keyChanges: [
+    'Gave the mechanism behind the claim: position and colour are processed before conscious reading begins, which is why a chart is faster than a table.',
+    'Tied the sea-level example to significance: the line climbs sharply after 1990, the result a reader needs to see.',
+    'Named simplifying understanding and highlighting results, ideas the response already had but never called by their syllabus terms.',
+  ],
   wordCount: 138,
   keywordsUsed: 2,
   keywordsTotal: 4,
@@ -101,15 +126,14 @@ export const typicalBand4: EvaluationExportData = {
 };
 
 /** The short case: a 2-mark IDENTIFY, no rewrite. Exposes under-filled pages. */
-export const shortBand2: EvaluationExportData = {
+export const shortBand1: EvaluationExportData = {
   question: 'Identify two main purposes of data visualisation.',
   verb: 'IDENTIFY',
   totalMarks: 2,
   syllabusPath: 'HSC Enterprise Computing  ›  Data visualisation  ›  Using data to tell a story',
   studentAnswer: 'To make data easier to understand and to make it look good in a presentation.',
   overallMark: 1,
-  overallBand: 2,
-  targetBand: 3,
+  ...bandsFor('IDENTIFY', 1, 2),
   overallFeedback:
     'One correct purpose. **Simplifying understanding** is right and is expressed clearly. The second half — "make it look good" — is aesthetic, not a purpose of **data visualisation** in the syllabus sense, so it earns nothing.',
   quickTip:
@@ -149,7 +173,7 @@ Thirdly, intelligent systems raise questions about bias. If an enterprise uses m
 Overall I think enterprises are meeting their legal responsibilities reasonably well because the penalties are clear, but their ethical responsibilities are only partly met because ethics is not enforced the same way. Regulation needs to catch up with intelligent systems especially.`;
 
 /** The long case: an 8-mark EVALUATE essay. Exposes the multi-page flow. */
-export const longBand5: EvaluationExportData = {
+export const longBand4: EvaluationExportData = {
   question:
     'Evaluate the extent to which enterprises meet their legal and ethical responsibilities in the management of enterprise data.',
   verb: 'EVALUATE',
@@ -158,10 +182,9 @@ export const longBand5: EvaluationExportData = {
     'HSC Enterprise Computing  ›  Data management  ›  Legal, social and ethical responsibilities  ›  Assess responsibilities associated with the use and management of enterprise data',
   studentAnswer: longAnswer,
   overallMark: 5,
-  overallBand: 5,
-  targetBand: 6,
+  ...bandsFor('EVALUATE', 5, 8),
   overallFeedback:
-    'A **well-organised** response with genuine evaluative intent. Three responsibilities are raised, each with a supporting mechanism, and the conclusion makes a judgement rather than a summary. What holds it at Band 5 is the depth of the criteria: the judgement rests on an implicit standard ("reasonably well") that is never stated, so a marker cannot see against what the extent is being measured. Name the criteria for a successful data-management regime up front, then measure practice against them.',
+    'A **well-organised** response with genuine evaluative intent. Three responsibilities are raised, each with a supporting mechanism, and the conclusion makes a judgement rather than a summary. What holds it at Band 4 is the depth of the criteria: the judgement rests on an implicit standard ("reasonably well") that is never stated, so a marker cannot see against what the extent is being measured. Name the criteria for a successful data-management regime up front, then measure practice against them.',
   quickTip:
     'EVALUATE means judgement *against stated criteria*. Write the criteria in your opening sentence and the rest of the response becomes a scaffold to fill.',
   strengths: [
@@ -203,9 +226,13 @@ export const longBand5: EvaluationExportData = {
     },
   ],
   revisedAnswer:
-    'Enterprises largely satisfy their **legal** responsibilities in data management, but meet their **ethical** responsibilities only partially. Judged against three criteria — whether consent is genuinely informed, whether collection is proportionate to purpose, and whether harm can be remedied once it occurs — compliance is strongest where the law is enforceable and weakest where it is silent.\n\nOn informed consent, the Privacy Act 1988 obliges organisations to disclose the purpose of collection. The obligation is met formally: privacy policies exist. It is not met substantively, because a policy that a reader cannot reasonably be expected to finish does not produce informed consent, only its documentation. The legal criterion is satisfied while the ethical one is not.\n\nOn proportionality, practice is weaker still. The commercial value of retained data creates a standing incentive to collect beyond purpose, and no Australian instrument caps retention volume directly. Encryption at rest and deliberate data minimisation would meet the criterion; the Notifiable Data Breaches scheme does not, because it operates only after the harm has occurred and so speaks to remediation rather than prevention.\n\nOn remediability, **intelligent systems** expose the sharpest gap. A recruitment model trained on historically discriminatory decisions reproduces that discrimination at scale and, unlike a human decision, does so invisibly and without an audit trail. Because no Australian statute presently requires algorithmic auditing, an affected applicant has no mechanism through which harm can be identified, let alone remedied.\n\nThe extent of compliance therefore tracks the extent of enforcement. Where an obligation is legislated and penalised, enterprises meet it; where the responsibility is ethical only, performance depends on incentive, and the incentives currently point the other way. Closing that gap requires regulation of **intelligent systems** comparable in force to the Privacy Act.',
-  exemplarBand: 6,
-  exemplarMark: 6,
+    'Enterprise systems have changed the way businesses handle their data but there are big legal and ethical responsibilities that come with them. Judged against three criteria, whether consent is informed, whether collection is proportionate and whether harm can be remedied, enterprises meet their legal responsibilities reasonably well but their ethical responsibilities only partly.\n\nOn informed consent, the Privacy Act 1988 requires organisations to collect only the data they need and to tell people what it will be used for. Many enterprises do have privacy policies, but a policy that almost nobody can reasonably be expected to finish does not produce informed consent, only its documentation. The legal requirement is met on paper but the ethical purpose behind it is not met in practice.\n\nOn proportionality, the question is whether enterprises keep only what they need. Enterprises store huge amounts of personal information and breaches happen regularly. The Notifiable Data Breaches scheme means companies have to tell people when their data is exposed, which is a good thing, but it is a reactive measure. It does not stop the breach happening in the first place. Better practice would be encryption at rest and deliberate data minimisation, which meets the criterion because it prevents the harm rather than reporting it.\n\nOn remediability, intelligent systems raise questions about bias. If an enterprise uses machine learning to screen job applications and the training data reflects past discrimination, then the system will repeat that discrimination at scale, invisibly and with no audit trail. No Australian statute presently requires algorithmic auditing, which is a gap: an affected applicant has no mechanism through which the harm can be identified or remedied.\n\nThe extent of compliance therefore tracks the extent of enforcement. Enterprises meet their legal responsibilities reasonably well because the penalties are clear, but their ethical responsibilities are only partly met because ethics is not enforced the same way. Regulation needs to catch up with intelligent systems especially.',
+  keyChanges: [
+    'Set out three criteria the judgement is measured against, so the extent of compliance has a standard to be judged by.',
+    'Turned the informed-consent point into a judgement: a policy nobody can reasonably finish is documentation, not consent.',
+    'Developed the bias paragraph into an ethical gap with a remedy, algorithmic auditing, which no Australian statute requires.',
+    'Replaced the first-person opening with a thesis that makes the judgement the rest of the response tests.',
+  ],
   wordCount: 322,
   keywordsUsed: 3,
   keywordsTotal: 6,
@@ -217,10 +244,13 @@ export const longBand5: EvaluationExportData = {
  * The edited case: a rewrite that changes the response IN PLACES rather than
  * reworking it wholesale, so "What changed" fills with sentence pairs.
  *
- * The other three fixtures all happen to get rewrites that share almost no
- * wording, which means none of them ever produced more than one pair — and a
- * diff list that never has more than one row cannot show a pair being split
- * across a column boundary, which is the defect that lived there.
+ * DESCRIBE tops out at Band 2 (see `bandsFor`), so a full-mark rewrite of this
+ * answer stays in the response's own band. The heading says so, rather than
+ * promising a band the verb cannot reach.
+ *
+ * A diff list that never has more than one row cannot show a pair being split
+ * across a column boundary, which is the defect that lived there. Many pairs
+ * on one page is what this sample is for.
  */
 const editedAnswer = `Enterprise systems need good security because they hold a lot of personal data. The main control is passwords, which stop people getting in.
 
@@ -242,7 +272,7 @@ Backups protect against data loss. If a system fails the enterprise can restore 
 
 Together these controls form a layered security architecture, in which no single failure exposes the data.`;
 
-export const editedBand4: EvaluationExportData = {
+export const editedBand2: EvaluationExportData = {
   question:
     'Describe the security controls an enterprise uses to protect the data it holds, and explain why each is necessary.',
   verb: 'DESCRIBE',
@@ -251,10 +281,9 @@ export const editedBand4: EvaluationExportData = {
     'HSC Enterprise Computing  ›  Data management  ›  Securing enterprise data  ›  Describe the controls used to protect enterprise data',
   studentAnswer: editedAnswer,
   overallMark: 4,
-  overallBand: 4,
-  targetBand: 6,
+  ...bandsFor('DESCRIBE', 4, 6),
   overallFeedback:
-    'Four controls, correctly named and correctly grouped — the structure of this response is **sound**. What holds it at Band 4 is that each control is described but not justified: the question asks why each is necessary, and "stop people getting in" is a restatement rather than a reason. Name the threat each control answers and the response moves up a band without gaining a paragraph.',
+    'Four controls, correctly named and correctly grouped — the structure of this response is **sound**. What keeps it short of full marks is that each control is described but not justified: the question asks why each is necessary, and "stop people getting in" is a restatement rather than a reason. Name the threat each control answers and the response reaches full marks without gaining a paragraph.',
   quickTip:
     'For each control, finish the sentence "…because without it, an attacker could ___". That clause is the explanation the question is asking for.',
   strengths: [
@@ -291,8 +320,12 @@ export const editedBand4: EvaluationExportData = {
     },
   ],
   revisedAnswer: editedRevision,
-  exemplarBand: 6,
-  exemplarMark: 6,
+  keyChanges: [
+    'Named multi-factor authentication where the response had only passwords, the control the syllabus treats as insufficient alone.',
+    'Said encryption protects data at rest as well as in transit, because storage is the larger target.',
+    'Named role-based access control in place of "certain staff", so the access model is precise.',
+    'Closed on the layered principle, which ties the four controls into one architecture.',
+  ],
   wordCount: 132,
   keywordsUsed: 2,
   keywordsTotal: 5,
@@ -308,24 +341,24 @@ export const editedBand4: EvaluationExportData = {
 
 export const SAMPLES: { name: string; subtitle: string; data: EvaluationExportData }[] = [
   {
-    name: 'A-typical-band4',
+    name: 'A-typical-band2',
     subtitle: 'HSC Enterprise Computing',
-    data: typicalBand4,
+    data: typicalBand2,
   },
   {
-    name: 'B-short-band2',
+    name: 'B-short-band1',
     subtitle: 'HSC Enterprise Computing',
-    data: shortBand2,
+    data: shortBand1,
   },
   {
-    name: 'C-long-band5',
+    name: 'C-long-band4',
     subtitle: 'HSC Enterprise Computing',
-    data: longBand5,
+    data: longBand4,
   },
   {
-    name: 'D-edited-band4',
+    name: 'D-edited-band2',
     subtitle: 'HSC Enterprise Computing',
-    data: editedBand4,
+    data: editedBand2,
   },
 ];
 

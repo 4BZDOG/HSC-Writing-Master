@@ -179,6 +179,82 @@ describe('the report says what it means', () => {
     expect(blocks.some((b) => b.id.startsWith('chgnew-'))).toBe(false);
   });
 
+  // The marker's reasons for its edits lead the section: a reader has the why
+  // before the list of where. They must print whenever the section does, and
+  // they must not print at all when there are none to give.
+  const KEY_CHANGES = [
+    'Named the mechanism: position and colour are read before conscious reading.',
+    'Tied the sea-level example to significance.',
+  ];
+  const keyItems = (blocks: ContentBlock[]) =>
+    blocks.map((b, i) => ({ b, i })).filter(({ b }) => b.id.startsWith('chgwhy-item'));
+
+  it('prints the key changes first, under their own sub-heading, before the pairs', () => {
+    const blocks = buildEvaluationBlocks(
+      data({
+        studentAnswer: 'The cat sat.',
+        revisedAnswer: 'The cat sat quietly on the warm mat by the fire.',
+        keyChanges: KEY_CHANGES,
+      })
+    );
+    const subhead = blocks.findIndex((b) => b.runs[0]?.text === 'Why these edits earn the mark');
+    const items = keyItems(blocks);
+    expect(subhead).toBeGreaterThan(-1);
+    expect(items.map(({ b }) => b.kind)).toEqual(['listItem', 'listItem']);
+    expect(items.map(({ b }) => b.runs[0].text)).toEqual(KEY_CHANGES);
+
+    const wordCount = blocks.findIndex((b) => b.id.startsWith('diffsum-'));
+    const firstPair = blocks.findIndex((b) => b.id.startsWith('chgold-'));
+    expect(subhead).toBeLessThan(items[0].i);
+    expect(items[items.length - 1].i).toBeLessThan(wordCount);
+    expect(wordCount).toBeLessThan(firstPair);
+  });
+
+  it('still prints the key changes when the diff falls back to "reworks the response throughout"', () => {
+    const blocks = buildEvaluationBlocks(
+      data({
+        studentAnswer: 'The cat sat on the mat.',
+        revisedAnswer: 'A cat sat on the mat.',
+        keyChanges: KEY_CHANGES,
+      })
+    );
+    expect(hasText(blocks, /reworks the response throughout/i)).toBe(true);
+    expect(keyItems(blocks)).toHaveLength(2);
+    expect(hasText(blocks, /Named the mechanism/)).toBe(true);
+  });
+
+  it('prints the key changes alone when there is no student answer to compare', () => {
+    const blocks = buildEvaluationBlocks(
+      data({ revisedAnswer: 'A cat sat quietly on the mat.', keyChanges: KEY_CHANGES })
+    );
+    expect(hasHeading(blocks, /what changed/i)).toBe(true);
+    expect(keyItems(blocks)).toHaveLength(2);
+    expect(blocks.some((b) => b.id.startsWith('chgold-') || b.id.startsWith('chgnew-'))).toBe(
+      false
+    );
+    expect(hasText(blocks, /reworks the response throughout/i)).toBe(false);
+  });
+
+  it('prints no key-changes list when there are none, or only blank ones', () => {
+    const withAnswer = {
+      studentAnswer: 'The cat sat.',
+      revisedAnswer: 'The cat sat quietly on the warm mat by the fire.',
+    };
+    for (const keyChanges of [undefined, [], ['', '   ']]) {
+      const blocks = buildEvaluationBlocks(data({ ...withAnswer, keyChanges }));
+      expect(hasText(blocks, /Why these edits earn the mark/)).toBe(false);
+      expect(keyItems(blocks)).toHaveLength(0);
+      // The section itself is unchanged by the absence of reasons.
+      expect(hasHeading(blocks, /what changed/i)).toBe(true);
+    }
+
+    // No answer and no reasons: there is nothing to say, so no section at all.
+    const bare = buildEvaluationBlocks(
+      data({ revisedAnswer: 'A cat sat quietly.', keyChanges: [] })
+    );
+    expect(hasHeading(bare, /what changed/i)).toBe(false);
+  });
+
   /**
    * Sibling runs in a block are wrapped and drawn as STACKED line groups — that
    * is what lets a diff row carry a marker plus its wrapped tail. So a sentence

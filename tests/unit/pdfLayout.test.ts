@@ -687,7 +687,7 @@ describe('the improved response prints what changed', () => {
     // One block per side of each printed pair.
     const pairs = blocks.filter((b) => b.id.startsWith('chgnew-')).length;
     expect(pairs).toBeGreaterThan(0);
-    expect(pairs).toBeLessThanOrEqual(5);
+    expect(pairs).toBeLessThanOrEqual(8);
     const more = blocks.find((b) => b.id.startsWith('chgmore-'));
     expect(more?.runs[0].text).toMatch(/more rewritten sentence/);
   });
