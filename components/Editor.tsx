@@ -634,14 +634,18 @@ const Editor = forwardRef<
                 <div className={CARD_HEADER_TITLE_BLOCK}>
                   <h3 className={CARD_HEADER_TITLE}>Written Response</h3>
                   {isExamMode ? (
-                    <div className={CARD_HEADER_META_ROW}>
+                    <div
+                      className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:row-start-2`}
+                    >
                       <span className="t-label leading-none bg-red-500/90 px-2 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-sm">
                         <GraduationCap className="w-3 h-3" /> Exam
                       </span>
                       <p className={CARD_HEADER_META}>No assistance</p>
                     </div>
                   ) : (
-                    <div className={CARD_HEADER_META_ROW}>
+                    <div
+                      className={`${CARD_HEADER_META_ROW} max-sm:col-start-3 max-sm:row-start-1`}
+                    >
                       {/* The question's fixed goal, and nothing about the
                           draft.
 
@@ -674,11 +678,19 @@ const Editor = forwardRef<
                 the floor of the row they read as the pair of the pills across
                 the gap, which is what they are. */}
               <div className={CARD_HEADER_TRAY}>
-                {/* Tighter on a phone, and without the hairline separators,
-                    so the whole bar fits a 360px screen: it scrolls there, and
-                    nothing says so, so the focus-mode button at its end was
-                    cut in half and easily never found. */}
-                <div data-card-bar className={`${CARD_HEADER_BAR} max-sm:px-1 gap-0 sm:gap-1`}>
+                {/* On a phone the bar is the toolbar's own full-width line: seven
+                    plain 44px buttons with no box round them, and no hairline
+                    separators, so all seven fit a 360px screen. (The stat bar on
+                    the question card keeps its box; the writing tools do not need
+                    one to read as a toolbar.) It still scrolls if Formatting opens
+                    and the row runs past the card, and nothing says so, which is
+                    why the focus-mode button at its end was once easily missed. */}
+                <div
+                  data-card-bar
+                  className={`${CARD_HEADER_BAR} gap-0 sm:gap-1 max-sm:col-span-full max-sm:justify-between max-sm:px-0 max-sm:bg-transparent max-sm:border-0 max-sm:shadow-none max-sm:backdrop-blur-none ${
+                    isExamMode ? 'max-sm:row-start-3' : 'max-sm:row-start-2'
+                  }`}
+                >
                   {onWritingModeChange && (
                     <>
                       <div
@@ -731,7 +743,7 @@ const Editor = forwardRef<
                             <PlusLockChip
                               feature="examMode"
                               compactOnPhone
-                              className="ml-0.5 max-sm:absolute max-sm:top-0.5 max-sm:right-0.5 max-sm:px-0.5"
+                              className="ml-0.5 max-sm:absolute max-sm:top-0 max-sm:right-0 max-sm:px-0"
                             />
                           )}
                         </button>
