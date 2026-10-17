@@ -280,6 +280,9 @@ describe('the rewrite carries its change list and its own figures', () => {
     expect(typeof aiSamples[0].mark).toBe('number');
     expect(aiSamples[0].mark).toBe(4);
     expect(aiSamples[0].band).toBe(2);
+    // The saved note carries the marker's reasons, not band boilerplate.
+    expect(aiSamples[0].feedback).toContain('to 4/');
+    expect(aiSamples[0].feedback).toContain('What changed: Named the term.');
     expect(result.current.evaluationResult?.revisedAnswer).toMatchObject({
       keyChanges: ['Named the term.'],
     });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { rewriteTarget } from '../../components/feedback/rewriteText';
+import { rewriteSampleNote, rewriteTarget } from '../../components/feedback/rewriteText';
 import { getBandForMark, getNextLevelTarget } from '../../data/commandTerms';
 import type { EvaluationResult } from '../../types';
 
@@ -100,5 +100,27 @@ describe('rewriteTarget', () => {
       mark: next.targetMark,
       band: getBandForMark(next.targetMark, 8, ANALYSE),
     });
+  });
+});
+
+describe('rewriteSampleNote', () => {
+  it('names the lift and lists what the marker changed', () => {
+    const note = rewriteSampleNote({
+      mark: 4,
+      band: 3,
+      totalMarks: 6,
+      originalMark: 2,
+      keyChanges: [' Named the mechanism ', '', 'Tied the example to its significance.'],
+    });
+    expect(note).toBe(
+      "The student's own answer, lifted from 2/6 to 4/6 (Band 3) by the marker's edits. " +
+        'What changed: Named the mechanism. Tied the example to its significance.'
+    );
+  });
+
+  it('says only what the rewrite is worth when the marker gave no reasons', () => {
+    expect(rewriteSampleNote({ mark: 5, band: 4, totalMarks: 8, originalMark: 3 })).toBe(
+      "The student's own answer, lifted from 3/8 to 5/8 (Band 4) by the marker's edits."
+    );
   });
 });
