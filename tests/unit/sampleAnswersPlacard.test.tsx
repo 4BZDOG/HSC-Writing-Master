@@ -663,7 +663,15 @@ describe('the panel’s chrome is pinned', () => {
 
   it('documents every export with a doc comment, saying what it is painted on', () => {
     const exports = Array.from(source.matchAll(/^export const (\w+)/gm)).map((m) => m[1]);
-    expect(exports.length).toBe(strings.length);
+    // The tokens composed from shared ladder values are re-exported from ladderChrome.ts
+    // (where they are documented) rather than rebuilt here, since building them here
+    // would read an import at module init (`npm run check:eager-reads`).
+    const reExported = Array.from(
+      (source.match(/export \{([^}]*)\} from '\.\/ladderChrome'/)?.[1] ?? '').matchAll(
+        /\bas (\w+)/g
+      )
+    ).map((m) => m[1]);
+    expect(exports.length + reExported.length).toBe(strings.length);
     for (const name of exports) {
       const index = source.indexOf(`export const ${name}`);
       const before = source.slice(0, index).trimEnd();

@@ -157,6 +157,10 @@ export const LADDER_FOOTER = 'mt-3 flex flex-wrap items-center gap-2';
 export const LADDER_LINK =
   't-label inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 text-slate-900 dark:text-slate-900 underline underline-offset-2 sm:no-underline sm:rounded-full sm:border sm:border-slate-900/45 sm:bg-white/80 dark:sm:border-slate-900/45 dark:sm:bg-white/80 sm:px-3 sm:py-1.5 sm:shadow-sm sm:can-hover:hover:bg-white transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/70 dark:focus-visible:ring-white/70';
 
+/** The link token pushed to the right edge of a bar: the exemplar paper's "View marking
+ *  criterion" (re-exported as `SAMPLE_CRITERION_LINK`). Painted on the band's solid fill. */
+export const LADDER_LINK_TRAILING = `${LADDER_LINK} ml-auto`;
+
 /** A guide row while it is LINKED to the exemplar the student has open in the Sample
  *  Answers panel: the row's outline in the band's full hue, a halo round it and a lift
  *  of shadow, with a single settling pulse the moment it is linked, and again each time
@@ -221,6 +225,12 @@ export const LADDER_NOTE_LABEL = 't-label text-slate-600 dark:text-slate-300';
  *  DesignSpec §2 and the e2e contrast sweep). */
 export const LADDER_READING =
   'font-serif text-[15px] leading-relaxed text-slate-700 dark:text-slate-300';
+
+/** An exemplar's opening on a shut Sample Answers row: the reading face, clamped to two
+ *  lines, so a student can tell two exemplars apart before opening either. Composed here
+ *  (and re-exported as `SAMPLE_ROW_PREVIEW`) so it is built from `LADDER_READING` in the
+ *  same module, not read across an import at init. Painted on the row's band wash. */
+export const LADDER_ROW_PREVIEW = `mt-2 line-clamp-2 break-words ${LADDER_READING}`;
 
 /** The command-term guide's criterion lines, a glossary on a card rather than a ladder
  *  row. Kept at `.t-body`, the size prose is read at there. The ladder rows read
