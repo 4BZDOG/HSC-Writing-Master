@@ -216,3 +216,72 @@ describe('marking opens the comparison before the feedback summary', () => {
     expect(result.current.improvementReviewLeadsToFeedback).toBe(false);
   });
 });
+
+/**
+ * The rewrite's "what changed and why" list has to reach the review, whichever
+ * path made the rewrite. Regenerate used to write an empty list into the feedback
+ * regardless of what the model returned.
+ */
+describe('the rewrite carries its change list and its own figures', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    vi.clearAllMocks();
+  });
+
+  it('keeps the regenerated rewrite’s keyChanges in the review and the feedback', async () => {
+    const result = await markWith('A fuller response naming the syllabus term.');
+    vi.mocked(gemini.improveAnswer).mockResolvedValue({
+      text: 'An even fuller response.',
+      mark: 4,
+      band: 2,
+      keyChanges: ['Named the term.'],
+    } as never);
+
+    await act(async () => {
+      await result.current.improveAnswer('my answer', prompt, evaluation as never);
+    });
+
+    expect(result.current.improvement?.keyChanges).toEqual(['Named the term.']);
+    expect(result.current.evaluationResult?.revisedAnswer).toEqual({
+      text: 'An even fuller response.',
+      mark: 4,
+      band: 2,
+      keyChanges: ['Named the term.'],
+    });
+  });
+
+  it('saves the marking rewrite as an exemplar with a real mark, even when the model gave none', async () => {
+    // The structured form has no mark in production. The saved exemplar used to
+    // take `undefined` from it.
+    const target = { ...prompt, sampleAnswers: [] as SampleAnswer[] };
+    const draft = treeAround(target);
+    vi.mocked(gemini.evaluateAnswer).mockResolvedValue({
+      ...evaluation,
+      revisedAnswer: { text: 'A fuller response.', keyChanges: ['Named the term.'] },
+    } as never);
+
+    const { result } = renderHook(() =>
+      useGemini({
+        showToast: vi.fn(),
+        updateCourses: vi.fn((recipe: (d: unknown) => void) => recipe(draft)),
+        statePath,
+        currentPrompt: prompt,
+        currentCourse: null,
+        onApiKeyInvalid: vi.fn(),
+      } as never)
+    );
+
+    await act(async () => {
+      await result.current.evaluate('my answer', prompt);
+    });
+
+    const aiSamples = target.sampleAnswers.filter((s) => s.source === 'AI');
+    expect(aiSamples).toHaveLength(1);
+    expect(typeof aiSamples[0].mark).toBe('number');
+    expect(aiSamples[0].mark).toBe(4);
+    expect(aiSamples[0].band).toBe(2);
+    expect(result.current.evaluationResult?.revisedAnswer).toMatchObject({
+      keyChanges: ['Named the term.'],
+    });
+  });
+});

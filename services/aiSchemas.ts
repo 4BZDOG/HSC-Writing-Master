@@ -56,6 +56,18 @@ export const EvaluationResponseSchema = z
   })
   .passthrough();
 
+/**
+ * The standalone "Regenerate" rewrite: the improved answer and what changed in
+ * it. `keyChanges` defaults to empty so a model that drops the list still yields
+ * a usable rewrite; the caller tidies the lines itself.
+ */
+export const ImprovedAnswerResponseSchema = z
+  .object({
+    text: z.string(),
+    keyChanges: z.array(z.string()).default([]),
+  })
+  .passthrough();
+
 export const GeneratedPromptResponseSchema = z
   .object({
     question: z.string().min(1),

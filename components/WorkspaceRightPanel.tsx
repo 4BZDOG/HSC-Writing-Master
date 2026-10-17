@@ -8,16 +8,12 @@ import EvaluationResultModal from './EvaluationResultModal';
 import ImprovementReviewModal from './ImprovementReviewModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
-import {
-  getCommandTermInfo,
-  getTargetBand,
-  getNextLevelTarget,
-  getBandForMark,
-} from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import { getReadinessChroma } from '../utils/draftReadiness';
 import { getBandRgb } from '../utils/renderUtils';
+import { rewriteTarget } from './feedback/rewriteText';
 import ReadinessMeter from './ReadinessMeter';
 import {
   freeEvalsRemaining,
@@ -277,28 +273,26 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     // to offer on the feedback. The same gate stops marking from opening it
     // (`useGemini`).
     if (evaluationResult && evaluationResult.overallMark >= currentPrompt.totalMarks) return null;
-    if (geminiHandlers.improvement) {
-      return { ...geminiHandlers.improvement, keyChanges: [] as string[] };
-    }
+    // The improve path carries its own change list (`useGemini.improveAnswer`).
+    if (geminiHandlers.improvement) return geminiHandlers.improvement;
     if (!evaluationResult?.revisedAnswer) return null;
 
     const raw = evaluationResult.revisedAnswer;
     const text = typeof raw === 'string' ? raw : (raw.text ?? '');
     if (!text.trim()) return null;
 
-    const next = getNextLevelTarget(
+    // The same mark and band the report and the saved exemplar show: the header
+    // must not name a band the report does not give.
+    const target = rewriteTarget(
+      raw,
       evaluationResult.overallMark,
       currentPrompt.totalMarks,
       commandTermInfo.tier
     );
-    const mark = typeof raw === 'object' && raw.mark ? raw.mark : next.targetMark;
     return {
       text,
-      mark,
-      band:
-        typeof raw === 'object' && raw.band
-          ? raw.band
-          : getBandForMark(mark, currentPrompt.totalMarks, commandTermInfo.tier),
+      mark: target.mark,
+      band: target.band,
       originalAnswer: evaluatedAnswer,
       originalMark: evaluationResult.overallMark,
       // What the marker says it changed and why, when the rewrite came with a

@@ -4,7 +4,7 @@ import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isFeatureLocked } from '../services/entitlements';
-import { presentableRewrite } from '../components/feedback/rewriteText';
+import { presentableRewrite, rewriteTarget } from '../components/feedback/rewriteText';
 
 interface UseFeedbackViewArgs {
   result: EvaluationResult;
@@ -49,21 +49,13 @@ export function useFeedbackView({ result, prompt, userAnswer, hierarchy }: UseFe
     [result.overallMark, prompt.totalMarks, termInfo.tier]
   );
 
-  const exemplarMark = useMemo(() => {
-    if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.mark) {
-      return Math.min(prompt.totalMarks, result.revisedAnswer.mark);
-    }
-    return nextLevel.targetMark;
-  }, [result.revisedAnswer, nextLevel.targetMark, prompt.totalMarks]);
-
-  const exemplarBand = useMemo(() => {
-    // An AI-reported band is clamped to the question's ceiling too — the Verb
-    // Gate applies to every band figure shown, including model output.
-    if (typeof result.revisedAnswer === 'object' && result.revisedAnswer.band) {
-      return Math.min(maxBand, result.revisedAnswer.band);
-    }
-    return Math.min(maxBand, getBandForMark(exemplarMark, prompt.totalMarks, termInfo.tier));
-  }, [result.revisedAnswer, exemplarMark, prompt.totalMarks, termInfo.tier, maxBand]);
+  // The rewrite's mark and band, through the one helper every consumer shares
+  // (`rewriteTarget`). The band is derived from the mark, never taken from the
+  // model, so the header cannot promise a band above the Verb Gate's ceiling.
+  const { mark: exemplarMark, band: exemplarBand } = useMemo(
+    () => rewriteTarget(result.revisedAnswer, result.overallMark, prompt.totalMarks, termInfo.tier),
+    [result.revisedAnswer, result.overallMark, prompt.totalMarks, termInfo.tier]
+  );
 
   const exemplarConfig = getBandConfig(exemplarBand);
 
