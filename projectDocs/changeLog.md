@@ -1,5 +1,16 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-17 (The marked-response workflow: rewrite review, marking report and PDF)
+
+- **Fixed.** The marker never said what it changed in the rewrite or why. `evaluateAnswer` asked for `revisedAnswer` as a plain string, so `keyChanges` never arrived: the review's "What changed and why", the report's "What changed" and the PDF's reasons were empty in production, and Regenerate wrote `keyChanges: []`. Marking now asks for `{ text, keyChanges }` (2–4 lines, each what changed and why it earns credit), and so does Regenerate (`improveAnswer`, with a plain-prose fallback for a provider that ignores the schema and a clear error for an unreadable object) (#385).
+- **Fixed.** The rewrite's mark and band are worked out once (`rewriteTarget` in `components/feedback/rewriteText.ts`): the reported mark or `getNextLevelTarget`, and the band always from `getBandForMark`. The review header used the model's band unclamped (Band 3 on a DESCRIBE question capped at Band 2), and the saved exemplar would have taken an undefined mark from the object form (#385).
+- **Fixed.** The review's "Edits marked" view drew line breaks inside a cut or added run's mark, leaving an empty struck bar, a stranded sentence and an empty green bar at the end of a paragraph. Runs are now cut at every break and only the words are marked (#388).
+- **Changed.** The review numbers edits by phrase (`groupEdits` in `utils/textDiff.ts`): changes separated by a kept run of at most two words, with no sentence end or break, are one edit. A 106-word answer went from 16 edits to 11 (#388). On a phone the toolbar, description and footer note give their height back to the page, which grows from about 320px to about 450px (#390).
+- **Fixed.** The marking report opened a blank band of up to ~450px under the score placard from `xl`, because its two auto rows shared the reading column's height; the second row is now `1fr` (#384).
+- **Changed.** The PDF prints the marker's reasons first under "Why these edits earn the mark", prints up to eight sentence pairs instead of five, and the PDF samples now use one-band edits with bands from the verb's tier, as the app does (#387).
+- **Changed.** The marking wait shows the tip for the question's own command verb (`VERB_TIPS`, one per glossary verb) and never another verb's, and on a phone scrolls its loader clear of the sticky header (#386).
+- **Changed.** The "Marking complete" and Regenerate "Auto-saved … exemplar" toasts are gone: each fired as a modal opened that already said so, and on a phone covered its header and close button. A saved rewrite's note in the sample library now states the lift and the marker's reasons instead of band boilerplate (#385, #389).
+
 ## [Unreleased] - 2026-10-16 (Focus Mode terms, the verb definition row and the prompt card's footer)
 
 - **Fixed.** Focus Mode had no Syllabus terms. It showed the Marking guide and the Sample answers and left the terms out, so a student on a phone who folded the page away to write lost the list of terms the marker rewards. The panel is now `SyllabusTermsPanel`, shared by the reference column and Focus Mode, and sits ahead of the guide as it does in one column.
