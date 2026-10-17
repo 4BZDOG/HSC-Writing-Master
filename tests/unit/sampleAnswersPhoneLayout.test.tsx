@@ -81,14 +81,20 @@ describe('the Sample Answers gutter on a phone', () => {
   it('draws a closed row with the narrow gutter, and an open row with the strip', () => {
     renderOpenPanel();
     expect(tokensOf(gutterOfLevel(3))).toContain('max-sm:w-14');
-    expect(tokensOf(gutterOfLevel(3))).not.toContain('max-sm:w-1');
+    expect(tokensOf(gutterOfLevel(3))).not.toContain('max-sm:w-0');
 
     fireEvent.click(document.querySelector<HTMLElement>('[data-exemplar-mark="5"]')!);
     expect(document.querySelector('[data-exemplar-mark="5"]')!.getAttribute('aria-expanded')).toBe(
       'true'
     );
-    expect(tokensOf(gutterOfLevel(5))).toContain('max-sm:w-1');
+    // The strip gives up its width: the band edge is the open row's own left edge,
+    // widened to 4px, which follows the row's corners where a 4px strip was clipped.
+    expect(tokensOf(gutterOfLevel(5))).toContain('max-sm:w-0');
     expect(tokensOf(gutterOfLevel(5))).not.toContain('max-sm:w-14');
+    const openRow = gutterOfLevel(5).closest<HTMLElement>('[data-exemplar-row]')!;
+    expect(tokensOf(openRow)).toContain('max-sm:[--ladder-ring-left:4px]');
+    const shutRow = gutterOfLevel(3).closest<HTMLElement>('[data-exemplar-row]')!;
+    expect(tokensOf(shutRow)).not.toContain('max-sm:[--ladder-ring-left:4px]');
     // The other rows stay closed, so they keep the narrow gutter.
     expect(tokensOf(gutterOfLevel(3))).toContain('max-sm:w-14');
   });
@@ -99,7 +105,7 @@ describe('the Sample Answers gutter on a phone', () => {
     fireEvent.click(disclosure);
     fireEvent.click(disclosure);
     expect(tokensOf(gutterOfLevel(5))).toContain('max-sm:w-14');
-    expect(tokensOf(gutterOfLevel(5))).not.toContain('max-sm:w-1');
+    expect(tokensOf(gutterOfLevel(5))).not.toContain('max-sm:w-0');
   });
 
   it('keeps the shared gutter tokens on both phone forms, so the lookups still find it', () => {

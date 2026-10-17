@@ -40,9 +40,14 @@ export const LADDER_STACK = 'space-y-2';
  *  Its transition names only the edge and the shadow it can change, never
  *  `transition-all`, as DesignSpec §3 asks of anything that animates. The resting
  *  shadow is part of `LADDER_FILL`, not here, so the fill and its depth are one
- *  class. */
+ *  class.
+ *
+ *  The edge is `ladder-ring` in `index.css`, an overlay inside the row, and not a
+ *  border: a border ran round the outside of the solid gutter as well, and put a pale
+ *  ring round it at the corners. The edge classes still set `border-color`, which the
+ *  overlay takes. */
 export const LADDER_ROW =
-  'flex items-stretch rounded-xl border overflow-hidden transition-[border-color,box-shadow] duration-300 ease-out';
+  'ladder-ring flex items-stretch rounded-xl overflow-hidden transition-[border-color,box-shadow] duration-300 ease-out';
 
 /** A row's body fill: the band as a gradient, strongest at the gutter and fading
  *  into the panel to the right, with a faint top highlight and the resting shadow.
@@ -68,42 +73,31 @@ export const LADDER_EDGE_OPEN = 'band-edge-strong';
  *
  *  The gutter is SOLID: the band's `solidBg`, added at the call site, with the
  *  divider on its right edge as the band edge. Painted on the band's solid fill,
- *  so every ink on it is `getBandConfig(band).solidText`. */
+ *  so every ink on it is `getBandConfig(band).solidText`. It is `relative z-[1]` so
+ *  it covers the row's edge (`ladder-ring`), which runs only round the body. */
 export const LADDER_GUTTER =
-  'w-[4.5rem] sm:w-20 shrink-0 flex flex-col items-center justify-center gap-1 px-1 py-2 border-r';
+  'w-[4.5rem] sm:w-20 shrink-0 flex flex-col items-center justify-center gap-1 px-1 py-2 border-r relative z-[1]';
 
-/** The big figure in the gutter: the mark, or a range of marks, over the question's
- *  total ("5/6"). It is mono and tabular so the figures of a column line up digit
- *  for digit, and it is the loudest thing in the row. Its colour is the band's
- *  `solidText`, added at the call site, and it inherits that into its total.
+/** The big figure in the gutter: the mark, or a range of marks, with the question's
+ *  total on its own line beneath ("5" over "/6"). Stacked, the mark has the gutter's
+ *  whole width: on one line "11–12/12" had to drop to 12px to fit a phone's gutter,
+ *  and still ran edge to edge. It is mono and tabular so the figures of a column line
+ *  up digit for digit, and it is the loudest thing in the row. Its colour is the
+ *  band's `solidText`, added at the call site, and it inherits that into its total.
  *  Painted on the gutter's solid fill. */
 export const LADDER_GUTTER_MARK =
-  'font-mono tabular-nums text-xl font-bold leading-none text-center whitespace-nowrap';
+  'inline-flex flex-col items-center gap-0.5 font-mono tabular-nums text-xl font-bold leading-none text-center whitespace-nowrap';
 
-/** The figure at a middle length ("7–8/10", six characters). One step down from the
- *  usual size, so the figure and its total fit the gutter's usable width, which is 64px
- *  on a phone (72px less the 4px inset either side): at 16px the mark is 29px and the
- *  total 25px. Painted on the gutter's solid fill. */
+/** The figure at its longest, a two-digit range ("10–12", five characters). One step
+ *  down, so it fits the 64px the full gutter leaves inside its inset: at 18px it is
+ *  54px, from the mono face's 0.6em advance. Painted on the gutter's solid fill. */
 export const LADDER_GUTTER_MARK_MEDIUM =
-  'font-mono tabular-nums text-base font-bold leading-none text-center whitespace-nowrap';
+  'inline-flex flex-col items-center gap-0.5 font-mono tabular-nums text-lg font-bold leading-none text-center whitespace-nowrap';
 
-/** The figure at its longest, a two-digit range over a two-digit total ("10–12/12"),
- *  which is eight characters and is the widest the column is ever asked to hold. At
- *  14px and with the total at `LADDER_GUTTER_TOTAL_LONG`, it is 63.6px across the 64px
- *  the gutter leaves inside its inset, measured from the mono face's 0.6em advance.
- *  Painted on the gutter's solid fill. */
-export const LADDER_GUTTER_MARK_LONG =
-  'font-mono tabular-nums text-sm font-bold leading-none text-center whitespace-nowrap';
-
-/** The "/6" after the mark: the question's total, smaller than the mark it follows
- *  so the eye reads the mark first. It inherits the figure's colour. Painted on the
+/** The "/6" under the mark: the question's total, smaller than the mark above it so
+ *  the eye reads the mark first. It inherits the figure's colour. Painted on the
  *  gutter's solid fill. */
 export const LADDER_GUTTER_TOTAL = 'text-sm font-medium';
-
-/** The total beside a `LADDER_GUTTER_MARK_LONG` figure, one step smaller again, so the
- *  two-digit range and its two-digit total both fit the gutter. Painted on the
- *  gutter's solid fill. */
-export const LADDER_GUTTER_TOTAL_LONG = 'text-xs font-medium';
 
 /** The caption beneath the figure, "Band N": the `.t-label` size, weight and case,
  *  in the band's `solidText` at the call site. Painted on the gutter's solid fill. */
@@ -116,11 +110,19 @@ export const LADDER_GUTTER_CAPTION = 't-label text-center whitespace-nowrap';
  *  keep the full gutter. Painted on the band's solid fill. */
 export const LADDER_GUTTER_NARROW = `${LADDER_GUTTER} max-sm:w-14 max-sm:px-0.5`;
 
-/** A STRIP gutter, for a phone only: 4px, the band's colour down the left edge of an open
- *  row that is full-bleed on a phone. Its figure and caption are read by a screen reader
- *  and not drawn. From `sm` it is `LADDER_GUTTER`'s width. Painted on the band's solid
- *  fill. */
-export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-1 max-sm:px-0`;
+/** A STRIP gutter, for a phone only: no width at all, for an open row that is full-bleed
+ *  on a phone. Its figure and caption are read by a screen reader and not drawn. The
+ *  band's colour down the row's left edge is the row's own edge, widened to 4px by
+ *  `LADDER_ROW_ACCENT_PHONE`: a 4px solid strip was clipped by the row's 12px corners,
+ *  so it stopped short of the top and bottom while the edge curled on past it. An edge
+ *  follows the corners. From `sm` it is `LADDER_GUTTER`'s width. */
+export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-0 max-sm:px-0 max-sm:border-r-0`;
+
+/** The open row's band edge on a phone: the row's left edge (`ladder-ring`) at 4px, in
+ *  the row's own edge colour, the 85% `LADDER_EDGE_OPEN`. It goes with
+ *  `LADDER_GUTTER_STRIP`, which gives up the width it took. Painted over the row's left
+ *  4px, where the full-bleed paper has only its margin. */
+export const LADDER_ROW_ACCENT_PHONE = 'max-sm:[--ladder-ring-left:4px]';
 
 /** The inset of a row's text from its gutter, on a phone only. The row is full width
  *  on a phone, so the 16px a desktop row keeps is 8px there. At 6px the text sat tight

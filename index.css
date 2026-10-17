@@ -785,6 +785,35 @@ a:focus-visible,
 }
 
 /*
+ * A ladder row's edge, drawn INSIDE the row so its solid gutter can cover it.
+ *
+ * As a plain border the edge ran round the outside of the gutter too, so every
+ * solid gutter wore a pale band ring, and it showed most at the row's rounded
+ * corners. Here the row has no border width of its own. The edge is this
+ * overlay, and the gutter sits above it (`LADDER_GUTTER` is `relative z-[1]`),
+ * so the edge shows only round the body. The overlay takes the row's own
+ * `border-color` (`.band-edge`, `.band-edge-strong`, `.ladder-linked`, the
+ * light theme's `.sample-row` steps), so every state that set the border still
+ * sets the ring, and its transition carries through.
+ */
+.ladder-ring {
+  position: relative;
+  isolation: isolate;
+}
+.ladder-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid;
+  /* An open exemplar on a phone widens its left edge to 4px to carry the band
+     (`LADDER_ROW_ACCENT_PHONE`); every other row keeps the 1px edge. */
+  border-left-width: var(--ladder-ring-left, 1px);
+  border-color: inherit;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/*
  * A band-coloured TINT, for a header that has to say which tier it belongs to
  * without becoming a wall of that colour.
  *
