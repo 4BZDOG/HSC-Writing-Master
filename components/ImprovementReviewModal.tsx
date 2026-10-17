@@ -532,7 +532,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             </h2>
             <p
               id={descId}
-              className="mt-1.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl"
+              // On a phone every line above the page is a line of the student's
+              // answer not shown, and the legend over the text says the same thing.
+              // It stays as the dialog's description for a screen reader.
+              className="sr-only sm:not-sr-only sm:mt-1.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl"
             >
               {unchanged
                 ? 'The marker left it as you wrote it.'
@@ -647,7 +650,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 </button>
               </div>
             )}
-            <div className={toolGroup}>
+            {/* Not on a phone: the system text size and pinch-zoom do this job
+                there, and without it the stepper fits on the row beside the
+                words-kept figure instead of taking a row of its own. */}
+            <div className={`${toolGroup} hidden sm:flex`}>
               <button
                 onClick={() => setFontSize((s) => Math.max(13, s - 2))}
                 disabled={fontSize <= 13}
@@ -929,7 +935,9 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             phone the primary takes the first full-width row, and the rest share the
             row beneath. */}
         <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
-          <p className="text-xs text-slate-600 dark:text-slate-400 text-center sm:text-left">
+          {/* A note on what comes next, which a phone cannot spare two lines for:
+              the primary button already names it. */}
+          <p className="hidden sm:block text-xs text-slate-600 dark:text-slate-400 text-left">
             {continueLabel
               ? // Standing in front of the marking summary, the useful thing to
                 // say is what is behind it — not where the samples were filed.
