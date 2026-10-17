@@ -332,6 +332,91 @@ export const changeAnchors = (segments: DiffSegment[]): number[] => {
   return anchors;
 };
 
+/**
+ * One edit as a reader sees it: a rewrite of a phrase, possibly made of several
+ * word-level changes with short kept runs between them.
+ */
+export interface DiffEdit {
+  /** Index in `segments` of the edit's first changed run — the jump target. */
+  start: number;
+  /** Index in `segments` of the edit's last changed run. */
+  end: number;
+  /** What the revision took out, in the student's own wording. */
+  removed: string;
+  /** What the revision put in its place. */
+  added: string;
+}
+
+/**
+ * Whether the kept run between two changes is short enough to read them as one
+ * edit: a couple of words, with no sentence end and no paragraph break.
+ *
+ * Swapping "makes the system faster" for "reduces latency" but keeping "the" in
+ * the middle is one edit to a student, not three fragments. A full stop or a
+ * break means the second change starts a new point, so it is not bridged.
+ */
+const bridgesGap = (gap: DiffSegment[], maxBridgeWords: number): boolean => {
+  const words = gap.reduce((count, segment) => count + tokenizeWords(segment.value).length, 0);
+  if (words > maxBridgeWords) return false;
+  // Both wordings are checked: the original's version of a kept run can carry
+  // the break or the full stop even when the revision's version does not.
+  const wording = gap.map((segment) => [segment.value, segment.original ?? ''].join(' '));
+  return wording.every((text) => !/\n/.test(text) && !/[.!?]/.test(text));
+};
+
+/** Trims, and collapses any whitespace run containing a break to one space. */
+const tidyEdit = (text: string): string => text.trim().replace(/\s*\n\s*/g, ' ');
+
+/**
+ * The diff as EDITS: runs of changes joined where the kept words between them
+ * are few, so a single rewrite is one numbered edit rather than several
+ * fragments.
+ *
+ * A change is merged with the one before it when the equal run between them has
+ * at most `maxBridgeWords` words and no sentence end or paragraph break (see
+ * `bridgesGap`). A bridged kept run is not cut, so it is shown plain in the
+ * page; but its original wording counts toward `removed`, and its revised
+ * wording toward `added`, so the margin reads the whole rewrite.
+ */
+export const groupEdits = (segments: DiffSegment[], maxBridgeWords = 2): DiffEdit[] => {
+  const edits: DiffEdit[] = [];
+  let start = -1;
+  let end = -1;
+
+  const close = () => {
+    if (start < 0) return;
+    let removed = '';
+    let added = '';
+    for (const segment of segments.slice(start, end + 1)) {
+      if (segment.op === 'delete') removed += segment.value;
+      else if (segment.op === 'insert') added += segment.value;
+      else {
+        // A bridged kept run: the student's wording on the cut side, the
+        // revision's wording on the added side.
+        removed += segment.original ?? segment.value;
+        added += segment.value;
+      }
+    }
+    edits.push({ start, end, removed: tidyEdit(removed), added: tidyEdit(added) });
+  };
+
+  segments.forEach((segment, index) => {
+    if (segment.op === 'equal') return;
+    // Everything between `end` and `index` is kept text, because `end` is the
+    // last changed run seen so far.
+    if (start >= 0 && bridgesGap(segments.slice(end + 1, index), maxBridgeWords)) {
+      end = index;
+      return;
+    }
+    close();
+    start = index;
+    end = index;
+  });
+  close();
+
+  return edits;
+};
+
 /** A single edit: what the revision took out, and what it put in its place. */
 export interface DiffChange {
   removed: string;
